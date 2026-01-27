@@ -1,21 +1,44 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import dts from 'vite-plugin-dts'
-import { resolve } from 'path'
+import { resolve } from "node:path";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import dts from "vite-plugin-dts";
 
 export default defineConfig({
-  plugins: [react(), dts({include: ['lib'],
-    tsconfigPath: resolve(__dirname, 'tsconfig.app.json'),
-  })],
+  plugins: [
+    react(),
+    dts({
+      include: ["lib"],
+      exclude: ["**/*.test.tsx", "**/*.stories.tsx"],
+      rollupTypes: true,
+      insertTypesEntry: true,
+    }),
+  ],
   build: {
-    rollupOptions: {
-      external: ['react', 'react/jsx-runtime'],
-    },
-    copyPublicDir: false,
     lib: {
-      entry: resolve(__dirname, 'lib/index.ts'),
-      name: 'fanv-ui',
-      fileName: 'index',
+      entry: resolve(__dirname, "lib/index.ts"),
+      formats: ["es", "cjs"],
+      fileName: (format) => `index.${format === "es" ? "mjs" : "cjs"}`,
+    },
+    rollupOptions: {
+      external: ["react", "react-dom", "react/jsx-runtime", "tailwindcss"],
+      output: {
+        preserveModules: false,
+        banner: '"use client";',
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+          "react/jsx-runtime": "jsxRuntime",
+        },
+      },
+    },
+    cssCodeSplit: false,
+    sourcemap: true,
+    minify: "esbuild",
+    target: "es2022",
+  },
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "src"),
     },
   },
-})
+});
