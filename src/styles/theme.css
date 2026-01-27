@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: hsl(var(--fanv-primary));
+  --color-primary-foreground: hsl(var(--fanv-primary-foreground));
+  --color-secondary: hsl(var(--fanv-secondary));
+  --color-secondary-foreground: hsl(var(--fanv-secondary-foreground));
+  --color-destructive: hsl(var(--fanv-destructive));
+  --color-destructive-foreground: hsl(var(--fanv-destructive-foreground));
+  --color-muted: hsl(var(--fanv-muted));
+  --color-muted-foreground: hsl(var(--fanv-muted-foreground));
+  --color-accent: hsl(var(--fanv-accent));
+  --color-accent-foreground: hsl(var(--fanv-accent-foreground));
+  --color-background: hsl(var(--fanv-background));
+  --color-foreground: hsl(var(--fanv-foreground));
+  --color-card: hsl(var(--fanv-card));
+  --color-card-foreground: hsl(var(--fanv-card-foreground));
+  --color-popover: hsl(var(--fanv-popover));
+  --color-popover-foreground: hsl(var(--fanv-popover-foreground));
+  --color-border: hsl(var(--fanv-border));
+  --color-input: hsl(var(--fanv-input));
+  --color-ring: hsl(var(--fanv-ring));
+
+  --radius-lg: var(--fanv-radius);
+  --radius-md: calc(var(--fanv-radius) - 2px);
+  --radius-sm: calc(var(--fanv-radius) - 4px);
+
+  --font-sans: var(--fanv-font-sans), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
