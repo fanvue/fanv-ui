@@ -18,6 +18,14 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
+  viteFinal: async (config) => {
+    // Remove vite-plugin-dts from Storybook builds (not needed for Storybook)
+    config.plugins = config.plugins?.filter(
+      (plugin) =>
+        !(plugin && typeof plugin === "object" && "name" in plugin && plugin.name === "vite:dts"),
+    );
+    return config;
+  },
 };
 
 export default config;

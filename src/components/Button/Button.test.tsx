@@ -35,4 +35,60 @@ describe("Button", () => {
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
+  describe("asChild", () => {
+    it("renders as a Slot when asChild is true", () => {
+      render(
+        <Button asChild>
+          <a href="/test">Link Button</a>
+        </Button>,
+      );
+      const link = screen.getByRole("link", { name: "Link Button" });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute("href", "/test");
+    });
+
+    it("sets aria-disabled on Slot when disabled", () => {
+      render(
+        <Button asChild disabled>
+          <a href="/test">Disabled Link</a>
+        </Button>,
+      );
+      const link = screen.getByRole("link", { name: "Disabled Link" });
+      expect(link).toHaveAttribute("aria-disabled", "true");
+    });
+  });
+
+  describe("icons", () => {
+    it("renders left icon when not loading", () => {
+      render(<Button leftIcon={<span data-testid="left-icon">L</span>}>With Icon</Button>);
+      expect(screen.getByTestId("left-icon")).toBeInTheDocument();
+    });
+
+    it("renders right icon when not loading", () => {
+      render(<Button rightIcon={<span data-testid="right-icon">R</span>}>With Icon</Button>);
+      expect(screen.getByTestId("right-icon")).toBeInTheDocument();
+    });
+
+    it("hides icons when loading", () => {
+      render(
+        <Button
+          loading
+          leftIcon={<span data-testid="left-icon">L</span>}
+          rightIcon={<span data-testid="right-icon">R</span>}
+        >
+          Loading
+        </Button>,
+      );
+      expect(screen.queryByTestId("left-icon")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("right-icon")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("variants and sizes", () => {
+    it("applies fullWidth class when fullWidth is true", () => {
+      render(<Button fullWidth>Full Width</Button>);
+      expect(screen.getByRole("button")).toHaveClass("w-full");
+    });
+  });
 });
