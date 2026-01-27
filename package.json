@@ -40,6 +40,10 @@
 		"react-dom": "^18.0.0 || ^19.0.0",
 		"tailwindcss": "^4.0.0"
 	},
+	"dependencies": {
+		"clsx": "^2.1.1",
+		"tailwind-merge": "^3.0.1"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.0.0",
 		"@tailwindcss/postcss": "^4.0.0",

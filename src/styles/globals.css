@@ -1,0 +1,59 @@
+@import "./theme.css";
+
+:root {
+  --fanv-primary: 253 100% 72%;
+  --fanv-primary-foreground: 0 0% 100%;
+  --fanv-secondary: 0 0% 96%;
+  --fanv-secondary-foreground: 0 0% 8%;
+  --fanv-destructive: 0 75% 56%;
+  --fanv-destructive-foreground: 0 0% 100%;
+  --fanv-muted: 0 0% 96%;
+  --fanv-muted-foreground: 0 0% 45%;
+  --fanv-accent: 0 0% 96%;
+  --fanv-accent-foreground: 0 0% 8%;
+  --fanv-background: 0 0% 100%;
+  --fanv-foreground: 0 0% 8%;
+  --fanv-card: 0 0% 100%;
+  --fanv-card-foreground: 0 0% 8%;
+  --fanv-popover: 0 0% 100%;
+  --fanv-popover-foreground: 0 0% 8%;
+  --fanv-border: 0 0% 90%;
+  --fanv-input: 0 0% 90%;
+  --fanv-ring: 253 100% 72%;
+  --fanv-radius: 0.5rem;
+  --fanv-font-sans: "Inter";
+}
+
+.dark {
+  --fanv-primary: 253 100% 72%;
+  --fanv-primary-foreground: 0 0% 100%;
+  --fanv-secondary: 0 0% 15%;
+  --fanv-secondary-foreground: 0 0% 100%;
+  --fanv-destructive: 0 100% 72%;
+  --fanv-destructive-foreground: 0 0% 100%;
+  --fanv-muted: 0 0% 15%;
+  --fanv-muted-foreground: 0 0% 64%;
+  --fanv-accent: 0 0% 15%;
+  --fanv-accent-foreground: 0 0% 100%;
+  --fanv-background: 0 0% 8%;
+  --fanv-foreground: 0 0% 100%;
+  --fanv-card: 0 0% 17%;
+  --fanv-card-foreground: 0 0% 100%;
+  --fanv-popover: 0 0% 17%;
+  --fanv-popover-foreground: 0 0% 100%;
+  --fanv-border: 0 0% 22%;
+  --fanv-input: 0 0% 22%;
+  --fanv-ring: 253 100% 72%;
+}
+
+*,
+*::before,
+*::after {
+  border-color: hsl(var(--fanv-border));
+}
+
+body {
+  background-color: hsl(var(--fanv-background));
+  color: hsl(var(--fanv-foreground));
+  font-family: var(--font-sans);
+}
