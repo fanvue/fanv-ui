@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      include: ["lib"],
+      include: ["src"],
       exclude: ["**/*.test.tsx", "**/*.stories.tsx"],
       rollupTypes: true,
       insertTypesEntry: true,
@@ -15,7 +15,7 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, "lib/index.ts"),
+      entry: resolve(__dirname, "src/index.ts"),
       formats: ["es", "cjs"],
       fileName: (format) => `index.${format === "es" ? "mjs" : "cjs"}`,
     },

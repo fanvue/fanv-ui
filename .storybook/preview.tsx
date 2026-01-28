@@ -8,7 +8,6 @@ const preview: Preview = {
         rules: [{ id: "color-contrast", enabled: true }],
       },
     },
-    actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -43,21 +42,6 @@ const preview: Preview = {
       );
     },
   ],
-  globalTypes: {
-    theme: {
-      description: "Color theme",
-      defaultValue: "light",
-      toolbar: {
-        title: "Theme",
-        icon: "circlehollow",
-        items: [
-          { value: "light", icon: "sun", title: "Light" },
-          { value: "dark", icon: "moon", title: "Dark" },
-        ],
-        dynamicTitle: true,
-      },
-    },
-  },
   tags: ["autodocs"],
 };
 
