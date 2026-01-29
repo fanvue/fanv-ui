@@ -4,15 +4,17 @@ const getColorTokens = (tokens) => {
   let lightColorTokens = "";
   let darkColorTokens = "";
 
-  tokens.map((token) => {
+  tokens.forEach((token) => {
     if (token.type === "color") {
       if (token.path.includes("light")) {
-        token.path.splice(1, 1);
-        lightColorTokens += `--${token.path.join("-")}: ${token.value};\n`;
+        const path = structuredClone(token.path);
+        path.splice(1, 1);
+        lightColorTokens += `--${path.join("-")}: ${token.value};\n`;
       }
       if (token.path.includes("dark")) {
-        token.path.splice(1, 1);
-        darkColorTokens += `--${token.path.join("-")}: ${token.value};\n`;
+        const path = structuredClone(token.path);
+        path.splice(1, 1);
+        darkColorTokens += `--${path.join("-")}: ${token.value};\n`;
       }
     }
   });
