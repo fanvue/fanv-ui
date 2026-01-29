@@ -26,7 +26,20 @@ StyleDictionary.registerFormat({
   name: "css/tailwind-variables",
   format: ({ dictionary }) => {
     const colorTokens = getColorTokens(dictionary.allTokens);
-    return `@import "./theme.css";\n${colorTokens}\n`;
+    return `@import "./theme.css";\n${colorTokens}\n
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: hsl(var(--color-primary-100));
+  }
+
+  body {
+    background-color: hsl(var(--color-background-100));
+    color: hsl(var(--color-body-100));
+    font-family: var(--font-sans);
+  }
+}`;
   },
 });
 

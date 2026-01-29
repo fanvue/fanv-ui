@@ -147,14 +147,16 @@
 
 }
 
-*,
-*::before,
-*::after {
-  border-color: hsl(var(--fanv-border));
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: hsl(var(--color-primary-100));
+  }
 
-body {
-  background-color: hsl(var(--fanv-background));
-  color: hsl(var(--fanv-foreground));
-  font-family: var(--font-sans);
+  body {
+    background-color: hsl(var(--color-background-100));
+    color: hsl(var(--color-body-100));
+    font-family: var(--font-sans);
+  }
 }
