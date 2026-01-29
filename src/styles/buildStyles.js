@@ -26,18 +26,7 @@ StyleDictionary.registerFormat({
   name: "css/tailwind-variables",
   format: ({ dictionary }) => {
     const colorTokens = getColorTokens(dictionary.allTokens);
-    return `@import "./theme.css";\n${colorTokens}\n
-*,
-*::before,
-*::after {
-  border-color: hsl(var(--fanv-border));
-}
-
-body {
-  background-color: hsl(var(--fanv-background));
-  color: hsl(var(--fanv-foreground));
-  font-family: var(--font-sans);
-}`;
+    return `@import "./theme.css";\n${colorTokens}\n`;
   },
 });
 
