@@ -38,7 +38,7 @@
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build-storybook": "storybook build --stats-json",
     "prepare": "husky",
     "prepublishOnly": "pnpm run build",
     "publish:dry-run": "pnpm run build && pnpm publish --dry-run"

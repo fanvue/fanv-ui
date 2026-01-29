@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   chromatic:
     name: Visual Regression
@@ -33,6 +37,7 @@ jobs:
         run: pnpm build-storybook
 
       - name: Run Chromatic
+        id: chromatic
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
@@ -40,3 +45,16 @@ jobs:
           onlyChanged: true
           autoAcceptChanges: main
           exitZeroOnChanges: true
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: chromatic
+          message: |
+            ## 🎨 Chromatic Build
+
+            | Preview | Status |
+            |---------|--------|
+            | [View Storybook](${{ steps.chromatic.outputs.storybookUrl }}) | ✅ Ready |
+            | [View Chromatic Build](${{ steps.chromatic.outputs.buildUrl }}) | ${{ steps.chromatic.outputs.changeCount }} change(s) |
