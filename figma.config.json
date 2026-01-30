@@ -1,0 +1,6 @@
+{
+  "codeConnect": {
+    "include": ["src/**/*.figma.{ts,tsx,js,jsx}"],
+    "exclude": ["**/node_modules/**"]
+  }
+}

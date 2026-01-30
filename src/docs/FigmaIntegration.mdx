@@ -1,0 +1,129 @@
+export default {
+  title: 'Documentation/Figma Integration',
+  parameters: {
+    previewTabs: {
+      canvas: { hidden: true },
+    },
+    viewMode: 'docs',
+  },
+};
+
+# Figma Integration Guide
+
+Connect components to [Figma Library](https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library) via Code Connect and Storybook.
+
+---
+
+## Quick Start
+
+### 1. Link Storybook to Figma
+
+Components going to "--default" page? Link them:
+
+1. Get Chromatic URL from PR comments (CI posts automatically)
+2. In Figma: `Shift+I` → **Storybook Connect** plugin
+3. Paste story URL → **Link Story**
+
+> Links persist automatically across updates.
+
+### 2. Add Code Connect
+
+Create `ComponentName.figma.tsx`:
+
+```typescript
+import { figma } from "@figma/code-connect";
+import { Button } from "./Button";
+
+figma.connect(
+  Button,
+  "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/...?node-id=123-456", // Right-click in Figma → Copy link
+  {
+    props: {
+      variant: figma.enum("variant", { default: "default", primary: "primary" }),
+      size: figma.enum("size", { sm: "sm", md: "md" }),
+      disabled: figma.boolean("disabled"),
+      children: figma.string("label"),
+    },
+    example: (props) => <Button {...props} />,
+  }
+);
+```
+
+**Publish:**
+```bash
+pnpm figma:connect  # First time only
+pnpm figma:publish
+```
+
+> ⚠️ **Case-sensitive**: Property names, enum keys, and layer names must match Figma exactly.
+
+---
+
+## Property Mapping Reference
+
+| Type | Usage | Example |
+|------|-------|---------|
+| Enum/Variant | `figma.enum("propName", { key: "value" })` | `variant: figma.enum("variant", { primary: "primary" })` |
+| Boolean | `figma.boolean("propName")` | `disabled: figma.boolean("disabled")` |
+| String/Text | `figma.string("layerName")` | `children: figma.string("label")` |
+
+**How to verify names:**
+- Property names: Figma → Select component → Properties panel
+- Enum values: Figma → Click property dropdown
+- Layer names: Figma → Layers panel
+
+---
+
+## Design Tokens
+
+Tokens live in `src/styles/styleTokens.json` and generate CSS variables via Style Dictionary.
+
+**Workflow:**
+1. Update `styleTokens.json`
+2. Run `pnpm build:dictionary`
+3. Use via Tailwind (e.g., `bg-primary-50`) or CSS vars (`var(--color-primary-50)`)
+4. Commit both files
+
+**Structure:**
+```json
+{
+  "color": {
+    "light": { "primary": { "50": { "type": "color", "value": "#1515150a" } } },
+    "dark": { "primary": { "50": { "type": "color", "value": "#ffffff14" } } }
+  }
+}
+```
+
+> Currently processes colors only. Includes gradients, effects, spacing, and typography metadata.
+
+---
+
+## Commands
+
+```bash
+pnpm figma:connect    # Authenticate (first time)
+pnpm figma:publish    # Publish Code Connect
+pnpm figma:validate   # Verify .figma.tsx files
+pnpm figma:list       # List mappings
+pnpm build:dictionary # Generate CSS from tokens
+```
+
+---
+
+## Common Issues
+
+| Problem | Solution |
+|---------|----------|
+| Goes to "--default" page | Link via Storybook Connect plugin (see [Quick Start](#quick-start)) |
+| Props mismatch in Dev Mode | Check case-sensitivity of property names in `.figma.tsx` |
+| Code not in Figma | Verify URL, run `pnpm figma:publish` |
+| Tokens not updating | Run `pnpm build:dictionary`, commit `theme.css` |
+
+---
+
+## Resources
+
+- [Figma Library](https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library)
+- [Code Connect Docs](https://www.figma.com/developers/docs/code-connect)
+- [Chromatic Plugin](https://www.chromatic.com/docs/figma-plugin/)
+- [Style Dictionary](https://amzn.github.io/style-dictionary/)
