@@ -1,5 +1,5 @@
 import type { Preview } from "@storybook/react";
-import "../src/styles/globals.css";
+import "../src/styles/theme.css";
 
 const preview: Preview = {
   parameters: {
@@ -36,7 +36,7 @@ const preview: Preview = {
     (Story, context) => {
       const isDark = context.globals.backgrounds?.value === "#1e293b";
       return (
-        <div className={isDark ? "dark" : ""}>
+        <div className={isDark ? "dark" : "light"}>
           <Story />
         </div>
       );
