@@ -39,6 +39,7 @@
     "format": "biome format --write .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --stats-json",
+    "build:dictionary": "node src/styles/buildStyles.js",
     "prepare": "husky",
     "prepublishOnly": "pnpm run build",
     "publish:dry-run": "pnpm run build && pnpm publish --dry-run"
@@ -54,6 +55,7 @@
     "tailwind-merge": "3.0.1"
   },
   "devDependencies": {
+    "style-dictionary": "5.2.0",
     "@biomejs/biome": "2.0.0",
     "@commitlint/cli": "20.0.0",
     "@commitlint/config-conventional": "20.0.0",
@@ -120,7 +122,7 @@
   },
   "homepage": "https://github.com/fanvue/fanv-ui#readme",
   "engines": {
-    "node": ">=24.0.0",
+    "node": ">=24.13.0",
     "pnpm": ">=9.0.0"
   },
   "packageManager": "pnpm@9.15.4"

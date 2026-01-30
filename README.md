@@ -24,4 +24,7 @@ pnpm format          # Format code
 # Storybook
 pnpm storybook       # Start Storybook dev server on port 6006
 pnpm storybook:build # Build Storybook static site
+
+#Tokens
+pnpm build:dictionary # Generate styles from style dictionary tokens
 ```
