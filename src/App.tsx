@@ -1,5 +1,5 @@
 import { Button } from "./index";
-import "./styles/globals.css";
+import "./styles/theme.css";
 
 function App() {
   return (

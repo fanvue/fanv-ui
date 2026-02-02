@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && mkdir -p dist/styles && cp src/styles/theme.css dist/styles/theme.css",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -38,6 +38,7 @@
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
     "storybook": "storybook dev -p 6006",
+    "size-limit": "size-limit",
     "build-storybook": "storybook build --stats-json",
     "build:dictionary": "node src/styles/buildStyles.js",
     "prepare": "husky",
@@ -55,8 +56,8 @@
     "tailwind-merge": "3.0.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.13",
     "style-dictionary": "5.2.0",
-    "@biomejs/biome": "2.0.0",
     "@commitlint/cli": "20.0.0",
     "@commitlint/config-conventional": "20.0.0",
     "@commitlint/types": "20.3.1",
