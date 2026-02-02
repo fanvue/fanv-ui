@@ -28,11 +28,31 @@ const getColorTokens = (tokens) => {
   return `@theme {\n${themeColorTokens}}\n.light {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}`;
 };
 
+const getTypographyClasses = (typographyTokens) => {
+  let typographyClasses = "";
+
+  for (const [key, typographyObject] of Object.entries(typographyTokens)) {
+    let typographyClass = "";
+    typographyClass = `${typographyClass} .typography-${key.replaceAll(" ", "-").replaceAll("---", "-")} {\n`;
+
+    for (const typographyProp of Object.values(typographyObject)) {
+      typographyClass = `${typographyClass} ${typographyProp.name}: ${typographyProp.value};\n`;
+    }
+    typographyClass = `${typographyClass} }\n\n`;
+
+    typographyClasses = typographyClasses + typographyClass;
+  }
+
+  return typographyClasses;
+};
+
 StyleDictionary.registerFormat({
   name: "css/tailwind-variables",
   format: ({ dictionary }) => {
     const colorTokens = getColorTokens(dictionary.allTokens);
-    return `@import "tailwindcss";\n${colorTokens}\n`;
+
+    const typographyClasses = getTypographyClasses(dictionary.tokens.typography);
+    return `@import "tailwindcss";\n${colorTokens}\n${typographyClasses}\n`;
   },
 });
 
