@@ -6,8 +6,6 @@
 
 export type { BadgeProps, BadgeType } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
-export type { ButtonProps } from "./components/Button/Button";
-export { Button } from "./components/Button/Button";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
 export { cn } from "./utils/cn";
