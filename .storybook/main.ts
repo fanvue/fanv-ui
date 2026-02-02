@@ -7,7 +7,9 @@ const config: StorybookConfig = {
     "@storybook/addon-a11y",
     "@chromatic-com/storybook",
     "@storybook/addon-vitest",
+    "@storybook/addon-designs",
   ],
+  staticDirs: ["./public"],
   framework: {
     name: "@storybook/react-vite",
     options: {},

@@ -1,9 +1,11 @@
 import type { Preview } from "@storybook/react";
+import { useEffect } from "react";
 import "../src/styles/theme.css";
+import tokens from "../src/styles/styleTokens.json";
 
 const BACKGROUNDS = {
-  light: "#ffffff",
-  dark: "#1e293b",
+  light: tokens.color.light.background[150].value,
+  dark: tokens.color.dark.background[50].value,
 } as const;
 
 const preview: Preview = {
@@ -22,11 +24,7 @@ const preview: Preview = {
       sort: "requiredFirst",
     },
     backgrounds: {
-      default: "light",
-      values: [
-        { name: "light", value: BACKGROUNDS.light },
-        { name: "dark", value: BACKGROUNDS.dark },
-      ],
+      disable: true,
     },
     viewport: {
       viewports: {
@@ -37,11 +35,50 @@ const preview: Preview = {
     },
     layout: "centered",
   },
+  globalTypes: {
+    theme: {
+      description: "Global theme for components",
+      toolbar: {
+        title: "Theme",
+        icon: "paintbrush",
+        items: [
+          { value: "light", icon: "circlehollow", title: "Light theme" },
+          { value: "dark", icon: "circle", title: "Dark theme" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+  initialGlobals: {
+    theme: "light",
+  },
   decorators: [
     (Story, context) => {
-      const isDark = context.globals.backgrounds?.value === BACKGROUNDS.dark;
+      const theme = context.globals.theme || "light";
+      const isDark = theme === "dark";
+      const backgroundColor = isDark ? BACKGROUNDS.dark : BACKGROUNDS.light;
+
+      // Sync background with theme for body and docs-story elements
+      useEffect(() => {
+        // Update body background
+        document.body.style.backgroundColor = backgroundColor;
+
+        // Update all .docs-story elements (autodocs canvas containers)
+        const docsStories = document.querySelectorAll(".docs-story");
+        docsStories.forEach((element) => {
+          (element as HTMLElement).style.backgroundColor = backgroundColor;
+        });
+
+        return () => {
+          document.body.style.backgroundColor = "";
+          docsStories.forEach((element) => {
+            (element as HTMLElement).style.backgroundColor = "";
+          });
+        };
+      }, [backgroundColor]);
+
       return (
-        <div className={isDark ? "dark" : "light"}>
+        <div className={theme}>
           <Story />
         </div>
       );

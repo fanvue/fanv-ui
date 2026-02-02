@@ -6,6 +6,10 @@ const meta = {
   component: Pill,
   parameters: {
     layout: "centered",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=694-4211&m=dev",
+    },
   },
   tags: ["autodocs"],
   argTypes: {
