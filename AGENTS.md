@@ -25,7 +25,8 @@ user-Figma-get_variable_defs({ fileKey, nodeId })
 1. Extract `fileKey` and `nodeId` from URL (convert dashes to colons in nodeId)
 2. Use `get_design_context` to fetch properties and variants
 3. Implement component matching Figma specs
-4. Remind user to link component in Figma using Storybook Connect plugin
+4. Add Figma link to story using `design` parameter (see Figma Integration section)
+5. Remind user to link component in Figma using Storybook Connect plugin (manual step)
 
 **If no Figma URL provided:**
 → Ask user for Figma component URL before implementing
@@ -59,7 +60,8 @@ nvm use
 ```bash
 # 1. Fetch component from Figma via MCP (if URL provided)
 # 2. Implement component with tests and stories
-# 3. Remind user to link in Figma using Storybook Connect plugin
+# 3. Add Figma link to story parameters
+# 4. Remind user to link in Figma using Storybook Connect plugin (manual)
 ```
 
 ## Key Files
@@ -90,10 +92,6 @@ pnpm typecheck        # TypeScript check
 # Building
 pnpm build            # Build library
 pnpm build-storybook  # Build Storybook
-
-# Figma
-# Components are linked via Storybook Connect plugin in Figma
-# See: https://www.figma.com/community/plugin/1056265616080331589
 ```
 
 ## Testing Strategy
@@ -267,7 +265,7 @@ describe("ComponentName", () => {
 
 ### 3. Story File (`ComponentName.stories.tsx`)
 
-**Format**: CSF3 with `tags: ["autodocs"]`, include all variants
+**Format**: CSF3 with `tags: ["autodocs"]`, include all variants, and add Figma link
 
 ```typescript
 import type { Meta, StoryObj } from "@storybook/react";
@@ -278,6 +276,10 @@ const meta = {
   component: ComponentName,
   parameters: {
     layout: "centered",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=123-456",
+    },
   },
   tags: ["autodocs"],
   argTypes: {
@@ -296,16 +298,7 @@ export const Default: Story = {
 };
 ```
 
-### 4. Link to Figma (Manual Step)
-
-After implementing the component, remind the user to:
-
-1. **Get Storybook URL** from CI/PR comments (Chromatic publishes automatically)
-2. **Open Figma** and select the component
-3. **Use Storybook Connect plugin** (`Shift+I` in Figma)
-4. **Link the story** by pasting the Storybook URL
-
-> **Detailed setup**: Run `pnpm storybook` → "Documentation > Figma Integration"
+**Figma Link**: Add the `design` parameter with the Figma URL (including node-id if linking to specific component). This creates a "Design" tab in Storybook showing the Figma design.
 
 ## Figma Integration Workflow
 
@@ -314,17 +307,44 @@ After implementing the component, remind the user to:
 1. **User provides Figma URL** → Extract `fileKey` and `nodeId` from URL
 2. **Fetch component data**: Use `user-Figma-get_design_context` to get properties, variants, and structure
 3. **Implement component**: Create `.tsx`, `.test.tsx`, and `.stories.tsx` files matching Figma specs
-4. **Remind user to link**: After CI publishes Storybook, user links component via Storybook Connect plugin in Figma
+4. **Add Figma link**: Include `design` parameter in story with Figma URL (shows Figma in Storybook)
+5. **Remind user**: After CI publishes Storybook, user links component via Storybook Connect plugin in Figma (shows Storybook in Figma)
 
 **If user doesn't provide Figma URL:**
 → Ask them to provide the Figma component URL (from "Copy link" in Figma)
 
-**Storybook Connect Plugin:**
+### Two-Way Integration
 
-- Free Figma plugin: <https://www.figma.com/community/plugin/1056265616080331589>
-- Links Figma components to Storybook stories
-- No code files needed - all linking done in Figma UI
+**Step 1: Design Tab (Automatic) - Shows Figma IN Storybook**
 
+We use `@storybook/addon-designs` to embed Figma links directly in Storybook. Add the `design` parameter to your story metadata:
+
+```typescript
+const meta = {
+  title: "Components/ComponentName",
+  component: ComponentName,
+  parameters: {
+    layout: "centered",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=123-456",
+    },
+  },
+} satisfies Meta<typeof ComponentName>;
+```
+
+This creates a "Design" tab in Storybook that embeds the Figma design inline.
+
+**Step 2: Storybook Connect (Manual) - Shows Storybook IN Figma**
+
+After implementation, remind the user to:
+
+1. **Get Storybook URL** from CI/PR comments (Chromatic publishes automatically)
+2. **Open Figma** and select the component
+3. **Use Storybook Connect plugin** (`Shift+I` in Figma)
+4. **Link the story** by pasting the Storybook URL
+
+> **Free plugin**: https://www.figma.com/community/plugin/1056265616080331589
 > **Detailed setup**: Run `pnpm storybook` → "Documentation > Figma Integration"
 
 ## Conventions
@@ -366,7 +386,8 @@ Use this checklist when adding a new component:
 
 - [ ] Use Figma MCP to fetch component properties from Figma URL (if provided)
 - [ ] Implement component matching Figma specs
-- [ ] Remind user to link via Storybook Connect plugin after CI publishes Storybook
+- [ ] Add Figma link to story using `design` parameter (Design tab)
+- [ ] Remind user to link via Storybook Connect plugin after CI publishes (manual step)
 
 ### Quality Checks
 
@@ -387,7 +408,8 @@ Use this checklist when adding a new component:
 - ❌ Forgot to export in `src/index.ts`
 - ❌ Using default exports (use named exports)
 - ❌ Missing accessibility tests
-- ❌ Component not linked via Storybook Connect plugin in Figma
+- ❌ Missing Figma link in story `design` parameter
+- ❌ Forgot to remind user about Storybook Connect plugin (manual linking)
 
 ## Common Patterns
 
@@ -416,14 +438,17 @@ return <button ref={ref} className={className} {...props}>{children}</button>;
 - Named exports only (never default)
 - Export all prop types in `src/index.ts`
 - Use Figma MCP to fetch component data when Figma URL is provided
+- Add Figma links to stories using `design` parameter (Design tab)
+- Remind users to link components via Storybook Connect plugin (manual step)
 - Chromatic publishes Storybook automatically on PR/main
-- Components are linked to Figma via Storybook Connect plugin (manual step by user)
 
 ## Troubleshooting
 
 **Figma Issues:**
 
-- Component not showing Storybook: Link via Storybook Connect plugin in Figma
+- Figma not showing in Storybook: Check `design` parameter is added to story metadata
+- Design tab not appearing: Ensure `@storybook/addon-designs` is in `.storybook/main.ts` addons
+- Storybook not showing in Figma: Use Storybook Connect plugin to manually link
 - Can't find story: Check story title matches format "Components/ComponentName"
 - Storybook URL not working: Get latest URL from CI/PR comments or Chromatic dashboard
 
@@ -434,4 +459,6 @@ return <button ref={ref} className={className} {...props}>{children}</button>;
 ## Resources
 
 - [Figma Design Library](https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library)
+- [Storybook Addon Designs](https://storybook.js.org/addons/@storybook/addon-designs) - Design tab in Storybook
+- [Storybook Connect Plugin](https://www.figma.com/community/plugin/1056265616080331589) - Link stories in Figma
 - Detailed setup: `pnpm storybook` → "Documentation > Figma Integration"

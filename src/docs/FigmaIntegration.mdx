@@ -4,11 +4,46 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Figma Integration Guide
 
-Connect components to [Figma Library](https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library) via Storybook Connect plugin.
+Two-way integration between [Figma Library](https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library) and Storybook.
 
 ## Quick Start
 
-### Link Components to Storybook
+### Step 1: Add Design Tab to Stories
+
+**Shows Figma designs in Storybook** (Developer → Design)
+
+We use `@storybook/addon-designs` to embed Figma designs directly in Storybook. Add the `design` parameter to your story:
+
+```tsx
+import type { Meta, StoryObj } from "@storybook/react";
+import { ComponentName } from "./ComponentName";
+
+const meta = {
+  title: "Components/ComponentName",
+  component: ComponentName,
+  parameters: {
+    layout: "centered",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=123-456",
+    },
+  },
+  tags: ["autodocs"],
+} satisfies Meta<typeof ComponentName>;
+
+export default meta;
+```
+
+**Get Figma URL:**
+1. In Figma: Right-click component → "Copy link"
+2. Paste URL into the `design.url` parameter
+3. View in Storybook: Open story → Click "Design" tab
+
+### Step 2: Link to Storybook Connect (Manual)
+
+**Shows Storybook stories in Figma Dev Mode** (Design → Developer)
+
+After implementing and deploying your component:
 
 1. **Get Storybook URL:**
    - CI automatically publishes Storybook on every PR/push to main
@@ -24,8 +59,6 @@ Connect components to [Figma Library](https://www.figma.com/design/S8zFdcOjt4qN4
    - Paste your Storybook URL
    - Find and link the matching story
 
-> 💡 **Tip:** Links persist automatically. Once linked, your team sees live Storybook stories in Figma Dev Mode.
-
 ## Design Tokens
 
 Tokens live in `src/styles/styleTokens.json`, this file is generated via Style Dictionary.
@@ -34,10 +67,9 @@ Tokens live in `src/styles/styleTokens.json`, this file is generated via Style D
 1. Run `pnpm build:dictionary`
 2. Add new tokens to `src/styles/theme.css`
 
----
-
 ## Resources
 
 - [Figma Library](https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library)
-- [Storybook Connect Plugin](https://www.figma.com/community/plugin/1056265616080331589)
+- [Storybook Addon Designs](https://storybook.js.org/addons/@storybook/addon-designs) - Design tab in Storybook
+- [Storybook Connect Plugin](https://www.figma.com/community/plugin/1056265616080331589) - Link stories in Figma
 - [Style Dictionary](https://amzn.github.io/style-dictionary/)
