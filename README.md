@@ -23,8 +23,18 @@ pnpm format          # Format code
 
 # Storybook
 pnpm storybook       # Start Storybook dev server on port 6006
-pnpm storybook:build # Build Storybook static site
+pnpm build-storybook # Build Storybook static site
 
-#Tokens
+# Figma Integration
+pnpm figma:connect   # Authenticate with Figma (first time setup)
+pnpm figma:publish   # Publish Code Connect mappings to Figma
+pnpm figma:validate  # Verify Code Connect files are correctly formatted
+pnpm figma:list      # List all Code Connect mappings in the project
+
+# Tokens
 pnpm build:dictionary # Generate styles from style dictionary tokens
 ```
+
+## Figma + Storybook Integration
+
+This library is integrated with Figma through Chromatic Connect and Figma Code Connect. **View Complete Documentation in Storybook**: `pnpm storybook # Navigate to "Documentation > Figma Integration"`
