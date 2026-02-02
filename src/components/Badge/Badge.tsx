@@ -67,6 +67,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     return (
       <Comp
         ref={ref}
+        data-testid="badge"
         className={cn(
           // Base styles
           "inline-flex h-5 items-center gap-2 rounded-full px-2",

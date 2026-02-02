@@ -1,6 +1,6 @@
 # Agent Guidelines
 
-**React 19 component library** with Tailwind CSS, TypeScript, Figma Code Connect, and Storybook.
+**React 19 component library** with Tailwind CSS, TypeScript, and Storybook.
 
 ## AI Agent Workflow (Figma MCP)
 
@@ -25,8 +25,7 @@ user-Figma-get_variable_defs({ fileKey, nodeId })
 1. Extract `fileKey` and `nodeId` from URL (convert dashes to colons in nodeId)
 2. Use `get_design_context` to fetch properties and variants
 3. Implement component matching Figma specs
-4. Create `.figma.tsx` mapping with exact property names (case-sensitive!)
-5. Run `pnpm figma:publish`
+4. Remind user to link component in Figma using Storybook Connect plugin
 
 **If no Figma URL provided:**
 → Ask user for Figma component URL before implementing
@@ -45,7 +44,6 @@ nvm use
 - `ComponentName.tsx` - Implementation (named export, TypeScript)
 - `ComponentName.test.tsx` - Tests (Vitest + axe accessibility)
 - `ComponentName.stories.tsx` - Stories (CSF3 format)
-- `ComponentName.figma.tsx` - Code Connect mapping
 
 **Critical rules:**
 
@@ -54,16 +52,14 @@ nvm use
 - Use `cn()` utility for className merging
 - Prefer Radix UI primitives for complex components (dropdowns, dialogs, etc.)
 - Export all components and types in `src/index.ts`
-- Figma property names are case-sensitive and must match exactly
 - Use pnpm (not npm/yarn)
 
 **New component workflow:**
 
 ```bash
 # 1. Fetch component from Figma via MCP (if URL provided)
-# 2. Create ComponentName.figma.tsx with fetched properties
-# 3. Publish to Figma
-pnpm figma:publish
+# 2. Implement component with tests and stories
+# 3. Remind user to link in Figma using Storybook Connect plugin
 ```
 
 ## Key Files
@@ -81,8 +77,9 @@ pnpm dev              # Dev server
 pnpm storybook        # Storybook (port 6006)
 
 # Testing
-pnpm test             # Unit tests
+pnpm test             # All tests (unit + story tests)
 pnpm test:watch       # Watch mode
+pnpm test:storybook   # Story tests only (browser mode)
 pnpm test:e2e         # Playwright E2E
 
 # Quality
@@ -95,11 +92,80 @@ pnpm build            # Build library
 pnpm build-storybook  # Build Storybook
 
 # Figma
-pnpm figma:connect   # Auth (first time only)
-pnpm figma:publish   # Publish Code Connect
-pnpm figma:validate  # Verify Code Connect files
-pnpm figma:list      # List all Code Connect mappings
+# Components are linked via Storybook Connect plugin in Figma
+# See: https://www.figma.com/community/plugin/1056265616080331589
 ```
+
+## Testing Strategy
+
+We use a **two-layer testing approach** to maximize coverage while minimizing duplication:
+
+### 1. **Story Tests** (Storybook + Vitest)
+
+**What they test:**
+
+- ✅ Components render without errors
+- ✅ All variant combinations
+
+**How it works:**
+
+- Stories are automatically transformed into Vitest tests
+- Run in real Chromium browser via Playwright
+- Every exported story becomes a smoke test
+- Can add `play` functions for interaction testing
+
+**Example:**
+
+```typescript
+// Badge.stories.tsx
+export const Default: Story = {
+  args: { children: "Badge" },
+};
+// ✅ Automatically tested: renders without errors
+```
+
+### 2. **Unit + Integration Tests** (Vitest + Testing Library)
+
+**What they test:**
+
+- ✅ Accessibility (axe violations)
+- ✅ API contracts (className, asChild, props)
+- ✅ Complex behavior & edge cases
+- ✅ Implementation details not visible in stories
+
+**What NOT to test (avoid duplication):**
+
+- ❌ Variant rendering (covered by stories)
+- ❌ Icon/children rendering (covered by stories)
+- ❌ Basic prop combinations (covered by stories)
+
+**Example:**
+
+```typescript
+// Badge.test.tsx
+describe("Badge", () => {
+  describe("API", () => {
+    it("applies custom className", () => { /* ... */ });
+    it("renders as Slot when asChild is true", () => { /* ... */ });
+  });
+
+  describe("accessibility", () => {
+    it("has no accessibility violations", async () => {
+      const { container } = render(<Badge>Test</Badge>);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+});
+```
+
+### Testing Workflow
+
+1. **Create stories** for all variants (automatic visual/smoke tests)
+2. **Add unit tests** for:
+   - Accessibility (always required)
+   - API features (className, asChild, etc.)
+   - Complex behaviors/edge cases
+3. **Avoid duplicating** what stories already cover
 
 ## Project Stack
 
@@ -163,22 +229,38 @@ ComponentName.displayName = "ComponentName";
 
 ### 2. Test File (`ComponentName.test.tsx`)
 
-**Required**: Test all variants + accessibility (vitest-axe)
+**Focus on**: Accessibility + API contracts (avoid duplicating what stories test)
 
 ```typescript
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { ComponentName } from "./ComponentName";
 
 describe("ComponentName", () => {
-  it("renders correctly", () => {
-    render(<ComponentName />);
-    expect(screen.getByRole("...")).toBeInTheDocument();
+  describe("API", () => {
+    it("applies custom className", () => {
+      render(<ComponentName className="custom">Test</ComponentName>);
+      const element = screen.getByText("Test");
+      expect(element).toHaveClass("custom");
+    });
+
+    it("renders as Slot when asChild is true", () => {
+      render(
+        <ComponentName asChild>
+          <a href="/test">Link</a>
+        </ComponentName>
+      );
+      const link = screen.getByRole("link", { name: /Link/i });
+      expect(link).toHaveAttribute("href", "/test");
+    });
   });
 
-  it("has no accessibility violations", async () => {
-    const { container } = render(<ComponentName />);
-    expect(await axe(container)).toHaveNoViolations();
+  describe("accessibility", () => {
+    it("has no accessibility violations", async () => {
+      const { container } = render(<ComponentName>Test</ComponentName>);
+      expect(await axe(container)).toHaveNoViolations();
+    });
   });
 });
 ```
@@ -214,33 +296,15 @@ export const Default: Story = {
 };
 ```
 
-### 4. Figma Code Connect File (`ComponentName.figma.tsx`)
+### 4. Link to Figma (Manual Step)
 
-**CRITICAL**: Property names are **case-sensitive** and must match Figma exactly
+After implementing the component, remind the user to:
 
-```typescript
-import { figma } from "@figma/code-connect";
-import { ComponentName } from "./ComponentName";
+1. **Get Storybook URL** from CI/PR comments (Chromatic publishes automatically)
+2. **Open Figma** and select the component
+3. **Use Storybook Connect plugin** (`Shift+I` in Figma)
+4. **Link the story** by pasting the Storybook URL
 
-figma.connect(
-  ComponentName,
-  "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=XXX-YYY",
-  {
-    props: {
-      // Keys must match Figma property values exactly (case-sensitive!)
-      variant: figma.enum("variant", {
-        default: "default",
-        primary: "primary",
-      }),
-      disabled: figma.boolean("disabled"),
-      children: figma.string("label"),  // Figma layer must be named "label"
-    },
-    example: (props) => <ComponentName {...props} />,
-  }
-);
-```
-
-> **AI workflow**: Use `user-Figma-get_design_context` to fetch properties and variants from Figma URL
 > **Detailed setup**: Run `pnpm storybook` → "Documentation > Figma Integration"
 
 ## Figma Integration Workflow
@@ -249,12 +313,17 @@ figma.connect(
 
 1. **User provides Figma URL** → Extract `fileKey` and `nodeId` from URL
 2. **Fetch component data**: Use `user-Figma-get_design_context` to get properties, variants, and structure
-3. **Create `ComponentName.figma.tsx`**: Map Figma properties to React props (case-sensitive!)
-4. **Publish**: Run `pnpm figma:publish` to push Code Connect
-5. **Verify**: CI automatically publishes Storybook; user links via Chromatic Connect plugin
+3. **Implement component**: Create `.tsx`, `.test.tsx`, and `.stories.tsx` files matching Figma specs
+4. **Remind user to link**: After CI publishes Storybook, user links component via Storybook Connect plugin in Figma
 
 **If user doesn't provide Figma URL:**
 → Ask them to provide the Figma component URL (from "Copy link" in Figma)
+
+**Storybook Connect Plugin:**
+
+- Free Figma plugin: <https://www.figma.com/community/plugin/1056265616080331589>
+- Links Figma components to Storybook stories
+- No code files needed - all linking done in Figma UI
 
 > **Detailed setup**: Run `pnpm storybook` → "Documentation > Figma Integration"
 
@@ -270,7 +339,7 @@ figma.connect(
 
 **Refs**: Always use `forwardRef` with proper typing and set `displayName`
 
-**Testing**: All variants + interactions + accessibility (axe) + edge cases
+**Testing**: Stories for variants (smoke tests), unit tests for accessibility + API + edge cases (avoid duplication)
 
 **Documentation**: JSDoc comments, Storybook stories, export in `src/index.ts`
 
@@ -292,23 +361,20 @@ Use this checklist when adding a new component:
 - [ ] `ComponentName.tsx` - Component implementation
 - [ ] `ComponentName.test.tsx` - Unit tests (with accessibility tests)
 - [ ] `ComponentName.stories.tsx` - Storybook stories
-- [ ] `ComponentName.figma.tsx` - Figma Code Connect
 
 ### Figma Integration
 
-- [ ] Create `ComponentName.figma.tsx` (see template in Component Implementation section)
-- [ ] Use Figma MCP to fetch component properties from Figma URL (or ask user for URL)
-- [ ] Map Figma properties to React props in `.figma.tsx` (case-sensitive!)
-- [ ] Publish to Figma: `pnpm figma:publish`
-- [ ] Remind user to link in Chromatic Connect plugin (after CI publishes Storybook)
+- [ ] Use Figma MCP to fetch component properties from Figma URL (if provided)
+- [ ] Implement component matching Figma specs
+- [ ] Remind user to link via Storybook Connect plugin after CI publishes Storybook
 
 ### Quality Checks
 
 - [ ] Component uses `forwardRef` with `displayName`
 - [ ] Component implements all required props
-- [ ] All variants tested with unit tests
-- [ ] No accessibility violations (axe)
-- [ ] All variants documented in Storybook
+- [ ] All variants have stories (automatic smoke tests)
+- [ ] Accessibility tests pass (axe in unit tests)
+- [ ] API contracts tested (className, asChild, etc.)
 - [ ] Component exported in `src/index.ts`
 - [ ] Props interface exported and documented
 - [ ] TypeScript has no errors (`pnpm typecheck`)
@@ -318,11 +384,10 @@ Use this checklist when adding a new component:
 ### Common Issues to Avoid
 
 - ❌ Not using `forwardRef` or missing `displayName`
-- ❌ Figma property names don't match (case-sensitive!)
 - ❌ Forgot to export in `src/index.ts`
 - ❌ Using default exports (use named exports)
 - ❌ Missing accessibility tests
-- ❌ Component not linked in Chromatic Connect plugin
+- ❌ Component not linked via Storybook Connect plugin in Figma
 
 ## Common Patterns
 
@@ -350,17 +415,17 @@ return <button ref={ref} className={className} {...props}>{children}</button>;
 
 - Named exports only (never default)
 - Export all prop types in `src/index.ts`
-- Figma property names are case-sensitive and must match exactly
 - Use Figma MCP to fetch component data when Figma URL is provided
 - Chromatic publishes Storybook automatically on PR/main
+- Components are linked to Figma via Storybook Connect plugin (manual step by user)
 
 ## Troubleshooting
 
 **Figma Issues:**
 
-- Component → "--default": Not linked in Chromatic Connect plugin
-- Props mismatch: Check case-sensitive property names
-- Code not in Dev Mode: Run `pnpm figma:publish`
+- Component not showing Storybook: Link via Storybook Connect plugin in Figma
+- Can't find story: Check story title matches format "Components/ComponentName"
+- Storybook URL not working: Get latest URL from CI/PR comments or Chromatic dashboard
 
 **Build Issues:** `pnpm typecheck` → `pnpm lint:fix` → Check `src/index.ts` exports
 

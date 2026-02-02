@@ -40,6 +40,7 @@ export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
     return (
       <Comp
         ref={ref}
+        data-testid="pill"
         className={cn(
           // Base styles
           "inline-flex items-center justify-center gap-2 rounded-full px-3 py-1",
