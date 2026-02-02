@@ -1,8 +1,9 @@
 import { expect, test } from "@playwright/test";
+import { getStoryUrl } from "./utils/storybook";
 
 test.describe("Pill", () => {
   test("Green variant renders correctly", async ({ page }) => {
-    await page.goto("/iframe.html?id=components-pill--green");
+    await page.goto(getStoryUrl("Pill", "Green"));
 
     const pill = page.getByTestId("pill");
     await expect(pill).toBeVisible();
@@ -10,7 +11,7 @@ test.describe("Pill", () => {
   });
 
   test("Beta variant renders correctly", async ({ page }) => {
-    await page.goto("/iframe.html?id=components-pill--beta");
+    await page.goto(getStoryUrl("Pill", "Beta"));
 
     const pill = page.getByTestId("pill");
     await expect(pill).toBeVisible();
