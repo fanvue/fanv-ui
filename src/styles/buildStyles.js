@@ -1,38 +1,46 @@
 import StyleDictionary from "style-dictionary";
 
 const getColorTokens = (tokens) => {
-  let lightColorTokens = "";
+  let rootColorTokens = "";
   let darkColorTokens = "";
-  let themeColorTokens = "";
+  let themeTokens = "";
+  const processedTokens = new Set();
 
   tokens.forEach((token) => {
     if (token.type === "color") {
       const path = structuredClone(token.path);
-      // Build light color tokens
+
+      // Build light color tokens as :root defaults
       if (path.includes("light")) {
-        path.splice(1, 1);
-        lightColorTokens += `--${path.join("-")}: ${token.value};\n`;
+        path.splice(path.indexOf("light"), 1);
+        const tokenKey = path.join("-");
+        if (!processedTokens.has(tokenKey)) {
+          // Add to :root as default (light mode defaults)
+          rootColorTokens += `  --${tokenKey}: ${token.value};\n`;
+          // Add to theme mapping (references the CSS variable)
+          themeTokens += `  --${tokenKey}: var(--${tokenKey});\n`;
+          processedTokens.add(tokenKey);
+        }
       }
-      // Build dark color tokens
+
+      // Build dark color tokens as .dark overrides
       if (path.includes("dark")) {
-        const path = structuredClone(token.path);
-        path.splice(1, 1);
-        darkColorTokens += `--${path.join("-")}: ${token.value};\n`;
+        const darkPath = structuredClone(token.path);
+        darkPath.splice(darkPath.indexOf("dark"), 1);
+        const tokenKey = darkPath.join("-");
+        darkColorTokens += `  --${tokenKey}: ${token.value};\n`;
       }
-      // Build theme variables
-      const tokenKey = path.join("-");
-      themeColorTokens += `--${tokenKey}: hsl(var(--${tokenKey}));\n`;
     }
   });
 
-  return `@theme {\n${themeColorTokens}}\n.light {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}`;
+  return `:root {\n${rootColorTokens}}\n\n@theme {\n${themeTokens}}\n\n.dark {\n${darkColorTokens}}`;
 };
 
 StyleDictionary.registerFormat({
   name: "css/tailwind-variables",
   format: ({ dictionary }) => {
     const colorTokens = getColorTokens(dictionary.allTokens);
-    return `@import "tailwindcss";\n${colorTokens}\n`;
+    return `@import "tailwindcss";\n\n${colorTokens}\n`;
   },
 });
 
@@ -41,9 +49,16 @@ const tailwindStyleDictionary = new StyleDictionary({
   platforms: {
     css: {
       buildPath: "src/styles/",
-      format: "css/tailwind-variables",
-      files: [{ format: "css/tailwind-variables", destination: "theme.css" }],
+      files: [
+        {
+          format: "css/tailwind-variables",
+          destination: "theme.css",
+        },
+      ],
     },
+  },
+  log: {
+    verbosity: "verbose",
   },
 });
 
