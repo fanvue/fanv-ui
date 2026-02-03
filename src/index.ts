@@ -18,6 +18,8 @@ export type { BadgeProps, BadgeType } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
 export type { CheckboxProps, CheckboxSize } from "./components/Checkbox/Checkbox";
 export { Checkbox } from "./components/Checkbox/Checkbox";
+export type { CountProps, CountSize, CountVariant } from "./components/Count/Count";
+export { Count } from "./components/Count/Count";
 export type { LogoColor, LogoProps, LogoType } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";

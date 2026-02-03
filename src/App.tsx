@@ -1,4 +1,4 @@
-import { Alert, Avatar, Badge, Checkbox, Logo, Pill, Radio, RadioGroup } from "./index";
+import { Alert, Avatar, Badge, Checkbox, Count, Logo, Pill, Radio, RadioGroup } from "./index";
 import "./styles/theme.css";
 
 function App() {
@@ -255,6 +255,21 @@ function App() {
             <Radio label="Option 2" value="y" />
             <Radio label="Option 3" value="z" />
           </RadioGroup>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <Count value={5} variant="Default" />
+            <Count value={12} variant="Brand" />
+            <Count value={8} variant="Pink" />
+            <Count value={3} variant="Info" />
+            <Count value={7} variant="Success" />
+            <Count value={15} variant="Warning" />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <Count value={9} size="Small" />
+            <Count value={42} size="Medium" />
+            <Count value={99} size="Large" />
+          </div>
         </section>
       </div>
     </div>
