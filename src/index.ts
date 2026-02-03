@@ -4,6 +4,8 @@
  * Avoid barrel files, re-exports of entire modules, or side effects in this entry point.
  */
 
+export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
+export { Alert } from "./components/Alert/Alert";
 export type {
   AvatarFallbackProps,
   AvatarImageProps,
