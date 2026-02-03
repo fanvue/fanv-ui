@@ -1,5 +1,11 @@
 export function getStoryUrl(component: string, story: string): string {
-  const storyId = `components-${component.toLowerCase()}--${story.toLowerCase().replace(/\s+/g, "-")}`;
+  const toKebabCase = (str: string) =>
+    str
+      .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+      .replace(/\s+/g, "-")
+      .toLowerCase();
+
+  const storyId = `components-${component.toLowerCase()}--${toKebabCase(story)}`;
   return `/iframe.html?id=${storyId}`;
 }
 
