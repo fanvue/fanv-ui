@@ -92,6 +92,7 @@
     "react-dom": "19.2.3",
     "size-limit": "12.0.0",
     "storybook": "10.2.3",
+    "style-dictionary": "4.2.0",
     "tailwindcss": "4.1.18",
     "typescript": "5.9.3",
     "vite": "7.3.1",
