@@ -7,7 +7,7 @@ export default create({
   // Brand
   brandTitle: "Fanvue UI",
   brandUrl: "https://fanvue.com",
-  brandImage: "./logo.svg",
+  brandImage: "logo.svg",
   brandTarget: "_self",
   colorPrimary: tokens.color.dark.brand.green[500].value,
   colorSecondary: tokens.color.dark.brand.green[500].value,
