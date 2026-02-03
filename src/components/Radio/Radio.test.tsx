@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { RadioGroup } from "../RadioGroup/RadioGroup";
 import { Radio } from "./Radio";
@@ -72,6 +73,29 @@ describe("Radio", () => {
       );
       const input = screen.getByRole("radio");
       expect(input).toHaveAttribute("data-state", "checked");
+    });
+
+    it("works uncontrolled with defaultValue", () => {
+      render(
+        <RadioGroup defaultValue="b">
+          <Radio label="A" value="a" />
+          <Radio label="B" value="b" />
+        </RadioGroup>,
+      );
+      expect(screen.getByRole("radio", { name: "B" })).toHaveAttribute("data-state", "checked");
+    });
+
+    it("works controlled with value and onValueChange", async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      render(
+        <RadioGroup value="a" onValueChange={onValueChange}>
+          <Radio label="A" value="a" />
+          <Radio label="B" value="b" />
+        </RadioGroup>,
+      );
+      await user.click(screen.getByRole("radio", { name: "B" }));
+      expect(onValueChange).toHaveBeenCalledWith("b");
     });
 
     it("supports disabled state", () => {
