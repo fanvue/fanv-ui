@@ -5,7 +5,7 @@ import tokens from "../src/styles/styleTokens.json";
 
 const BACKGROUNDS = {
   light: tokens.color.light.background[150].value,
-  dark: tokens.color.dark.background[50].value,
+  dark: tokens.color.dark.background[150].value,
 } as const;
 
 const preview: Preview = {
