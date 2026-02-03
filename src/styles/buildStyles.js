@@ -11,21 +11,21 @@ const getColorTokens = (tokens) => {
       // Build light color tokens
       if (path.includes("light")) {
         path.splice(1, 1);
-        lightColorTokens += `--${path.join("-")}: ${token.value};\n`;
+        lightColorTokens += `  --${path.join("-")}: ${token.value};\n`;
       }
       // Build dark color tokens
       if (path.includes("dark")) {
         const path = structuredClone(token.path);
         path.splice(1, 1);
-        darkColorTokens += `--${path.join("-")}: ${token.value};\n`;
+        darkColorTokens += `  --${path.join("-")}: ${token.value};\n`;
       }
       // Build theme variables
       const tokenKey = path.join("-");
-      themeColorTokens += `--${tokenKey}: hsl(var(--${tokenKey}));\n`;
+      themeColorTokens += `  --${tokenKey}: hsl(var(--${tokenKey}));\n`;
     }
   });
 
-  return `@theme {\n${themeColorTokens}}\n.light {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}`;
+  return `\n@theme {\n${themeColorTokens}}\n\n:root {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}`;
 };
 
 const getTypographyClasses = (typographyTokens) => {
@@ -33,12 +33,13 @@ const getTypographyClasses = (typographyTokens) => {
 
   for (const [key, typographyObject] of Object.entries(typographyTokens)) {
     let typographyClass = "";
-    typographyClass = `${typographyClass} .typography-${key.replaceAll(" ", "-").replaceAll("---", "-")} {\n`;
+    const typographyClassName = `typography-${key.replaceAll(" ", "-").replaceAll("---", "-")}`;
+    typographyClass = `${typographyClass}\n.${typographyClassName} {\n`;
 
     for (const typographyProp of Object.values(typographyObject)) {
-      typographyClass = `${typographyClass} ${typographyProp.name}: ${typographyProp.value};\n`;
+      typographyClass = `${typographyClass}  ${typographyProp.name}: ${typographyProp.value};\n`;
     }
-    typographyClass = `${typographyClass} }\n\n`;
+    typographyClass = `${typographyClass}}\n`;
 
     typographyClasses = typographyClasses + typographyClass;
   }
