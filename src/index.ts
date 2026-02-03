@@ -4,6 +4,14 @@
  * Avoid barrel files, re-exports of entire modules, or side effects in this entry point.
  */
 
+export type {
+  AvatarFallbackProps,
+  AvatarImageProps,
+  AvatarProps,
+  AvatarRootProps,
+  AvatarSize,
+} from "./components/Avatar/Avatar";
+export { Avatar, AvatarFallback, AvatarImage, AvatarRoot } from "./components/Avatar/Avatar";
 export type { BadgeProps, BadgeType } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
 export type { LogoColor, LogoProps, LogoType } from "./components/Logo/Logo";
