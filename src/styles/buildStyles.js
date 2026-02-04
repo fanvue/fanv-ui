@@ -21,7 +21,7 @@ const getColorTokens = (tokens) => {
       }
       // Build theme variables
       const tokenKey = path.join("-");
-      themeColorTokens += `  --${tokenKey}: hsl(var(--${tokenKey}));\n`;
+      themeColorTokens += `  --${tokenKey}: var(--${tokenKey});\n`;
     }
   });
 
@@ -30,14 +30,14 @@ const getColorTokens = (tokens) => {
 
 const getTypographyClasses = (typographyTokens) => {
   let typographyClasses = "";
-
   for (const [key, typographyObject] of Object.entries(typographyTokens)) {
     let typographyClass = "";
     const typographyClassName = `typography-${key.replaceAll(" ", "-").replaceAll("---", "-")}`;
     typographyClass = `${typographyClass}\n.${typographyClassName} {\n`;
 
     for (const typographyProp of Object.values(typographyObject)) {
-      typographyClass = `${typographyClass}  ${typographyProp.name}: ${typographyProp.value};\n`;
+      const kebabedPropName = typographyProp.name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+      typographyClass = `${typographyClass}  ${kebabedPropName}: ${typographyProp.value}${typographyProp.type === "dimension" ? "px" : ""};\n`;
     }
     typographyClass = `${typographyClass}}\n`;
 
