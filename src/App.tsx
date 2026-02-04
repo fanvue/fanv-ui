@@ -1,4 +1,4 @@
-import { Badge, Logo, Pill, Radio, RadioGroup } from "./index";
+import { Avatar, Badge, Logo, Pill, Radio, RadioGroup } from "./index";
 import "./styles/theme.css";
 
 function App() {
@@ -35,6 +35,110 @@ function App() {
                 <Logo type="Icon" color="White Always" />
                 <Logo type="Wordmark" color="White Always" />
               </div>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="mb-4 font-semibold text-xl">Avatar Sizes</h2>
+            <div className="flex flex-wrap items-center gap-4">
+              <Avatar
+                size={16}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="16"
+              />
+              <Avatar
+                size={24}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="24"
+              />
+              <Avatar
+                size={32}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="32"
+              />
+              <Avatar
+                size={40}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="40"
+              />
+              <Avatar
+                size={48}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="48"
+              />
+              <Avatar
+                size={64}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="64"
+              />
+              <Avatar
+                size={88}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="88"
+              />
+              <Avatar
+                size={148}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="148"
+              />
+            </div>
+          </div>
+
+          <div>
+            <h2 className="mb-4 font-semibold text-xl">Avatar Variants</h2>
+            <div className="flex flex-wrap items-center gap-4">
+              <Avatar
+                size={40}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="JD"
+              />
+              <Avatar size={40} fallback="AB" />
+              <Avatar
+                size={40}
+                fallback={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="size-6"
+                    aria-hidden="true"
+                  >
+                    <title>Checkmark icon</title>
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                }
+              />
+            </div>
+          </div>
+
+          <div>
+            <h2 className="mb-4 font-semibold text-xl">Avatar with Online Status</h2>
+            <div className="flex flex-wrap items-center gap-4">
+              <Avatar
+                size={24}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="JD"
+                onlineIndicator={true}
+              />
+              <Avatar
+                size={32}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="JD"
+                onlineIndicator={true}
+              />
+              <Avatar
+                size={40}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                fallback="JD"
+                onlineIndicator={true}
+              />
+              <Avatar size={48} fallback="AB" onlineIndicator={true} />
+              <Avatar size={64} fallback="AB" onlineIndicator={true} />
+              <Avatar size={88} fallback="AB" onlineIndicator={true} />
             </div>
           </div>
 
