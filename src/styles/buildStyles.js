@@ -1,10 +1,9 @@
 import StyleDictionary from "style-dictionary";
 
 const getColorTokens = (tokens) => {
-  let rootColorTokens = "";
+  let lightColorTokens = "";
   let darkColorTokens = "";
-  let themeTokens = "";
-  const processedTokens = new Set();
+  let themeColorTokens = "";
 
   tokens.forEach((token) => {
     if (token.type === "color") {
@@ -12,35 +11,50 @@ const getColorTokens = (tokens) => {
 
       // Build light color tokens as :root defaults
       if (path.includes("light")) {
-        path.splice(path.indexOf("light"), 1);
-        const tokenKey = path.join("-");
-        if (!processedTokens.has(tokenKey)) {
-          // Add to :root as default (light mode defaults)
-          rootColorTokens += `  --${tokenKey}: ${token.value};\n`;
-          // Add to theme mapping (references the CSS variable)
-          themeTokens += `  --${tokenKey}: var(--${tokenKey});\n`;
-          processedTokens.add(tokenKey);
-        }
+        path.splice(1, 1);
+        lightColorTokens += `  --${path.join("-")}: ${token.value};\n`;
       }
 
       // Build dark color tokens as .dark overrides
       if (path.includes("dark")) {
-        const darkPath = structuredClone(token.path);
-        darkPath.splice(darkPath.indexOf("dark"), 1);
-        const tokenKey = darkPath.join("-");
-        darkColorTokens += `  --${tokenKey}: ${token.value};\n`;
+        const path = structuredClone(token.path);
+        path.splice(1, 1);
+        darkColorTokens += `  --${path.join("-")}: ${token.value};\n`;
       }
+      // Build theme variables
+      const tokenKey = path.join("-");
+      themeColorTokens += `  --${tokenKey}: var(--${tokenKey});\n`;
     }
   });
 
-  return `:root {\n${rootColorTokens}}\n\n@theme {\n${themeTokens}}\n\n.dark {\n${darkColorTokens}}`;
+  return `\n@theme {\n${themeColorTokens}}\n\n:root {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}`;
+};
+
+const getTypographyClasses = (typographyTokens) => {
+  let typographyClasses = "";
+  for (const [key, typographyObject] of Object.entries(typographyTokens)) {
+    let typographyClass = "";
+    const typographyClassName = `typography-${key.replaceAll(" ", "-").replaceAll("---", "-")}`;
+    typographyClass = `${typographyClass}\n.${typographyClassName} {\n`;
+
+    for (const typographyProp of Object.values(typographyObject)) {
+      const kebabedPropName = typographyProp.name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+      typographyClass = `${typographyClass}  ${kebabedPropName}: ${typographyProp.value}${typographyProp.type === "dimension" ? "px" : ""};\n`;
+    }
+
+    typographyClasses = `${typographyClasses}${typographyClass}}\n`;
+  }
+
+  return typographyClasses;
 };
 
 StyleDictionary.registerFormat({
   name: "css/tailwind-variables",
   format: ({ dictionary }) => {
     const colorTokens = getColorTokens(dictionary.allTokens);
-    return `@import "tailwindcss";\n\n${colorTokens}\n`;
+
+    const typographyClasses = getTypographyClasses(dictionary.tokens.typography);
+    return `@import "tailwindcss";\n\n@variant dark (&:where(.dark, .dark *));\n${colorTokens}\n${typographyClasses}\n`;
   },
 });
 
