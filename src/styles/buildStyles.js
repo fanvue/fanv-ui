@@ -41,9 +41,8 @@ const getTypographyClasses = (typographyTokens) => {
       const kebabedPropName = typographyProp.name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
       typographyClass = `${typographyClass}  ${kebabedPropName}: ${typographyProp.value}${typographyProp.type === "dimension" ? "px" : ""};\n`;
     }
-    typographyClass = `${typographyClass}}\n`;
 
-    typographyClasses = typographyClasses + typographyClass;
+    typographyClasses = `${typographyClasses}${typographyClass}}\n`;
   }
 
   return typographyClasses;
