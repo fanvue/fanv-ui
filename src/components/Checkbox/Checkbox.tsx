@@ -115,7 +115,13 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             !hasLabel && className,
           )}
         >
-          <CheckboxPrimitive.Indicator className="flex items-center justify-center text-body-white-solid-constant">
+          <CheckboxPrimitive.Indicator
+            forceMount
+            className={cn(
+              "flex size-3 items-center justify-center text-body-white-solid-constant",
+              "data-[state=unchecked]:invisible",
+            )}
+          >
             {props.checked === "indeterminate" ? <IndeterminateIcon /> : <CheckIcon />}
           </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>
