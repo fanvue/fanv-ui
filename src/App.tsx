@@ -1,4 +1,4 @@
-import { Badge, Pill, Radio, RadioGroup } from "./index";
+import { Badge, Logo, Pill, Radio, RadioGroup } from "./index";
 import "./styles/theme.css";
 
 function App() {
@@ -8,6 +8,36 @@ function App() {
         <h1 className="mb-8 font-bold text-3xl">fanv-ui Demo</h1>
 
         <section className="space-y-8">
+          <div>
+            <h2 className="mb-4 font-semibold text-xl">Logo Variants</h2>
+            <div className="flex flex-wrap items-start gap-8">
+              <div className="space-y-2">
+                <p className="text-body-200 text-sm">Full Colour</p>
+                <Logo type="Full" color="Full colour" />
+              </div>
+              <div className="space-y-2">
+                <p className="text-body-200 text-sm">Icon Only</p>
+                <Logo type="Icon" color="Full colour" />
+              </div>
+              <div className="space-y-2">
+                <p className="text-body-200 text-sm">Wordmark</p>
+                <Logo type="Wordmark" color="Full colour" />
+              </div>
+              <div className="space-y-2">
+                <p className="text-body-200 text-sm">Portrait</p>
+                <Logo type="Portrait" color="Full colour" />
+              </div>
+            </div>
+            <div className="mt-6 rounded-lg bg-neutral-400 p-4">
+              <div className="mb-2 text-body-300 text-sm">Dark Background</div>
+              <div className="flex flex-wrap items-start gap-8">
+                <Logo type="Full" color="White Always" />
+                <Logo type="Icon" color="White Always" />
+                <Logo type="Wordmark" color="White Always" />
+              </div>
+            </div>
+          </div>
+
           <div>
             <h2 className="mb-4 font-semibold text-xl">Badge Types</h2>
             <div className="flex flex-wrap gap-4">

@@ -6,6 +6,8 @@
 
 export type { BadgeProps, BadgeType } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
+export type { LogoColor, LogoProps, LogoType } from "./components/Logo/Logo";
+export { Logo } from "./components/Logo/Logo";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
 export type { RadioProps } from "./components/Radio/Radio";
