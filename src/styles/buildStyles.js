@@ -8,12 +8,14 @@ const getColorTokens = (tokens) => {
   tokens.forEach((token) => {
     if (token.type === "color") {
       const path = structuredClone(token.path);
-      // Build light color tokens
+
+      // Build light color tokens as :root defaults
       if (path.includes("light")) {
         path.splice(1, 1);
         lightColorTokens += `  --${path.join("-")}: ${token.value};\n`;
       }
-      // Build dark color tokens
+
+      // Build dark color tokens as .dark overrides
       if (path.includes("dark")) {
         const path = structuredClone(token.path);
         path.splice(1, 1);
@@ -62,9 +64,16 @@ const tailwindStyleDictionary = new StyleDictionary({
   platforms: {
     css: {
       buildPath: "src/styles/",
-      format: "css/tailwind-variables",
-      files: [{ format: "css/tailwind-variables", destination: "theme.css" }],
+      files: [
+        {
+          format: "css/tailwind-variables",
+          destination: "theme.css",
+        },
+      ],
     },
+  },
+  log: {
+    verbosity: "verbose",
   },
 });
 

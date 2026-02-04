@@ -1,4 +1,4 @@
-import { Badge, Pill } from "./index";
+import { Badge, Pill, Radio, RadioGroup } from "./index";
 import "./styles/theme.css";
 
 function App() {
@@ -32,6 +32,17 @@ function App() {
               <Pill variant="Brand">Brand</Pill>
               <Pill variant="Beta">Beta</Pill>
             </div>
+          </div>
+
+          <div>
+            <h2 className="mb-4 font-semibold text-xl">Radio Group</h2>
+            <RadioGroup defaultValue="option1">
+              <div className="flex flex-col gap-4">
+                <Radio label="Option 1" value="option1" helperText="This is the first option" />
+                <Radio label="Option 2" value="option2" helperText="This is the second option" />
+                <Radio label="Option 3" value="option3" />
+              </div>
+            </RadioGroup>
           </div>
         </section>
       </div>

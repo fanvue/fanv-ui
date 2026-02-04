@@ -10,9 +10,9 @@ const pillVariants = {
     Gold: "bg-warning-50 text-warning-500",
     "Pink Light": "bg-brand-pink-50 text-body-100",
     Base: "bg-neutral-400 text-body-300",
-    Brand: "bg-brand-green-500 text-body-500",
-    "Brand light": "bg-brand-green-50 text-body-500",
-    Beta: "bg-brand-pink-500 text-body-500",
+    Brand: "bg-brand-green-500 text-body-black-solid-constant",
+    "Brand light": "bg-brand-green-50 text-body-black-solid-constant",
+    Beta: "bg-brand-pink-500 text-body-black-solid-constant",
     Error: "bg-error-500 text-error-50",
   },
 } as const;

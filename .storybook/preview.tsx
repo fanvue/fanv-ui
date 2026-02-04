@@ -5,7 +5,7 @@ import tokens from "../src/styles/styleTokens.json";
 
 const BACKGROUNDS = {
   light: tokens.color.light.background[150].value,
-  dark: tokens.color.dark.background[50].value,
+  dark: tokens.color.dark.background[150].value,
 } as const;
 
 const preview: Preview = {
@@ -63,6 +63,11 @@ const preview: Preview = {
         // Update body background
         document.body.style.backgroundColor = backgroundColor;
 
+        // Set color-scheme to affect prefers-color-scheme media queries
+        const root = document.documentElement;
+        root.style.colorScheme = theme;
+        root.setAttribute("data-color-scheme", theme);
+
         // Update all .docs-story elements (autodocs canvas containers)
         const docsStories = document.querySelectorAll(".docs-story");
         docsStories.forEach((element) => {
@@ -71,14 +76,16 @@ const preview: Preview = {
 
         return () => {
           document.body.style.backgroundColor = "";
+          root.style.colorScheme = "";
+          root.removeAttribute("data-color-scheme");
           docsStories.forEach((element) => {
             (element as HTMLElement).style.backgroundColor = "";
           });
         };
-      }, [backgroundColor]);
+      }, [backgroundColor, theme]);
 
       return (
-        <div className={theme}>
+        <div className={theme} style={{ colorScheme: theme }}>
           <Story />
         </div>
       );
