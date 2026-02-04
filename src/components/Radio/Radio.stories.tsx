@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
 import { RadioGroup } from "../RadioGroup/RadioGroup";
 import { Radio } from "./Radio";
 
@@ -27,10 +28,6 @@ const meta = {
     helperText: {
       control: "text",
     },
-    checked: {
-      control: "boolean",
-      description: "Control the checked state",
-    },
   },
   render: (args) => (
     <RadioGroup>
@@ -46,6 +43,49 @@ export const Default: Story = {
   args: {
     label: "Option",
     value: "option",
+  },
+};
+
+export const UncontrolledExample: Story = {
+  name: "Uncontrolled",
+  args: { value: "unused" },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "RadioGroup uses `defaultValue`. Selection is managed internally (e.g. no React state).",
+      },
+    },
+  },
+  render: () => (
+    <RadioGroup defaultValue="b">
+      <Radio label="Option A" value="a" />
+      <Radio label="Option B" value="b" />
+      <Radio label="Option C" value="c" />
+    </RadioGroup>
+  ),
+};
+
+export const ControlledExample: Story = {
+  name: "Controlled",
+  args: { value: "unused" },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "RadioGroup uses `value` and `onValueChange`. Works with React state and form libraries (e.g. react-hook-form).",
+      },
+    },
+  },
+  render: function ControlledExampleRender() {
+    const [value, setValue] = useState("b");
+    return (
+      <RadioGroup value={value} onValueChange={setValue}>
+        <Radio label="Option A" value="a" />
+        <Radio label="Option B" value="b" />
+        <Radio label="Option C" value="c" />
+      </RadioGroup>
+    );
   },
 };
 
