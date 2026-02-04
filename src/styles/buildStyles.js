@@ -54,7 +54,7 @@ StyleDictionary.registerFormat({
     const colorTokens = getColorTokens(dictionary.allTokens);
 
     const typographyClasses = getTypographyClasses(dictionary.tokens.typography);
-    return `@import "tailwindcss";\n${colorTokens}\n${typographyClasses}\n`;
+    return `@import "tailwindcss";\n\n@variant dark (&:where(.dark, .dark *));\n${colorTokens}\n${typographyClasses}\n`;
   },
 });
 
