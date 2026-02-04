@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
   --color-primary-50: #1515150a;
   --color-primary-100: #15151533;

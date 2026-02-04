@@ -68,6 +68,13 @@ const preview: Preview = {
         root.style.colorScheme = theme;
         root.setAttribute("data-color-scheme", theme);
 
+        // Toggle dark class for Tailwind CSS dark mode
+        if (isDark) {
+          root.classList.add("dark");
+        } else {
+          root.classList.remove("dark");
+        }
+
         // Update all .docs-story elements (autodocs canvas containers)
         const docsStories = document.querySelectorAll(".docs-story");
         docsStories.forEach((element) => {
@@ -78,11 +85,12 @@ const preview: Preview = {
           document.body.style.backgroundColor = "";
           root.style.colorScheme = "";
           root.removeAttribute("data-color-scheme");
+          root.classList.remove("dark");
           docsStories.forEach((element) => {
             (element as HTMLElement).style.backgroundColor = "";
           });
         };
-      }, [backgroundColor, theme]);
+      }, [backgroundColor, theme, isDark]);
 
       return (
         <div className={theme} style={{ colorScheme: theme }}>
