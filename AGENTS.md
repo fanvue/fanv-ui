@@ -178,7 +178,7 @@ describe("Badge", () => {
 
 ### 1. Component File (`ComponentName.tsx`)
 
-**Pattern**: Use `forwardRef` → Define variants as objects → Apply with `cn()` in order: base → typography → variants → className override
+**Pattern**: Use `forwardRef` → Define variants as objects → Apply with `cn()` in order: base → typography → variants → className override. Use `pnpm lint:fix` to auto-sort Tailwind classes.
 
 ```typescript
 import * as React from "react";
@@ -344,7 +344,7 @@ After implementation, remind the user to:
 3. **Use Storybook Connect plugin** (`Shift+I` in Figma)
 4. **Link the story** by pasting the Storybook URL
 
-> **Free plugin**: https://www.figma.com/community/plugin/1056265616080331589
+> **Free plugin**: <https://www.figma.com/community/plugin/1056265616080331589>
 > **Detailed setup**: Run `pnpm storybook` → "Documentation > Figma Integration"
 
 ## Conventions
@@ -353,7 +353,7 @@ After implementation, remind the user to:
 
 **Architecture**: Prefer [Radix UI primitives](https://www.radix-ui.com/primitives) when available (Dialog, Dropdown, Tooltip, etc.) - they provide accessibility, keyboard navigation, and focus management out of the box
 
-**Styling**: Tailwind CSS with `cn()` utility, always support `className` prop, follow `src/styles/theme.css` tokens
+**Styling**: Tailwind CSS with `cn()` utility, always support `className` prop, follow `src/styles/theme.css` tokens. Use `pnpm lint:fix` to auto-sort classes.
 
 **Props**: Export TypeScript interfaces, provide defaults, support `children` when appropriate, extend HTML element attributes
 
