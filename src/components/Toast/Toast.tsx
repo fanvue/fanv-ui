@@ -29,7 +29,7 @@ export interface ToastProps
   /** Visual state variant of the toast */
   state?: ToastState;
   /** Toast title */
-  title?: React.ReactNode;
+  title?: string;
   /** Toast description/message */
   description?: React.ReactNode;
   /** Action button element */
@@ -102,7 +102,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
           // Dark mode
           "dark:border-opacity-100",
           // Animation
-          "data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[state=open]:sm:slide-in-from-top-full data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[state=closed]:animate-out data-[state=open]:animate-in data-[swipe=end]:animate-out data-[swipe=move]:transition-none",
+          "data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[state=open]:sm:slide-in-from-top-full data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-(--radix-toast-swipe-end-x) data-[swipe=move]:translate-x-(--radix-toast-swipe-move-x) data-[state=closed]:animate-out data-[state=open]:animate-in data-[swipe=end]:animate-out data-[swipe=move]:transition-none",
           // Variant styles
           toastVariants.state[state],
           // Manual CSS overrides
