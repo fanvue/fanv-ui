@@ -1,13 +1,17 @@
 import * as ToastPrimitive from "@radix-ui/react-toast";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { ErrorIcon } from "../Icons/Error";
+import { InfoIcon } from "../Icons/Info";
+import { SuccessIcon } from "../Icons/Success";
+import { WarningIcon } from "../Icons/Warning";
 
 const toastVariants = {
   state: {
-    Info: "border-info-500 bg-info-50 text-body-100",
-    Warning: "border-warning-500 bg-warning-50 text-body-100",
-    Success: "border-success-500 bg-success-50 text-body-100",
-    Error: "border-error-500 bg-error-50 text-body-100",
+    Info: "border-none text-body-100",
+    Warning: "border-none text-body-100",
+    Success: "border-none text-body-100",
+    Error: "border-none text-body-100",
   },
   iconColor: {
     Info: "text-info-500",
@@ -19,8 +23,9 @@ const toastVariants = {
 
 export type ToastState = keyof typeof toastVariants.state;
 
+// Override "title" prop to allow React.ReactNode instead of string | undefined
 export interface ToastProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof ToastPrimitive.Root>, "type"> {
+  extends Omit<Omit<React.ComponentPropsWithoutRef<typeof ToastPrimitive.Root>, "type">, "title"> {
   /** Visual state variant of the toast */
   state?: ToastState;
   /** Toast title */
@@ -31,22 +36,24 @@ export interface ToastProps
   action?: React.ReactNode;
   /** Show close button */
   showClose?: boolean;
+  /** Avatar element */
+  avatar?: React.ReactNode;
 }
 
 export interface ToastProviderProps extends ToastPrimitive.ToastProviderProps {}
 export interface ToastViewportProps
   extends React.ComponentPropsWithoutRef<typeof ToastPrimitive.Viewport> {}
 
-export const ToastProvider = ToastPrimitive.Provider;
+export const ToastProvider: React.FC<ToastProviderProps> = ToastPrimitive.Provider;
 
 export const ToastViewport = React.forwardRef<
-  React.ComponentRef<typeof ToastPrimitive.Viewport>,
+  React.ElementRef<typeof ToastPrimitive.Viewport>,
   ToastViewportProps
 >(({ className, ...props }, ref) => (
   <ToastPrimitive.Viewport
     ref={ref}
     className={cn(
-      "fixed top-0 right-0 z-[100] flex max-h-screen w-full flex-col-reverse gap-3 p-4 sm:top-auto sm:right-0 sm:bottom-0 sm:flex-col md:max-w-[420px]",
+      "fixed top-0 right-0 z-100 flex max-h-screen w-full flex-col-reverse gap-3 p-4 sm:top-auto sm:right-0 sm:bottom-0 sm:flex-col md:max-w-[420px]",
       className,
     )}
     {...props}
@@ -60,75 +67,29 @@ const StateIcon = ({ state }: { state: ToastState }) => {
 
   switch (state) {
     case "Info":
-      return (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className={iconClass}
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z"
-            clipRule="evenodd"
-          />
-        </svg>
-      );
+      return <InfoIcon className={iconClass} />;
     case "Warning":
-      return (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className={iconClass}
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
-            clipRule="evenodd"
-          />
-        </svg>
-      );
+      return <WarningIcon className={iconClass} />;
     case "Success":
-      return (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className={iconClass}
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-            clipRule="evenodd"
-          />
-        </svg>
-      );
+      return <SuccessIcon className={iconClass} />;
     case "Error":
-      return (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className={iconClass}
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z"
-            clipRule="evenodd"
-          />
-        </svg>
-      );
+      return <ErrorIcon className={iconClass} />;
   }
 };
 
 export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.Root>, ToastProps>(
   (
-    { className, state = "Info", title, description, action, showClose = true, children, ...props },
+    {
+      className,
+      state = "Info",
+      title,
+      description,
+      action,
+      showClose = true,
+      avatar,
+      children,
+      ...props
+    },
     ref,
   ) => {
     return (
