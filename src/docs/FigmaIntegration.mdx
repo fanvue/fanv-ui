@@ -61,11 +61,37 @@ After implementing and deploying your component:
 
 ## Design Tokens
 
-Tokens live in `src/styles/styleTokens.json`, this file is generated via Style Dictionary.
+Design tokens from Figma are automatically transformed into CSS variables for use in components.
 
-**Workflow:**
-1. Run `pnpm build:dictionary`
-2. Add new tokens to `src/styles/theme.css`
+### File Structure
+
+- `src/styles/styleTokens.json` - Exported from Figma (source of truth)
+- `src/styles/theme.css` - Auto-generated CSS variables (do not edit manually)
+- `src/styles/buildStyles.js` - Transformation script using Style Dictionary
+
+### Updating Tokens from Figma
+
+**Prerequisites:**
+- Edit permissions to the [Figma Library](https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library)
+- Install [Design Tokens Plugin](https://www.figma.com/community/plugin/888356646278934516/design-tokens)
+
+**Step 1: Export from Figma**
+
+1. Open Figma Library
+2. Run plugin: `Plugins > Design Tokens`
+3. Export as JSON
+4. Save to `src/styles/styleTokens.json`
+
+**Step 2: Generate CSS**
+
+```bash
+pnpm build:dictionary
+```
+
+This auto-generates `src/styles/theme.css` (do not edit manually):
+- `:root` - Light mode
+- `.dark` - Dark mode
+- `@theme` - Tailwind mappings
 
 ## Resources
 

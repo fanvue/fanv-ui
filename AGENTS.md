@@ -178,26 +178,18 @@ describe("Badge", () => {
 
 ### 1. Component File (`ComponentName.tsx`)
 
-**Pattern**: Use `forwardRef` → Define variants as objects → Apply with `cn()` in order: base → typography → variants → className override
+**Pattern**: Use `forwardRef` → Define type unions → Apply classes with `cn()` using inline conditionals in order: base → variants → className override. Use `pnpm lint:fix` to auto-sort Tailwind classes.
 
 ```typescript
 import * as React from "react";
 import { cn } from "@/utils/cn";
 
-const componentVariants = {
-  variant: {
-    default: "bg-neutral-100 text-neutral-400",
-    primary: "bg-brand-purple-500 text-body-600",
-  },
-  size: {
-    sm: "text-xs px-2 py-1",
-    md: "text-sm px-3 py-1.5",
-  },
-} as const;
+export type ComponentVariant = "default" | "primary";
+export type ComponentSize = "sm" | "md";
 
 export interface ComponentNameProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: keyof typeof componentVariants.variant;
-  size?: keyof typeof componentVariants.size;
+  variant?: ComponentVariant;
+  size?: ComponentSize;
 }
 
 export const ComponentName = React.forwardRef<HTMLDivElement, ComponentNameProps>(
@@ -206,14 +198,11 @@ export const ComponentName = React.forwardRef<HTMLDivElement, ComponentNameProps
       <div
         ref={ref}
         className={cn(
-          // Base styles
-          "inline-flex items-center gap-2 rounded",
-          // Typography
-          "font-semibold leading-none",
-          // Variant styles
-          componentVariants.variant[variant],
-          componentVariants.size[size],
-          // Manual CSS overrides
+          "inline-flex items-center gap-2 rounded font-semibold leading-none",
+          variant === "default" && "bg-neutral-100 text-neutral-400",
+          variant === "primary" && "bg-brand-purple-500 text-body-600",
+          size === "sm" && "text-xs px-2 py-1",
+          size === "md" && "text-sm px-3 py-1.5",
           className,
         )}
         {...props}
@@ -344,7 +333,7 @@ After implementation, remind the user to:
 3. **Use Storybook Connect plugin** (`Shift+I` in Figma)
 4. **Link the story** by pasting the Storybook URL
 
-> **Free plugin**: https://www.figma.com/community/plugin/1056265616080331589
+> **Free plugin**: <https://www.figma.com/community/plugin/1056265616080331589>
 > **Detailed setup**: Run `pnpm storybook` → "Documentation > Figma Integration"
 
 ## Conventions
@@ -353,7 +342,7 @@ After implementation, remind the user to:
 
 **Architecture**: Prefer [Radix UI primitives](https://www.radix-ui.com/primitives) when available (Dialog, Dropdown, Tooltip, etc.) - they provide accessibility, keyboard navigation, and focus management out of the box
 
-**Styling**: Tailwind CSS with `cn()` utility, always support `className` prop, follow `src/styles/theme.css` tokens
+**Styling**: Tailwind CSS with `cn()` utility, always support `className` prop, follow `src/styles/theme.css` tokens. Use `pnpm lint:fix` to auto-sort classes.
 
 **Props**: Export TypeScript interfaces, provide defaults, support `children` when appropriate, extend HTML element attributes
 
@@ -413,7 +402,7 @@ Use this checklist when adding a new component:
 
 ## Common Patterns
 
-**Variant Props**: Use `as const` + `keyof typeof` (see Component example above)
+**Variant Props**: Use type unions with inline conditionals in `cn()` (see Component example above)
 
 **Polymorphic Components**: Use `@radix-ui/react-slot` for `asChild` pattern (see `Button.tsx`):
 
