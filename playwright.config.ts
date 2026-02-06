@@ -24,6 +24,8 @@ export default defineConfig({
     command: "pnpm storybook",
     url: "http://localhost:6006",
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
+    timeout: 180 * 1000,
+    stdout: "pipe",
+    stderr: "pipe",
   },
 });
