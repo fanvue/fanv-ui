@@ -102,9 +102,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             // Default state
             "border-body-100 bg-transparent text-transparent",
             // Checked state
-            "data-[state=checked]:border-body-100 data-[state=checked]:bg-body-100 data-[state=checked]:text-body-white-solid-constant",
+            "data-[state=checked]:border-body-100 data-[state=checked]:bg-body-100 data-[state=checked]:text-body-300",
             // Indeterminate state
-            "data-[state=indeterminate]:border-body-100 data-[state=indeterminate]:bg-body-100 data-[state=indeterminate]:text-body-white-solid-constant",
+            "data-[state=indeterminate]:border-body-100 data-[state=indeterminate]:bg-body-100 data-[state=indeterminate]:text-body-300",
             // Hover state
             "hover:ring-2 hover:ring-brand-green-500 group-hover:ring-2 group-hover:ring-brand-green-500",
             // Focus state
@@ -118,7 +118,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <CheckboxPrimitive.Indicator
             forceMount
             className={cn(
-              "flex size-3 items-center justify-center text-body-white-solid-constant",
+              "flex size-3 items-center justify-center text-body-300",
               "data-[state=unchecked]:invisible",
             )}
           >
