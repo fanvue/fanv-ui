@@ -48,4 +48,9 @@ export type { RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";
+export type {
+  SnackbarProps,
+  SnackbarVariant,
+} from "./components/Snackbar/Snackbar";
+export { Snackbar } from "./components/Snackbar/Snackbar";
 export { cn } from "./utils/cn";
