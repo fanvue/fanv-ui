@@ -22,6 +22,24 @@ export type { CheckboxProps, CheckboxSize } from "./components/Checkbox/Checkbox
 export { Checkbox } from "./components/Checkbox/Checkbox";
 export type { CountProps, CountSize, CountVariant } from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
+export type { IconProps } from "./components/Icons";
+export {
+  ArrowRightIcon,
+  ArrowUpRightIcon,
+  CheckCircleIcon,
+  CheckIcon,
+  CrossIcon,
+  CrownIcon,
+  ErrorCircleIcon,
+  FireIcon,
+  HomeIcon,
+  InfoCircleIcon,
+  MinusIcon,
+  PlusIcon,
+  SpinnerIcon,
+  VipBadgeIcon,
+  WarningTriangleIcon,
+} from "./components/Icons";
 export type { LogoColor, LogoProps, LogoType } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
