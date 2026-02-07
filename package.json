@@ -28,6 +28,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && mkdir -p dist/styles && cp src/styles/theme.css dist/styles/theme.css",
+    "build:showcase": "vite build --config vite.showcase.config.ts",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
