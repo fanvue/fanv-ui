@@ -60,19 +60,26 @@ function App() {
           <div className="flex flex-wrap items-start gap-8">
             <Logo type="Full" color="Full colour" />
             <Logo type="Icon" color="Full colour" />
-            <Logo type="Wordmark" color="Full colour" />
             <Logo type="Portrait" color="Full colour" />
+            <Logo type="Wordmark" color="Full colour" />
             <Logo type="Full" color="Decolour" />
+            <Logo type="Icon" color="Decolour" />
+            <Logo type="Portrait" color="Decolour" />
+            <Logo type="Wordmark" color="Decolour" />
           </div>
           <div className="rounded-lg bg-background-white-solid-constant p-4">
             <div className="flex flex-wrap items-start gap-8">
               <Logo type="Full" color="Black Always" />
+              <Logo type="Icon" color="Black Always" />
+              <Logo type="Portrait" color="Black Always" />
+              <Logo type="Wordmark" color="Black Always" />
             </div>
           </div>
           <div className="rounded-lg bg-body-black-solid-constant p-4">
             <div className="flex flex-wrap items-start gap-8">
               <Logo type="Full" color="White Always" />
               <Logo type="Icon" color="White Always" />
+              <Logo type="Portrait" color="White Always" />
               <Logo type="Wordmark" color="White Always" />
             </div>
           </div>
