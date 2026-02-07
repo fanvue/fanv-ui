@@ -5,7 +5,7 @@ import { cn } from "../../utils/cn";
 const badgeVariants = {
   type: {
     Default: "bg-neutral-100 text-neutral-400",
-    Dark: "bg-background-800 text-body-300",
+    Dark: "bg-background-800 text-body-300 dark:text-body-white-solid-constant",
     Success: "bg-neutral-100 text-neutral-400",
     Warning: "bg-neutral-100 text-neutral-400",
     Error: "bg-neutral-100 text-neutral-400",
@@ -19,7 +19,7 @@ const badgeVariants = {
   },
   dotColor: {
     Default: "bg-body-black-solid-constant",
-    Dark: "bg-body-300",
+    Dark: "bg-body-300 dark:bg-body-white-solid-constant",
     Success: "bg-success-500",
     Warning: "bg-warning-500",
     Error: "bg-error-500",
