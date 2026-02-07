@@ -31,10 +31,10 @@ import "./styles/theme.css";
 
 function App() {
   const [dark, setDark] = useState(false);
-  const InfoIcon = <InfoCircleIcon size={5} />;
-  const SuccessIcon = <CheckCircleIcon size={5} />;
-  const WarningIcon = <WarningTriangleIcon size={5} />;
-  const ErrorIcon = <ErrorCircleIcon size={5} />;
+  const InfoIcon = <InfoCircleIcon />;
+  const SuccessIcon = <CheckCircleIcon />;
+  const WarningIcon = <WarningTriangleIcon />;
+  const ErrorIcon = <ErrorCircleIcon />;
 
   return (
     <div
@@ -102,7 +102,7 @@ function App() {
                 ] as const
               ).map(([name, Icon]) => (
                 <div key={name} className="flex flex-col items-center gap-2">
-                  <Icon size={6} />
+                  <Icon className="size-6" />
                   <span className="text-[10px] text-body-200 leading-tight">
                     {name.replace("Icon", "")}
                   </span>
@@ -110,7 +110,7 @@ function App() {
               ))}
               {/* VipBadge is fixed-size so render separately */}
               <div className="flex flex-col items-center gap-2">
-                <VipBadgeIcon size={6} />
+                <VipBadgeIcon className="size-6" />
                 <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
               </div>
             </div>
@@ -136,12 +136,12 @@ function App() {
                 ] as const
               ).map(([name, Icon]) => (
                 <div key={name} className="flex flex-col items-center gap-2">
-                  <Icon size={6} />
+                  <Icon className="size-6" />
                   <span className="text-[10px] leading-tight opacity-50">{name}</span>
                 </div>
               ))}
               <div className="flex flex-col items-center gap-2">
-                <VipBadgeIcon size={6} />
+                <VipBadgeIcon className="size-6" />
                 <span className="text-[10px] leading-tight opacity-50">VipBadge</span>
               </div>
             </div>
@@ -167,12 +167,12 @@ function App() {
                 ] as const
               ).map(([name, Icon]) => (
                 <div key={name} className="flex flex-col items-center gap-2">
-                  <Icon size={6} />
+                  <Icon className="size-6" />
                   <span className="text-[10px] leading-tight opacity-50">{name}</span>
                 </div>
               ))}
               <div className="flex flex-col items-center gap-2">
-                <VipBadgeIcon size={6} />
+                <VipBadgeIcon className="size-6" />
                 <span className="text-[10px] leading-tight opacity-50">VipBadge</span>
               </div>
             </div>
@@ -180,23 +180,23 @@ function App() {
             {/* Sizes */}
             <div className="flex flex-wrap items-end gap-8">
               <div className="flex flex-col items-center gap-1">
-                <HomeIcon size={4} />
+                <HomeIcon className="size-4" />
                 <span className="text-[10px] text-body-200">16px</span>
               </div>
               <div className="flex flex-col items-center gap-1">
-                <HomeIcon size={5} />
+                <HomeIcon />
                 <span className="text-[10px] text-body-200">20px</span>
               </div>
               <div className="flex flex-col items-center gap-1">
-                <HomeIcon size={6} />
+                <HomeIcon className="size-6" />
                 <span className="text-[10px] text-body-200">24px</span>
               </div>
               <div className="flex flex-col items-center gap-1">
-                <HomeIcon size={8} />
+                <HomeIcon className="size-8" />
                 <span className="text-[10px] text-body-200">32px</span>
               </div>
               <div className="flex flex-col items-center gap-1">
-                <HomeIcon size={10} />
+                <HomeIcon className="size-10" />
                 <span className="text-[10px] text-body-200">40px</span>
               </div>
             </div>
@@ -252,7 +252,7 @@ function App() {
               fallback="JD"
             />
             <Avatar size={40} fallback="AB" />
-            <Avatar size={40} fallback={<CheckCircleIcon size={6} />} />
+            <Avatar size={40} fallback={<CheckCircleIcon className="size-6" />} />
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
@@ -506,7 +506,7 @@ function App() {
             <div className="rounded-lg bg-body-black-solid-constant p-3">
               <Button
                 variant="white"
-                rightIcon={<CrownIcon size={5} />}
+                rightIcon={<CrownIcon />}
                 discount="$X.XX"
                 price="$X.XX/ month"
               >
@@ -543,10 +543,14 @@ function App() {
             <Badge type="Default" leftDot={false}>
               No dot
             </Badge>
-            <Badge type="Info" leftDot={false} leftIcon={<InfoCircleIcon size={3} />}>
+            <Badge type="Info" leftDot={false} leftIcon={<InfoCircleIcon className="size-3" />}>
               Left icon
             </Badge>
-            <Badge type="Success" leftDot={false} rightIcon={<ArrowUpRightIcon size={3} />}>
+            <Badge
+              type="Success"
+              leftDot={false}
+              rightIcon={<ArrowUpRightIcon className="size-3" />}
+            >
               Right icon
             </Badge>
           </div>
@@ -565,10 +569,10 @@ function App() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Pill variant="Brand" leftIcon={<CheckCircleIcon size={3} />}>
+            <Pill variant="Brand" leftIcon={<CheckCircleIcon className="size-3" />}>
               Left icon
             </Pill>
-            <Pill variant="Blue" rightIcon={<ArrowUpRightIcon size={3} />}>
+            <Pill variant="Blue" rightIcon={<ArrowUpRightIcon className="size-3" />}>
               Right icon
             </Pill>
           </div>
@@ -622,14 +626,14 @@ function App() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Count value={9} size={16} />
-            <Count value={42} size={20} />
-            <Count value={99} size={24} />
+            <Count value={9} />
+            <Count value={42} />
+            <Count value={99} />
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Count value={150} max={99} size={20} />
-            <Count value={1000} max={999} size={24} />
+            <Count value={150} max={99} />
+            <Count value={1000} max={999} />
           </div>
 
           {/* Snackbar */}

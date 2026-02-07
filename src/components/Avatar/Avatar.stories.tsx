@@ -138,21 +138,21 @@ export const WithInitialsLarge: Story = {
 // With icon
 export const WithIcon: Story = {
   args: {
-    fallback: <CheckCircleIcon size={5} />,
+    fallback: <CheckCircleIcon />,
   },
 };
 
 export const WithIconSmall: Story = {
   args: {
     size: 24,
-    fallback: <CheckCircleIcon size={3} />,
+    fallback: <CheckCircleIcon className="size-3" />,
   },
 };
 
 export const WithIconLarge: Story = {
   args: {
     size: 88,
-    fallback: <CheckCircleIcon size={10} />,
+    fallback: <CheckCircleIcon className="size-10" />,
   },
 };
 
@@ -195,7 +195,7 @@ export const WithOnlineStatusInitials: Story = {
 
 export const WithOnlineStatusIcon: Story = {
   args: {
-    fallback: <CheckCircleIcon size={5} />,
+    fallback: <CheckCircleIcon />,
     onlineIndicator: true,
   },
 };

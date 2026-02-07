@@ -20,7 +20,7 @@ export type { ButtonProps, ButtonSize, ButtonVariant } from "./components/Button
 export { Button } from "./components/Button/Button";
 export type { CheckboxProps, CheckboxSize } from "./components/Checkbox/Checkbox";
 export { Checkbox } from "./components/Checkbox/Checkbox";
-export type { CountProps, CountSize, CountVariant } from "./components/Count/Count";
+export type { CountProps, CountVariant } from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
 export type { IconProps } from "./components/Icons";
 export {

@@ -18,10 +18,6 @@ const meta = {
       control: "select",
       options: ["Default", "Brand", "Pink", "Info", "Success", "Warning"],
     },
-    size: {
-      control: "select",
-      options: [16, 20, 24],
-    },
     value: {
       control: { type: "number", min: 0, max: 999 },
     },
@@ -72,27 +68,6 @@ export const Warning: Story = {
   args: {
     variant: "Warning",
     value: 99,
-  },
-};
-
-export const Size16: Story = {
-  args: {
-    size: 16,
-    value: 9,
-  },
-};
-
-export const Size20: Story = {
-  args: {
-    size: 20,
-    value: 42,
-  },
-};
-
-export const Size24: Story = {
-  args: {
-    size: 24,
-    value: 128,
   },
 };
 

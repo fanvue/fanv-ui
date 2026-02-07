@@ -7,10 +7,10 @@ import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
 import { WarningTriangleIcon } from "../Icons/WarningTriangleIcon";
 import { Alert } from "./Alert";
 
-const InfoIcon = <InfoCircleIcon size={5} />;
-const SuccessIcon = <CheckCircleIcon size={5} />;
-const WarningIcon = <WarningTriangleIcon size={5} />;
-const ErrorIcon = <ErrorCircleIcon size={5} />;
+const InfoIcon = <InfoCircleIcon />;
+const SuccessIcon = <CheckCircleIcon />;
+const WarningIcon = <WarningTriangleIcon />;
+const ErrorIcon = <ErrorCircleIcon />;
 
 // Icon mapping for Storybook controls
 const iconMap = {

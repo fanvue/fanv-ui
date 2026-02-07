@@ -1,9 +1,10 @@
 import * as React from "react";
+import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
 /** VIP badge icon with metallic gradient background and crown symbol */
 export const VipBadgeIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ size = 10, className, ...props }, ref) => {
+  ({ className, ...props }, ref) => {
     const id = React.useId();
     const bgId = `${id}-bg`;
     const borderId = `${id}-border`;
@@ -11,12 +12,10 @@ export const VipBadgeIcon = React.forwardRef<SVGSVGElement, IconProps>(
     return (
       <svg
         ref={ref}
-        width={size * 4}
-        height={size * 4}
         viewBox="0 0 40 40"
         fill="none"
         aria-hidden="true"
-        className={className}
+        className={cn("size-10", className)}
         {...props}
       >
         <rect x=".5" y=".5" width="39" height="39" rx="19.5" fill={`url(#${bgId})`} />

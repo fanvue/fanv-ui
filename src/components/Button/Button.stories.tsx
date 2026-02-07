@@ -210,7 +210,7 @@ export const WithLeftIcon: Story = {
   args: {
     variant: "primary",
     size: "48",
-    leftIcon: <PlusIcon size={5} />,
+    leftIcon: <PlusIcon />,
     children: "Add Item",
   },
 };
@@ -219,7 +219,7 @@ export const WithRightIcon: Story = {
   args: {
     variant: "primary",
     size: "48",
-    rightIcon: <ArrowRightIcon size={5} />,
+    rightIcon: <ArrowRightIcon />,
     children: "Continue",
   },
 };
@@ -228,8 +228,8 @@ export const WithBothIcons: Story = {
   args: {
     variant: "secondary",
     size: "48",
-    leftIcon: <PlusIcon size={5} />,
-    rightIcon: <ArrowRightIcon size={5} />,
+    leftIcon: <PlusIcon />,
+    rightIcon: <ArrowRightIcon />,
     children: "Action",
   },
 };
@@ -238,7 +238,7 @@ export const IconOnly: Story = {
   args: {
     variant: "primary",
     size: "48",
-    leftIcon: <PlusIcon size={5} />,
+    leftIcon: <PlusIcon />,
     children: "",
     className: "px-3",
   },
@@ -273,7 +273,7 @@ export const JoinNowWithPrice: Story = {
     variant: "white",
     size: "48",
     children: "Join now",
-    rightIcon: <CrownIcon size={5} />,
+    rightIcon: <CrownIcon />,
     price: "$X.XX/ month",
   },
   parameters: {

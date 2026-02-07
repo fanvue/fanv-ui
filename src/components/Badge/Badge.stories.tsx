@@ -132,7 +132,7 @@ export const WithoutDot: Story = {
 
 export const LeftIcon: Story = {
   args: {
-    leftIcon: <CheckCircleIcon size={3} />,
+    leftIcon: <CheckCircleIcon className="size-3" />,
     leftDot: false,
     children: "Verified",
   },
@@ -140,7 +140,7 @@ export const LeftIcon: Story = {
 
 export const RightIcon: Story = {
   args: {
-    rightIcon: <ArrowUpRightIcon size={3} />,
+    rightIcon: <ArrowUpRightIcon className="size-3" />,
     leftDot: false,
     children: "Link",
   },

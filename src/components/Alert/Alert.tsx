@@ -59,10 +59,10 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             variant="tertiary"
             size="24"
             onClick={onClose}
-            className="h-auto shrink-0 self-start"
+            className="self-start"
             aria-label="Close alert"
           >
-            <CrossIcon size={5} />
+            <CrossIcon />
           </Button>
         )}
       </div>

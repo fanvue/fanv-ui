@@ -110,7 +110,7 @@ export const Error: Story = {
 export const LeftIcon: Story = {
   args: {
     variant: "Base",
-    leftIcon: <FireIcon size={4} />,
+    leftIcon: <FireIcon className="size-4" />,
     children: "Example",
   },
 };
@@ -118,7 +118,7 @@ export const LeftIcon: Story = {
 export const RightIcon: Story = {
   args: {
     variant: "Brand",
-    rightIcon: <ArrowUpRightIcon size={4} />,
+    rightIcon: <ArrowUpRightIcon className="size-4" />,
     children: "20% discount",
   },
 };

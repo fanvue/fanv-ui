@@ -45,11 +45,11 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
   "24": "h-6 px-0 py-[3px] text-sm leading-[18px]",
 };
 
-const ICON_SIZE: Record<ButtonSize, number> = {
-  "48": 20,
-  "40": 20,
-  "32": 16,
-  "24": 14,
+const ICON_SIZE_CLASS: Record<ButtonSize, string> = {
+  "48": "size-5",
+  "40": "size-5",
+  "32": "size-4",
+  "24": "size-3.5",
 };
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
@@ -84,11 +84,9 @@ function getTextContent(node: React.ReactNode): string | undefined {
 }
 
 const LoadingSpinner = ({ size }: { size: ButtonSize }) => {
-  const spinnerSize = ICON_SIZE[size];
-
   return (
     <span className="animate-spin" aria-hidden="true">
-      <SpinnerIcon size={spinnerSize / 4}>
+      <SpinnerIcon className={ICON_SIZE_CLASS[size]}>
         <title>Loading</title>
       </SpinnerIcon>
     </span>
@@ -102,7 +100,7 @@ function renderContent({
   size,
   leftIcon,
   rightIcon,
-  iconSize,
+  iconSizeClass,
   discount,
   price,
 }: {
@@ -112,7 +110,7 @@ function renderContent({
   size: ButtonSize;
   leftIcon: React.ReactNode;
   rightIcon: React.ReactNode;
-  iconSize: number;
+  iconSizeClass: string;
   discount?: string;
   price?: string;
 }) {
@@ -140,8 +138,7 @@ function renderContent({
     <>
       {leftIcon && (
         <span
-          className="flex shrink-0 items-center justify-center"
-          style={{ width: iconSize, height: iconSize }}
+          className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
           aria-hidden="true"
         >
           {leftIcon}
@@ -150,8 +147,7 @@ function renderContent({
       {children}
       {rightIcon && (
         <span
-          className="flex shrink-0 items-center justify-center"
-          style={{ width: iconSize, height: iconSize }}
+          className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
           aria-hidden="true"
         >
           {rightIcon}
@@ -192,7 +188,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : "button";
     const isDisabled = disabled || loading;
-    const iconSize = ICON_SIZE[size];
+    const iconSizeClass = ICON_SIZE_CLASS[size];
     const switchActiveClass = variant === "switch" && active ? "bg-neutral-400 text-body-300" : "";
 
     const buttonSpecificProps = !asChild
@@ -214,7 +210,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size,
       leftIcon,
       rightIcon,
-      iconSize,
+      iconSizeClass,
       discount,
       price,
     });

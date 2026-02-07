@@ -52,18 +52,16 @@ describe("Icons", () => {
         expect(svg).toHaveAttribute("aria-hidden", "true");
       });
 
-      it("uses default size", () => {
+      it("has a default size class", () => {
         const { container } = render(<Component />);
         const svg = container.querySelector("svg");
-        expect(svg).toHaveAttribute("width");
-        expect(svg).toHaveAttribute("height");
+        expect(svg?.getAttribute("class")).toMatch(/size-\d/);
       });
 
-      it("applies custom size", () => {
-        const { container } = render(<Component size={10} />);
+      it("allows size override via className", () => {
+        const { container } = render(<Component className="size-10" />);
         const svg = container.querySelector("svg");
-        expect(svg).toHaveAttribute("width", "40");
-        expect(svg).toHaveAttribute("height", "40");
+        expect(svg).toHaveClass("size-10");
       });
 
       it("applies custom className", () => {

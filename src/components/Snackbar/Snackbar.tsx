@@ -43,7 +43,7 @@ function CloseButton({ onClose, className }: { onClose?: () => void; className?:
       className={cn("h-auto shrink-0", className)}
       aria-label="Close snackbar"
     >
-      <CrossIcon size={5} />
+      <CrossIcon />
     </Button>
   );
 }
