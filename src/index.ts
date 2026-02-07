@@ -16,7 +16,7 @@ export type {
 export { Avatar, AvatarFallback, AvatarImage, AvatarRoot } from "./components/Avatar/Avatar";
 export type { BadgeProps, BadgeType } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
-export type { ButtonProps, ButtonSize, ButtonStyle } from "./components/Button/Button";
+export type { ButtonProps, ButtonSize, ButtonVariant } from "./components/Button/Button";
 export { Button } from "./components/Button/Button";
 export type { CheckboxProps, CheckboxSize } from "./components/Checkbox/Checkbox";
 export { Checkbox } from "./components/Checkbox/Checkbox";
@@ -48,4 +48,9 @@ export type { RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";
+export type {
+  SnackbarProps,
+  SnackbarVariant,
+} from "./components/Snackbar/Snackbar";
+export { Snackbar } from "./components/Snackbar/Snackbar";
 export { cn } from "./utils/cn";
