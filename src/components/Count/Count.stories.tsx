@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { Button } from "../Button/Button";
 import { Count } from "./Count";
 
 const meta = {
@@ -16,10 +17,6 @@ const meta = {
     variant: {
       control: "select",
       options: ["Default", "Brand", "Pink", "Info", "Success", "Warning"],
-    },
-    size: {
-      control: "select",
-      options: ["Small", "Medium", "Large"],
     },
     value: {
       control: { type: "number", min: 0, max: 999 },
@@ -74,27 +71,6 @@ export const Warning: Story = {
   },
 };
 
-export const SmallSize: Story = {
-  args: {
-    size: "Small",
-    value: 9,
-  },
-};
-
-export const MediumSize: Story = {
-  args: {
-    size: "Medium",
-    value: 42,
-  },
-};
-
-export const LargeSize: Story = {
-  args: {
-    size: "Large",
-    value: 128,
-  },
-};
-
 export const MaxValue: Story = {
   args: {
     value: 150,
@@ -116,13 +92,10 @@ export const CustomContent: Story = {
 
 export const OnButton: Story = {
   render: () => (
-    <button
-      type="button"
-      className="relative inline-flex items-center gap-2 rounded-lg bg-neutral-100 px-4 py-2"
-    >
+    <Button variant="tertiary" size="40" className="relative">
       Messages
       <Count value={24} className="absolute -top-2 -right-2" />
-    </button>
+    </Button>
   ),
 };
 

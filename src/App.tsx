@@ -1,83 +1,40 @@
 import { useState } from "react";
 import {
   Alert,
+  ArrowRightIcon,
+  ArrowUpRightIcon,
   Avatar,
   Badge,
   Button,
   Checkbox,
+  CheckCircleIcon,
+  CheckIcon,
   Count,
+  CrossIcon,
+  CrownIcon,
+  ErrorCircleIcon,
+  FireIcon,
+  HomeIcon,
+  InfoCircleIcon,
   Logo,
+  MinusIcon,
   Pill,
+  PlusIcon,
   Radio,
   RadioGroup,
+  Snackbar,
+  SpinnerIcon,
+  VipBadgeIcon,
+  WarningTriangleIcon,
 } from "./index";
 import "./styles/theme.css";
 
 function App() {
   const [dark, setDark] = useState(false);
-  const InfoIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      className="size-5"
-      aria-hidden="true"
-    >
-      <path
-        fillRule="evenodd"
-        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-
-  const SuccessIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      className="size-5"
-      aria-hidden="true"
-    >
-      <path
-        fillRule="evenodd"
-        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-
-  const WarningIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      className="size-5"
-      aria-hidden="true"
-    >
-      <path
-        fillRule="evenodd"
-        d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-
-  const ErrorIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      className="size-5"
-      aria-hidden="true"
-    >
-      <path
-        fillRule="evenodd"
-        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
+  const InfoIcon = <InfoCircleIcon />;
+  const SuccessIcon = <CheckCircleIcon />;
+  const WarningIcon = <WarningTriangleIcon />;
+  const ErrorIcon = <ErrorCircleIcon />;
 
   return (
     <div
@@ -117,6 +74,131 @@ function App() {
               <Logo type="Full" color="White Always" />
               <Logo type="Icon" color="White Always" />
               <Logo type="Wordmark" color="White Always" />
+            </div>
+          </div>
+
+          {/* Icons */}
+          <div className="space-y-6">
+            <h2 className="font-bold text-lg">Icons</h2>
+
+            {/* Default — inherits currentColor from the page theme */}
+            <div className="flex flex-wrap items-end gap-6">
+              {(
+                [
+                  ["ArrowRightIcon", ArrowRightIcon],
+                  ["ArrowUpRightIcon", ArrowUpRightIcon],
+                  ["CheckCircleIcon", CheckCircleIcon],
+                  ["CheckIcon", CheckIcon],
+                  ["CrossIcon", CrossIcon],
+                  ["CrownIcon", CrownIcon],
+                  ["ErrorCircleIcon", ErrorCircleIcon],
+                  ["FireIcon", FireIcon],
+                  ["HomeIcon", HomeIcon],
+                  ["InfoCircleIcon", InfoCircleIcon],
+                  ["MinusIcon", MinusIcon],
+                  ["PlusIcon", PlusIcon],
+                  ["SpinnerIcon", SpinnerIcon],
+                  ["WarningTriangleIcon", WarningTriangleIcon],
+                ] as const
+              ).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <Icon className="size-6" />
+                  <span className="text-[10px] text-body-200 leading-tight">
+                    {name.replace("Icon", "")}
+                  </span>
+                </div>
+              ))}
+              {/* VipBadge is fixed-size so render separately */}
+              <div className="flex flex-col items-center gap-2">
+                <VipBadgeIcon className="size-6" />
+                <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
+              </div>
+            </div>
+
+            {/* On light background (always visible in dark mode) */}
+            <div className="flex flex-wrap items-end gap-6 rounded-lg bg-background-white-solid-constant p-4 text-body-black-solid-constant">
+              {(
+                [
+                  ["ArrowRight", ArrowRightIcon],
+                  ["ArrowUpRight", ArrowUpRightIcon],
+                  ["CheckCircle", CheckCircleIcon],
+                  ["Check", CheckIcon],
+                  ["Cross", CrossIcon],
+                  ["Crown", CrownIcon],
+                  ["ErrorCircle", ErrorCircleIcon],
+                  ["Fire", FireIcon],
+                  ["Home", HomeIcon],
+                  ["InfoCircle", InfoCircleIcon],
+                  ["Minus", MinusIcon],
+                  ["Plus", PlusIcon],
+                  ["Spinner", SpinnerIcon],
+                  ["Warning", WarningTriangleIcon],
+                ] as const
+              ).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <Icon className="size-6" />
+                  <span className="text-[10px] leading-tight opacity-50">{name}</span>
+                </div>
+              ))}
+              <div className="flex flex-col items-center gap-2">
+                <VipBadgeIcon className="size-6" />
+                <span className="text-[10px] leading-tight opacity-50">VipBadge</span>
+              </div>
+            </div>
+
+            {/* On dark background (always visible in light mode) */}
+            <div className="flex flex-wrap items-end gap-6 rounded-lg bg-body-black-solid-constant p-4 text-body-white-solid-constant">
+              {(
+                [
+                  ["ArrowRight", ArrowRightIcon],
+                  ["ArrowUpRight", ArrowUpRightIcon],
+                  ["CheckCircle", CheckCircleIcon],
+                  ["Check", CheckIcon],
+                  ["Cross", CrossIcon],
+                  ["Crown", CrownIcon],
+                  ["ErrorCircle", ErrorCircleIcon],
+                  ["Fire", FireIcon],
+                  ["Home", HomeIcon],
+                  ["InfoCircle", InfoCircleIcon],
+                  ["Minus", MinusIcon],
+                  ["Plus", PlusIcon],
+                  ["Spinner", SpinnerIcon],
+                  ["Warning", WarningTriangleIcon],
+                ] as const
+              ).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <Icon className="size-6" />
+                  <span className="text-[10px] leading-tight opacity-50">{name}</span>
+                </div>
+              ))}
+              <div className="flex flex-col items-center gap-2">
+                <VipBadgeIcon className="size-6" />
+                <span className="text-[10px] leading-tight opacity-50">VipBadge</span>
+              </div>
+            </div>
+
+            {/* Sizes */}
+            <div className="flex flex-wrap items-end gap-8">
+              <div className="flex flex-col items-center gap-1">
+                <HomeIcon className="size-4" />
+                <span className="text-[10px] text-body-200">16px</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <HomeIcon />
+                <span className="text-[10px] text-body-200">20px</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <HomeIcon className="size-6" />
+                <span className="text-[10px] text-body-200">24px</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <HomeIcon className="size-8" />
+                <span className="text-[10px] text-body-200">32px</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <HomeIcon className="size-10" />
+                <span className="text-[10px] text-body-200">40px</span>
+              </div>
             </div>
           </div>
 
@@ -170,25 +252,7 @@ function App() {
               fallback="JD"
             />
             <Avatar size={40} fallback="AB" />
-            <Avatar
-              size={40}
-              fallback={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="size-6"
-                  aria-hidden="true"
-                >
-                  <title>Checkmark icon</title>
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              }
-            />
+            <Avatar size={40} fallback={<CheckCircleIcon className="size-6" />} />
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
@@ -282,25 +346,25 @@ function App() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Button Style="Primary">Label</Button>
-            <Button Style="Secondary">Label</Button>
-            <Button Style="Tertiary">Label</Button>
-            <Button Style="Brand">Label</Button>
-            <Button Style="Link">Label</Button>
-            <Button Style="Destructive">Label</Button>
+            <Button variant="primary">Label</Button>
+            <Button variant="secondary">Label</Button>
+            <Button variant="tertiary">Label</Button>
+            <Button variant="brand">Label</Button>
+            <Button variant="link">Label</Button>
+            <Button variant="destructive">Label</Button>
             <div className="rounded-lg bg-body-black-solid-constant p-3">
-              <Button Style="White">Label</Button>
+              <Button variant="white">Label</Button>
             </div>
-            <Button Style="Switch">Label</Button>
-            <Button Style="Tertiary Destructive">Label</Button>
-            <Button Style="Text">Label</Button>
+            <Button variant="switch">Label</Button>
+            <Button variant="tertiaryDestructive">Label</Button>
+            <Button variant="text">Label</Button>
           </div>
 
           <div className="flex flex-wrap items-end gap-4">
-            <Button Size="48">Label</Button>
-            <Button Size="40">Label</Button>
-            <Button Size="32">Label</Button>
-            <Button Style="Text" Size="24">
+            <Button size="48">Label</Button>
+            <Button size="40">Label</Button>
+            <Button size="32">Label</Button>
+            <Button variant="text" size="24">
               Label
             </Button>
           </div>
@@ -308,36 +372,36 @@ function App() {
           <div className="space-y-3">
             {(["48", "40", "32"] as const).map((size) => (
               <div key={size} className="flex flex-wrap items-center gap-3">
-                <Button Style="Primary" Size={size}>
+                <Button variant="primary" size={size}>
                   Label
                 </Button>
-                <Button Style="Secondary" Size={size}>
+                <Button variant="secondary" size={size}>
                   Label
                 </Button>
-                <Button Style="Tertiary" Size={size}>
+                <Button variant="tertiary" size={size}>
                   Label
                 </Button>
-                <Button Style="Brand" Size={size}>
+                <Button variant="brand" size={size}>
                   Label
                 </Button>
-                <Button Style="Link" Size={size}>
+                <Button variant="link" size={size}>
                   Label
                 </Button>
-                <Button Style="Destructive" Size={size}>
+                <Button variant="destructive" size={size}>
                   Label
                 </Button>
                 <div className="rounded-lg bg-body-black-solid-constant p-2">
-                  <Button Style="White" Size={size}>
+                  <Button variant="white" size={size}>
                     Label
                   </Button>
                 </div>
-                <Button Style="Switch" Size={size}>
+                <Button variant="switch" size={size}>
                   Label
                 </Button>
-                <Button Style="Tertiary Destructive" Size={size}>
+                <Button variant="tertiaryDestructive" size={size}>
                   Label
                 </Button>
-                <Button Style="Text" Size={size}>
+                <Button variant="text" size={size}>
                   Label
                 </Button>
               </div>
@@ -345,160 +409,104 @@ function App() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Button Style="Primary" disabled>
+            <Button variant="primary" disabled>
               Label
             </Button>
-            <Button Style="Secondary" disabled>
+            <Button variant="secondary" disabled>
               Label
             </Button>
-            <Button Style="Tertiary" disabled>
+            <Button variant="tertiary" disabled>
               Label
             </Button>
-            <Button Style="Brand" disabled>
+            <Button variant="brand" disabled>
               Label
             </Button>
-            <Button Style="Link" disabled>
+            <Button variant="link" disabled>
               Label
             </Button>
-            <Button Style="Destructive" disabled>
-              Label
-            </Button>
-            <div className="rounded-lg bg-body-black-solid-constant p-3">
-              <Button Style="White" disabled>
-                Label
-              </Button>
-            </div>
-            <Button Style="Switch" disabled>
-              Label
-            </Button>
-            <Button Style="Tertiary Destructive" disabled>
-              Label
-            </Button>
-            <Button Style="Text" disabled>
-              Label
-            </Button>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-4">
-            <Button Style="Primary" loading>
-              Label
-            </Button>
-            <Button Style="Secondary" loading>
-              Label
-            </Button>
-            <Button Style="Tertiary" loading>
-              Label
-            </Button>
-            <Button Style="Brand" loading>
-              Label
-            </Button>
-            <Button Style="Link" loading>
-              Label
-            </Button>
-            <Button Style="Destructive" loading>
+            <Button variant="destructive" disabled>
               Label
             </Button>
             <div className="rounded-lg bg-body-black-solid-constant p-3">
-              <Button Style="White" loading>
+              <Button variant="white" disabled>
+                Label
+              </Button>
+            </div>
+            <Button variant="switch" disabled>
+              Label
+            </Button>
+            <Button variant="tertiaryDestructive" disabled>
+              Label
+            </Button>
+            <Button variant="text" disabled>
+              Label
+            </Button>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <Button variant="primary" loading>
+              Label
+            </Button>
+            <Button variant="secondary" loading>
+              Label
+            </Button>
+            <Button variant="tertiary" loading>
+              Label
+            </Button>
+            <Button variant="brand" loading>
+              Label
+            </Button>
+            <Button variant="link" loading>
+              Label
+            </Button>
+            <Button variant="destructive" loading>
+              Label
+            </Button>
+            <div className="rounded-lg bg-body-black-solid-constant p-3">
+              <Button variant="white" loading>
                 Label
               </Button>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Button
-              Style="Primary"
-              leftIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" />
-                </svg>
-              }
-            >
+            <Button variant="primary" leftIcon={<HomeIcon />}>
               Label
             </Button>
-            <Button
-              Style="Primary"
-              rightIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" />
-                </svg>
-              }
-            >
+            <Button variant="primary" rightIcon={<HomeIcon />}>
               Label
             </Button>
-            <Button
-              Style="Brand"
-              leftIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" />
-                </svg>
-              }
-              rightIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" />
-                </svg>
-              }
-            >
+            <Button variant="brand" leftIcon={<HomeIcon />} rightIcon={<HomeIcon />}>
               Label
             </Button>
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Button Style="Switch" Size="40">
+            <Button variant="switch" size="40">
               Label
             </Button>
-            <Button Style="Switch" Size="40" active>
+            <Button variant="switch" size="40" active>
               Label
             </Button>
-            <Button Style="Switch" Size="32">
+            <Button variant="switch" size="32">
               Label
             </Button>
-            <Button Style="Switch" Size="32" active>
+            <Button variant="switch" size="32" active>
               Label
             </Button>
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Button Style="Primary" price="$9.99/month">
+            <Button variant="primary" price="$9.99/month">
               Subscribe
             </Button>
-            <Button Style="Primary" discount="$X.XX" price="$X.XX/ month">
+            <Button variant="primary" discount="$X.XX" price="$X.XX/ month">
               Join now
             </Button>
             <div className="rounded-lg bg-body-black-solid-constant p-3">
               <Button
-                Style="White"
-                rightIcon={
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="size-5"
-                    aria-hidden="true"
-                  >
-                    <path d="M10 2a1 1 0 011 1v1.323l1.45-.363a1 1 0 01.55 1.92l-1.15.288.5 1.5 2.5-.625a1 1 0 01.62 1.9l-3 1.5a1 1 0 01-.9 0l-3-1.5a1 1 0 01.62-1.9l2.5.625.5-1.5-1.15-.288a1 1 0 01.55-1.92l1.45.363V3a1 1 0 011-1zM4 8h12v8H4V8z" />
-                  </svg>
-                }
+                variant="white"
+                rightIcon={<CrownIcon />}
                 discount="$X.XX"
                 price="$X.XX/ month"
               >
@@ -508,10 +516,10 @@ function App() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Button Style="Primary" asChild>
+            <Button variant="primary" asChild>
               <a href="#link">Link as Primary</a>
             </Button>
-            <Button Style="Brand" asChild>
+            <Button variant="brand" asChild>
               <a href="#link">Link as Brand</a>
             </Button>
           </div>
@@ -535,45 +543,13 @@ function App() {
             <Badge type="Default" leftDot={false}>
               No dot
             </Badge>
-            <Badge
-              type="Info"
-              leftDot={false}
-              leftIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="size-3"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              }
-            >
+            <Badge type="Info" leftDot={false} leftIcon={<InfoCircleIcon className="size-3" />}>
               Left icon
             </Badge>
             <Badge
               type="Success"
               leftDot={false}
-              rightIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="size-3"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              }
+              rightIcon={<ArrowUpRightIcon className="size-3" />}
             >
               Right icon
             </Badge>
@@ -593,44 +569,10 @@ function App() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Pill
-              variant="Brand"
-              leftIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="size-3"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              }
-            >
+            <Pill variant="Brand" leftIcon={<CheckCircleIcon className="size-3" />}>
               Left icon
             </Pill>
-            <Pill
-              variant="Blue"
-              rightIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="size-3"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              }
-            >
+            <Pill variant="Blue" rightIcon={<ArrowUpRightIcon className="size-3" />}>
               Right icon
             </Pill>
           </div>
@@ -684,14 +626,39 @@ function App() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Count value={9} size="Small" />
-            <Count value={42} size="Medium" />
-            <Count value={99} size="Large" />
+            <Count value={9} />
+            <Count value={42} />
+            <Count value={99} />
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Count value={150} max={99} size="Medium" />
-            <Count value={1000} max={999} size="Large" />
+            <Count value={150} max={99} />
+            <Count value={1000} max={999} />
+          </div>
+
+          {/* Snackbar */}
+          <div className="max-w-xl space-y-4">
+            <Snackbar
+              variant="vipEarn"
+              icon={<VipBadgeIcon />}
+              title="You're killing it! You've earned 1,000pts"
+              description="Find out how to redeem them, and earn more..."
+              primaryLabel="Redeem points"
+              closable
+            />
+            <Snackbar primaryLabel="Accept" secondaryLabel="Dismiss">
+              <span>
+                <span className="font-medium">@user.with.username</span> changed their subscription
+                price to <span className="font-medium">$43.99</span> per month
+              </span>
+            </Snackbar>
+            <Snackbar
+              variant="welcome"
+              title="Welcome to Fanvue 👋"
+              description="Let's get you started!"
+              primaryLabel="Become a creator"
+              secondaryLabel="Discover creators"
+            />
           </div>
         </section>
       </div>

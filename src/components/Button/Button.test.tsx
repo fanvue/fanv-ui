@@ -29,9 +29,9 @@ describe("Button", () => {
       expect(ref.current).toBeInstanceOf(HTMLButtonElement);
     });
 
-    it("applies active state for Switch style", () => {
+    it("applies active state for switch variant", () => {
       render(
-        <Button Style="Switch" active>
+        <Button variant="switch" active>
           Active Switch
         </Button>,
       );
@@ -190,22 +190,22 @@ describe("Button", () => {
       expect(results).toHaveNoViolations();
     });
 
-    it("has no accessibility violations for all Style variants", async () => {
-      const styles = [
-        "Primary",
-        "Secondary",
-        "Tertiary",
-        "Link",
-        "Brand",
-        "Destructive",
-        "White",
-        "Switch",
-        "Tertiary Destructive",
-        "Text",
+    it("has no accessibility violations for all variant types", async () => {
+      const variants = [
+        "primary",
+        "secondary",
+        "tertiary",
+        "link",
+        "brand",
+        "destructive",
+        "white",
+        "switch",
+        "tertiaryDestructive",
+        "text",
       ] as const;
 
-      for (const style of styles) {
-        const { container } = render(<Button Style={style}>{style} Button</Button>);
+      for (const variant of variants) {
+        const { container } = render(<Button variant={variant}>{variant} Button</Button>);
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       }

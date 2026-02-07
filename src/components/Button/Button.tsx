@@ -1,26 +1,27 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { SpinnerIcon } from "../Icons/SpinnerIcon";
 
-export type ButtonStyle =
-  | "Primary"
-  | "Secondary"
-  | "Tertiary"
-  | "Link"
-  | "Brand"
-  | "Destructive"
-  | "White"
-  | "Switch"
-  | "Tertiary Destructive"
-  | "Text";
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "link"
+  | "brand"
+  | "destructive"
+  | "white"
+  | "switch"
+  | "tertiaryDestructive"
+  | "text";
 
 export type ButtonSize = "48" | "40" | "32" | "24";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Visual style of the button */
-  Style?: ButtonStyle;
+  /** Visual style variant of the button */
+  variant?: ButtonVariant;
   /** Size of the button in pixels */
-  Size?: ButtonSize;
+  size?: ButtonSize;
   /** Left icon element */
   leftIcon?: React.ReactNode;
   /** Right icon element */
@@ -44,28 +45,28 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
   "24": "h-6 px-0 py-[3px] text-sm leading-[18px]",
 };
 
-const ICON_SIZE: Record<ButtonSize, number> = {
-  "48": 20,
-  "40": 20,
-  "32": 16,
-  "24": 14,
+const ICON_SIZE_CLASS: Record<ButtonSize, string> = {
+  "48": "size-5",
+  "40": "size-5",
+  "32": "size-4",
+  "24": "size-3.5",
 };
 
-const STYLE_CLASSES: Record<ButtonStyle, string> = {
-  Primary:
+const VARIANT_CLASSES: Record<ButtonVariant, string> = {
+  primary:
     "bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant",
-  Secondary:
+  secondary:
     "border border-body-100 bg-transparent text-body-100 hover:bg-brand-green-50 focus-visible:border-transparent focus-visible:shadow-[0_0_0_2px_var(--color-brand-purple-500)]",
-  Tertiary: "bg-transparent text-body-100 hover:bg-brand-green-50",
-  Link: "bg-transparent text-body-100 underline decoration-solid hover:bg-brand-green-50",
-  Brand: "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-pink-500",
-  Destructive:
+  tertiary: "bg-transparent text-body-100 hover:bg-brand-green-50",
+  link: "bg-transparent text-body-100 underline decoration-solid hover:bg-brand-green-50",
+  brand: "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-pink-500",
+  destructive:
     "bg-error-500 text-body-white-solid-constant hover:bg-background-solid dark:hover:bg-background-white-solid-constant dark:hover:text-error-500",
-  White:
+  white:
     "bg-background-white-solid-constant text-body-black-solid-constant hover:bg-brand-green-500",
-  Switch: "bg-transparent text-body-100 hover:bg-brand-green-50",
-  "Tertiary Destructive": "bg-transparent text-error-500 hover:bg-error-50",
-  Text: "bg-transparent text-body-100 hover:bg-background-600",
+  switch: "bg-transparent text-body-100 hover:bg-brand-green-50",
+  tertiaryDestructive: "bg-transparent text-error-500 hover:bg-error-50",
+  text: "bg-transparent text-body-100 hover:bg-background-600",
 };
 
 /** Recursively extract text content from React nodes for accessible labels */
@@ -83,34 +84,11 @@ function getTextContent(node: React.ReactNode): string | undefined {
 }
 
 const LoadingSpinner = ({ size }: { size: ButtonSize }) => {
-  const spinnerSize = ICON_SIZE[size];
-
   return (
     <span className="animate-spin" aria-hidden="true">
-      <svg
-        width={spinnerSize}
-        height={spinnerSize}
-        viewBox="0 0 20 20"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <SpinnerIcon className={ICON_SIZE_CLASS[size]}>
         <title>Loading</title>
-        <circle
-          cx="10"
-          cy="10"
-          r="8"
-          stroke="currentColor"
-          strokeOpacity="0.25"
-          strokeWidth="2"
-          fill="none"
-        />
-        <path
-          d="M10 2C14.4183 2 18 5.58172 18 10"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      </svg>
+      </SpinnerIcon>
     </span>
   );
 };
@@ -119,20 +97,20 @@ function renderContent({
   loading,
   asChild,
   children,
-  Size,
+  size,
   leftIcon,
   rightIcon,
-  iconSize,
+  iconSizeClass,
   discount,
   price,
 }: {
   loading: boolean;
   asChild: boolean;
   children: React.ReactNode;
-  Size: ButtonSize;
+  size: ButtonSize;
   leftIcon: React.ReactNode;
   rightIcon: React.ReactNode;
-  iconSize: number;
+  iconSizeClass: string;
   discount?: string;
   price?: string;
 }) {
@@ -143,12 +121,12 @@ function renderContent({
       return React.cloneElement(
         children as React.ReactElement<{ children?: React.ReactNode }>,
         undefined,
-        <LoadingSpinner size={Size} />,
+        <LoadingSpinner size={size} />,
       );
     }
     return (
       <>
-        <LoadingSpinner size={Size} />
+        <LoadingSpinner size={size} />
         <span className="sr-only">{children}</span>
       </>
     );
@@ -160,8 +138,7 @@ function renderContent({
     <>
       {leftIcon && (
         <span
-          className="flex shrink-0 items-center justify-center"
-          style={{ width: iconSize, height: iconSize }}
+          className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
           aria-hidden="true"
         >
           {leftIcon}
@@ -170,8 +147,7 @@ function renderContent({
       {children}
       {rightIcon && (
         <span
-          className="flex shrink-0 items-center justify-center"
-          style={{ width: iconSize, height: iconSize }}
+          className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
           aria-hidden="true"
         >
           {rightIcon}
@@ -195,8 +171,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className,
-      Style = "Primary",
-      Size = "48",
+      variant = "primary",
+      size = "48",
       leftIcon,
       rightIcon,
       loading = false,
@@ -212,8 +188,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : "button";
     const isDisabled = disabled || loading;
-    const iconSize = ICON_SIZE[Size];
-    const switchActiveClass = Style === "Switch" && active ? "bg-neutral-400 text-body-300" : "";
+    const iconSizeClass = ICON_SIZE_CLASS[size];
+    const switchActiveClass = variant === "switch" && active ? "bg-neutral-400 text-body-300" : "";
 
     const buttonSpecificProps = !asChild
       ? { "data-testid": "button", disabled: isDisabled }
@@ -231,10 +207,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       loading,
       asChild,
       children,
-      Size,
+      size,
       leftIcon,
       rightIcon,
-      iconSize,
+      iconSizeClass,
       discount,
       price,
     });
@@ -255,9 +231,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           "disabled:pointer-events-none disabled:opacity-50",
           "aria-disabled:pointer-events-none aria-disabled:opacity-50",
           // Size styles
-          SIZE_CLASSES[Size],
+          SIZE_CLASSES[size],
           // Variant styles
-          STYLE_CLASSES[Style],
+          VARIANT_CLASSES[variant],
           switchActiveClass,
           // Manual CSS overrides
           className,
