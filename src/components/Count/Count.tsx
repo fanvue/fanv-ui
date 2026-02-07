@@ -3,16 +3,16 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 
 export type CountVariant = "Default" | "Brand" | "Pink" | "Info" | "Success" | "Warning";
-export type CountSize = "Small" | "Medium" | "Large";
+export type CountSize = 16 | 20 | 24;
 
 function getDisplayValue(value: number, max: number): string {
   return value > max ? `${max}+` : value.toString();
 }
 
 const sizeClasses: Record<CountSize, string> = {
-  Small: "h-4 min-w-4 px-1 text-[9px]",
-  Medium: "h-5 min-w-5 px-1.5 text-[10px]",
-  Large: "h-6 min-w-6 px-2 text-xs",
+  16: "h-4 min-w-4 px-1 text-[9px]",
+  20: "h-5 min-w-5 px-1.5 text-[10px]",
+  24: "h-6 min-w-6 px-2 text-xs",
 };
 
 export interface CountProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -33,7 +33,7 @@ export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
     {
       className,
       variant = "Default",
-      size = "Medium",
+      size = 20,
       value = 0,
       max = 99,
       asChild = false,
