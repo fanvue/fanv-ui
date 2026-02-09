@@ -3,6 +3,37 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
 
+const buttonVariants = {
+  primary:
+    "bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant",
+  secondary:
+    "border border-body-100 bg-transparent text-body-100 hover:bg-brand-green-50 focus-visible:border-transparent",
+  tertiary: "bg-transparent text-body-100 hover:bg-brand-green-50",
+  link: "bg-transparent text-body-100 underline decoration-solid hover:bg-brand-green-50",
+  brand: "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-pink-500",
+  destructive:
+    "bg-error-500 text-body-white-solid-constant hover:bg-background-solid dark:hover:bg-background-white-solid-constant dark:hover:text-error-500",
+  white:
+    "bg-background-white-solid-constant text-body-black-solid-constant hover:bg-brand-green-500",
+  switch: "bg-transparent text-body-100 hover:bg-brand-green-50",
+  tertiaryDestructive: "bg-transparent text-error-500 hover:bg-error-50",
+  text: "bg-transparent text-body-100 hover:underline",
+};
+
+const iconSizeVariants = {
+  48: "size-5",
+  40: "size-5",
+  32: "size-4",
+  24: "size-3.5",
+};
+
+const sizeVariants = {
+  48: "h-12 px-4 py-3 typography-button-large",
+  40: "h-10 px-4 py-2 typography-button-small",
+  32: "h-8 px-3 py-2 typography-body-2-semibold",
+  24: "h-6 px-0 py-0.5 typography-body-2-semibold",
+};
+
 export type ButtonVariant =
   | "primary"
   | "secondary"
@@ -38,37 +69,6 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   price?: string;
 }
 
-const SIZE_CLASSES: Record<ButtonSize, string> = {
-  "48": "h-12 px-4 py-3 text-lg leading-6",
-  "40": "h-10 px-4 py-[9px] text-base leading-[22px]",
-  "32": "h-8 px-3 py-[7px] text-sm leading-[18px]",
-  "24": "h-6 px-0 py-[3px] text-sm leading-[18px]",
-};
-
-const ICON_SIZE_CLASS: Record<ButtonSize, string> = {
-  "48": "size-5",
-  "40": "size-5",
-  "32": "size-4",
-  "24": "size-3.5",
-};
-
-const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  primary:
-    "bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant",
-  secondary:
-    "border border-body-100 bg-transparent text-body-100 hover:bg-brand-green-50 focus-visible:border-transparent focus-visible:shadow-[0_0_0_2px_var(--color-brand-purple-500)]",
-  tertiary: "bg-transparent text-body-100 hover:bg-brand-green-50",
-  link: "bg-transparent text-body-100 underline decoration-solid hover:bg-brand-green-50",
-  brand: "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-pink-500",
-  destructive:
-    "bg-error-500 text-body-white-solid-constant hover:bg-background-solid dark:hover:bg-background-white-solid-constant dark:hover:text-error-500",
-  white:
-    "bg-background-white-solid-constant text-body-black-solid-constant hover:bg-brand-green-500",
-  switch: "bg-transparent text-body-100 hover:bg-brand-green-50",
-  tertiaryDestructive: "bg-transparent text-error-500 hover:bg-error-50",
-  text: "bg-transparent text-body-100 hover:underline",
-};
-
 /** Recursively extract text content from React nodes for accessible labels */
 function getTextContent(node: React.ReactNode): string | undefined {
   if (typeof node === "string") return node;
@@ -86,7 +86,7 @@ function getTextContent(node: React.ReactNode): string | undefined {
 const LoadingSpinner = ({ size }: { size: ButtonSize }) => {
   return (
     <span className="animate-spin" aria-hidden="true">
-      <SpinnerIcon className={ICON_SIZE_CLASS[size]}>
+      <SpinnerIcon className={iconSizeVariants[size]}>
         <title>Loading</title>
       </SpinnerIcon>
     </span>
@@ -188,7 +188,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : "button";
     const isDisabled = disabled || loading;
-    const iconSizeClass = ICON_SIZE_CLASS[size];
+    const iconSizeClass = iconSizeVariants[size];
     const switchActiveClass = variant === "switch" && active ? "bg-neutral-400 text-body-300" : "";
 
     const buttonSpecificProps = !asChild
@@ -226,14 +226,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           // Base styles
           "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-colors",
           // Focus ring
-          "focus-visible:shadow-[0_0_0_2px_var(--color-background-inverse-solid),0_0_0_4px_var(--color-brand-purple-500)] focus-visible:outline-none",
+          "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled state
           "disabled:pointer-events-none disabled:opacity-50",
           "aria-disabled:pointer-events-none aria-disabled:opacity-50",
           // Size styles
-          SIZE_CLASSES[size],
+          sizeVariants[size],
           // Variant styles
-          VARIANT_CLASSES[variant],
+          buttonVariants[variant],
           switchActiveClass,
           // Manual CSS overrides
           className,
