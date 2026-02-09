@@ -66,7 +66,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
     "bg-background-white-solid-constant text-body-black-solid-constant hover:bg-brand-green-500",
   switch: "bg-transparent text-body-100 hover:bg-brand-green-50",
   tertiaryDestructive: "bg-transparent text-error-500 hover:bg-error-50",
-  text: "bg-transparent text-body-100 hover:bg-background-600",
+  text: "bg-transparent text-body-100 hover:underline",
 };
 
 /** Recursively extract text content from React nodes for accessible labels */
