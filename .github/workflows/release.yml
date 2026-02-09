@@ -49,7 +49,15 @@ jobs:
 
       - name: Publish to npm
         if: ${{ steps.release.outputs.release_created }}
-        run: pnpm publish --access public --no-git-checks
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+          if [[ "$VERSION" == *"-"* ]]; then
+            echo "Publishing prerelease version $VERSION with tag alpha"
+            pnpm publish --access public --no-git-checks --tag alpha
+          else
+            echo "Publishing stable version $VERSION"
+            pnpm publish --access public --no-git-checks
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
