@@ -15,21 +15,21 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    type: {
+    variant: {
       control: "select",
       options: [
-        "Default",
-        "Dark",
-        "Success",
-        "Warning",
-        "Error",
-        "Special",
-        "Info",
-        "Online",
-        "Brand",
-        "Pink",
-        "Brand light",
-        "Pink light",
+        "default",
+        "dark",
+        "success",
+        "warning",
+        "error",
+        "special",
+        "info",
+        "online",
+        "brand",
+        "pink",
+        "brandLight",
+        "pinkLight",
       ],
     },
     leftDot: { control: "boolean" },
@@ -47,21 +47,21 @@ export const Default: Story = {
 
 export const Dark: Story = {
   args: {
-    type: "Dark",
+    variant: "dark",
     children: "Badge",
   },
 };
 
 export const Success: Story = {
   args: {
-    type: "Success",
+    variant: "success",
     children: "Success",
   },
 };
 
 export const Warning: Story = {
   args: {
-    type: "Warning",
+    variant: "warning",
     children: "Warning",
   },
 };
@@ -69,56 +69,56 @@ export const Warning: Story = {
 // biome-ignore lint/suspicious/noShadowRestrictedNames: Story name must match Figma variant
 export const Error: Story = {
   args: {
-    type: "Error",
+    variant: "error",
     children: "Error",
   },
 };
 
 export const Special: Story = {
   args: {
-    type: "Special",
+    variant: "special",
     children: "Special",
   },
 };
 
 export const Info: Story = {
   args: {
-    type: "Info",
+    variant: "info",
     children: "Info",
   },
 };
 
 export const Online: Story = {
   args: {
-    type: "Online",
+    variant: "online",
     children: "Online",
   },
 };
 
 export const Brand: Story = {
   args: {
-    type: "Brand",
+    variant: "brand",
     children: "Brand",
   },
 };
 
 export const Pink: Story = {
   args: {
-    type: "Pink",
+    variant: "pink",
     children: "Pink",
   },
 };
 
 export const BrandLight: Story = {
   args: {
-    type: "Brand light",
+    variant: "brandLight",
     children: "Brand Light",
   },
 };
 
 export const PinkLight: Story = {
   args: {
-    type: "Pink light",
+    variant: "pinkLight",
     children: "Pink Light",
   },
 };
