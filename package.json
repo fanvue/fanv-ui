@@ -28,6 +28,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && mkdir -p dist/styles && cp src/styles/theme.css dist/styles/theme.css",
+    "build:showcase": "vite build --config vite.showcase.config.ts",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -102,6 +103,11 @@
     "vite-plugin-dts": "4.5.4",
     "vitest": "4.0.18",
     "vitest-axe": "1.0.0-pre.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@isaacs/brace-expansion": ">=5.0.1"
+    }
   },
   "size-limit": [
     {

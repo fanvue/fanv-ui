@@ -1,6 +1,8 @@
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { CheckIcon } from "../Icons/CheckIcon";
+import { MinusIcon } from "../Icons/MinusIcon";
 
 export type CheckboxSize = "default" | "small";
 
@@ -12,42 +14,6 @@ export interface CheckboxProps
   label?: string;
   /** Helper text displayed below the label */
   helperText?: string;
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 12 12"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path
-        d="M10 3L4.5 8.5L2 6"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function IndeterminateIcon() {
-  return (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 12 12"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path d="M2 6H10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
 }
 
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
@@ -102,9 +68,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             // Default state
             "border-body-100 bg-transparent text-transparent",
             // Checked state
-            "data-[state=checked]:border-body-100 data-[state=checked]:bg-body-100 data-[state=checked]:text-body-white-solid-constant",
+            "data-[state=checked]:border-body-100 data-[state=checked]:bg-body-100 data-[state=checked]:text-body-300",
             // Indeterminate state
-            "data-[state=indeterminate]:border-body-100 data-[state=indeterminate]:bg-body-100 data-[state=indeterminate]:text-body-white-solid-constant",
+            "data-[state=indeterminate]:border-body-100 data-[state=indeterminate]:bg-body-100 data-[state=indeterminate]:text-body-300",
             // Hover state
             "hover:ring-2 hover:ring-brand-green-500 group-hover:ring-2 group-hover:ring-brand-green-500",
             // Focus state
@@ -118,11 +84,11 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <CheckboxPrimitive.Indicator
             forceMount
             className={cn(
-              "flex size-3 items-center justify-center text-body-white-solid-constant",
+              "flex size-3 items-center justify-center text-body-300",
               "data-[state=unchecked]:invisible",
             )}
           >
-            {props.checked === "indeterminate" ? <IndeterminateIcon /> : <CheckIcon />}
+            {props.checked === "indeterminate" ? <MinusIcon /> : <CheckIcon />}
           </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>
       </span>
