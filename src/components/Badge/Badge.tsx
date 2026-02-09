@@ -3,41 +3,41 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 
 const badgeVariants = {
-  type: {
-    Default: "bg-neutral-100 text-neutral-400",
-    Dark: "bg-background-800 text-body-300 dark:text-body-white-solid-constant",
-    Success: "bg-neutral-100 text-neutral-400",
-    Warning: "bg-neutral-100 text-neutral-400",
-    Error: "bg-neutral-100 text-neutral-400",
-    Special: "bg-neutral-100 text-neutral-400",
-    Info: "bg-neutral-100 text-neutral-400",
-    Online: "bg-background-200 text-brand-green-500",
-    Brand: "bg-brand-green-500 text-body-black-solid-constant",
-    Pink: "bg-brand-pink-500 text-body-black-solid-constant",
-    "Brand light": "bg-brand-green-50 text-body-black-solid-constant",
-    "Pink light": "bg-brand-pink-50 text-body-black-solid-constant",
+  variant: {
+    default: "bg-neutral-100 text-neutral-400",
+    dark: "bg-background-800 text-body-300 dark:text-body-white-solid-constant",
+    success: "bg-neutral-100 text-neutral-400",
+    warning: "bg-neutral-100 text-neutral-400",
+    error: "bg-neutral-100 text-neutral-400",
+    special: "bg-neutral-100 text-neutral-400",
+    info: "bg-neutral-100 text-neutral-400",
+    online: "bg-background-200 text-brand-green-500",
+    brand: "bg-brand-green-500 text-body-black-solid-constant",
+    pink: "bg-brand-pink-500 text-body-black-solid-constant",
+    brandLight: "bg-brand-green-50 text-body-black-solid-constant",
+    pinkLight: "bg-brand-pink-50 text-body-black-solid-constant",
   },
   dotColor: {
-    Default: "bg-body-black-solid-constant",
-    Dark: "bg-body-300 dark:bg-body-white-solid-constant",
-    Success: "bg-success-500",
-    Warning: "bg-warning-500",
-    Error: "bg-error-500",
-    Special: "bg-special-500",
-    Info: "bg-info-500",
-    Online: "bg-brand-green-500",
-    Brand: "bg-body-black-solid-constant",
-    Pink: "bg-body-black-solid-constant",
-    "Brand light": "bg-body-black-solid-constant",
-    "Pink light": "bg-body-black-solid-constant",
+    default: "bg-body-black-solid-constant",
+    dark: "bg-body-300 dark:bg-body-white-solid-constant",
+    success: "bg-success-500",
+    warning: "bg-warning-500",
+    error: "bg-error-500",
+    special: "bg-special-500",
+    info: "bg-info-500",
+    online: "bg-brand-green-500",
+    brand: "bg-body-black-solid-constant",
+    pink: "bg-body-black-solid-constant",
+    brandLight: "bg-body-black-solid-constant",
+    pinkLight: "bg-body-black-solid-constant",
   },
 } as const;
 
-export type BadgeType = keyof typeof badgeVariants.type;
+export type BadgeVariant = keyof typeof badgeVariants.variant;
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /** Visual style variant of the badge (matches Figma "Type" property) */
-  type?: BadgeType;
+  /** Visual style variant of the badge */
+  variant?: BadgeVariant;
   /** Show left status indicator dot */
   leftDot?: boolean;
   /** Left icon element */
@@ -52,7 +52,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   (
     {
       className,
-      type = "Default",
+      variant = "default",
       leftDot = true,
       leftIcon,
       rightIcon,
@@ -74,7 +74,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           // Typography
           "font-semibold text-[9px] uppercase leading-none tracking-[0.9px]",
           // Variant styles
-          badgeVariants.type[type],
+          badgeVariants.variant[variant],
           // Manual CSS overrides
           className,
         )}
@@ -87,7 +87,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         )}
         {leftDot && (
           <span
-            className={cn("size-1 shrink-0 rounded-full", badgeVariants.dotColor[type])}
+            className={cn("size-1 shrink-0 rounded-full", badgeVariants.dotColor[variant])}
             aria-hidden="true"
           />
         )}

@@ -5,6 +5,7 @@ node_modules
 dist
 dist-showcase
 dist-ssr
+dist-showcase
 *.local
 
 # Test coverage

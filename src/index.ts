@@ -14,7 +14,7 @@ export type {
   AvatarSize,
 } from "./components/Avatar/Avatar";
 export { Avatar, AvatarFallback, AvatarImage, AvatarRoot } from "./components/Avatar/Avatar";
-export type { BadgeProps, BadgeType } from "./components/Badge/Badge";
+export type { BadgeProps, BadgeVariant } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
 export type { ButtonProps, ButtonSize, ButtonVariant } from "./components/Button/Button";
 export { Button } from "./components/Button/Button";
