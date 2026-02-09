@@ -329,7 +329,7 @@ function App() {
           </div>
 
           <div className="max-w-2xl space-y-4">
-            <Alert variant="info" icon={InfoIcon}>
+            <Alert variant="info" icon={<InfoCircleIcon />}>
               This is an informational alert message.
             </Alert>
             <Alert variant="success" icon={SuccessIcon}>
@@ -576,10 +576,10 @@ function App() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Pill variant="brand" leftIcon={<CheckCircleIcon className="size-3" />}>
+            <Pill variant="brand" leftIcon={<CheckCircleIcon />}>
               Left icon
             </Pill>
-            <Pill variant="blue" rightIcon={<ArrowUpRightIcon className="size-3" />}>
+            <Pill variant="blue" rightIcon={<ArrowUpRightIcon />}>
               Right icon
             </Pill>
           </div>

@@ -2,7 +2,7 @@ import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
-export type CountVariant = "Default" | "Brand" | "Pink" | "Info" | "Success" | "Warning";
+export type CountVariant = "default" | "brand" | "pink" | "info" | "success" | "warning";
 
 function getDisplayValue(value: number, max: number): string {
   return value > max ? `${max}+` : value.toString();
@@ -21,7 +21,7 @@ export interface CountProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
   (
-    { className, variant = "Default", value = 0, max = 99, asChild = false, children, ...props },
+    { className, variant = "default", value = 0, max = 99, asChild = false, children, ...props },
     ref,
   ) => {
     if (value === 0 && !children) {
@@ -35,12 +35,12 @@ export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
         ref={ref}
         className={cn(
           "inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 font-bold text-[10px] tabular-nums leading-none",
-          variant === "Default" && "bg-error-500 text-body-white-solid-constant",
-          variant === "Brand" && "bg-brand-green-500 text-body-black-solid-constant",
-          variant === "Pink" && "bg-brand-pink-500 text-body-black-solid-constant",
-          variant === "Info" && "bg-info-500 text-body-white-solid-constant",
-          variant === "Success" && "bg-success-500 text-body-white-solid-constant",
-          variant === "Warning" && "bg-warning-500 text-body-black-solid-constant",
+          variant === "default" && "bg-error-500 text-body-white-solid-constant",
+          variant === "brand" && "bg-brand-green-500 text-body-black-solid-constant",
+          variant === "pink" && "bg-brand-pink-500 text-body-black-solid-constant",
+          variant === "info" && "bg-info-500 text-body-white-solid-constant",
+          variant === "success" && "bg-success-500 text-body-white-solid-constant",
+          variant === "warning" && "bg-warning-500 text-body-black-solid-constant",
           className,
         )}
         {...props}
