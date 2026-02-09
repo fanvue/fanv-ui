@@ -15,7 +15,6 @@ jobs:
   chromatic:
     name: Visual Regression
     runs-on: ubuntu-latest
-    if: false # Disabled due to snapshot billing limit - Remove this line to re-enable Chromatic snapshots
     steps:
       - name: Checkout
         uses: actions/checkout@v4
