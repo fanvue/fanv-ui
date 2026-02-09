@@ -22,12 +22,21 @@ export type { CheckboxProps, CheckboxSize } from "./components/Checkbox/Checkbox
 export { Checkbox } from "./components/Checkbox/Checkbox";
 export type { CountProps, CountVariant } from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
+export type {
+  DatePickerOwnProps,
+  DatePickerProps,
+  DatePickerType,
+  DateRange,
+} from "./components/DatePicker/DatePicker";
+export { DatePicker } from "./components/DatePicker/DatePicker";
 export type { IconProps } from "./components/Icons";
 export {
   ArrowRightIcon,
   ArrowUpRightIcon,
   CheckCircleIcon,
   CheckIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   CrossIcon,
   CrownIcon,
   ErrorCircleIcon,
@@ -54,3 +63,4 @@ export type {
 } from "./components/Snackbar/Snackbar";
 export { Snackbar } from "./components/Snackbar/Snackbar";
 export { cn } from "./utils/cn";
+export type { OmitDistributed } from "./utils/types";
