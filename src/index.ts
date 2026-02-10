@@ -29,6 +29,12 @@ export type {
   DateRange,
 } from "./components/DatePicker/DatePicker";
 export { DatePicker } from "./components/DatePicker/DatePicker";
+export type {
+  IconButtonProps,
+  IconButtonSize,
+  IconButtonVariant,
+} from "./components/IconButton/IconButton";
+export { IconButton } from "./components/IconButton/IconButton";
 export type { IconProps } from "./components/Icons";
 export {
   ArrowRightIcon,
@@ -57,8 +63,24 @@ export type { RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";
-export type { SnackbarProps, SnackbarVariant } from "./components/Snackbar/Snackbar";
+export type {
+  SliderLabelPosition,
+  SliderProps,
+} from "./components/Slider/Slider";
+export { Slider } from "./components/Slider/Slider";
+export type {
+  SnackbarProps,
+  SnackbarVariant,
+} from "./components/Snackbar/Snackbar";
 export { Snackbar } from "./components/Snackbar/Snackbar";
+export type { TabsProps } from "./components/Tabs/Tabs";
+export { Tabs } from "./components/Tabs/Tabs";
+export type { TabsContentProps } from "./components/Tabs/TabsContent";
+export { TabsContent } from "./components/Tabs/TabsContent";
+export type { TabsListProps } from "./components/Tabs/TabsList";
+export { TabsList } from "./components/Tabs/TabsList";
+export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
+export { TabsTrigger } from "./components/Tabs/TabsTrigger";
 export type {
   ToastProps,
   ToastProviderProps,

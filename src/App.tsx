@@ -1,5 +1,7 @@
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
+import { MicrophoneIcon } from "./components/Icons/MicrophoneIcon";
+import { StopIcon } from "./components/Icons/StopIcon";
 import {
   Alert,
   ArrowRightIcon,
@@ -19,6 +21,7 @@ import {
   ErrorCircleIcon,
   FireIcon,
   HomeIcon,
+  IconButton,
   InfoCircleIcon,
   Logo,
   MinusIcon,
@@ -26,8 +29,13 @@ import {
   PlusIcon,
   Radio,
   RadioGroup,
+  Slider,
   Snackbar,
   SpinnerIcon,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   Toast,
   ToastProvider,
   ToastViewport,
@@ -76,6 +84,51 @@ function DatePickerShowcase() {
         selected={doubleRange}
         onSelect={setDoubleRange}
       />
+    </div>
+  );
+}
+
+function SliderShowcase() {
+  const [controlled, setControlled] = useState([50]);
+
+  return (
+    <div className="flex max-w-md flex-col gap-6">
+      <Slider defaultValue={[50]} label="Label" minLabel="Min Value" maxLabel="Max Value" />
+      <Slider defaultValue={[40]} label="Volume" labelPosition="top" minLabel="0" maxLabel="100" />
+      <Slider defaultValue={[40]} label="Volume" labelPosition="left" minLabel="0" maxLabel="100" />
+      <Slider defaultValue={[25]} label="Brightness" showTooltip minLabel="0%" maxLabel="100%" />
+      <Slider
+        defaultValue={[50]}
+        label="Price"
+        showTooltip
+        min={0}
+        max={1000}
+        step={10}
+        formatTooltip={(value: number) => `$${value}`}
+      />
+      <Slider defaultValue={[20, 80]} label="Price Range" minLabel="$0" maxLabel="$1000" />
+      <Slider defaultValue={[50]} aria-label="No labels slider" />
+      <Slider defaultValue={[30]} minLabel="Low" maxLabel="High" />
+      <Slider defaultValue={[50]} label="Disabled Slider" minLabel="Min" maxLabel="Max" disabled />
+      <Slider
+        defaultValue={[50]}
+        label="Rating"
+        min={0}
+        max={100}
+        step={25}
+        minLabel="0"
+        maxLabel="100"
+        showTooltip
+      />
+      <Slider
+        value={controlled}
+        onValueChange={setControlled}
+        label="Controlled"
+        showTooltip
+        minLabel="0"
+        maxLabel="100"
+      />
+      <Slider defaultValue={[60]} label="Speed" labelPosition="left" />
     </div>
   );
 }
@@ -623,6 +676,67 @@ function App() {
               <Badge variant="brandLight">Brand light</Badge>
               <Badge variant="pinkLight">Pink light</Badge>
             </div>
+            <div className="space-y-6">
+              <h2 className="font-bold text-lg">Icon Buttons</h2>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <IconButton variant="primary" icon={<HomeIcon />} />
+                <IconButton variant="secondary" icon={<HomeIcon />} />
+                <IconButton variant="tertiary" icon={<HomeIcon />} />
+                <IconButton variant="brand" icon={<HomeIcon />} />
+                <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} />
+                <IconButton variant="navTray" icon={<HomeIcon />} />
+              </div>
+
+              <div className="rounded-lg bg-body-black-solid-constant p-4">
+                <div className="flex flex-wrap items-center gap-4">
+                  <IconButton variant="contrast" icon={<HomeIcon />} />
+                  <IconButton variant="messaging" icon={<PlusIcon />} />
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <IconButton variant="primary" icon={<HomeIcon />} size="24" />
+                <IconButton variant="primary" icon={<HomeIcon />} size="32" />
+                <IconButton variant="primary" icon={<HomeIcon />} size="40" />
+                <IconButton variant="primary" icon={<HomeIcon />} size="52" />
+                <IconButton variant="primary" icon={<HomeIcon />} size="72" />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <IconButton variant="primary" icon={<HomeIcon />} disabled />
+                <IconButton variant="secondary" icon={<HomeIcon />} disabled />
+                <IconButton variant="tertiary" icon={<HomeIcon />} disabled />
+                <IconButton variant="brand" icon={<HomeIcon />} disabled />
+                <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} disabled />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <IconButton variant="tertiary" icon={<HomeIcon />} counterValue={5} />
+                <IconButton variant="tertiary" icon={<HomeIcon />} counterValue={12} />
+                <IconButton variant="navTray" icon={<HomeIcon />} counterValue={99} />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <IconButton variant="stop" icon={<StopIcon />} size="52" />
+                <IconButton variant="microphone" icon={<MicrophoneIcon />} size="52" />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              <Badge variant="default">Default</Badge>
+              <Badge variant="dark">Dark</Badge>
+              <Badge variant="info">Info</Badge>
+              <Badge variant="success">Success</Badge>
+              <Badge variant="warning">Warning</Badge>
+              <Badge variant="error">Error</Badge>
+              <Badge variant="special">Special</Badge>
+              <Badge variant="brand">Brand</Badge>
+              <Badge variant="pink">Pink</Badge>
+              <Badge variant="online">Online</Badge>
+              <Badge variant="brandLight">Brand light</Badge>
+              <Badge variant="pinkLight">Pink light</Badge>
+            </div>
 
             <div className="flex flex-wrap gap-4">
               <Badge variant="default" leftDot={false}>
@@ -751,6 +865,67 @@ function App() {
             </div>
 
             <DatePickerShowcase />
+
+            {/* Tabs */}
+            <div className="flex flex-wrap items-start gap-8">
+              <Tabs defaultValue="tab1">
+                <TabsList>
+                  <TabsTrigger value="tab1">Photos</TabsTrigger>
+                  <TabsTrigger value="tab2">Videos</TabsTrigger>
+                  <TabsTrigger value="tab3">Posts</TabsTrigger>
+                </TabsList>
+                <TabsContent value="tab1">
+                  <p className="pt-4 text-neutral-400 text-sm">Photos content</p>
+                </TabsContent>
+                <TabsContent value="tab2">
+                  <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
+                </TabsContent>
+                <TabsContent value="tab3">
+                  <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
+                </TabsContent>
+              </Tabs>
+              <Tabs defaultValue="tab1">
+                <TabsList>
+                  <TabsTrigger value="tab1">Active</TabsTrigger>
+                  <TabsTrigger value="tab2">Normal</TabsTrigger>
+                  <TabsTrigger value="tab3" disabled>
+                    Disabled
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="tab1">
+                  <p className="pt-4 text-neutral-400 text-sm">Active tab content</p>
+                </TabsContent>
+                <TabsContent value="tab2">
+                  <p className="pt-4 text-neutral-400 text-sm">Normal tab content</p>
+                </TabsContent>
+              </Tabs>
+              <Tabs defaultValue="t">
+                <TabsList>
+                  <TabsTrigger value="t">Tab</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              <Tabs defaultValue="t">
+                <TabsList>
+                  <TabsTrigger value="t" disabled>
+                    Tab
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+              <Tabs defaultValue="other">
+                <TabsList>
+                  <TabsTrigger value="t">Tab</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              <Tabs defaultValue="other">
+                <TabsList>
+                  <TabsTrigger value="t" disabled>
+                    Tab
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+
+            <SliderShowcase />
 
             {/* Toast */}
             <div className="space-y-4">
