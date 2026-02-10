@@ -148,7 +148,6 @@ export const TertiaryWithCounter: Story = {
     variant: "tertiary",
     size: "40",
     icon: <HomeIcon />,
-    counterShow: true,
     counterValue: 12,
   },
 };

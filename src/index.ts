@@ -23,12 +23,12 @@ export { Checkbox } from "./components/Checkbox/Checkbox";
 export type { CountProps, CountVariant } from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
 export type {
-  DatePicker,
   DatePickerOwnProps,
   DatePickerProps,
   DatePickerType,
   DateRange,
 } from "./components/DatePicker/DatePicker";
+export { DatePicker } from "./components/DatePicker/DatePicker";
 export type {
   IconButtonProps,
   IconButtonSize,
