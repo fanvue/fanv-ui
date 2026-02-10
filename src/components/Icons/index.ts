@@ -2,6 +2,8 @@ export { ArrowRightIcon } from "./ArrowRightIcon";
 export { ArrowUpRightIcon } from "./ArrowUpRightIcon";
 export { CheckCircleIcon } from "./CheckCircleIcon";
 export { CheckIcon } from "./CheckIcon";
+export { ChevronLeftIcon } from "./ChevronLeftIcon";
+export { ChevronRightIcon } from "./ChevronRightIcon";
 export { CrossIcon } from "./CrossIcon";
 export { CrownIcon } from "./CrownIcon";
 export { ErrorCircleIcon } from "./ErrorCircleIcon";

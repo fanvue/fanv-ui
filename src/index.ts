@@ -28,12 +28,20 @@ export type {
   IconButtonVariant,
 } from "./components/IconButton/IconButton";
 export { IconButton } from "./components/IconButton/IconButton";
+  DatePickerOwnProps,
+  DatePickerProps,
+  DatePickerType,
+  DateRange,
+} from "./components/DatePicker/DatePicker";
+export { DatePicker } from "./components/DatePicker/DatePicker";
 export type { IconProps } from "./components/Icons";
 export {
   ArrowRightIcon,
   ArrowUpRightIcon,
   CheckCircleIcon,
   CheckIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   CrossIcon,
   CrownIcon,
   ErrorCircleIcon,
@@ -60,3 +68,4 @@ export type {
 } from "./components/Snackbar/Snackbar";
 export { Snackbar } from "./components/Snackbar/Snackbar";
 export { cn } from "./utils/cn";
+export type { OmitDistributed } from "./utils/types";

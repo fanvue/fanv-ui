@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MicrophoneIcon } from "./components/Icons/MicrophoneIcon";
 import { StopIcon } from "./components/Icons/StopIcon";
+import type { DateRange } from "react-day-picker";
 import {
   Alert,
   ArrowRightIcon,
@@ -11,9 +12,12 @@ import {
   Checkbox,
   CheckCircleIcon,
   CheckIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   Count,
   CrossIcon,
   CrownIcon,
+  DatePicker,
   ErrorCircleIcon,
   FireIcon,
   HomeIcon,
@@ -31,6 +35,50 @@ import {
   WarningTriangleIcon,
 } from "./index";
 import "./styles/theme.css";
+
+function DatePickerShowcase() {
+  const [singleDate, setSingleDate] = useState<Date | undefined>(new Date(2026, 1, 15));
+  const [singleRange, setSingleRange] = useState<DateRange | undefined>({
+    from: new Date(2026, 1, 9),
+    to: new Date(2026, 1, 19),
+  });
+  const [doubleDate, setDoubleDate] = useState<Date | undefined>(new Date(2026, 1, 15));
+  const [doubleRange, setDoubleRange] = useState<DateRange | undefined>({
+    from: new Date(2026, 1, 9),
+    to: new Date(2026, 2, 4),
+  });
+
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <DatePicker
+        mode="single"
+        defaultMonth={new Date(2026, 1)}
+        selected={singleDate}
+        onSelect={setSingleDate}
+      />
+      <DatePicker
+        mode="range"
+        defaultMonth={new Date(2026, 1)}
+        selected={singleRange}
+        onSelect={setSingleRange}
+      />
+      <DatePicker
+        mode="single"
+        type="double"
+        defaultMonth={new Date(2026, 1)}
+        selected={doubleDate}
+        onSelect={setDoubleDate}
+      />
+      <DatePicker
+        mode="range"
+        type="double"
+        defaultMonth={new Date(2026, 1)}
+        selected={doubleRange}
+        onSelect={setDoubleRange}
+      />
+    </div>
+  );
+}
 
 function App() {
   const [dark, setDark] = useState(false);
@@ -99,6 +147,8 @@ function App() {
                   ["ArrowUpRightIcon", ArrowUpRightIcon],
                   ["CheckCircleIcon", CheckCircleIcon],
                   ["CheckIcon", CheckIcon],
+                  ["ChevronLeftIcon", ChevronLeftIcon],
+                  ["ChevronRightIcon", ChevronRightIcon],
                   ["CrossIcon", CrossIcon],
                   ["CrownIcon", CrownIcon],
                   ["ErrorCircleIcon", ErrorCircleIcon],
@@ -133,6 +183,8 @@ function App() {
                   ["ArrowUpRight", ArrowUpRightIcon],
                   ["CheckCircle", CheckCircleIcon],
                   ["Check", CheckIcon],
+                  ["ChevronLeft", ChevronLeftIcon],
+                  ["ChevronRight", ChevronRightIcon],
                   ["Cross", CrossIcon],
                   ["Crown", CrownIcon],
                   ["ErrorCircle", ErrorCircleIcon],
@@ -164,6 +216,8 @@ function App() {
                   ["ArrowUpRight", ArrowUpRightIcon],
                   ["CheckCircle", CheckCircleIcon],
                   ["Check", CheckIcon],
+                  ["ChevronLeft", ChevronLeftIcon],
+                  ["ChevronRight", ChevronRightIcon],
                   ["Cross", CrossIcon],
                   ["Crown", CrownIcon],
                   ["ErrorCircle", ErrorCircleIcon],
@@ -717,6 +771,8 @@ function App() {
               secondaryLabel="Discover creators"
             />
           </div>
+
+          <DatePickerShowcase />
         </section>
       </div>
     </div>
