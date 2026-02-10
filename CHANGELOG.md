@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-alpha.2](https://github.com/fanvue/fanv-ui/compare/ui-v0.1.0-alpha.1...ui-v0.1.0-alpha.2) (2026-02-10)
+
+
+### Features
+
+* **ui:** Chip component ([#64](https://github.com/fanvue/fanv-ui/issues/64)) ([00173b0](https://github.com/fanvue/fanv-ui/commit/00173b0364781326b25e8baa43212c478eb2b608))
+
 ## [0.1.0-alpha.1](https://github.com/fanvue/fanv-ui/compare/ui-v0.1.0-alpha.0...ui-v0.1.0-alpha.1) (2026-02-10)
 
 
