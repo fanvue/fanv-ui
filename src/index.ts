@@ -73,6 +73,19 @@ export type {
   SnackbarVariant,
 } from "./components/Snackbar/Snackbar";
 export { Snackbar } from "./components/Snackbar/Snackbar";
+export type { SwitchProps, SwitchSize } from "./components/Switch/Switch";
+export { Switch } from "./components/Switch/Switch";
+export type {
+  SwitchFieldOrientation,
+  SwitchFieldProps,
+} from "./components/SwitchField/SwitchField";
+export { SwitchField } from "./components/SwitchField/SwitchField";
+export type {
+  SwitchToggleOption,
+  SwitchToggleProps,
+  SwitchToggleSize,
+} from "./components/SwitchToggle/SwitchToggle";
+export { SwitchToggle } from "./components/SwitchToggle/SwitchToggle";
 export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";

@@ -29,16 +29,6 @@ describe("Button", () => {
       expect(ref.current).toBeInstanceOf(HTMLButtonElement);
     });
 
-    it("applies active state for switch variant", () => {
-      render(
-        <Button variant="switch" active>
-          Active Switch
-        </Button>,
-      );
-      const button = screen.getByRole("button", { name: "Active Switch" });
-      expect(button).toHaveAttribute("data-active", "true");
-    });
-
     it("disables button when loading is true", () => {
       render(<Button loading>Loading</Button>);
       const button = screen.getByRole("button");
@@ -199,7 +189,6 @@ describe("Button", () => {
         "brand",
         "destructive",
         "white",
-        "switch",
         "tertiaryDestructive",
         "text",
       ] as const;
