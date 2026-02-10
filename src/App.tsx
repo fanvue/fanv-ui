@@ -171,7 +171,7 @@ function App() {
       <ToastProvider>
         {/* Dark / Light toggle */}
         <div className="sticky top-0 z-50 flex items-center justify-end gap-3 border-neutral-200 border-b bg-inherit px-4 py-3">
-          <span className="font-medium text-sm">{dark ? "Dark" : "Light"}</span>
+          <span className="typography-body-2-medium">{dark ? "Dark" : "Light"}</span>
           <button
             type="button"
             onClick={() => setDark((d) => !d)}
@@ -215,7 +215,7 @@ function App() {
 
             {/* Icons */}
             <div className="space-y-6">
-              <h2 className="font-bold text-lg">Icons</h2>
+              <h2 className="typography-heading-2">Icons</h2>
 
               {/* Default — inherits currentColor from the page theme */}
               <div className="flex flex-wrap items-end gap-6">
@@ -659,7 +659,7 @@ function App() {
               <Badge variant="pinkLight">Pink light</Badge>
             </div>
             <div className="space-y-6">
-              <h2 className="font-bold text-lg">Icon Buttons</h2>
+              <h2 className="typography-heading-2">Icon Buttons</h2>
 
               <div className="flex flex-wrap items-center gap-4">
                 <IconButton variant="primary" icon={<HomeIcon />} />
@@ -832,9 +832,9 @@ function App() {
                 closable
               />
               <Snackbar primaryLabel="Accept" secondaryLabel="Dismiss">
-                <span>
-                  <span className="font-medium">@user.with.username</span> changed their
-                  subscription price to <span className="font-medium">$43.99</span> per month
+                <span className="typography-body-2-medium">
+                  <span>@user.with.username</span> changed their subscription price to{" "}
+                  <span>$43.99</span> per month
                 </span>
               </Snackbar>
               <Snackbar
@@ -1017,7 +1017,7 @@ function App() {
             {/* Divider */}
             <div className="space-y-8">
               <div>
-                <h3 className="mb-4 font-semibold text-sm">Default Divider</h3>
+                <h3 className="typography-body-2-semibold mb-4">Default Divider</h3>
                 <div className="space-y-4">
                   <p>Section 1</p>
                   <Divider />
@@ -1028,7 +1028,7 @@ function App() {
               </div>
 
               <div>
-                <h3 className="mb-4 font-semibold text-sm">Text Divider</h3>
+                <h3 className="typography-body-2-semibold mb-4">Text Divider</h3>
                 <div className="space-y-4">
                   <p>Section 1</p>
                   <Divider label="or" />
@@ -1048,9 +1048,9 @@ function App() {
                 closable
               />
               <Snackbar primaryLabel="Accept" secondaryLabel="Dismiss">
-                <span>
-                  <span className="font-medium">@user.with.username</span> changed their
-                  subscription price to <span className="font-medium">$43.99</span> per month
+                <span className="typography-body-2-medium">
+                  <span>@user.with.username</span> changed their subscription price to{" "}
+                  <span>$43.99</span> per month
                 </span>
               </Snackbar>
               <Snackbar
@@ -1125,7 +1125,7 @@ function App() {
 
             {/* Toast */}
             <div className="space-y-4">
-              <h2 className="font-bold text-lg">Toast</h2>
+              <h2 className="typography-heading-2">Toast</h2>
               <div className="flex flex-wrap gap-3">
                 <Button variant="primary" size="40" onClick={() => showToast("info")}>
                   Show Info Toast

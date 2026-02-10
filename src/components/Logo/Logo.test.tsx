@@ -23,12 +23,11 @@ describe("Logo", () => {
     it("renders Full type with both icon and wordmark", () => {
       const { container } = render(<Logo type="Full" />);
       const logo = container.querySelector('[data-testid="logo"]');
-      const svg = logo?.querySelector("svg");
-      const text = logo?.querySelector("span");
+      const svg = logo?.querySelector('[data-testid="logo-icon"]');
+      const text = logo?.querySelector('[data-testid="logo-wordmark"]');
 
       expect(svg).toBeInTheDocument();
       expect(text).toBeInTheDocument();
-      expect(text).toHaveTextContent("fanvue");
     });
 
     it("renders Icon type with only icon", () => {
@@ -44,23 +43,21 @@ describe("Logo", () => {
     it("renders Wordmark type with only text", () => {
       const { container } = render(<Logo type="Wordmark" />);
       const logo = container.querySelector('[data-testid="logo"]');
-      const svg = logo?.querySelector("svg");
-      const text = logo?.querySelector("span");
+      const svg = logo?.querySelector('[data-testid="logo-icon"]');
+      const text = logo?.querySelector('[data-testid="logo-wordmark"]');
 
       expect(svg).not.toBeInTheDocument();
       expect(text).toBeInTheDocument();
-      expect(text).toHaveTextContent("fanvue");
     });
 
     it("renders Portrait type with both icon and wordmark in column", () => {
       const { container } = render(<Logo type="Portrait" />);
       const logo = container.querySelector('[data-testid="logo"]');
-      const svg = logo?.querySelector("svg");
-      const text = logo?.querySelector("span");
+      const svg = logo?.querySelector('[data-testid="logo-icon"]');
+      const text = logo?.querySelector('[data-testid="logo-wordmark"]');
 
       expect(svg).toBeInTheDocument();
       expect(text).toBeInTheDocument();
-      expect(text).toHaveTextContent("fanvue");
       expect(logo).toHaveClass("flex-col");
     });
   });

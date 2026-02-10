@@ -139,15 +139,15 @@ export const AllSizes: Story = {
   render: () => (
     <div className="flex flex-col items-start gap-4">
       <div className="flex flex-col gap-2">
-        <span className="font-semibold text-body-200 text-xs">Small (24)</span>
+        <span className="typography-body-2-semibold text-body-200">Small (24)</span>
         <SwitchToggle size="24" options={defaultOptions} aria-label="Small toggle" />
       </div>
       <div className="flex flex-col gap-2">
-        <span className="font-semibold text-body-200 text-xs">Medium (32)</span>
+        <span className="typography-body-2-semibold text-body-200">Medium (32)</span>
         <SwitchToggle size="32" options={defaultOptions} aria-label="Medium toggle" />
       </div>
       <div className="flex flex-col gap-2">
-        <span className="font-semibold text-body-200 text-xs">Large (40)</span>
+        <span className="typography-body-2-semibold text-body-200">Large (40)</span>
         <SwitchToggle size="40" options={defaultOptions} aria-label="Large toggle" />
       </div>
     </div>

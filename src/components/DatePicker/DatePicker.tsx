@@ -69,7 +69,7 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
       type="button"
       className={cn(
         "relative z-10 inline-flex size-10 cursor-pointer items-center justify-center rounded-lg",
-        "font-normal text-sm leading-[18px]", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
+        "typography-body-2-regular",
         "transition-colors hover:bg-brand-green-50",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500",
         "disabled:cursor-not-allowed disabled:opacity-50",
@@ -127,7 +127,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             months: "relative flex",
             month: "flex flex-1 flex-col",
             month_caption: cn("flex items-center py-4", isMulti ? "justify-center px-2" : "px-5"),
-            caption_label: "text-base font-semibold leading-6 text-body-100", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
+            caption_label: "typography-body-1-semibold text-body-100",
             nav: cn(
               "absolute top-4 z-20 flex",
               isMulti ? "pointer-events-none inset-x-3 justify-between" : "right-3 gap-1",
@@ -139,7 +139,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             month_grid: cn("mb-4", isMulti ? "mx-2" : "mx-4"),
             weekdays: "flex",
             weekday:
-              "flex h-[30px] w-10 flex-1 items-center justify-center text-sm font-normal text-body-200",
+              "flex h-[30px] w-10 flex-1 items-center justify-center typography-body-2-regular text-body-200",
             week: "flex overflow-hidden rounded-lg",
             day: "relative flex w-10 flex-1 items-center justify-center",
             range_middle: "bg-brand-green-50",

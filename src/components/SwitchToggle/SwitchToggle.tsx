@@ -46,13 +46,12 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
     const currentValue = isControlled ? controlledValue : internalValue;
     const isSecondSelected = currentValue === options[1].value;
 
-    // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
     const sizeClass =
       size === "24"
-        ? "px-2 py-1 text-xs leading-4"
+        ? "px-2 py-1 typography-caption-semibold"
         : size === "32"
-          ? "px-3 py-1.75 text-sm leading-snug"
-          : "h-10 px-4 py-2.25 text-base leading-snug";
+          ? "px-3 py-1.75 typography-body-2-semibold"
+          : "h-10 px-4 py-2.25 typography-button-small";
 
     const handleSelect = (optionValue: string) => {
       if (disabled) return;
@@ -88,7 +87,7 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
               key={option.value}
               htmlFor={optionId}
               className={cn(
-                "relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-transparent font-semibold text-body-100",
+                "relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-transparent text-body-100",
                 "has-focus-visible:shadow-focus-ring has-focus-visible:outline-none",
                 disabled && "pointer-events-none",
                 sizeClass,

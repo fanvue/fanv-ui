@@ -34,7 +34,7 @@ export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
       <Comp
         ref={ref}
         className={cn(
-          "inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 font-bold text-[10px] tabular-nums leading-none",
+          "typography-caption-semibold inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 tabular-nums leading-none",
           variant === "Default" && "bg-error-500 text-body-white-solid-constant",
           variant === "Brand" && "bg-brand-green-500 text-body-black-solid-constant",
           variant === "Pink" && "bg-brand-pink-500 text-body-black-solid-constant",

@@ -36,10 +36,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  "48": "h-12 px-4 py-3 text-lg leading-6",
-  "40": "h-10 px-4 py-[9px] text-base leading-[22px]",
-  "32": "h-8 px-3 py-[7px] text-sm leading-[18px]",
-  "24": "h-6 px-0 py-[3px] text-sm leading-[18px]",
+  "48": "h-12 px-4 py-3 typography-button-large",
+  "40": "h-10 px-4 py-2 typography-button-small",
+  "32": "h-8 px-3 py-2 typography-body-2-semibold",
+  "24": "h-6 px-0 py-1 typography-body-2-semibold",
 };
 
 const ICON_SIZE_CLASS: Record<ButtonSize, string> = {
@@ -150,15 +150,11 @@ function renderContent({
         </span>
       )}
       {discount != null && (
-        <span className="font-medium line-through" aria-hidden="true">
+        <span className="typography-body-1-regular line-through" aria-hidden="true">
           {discount}
         </span>
       )}
-      {price != null && (
-        <span className="font-medium" aria-hidden="true">
-          {price}
-        </span>
-      )}
+      {price != null && <span aria-hidden="true">{price}</span>}
     </>
   );
 }
@@ -215,7 +211,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...loadingLabelProps}
         className={cn(
           // Base styles
-          "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-colors",
+          "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition-colors",
           // Focus ring
           "focus:shadow-focus focus-visible:outline-none",
           // Disabled state
