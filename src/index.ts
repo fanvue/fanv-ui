@@ -59,6 +59,11 @@ export {
 } from "./components/Icons";
 export type { LogoColor, LogoProps, LogoType } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
+export type {
+  PaginationProps,
+  PaginationVariant,
+} from "./components/Pagination/Pagination";
+export { Pagination } from "./components/Pagination/Pagination";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
 export type { RadioProps } from "./components/Radio/Radio";
