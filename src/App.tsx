@@ -14,6 +14,7 @@ import {
   CheckIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  Chip,
   Count,
   CrossIcon,
   CrownIcon,
@@ -244,8 +245,6 @@ function App() {
 
             {/* Icons */}
             <div className="space-y-6">
-              <h2 className="typography-heading-2">Icons</h2>
-
               {/* Default — inherits currentColor from the page theme */}
               <div className="flex flex-wrap items-end gap-6">
                 {(
@@ -688,8 +687,6 @@ function App() {
               <Badge variant="pinkLight">Pink light</Badge>
             </div>
             <div className="space-y-6">
-              <h2 className="typography-heading-2">Icon Buttons</h2>
-
               <div className="flex flex-wrap items-center gap-4">
                 <IconButton variant="primary" icon={<HomeIcon />} />
                 <IconButton variant="secondary" icon={<HomeIcon />} />
@@ -848,6 +845,232 @@ function App() {
             <div className="flex flex-wrap items-center gap-4">
               <Count value={150} max={99} />
               <Count value={1000} max={999} />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <Chip>Chip</Chip>
+              <Chip variant="square">Chip</Chip>
+              <Chip variant="dark">Chip</Chip>
+              <Chip selected>Chip</Chip>
+              <Chip variant="square" selected>
+                Chip
+              </Chip>
+              <Chip disabled>Chip</Chip>
+              <Chip variant="square" disabled>
+                Chip
+              </Chip>
+              <Chip variant="dark" disabled>
+                Chip
+              </Chip>
+              <Chip selected disabled>
+                Chip
+              </Chip>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Chip size="40">Chip</Chip>
+              <Chip size="40" variant="square">
+                Chip
+              </Chip>
+              <Chip size="40" variant="dark">
+                Chip
+              </Chip>
+              <Chip size="40" selected>
+                Chip
+              </Chip>
+              <Chip size="40" variant="square" selected>
+                Chip
+              </Chip>
+              <Chip size="40" disabled>
+                Chip
+              </Chip>
+              <Chip size="40" variant="dark" disabled>
+                Chip
+              </Chip>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Chip onClick={() => {}}>Clickable</Chip>
+              <Chip onClick={() => {}} selected>
+                Selected
+              </Chip>
+              <Chip onClick={() => {}} disabled>
+                Disabled
+              </Chip>
+              <Chip onClick={() => {}} variant="square">
+                Square
+              </Chip>
+              <Chip onClick={() => {}} variant="square" selected>
+                Selected
+              </Chip>
+              <Chip onClick={() => {}} variant="dark">
+                Dark
+              </Chip>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Chip leftDot>Chip</Chip>
+              <Chip leftDot selected>
+                Chip
+              </Chip>
+              <Chip leftDot variant="dark">
+                Chip
+              </Chip>
+              <Chip leftDot variant="square">
+                Chip
+              </Chip>
+              <Chip leftDot disabled>
+                Chip
+              </Chip>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Chip leftIcon={<CheckCircleIcon className="size-5" />}>Chip</Chip>
+              <Chip rightIcon={<CrossIcon className="size-5" />} onClick={() => {}}>
+                Chip
+              </Chip>
+              <Chip
+                leftIcon={<CheckCircleIcon className="size-5" />}
+                rightIcon={<CrossIcon className="size-5" />}
+              >
+                Chip
+              </Chip>
+              <Chip leftIcon={<CheckCircleIcon className="size-5" />} selected>
+                Chip
+              </Chip>
+              <Chip leftIcon={<CheckCircleIcon className="size-5" />} variant="dark">
+                Chip
+              </Chip>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Chip notificationLabel="3">Chip</Chip>
+              <Chip notificationLabel="99+">Chip</Chip>
+              <Chip notificationLabel="3" selected>
+                Chip
+              </Chip>
+              <Chip notificationLabel="3" variant="dark">
+                Chip
+              </Chip>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Chip
+                leftDot
+                leftIcon={<CheckCircleIcon className="size-5" />}
+                rightIcon={<CrossIcon className="size-5" />}
+                notificationLabel="5"
+                selected
+                onClick={() => {}}
+              >
+                Full
+              </Chip>
+              <Chip
+                leftDot
+                leftIcon={<CheckCircleIcon className="size-5" />}
+                rightIcon={<CrossIcon className="size-5" />}
+                notificationLabel="5"
+                variant="square"
+                onClick={() => {}}
+              >
+                Full
+              </Chip>
+              <Chip
+                leftDot
+                leftIcon={<CheckCircleIcon className="size-5" />}
+                rightIcon={<CrossIcon className="size-5" />}
+                notificationLabel="5"
+                variant="dark"
+              >
+                Full
+              </Chip>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Chip
+                size="40"
+                leftDot
+                leftIcon={<CheckCircleIcon className="size-5" />}
+                rightIcon={<CrossIcon className="size-5" />}
+                notificationLabel="5"
+                selected
+                onClick={() => {}}
+              >
+                Full MD
+              </Chip>
+              <Chip
+                size="40"
+                leftDot
+                leftIcon={<CheckCircleIcon className="size-5" />}
+                rightIcon={<CrossIcon className="size-5" />}
+                notificationLabel="5"
+                variant="square"
+                onClick={() => {}}
+              >
+                Full MD
+              </Chip>
+              <Chip
+                size="40"
+                leftDot
+                leftIcon={<CheckCircleIcon className="size-5" />}
+                rightIcon={<CrossIcon className="size-5" />}
+                notificationLabel="5"
+                variant="dark"
+              >
+                Full MD
+              </Chip>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Chip
+                variant="square"
+                size="40"
+                leftIcon={
+                  <img
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23F7931A'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3E%E2%82%BF%3C/text%3E%3C/svg%3E"
+                    alt="Bitcoin"
+                    className="size-5 rounded-full"
+                  />
+                }
+                onClick={() => {}}
+              >
+                Bitcoin
+              </Chip>
+              <Chip
+                variant="square"
+                size="40"
+                leftIcon={
+                  <img
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%234285F4'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3EG%3C/text%3E%3C/svg%3E"
+                    alt="Google Pay"
+                    className="size-5 rounded-full"
+                  />
+                }
+                selected
+                onClick={() => {}}
+              >
+                Google Pay
+              </Chip>
+              <Chip
+                variant="square"
+                size="40"
+                leftIcon={
+                  <img
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23003087'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3EP%3C/text%3E%3C/svg%3E"
+                    alt="PayPal"
+                    className="size-5 rounded-full"
+                  />
+                }
+                onClick={() => {}}
+              >
+                PayPal
+              </Chip>
+              <Chip
+                variant="square"
+                size="40"
+                leftIcon={
+                  <img
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23000'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3EA%3C/text%3E%3C/svg%3E"
+                    alt="Apple Pay"
+                    className="size-5 rounded-full"
+                  />
+                }
+                disabled
+              >
+                Apple Pay
+              </Chip>
             </div>
 
             {/* Snackbar */}
@@ -1252,7 +1475,6 @@ function App() {
 
             {/* Toast */}
             <div className="space-y-4">
-              <h2 className="typography-heading-2">Toast</h2>
               <div className="flex flex-wrap gap-3">
                 <Button variant="primary" size="40" onClick={() => showToast("info")}>
                   Show Info Toast
