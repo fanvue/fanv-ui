@@ -2,6 +2,8 @@
   "packages": {
     ".": {
       "release-type": "node",
+      "prerelease": true,
+      "prerelease-type": "alpha",
       "bump-minor-pre-major": true,
       "bump-patch-for-minor-pre-major": true,
       "changelog-sections": [

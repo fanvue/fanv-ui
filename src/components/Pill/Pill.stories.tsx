@@ -18,16 +18,16 @@ const meta = {
     variant: {
       control: "select",
       options: [
-        "Green",
-        "Grey",
-        "Blue",
-        "Gold",
-        "Pink Light",
-        "Base",
-        "Brand",
-        "Brand light",
-        "Beta",
-        "Error",
+        "green",
+        "grey",
+        "blue",
+        "gold",
+        "pinkLight",
+        "base",
+        "brand",
+        "brandLight",
+        "beta",
+        "error",
       ],
     },
   },
@@ -38,63 +38,63 @@ type Story = StoryObj<typeof meta>;
 
 export const Green: Story = {
   args: {
-    variant: "Green",
+    variant: "green",
     children: "Subscriber",
   },
 };
 
 export const Grey: Story = {
   args: {
-    variant: "Grey",
+    variant: "grey",
     children: "Expired",
   },
 };
 
 export const Blue: Story = {
   args: {
-    variant: "Blue",
+    variant: "blue",
     children: "Follower",
   },
 };
 
 export const Gold: Story = {
   args: {
-    variant: "Gold",
+    variant: "gold",
     children: "VIP Subscriber",
   },
 };
 
 export const PinkLight: Story = {
   args: {
-    variant: "Pink Light",
+    variant: "pinkLight",
     children: "Text",
   },
 };
 
 export const Base: Story = {
   args: {
-    variant: "Base",
+    variant: "base",
     children: "Example",
   },
 };
 
 export const Brand: Story = {
   args: {
-    variant: "Brand",
+    variant: "brand",
     children: "20% discount",
   },
 };
 
 export const BrandLight: Story = {
   args: {
-    variant: "Brand light",
+    variant: "brandLight",
     children: "20% discount",
   },
 };
 
 export const Beta: Story = {
   args: {
-    variant: "Beta",
+    variant: "beta",
     children: "Beta",
   },
 };
@@ -102,14 +102,14 @@ export const Beta: Story = {
 // biome-ignore lint/suspicious/noShadowRestrictedNames: Story name must match Figma variant
 export const Error: Story = {
   args: {
-    variant: "Error",
+    variant: "error",
     children: "Error",
   },
 };
 
 export const LeftIcon: Story = {
   args: {
-    variant: "Base",
+    variant: "base",
     leftIcon: <FireIcon className="size-4" />,
     children: "Example",
   },
@@ -117,7 +117,7 @@ export const LeftIcon: Story = {
 
 export const RightIcon: Story = {
   args: {
-    variant: "Brand",
+    variant: "brand",
     rightIcon: <ArrowUpRightIcon className="size-4" />,
     children: "20% discount",
   },

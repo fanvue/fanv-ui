@@ -586,29 +586,29 @@ function App() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Badge type="Default">Default</Badge>
-            <Badge type="Dark">Dark</Badge>
-            <Badge type="Info">Info</Badge>
-            <Badge type="Success">Success</Badge>
-            <Badge type="Warning">Warning</Badge>
-            <Badge type="Error">Error</Badge>
-            <Badge type="Special">Special</Badge>
-            <Badge type="Brand">Brand</Badge>
-            <Badge type="Pink">Pink</Badge>
-            <Badge type="Online">Online</Badge>
-            <Badge type="Brand light">Brand light</Badge>
-            <Badge type="Pink light">Pink light</Badge>
+            <Badge variant="default">Default</Badge>
+            <Badge variant="dark">Dark</Badge>
+            <Badge variant="info">Info</Badge>
+            <Badge variant="success">Success</Badge>
+            <Badge variant="warning">Warning</Badge>
+            <Badge variant="error">Error</Badge>
+            <Badge variant="special">Special</Badge>
+            <Badge variant="brand">Brand</Badge>
+            <Badge variant="pink">Pink</Badge>
+            <Badge variant="online">Online</Badge>
+            <Badge variant="brandLight">Brand light</Badge>
+            <Badge variant="pinkLight">Pink light</Badge>
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Badge type="Default" leftDot={false}>
+            <Badge variant="default" leftDot={false}>
               No dot
             </Badge>
-            <Badge type="Info" leftDot={false} leftIcon={<InfoCircleIcon className="size-3" />}>
+            <Badge variant="info" leftDot={false} leftIcon={<InfoCircleIcon className="size-3" />}>
               Left icon
             </Badge>
             <Badge
-              type="Success"
+              variant="success"
               leftDot={false}
               rightIcon={<ArrowUpRightIcon className="size-3" />}
             >
@@ -617,23 +617,23 @@ function App() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Pill variant="Green">Green</Pill>
-            <Pill variant="Grey">Grey</Pill>
-            <Pill variant="Blue">Blue</Pill>
-            <Pill variant="Gold">Gold</Pill>
-            <Pill variant="Pink Light">Pink Light</Pill>
-            <Pill variant="Base">Base</Pill>
-            <Pill variant="Brand">Brand</Pill>
-            <Pill variant="Brand light">Brand light</Pill>
-            <Pill variant="Beta">Beta</Pill>
-            <Pill variant="Error">Error</Pill>
+            <Pill variant="green">Green</Pill>
+            <Pill variant="grey">Grey</Pill>
+            <Pill variant="blue">Blue</Pill>
+            <Pill variant="gold">Gold</Pill>
+            <Pill variant="pinkLight">Pink Light</Pill>
+            <Pill variant="base">Base</Pill>
+            <Pill variant="brand">Brand</Pill>
+            <Pill variant="brandLight">Brand light</Pill>
+            <Pill variant="beta">Beta</Pill>
+            <Pill variant="error">Error</Pill>
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Pill variant="Brand" leftIcon={<CheckCircleIcon className="size-3" />}>
+            <Pill variant="brand" leftIcon={<CheckCircleIcon className="size-3" />}>
               Left icon
             </Pill>
-            <Pill variant="Blue" rightIcon={<ArrowUpRightIcon className="size-3" />}>
+            <Pill variant="blue" rightIcon={<ArrowUpRightIcon className="size-3" />}>
               Right icon
             </Pill>
           </div>
