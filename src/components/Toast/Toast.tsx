@@ -4,7 +4,7 @@ import { cn } from "../../utils/cn";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
-import { CloseIcon } from "../Icons/Close";
+import { CloseIcon } from "../Icons/CloseIcon";
 import { ErrorIcon } from "../Icons/Error";
 import { InfoIcon } from "../Icons/Info";
 import { SuccessIcon } from "../Icons/Success";
