@@ -1,0 +1,69 @@
+name: Feature Request
+description: Suggest a new component, variant, or enhancement
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea for @fanvue/ui? We'd love to hear it.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Request type
+      options:
+        - New component
+        - New variant / prop for existing component
+        - Accessibility improvement
+        - Performance improvement
+        - Developer experience
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: component
+    attributes:
+      label: Component name
+      description: Name of the new or existing component this relates to.
+      placeholder: e.g. Tooltip, Button
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear description of the feature and the problem it solves.
+    validations:
+      required: true
+
+  - type: textarea
+    id: figma
+    attributes:
+      label: Figma reference
+      description: Link to the Figma design if one exists.
+      placeholder: https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/...
+
+  - type: textarea
+    id: api
+    attributes:
+      label: Proposed API
+      description: How would the component / feature be used?
+      placeholder: |
+        ```tsx
+        <Tooltip content="Help text">
+          <Button>Hover me</Button>
+        </Tooltip>
+        ```
+      render: tsx
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any alternative approaches you've considered.
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Anything else — screenshots, related issues, prior art, etc.

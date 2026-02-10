@@ -20,7 +20,7 @@ export default defineConfig({
       fileName: (format) => `index.${format === "es" ? "mjs" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "tailwindcss"],
+      external: ["react", "react-dom", "react/jsx-runtime", "tailwindcss", "react-day-picker"],
       output: {
         preserveModules: false,
         banner: '"use client";',

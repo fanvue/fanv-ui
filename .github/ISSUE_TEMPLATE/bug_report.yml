@@ -1,0 +1,105 @@
+name: Bug Report
+description: Report a bug in @fanvue/ui
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please fill out the sections below so we can reproduce and fix the issue.
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      description: Which version of @fanvue/ui are you using?
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which component is affected?
+      options:
+        - Alert
+        - Avatar
+        - Badge
+        - Button
+        - Checkbox
+        - Chip
+        - Count
+        - DatePicker
+        - Divider
+        - IconButton
+        - Icons
+        - Logo
+        - Pagination
+        - Pill
+        - ProgressBar
+        - Radio
+        - RadioGroup
+        - Slider
+        - Snackbar
+        - Switch
+        - SwitchField
+        - SwitchToggle
+        - Tabs
+        - Toast
+        - Other / Multiple
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps or a link to a reproduction (CodeSandbox, StackBlitz, etc.).
+      placeholder: |
+        1. Render `<Button variant="primary" />`
+        2. Click the button
+        3. See error in console
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Any relevant environment details.
+      placeholder: |
+        - Browser: Chrome 130
+        - React: 19.2
+        - Tailwind CSS: 4.1
+        - OS: macOS 15
+      render: markdown
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Screenshots, error logs, or anything else that might help.
