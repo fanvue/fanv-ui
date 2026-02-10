@@ -2,8 +2,8 @@ import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import {
   Alert,
-  ArrowRightIcon,
-  ArrowUpRightIcon,
+  ArrowAltIcon,
+  ArrowIcon,
   Avatar,
   Badge,
   BellIcon,
@@ -163,11 +163,11 @@ function App() {
             <h2 className="font-bold text-lg">Icons</h2>
 
             {/* Default — inherits currentColor from the page theme */}
-            <div className="flex flex-wrap items-end gap-6">
+            <div className="flex flex-wrap items-end gap-4">
               {(
                 [
-                  ["ArrowRight", ArrowRightIcon],
-                  ["ArrowUpRight", ArrowUpRightIcon],
+                  ["Arrow", ArrowIcon],
+                  ["ArrowAlt", ArrowAltIcon],
                   ["CheckCircle", CheckCircleIcon],
                   ["Check", CheckIcon],
                   ["ChevronLeft", ChevronLeftIcon],
@@ -211,7 +211,7 @@ function App() {
                 ] as const
               ).map(([name, Icon]) => (
                 <div key={name} className="flex flex-col items-center gap-2">
-                  <Icon className="size-6" />
+                  <Icon className="size-5" />
                   <span className="text-[10px] text-body-200 leading-tight">
                     {name.replace("Icon", "")}
                   </span>
@@ -219,7 +219,7 @@ function App() {
               ))}
               {/* VipBadge is fixed-size so render separately */}
               <div className="flex flex-col items-center gap-2">
-                <VipBadgeIcon className="size-6" />
+                <VipBadgeIcon className="size-5" />
                 <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
               </div>
             </div>
@@ -596,7 +596,7 @@ function App() {
             <Badge
               variant="success"
               leftDot={false}
-              rightIcon={<ArrowUpRightIcon className="size-3" />}
+              rightIcon={<ArrowAltIcon direction="right" className="size-3" />}
             >
               Right icon
             </Badge>
@@ -619,7 +619,7 @@ function App() {
             <Pill variant="brand" leftIcon={<CheckCircleIcon className="size-3" />}>
               Left icon
             </Pill>
-            <Pill variant="blue" rightIcon={<ArrowUpRightIcon className="size-3" />}>
+            <Pill variant="blue" rightIcon={<ArrowAltIcon direction="right" className="size-3" />}>
               Right icon
             </Pill>
           </div>

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
+import { ArrowRightIcon } from "../Icons/ArrowIcon";
 import { CrownIcon } from "../Icons/CrownIcon";
 import { PlusIcon } from "../Icons/PlusIcon";
 import { Button } from "./Button";
