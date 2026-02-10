@@ -29,6 +29,7 @@ import {
   Pagination,
   Pill,
   PlusIcon,
+  ProgressBar,
   Radio,
   RadioGroup,
   Slider,
@@ -1152,6 +1153,102 @@ function App() {
             <SliderShowcase />
 
             <PaginationShowcase />
+
+            {/* ProgressBar */}
+            <div className="flex max-w-md flex-col gap-6">
+              {/* Default variant — color-coded by value */}
+              <ProgressBar value={20} />
+              <ProgressBar value={60} />
+              <ProgressBar value={100} />
+
+              {/* Generic variant — always green */}
+              <ProgressBar value={20} variant="generic" />
+              <ProgressBar value={60} variant="generic" />
+              <ProgressBar value={100} variant="generic" />
+
+              {/* Small size */}
+              <ProgressBar value={20} size="small" />
+              <ProgressBar value={60} size="small" />
+              <ProgressBar value={100} size="small" />
+
+              {/* Small + generic */}
+              <ProgressBar value={50} size="small" variant="generic" />
+
+              {/* With title */}
+              <ProgressBar value={75} title="Profile completeness" />
+              <ProgressBar value={30} title="Upload progress" />
+
+              {/* With showCompletion */}
+              <ProgressBar value={25} showCompletion />
+              <ProgressBar value={65} showCompletion />
+              <ProgressBar value={100} showCompletion />
+
+              {/* Small with showCompletion */}
+              <ProgressBar value={45} size="small" showCompletion />
+
+              {/* Generic with showCompletion */}
+              <ProgressBar value={70} variant="generic" showCompletion />
+
+              {/* With stepsLabel */}
+              <ProgressBar value={50} stepsLabel="4/8 steps" />
+              <ProgressBar value={100} stepsLabel="8/8 steps" />
+
+              {/* Title + showCompletion + stepsLabel (full header) */}
+              <ProgressBar value={37} title="Verification" showCompletion stepsLabel="3/8 steps" />
+              <ProgressBar value={100} title="Verification" showCompletion stepsLabel="8/8 steps" />
+
+              {/* With helperLeft / helperRight */}
+              <ProgressBar value={50} helperLeft="50% complete" helperRight="5 of 10" />
+              <ProgressBar value={80} helperRight="Almost there!" />
+
+              {/* With leftIcon */}
+              <ProgressBar
+                value={60}
+                leftIcon={<InfoCircleIcon className="size-5" />}
+                helperLeft="Keep going"
+              />
+              <ProgressBar
+                value={100}
+                leftIcon={<CheckCircleIcon className="size-5" />}
+                helperLeft="Completed"
+                helperRight="All done"
+              />
+
+              {/* Full kitchen sink — default variant */}
+              <ProgressBar
+                value={62}
+                title="Profile setup"
+                showCompletion
+                stepsLabel="5/8 steps"
+                leftIcon={<InfoCircleIcon className="size-5" />}
+                helperLeft="Complete your profile"
+                helperRight="3 remaining"
+              />
+
+              {/* Full kitchen sink — generic variant */}
+              <ProgressBar
+                value={85}
+                variant="generic"
+                title="Storage used"
+                showCompletion
+                stepsLabel="8.5/10 GB"
+                leftIcon={<WarningTriangleIcon className="size-5" />}
+                helperLeft="Running low"
+                helperRight="Upgrade plan"
+              />
+
+              {/* Full kitchen sink — small size */}
+              <ProgressBar
+                value={40}
+                size="small"
+                title="Level progress"
+                showCompletion
+                stepsLabel="Level 4"
+                leftIcon={<FireIcon className="size-5" />}
+                helperLeft="Keep it up!"
+                helperRight="60 XP to go"
+              />
+            </div>
 
             {/* Toast */}
             <div className="space-y-4">

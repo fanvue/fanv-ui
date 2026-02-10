@@ -66,6 +66,12 @@ export type {
 export { Pagination } from "./components/Pagination/Pagination";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
+export type {
+  ProgressBarProps,
+  ProgressBarSize,
+  ProgressBarVariant,
+} from "./components/ProgressBar/ProgressBar";
+export { ProgressBar } from "./components/ProgressBar/ProgressBar";
 export type { RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
