@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { InfoCircleIcon } from "../Icons";
+import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
 import { ProgressBar } from "./ProgressBar";
 
 const meta = {
