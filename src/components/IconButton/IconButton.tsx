@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { Count } from "../Count/Count";
 
 const iconButtonVariants = {
   primary:
@@ -91,14 +92,11 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           {icon}
         </span>
 
-        {/* TODO: Replace with Counter component */}
-        {counterValue !== undefined &&
-          (variant === "tertiary" || variant === "navTray") &&
-          counterValue > 0 && (
-            <span className="absolute top-0 right-0 flex min-w-[20px] items-center justify-center rounded-[16px] bg-brand-green-500 px-1 py-0.5 font-semibold text-[12px] text-body-black-solid-constant leading-[16px]">
-              {counterValue}
-            </span>
-          )}
+        {counterValue !== undefined && (variant === "tertiary" || variant === "navTray") && (
+          <div className="absolute top-0 right-0">
+            <Count value={counterValue} />
+          </div>
+        )}
       </button>
     );
   },

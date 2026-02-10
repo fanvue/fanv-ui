@@ -45,7 +45,7 @@ export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
           // Base styles
           "inline-flex items-center justify-center gap-2 rounded-full px-3 py-1",
           // Typography
-          "font-semibold text-xs leading-4",
+          "typography-caption-semibold",
           // Variant styles
           pillVariants.variant[variant],
           // Manual CSS overrides

@@ -112,9 +112,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             <label
               htmlFor={id}
               className={cn(
-                "cursor-pointer select-none font-semibold text-body-100",
+                "cursor-pointer select-none text-body-100",
                 "group-has-disabled:cursor-not-allowed group-has-disabled:text-disabled-100",
-                size === "small" ? "text-sm leading-snug" : "text-base leading-normal",
+                size === "small" ? "typography-body-2-semibold" : "typography-body-1-semibold",
               )}
             >
               {label}
@@ -125,9 +125,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <span
             id={helperTextId}
             className={cn(
-              "ml-7 font-light text-body-200",
+              "ml-7 text-body-200",
               "in-[.is-disabled]:cursor-not-allowed in-[.is-disabled]:text-disabled-100",
-              size === "small" ? "text-xs leading-snug" : "text-sm leading-normal",
+              size === "small" ? "typography-caption-regular" : "typography-body-2-regular",
             )}
           >
             {helperText}

@@ -198,7 +198,7 @@ export const ComponentName = React.forwardRef<HTMLDivElement, ComponentNameProps
       <div
         ref={ref}
         className={cn(
-          "inline-flex items-center gap-2 rounded font-semibold leading-none",
+          "inline-flex items-center gap-2 rounded typography-body-1-semibold",
           variant === "default" && "bg-neutral-100 text-neutral-400",
           variant === "primary" && "bg-brand-purple-500 text-body-600",
           size === "sm" && "text-xs px-2 py-1",

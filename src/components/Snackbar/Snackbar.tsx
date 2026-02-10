@@ -101,10 +101,8 @@ function VipEarnContent({
       )}
       <div className="flex min-w-0 flex-1 flex-col gap-4">
         <div className="flex flex-col">
-          {title && <p className="font-semibold text-base text-body-100 leading-6">{title}</p>}
-          {description && (
-            <p className="font-normal text-body-200 text-sm leading-[18px]">{description}</p>
-          )}
+          {title && <p className="typography-body-1-semibold text-body-100 leading-6">{title}</p>}
+          {description && <p className="typography-body-2-regular text-body-200">{description}</p>}
         </div>
         {showActions && primary && <div className="self-start">{primary}</div>}
       </div>
@@ -144,8 +142,8 @@ function WelcomeContent({
   return (
     <>
       <div className="flex flex-col items-center gap-2 px-8 text-center text-body-100">
-        {title && <p className="font-bold text-xl leading-[26px]">{title}</p>}
-        {description && <p className="font-normal text-sm leading-[18px]">{description}</p>}
+        {title && <p className="typography-heading-4 text-body-100">{title}</p>}
+        {description && <p className="typography-body-2-regular text-body-200">{description}</p>}
       </div>
       {showActions && (primary || secondary) && (
         <div className="flex w-full flex-col gap-4 px-8 sm:flex-row sm:*:flex-1">
@@ -188,7 +186,7 @@ function DefaultContent({
 
   return (
     <>
-      <div className="flex min-w-0 flex-1 items-center self-stretch font-normal text-base text-body-100 leading-6">
+      <div className="typography-body-1-medium flex min-w-0 flex-1 items-center self-stretch text-body-100">
         {children}
       </div>
       {showActions && (primary || secondary) && (

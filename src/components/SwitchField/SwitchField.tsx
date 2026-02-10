@@ -63,9 +63,9 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
             <label
               htmlFor={id}
               className={cn(
-                "cursor-pointer select-none font-semibold text-body-100", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
+                "cursor-pointer select-none text-body-100",
                 disabled && "cursor-not-allowed text-disabled-100",
-                size === "default" ? "text-base leading-normal" : "text-sm leading-snug",
+                size === "default" ? "typography-body-1-semibold" : "typography-body-2-semibold",
               )}
             >
               {label}
@@ -88,7 +88,7 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
             className={cn(
               "text-body-200", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
               disabled && "text-disabled-100",
-              size === "default" ? "text-sm leading-snug" : "text-xs leading-snug",
+              size === "default" ? "typography-body-2-regular" : "typography-caption-regular",
             )}
           >
             {helperText}

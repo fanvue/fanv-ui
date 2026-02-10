@@ -56,7 +56,7 @@ export function SliderThumb({
         <span
           role="tooltip"
           data-slider-tooltip
-          className="pointer-events-none absolute bottom-full mb-2 rounded-3xl bg-background-solid px-2 py-1 font-semibold text-background-inverse-solid text-xs shadow-sm"
+          className="typography-caption-semibold pointer-events-none absolute bottom-full mb-2 rounded-3xl bg-background-solid px-2 py-1 text-background-inverse-solid shadow-sm"
         />
       )}
     </SliderPrimitive.Thumb>

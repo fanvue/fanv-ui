@@ -87,10 +87,10 @@ export const AllStates: Story = {
   render: () => (
     <div className="flex flex-col gap-8">
       <div>
-        <p className="mb-4 font-medium text-neutral-300 text-sm">Active</p>
+        <p className="typography-body-2-semibold mb-4 text-neutral-300">Active</p>
         <div className="flex gap-10">
           <div className="flex flex-col items-center gap-2">
-            <p className="text-neutral-250 text-xs">Default</p>
+            <p className="typography-caption-regular text-neutral-250">Default</p>
             <Tabs defaultValue="t">
               <TabsList>
                 <TabsTrigger value="t">Tab</TabsTrigger>
@@ -98,7 +98,7 @@ export const AllStates: Story = {
             </Tabs>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <p className="text-neutral-250 text-xs">Disabled</p>
+            <p className="typography-caption-regular text-neutral-250">Disabled</p>
             <Tabs defaultValue="t">
               <TabsList>
                 <TabsTrigger value="t" disabled>
@@ -110,10 +110,10 @@ export const AllStates: Story = {
         </div>
       </div>
       <div>
-        <p className="mb-4 font-medium text-neutral-300 text-sm">Inactive</p>
+        <p className="typography-body-2-semibold mb-4 text-neutral-300">Inactive</p>
         <div className="flex gap-10">
           <div className="flex flex-col items-center gap-2">
-            <p className="text-neutral-250 text-xs">Default</p>
+            <p className="typography-caption-regular text-neutral-250">Default</p>
             <Tabs defaultValue="other">
               <TabsList>
                 <TabsTrigger value="t">Tab</TabsTrigger>
@@ -121,7 +121,7 @@ export const AllStates: Story = {
             </Tabs>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <p className="text-neutral-250 text-xs">Disabled</p>
+            <p className="typography-caption-regular text-neutral-250">Disabled</p>
             <Tabs defaultValue="other">
               <TabsList>
                 <TabsTrigger value="t" disabled>

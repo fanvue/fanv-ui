@@ -5,9 +5,9 @@ import { VipBadgeIcon } from "../Icons/VipBadgeIcon";
 import { Snackbar } from "./Snackbar";
 
 const DefaultMessage = (
-  <span>
-    <span className="font-medium">@user.with.username</span> changed their subscription price to{" "}
-    <span className="font-medium">$43.99</span> per month
+  <span className="typography-body-2-semibold">
+    <span>@user.with.username</span> changed their subscription price to <span>$43.99</span> per
+    month
   </span>
 );
 
@@ -74,7 +74,7 @@ export const DefaultWithCustomSlots: Story = {
       </Button>
     ),
     secondarySlot: (
-      <a href="#dismiss" className="text-body-200 text-sm underline">
+      <a href="#dismiss" className="typography-link-small text-body-200">
         Custom link
       </a>
     ),
@@ -148,7 +148,7 @@ export const VipEarnWithCustomSlot: Story = {
     title: "You're killing it! You've earned 1,000pts",
     description: "Find out how to redeem them, and earn more...",
     primarySlot: (
-      <a href="#redeem" className="font-medium text-brand-purple-500 text-sm underline">
+      <a href="#redeem" className="typography-link-small text-brand-purple-500">
         Redeem now
       </a>
     ),

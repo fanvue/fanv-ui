@@ -70,9 +70,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         data-testid="badge"
         className={cn(
           // Base styles
-          "inline-flex h-5 items-center gap-2 rounded-full px-2",
-          // Typography
-          "font-semibold text-[9px] uppercase leading-none tracking-[0.9px]",
+          "typography-caption-semibold inline-flex h-5 items-center gap-2 rounded-full px-2",
           // Variant styles
           badgeVariants.variant[variant],
           // Manual CSS overrides
