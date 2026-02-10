@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/fanvue/fanv-ui#readme
+    about: Check the README and Storybook docs before opening an issue.
+  - name: Security Vulnerability
+    url: https://github.com/fanvue/fanv-ui/blob/main/SECURITY.md
+    about: Please report security vulnerabilities via our security policy, not as a public issue.

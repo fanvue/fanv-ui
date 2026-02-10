@@ -70,7 +70,7 @@ Customize the theme by overriding CSS variables:
 
 ### Prerequisites
 
-- Node.js 24+
+- Node.js 20+
 - pnpm 9+
 
 ## Installation
