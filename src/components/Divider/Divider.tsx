@@ -17,9 +17,11 @@ export const Divider = React.forwardRef<
 >(({ label, className, ...props }, ref) => {
   if (label !== undefined) {
     return (
-      <div className={cn(`my-2 flex w-full items-center justify-center gap-2`, className)}>
+      <div
+        ref={ref}
+        className={cn(`my-2 flex w-full items-center justify-center gap-2`, className)}
+      >
         <SeparatorPrimitive.Root
-          ref={ref}
           decorative
           orientation="horizontal"
           className="h-px flex-1 bg-neutral-200"
