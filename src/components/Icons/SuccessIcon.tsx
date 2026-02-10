@@ -1,13 +1,16 @@
+import React from "react";
+import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
-export const SuccessIcon = ({ className }: IconProps) => {
-  return (
+export const SuccessIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  ({ className, ...props }, ref) => (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
+      ref={ref}
       viewBox="0 0 20 20"
       fill="currentColor"
-      className={className}
       aria-hidden="true"
+      className={cn("size-5", className)}
+      {...props}
     >
       <path
         fillRule="evenodd"
@@ -15,5 +18,7 @@ export const SuccessIcon = ({ className }: IconProps) => {
         clipRule="evenodd"
       />
     </svg>
-  );
-};
+  ),
+);
+
+SuccessIcon.displayName = "SuccessIcon";
