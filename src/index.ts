@@ -62,7 +62,7 @@ export { Snackbar } from "./components/Snackbar/Snackbar";
 export type {
   ToastProps,
   ToastProviderProps,
-  ToastState,
+  ToastVariant,
   ToastViewportProps,
 } from "./components/Toast/Toast";
 export { Toast, ToastProvider, ToastViewport } from "./components/Toast/Toast";

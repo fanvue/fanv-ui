@@ -1,44 +1,43 @@
 import * as ToastPrimitive from "@radix-ui/react-toast";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { Avatar } from "../Avatar/Avatar";
+import { Button } from "../Button/Button";
 import { CloseIcon } from "../Icons/Close";
 import { ErrorIcon } from "../Icons/Error";
 import { InfoIcon } from "../Icons/Info";
 import { SuccessIcon } from "../Icons/Success";
 import { WarningIcon } from "../Icons/Warning";
 
-const toastVariants = {
-  state: {
-    Info: "border-none text-body-100",
-    Warning: "border-none text-body-100",
-    Success: "border-none text-body-100",
-    Error: "border-none text-body-100",
-  },
-  iconColor: {
-    Info: "text-info-500",
-    Warning: "text-warning-500",
-    Success: "text-success-500",
-    Error: "text-error-500",
-  },
-} as const;
+export enum toastVariants {
+  info = "info",
+  warning = "warning",
+  success = "success",
+  error = "error",
+  messageToast = "messageToast",
+}
 
-export type ToastState = keyof typeof toastVariants.state;
+export type ToastVariant = keyof typeof toastVariants;
 
 // Override "title" prop to allow React.ReactNode instead of string | undefined
 export interface ToastProps
   extends Omit<Omit<React.ComponentPropsWithoutRef<typeof ToastPrimitive.Root>, "type">, "title"> {
-  /** Visual state variant of the toast */
-  state?: ToastState;
+  /** Variant of the toast */
+  variant?: ToastVariant;
   /** Toast title */
   title?: string;
   /** Toast description/message */
   description?: React.ReactNode;
-  /** Action button element */
-  action?: React.ReactNode;
+  /** Action button label */
+  actionLabel?: string;
+  /** Action button click handler */
+  onActionClick?: () => void;
   /** Show close button */
   showClose?: boolean;
   /** Avatar element */
-  avatar?: React.ReactNode;
+  avatarSrc?: string;
+  avatarAlt?: string;
+  avatarFallback?: string;
 }
 
 export interface ToastProviderProps extends ToastPrimitive.ToastProviderProps {}
@@ -63,18 +62,16 @@ export const ToastViewport = React.forwardRef<
 
 ToastViewport.displayName = "ToastViewport";
 
-const StateIcon = ({ state }: { state: ToastState }) => {
-  const iconClass = cn("h-5 w-5 shrink-0", toastVariants.iconColor[state]);
-
-  switch (state) {
-    case "Info":
-      return <InfoIcon className={iconClass} />;
-    case "Warning":
-      return <WarningIcon className={iconClass} />;
-    case "Success":
-      return <SuccessIcon className={iconClass} />;
-    case "Error":
-      return <ErrorIcon className={iconClass} />;
+const VariantIcon = ({ variant }: { variant: ToastVariant }) => {
+  switch (variant) {
+    case "info":
+      return <InfoIcon className="size-5 text-info-500" />;
+    case "warning":
+      return <WarningIcon className="size-5 text-warning-500" />;
+    case "success":
+      return <SuccessIcon className="size-5 text-success-500" />;
+    case "error":
+      return <ErrorIcon className="size-5 text-error-500" />;
   }
 };
 
@@ -82,12 +79,15 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
   (
     {
       className,
-      state = "Info",
+      variant = "info",
       title,
       description,
-      action,
+      actionLabel,
+      onActionClick,
       showClose = true,
-      avatar,
+      avatarSrc,
+      avatarAlt,
+      avatarFallback,
       children,
       ...props
     },
@@ -99,33 +99,48 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
         data-testid="toast"
         className={cn(
           // Base styles
-          "group pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden rounded-lg border-l-4 p-4 shadow-lg transition-all",
+          "group pointer-events-auto relative flex w-full flex-col items-start gap-3 overflow-hidden rounded-lg border-none bg-background-solid p-4 text-background-inverse-solid shadow-lg transition-all",
           // Dark mode
           "dark:border-opacity-100",
           // Animation
           "data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[state=open]:sm:slide-in-from-top-full data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-(--radix-toast-swipe-end-x) data-[swipe=move]:translate-x-(--radix-toast-swipe-move-x) data-[state=closed]:animate-out data-[state=open]:animate-in data-[swipe=end]:animate-out data-[swipe=move]:transition-none",
-          // Variant styles
-          toastVariants.state[state],
           // Manual CSS overrides
           className,
         )}
         {...props}
       >
-        <StateIcon state={state} />
-        <div className="flex flex-1 flex-col gap-1">
-          {title && (
-            <ToastPrimitive.Title className="font-semibold text-sm leading-normal">
-              {title}
-            </ToastPrimitive.Title>
-          )}
-          {description && (
-            <ToastPrimitive.Description className="font-normal text-sm leading-normal opacity-90">
-              {description}
-            </ToastPrimitive.Description>
-          )}
-          {children}
+        <div className="flex w-full items-center gap-3">
+          <div className="self-start">
+            {variant === "messageToast" ? (
+              avatarSrc && <Avatar src={avatarSrc} alt={avatarAlt} fallback={avatarFallback} />
+            ) : (
+              <VariantIcon variant={variant} />
+            )}
+          </div>
+          <div className="flex flex-1 flex-col items-start">
+            {title && (
+              <ToastPrimitive.Title className="font-semibold text-sm leading-normal">
+                {title}
+              </ToastPrimitive.Title>
+            )}
+            {description && (
+              <ToastPrimitive.Description className="mt-1 font-normal text-sm leading-normal opacity-90">
+                {description}
+              </ToastPrimitive.Description>
+            )}
+            {children}
+            {onActionClick && (
+              <Button
+                variant="secondary"
+                className="mt-4 border-body-400 text-body-400"
+                size="32"
+                onClick={onActionClick}
+              >
+                {actionLabel ?? "Action"}
+              </Button>
+            )}
+          </div>
         </div>
-        {action && <ToastPrimitive.Action altText="Action">{action}</ToastPrimitive.Action>}
         {showClose && (
           <ToastPrimitive.Close className="absolute top-2 right-2 rounded-md p-1 opacity-70 transition-opacity hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100">
             <CloseIcon className="size-4" />

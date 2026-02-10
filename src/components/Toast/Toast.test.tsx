@@ -71,60 +71,85 @@ describe("Toast", () => {
     it("renders action when provided", () => {
       render(
         <ToastWrapper>
-          <Toast open title="Test" action={<span>Action Button</span>} />
+          <Toast open title="Test" actionLabel="Action Button" onActionClick={() => {}} />
         </ToastWrapper>,
       );
       expect(screen.getByText("Action Button")).toBeInTheDocument();
     });
   });
 
-  describe("state variants", () => {
-    it("renders Info state correctly", () => {
+  describe("variant", () => {
+    it("renders info variant correctly", () => {
       render(
         <ToastWrapper>
-          <Toast open state="Info" title="Info">
+          <Toast open variant="info" title="Info">
             Info
           </Toast>
         </ToastWrapper>,
       );
       const toast = screen.getByTestId("toast");
-      expect(toast).toHaveClass("border-info-500");
+      expect(toast).toHaveClass("border-none");
+      expect(toast).toHaveClass("text-body-100");
     });
 
-    it("renders Warning state correctly", () => {
+    it("renders warning variant correctly", () => {
       render(
         <ToastWrapper>
-          <Toast open state="Warning" title="Warning">
+          <Toast open variant="warning" title="Warning">
             Warning
           </Toast>
         </ToastWrapper>,
       );
       const toast = screen.getByTestId("toast");
-      expect(toast).toHaveClass("border-warning-500");
+      expect(toast).toHaveClass("border-none");
+      expect(toast).toHaveClass("text-body-100");
     });
 
-    it("renders Success state correctly", () => {
+    it("renders success variant correctly", () => {
       render(
         <ToastWrapper>
-          <Toast open state="Success" title="Success">
+          <Toast open variant="success" title="Success">
             Success
           </Toast>
         </ToastWrapper>,
       );
       const toast = screen.getByTestId("toast");
-      expect(toast).toHaveClass("border-success-500");
+      expect(toast).toHaveClass("border-none");
+      expect(toast).toHaveClass("text-body-100");
     });
 
-    it("renders Error state correctly", () => {
+    it("renders error variant correctly", () => {
       render(
         <ToastWrapper>
-          <Toast open state="Error" title="Error">
+          <Toast open variant="error" title="Error">
             Error
           </Toast>
         </ToastWrapper>,
       );
       const toast = screen.getByTestId("toast");
-      expect(toast).toHaveClass("border-error-500");
+      expect(toast).toHaveClass("border-none");
+      expect(toast).toHaveClass("text-body-100");
+    });
+
+    it("renders messageToast variant correctly", () => {
+      render(
+        <ToastWrapper>
+          <Toast
+            open
+            variant="messageToast"
+            title="Message"
+            avatarSrc="https://via.placeholder.com/150"
+            avatarAlt="Avatar"
+            avatarFallback="AV"
+          >
+            Message
+          </Toast>
+        </ToastWrapper>,
+      );
+      const toast = screen.getByTestId("toast");
+      expect(toast).toHaveClass("bg-body-900");
+      expect(toast).toHaveClass("text-body-100");
+      expect(screen.getByTestId("avatar")).toBeInTheDocument();
     });
   });
 
@@ -156,7 +181,7 @@ describe("Toast", () => {
     it("marks decorative icons as aria-hidden", () => {
       const { container } = render(
         <ToastWrapper>
-          <Toast open state="Info" title="Test">
+          <Toast open variant="info" title="Test">
             Test
           </Toast>
         </ToastWrapper>,
