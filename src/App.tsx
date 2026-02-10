@@ -16,6 +16,7 @@ import {
   CrossIcon,
   CrownIcon,
   DatePicker,
+  Divider,
   ErrorCircleIcon,
   FireIcon,
   HomeIcon,
@@ -695,6 +696,29 @@ function App() {
           <div className="flex flex-wrap items-center gap-4">
             <Count value={150} max={99} />
             <Count value={1000} max={999} />
+          </div>
+
+          {/* Divider */}
+          <div className="space-y-8">
+            <div>
+              <h3 className="mb-4 font-semibold text-sm">Default Divider</h3>
+              <div className="space-y-4">
+                <p>Section 1</p>
+                <Divider />
+                <p>Section 2</p>
+                <Divider className="w-1/2" />
+                <p>Section 3</p>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="mb-4 font-semibold text-sm">Text Divider</h3>
+              <div className="space-y-4">
+                <p>Section 1</p>
+                <Divider label="or" />
+                <p>Section 2</p>
+              </div>
+            </div>
           </div>
 
           {/* Snackbar */}
