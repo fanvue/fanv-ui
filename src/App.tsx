@@ -4,6 +4,7 @@ import {
   Alert,
   ArrowRightIcon,
   ArrowUpRightIcon,
+  AudioUpload,
   Avatar,
   Badge,
   Button,
@@ -2001,6 +2002,34 @@ function App() {
                   </Button>
                 </div>
               </div>
+            </div>
+
+            <div className="flex flex-wrap items-start gap-6">
+              <AudioUpload
+                className="w-80"
+                onFilesAccepted={(files) => console.log("Accepted:", files)}
+                onRecordingComplete={(blob, duration) => console.log("Recording:", blob, duration)}
+              />
+              <AudioUpload
+                className="w-80"
+                allowRecording={false}
+                onFilesAccepted={(files) => console.log("Accepted:", files)}
+              />
+              <AudioUpload className="w-80" disabled />
+              <AudioUpload
+                className="w-80"
+                uploadTitle="Drop your audio here"
+                uploadDescription="MP3, WAV, OGG — max 5MB"
+                separatorText="or alternatively"
+                recordButtonLabel="Use microphone"
+                maxFileSize={5 * 1024 * 1024}
+              />
+              <AudioUpload
+                className="w-80"
+                maxFiles={7}
+                uploadDescription="Audio files only, up to 10MB each (max 7 files)"
+              />
+              <AudioUpload className="w-80" maxRecordingDuration={10} />
             </div>
           </section>
         </main>

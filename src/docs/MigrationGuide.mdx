@@ -20,7 +20,7 @@ This is not a step-by-step tutorial. It is a catalog of things to watch out for:
   - [Buttons & Actions](#buttons--actions) · [Feedback & Notifications](#feedback--notifications) · [Data Display](#data-display) · [Data Input](#data-input) · [Navigation](#navigation) · [Layout & Containers](#layout--containers) · [Overlays & Modals](#overlays--modals) · [Disclosure & Transitions](#disclosure--transitions) · [Charts & Visualization](#charts--visualization)
 - [Part 1: Olympus to @fanvue/ui](#part-1-olympus-to-fanvueui)
   - [Component Mapping](#component-mapping)
-  - [Prop Name Changes](#prop-name-changes) — [Button](#button) · [Alert](#alert) · [Avatar](#avatar) · [Tabs](#tabs) · [Switch](#switch-formerly-toggle) · [Checkbox](#checkbox) · [ProgressBar](#progressbar) · [TextField](#textfield) · [Tooltip](#tooltip) · [DatePicker](#datepicker) · [Logo](#logo)
+  - [Prop Name Changes](#prop-name-changes) — [AudioUpload](#audioupload) · [Button](#button) · [Alert](#alert) · [Avatar](#avatar) · [Tabs](#tabs) · [Switch](#switch-formerly-toggle) · [Checkbox](#checkbox) · [ProgressBar](#progressbar) · [TextField](#textfield) · [Tooltip](#tooltip) · [DatePicker](#datepicker) · [Logo](#logo)
   - [Styling Approach](#styling-approach)
   - [Typography Migration](#typography-migration)
   - [High-Volume Components and Migration Notes](#high-volume-components-and-migration-notes)
@@ -100,6 +100,7 @@ Use this table to determine which library provides each component. Where @fanvue
 | Date picker | ✅ `DatePicker` | ❌ | ✅ `DatePicker` (MUI X) |
 | Date range picker | ❌ | ❌ | ✅ `DateRangePicker` (MUI X Pro) |
 | Search field | ❌ | ✅ `SearchField` | ❌ |
+| Audio upload / record | ✅ `AudioUpload` | ❌ | ❌ |
 | Form control / label | ✅ Built into components (`TextField`, `Checkbox`, `SwitchField`) | ❌ | ✅ `FormControl` / `FormControlLabel` |
 | Input adornment | ✅ `TextField` `leftIcon` / `rightIcon` | ❌ | ✅ `InputAdornment` |
 
@@ -158,7 +159,7 @@ Use this table to determine which library provides each component. Where @fanvue
 
 | Status | Count |
 |---|---|
-| ✅ Available in @fanvue/ui (or Tailwind equivalent) | 39 |
+| ✅ Available in @fanvue/ui (or Tailwind equivalent) | 40 |
 | ❌ Not yet available — needs development or stays on MUI | 25 |
 
 ---
@@ -197,11 +198,71 @@ The following table maps every Olympus component to its @fanvue/ui replacement (
 | `Banner` | N/A | Not yet available in @fanvue/ui |
 | `Table` | N/A | Not yet available in @fanvue/ui |
 | `Boxes` (Flex, CenterFlex, etc.) | N/A (Tailwind utilities) | Replace with `<div className="flex ...">` |
+| `AudioUploadBox` (custom) | `AudioUpload` | Replaces custom `AiVoiceUploadArea` + `react-dropzone` + custom `useAudioRecorder` + `RealTimeWaveform`. See [AudioUpload](#audioupload) |
 | `ProgressBar` | `ProgressBar` | Different API (see above) |
 
 ### Prop Name Changes
 
 Each component below details the specific prop renames, value changes, and API differences between Olympus and @fanvue/ui.
+
+#### AudioUpload
+
+Pandora's `AudioUploadBox` (`AiVoiceUploadArea.tsx`) is a custom component — not from Olympus — that bundles `react-dropzone`, a custom `useAudioRecorder` hook, `RealTimeWaveform`, and several Zustand stores. The @fanvue/ui `AudioUpload` component replaces all of this with a single import.
+
+```tsx
+// Pandora (custom)
+import { AudioUploadBox } from "components/AiVoice/AiVoiceUploadArea";
+import { useAudioRecorder } from "hooks/useAudioRecorder";
+import { validateAudioFile } from "utils/audioUtils";
+
+// @fanvue/ui
+import { AudioUpload, useAudioRecorder, validateAudioFile } from "@fanvue/ui";
+```
+
+**Component mapping:**
+
+| Pandora (custom) | @fanvue/ui | Notes |
+|---|---|---|
+| `AudioUploadBox` | `AudioUpload` | Self-contained component with drag-drop upload + recording |
+| `useAudioRecorder` hook | `useAudioRecorder` | Same concept; returns `{ isRecording, startRecording, stopRecording, elapsedTime, analyserNode }` |
+| `useAiVoiceRecorder` hook | `useAudioRecorder` | Advanced recording logic (min/max duration) is built into `AudioUpload` |
+| `RealTimeWaveform` | Built-in (`AudioWaveform`) | Canvas-based waveform is rendered automatically during recording |
+| `audioUtils.validateAudioFile` | `validateAudioFile` | Synchronous; returns `AudioValidationError[]` instead of `Promise<AudioValidationResult>` |
+| `audioUtils.getAudioDuration` | N/A | No direct equivalent — compute duration from the `durationMs` argument passed to `onRecordingComplete`, or use the Web Audio API on the consumer side |
+| `audioRecorderFileFormat` | `getRecordingMimeType()` | Function instead of constant; auto-detects browser support |
+
+**Prop mapping:**
+
+| Pandora (`AudioUploadBox`) | @fanvue/ui (`AudioUpload`) | Notes |
+|---|---|---|
+| `onSaveAndPreview` | N/A | Not part of the upload component; handle externally |
+| `onCancel` | N/A | Not part of the upload component; handle externally |
+| `isAdvancedMode` | N/A | UI mode logic belongs in the consuming app |
+| `react-dropzone` `onDrop` | `onFilesAccepted` / `onFilesRejected` | Split into accepted and rejected callbacks |
+| `MAX_AUDIO_FILE_SIZE_BYTES` | `maxFileSize` | Prop (default `10_485_760` / 10MB) |
+| `MAX_RECORDING_DURATION_SECONDS` | `maxRecordingDuration` | Prop (default `30`) |
+| `MIN_RECORDING_DURATION_SECONDS` | `minRecordingDuration` | Prop (default `5`) |
+| `acceptedAudioTypes` | `accept` | Prop (default covers mp3, ogg, wav, m4a, mp4, flac, webm, aac) |
+| `MAX_AUDIO_FILES` | `maxFiles` | Prop (default `1`) |
+| N/A | `onRecordingComplete` | Called with `(blob, durationMs)` when recording meets minimum duration |
+| N/A | `onRecordingTooShort` | Called when recording is stopped early |
+| N/A | `onPermissionError` | Called when microphone access is denied |
+| N/A | `allowRecording` | Toggle the record button (default `true`) |
+| N/A | `disabled` | Disables the entire component |
+
+**Dependencies that can be removed after migration:**
+
+| Package | Reason |
+|---|---|
+| `react-dropzone` | Drag-and-drop is built into `AudioUpload` |
+| `wavesurfer.js` | Only if all waveform usage is migrated; `AudioUpload` uses a lightweight canvas-based waveform |
+
+**Key differences:**
+- `AudioUpload` is stateless — it does not manage uploaded files in a store. The consuming app handles state via the `onFilesAccepted` / `onRecordingComplete` callbacks.
+- The Zustand stores (`aiVoiceFilesStore`, `aiVoiceAudioStore`, `aiVoiceUIStore`) have no equivalent and should remain in Pandora for app-level state management.
+- `AudioUpload` text labels (`uploadTitle`, `uploadDescription`, `recordButtonLabel`, `separatorText`) default to English. Pass translated strings via props for i18n.
+
+---
 
 #### Button
 
@@ -523,6 +584,7 @@ These Olympus / MUI components are heavily used in Pandora. Some now have @fanvu
 | **Chip** | 26 | ✅ |
 | **Alert** | 21 | ✅ |
 | **Tooltip** | 10 | ✅ |
+| **AudioUploadBox** (custom) | 1 (+ hooks/utils) | ✅ (`AudioUpload` + `useAudioRecorder` + `validateAudioFile`) |
 | **Accordion** | 3 | ❌ |
 | **DropdownMenu / Menu** | — | ❌ |
 | **Table** | — | ❌ |

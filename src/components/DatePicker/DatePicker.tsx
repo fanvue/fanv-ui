@@ -74,7 +74,7 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
         "relative z-10 inline-flex size-10 cursor-pointer items-center justify-center rounded-lg",
         "typography-body-2-regular",
         "transition-colors hover:bg-brand-green-50 not-disabled:active:bg-brand-green-50",
-        "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-brand-purple-500",
+        "focus-visible:outline-2 focus-visible:outline-brand-purple-500 focus-visible:outline-offset-[-2px]",
         "disabled:cursor-not-allowed disabled:opacity-50",
         modifiers.today && !modifiers.selected && "border border-brand-green-500",
         modifiers.selected && !modifiers.range_middle
