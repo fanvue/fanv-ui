@@ -26,6 +26,7 @@ import {
   InfoCircleIcon,
   Logo,
   MinusIcon,
+  Pagination,
   Pill,
   PlusIcon,
   Radio,
@@ -133,6 +134,33 @@ function SliderShowcase() {
         maxLabel="100"
       />
       <Slider defaultValue={[60]} label="Speed" labelPosition="left" />
+    </div>
+  );
+}
+
+function PaginationShowcase() {
+  const [defaultPage, setDefaultPage] = useState(2);
+  const [manyPage, setManyPage] = useState(10);
+  const [dotsPage, setDotsPage] = useState(2);
+  const [dotsFewPage, setDotsFewPage] = useState(3);
+
+  return (
+    <div className="flex flex-col gap-6">
+      <Pagination totalPages={5} currentPage={defaultPage} onPageChange={setDefaultPage} />
+      <Pagination totalPages={20} currentPage={manyPage} onPageChange={setManyPage} />
+      <Pagination totalPages={1} currentPage={1} />
+      <Pagination
+        variant="dots"
+        totalPages={15}
+        currentPage={dotsPage}
+        onPageChange={setDotsPage}
+      />
+      <Pagination
+        variant="dots"
+        totalPages={5}
+        currentPage={dotsFewPage}
+        onPageChange={setDotsFewPage}
+      />
     </div>
   );
 }
@@ -1122,6 +1150,8 @@ function App() {
             </div>
 
             <SliderShowcase />
+
+            <PaginationShowcase />
 
             {/* Toast */}
             <div className="space-y-4">
