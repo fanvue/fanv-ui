@@ -29,6 +29,10 @@ import {
   Slider,
   Snackbar,
   SpinnerIcon,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   VipBadgeIcon,
   WarningTriangleIcon,
 } from "./index";
@@ -766,6 +770,64 @@ function App() {
               primaryLabel="Become a creator"
               secondaryLabel="Discover creators"
             />
+          </div>
+
+          <div className="flex flex-wrap items-start gap-8">
+            <Tabs defaultValue="tab1">
+              <TabsList>
+                <TabsTrigger value="tab1">Photos</TabsTrigger>
+                <TabsTrigger value="tab2">Videos</TabsTrigger>
+                <TabsTrigger value="tab3">Posts</TabsTrigger>
+              </TabsList>
+              <TabsContent value="tab1">
+                <p className="pt-4 text-neutral-400 text-sm">Photos content</p>
+              </TabsContent>
+              <TabsContent value="tab2">
+                <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
+              </TabsContent>
+              <TabsContent value="tab3">
+                <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
+              </TabsContent>
+            </Tabs>
+            <Tabs defaultValue="tab1">
+              <TabsList>
+                <TabsTrigger value="tab1">Active</TabsTrigger>
+                <TabsTrigger value="tab2">Normal</TabsTrigger>
+                <TabsTrigger value="tab3" disabled>
+                  Disabled
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="tab1">
+                <p className="pt-4 text-neutral-400 text-sm">Active tab content</p>
+              </TabsContent>
+              <TabsContent value="tab2">
+                <p className="pt-4 text-neutral-400 text-sm">Normal tab content</p>
+              </TabsContent>
+            </Tabs>
+            <Tabs defaultValue="t">
+              <TabsList>
+                <TabsTrigger value="t">Tab</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <Tabs defaultValue="t">
+              <TabsList>
+                <TabsTrigger value="t" disabled>
+                  Tab
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <Tabs defaultValue="other">
+              <TabsList>
+                <TabsTrigger value="t">Tab</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <Tabs defaultValue="other">
+              <TabsList>
+                <TabsTrigger value="t" disabled>
+                  Tab
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
 
           <DatePickerShowcase />
