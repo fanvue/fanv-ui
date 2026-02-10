@@ -3,6 +3,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
+import { IconButton } from "../IconButton/IconButton";
 import { CloseIcon } from "../Icons/Close";
 import { ErrorIcon } from "../Icons/Error";
 import { InfoIcon } from "../Icons/Info";
@@ -34,9 +35,11 @@ export interface ToastProps
   onActionClick?: () => void;
   /** Show close button */
   showClose?: boolean;
-  /** Avatar element */
+  /** Avatar image source */
   avatarSrc?: string;
+  /** Avatar alt text */
   avatarAlt?: string;
+  /** Avatar fallback text */
   avatarFallback?: string;
 }
 
@@ -132,6 +135,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
             {onActionClick && (
               <Button
                 variant="secondary"
+                // These styles are basically inverted from the selected theme
                 className="mt-4 border-body-400 text-body-400"
                 size="32"
                 onClick={onActionClick}
@@ -143,8 +147,13 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
         </div>
         {showClose && (
           <ToastPrimitive.Close className="absolute top-2 right-2 rounded-md p-1 opacity-70 transition-opacity hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100">
-            <CloseIcon className="size-4" />
-            <span className="sr-only">Close</span>
+            <IconButton
+              icon={<CloseIcon />}
+              // same as the button above
+              className="text-body-300!"
+              variant="tertiary"
+              size="24"
+            />
           </ToastPrimitive.Close>
         )}
       </ToastPrimitive.Root>
