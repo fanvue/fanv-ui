@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-alpha.1](https://github.com/fanvue/fanv-ui/compare/ui-v0.1.0-alpha.0...ui-v0.1.0-alpha.1) (2026-02-10)
+
+
+### Bug Fixes
+
+* **ci:** defining npm registry ([#76](https://github.com/fanvue/fanv-ui/issues/76)) ([e9ed8c1](https://github.com/fanvue/fanv-ui/commit/e9ed8c15236cdb3fc725a5d814aca21188a09b0a))
+
 ## 0.1.0-alpha.0 (2026-02-10)
 
 
