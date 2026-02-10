@@ -26,6 +26,7 @@ import {
   PlusIcon,
   Radio,
   RadioGroup,
+  Slider,
   Snackbar,
   SpinnerIcon,
   VipBadgeIcon,
@@ -73,6 +74,51 @@ function DatePickerShowcase() {
         selected={doubleRange}
         onSelect={setDoubleRange}
       />
+    </div>
+  );
+}
+
+function SliderShowcase() {
+  const [controlled, setControlled] = useState([50]);
+
+  return (
+    <div className="flex max-w-md flex-col gap-6">
+      <Slider defaultValue={[50]} label="Label" minLabel="Min Value" maxLabel="Max Value" />
+      <Slider defaultValue={[40]} label="Volume" labelPosition="top" minLabel="0" maxLabel="100" />
+      <Slider defaultValue={[40]} label="Volume" labelPosition="left" minLabel="0" maxLabel="100" />
+      <Slider defaultValue={[25]} label="Brightness" showTooltip minLabel="0%" maxLabel="100%" />
+      <Slider
+        defaultValue={[50]}
+        label="Price"
+        showTooltip
+        min={0}
+        max={1000}
+        step={10}
+        formatTooltip={(value) => `$${value}`}
+      />
+      <Slider defaultValue={[20, 80]} label="Price Range" minLabel="$0" maxLabel="$1000" />
+      <Slider defaultValue={[50]} aria-label="No labels slider" />
+      <Slider defaultValue={[30]} minLabel="Low" maxLabel="High" />
+      <Slider defaultValue={[50]} label="Disabled Slider" minLabel="Min" maxLabel="Max" disabled />
+      <Slider
+        defaultValue={[50]}
+        label="Rating"
+        min={0}
+        max={100}
+        step={25}
+        minLabel="0"
+        maxLabel="100"
+        showTooltip
+      />
+      <Slider
+        value={controlled}
+        onValueChange={setControlled}
+        label="Controlled"
+        showTooltip
+        minLabel="0"
+        maxLabel="100"
+      />
+      <Slider defaultValue={[60]} label="Speed" labelPosition="left" />
     </div>
   );
 }
@@ -723,6 +769,8 @@ function App() {
           </div>
 
           <DatePickerShowcase />
+
+          <SliderShowcase />
         </section>
       </div>
     </div>

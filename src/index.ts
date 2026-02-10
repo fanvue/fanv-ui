@@ -58,6 +58,11 @@ export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";
 export type {
+  SliderLabelPosition,
+  SliderProps,
+} from "./components/Slider/Slider";
+export { Slider } from "./components/Slider/Slider";
+export type {
   SnackbarProps,
   SnackbarVariant,
 } from "./components/Snackbar/Snackbar";
