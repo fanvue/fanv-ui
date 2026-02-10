@@ -2,9 +2,10 @@
   "packages": {
     ".": {
       "release-type": "node",
-      "versioning-strategy": "prerelease",
+      "versioning": "prerelease",
       "prerelease": true,
       "prerelease-type": "alpha",
+      "initial-version": "0.1.0-alpha.0",
       "bump-minor-pre-major": true,
       "bump-patch-for-minor-pre-major": true,
       "changelog-sections": [
