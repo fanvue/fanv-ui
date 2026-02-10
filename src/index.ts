@@ -29,6 +29,8 @@ export type {
   DateRange,
 } from "./components/DatePicker/DatePicker";
 export { DatePicker } from "./components/DatePicker/DatePicker";
+export type { DividerProps } from "./components/Divider/Divider";
+export { Divider } from "./components/Divider/Divider";
 export type {
   IconButtonProps,
   IconButtonSize,

@@ -18,6 +18,7 @@ import {
   CrossIcon,
   CrownIcon,
   DatePicker,
+  Divider,
   ErrorCircleIcon,
   FireIcon,
   HomeIcon,
@@ -1013,6 +1014,53 @@ function App() {
             </div>
 
             <DatePickerShowcase />
+            {/* Divider */}
+            <div className="space-y-8">
+              <div>
+                <h3 className="mb-4 font-semibold text-sm">Default Divider</h3>
+                <div className="space-y-4">
+                  <p>Section 1</p>
+                  <Divider />
+                  <p>Section 2</p>
+                  <Divider className="w-1/2" />
+                  <p>Section 3</p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="mb-4 font-semibold text-sm">Text Divider</h3>
+                <div className="space-y-4">
+                  <p>Section 1</p>
+                  <Divider label="or" />
+                  <p>Section 2</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Snackbar */}
+            <div className="max-w-xl space-y-4">
+              <Snackbar
+                variant="vipEarn"
+                icon={<VipBadgeIcon />}
+                title="You're killing it! You've earned 1,000pts"
+                description="Find out how to redeem them, and earn more..."
+                primaryLabel="Redeem points"
+                closable
+              />
+              <Snackbar primaryLabel="Accept" secondaryLabel="Dismiss">
+                <span>
+                  <span className="font-medium">@user.with.username</span> changed their
+                  subscription price to <span className="font-medium">$43.99</span> per month
+                </span>
+              </Snackbar>
+              <Snackbar
+                variant="welcome"
+                title="Welcome to Fanvue 👋"
+                description="Let's get you started!"
+                primaryLabel="Become a creator"
+                secondaryLabel="Discover creators"
+              />
+            </div>
 
             {/* Tabs */}
             <div className="flex flex-wrap items-start gap-8">
