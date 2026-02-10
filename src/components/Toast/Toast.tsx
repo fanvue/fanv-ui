@@ -5,10 +5,10 @@ import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { CloseIcon } from "../Icons/CloseIcon";
-import { ErrorIcon } from "../Icons/Error";
-import { InfoIcon } from "../Icons/Info";
-import { SuccessIcon } from "../Icons/Success";
-import { WarningIcon } from "../Icons/Warning";
+import { ErrorIcon } from "../Icons/ErrorIcon";
+import { InfoIcon } from "../Icons/InfoIcon";
+import { SuccessIcon } from "../Icons/SuccessIcon";
+import { WarningIcon } from "../Icons/WarningIcon";
 
 export enum toastVariants {
   info = "info",
