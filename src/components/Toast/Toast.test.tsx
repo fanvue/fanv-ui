@@ -54,7 +54,7 @@ describe("Toast", () => {
           </Toast>
         </ToastWrapper>,
       );
-      expect(screen.getByRole("button", { name: /close/i })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /close notification/i })).toBeInTheDocument();
     });
 
     it("hides close button when showClose is false", () => {
@@ -65,7 +65,7 @@ describe("Toast", () => {
           </Toast>
         </ToastWrapper>,
       );
-      expect(screen.queryByRole("button", { name: /close/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: /close notification/i })).not.toBeInTheDocument();
     });
 
     it("renders action when provided", () => {
@@ -89,7 +89,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-body-100");
+      expect(toast).toHaveClass("text-background-inverse-solid");
     });
 
     it("renders warning variant correctly", () => {
@@ -102,7 +102,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-body-100");
+      expect(toast).toHaveClass("text-background-inverse-solid");
     });
 
     it("renders success variant correctly", () => {
@@ -115,7 +115,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-body-100");
+      expect(toast).toHaveClass("text-background-inverse-solid");
     });
 
     it("renders error variant correctly", () => {
@@ -128,7 +128,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-body-100");
+      expect(toast).toHaveClass("text-background-inverse-solid");
     });
 
     it("renders messageToast variant correctly", () => {
@@ -147,8 +147,8 @@ describe("Toast", () => {
         </ToastWrapper>,
       );
       const toast = screen.getByTestId("toast");
-      expect(toast).toHaveClass("bg-body-900");
-      expect(toast).toHaveClass("text-body-100");
+      expect(toast).toHaveClass("bg-background-solid");
+      expect(toast).toHaveClass("text-background-inverse-solid");
       expect(screen.getByTestId("avatar")).toBeInTheDocument();
     });
   });
@@ -174,7 +174,7 @@ describe("Toast", () => {
           </Toast>
         </ToastWrapper>,
       );
-      const closeButton = screen.getByRole("button", { name: /close/i });
+      const closeButton = screen.getByRole("button", { name: /close notification/i });
       expect(closeButton).toBeInTheDocument();
     });
 

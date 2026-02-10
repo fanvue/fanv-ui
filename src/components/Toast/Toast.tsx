@@ -146,11 +146,12 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
           </div>
         </div>
         {showClose && (
-          <ToastPrimitive.Close className="absolute top-2 right-2 rounded-md p-1 opacity-70 transition-opacity hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100">
+          <ToastPrimitive.Close asChild>
             <IconButton
               icon={<CloseIcon />}
+              aria-label="Close notification"
               // same as the button above
-              className="text-body-300!"
+              className="absolute top-2 right-2 text-body-300"
               variant="tertiary"
               size="24"
             />
