@@ -1,4 +1,6 @@
-export const SuccessIcon = ({ className }: { className: string }) => {
+import type { IconProps } from "./types";
+
+export const SuccessIcon = ({ className }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
