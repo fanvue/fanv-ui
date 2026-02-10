@@ -1,7 +1,7 @@
 import { useState } from "react";
+import type { DateRange } from "react-day-picker";
 import { MicrophoneIcon } from "./components/Icons/MicrophoneIcon";
 import { StopIcon } from "./components/Icons/StopIcon";
-import type { DateRange } from "react-day-picker";
 import {
   Alert,
   ArrowRightIcon,
