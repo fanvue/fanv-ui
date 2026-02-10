@@ -1,5 +1,7 @@
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
+import { MicrophoneIcon } from "./components/Icons/MicrophoneIcon";
+import { StopIcon } from "./components/Icons/StopIcon";
 import {
   Alert,
   ArrowRightIcon,
@@ -19,6 +21,7 @@ import {
   ErrorCircleIcon,
   FireIcon,
   HomeIcon,
+  IconButton,
   InfoCircleIcon,
   Logo,
   MinusIcon,
@@ -633,6 +636,53 @@ function App() {
             <Button variant="brand" asChild>
               <a href="#link">Link as Brand</a>
             </Button>
+          </div>
+
+          <div className="space-y-6">
+            <h2 className="font-bold text-lg">Icon Buttons</h2>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <IconButton variant="primary" icon={<HomeIcon />} />
+              <IconButton variant="secondary" icon={<HomeIcon />} />
+              <IconButton variant="tertiary" icon={<HomeIcon />} />
+              <IconButton variant="brand" icon={<HomeIcon />} />
+              <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} />
+              <IconButton variant="navTray" icon={<HomeIcon />} />
+            </div>
+
+            <div className="rounded-lg bg-body-black-solid-constant p-4">
+              <div className="flex flex-wrap items-center gap-4">
+                <IconButton variant="contrast" icon={<HomeIcon />} />
+                <IconButton variant="messaging" icon={<PlusIcon />} />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <IconButton variant="primary" icon={<HomeIcon />} size="24" />
+              <IconButton variant="primary" icon={<HomeIcon />} size="32" />
+              <IconButton variant="primary" icon={<HomeIcon />} size="40" />
+              <IconButton variant="primary" icon={<HomeIcon />} size="52" />
+              <IconButton variant="primary" icon={<HomeIcon />} size="72" />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <IconButton variant="primary" icon={<HomeIcon />} disabled />
+              <IconButton variant="secondary" icon={<HomeIcon />} disabled />
+              <IconButton variant="tertiary" icon={<HomeIcon />} disabled />
+              <IconButton variant="brand" icon={<HomeIcon />} disabled />
+              <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} disabled />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <IconButton variant="tertiary" icon={<HomeIcon />} counterValue={5} />
+              <IconButton variant="tertiary" icon={<HomeIcon />} counterValue={12} />
+              <IconButton variant="navTray" icon={<HomeIcon />} counterValue={99} />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <IconButton variant="stop" icon={<StopIcon />} size="52" />
+              <IconButton variant="microphone" icon={<MicrophoneIcon />} size="52" />
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-4">

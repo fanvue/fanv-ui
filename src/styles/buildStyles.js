@@ -27,7 +27,11 @@ const getColorTokens = (tokens) => {
     }
   });
 
-  return `\n@theme {\n${themeColorTokens}}\n\n:root {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}`;
+  return {
+    themeColorTokens,
+    lightColorTokens,
+    darkColorTokens,
+  };
 };
 
 const getTypographyClasses = (typographyTokens) => {
@@ -48,13 +52,20 @@ const getTypographyClasses = (typographyTokens) => {
   return typographyClasses;
 };
 
+const getEffectTokens = () => {
+  // Temp solution to get specific effects
+  return `  --shadow-background-blur: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500);\n  --shadow-focus-ring: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500);`;
+};
+
 StyleDictionary.registerFormat({
   name: "css/tailwind-variables",
   format: ({ dictionary }) => {
-    const colorTokens = getColorTokens(dictionary.allTokens);
-
+    const { themeColorTokens, lightColorTokens, darkColorTokens } = getColorTokens(
+      dictionary.allTokens,
+    );
     const typographyClasses = getTypographyClasses(dictionary.tokens.typography);
-    return `@import "tailwindcss";\n\n@variant dark (&:where(.dark, .dark *));\n${colorTokens}\n${typographyClasses}\n`;
+    const effectClasses = getEffectTokens();
+    return `@import "tailwindcss";\n\n@variant dark (&:where(.dark, .dark *));\n\n@theme {\n${effectClasses}\n${themeColorTokens}}\n\n:root {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}\n${typographyClasses}\n`;
   },
 });
 
@@ -72,7 +83,7 @@ const tailwindStyleDictionary = new StyleDictionary({
     },
   },
   log: {
-    verbosity: "verbose",
+    // verbosity: "verbose",
   },
 });
 

@@ -29,6 +29,12 @@ export type {
   DateRange,
 } from "./components/DatePicker/DatePicker";
 export { DatePicker } from "./components/DatePicker/DatePicker";
+export type {
+  IconButtonProps,
+  IconButtonSize,
+  IconButtonVariant,
+} from "./components/IconButton/IconButton";
+export { IconButton } from "./components/IconButton/IconButton";
 export type { IconProps } from "./components/Icons";
 export {
   ArrowRightIcon,
