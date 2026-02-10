@@ -6,28 +6,54 @@ import {
   ArrowUpRightIcon,
   Avatar,
   Badge,
+  BellIcon,
   Button,
   Checkbox,
   CheckCircleIcon,
   CheckIcon,
+  CheckmarkIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CloseIcon,
+  CopyIcon,
   Count,
   CrossIcon,
   CrownIcon,
   DatePicker,
+  DeleteIcon,
+  DoneIcon,
+  DoubleCheckmarkIcon,
+  DownloadIcon,
+  EditIcon,
   ErrorCircleIcon,
   FireIcon,
+  HeartFilledIcon,
+  HeartOutlineIcon,
   HomeIcon,
+  HouseFilledIcon,
+  HouseOutlineIcon,
   InfoCircleIcon,
   Logo,
+  MailIcon,
+  MenuIcon,
+  MessageIcon,
   MinusIcon,
+  MoreIcon,
+  MoreVerticalIcon,
+  PauseIcon,
   Pill,
+  PlayIcon,
   PlusIcon,
+  ProfileIcon,
   Radio,
   RadioGroup,
+  SearchIcon,
+  SendIcon,
+  SendOutlineIcon,
+  SettingsIcon,
   Snackbar,
   SpinnerIcon,
+  UploadIcon,
   VipBadgeIcon,
   WarningTriangleIcon,
 } from "./index";
@@ -140,22 +166,48 @@ function App() {
             <div className="flex flex-wrap items-end gap-6">
               {(
                 [
-                  ["ArrowRightIcon", ArrowRightIcon],
-                  ["ArrowUpRightIcon", ArrowUpRightIcon],
-                  ["CheckCircleIcon", CheckCircleIcon],
-                  ["CheckIcon", CheckIcon],
-                  ["ChevronLeftIcon", ChevronLeftIcon],
-                  ["ChevronRightIcon", ChevronRightIcon],
-                  ["CrossIcon", CrossIcon],
-                  ["CrownIcon", CrownIcon],
-                  ["ErrorCircleIcon", ErrorCircleIcon],
-                  ["FireIcon", FireIcon],
-                  ["HomeIcon", HomeIcon],
-                  ["InfoCircleIcon", InfoCircleIcon],
-                  ["MinusIcon", MinusIcon],
-                  ["PlusIcon", PlusIcon],
-                  ["SpinnerIcon", SpinnerIcon],
-                  ["WarningTriangleIcon", WarningTriangleIcon],
+                  ["ArrowRight", ArrowRightIcon],
+                  ["ArrowUpRight", ArrowUpRightIcon],
+                  ["CheckCircle", CheckCircleIcon],
+                  ["Check", CheckIcon],
+                  ["ChevronLeft", ChevronLeftIcon],
+                  ["ChevronRight", ChevronRightIcon],
+                  ["Cross", CrossIcon],
+                  ["Crown", CrownIcon],
+                  ["ErrorCircle", ErrorCircleIcon],
+                  ["Fire", FireIcon],
+                  ["Home", HomeIcon],
+                  ["InfoCircle", InfoCircleIcon],
+                  ["Minus", MinusIcon],
+                  ["Plus", PlusIcon],
+                  ["Spinner", SpinnerIcon],
+                  ["Warning", WarningTriangleIcon],
+                  ["BellIcon", BellIcon],
+                  ["CheckmarkIcon", CheckmarkIcon],
+                  ["CloseIcon", CloseIcon],
+                  ["CopyIcon", CopyIcon],
+                  ["DeleteIcon", DeleteIcon],
+                  ["DoneIcon", DoneIcon],
+                  ["DoubleCheckmarkIcon", DoubleCheckmarkIcon],
+                  ["DownloadIcon", DownloadIcon],
+                  ["EditIcon", EditIcon],
+                  ["HeartFilledIcon", HeartFilledIcon],
+                  ["HeartOutlineIcon", HeartOutlineIcon],
+                  ["HouseFilledIcon", HouseFilledIcon],
+                  ["HouseOutlineIcon", HouseOutlineIcon],
+                  ["MailIcon", MailIcon],
+                  ["MenuIcon", MenuIcon],
+                  ["MessageIcon", MessageIcon],
+                  ["MoreIcon", MoreIcon],
+                  ["MoreVerticalIcon", MoreVerticalIcon],
+                  ["PauseIcon", PauseIcon],
+                  ["PlayIcon", PlayIcon],
+                  ["ProfileIcon", ProfileIcon],
+                  ["SearchIcon", SearchIcon],
+                  ["SendIcon", SendIcon],
+                  ["SendOutlineIcon", SendOutlineIcon],
+                  ["SettingsIcon", SettingsIcon],
+                  ["UploadIcon", UploadIcon],
                 ] as const
               ).map(([name, Icon]) => (
                 <div key={name} className="flex flex-col items-center gap-2">
@@ -169,72 +221,6 @@ function App() {
               <div className="flex flex-col items-center gap-2">
                 <VipBadgeIcon className="size-6" />
                 <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
-              </div>
-            </div>
-
-            {/* On light background (always visible in dark mode) */}
-            <div className="flex flex-wrap items-end gap-6 rounded-lg bg-background-white-solid-constant p-4 text-body-black-solid-constant">
-              {(
-                [
-                  ["ArrowRight", ArrowRightIcon],
-                  ["ArrowUpRight", ArrowUpRightIcon],
-                  ["CheckCircle", CheckCircleIcon],
-                  ["Check", CheckIcon],
-                  ["ChevronLeft", ChevronLeftIcon],
-                  ["ChevronRight", ChevronRightIcon],
-                  ["Cross", CrossIcon],
-                  ["Crown", CrownIcon],
-                  ["ErrorCircle", ErrorCircleIcon],
-                  ["Fire", FireIcon],
-                  ["Home", HomeIcon],
-                  ["InfoCircle", InfoCircleIcon],
-                  ["Minus", MinusIcon],
-                  ["Plus", PlusIcon],
-                  ["Spinner", SpinnerIcon],
-                  ["Warning", WarningTriangleIcon],
-                ] as const
-              ).map(([name, Icon]) => (
-                <div key={name} className="flex flex-col items-center gap-2">
-                  <Icon className="size-6" />
-                  <span className="text-[10px] leading-tight opacity-50">{name}</span>
-                </div>
-              ))}
-              <div className="flex flex-col items-center gap-2">
-                <VipBadgeIcon className="size-6" />
-                <span className="text-[10px] leading-tight opacity-50">VipBadge</span>
-              </div>
-            </div>
-
-            {/* On dark background (always visible in light mode) */}
-            <div className="flex flex-wrap items-end gap-6 rounded-lg bg-body-black-solid-constant p-4 text-body-white-solid-constant">
-              {(
-                [
-                  ["ArrowRight", ArrowRightIcon],
-                  ["ArrowUpRight", ArrowUpRightIcon],
-                  ["CheckCircle", CheckCircleIcon],
-                  ["Check", CheckIcon],
-                  ["ChevronLeft", ChevronLeftIcon],
-                  ["ChevronRight", ChevronRightIcon],
-                  ["Cross", CrossIcon],
-                  ["Crown", CrownIcon],
-                  ["ErrorCircle", ErrorCircleIcon],
-                  ["Fire", FireIcon],
-                  ["Home", HomeIcon],
-                  ["InfoCircle", InfoCircleIcon],
-                  ["Minus", MinusIcon],
-                  ["Plus", PlusIcon],
-                  ["Spinner", SpinnerIcon],
-                  ["Warning", WarningTriangleIcon],
-                ] as const
-              ).map(([name, Icon]) => (
-                <div key={name} className="flex flex-col items-center gap-2">
-                  <Icon className="size-6" />
-                  <span className="text-[10px] leading-tight opacity-50">{name}</span>
-                </div>
-              ))}
-              <div className="flex flex-col items-center gap-2">
-                <VipBadgeIcon className="size-6" />
-                <span className="text-[10px] leading-tight opacity-50">VipBadge</span>
               </div>
             </div>
 
