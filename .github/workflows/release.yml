@@ -54,13 +54,11 @@ jobs:
           VERSION="${{ steps.release.outputs.version }}"
           if [[ "$VERSION" == *"-"* ]]; then
             echo "Publishing prerelease version $VERSION with tag alpha"
-            pnpm publish --access public --no-git-checks --tag alpha
+            npm publish --access public --tag alpha --provenance
           else
             echo "Publishing stable version $VERSION"
-            pnpm publish --access public --no-git-checks
+            npm publish --access public --provenance
           fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Deploy Storybook
         if: ${{ steps.release.outputs.release_created }}
