@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { ArrowUpRightIcon } from "../Icons/ArrowUpRightIcon";
+import { CheckCircleIcon } from "../Icons/CheckCircleIcon";
 import { Badge } from "./Badge";
 
 const meta = {
@@ -13,21 +15,21 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    type: {
+    variant: {
       control: "select",
       options: [
-        "Default",
-        "Dark",
-        "Success",
-        "Warning",
-        "Error",
-        "Special",
-        "Info",
-        "Online",
-        "Brand",
-        "Pink",
-        "Brand light",
-        "Pink light",
+        "default",
+        "dark",
+        "success",
+        "warning",
+        "error",
+        "special",
+        "info",
+        "online",
+        "brand",
+        "pink",
+        "brandLight",
+        "pinkLight",
       ],
     },
     leftDot: { control: "boolean" },
@@ -45,21 +47,21 @@ export const Default: Story = {
 
 export const Dark: Story = {
   args: {
-    type: "Dark",
+    variant: "dark",
     children: "Badge",
   },
 };
 
 export const Success: Story = {
   args: {
-    type: "Success",
+    variant: "success",
     children: "Success",
   },
 };
 
 export const Warning: Story = {
   args: {
-    type: "Warning",
+    variant: "warning",
     children: "Warning",
   },
 };
@@ -67,56 +69,56 @@ export const Warning: Story = {
 // biome-ignore lint/suspicious/noShadowRestrictedNames: Story name must match Figma variant
 export const Error: Story = {
   args: {
-    type: "Error",
+    variant: "error",
     children: "Error",
   },
 };
 
 export const Special: Story = {
   args: {
-    type: "Special",
+    variant: "special",
     children: "Special",
   },
 };
 
 export const Info: Story = {
   args: {
-    type: "Info",
+    variant: "info",
     children: "Info",
   },
 };
 
 export const Online: Story = {
   args: {
-    type: "Online",
+    variant: "online",
     children: "Online",
   },
 };
 
 export const Brand: Story = {
   args: {
-    type: "Brand",
+    variant: "brand",
     children: "Brand",
   },
 };
 
 export const Pink: Story = {
   args: {
-    type: "Pink",
+    variant: "pink",
     children: "Pink",
   },
 };
 
 export const BrandLight: Story = {
   args: {
-    type: "Brand light",
+    variant: "brandLight",
     children: "Brand Light",
   },
 };
 
 export const PinkLight: Story = {
   args: {
-    type: "Pink light",
+    variant: "pinkLight",
     children: "Pink Light",
   },
 };
@@ -130,21 +132,7 @@ export const WithoutDot: Story = {
 
 export const LeftIcon: Story = {
   args: {
-    leftIcon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        className="size-3"
-        aria-hidden="true"
-      >
-        <path
-          fillRule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-          clipRule="evenodd"
-        />
-      </svg>
-    ),
+    leftIcon: <CheckCircleIcon className="size-3" />,
     leftDot: false,
     children: "Verified",
   },
@@ -152,21 +140,7 @@ export const LeftIcon: Story = {
 
 export const RightIcon: Story = {
   args: {
-    rightIcon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        className="size-3"
-        aria-hidden="true"
-      >
-        <path
-          fillRule="evenodd"
-          d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
-          clipRule="evenodd"
-        />
-      </svg>
-    ),
+    rightIcon: <ArrowUpRightIcon className="size-3" />,
     leftDot: false,
     children: "Link",
   },

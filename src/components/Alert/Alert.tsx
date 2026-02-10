@@ -1,5 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { Button } from "../Button/Button";
+import { CrossIcon } from "../Icons/CrossIcon";
 
 export type AlertVariant = "info" | "success" | "warning" | "error";
 
@@ -53,22 +55,15 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         </div>
 
         {closable && (
-          <button
-            type="button"
+          <Button
+            variant="tertiary"
+            size="24"
             onClick={onClose}
-            className="flex shrink-0 cursor-pointer touch-manipulation items-start justify-center self-start rounded-full p-1 text-body-100 transition-all duration-150 hover:scale-110 hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-body-100 focus-visible:ring-offset-2"
+            className="self-start"
             aria-label="Close alert"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="size-5"
-              aria-hidden="true"
-            >
-              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-            </svg>
-          </button>
+            <CrossIcon />
+          </Button>
         )}
       </div>
     );
