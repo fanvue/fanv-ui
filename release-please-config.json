@@ -2,7 +2,7 @@
   "packages": {
     ".": {
       "release-type": "node",
-      "versioning-strategy": "prerelease",
+      "versioning": "prerelease",
       "prerelease": true,
       "prerelease-type": "alpha",
       "bump-minor-pre-major": true,
