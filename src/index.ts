@@ -31,6 +31,12 @@ export type {
 export { DatePicker } from "./components/DatePicker/DatePicker";
 export type { DividerProps } from "./components/Divider/Divider";
 export { Divider } from "./components/Divider/Divider";
+export type {
+  IconButtonProps,
+  IconButtonSize,
+  IconButtonVariant,
+} from "./components/IconButton/IconButton";
+export { IconButton } from "./components/IconButton/IconButton";
 export type { IconProps } from "./components/Icons";
 export {
   ArrowRightIcon,
@@ -60,9 +66,42 @@ export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";
 export type {
+  SliderLabelPosition,
+  SliderProps,
+} from "./components/Slider/Slider";
+export { Slider } from "./components/Slider/Slider";
+export type {
   SnackbarProps,
   SnackbarVariant,
 } from "./components/Snackbar/Snackbar";
 export { Snackbar } from "./components/Snackbar/Snackbar";
+export type { SwitchProps, SwitchSize } from "./components/Switch/Switch";
+export { Switch } from "./components/Switch/Switch";
+export type {
+  SwitchFieldOrientation,
+  SwitchFieldProps,
+} from "./components/SwitchField/SwitchField";
+export { SwitchField } from "./components/SwitchField/SwitchField";
+export type {
+  SwitchToggleOption,
+  SwitchToggleProps,
+  SwitchToggleSize,
+} from "./components/SwitchToggle/SwitchToggle";
+export { SwitchToggle } from "./components/SwitchToggle/SwitchToggle";
+export type { TabsProps } from "./components/Tabs/Tabs";
+export { Tabs } from "./components/Tabs/Tabs";
+export type { TabsContentProps } from "./components/Tabs/TabsContent";
+export { TabsContent } from "./components/Tabs/TabsContent";
+export type { TabsListProps } from "./components/Tabs/TabsList";
+export { TabsList } from "./components/Tabs/TabsList";
+export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
+export { TabsTrigger } from "./components/Tabs/TabsTrigger";
+export type {
+  ToastProps,
+  ToastProviderProps,
+  ToastVariant,
+  ToastViewportProps,
+} from "./components/Toast/Toast";
+export { Toast, ToastProvider, ToastViewport } from "./components/Toast/Toast";
 export { cn } from "./utils/cn";
 export type { OmitDistributed } from "./utils/types";

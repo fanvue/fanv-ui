@@ -11,7 +11,6 @@ export type ButtonVariant =
   | "brand"
   | "destructive"
   | "white"
-  | "switch"
   | "tertiaryDestructive"
   | "text";
 
@@ -28,8 +27,6 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   rightIcon?: React.ReactNode;
   /** Show loading spinner */
   loading?: boolean;
-  /** Active state for Switch style buttons */
-  active?: boolean;
   /** Render as a different element using Radix Slot */
   asChild?: boolean;
   /** Old price shown with strikethrough before the current price */
@@ -56,7 +53,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
     "bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant",
   secondary:
-    "border border-body-100 bg-transparent text-body-100 hover:bg-brand-green-50 focus-visible:border-transparent focus-visible:shadow-[0_0_0_2px_var(--color-brand-purple-500)]",
+    "border-body-100 border border-1 border-body-100 bg-transparent text-body-100 hover:bg-brand-green-50",
   tertiary: "bg-transparent text-body-100 hover:bg-brand-green-50",
   link: "bg-transparent text-body-100 underline decoration-solid hover:bg-brand-green-50",
   brand: "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-pink-500",
@@ -64,7 +61,6 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
     "bg-error-500 text-body-white-solid-constant hover:bg-background-solid dark:hover:bg-background-white-solid-constant dark:hover:text-error-500",
   white:
     "bg-background-white-solid-constant text-body-black-solid-constant hover:bg-brand-green-500",
-  switch: "bg-transparent text-body-100 hover:bg-brand-green-50",
   tertiaryDestructive: "bg-transparent text-error-500 hover:bg-error-50",
   text: "bg-transparent text-body-100 hover:underline",
 };
@@ -176,7 +172,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       leftIcon,
       rightIcon,
       loading = false,
-      active = false,
       asChild = false,
       disabled,
       children,
@@ -189,15 +184,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
     const isDisabled = disabled || loading;
     const iconSizeClass = ICON_SIZE_CLASS[size];
-    const switchActiveClass = variant === "switch" && active ? "bg-neutral-400 text-body-300" : "";
 
     const buttonSpecificProps = !asChild
       ? { "data-testid": "button", disabled: isDisabled }
       : isDisabled
         ? { "aria-disabled": true }
         : {};
-
-    const activeProps = active ? { "data-active": true } : {};
 
     // When asChild + loading, extract text from children for aria-label since we
     // can't wrap element children in an sr-only span (creates invalid nested markup)
@@ -219,14 +211,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         {...buttonSpecificProps}
-        {...activeProps}
         aria-busy={loading}
         {...loadingLabelProps}
         className={cn(
           // Base styles
           "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-colors",
           // Focus ring
-          "focus-visible:shadow-[0_0_0_2px_var(--color-background-inverse-solid),0_0_0_4px_var(--color-brand-purple-500)] focus-visible:outline-none",
+          "focus:shadow-focus focus-visible:outline-none",
           // Disabled state
           "disabled:pointer-events-none disabled:opacity-50",
           "aria-disabled:pointer-events-none aria-disabled:opacity-50",
@@ -234,7 +225,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           SIZE_CLASSES[size],
           // Variant styles
           VARIANT_CLASSES[variant],
-          switchActiveClass,
           // Manual CSS overrides
           className,
         )}
