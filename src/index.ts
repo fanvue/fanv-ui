@@ -37,26 +37,24 @@ export type {
   IconButtonVariant,
 } from "./components/IconButton/IconButton";
 export { IconButton } from "./components/IconButton/IconButton";
-export type { IconProps } from "./components/Icons";
-export {
-  ArrowRightIcon,
-  ArrowUpRightIcon,
-  CheckCircleIcon,
-  CheckIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  CrossIcon,
-  CrownIcon,
-  ErrorCircleIcon,
-  FireIcon,
-  HomeIcon,
-  InfoCircleIcon,
-  MinusIcon,
-  PlusIcon,
-  SpinnerIcon,
-  VipBadgeIcon,
-  WarningTriangleIcon,
-} from "./components/Icons";
+export { ArrowRightIcon } from "./components/Icons/ArrowRightIcon";
+export { ArrowUpRightIcon } from "./components/Icons/ArrowUpRightIcon";
+export { CheckCircleIcon } from "./components/Icons/CheckCircleIcon";
+export { CheckIcon } from "./components/Icons/CheckIcon";
+export { ChevronLeftIcon } from "./components/Icons/ChevronLeftIcon";
+export { ChevronRightIcon } from "./components/Icons/ChevronRightIcon";
+export { CrossIcon } from "./components/Icons/CrossIcon";
+export { CrownIcon } from "./components/Icons/CrownIcon";
+export { ErrorCircleIcon } from "./components/Icons/ErrorCircleIcon";
+export { FireIcon } from "./components/Icons/FireIcon";
+export { HomeIcon } from "./components/Icons/HomeIcon";
+export { InfoCircleIcon } from "./components/Icons/InfoCircleIcon";
+export { MinusIcon } from "./components/Icons/MinusIcon";
+export { PlusIcon } from "./components/Icons/PlusIcon";
+export { SpinnerIcon } from "./components/Icons/SpinnerIcon";
+export type { IconProps } from "./components/Icons/types";
+export { VipBadgeIcon } from "./components/Icons/VipBadgeIcon";
+export { WarningTriangleIcon } from "./components/Icons/WarningTriangleIcon";
 export type { LogoColor, LogoProps, LogoType } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type {
