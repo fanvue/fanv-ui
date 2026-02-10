@@ -1,25 +1,23 @@
 import { render } from "@testing-library/react";
 import { createRef } from "react";
 import { describe, expect, it } from "vitest";
-import {
-  ArrowRightIcon,
-  ArrowUpRightIcon,
-  CheckCircleIcon,
-  CheckIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  CrossIcon,
-  CrownIcon,
-  ErrorCircleIcon,
-  FireIcon,
-  HomeIcon,
-  InfoCircleIcon,
-  MinusIcon,
-  PlusIcon,
-  SpinnerIcon,
-  VipBadgeIcon,
-  WarningTriangleIcon,
-} from "./index";
+import { ArrowRightIcon } from "./ArrowRightIcon";
+import { ArrowUpRightIcon } from "./ArrowUpRightIcon";
+import { CheckCircleIcon } from "./CheckCircleIcon";
+import { CheckIcon } from "./CheckIcon";
+import { ChevronLeftIcon } from "./ChevronLeftIcon";
+import { ChevronRightIcon } from "./ChevronRightIcon";
+import { CrossIcon } from "./CrossIcon";
+import { CrownIcon } from "./CrownIcon";
+import { ErrorCircleIcon } from "./ErrorCircleIcon";
+import { FireIcon } from "./FireIcon";
+import { HomeIcon } from "./HomeIcon";
+import { InfoCircleIcon } from "./InfoCircleIcon";
+import { MinusIcon } from "./MinusIcon";
+import { PlusIcon } from "./PlusIcon";
+import { SpinnerIcon } from "./SpinnerIcon";
+import { VipBadgeIcon } from "./VipBadgeIcon";
+import { WarningTriangleIcon } from "./WarningTriangleIcon";
 
 const icons = [
   { name: "ArrowRightIcon", Component: ArrowRightIcon },
