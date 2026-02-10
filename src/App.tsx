@@ -32,6 +32,9 @@ import {
   Slider,
   Snackbar,
   SpinnerIcon,
+  Switch,
+  SwitchField,
+  SwitchToggle,
   Tabs,
   TabsContent,
   TabsList,
@@ -493,7 +496,6 @@ function App() {
               <div className="rounded-lg bg-body-black-solid-constant p-3">
                 <Button variant="white">Label</Button>
               </div>
-              <Button variant="switch">Label</Button>
               <Button variant="tertiaryDestructive">Label</Button>
               <Button variant="text">Label</Button>
             </div>
@@ -533,9 +535,6 @@ function App() {
                       Label
                     </Button>
                   </div>
-                  <Button variant="switch" size={size}>
-                    Label
-                  </Button>
                   <Button variant="tertiaryDestructive" size={size}>
                     Label
                   </Button>
@@ -570,9 +569,6 @@ function App() {
                   Label
                 </Button>
               </div>
-              <Button variant="switch" disabled>
-                Label
-              </Button>
               <Button variant="tertiaryDestructive" disabled>
                 Label
               </Button>
@@ -615,21 +611,6 @@ function App() {
                 Label
               </Button>
               <Button variant="brand" leftIcon={<HomeIcon />} rightIcon={<HomeIcon />}>
-                Label
-              </Button>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <Button variant="switch" size="40">
-                Label
-              </Button>
-              <Button variant="switch" size="40" active>
-                Label
-              </Button>
-              <Button variant="switch" size="32">
-                Label
-              </Button>
-              <Button variant="switch" size="32" active>
                 Label
               </Button>
             </div>
@@ -861,6 +842,173 @@ function App() {
                 description="Let's get you started!"
                 primaryLabel="Become a creator"
                 secondaryLabel="Discover creators"
+              />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <Switch />
+              <Switch defaultChecked />
+              <Switch size="small" />
+              <Switch size="small" defaultChecked />
+              <Switch disabled />
+              <Switch disabled defaultChecked />
+              <Switch size="small" disabled />
+              <Switch size="small" disabled defaultChecked />
+            </div>
+
+            <div className="flex max-w-2xl flex-col gap-4">
+              <SwitchField label="Notifications" />
+              <SwitchField label="Notifications" defaultChecked />
+              <SwitchField label="Notifications" helperText="Receive push notifications" />
+              <SwitchField
+                label="Notifications"
+                helperText="Receive push notifications"
+                defaultChecked
+              />
+              <SwitchField label="Notifications" infoText="Info text" />
+              <SwitchField
+                label="Notifications"
+                helperText="Receive push notifications"
+                infoText="Info text"
+              />
+              <SwitchField label="Notifications" orientation="left" />
+              <SwitchField label="Notifications" orientation="left" defaultChecked />
+              <SwitchField
+                label="Notifications"
+                orientation="left"
+                helperText="Receive push notifications"
+              />
+              <SwitchField
+                label="Notifications"
+                orientation="left"
+                helperText="Receive push notifications"
+                defaultChecked
+              />
+              <SwitchField label="Notifications" orientation="left" infoText="Info text" />
+              <SwitchField
+                label="Notifications"
+                orientation="left"
+                helperText="Receive push notifications"
+                infoText="Info text"
+              />
+              <SwitchField label="Small switch" size="small" />
+              <SwitchField label="Small switch" size="small" defaultChecked />
+              <SwitchField label="Small switch" size="small" helperText="A smaller variant" />
+              <SwitchField label="Small switch" size="small" orientation="left" />
+              <SwitchField label="Small switch" size="small" orientation="left" defaultChecked />
+              <SwitchField
+                label="Small switch"
+                size="small"
+                orientation="left"
+                helperText="A smaller variant"
+              />
+              <SwitchField label="Disabled" disabled />
+              <SwitchField label="Disabled checked" disabled defaultChecked />
+              <SwitchField label="Disabled" disabled helperText="This option is not available" />
+              <SwitchField label="Disabled" disabled orientation="left" />
+              <SwitchField label="Disabled" disabled size="small" />
+              <SwitchField label="Disabled" disabled size="small" helperText="Not available" />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <SwitchToggle
+                size="24"
+                options={[
+                  { label: "Monthly", value: "monthly" },
+                  { label: "Yearly", value: "yearly" },
+                ]}
+              />
+              <SwitchToggle
+                size="24"
+                options={[
+                  { label: "Monthly", value: "monthly" },
+                  { label: "Yearly", value: "yearly" },
+                ]}
+                defaultValue="yearly"
+              />
+              <SwitchToggle
+                size="32"
+                options={[
+                  { label: "Monthly", value: "monthly" },
+                  { label: "Yearly", value: "yearly" },
+                ]}
+              />
+              <SwitchToggle
+                size="32"
+                options={[
+                  { label: "Monthly", value: "monthly" },
+                  { label: "Yearly", value: "yearly" },
+                ]}
+                defaultValue="yearly"
+              />
+              <SwitchToggle
+                size="40"
+                options={[
+                  { label: "Monthly", value: "monthly" },
+                  { label: "Yearly", value: "yearly" },
+                ]}
+              />
+              <SwitchToggle
+                size="40"
+                options={[
+                  { label: "Monthly", value: "monthly" },
+                  { label: "Yearly", value: "yearly" },
+                ]}
+                defaultValue="yearly"
+              />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <SwitchToggle
+                size="24"
+                disabled
+                options={[
+                  { label: "On", value: "on" },
+                  { label: "Off", value: "off" },
+                ]}
+              />
+              <SwitchToggle
+                size="24"
+                disabled
+                defaultValue="off"
+                options={[
+                  { label: "On", value: "on" },
+                  { label: "Off", value: "off" },
+                ]}
+              />
+              <SwitchToggle
+                size="32"
+                disabled
+                options={[
+                  { label: "On", value: "on" },
+                  { label: "Off", value: "off" },
+                ]}
+              />
+              <SwitchToggle
+                size="32"
+                disabled
+                defaultValue="off"
+                options={[
+                  { label: "On", value: "on" },
+                  { label: "Off", value: "off" },
+                ]}
+              />
+              <SwitchToggle
+                size="40"
+                disabled
+                options={[
+                  { label: "On", value: "on" },
+                  { label: "Off", value: "off" },
+                ]}
+              />
+              <SwitchToggle
+                size="40"
+                disabled
+                defaultValue="off"
+                options={[
+                  { label: "On", value: "on" },
+                  { label: "Off", value: "off" },
+                ]}
               />
             </div>
 

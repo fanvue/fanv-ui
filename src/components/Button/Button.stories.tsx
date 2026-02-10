@@ -26,7 +26,6 @@ const meta = {
         "brand",
         "destructive",
         "white",
-        "switch",
         "tertiaryDestructive",
         "text",
       ],
@@ -37,7 +36,6 @@ const meta = {
     },
     loading: { control: "boolean" },
     disabled: { control: "boolean" },
-    active: { control: "boolean" },
     discount: { control: "text" },
     price: { control: "text" },
   },
@@ -102,23 +100,6 @@ export const White: Story = {
   },
   parameters: {
     backgrounds: { default: "dark" },
-  },
-};
-
-export const Switch: Story = {
-  args: {
-    variant: "switch",
-    size: "40",
-    children: "Label",
-  },
-};
-
-export const SwitchActive: Story = {
-  args: {
-    variant: "switch",
-    size: "40",
-    active: true,
-    children: "Label",
   },
 };
 
@@ -357,12 +338,6 @@ export const AllStylesSize40: Story = {
           White
         </Button>
       </div>
-      <Button variant="switch" size="40">
-        Switch
-      </Button>
-      <Button variant="switch" size="40" active>
-        Switch Active
-      </Button>
     </div>
   ),
 };
@@ -392,9 +367,6 @@ export const AllStylesSize32: Story = {
       </div>
       <Button variant="tertiaryDestructive" size="32">
         Tertiary Destructive
-      </Button>
-      <Button variant="switch" size="32">
-        Switch
       </Button>
     </div>
   ),
