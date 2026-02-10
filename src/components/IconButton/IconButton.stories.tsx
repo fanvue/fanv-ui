@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { HomeIcon, MicrophoneIcon, StopIcon } from "../Icons";
+import { HomeIcon } from "../Icons/HomeIcon";
+import { MicrophoneIcon } from "../Icons/MicrophoneIcon";
+import { StopIcon } from "../Icons/StopIcon";
 import { IconButton } from "./IconButton";
 
 const meta = {
