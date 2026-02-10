@@ -53,7 +53,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
     "bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant",
   secondary:
-    "border border-body-100 bg-transparent text-body-100 hover:bg-brand-green-50 focus-visible:border-transparent focus-visible:shadow-[0_0_0_2px_var(--color-brand-purple-500)]",
+    "border-body-100 border border-1 border-body-100 bg-transparent text-body-100 hover:bg-brand-green-50",
   tertiary: "bg-transparent text-body-100 hover:bg-brand-green-50",
   link: "bg-transparent text-body-100 underline decoration-solid hover:bg-brand-green-50",
   brand: "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-pink-500",
@@ -217,7 +217,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           // Base styles
           "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-colors",
           // Focus ring
-          "focus-visible:shadow-[0_0_0_2px_var(--color-background-inverse-solid),0_0_0_4px_var(--color-brand-purple-500)] focus-visible:outline-none",
+          "focus:shadow-focus focus-visible:outline-none",
           // Disabled state
           "disabled:pointer-events-none disabled:opacity-50",
           "aria-disabled:pointer-events-none aria-disabled:opacity-50",

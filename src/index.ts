@@ -94,5 +94,12 @@ export type { TabsListProps } from "./components/Tabs/TabsList";
 export { TabsList } from "./components/Tabs/TabsList";
 export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
+export type {
+  ToastProps,
+  ToastProviderProps,
+  ToastVariant,
+  ToastViewportProps,
+} from "./components/Toast/Toast";
+export { Toast, ToastProvider, ToastViewport } from "./components/Toast/Toast";
 export { cn } from "./utils/cn";
 export type { OmitDistributed } from "./utils/types";
