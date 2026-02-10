@@ -3,7 +3,7 @@ import { getStoryUrl } from "./utils/storybook";
 
 test.describe("IconButton", () => {
   test("Primary40 story renders and is clickable", async ({ page }) => {
-    await page.goto(getStoryUrl("IconButton", "Primary40"));
+    await page.goto(getStoryUrl("IconButton", "Primary 40"));
     const button = page.getByTestId("icon-button");
     await expect(button).toBeVisible();
     await expect(button).toBeEnabled();
@@ -12,14 +12,14 @@ test.describe("IconButton", () => {
   });
 
   test("Secondary40 story renders correctly", async ({ page }) => {
-    await page.goto(getStoryUrl("IconButton", "Secondary40"));
+    await page.goto(getStoryUrl("IconButton", "Secondary 40"));
     const button = page.getByTestId("icon-button");
     await expect(button).toBeVisible();
     await expect(button).toBeEnabled();
   });
 
   test("Tertiary40 story renders correctly", async ({ page }) => {
-    await page.goto(getStoryUrl("IconButton", "Tertiary40"));
+    await page.goto(getStoryUrl("IconButton", "Tertiary 40"));
     const button = page.getByTestId("icon-button");
     await expect(button).toBeVisible();
     await expect(button).toBeEnabled();
@@ -40,28 +40,28 @@ test.describe("IconButton", () => {
   });
 
   test("Brand40 story renders with brand styling", async ({ page }) => {
-    await page.goto(getStoryUrl("IconButton", "Brand40"));
+    await page.goto(getStoryUrl("IconButton", "Brand 40"));
     const button = page.getByTestId("icon-button");
     await expect(button).toBeVisible();
     await expect(button).toBeEnabled();
   });
 
   test("Messaging52 story renders at correct size", async ({ page }) => {
-    await page.goto(getStoryUrl("IconButton", "Messaging52"));
+    await page.goto(getStoryUrl("IconButton", "Messaging 52"));
     const button = page.getByTestId("icon-button");
     await expect(button).toBeVisible();
     await expect(button).toBeEnabled();
   });
 
   test("Microphone72 story renders large button", async ({ page }) => {
-    await page.goto(getStoryUrl("IconButton", "Microphone72"));
+    await page.goto(getStoryUrl("IconButton", "Microphone 72"));
     const button = page.getByTestId("icon-button");
     await expect(button).toBeVisible();
     await expect(button).toBeEnabled();
   });
 
   test("keyboard Enter activates button", async ({ page }) => {
-    await page.goto(getStoryUrl("IconButton", "Primary40"));
+    await page.goto(getStoryUrl("IconButton", "Primary 40"));
     const button = page.getByTestId("icon-button");
     await button.focus();
     await expect(button).toBeFocused();
@@ -70,7 +70,7 @@ test.describe("IconButton", () => {
   });
 
   test("keyboard Space activates button", async ({ page }) => {
-    await page.goto(getStoryUrl("IconButton", "Primary40"));
+    await page.goto(getStoryUrl("IconButton", "Primary 40"));
     const button = page.getByTestId("icon-button");
     await button.focus();
     await expect(button).toBeFocused();
