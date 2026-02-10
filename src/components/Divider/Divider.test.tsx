@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import * as React from "react";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { Divider } from "./Divider";
@@ -32,6 +33,13 @@ describe("Divider", () => {
     it("renders text type with custom label", () => {
       render(<Divider label="and" />);
       expect(screen.getByText("and")).toBeInTheDocument();
+    });
+
+    it("forwards ref to underlying element", () => {
+      const ref = React.createRef<HTMLDivElement>();
+      render(<Divider ref={ref} data-testid="divider" />);
+      const element = screen.getByTestId("divider");
+      expect(ref.current).toBe(element);
     });
   });
 
