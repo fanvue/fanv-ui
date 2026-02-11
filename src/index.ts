@@ -115,6 +115,12 @@ export { TabsList } from "./components/Tabs/TabsList";
 export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
 export type {
+  TextFieldProps,
+  TextFieldSize,
+  TextFieldState,
+} from "./components/TextField/TextField";
+export { TextField } from "./components/TextField/TextField";
+export type {
   ToastProps,
   ToastProviderProps,
   ToastVariant,
