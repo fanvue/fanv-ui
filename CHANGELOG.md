@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.0.0...ui-v1.1.0) (2026-02-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Variant types for Badge, Pill, Count, Logo, and Toast now use lowercase camelCase string unions instead of mixed casing or enums.
+
+### Features
+
+* normalize component variant APIs to consistent casing ([#87](https://github.com/fanvue/fanv-ui/issues/87)) ([d3d3e7d](https://github.com/fanvue/fanv-ui/commit/d3d3e7de18185d47849185bd91a29ef332ccb61e))
+
+
+### Bug Fixes
+
+* resolve documentation and component bugs ([#86](https://github.com/fanvue/fanv-ui/issues/86)) ([f386dfd](https://github.com/fanvue/fanv-ui/commit/f386dfd7f4bedc59a619b68c025a79c62fc7e08b))
+
 ## [1.0.0](https://github.com/fanvue/fanv-ui/compare/ui-v0.1.0-alpha.3...ui-v1.0.0) (2026-02-11)
 
 
