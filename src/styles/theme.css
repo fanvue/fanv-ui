@@ -9,6 +9,9 @@
 }
 
 @theme {
+  --breakpoint-sm: 850px;
+  --breakpoint-md: 1280px;
+
   --shadow-background-blur: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500);
   --shadow-focus-ring: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500);
   --color-primary-50: var(--color-primary-50);
