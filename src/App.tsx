@@ -43,6 +43,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  TextField,
   Toast,
   ToastProvider,
   ToastViewport,
@@ -163,6 +164,37 @@ function PaginationShowcase() {
         currentPage={dotsFewPage}
         onPageChange={setDotsFewPage}
       />
+    </div>
+  );
+}
+
+function TextFieldShowcase() {
+  const [value, setValue] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex max-w-2xl flex-col gap-4">
+        <TextField label="Size 48" placeholder="Placeholder" size="48" />
+        <TextField label="Size 40" placeholder="Placeholder" size="40" />
+        <TextField label="Size 32" placeholder="Placeholder" size="32" />
+        <TextField label="Disabled" placeholder="Placeholder" disabled />
+        <TextField label="Error" placeholder="Placeholder" error errorMessage="Error message" />
+        <TextField label="Left icon" leftIcon={<HomeIcon />} placeholder="Placeholder" />
+        <TextField label="Right icon" rightIcon={<HomeIcon />} placeholder="Placeholder" />
+        <TextField
+          label="Controlled Input"
+          fullWidth
+          placeholder="Placeholder"
+          value={value}
+          onChange={handleChange}
+        />
+        <div className="typography-caption-regular text-body-200">
+          {" "}
+          Current value: {value || "(empty)"}{" "}
+        </div>
+      </div>
     </div>
   );
 }
@@ -826,6 +858,9 @@ function App() {
               <Radio label="Option 2" value="y" />
               <Radio label="Option 3" value="z" />
             </RadioGroup>
+
+            {/* TextField */}
+            <TextFieldShowcase />
 
             <div className="flex flex-wrap items-center gap-4">
               <Count value={5} variant="default" />
