@@ -39,7 +39,7 @@ const getTypographyClasses = (typographyTokens) => {
   for (const [key, typographyObject] of Object.entries(typographyTokens)) {
     let typographyClass = "";
     const typographyClassName = `typography-${key.replaceAll(" ", "-").replaceAll("---", "-")}`;
-    typographyClass = `${typographyClass}\n.${typographyClassName} {\n`;
+    typographyClass = `${typographyClass}\n@utility ${typographyClassName} {\n`;
 
     for (const typographyProp of Object.values(typographyObject)) {
       const kebabedPropName = typographyProp.name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
