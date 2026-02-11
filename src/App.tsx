@@ -217,29 +217,29 @@ function App() {
         <div className="container mx-auto px-4 py-12">
           <section className="space-y-8">
             <div className="flex flex-wrap items-start gap-8">
-              <Logo type="Full" color="Full colour" />
-              <Logo type="Icon" color="Full colour" />
-              <Logo type="Portrait" color="Full colour" />
-              <Logo type="Wordmark" color="Full colour" />
-              <Logo type="Full" color="Decolour" />
-              <Logo type="Icon" color="Decolour" />
-              <Logo type="Portrait" color="Decolour" />
-              <Logo type="Wordmark" color="Decolour" />
+              <Logo type="full" color="fullColour" />
+              <Logo type="icon" color="fullColour" />
+              <Logo type="portrait" color="fullColour" />
+              <Logo type="wordmark" color="fullColour" />
+              <Logo type="full" color="decolour" />
+              <Logo type="icon" color="decolour" />
+              <Logo type="portrait" color="decolour" />
+              <Logo type="wordmark" color="decolour" />
             </div>
             <div className="rounded-lg bg-background-white-solid-constant p-4">
               <div className="flex flex-wrap items-start gap-8">
-                <Logo type="Full" color="Black Always" />
-                <Logo type="Icon" color="Black Always" />
-                <Logo type="Portrait" color="Black Always" />
-                <Logo type="Wordmark" color="Black Always" />
+                <Logo type="full" color="blackAlways" />
+                <Logo type="icon" color="blackAlways" />
+                <Logo type="portrait" color="blackAlways" />
+                <Logo type="wordmark" color="blackAlways" />
               </div>
             </div>
             <div className="rounded-lg bg-body-black-solid-constant p-4">
               <div className="flex flex-wrap items-start gap-8">
-                <Logo type="Full" color="White Always" />
-                <Logo type="Icon" color="White Always" />
-                <Logo type="Portrait" color="White Always" />
-                <Logo type="Wordmark" color="White Always" />
+                <Logo type="full" color="whiteAlways" />
+                <Logo type="icon" color="whiteAlways" />
+                <Logo type="portrait" color="whiteAlways" />
+                <Logo type="wordmark" color="whiteAlways" />
               </div>
             </div>
 
@@ -828,12 +828,12 @@ function App() {
             </RadioGroup>
 
             <div className="flex flex-wrap items-center gap-4">
-              <Count value={5} variant="Default" />
-              <Count value={12} variant="Brand" />
-              <Count value={8} variant="Pink" />
-              <Count value={3} variant="Info" />
-              <Count value={7} variant="Success" />
-              <Count value={15} variant="Warning" />
+              <Count value={5} variant="default" />
+              <Count value={12} variant="brand" />
+              <Count value={8} variant="pink" />
+              <Count value={3} variant="info" />
+              <Count value={7} variant="success" />
+              <Count value={15} variant="warning" />
             </div>
 
             <div className="flex flex-wrap items-center gap-4">

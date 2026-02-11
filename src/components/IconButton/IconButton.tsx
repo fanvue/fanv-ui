@@ -46,8 +46,7 @@ export type IconButtonVariant =
 
 export type IconButtonSize = "24" | "32" | "40" | "52" | "72";
 
-export interface IconButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "style"> {
+export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual style variant of the icon button */
   variant?: IconButtonVariant;
   /** Size of the button */

@@ -20,8 +20,8 @@ describe("Logo", () => {
   });
 
   describe("Type variants", () => {
-    it("renders Full type with both icon and wordmark", () => {
-      const { container } = render(<Logo type="Full" />);
+    it("renders full type with both icon and wordmark", () => {
+      const { container } = render(<Logo type="full" />);
       const logo = container.querySelector('[data-testid="logo"]');
       const svg = logo?.querySelector('[data-testid="logo-icon"]');
       const text = logo?.querySelector('[data-testid="logo-wordmark"]');
@@ -30,8 +30,8 @@ describe("Logo", () => {
       expect(text).toBeInTheDocument();
     });
 
-    it("renders Icon type with only icon", () => {
-      const { container } = render(<Logo type="Icon" />);
+    it("renders icon type with only icon", () => {
+      const { container } = render(<Logo type="icon" />);
       const logo = container.querySelector('[data-testid="logo"]');
       const svg = logo?.querySelector("svg");
       const text = logo?.querySelector("span");
@@ -40,8 +40,8 @@ describe("Logo", () => {
       expect(text).not.toBeInTheDocument();
     });
 
-    it("renders Wordmark type with only text", () => {
-      const { container } = render(<Logo type="Wordmark" />);
+    it("renders wordmark type with only text", () => {
+      const { container } = render(<Logo type="wordmark" />);
       const logo = container.querySelector('[data-testid="logo"]');
       const svg = logo?.querySelector('[data-testid="logo-icon"]');
       const text = logo?.querySelector('[data-testid="logo-wordmark"]');
@@ -50,8 +50,8 @@ describe("Logo", () => {
       expect(text).toBeInTheDocument();
     });
 
-    it("renders Portrait type with both icon and wordmark in column", () => {
-      const { container } = render(<Logo type="Portrait" />);
+    it("renders portrait type with both icon and wordmark in column", () => {
+      const { container } = render(<Logo type="portrait" />);
       const logo = container.querySelector('[data-testid="logo"]');
       const svg = logo?.querySelector('[data-testid="logo-icon"]');
       const text = logo?.querySelector('[data-testid="logo-wordmark"]');
@@ -76,25 +76,25 @@ describe("Logo", () => {
     });
 
     it("supports aria-label for icon-only variant", () => {
-      const { container } = render(<Logo type="Icon" aria-label="Fanvue home" />);
+      const { container } = render(<Logo type="icon" aria-label="Fanvue home" />);
       const logo = container.querySelector('[data-testid="logo"]');
       expect(logo).toHaveAttribute("aria-label", "Fanvue home");
     });
 
     it("adds role='img' when aria-label is provided", () => {
-      const { container } = render(<Logo type="Icon" aria-label="Fanvue home" />);
+      const { container } = render(<Logo type="icon" aria-label="Fanvue home" />);
       const logo = container.querySelector('[data-testid="logo"]');
       expect(logo).toHaveAttribute("role", "img");
     });
 
     it("does not add role when aria-label is not provided", () => {
-      const { container } = render(<Logo type="Icon" />);
+      const { container } = render(<Logo type="icon" />);
       const logo = container.querySelector('[data-testid="logo"]');
       expect(logo).not.toHaveAttribute("role");
     });
 
     it("has no accessibility violations with icon-only variant and aria-label", async () => {
-      const { container } = render(<Logo type="Icon" aria-label="Fanvue home" />);
+      const { container } = render(<Logo type="icon" aria-label="Fanvue home" />);
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });

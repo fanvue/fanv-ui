@@ -17,7 +17,17 @@ const pillVariants = {
   },
 } as const;
 
-export type PillVariant = keyof typeof pillVariants.variant;
+export type PillVariant =
+  | "green"
+  | "grey"
+  | "blue"
+  | "gold"
+  | "pinkLight"
+  | "base"
+  | "brand"
+  | "brandLight"
+  | "beta"
+  | "error";
 
 export interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Visual style variant of the pill */
