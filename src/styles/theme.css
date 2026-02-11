@@ -287,7 +287,7 @@
 
 }
 
-.typography-body-1-regular {
+@utility typography-body-1-regular {
   font-size: 16px;
   text-decoration: none;
   font-family: Inter;
@@ -301,7 +301,7 @@
   text-case: none;
 }
 
-.typography-body-1-medium {
+@utility typography-body-1-medium {
   font-size: 16px;
   text-decoration: none;
   font-family: Inter;
@@ -315,7 +315,7 @@
   text-case: none;
 }
 
-.typography-body-1-semibold {
+@utility typography-body-1-semibold {
   font-size: 16px;
   text-decoration: none;
   font-family: Inter;
@@ -329,7 +329,7 @@
   text-case: none;
 }
 
-.typography-body-2-regular {
+@utility typography-body-2-regular {
   font-size: 14px;
   text-decoration: none;
   font-family: Inter;
@@ -343,7 +343,7 @@
   text-case: none;
 }
 
-.typography-body-2-medium {
+@utility typography-body-2-medium {
   font-size: 14px;
   text-decoration: none;
   font-family: Inter;
@@ -357,7 +357,7 @@
   text-case: none;
 }
 
-.typography-body-2-semibold {
+@utility typography-body-2-semibold {
   font-size: 14px;
   text-decoration: none;
   font-family: Inter;
@@ -371,7 +371,7 @@
   text-case: none;
 }
 
-.typography-button-large {
+@utility typography-button-large {
   font-size: 18px;
   text-decoration: none;
   font-family: Inter;
@@ -385,7 +385,7 @@
   text-case: none;
 }
 
-.typography-button-small {
+@utility typography-button-small {
   font-size: 16px;
   text-decoration: none;
   font-family: Inter;
@@ -399,7 +399,7 @@
   text-case: none;
 }
 
-.typography-link-large {
+@utility typography-link-large {
   font-size: 16px;
   text-decoration: underline;
   font-family: Inter;
@@ -413,7 +413,7 @@
   text-case: none;
 }
 
-.typography-link-small {
+@utility typography-link-small {
   font-size: 14px;
   text-decoration: underline;
   font-family: Inter;
@@ -427,7 +427,7 @@
   text-case: none;
 }
 
-.typography-link-x-small {
+@utility typography-link-x-small {
   font-size: 12px;
   text-decoration: underline;
   font-family: Inter;
@@ -441,7 +441,7 @@
   text-case: none;
 }
 
-.typography-caption-regular {
+@utility typography-caption-regular {
   font-size: 12px;
   text-decoration: none;
   font-family: Inter;
@@ -455,7 +455,7 @@
   text-case: none;
 }
 
-.typography-caption-semibold {
+@utility typography-caption-semibold {
   font-size: 12px;
   text-decoration: none;
   font-family: Inter;
@@ -469,7 +469,7 @@
   text-case: none;
 }
 
-.typography-subtitle {
+@utility typography-subtitle {
   font-size: 18px;
   text-decoration: none;
   font-family: Inter;
@@ -483,7 +483,7 @@
   text-case: none;
 }
 
-.typography-heading-4 {
+@utility typography-heading-4 {
   font-size: 20px;
   text-decoration: none;
   font-family: Inter;
@@ -497,7 +497,7 @@
   text-case: none;
 }
 
-.typography-heading-3 {
+@utility typography-heading-3 {
   font-size: 24px;
   text-decoration: none;
   font-family: Inter;
@@ -511,7 +511,7 @@
   text-case: none;
 }
 
-.typography-heading-32 {
+@utility typography-heading-32 {
   font-size: 32px;
   text-decoration: none;
   font-family: Inter;
@@ -525,7 +525,7 @@
   text-case: none;
 }
 
-.typography-heading-2 {
+@utility typography-heading-2 {
   font-size: 40px;
   text-decoration: none;
   font-family: Inter;
@@ -539,7 +539,7 @@
   text-case: none;
 }
 
-.typography-heading-1 {
+@utility typography-heading-1 {
   font-size: 48px;
   text-decoration: none;
   font-family: Inter;
@@ -553,7 +553,7 @@
   text-case: none;
 }
 
-.typography-hero {
+@utility typography-hero {
   font-size: 64px;
   text-decoration: none;
   font-family: Inter;
@@ -567,7 +567,7 @@
   text-case: none;
 }
 
-.typography-badge {
+@utility typography-badge {
   font-size: 9px;
   text-decoration: none;
   font-family: Inter;
