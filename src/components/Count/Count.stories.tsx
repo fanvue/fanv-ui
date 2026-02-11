@@ -16,7 +16,7 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["Default", "Brand", "Pink", "Info", "Success", "Warning"],
+      options: ["default", "brand", "pink", "info", "success", "warning"],
     },
     value: {
       control: { type: "number", min: 0, max: 999 },
@@ -38,35 +38,35 @@ export const Default: Story = {
 
 export const Brand: Story = {
   args: {
-    variant: "Brand",
+    variant: "brand",
     value: 12,
   },
 };
 
 export const Pink: Story = {
   args: {
-    variant: "Pink",
+    variant: "pink",
     value: 8,
   },
 };
 
 export const Info: Story = {
   args: {
-    variant: "Info",
+    variant: "info",
     value: 3,
   },
 };
 
 export const Success: Story = {
   args: {
-    variant: "Success",
+    variant: "success",
     value: 7,
   },
 };
 
 export const Warning: Story = {
   args: {
-    variant: "Warning",
+    variant: "warning",
     value: 99,
   },
 };
@@ -102,12 +102,12 @@ export const OnButton: Story = {
 export const MultipleVariants: Story = {
   render: () => (
     <div className="flex items-center gap-4">
-      <Count value={5} variant="Default" />
-      <Count value={12} variant="Brand" />
-      <Count value={8} variant="Pink" />
-      <Count value={3} variant="Info" />
-      <Count value={7} variant="Success" />
-      <Count value={99} variant="Warning" />
+      <Count value={5} variant="default" />
+      <Count value={12} variant="brand" />
+      <Count value={8} variant="pink" />
+      <Count value={3} variant="info" />
+      <Count value={7} variant="success" />
+      <Count value={99} variant="warning" />
     </div>
   ),
 };

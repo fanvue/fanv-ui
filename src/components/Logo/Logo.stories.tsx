@@ -15,11 +15,11 @@ const meta = {
   argTypes: {
     type: {
       control: "select",
-      options: ["Full", "Icon", "Wordmark", "Portrait"],
+      options: ["full", "icon", "wordmark", "portrait"],
     },
     color: {
       control: "select",
-      options: ["Full colour", "Decolour", "White Always", "Black Always"],
+      options: ["fullColour", "decolour", "whiteAlways", "blackAlways"],
     },
   },
 } satisfies Meta<typeof Logo>;
@@ -29,22 +29,22 @@ type Story = StoryObj<typeof meta>;
 
 export const FullColour: Story = {
   args: {
-    type: "Full",
-    color: "Full colour",
+    type: "full",
+    color: "fullColour",
   },
 };
 
 export const FullDecolour: Story = {
   args: {
-    type: "Full",
-    color: "Decolour",
+    type: "full",
+    color: "decolour",
   },
 };
 
 export const FullWhiteAlways: Story = {
   args: {
-    type: "Full",
-    color: "White Always",
+    type: "full",
+    color: "whiteAlways",
   },
   parameters: {
     backgrounds: { default: "dark" },
@@ -53,29 +53,29 @@ export const FullWhiteAlways: Story = {
 
 export const FullBlackAlways: Story = {
   args: {
-    type: "Full",
-    color: "Black Always",
+    type: "full",
+    color: "blackAlways",
   },
 };
 
 export const IconFullColour: Story = {
   args: {
-    type: "Icon",
-    color: "Full colour",
+    type: "icon",
+    color: "fullColour",
   },
 };
 
 export const IconDecolour: Story = {
   args: {
-    type: "Icon",
-    color: "Decolour",
+    type: "icon",
+    color: "decolour",
   },
 };
 
 export const IconWhiteAlways: Story = {
   args: {
-    type: "Icon",
-    color: "White Always",
+    type: "icon",
+    color: "whiteAlways",
   },
   parameters: {
     backgrounds: { default: "dark" },
@@ -84,29 +84,29 @@ export const IconWhiteAlways: Story = {
 
 export const IconBlackAlways: Story = {
   args: {
-    type: "Icon",
-    color: "Black Always",
+    type: "icon",
+    color: "blackAlways",
   },
 };
 
 export const WordmarkFullColour: Story = {
   args: {
-    type: "Wordmark",
-    color: "Full colour",
+    type: "wordmark",
+    color: "fullColour",
   },
 };
 
 export const WordmarkDecolour: Story = {
   args: {
-    type: "Wordmark",
-    color: "Decolour",
+    type: "wordmark",
+    color: "decolour",
   },
 };
 
 export const WordmarkWhiteAlways: Story = {
   args: {
-    type: "Wordmark",
-    color: "White Always",
+    type: "wordmark",
+    color: "whiteAlways",
   },
   parameters: {
     backgrounds: { default: "dark" },
@@ -115,29 +115,29 @@ export const WordmarkWhiteAlways: Story = {
 
 export const WordmarkBlackAlways: Story = {
   args: {
-    type: "Wordmark",
-    color: "Black Always",
+    type: "wordmark",
+    color: "blackAlways",
   },
 };
 
 export const PortraitFullColour: Story = {
   args: {
-    type: "Portrait",
-    color: "Full colour",
+    type: "portrait",
+    color: "fullColour",
   },
 };
 
 export const PortraitDecolour: Story = {
   args: {
-    type: "Portrait",
-    color: "Decolour",
+    type: "portrait",
+    color: "decolour",
   },
 };
 
 export const PortraitWhiteAlways: Story = {
   args: {
-    type: "Portrait",
-    color: "White Always",
+    type: "portrait",
+    color: "whiteAlways",
   },
   parameters: {
     backgrounds: { default: "dark" },
@@ -146,7 +146,7 @@ export const PortraitWhiteAlways: Story = {
 
 export const PortraitBlackAlways: Story = {
   args: {
-    type: "Portrait",
-    color: "Black Always",
+    type: "portrait",
+    color: "blackAlways",
   },
 };

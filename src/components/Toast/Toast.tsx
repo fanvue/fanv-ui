@@ -10,15 +10,7 @@ import { InfoIcon } from "../Icons/InfoIcon";
 import { SuccessIcon } from "../Icons/SuccessIcon";
 import { WarningIcon } from "../Icons/WarningIcon";
 
-export enum toastVariants {
-  info = "info",
-  warning = "warning",
-  success = "success",
-  error = "error",
-  messageToast = "messageToast",
-}
-
-export type ToastVariant = keyof typeof toastVariants;
+export type ToastVariant = "info" | "warning" | "success" | "error" | "messageToast";
 
 // Override "title" prop to allow React.ReactNode instead of string | undefined
 export interface ToastProps

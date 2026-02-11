@@ -33,7 +33,19 @@ const badgeVariants = {
   },
 } as const;
 
-export type BadgeVariant = keyof typeof badgeVariants.variant;
+export type BadgeVariant =
+  | "default"
+  | "dark"
+  | "success"
+  | "warning"
+  | "error"
+  | "special"
+  | "info"
+  | "online"
+  | "brand"
+  | "pink"
+  | "brandLight"
+  | "pinkLight";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Visual style variant of the badge */
