@@ -169,6 +169,10 @@ function PaginationShowcase() {
 }
 
 function TextFieldShowcase() {
+  const [value, setValue] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
   return (
     <div className="flex flex-col gap-4">
       <div className="flex max-w-2xl flex-col gap-4">
@@ -179,6 +183,17 @@ function TextFieldShowcase() {
         <TextField label="Error" placeholder="Placeholder" error errorMessage="Error message" />
         <TextField label="Left icon" leftIcon={<HomeIcon />} placeholder="Placeholder" />
         <TextField label="Right icon" rightIcon={<HomeIcon />} placeholder="Placeholder" />
+        <TextField
+          label="Controlled Input"
+          fullWidth
+          placeholder="Placeholder"
+          value={value}
+          onChange={handleChange}
+        />
+        <div className="typography-caption-regular text-body-200">
+          {" "}
+          Current value: {value || "(empty)"}{" "}
+        </div>
       </div>
     </div>
   );
