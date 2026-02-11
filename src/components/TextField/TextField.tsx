@@ -47,7 +47,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
 
     return (
       <div className={cn("flex flex-col", fullWidth ? "w-full" : "", className)}>
-        <label htmlFor={inputId} className="flex flex-col">
+        <label htmlFor={inputId} className="flex flex-col" aria-label={label || "Text Field"}>
           {label && (
             <span className="typography-caption-semibold px-1 pt-1 pb-2 text-body-100">
               {label}
