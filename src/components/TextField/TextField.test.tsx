@@ -22,15 +22,17 @@ describe("TextField", () => {
 
     it("associates label with input using htmlFor", () => {
       render(<TextField id="test-input" label="Test Label" />);
-      const label = screen.getByText("Test Label");
-      const input = screen.getByLabelText("Test Label");
+      const input = screen.getByRole("textbox");
+      const label = input.closest("label");
+      expect(label).toBeInTheDocument();
       expect(label).toHaveAttribute("for", "test-input");
       expect(input).toHaveAttribute("id", "test-input");
+      expect(screen.getByText("Test Label")).toBeInTheDocument();
     });
 
     it("generates unique id when not provided", () => {
       render(<TextField label="Test" />);
-      const input = screen.getByLabelText("Test");
+      const input = screen.getByRole("textbox");
       expect(input).toHaveAttribute("id");
       expect(input.getAttribute("id")).toBeTruthy();
     });
@@ -63,11 +65,14 @@ describe("TextField", () => {
   });
 
   describe("label and helper text", () => {
-    it("renders without label", () => {
+    it("renders without label text", () => {
       render(<TextField placeholder="No label" />);
       const input = screen.getByPlaceholderText("No label");
       expect(input).toBeInTheDocument();
-      expect(screen.queryByRole("label")).not.toBeInTheDocument();
+      const label = input.closest("label");
+      expect(label).toBeInTheDocument();
+      const labelSpan = label?.querySelector("span");
+      expect(labelSpan).toBeNull();
     });
 
     it("renders with label", () => {
@@ -189,15 +194,15 @@ describe("TextField", () => {
       expect(onChange).toHaveBeenCalled();
     });
 
-    it("focuses input when container is clicked", async () => {
+    it("focuses input when label area is clicked", async () => {
       const user = userEvent.setup();
-      const { container } = render(<TextField id="test-input" />);
+      render(<TextField id="test-input" />);
       const input = screen.getByRole("textbox");
-      const inputContainer = container.querySelector("#test-input-container");
+      const label = input.closest("label");
 
-      expect(inputContainer).toBeInTheDocument();
-      if (inputContainer) {
-        await user.click(inputContainer);
+      expect(label).toBeInTheDocument();
+      if (label) {
+        await user.click(label);
         expect(input).toHaveFocus();
       }
     });
@@ -214,6 +219,24 @@ describe("TextField", () => {
       render(<TextField />);
       const input = screen.getByRole("textbox");
       expect(input).toBeInTheDocument();
+    });
+
+    it("applies default aria-label when no label is provided", () => {
+      render(<TextField />);
+      const input = screen.getByRole("textbox");
+      expect(input).toHaveAttribute("aria-label", "Text field");
+    });
+
+    it("does not apply aria-label when label is provided", () => {
+      render(<TextField label="Username" />);
+      const input = screen.getByRole("textbox");
+      expect(input).not.toHaveAttribute("aria-label");
+    });
+
+    it("allows custom aria-label to override default", () => {
+      render(<TextField aria-label="Custom label" />);
+      const input = screen.getByRole("textbox");
+      expect(input).toHaveAttribute("aria-label", "Custom label");
     });
   });
 });

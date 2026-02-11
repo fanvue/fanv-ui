@@ -47,7 +47,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
 
     return (
       <div className={cn("flex flex-col", fullWidth ? "w-full" : "", className)}>
-        <label htmlFor={inputId} className="flex flex-col" aria-label={label || "Text Field"}>
+        <label htmlFor={inputId} className="flex flex-col">
           {label && (
             <span className="typography-caption-semibold px-1 pt-1 pb-2 text-body-100">
               {label}
@@ -74,7 +74,8 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
               ref={ref}
               id={inputId}
               disabled={disabled}
-              aria-describedby={helperText ? helperTextId : undefined}
+              aria-label={!label ? "Text field" : undefined}
+              aria-describedby={helperText || errorMessage ? helperTextId : undefined}
               aria-invalid={error ? true : undefined}
               className={cn(
                 "typography-body-1-regular flex-1 bg-transparent text-body-200 placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
