@@ -34,6 +34,32 @@ describe("TextField", () => {
       expect(input).toHaveAttribute("id");
       expect(input.getAttribute("id")).toBeTruthy();
     });
+
+    it("applies fullWidth className when fullWidth is true", () => {
+      const { container } = render(<TextField fullWidth />);
+      const wrapper = container.querySelector('[class*="w-full"]') as HTMLElement;
+      expect(wrapper).toBeInTheDocument();
+    });
+  });
+
+  describe("sizes", () => {
+    it("applies size 48 by default", () => {
+      const { container } = render(<TextField />);
+      const inputContainer = container.querySelector('[class*="h-12"]');
+      expect(inputContainer).toBeInTheDocument();
+    });
+
+    it("applies size 40 when specified", () => {
+      const { container } = render(<TextField size="40" />);
+      const inputContainer = container.querySelector('[class*="h-10"]');
+      expect(inputContainer).toBeInTheDocument();
+    });
+
+    it("applies size 32 when specified", () => {
+      const { container } = render(<TextField size="32" />);
+      const inputContainer = container.querySelector('[class*="h-8"]');
+      expect(inputContainer).toBeInTheDocument();
+    });
   });
 
   describe("label and helper text", () => {
@@ -70,29 +96,39 @@ describe("TextField", () => {
     });
   });
 
-  describe("states", () => {
+  describe("error state", () => {
     it("applies error state styling", () => {
-      const { container } = render(<TextField state="error" />);
+      const { container } = render(<TextField error />);
       const inputContainer = container.querySelector('div[class*="border-error-500"]');
       expect(inputContainer).toBeInTheDocument();
     });
 
-    it("sets aria-invalid when state is error", () => {
-      render(<TextField state="error" />);
+    it("sets aria-invalid when error is true", () => {
+      render(<TextField error />);
       const input = screen.getByRole("textbox");
       expect(input).toHaveAttribute("aria-invalid", "true");
     });
 
-    it("applies error styling to helper text", () => {
-      render(<TextField state="error" helperText="Error message" />);
-      const helperText = screen.getByText("Error message");
-      expect(helperText).toHaveClass("text-error-500");
+    it("displays error message when provided", () => {
+      render(<TextField error errorMessage="This field is required" />);
+      expect(screen.getByText("This field is required")).toBeInTheDocument();
     });
 
-    it("shows validated icon when validated is true", () => {
-      const { container } = render(<TextField validated />);
-      const checkIcon = container.querySelector('svg[aria-hidden="true"]');
-      expect(checkIcon).toBeInTheDocument();
+    it("error message overrides helper text", () => {
+      render(<TextField error helperText="Helper text" errorMessage="Error message" />);
+      expect(screen.getByText("Error message")).toBeInTheDocument();
+      expect(screen.queryByText("Helper text")).not.toBeInTheDocument();
+    });
+
+    it("shows helper text when error is true but no errorMessage", () => {
+      render(<TextField error helperText="Helper text" />);
+      expect(screen.getByText("Helper text")).toBeInTheDocument();
+    });
+
+    it("applies error styling to helper text when error is true", () => {
+      render(<TextField error helperText="Helper text" />);
+      const helperText = screen.getByText("Helper text");
+      expect(helperText).toHaveClass("text-error-500");
     });
 
     it("supports disabled state", () => {
@@ -102,7 +138,7 @@ describe("TextField", () => {
     });
   });
 
-  describe("icons and prefix", () => {
+  describe("icons", () => {
     it("renders left icon", () => {
       render(<TextField leftIcon={<span data-testid="left-icon">🔍</span>} />);
       expect(screen.getByTestId("left-icon")).toBeInTheDocument();
@@ -113,14 +149,15 @@ describe("TextField", () => {
       expect(screen.getByTestId("right-icon")).toBeInTheDocument();
     });
 
-    it("renders prefix", () => {
-      render(<TextField prefix="$" />);
-      expect(screen.getByText("$")).toBeInTheDocument();
-    });
-
-    it("does not render right icon when validated is true", () => {
-      render(<TextField validated rightIcon={<span data-testid="right-icon">👁️</span>} />);
-      expect(screen.queryByTestId("right-icon")).not.toBeInTheDocument();
+    it("renders both left and right icons", () => {
+      render(
+        <TextField
+          leftIcon={<span data-testid="left-icon">🔍</span>}
+          rightIcon={<span data-testid="right-icon">👁️</span>}
+        />,
+      );
+      expect(screen.getByTestId("left-icon")).toBeInTheDocument();
+      expect(screen.getByTestId("right-icon")).toBeInTheDocument();
     });
   });
 
@@ -150,6 +187,19 @@ describe("TextField", () => {
       expect(input).toHaveValue("test");
       await user.type(input, "H");
       expect(onChange).toHaveBeenCalled();
+    });
+
+    it("focuses input when container is clicked", async () => {
+      const user = userEvent.setup();
+      const { container } = render(<TextField id="test-input" />);
+      const input = screen.getByRole("textbox");
+      const inputContainer = container.querySelector("#test-input-container");
+
+      expect(inputContainer).toBeInTheDocument();
+      if (inputContainer) {
+        await user.click(inputContainer);
+        expect(input).toHaveFocus();
+      }
     });
   });
 

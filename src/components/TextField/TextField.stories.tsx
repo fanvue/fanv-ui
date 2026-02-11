@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { HomeIcon } from "../Icons/HomeIcon";
 import { TextField } from "./TextField";
 
-const meta = {
+const meta: Meta<typeof TextField> = {
   title: "Components/TextField",
   component: TextField,
   parameters: {
@@ -16,16 +17,15 @@ const meta = {
   argTypes: {
     size: {
       control: "select",
-      options: ["40", "48"],
-    },
-    state: {
-      control: "select",
-      options: ["default", "error", "success"],
+      options: ["48", "40", "32"],
     },
     label: {
       control: "text",
     },
     helperText: {
+      control: "text",
+    },
+    errorMessage: {
       control: "text",
     },
     placeholder: {
@@ -34,11 +34,21 @@ const meta = {
     disabled: {
       control: "boolean",
     },
-    validated: {
+    error: {
+      control: "boolean",
+    },
+    fullWidth: {
       control: "boolean",
     },
   },
-} satisfies Meta<typeof TextField>;
+  decorators: [
+    (Story) => (
+      <div style={{ width: "375px" }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -50,18 +60,26 @@ export const Default: Story = {
   },
 };
 
-export const Size40: Story = {
+export const Size48: Story = {
   args: {
-    size: "40",
-    label: "Label",
+    size: "48",
+    label: "Size 48",
     placeholder: "Placeholder Text",
   },
 };
 
-export const Size48: Story = {
+export const Size40: Story = {
   args: {
-    size: "48",
-    label: "Label",
+    size: "40",
+    label: "Size 40",
+    placeholder: "Placeholder Text",
+  },
+};
+
+export const Size32: Story = {
+  args: {
+    size: "32",
+    label: "Size 32",
     placeholder: "Placeholder Text",
   },
 };
@@ -78,18 +96,7 @@ export const WithLeftIcon: Story = {
   args: {
     label: "Search",
     placeholder: "Search...",
-    leftIcon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Search icon">
-        <title>Search</title>
-        <path
-          d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16ZM19 19l-4.35-4.35"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
+    leftIcon: <HomeIcon />,
   },
 };
 
@@ -122,31 +129,23 @@ export const WithRightIcon: Story = {
   },
 };
 
-export const WithPrefix: Story = {
-  args: {
-    label: "Amount",
-    placeholder: "0.00",
-    prefix: "$",
-  },
-};
-
 export const ErrorState: Story = {
   args: {
     label: "Email",
     placeholder: "you@example.com",
-    state: "error",
-    helperText: "Please enter a valid email address",
-    value: "invalid-email",
+    error: true,
+    errorMessage: "Please enter a valid email address",
+    defaultValue: "invalid-email",
   },
 };
 
-export const Validated: Story = {
+export const ErrorWithoutMessage: Story = {
   args: {
-    label: "Email",
-    placeholder: "you@example.com",
-    validated: true,
-    helperText: "Email is valid",
-    value: "user@example.com",
+    label: "Username",
+    placeholder: "Enter username",
+    error: true,
+    helperText: "This field is required",
+    defaultValue: "",
   },
 };
 
@@ -155,6 +154,30 @@ export const Disabled: Story = {
     label: "Label",
     placeholder: "Disabled input",
     disabled: true,
+  },
+};
+
+export const DisabledWithValue: Story = {
+  args: {
+    label: "Label",
+    placeholder: "Disabled input",
+    disabled: true,
+    defaultValue: "Disabled value",
+  },
+};
+
+export const FullWidth: Story = {
+  decorators: [
+    (Story) => (
+      <div style={{ width: "100%", maxWidth: "600px" }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    label: "Full Width",
+    placeholder: "This field spans the full width",
+    fullWidth: true,
   },
 };
 
@@ -170,14 +193,23 @@ export const ControlledExample: Story = {
   },
   render: function ControlledExampleRender() {
     const [value, setValue] = useState("");
+    const [error, setError] = useState(false);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value);
+      setError(e.target.value.length > 0 && e.target.value.length < 3);
+    };
+
     return (
       <div className="flex w-[375px] flex-col gap-4">
         <TextField
           label="Username"
-          placeholder="Enter username"
+          placeholder="Enter username (min 3 characters)"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
-          helperText={`${value.length} characters`}
+          onChange={handleChange}
+          error={error}
+          errorMessage={error ? "Username must be at least 3 characters" : undefined}
+          helperText={!error ? `${value.length} characters` : undefined}
         />
         <div className="typography-caption-regular text-body-200">
           Current value: {value || "(empty)"}
@@ -185,4 +217,15 @@ export const ControlledExample: Story = {
       </div>
     );
   },
+};
+
+export const AllSizeVariants: Story = {
+  name: "All Sizes",
+  render: () => (
+    <div className="flex w-[375px] flex-col gap-4">
+      <TextField size="48" label="Size 48" placeholder="Default size" />
+      <TextField size="40" label="Size 40" placeholder="Medium size" />
+      <TextField size="32" label="Size 32" placeholder="Compact size" />
+    </div>
+  ),
 };
