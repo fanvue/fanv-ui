@@ -75,7 +75,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
               id={inputId}
               disabled={disabled}
               aria-label={!label ? "Text field" : undefined}
-              aria-describedby={errorMessage ?? helperText ?? undefined}
+              aria-describedby={helperText || errorMessage ? helperTextId : undefined}
               aria-invalid={error ? true : undefined}
               className={cn(
                 "typography-body-1-regular flex-1 bg-transparent text-body-200 placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
