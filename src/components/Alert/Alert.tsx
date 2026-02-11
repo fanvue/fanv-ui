@@ -18,6 +18,13 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   onClose?: () => void;
 }
 
+const CLOSE_BUTTON_CLASSES: Record<AlertVariant, string> = {
+  info: "hover:bg-info-500/10 text-info-500",
+  success: "hover:bg-success-500/10 text-success-500",
+  warning: "hover:bg-warning-500/10 text-warning-500",
+  error: "hover:bg-error-500/10 text-error-500",
+};
+
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   (
     { className, variant = "info", title, icon, closable = false, onClose, children, ...props },
@@ -59,7 +66,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             variant="tertiary"
             size="24"
             onClick={onClose}
-            className="self-start"
+            className={cn("self-start", CLOSE_BUTTON_CLASSES[variant])}
             aria-label="Close alert"
           >
             <CrossIcon />
