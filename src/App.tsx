@@ -49,7 +49,7 @@ import {
   VipBadgeIcon,
   WarningTriangleIcon,
 } from "./index";
-import "./styles/theme.css";
+import "./showcase.css";
 
 function DatePickerShowcase() {
   const [singleDate, setSingleDate] = useState<Date | undefined>(new Date(2026, 1, 15));
