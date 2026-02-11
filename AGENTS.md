@@ -180,6 +180,8 @@ describe("Badge", () => {
 
 **Pattern**: Use `forwardRef` → Define type unions → Apply classes with `cn()` using inline conditionals in order: base → variants → className override. Use `pnpm lint:fix` to auto-sort Tailwind classes.
 
+> **Note:** Use the typography classes defined in `@src/styles/theme.css` (e.g., `.typography-body-1-semibold`) instead of Tailwind's default typography utility classes for text styles.
+
 ```typescript
 import * as React from "react";
 import { cn } from "@/utils/cn";
