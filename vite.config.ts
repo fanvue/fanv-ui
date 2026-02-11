@@ -16,24 +16,41 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(import.meta.dirname, "src/index.ts"),
-      formats: ["es", "cjs"],
-      fileName: (format) => `index.${format === "es" ? "mjs" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "tailwindcss", "react-day-picker"],
-      output: {
-        preserveModules: false,
-        banner: '"use client";',
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-          "react/jsx-runtime": "jsxRuntime",
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "tailwindcss",
+        "react-day-picker",
+        /^@radix-ui\//,
+        "clsx",
+        "tailwind-merge",
+      ],
+      output: [
+        {
+          format: "es",
+          dir: "dist",
+          preserveModules: true,
+          preserveModulesRoot: "src",
+          entryFileNames: "[name].mjs",
+          banner: '"use client";',
         },
-      },
+        {
+          format: "cjs",
+          dir: "dist/cjs",
+          preserveModules: true,
+          preserveModulesRoot: "src",
+          entryFileNames: "[name].cjs",
+          exports: "named",
+          banner: '"use client";',
+        },
+      ],
     },
     cssCodeSplit: false,
     sourcemap: true,
-    minify: "esbuild",
+    minify: false,
     target: "es2022",
   },
   resolve: {
