@@ -1,6 +1,6 @@
 {
   "name": "@fanvue/ui",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "React component library built with Tailwind CSS for Fanvue ecosystem",
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
