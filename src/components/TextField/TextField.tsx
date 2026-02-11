@@ -43,7 +43,6 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
   ) => {
     const generatedId = React.useId();
     const inputId = id || generatedId;
-    const containerId = `${inputId}-container`;
     const helperTextId = `${inputId}-helper`;
 
     return (
@@ -56,7 +55,6 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           )}
 
           <div
-            id={containerId}
             className={cn(
               "flex cursor-text items-center gap-2 rounded-[12px] bg-neutral-100 px-4 transition-colors focus-within:border focus-within:border-neutral-400 hover:border hover:border-neutral-400",
               size === "48" && "h-12 py-3",
