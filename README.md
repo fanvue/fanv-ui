@@ -18,26 +18,48 @@ React component library built with Tailwind CSS for the Fanvue ecosystem.
 - 📝 **TypeScript** - Full type definitions included
 - 🧪 **Tested** - Unit tests with Vitest, E2E with Playwright
 
-### Getting Started
+## Setup
+
+### 1. Install
 
 ```bash
 npm i @fanvue/ui
 ```
 
-### Peer Dependencies
+### 2. Peer dependencies
 
 ```bash
-npm i react react-dom tailwindcss react-day-picker
+# Required
+npm i react react-dom tailwindcss
+
+# Only if using DatePicker
+npm i react-day-picker
 ```
 
-## Setup
+### 3. Configure CSS
 
-### 1. Import Styles
-
-Add the fanv-ui styles to your CSS entry point:
+Add the following to your CSS entry point (e.g. `app.css`):
 
 ```css
+@import "tailwindcss";
+@source "../node_modules/@fanvue/ui";
 @import "@fanvue/ui/styles/theme.css";
+```
+
+### 4. Load Inter font
+
+Load the [Inter](https://fonts.google.com/specimen/Inter) typeface via Google Fonts or `@fontsource-variable/inter`:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+```
+
+or
+
+```bash
+npm i @fontsource-variable/inter
 ```
 
 ## Usage

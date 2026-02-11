@@ -13,15 +13,19 @@ import { ErrorCircleIcon } from "./ErrorCircleIcon";
 import { FireIcon } from "./FireIcon";
 import { HomeIcon } from "./HomeIcon";
 import { InfoCircleIcon } from "./InfoCircleIcon";
+import { MicrophoneIcon } from "./MicrophoneIcon";
 import { MinusIcon } from "./MinusIcon";
 import { PlusIcon } from "./PlusIcon";
 import { SpinnerIcon } from "./SpinnerIcon";
+import { StopIcon } from "./StopIcon";
 import { VipBadgeIcon } from "./VipBadgeIcon";
 import { WarningTriangleIcon } from "./WarningTriangleIcon";
 
 const icons = [
   { name: "ArrowRightIcon", Component: ArrowRightIcon },
   { name: "ArrowUpRightIcon", Component: ArrowUpRightIcon },
+  { name: "MicrophoneIcon", Component: MicrophoneIcon },
+  { name: "StopIcon", Component: StopIcon },
   { name: "CheckCircleIcon", Component: CheckCircleIcon },
   { name: "CheckIcon", Component: CheckIcon },
   { name: "ChevronLeftIcon", Component: ChevronLeftIcon },

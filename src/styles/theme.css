@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* Consumers must provide their own Tailwind import: @import "tailwindcss"; */
 
 @variant dark (&:where(.dark, .dark *));
 
