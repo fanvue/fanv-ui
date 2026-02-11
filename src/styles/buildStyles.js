@@ -65,7 +65,7 @@ StyleDictionary.registerFormat({
     );
     const typographyClasses = getTypographyClasses(dictionary.tokens.typography);
     const effectClasses = getEffectTokens();
-    return `@import "tailwindcss";\n\n@variant dark (&:where(.dark, .dark *));\n\n@theme {\n${effectClasses}\n${themeColorTokens}}\n\n:root {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}\n${typographyClasses}\n`;
+    return `/* Consumers must provide their own Tailwind import: @import "tailwindcss"; */\n\n@variant dark (&:where(.dark, .dark *));\n\n@theme {\n${effectClasses}\n${themeColorTokens}}\n\n:root {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}\n${typographyClasses}\n`;
   },
 });
 

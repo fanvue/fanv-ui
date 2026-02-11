@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/react";
 import { useEffect } from "react";
-import "../src/styles/theme.css";
+import "./preview.css";
 import tokens from "../src/styles/styleTokens.json";
 
 const BACKGROUNDS = {

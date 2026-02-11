@@ -16,6 +16,11 @@ export interface CheckboxProps
   helperText?: string;
 }
 
+/**
+ * The ref type is intentionally `HTMLInputElement` (not `HTMLButtonElement`) for form library
+ * compatibility. Libraries like react-hook-form call `register()` which expects an `HTMLInputElement`
+ * ref. A hidden `<input>` is synced to the Radix checkbox state via `useImperativeHandle`.
+ */
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ({ className, size = "default", label, helperText, disabled, name, ...props }, ref) => {
     const id = React.useId();
