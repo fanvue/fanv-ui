@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.1.0...ui-v1.1.1) (2026-02-11)
+
+
+### Bug Fixes
+
+* **Alert:** close button style for variants ([#92](https://github.com/fanvue/fanv-ui/issues/92)) ([d6615ca](https://github.com/fanvue/fanv-ui/commit/d6615ca1e6a76c7be4734cabc9f00e652a89f671))
+* **release:** remove release-as override blocking new releases ([#96](https://github.com/fanvue/fanv-ui/issues/96)) ([1f7dca2](https://github.com/fanvue/fanv-ui/commit/1f7dca2a7d066186e638e6ea8fea6261258ba240))
+* **showcase:** restoring tailwind styles to showcase ([#94](https://github.com/fanvue/fanv-ui/issues/94)) ([341f637](https://github.com/fanvue/fanv-ui/commit/341f637b5954f38f5d8ac6c710471f80e7392099))
+* use [@utility](https://github.com/utility) for typography classes to support Tailwind modifiers ([#98](https://github.com/fanvue/fanv-ui/issues/98)) ([9d6275e](https://github.com/fanvue/fanv-ui/commit/9d6275e91605113165b61f83dbddc7a681743d8a))
+
 ## [1.1.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.1.0...ui-v1.1.0) (2026-02-11)
 
 
