@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 // https://fanvue.github.io/fanv-ui/ (App.tsx)
 export default defineConfig({
   plugins: [react()],
-  base: "/fanv-ui/",
+  base: process.env.VITE_BASE || "/fanv-ui/",
   build: {
     outDir: "dist-showcase",
     emptyOutDir: true,
