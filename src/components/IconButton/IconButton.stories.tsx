@@ -35,6 +35,7 @@ const meta = {
       control: "select",
       options: ["24", "32", "40", "52", "72"],
     },
+    disabled: { control: "boolean" },
     counterValue: { control: "number" },
   },
 } satisfies Meta<typeof IconButton>;
