@@ -19,10 +19,13 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const CLOSE_BUTTON_CLASSES: Record<AlertVariant, string> = {
-  info: "hover:bg-info-500/10 text-info-500",
-  success: "hover:bg-success-500/10 text-success-500",
-  warning: "hover:bg-warning-500/10 text-warning-500",
-  error: "hover:bg-error-500/10 text-error-500",
+  info: "hover:bg-info-500/10 text-info-500 motion-safe:transition-colors motion-safe:duration-150",
+  success:
+    "hover:bg-success-500/10 text-success-500 motion-safe:transition-colors motion-safe:duration-150",
+  warning:
+    "hover:bg-warning-500/10 text-warning-500 motion-safe:transition-colors motion-safe:duration-150",
+  error:
+    "hover:bg-error-500/10 text-error-500 motion-safe:transition-colors motion-safe:duration-150",
 };
 
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
