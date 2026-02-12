@@ -124,5 +124,17 @@ export type {
   ToastViewportProps,
 } from "./components/Toast/Toast";
 export { Toast, ToastProvider, ToastViewport } from "./components/Toast/Toast";
+export type {
+  TooltipContentProps,
+  TooltipProps,
+  TooltipProviderProps,
+  TooltipTriggerProps,
+} from "./components/Tooltip/Tooltip";
+export {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./components/Tooltip/Tooltip";
 export { cn } from "./utils/cn";
 export type { OmitDistributed } from "./utils/types";
