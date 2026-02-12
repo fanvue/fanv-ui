@@ -57,7 +57,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         ref={ref}
         data-testid="chip"
         className={cn(
-          "typography-caption-semibold relative inline-flex items-center gap-2 px-3 transition-colors",
+          "typography-caption-semibold relative inline-flex items-center gap-2 px-3 motion-safe:transition-colors motion-safe:duration-150",
           // Shape
           variant === "square" ? "rounded-lg" : "rounded-full",
           // Size
