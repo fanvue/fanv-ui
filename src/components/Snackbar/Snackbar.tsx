@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { Button } from "../Button/Button";
+import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
 
 export type SnackbarVariant = "default" | "vipEarn" | "welcome";
@@ -46,15 +47,14 @@ function CloseButton({
   closeLabel?: string;
 }) {
   return (
-    <Button
+    <IconButton
       variant="tertiary"
       size="24"
       onClick={onClose}
-      className={cn("h-auto shrink-0", className)}
+      icon={<CrossIcon />}
+      className={cn("shrink-0", className)}
       aria-label={closeLabel}
-    >
-      <CrossIcon />
-    </Button>
+    />
   );
 }
 
