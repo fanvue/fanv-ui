@@ -10,6 +10,7 @@ import { ChevronRightIcon } from "./ChevronRightIcon";
 import { CrossIcon } from "./CrossIcon";
 import { CrownIcon } from "./CrownIcon";
 import { ErrorCircleIcon } from "./ErrorCircleIcon";
+import { EyeIcon } from "./EyeIcon";
 import { FireIcon } from "./FireIcon";
 import { HomeIcon } from "./HomeIcon";
 import { InfoCircleIcon } from "./InfoCircleIcon";
@@ -33,6 +34,7 @@ const icons = [
   { name: "CrossIcon", Component: CrossIcon },
   { name: "CrownIcon", Component: CrownIcon },
   { name: "ErrorCircleIcon", Component: ErrorCircleIcon },
+  { name: "EyeIcon", Component: EyeIcon },
   { name: "FireIcon", Component: FireIcon },
   { name: "HomeIcon", Component: HomeIcon },
   { name: "InfoCircleIcon", Component: InfoCircleIcon },
