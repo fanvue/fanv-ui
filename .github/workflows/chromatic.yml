@@ -3,7 +3,9 @@ name: Chromatic
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - 'release-please--**'
   pull_request:
     branches: [main]
 
