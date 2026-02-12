@@ -70,6 +70,14 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     { className, variant = "primary", size = "40", icon, counterValue, disabled = false, ...props },
     ref,
   ) => {
+    if (process.env.NODE_ENV !== "production") {
+      if (!props["aria-label"] && !props["aria-labelledby"] && !props.title) {
+        console.warn(
+          "IconButton: No accessible name provided. Add an `aria-label`, `aria-labelledby`, or `title` prop so screen readers can announce this button.",
+        );
+      }
+    }
+
     return (
       <button
         ref={ref}
