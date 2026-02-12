@@ -25,11 +25,11 @@ const iconButtonVariants = {
 };
 
 const iconSizeVariants = {
-  24: "size-4",
-  32: "size-5",
-  40: "size-6",
-  52: "size-7",
-  72: "size-8",
+  24: "[&>svg]:size-4",
+  32: "[&>svg]:size-5",
+  40: "[&>svg]:size-6",
+  52: "[&>svg]:size-7",
+  72: "[&>svg]:size-8",
 } as const;
 
 const sizeVariants = {
@@ -90,10 +90,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         {...props}
       >
         <span
-          className={cn(
-            "flex shrink-0 items-center justify-center overflow-clip",
-            iconSizeVariants[size],
-          )}
+          className={cn("flex shrink-0 items-center justify-center", iconSizeVariants[size])}
           aria-hidden="true"
         >
           {icon}
