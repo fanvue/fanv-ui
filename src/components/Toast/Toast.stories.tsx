@@ -23,7 +23,7 @@ const meta: Meta<typeof Toast> = {
     (Story) => (
       <ToastProvider>
         <Story />
-        <ToastViewport />
+        <ToastViewport className="relative" />
       </ToastProvider>
     ),
   ],
