@@ -182,7 +182,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const iconSizeClass = ICON_SIZE_CLASS[size];
 
     const buttonSpecificProps = !asChild
-      ? { "data-testid": "button", disabled: isDisabled }
+      ? { type: "button" as const, "data-testid": "button", disabled: isDisabled }
       : isDisabled
         ? { "aria-disabled": true }
         : {};
@@ -213,7 +213,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           // Base styles
           "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition-colors",
           // Focus ring
-          "focus:shadow-focus focus-visible:outline-none",
+          "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled state
           "disabled:pointer-events-none disabled:opacity-50",
           "aria-disabled:pointer-events-none aria-disabled:opacity-50",

@@ -2,6 +2,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
 import { Switch, type SwitchSize } from "../Switch/Switch";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Tooltip/Tooltip";
 
 export type SwitchFieldOrientation = "right" | "left";
 
@@ -71,14 +72,16 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
               {label}
             </label>
             {infoText && (
-              <span className="group relative flex shrink-0 pt-0.5">
-                <InfoCircleIcon className="size-5 text-body-200" />
-                <span className="pointer-events-none absolute top-full left-1/2 mt-1 -translate-x-1/2 rounded-lg bg-neutral-400 px-3 py-1.5 text-body-white-solid-constant text-xs leading-none opacity-0 transition-opacity group-hover:opacity-100">
-                  {/*!TODO Replace with Tooltip once built
-                  https://linear.app/fanvue/issue/ENG-7226/component-library-tooltip-component */}
-                  {infoText}
-                </span>
-              </span>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" className="flex shrink-0 pt-0.5">
+                      <InfoCircleIcon className="size-5 text-body-200" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">{infoText}</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             )}
           </div>
         )}
