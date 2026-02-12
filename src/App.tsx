@@ -116,7 +116,7 @@ function SliderShowcase() {
       />
       <Slider defaultValue={[20, 80]} label="Price Range" minLabel="$0" maxLabel="$1000" />
       <Slider defaultValue={[50]} aria-label="No labels slider" />
-      <Slider defaultValue={[30]} minLabel="Low" maxLabel="High" />
+      <Slider defaultValue={[30]} aria-label="Intensity" minLabel="Low" maxLabel="High" />
       <Slider defaultValue={[50]} label="Disabled Slider" minLabel="Min" maxLabel="Max" disabled />
       <Slider
         defaultValue={[50]}
@@ -281,7 +281,7 @@ function App() {
           </button>
         </div>
 
-        <div className="container mx-auto px-4 py-12">
+        <main className="container mx-auto px-4 py-12">
           <section className="space-y-8">
             <div className="flex flex-wrap items-start gap-8">
               <Logo type="full" color="fullColour" />
@@ -372,12 +372,12 @@ function App() {
                 ).map(([name, Icon]) => (
                   <div key={name} className="flex flex-col items-center gap-2">
                     <Icon className="size-6" />
-                    <span className="text-[10px] leading-tight opacity-50">{name}</span>
+                    <span className="text-[10px] text-body-200 leading-tight">{name}</span>
                   </div>
                 ))}
                 <div className="flex flex-col items-center gap-2">
                   <VipBadgeIcon className="size-6" />
-                  <span className="text-[10px] leading-tight opacity-50">VipBadge</span>
+                  <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
                 </div>
               </div>
 
@@ -405,12 +405,12 @@ function App() {
                 ).map(([name, Icon]) => (
                   <div key={name} className="flex flex-col items-center gap-2">
                     <Icon className="size-6" />
-                    <span className="text-[10px] leading-tight opacity-50">{name}</span>
+                    <span className="text-[10px] text-body-200 leading-tight">{name}</span>
                   </div>
                 ))}
                 <div className="flex flex-col items-center gap-2">
                   <VipBadgeIcon className="size-6" />
-                  <span className="text-[10px] leading-tight opacity-50">VipBadge</span>
+                  <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
                 </div>
               </div>
 
@@ -755,46 +755,71 @@ function App() {
             </div>
             <div className="space-y-6">
               <div className="flex flex-wrap items-center gap-4">
-                <IconButton variant="primary" icon={<HomeIcon />} />
-                <IconButton variant="secondary" icon={<HomeIcon />} />
-                <IconButton variant="tertiary" icon={<HomeIcon />} />
-                <IconButton variant="brand" icon={<HomeIcon />} />
-                <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} />
-                <IconButton variant="navTray" icon={<HomeIcon />} />
+                <IconButton variant="primary" icon={<HomeIcon />} aria-label="Home" />
+                <IconButton variant="secondary" icon={<HomeIcon />} aria-label="Home" />
+                <IconButton variant="tertiary" icon={<HomeIcon />} aria-label="Home" />
+                <IconButton variant="brand" icon={<HomeIcon />} aria-label="Home" />
+                <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} aria-label="Close" />
+                <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
               </div>
 
               <div className="rounded-lg bg-body-black-solid-constant p-4">
                 <div className="flex flex-wrap items-center gap-4">
-                  <IconButton variant="contrast" icon={<HomeIcon />} />
-                  <IconButton variant="messaging" icon={<PlusIcon />} />
+                  <IconButton variant="contrast" icon={<HomeIcon />} aria-label="Home" />
+                  <IconButton variant="messaging" icon={<PlusIcon />} aria-label="Add" />
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
-                <IconButton variant="primary" icon={<HomeIcon />} size="24" />
-                <IconButton variant="primary" icon={<HomeIcon />} size="32" />
-                <IconButton variant="primary" icon={<HomeIcon />} size="40" />
-                <IconButton variant="primary" icon={<HomeIcon />} size="52" />
-                <IconButton variant="primary" icon={<HomeIcon />} size="72" />
+                <IconButton variant="primary" icon={<HomeIcon />} size="24" aria-label="Home" />
+                <IconButton variant="primary" icon={<HomeIcon />} size="32" aria-label="Home" />
+                <IconButton variant="primary" icon={<HomeIcon />} size="40" aria-label="Home" />
+                <IconButton variant="primary" icon={<HomeIcon />} size="52" aria-label="Home" />
+                <IconButton variant="primary" icon={<HomeIcon />} size="72" aria-label="Home" />
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
-                <IconButton variant="primary" icon={<HomeIcon />} disabled />
-                <IconButton variant="secondary" icon={<HomeIcon />} disabled />
-                <IconButton variant="tertiary" icon={<HomeIcon />} disabled />
-                <IconButton variant="brand" icon={<HomeIcon />} disabled />
-                <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} disabled />
+                <IconButton variant="primary" icon={<HomeIcon />} disabled aria-label="Home" />
+                <IconButton variant="secondary" icon={<HomeIcon />} disabled aria-label="Home" />
+                <IconButton variant="tertiary" icon={<HomeIcon />} disabled aria-label="Home" />
+                <IconButton variant="brand" icon={<HomeIcon />} disabled aria-label="Home" />
+                <IconButton
+                  variant="tertiaryDestructive"
+                  icon={<CrossIcon />}
+                  disabled
+                  aria-label="Close"
+                />
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
-                <IconButton variant="tertiary" icon={<HomeIcon />} counterValue={5} />
-                <IconButton variant="tertiary" icon={<HomeIcon />} counterValue={12} />
-                <IconButton variant="navTray" icon={<HomeIcon />} counterValue={99} />
+                <IconButton
+                  variant="tertiary"
+                  icon={<HomeIcon />}
+                  counterValue={5}
+                  aria-label="Home"
+                />
+                <IconButton
+                  variant="tertiary"
+                  icon={<HomeIcon />}
+                  counterValue={12}
+                  aria-label="Home"
+                />
+                <IconButton
+                  variant="navTray"
+                  icon={<HomeIcon />}
+                  counterValue={99}
+                  aria-label="Home"
+                />
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
-                <IconButton variant="stop" icon={<StopIcon />} size="52" />
-                <IconButton variant="microphone" icon={<MicrophoneIcon />} size="52" />
+                <IconButton variant="stop" icon={<StopIcon />} size="52" aria-label="Stop" />
+                <IconButton
+                  variant="microphone"
+                  icon={<MicrophoneIcon />}
+                  size="52"
+                  aria-label="Microphone"
+                />
               </div>
             </div>
 
@@ -868,7 +893,7 @@ function App() {
               <Checkbox label="Disabled checked" disabled checked />
               <Checkbox label="Disabled indeterminate" disabled checked="indeterminate" />
               <Checkbox label="With helper text" helperText="This field is required" />
-              <Checkbox />
+              <Checkbox aria-label="Standalone checkbox" />
             </div>
 
             <RadioGroup defaultValue="option1" aria-label="Options" className="flex flex-col gap-4">
@@ -1169,14 +1194,19 @@ function App() {
             </div>
 
             <div className="flex flex-wrap items-center gap-4">
-              <Switch />
-              <Switch defaultChecked />
-              <Switch size="small" />
-              <Switch size="small" defaultChecked />
-              <Switch disabled />
-              <Switch disabled defaultChecked />
-              <Switch size="small" disabled />
-              <Switch size="small" disabled defaultChecked />
+              <Switch aria-label="Toggle default" />
+              <Switch aria-label="Toggle default checked" defaultChecked />
+              <Switch aria-label="Toggle small" size="small" />
+              <Switch aria-label="Toggle small checked" size="small" defaultChecked />
+              <Switch aria-label="Toggle disabled" disabled />
+              <Switch aria-label="Toggle disabled checked" disabled defaultChecked />
+              <Switch aria-label="Toggle small disabled" size="small" disabled />
+              <Switch
+                aria-label="Toggle small disabled checked"
+                size="small"
+                disabled
+                defaultChecked
+              />
             </div>
 
             <div className="flex max-w-2xl flex-col gap-4">
@@ -1421,6 +1451,9 @@ function App() {
                 <TabsList>
                   <TabsTrigger value="t">Tab</TabsTrigger>
                 </TabsList>
+                <TabsContent value="t">
+                  <p className="pt-4 text-neutral-400 text-sm">Single tab content</p>
+                </TabsContent>
               </Tabs>
               <Tabs defaultValue="t">
                 <TabsList>
@@ -1428,11 +1461,17 @@ function App() {
                     Tab
                   </TabsTrigger>
                 </TabsList>
+                <TabsContent value="t">
+                  <p className="pt-4 text-neutral-400 text-sm">Disabled tab content</p>
+                </TabsContent>
               </Tabs>
               <Tabs defaultValue="other">
                 <TabsList>
                   <TabsTrigger value="t">Tab</TabsTrigger>
                 </TabsList>
+                <TabsContent value="t">
+                  <p className="pt-4 text-neutral-400 text-sm">Inactive tab content</p>
+                </TabsContent>
               </Tabs>
               <Tabs defaultValue="other">
                 <TabsList>
@@ -1440,6 +1479,9 @@ function App() {
                     Tab
                   </TabsTrigger>
                 </TabsList>
+                <TabsContent value="t">
+                  <p className="pt-4 text-neutral-400 text-sm">Disabled inactive tab content</p>
+                </TabsContent>
               </Tabs>
             </div>
 
@@ -1575,7 +1617,7 @@ function App() {
               </div>
             </div>
           </section>
-        </div>
+        </main>
 
         {/* Toast instances */}
         <Toast
