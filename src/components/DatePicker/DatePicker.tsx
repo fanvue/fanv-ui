@@ -71,7 +71,7 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
         "relative z-10 inline-flex size-10 cursor-pointer items-center justify-center rounded-lg",
         "typography-body-2-regular",
         "transition-colors hover:bg-brand-green-50",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500 focus-visible:outline-offset-[-2px]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500",
         "disabled:cursor-not-allowed disabled:opacity-50",
         modifiers.today && !modifiers.selected && "border border-brand-green-500",
         modifiers.selected && !modifiers.range_middle
@@ -140,7 +140,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             weekdays: "flex",
             weekday:
               "flex h-[30px] w-10 flex-1 items-center justify-center typography-body-2-regular text-body-200",
-            week: "flex overflow-hidden rounded-lg",
+            week: "flex overflow-clip rounded-lg",
             day: "relative flex w-10 flex-1 items-center justify-center",
             range_middle: "bg-brand-green-50",
             hidden: "hidden",
