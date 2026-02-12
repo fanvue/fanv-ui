@@ -127,7 +127,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
         )}
 
         {variant === "dots" && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
@@ -135,13 +135,17 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
                 aria-label={getPageLabel(page)}
                 aria-current={page === currentPage ? "page" : undefined}
                 onClick={() => onPageChange?.(page)}
-                className={cn(
-                  "cursor-pointer rounded-full motion-safe:transition-all motion-safe:duration-150 focus-visible:shadow-focus-ring focus-visible:outline-none",
-                  page === currentPage
-                    ? "size-2 bg-neutral-400"
-                    : "size-1.5 bg-neutral-200 hover:bg-neutral-250",
-                )}
-              />
+                className="flex size-6 cursor-pointer items-center justify-center rounded-full focus-visible:shadow-focus-ring focus-visible:outline-none"
+              >
+                <span
+                  className={cn(
+                    "block rounded-full motion-safe:transition-all motion-safe:duration-150",
+                    page === currentPage
+                      ? "size-2 bg-neutral-400"
+                      : "size-1.5 bg-neutral-200 hover:bg-neutral-250",
+                  )}
+                />
+              </button>
             ))}
           </div>
         )}

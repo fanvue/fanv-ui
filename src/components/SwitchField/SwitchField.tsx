@@ -18,6 +18,10 @@ export interface SwitchFieldProps
   helperText?: string;
   /** Info tooltip text displayed on hover of the info icon */
   infoText?: string;
+  /** Accessible label for the info tooltip trigger button. Override for i18n.
+   * @default "More information"
+   */
+  infoLabel?: string;
   /** Additional className for the wrapper */
   className?: string;
 }
@@ -31,6 +35,7 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
       label,
       helperText,
       infoText,
+      infoLabel = "More information",
       disabled,
       id: propId,
       ...props
@@ -75,8 +80,8 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <button type="button" className="flex shrink-0 pt-0.5">
-                      <InfoCircleIcon className="size-5 text-body-200" />
+                    <button type="button" aria-label={infoLabel} className="flex shrink-0 pt-0.5">
+                      <InfoCircleIcon aria-hidden="true" className="size-5 text-body-200" />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent side="bottom">{infoText}</TooltipContent>
