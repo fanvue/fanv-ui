@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.2.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.1.1...ui-v1.2.0) (2026-02-12)
+
+
+### Features
+
+* add motion-safe transitions to interactive components ([#108](https://github.com/fanvue/fanv-ui/issues/108)) ([facdd2f](https://github.com/fanvue/fanv-ui/commit/facdd2fb00c14f800cd2de3ef6e0a19cbcc11c39))
+* add Tooltip component and replace temporary tooltips ([5034d9a](https://github.com/fanvue/fanv-ui/commit/5034d9af60cb9453b392b800b4bd6c7f7faea13e))
+* temporary Tooltip component to fix a bug in Switch ([#112](https://github.com/fanvue/fanv-ui/issues/112)) ([5034d9a](https://github.com/fanvue/fanv-ui/commit/5034d9af60cb9453b392b800b4bd6c7f7faea13e))
+* Text Field Component ([#103](https://github.com/fanvue/fanv-ui/issues/103)) ([0ec032d](https://github.com/fanvue/fanv-ui/commit/0ec032d261829dba37b9c0a625eaa87082e3480a))
+
+
+### Bug Fixes
+
+* **a11y,seo:** resolve Lighthouse accessibility and SEO audit failures ([#115](https://github.com/fanvue/fanv-ui/issues/115)) ([05255ce](https://github.com/fanvue/fanv-ui/commit/05255cec7301098a109e1d995c6bc947926eeba3))
+* correct focus ring tokens and improve keyboard/touch accessibility ([#109](https://github.com/fanvue/fanv-ui/issues/109)) ([8ca2671](https://github.com/fanvue/fanv-ui/commit/8ca2671e3274c190332c388b5b1ee7532210b9b3))
+* **DatePicker:** prevent focus ring clipping on calendar day cells ([#114](https://github.com/fanvue/fanv-ui/issues/114)) ([211b07f](https://github.com/fanvue/fanv-ui/commit/211b07f5b8895226f89c1f759bf27c81849f9a7f))
+* make close button aria-labels configurable for i18n ([#110](https://github.com/fanvue/fanv-ui/issues/110)) ([94ae6fa](https://github.com/fanvue/fanv-ui/commit/94ae6fab05fe02b231d548355442d976ae8f607a))
+* position toast viewport at bottom on all screen sizes ([#111](https://github.com/fanvue/fanv-ui/issues/111)) ([33f2119](https://github.com/fanvue/fanv-ui/commit/33f2119f504f2a5ed6a83adf77ed356c72d39ab7))
+* resolve TextField visual bugs, improve accessibility, and add EyeIcon ([ac4e1fa](https://github.com/fanvue/fanv-ui/commit/ac4e1fab3eeec1502450104d6fc9b575c3f02709))
+* storybook css import ([#101](https://github.com/fanvue/fanv-ui/issues/101)) ([608ad1e](https://github.com/fanvue/fanv-ui/commit/608ad1efb6794f230851f4480e0f740bd4e07e06))
+* target svg via tailwind + add disabled control to icon button stories ([#116](https://github.com/fanvue/fanv-ui/issues/116)) ([4e2dc78](https://github.com/fanvue/fanv-ui/commit/4e2dc7826dcb00f86e29954eb864d5ed266ae7c3))
+* TextField shift on focus and improve composability/a11y ([#105](https://github.com/fanvue/fanv-ui/issues/105)) ([ac4e1fa](https://github.com/fanvue/fanv-ui/commit/ac4e1fab3eeec1502450104d6fc9b575c3f02709))
+* **ui:** make snackbar close button square for circular focus/hover state ([#107](https://github.com/fanvue/fanv-ui/issues/107)) ([69b4e02](https://github.com/fanvue/fanv-ui/commit/69b4e02f7e1f7d698f418a4781f0f30ed7634056))
+
 ## [1.1.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.1.0...ui-v1.1.1) (2026-02-11)
 
 
