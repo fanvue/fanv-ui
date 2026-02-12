@@ -2,6 +2,7 @@ import React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
+/** A filled warning icon with exclamation mark (20 × 20). */
 export const WarningIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, ...props }, ref) => (
     <svg

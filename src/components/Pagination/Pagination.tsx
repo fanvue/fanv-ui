@@ -4,24 +4,25 @@ import { IconButton } from "../IconButton/IconButton";
 import { ChevronLeftIcon } from "../Icons/ChevronLeftIcon";
 import { ChevronRightIcon } from "../Icons/ChevronRightIcon";
 
+/** Pagination display style — numbered buttons or minimal dots. */
 export type PaginationVariant = "default" | "dots";
 
 export interface PaginationProps extends Omit<React.HTMLAttributes<HTMLElement>, "onChange"> {
-  /** Visual style variant */
+  /** Display style — numbered page buttons or minimal dots. @default "default" */
   variant?: PaginationVariant;
-  /** Total number of pages */
+  /** Total number of pages. */
   totalPages: number;
-  /** Current active page (1-indexed) */
+  /** Current active page (1-indexed). */
   currentPage: number;
-  /** Called when the page changes */
+  /** Callback fired when the active page changes. Receives the new 1-indexed page number. */
   onPageChange?: (page: number) => void;
-  /** Label for the nav landmark. @default "Pagination" */
+  /** Accessible label for the `<nav>` landmark. @default "Pagination" */
   ariaLabel?: string;
-  /** Label for the previous button. @default "Previous page" */
+  /** Accessible label for the previous-page button. @default "Previous page" */
   previousLabel?: string;
-  /** Label for the next button. @default "Next page" */
+  /** Accessible label for the next-page button. @default "Next page" */
   nextLabel?: string;
-  /** Generates the aria-label for each page button. @default (page) => \`Page ${page}\` */
+  /** Function that returns an accessible label for each page button. @default (page) => \`Page ${page}\` */
   getPageLabel?: (page: number) => string;
 }
 
@@ -46,6 +47,16 @@ function getVisiblePages(currentPage: number, totalPages: number): PageItem[] {
   return pages;
 }
 
+/**
+ * Page navigation control with previous/next buttons and numbered page
+ * indicators. Supports a numbered-buttons layout (`"default"`) and a compact
+ * dots layout (`"dots"`).
+ *
+ * @example
+ * ```tsx
+ * <Pagination totalPages={10} currentPage={page} onPageChange={setPage} />
+ * ```
+ */
 export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
   (
     {

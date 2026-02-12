@@ -3,18 +3,19 @@ import { cn } from "../../utils/cn";
 import { Button } from "../Button/Button";
 import { CrossIcon } from "../Icons/CrossIcon";
 
+/** Visual style variant of the alert. */
 export type AlertVariant = "info" | "success" | "warning" | "error";
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Visual style variant of the alert (matches Figma "Variant" property) */
+  /** Visual style variant of the alert. @default "info" */
   variant?: AlertVariant;
-  /** Optional title text (bold) */
+  /** Optional title text displayed in bold above the description. */
   title?: string;
-  /** Left icon element */
+  /** Icon element displayed at the leading edge of the alert. */
   icon?: React.ReactNode;
-  /** Show close button */
+  /** Whether to show the close button. @default false */
   closable?: boolean;
-  /** Callback when close button is clicked */
+  /** Callback fired when the close button is clicked. */
   onClose?: () => void;
   /** Accessible label for the close button. @default "Close alert" */
   closeLabel?: string;
@@ -30,6 +31,19 @@ const CLOSE_BUTTON_CLASSES: Record<AlertVariant, string> = {
     "hover:bg-error-500/10 text-error-500 motion-safe:transition-colors motion-safe:duration-150",
 };
 
+/**
+ * Displays a contextual feedback message to the user.
+ *
+ * Supports `info`, `success`, `warning`, and `error` variants with an optional
+ * icon, title, description, and dismiss button.
+ *
+ * @example
+ * ```tsx
+ * <Alert variant="success" title="Saved" closable onClose={handleClose}>
+ *   Your changes have been saved.
+ * </Alert>
+ * ```
+ */
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   (
     {

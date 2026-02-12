@@ -1,30 +1,49 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
+/** Height of the switch toggle in pixels. */
 export type SwitchToggleSize = "24" | "32" | "40";
 
+/** Describes one side of the binary toggle. */
 export interface SwitchToggleOption {
-  /** Display label for the option */
+  /** Display label for the option. */
   label: string;
-  /** Value identifier for the option */
+  /** Value identifier returned via `onChange`. */
   value: string;
 }
 
 export interface SwitchToggleProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
-  /** Size variant */
+  /** Height of the toggle in pixels. @default "24" */
   size?: SwitchToggleSize;
-  /** The two options to toggle between */
+  /** The two options to toggle between (exactly two required). */
   options: [SwitchToggleOption, SwitchToggleOption];
-  /** Currently selected value */
+  /** Currently selected value (controlled). */
   value?: string;
-  /** Default selected value (uncontrolled) */
+  /** Initially selected value (uncontrolled). */
   defaultValue?: string;
-  /** Callback when the selected value changes */
+  /** Callback fired when the selected value changes. */
   onChange?: (value: string) => void;
-  /** Whether the toggle is disabled */
+  /** Whether the toggle is disabled. @default false */
   disabled?: boolean;
 }
 
+/**
+ * A binary segmented toggle rendered as a `radiogroup`. The active option is
+ * highlighted with a sliding pill indicator. Supports both controlled and
+ * uncontrolled usage.
+ *
+ * @example
+ * ```tsx
+ * <SwitchToggle
+ *   options={[
+ *     { label: "Monthly", value: "monthly" },
+ *     { label: "Yearly", value: "yearly" },
+ *   ]}
+ *   value={billing}
+ *   onChange={setBilling}
+ * />
+ * ```
+ */
 export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
   (
     {
