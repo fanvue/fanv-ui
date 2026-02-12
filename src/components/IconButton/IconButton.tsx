@@ -4,16 +4,24 @@ import { Count } from "../Count/Count";
 
 const iconButtonVariants = {
   primary:
-    "bg-neutral-400 text-body-300 hover:bg-hover-100 disabled:opacity-50 focus:shadow-focus-ring",
-  secondary: `bg-neutral-100 text-neutral-400 hover:bg-neutral-200 disabled:opacity-50 focus:focus:shadow-focus-ring`,
-  tertiary: `bg-transparent text-neutral-400 hover:bg-hover-300 disabled:opacity-50 focus:shadow-focus-ring active:bg-brand-green-50`,
-  brand: `bg-body-black-solid-constant text-brand-green-500 hover:bg-brand-green-500 hover:text-body-black-solid-constant disabled:opacity-50 focus:shadow-focus-ring`,
-  contrast: `bg-transparent text-body-white-solid-constant disabled:opacity-50 focus:shadow-focus-ring`,
-  messaging: `bg-body-black-solid-constant text-brand-green-500 hover:bg-brand-green-500 hover:text-body-black-solid-constant disabled:opacity-50 focus:shadow-focus-ring`,
-  navTray: `bg-transparent text-neutral-400 disabled:opacity-50 focus:shadow-focus-ring active:bg-brand-green-50`,
-  tertiaryDestructive: `bg-transparent text-error-500 hover:bg-hover-300 disabled:opacity-50 focus:shadow-focus-ring`,
-  stop: `bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant`,
-  microphone: `bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant`,
+    "bg-neutral-400 text-body-300 hover:bg-hover-100 disabled:opacity-50 focus-visible:shadow-focus-ring",
+  secondary:
+    "bg-neutral-100 text-neutral-400 hover:bg-neutral-200 disabled:opacity-50 focus-visible:shadow-focus-ring",
+  tertiary:
+    "bg-transparent text-neutral-400 hover:bg-hover-300 disabled:opacity-50 focus-visible:shadow-focus-ring active:bg-brand-green-50",
+  brand:
+    "bg-body-black-solid-constant text-brand-green-500 hover:bg-brand-green-500 hover:text-body-black-solid-constant disabled:opacity-50 focus-visible:shadow-focus-ring",
+  contrast:
+    "bg-transparent text-body-white-solid-constant disabled:opacity-50 focus-visible:shadow-focus-ring",
+  messaging:
+    "bg-body-black-solid-constant text-brand-green-500 hover:bg-brand-green-500 hover:text-body-black-solid-constant disabled:opacity-50 focus-visible:shadow-focus-ring",
+  navTray:
+    "bg-transparent text-neutral-400 disabled:opacity-50 focus-visible:shadow-focus-ring active:bg-brand-green-50",
+  tertiaryDestructive:
+    "bg-transparent text-error-500 hover:bg-hover-300 disabled:opacity-50 focus-visible:shadow-focus-ring",
+  stop: "bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant disabled:opacity-50 focus-visible:shadow-focus-ring",
+  microphone:
+    "bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant disabled:opacity-50 focus-visible:shadow-focus-ring",
 };
 
 const iconSizeVariants = {
