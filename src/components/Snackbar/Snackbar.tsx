@@ -32,16 +32,26 @@ export interface SnackbarProps extends Omit<React.HTMLAttributes<HTMLDivElement>
   closable?: boolean;
   /** Close button click handler */
   onClose?: () => void;
+  /** Accessible label for the close button. @default "Close snackbar" */
+  closeLabel?: string;
 }
 
-function CloseButton({ onClose, className }: { onClose?: () => void; className?: string }) {
+function CloseButton({
+  onClose,
+  className,
+  closeLabel = "Close snackbar",
+}: {
+  onClose?: () => void;
+  className?: string;
+  closeLabel?: string;
+}) {
   return (
     <Button
       variant="tertiary"
       size="24"
       onClick={onClose}
       className={cn("h-auto shrink-0", className)}
-      aria-label="Close snackbar"
+      aria-label={closeLabel}
     >
       <CrossIcon />
     </Button>
@@ -216,6 +226,7 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
       secondarySlot,
       closable = false,
       onClose,
+      closeLabel,
       children,
       ...props
     },
@@ -279,6 +290,7 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
         {closable && (
           <CloseButton
             onClose={onClose}
+            closeLabel={closeLabel}
             className={variant === "welcome" ? "absolute top-2 right-2" : undefined}
           />
         )}
