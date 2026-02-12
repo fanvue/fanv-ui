@@ -50,6 +50,7 @@ export { CrossIcon } from "./components/Icons/CrossIcon";
 export { CrownIcon } from "./components/Icons/CrownIcon";
 export { ErrorCircleIcon } from "./components/Icons/ErrorCircleIcon";
 export { ErrorIcon } from "./components/Icons/ErrorIcon";
+export { EyeIcon } from "./components/Icons/EyeIcon";
 export { FireIcon } from "./components/Icons/FireIcon";
 export { HomeIcon } from "./components/Icons/HomeIcon";
 export { InfoCircleIcon } from "./components/Icons/InfoCircleIcon";

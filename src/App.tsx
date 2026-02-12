@@ -174,26 +174,61 @@ function TextFieldShowcase() {
     setValue(e.target.value);
   };
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex max-w-2xl flex-col gap-4">
-        <TextField label="Size 48" placeholder="Placeholder" size="48" />
-        <TextField label="Size 40" placeholder="Placeholder" size="40" />
-        <TextField label="Size 32" placeholder="Placeholder" size="32" />
-        <TextField label="Disabled" placeholder="Placeholder" disabled />
-        <TextField label="Error" placeholder="Placeholder" error errorMessage="Error message" />
-        <TextField label="Left icon" leftIcon={<HomeIcon />} placeholder="Placeholder" />
-        <TextField label="Right icon" rightIcon={<HomeIcon />} placeholder="Placeholder" />
-        <TextField
-          label="Controlled Input"
-          fullWidth
-          placeholder="Placeholder"
-          value={value}
-          onChange={handleChange}
-        />
-        <div className="typography-caption-regular text-body-200">
-          {" "}
-          Current value: {value || "(empty)"}{" "}
-        </div>
+    <div className="flex max-w-2xl flex-col gap-4">
+      <TextField label="Size 48" placeholder="Placeholder" size="48" autoComplete="off" />
+      <TextField label="Size 40" placeholder="Placeholder" size="40" autoComplete="off" />
+      <TextField label="Size 32" placeholder="Placeholder" size="32" autoComplete="off" />
+      <TextField
+        label="With helper"
+        placeholder="Placeholder"
+        helperText="Helper text below"
+        autoComplete="off"
+      />
+      <TextField placeholder="No label" aria-label="Search" autoComplete="off" />
+      <TextField
+        label="Left icon"
+        leftIcon={<HomeIcon />}
+        placeholder="Placeholder"
+        autoComplete="off"
+      />
+      <TextField
+        label="Right icon"
+        rightIcon={<InfoCircleIcon />}
+        placeholder="Placeholder"
+        autoComplete="off"
+      />
+      <TextField
+        label="Both icons"
+        leftIcon={<HomeIcon />}
+        rightIcon={<InfoCircleIcon />}
+        placeholder="Placeholder"
+        autoComplete="off"
+      />
+      <TextField
+        label="Error"
+        placeholder="Placeholder"
+        error
+        errorMessage="Error message"
+        autoComplete="off"
+      />
+      <TextField label="Error + helper" error helperText="Required field" autoComplete="off" />
+      <TextField label="Disabled" placeholder="Placeholder" disabled autoComplete="off" />
+      <TextField
+        label="Disabled with value"
+        defaultValue="Cannot edit"
+        disabled
+        autoComplete="off"
+      />
+      <TextField
+        label="Controlled Input"
+        fullWidth
+        placeholder="Placeholder"
+        value={value}
+        onChange={handleChange}
+        autoComplete="off"
+      />
+      <div className="typography-caption-regular text-body-200">
+        Current value: {value || "(empty)"}
       </div>
     </div>
   );
