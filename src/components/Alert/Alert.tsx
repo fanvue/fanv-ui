@@ -16,18 +16,33 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   closable?: boolean;
   /** Callback when close button is clicked */
   onClose?: () => void;
+  /** Accessible label for the close button. @default "Close alert" */
+  closeLabel?: string;
 }
 
 const CLOSE_BUTTON_CLASSES: Record<AlertVariant, string> = {
-  info: "hover:bg-info-500/10 text-info-500",
-  success: "hover:bg-success-500/10 text-success-500",
-  warning: "hover:bg-warning-500/10 text-warning-500",
-  error: "hover:bg-error-500/10 text-error-500",
+  info: "hover:bg-info-500/10 text-info-500 motion-safe:transition-colors motion-safe:duration-150",
+  success:
+    "hover:bg-success-500/10 text-success-500 motion-safe:transition-colors motion-safe:duration-150",
+  warning:
+    "hover:bg-warning-500/10 text-warning-500 motion-safe:transition-colors motion-safe:duration-150",
+  error:
+    "hover:bg-error-500/10 text-error-500 motion-safe:transition-colors motion-safe:duration-150",
 };
 
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   (
-    { className, variant = "info", title, icon, closable = false, onClose, children, ...props },
+    {
+      className,
+      variant = "info",
+      title,
+      icon,
+      closable = false,
+      onClose,
+      closeLabel = "Close alert",
+      children,
+      ...props
+    },
     ref,
   ) => {
     return (
@@ -67,7 +82,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             size="24"
             onClick={onClose}
             className={cn("self-start", CLOSE_BUTTON_CLASSES[variant])}
-            aria-label="Close alert"
+            aria-label={closeLabel}
           >
             <CrossIcon />
           </Button>

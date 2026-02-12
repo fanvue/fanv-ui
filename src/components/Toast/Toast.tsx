@@ -27,6 +27,8 @@ export interface ToastProps
   onActionClick?: () => void;
   /** Show close button */
   showClose?: boolean;
+  /** Accessible label for the close button. @default "Close notification" */
+  closeLabel?: string;
   /** Avatar image source */
   avatarSrc?: string;
   /** Avatar alt text */
@@ -48,7 +50,7 @@ export const ToastViewport = React.forwardRef<
   <ToastPrimitive.Viewport
     ref={ref}
     className={cn(
-      "fixed top-0 right-0 z-100 flex max-h-screen w-full flex-col-reverse gap-3 p-4 sm:top-auto sm:right-0 sm:bottom-0 sm:flex-col md:max-w-[420px]",
+      "fixed right-0 bottom-0 z-100 flex max-h-screen w-full flex-col-reverse gap-3 p-4 md:max-w-[420px]",
       className,
     )}
     {...props}
@@ -80,6 +82,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
       actionLabel,
       onActionClick,
       showClose = true,
+      closeLabel = "Close notification",
       avatarSrc,
       avatarAlt,
       avatarFallback,
@@ -98,7 +101,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
           // Dark mode
           "dark:border-opacity-100",
           // Animation
-          "data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[state=open]:sm:slide-in-from-top-full data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-(--radix-toast-swipe-end-x) data-[swipe=move]:translate-x-(--radix-toast-swipe-move-x) data-[state=closed]:animate-out data-[state=open]:animate-in data-[swipe=end]:animate-out data-[swipe=move]:transition-none",
+          "data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-(--radix-toast-swipe-end-x) data-[swipe=move]:translate-x-(--radix-toast-swipe-move-x) data-[state=closed]:animate-out data-[state=open]:animate-in data-[swipe=end]:animate-out data-[swipe=move]:transition-none",
           // Manual CSS overrides
           className,
         )}
@@ -141,7 +144,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
           <ToastPrimitive.Close asChild>
             <IconButton
               icon={<CloseIcon />}
-              aria-label="Close notification"
+              aria-label={closeLabel}
               // same as the button above
               className="absolute top-2 right-2 text-body-300"
               variant="tertiary"
