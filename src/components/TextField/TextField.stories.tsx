@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { ErrorCircleIcon } from "../Icons/ErrorCircleIcon";
+import { EyeIcon } from "../Icons/EyeIcon";
 import { HomeIcon } from "../Icons/HomeIcon";
+import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
 import { TextField } from "./TextField";
 
 const meta: Meta<typeof TextField> = {
@@ -60,6 +63,13 @@ export const Default: Story = {
   },
 };
 
+export const WithoutLabel: Story = {
+  args: {
+    placeholder: "No label",
+    "aria-label": "Search",
+  },
+};
+
 export const Size48: Story = {
   args: {
     size: "48",
@@ -105,27 +115,16 @@ export const WithRightIcon: Story = {
     label: "Password",
     type: "password",
     placeholder: "Enter password",
-    rightIcon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Show password">
-        <title>Eye</title>
-        <path
-          d="M1 10s3-7 9-7 9 7 9 7-3 7-9 7-9-7-9-7Z"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle
-          cx="10"
-          cy="10"
-          r="3"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
+    rightIcon: <EyeIcon />,
+  },
+};
+
+export const WithBothIcons: Story = {
+  args: {
+    label: "Search",
+    placeholder: "Search...",
+    leftIcon: <HomeIcon />,
+    rightIcon: <InfoCircleIcon />,
   },
 };
 
@@ -146,6 +145,18 @@ export const ErrorWithoutMessage: Story = {
     error: true,
     helperText: "This field is required",
     defaultValue: "",
+  },
+};
+
+export const ErrorWithIcons: Story = {
+  args: {
+    label: "Email",
+    placeholder: "you@example.com",
+    error: true,
+    errorMessage: "Invalid email",
+    leftIcon: <HomeIcon />,
+    rightIcon: <ErrorCircleIcon />,
+    defaultValue: "bad-email",
   },
 };
 
@@ -217,6 +228,28 @@ export const ControlledExample: Story = {
       </div>
     );
   },
+};
+
+export const AllStates: Story = {
+  name: "All States",
+  render: () => (
+    <div className="flex w-[375px] flex-col gap-6">
+      <TextField label="Default" placeholder="Placeholder" />
+      <TextField label="With helper" placeholder="Placeholder" helperText="Helper text" />
+      <TextField label="With value" defaultValue="Typed text" />
+      <TextField label="Error" error errorMessage="Error message" defaultValue="invalid" />
+      <TextField label="Disabled" placeholder="Placeholder" disabled />
+      <TextField label="Disabled with value" defaultValue="Value" disabled />
+      <TextField label="Left icon" placeholder="Placeholder" leftIcon={<HomeIcon />} />
+      <TextField label="Right icon" placeholder="Placeholder" rightIcon={<InfoCircleIcon />} />
+      <TextField
+        label="Both icons"
+        placeholder="Placeholder"
+        leftIcon={<HomeIcon />}
+        rightIcon={<InfoCircleIcon />}
+      />
+    </div>
+  ),
 };
 
 export const AllSizeVariants: Story = {
