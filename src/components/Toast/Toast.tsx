@@ -27,6 +27,8 @@ export interface ToastProps
   onActionClick?: () => void;
   /** Show close button */
   showClose?: boolean;
+  /** Accessible label for the close button. @default "Close notification" */
+  closeLabel?: string;
   /** Avatar image source */
   avatarSrc?: string;
   /** Avatar alt text */
@@ -80,6 +82,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
       actionLabel,
       onActionClick,
       showClose = true,
+      closeLabel = "Close notification",
       avatarSrc,
       avatarAlt,
       avatarFallback,
@@ -141,7 +144,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
           <ToastPrimitive.Close asChild>
             <IconButton
               icon={<CloseIcon />}
-              aria-label="Close notification"
+              aria-label={closeLabel}
               // same as the button above
               className="absolute top-2 right-2 text-body-300"
               variant="tertiary"
