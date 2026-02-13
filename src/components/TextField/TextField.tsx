@@ -71,7 +71,7 @@ function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: b
 
 function getInputClassName(size: TextFieldSize, hasLeftIcon: boolean, hasRightIcon: boolean) {
   return cn(
-    "h-full w-full rounded-xl bg-transparent text-body-100 placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+    "h-full w-full rounded-xl bg-transparent text-body-100 no-underline placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
     INPUT_SIZE_CLASSES[size],
     PADDING_LEFT[size][hasLeftIcon ? 1 : 0],
     PADDING_RIGHT[size][hasRightIcon ? 1 : 0],
