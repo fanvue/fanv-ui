@@ -80,14 +80,14 @@ function DatePickerShowcase() {
       />
       <DatePicker
         mode="single"
-        type="double"
+        variant="double"
         defaultMonth={new Date(2026, 1)}
         selected={doubleDate}
         onSelect={setDoubleDate}
       />
       <DatePicker
         mode="range"
-        type="double"
+        variant="double"
         defaultMonth={new Date(2026, 1)}
         selected={doubleRange}
         onSelect={setDoubleRange}
@@ -284,29 +284,29 @@ function App() {
         <main className="container mx-auto px-4 py-12">
           <section className="space-y-8">
             <div className="flex flex-wrap items-start gap-8">
-              <Logo type="full" color="fullColour" />
-              <Logo type="icon" color="fullColour" />
-              <Logo type="portrait" color="fullColour" />
-              <Logo type="wordmark" color="fullColour" />
-              <Logo type="full" color="decolour" />
-              <Logo type="icon" color="decolour" />
-              <Logo type="portrait" color="decolour" />
-              <Logo type="wordmark" color="decolour" />
+              <Logo variant="full" color="fullColour" />
+              <Logo variant="icon" color="fullColour" />
+              <Logo variant="portrait" color="fullColour" />
+              <Logo variant="wordmark" color="fullColour" />
+              <Logo variant="full" color="decolour" />
+              <Logo variant="icon" color="decolour" />
+              <Logo variant="portrait" color="decolour" />
+              <Logo variant="wordmark" color="decolour" />
             </div>
             <div className="rounded-lg bg-background-white-solid-constant p-4">
               <div className="flex flex-wrap items-start gap-8">
-                <Logo type="full" color="blackAlways" />
-                <Logo type="icon" color="blackAlways" />
-                <Logo type="portrait" color="blackAlways" />
-                <Logo type="wordmark" color="blackAlways" />
+                <Logo variant="full" color="blackAlways" />
+                <Logo variant="icon" color="blackAlways" />
+                <Logo variant="portrait" color="blackAlways" />
+                <Logo variant="wordmark" color="blackAlways" />
               </div>
             </div>
             <div className="rounded-lg bg-body-black-solid-constant p-4">
               <div className="flex flex-wrap items-start gap-8">
-                <Logo type="full" color="whiteAlways" />
-                <Logo type="icon" color="whiteAlways" />
-                <Logo type="portrait" color="whiteAlways" />
-                <Logo type="wordmark" color="whiteAlways" />
+                <Logo variant="full" color="whiteAlways" />
+                <Logo variant="icon" color="whiteAlways" />
+                <Logo variant="portrait" color="whiteAlways" />
+                <Logo variant="wordmark" color="whiteAlways" />
               </div>
             </div>
 

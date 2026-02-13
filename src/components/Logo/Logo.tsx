@@ -21,7 +21,9 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
   if (color === "whiteAlways") {
     return {
       icon:
-        variant === "icon" ? "var(--color-body-white-solid-constant)" : "var(--color-brand-green-500)",
+        variant === "icon"
+          ? "var(--color-body-white-solid-constant)"
+          : "var(--color-brand-green-500)",
       iconInner: "var(--color-body-black-solid-constant)",
       textClass: "text-body-white-solid-constant",
     };
@@ -30,7 +32,9 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
   if (color === "blackAlways") {
     return {
       icon:
-        variant === "icon" ? "var(--color-body-black-solid-constant)" : "var(--color-brand-green-500)",
+        variant === "icon"
+          ? "var(--color-body-black-solid-constant)"
+          : "var(--color-brand-green-500)",
       iconInner:
         variant === "icon"
           ? "var(--color-body-white-solid-constant)"
