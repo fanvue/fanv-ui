@@ -127,7 +127,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
                     "flex size-4 cursor-pointer items-center justify-center rounded-full text-xs focus-visible:shadow-focus-ring focus-visible:outline-none motion-safe:transition-colors motion-safe:duration-150",
                     page === currentPage
                       ? "bg-neutral-400 text-body-300"
-                      : "bg-neutral-100 text-body-100 hover:bg-neutral-200",
+                      : "bg-neutral-100 text-body-100 hover:bg-neutral-200 active:bg-neutral-200",
                   )}
                 >
                   {page}
@@ -153,7 +153,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
                     "block rounded-full motion-safe:transition-all motion-safe:duration-150",
                     page === currentPage
                       ? "size-2 bg-neutral-400"
-                      : "size-1.5 bg-neutral-200 hover:bg-neutral-250",
+                      : "size-1.5 bg-neutral-200 hover:bg-neutral-250 active:bg-neutral-250",
                   )}
                 />
               </button>

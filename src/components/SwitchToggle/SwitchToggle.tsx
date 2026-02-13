@@ -145,6 +145,7 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
               className={cn(
                 "relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-transparent text-body-100",
                 "focus-visible:shadow-focus-ring focus-visible:outline-none",
+                "active:rounded-full active:bg-brand-green-50",
                 disabled && "pointer-events-none",
                 sizeClass,
               )}

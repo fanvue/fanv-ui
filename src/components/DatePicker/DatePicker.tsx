@@ -73,7 +73,7 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
       className={cn(
         "relative z-10 inline-flex size-10 cursor-pointer items-center justify-center rounded-lg",
         "typography-body-2-regular",
-        "transition-colors hover:bg-brand-green-50",
+        "transition-colors hover:bg-brand-green-50 not-disabled:active:bg-brand-green-50",
         "focus-visible:outline-none focus-visible:outline-offset-[-2px] focus-visible:ring-2 focus-visible:ring-brand-purple-500",
         "disabled:cursor-not-allowed disabled:opacity-50",
         modifiers.today && !modifiers.selected && "border border-brand-green-500",
@@ -201,9 +201,9 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               isMulti ? "pointer-events-none inset-x-3 justify-between" : "right-3 gap-1",
             ),
             button_previous:
-              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-body-100 transition-colors hover:bg-brand-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500 disabled:cursor-not-allowed disabled:opacity-50", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
+              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-body-100 transition-colors hover:bg-brand-green-50 not-disabled:active:bg-brand-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500 disabled:cursor-not-allowed disabled:opacity-50", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
             button_next:
-              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-body-100 transition-colors hover:bg-brand-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500 disabled:cursor-not-allowed disabled:opacity-50", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
+              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-body-100 transition-colors hover:bg-brand-green-50 not-disabled:active:bg-brand-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500 disabled:cursor-not-allowed disabled:opacity-50", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
             month_grid: cn("mb-4", isMulti ? "mx-2" : "mx-4"),
             weekdays: "flex",
             weekday:

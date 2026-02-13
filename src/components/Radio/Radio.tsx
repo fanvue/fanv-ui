@@ -40,7 +40,7 @@ export const Radio = React.forwardRef<
         data-testid="radio"
         aria-describedby={helperText ? helperTextId : undefined}
         className={cn(
-          "relative h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-full border border-body-100 bg-transparent outline-brand-purple-500 transition-colors hover:bg-brand-green-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:border-disabled-400 disabled:bg-transparent data-[state=checked]:border-body-100 data-[state=checked]:bg-transparent dark:border-body-100 dark:disabled:border-disabled-400",
+          "relative h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-full border border-body-100 bg-transparent outline-brand-purple-500 transition-colors hover:bg-brand-green-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 not-disabled:active:bg-brand-green-50 disabled:cursor-not-allowed disabled:border-disabled-400 disabled:bg-transparent data-[state=checked]:border-body-100 data-[state=checked]:bg-transparent dark:border-body-100 dark:disabled:border-disabled-400",
           helperText && "mt-1 self-start",
         )}
         {...props}
