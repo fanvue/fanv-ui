@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
   id-token: write
@@ -27,6 +28,24 @@ jobs:
         with:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+
+      # GITHUB_TOKEN push/PR events don't trigger other workflows (by design).
+      # workflow_dispatch is explicitly exempt from this restriction, so we
+      # dispatch CI workflows here to get status checks on the release PR.
+      - name: Trigger CI for release PR
+        if: ${{ steps.release.outputs.releases_created != 'true' }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH=$(gh pr list --state open --json headRefName \
+            --jq '[.[] | select(.headRefName | startswith("release-please--"))][0].headRefName // empty')
+          if [ -n "$BRANCH" ]; then
+            echo "Dispatching CI workflows on $BRANCH"
+            gh workflow run ci.yml --ref "$BRANCH" || true
+            gh workflow run chromatic.yml --ref "$BRANCH" || true
+            gh workflow run showcase-preview.yml --ref "$BRANCH" || true
+          fi
 
       - name: Setup pnpm
         if: ${{ steps.release.outputs.release_created }}
