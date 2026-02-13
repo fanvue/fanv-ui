@@ -50,6 +50,7 @@ export { CrossIcon } from "./components/Icons/CrossIcon";
 export { CrownIcon } from "./components/Icons/CrownIcon";
 export { ErrorCircleIcon } from "./components/Icons/ErrorCircleIcon";
 export { ErrorIcon } from "./components/Icons/ErrorIcon";
+export { EyeClosedIcon } from "./components/Icons/EyeClosedIcon";
 export { EyeIcon } from "./components/Icons/EyeIcon";
 export { FireIcon } from "./components/Icons/FireIcon";
 export { HomeIcon } from "./components/Icons/HomeIcon";
@@ -72,6 +73,11 @@ export type {
   PaginationVariant,
 } from "./components/Pagination/Pagination";
 export { Pagination } from "./components/Pagination/Pagination";
+export type {
+  PasswordInputProps,
+  PasswordInputSize,
+} from "./components/PasswordInput/PasswordInput";
+export { PasswordInput } from "./components/PasswordInput/PasswordInput";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
 export type {
