@@ -31,6 +31,7 @@ import {
   MicrophoneIcon,
   MinusIcon,
   Pagination,
+  PasswordField,
   Pill,
   PlusIcon,
   ProgressBar,
@@ -233,6 +234,50 @@ function TextFieldShowcase() {
         label="Controlled Input"
         fullWidth
         placeholder="Placeholder"
+        value={value}
+        onChange={handleChange}
+        autoComplete="off"
+      />
+    </div>
+  );
+}
+
+function PasswordFieldShowcase() {
+  const [value, setValue] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+  return (
+    <div className="flex max-w-2xl flex-col gap-4">
+      <PasswordField label="Size 48" placeholder="Enter password" size="48" autoComplete="off" />
+      <PasswordField label="Size 40" placeholder="Enter password" size="40" autoComplete="off" />
+      <PasswordField label="Size 32" placeholder="Enter password" size="32" autoComplete="off" />
+      <PasswordField
+        label="With helper"
+        placeholder="Enter password"
+        helperText="Must be at least 8 characters"
+        autoComplete="off"
+      />
+      <PasswordField placeholder="No label" autoComplete="off" />
+      <PasswordField
+        label="Error"
+        placeholder="Enter password"
+        error
+        errorMessage="Password is required"
+        autoComplete="off"
+      />
+      <PasswordField label="Error + helper" error helperText="Required field" autoComplete="off" />
+      <PasswordField label="Disabled" placeholder="Enter password" disabled autoComplete="off" />
+      <PasswordField
+        label="Disabled with value"
+        defaultValue="secretpassword"
+        disabled
+        autoComplete="off"
+      />
+      <PasswordField
+        label="Controlled Input"
+        fullWidth
+        placeholder="Enter password"
         value={value}
         onChange={handleChange}
         autoComplete="off"
@@ -934,6 +979,9 @@ function App() {
 
             {/* TextField */}
             <TextFieldShowcase />
+
+            {/* PasswordField */}
+            <PasswordFieldShowcase />
 
             <div className="flex flex-wrap items-center gap-4">
               <Count value={5} variant="default" />
