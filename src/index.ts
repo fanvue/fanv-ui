@@ -74,10 +74,10 @@ export type {
 } from "./components/Pagination/Pagination";
 export { Pagination } from "./components/Pagination/Pagination";
 export type {
-  PasswordInputProps,
-  PasswordInputSize,
-} from "./components/PasswordInput/PasswordInput";
-export { PasswordInput } from "./components/PasswordInput/PasswordInput";
+  PasswordFieldProps,
+  PasswordFieldSize,
+} from "./components/PasswordField/PasswordField";
+export { PasswordField } from "./components/PasswordField/PasswordField";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
 export type {

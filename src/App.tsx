@@ -31,7 +31,7 @@ import {
   MicrophoneIcon,
   MinusIcon,
   Pagination,
-  PasswordInput,
+  PasswordField,
   Pill,
   PlusIcon,
   ProgressBar,
@@ -242,39 +242,39 @@ function TextFieldShowcase() {
   );
 }
 
-function PasswordInputShowcase() {
+function PasswordFieldShowcase() {
   const [value, setValue] = useState("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
   return (
     <div className="flex max-w-2xl flex-col gap-4">
-      <PasswordInput label="Size 48" placeholder="Enter password" size="48" autoComplete="off" />
-      <PasswordInput label="Size 40" placeholder="Enter password" size="40" autoComplete="off" />
-      <PasswordInput label="Size 32" placeholder="Enter password" size="32" autoComplete="off" />
-      <PasswordInput
+      <PasswordField label="Size 48" placeholder="Enter password" size="48" autoComplete="off" />
+      <PasswordField label="Size 40" placeholder="Enter password" size="40" autoComplete="off" />
+      <PasswordField label="Size 32" placeholder="Enter password" size="32" autoComplete="off" />
+      <PasswordField
         label="With helper"
         placeholder="Enter password"
         helperText="Must be at least 8 characters"
         autoComplete="off"
       />
-      <PasswordInput placeholder="No label" autoComplete="off" />
-      <PasswordInput
+      <PasswordField placeholder="No label" autoComplete="off" />
+      <PasswordField
         label="Error"
         placeholder="Enter password"
         error
         errorMessage="Password is required"
         autoComplete="off"
       />
-      <PasswordInput label="Error + helper" error helperText="Required field" autoComplete="off" />
-      <PasswordInput label="Disabled" placeholder="Enter password" disabled autoComplete="off" />
-      <PasswordInput
+      <PasswordField label="Error + helper" error helperText="Required field" autoComplete="off" />
+      <PasswordField label="Disabled" placeholder="Enter password" disabled autoComplete="off" />
+      <PasswordField
         label="Disabled with value"
         defaultValue="secretpassword"
         disabled
         autoComplete="off"
       />
-      <PasswordInput
+      <PasswordField
         label="Controlled Input"
         fullWidth
         placeholder="Enter password"
@@ -980,8 +980,8 @@ function App() {
             {/* TextField */}
             <TextFieldShowcase />
 
-            {/* PasswordInput */}
-            <PasswordInputShowcase />
+            {/* PasswordField */}
+            <PasswordFieldShowcase />
 
             <div className="flex flex-wrap items-center gap-4">
               <Count value={5} variant="default" />

@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { PasswordInput } from "./PasswordInput";
+import { PasswordField } from "./PasswordField";
 
-const meta: Meta<typeof PasswordInput> = {
-  title: "Components/PasswordInput",
-  component: PasswordInput,
+const meta: Meta<typeof PasswordField> = {
+  title: "Components/PasswordField",
+  component: PasswordField,
   parameters: {
     layout: "centered",
     design: {
@@ -175,7 +175,7 @@ export const ControlledExample: Story = {
     docs: {
       description: {
         story:
-          "PasswordInput uses `value` and `onChange`. Works with React state and form libraries (e.g. react-hook-form).",
+          "PasswordField uses `value` and `onChange`. Works with React state and form libraries (e.g. react-hook-form).",
       },
     },
   },
@@ -190,7 +190,7 @@ export const ControlledExample: Story = {
 
     return (
       <div className="flex w-[375px] flex-col gap-4">
-        <PasswordInput
+        <PasswordField
           label="Password"
           placeholder="Enter password (min 8 characters)"
           value={value}
@@ -211,9 +211,9 @@ export const AllSizeVariants: Story = {
   name: "All Sizes",
   render: () => (
     <div className="flex w-[375px] flex-col gap-4">
-      <PasswordInput size="48" label="Size 48" placeholder="Password" />
-      <PasswordInput size="40" label="Size 40" placeholder="Password" />
-      <PasswordInput size="32" label="Size 32" placeholder="Password" />
+      <PasswordField size="48" label="Size 48" placeholder="Password" />
+      <PasswordField size="40" label="Size 40" placeholder="Password" />
+      <PasswordField size="32" label="Size 32" placeholder="Password" />
     </div>
   ),
 };

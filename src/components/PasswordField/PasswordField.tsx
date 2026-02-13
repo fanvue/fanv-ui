@@ -3,14 +3,14 @@ import { EyeClosedIcon } from "../Icons/EyeClosedIcon";
 import { EyeIcon } from "../Icons/EyeIcon";
 import { TextField, type TextFieldProps } from "../TextField/TextField";
 
-export type PasswordInputSize = "48" | "40" | "32";
+export type PasswordFieldSize = "48" | "40" | "32";
 
-export interface PasswordInputProps extends Omit<TextFieldProps, "type" | "rightIcon"> {
-  /** Size variant of the password input */
-  size?: PasswordInputSize;
+export interface PasswordFieldProps extends Omit<TextFieldProps, "type" | "rightIcon"> {
+  /** Size variant of the password field */
+  size?: PasswordFieldSize;
 }
 
-export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
+export const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldProps>(
   ({ disabled, ...props }, ref) => {
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -37,11 +37,11 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
         type={showPassword ? "text" : "password"}
         disabled={disabled}
         rightIcon={rightIcon}
-        aria-label={!props.label ? "Password input" : undefined}
+        aria-label={!props.label ? "Password field" : undefined}
         {...props}
       />
     );
   },
 );
 
-PasswordInput.displayName = "PasswordInput";
+PasswordField.displayName = "PasswordField";
