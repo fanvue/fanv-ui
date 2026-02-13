@@ -6,6 +6,7 @@ import {
   DayPicker,
   type DayPickerProps,
   type DayProps,
+  type Modifiers,
   type MonthGridProps,
   type WeekdayProps,
   type WeekdaysProps,
@@ -106,6 +107,51 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const numberOfMonths = type === "double" ? 2 : 1;
     const isMulti = numberOfMonths > 1;
 
+    // Wrap onSelect for range mode: when clicking inside a complete range,
+    // move the nearest boundary instead of always resetting the end date.
+    const resolvedDayPickerProps = (() => {
+      if (dayPickerProps.mode !== "range") return dayPickerProps;
+
+      const { selected, onSelect } = dayPickerProps as {
+        selected?: DateRange;
+        onSelect?: (
+          range: DateRange | undefined,
+          triggerDate: Date,
+          modifiers: Modifiers,
+          e: React.MouseEvent | React.KeyboardEvent,
+        ) => void;
+      };
+
+      if (!onSelect || !selected?.from || !selected?.to) return dayPickerProps;
+
+      const { from, to } = selected;
+
+      return {
+        ...dayPickerProps,
+        onSelect: (
+          range: DateRange | undefined,
+          triggerDate: Date,
+          modifiers: Modifiers,
+          e: React.MouseEvent | React.KeyboardEvent,
+        ) => {
+          const clickedTime = triggerDate.getTime();
+          const fromTime = from.getTime();
+          const toTime = to.getTime();
+
+          if (clickedTime > fromTime && clickedTime < toTime) {
+            if (clickedTime - fromTime <= toTime - clickedTime) {
+              onSelect({ from: triggerDate, to }, triggerDate, modifiers, e);
+            } else {
+              onSelect({ from, to: triggerDate }, triggerDate, modifiers, e);
+            }
+            return;
+          }
+
+          onSelect(range, triggerDate, modifiers, e);
+        },
+      } as typeof dayPickerProps;
+    })();
+
     return (
       <div
         ref={ref}
@@ -159,7 +205,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             Day,
             DayButton,
           }}
-          {...dayPickerProps}
+          {...resolvedDayPickerProps}
         />
 
         {showFooter && (
