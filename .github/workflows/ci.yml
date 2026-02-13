@@ -6,15 +6,25 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  workflow_dispatch:
+  # pull_request_target fires even for PRs created by GITHUB_TOKEN (e.g. release-please).
+  # Regular PRs are handled by pull_request above; this only runs for release-please PRs.
+  # Safe: default checkout is the base branch, not the PR code.
+  pull_request_target:
+    branches: [main]
+
+permissions:
+  contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.ref }}
   cancel-in-progress: true
 
 jobs:
   lint:
     name: Lint & Type Check
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,6 +50,9 @@ jobs:
 
   test:
     name: Unit & Storybook Tests
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -64,13 +77,16 @@ jobs:
         run: pnpm test:coverage
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           files: ./coverage/coverage-final.json
           fail_ci_if_error: false
 
   build:
     name: Build
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -103,6 +119,9 @@ jobs:
 
   e2e:
     name: E2E Tests
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -128,6 +147,9 @@ jobs:
 
   audit:
     name: Security Audit
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

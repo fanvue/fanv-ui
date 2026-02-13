@@ -6,7 +6,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  workflow_dispatch:
+  pull_request_target:
+    branches: [main]
 
 permissions:
   contents: read
@@ -15,6 +16,9 @@ permissions:
 jobs:
   chromatic:
     name: Visual Regression
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,7 +43,7 @@ jobs:
 
       - name: Run Chromatic
         id: chromatic
-        uses: chromaui/action@latest
+        uses: chromaui/action@v15
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           projectId: ${{ secrets.CHROMATIC_PROJECT_ID }}
@@ -49,7 +53,7 @@ jobs:
           exitZeroOnChanges: true
 
       - name: Comment on PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: chromatic
