@@ -27,6 +27,16 @@ export interface SwitchToggleProps extends Omit<React.HTMLAttributes<HTMLDivElem
   disabled?: boolean;
 }
 
+function warnMissingAccessibleName(ariaLabel?: string, ariaLabelledBy?: string) {
+  if (process.env.NODE_ENV !== "production") {
+    if (!ariaLabel && !ariaLabelledBy) {
+      console.warn(
+        "SwitchToggle: no accessible name provided. Pass an `aria-label` or `aria-labelledby` prop.",
+      );
+    }
+  }
+}
+
 /**
  * A binary segmented toggle rendered as a `radiogroup`. The active option is
  * highlighted with a sliding pill indicator. Supports both controlled and
@@ -58,12 +68,15 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
     },
     ref,
   ) => {
-    const groupName = React.useId();
+    warnMissingAccessibleName(props["aria-label"], props["aria-labelledby"]);
+
     // Tracks selection for uncontrolled usage; ignored when `value` prop is provided
     const [internalValue, setInternalValue] = React.useState(defaultValue ?? options[0].value);
     const isControlled = controlledValue !== undefined;
     const currentValue = isControlled ? controlledValue : internalValue;
+    const anySelected = options.some((o) => o.value === currentValue);
     const isSecondSelected = currentValue === options[1].value;
+    const buttonRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
 
     const sizeClass =
       size === "24"
@@ -73,11 +86,25 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
           : "h-10 px-4 py-2.25 typography-button-small";
 
     const handleSelect = (optionValue: string) => {
-      if (disabled) return;
+      if (disabled || optionValue === currentValue) return;
       if (!isControlled) {
         setInternalValue(optionValue);
       }
       onChange?.(optionValue);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+      const nextIndex =
+        e.key === "ArrowRight" || e.key === "ArrowDown"
+          ? (index + 1) % options.length
+          : e.key === "ArrowLeft" || e.key === "ArrowUp"
+            ? (index - 1 + options.length) % options.length
+            : null;
+      if (nextIndex === null) return;
+      e.preventDefault();
+      const nextOption = options[nextIndex] as (typeof options)[number];
+      handleSelect(nextOption.value);
+      buttonRefs.current[nextIndex]?.focus();
     };
 
     return (
@@ -99,31 +126,31 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
             isSecondSelected && "translate-x-full",
           )}
         />
-        {options.map((option) => {
-          const optionId = `${groupName}-${option.value}`;
+        {options.map((option, index) => {
+          const isSelected = currentValue === option.value;
           return (
-            <label
+            // biome-ignore lint/a11y/useSemanticElements: native radio inputs only allow Tab-focus on the checked item; buttons with roving tabindex give full keyboard navigation
+            <button
               key={option.value}
-              htmlFor={optionId}
+              ref={(el) => {
+                buttonRefs.current[index] = el;
+              }}
+              type="button"
+              role="radio"
+              aria-checked={isSelected}
+              tabIndex={isSelected || (!anySelected && index === 0) ? 0 : -1}
+              disabled={disabled}
+              onClick={() => handleSelect(option.value)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
               className={cn(
                 "relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-transparent text-body-100",
-                "has-focus-visible:shadow-focus-ring has-focus-visible:outline-none",
+                "focus-visible:shadow-focus-ring focus-visible:outline-none",
                 disabled && "pointer-events-none",
                 sizeClass,
               )}
             >
-              <input
-                id={optionId}
-                type="radio"
-                name={groupName}
-                value={option.value}
-                checked={currentValue === option.value}
-                disabled={disabled}
-                onChange={() => handleSelect(option.value)}
-                className="sr-only"
-              />
               {option.label}
-            </label>
+            </button>
           );
         })}
       </div>
