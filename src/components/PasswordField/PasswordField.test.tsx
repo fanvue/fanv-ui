@@ -23,8 +23,8 @@ describe("PasswordField", () => {
     it("associates label with input using htmlFor", () => {
       render(<PasswordField id="test-input" label="Password" />);
       const input = screen.getByLabelText("Password");
-      const label = input.closest("label");
-      expect(label).toBeInTheDocument();
+      const label = screen.getByText("Password");
+      expect(label.tagName.toLowerCase()).toBe("label");
       expect(label).toHaveAttribute("for", "test-input");
       expect(input).toHaveAttribute("id", "test-input");
     });
@@ -102,13 +102,11 @@ describe("PasswordField", () => {
 
   describe("label and helper text", () => {
     it("renders without label text", () => {
-      render(<PasswordField placeholder="No label" />);
+      const { container } = render(<PasswordField placeholder="No label" />);
       const input = screen.getByPlaceholderText("No label");
       expect(input).toBeInTheDocument();
-      const label = input.closest("label");
-      expect(label).toBeInTheDocument();
-      const labelSpan = label?.querySelector("span");
-      expect(labelSpan).toBeNull();
+      const textLabel = container.querySelector("label.typography-caption-semibold");
+      expect(textLabel).toBeNull();
     });
 
     it("renders with label", () => {
@@ -220,17 +218,14 @@ describe("PasswordField", () => {
       expect(onChange).toHaveBeenCalled();
     });
 
-    it("focuses input when label area is clicked", async () => {
+    it("focuses input when clicking the label", async () => {
       const user = userEvent.setup();
-      render(<PasswordField id="test-input" label="Password" />);
+      render(<PasswordField label="Password" />);
       const input = screen.getByLabelText("Password");
-      const label = input.closest("label");
+      const label = screen.getByText("Password");
 
-      expect(label).toBeInTheDocument();
-      if (label) {
-        await user.click(label);
-        expect(input).toHaveFocus();
-      }
+      await user.click(label);
+      expect(input).toHaveFocus();
     });
 
     it("maintains input value when toggling visibility", async () => {
