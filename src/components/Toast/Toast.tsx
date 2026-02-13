@@ -10,39 +10,43 @@ import { InfoIcon } from "../Icons/InfoIcon";
 import { SuccessIcon } from "../Icons/SuccessIcon";
 import { WarningIcon } from "../Icons/WarningIcon";
 
+/** Visual/semantic variant of the toast notification. */
 export type ToastVariant = "info" | "warning" | "success" | "error" | "messageToast";
 
-// Override "title" prop to allow React.ReactNode instead of string | undefined
 export interface ToastProps
   extends Omit<Omit<React.ComponentPropsWithoutRef<typeof ToastPrimitive.Root>, "type">, "title"> {
-  /** Variant of the toast */
+  /** Visual/semantic variant of the toast. @default "info" */
   variant?: ToastVariant;
-  /** Toast title */
+  /** Title text displayed in bold at the top of the toast. */
   title?: string;
-  /** Toast description/message */
+  /** Description or body content displayed below the title. */
   description?: React.ReactNode;
-  /** Action button label */
+  /** Label for the optional action button. @default "Action" */
   actionLabel?: string;
-  /** Action button click handler */
+  /** Click handler for the action button. When provided, the action button is rendered. */
   onActionClick?: () => void;
-  /** Show close button */
+  /** Whether to show the close button. @default true */
   showClose?: boolean;
   /** Accessible label for the close button. @default "Close notification" */
   closeLabel?: string;
-  /** Avatar image source */
+  /** Avatar image URL (used by the `messageToast` variant). */
   avatarSrc?: string;
-  /** Avatar alt text */
+  /** Alt text for the avatar image. */
   avatarAlt?: string;
-  /** Avatar fallback text */
+  /** Fallback content for the avatar (e.g. initials). */
   avatarFallback?: string;
 }
 
+/** Props for the {@link ToastProvider}. Wraps Radix `Toast.Provider`. */
 export interface ToastProviderProps extends ToastPrimitive.ToastProviderProps {}
+/** Props for the {@link ToastViewport}. Controls where toasts are rendered on screen. */
 export interface ToastViewportProps
   extends React.ComponentPropsWithoutRef<typeof ToastPrimitive.Viewport> {}
 
+/** Provides toast context. Wrap your application (or a subtree) with this provider. */
 export const ToastProvider: React.FC<ToastProviderProps> = ToastPrimitive.Provider;
 
+/** Fixed-position container that renders active toasts. Place once at the root of your app. */
 export const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitive.Viewport>,
   ToastViewportProps
@@ -72,6 +76,18 @@ const VariantIcon = ({ variant }: { variant: ToastVariant }) => {
   }
 };
 
+/**
+ * A dismissible notification that appears temporarily. Supports `info`,
+ * `warning`, `success`, `error`, and `messageToast` variants with optional
+ * action button, close control, and avatar.
+ *
+ * Use inside a {@link ToastProvider} with a {@link ToastViewport}.
+ *
+ * @example
+ * ```tsx
+ * <Toast variant="success" title="Saved" description="Your changes are live." />
+ * ```
+ */
 export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.Root>, ToastProps>(
   (
     {

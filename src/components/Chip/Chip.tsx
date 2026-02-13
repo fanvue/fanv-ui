@@ -2,32 +2,44 @@ import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
+/** Visual variant of the chip. */
 export type ChipVariant = "rounded" | "square" | "dark";
+/** Height of the chip in pixels. */
 export type ChipSize = "32" | "40";
 
 export interface ChipProps extends React.HTMLAttributes<HTMLElement> {
-  /** Visual shape variant of the chip */
+  /** Visual variant of the chip. @default "rounded" */
   variant?: ChipVariant;
-  /** Size of the chip */
+  /** Height of the chip in pixels. @default "32" */
   size?: ChipSize;
-  /** Whether the chip is in a selected state */
+  /** Whether the chip is in a selected (pressed) state. @default false */
   selected?: boolean;
-  /** Whether the chip is disabled */
+  /** Whether the chip is disabled. @default false */
   disabled?: boolean;
-  /** Show left status dot */
+  /** Whether to show a coloured status dot at the leading edge. @default false */
   leftDot?: boolean;
-  /** Left icon element */
+  /** Icon element displayed before the label. */
   leftIcon?: React.ReactNode;
-  /** Right icon element */
+  /** Icon element displayed after the label. */
   rightIcon?: React.ReactNode;
-  /** Notification badge content (e.g., "99+"). Passed as a string for i18n support. */
+  /** Notification badge content (e.g. `"99+"`). Passed as a string for i18n support. */
   notificationLabel?: string;
-  /** Click handler — when provided, the chip renders as a `<button>` for accessibility */
+  /** Click handler — when provided, the chip renders as a `<button>` for accessibility. */
   onClick?: React.MouseEventHandler<HTMLElement>;
-  /** Render as a different element using Radix Slot */
+  /** Merge props onto a child element instead of rendering a wrapper. @default false */
   asChild?: boolean;
 }
 
+/**
+ * A compact element for filters, tags, or toggleable actions. When an `onClick`
+ * handler is provided, the chip renders as an interactive `<button>` with
+ * `aria-pressed` support.
+ *
+ * @example
+ * ```tsx
+ * <Chip selected onClick={toggle}>Music</Chip>
+ * ```
+ */
 export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
   (
     {

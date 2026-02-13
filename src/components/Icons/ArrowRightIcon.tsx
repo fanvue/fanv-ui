@@ -2,6 +2,7 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
+/** A right-pointing arrow icon (20 × 20). */
 export const ArrowRightIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, ...props }, ref) => (
     <svg

@@ -2,6 +2,7 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
+/** A house icon for home/dashboard navigation (20 × 20). */
 export const HomeIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, ...props }, ref) => (
     <svg

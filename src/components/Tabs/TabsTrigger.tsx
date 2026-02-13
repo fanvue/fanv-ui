@@ -2,8 +2,10 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
+/** Props for the {@link TabsTrigger} button component. */
 export type TabsTriggerProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>;
 
+/** An interactive tab button that activates its associated {@link TabsContent} panel when clicked. */
 export const TabsTrigger = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
