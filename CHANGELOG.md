@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.2.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.2.0...ui-v1.2.1) (2026-02-13)
+
+
+### Bug Fixes
+
+* **a11y:** make SwitchToggle keyboard-navigable with roving tabindex ([#122](https://github.com/fanvue/fanv-ui/issues/122)) ([cb33e21](https://github.com/fanvue/fanv-ui/commit/cb33e2111c2f0c5bb3ba776a44deceebe1837808))
+* **DatePicker:** move nearest boundary when clicking inside a complete range ([#124](https://github.com/fanvue/fanv-ui/issues/124)) ([de75c7c](https://github.com/fanvue/fanv-ui/commit/de75c7c793f5ea491b1cb9475e7406f1540e0fdf))
+* **DatePicker:** prevent focus ring clipping on day buttons ([#126](https://github.com/fanvue/fanv-ui/issues/126)) ([782d074](https://github.com/fanvue/fanv-ui/commit/782d0746122e036044649f7b48dbbe222b3ce59a))
+* resolve mobile touch events not working in dev and production ([#123](https://github.com/fanvue/fanv-ui/issues/123)) ([1ff3cc7](https://github.com/fanvue/fanv-ui/commit/1ff3cc7dc8c643f23e3df1a545234815c2cb2d00))
+* **TextField:** remove text underline on input when focused ([#121](https://github.com/fanvue/fanv-ui/issues/121)) ([6b9e811](https://github.com/fanvue/fanv-ui/commit/6b9e811f6a820876f3eae3a0de6f8980aa7f9270))
+
 ## [1.2.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.1.1...ui-v1.2.0) (2026-02-12)
 
 
