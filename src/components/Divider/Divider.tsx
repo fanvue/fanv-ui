@@ -4,8 +4,6 @@ import { cn } from "@/utils/cn";
 
 /** Orientation of the divider line. */
 export type DividerOrientation = "horizontal" | "vertical";
-/** Divider type — plain line or line with centred text. */
-export type DividerType = "default" | "text";
 
 export interface DividerProps
   extends React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root> {

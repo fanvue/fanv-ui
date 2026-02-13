@@ -20,13 +20,13 @@ import { ChevronRightIcon } from "../Icons/ChevronRightIcon";
 
 export type { DateRange }; // Needed by consumers when passing props
 
-/** Layout type — single or side-by-side month display. */
-export type DatePickerType = "single" | "double";
+/** Layout variant — single or side-by-side month display. */
+export type DatePickerVariant = "single" | "double";
 
 /** Props specific to the DatePicker wrapper (not inherited from react-day-picker). */
 export interface DatePickerOwnProps {
   /** Display one month or two side-by-side. @default "single" */
-  type?: DatePickerType;
+  variant?: DatePickerVariant;
   /** Callback fired when the Apply button is clicked. */
   onApply?: () => void;
   /** Callback fired when the Cancel button is clicked. */
@@ -113,7 +113,7 @@ export type DatePickerProps = DatePickerOwnProps &
 export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
-      type = "single",
+      variant = "single",
       onApply,
       onCancel,
       cancelLabel = "Cancel",
@@ -125,7 +125,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     },
     ref,
   ) => {
-    const numberOfMonths = type === "double" ? 2 : 1;
+    const numberOfMonths = variant === "double" ? 2 : 1;
     const isMulti = numberOfMonths > 1;
 
     return (

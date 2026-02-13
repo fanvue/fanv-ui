@@ -17,7 +17,7 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    type: {
+    variant: {
       control: "select",
       options: ["single", "double"],
     },
@@ -90,7 +90,7 @@ export const DoubleMonth: Story = {
     return (
       <DatePicker
         mode="range"
-        type="double"
+        variant="double"
         defaultMonth={DEFAULT_MONTH}
         selected={range}
         onSelect={setRange}
