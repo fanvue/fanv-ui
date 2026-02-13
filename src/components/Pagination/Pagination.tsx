@@ -124,7 +124,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
                   aria-current={page === currentPage ? "page" : undefined}
                   onClick={() => onPageChange?.(page)}
                   className={cn(
-                    "flex size-4 cursor-pointer items-center justify-center rounded-full text-xs motion-safe:transition-colors motion-safe:duration-150 focus-visible:shadow-focus-ring focus-visible:outline-none",
+                    "flex size-4 cursor-pointer items-center justify-center rounded-full text-xs focus-visible:shadow-focus-ring focus-visible:outline-none motion-safe:transition-colors motion-safe:duration-150",
                     page === currentPage
                       ? "bg-neutral-400 text-body-300"
                       : "bg-neutral-100 text-body-100 hover:bg-neutral-200",

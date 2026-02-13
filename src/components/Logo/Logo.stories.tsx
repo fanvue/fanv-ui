@@ -13,7 +13,7 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    type: {
+    variant: {
       control: "select",
       options: ["full", "icon", "wordmark", "portrait"],
     },
@@ -29,21 +29,21 @@ type Story = StoryObj<typeof meta>;
 
 export const FullColour: Story = {
   args: {
-    type: "full",
+    variant: "full",
     color: "fullColour",
   },
 };
 
 export const FullDecolour: Story = {
   args: {
-    type: "full",
+    variant: "full",
     color: "decolour",
   },
 };
 
 export const FullWhiteAlways: Story = {
   args: {
-    type: "full",
+    variant: "full",
     color: "whiteAlways",
   },
   parameters: {
@@ -53,28 +53,28 @@ export const FullWhiteAlways: Story = {
 
 export const FullBlackAlways: Story = {
   args: {
-    type: "full",
+    variant: "full",
     color: "blackAlways",
   },
 };
 
 export const IconFullColour: Story = {
   args: {
-    type: "icon",
+    variant: "icon",
     color: "fullColour",
   },
 };
 
 export const IconDecolour: Story = {
   args: {
-    type: "icon",
+    variant: "icon",
     color: "decolour",
   },
 };
 
 export const IconWhiteAlways: Story = {
   args: {
-    type: "icon",
+    variant: "icon",
     color: "whiteAlways",
   },
   parameters: {
@@ -84,28 +84,28 @@ export const IconWhiteAlways: Story = {
 
 export const IconBlackAlways: Story = {
   args: {
-    type: "icon",
+    variant: "icon",
     color: "blackAlways",
   },
 };
 
 export const WordmarkFullColour: Story = {
   args: {
-    type: "wordmark",
+    variant: "wordmark",
     color: "fullColour",
   },
 };
 
 export const WordmarkDecolour: Story = {
   args: {
-    type: "wordmark",
+    variant: "wordmark",
     color: "decolour",
   },
 };
 
 export const WordmarkWhiteAlways: Story = {
   args: {
-    type: "wordmark",
+    variant: "wordmark",
     color: "whiteAlways",
   },
   parameters: {
@@ -115,28 +115,28 @@ export const WordmarkWhiteAlways: Story = {
 
 export const WordmarkBlackAlways: Story = {
   args: {
-    type: "wordmark",
+    variant: "wordmark",
     color: "blackAlways",
   },
 };
 
 export const PortraitFullColour: Story = {
   args: {
-    type: "portrait",
+    variant: "portrait",
     color: "fullColour",
   },
 };
 
 export const PortraitDecolour: Story = {
   args: {
-    type: "portrait",
+    variant: "portrait",
     color: "decolour",
   },
 };
 
 export const PortraitWhiteAlways: Story = {
   args: {
-    type: "portrait",
+    variant: "portrait",
     color: "whiteAlways",
   },
   parameters: {
@@ -146,7 +146,7 @@ export const PortraitWhiteAlways: Story = {
 
 export const PortraitBlackAlways: Story = {
   args: {
-    type: "portrait",
+    variant: "portrait",
     color: "blackAlways",
   },
 };

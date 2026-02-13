@@ -20,13 +20,13 @@ import { ChevronRightIcon } from "../Icons/ChevronRightIcon";
 
 export type { DateRange }; // Needed by consumers when passing props
 
-/** Layout type — single or side-by-side month display. */
-export type DatePickerType = "single" | "double";
+/** Layout variant — single or side-by-side month display. */
+export type DatePickerVariant = "single" | "double";
 
 /** Props specific to the DatePicker wrapper (not inherited from react-day-picker). */
 export interface DatePickerOwnProps {
   /** Display one month or two side-by-side. @default "single" */
-  type?: DatePickerType;
+  variant?: DatePickerVariant;
   /** Callback fired when the Apply button is clicked. */
   onApply?: () => void;
   /** Callback fired when the Cancel button is clicked. */
@@ -73,7 +73,7 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
         "relative z-10 inline-flex size-10 cursor-pointer items-center justify-center rounded-lg",
         "typography-body-2-regular",
         "transition-colors hover:bg-brand-green-50",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500 focus-visible:outline-offset-[-2px]",
+        "focus-visible:outline-none focus-visible:outline-offset-[-2px] focus-visible:ring-2 focus-visible:ring-brand-purple-500",
         "disabled:cursor-not-allowed disabled:opacity-50",
         modifiers.today && !modifiers.selected && "border border-brand-green-500",
         modifiers.selected && !modifiers.range_middle
@@ -113,7 +113,7 @@ export type DatePickerProps = DatePickerOwnProps &
 export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
-      type = "single",
+      variant = "single",
       onApply,
       onCancel,
       cancelLabel = "Cancel",
@@ -125,7 +125,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     },
     ref,
   ) => {
-    const numberOfMonths = type === "double" ? 2 : 1;
+    const numberOfMonths = variant === "double" ? 2 : 1;
     const isMulti = numberOfMonths > 1;
 
     return (
