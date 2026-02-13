@@ -46,6 +46,7 @@ export function SliderThumb({
         "flex size-6 items-center justify-center rounded-full border border-neutral-100 bg-background-inverse-solid shadow-sm",
         "transition-shadow duration-150",
         "hover:ring-2 hover:ring-brand-green-500",
+        "not-data-disabled:active:ring-2 not-data-disabled:active:ring-brand-green-500",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background-inverse-solid",
         "data-disabled:cursor-not-allowed",
       )}

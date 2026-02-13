@@ -2,6 +2,12 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+@layer base {
+  html {
+    touch-action: manipulation;
+  }
+}
+
 @theme {
   --shadow-background-blur: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500);
   --shadow-focus-ring: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500);

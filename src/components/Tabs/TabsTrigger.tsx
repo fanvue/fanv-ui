@@ -22,6 +22,8 @@ export const TabsTrigger = React.forwardRef<
       "data-[state=active]:border-brand-green-500",
       "data-[state=active]:hover:text-hover-100",
       "data-[state=inactive]:hover:text-hover-200",
+      "data-[state=active]:active:text-hover-100",
+      "data-[state=inactive]:active:text-hover-200",
       "data-disabled:pointer-events-none",
       "data-disabled:data-[state=active]:text-disabled-100",
       "data-disabled:data-[state=inactive]:text-disabled-400",
