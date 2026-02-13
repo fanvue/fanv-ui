@@ -3,6 +3,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
 
+/** Visual style variant of the button. */
 export type ButtonVariant =
   | "primary"
   | "secondary"
@@ -14,24 +15,25 @@ export type ButtonVariant =
   | "tertiaryDestructive"
   | "text";
 
+/** Button height in pixels. */
 export type ButtonSize = "48" | "40" | "32" | "24";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Visual style variant of the button */
+  /** Visual style variant of the button. @default "primary" */
   variant?: ButtonVariant;
-  /** Size of the button in pixels */
+  /** Height of the button in pixels. @default "48" */
   size?: ButtonSize;
-  /** Left icon element */
+  /** Icon element displayed before the label. */
   leftIcon?: React.ReactNode;
-  /** Right icon element */
+  /** Icon element displayed after the label. */
   rightIcon?: React.ReactNode;
-  /** Show loading spinner */
+  /** When `true`, replaces the label with a spinner and disables interaction. @default false */
   loading?: boolean;
-  /** Render as a different element using Radix Slot */
+  /** Merge props onto a child element instead of rendering a `<button>`. @default false */
   asChild?: boolean;
-  /** Old price shown with strikethrough before the current price */
+  /** Old price shown with a strikethrough before the current price. */
   discount?: string;
-  /** Current price shown inside the button after the label/icons */
+  /** Current price shown inside the button after the label and icons. */
   price?: string;
 }
 
@@ -159,6 +161,17 @@ function renderContent({
   );
 }
 
+/**
+ * A versatile button component with multiple visual variants, sizes, icon
+ * slots, loading state, and optional pricing display.
+ *
+ * @example
+ * ```tsx
+ * <Button variant="brand" size="40" leftIcon={<StarIcon />}>
+ *   Subscribe
+ * </Button>
+ * ```
+ */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {

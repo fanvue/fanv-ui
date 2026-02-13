@@ -4,14 +4,26 @@ import { cn } from "../../utils/cn";
 
 export interface RadioProps
   extends Omit<React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>, "asChild"> {
-  /** Size variant of the radio button */
+  /** Size variant controlling label and helper text typography. @default "default" */
   size?: "default" | "small";
-  /** Label text for the radio button */
+  /** Label text displayed next to the radio button. */
   label?: string;
-  /** Optional helper text displayed below the label */
+  /** Descriptive text displayed below the label. */
   helperText?: string;
 }
 
+/**
+ * A single radio option within a {@link RadioGroup}. Includes an optional label
+ * and helper text.
+ *
+ * @example
+ * ```tsx
+ * <RadioGroup value={value} onValueChange={setValue}>
+ *   <Radio value="a" label="Option A" />
+ *   <Radio value="b" label="Option B" />
+ * </RadioGroup>
+ * ```
+ */
 export const Radio = React.forwardRef<
   React.ComponentRef<typeof RadioGroupPrimitive.Item>,
   RadioProps

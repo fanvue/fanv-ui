@@ -33,6 +33,7 @@ const badgeVariants = {
   },
 } as const;
 
+/** Visual style variant of the badge. */
 export type BadgeVariant =
   | "default"
   | "dark"
@@ -48,18 +49,26 @@ export type BadgeVariant =
   | "pinkLight";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /** Visual style variant of the badge */
+  /** Visual style variant of the badge. @default "default" */
   variant?: BadgeVariant;
-  /** Show left status indicator dot */
+  /** Whether to show a coloured status dot at the leading edge. @default true */
   leftDot?: boolean;
-  /** Left icon element */
+  /** Icon element displayed before the label. */
   leftIcon?: React.ReactNode;
-  /** Right icon element */
+  /** Icon element displayed after the label. */
   rightIcon?: React.ReactNode;
-  /** Render as a different element using Radix Slot */
+  /** Merge props onto a child element instead of rendering a `<span>`. @default false */
   asChild?: boolean;
 }
 
+/**
+ * A small inline label for status, category, or metadata information.
+ *
+ * @example
+ * ```tsx
+ * <Badge variant="success">Active</Badge>
+ * ```
+ */
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   (
     {

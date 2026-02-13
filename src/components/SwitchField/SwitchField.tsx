@@ -4,28 +4,43 @@ import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
 import { Switch, type SwitchSize } from "../Switch/Switch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Tooltip/Tooltip";
 
+/** Side on which the switch toggle is positioned relative to the label. */
 export type SwitchFieldOrientation = "right" | "left";
 
 export interface SwitchFieldProps
   extends Omit<React.ComponentPropsWithoutRef<typeof Switch>, "size" | "className"> {
-  /** Position of the switch relative to the label */
+  /** Side on which the switch is placed relative to the label. @default "right" */
   orientation?: SwitchFieldOrientation;
-  /** Size variant of the switch and text */
+  /** Size variant of the switch and accompanying text. @default "default" */
   size?: SwitchSize;
-  /** Label text displayed next to the switch */
+  /** Label text displayed next to the switch. */
   label?: string;
-  /** Helper text displayed below the label */
+  /** Descriptive text displayed below the label. */
   helperText?: string;
-  /** Info tooltip text displayed on hover of the info icon */
+  /** Tooltip text shown when hovering the info icon next to the label. */
   infoText?: string;
   /** Accessible label for the info tooltip trigger button. Override for i18n.
    * @default "More information"
    */
   infoLabel?: string;
-  /** Additional className for the wrapper */
+  /** Additional CSS class name for the outer wrapper. */
   className?: string;
 }
 
+/**
+ * A labelled switch field with optional helper text and info tooltip. Composes
+ * the {@link Switch} component with a `<label>` and description.
+ *
+ * @example
+ * ```tsx
+ * <SwitchField
+ *   label="Notifications"
+ *   helperText="Receive push notifications"
+ *   checked={enabled}
+ *   onCheckedChange={setEnabled}
+ * />
+ * ```
+ */
 export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, SwitchFieldProps>(
   (
     {

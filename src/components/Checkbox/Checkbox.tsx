@@ -4,22 +4,32 @@ import { cn } from "../../utils/cn";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { MinusIcon } from "../Icons/MinusIcon";
 
+/** Size variant controlling label and helper text typography. */
 export type CheckboxSize = "default" | "small";
 
 export interface CheckboxProps
   extends Omit<React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>, "asChild"> {
-  /** Size variant for label and helper text */
+  /** Size variant that controls label and helper text typography. @default "default" */
   size?: CheckboxSize;
-  /** Label text displayed next to the checkbox */
+  /** Label text displayed next to the checkbox. */
   label?: string;
-  /** Helper text displayed below the label */
+  /** Descriptive text displayed below the label. */
   helperText?: string;
 }
 
 /**
- * The ref type is intentionally `HTMLInputElement` (not `HTMLButtonElement`) for form library
- * compatibility. Libraries like react-hook-form call `register()` which expects an `HTMLInputElement`
- * ref. A hidden `<input>` is synced to the Radix checkbox state via `useImperativeHandle`.
+ * A checkbox input with optional label and helper text. Supports checked,
+ * unchecked, and indeterminate states.
+ *
+ * The ref type is intentionally `HTMLInputElement` (not `HTMLButtonElement`) for
+ * form-library compatibility — libraries like react-hook-form call `register()`
+ * which expects an `HTMLInputElement` ref. A hidden `<input>` is synced to the
+ * Radix checkbox state via `useImperativeHandle`.
+ *
+ * @example
+ * ```tsx
+ * <Checkbox label="Accept terms" helperText="Required to continue" />
+ * ```
  */
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ({ className, size = "default", label, helperText, disabled, name, ...props }, ref) => {
@@ -27,12 +37,15 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     const helperTextId = helperText ? `${id}-helper` : undefined;
     const hasLabel = Boolean(label || helperText);
 
-    if (process.env.NODE_ENV !== "production") {
-      if (!label && !props["aria-label"] && !props["aria-labelledby"]) {
-        console.warn(
-          "Checkbox: No accessible name provided. Add a `label`, `aria-label`, or `aria-labelledby` prop so screen readers can announce this checkbox.",
-        );
-      }
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !label &&
+      !props["aria-label"] &&
+      !props["aria-labelledby"]
+    ) {
+      console.warn(
+        "Checkbox: No accessible name provided. Add a `label`, `aria-label`, or `aria-labelledby` prop so screen readers can announce this checkbox.",
+      );
     }
 
     // Hidden input for form library compatibility (e.g. react-hook-form register)

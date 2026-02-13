@@ -2,6 +2,7 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
+/** A filled-square stop icon for media/recording controls (40 × 40). */
 export const StopIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, ...props }, ref) => (
     <svg

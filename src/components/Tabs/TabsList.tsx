@@ -2,8 +2,10 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
+/** Props for the {@link TabsList} component. */
 export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>;
 
+/** Container for {@link TabsTrigger} elements. Supports both horizontal and vertical orientations. */
 export const TabsList = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.List>,
   TabsListProps

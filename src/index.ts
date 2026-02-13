@@ -27,7 +27,7 @@ export { Count } from "./components/Count/Count";
 export type {
   DatePickerOwnProps,
   DatePickerProps,
-  DatePickerType,
+  DatePickerVariant,
   DateRange,
 } from "./components/DatePicker/DatePicker";
 export { DatePicker } from "./components/DatePicker/DatePicker";
@@ -65,7 +65,7 @@ export type { IconProps } from "./components/Icons/types";
 export { VipBadgeIcon } from "./components/Icons/VipBadgeIcon";
 export { WarningIcon } from "./components/Icons/WarningIcon";
 export { WarningTriangleIcon } from "./components/Icons/WarningTriangleIcon";
-export type { LogoColor, LogoProps, LogoType } from "./components/Logo/Logo";
+export type { LogoColor, LogoProps, LogoVariant } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type {
   PaginationProps,

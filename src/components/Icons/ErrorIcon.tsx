@@ -2,6 +2,7 @@ import React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
+/** An exclamation mark inside a filled circle icon for error/alert states (20 × 20). */
 export const ErrorIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, ...props }, ref) => (
     <svg

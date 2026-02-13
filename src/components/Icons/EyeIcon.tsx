@@ -2,6 +2,7 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
+/** An eye icon for visibility/show actions (20 × 20). */
 export const EyeIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, ...props }, ref) => (
     <svg

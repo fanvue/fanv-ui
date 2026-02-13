@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
-const getLogoColors = (color: LogoColor, type: LogoType) => {
+const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
   if (color === "fullColour") {
     return {
       icon: "var(--color-brand-green-500)",
@@ -21,7 +21,9 @@ const getLogoColors = (color: LogoColor, type: LogoType) => {
   if (color === "whiteAlways") {
     return {
       icon:
-        type === "icon" ? "var(--color-body-white-solid-constant)" : "var(--color-brand-green-500)",
+        variant === "icon"
+          ? "var(--color-body-white-solid-constant)"
+          : "var(--color-brand-green-500)",
       iconInner: "var(--color-body-black-solid-constant)",
       textClass: "text-body-white-solid-constant",
     };
@@ -30,9 +32,11 @@ const getLogoColors = (color: LogoColor, type: LogoType) => {
   if (color === "blackAlways") {
     return {
       icon:
-        type === "icon" ? "var(--color-body-black-solid-constant)" : "var(--color-brand-green-500)",
+        variant === "icon"
+          ? "var(--color-body-black-solid-constant)"
+          : "var(--color-brand-green-500)",
       iconInner:
-        type === "icon"
+        variant === "icon"
           ? "var(--color-body-white-solid-constant)"
           : "var(--color-body-black-solid-constant)",
       textClass: "text-body-black-solid-constant",
@@ -46,18 +50,21 @@ const getLogoColors = (color: LogoColor, type: LogoType) => {
   };
 };
 
-export type LogoType = "full" | "icon" | "wordmark" | "portrait";
+/** Layout variant of the logo. */
+export type LogoVariant = "full" | "icon" | "wordmark" | "portrait";
+/** Colour scheme of the logo. */
 export type LogoColor = "fullColour" | "decolour" | "whiteAlways" | "blackAlways";
 
 export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Logo layout type (matches Figma "Type" property) */
-  type?: LogoType;
-  /** Logo color scheme (matches Figma "Colour" property) */
+  /** Layout variant of the logo. @default "full" */
+  variant?: LogoVariant;
+  /** Colour scheme of the logo. @default "fullColour" */
   color?: LogoColor;
   /**
-   * Accessible label for the logo.
-   * Required when type="Icon" and used in interactive contexts (links, buttons).
-   * @example "Fanvue home" or "Go to homepage"
+   * Accessible label for the logo. Required when `type` is `"icon"` and
+   * the logo is used inside interactive contexts (links, buttons).
+   *
+   * @example "Fanvue home"
    */
   "aria-label"?: string;
 }
@@ -106,11 +113,20 @@ const WordmarkSVG = ({ className }: { className?: string }) => {
   );
 };
 
+/**
+ * The Fanvue brand logo. Supports full (icon + wordmark), icon-only, wordmark-only,
+ * and portrait (stacked) layouts with multiple colour schemes.
+ *
+ * @example
+ * ```tsx
+ * <Logo type="full" color="fullColour" />
+ * ```
+ */
 export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
-  ({ className, type = "full", color = "fullColour", ...props }, ref) => {
-    const colors = getLogoColors(color, type);
-    const showIcon = type === "full" || type === "icon" || type === "portrait";
-    const showWordmark = type === "full" || type === "wordmark" || type === "portrait";
+  ({ className, variant = "full", color = "fullColour", ...props }, ref) => {
+    const colors = getLogoColors(color, variant);
+    const showIcon = variant === "full" || variant === "icon" || variant === "portrait";
+    const showWordmark = variant === "full" || variant === "wordmark" || variant === "portrait";
 
     // When aria-label is provided, add role="img" for proper accessibility
     const ariaProps = props["aria-label"] ? { role: "img" as const } : {};
@@ -121,8 +137,8 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
         data-testid="logo"
         className={cn(
           "inline-flex items-center text-body-900 dark:text-body-100",
-          type === "portrait" ? "flex-col" : "flex-row",
-          type === "full" && "gap-2",
+          variant === "portrait" ? "flex-col" : "flex-row",
+          variant === "full" && "gap-2",
           className,
         )}
         {...ariaProps}
@@ -133,7 +149,7 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
             viewBox="0 0 39 39"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className={cn("shrink-0", type === "icon" ? "h-10 w-10" : "h-8 w-8")}
+            className={cn("shrink-0", variant === "icon" ? "h-10 w-10" : "h-8 w-8")}
             aria-hidden="true"
             data-testid="logo-icon"
           >
