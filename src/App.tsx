@@ -1,7 +1,5 @@
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
-import { MicrophoneIcon } from "./components/Icons/MicrophoneIcon";
-import { StopIcon } from "./components/Icons/StopIcon";
 import {
   Alert,
   ArrowRightIcon,
@@ -15,17 +13,22 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   Chip,
+  CloseIcon,
   Count,
   CrossIcon,
   CrownIcon,
   DatePicker,
   Divider,
   ErrorCircleIcon,
+  ErrorIcon,
+  EyeIcon,
   FireIcon,
   HomeIcon,
   IconButton,
   InfoCircleIcon,
+  InfoIcon,
   Logo,
+  MicrophoneIcon,
   MinusIcon,
   Pagination,
   Pill,
@@ -36,6 +39,8 @@ import {
   Slider,
   Snackbar,
   SpinnerIcon,
+  StopIcon,
+  SuccessIcon,
   Switch,
   SwitchField,
   SwitchToggle,
@@ -47,7 +52,12 @@ import {
   Toast,
   ToastProvider,
   ToastViewport,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
   VipBadgeIcon,
+  WarningIcon,
   WarningTriangleIcon,
 } from "./index";
 import "./showcase.css";
@@ -227,19 +237,16 @@ function TextFieldShowcase() {
         onChange={handleChange}
         autoComplete="off"
       />
-      <div className="typography-caption-regular text-body-200">
-        Current value: {value || "(empty)"}
-      </div>
     </div>
   );
 }
 
 function App() {
   const [dark, setDark] = useState(false);
-  const InfoIcon = <InfoCircleIcon />;
-  const SuccessIcon = <CheckCircleIcon />;
-  const WarningIcon = <WarningTriangleIcon />;
-  const ErrorIcon = <ErrorCircleIcon />;
+  const AlertInfoIcon = <InfoCircleIcon />;
+  const AlertSuccessIcon = <CheckCircleIcon />;
+  const AlertWarningIcon = <WarningTriangleIcon />;
+  const AlertErrorIcon = <ErrorCircleIcon />;
 
   // Toast state management
   const [toasts, setToasts] = useState({
@@ -251,6 +258,7 @@ function App() {
     noClose: false,
     titleOnly: false,
     longContent: false,
+    messageToast: false,
   });
 
   const showToast = (type: keyof typeof toasts) => {
@@ -312,7 +320,6 @@ function App() {
 
             {/* Icons */}
             <div className="space-y-6">
-              {/* Default — inherits currentColor from the page theme */}
               <div className="flex flex-wrap items-end gap-6">
                 {(
                   [
@@ -322,15 +329,23 @@ function App() {
                     ["CheckIcon", CheckIcon],
                     ["ChevronLeftIcon", ChevronLeftIcon],
                     ["ChevronRightIcon", ChevronRightIcon],
+                    ["CloseIcon", CloseIcon],
                     ["CrossIcon", CrossIcon],
                     ["CrownIcon", CrownIcon],
                     ["ErrorCircleIcon", ErrorCircleIcon],
+                    ["ErrorIcon", ErrorIcon],
+                    ["EyeIcon", EyeIcon],
                     ["FireIcon", FireIcon],
                     ["HomeIcon", HomeIcon],
                     ["InfoCircleIcon", InfoCircleIcon],
+                    ["InfoIcon", InfoIcon],
+                    ["MicrophoneIcon", MicrophoneIcon],
                     ["MinusIcon", MinusIcon],
                     ["PlusIcon", PlusIcon],
                     ["SpinnerIcon", SpinnerIcon],
+                    ["StopIcon", StopIcon],
+                    ["SuccessIcon", SuccessIcon],
+                    ["WarningIcon", WarningIcon],
                     ["WarningTriangleIcon", WarningTriangleIcon],
                   ] as const
                 ).map(([name, Icon]) => (
@@ -341,14 +356,12 @@ function App() {
                     </span>
                   </div>
                 ))}
-                {/* VipBadge is fixed-size so render separately */}
                 <div className="flex flex-col items-center gap-2">
                   <VipBadgeIcon className="size-6" />
                   <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
                 </div>
               </div>
 
-              {/* On light background (always visible in dark mode) */}
               <div className="flex flex-wrap items-end gap-6 rounded-lg bg-background-white-solid-constant p-4 text-body-black-solid-constant">
                 {(
                   [
@@ -358,16 +371,24 @@ function App() {
                     ["Check", CheckIcon],
                     ["ChevronLeft", ChevronLeftIcon],
                     ["ChevronRight", ChevronRightIcon],
+                    ["Close", CloseIcon],
                     ["Cross", CrossIcon],
                     ["Crown", CrownIcon],
                     ["ErrorCircle", ErrorCircleIcon],
+                    ["Error", ErrorIcon],
+                    ["Eye", EyeIcon],
                     ["Fire", FireIcon],
                     ["Home", HomeIcon],
                     ["InfoCircle", InfoCircleIcon],
+                    ["Info", InfoIcon],
+                    ["Microphone", MicrophoneIcon],
                     ["Minus", MinusIcon],
                     ["Plus", PlusIcon],
                     ["Spinner", SpinnerIcon],
-                    ["Warning", WarningTriangleIcon],
+                    ["Stop", StopIcon],
+                    ["Success", SuccessIcon],
+                    ["Warning", WarningIcon],
+                    ["WarningTriangle", WarningTriangleIcon],
                   ] as const
                 ).map(([name, Icon]) => (
                   <div key={name} className="flex flex-col items-center gap-2">
@@ -381,7 +402,6 @@ function App() {
                 </div>
               </div>
 
-              {/* On dark background (always visible in light mode) */}
               <div className="flex flex-wrap items-end gap-6 rounded-lg bg-body-black-solid-constant p-4 text-body-white-solid-constant">
                 {(
                   [
@@ -391,16 +411,24 @@ function App() {
                     ["Check", CheckIcon],
                     ["ChevronLeft", ChevronLeftIcon],
                     ["ChevronRight", ChevronRightIcon],
+                    ["Close", CloseIcon],
                     ["Cross", CrossIcon],
                     ["Crown", CrownIcon],
                     ["ErrorCircle", ErrorCircleIcon],
+                    ["Error", ErrorIcon],
+                    ["Eye", EyeIcon],
                     ["Fire", FireIcon],
                     ["Home", HomeIcon],
                     ["InfoCircle", InfoCircleIcon],
+                    ["Info", InfoIcon],
+                    ["Microphone", MicrophoneIcon],
                     ["Minus", MinusIcon],
                     ["Plus", PlusIcon],
                     ["Spinner", SpinnerIcon],
-                    ["Warning", WarningTriangleIcon],
+                    ["Stop", StopIcon],
+                    ["Success", SuccessIcon],
+                    ["Warning", WarningIcon],
+                    ["WarningTriangle", WarningTriangleIcon],
                   ] as const
                 ).map(([name, Icon]) => (
                   <div key={name} className="flex flex-col items-center gap-2">
@@ -559,25 +587,25 @@ function App() {
             </div>
 
             <div className="max-w-2xl space-y-4">
-              <Alert variant="info" icon={InfoIcon}>
+              <Alert variant="info" icon={AlertInfoIcon}>
                 This is an informational alert message.
               </Alert>
-              <Alert variant="success" icon={SuccessIcon}>
+              <Alert variant="success" icon={AlertSuccessIcon}>
                 Your changes have been saved successfully.
               </Alert>
-              <Alert variant="warning" icon={WarningIcon}>
+              <Alert variant="warning" icon={AlertWarningIcon}>
                 Please review your information before proceeding.
               </Alert>
-              <Alert variant="error" icon={ErrorIcon}>
+              <Alert variant="error" icon={AlertErrorIcon}>
                 An error occurred while processing your request.
               </Alert>
-              <Alert variant="info" icon={InfoIcon} closable>
+              <Alert variant="info" icon={AlertInfoIcon} closable>
                 This is a closable info alert.
               </Alert>
-              <Alert variant="info" icon={InfoIcon} title="Informational title">
+              <Alert variant="info" icon={AlertInfoIcon} title="Informational title">
                 This alert has a title and a description body.
               </Alert>
-              <Alert variant="error" icon={ErrorIcon} title="Something went wrong" closable>
+              <Alert variant="error" icon={AlertErrorIcon} title="Something went wrong" closable>
                 This alert shows title, icon, and closable all together.
               </Alert>
             </div>
@@ -821,21 +849,6 @@ function App() {
                   aria-label="Microphone"
                 />
               </div>
-            </div>
-
-            <div className="flex flex-wrap gap-4">
-              <Badge variant="default">Default</Badge>
-              <Badge variant="dark">Dark</Badge>
-              <Badge variant="info">Info</Badge>
-              <Badge variant="success">Success</Badge>
-              <Badge variant="warning">Warning</Badge>
-              <Badge variant="error">Error</Badge>
-              <Badge variant="special">Special</Badge>
-              <Badge variant="brand">Brand</Badge>
-              <Badge variant="pink">Pink</Badge>
-              <Badge variant="online">Online</Badge>
-              <Badge variant="brandLight">Brand light</Badge>
-              <Badge variant="pinkLight">Pink light</Badge>
             </div>
 
             <div className="flex flex-wrap gap-4">
@@ -1366,52 +1379,14 @@ function App() {
             </div>
 
             <DatePickerShowcase />
-            {/* Divider */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="typography-body-2-semibold mb-4">Default Divider</h3>
-                <div className="space-y-4">
-                  <p>Section 1</p>
-                  <Divider />
-                  <p>Section 2</p>
-                  <Divider className="w-1/2" />
-                  <p>Section 3</p>
-                </div>
+            <div className="flex flex-col gap-6">
+              <Divider />
+              <Divider className="w-1/2" />
+              <Divider label="or" />
+              <div className="flex h-24 items-center gap-6">
+                <Divider orientation="vertical" />
+                <Divider orientation="vertical" className="h-1/2" />
               </div>
-
-              <div>
-                <h3 className="typography-body-2-semibold mb-4">Text Divider</h3>
-                <div className="space-y-4">
-                  <p>Section 1</p>
-                  <Divider label="or" />
-                  <p>Section 2</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Snackbar */}
-            <div className="max-w-xl space-y-4">
-              <Snackbar
-                variant="vipEarn"
-                icon={<VipBadgeIcon />}
-                title="You're killing it! You've earned 1,000pts"
-                description="Find out how to redeem them, and earn more..."
-                primaryLabel="Redeem points"
-                closable
-              />
-              <Snackbar primaryLabel="Accept" secondaryLabel="Dismiss">
-                <span className="typography-body-2-medium">
-                  <span>@user.with.username</span> changed their subscription price to{" "}
-                  <span>$43.99</span> per month
-                </span>
-              </Snackbar>
-              <Snackbar
-                variant="welcome"
-                title="Welcome to Fanvue 👋"
-                description="Let's get you started!"
-                primaryLabel="Become a creator"
-                secondaryLabel="Discover creators"
-              />
             </div>
 
             {/* Tabs */}
@@ -1585,7 +1560,57 @@ function App() {
               />
             </div>
 
-            {/* Toast */}
+            <TooltipProvider>
+              <div className="flex flex-wrap items-center gap-4">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="secondary" size="32">
+                      Default
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Tooltip with arrow</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="secondary" size="32">
+                      No arrow
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent showArrow={false}>Tooltip without arrow</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="secondary" size="32">
+                      Side right
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Tooltip on right</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="secondary" size="32">
+                      Side left
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="left">Tooltip on left</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="secondary" size="32">
+                      Side bottom
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">Tooltip on bottom</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
+                  </TooltipTrigger>
+                  <TooltipContent>More information about this feature</TooltipContent>
+                </Tooltip>
+              </div>
+            </TooltipProvider>
+
             <div className="space-y-4">
               <div className="flex flex-wrap gap-3">
                 <Button variant="primary" size="40" onClick={() => showToast("info")}>
@@ -1613,6 +1638,9 @@ function App() {
                 </Button>
                 <Button variant="secondary" size="40" onClick={() => showToast("longContent")}>
                   Long Content
+                </Button>
+                <Button variant="secondary" size="40" onClick={() => showToast("messageToast")}>
+                  Message Toast
                 </Button>
               </div>
             </div>
@@ -1678,6 +1706,15 @@ function App() {
           description="This is a longer message that demonstrates how the toast component handles multiple lines of text and maintains its layout with proper spacing and readability."
           open={toasts.longContent}
           onOpenChange={(open: boolean) => !open && hideToast("longContent")}
+        />
+        <Toast
+          variant="messageToast"
+          title="New message"
+          description="Hey! Just wanted to check in and see how things are going."
+          avatarSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          avatarFallback="JD"
+          open={toasts.messageToast}
+          onOpenChange={(open: boolean) => !open && hideToast("messageToast")}
         />
         <ToastViewport />
       </ToastProvider>

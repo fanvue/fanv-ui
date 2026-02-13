@@ -58,7 +58,8 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
     "border-body-100 border border-1 border-body-100 bg-transparent text-body-100 hover:bg-brand-green-50 active:bg-brand-green-50",
   tertiary: "bg-transparent text-body-100 hover:bg-brand-green-50 active:bg-brand-green-50",
   link: "bg-transparent text-body-100 underline decoration-solid hover:bg-brand-green-50 active:bg-brand-green-50",
-  brand: "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-pink-500 active:bg-brand-pink-500",
+  brand:
+    "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-pink-500 active:bg-brand-pink-500",
   destructive:
     "bg-error-500 text-body-white-solid-constant hover:bg-background-solid dark:hover:bg-background-white-solid-constant dark:hover:text-error-500 active:bg-background-solid dark:active:bg-background-white-solid-constant dark:active:text-error-500",
   white:
