@@ -4,6 +4,7 @@ import { cn } from "../../utils/cn";
 import { SliderLayout } from "./SliderLayout";
 import { SliderThumb } from "./SliderThumb";
 
+/** Position of the slider label relative to the track. */
 export type SliderLabelPosition = "top" | "left";
 
 export interface SliderProps
@@ -11,20 +12,37 @@ export interface SliderProps
     React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>,
     "asChild" | "children"
   > {
-  /** Label text displayed alongside the slider */
+  /** Label text displayed alongside the slider. */
   label?: string;
-  /** Position of the label relative to the slider track */
+  /** Position of the label relative to the slider track. @default "top" */
   labelPosition?: SliderLabelPosition;
-  /** Text shown at the minimum end of the track */
+  /** Text shown at the minimum end of the track. */
   minLabel?: string;
-  /** Text shown at the maximum end of the track */
+  /** Text shown at the maximum end of the track. */
   maxLabel?: string;
-  /** Whether to show a tooltip with the current value above the thumb */
+  /** Whether to show a tooltip with the current value above the thumb. @default false */
   showTooltip?: boolean;
-  /** Override the displayed tooltip value (e.g. for formatting) */
+  /** Custom formatter for the tooltip value (e.g. to add units or format numbers). */
   formatTooltip?: (value: number) => string;
 }
 
+/**
+ * A range input for selecting one or more numeric values along a track.
+ * Supports single and multi-thumb modes, optional labels, and a value tooltip.
+ *
+ * Built on Radix UI `Slider`.
+ *
+ * @example
+ * ```tsx
+ * <Slider
+ *   label="Volume"
+ *   min={0}
+ *   max={100}
+ *   defaultValue={[50]}
+ *   showTooltip
+ * />
+ * ```
+ */
 export const Slider = React.forwardRef<
   React.ComponentRef<typeof SliderPrimitive.Root>,
   SliderProps

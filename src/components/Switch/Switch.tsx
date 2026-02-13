@@ -2,14 +2,25 @@ import * as SwitchPrimitive from "@radix-ui/react-switch";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
+/** Size variant of the switch toggle. */
 export type SwitchSize = "default" | "small";
 
 export interface SwitchProps
   extends Omit<React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>, "asChild"> {
-  /** Size variant of the switch */
+  /** Size variant of the switch. @default "default" */
   size?: SwitchSize;
 }
 
+/**
+ * A toggle switch for boolean on/off states. Built on Radix UI `Switch`.
+ *
+ * For a labelled switch with helper text, see {@link SwitchField}.
+ *
+ * @example
+ * ```tsx
+ * <Switch checked={on} onCheckedChange={setOn} />
+ * ```
+ */
 export const Switch = React.forwardRef<
   React.ComponentRef<typeof SwitchPrimitive.Root>,
   SwitchProps

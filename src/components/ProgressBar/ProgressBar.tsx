@@ -1,29 +1,31 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
 
+/** Track height — `"default"` (12px) or `"small"` (6px). */
 export type ProgressBarSize = "default" | "small";
+/** Colour mode — `"default"` uses red/yellow/green by value, `"generic"` always uses brand green. */
 export type ProgressBarVariant = "default" | "generic";
 
 export interface ProgressBarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
-  /** Current progress value (0-100) */
+  /** Current progress value, clamped to 0–100. */
   value: number;
-  /** Size variant - "default" (12px track) or "small" (6px track) */
+  /** Track height — `"default"` (12px) or `"small"` (6px). @default "default" */
   size?: ProgressBarSize;
-  /** Color variant - "default" uses color-coded progress, "generic" always green */
+  /** Colour mode — `"default"` is colour-coded by value, `"generic"` always uses brand green. @default "default" */
   variant?: ProgressBarVariant;
-  /** Title content shown at top left */
+  /** Title content shown at the top-left of the bar. */
   title?: React.ReactNode;
-  /** Show the completion percentage at top */
+  /** Whether to display the completion percentage above the track. @default false */
   showCompletion?: boolean;
-  /** Steps label shown at top right (e.g. "2/8 steps") */
+  /** Steps label shown at the top-right (e.g. `"2/8 steps"`). */
   stepsLabel?: React.ReactNode;
-  /** Helper content at bottom left */
+  /** Helper content at the bottom-left of the bar. */
   helperLeft?: React.ReactNode;
-  /** Helper content at bottom right */
+  /** Helper content at the bottom-right of the bar. */
   helperRight?: React.ReactNode;
-  /** Icon shown at bottom left before helper text */
+  /** Icon shown at the bottom-left before the helper text. */
   leftIcon?: React.ReactNode;
-  /** Accessible label for the progress bar (defaults to "Progress"). Use this for i18n. */
+  /** Accessible label for the `progressbar` role. @default "Progress" */
   ariaLabel?: string;
 }
 
@@ -49,6 +51,16 @@ function getDefaultTextColor(value: number): string {
   return "text-error-500";
 }
 
+/**
+ * A horizontal progress indicator with optional title, completion percentage,
+ * step count, and helper text. The bar colour reflects progress when using the
+ * `"default"` variant.
+ *
+ * @example
+ * ```tsx
+ * <ProgressBar value={65} title="Upload" showCompletion />
+ * ```
+ */
 export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
   (
     {

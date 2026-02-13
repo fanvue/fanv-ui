@@ -2,6 +2,7 @@ import React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
+/** An info icon with exclamation-style "i" in a circle (20 × 20). */
 export const InfoIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, ...props }, ref) => (
     <svg

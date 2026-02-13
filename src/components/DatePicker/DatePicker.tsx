@@ -21,22 +21,24 @@ import { ChevronRightIcon } from "../Icons/ChevronRightIcon";
 
 export type { DateRange }; // Needed by consumers when passing props
 
+/** Layout type — single or side-by-side month display. */
 export type DatePickerType = "single" | "double";
 
+/** Props specific to the DatePicker wrapper (not inherited from react-day-picker). */
 export interface DatePickerOwnProps {
   /** Display one month or two side-by-side. @default "single" */
   type?: DatePickerType;
-  /** Called when the Apply button is clicked. */
+  /** Callback fired when the Apply button is clicked. */
   onApply?: () => void;
-  /** Called when the Cancel button is clicked. */
+  /** Callback fired when the Cancel button is clicked. */
   onCancel?: () => void;
   /** Label for the cancel button. @default "Cancel" */
   cancelLabel?: string;
   /** Label for the apply button. @default "Apply" */
   applyLabel?: string;
-  /** Whether to render cancel / apply footer buttons. @default true */
+  /** Whether to render the cancel / apply footer buttons. @default true */
   showFooter?: boolean;
-  /** Additional className for the outer container. */
+  /** Additional CSS class name for the outer container. */
   className?: string;
 }
 
@@ -86,9 +88,29 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
   );
 }
 
+/** Combined props — own DatePicker options plus all react-day-picker props (except `numberOfMonths`). */
 export type DatePickerProps = DatePickerOwnProps &
   OmitDistributed<DayPickerProps, "numberOfMonths">;
 
+/**
+ * A calendar date picker supporting single-date and date-range selection with
+ * optional side-by-side month display and footer action buttons.
+ *
+ * Built on top of [react-day-picker](https://react-day-picker.js.org/) — all
+ * `DayPickerProps` (except `numberOfMonths`) are forwarded.
+ *
+ * @example
+ * ```tsx
+ * <DatePicker
+ *   mode="range"
+ *   type="double"
+ *   selected={range}
+ *   onSelect={setRange}
+ *   onApply={save}
+ *   onCancel={close}
+ * />
+ * ```
+ */
 export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
