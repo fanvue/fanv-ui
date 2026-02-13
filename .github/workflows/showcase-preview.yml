@@ -4,19 +4,20 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, closed]
+  workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
 
 concurrency:
-  group: showcase-preview-${{ github.event.number }}
+  group: showcase-preview-${{ github.event.number || github.run_id }}
   cancel-in-progress: true
 
 jobs:
   deploy:
     name: Deploy Preview
-    if: github.event.action != 'closed'
+    if: github.event_name == 'workflow_dispatch' || github.event.action != 'closed'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,9 +38,10 @@ jobs:
       - name: Build showcase
         run: pnpm build:showcase
         env:
-          VITE_BASE: /fanv-ui/pr-${{ github.event.number }}/
+          VITE_BASE: ${{ github.event_name == 'pull_request' && format('/fanv-ui/pr-{0}/', github.event.number) || '/' }}
 
       - name: Deploy preview
+        if: github.event_name == 'pull_request'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -48,6 +50,7 @@ jobs:
           keep_files: true
 
       - name: Comment on PR
+        if: github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: showcase-preview
@@ -60,7 +63,7 @@ jobs:
 
   cleanup:
     name: Cleanup Preview
-    if: github.event.action == 'closed'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout gh-pages
