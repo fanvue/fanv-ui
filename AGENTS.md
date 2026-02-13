@@ -2,6 +2,18 @@
 
 **React 19 component library** with Tailwind CSS, TypeScript, and Storybook.
 
+## Open Source Context
+
+This is **`@fanvue/ui`**, a publicly published npm package (Apache 2.0) consumed by thousands of developers and vendors. Every line of source code, story, and test is visible on GitHub and in the npm registry.
+
+**Key implications for all contributors and agents:**
+
+- **All code is public** — never commit secrets, API keys, internal URLs, real user data, or proprietary business logic
+- **Props are your public API** — consumers interact with components via IDE autocomplete and hover documentation; JSDoc quality directly impacts developer experience
+- **Stories are documentation** — they appear in the public Storybook and are often the first thing a consumer reads
+- **Breaking changes affect real users** — treat the exported API surface (`src/index.ts`) with care; additions are fine, removals/renames need a migration path
+- **Bundle size matters** — consumers tree-shake this library; avoid unnecessary dependencies and side effects
+
 ## AI Agent Workflow (Figma MCP)
 
 **You have Figma MCP tools available** to fetch component data programmatically:
@@ -186,14 +198,27 @@ describe("Badge", () => {
 import * as React from "react";
 import { cn } from "@/utils/cn";
 
+/** Visual style variant of the component. */
 export type ComponentVariant = "default" | "primary";
+
+/** Size preset for the component. */
 export type ComponentSize = "sm" | "md";
 
 export interface ComponentNameProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Visual style variant. @default "default" */
   variant?: ComponentVariant;
+  /** Size preset. @default "md" */
   size?: ComponentSize;
 }
 
+/**
+ * A sample component with variant and size support.
+ *
+ * @example
+ * ```tsx
+ * <ComponentName variant="primary" size="sm">Content</ComponentName>
+ * ```
+ */
 export const ComponentName = React.forwardRef<HTMLDivElement, ComponentNameProps>(
   ({ variant = "default", size = "md", className, ...props }, ref) => {
     return (
@@ -354,14 +379,122 @@ After implementation, remind the user to:
 
 **Documentation**: JSDoc comments, Storybook stories, export in `src/index.ts`
 
+## JSDoc & Public API Documentation
+
+Consumers rely on IDE hover tooltips and autocomplete for documentation. Every exported prop, type, and component **must** have JSDoc comments.
+
+### Component-Level JSDoc
+
+Add a description and `@example` to every exported component:
+
+```typescript
+/**
+ * A versatile button with multiple variants, sizes, and icon slots.
+ *
+ * @example
+ * ```tsx
+ * <Button variant="brand" size="40" leftIcon={<StarIcon />}>
+ *   Subscribe
+ * </Button>
+ * ```
+ */
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+```
+
+### Props Interface JSDoc
+
+Every property in an exported props interface needs a JSDoc comment. Use `@default` for optional props with defaults:
+
+```typescript
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Visual style variant of the button. @default "primary" */
+  variant?: ButtonVariant;
+  /** Size of the button in pixels. @default "40" */
+  size?: ButtonSize;
+  /** Icon element displayed before the label. */
+  leftIcon?: React.ReactNode;
+  /** When `true`, replaces the label with a loading spinner. @default false */
+  loading?: boolean;
+}
+```
+
+### Type Alias JSDoc
+
+Add a brief description to exported type aliases:
+
+```typescript
+/** Visual style variant of the button. */
+export type ButtonVariant = "primary" | "secondary" | "outline";
+```
+
+### JSDoc Rules
+
+- **Do**: Short, descriptive sentences. Use `@default` for defaults. Use `@example` on components.
+- **Don't**: Use `@param` or `@returns` on React components (not needed). Don't write novels — one line per prop is ideal.
+- **Cross-reference**: Use `{@link ComponentName}` to reference related components.
+- **Accessibility hints**: Document required ARIA attributes or keyboard interactions in the component-level JSDoc when relevant (e.g., "Use `aria-label` when no visible label is provided").
+
+## Story & Example Data Safety
+
+Stories are publicly visible documentation. All data in stories, tests, and examples must be safe for public consumption.
+
+### Allowed
+
+- Generic placeholder names: `"Jane Doe"`, `"@username"`, `"user123"`
+- Fictional emails: `"jane@example.com"` (use `example.com` per RFC 2606)
+- Public placeholder images: Unsplash URLs, `via.placeholder.com`
+- Company-owned public URLs: `fanvue.com`
+- Lorem ipsum or descriptive placeholder text
+
+### Never Include
+
+- Real user data, emails, or usernames (even your own)
+- API keys, tokens, or credentials (even expired ones)
+- Internal/staging URLs, IP addresses, or infrastructure details
+- Real payment amounts, account IDs, or transaction data
+- Private Figma file URLs (use the public library link only)
+- Proprietary business logic or unreleased feature names
+
+### Story Data Pattern
+
+```typescript
+// Good — clearly fictional, safe for public
+args: {
+  username: "@jane_doe",
+  email: "user@example.com",
+  avatarSrc: "https://images.unsplash.com/photo-abc?w=128&h=128&fit=crop",
+  balance: "$9.99",
+}
+
+// Bad — real data, internal URLs
+args: {
+  username: "@real.employee",
+  email: "dev@fanvue.com",
+  avatarSrc: "https://internal-cdn.fanvue.io/avatars/123.jpg",
+  apiKey: "sk-abc123...",
+}
+```
+
 ## Export Pattern
+
+This package is **tree-shakeable**. All exports must be explicit named exports — consumers depend on this for minimal bundle size.
 
 **Always add to `src/index.ts`:**
 
 ```typescript
+// Export both the component AND all public types
 export { ComponentName } from "./components/ComponentName/ComponentName";
-export type { ComponentNameProps } from "./components/ComponentName/ComponentName";
+export type {
+  ComponentNameProps,
+  ComponentNameVariant,
+  ComponentNameSize,
+} from "./components/ComponentName/ComponentName";
 ```
+
+**Rules:**
+- Export every public type (props, variants, sizes) — consumers need these for type-safe usage
+- Never use `export *` (breaks tree-shaking predictability)
+- Never export internal helpers, hooks, or types that aren't part of the public API
 
 ## New Component Checklist
 
@@ -393,6 +526,16 @@ Use this checklist when adding a new component:
 - [ ] Linter passes (`pnpm lint`)
 - [ ] Responsive design considered
 
+### Open Source Readiness
+
+- [ ] JSDoc on component (description + `@example`)
+- [ ] JSDoc on every prop in the props interface (with `@default` where applicable)
+- [ ] All exported type aliases have JSDoc descriptions
+- [ ] Story data uses only fictional/placeholder content (no real user data, internal URLs, or secrets)
+- [ ] All public types exported in `src/index.ts` (props, variants, sizes)
+- [ ] No `dangerouslySetInnerHTML` usage (see SECURITY.md)
+- [ ] No hardcoded external API calls or network requests in components
+
 ### Common Issues to Avoid
 
 - ❌ Not using `forwardRef` or missing `displayName`
@@ -401,6 +544,10 @@ Use this checklist when adding a new component:
 - ❌ Missing accessibility tests
 - ❌ Missing Figma link in story `design` parameter
 - ❌ Forgot to remind user about Storybook Connect plugin (manual linking)
+- ❌ Props without JSDoc comments (breaks IDE hover documentation for consumers)
+- ❌ Real emails, usernames, or internal URLs in stories or tests
+- ❌ Exporting internal helpers/hooks that aren't part of the public API
+- ❌ Using `export *` instead of explicit named exports
 
 ## Common Patterns
 
