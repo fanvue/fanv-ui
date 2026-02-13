@@ -17,6 +17,7 @@ const pillVariants = {
   },
 } as const;
 
+/** Colour variant of the pill. */
 export type PillVariant =
   | "green"
   | "grey"
@@ -30,16 +31,24 @@ export type PillVariant =
   | "error";
 
 export interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /** Visual style variant of the pill */
+  /** Colour variant of the pill. @default "green" */
   variant?: PillVariant;
-  /** Left icon element */
+  /** Icon element displayed before the label. */
   leftIcon?: React.ReactNode;
-  /** Right icon element */
+  /** Icon element displayed after the label. */
   rightIcon?: React.ReactNode;
-  /** Render as a different element using Radix Slot */
+  /** Merge props onto a child element instead of rendering a `<span>`. @default false */
   asChild?: boolean;
 }
 
+/**
+ * A small rounded label for categorisation, status, or tagging.
+ *
+ * @example
+ * ```tsx
+ * <Pill variant="brand">New</Pill>
+ * ```
+ */
 export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
   (
     { className, variant = "green", leftIcon, rightIcon, asChild = false, children, ...props },

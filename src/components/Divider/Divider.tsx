@@ -2,15 +2,27 @@ import * as SeparatorPrimitive from "@radix-ui/react-separator";
 import * as React from "react";
 import { cn } from "@/utils/cn";
 
+/** Orientation of the divider line. */
 export type DividerOrientation = "horizontal" | "vertical";
+/** Divider type — plain line or line with centred text. */
 export type DividerType = "default" | "text";
 
 export interface DividerProps
   extends React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root> {
-  /** Custom label to display*/
+  /** Optional centred label text. When provided, the divider renders as two lines with the label between them. */
   label?: string;
 }
 
+/**
+ * A horizontal separator used to divide content sections. Optionally displays a
+ * centred text label between two lines.
+ *
+ * @example
+ * ```tsx
+ * <Divider />
+ * <Divider label="or" />
+ * ```
+ */
 export const Divider = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
   DividerProps

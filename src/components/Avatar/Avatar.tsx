@@ -2,6 +2,7 @@ import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
+/** Allowed pixel sizes for the avatar. */
 export type AvatarSize = 16 | 24 | 32 | 40 | 48 | 64 | 88 | 148;
 
 const AvatarContext = React.createContext<{ size: AvatarSize; NSFWShow: boolean }>({
@@ -20,22 +21,29 @@ const STATUS_POSITIONS: Record<AvatarSize, { top: number; right: number }> = {
   148: { top: 15, right: 15 },
 };
 
-/** Shared avatar styling props */
+/** Shared avatar styling props. */
 interface AvatarStyleProps {
-  /** Size variant of the avatar (matches Figma "Size" property) */
+  /** Pixel size of the avatar. @default 40 */
   size?: AvatarSize;
-  /** Show online status indicator */
+  /** Whether to show the online-status indicator dot. @default false */
   onlineIndicator?: boolean;
-  /** Show platinum gradient border (matches Figma "Platinum show" property) */
+  /** Whether to show the platinum gradient border ring. @default false */
   platinumShow?: boolean;
-  /** Show NSFW blur filter (matches Figma "NSFW show" property) */
+  /** Whether to apply the NSFW blur filter over the image. @default false */
   NSFWShow?: boolean;
 }
 
+/** Props for the low-level {@link AvatarRoot} compound component. */
 export interface AvatarRootProps
   extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>,
     AvatarStyleProps {}
 
+/**
+ * Low-level avatar root for custom compositions. Provides size context to
+ * child `AvatarImage` and `AvatarFallback` components.
+ *
+ * Prefer the higher-level {@link Avatar} component for most use cases.
+ */
 const AvatarRoot = React.forwardRef<
   React.ComponentRef<typeof AvatarPrimitive.Root>,
   AvatarRootProps
@@ -105,9 +113,11 @@ const AvatarRoot = React.forwardRef<
 
 AvatarRoot.displayName = "AvatarRoot";
 
+/** Props for the {@link AvatarImage} compound component. */
 export interface AvatarImageProps
   extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image> {}
 
+/** Renders the avatar image. Automatically applies the NSFW blur when enabled on the parent `AvatarRoot`. */
 const AvatarImage = React.forwardRef<
   React.ComponentRef<typeof AvatarPrimitive.Image>,
   AvatarImageProps
@@ -124,9 +134,11 @@ const AvatarImage = React.forwardRef<
 
 AvatarImage.displayName = "AvatarImage";
 
+/** Props for the {@link AvatarFallback} compound component. */
 export interface AvatarFallbackProps
   extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback> {}
 
+/** Renders fallback content (e.g. initials or an icon) when the avatar image has not loaded. */
 const AvatarFallback = React.forwardRef<
   React.ComponentRef<typeof AvatarPrimitive.Fallback>,
   AvatarFallbackProps
@@ -149,14 +161,24 @@ AvatarFallback.displayName = "AvatarFallback";
 export interface AvatarProps
   extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>,
     AvatarStyleProps {
-  /** URL of the avatar image */
+  /** URL of the avatar image. */
   src?: string;
-  /** Alt text for the avatar image */
+  /** Alt text for the avatar image. @default "Avatar" */
   alt?: string;
-  /** Fallback content (initials, icon, etc.) */
+  /** Fallback content rendered when the image has not loaded (e.g. initials or an icon). */
   fallback?: React.ReactNode;
 }
 
+/**
+ * Displays a user avatar with optional online indicator, platinum border, and
+ * NSFW blur. Pass `src` and `fallback` for the simple API, or compose your own
+ * layout with `AvatarRoot`, `AvatarImage`, and `AvatarFallback` as children.
+ *
+ * @example
+ * ```tsx
+ * <Avatar src="/photo.jpg" alt="Jane Doe" fallback="JD" size={48} />
+ * ```
+ */
 export const Avatar = React.forwardRef<
   React.ComponentRef<typeof AvatarPrimitive.Root>,
   AvatarProps

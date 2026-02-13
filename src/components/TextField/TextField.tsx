@@ -1,25 +1,26 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
+/** Text field height in pixels. */
 export type TextFieldSize = "48" | "40" | "32";
 
 export interface TextFieldProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> {
-  /** Label text displayed above the input */
+  /** Label text displayed above the input. Also used as the accessible name. */
   label?: string;
-  /** Helper text displayed below the input */
+  /** Helper text displayed below the input. Replaced by `errorMessage` when `error` is `true`. */
   helperText?: string;
-  /** Size variant of the text field */
+  /** Height of the text field in pixels. @default "48" */
   size?: TextFieldSize;
-  /** Error state of the text field */
+  /** Whether the text field is in an error state. @default false */
   error?: boolean;
-  /** Error message displayed below the input. Overrides helper text when error is true. */
+  /** Error message displayed below the input. Shown instead of `helperText` when `error` is `true`. */
   errorMessage?: string;
-  /** Icon displayed on the left side of the input */
+  /** Icon element displayed at the left side of the input. */
   leftIcon?: React.ReactNode;
-  /** Icon displayed on the right side of the input */
+  /** Icon element displayed at the right side of the input. */
   rightIcon?: React.ReactNode;
-  /** Whether the text field should take the full width of its container */
+  /** Whether the text field stretches to fill its container width. @default false */
   fullWidth?: boolean;
 }
 
@@ -129,6 +130,22 @@ function warnMissingAccessibleName(label?: string, ariaLabel?: string, ariaLabel
   }
 }
 
+/**
+ * A text input field with optional label, helper/error text, and icon slots.
+ *
+ * Provide at least one of `label`, `aria-label`, or `aria-labelledby` for
+ * accessibility — a console warning is emitted in development if none are set.
+ *
+ * @example
+ * ```tsx
+ * <TextField
+ *   label="Email"
+ *   placeholder="you@example.com"
+ *   error={!!emailError}
+ *   errorMessage={emailError}
+ * />
+ * ```
+ */
 export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
   (
     {

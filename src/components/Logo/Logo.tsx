@@ -46,18 +46,21 @@ const getLogoColors = (color: LogoColor, type: LogoType) => {
   };
 };
 
+/** Layout type of the logo. */
 export type LogoType = "full" | "icon" | "wordmark" | "portrait";
+/** Colour scheme of the logo. */
 export type LogoColor = "fullColour" | "decolour" | "whiteAlways" | "blackAlways";
 
 export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Logo layout type (matches Figma "Type" property) */
+  /** Layout type of the logo. @default "full" */
   type?: LogoType;
-  /** Logo color scheme (matches Figma "Colour" property) */
+  /** Colour scheme of the logo. @default "fullColour" */
   color?: LogoColor;
   /**
-   * Accessible label for the logo.
-   * Required when type="Icon" and used in interactive contexts (links, buttons).
-   * @example "Fanvue home" or "Go to homepage"
+   * Accessible label for the logo. Required when `type` is `"icon"` and
+   * the logo is used inside interactive contexts (links, buttons).
+   *
+   * @example "Fanvue home"
    */
   "aria-label"?: string;
 }
@@ -106,6 +109,15 @@ const WordmarkSVG = ({ className }: { className?: string }) => {
   );
 };
 
+/**
+ * The Fanvue brand logo. Supports full (icon + wordmark), icon-only, wordmark-only,
+ * and portrait (stacked) layouts with multiple colour schemes.
+ *
+ * @example
+ * ```tsx
+ * <Logo type="full" color="fullColour" />
+ * ```
+ */
 export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
   ({ className, type = "full", color = "fullColour", ...props }, ref) => {
     const colors = getLogoColors(color, type);

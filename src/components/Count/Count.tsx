@@ -2,6 +2,7 @@ import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
+/** Colour variant for the count badge. */
 export type CountVariant = "default" | "brand" | "pink" | "info" | "success" | "warning";
 
 function getDisplayValue(value: number, max: number): string {
@@ -9,16 +10,26 @@ function getDisplayValue(value: number, max: number): string {
 }
 
 export interface CountProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /** Visual style variant of the count */
+  /** Colour variant of the count badge. @default "default" */
   variant?: CountVariant;
-  /** The count value to display */
+  /** Numeric value to display. Renders nothing when `0` and no `children` are provided. @default 0 */
   value?: number;
-  /** Maximum value to display before showing overflow (e.g., "99+") */
+  /** Maximum value before showing overflow (e.g. `"99+"`). @default 99 */
   max?: number;
-  /** Render as a different element using Radix Slot */
+  /** Merge props onto a child element instead of rendering a `<span>`. @default false */
   asChild?: boolean;
 }
 
+/**
+ * A numeric badge typically used for notification counts. Automatically
+ * truncates values above `max` (e.g. `"99+"`). Renders nothing when the
+ * value is `0` and no children are provided.
+ *
+ * @example
+ * ```tsx
+ * <Count value={5} variant="brand" />
+ * ```
+ */
 export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
   (
     { className, variant = "default", value = 0, max = 99, asChild = false, children, ...props },

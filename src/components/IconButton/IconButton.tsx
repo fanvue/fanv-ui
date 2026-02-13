@@ -40,6 +40,7 @@ const sizeVariants = {
   72: "p-4",
 } as const;
 
+/** Visual style variant of the icon button. */
 export type IconButtonVariant =
   | "primary"
   | "secondary"
@@ -52,19 +53,30 @@ export type IconButtonVariant =
   | "stop"
   | "microphone";
 
+/** Icon button size in pixels. */
 export type IconButtonSize = "24" | "32" | "40" | "52" | "72";
 
 export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Visual style variant of the icon button */
+  /** Visual style variant of the icon button. @default "primary" */
   variant?: IconButtonVariant;
-  /** Size of the button */
+  /** Size of the button in pixels. @default "40" */
   size?: IconButtonSize;
-  /** Icon element to display */
+  /** Icon element to render inside the button. */
   icon: React.ReactNode;
-  /** Counter value to display */
+  /** When provided, displays a {@link Count} badge at the top-right corner (tertiary & navTray variants only). */
   counterValue?: number;
 }
 
+/**
+ * A circular button containing only an icon. Use when an action can be
+ * represented by an icon alone (e.g. close, send, mic). Pair with an
+ * `aria-label` for accessibility.
+ *
+ * @example
+ * ```tsx
+ * <IconButton icon={<CloseIcon />} aria-label="Close" variant="tertiary" />
+ * ```
+ */
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     { className, variant = "primary", size = "40", icon, counterValue, disabled = false, ...props },

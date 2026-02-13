@@ -4,34 +4,35 @@ import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
 
+/** Layout variant of the snackbar. */
 export type SnackbarVariant = "default" | "vipEarn" | "welcome";
 
 export interface SnackbarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
-  /** Snackbar layout variant */
+  /** Layout variant of the snackbar. @default "default" */
   variant?: SnackbarVariant;
-  /** Left icon element */
+  /** Icon element displayed at the leading edge (used by the `vipEarn` variant). */
   icon?: React.ReactNode;
-  /** Title text */
+  /** Title content. */
   title?: React.ReactNode;
-  /** Description text */
+  /** Descriptive body text. */
   description?: React.ReactNode;
-  /** Whether to show the actions section */
+  /** Whether to show primary/secondary action buttons. @default true */
   showActions?: boolean;
-  /** Primary CTA label (renders a default Button) */
+  /** Primary CTA label — renders a default {@link Button}. */
   primaryLabel?: string;
-  /** Primary CTA click handler (used with primaryLabel) */
+  /** Click handler for the primary CTA (used together with `primaryLabel`). */
   primaryOnClick?: () => void;
-  /** Custom element to render as primary CTA (overrides primaryLabel/primaryOnClick) */
+  /** Custom element rendered as the primary CTA. Overrides `primaryLabel` / `primaryOnClick`. */
   primarySlot?: React.ReactNode;
-  /** Secondary CTA label (renders a default Button) */
+  /** Secondary CTA label — renders a default {@link Button}. */
   secondaryLabel?: string;
-  /** Secondary CTA click handler (used with secondaryLabel) */
+  /** Click handler for the secondary CTA (used together with `secondaryLabel`). */
   secondaryOnClick?: () => void;
-  /** Custom element to render as secondary CTA (overrides secondaryLabel/secondaryOnClick) */
+  /** Custom element rendered as the secondary CTA. Overrides `secondaryLabel` / `secondaryOnClick`. */
   secondarySlot?: React.ReactNode;
-  /** Show close button */
+  /** Whether to show the close button. @default false */
   closable?: boolean;
-  /** Close button click handler */
+  /** Callback fired when the close button is clicked. */
   onClose?: () => void;
   /** Accessible label for the close button. @default "Close snackbar" */
   closeLabel?: string;
@@ -209,6 +210,24 @@ function DefaultContent({
   );
 }
 
+/**
+ * A prominent inline message with optional title, description, action buttons,
+ * and close control. Supports three layout variants: `default`, `vipEarn`, and
+ * `welcome`.
+ *
+ * @example
+ * ```tsx
+ * <Snackbar
+ *   variant="default"
+ *   primaryLabel="Undo"
+ *   primaryOnClick={undo}
+ *   closable
+ *   onClose={dismiss}
+ * >
+ *   Item deleted
+ * </Snackbar>
+ * ```
+ */
 export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
   (
     {
