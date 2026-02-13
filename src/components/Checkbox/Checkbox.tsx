@@ -97,8 +97,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             "data-[state=checked]:border-body-100 data-[state=checked]:bg-body-100 data-[state=checked]:text-body-300",
             // Indeterminate state
             "data-[state=indeterminate]:border-body-100 data-[state=indeterminate]:bg-body-100 data-[state=indeterminate]:text-body-300",
-            // Hover state
+            // Hover & active state
             "hover:ring-2 hover:ring-brand-green-500 group-hover:ring-2 group-hover:ring-brand-green-500",
+            "not-disabled:active:ring-2 not-disabled:active:ring-brand-green-500",
             // Focus state
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background-inverse-solid",
             // Disabled state

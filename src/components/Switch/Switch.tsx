@@ -38,6 +38,7 @@ export const Switch = React.forwardRef<
         "focus-visible:shadow-focus-ring focus-visible:outline-none",
         "data-[state=checked]:border-neutral-200 data-[state=checked]:bg-brand-green-500",
         "data-[state=unchecked]:bg-neutral-400",
+        "not-disabled:active:opacity-80",
         "disabled:cursor-not-allowed disabled:opacity-50",
         size === "default" && "h-6 w-10.5",
         size === "small" && "h-5 w-9",
