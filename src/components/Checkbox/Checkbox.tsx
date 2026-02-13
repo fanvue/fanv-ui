@@ -37,12 +37,15 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     const helperTextId = helperText ? `${id}-helper` : undefined;
     const hasLabel = Boolean(label || helperText);
 
-    if (process.env.NODE_ENV !== "production") {
-      if (!label && !props["aria-label"] && !props["aria-labelledby"]) {
-        console.warn(
-          "Checkbox: No accessible name provided. Add a `label`, `aria-label`, or `aria-labelledby` prop so screen readers can announce this checkbox.",
-        );
-      }
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !label &&
+      !props["aria-label"] &&
+      !props["aria-labelledby"]
+    ) {
+      console.warn(
+        "Checkbox: No accessible name provided. Add a `label`, `aria-label`, or `aria-labelledby` prop so screen readers can announce this checkbox.",
+      );
     }
 
     // Hidden input for form library compatibility (e.g. react-hook-form register)

@@ -43,8 +43,8 @@ describe("DatePicker", () => {
       expect(screen.queryByText("Apply")).not.toBeInTheDocument();
     });
 
-    it("renders two months when type is double", () => {
-      render(<DatePicker defaultMonth={DEFAULT_MONTH} type="double" />);
+    it("renders two months when variant is double", () => {
+      render(<DatePicker defaultMonth={DEFAULT_MONTH} variant="double" />);
       expect(screen.getByText("Feb 2026")).toBeInTheDocument();
       expect(screen.getByText("Mar 2026")).toBeInTheDocument();
     });
