@@ -1,0 +1,1014 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Migration Guide" />
+
+# Pandora Migration Guide
+
+> **Guide version:** 1.0 — covers migration to `@fanvue/ui` v1.x
+>
+> **Last updated:** 2026-02-13
+
+A reference for Pandora maintainers migrating from **Olympus** (`@pandora/olympus`) and **MUI** (`@mui/material`) to **@fanvue/ui** and **Tailwind CSS**.
+
+This is not a step-by-step tutorial. It is a catalog of things to watch out for: prop changes, naming differences, obsolete patterns, CSS specificity traps, and architectural shifts.
+
+---
+
+## Table of Contents
+
+- [Component Availability Matrix](#component-availability-matrix)
+  - [Buttons & Actions](#buttons--actions) · [Feedback & Notifications](#feedback--notifications) · [Data Display](#data-display) · [Data Input](#data-input) · [Navigation](#navigation) · [Layout & Containers](#layout--containers) · [Overlays & Modals](#overlays--modals) · [Disclosure & Transitions](#disclosure--transitions) · [Charts & Visualization](#charts--visualization)
+- [Part 1: Olympus to @fanvue/ui](#part-1-olympus-to-fanvueui)
+  - [Component Mapping](#component-mapping)
+  - [Prop Name Changes](#prop-name-changes) — [Button](#button) · [Alert](#alert) · [Avatar](#avatar) · [Tabs](#tabs) · [Switch](#switch-formerly-toggle) · [Checkbox](#checkbox) · [ProgressBar](#progressbar) · [TextField](#textfield) · [Tooltip](#tooltip) · [DatePicker](#datepicker) · [Logo](#logo)
+  - [Styling Approach](#styling-approach)
+  - [Typography Migration](#typography-migration)
+  - [High-Volume Components and Migration Notes](#high-volume-components-and-migration-notes)
+- [Part 2: MUI to Tailwind](#part-2-mui-to-tailwind)
+  - [CSS Specificity and Layer Ordering](#css-specificity-and-layer-ordering)
+  - [Layout Migration](#layout-migration)
+  - [Replacing the `sx` Prop](#replacing-the-sx-prop)
+  - [Replacing `styled()` Components](#replacing-styled-components)
+  - [Theme Access: `useTheme` to CSS Variables](#theme-access-usetheme-to-css-variables)
+  - [Dark Mode](#dark-mode)
+  - [Breakpoints](#breakpoints)
+  - [MUI CssBaseline Conflicts](#mui-cssbaseline-conflicts)
+  - [MUI Components Without @fanvue/ui Equivalents](#mui-components-without-fanvueui-equivalents)
+  - [Removing Emotion](#removing-emotion)
+- [Common Gotchas](#common-gotchas)
+- [Migration Priority Recommendation](#migration-priority-recommendation)
+
+---
+
+## Component Availability Matrix
+
+Use this table to determine which library provides each component. Where @fanvue/ui has an equivalent, **use that**. Where it doesn't, keep the existing implementation until a replacement is built.
+
+> **How to read:** ✅ = available, ❌ = not available. Always prefer `@fanvue/ui` when an equivalent exists.
+
+### Buttons & Actions
+
+| Use Case | @fanvue/ui | Olympus | MUI |
+|---|:---:|:---:|:---:|
+| Button | ✅ `Button` | ✅ | ✅ |
+| Icon-only button | ✅ `IconButton` | ✅ | ✅ |
+| Link / text button | ✅ `Button variant="link"` | ✅ | ✅ |
+| Floating action button | ❌ | ❌ | ✅ `Fab` |
+
+### Feedback & Notifications
+
+| Use Case | @fanvue/ui | Olympus | MUI |
+|---|:---:|:---:|:---:|
+| Alert / inline message | ✅ `Alert` | ✅ | ✅ |
+| Toast (timed popup) | ✅ `Toast` / `ToastProvider` | ✅ (notistack) | ❌ |
+| Snackbar | ✅ `Snackbar` | ✅ | ❌ |
+| Banner | ❌ | ✅ | ❌ |
+| Progress bar | ✅ `ProgressBar` | ✅ | ✅ `LinearProgress` |
+| Circular spinner | ✅ `SpinnerIcon` | ✅ `Loader` | ✅ `CircularProgress` |
+| Skeleton | ❌ | ❌ | ✅ `Skeleton` |
+
+### Data Display
+
+| Use Case | @fanvue/ui | Olympus | MUI |
+|---|:---:|:---:|:---:|
+| Avatar | ✅ `Avatar` (compound) | ✅ | ✅ |
+| Badge (status label) | ✅ `Badge` | ✅ | ✅ |
+| Chip (tag / filter) | ✅ `Chip` | ✅ | ✅ |
+| Pill | ✅ `Pill` | ✅ | ❌ |
+| Count | ✅ `Count` | ❌ | ❌ |
+| Divider | ✅ `Divider` | ✅ | ✅ |
+| Tooltip | ✅ `Tooltip` (compound) | ✅ | ✅ |
+| Typography | ✅ Tailwind `typography-*` classes | ✅ | ✅ |
+| Logo | ✅ `Logo` | ❌ | ❌ |
+| Table | ❌ | ✅ | ✅ |
+| List | ❌ | ❌ | ✅ `List` / `ListItem` |
+| Card | ✅ Tailwind `rounded-* shadow-* p-*` | ❌ | ✅ `Card` / `CardContent` |
+
+### Data Input
+
+| Use Case | @fanvue/ui | Olympus | MUI |
+|---|:---:|:---:|:---:|
+| Checkbox | ✅ `Checkbox` | ✅ | ✅ |
+| Radio / radio group | ✅ `Radio` + `RadioGroup` | ✅ | ✅ |
+| Switch / toggle | ✅ `Switch` + `SwitchField` | ✅ `Toggle` | ✅ `Switch` |
+| Switch toggle (multi-option) | ✅ `SwitchToggle` | ❌ | ❌ |
+| Slider | ✅ `Slider` | ✅ | ✅ |
+| Text field | ✅ `TextField` | ✅ `TextField` | ✅ |
+| Password field | ❌ | ✅ `PasswordField` | ❌ |
+| Text area | ❌ | ✅ `TextArea` | ✅ |
+| Select / dropdown | ❌ | ✅ `Select` | ✅ |
+| Autocomplete | ❌ | ❌ | ✅ `Autocomplete` |
+| Date picker | ✅ `DatePicker` | ❌ | ✅ `DatePicker` (MUI X) |
+| Date range picker | ❌ | ❌ | ✅ `DateRangePicker` (MUI X Pro) |
+| Search field | ❌ | ✅ `SearchField` | ❌ |
+| Form control / label | ✅ Built into components (`TextField`, `Checkbox`, `SwitchField`) | ❌ | ✅ `FormControl` / `FormControlLabel` |
+| Input adornment | ✅ `TextField` `leftIcon` / `rightIcon` | ❌ | ✅ `InputAdornment` |
+
+### Navigation
+
+| Use Case | @fanvue/ui | Olympus | MUI |
+|---|:---:|:---:|:---:|
+| Tabs | ✅ `Tabs` (compound) | ✅ | ✅ |
+| Pagination | ✅ `Pagination` | ❌ | ✅ |
+| Bottom navigation | ❌ | ❌ | ✅ `BottomNavigation` |
+| App bar / header | ✅ HTML `<header>` + Tailwind | ❌ | ✅ `AppBar` |
+| Drawer / sidebar | ❌ | ❌ | ✅ `Drawer` |
+| Link | ❌ | ❌ | ✅ `Link` |
+| Stepper | ❌ | ❌ | ✅ `MobileStepper` |
+| Menu / dropdown menu | ❌ | ✅ `DropdownMenu` | ✅ `Menu` / `MenuItem` |
+| Breadcrumbs | ❌ | ❌ | ✅ `Breadcrumbs` |
+
+### Layout & Containers
+
+| Use Case | @fanvue/ui | Olympus | MUI |
+|---|:---:|:---:|:---:|
+| Flex container | ✅ Tailwind `flex` | ✅ `Flex` / `CenterFlex` / etc. | ✅ `Box` |
+| Grid layout | ✅ Tailwind `grid` | ❌ | ✅ `Grid` |
+| Stack | ✅ Tailwind `flex flex-col gap-*` | ❌ | ✅ `Stack` |
+| Container (max-width) | ✅ Tailwind `mx-auto max-w-*` | ❌ | ✅ `Container` |
+| Paper (elevated surface) | ✅ Tailwind `rounded-* shadow-*` | ❌ | ✅ `Paper` |
+| Box (generic wrapper) | ✅ Tailwind `<div>` | ✅ (via Boxes) | ✅ `Box` |
+
+### Overlays & Modals
+
+| Use Case | @fanvue/ui | Olympus | MUI |
+|---|:---:|:---:|:---:|
+| Dialog / modal | ❌ | ❌ | ✅ `Dialog` |
+| Popover | ❌ | ❌ | ✅ `Popover` / `Popper` |
+| Backdrop | ✅ Tailwind `fixed inset-0 bg-black/50` | ❌ | ✅ `Backdrop` |
+| Click away listener | ❌ | ❌ | ✅ `ClickAwayListener` |
+
+### Disclosure & Transitions
+
+| Use Case | @fanvue/ui | Olympus | MUI |
+|---|:---:|:---:|:---:|
+| Accordion | ❌ | ✅ | ✅ |
+| Collapse (animated show/hide) | ❌ | ❌ | ✅ `Collapse` |
+| Fade | ✅ Tailwind `transition-opacity` | ❌ | ✅ `Fade` |
+| Zoom | ✅ Tailwind `transition-transform scale-*` | ❌ | ✅ `Zoom` |
+
+### Charts & Visualization
+
+| Use Case | @fanvue/ui | Olympus | MUI |
+|---|:---:|:---:|:---:|
+| Line chart | ❌ | ❌ | ✅ `LineChart` (MUI X) |
+| Bar chart | ❌ | ❌ | ✅ `BarChart` (MUI X) |
+| Pie chart | ❌ | ❌ | ✅ `PieChart` (MUI X) |
+
+### Availability Summary
+
+| Status | Count |
+|---|---|
+| ✅ Available in @fanvue/ui (or Tailwind equivalent) | 39 |
+| ❌ Not yet available — needs development or stays on MUI | 25 |
+
+---
+
+## Part 1: Olympus to @fanvue/ui
+
+This section covers migrating from Olympus (`@pandora/olympus`) components to their `@fanvue/ui` equivalents — including renamed props, restructured APIs, and new compound component patterns.
+
+### Component Mapping
+
+The following table maps every Olympus component to its @fanvue/ui replacement (or notes where no replacement exists yet).
+
+| Olympus (`@pandora/olympus`) | @fanvue/ui | Notes |
+|---|---|---|
+| `Button` | `Button` | Different variant names (see [Prop Name Changes](#prop-name-changes)) |
+| `Alert` | `Alert` | Severity → variant terminology change |
+| `Typography` | N/A (Tailwind utilities) | No component. Use `typography-*` CSS utility classes instead |
+| `Chip` | `Chip` | Different variant/size naming |
+| `Checkbox` | `Checkbox` | Simplified API, no `FormControlLabel` wrapper needed |
+| `Radio` / `RadioButton` | `Radio` + `RadioGroup` | Split into separate components |
+| `Divider` | `Divider` | Now supports `label` prop for text dividers |
+| `Avatar` | `Avatar` | Compound component API (`AvatarRoot` + `AvatarImage` + `AvatarFallback`) |
+| `Tabs` / `Tab` | `Tabs` + `TabsList` + `TabsTrigger` + `TabsContent` | Fully decomposed compound component |
+| `Toggle` | `Switch` + `SwitchField` | Renamed. `SwitchField` adds label/description |
+| `Pill` | `Pill` | Different variant names |
+| `Badge` | `Badge` | Different variant names and structure |
+| `Tooltip` | `Tooltip` (compound) | Radix-based: `TooltipProvider` + `Tooltip` + `TooltipTrigger` + `TooltipContent` |
+| `Slider` | `Slider` | Simplified API |
+| `Snackbar` | `Snackbar` | Different structure |
+| `Toast` | `Toast` + `ToastProvider` + `ToastViewport` | Radix-based, replaces notistack |
+| `IconButton` | `IconButton` | Different size/variant naming |
+| `InputFields` / `TextField` | `TextField` | Different API (see [Prop Name Changes](#prop-name-changes)) |
+| `Accordion` | N/A | Not yet available in @fanvue/ui |
+| `Loader` | N/A | Not yet available. Use `SpinnerIcon` or Tailwind `animate-spin` |
+| `DropdownMenu` | N/A | Not yet available in @fanvue/ui |
+| `Banner` | N/A | Not yet available in @fanvue/ui |
+| `Table` | N/A | Not yet available in @fanvue/ui |
+| `Boxes` (Flex, CenterFlex, etc.) | N/A (Tailwind utilities) | Replace with `<div className="flex ...">` |
+| `ProgressBar` | `ProgressBar` | Different API (see above) |
+
+### Prop Name Changes
+
+Each component below details the specific prop renames, value changes, and API differences between Olympus and @fanvue/ui.
+
+#### Button
+
+| Olympus Prop | @fanvue/ui Prop | Notes |
+|---|---|---|
+| `$variant="primary"` | `variant="primary"` | No transient `$` prefix |
+| `$variant="secondary"` | `variant="secondary"` | |
+| `$variant="tertiary"` | `variant="tertiary"` | |
+| `$variant="tertiaryDestructive"` | `variant="tertiaryDestructive"` | Same name |
+| `$variant="link"` | `variant="link"` | |
+| `$variant="brand"` | `variant="brand"` | |
+| `$variant="destructive"` | `variant="destructive"` | |
+| `$variant="white"` | `variant="white"` | |
+| `$variant="text"` | `variant="text"` | Transparent background with underline on hover |
+| `$variant="shimmer"` | N/A | Not available in @fanvue/ui |
+| `$size` (48/40/32/24) | `size="48"/"40"/"32"/"24"` | String pixel values |
+| `loading` | `loading` | Same |
+| `startIcon` / `endIcon` | `leftIcon` / `rightIcon` | Renamed |
+| `sx={{...}}` | `className="..."` | Tailwind classes instead of sx |
+
+---
+
+#### Alert
+
+| Olympus | @fanvue/ui | Notes |
+|---|---|---|
+| `severity="neutral"` | `variant="info"` | No `"default"` variant; use `"info"` |
+| `severity="info"` | `variant="info"` | |
+| `severity="success"` | `variant="success"` | |
+| `severity="warning"` | `variant="warning"` | |
+| `severity="error"` | `variant="error"` | |
+| `onClose` | `onClose` | Same |
+| N/A | `closeLabel` | New — accessible label for the close button (i18n) |
+
+---
+
+#### Avatar
+
+Olympus Avatar is a single monolithic component. @fanvue/ui provides both a **convenience API** and a **compound component** pattern:
+
+```tsx
+// Olympus
+<Avatar userData={user} dimension={40} showOnlineStatus border />
+
+// @fanvue/ui — convenience API (most common)
+<Avatar
+  src={user.avatarUri}
+  alt={user.displayName}
+  fallback={getInitials(user.displayName)}
+  size={48}
+  onlineIndicator
+/>
+
+// @fanvue/ui — compound component (custom layouts)
+<AvatarRoot size={48} onlineIndicator>
+  <AvatarImage src={user.avatarUri} alt={user.displayName} />
+  <AvatarFallback>{getInitials(user.displayName)}</AvatarFallback>
+</AvatarRoot>
+```
+
+Key differences:
+- No `userData` prop; pass `src`/`alt`/`fallback` directly
+- `dimension` (pixels) → `size` (pixel number: `16` / `24` / `32` / `40` / `48` / `64` / `88` / `148`)
+- `showOnlineStatus` → `onlineIndicator`
+- Platinum border: `platinumShow` prop
+- NSFW blur: `NSFWShow` prop
+- Fullscreen view and top spender badge are not built in; compose them yourself
+- Fallback content is explicit via the `fallback` prop or `AvatarFallback` sub-component
+
+---
+
+#### Tabs
+
+Olympus wraps MUI Tabs. @fanvue/ui uses a Radix-based compound component:
+
+```tsx
+// Olympus
+<Tabs value={tab} onChange={handleChange}>
+  <Tab label="Tab 1" value="one" />
+  <Tab label="Tab 2" value="two" />
+</Tabs>
+
+// @fanvue/ui
+<Tabs defaultValue="one">
+  <TabsList>
+    <TabsTrigger value="one">Tab 1</TabsTrigger>
+    <TabsTrigger value="two">Tab 2</TabsTrigger>
+  </TabsList>
+  <TabsContent value="one">Content 1</TabsContent>
+  <TabsContent value="two">Content 2</TabsContent>
+</Tabs>
+```
+
+Key differences:
+- Controlled: `value` + `onChange` → `value` + `onValueChange`
+- Uncontrolled: use `defaultValue`
+- Content is co-located inside the `Tabs` component, not external
+
+---
+
+#### Switch (formerly Toggle)
+
+```tsx
+// Olympus
+<Toggle checked={value} onChange={handler} label="Enable" helperText="Description" />
+
+// @fanvue/ui
+<SwitchField
+  label="Enable"
+  helperText="Description"
+  checked={value}
+  onCheckedChange={handler}
+/>
+```
+
+- `onChange` → `onCheckedChange` (receives `boolean`, not `event`)
+- `SwitchField` renders the `Switch` internally — do not nest a `<Switch />` inside it
+- Props like `checked`, `onCheckedChange`, `disabled` go directly on `SwitchField`
+- Optional `infoText` prop adds an info tooltip icon next to the label
+- `orientation` prop controls switch position (`"right"` or `"left"`)
+- For standalone use without label: just use `<Switch />`
+
+---
+
+#### Checkbox
+
+```tsx
+// Olympus (wraps MUI FormControlLabel + Checkbox)
+<Checkbox label="Accept terms" checked={v} onChange={handler} />
+
+// @fanvue/ui
+<Checkbox checked={v} onCheckedChange={handler} label="Accept terms" />
+```
+
+- `onChange(event)` → `onCheckedChange(checked: boolean | "indeterminate")`
+- Supports `"indeterminate"` state natively
+
+---
+
+#### ProgressBar
+
+| Olympus | @fanvue/ui | Notes |
+|---|---|---|
+| Uses MUI Box with manual width calculations | Native `progressbar` role | Accessible by default |
+| `value` as raw number | `value` (0-100) | Same |
+| Manual color logic | `variant="default"` / `"generic"` | Color logic built in |
+| No size variants | `size="default"` / `"small"` | New |
+| N/A | `title`, `showCompletion`, `stepsLabel`, `helperLeft`, `helperRight` | Rich layout options |
+
+---
+
+#### TextField
+
+| Olympus | @fanvue/ui | Notes |
+|---|---|---|
+| `label` | `label` | Same |
+| `helperText` | `helperText` | Same |
+| `error` (boolean) | `error` | Same |
+| `errorMessage` | `errorMessage` | Same |
+| `startIcon` / `endIcon` | `leftIcon` / `rightIcon` | Renamed |
+| `size` (number or MUI size) | `size="48"/"40"/"32"` | String pixel values |
+| `fullWidth` | `fullWidth` | Same |
+| `sx={{...}}` | `className="..."` | Tailwind classes instead of sx |
+
+```tsx
+// Olympus
+<TextField
+  label="Email"
+  helperText="We'll never share your email"
+  error={!!emailError}
+  errorMessage={emailError}
+  startIcon={<MailIcon />}
+/>
+
+// @fanvue/ui
+<TextField
+  label="Email"
+  helperText="We'll never share your email"
+  error={!!emailError}
+  errorMessage={emailError}
+  leftIcon={<MailIcon />}
+/>
+```
+
+---
+
+#### Tooltip
+
+Olympus wraps MUI Tooltip. @fanvue/ui uses a Radix-based compound component:
+
+```tsx
+// Olympus
+<Tooltip title="Helpful info">
+  <Button>Hover me</Button>
+</Tooltip>
+
+// @fanvue/ui
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button>Hover me</Button>
+    </TooltipTrigger>
+    <TooltipContent>Helpful info</TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
+
+Key differences:
+- Content is passed via `TooltipContent` children, not a `title` prop
+- `TooltipProvider` must wrap your app (or the relevant tree) for delay/skip behaviour
+- `TooltipContent` supports a `showArrow` prop (default: `true`)
+- Placement is controlled via `side` prop on `TooltipContent` (`"top"` / `"right"` / `"bottom"` / `"left"`)
+
+---
+
+#### DatePicker
+
+The `type` prop was renamed to `variant` for consistency across the library:
+
+```tsx
+// Old
+<DatePicker type="double" />
+
+// Current
+<DatePicker variant="double" />
+```
+
+Variants: `"single"` (default) | `"double"`
+
+---
+
+#### Logo
+
+The `type` and `color` props use camelCase string values:
+
+| Prop | Values |
+|---|---|
+| `variant` | `"full"` (default) / `"icon"` / `"wordmark"` / `"portrait"` |
+| `color` | `"fullColour"` (default) / `"decolour"` / `"whiteAlways"` / `"blackAlways"` |
+
+Note: The `type` prop was renamed to `variant` for consistency.
+
+### Styling Approach
+
+> The fundamental shift: **CSS-in-JS → utility-first CSS**.
+
+| Olympus / MUI | @fanvue/ui / Tailwind |
+|---|---|
+| `sx={{ padding: 2, backgroundColor: 'red' }}` | `className="p-4 bg-red-500"` |
+| `styled(Component)({ ... })` | `className={cn("base-classes", className)}` |
+| `theme.spacing(2)` → `16px` | `p-4` (Tailwind `4` = 16px) |
+| `theme.palette.brand.green[500]` | `text-brand-green-500` or `bg-brand-green-500` |
+| `useTheme()` hook | CSS variables: `var(--color-brand-green-500)` |
+| `shouldForwardProp` / transient `$props` | Not needed; Tailwind classes don't leak to DOM |
+| `sxMerge()` utility | `cn()` utility (re-exported from @fanvue/ui) |
+
+The `cn()` utility from `@fanvue/ui` combines `clsx` + `tailwind-merge` for conditional and conflict-free class composition:
+
+```tsx
+import { cn } from "@fanvue/ui";
+
+cn("p-4 text-body-100", isActive && "text-brand-green-500", className);
+```
+
+### Typography Migration
+
+Olympus uses a `<Typography>` component with MUI variants. @fanvue/ui provides **Tailwind utility classes** instead.
+
+| Olympus `<Typography variant="...">` | @fanvue/ui CSS Class | Size |
+|---|---|---|
+| `variant="hero"` | `typography-hero` | 64px / 800 |
+| `variant="heading1"` | `typography-heading-1` | 48px / 700 |
+| `variant="heading2"` | `typography-heading-2` | 40px / 700 |
+| `variant="heading32"` | `typography-heading-32` | 32px / 700 |
+| `variant="heading3"` | `typography-heading-3` | 24px / 700 |
+| `variant="heading4"` | `typography-heading-4` | 20px / 700 |
+| `variant="subtitle1"` | `typography-subtitle` | 18px / 600 |
+| `variant="body1SemiBold"` | `typography-body-1-semibold` | 16px / 600 |
+| `variant="body1Medium"` | `typography-body-1-medium` | 16px / 500 |
+| `variant="body1Regular"` | `typography-body-1-regular` | 16px / 400 |
+| `variant="body2SemiBold"` | `typography-body-2-semibold` | 14px / 600 |
+| `variant="body2Medium"` | `typography-body-2-medium` | 14px / 500 |
+| `variant="body2Regular"` | `typography-body-2-regular` | 14px / 400 |
+| `variant="buttonLarge"` | `typography-button-large` | 18px / 600 |
+| `variant="buttonSmall"` | `typography-button-small` | 16px / 600 |
+| `variant="linkLarge"` | `typography-link-large` | 16px / 500 / underline |
+| `variant="linkSmall"` | `typography-link-small` | 14px / 500 / underline |
+| `variant="linkXSmall"` | `typography-link-x-small` | 12px / 500 / underline |
+| `variant="captionSemiBold"` | `typography-caption-semibold` | 12px / 600 |
+| `variant="captionRegular"` | `typography-caption-regular` | 12px / 400 |
+| `variant="badge"` | `typography-badge` | 9px / 600 / uppercase |
+
+```tsx
+// Olympus
+<Typography variant="heading3">Title</Typography>
+<Typography variant="body1Regular">Body text</Typography>
+
+// @fanvue/ui + Tailwind
+<h3 className="typography-heading-3">Title</h3>
+<p className="typography-body-1-regular">Body text</p>
+```
+
+> **Watch out for:**
+> - Olympus Typography renders as a `<span>` by default (unless `component` prop is set). Choose your own semantic HTML element.
+> - The `color` prop on Typography (`<Typography color="body.200">`) becomes a Tailwind color class: `text-body-200`.
+> - Naming convention changes from camelCase (`body1Regular`) to kebab-case (`body-1-regular`).
+> - These are `@utility` rules, so Tailwind modifiers work: `md:typography-heading-3`, `dark:typography-body-1-regular`.
+
+### High-Volume Components and Migration Notes
+
+These Olympus / MUI components are heavily used in Pandora. Some now have @fanvue/ui equivalents; others need alternative approaches:
+
+| Component | Imports in Eden | @fanvue/ui |
+|---|---|:---:|
+| **Typography** | 447 | ✅ Tailwind `typography-*` classes |
+| **Boxes / Flex** | 270 | ✅ Tailwind `flex` / `grid` |
+| **InputFields / TextField** | 87 | ✅ (`TextField` only — `PasswordField`, `TextArea`, `Select` are ❌) |
+| **Skeleton** | 73 | ❌ |
+| **Loader** | 68 | ✅ (`SpinnerIcon`) |
+| **Dialog / Modal** | 46 | ❌ |
+| **Avatar** | 37 | ✅ |
+| **Chip** | 26 | ✅ |
+| **Alert** | 21 | ✅ |
+| **Tooltip** | 10 | ✅ |
+| **Accordion** | 3 | ❌ |
+| **DropdownMenu / Menu** | — | ❌ |
+| **Table** | — | ❌ |
+| **MUI X Charts** | — | ❌ |
+| **MUI X DateRangePicker** | — | ❌ |
+
+---
+
+## Part 2: MUI to Tailwind
+
+This section covers the broader migration from MUI's CSS-in-JS approach to Tailwind CSS utility classes — including CSS layer configuration, `sx` prop replacement, `styled()` migration, theme access, and dark mode.
+
+### CSS Specificity and Layer Ordering
+
+> **This is the single most important thing to get right during coexistence.**
+
+MUI injects styles via Emotion at runtime. Tailwind generates styles at build time. When both exist on the same page, specificity conflicts are inevitable.
+
+**The solution is CSS cascade layers.** You will need to create a CSS file (e.g., `eden/src/styles/fanvue-ui.css`) that declares layer priority and imports the @fanvue/ui theme:
+
+```css
+/* Declare layer order: mui (lowest priority) → Tailwind layers (highest priority) */
+@layer theme, base, mui, components, utilities;
+
+@import "@fanvue/ui/styles/theme.css";
+@source "../../node_modules/@fanvue/ui/dist";
+
+/*
+ * The Olympus theme applies `padding-left/right: env(safe-area-inset-*)`
+ * to `body *` which collides with Tailwind padding utilities. Inside scoped
+ * @fanvue/ui regions we revert those properties back to the previous layer
+ * so the Tailwind utilities can take effect without touching the global rule.
+ */
+@layer utilities {
+  [data-fanvue-ui],
+  [data-fanvue-ui] * {
+    padding-left: revert-layer;
+    padding-right: revert-layer;
+  }
+}
+```
+
+This declares layer priority from lowest to highest:
+1. `theme` — Tailwind theme tokens
+2. `base` — Tailwind base/reset
+3. `mui` — MUI styles (lowest priority of "real" styles)
+4. `components` — Tailwind component classes
+5. `utilities` — Tailwind utility classes (highest priority, always wins)
+
+**Prerequisites — you will need to:**
+1. Install `@fanvue/ui`, `tailwindcss`, and `@tailwindcss/postcss` in Eden
+2. Create a `postcss.config.mjs` with the `@tailwindcss/postcss` plugin
+3. Create the CSS file above and import it in `_app.tsx`
+4. Wrap Emotion's cache insertion so MUI styles are emitted inside `@layer mui` (prevents MUI from overriding Tailwind utilities)
+
+**Things to watch for:**
+
+> 1. **MUI's CssBaseline applies global resets** (box-sizing, margin resets, font smoothing). These will conflict with Tailwind's Preflight. During coexistence, keep CssBaseline but be aware it sets `body *` padding via `env(safe-area-inset-*)`. Use the `[data-fanvue-ui]` scoping shown above to revert this for migrated regions.
+>
+> 2. **`!important` in MUI styled components** will override Tailwind utilities regardless of layer order. There are ~30 `!important` declarations in Eden, mostly for ad pixel hiding. Audit these during migration.
+>
+> 3. **Emotion's `<style>` injection order** can vary at runtime. If you see Tailwind classes being overridden unexpectedly, check whether Emotion styles are being injected after Tailwind's stylesheet.
+>
+> 4. **MUI component overrides in the theme** (`components.MuiButton.styleOverrides`) have high specificity because they use nested selectors like `.MuiButton-root`. These will win over Tailwind utilities applied to the same element. When migrating a component from MUI to @fanvue/ui, make sure to remove the corresponding theme override.
+
+### Layout Migration
+
+Olympus provides layout primitives (`Flex`, `CenterFlex`, `ColumnFlex`, `SpaceBetweenFlex`, `RelativeBox`, `AbsoluteBox`) and Eden uses `Box` directly (518 imports). These all become Tailwind.
+
+```tsx
+// Olympus
+import { Flex, CenterFlex, ColumnFlex, SpaceBetweenFlex } from "@pandora/olympus/Boxes";
+
+<Flex>...</Flex>
+<CenterFlex>...</CenterFlex>
+<ColumnFlex>...</ColumnFlex>
+<SpaceBetweenFlex>...</SpaceBetweenFlex>
+<RelativeBox>...</RelativeBox>
+
+// Tailwind
+<div className="flex">...</div>
+<div className="flex items-center justify-center">...</div>
+<div className="flex flex-col">...</div>
+<div className="flex justify-between">...</div>
+<div className="relative">...</div>
+```
+
+**MUI Grid** (14 imports) → Tailwind grid or flex:
+
+```tsx
+// MUI Grid
+<Grid container spacing={2}>
+  <Grid item xs={12} sm={6}><Card /></Grid>
+  <Grid item xs={12} sm={6}><Card /></Grid>
+</Grid>
+
+// Tailwind
+<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+  <Card />
+  <Card />
+</div>
+```
+
+**MUI Stack** (4 imports) → `flex flex-col gap-*`:
+
+```tsx
+// MUI
+<Stack spacing={2} direction="row">
+
+// Tailwind
+<div className="flex flex-row gap-4">
+```
+
+**MUI Box with `sx`** → `<div>` with Tailwind classes. The `component` prop on Box (`<Box component="section">`) becomes the actual HTML element (`<section className="...">`).
+
+### Replacing the `sx` Prop
+
+> **Scale:** There are **2,731 `sx` prop occurrences** in Eden. This is the bulk of the migration work.
+
+Below are the most common `sx` patterns and their Tailwind equivalents:
+
+```tsx
+// Spacing
+sx={{ p: 2 }}           → className="p-4"       // MUI spacing(2) = 16px = Tailwind p-4
+sx={{ px: 1, py: 2 }}   → className="px-2 py-4"
+sx={{ m: 'auto' }}       → className="m-auto"
+sx={{ mb: 2 }}           → className="mb-4"
+sx={{ gap: 1 }}          → className="gap-2"
+
+// Colors (theme.palette → CSS variables)
+sx={{ color: 'body.100' }}                → className="text-body-100"
+sx={{ backgroundColor: 'background.200' }} → className="bg-background-200"
+sx={{ borderColor: 'neutral.200' }}       → className="border-neutral-200"
+
+// Display & Layout
+sx={{ display: 'flex' }}              → className="flex"
+sx={{ flexDirection: 'column' }}      → className="flex-col"
+sx={{ alignItems: 'center' }}         → className="items-center"
+sx={{ justifyContent: 'space-between' }} → className="justify-between"
+sx={{ position: 'relative' }}         → className="relative"
+sx={{ position: 'absolute', top: 0 }} → className="absolute top-0"
+sx={{ overflow: 'hidden' }}           → className="overflow-hidden"
+
+// Sizing
+sx={{ width: '100%' }}    → className="w-full"
+sx={{ maxWidth: 640 }}    → className="max-w-[640px]"
+sx={{ height: 48 }}       → className="h-12"
+
+// Borders
+sx={{ borderRadius: 2 }}  → className="rounded-lg"   // 2 × theme.shape.borderRadius (default 4px) = 8px
+sx={{ borderRadius: '50%' }} → className="rounded-full"
+sx={{ border: 1 }}        → className="border"
+
+// Responsive
+sx={{ display: { xs: 'none', sm: 'block' } }}
+→ className="hidden sm:block"
+```
+
+> **MUI spacing multiplier reminder:** MUI's `spacing(n)` = `n × 8px`. Tailwind's spacing scale is `n × 4px`. So MUI `spacing(2)` (16px) = Tailwind `4` (as in `p-4`, `m-4`, `gap-4`). Always double the MUI value to get the Tailwind value.
+
+| MUI spacing | Pixels | Tailwind class |
+|---|---|---|
+| `0.5` | 4px | `1` |
+| `1` | 8px | `2` |
+| `1.5` | 12px | `3` |
+| `2` | 16px | `4` |
+| `3` | 24px | `6` |
+| `4` | 32px | `8` |
+
+### Replacing `styled()` Components
+
+> **Scale:** There are **127 files** using `styled()` from MUI/Emotion.
+
+Each `styled()` call needs to become one of:
+
+1. **Tailwind classes** applied directly on the element
+2. **A wrapper component** using `cn()` for class composition
+
+```tsx
+// Before: Emotion styled
+const StyledCard = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background[200],
+  borderRadius: theme.spacing(1),
+  padding: theme.spacing(2),
+  boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+  '&:hover': {
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+  },
+}));
+
+<StyledCard>Content</StyledCard>
+
+// After: Tailwind
+<div className="rounded-lg bg-background-200 p-4 shadow-sm hover:shadow-md">
+  Content
+</div>
+```
+
+For styled components with dynamic props:
+
+```tsx
+// Before
+const StyledBadge = styled(Box, { shouldForwardProp })<{ $active: boolean }>(
+  ({ theme, $active }) => ({
+    backgroundColor: $active ? theme.palette.brand.green[500] : theme.palette.neutral[100],
+  })
+);
+
+// After
+function Badge({ active, className, ...props }: { active: boolean } & HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn(
+        active ? "bg-brand-green-500" : "bg-neutral-100",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+```
+
+### Theme Access: `useTheme` to CSS Variables
+
+> **Scale:** There are **98+ `useTheme` calls** and **1,829 `theme.palette` references** in Eden.
+
+These need to migrate to CSS custom properties.
+
+@fanvue/ui exposes all design tokens as CSS variables on `:root` (light) and `.dark` (dark):
+
+```tsx
+// Before: MUI useTheme
+const theme = useTheme();
+const color = theme.palette.brand.green[500]; // '#49f264ff'
+const bgColor = theme.palette.background[200]; // '#ffffffff'
+
+// After: CSS variables (in Tailwind classes)
+className="text-brand-green-500 bg-background-200"
+
+// After: CSS variables (in inline styles, if truly dynamic)
+style={{ color: 'var(--color-brand-green-500)' }}
+```
+
+**Color token mapping:**
+
+| MUI `theme.palette.*` | CSS Variable | Tailwind Class |
+|---|---|---|
+| `palette.primary[500]` | `--color-primary-500` | `text-primary-500` / `bg-primary-500` |
+| `palette.body[100]` | `--color-body-100` | `text-body-100` |
+| `palette.brand.green[500]` | `--color-brand-green-500` | `text-brand-green-500` / `bg-brand-green-500` |
+| `palette.brand.pink[500]` | `--color-brand-pink-500` | `text-brand-pink-500` |
+| `palette.brand.purple[500]` | `--color-brand-purple-500` | `text-brand-purple-500` |
+| `palette.background[200]` | `--color-background-200` | `bg-background-200` |
+| `palette.neutral[200]` | `--color-neutral-200` | `text-neutral-200` / `bg-neutral-200` |
+| `palette.success[500]` | `--color-success-500` | `text-success-500` |
+| `palette.warning[500]` | `--color-warning-500` | `text-warning-500` |
+| `palette.error[500]` | `--color-error-500` | `text-error-500` |
+| `palette.disabled[400]` | `--color-disabled-400` | `text-disabled-400` |
+| `palette.hover[100]` | `--color-hover-100` | `text-hover-100` |
+
+**For truly dynamic color needs** (e.g., computing colors in JS), use `getComputedStyle(document.documentElement).getPropertyValue('--color-brand-green-500')` — but prefer Tailwind classes whenever possible.
+
+### Dark Mode
+
+| | How it works |
+|---|---|
+| **Olympus** | Dark mode is controlled by MUI's `ThemeProvider`. The `getTheme(prefersDarkMode)` function returns a theme with swapped palette values. Components read `theme.palette.*` and automatically get the right colors. |
+| **@fanvue/ui** | Dark mode uses the `.dark` CSS class on `<html>`. All CSS variables are reassigned under `.dark { ... }` in `theme.css`. Tailwind's `dark:` modifier is configured via `@variant dark (&:where(.dark, .dark *))`. |
+
+> **Required:** You will need to add a dark mode class sync to `StyleProviders.tsx`. The MUI ThemeProvider controls dark mode via JS, but @fanvue/ui reads the `.dark` CSS class on `<html>`. Add this effect to `StyleProviders`:
+
+```tsx
+// Add this inside the StyleProviders component
+useEffect(() => {
+  document.documentElement.classList.toggle("dark", darkMode);
+}, [darkMode]);
+```
+
+This ensures both systems stay in sync: MUI reads from the theme object, @fanvue/ui reads from the CSS class.
+
+> **Watch out for:**
+> - `theme.palette.mode === "dark"` checks in code → replace with `document.documentElement.classList.contains("dark")` or a React context/hook
+> - `theme.isDarkMode` / `theme.isLightMode` custom properties → same replacement
+> - Any `useColorPalette({ oppositeMode: true })` calls need manual handling with CSS variables
+
+### Breakpoints
+
+Olympus uses non-standard MUI breakpoints:
+
+| Olympus Breakpoint | Value | Tailwind Equivalent |
+|---|---|---|
+| `xs` | 0px | (default, no prefix) |
+| `sm` | 850px | `sm:` |
+| `md` | 1280px | `md:` |
+
+The `@fanvue/ui` theme already overrides Tailwind's default breakpoints to match Olympus, so `sm:` and `md:` map directly. If you use `theme.breakpoints.up("sm")` in Olympus, the Tailwind equivalent is simply `sm:`.
+
+For `theme.breakpoints.down("sm")` (meaning `< 850px`), use `max-sm:` (Tailwind v4 syntax for `@media (width < 850px)`).
+
+### MUI CssBaseline Conflicts
+
+MUI's `CssBaseline` applies:
+- `box-sizing: border-box` on all elements (Tailwind Preflight does the same — no conflict)
+- `body * { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }` — **This conflicts with Tailwind padding utilities**
+- Scrollbar styling for Firefox and Chrome
+- `-webkit-tap-highlight-color: transparent`
+- `img, video { max-width: 100% }`
+
+Once you have the CSS layer setup (see [CSS Specificity and Layer Ordering](#css-specificity-and-layer-ordering)), the `[data-fanvue-ui]` scoping rule will handle this conflict for @fanvue/ui components. But if you apply Tailwind padding classes to non-scoped elements, the safe-area-inset rule can still override them.
+
+**Workaround during coexistence:** Wrap sections being migrated with `<div data-fanvue-ui>` to opt into the revert-layer fix.
+
+### MUI Components Without @fanvue/ui Equivalents
+
+These MUI components have no @fanvue/ui equivalent and require actual component development (not just Tailwind classes). They must stay on MUI until we build replacements.
+
+| MUI Component | Usage in Eden |
+|---|---|
+| `Skeleton` | 73+ imports |
+| `Dialog` / `Modal` | 46+ imports |
+| `Select` | Form fields |
+| `Menu` / `MenuItem` | Dropdown menus |
+| `Drawer` | Used in navigation |
+| `Popover` | Popovers |
+| `MobileStepper` | Multi-step flows |
+| `BottomNavigation` | Mobile nav |
+| `Autocomplete` | Search fields |
+| `DateRangePicker` (MUI X) | Date filtering |
+| `LineChart` / `BarChart` / `PieChart` (MUI X) | Insights page |
+
+### Removing Emotion
+
+Once MUI is fully removed from a page/section, you can stop including Emotion:
+
+1. Remove `@emotion/react`, `@emotion/styled`, `@emotion/memoize` from the package
+2. Remove `createEmotionCache` from `_app.tsx` / `_document.tsx`
+3. Remove `@mui/material-nextjs` (the Next.js Emotion integration)
+4. Remove `compiler.emotion` from `next.config.js`
+
+> **Do not remove Emotion while any MUI component is still rendered.** MUI v7 depends on it for runtime styles.
+
+---
+
+## Common Gotchas
+
+Pitfalls that come up repeatedly during migration. Read through these before you start — they'll save you debugging time.
+
+### 1. The `component` Prop Doesn't Exist
+
+MUI's polymorphic `component` prop (`<Box component="section">`, `<Typography component="h2">`) has no equivalent. Use the actual HTML element:
+
+```tsx
+// MUI
+<Box component="nav" sx={{ p: 2 }}>
+<Typography component="h2" variant="heading3">
+
+// Tailwind
+<nav className="p-4">
+<h2 className="typography-heading-3">
+```
+
+---
+
+### 2. MUI Spacing Scale ≠ Tailwind Spacing Scale
+
+MUI `spacing(1)` = 8px. Tailwind `1` = 4px. Double check every spacing value during conversion. A quick reference:
+
+`sx={{ p: 1 }}` → `p-2` (8px) **NOT** `p-1` (4px)
+
+---
+
+### 3. Color Opacity Differences
+
+MUI theme colors in Pandora include alpha channels in the hex value (e.g., `#15151533`). The Tailwind color variables preserve these exact values. However, Tailwind's opacity modifier syntax (`bg-primary-500/50`) will **not work** as expected because the variables already contain alpha. Use the color as-is or use `bg-[color-mix(...)]` for custom opacity.
+
+---
+
+### 4. Transient Props (`$variant`, `$size`) Are Gone
+
+Olympus uses the `$` prefix convention to prevent props from leaking to the DOM. @fanvue/ui components don't need this because styling is class-based, not prop-based. If you're building custom styled wrappers during migration, you no longer need `shouldForwardProp`.
+
+---
+
+### 5. `notistack` → @fanvue/ui Toast
+
+Olympus Toast wraps `notistack`. @fanvue/ui Toast is Radix-based with a completely different API:
+
+```tsx
+// notistack
+import { enqueueSnackbar } from "notistack";
+enqueueSnackbar("Saved!", { variant: "success" });
+
+// @fanvue/ui (declarative)
+<ToastProvider>
+  <Toast variant="success" title="Saved!" description="Your changes have been applied." />
+  <ToastViewport />
+</ToastProvider>
+```
+
+Note: Toast uses `title` and `description` props — not `children`.
+
+You'll need a toast state manager (context or store) to trigger toasts imperatively.
+
+---
+
+### 6. CSS Class Order Doesn't Matter, but Layer Order Does
+
+The order of classes in `className` never affects CSS specificity. However, when two Tailwind classes target the same CSS property (e.g. `p-4` and `p-2`), the `cn()` utility deduplicates them and keeps the last one. If you're mixing MUI components and Tailwind-styled elements on the same page, the `@layer` order in your CSS file is what determines which styles win. The existing layer setup (`theme, base, mui, components, utilities`) ensures Tailwind utilities beat MUI styles.
+
+---
+
+### 7. `useTheme()` in Non-Component Code
+
+If you have utility functions that accept a `theme` parameter:
+
+```tsx
+// Before
+function getCardStyles(theme: Theme) {
+  return { backgroundColor: theme.palette.background[200] };
+}
+
+// After — use CSS variables directly
+// No function needed; apply className="bg-background-200" in JSX
+```
+
+For the rare case where you need the resolved value in JS (e.g., for canvas drawing, chart config), read from CSS:
+
+```tsx
+getComputedStyle(document.documentElement).getPropertyValue('--color-background-200');
+```
+
+---
+
+### 8. Olympus Theme Constants
+
+Olympus exports layout constants (`DESKTOP_HEADER_HEIGHT`, `MOBILE_FOOTER_HEIGHT`, `contentRails`, etc.). These aren't part of @fanvue/ui. Extract them into a shared constants file in Pandora or use Tailwind arbitrary values:
+
+```tsx
+className="h-[85px]"  // DESKTOP_HEADER_HEIGHT
+className="h-[68px]"  // MOBILE_FOOTER_HEIGHT
+className="max-w-[640px] min-w-[300px]"  // contentRails
+```
+
+---
+
+### 9. Most Form Components Are Not Yet Available
+
+`TextField` is now available in @fanvue/ui, but `PasswordField`, `Select`, and `TextArea` from Olympus InputFields (87 imports) don't have @fanvue/ui equivalents yet. Plan to keep MUI for those during the initial migration phase.
+
+---
+
+### 10. Scoping @fanvue/ui Components During Coexistence
+
+During coexistence, wrap migrated sections with `data-fanvue-ui` to ensure Tailwind padding utilities work correctly despite CssBaseline's safe-area-inset rules:
+
+```tsx
+<div data-fanvue-ui>
+  {/* @fanvue/ui components and Tailwind-styled elements here */}
+  <Button variant="primary">Click me</Button>
+</div>
+```
+
+---
+
+## Migration Priority Recommendation
+
+Suggested migration order based on usage frequency in Eden and migration complexity. Start with high-impact, low-complexity items:
+
+| Priority | Component/Pattern | Impact | Complexity |
+|---|---|---|---|
+| 1 | **Boxes/Flex** → Tailwind flex | 270 imports | Low |
+| 2 | **Button** → @fanvue/ui Button | 243 imports | Low |
+| 3 | **Typography** → Tailwind utilities | 447 imports | Low (high volume, mechanical) |
+| 4 | **IconButton** → @fanvue/ui IconButton | 68 imports | Low |
+| 5 | **Alert** → @fanvue/ui Alert | 21 imports | Low |
+| 6 | **Chip** → @fanvue/ui Chip | 26 imports | Low |
+| 7 | **Avatar** → @fanvue/ui Avatar | 37 imports | Medium (API restructure) |
+| 8 | **Checkbox/Radio** → @fanvue/ui | 9 imports | Low |
+| 9 | **Toggle** → @fanvue/ui Switch | 7 imports | Low |
+| 10 | **sx prop removal** | 2,731 occurrences | High (volume) |
+| 11 | **styled() removal** | 127 files | High (volume) |
+| 12 | **Loader** → SpinnerIcon | 68 imports | Low |
+| 13 | **TextField** → @fanvue/ui TextField | 87 imports | Medium (API changes; PasswordField/TextArea/Select still need MUI) |
+| 14 | **Toast** (notistack → Radix) | 7 imports | Medium |
+| 15 | **Dialog/Skeleton/Menu** | 119+ imports | Blocked (no @fanvue/ui equivalent) |
