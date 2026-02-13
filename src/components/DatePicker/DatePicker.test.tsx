@@ -146,6 +146,52 @@ describe("DatePicker", () => {
     });
   });
 
+  describe("range selection", () => {
+    it("moves the nearest boundary when clicking inside a complete range", () => {
+      const onSelect = vi.fn();
+      // Range: 5th – 15th Feb 2026
+      render(
+        <DatePicker
+          mode="range"
+          defaultMonth={DEFAULT_MONTH}
+          selected={{ from: new Date(2026, 1, 5), to: new Date(2026, 1, 15) }}
+          onSelect={onSelect}
+          showFooter={false}
+        />,
+      );
+
+      // Click the 6th (closer to start=5 than end=15) → should move start to 6th
+      fireEvent.click(screen.getByText("6"));
+      expect(onSelect).toHaveBeenCalledOnce();
+
+      const [range] = onSelect.mock.calls[0] as [{ from: Date; to: Date }];
+      expect(range.from.getDate()).toBe(6);
+      expect(range.to.getDate()).toBe(15);
+    });
+
+    it("moves the end boundary when clicked date is closer to end", () => {
+      const onSelect = vi.fn();
+      // Range: 5th – 15th Feb 2026
+      render(
+        <DatePicker
+          mode="range"
+          defaultMonth={DEFAULT_MONTH}
+          selected={{ from: new Date(2026, 1, 5), to: new Date(2026, 1, 15) }}
+          onSelect={onSelect}
+          showFooter={false}
+        />,
+      );
+
+      // Click the 14th (closer to end=15 than start=5) → should move end to 14th
+      fireEvent.click(screen.getByText("14"));
+      expect(onSelect).toHaveBeenCalledOnce();
+
+      const [range] = onSelect.mock.calls[0] as [{ from: Date; to: Date }];
+      expect(range.from.getDate()).toBe(5);
+      expect(range.to.getDate()).toBe(14);
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(<DatePicker defaultMonth={DEFAULT_MONTH} />);
