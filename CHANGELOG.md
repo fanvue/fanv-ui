@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.2.1...ui-v1.3.0) (2026-02-13)
+
+
+### Features
+
+* password field ([#131](https://github.com/fanvue/fanv-ui/issues/131)) ([59ef27d](https://github.com/fanvue/fanv-ui/commit/59ef27d6ba988ddb1ee036d5cfe3e3f0aaf51440))
+
+
+### Bug Fixes
+
+* **ci:** dispatch CI workflows for release-please PR via workflow_dispatch ([#133](https://github.com/fanvue/fanv-ui/issues/133)) ([b16916b](https://github.com/fanvue/fanv-ui/commit/b16916b7e2aa2bfc6c1a4e1929039fa4ce7c57d8))
+* **ci:** use release-please outputs for Slack notification ([#129](https://github.com/fanvue/fanv-ui/issues/129)) ([1d4e29f](https://github.com/fanvue/fanv-ui/commit/1d4e29fb6669a11245dcc6fbcf401a80ddc3b4ca))
+
 ## [1.2.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.2.0...ui-v1.2.1) (2026-02-13)
 
 
