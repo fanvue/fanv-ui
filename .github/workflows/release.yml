@@ -64,3 +64,73 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         run: pnpm build-storybook
         # Add deployment step to your Storybook hosting (e.g., Chromatic, Vercel)
+
+      - name: Get release notes
+        if: ${{ steps.release.outputs.release_created }}
+        id: release_notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RELEASE_BODY=$(gh release view "v${{ steps.release.outputs.version }}" --json body --jq '.body')
+          # Truncate to 2500 chars to stay within Slack limits
+          if [ ${#RELEASE_BODY} -gt 2500 ]; then
+            RELEASE_BODY="${RELEASE_BODY:0:2500}..."
+          fi
+          # Store in file to avoid shell escaping issues
+          echo "$RELEASE_BODY" > /tmp/release_notes.txt
+
+      - name: Notify Slack
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          VERSION: ${{ steps.release.outputs.version }}
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          RELEASE_BODY=$(cat /tmp/release_notes.txt)
+          # Escape special JSON characters
+          RELEASE_BODY=$(echo "$RELEASE_BODY" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
+          curl -X POST "$SLACK_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            --fail-with-body \
+            -d @- <<PAYLOAD
+          {
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "@fanvue/ui v${VERSION} released",
+                  "emoji": true
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": ${RELEASE_BODY}
+                }
+              },
+              {
+                "type": "actions",
+                "elements": [
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "View Release"
+                    },
+                    "url": "${REPO_URL}/releases/tag/v${VERSION}"
+                  },
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "View on npm"
+                    },
+                    "url": "https://www.npmjs.com/package/@fanvue/ui/v/${VERSION}"
+                  }
+                ]
+              }
+            ]
+          }
+          PAYLOAD

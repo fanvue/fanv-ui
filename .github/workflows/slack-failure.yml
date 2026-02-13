@@ -1,0 +1,75 @@
+# Slack Failure Notifications - Alerts on CI failures on main
+name: Slack Failure Alert
+
+on:
+  workflow_run:
+    workflows: ["CI", "Chromatic", "Deploy Showcase", "Release"]
+    types: [completed]
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  notify:
+    name: Notify Slack on Failure
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Notify Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
+          BRANCH: ${{ github.event.workflow_run.head_branch }}
+          COMMIT_SHA: ${{ github.event.workflow_run.head_sha }}
+          COMMIT_MSG: ${{ github.event.workflow_run.head_commit.message }}
+          ACTOR: ${{ github.event.workflow_run.actor.login }}
+          REPO: ${{ github.event.workflow_run.repository.full_name }}
+        run: |
+          SHORT_SHA="${COMMIT_SHA:0:7}"
+          # Escape special characters for JSON
+          ESCAPED_MSG=$(echo "$COMMIT_MSG" | head -1 | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip())[1:-1])')
+          curl -X POST "$SLACK_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            --fail-with-body \
+            -d @- <<PAYLOAD
+          {
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "${WORKFLOW_NAME} failed on main",
+                  "emoji": true
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Commit:*\n<https://github.com/${REPO}/commit/${COMMIT_SHA}|${SHORT_SHA}> — ${ESCAPED_MSG}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Triggered by:*\n${ACTOR}"
+                  }
+                ]
+              },
+              {
+                "type": "actions",
+                "elements": [
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "View Workflow Run"
+                    },
+                    "style": "danger",
+                    "url": "${WORKFLOW_URL}"
+                  }
+                ]
+              }
+            ]
+          }
+          PAYLOAD
