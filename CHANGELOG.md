@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.2.1...ui-v1.2.2) (2026-02-13)
+
+
+### Bug Fixes
+
+* **ci:** use release-please outputs for Slack notification ([#129](https://github.com/fanvue/fanv-ui/issues/129)) ([1d4e29f](https://github.com/fanvue/fanv-ui/commit/1d4e29fb6669a11245dcc6fbcf401a80ddc3b4ca))
+
 ## [1.2.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.2.0...ui-v1.2.1) (2026-02-13)
 
 
