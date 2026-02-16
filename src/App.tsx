@@ -324,6 +324,25 @@ function TextAreaShowcase() {
         defaultValue="This input has been validated"
       />
       <TextArea
+        label="With min rows"
+        placeholder="Enter description..."
+        minRows={5}
+        helperText="Starts with 5 rows"
+      />
+      <TextArea
+        label="With max rows"
+        placeholder="Try typing many lines..."
+        maxRows={6}
+        helperText="Maximum 6 rows, scrolls after"
+      />
+      <TextArea
+        label="Min and max rows"
+        placeholder="Enter description..."
+        minRows={3}
+        maxRows={8}
+        helperText="Starts with 3 rows, max 8 rows"
+      />
+      <TextArea
         label="With clear button"
         placeholder="Enter description..."
         showClearButton

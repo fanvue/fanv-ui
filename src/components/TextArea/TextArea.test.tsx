@@ -178,6 +178,59 @@ describe("TextArea", () => {
     });
   });
 
+  describe("rows props", () => {
+    it("applies minRows as rows attribute", () => {
+      render(<TextArea label="Test" minRows={5} />);
+      const textarea = screen.getByRole("textbox");
+      expect(textarea).toHaveAttribute("rows", "5");
+    });
+
+    it("does not apply rows attribute when minRows is not provided", () => {
+      render(<TextArea label="Test" />);
+      const textarea = screen.getByRole("textbox");
+      expect(textarea).not.toHaveAttribute("rows");
+    });
+
+    it("applies maxHeight style when maxRows is provided", () => {
+      render(<TextArea label="Test" maxRows={10} size="48" />);
+      const textarea = screen.getByRole("textbox");
+      // size 48: line-height 24px * 10 rows + padding 12px * 2 = 264px
+      expect(textarea).toHaveAttribute("style", "max-height: 264px;");
+    });
+
+    it("calculates maxHeight correctly for size 40", () => {
+      render(<TextArea label="Test" maxRows={8} size="40" />);
+      const textarea = screen.getByRole("textbox");
+      // size 40: line-height 24px * 8 rows + padding 8px * 2 = 208px
+      expect(textarea).toHaveAttribute("style", "max-height: 208px;");
+    });
+
+    it("calculates maxHeight correctly for size 32", () => {
+      render(<TextArea label="Test" maxRows={6} size="32" />);
+      const textarea = screen.getByRole("textbox");
+      // size 32: line-height 20px * 6 rows + padding 8px * 2 = 136px
+      expect(textarea).toHaveAttribute("style", "max-height: 136px;");
+    });
+
+    it("does not apply style when maxRows is not provided", () => {
+      render(<TextArea label="Test" />);
+      const textarea = screen.getByRole("textbox");
+      expect(textarea).not.toHaveAttribute("style");
+    });
+
+    it("removes default min-height when minRows is provided", () => {
+      render(<TextArea label="Test" minRows={3} />);
+      const textarea = screen.getByRole("textbox");
+      expect(textarea).not.toHaveClass("min-h-[80px]");
+    });
+
+    it("keeps default min-height when minRows is not provided", () => {
+      render(<TextArea label="Test" />);
+      const textarea = screen.getByRole("textbox");
+      expect(textarea).toHaveClass("min-h-[80px]");
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(<TextArea label="Description" />);

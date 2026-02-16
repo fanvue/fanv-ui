@@ -45,6 +45,12 @@ const meta: Meta<typeof TextArea> = {
     showClearButton: {
       control: "boolean",
     },
+    minRows: {
+      control: "number",
+    },
+    maxRows: {
+      control: "number",
+    },
   },
   decorators: [
     (Story) => (
@@ -119,6 +125,33 @@ export const Validated: Story = {
     placeholder: "Enter your description...",
     validated: true,
     defaultValue: "This input has been validated",
+  },
+};
+
+export const WithMinRows: Story = {
+  args: {
+    label: "Description",
+    placeholder: "Enter your description...",
+    minRows: 5,
+  },
+};
+
+export const WithMaxRows: Story = {
+  args: {
+    label: "Description",
+    placeholder: "Try typing many lines...",
+    maxRows: 8,
+    defaultValue: "Line 1\nLine 2\nLine 3\nLine 4\nLine 5",
+    helperText: "Maximum 8 rows visible, scroll for more",
+  },
+};
+
+export const WithMinAndMaxRows: Story = {
+  args: {
+    label: "Description",
+    placeholder: "Starts with 3 rows, max 10 rows",
+    minRows: 3,
+    maxRows: 10,
   },
 };
 
@@ -238,6 +271,7 @@ export const AllStates: Story = {
       <TextArea label="With helper" placeholder="Text Area" helperText="Helper text" />
       <TextArea label="With value" defaultValue="Typed text" />
       <TextArea label="With clear button" showClearButton defaultValue="This can be cleared" />
+      <TextArea label="With min rows" minRows={4} placeholder="Starts with 4 rows" />
       <TextArea label="Error" error errorMessage="Error message" defaultValue="invalid" />
       <TextArea label="Disabled" placeholder="Text Area" disabled />
       <TextArea label="Disabled with value" defaultValue="Value" disabled />

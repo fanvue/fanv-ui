@@ -26,6 +26,10 @@ export interface TextAreaProps
   showClearButton?: boolean;
   /** Callback fired when the clear button is clicked. */
   onClear?: () => void;
+  /** Minimum number of rows (lines) for the textarea. */
+  minRows?: number;
+  /** Maximum number of rows (lines) for the textarea. */
+  maxRows?: number;
 }
 
 const CONTAINER_MIN_HEIGHT: Record<TextAreaSize, string> = {
@@ -68,9 +72,10 @@ function getContainerClassName(size: TextAreaSize, error: boolean, disabled?: bo
   );
 }
 
-function getTextareaClassName(size: TextAreaSize, hasClearButton: boolean) {
+function getTextareaClassName(size: TextAreaSize, hasClearButton: boolean, hasMinRows: boolean) {
   return cn(
-    "min-h-[80px] w-full resize-y rounded-xl bg-transparent text-body-100 no-underline placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+    "w-full resize-y rounded-xl bg-transparent text-body-100 no-underline placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+    !hasMinRows && "min-h-[80px]",
     TEXTAREA_SIZE_CLASSES[size],
     PADDING_HORIZONTAL[size],
     hasClearButton ? PADDING_RIGHT_WITH_CLEAR[size] : "",
@@ -109,6 +114,36 @@ function warnMissingAccessibleName(label?: string, ariaLabel?: string, ariaLabel
   }
 }
 
+function calculateMaxHeight(size: TextAreaSize, maxRows?: number): string | undefined {
+  if (!maxRows) return undefined;
+
+  // Line height is 24px for body-1 (sizes 48 and 40) and 20px for body-2 (size 32)
+  const lineHeight = size === "32" ? 20 : 24;
+  // py-2 = 8px, py-3 = 12px
+  const verticalPadding = size === "32" ? 8 : size === "40" ? 8 : 12;
+
+  return `${lineHeight * maxRows + verticalPadding * 2}px`;
+}
+
+function createClearHandler(
+  onClear?: () => void,
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void,
+) {
+  return () => {
+    if (onClear) {
+      onClear();
+    }
+    // If there's an onChange handler, simulate a change event with empty value
+    if (onChange) {
+      const syntheticEvent = {
+        target: { value: "" },
+        currentTarget: { value: "" },
+      } as React.ChangeEvent<HTMLTextAreaElement>;
+      onChange(syntheticEvent);
+    }
+  };
+}
+
 /**
  * A multi-line text input with optional label, helper/error text, and clear button.
  *
@@ -143,6 +178,8 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       onClear,
       value,
       onChange,
+      minRows,
+      maxRows,
       ...props
     },
     ref,
@@ -153,22 +190,10 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const bottomText = error && errorMessage ? errorMessage : helperText;
     const hasValue = value !== undefined && value !== null && value !== "";
     const showClear = showClearButton && hasValue && !disabled;
+    const maxHeight = calculateMaxHeight(size, maxRows);
+    const handleClear = createClearHandler(onClear, onChange);
 
     warnMissingAccessibleName(label, props["aria-label"], props["aria-labelledby"]);
-
-    const handleClear = () => {
-      if (onClear) {
-        onClear();
-      }
-      // If there's an onChange handler, simulate a change event with empty value
-      if (onChange) {
-        const syntheticEvent = {
-          target: { value: "" },
-          currentTarget: { value: "" },
-        } as React.ChangeEvent<HTMLTextAreaElement>;
-        onChange(syntheticEvent);
-      }
-    };
 
     return (
       <div
@@ -192,9 +217,11 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             disabled={disabled}
             aria-describedby={bottomText ? helperTextId : undefined}
             aria-invalid={error || undefined}
-            className={getTextareaClassName(size, showClear)}
+            className={getTextareaClassName(size, showClear, !!minRows)}
             value={value}
             onChange={onChange}
+            rows={minRows}
+            style={maxHeight ? { maxHeight } : undefined}
             {...props}
           />
 
