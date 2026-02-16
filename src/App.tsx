@@ -519,7 +519,7 @@ function App() {
         <main className="container mx-auto px-4 py-12">
           <section className="space-y-8">
             {/* Logo */}
-            <div id="logo" className="scroll-mt-20">
+            <div id="logo" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Logo</h2>
               <div className="flex flex-wrap items-start gap-8">
                 <Logo variant="full" color="fullColour" />
@@ -550,7 +550,7 @@ function App() {
             </div>
 
             {/* Icons */}
-            <div id="icons" className="scroll-mt-20">
+            <div id="icons" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Icons</h2>
               <div className="space-y-6">
                 <div className="flex flex-wrap items-end gap-6">
@@ -702,7 +702,7 @@ function App() {
             </div>
 
             {/* Avatar */}
-            <div id="avatar" className="scroll-mt-20">
+            <div id="avatar" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Avatar</h2>
               <div className="flex flex-wrap items-center gap-4">
                 <Avatar
@@ -825,7 +825,7 @@ function App() {
             </div>
 
             {/* Alert */}
-            <div id="alert" className="scroll-mt-20">
+            <div id="alert" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Alert</h2>
               <div className="max-w-2xl space-y-4">
                 <Alert variant="info" icon={AlertInfoIcon}>
@@ -853,7 +853,7 @@ function App() {
             </div>
 
             {/* Button */}
-            <div id="button" className="scroll-mt-20">
+            <div id="button" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Button</h2>
               <div className="flex flex-wrap items-center gap-4">
                 <Button variant="primary">Label</Button>
@@ -1014,7 +1014,7 @@ function App() {
             </div>
 
             {/* Badge */}
-            <div id="badge" className="scroll-mt-20">
+            <div id="badge" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Badge</h2>
               <div className="flex flex-wrap gap-4">
                 <Badge variant="default">Default</Badge>
@@ -1033,7 +1033,7 @@ function App() {
             </div>
 
             {/* Icon Button */}
-            <div id="iconbutton" className="scroll-mt-20">
+            <div id="iconbutton" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Icon Button</h2>
               <div className="space-y-6">
                 <div className="flex flex-wrap items-center gap-4">
@@ -1131,7 +1131,7 @@ function App() {
             </div>
 
             {/* Pill */}
-            <div id="pill" className="scroll-mt-20">
+            <div id="pill" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Pill</h2>
               <div className="flex flex-wrap gap-4">
                 <Pill variant="green">Green</Pill>
@@ -1157,7 +1157,7 @@ function App() {
             </div>
 
             {/* Checkbox */}
-            <div id="checkbox" className="scroll-mt-20">
+            <div id="checkbox" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Checkbox</h2>
               <div className="flex flex-col gap-4">
                 <Checkbox label="Default checkbox" />
@@ -1177,7 +1177,7 @@ function App() {
             </div>
 
             {/* Radio */}
-            <div id="radio" className="scroll-mt-20">
+            <div id="radio" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Radio</h2>
               <RadioGroup
                 defaultValue="option1"
@@ -1212,25 +1212,25 @@ function App() {
             </div>
 
             {/* TextField */}
-            <div id="textfield" className="scroll-mt-20">
+            <div id="textfield" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Text Field</h2>
               <TextFieldShowcase />
             </div>
 
             {/* PasswordField */}
-            <div id="passwordfield" className="scroll-mt-20">
+            <div id="passwordfield" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Password Field</h2>
               <PasswordFieldShowcase />
             </div>
 
             {/* TextArea */}
-            <div id="textarea" className="scroll-mt-20">
+            <div id="textarea" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Text Area</h2>
               <TextAreaShowcase />
             </div>
 
             {/* Count */}
-            <div id="count" className="scroll-mt-20">
+            <div id="count" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Count</h2>
               <div className="flex flex-wrap items-center gap-4">
                 <Count value={5} variant="default" />
@@ -1254,7 +1254,7 @@ function App() {
             </div>
 
             {/* Chip */}
-            <div id="chip" className="scroll-mt-20">
+            <div id="chip" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Chip</h2>
               <div className="flex flex-wrap items-center gap-3">
                 <Chip>Chip</Chip>
@@ -1484,7 +1484,7 @@ function App() {
             </div>
 
             {/* Snackbar */}
-            <div id="snackbar" className="scroll-mt-20">
+            <div id="snackbar" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Snackbar</h2>
               <div className="max-w-xl space-y-4">
                 <Snackbar
@@ -1512,7 +1512,7 @@ function App() {
             </div>
 
             {/* Switch */}
-            <div id="switch" className="scroll-mt-20">
+            <div id="switch" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Switch</h2>
               <div className="flex flex-wrap items-center gap-4">
                 <Switch aria-label="Toggle default" />
@@ -1532,7 +1532,7 @@ function App() {
             </div>
 
             {/* SwitchField */}
-            <div id="switchfield" className="scroll-mt-20">
+            <div id="switchfield" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Switch Field</h2>
               <div className="flex max-w-2xl flex-col gap-4">
                 <SwitchField label="Notifications" />
@@ -1590,7 +1590,7 @@ function App() {
             </div>
 
             {/* SwitchToggle */}
-            <div id="switchtoggle" className="scroll-mt-20">
+            <div id="switchtoggle" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Switch Toggle</h2>
               <div className="flex flex-wrap items-center gap-4">
                 <SwitchToggle
@@ -1696,13 +1696,13 @@ function App() {
             </div>
 
             {/* DatePicker */}
-            <div id="datepicker" className="scroll-mt-20">
+            <div id="datepicker" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Date Picker</h2>
               <DatePickerShowcase />
             </div>
 
             {/* Divider */}
-            <div id="divider" className="scroll-mt-20">
+            <div id="divider" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Divider</h2>
               <div className="flex flex-col gap-6">
                 <Divider />
@@ -1716,7 +1716,7 @@ function App() {
             </div>
 
             {/* Tabs */}
-            <div id="tabs" className="scroll-mt-20">
+            <div id="tabs" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Tabs</h2>
               <div className="flex flex-wrap items-start gap-8">
                 <Tabs defaultValue="tab1">
@@ -1790,19 +1790,19 @@ function App() {
             </div>
 
             {/* Slider */}
-            <div id="slider" className="scroll-mt-20">
+            <div id="slider" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Slider</h2>
               <SliderShowcase />
             </div>
 
             {/* Pagination */}
-            <div id="pagination" className="scroll-mt-20">
+            <div id="pagination" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Pagination</h2>
               <PaginationShowcase />
             </div>
 
             {/* ProgressBar */}
-            <div id="progressbar" className="scroll-mt-20">
+            <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Progress Bar</h2>
               <div className="flex max-w-md flex-col gap-6">
                 {/* Default variant — color-coded by value */}
@@ -1911,7 +1911,7 @@ function App() {
             </div>
 
             {/* Tooltip */}
-            <div id="tooltip" className="scroll-mt-20">
+            <div id="tooltip" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Tooltip</h2>
               <TooltipProvider>
                 <div className="flex flex-wrap items-center gap-4">
@@ -1966,7 +1966,7 @@ function App() {
             </div>
 
             {/* Toast */}
-            <div id="toast" className="scroll-mt-20">
+            <div id="toast" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Toast</h2>
               <div className="space-y-4">
                 <div className="flex flex-wrap gap-3">
