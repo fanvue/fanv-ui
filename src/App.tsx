@@ -49,6 +49,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  TextArea,
   TextField,
   Toast,
   ToastProvider,
@@ -281,6 +282,54 @@ function PasswordFieldShowcase() {
         value={value}
         onChange={handleChange}
         autoComplete="off"
+      />
+    </div>
+  );
+}
+
+function TextAreaShowcase() {
+  const [value, setValue] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+  };
+  return (
+    <div className="flex max-w-2xl flex-col gap-4">
+      <TextArea label="Size 48" placeholder="Enter description..." size="48" />
+      <TextArea label="Size 40" placeholder="Enter description..." size="40" />
+      <TextArea label="Size 32" placeholder="Enter description..." size="32" />
+      <TextArea
+        label="With helper"
+        placeholder="Enter description..."
+        helperText="Maximum 500 characters"
+      />
+      <TextArea placeholder="No label" aria-label="Description" />
+      <TextArea
+        label="With clear button"
+        placeholder="Enter description..."
+        showClearButton
+        defaultValue="This text can be cleared"
+      />
+      <TextArea
+        label="Error"
+        placeholder="Enter description..."
+        error
+        errorMessage="Description is required"
+      />
+      <TextArea label="Error + helper" error helperText="Required field" />
+      <TextArea label="Disabled" placeholder="Enter description..." disabled />
+      <TextArea
+        label="Disabled with value"
+        defaultValue="This textarea is disabled and cannot be edited"
+        disabled
+      />
+      <TextArea
+        label="Controlled Input"
+        fullWidth
+        placeholder="Enter description..."
+        value={value}
+        onChange={handleChange}
+        showClearButton
+        onClear={() => setValue("")}
       />
     </div>
   );
@@ -982,6 +1031,9 @@ function App() {
 
             {/* PasswordField */}
             <PasswordFieldShowcase />
+
+            {/* TextArea */}
+            <TextAreaShowcase />
 
             <div className="flex flex-wrap items-center gap-4">
               <Count value={5} variant="default" />
