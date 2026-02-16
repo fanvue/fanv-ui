@@ -553,20 +553,6 @@ MUI injects styles via Emotion at runtime. Tailwind generates styles at build ti
 
 @import "@fanvue/ui/styles/theme.css";
 @source "../../node_modules/@fanvue/ui/dist";
-
-/*
- * The Olympus theme applies `padding-left/right: env(safe-area-inset-*)`
- * to `body *` which collides with Tailwind padding utilities. Inside scoped
- * @fanvue/ui regions we revert those properties back to the previous layer
- * so the Tailwind utilities can take effect without touching the global rule.
- */
-@layer utilities {
-  [data-fanvue-ui],
-  [data-fanvue-ui] * {
-    padding-left: revert-layer;
-    padding-right: revert-layer;
-  }
-}
 ```
 
 This declares layer priority from lowest to highest:
@@ -584,7 +570,7 @@ This declares layer priority from lowest to highest:
 
 **Things to watch for:**
 
-> 1. **MUI's CssBaseline applies global resets** (box-sizing, margin resets, font smoothing). These will conflict with Tailwind's Preflight. During coexistence, keep CssBaseline but be aware it sets `body *` padding via `env(safe-area-inset-*)`. Use the `[data-fanvue-ui]` scoping shown above to revert this for migrated regions.
+> 1. **MUI's CssBaseline applies global resets** (box-sizing, margin resets, font smoothing). These will conflict with Tailwind's Preflight. During coexistence, keep CssBaseline but be aware of potential conflicts. The layer ordering ensures Tailwind utilities take priority.
 >
 > 2. **`!important` in MUI styled components** will override Tailwind utilities regardless of layer order. There are ~30 `!important` declarations in Eden, mostly for ad pixel hiding. Audit these during migration.
 >
@@ -830,14 +816,11 @@ For `theme.breakpoints.down("sm")` (meaning `< 850px`), use `max-sm:` (Tailwind 
 
 MUI's `CssBaseline` applies:
 - `box-sizing: border-box` on all elements (Tailwind Preflight does the same — no conflict)
-- `body * { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }` — **This conflicts with Tailwind padding utilities**
 - Scrollbar styling for Firefox and Chrome
 - `-webkit-tap-highlight-color: transparent`
 - `img, video { max-width: 100% }`
 
-Once you have the CSS layer setup (see [CSS Specificity and Layer Ordering](#css-specificity-and-layer-ordering)), the `[data-fanvue-ui]` scoping rule will handle this conflict for @fanvue/ui components. But if you apply Tailwind padding classes to non-scoped elements, the safe-area-inset rule can still override them.
-
-**Workaround during coexistence:** Wrap sections being migrated with `<div data-fanvue-ui>` to opt into the revert-layer fix.
+With the CSS layer setup (see [CSS Specificity and Layer Ordering](#css-specificity-and-layer-ordering)), Tailwind utilities will take priority over CssBaseline styles during coexistence.
 
 ### MUI Components Without @fanvue/ui Equivalents
 
@@ -975,19 +958,6 @@ className="max-w-[640px] min-w-[300px]"  // contentRails
 ### 9. Most Form Components Are Not Yet Available
 
 `TextField` is now available in @fanvue/ui, but `PasswordField`, `Select`, and `TextArea` from Olympus InputFields (87 imports) don't have @fanvue/ui equivalents yet. Plan to keep MUI for those during the initial migration phase.
-
----
-
-### 10. Scoping @fanvue/ui Components During Coexistence
-
-During coexistence, wrap migrated sections with `data-fanvue-ui` to ensure Tailwind padding utilities work correctly despite CssBaseline's safe-area-inset rules:
-
-```tsx
-<div data-fanvue-ui>
-  {/* @fanvue/ui components and Tailwind-styled elements here */}
-  <Button variant="primary">Click me</Button>
-</div>
-```
 
 ---
 
