@@ -1,4 +1,5 @@
 import * as React from "react";
+import { CheckCircleIcon } from "@/index";
 import { cn } from "../../utils/cn";
 
 /** Text field height in pixels. */
@@ -16,6 +17,8 @@ export interface TextFieldProps
   error?: boolean;
   /** Error message displayed below the input. Shown instead of `helperText` when `error` is `true`. */
   errorMessage?: string;
+  /** Whether the text field is validated. @default false */
+  validated?: boolean;
   /** Icon element displayed at the left side of the input. */
   leftIcon?: React.ReactNode;
   /** Icon element displayed at the right side of the input. */
@@ -62,7 +65,7 @@ const ICON_RIGHT: Record<TextFieldSize, string> = {
 
 function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: boolean) {
   return cn(
-    "relative rounded-xl border bg-neutral-100 has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
+    "relative rounded-xl border bg-neutral-100 has-focus-visible:outline-none motion-safe:transition-colors",
     error ? "border-error-500" : "border-transparent",
     !disabled && !error && "hover:border-neutral-400",
     CONTAINER_HEIGHT[size],
@@ -154,6 +157,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       size = "48",
       error = false,
       errorMessage,
+      validated = false,
       leftIcon,
       rightIcon,
       className,
@@ -206,6 +210,11 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           {rightIcon && (
             <TextFieldIcon size={size} side="right">
               {rightIcon}
+            </TextFieldIcon>
+          )}
+          {validated && (
+            <TextFieldIcon size={size} side="right">
+              <CheckCircleIcon className="text-success-500" />
             </TextFieldIcon>
           )}
         </div>
