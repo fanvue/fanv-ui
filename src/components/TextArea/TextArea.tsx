@@ -57,7 +57,7 @@ const CLEAR_BUTTON_RIGHT: Record<TextAreaSize, string> = {
 
 function getContainerClassName(size: TextAreaSize, error: boolean, disabled?: boolean) {
   return cn(
-    "relative rounded-xl border bg-neutral-100 has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
+    "relative rounded-xl border bg-neutral-100 has-focus-visible:outline-none motion-safe:transition-colors",
     error ? "border-error-500" : "border-transparent",
     !disabled && !error && "hover:border-neutral-400",
     CONTAINER_MIN_HEIGHT[size],
