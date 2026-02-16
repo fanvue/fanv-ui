@@ -43,6 +43,7 @@ export { ArrowRightIcon } from "./components/Icons/ArrowRightIcon";
 export { ArrowUpRightIcon } from "./components/Icons/ArrowUpRightIcon";
 export { CheckCircleIcon } from "./components/Icons/CheckCircleIcon";
 export { CheckIcon } from "./components/Icons/CheckIcon";
+export { CheckOutlineIcon } from "./components/Icons/CheckOutlineIcon";
 export { ChevronLeftIcon } from "./components/Icons/ChevronLeftIcon";
 export { ChevronRightIcon } from "./components/Icons/ChevronRightIcon";
 export { CloseIcon } from "./components/Icons/CloseIcon";
@@ -121,6 +122,8 @@ export type { TabsListProps } from "./components/Tabs/TabsList";
 export { TabsList } from "./components/Tabs/TabsList";
 export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
+export type { TextAreaProps, TextAreaSize } from "./components/TextArea/TextArea";
+export { TextArea } from "./components/TextArea/TextArea";
 export type { TextFieldProps, TextFieldSize } from "./components/TextField/TextField";
 export { TextField } from "./components/TextField/TextField";
 export type {

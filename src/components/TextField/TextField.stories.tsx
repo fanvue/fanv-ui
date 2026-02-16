@@ -40,6 +40,9 @@ const meta: Meta<typeof TextField> = {
     error: {
       control: "boolean",
     },
+    validated: {
+      control: "boolean",
+    },
     fullWidth: {
       control: "boolean",
     },
@@ -125,6 +128,15 @@ export const WithBothIcons: Story = {
     placeholder: "Search...",
     leftIcon: <HomeIcon />,
     rightIcon: <InfoCircleIcon />,
+  },
+};
+
+export const Validated: Story = {
+  args: {
+    label: "Email",
+    placeholder: "you@example.com",
+    validated: true,
+    defaultValue: "user@example.com",
   },
 };
 
@@ -237,6 +249,7 @@ export const AllStates: Story = {
       <TextField label="Default" placeholder="Placeholder" />
       <TextField label="With helper" placeholder="Placeholder" helperText="Helper text" />
       <TextField label="With value" defaultValue="Typed text" />
+      <TextField label="Validated" validated defaultValue="user@example.com" />
       <TextField label="Error" error errorMessage="Error message" defaultValue="invalid" />
       <TextField label="Disabled" placeholder="Placeholder" disabled />
       <TextField label="Disabled with value" defaultValue="Value" disabled />

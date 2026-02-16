@@ -49,6 +49,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  TextArea,
   TextField,
   Toast,
   ToastProvider,
@@ -197,6 +198,21 @@ function TextFieldShowcase() {
       />
       <TextField placeholder="No label" aria-label="Search" autoComplete="off" />
       <TextField
+        label="Validated"
+        placeholder="Placeholder"
+        validated
+        defaultValue="user@example.com"
+        autoComplete="off"
+      />
+      <TextField
+        label="Validated with right icon"
+        placeholder="Placeholder"
+        validated
+        rightIcon={<InfoCircleIcon />}
+        defaultValue="user@example.com"
+        autoComplete="off"
+      />
+      <TextField
         label="Left icon"
         leftIcon={<HomeIcon />}
         placeholder="Placeholder"
@@ -260,6 +276,14 @@ function PasswordFieldShowcase() {
       />
       <PasswordField placeholder="No label" autoComplete="off" />
       <PasswordField
+        label="Validated"
+        placeholder="Enter password"
+        validated
+        defaultValue="securepassword123"
+        autoComplete="off"
+        helperText="Validation icon appears after the eye icon"
+      />
+      <PasswordField
         label="Error"
         placeholder="Enter password"
         error
@@ -281,6 +305,79 @@ function PasswordFieldShowcase() {
         value={value}
         onChange={handleChange}
         autoComplete="off"
+      />
+    </div>
+  );
+}
+
+function TextAreaShowcase() {
+  const [value, setValue] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+  };
+  return (
+    <div className="flex max-w-2xl flex-col gap-4">
+      <TextArea label="Size 48" placeholder="Enter description..." size="48" />
+      <TextArea label="Size 40" placeholder="Enter description..." size="40" />
+      <TextArea label="Size 32" placeholder="Enter description..." size="32" />
+      <TextArea
+        label="With helper"
+        placeholder="Enter description..."
+        helperText="Maximum 500 characters"
+      />
+      <TextArea placeholder="No label" aria-label="Description" />
+      <TextArea
+        label="Validated"
+        placeholder="Enter description..."
+        validated
+        defaultValue="This input has been validated"
+      />
+      <TextArea
+        label="With min rows"
+        placeholder="Enter description..."
+        minRows={5}
+        helperText="Starts with 5 rows"
+      />
+      <TextArea
+        label="With max rows"
+        placeholder="Try typing many lines..."
+        maxRows={6}
+        helperText="Maximum 6 rows, scrolls after"
+      />
+      <TextArea
+        label="Min and max rows"
+        placeholder="Enter description..."
+        minRows={3}
+        maxRows={8}
+        helperText="Starts with 3 rows, max 8 rows"
+      />
+      <TextArea
+        label="With clear button"
+        placeholder="Enter description..."
+        showClearButton
+        defaultValue="This text can be cleared"
+      />
+      <TextArea
+        label="Error"
+        placeholder="Enter description..."
+        error
+        errorMessage="Description is required"
+      />
+      <TextArea label="Error + helper" error helperText="Required field" />
+      <TextArea label="Disabled" placeholder="Enter description..." disabled />
+      <TextArea
+        label="Disabled with value"
+        defaultValue="This textarea is disabled and cannot be edited"
+        disabled
+      />
+      <TextArea
+        label="Controlled Input"
+        fullWidth
+        placeholder="Enter description..."
+        value={value}
+        onChange={handleChange}
+        showClearButton
+        onClear={() => setValue("")}
       />
     </div>
   );
@@ -982,6 +1079,9 @@ function App() {
 
             {/* PasswordField */}
             <PasswordFieldShowcase />
+
+            {/* TextArea */}
+            <TextAreaShowcase />
 
             <div className="flex flex-wrap items-center gap-4">
               <Count value={5} variant="default" />
