@@ -39,65 +39,40 @@ const INPUT_SIZE_CLASSES: Record<TextFieldSize, string> = {
   "32": "py-2 typography-body-2-regular",
 };
 
-const PADDING_LEFT: Record<TextFieldSize, [base: string, withIcon: string]> = {
-  "48": ["pl-4", "pl-11"],
-  "40": ["pl-4", "pl-11"],
-  "32": ["pl-3", "pl-10"],
+const PADDING_HORIZONTAL: Record<TextFieldSize, string> = {
+  "48": "px-4",
+  "40": "px-4",
+  "32": "px-3",
 };
 
-const PADDING_RIGHT: Record<TextFieldSize, [base: string, withIcon: string]> = {
-  "48": ["pr-4", "pr-11"],
-  "40": ["pr-4", "pr-11"],
-  "32": ["pr-3", "pr-10"],
-};
-
-const ICON_LEFT: Record<TextFieldSize, string> = {
-  "48": "left-4",
-  "40": "left-4",
-  "32": "left-3",
-};
-
-const ICON_RIGHT: Record<TextFieldSize, string> = {
-  "48": "right-4",
-  "40": "right-4",
-  "32": "right-3",
+const ICON_SPACING: Record<TextFieldSize, string> = {
+  "48": "gap-3",
+  "40": "gap-3",
+  "32": "gap-2",
 };
 
 function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: boolean) {
   return cn(
-    "relative rounded-xl border bg-neutral-100 has-focus-visible:outline-none motion-safe:transition-colors",
+    "flex items-center rounded-xl border bg-neutral-100 has-focus-visible:outline-none motion-safe:transition-colors",
     error ? "border-error-500" : "border-transparent",
     !disabled && !error && "hover:border-neutral-400",
     CONTAINER_HEIGHT[size],
+    PADDING_HORIZONTAL[size],
+    ICON_SPACING[size],
     disabled && "opacity-50",
   );
 }
 
-function getInputClassName(size: TextFieldSize, hasLeftIcon: boolean, hasRightIcon: boolean) {
+function getInputClassName(size: TextFieldSize) {
   return cn(
-    "h-full w-full rounded-xl bg-transparent text-body-100 no-underline placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+    "h-full flex-1 rounded-xl bg-transparent text-body-100 no-underline placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
     INPUT_SIZE_CLASSES[size],
-    PADDING_LEFT[size][hasLeftIcon ? 1 : 0],
-    PADDING_RIGHT[size][hasRightIcon ? 1 : 0],
   );
 }
 
-const ICON_BASE =
-  "pointer-events-none absolute top-1/2 flex size-5 -translate-y-1/2 items-center justify-center text-body-200";
-
-function TextFieldIcon({
-  children,
-  size,
-  side,
-}: {
-  children: React.ReactNode;
-  size: TextFieldSize;
-  side: "left" | "right";
-}) {
+function TextFieldIcon({ children }: { children: React.ReactNode }) {
   return (
-    <div className={cn(ICON_BASE, side === "left" ? ICON_LEFT[size] : ICON_RIGHT[size])}>
-      {children}
-    </div>
+    <div className="flex size-5 shrink-0 items-center justify-center text-body-200">{children}</div>
   );
 }
 
@@ -191,11 +166,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         )}
 
         <div className={getContainerClassName(size, error, disabled)}>
-          {leftIcon && (
-            <TextFieldIcon size={size} side="left">
-              {leftIcon}
-            </TextFieldIcon>
-          )}
+          {leftIcon && <TextFieldIcon>{leftIcon}</TextFieldIcon>}
 
           <input
             ref={ref}
@@ -203,18 +174,14 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             disabled={disabled}
             aria-describedby={bottomText ? helperTextId : undefined}
             aria-invalid={error || undefined}
-            className={getInputClassName(size, !!leftIcon, !!rightIcon)}
+            className={getInputClassName(size)}
             {...props}
           />
 
-          {rightIcon && (
-            <TextFieldIcon size={size} side="right">
-              {rightIcon}
-            </TextFieldIcon>
-          )}
+          {rightIcon && <TextFieldIcon>{rightIcon}</TextFieldIcon>}
           {validated && (
-            <TextFieldIcon size={size} side="right">
-              <CheckOutlineIcon className="size-5 text-success-500" />
+            <TextFieldIcon>
+              <CheckOutlineIcon className="text-success-500" />
             </TextFieldIcon>
           )}
         </div>

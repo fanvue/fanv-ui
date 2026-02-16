@@ -205,6 +205,14 @@ function TextFieldShowcase() {
         autoComplete="off"
       />
       <TextField
+        label="Validated with right icon"
+        placeholder="Placeholder"
+        validated
+        rightIcon={<InfoCircleIcon />}
+        defaultValue="user@example.com"
+        autoComplete="off"
+      />
+      <TextField
         label="Left icon"
         leftIcon={<HomeIcon />}
         placeholder="Placeholder"
@@ -273,6 +281,7 @@ function PasswordFieldShowcase() {
         validated
         defaultValue="securepassword123"
         autoComplete="off"
+        helperText="Validation icon appears after the eye icon"
       />
       <PasswordField
         label="Error"
