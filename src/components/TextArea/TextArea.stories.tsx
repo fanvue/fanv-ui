@@ -36,6 +36,9 @@ const meta: Meta<typeof TextArea> = {
     error: {
       control: "boolean",
     },
+    validated: {
+      control: "boolean",
+    },
     fullWidth: {
       control: "boolean",
     },
@@ -107,6 +110,15 @@ export const WithClearButton: Story = {
     placeholder: "Enter your description...",
     showClearButton: true,
     defaultValue: "This text can be cleared",
+  },
+};
+
+export const Validated: Story = {
+  args: {
+    label: "Description",
+    placeholder: "Enter your description...",
+    validated: true,
+    defaultValue: "This input has been validated",
   },
 };
 

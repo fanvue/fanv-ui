@@ -43,6 +43,7 @@ export { ArrowRightIcon } from "./components/Icons/ArrowRightIcon";
 export { ArrowUpRightIcon } from "./components/Icons/ArrowUpRightIcon";
 export { CheckCircleIcon } from "./components/Icons/CheckCircleIcon";
 export { CheckIcon } from "./components/Icons/CheckIcon";
+export { CheckOutlineIcon } from "./components/Icons/CheckOutlineIcon";
 export { ChevronLeftIcon } from "./components/Icons/ChevronLeftIcon";
 export { ChevronRightIcon } from "./components/Icons/ChevronRightIcon";
 export { CloseIcon } from "./components/Icons/CloseIcon";

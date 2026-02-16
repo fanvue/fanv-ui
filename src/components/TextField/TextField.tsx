@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckCircleIcon } from "@/index";
+import { CheckOutlineIcon } from "@/index";
 import { cn } from "../../utils/cn";
 
 /** Text field height in pixels. */
@@ -214,7 +214,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           )}
           {validated && (
             <TextFieldIcon size={size} side="right">
-              <CheckCircleIcon className="text-success-500" />
+              <CheckOutlineIcon className="size-5 text-success-500" />
             </TextFieldIcon>
           )}
         </div>

@@ -198,6 +198,13 @@ function TextFieldShowcase() {
       />
       <TextField placeholder="No label" aria-label="Search" autoComplete="off" />
       <TextField
+        label="Validated"
+        placeholder="Placeholder"
+        validated
+        defaultValue="user@example.com"
+        autoComplete="off"
+      />
+      <TextField
         label="Left icon"
         leftIcon={<HomeIcon />}
         placeholder="Placeholder"
@@ -261,6 +268,13 @@ function PasswordFieldShowcase() {
       />
       <PasswordField placeholder="No label" autoComplete="off" />
       <PasswordField
+        label="Validated"
+        placeholder="Enter password"
+        validated
+        defaultValue="securepassword123"
+        autoComplete="off"
+      />
+      <PasswordField
         label="Error"
         placeholder="Enter password"
         error
@@ -303,6 +317,12 @@ function TextAreaShowcase() {
         helperText="Maximum 500 characters"
       />
       <TextArea placeholder="No label" aria-label="Description" />
+      <TextArea
+        label="Validated"
+        placeholder="Enter description..."
+        validated
+        defaultValue="This input has been validated"
+      />
       <TextArea
         label="With clear button"
         placeholder="Enter description..."

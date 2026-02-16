@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { CheckOutlineIcon } from "../Icons/CheckOutlineIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 
 /** Text area height in pixels. */
@@ -17,6 +18,8 @@ export interface TextAreaProps
   error?: boolean;
   /** Error message displayed below the textarea. Shown instead of `helperText` when `error` is `true`. */
   errorMessage?: string;
+  /** Whether the text area is validated. @default false */
+  validated?: boolean;
   /** Whether the text area stretches to fill its container width. @default false */
   fullWidth?: boolean;
   /** Whether to show a clear button when text is present. @default false */
@@ -131,6 +134,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       size = "48",
       error = false,
       errorMessage,
+      validated = false,
       className,
       id,
       disabled,
@@ -207,6 +211,16 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             >
               <CloseIcon />
             </button>
+          )}
+          {validated && !showClear && (
+            <div
+              className={cn(
+                "pointer-events-none absolute flex size-5 items-center justify-center",
+                CLEAR_BUTTON_RIGHT[size],
+              )}
+            >
+              <CheckOutlineIcon className="text-success-500" />
+            </div>
           )}
         </div>
 

@@ -86,6 +86,30 @@ describe("TextArea", () => {
     });
   });
 
+  describe("validated state", () => {
+    it("shows validation icon when validated is true", () => {
+      const { container } = render(<TextArea label="Test" validated defaultValue="Valid text" />);
+      const icon = container.querySelector(".text-success-500");
+      expect(icon).toBeInTheDocument();
+    });
+
+    it("does not show validation icon when validated is false", () => {
+      const { container } = render(<TextArea label="Test" defaultValue="Text" />);
+      const icon = container.querySelector(".text-success-500");
+      expect(icon).not.toBeInTheDocument();
+    });
+
+    it("hides validation icon when clear button is visible", () => {
+      const { container } = render(
+        <TextArea label="Test" validated showClearButton value="Text" />,
+      );
+      const validationIcon = container.querySelector(".text-success-500");
+      const clearButton = screen.getByLabelText("Clear text");
+      expect(clearButton).toBeInTheDocument();
+      expect(validationIcon).not.toBeInTheDocument();
+    });
+  });
+
   describe("clear button", () => {
     it("does not show clear button by default", () => {
       render(<TextArea label="Test" value="Some text" />);

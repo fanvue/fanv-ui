@@ -36,6 +36,9 @@ const meta: Meta<typeof PasswordField> = {
     error: {
       control: "boolean",
     },
+    validated: {
+      control: "boolean",
+    },
     fullWidth: {
       control: "boolean",
     },
@@ -116,6 +119,15 @@ export const WithLeftIcon: Story = {
         />
       </svg>
     ),
+  },
+};
+
+export const Validated: Story = {
+  args: {
+    label: "Password",
+    placeholder: "Enter your password",
+    validated: true,
+    defaultValue: "securepassword123",
   },
 };
 
