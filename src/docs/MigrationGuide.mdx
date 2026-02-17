@@ -29,7 +29,6 @@ This is not a step-by-step tutorial. It is a catalog of things to watch out for:
   - [Layout Migration](#layout-migration)
   - [Replacing the `sx` Prop](#replacing-the-sx-prop)
   - [Replacing `styled()` Components](#replacing-styled-components)
-  - [Theme Access: `useTheme` to CSS Variables](#theme-access-usetheme-to-css-variables)
   - [Dark Mode](#dark-mode)
   - [Breakpoints](#breakpoints)
   - [MUI CssBaseline Conflicts](#mui-cssbaseline-conflicts)
@@ -451,11 +450,9 @@ Note: The `type` prop was renamed to `variant` for consistency.
 
 | Olympus / MUI | @fanvue/ui / Tailwind |
 |---|---|
-| `sx={{ padding: 2, backgroundColor: 'red' }}` | `className="p-4 bg-red-500"` |
+| `sx={{ padding: 2 }}` | `className="p-4"` |
 | `styled(Component)({ ... })` | `className={cn("base-classes", className)}` |
 | `theme.spacing(2)` → `16px` | `p-4` (Tailwind `4` = 16px) |
-| `theme.palette.brand.green[500]` | `text-brand-green-500` or `bg-brand-green-500` |
-| `useTheme()` hook | CSS variables: `var(--color-brand-green-500)` |
 | `shouldForwardProp` / transient `$props` | Not needed; Tailwind classes don't leak to DOM |
 | `sxMerge()` utility | `cn()` utility (re-exported from @fanvue/ui) |
 
@@ -464,7 +461,7 @@ The `cn()` utility from `@fanvue/ui` combines `clsx` + `tailwind-merge` for cond
 ```tsx
 import { cn } from "@fanvue/ui";
 
-cn("p-4 text-body-100", isActive && "text-brand-green-500", className);
+cn("p-4", isActive && "font-bold", className);
 ```
 
 ### Typography Migration
@@ -507,7 +504,6 @@ Olympus uses a `<Typography>` component with MUI variants. @fanvue/ui provides *
 
 > **Watch out for:**
 > - Olympus Typography renders as a `<span>` by default (unless `component` prop is set). Choose your own semantic HTML element.
-> - The `color` prop on Typography (`<Typography color="body.200">`) becomes a Tailwind color class: `text-body-200`.
 > - Naming convention changes from camelCase (`body1Regular`) to kebab-case (`body-1-regular`).
 > - These are `@utility` rules, so Tailwind modifiers work: `md:typography-heading-3`, `dark:typography-body-1-regular`.
 
@@ -642,11 +638,6 @@ sx={{ m: 'auto' }}       → className="m-auto"
 sx={{ mb: 2 }}           → className="mb-4"
 sx={{ gap: 1 }}          → className="gap-2"
 
-// Colors (theme.palette → CSS variables)
-sx={{ color: 'body.100' }}                → className="text-body-100"
-sx={{ backgroundColor: 'background.200' }} → className="bg-background-200"
-sx={{ borderColor: 'neutral.200' }}       → className="border-neutral-200"
-
 // Display & Layout
 sx={{ display: 'flex' }}              → className="flex"
 sx={{ flexDirection: 'column' }}      → className="flex-col"
@@ -694,7 +685,6 @@ Each `styled()` call needs to become one of:
 ```tsx
 // Before: Emotion styled
 const StyledCard = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.background[200],
   borderRadius: theme.spacing(1),
   padding: theme.spacing(2),
   boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
@@ -706,7 +696,7 @@ const StyledCard = styled(Box)(({ theme }) => ({
 <StyledCard>Content</StyledCard>
 
 // After: Tailwind
-<div className="rounded-lg bg-background-200 p-4 shadow-sm hover:shadow-md">
+<div className="rounded-lg p-4 shadow-sm hover:shadow-md">
   Content
 </div>
 ```
@@ -716,8 +706,8 @@ For styled components with dynamic props:
 ```tsx
 // Before
 const StyledBadge = styled(Box, { shouldForwardProp })<{ $active: boolean }>(
-  ({ theme, $active }) => ({
-    backgroundColor: $active ? theme.palette.brand.green[500] : theme.palette.neutral[100],
+  ({ $active }) => ({
+    fontWeight: $active ? 600 : 400,
   })
 );
 
@@ -726,7 +716,7 @@ function Badge({ active, className, ...props }: { active: boolean } & HTMLAttrib
   return (
     <div
       className={cn(
-        active ? "bg-brand-green-500" : "bg-neutral-100",
+        active ? "font-semibold" : "font-normal",
         className
       )}
       {...props}
@@ -735,52 +725,12 @@ function Badge({ active, className, ...props }: { active: boolean } & HTMLAttrib
 }
 ```
 
-### Theme Access: `useTheme` to CSS Variables
-
-> **Scale:** There are **98+ `useTheme` calls** and **1,829 `theme.palette` references** in Eden.
-
-These need to migrate to CSS custom properties.
-
-@fanvue/ui exposes all design tokens as CSS variables on `:root` (light) and `.dark` (dark):
-
-```tsx
-// Before: MUI useTheme
-const theme = useTheme();
-const color = theme.palette.brand.green[500]; // '#49f264ff'
-const bgColor = theme.palette.background[200]; // '#ffffffff'
-
-// After: CSS variables (in Tailwind classes)
-className="text-brand-green-500 bg-background-200"
-
-// After: CSS variables (in inline styles, if truly dynamic)
-style={{ color: 'var(--color-brand-green-500)' }}
-```
-
-**Color token mapping:**
-
-| MUI `theme.palette.*` | CSS Variable | Tailwind Class |
-|---|---|---|
-| `palette.primary[500]` | `--color-primary-500` | `text-primary-500` / `bg-primary-500` |
-| `palette.body[100]` | `--color-body-100` | `text-body-100` |
-| `palette.brand.green[500]` | `--color-brand-green-500` | `text-brand-green-500` / `bg-brand-green-500` |
-| `palette.brand.pink[500]` | `--color-brand-pink-500` | `text-brand-pink-500` |
-| `palette.brand.purple[500]` | `--color-brand-purple-500` | `text-brand-purple-500` |
-| `palette.background[200]` | `--color-background-200` | `bg-background-200` |
-| `palette.neutral[200]` | `--color-neutral-200` | `text-neutral-200` / `bg-neutral-200` |
-| `palette.success[500]` | `--color-success-500` | `text-success-500` |
-| `palette.warning[500]` | `--color-warning-500` | `text-warning-500` |
-| `palette.error[500]` | `--color-error-500` | `text-error-500` |
-| `palette.disabled[400]` | `--color-disabled-400` | `text-disabled-400` |
-| `palette.hover[100]` | `--color-hover-100` | `text-hover-100` |
-
-**For truly dynamic color needs** (e.g., computing colors in JS), use `getComputedStyle(document.documentElement).getPropertyValue('--color-brand-green-500')` — but prefer Tailwind classes whenever possible.
-
 ### Dark Mode
 
 | | How it works |
 |---|---|
 | **Olympus** | Dark mode is controlled by MUI's `ThemeProvider`. The `getTheme(prefersDarkMode)` function returns a theme with swapped palette values. Components read `theme.palette.*` and automatically get the right colors. |
-| **@fanvue/ui** | Dark mode uses the `.dark` CSS class on `<html>`. All CSS variables are reassigned under `.dark { ... }` in `theme.css`. Tailwind's `dark:` modifier is configured via `@variant dark (&:where(.dark, .dark *))`. |
+| **@fanvue/ui** | Dark mode uses the `.dark` CSS class on `<html>`. Tailwind's `dark:` modifier is configured via `@variant dark (&:where(.dark, .dark *))`. |
 
 > **Required:** You will need to add a dark mode class sync to `StyleProviders.tsx`. The MUI ThemeProvider controls dark mode via JS, but @fanvue/ui reads the `.dark` CSS class on `<html>`. Add this effect to `StyleProviders`:
 
@@ -796,7 +746,6 @@ This ensures both systems stay in sync: MUI reads from the theme object, @fanvue
 > **Watch out for:**
 > - `theme.palette.mode === "dark"` checks in code → replace with `document.documentElement.classList.contains("dark")` or a React context/hook
 > - `theme.isDarkMode` / `theme.isLightMode` custom properties → same replacement
-> - Any `useColorPalette({ oppositeMode: true })` calls need manual handling with CSS variables
 
 ### Breakpoints
 
@@ -881,19 +830,13 @@ MUI `spacing(1)` = 8px. Tailwind `1` = 4px. Double check every spacing value dur
 
 ---
 
-### 3. Color Opacity Differences
-
-MUI theme colors in Pandora include alpha channels in the hex value (e.g., `#15151533`). The Tailwind color variables preserve these exact values. However, Tailwind's opacity modifier syntax (`bg-primary-500/50`) will **not work** as expected because the variables already contain alpha. Use the color as-is or use `bg-[color-mix(...)]` for custom opacity.
-
----
-
-### 4. Transient Props (`$variant`, `$size`) Are Gone
+### 3. Transient Props (`$variant`, `$size`) Are Gone
 
 Olympus uses the `$` prefix convention to prevent props from leaking to the DOM. @fanvue/ui components don't need this because styling is class-based, not prop-based. If you're building custom styled wrappers during migration, you no longer need `shouldForwardProp`.
 
 ---
 
-### 5. `notistack` → @fanvue/ui Toast
+### 4. `notistack` → @fanvue/ui Toast
 
 Olympus Toast wraps `notistack`. @fanvue/ui Toast is Radix-based with a completely different API:
 
@@ -915,35 +858,13 @@ You'll need a toast state manager (context or store) to trigger toasts imperativ
 
 ---
 
-### 6. CSS Class Order Doesn't Matter, but Layer Order Does
+### 5. CSS Class Order Doesn't Matter, but Layer Order Does
 
 The order of classes in `className` never affects CSS specificity. However, when two Tailwind classes target the same CSS property (e.g. `p-4` and `p-2`), the `cn()` utility deduplicates them and keeps the last one. If you're mixing MUI components and Tailwind-styled elements on the same page, the `@layer` order in your CSS file is what determines which styles win. The existing layer setup (`theme, base, mui, components, utilities`) ensures Tailwind utilities beat MUI styles.
 
 ---
 
-### 7. `useTheme()` in Non-Component Code
-
-If you have utility functions that accept a `theme` parameter:
-
-```tsx
-// Before
-function getCardStyles(theme: Theme) {
-  return { backgroundColor: theme.palette.background[200] };
-}
-
-// After — use CSS variables directly
-// No function needed; apply className="bg-background-200" in JSX
-```
-
-For the rare case where you need the resolved value in JS (e.g., for canvas drawing, chart config), read from CSS:
-
-```tsx
-getComputedStyle(document.documentElement).getPropertyValue('--color-background-200');
-```
-
----
-
-### 8. Olympus Theme Constants
+### 6. Olympus Theme Constants
 
 Olympus exports layout constants (`DESKTOP_HEADER_HEIGHT`, `MOBILE_FOOTER_HEIGHT`, `contentRails`, etc.). These aren't part of @fanvue/ui. Extract them into a shared constants file in Pandora or use Tailwind arbitrary values:
 
@@ -955,7 +876,7 @@ className="max-w-[640px] min-w-[300px]"  // contentRails
 
 ---
 
-### 9. Most Form Components Are Not Yet Available
+### 7. Most Form Components Are Not Yet Available
 
 `TextField` is now available in @fanvue/ui, but `PasswordField`, `Select`, and `TextArea` from Olympus InputFields (87 imports) don't have @fanvue/ui equivalents yet. Plan to keep MUI for those during the initial migration phase.
 
