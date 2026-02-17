@@ -1,6 +1,4 @@
 # CI Workflow - Runs on all pull requests and pushes to main
-# NOTE: If you add/rename/remove jobs, update the CHECKS array in release.yml
-# which sets status checks for release-please PRs via the Statuses API.
 name: CI
 
 on:
