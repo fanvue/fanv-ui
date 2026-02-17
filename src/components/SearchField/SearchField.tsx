@@ -1,4 +1,5 @@
 import * as React from "react";
+import { IconButton } from "../IconButton/IconButton";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { TextField, type TextFieldProps } from "../TextField/TextField";
@@ -86,16 +87,13 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
     const showClearButton = onClear && displayValue !== undefined && displayValue !== "";
 
     const rightIcon = showClearButton ? (
-      <button
-        type="button"
-        onClick={handleClear}
-        disabled={disabled}
+      <IconButton
+        variant="tertiary"
+        size="24"
+        icon={<CloseIcon />}
         aria-label="Clear search"
-        tabIndex={-1}
-        className="flex size-5 shrink-0 items-center justify-center text-body-200 transition-colors hover:text-body-100 focus:outline-none disabled:cursor-not-allowed"
-      >
-        <CloseIcon />
-      </button>
+        onClick={handleClear}
+      />
     ) : undefined;
 
     return (

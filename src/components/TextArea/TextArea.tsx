@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { IconButton } from "../IconButton/IconButton";
 import { CheckOutlineIcon } from "../Icons/CheckOutlineIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 
@@ -125,22 +126,40 @@ function calculateMaxHeight(size: TextAreaSize, maxRows?: number): string | unde
   return `${lineHeight * maxRows + verticalPadding * 2}px`;
 }
 
-function createClearHandler(
+function useTextAreaValue(
+  value: React.TextareaHTMLAttributes<HTMLTextAreaElement>["value"],
+  defaultValue: React.TextareaHTMLAttributes<HTMLTextAreaElement>["defaultValue"],
+  showClearButton: boolean,
+  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>,
   onClear?: () => void,
-  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void,
 ) {
-  return () => {
-    if (onClear) {
-      onClear();
+  const [internalValue, setInternalValue] = React.useState(value ?? defaultValue ?? "");
+
+  React.useEffect(() => {
+    if (value !== undefined) {
+      setInternalValue(value);
     }
-    // If there's an onChange handler, simulate a change event with empty value
-    if (onChange) {
-      const syntheticEvent = {
-        target: { value: "" },
-        currentTarget: { value: "" },
-      } as React.ChangeEvent<HTMLTextAreaElement>;
-      onChange(syntheticEvent);
-    }
+  }, [value]);
+
+  const handleChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setInternalValue(e.target.value);
+      onChange?.(e);
+    },
+    [onChange],
+  );
+
+  const handleClear = React.useCallback(() => {
+    setInternalValue("");
+    onClear?.();
+  }, [onClear]);
+
+  return {
+    internalValue,
+    displayValue: showClearButton ? internalValue : value,
+    resolvedDefaultValue: showClearButton ? undefined : defaultValue,
+    handleChange,
+    handleClear,
   };
 }
 
@@ -177,6 +196,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       showClearButton = false,
       onClear,
       value,
+      defaultValue,
       onChange,
       minRows,
       maxRows,
@@ -188,10 +208,15 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const inputId = id || generatedId;
     const helperTextId = `${inputId}-helper`;
     const bottomText = error && errorMessage ? errorMessage : helperText;
-    const hasValue = value !== undefined && value !== null && value !== "";
-    const showClear = showClearButton && hasValue && !disabled;
     const maxHeight = calculateMaxHeight(size, maxRows);
-    const handleClear = createClearHandler(onClear, onChange);
+
+    const { internalValue, displayValue, resolvedDefaultValue, handleChange, handleClear } =
+      useTextAreaValue(value, defaultValue, showClearButton, onChange, onClear);
+
+    const showClear = showClearButton && internalValue !== "" && !disabled;
+    const showValidated = validated && !showClear;
+    const ariaDescribedBy = bottomText ? helperTextId : undefined;
+    const textareaStyle = maxHeight ? { maxHeight } : undefined;
 
     warnMissingAccessibleName(label, props["aria-label"], props["aria-labelledby"]);
 
@@ -215,31 +240,31 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             ref={ref}
             id={inputId}
             disabled={disabled}
-            aria-describedby={bottomText ? helperTextId : undefined}
+            aria-describedby={ariaDescribedBy}
             aria-invalid={error || undefined}
             className={getTextareaClassName(size, showClear, !!minRows)}
-            value={value}
-            onChange={onChange}
+            value={displayValue}
+            defaultValue={resolvedDefaultValue}
+            onChange={handleChange}
             rows={minRows}
-            style={maxHeight ? { maxHeight } : undefined}
+            style={textareaStyle}
             {...props}
           />
 
           {showClear && (
-            <button
-              type="button"
-              onClick={handleClear}
+            <IconButton
+              variant="tertiary"
+              size="24"
+              icon={<CloseIcon />}
               aria-label="Clear text"
-              tabIndex={-1}
+              onClick={handleClear}
               className={cn(
-                "absolute flex size-5 shrink-0 items-center justify-center text-body-200 transition-colors hover:text-body-100 focus:outline-none",
+                "absolute flex size-5 items-center justify-center self-end",
                 CLEAR_BUTTON_RIGHT[size],
               )}
-            >
-              <CloseIcon />
-            </button>
+            />
           )}
-          {validated && !showClear && (
+          {showValidated && (
             <div
               className={cn(
                 "pointer-events-none absolute flex size-5 items-center justify-center",
