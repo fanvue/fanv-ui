@@ -38,6 +38,7 @@ import {
   ProgressBar,
   Radio,
   RadioGroup,
+  SearchField,
   Slider,
   Snackbar,
   SpinnerIcon,
@@ -384,6 +385,71 @@ function TextAreaShowcase() {
   );
 }
 
+function SearchFieldShowcase() {
+  const [value, setValue] = useState("");
+  const [debouncedValue, setDebouncedValue] = useState("");
+  const [minCharsValue, setMinCharsValue] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+  return (
+    <div className="flex max-w-2xl flex-col gap-4">
+      <SearchField label="Size 48" placeholder="Search..." size="48" autoComplete="off" />
+      <SearchField label="Size 40" placeholder="Search..." size="40" autoComplete="off" />
+      <SearchField label="Size 32" placeholder="Search..." size="32" autoComplete="off" />
+      <SearchField
+        label="With helper"
+        placeholder="Search..."
+        helperText="Type to search"
+        autoComplete="off"
+      />
+      <SearchField placeholder="No label" autoComplete="off" />
+      <SearchField
+        label="With clear button"
+        placeholder="Search..."
+        value={value}
+        onChange={handleChange}
+        onClear={() => setValue("")}
+        autoComplete="off"
+      />
+      <SearchField
+        label="Error"
+        placeholder="Search..."
+        error
+        errorMessage="No results found"
+        autoComplete="off"
+      />
+      <SearchField label="Disabled" placeholder="Search..." disabled autoComplete="off" />
+      <SearchField
+        label="Disabled with value"
+        defaultValue="Cannot edit"
+        disabled
+        autoComplete="off"
+      />
+      <SearchField
+        label="Debounced (300ms)"
+        placeholder="Type and wait..."
+        value={debouncedValue}
+        onChange={(e) => setDebouncedValue(e.target.value)}
+        onClear={() => setDebouncedValue("")}
+        debounceMs={300}
+        helperText={`Debounced value: "${debouncedValue}"`}
+        autoComplete="off"
+      />
+      <SearchField
+        label="Min 3 characters"
+        placeholder="Type at least 3 chars..."
+        value={minCharsValue}
+        onChange={(e) => setMinCharsValue(e.target.value)}
+        onClear={() => setMinCharsValue("")}
+        minChars={3}
+        helperText={`Value (fires after 3 chars): "${minCharsValue}"`}
+        autoComplete="off"
+      />
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -406,6 +472,7 @@ function App() {
     { id: "textfield", label: "Text Field" },
     { id: "passwordfield", label: "Password Field" },
     { id: "textarea", label: "Text Area" },
+    { id: "searchfield", label: "Search Field" },
     { id: "count", label: "Count" },
     { id: "chip", label: "Chip" },
     { id: "snackbar", label: "Snackbar" },
@@ -1225,9 +1292,21 @@ function App() {
             </div>
 
             {/* TextArea */}
-            <div id="textarea" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Text Area</h2>
-              <TextAreaShowcase />
+            <TextAreaShowcase />
+
+            {/* SearchField */}
+            <div id="searchfield" className="flex scroll-mt-20 flex-col gap-4">
+              <h2 className="typography-h3 mb-4">Search Field</h2>
+              <SearchFieldShowcase />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <Count value={5} variant="default" />
+              <Count value={12} variant="brand" />
+              <Count value={8} variant="pink" />
+              <Count value={3} variant="info" />
+              <Count value={7} variant="success" />
+              <Count value={15} variant="warning" />
             </div>
 
             {/* Count */}
