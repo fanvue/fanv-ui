@@ -10,6 +10,7 @@ permissions:
   contents: write
   pull-requests: write
   id-token: write
+  packages: write
 
 jobs:
   release:
@@ -60,6 +61,27 @@ jobs:
             echo "Publishing stable version $VERSION"
             npm publish --access public --provenance
           fi
+
+      - name: Setup Node.js for GitHub Packages
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          registry-url: "https://npm.pkg.github.com"
+
+      - name: Publish to GitHub Packages
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+          if [[ "$VERSION" == *"-"* ]]; then
+            echo "Publishing prerelease version $VERSION to GitHub Packages with tag alpha"
+            npm publish --registry https://npm.pkg.github.com --tag alpha
+          else
+            echo "Publishing stable version $VERSION to GitHub Packages"
+            npm publish --registry https://npm.pkg.github.com
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Notify Slack
         if: ${{ steps.release.outputs.release_created }}
