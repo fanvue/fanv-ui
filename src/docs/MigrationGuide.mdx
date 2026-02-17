@@ -6,7 +6,13 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 > **Guide version:** 1.0 — covers migration to `@fanvue/ui` v1.x
 >
-> **Last updated:** 2026-02-13
+> **Last updated:** 2026-02-17
+
+> ⚠️ **Components Only Release**
+>
+> This version of `@fanvue/ui` focuses exclusively on **component exports**. Design tokens (colors, typography scales, spacing) are **not yet finalized and may change**. Do not rely on specific CSS variable names, color utility classes, or typography class names from the library — these are subject to breaking changes in a future release.
+>
+> This guide covers **component API migration only**. Guidance on design tokens, CSS variables, and theme migration will be added once the token system is stable.
 
 A reference for Pandora maintainers migrating from **Olympus** (`@pandora/olympus`) and **MUI** (`@mui/material`) to **@fanvue/ui** and **Tailwind CSS**.
 
@@ -22,7 +28,6 @@ This is not a step-by-step tutorial. It is a catalog of things to watch out for:
   - [Component Mapping](#component-mapping)
   - [Prop Name Changes](#prop-name-changes) — [AudioUpload](#audioupload) · [Button](#button) · [Alert](#alert) · [Avatar](#avatar) · [Tabs](#tabs) · [Switch](#switch-formerly-toggle) · [Checkbox](#checkbox) · [ProgressBar](#progressbar) · [TextField](#textfield) · [Tooltip](#tooltip) · [DatePicker](#datepicker) · [Logo](#logo)
   - [Styling Approach](#styling-approach)
-  - [Typography Migration](#typography-migration)
   - [High-Volume Components and Migration Notes](#high-volume-components-and-migration-notes)
 - [Part 2: MUI to Tailwind](#part-2-mui-to-tailwind)
   - [CSS Specificity and Layer Ordering](#css-specificity-and-layer-ordering)
@@ -77,7 +82,7 @@ Use this table to determine which library provides each component. Where @fanvue
 | Count | ✅ `Count` | ❌ | ❌ |
 | Divider | ✅ `Divider` | ✅ | ✅ |
 | Tooltip | ✅ `Tooltip` (compound) | ✅ | ✅ |
-| Typography | ✅ Tailwind `typography-*` classes | ✅ | ✅ |
+| Typography | ❌ (token system TBD) | ✅ | ✅ |
 | Logo | ✅ `Logo` | ❌ | ❌ |
 | Table | ❌ | ✅ | ✅ |
 | List | ❌ | ❌ | ✅ `List` / `ListItem` |
@@ -176,7 +181,7 @@ The following table maps every Olympus component to its @fanvue/ui replacement (
 |---|---|---|
 | `Button` | `Button` | Different variant names (see [Prop Name Changes](#prop-name-changes)) |
 | `Alert` | `Alert` | Severity → variant terminology change |
-| `Typography` | N/A (Tailwind utilities) | No component. Use `typography-*` CSS utility classes instead |
+| `Typography` | N/A | No component equivalent yet. Typography tokens and utility classes are not finalized — keep using Olympus/MUI Typography for now |
 | `Chip` | `Chip` | Different variant/size naming |
 | `Checkbox` | `Checkbox` | Simplified API, no `FormControlLabel` wrapper needed |
 | `Radio` / `RadioButton` | `Radio` + `RadioGroup` | Split into separate components |
@@ -509,6 +514,8 @@ Note: The `type` prop was renamed to `variant` for consistency.
 
 > The fundamental shift: **CSS-in-JS → utility-first CSS**.
 
+> ⚠️ Design tokens (colors, typography) are not yet finalized. The mapping table below only covers **layout and spacing** utilities that are stable. Color and typography token guidance will be added in a future release.
+
 | Olympus / MUI | @fanvue/ui / Tailwind |
 |---|---|
 | `sx={{ padding: 2 }}` | `className="p-4"` |
@@ -567,14 +574,13 @@ Olympus uses a `<Typography>` component with MUI variants. @fanvue/ui provides *
 > - Olympus Typography renders as a `<span>` by default (unless `component` prop is set). Choose your own semantic HTML element.
 > - Naming convention changes from camelCase (`body1Regular`) to kebab-case (`body-1-regular`).
 > - These are `@utility` rules, so Tailwind modifiers work: `md:typography-heading-3`, `dark:typography-body-1-regular`.
-
 ### High-Volume Components and Migration Notes
 
 These Olympus / MUI components are heavily used in Pandora. Some now have @fanvue/ui equivalents; others need alternative approaches:
 
 | Component | Imports in Eden | @fanvue/ui |
 |---|---|:---:|
-| **Typography** | 447 | ✅ Tailwind `typography-*` classes |
+| **Typography** | 447 | ❌ (token system TBD — keep on Olympus/MUI for now) |
 | **Boxes / Flex** | 270 | ✅ Tailwind `flex` / `grid` |
 | **InputFields / TextField** | 87 | ✅ (`TextField` only — `PasswordField`, `TextArea`, `Select` are ❌) |
 | **Skeleton** | 73 | ❌ |
@@ -595,7 +601,7 @@ These Olympus / MUI components are heavily used in Pandora. Some now have @fanvu
 
 ## Part 2: MUI to Tailwind
 
-This section covers the broader migration from MUI's CSS-in-JS approach to Tailwind CSS utility classes — including CSS layer configuration, `sx` prop replacement, `styled()` migration, theme access, and dark mode.
+This section covers the broader migration from MUI's CSS-in-JS approach to Tailwind CSS utility classes — including CSS layer configuration, `sx` prop replacement, `styled()` migration, and dark mode.
 
 ### CSS Specificity and Layer Ordering
 
@@ -879,7 +885,7 @@ MUI's polymorphic `component` prop (`<Box component="section">`, `<Typography co
 
 // Tailwind
 <nav className="p-4">
-<h2 className="typography-heading-3">
+<h2>Title</h2>
 ```
 
 ---
@@ -952,16 +958,16 @@ Suggested migration order based on usage frequency in Eden and migration complex
 |---|---|---|---|
 | 1 | **Boxes/Flex** → Tailwind flex | 270 imports | Low |
 | 2 | **Button** → @fanvue/ui Button | 243 imports | Low |
-| 3 | **Typography** → Tailwind utilities | 447 imports | Low (high volume, mechanical) |
-| 4 | **IconButton** → @fanvue/ui IconButton | 68 imports | Low |
-| 5 | **Alert** → @fanvue/ui Alert | 21 imports | Low |
-| 6 | **Chip** → @fanvue/ui Chip | 26 imports | Low |
-| 7 | **Avatar** → @fanvue/ui Avatar | 37 imports | Medium (API restructure) |
-| 8 | **Checkbox/Radio** → @fanvue/ui | 9 imports | Low |
-| 9 | **Toggle** → @fanvue/ui Switch | 7 imports | Low |
-| 10 | **sx prop removal** | 2,731 occurrences | High (volume) |
-| 11 | **styled() removal** | 127 files | High (volume) |
-| 12 | **Loader** → SpinnerIcon | 68 imports | Low |
-| 13 | **TextField** → @fanvue/ui TextField | 87 imports | Medium (API changes; PasswordField/TextArea/Select still need MUI) |
-| 14 | **Toast** (notistack → Radix) | 7 imports | Medium |
-| 15 | **Dialog/Skeleton/Menu** | 119+ imports | Blocked (no @fanvue/ui equivalent) |
+| 3 | **IconButton** → @fanvue/ui IconButton | 68 imports | Low |
+| 4 | **Alert** → @fanvue/ui Alert | 21 imports | Low |
+| 5 | **Chip** → @fanvue/ui Chip | 26 imports | Low |
+| 6 | **Avatar** → @fanvue/ui Avatar | 37 imports | Medium (API restructure) |
+| 7 | **Checkbox/Radio** → @fanvue/ui | 9 imports | Low |
+| 8 | **Toggle** → @fanvue/ui Switch | 7 imports | Low |
+| 9 | **Loader** → SpinnerIcon | 68 imports | Low |
+| 10 | **TextField** → @fanvue/ui TextField | 87 imports | Medium (API changes; PasswordField/TextArea/Select still need MUI) |
+| 11 | **Toast** (notistack → Radix) | 7 imports | Medium |
+| 12 | **sx prop removal** | 2,731 occurrences | High (volume) |
+| 13 | **styled() removal** | 127 files | High (volume) |
+| — | **Typography** | 447 imports | Blocked (token system not yet finalized) |
+| — | **Dialog/Skeleton/Menu** | 119+ imports | Blocked (no @fanvue/ui equivalent) |
