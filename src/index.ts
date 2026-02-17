@@ -71,6 +71,7 @@ export { InfoIcon } from "./components/Icons/InfoIcon";
 export { MicrophoneIcon } from "./components/Icons/MicrophoneIcon";
 export { MinusIcon } from "./components/Icons/MinusIcon";
 export { PlusIcon } from "./components/Icons/PlusIcon";
+export { SearchIcon } from "./components/Icons/SearchIcon";
 export { SpinnerIcon } from "./components/Icons/SpinnerIcon";
 export { StopIcon } from "./components/Icons/StopIcon";
 export { SuccessIcon } from "./components/Icons/SuccessIcon";
@@ -103,6 +104,11 @@ export type { RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";
+export type {
+  SearchFieldProps,
+  SearchFieldSize,
+} from "./components/SearchField/SearchField";
+export { SearchField } from "./components/SearchField/SearchField";
 export type {
   SliderLabelPosition,
   SliderProps,
