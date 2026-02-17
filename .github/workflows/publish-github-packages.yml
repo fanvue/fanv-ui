@@ -35,6 +35,8 @@ jobs:
 
       - name: Publish to GitHub Packages
         run: |
+          # Override project .npmrc scoped registry to target GitHub Packages
+          npm config set @fanvue:registry https://npm.pkg.github.com --location=project
           VERSION=$(node -p "require('./package.json').version")
           if [[ "$VERSION" == *"-"* ]]; then
             echo "Publishing prerelease version $VERSION to GitHub Packages with tag alpha"
