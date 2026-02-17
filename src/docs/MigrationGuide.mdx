@@ -26,7 +26,7 @@ This is not a step-by-step tutorial. It is a catalog of things to watch out for:
   - [Buttons & Actions](#buttons--actions) · [Feedback & Notifications](#feedback--notifications) · [Data Display](#data-display) · [Data Input](#data-input) · [Navigation](#navigation) · [Layout & Containers](#layout--containers) · [Overlays & Modals](#overlays--modals) · [Disclosure & Transitions](#disclosure--transitions) · [Charts & Visualization](#charts--visualization)
 - [Part 1: Olympus to @fanvue/ui](#part-1-olympus-to-fanvueui)
   - [Component Mapping](#component-mapping)
-  - [Prop Name Changes](#prop-name-changes) — [AudioUpload](#audioupload) · [Button](#button) · [Alert](#alert) · [Avatar](#avatar) · [Tabs](#tabs) · [Switch](#switch-formerly-toggle) · [Checkbox](#checkbox) · [ProgressBar](#progressbar) · [TextField](#textfield) · [Tooltip](#tooltip) · [DatePicker](#datepicker) · [Logo](#logo)
+  - [Prop Name Changes](#prop-name-changes) — [AudioUpload](#audioupload) · [Button](#button) · [IconButton](#iconbutton) · [Alert](#alert) · [Avatar](#avatar) · [Tabs](#tabs) · [Switch](#switch-formerly-toggle) · [Checkbox](#checkbox) · [ProgressBar](#progressbar) · [TextField](#textfield) · [Tooltip](#tooltip) · [DatePicker](#datepicker) · [Logo](#logo)
   - [Styling Approach](#styling-approach)
   - [High-Volume Components and Migration Notes](#high-volume-components-and-migration-notes)
 - [Part 2: MUI to Tailwind](#part-2-mui-to-tailwind)
@@ -288,6 +288,34 @@ import { AudioUpload, useAudioRecorder, validateAudioFile } from "@fanvue/ui";
 | `startIcon` / `endIcon` | `leftIcon` / `rightIcon` | Renamed |
 | `sx={{...}}` | `className="..."` | Tailwind classes instead of sx |
 
+**Size mapping from MUI string sizes:**
+
+| MUI `size` | @fanvue/ui `size` |
+|---|---|
+| `"small"` | `"32"` |
+| `"medium"` | `"40"` |
+| `"large"` | `"48"` |
+
+**`asChild` replaces the `component` prop.** Use it to render a Button as a link or router component. See [Pitfall #1](#1-the-component-prop-doesnt-exist) for examples.
+
+---
+
+#### IconButton
+
+Children are **not accepted** by @fanvue/ui `IconButton`. The `icon` prop is **required**.
+
+```tsx
+// Olympus / MUI
+<IconButton><CloseIcon /></IconButton>
+
+// @fanvue/ui
+<IconButton icon={<CloseIcon />} />
+```
+
+> **Note:** Olympus `variant="recording"` maps to `"microphone"` in @fanvue/ui.
+
+> **No `tooltip` prop.** Compose with the [Tooltip](#tooltip) compound component instead.
+
 ---
 
 #### Alert
@@ -301,6 +329,7 @@ import { AudioUpload, useAudioRecorder, validateAudioFile } from "@fanvue/ui";
 | `severity="error"` | `variant="error"` | |
 | `onClose` | `onClose` | Same |
 | N/A | `closeLabel` | New — accessible label for the close button (i18n) |
+| `action={<Button>...</Button>}` | N/A | No `action` prop — compose manually or keep MUI Alert |
 
 ---
 
@@ -336,6 +365,30 @@ Key differences:
 - NSFW blur: `NSFWShow` prop
 - Fullscreen view and top spender badge are not built in; compose them yourself
 - Fallback content is explicit via the `fallback` prop or `AvatarFallback` sub-component
+
+> **Watch out — `src` type mismatch:** Pandora uses `AvatarUserImage` type (`{ url: string; url2x?: string }`) for avatar data. @fanvue/ui Avatar expects `src?: string`. Pass the `.url` property explicitly:
+>
+> ```tsx
+> // Before (Olympus accepts the object)
+> <Avatar userData={user} />
+>
+> // After (simple) — pass the string URL, not the object
+> <Avatar src={user.avatarUri?.url} alt={user.displayName} fallback={getInitials(user.displayName)} />
+> ```
+>
+> **Next.js / optimised images:** Use the compound API with `asChild` on `AvatarImage` instead of the `src` shorthand. This lets you render a Next.js `<Image>` (or any custom image component) with proper loading, `srcSet`, and blur placeholders:
+>
+> ```tsx
+> import { AvatarRoot, AvatarImage, AvatarFallback } from "@fanvue/ui";
+> import Image from "next/image";
+>
+> <AvatarRoot size={40}>
+>   <AvatarImage asChild>
+>     <Image src={user.avatarUri?.url} alt={user.displayName} fill style={{ objectFit: "cover" }} />
+>   </AvatarImage>
+>   <AvatarFallback>{getInitials(user.displayName)}</AvatarFallback>
+> </AvatarRoot>
+> ```
 
 ---
 
@@ -451,6 +504,12 @@ Key differences:
   leftIcon={<MailIcon />}
 />
 ```
+
+> **`multiline` is not supported.** If the MUI TextField uses `multiline` or `rows`, keep it on MUI — @fanvue/ui TextField is single-line only.
+
+> **`inputProps` → top-level props.** MUI nests native input attributes under `inputProps` (e.g. `inputProps={{ maxLength: 50 }}`). On @fanvue/ui TextField these go directly on the component: `maxLength={50}`.
+
+> **Adornments are icon-only.** MUI `startAdornment`/`endAdornment` accept arbitrary content (text, buttons). The @fanvue/ui equivalents (`leftIcon`/`rightIcon`) are fixed-size icon slots — not suitable for buttons or text.
 
 ---
 
@@ -582,7 +641,7 @@ These Olympus / MUI components are heavily used in Pandora. Some now have @fanvu
 |---|---|:---:|
 | **Typography** | 447 | ❌ (token system TBD — keep on Olympus/MUI for now) |
 | **Boxes / Flex** | 270 | ✅ Tailwind `flex` / `grid` |
-| **InputFields / TextField** | 87 | ✅ (`TextField` only — `PasswordField`, `TextArea`, `Select` are ❌) |
+| **InputFields / TextField** | 87 | ✅ (simple inputs only — `PasswordField`, `TextArea`, `Select`, and `multiline` are ❌) |
 | **Skeleton** | 73 | ❌ |
 | **Loader** | 68 | ✅ (`SpinnerIcon`) |
 | **Dialog / Modal** | 46 | ❌ |
@@ -876,7 +935,7 @@ Pitfalls that come up repeatedly during migration. Read through these before you
 
 ### 1. The `component` Prop Doesn't Exist
 
-MUI's polymorphic `component` prop (`<Box component="section">`, `<Typography component="h2">`) has no equivalent. Use the actual HTML element:
+MUI's polymorphic `component` prop (`<Box component="section">`, `<Typography component="h2">`) has no equivalent on layout components. Use the actual HTML element:
 
 ```tsx
 // MUI
@@ -887,6 +946,8 @@ MUI's polymorphic `component` prop (`<Box component="section">`, `<Typography co
 <nav className="p-4">
 <h2>Title</h2>
 ```
+
+**Exception:** Button supports `asChild` as a replacement for `component`. See the [Button section](#button) for examples.
 
 ---
 
@@ -947,6 +1008,12 @@ className="max-w-[640px] min-w-[300px]"  // contentRails
 ### 7. Most Form Components Are Not Yet Available
 
 `TextField` is now available in @fanvue/ui, but `PasswordField`, `Select`, and `TextArea` from Olympus InputFields (87 imports) don't have @fanvue/ui equivalents yet. Plan to keep MUI for those during the initial migration phase.
+
+---
+
+### 8. Don't Forget Wrapper Components
+
+When you swap a leaf component from Olympus/MUI to @fanvue/ui, check whether any custom wrapper components in your app forward MUI-specific props like `sx`, `component`, or `variant` to it. Those wrappers will get TypeScript errors because the underlying component no longer accepts those props. You'll need to update the wrapper's prop types and implementation at the same time as the leaf component.
 
 ---
 
