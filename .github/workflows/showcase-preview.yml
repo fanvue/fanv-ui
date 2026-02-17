@@ -47,6 +47,14 @@ jobs:
           destination_dir: pr-${{ github.event.number }}
           keep_files: true
 
+  comment:
+    name: Comment on PR
+    needs: deploy
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
       - name: Comment on PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
