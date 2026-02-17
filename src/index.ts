@@ -7,6 +7,17 @@
 export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
 export type {
+  AudioFileRejection,
+  AudioUploadProps,
+} from "./components/AudioUpload/AudioUpload";
+export { AudioUpload } from "./components/AudioUpload/AudioUpload";
+export type { AudioValidationError } from "./components/AudioUpload/audioUtils";
+export type {
+  UseAudioRecorderOptions,
+  UseAudioRecorderReturn,
+} from "./components/AudioUpload/useAudioRecorder";
+export { useAudioRecorder } from "./components/AudioUpload/useAudioRecorder";
+export type {
   AvatarFallbackProps,
   AvatarImageProps,
   AvatarProps,
@@ -64,6 +75,7 @@ export { SpinnerIcon } from "./components/Icons/SpinnerIcon";
 export { StopIcon } from "./components/Icons/StopIcon";
 export { SuccessIcon } from "./components/Icons/SuccessIcon";
 export type { IconProps } from "./components/Icons/types";
+export { UploadCloudIcon } from "./components/Icons/UploadCloudIcon";
 export { VipBadgeIcon } from "./components/Icons/VipBadgeIcon";
 export { WarningIcon } from "./components/Icons/WarningIcon";
 export { WarningTriangleIcon } from "./components/Icons/WarningTriangleIcon";
