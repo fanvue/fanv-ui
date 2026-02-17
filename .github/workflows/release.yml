@@ -75,6 +75,11 @@ jobs:
             "Security Audit"
             "Visual Regression"
             "Deploy Preview"
+            "Analyze (actions)"
+            "Analyze (javascript-typescript)"
+            "CodeQL"
+            "Storybook Publish"
+            "UI Tests"
           )
           for context in "${CHECKS[@]}"; do
             gh api "repos/${{ github.repository }}/statuses/$HEAD_SHA" \
