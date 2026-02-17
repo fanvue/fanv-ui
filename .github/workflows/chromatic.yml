@@ -1,12 +1,12 @@
 # Chromatic Workflow - Visual regression testing
+# NOTE: If you rename the job, update the CHECKS array in release.yml
+# which sets status checks for release-please PRs via the Statuses API.
 name: Chromatic
 
 on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
-  pull_request_target:
     branches: [main]
 
 permissions:
@@ -16,9 +16,6 @@ permissions:
 jobs:
   chromatic:
     name: Visual Regression
-    if: >-
-      github.event_name != 'pull_request_target' ||
-      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -53,7 +50,7 @@ jobs:
           exitZeroOnChanges: true
 
       - name: Comment on PR
-        if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: chromatic

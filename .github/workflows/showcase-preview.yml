@@ -1,10 +1,9 @@
+# NOTE: If you rename the deploy job, update the CHECKS array in release.yml
+# which sets status checks for release-please PRs via the Statuses API.
 name: Showcase Preview
 
 on:
   pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened, closed]
-  pull_request_target:
     branches: [main]
     types: [opened, synchronize, reopened, closed]
 
@@ -19,9 +18,7 @@ concurrency:
 jobs:
   deploy:
     name: Deploy Preview
-    if: >-
-      github.event.action != 'closed' &&
-      (github.event_name != 'pull_request_target' || startsWith(github.head_ref, 'release-please--'))
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -65,10 +62,7 @@ jobs:
 
   cleanup:
     name: Cleanup Preview
-    if: >-
-      github.event.action == 'closed' &&
-      (github.event_name == 'pull_request' ||
-      (github.event_name == 'pull_request_target' && startsWith(github.head_ref, 'release-please--')))
+    if: github.event.action == 'closed'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout gh-pages
