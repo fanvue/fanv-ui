@@ -1,15 +1,12 @@
 # CI Workflow - Runs on all pull requests and pushes to main
+# NOTE: If you add/rename/remove jobs, update the CHECKS array in release.yml
+# which sets status checks for release-please PRs via the Statuses API.
 name: CI
 
 on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
-  # pull_request_target fires even for PRs created by GITHUB_TOKEN (e.g. release-please).
-  # Regular PRs are handled by pull_request above; this only runs for release-please PRs.
-  # Safe: default checkout is the base branch, not the PR code.
-  pull_request_target:
     branches: [main]
 
 permissions:
@@ -22,9 +19,6 @@ concurrency:
 jobs:
   lint:
     name: Lint & Type Check
-    if: >-
-      github.event_name != 'pull_request_target' ||
-      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -50,9 +44,6 @@ jobs:
 
   test:
     name: Unit & Storybook Tests
-    if: >-
-      github.event_name != 'pull_request_target' ||
-      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -84,9 +75,6 @@ jobs:
 
   build:
     name: Build
-    if: >-
-      github.event_name != 'pull_request_target' ||
-      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -119,9 +107,6 @@ jobs:
 
   e2e:
     name: E2E Tests
-    if: >-
-      github.event_name != 'pull_request_target' ||
-      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -147,9 +132,6 @@ jobs:
 
   audit:
     name: Security Audit
-    if: >-
-      github.event_name != 'pull_request_target' ||
-      startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
