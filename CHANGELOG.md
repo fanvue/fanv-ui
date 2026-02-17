@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.3.0...ui-v1.4.0) (2026-02-17)
+
+
+### Features
+
+* table of contents in demo area ([#140](https://github.com/fanvue/fanv-ui/issues/140)) ([4d601b8](https://github.com/fanvue/fanv-ui/commit/4d601b8c7b0319e88743a50b50af40f7a5888611))
+* text area component ([#137](https://github.com/fanvue/fanv-ui/issues/137)) ([167cc1f](https://github.com/fanvue/fanv-ui/commit/167cc1fa5dd11048fd0b8b57f4561c68309e7f6f))
+* **ui:** AudioUpload component ([#66](https://github.com/fanvue/fanv-ui/issues/66)) ([b7075ba](https://github.com/fanvue/fanv-ui/commit/b7075ba7384db6742a93d8c1d749fc8e24021467))
+
+
+### Bug Fixes
+
+* **ci:** remove pull_request_target to stop phantom status checks ([#142](https://github.com/fanvue/fanv-ui/issues/142)) ([58d6236](https://github.com/fanvue/fanv-ui/commit/58d6236eeec61aa030f9051e4cdf37c5d9b329cd))
+
 ## [1.3.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.2.1...ui-v1.3.0) (2026-02-13)
 
 
