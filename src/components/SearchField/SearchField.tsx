@@ -92,6 +92,7 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
         size="24"
         icon={<CloseIcon />}
         aria-label="Clear search"
+        disabled={disabled}
         onClick={handleClear}
       />
     ) : undefined;
