@@ -26,11 +26,11 @@ jobs:
         id: release
         uses: googleapis/release-please-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_PLEASE_PRIVATE_KEY }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
-      # Release-please PRs are created by GITHUB_TOKEN, which doesn't trigger
+      # Release-please PRs are created by a PAT, which doesn't trigger
       # pull_request events and therefore never gets CI status checks.
       # Since the PR only contains version bumps and changelog updates (all
       # code was already CI-tested when merged to main), we set the required
