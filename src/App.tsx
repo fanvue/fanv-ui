@@ -39,6 +39,12 @@ import {
   Radio,
   RadioGroup,
   SearchField,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
   Slider,
   Snackbar,
   SpinnerIcon,
@@ -450,6 +456,102 @@ function SearchFieldShowcase() {
   );
 }
 
+function SelectShowcase() {
+  return (
+    <div className="flex max-w-2xl flex-col gap-4">
+      <Select label="Size 48" placeholder="Placeholder Text" size="48">
+        <SelectContent>
+          <SelectItem value="a">Option A</SelectItem>
+          <SelectItem value="b">Option B</SelectItem>
+          <SelectItem value="c">Option C</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select label="Size 40" placeholder="Placeholder Text" size="40">
+        <SelectContent>
+          <SelectItem value="a">Option A</SelectItem>
+          <SelectItem value="b">Option B</SelectItem>
+          <SelectItem value="c">Option C</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select label="Size 32" placeholder="Placeholder Text" size="32">
+        <SelectContent>
+          <SelectItem value="a">Option A</SelectItem>
+          <SelectItem value="b">Option B</SelectItem>
+          <SelectItem value="c">Option C</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select
+        label="With helper text"
+        placeholder="Placeholder Text"
+        helperText="Select one of the available options"
+      >
+        <SelectContent>
+          <SelectItem value="a">Option A</SelectItem>
+          <SelectItem value="b">Option B</SelectItem>
+          <SelectItem value="c">Option C</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select placeholder="No label" aria-label="Select an option">
+        <SelectContent>
+          <SelectItem value="a">Option A</SelectItem>
+          <SelectItem value="b">Option B</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select label="With left icon" placeholder="Placeholder Text" leftIcon={<HomeIcon />}>
+        <SelectContent>
+          <SelectItem value="a">Option A</SelectItem>
+          <SelectItem value="b">Option B</SelectItem>
+          <SelectItem value="c">Option C</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select
+        label="Error"
+        placeholder="Placeholder Text"
+        error
+        errorMessage="This field is required"
+      >
+        <SelectContent>
+          <SelectItem value="a">Option A</SelectItem>
+          <SelectItem value="b">Option B</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select
+        label="Error + helper"
+        placeholder="Placeholder Text"
+        error
+        helperText="Required field"
+      >
+        <SelectContent>
+          <SelectItem value="a">Option A</SelectItem>
+          <SelectItem value="b">Option B</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select label="Disabled" placeholder="Placeholder Text" disabled>
+        <SelectContent>
+          <SelectItem value="a">Option A</SelectItem>
+          <SelectItem value="b">Option B</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select label="Grouped options" placeholder="Select a location">
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>North America</SelectLabel>
+            <SelectItem value="us">United States</SelectItem>
+            <SelectItem value="ca">Canada</SelectItem>
+          </SelectGroup>
+          <SelectSeparator />
+          <SelectGroup>
+            <SelectLabel>Europe</SelectLabel>
+            <SelectItem value="uk">United Kingdom</SelectItem>
+            <SelectItem value="de">Germany</SelectItem>
+            <SelectItem value="fr">France</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -473,6 +575,7 @@ function App() {
     { id: "passwordfield", label: "Password Field" },
     { id: "textarea", label: "Text Area" },
     { id: "searchfield", label: "Search Field" },
+    { id: "select", label: "Select" },
     { id: "count", label: "Count" },
     { id: "chip", label: "Chip" },
     { id: "snackbar", label: "Snackbar" },
@@ -1298,6 +1401,12 @@ function App() {
             <div id="searchfield" className="flex scroll-mt-20 flex-col gap-4">
               <h2 className="typography-h3 mb-4">Search Field</h2>
               <SearchFieldShowcase />
+            </div>
+
+            {/* Select */}
+            <div id="select" className="flex scroll-mt-20 flex-col gap-4">
+              <h2 className="typography-h3 mb-4">Select</h2>
+              <SelectShowcase />
             </div>
 
             <div className="flex flex-wrap items-center gap-4">
