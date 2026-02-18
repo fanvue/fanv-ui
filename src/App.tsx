@@ -1211,6 +1211,55 @@ function PillDemo() {
   );
 }
 
+function CheckboxDemo() {
+  return (
+    <div id="checkbox" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Checkbox</h2>
+      <div className="flex flex-col gap-4">
+        <Checkbox label="Default checkbox" />
+        <Checkbox label="Small text size" size="small" helperText="Label and helper are smaller" />
+        <Checkbox label="Checked checkbox" checked />
+        <Checkbox label="Indeterminate checkbox" checked="indeterminate" />
+        <Checkbox label="Disabled checkbox" disabled />
+        <Checkbox label="Disabled checked" disabled checked />
+        <Checkbox label="Disabled indeterminate" disabled checked="indeterminate" />
+        <Checkbox label="With helper text" helperText="This field is required" />
+        <Checkbox aria-label="Standalone checkbox" />
+      </div>
+    </div>
+  );
+}
+
+function RadioDemo() {
+  return (
+    <div id="radio" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Radio</h2>
+      <RadioGroup defaultValue="option1" aria-label="Options" className="flex flex-col gap-4">
+        <Radio label="Option 1" value="option1" helperText="This is the first option" />
+        <Radio label="Option 2" value="option2" helperText="This is the second option" />
+        <Radio label="Option 3" value="option3" />
+      </RadioGroup>
+
+      <RadioGroup defaultValue="a" aria-label="Small options" className="flex flex-col gap-4">
+        <Radio size="small" label="Option A" value="a" />
+        <Radio size="small" label="Option B" value="b" />
+        <Radio size="small" label="Option C" value="c" />
+      </RadioGroup>
+
+      <RadioGroup
+        disabled
+        defaultValue="x"
+        aria-label="Disabled options"
+        className="flex flex-col gap-4"
+      >
+        <Radio label="Option 1" value="x" />
+        <Radio label="Option 2" value="y" />
+        <Radio label="Option 3" value="z" />
+      </RadioGroup>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -1347,59 +1396,10 @@ function App() {
             <PillDemo />
 
             {/* Checkbox */}
-            <div id="checkbox" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Checkbox</h2>
-              <div className="flex flex-col gap-4">
-                <Checkbox label="Default checkbox" />
-                <Checkbox
-                  label="Small text size"
-                  size="small"
-                  helperText="Label and helper are smaller"
-                />
-                <Checkbox label="Checked checkbox" checked />
-                <Checkbox label="Indeterminate checkbox" checked="indeterminate" />
-                <Checkbox label="Disabled checkbox" disabled />
-                <Checkbox label="Disabled checked" disabled checked />
-                <Checkbox label="Disabled indeterminate" disabled checked="indeterminate" />
-                <Checkbox label="With helper text" helperText="This field is required" />
-                <Checkbox aria-label="Standalone checkbox" />
-              </div>
-            </div>
+            <CheckboxDemo />
 
             {/* Radio */}
-            <div id="radio" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Radio</h2>
-              <RadioGroup
-                defaultValue="option1"
-                aria-label="Options"
-                className="flex flex-col gap-4"
-              >
-                <Radio label="Option 1" value="option1" helperText="This is the first option" />
-                <Radio label="Option 2" value="option2" helperText="This is the second option" />
-                <Radio label="Option 3" value="option3" />
-              </RadioGroup>
-
-              <RadioGroup
-                defaultValue="a"
-                aria-label="Small options"
-                className="flex flex-col gap-4"
-              >
-                <Radio size="small" label="Option A" value="a" />
-                <Radio size="small" label="Option B" value="b" />
-                <Radio size="small" label="Option C" value="c" />
-              </RadioGroup>
-
-              <RadioGroup
-                disabled
-                defaultValue="x"
-                aria-label="Disabled options"
-                className="flex flex-col gap-4"
-              >
-                <Radio label="Option 1" value="x" />
-                <Radio label="Option 2" value="y" />
-                <Radio label="Option 3" value="z" />
-              </RadioGroup>
-            </div>
+            <RadioDemo />
 
             {/* TextField */}
             <TextFieldShowcase />
