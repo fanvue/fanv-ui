@@ -450,6 +450,140 @@ function SearchFieldShowcase() {
   );
 }
 
+function ToastDemo() {
+  // Toast state management
+  const [toasts, setToasts] = useState({
+    info: false,
+    warning: false,
+    success: false,
+    error: false,
+    withAction: false,
+    noClose: false,
+    titleOnly: false,
+    longContent: false,
+    messageToast: false,
+  });
+
+  const showToast = (type: keyof typeof toasts) => {
+    setToasts((prev) => ({ ...prev, [type]: true }));
+  };
+
+  const hideToast = (type: keyof typeof toasts) => {
+    setToasts((prev) => ({ ...prev, [type]: false }));
+  };
+
+  return (
+    <div>
+      {/* Toast */}
+      <div id="toast" className="flex scroll-mt-20 flex-col gap-4">
+        <h2 className="typography-h3 mb-4">Toast</h2>
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-3">
+            <Button variant="primary" size="40" onClick={() => showToast("info")}>
+              Show Info Toast
+            </Button>
+            <Button variant="primary" size="40" onClick={() => showToast("warning")}>
+              Show Warning Toast
+            </Button>
+            <Button variant="primary" size="40" onClick={() => showToast("success")}>
+              Show Success Toast
+            </Button>
+            <Button variant="primary" size="40" onClick={() => showToast("error")}>
+              Show Error Toast
+            </Button>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="secondary" size="40" onClick={() => showToast("withAction")}>
+              With Action Button
+            </Button>
+            <Button variant="secondary" size="40" onClick={() => showToast("noClose")}>
+              No Close Button
+            </Button>
+            <Button variant="secondary" size="40" onClick={() => showToast("titleOnly")}>
+              Title Only
+            </Button>
+            <Button variant="secondary" size="40" onClick={() => showToast("longContent")}>
+              Long Content
+            </Button>
+            <Button variant="secondary" size="40" onClick={() => showToast("messageToast")}>
+              Message Toast
+            </Button>
+          </div>
+        </div>
+      </div>
+      <Toast
+        variant="info"
+        title="Information"
+        description="This is an informational message"
+        open={toasts.info}
+        onOpenChange={(open: boolean) => !open && hideToast("info")}
+      />
+      <Toast
+        variant="warning"
+        title="Warning"
+        description="This is a warning message"
+        open={toasts.warning}
+        onOpenChange={(open: boolean) => !open && hideToast("warning")}
+      />
+      <Toast
+        variant="success"
+        title="Success"
+        description="Operation completed successfully"
+        open={toasts.success}
+        onOpenChange={(open: boolean) => !open && hideToast("success")}
+      />
+      <Toast
+        variant="error"
+        title="Error"
+        description="An error occurred while processing your request"
+        open={toasts.error}
+        onOpenChange={(open: boolean) => !open && hideToast("error")}
+      />
+      <Toast
+        variant="info"
+        title="Update available"
+        description="A new version is available"
+        onActionClick={() => hideToast("withAction")}
+        actionLabel="Update"
+        open={toasts.withAction}
+        onOpenChange={(open: boolean) => !open && hideToast("withAction")}
+      />
+      <Toast
+        variant="success"
+        title="Success"
+        description="Operation completed"
+        showClose={false}
+        open={toasts.noClose}
+        onOpenChange={(open: boolean) => !open && hideToast("noClose")}
+        duration={3000}
+      />
+      <Toast
+        variant="info"
+        title="Title Only Toast"
+        open={toasts.titleOnly}
+        onOpenChange={(open: boolean) => !open && hideToast("titleOnly")}
+      />
+      <Toast
+        variant="warning"
+        title="Warning: Important Information"
+        description="This is a longer message that demonstrates how the toast component handles multiple lines of text and maintains its layout with proper spacing and readability."
+        open={toasts.longContent}
+        onOpenChange={(open: boolean) => !open && hideToast("longContent")}
+      />
+      <Toast
+        variant="messageToast"
+        title="New message"
+        description="Hey! Just wanted to check in and see how things are going."
+        avatarSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+        avatarFallback="JD"
+        open={toasts.messageToast}
+        onOpenChange={(open: boolean) => !open && hideToast("messageToast")}
+      />
+      <ToastViewport />{" "}
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -502,27 +636,6 @@ function App() {
       });
       setTocOpen(false);
     }
-  };
-
-  // Toast state management
-  const [toasts, setToasts] = useState({
-    info: false,
-    warning: false,
-    success: false,
-    error: false,
-    withAction: false,
-    noClose: false,
-    titleOnly: false,
-    longContent: false,
-    messageToast: false,
-  });
-
-  const showToast = (type: keyof typeof toasts) => {
-    setToasts((prev) => ({ ...prev, [type]: true }));
-  };
-
-  const hideToast = (type: keyof typeof toasts) => {
-    setToasts((prev) => ({ ...prev, [type]: false }));
   };
 
   return (
@@ -2045,44 +2158,6 @@ function App() {
               </TooltipProvider>
             </div>
 
-            {/* Toast */}
-            <div id="toast" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Toast</h2>
-              <div className="space-y-4">
-                <div className="flex flex-wrap gap-3">
-                  <Button variant="primary" size="40" onClick={() => showToast("info")}>
-                    Show Info Toast
-                  </Button>
-                  <Button variant="primary" size="40" onClick={() => showToast("warning")}>
-                    Show Warning Toast
-                  </Button>
-                  <Button variant="primary" size="40" onClick={() => showToast("success")}>
-                    Show Success Toast
-                  </Button>
-                  <Button variant="primary" size="40" onClick={() => showToast("error")}>
-                    Show Error Toast
-                  </Button>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <Button variant="secondary" size="40" onClick={() => showToast("withAction")}>
-                    With Action Button
-                  </Button>
-                  <Button variant="secondary" size="40" onClick={() => showToast("noClose")}>
-                    No Close Button
-                  </Button>
-                  <Button variant="secondary" size="40" onClick={() => showToast("titleOnly")}>
-                    Title Only
-                  </Button>
-                  <Button variant="secondary" size="40" onClick={() => showToast("longContent")}>
-                    Long Content
-                  </Button>
-                  <Button variant="secondary" size="40" onClick={() => showToast("messageToast")}>
-                    Message Toast
-                  </Button>
-                </div>
-              </div>
-            </div>
-
             <div className="flex flex-wrap items-start gap-6">
               <AudioUpload
                 className="w-80"
@@ -2112,77 +2187,7 @@ function App() {
             </div>
           </section>
         </main>
-
-        {/* Toast instances */}
-        <Toast
-          variant="info"
-          title="Information"
-          description="This is an informational message"
-          open={toasts.info}
-          onOpenChange={(open: boolean) => !open && hideToast("info")}
-        />
-        <Toast
-          variant="warning"
-          title="Warning"
-          description="This is a warning message"
-          open={toasts.warning}
-          onOpenChange={(open: boolean) => !open && hideToast("warning")}
-        />
-        <Toast
-          variant="success"
-          title="Success"
-          description="Operation completed successfully"
-          open={toasts.success}
-          onOpenChange={(open: boolean) => !open && hideToast("success")}
-        />
-        <Toast
-          variant="error"
-          title="Error"
-          description="An error occurred while processing your request"
-          open={toasts.error}
-          onOpenChange={(open: boolean) => !open && hideToast("error")}
-        />
-        <Toast
-          variant="info"
-          title="Update available"
-          description="A new version is available"
-          onActionClick={() => hideToast("withAction")}
-          actionLabel="Update"
-          open={toasts.withAction}
-          onOpenChange={(open: boolean) => !open && hideToast("withAction")}
-        />
-        <Toast
-          variant="success"
-          title="Success"
-          description="Operation completed"
-          showClose={false}
-          open={toasts.noClose}
-          onOpenChange={(open: boolean) => !open && hideToast("noClose")}
-          duration={3000}
-        />
-        <Toast
-          variant="info"
-          title="Title Only Toast"
-          open={toasts.titleOnly}
-          onOpenChange={(open: boolean) => !open && hideToast("titleOnly")}
-        />
-        <Toast
-          variant="warning"
-          title="Warning: Important Information"
-          description="This is a longer message that demonstrates how the toast component handles multiple lines of text and maintains its layout with proper spacing and readability."
-          open={toasts.longContent}
-          onOpenChange={(open: boolean) => !open && hideToast("longContent")}
-        />
-        <Toast
-          variant="messageToast"
-          title="New message"
-          description="Hey! Just wanted to check in and see how things are going."
-          avatarSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-          avatarFallback="JD"
-          open={toasts.messageToast}
-          onOpenChange={(open: boolean) => !open && hideToast("messageToast")}
-        />
-        <ToastViewport />
+        <ToastDemo />
       </ToastProvider>
     </div>
   );
