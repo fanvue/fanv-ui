@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
+import { DatePicker } from "./date-picker";
 import {
   Alert,
   ArrowRightIcon,
@@ -18,7 +19,6 @@ import {
   Count,
   CrossIcon,
   CrownIcon,
-  DatePicker,
   Divider,
   ErrorCircleIcon,
   ErrorIcon,
