@@ -320,69 +320,72 @@ function TextAreaShowcase() {
     setValue(e.target.value);
   };
   return (
-    <div className="flex max-w-2xl flex-col gap-4">
-      <TextArea label="Size 48" placeholder="Enter description..." size="48" />
-      <TextArea label="Size 40" placeholder="Enter description..." size="40" />
-      <TextArea label="Size 32" placeholder="Enter description..." size="32" />
-      <TextArea
-        label="With helper"
-        placeholder="Enter description..."
-        helperText="Maximum 500 characters"
-      />
-      <TextArea placeholder="No label" aria-label="Description" />
-      <TextArea
-        label="Validated"
-        placeholder="Enter description..."
-        validated
-        defaultValue="This input has been validated"
-      />
-      <TextArea
-        label="With min rows"
-        placeholder="Enter description..."
-        minRows={5}
-        helperText="Starts with 5 rows"
-      />
-      <TextArea
-        label="With max rows"
-        placeholder="Try typing many lines..."
-        maxRows={6}
-        helperText="Maximum 6 rows, scrolls after"
-      />
-      <TextArea
-        label="Min and max rows"
-        placeholder="Enter description..."
-        minRows={3}
-        maxRows={8}
-        helperText="Starts with 3 rows, max 8 rows"
-      />
-      <TextArea
-        label="With clear button"
-        placeholder="Enter description..."
-        showClearButton
-        defaultValue="This text can be cleared"
-      />
-      <TextArea
-        label="Error"
-        placeholder="Enter description..."
-        error
-        errorMessage="Description is required"
-      />
-      <TextArea label="Error + helper" error helperText="Required field" />
-      <TextArea label="Disabled" placeholder="Enter description..." disabled />
-      <TextArea
-        label="Disabled with value"
-        defaultValue="This textarea is disabled and cannot be edited"
-        disabled
-      />
-      <TextArea
-        label="Controlled Input"
-        fullWidth
-        placeholder="Enter description..."
-        value={value}
-        onChange={handleChange}
-        showClearButton
-        onClear={() => setValue("")}
-      />
+    <div id="textarea" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Text Area</h2>
+      <div className="flex max-w-2xl flex-col gap-4">
+        <TextArea label="Size 48" placeholder="Enter description..." size="48" />
+        <TextArea label="Size 40" placeholder="Enter description..." size="40" />
+        <TextArea label="Size 32" placeholder="Enter description..." size="32" />
+        <TextArea
+          label="With helper"
+          placeholder="Enter description..."
+          helperText="Maximum 500 characters"
+        />
+        <TextArea placeholder="No label" aria-label="Description" />
+        <TextArea
+          label="Validated"
+          placeholder="Enter description..."
+          validated
+          defaultValue="This input has been validated"
+        />
+        <TextArea
+          label="With min rows"
+          placeholder="Enter description..."
+          minRows={5}
+          helperText="Starts with 5 rows"
+        />
+        <TextArea
+          label="With max rows"
+          placeholder="Try typing many lines..."
+          maxRows={6}
+          helperText="Maximum 6 rows, scrolls after"
+        />
+        <TextArea
+          label="Min and max rows"
+          placeholder="Enter description..."
+          minRows={3}
+          maxRows={8}
+          helperText="Starts with 3 rows, max 8 rows"
+        />
+        <TextArea
+          label="With clear button"
+          placeholder="Enter description..."
+          showClearButton
+          defaultValue="This text can be cleared"
+        />
+        <TextArea
+          label="Error"
+          placeholder="Enter description..."
+          error
+          errorMessage="Description is required"
+        />
+        <TextArea label="Error + helper" error helperText="Required field" />
+        <TextArea label="Disabled" placeholder="Enter description..." disabled />
+        <TextArea
+          label="Disabled with value"
+          defaultValue="This textarea is disabled and cannot be edited"
+          disabled
+        />
+        <TextArea
+          label="Controlled Input"
+          fullWidth
+          placeholder="Enter description..."
+          value={value}
+          onChange={handleChange}
+          showClearButton
+          onClear={() => setValue("")}
+        />
+      </div>
     </div>
   );
 }
@@ -1260,6 +1263,795 @@ function RadioDemo() {
   );
 }
 
+function CountDemo() {
+  return (
+    <div id="count" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Count</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <Count value={5} variant="default" />
+        <Count value={12} variant="brand" />
+        <Count value={8} variant="pink" />
+        <Count value={3} variant="info" />
+        <Count value={7} variant="success" />
+        <Count value={15} variant="warning" />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Count value={9} />
+        <Count value={42} />
+        <Count value={99} />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Count value={150} max={99} />
+        <Count value={1000} max={999} />
+      </div>
+    </div>
+  );
+}
+
+function ChipDemo() {
+  return (
+    <div id="chip" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Chip</h2>
+      <div className="flex flex-wrap items-center gap-3">
+        <Chip>Chip</Chip>
+        <Chip variant="square">Chip</Chip>
+        <Chip variant="dark">Chip</Chip>
+        <Chip selected>Chip</Chip>
+        <Chip variant="square" selected>
+          Chip
+        </Chip>
+        <Chip disabled>Chip</Chip>
+        <Chip variant="square" disabled>
+          Chip
+        </Chip>
+        <Chip variant="dark" disabled>
+          Chip
+        </Chip>
+        <Chip selected disabled>
+          Chip
+        </Chip>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <Chip size="40">Chip</Chip>
+        <Chip size="40" variant="square">
+          Chip
+        </Chip>
+        <Chip size="40" variant="dark">
+          Chip
+        </Chip>
+        <Chip size="40" selected>
+          Chip
+        </Chip>
+        <Chip size="40" variant="square" selected>
+          Chip
+        </Chip>
+        <Chip size="40" disabled>
+          Chip
+        </Chip>
+        <Chip size="40" variant="dark" disabled>
+          Chip
+        </Chip>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <Chip onClick={() => {}}>Clickable</Chip>
+        <Chip onClick={() => {}} selected>
+          Selected
+        </Chip>
+        <Chip onClick={() => {}} disabled>
+          Disabled
+        </Chip>
+        <Chip onClick={() => {}} variant="square">
+          Square
+        </Chip>
+        <Chip onClick={() => {}} variant="square" selected>
+          Selected
+        </Chip>
+        <Chip onClick={() => {}} variant="dark">
+          Dark
+        </Chip>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <Chip leftDot>Chip</Chip>
+        <Chip leftDot selected>
+          Chip
+        </Chip>
+        <Chip leftDot variant="dark">
+          Chip
+        </Chip>
+        <Chip leftDot variant="square">
+          Chip
+        </Chip>
+        <Chip leftDot disabled>
+          Chip
+        </Chip>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <Chip leftIcon={<CheckCircleIcon className="size-5" />}>Chip</Chip>
+        <Chip rightIcon={<CrossIcon className="size-5" />} onClick={() => {}}>
+          Chip
+        </Chip>
+        <Chip
+          leftIcon={<CheckCircleIcon className="size-5" />}
+          rightIcon={<CrossIcon className="size-5" />}
+        >
+          Chip
+        </Chip>
+        <Chip leftIcon={<CheckCircleIcon className="size-5" />} selected>
+          Chip
+        </Chip>
+        <Chip leftIcon={<CheckCircleIcon className="size-5" />} variant="dark">
+          Chip
+        </Chip>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <Chip notificationLabel="3">Chip</Chip>
+        <Chip notificationLabel="99+">Chip</Chip>
+        <Chip notificationLabel="3" selected>
+          Chip
+        </Chip>
+        <Chip notificationLabel="3" variant="dark">
+          Chip
+        </Chip>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <Chip
+          leftDot
+          leftIcon={<CheckCircleIcon className="size-5" />}
+          rightIcon={<CrossIcon className="size-5" />}
+          notificationLabel="5"
+          selected
+          onClick={() => {}}
+        >
+          Full
+        </Chip>
+        <Chip
+          leftDot
+          leftIcon={<CheckCircleIcon className="size-5" />}
+          rightIcon={<CrossIcon className="size-5" />}
+          notificationLabel="5"
+          variant="square"
+          onClick={() => {}}
+        >
+          Full
+        </Chip>
+        <Chip
+          leftDot
+          leftIcon={<CheckCircleIcon className="size-5" />}
+          rightIcon={<CrossIcon className="size-5" />}
+          notificationLabel="5"
+          variant="dark"
+        >
+          Full
+        </Chip>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <Chip
+          size="40"
+          leftDot
+          leftIcon={<CheckCircleIcon className="size-5" />}
+          rightIcon={<CrossIcon className="size-5" />}
+          notificationLabel="5"
+          selected
+          onClick={() => {}}
+        >
+          Full MD
+        </Chip>
+        <Chip
+          size="40"
+          leftDot
+          leftIcon={<CheckCircleIcon className="size-5" />}
+          rightIcon={<CrossIcon className="size-5" />}
+          notificationLabel="5"
+          variant="square"
+          onClick={() => {}}
+        >
+          Full MD
+        </Chip>
+        <Chip
+          size="40"
+          leftDot
+          leftIcon={<CheckCircleIcon className="size-5" />}
+          rightIcon={<CrossIcon className="size-5" />}
+          notificationLabel="5"
+          variant="dark"
+        >
+          Full MD
+        </Chip>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <Chip
+          variant="square"
+          size="40"
+          leftIcon={
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23F7931A'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3E%E2%82%BF%3C/text%3E%3C/svg%3E"
+              alt="Bitcoin"
+              className="size-5 rounded-full"
+            />
+          }
+          onClick={() => {}}
+        >
+          Bitcoin
+        </Chip>
+        <Chip
+          variant="square"
+          size="40"
+          leftIcon={
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%234285F4'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3EG%3C/text%3E%3C/svg%3E"
+              alt="Google Pay"
+              className="size-5 rounded-full"
+            />
+          }
+          selected
+          onClick={() => {}}
+        >
+          Google Pay
+        </Chip>
+        <Chip
+          variant="square"
+          size="40"
+          leftIcon={
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23003087'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3EP%3C/text%3E%3C/svg%3E"
+              alt="PayPal"
+              className="size-5 rounded-full"
+            />
+          }
+          onClick={() => {}}
+        >
+          PayPal
+        </Chip>
+        <Chip
+          variant="square"
+          size="40"
+          leftIcon={
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23000'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3EA%3C/text%3E%3C/svg%3E"
+              alt="Apple Pay"
+              className="size-5 rounded-full"
+            />
+          }
+          disabled
+        >
+          Apple Pay
+        </Chip>
+      </div>
+    </div>
+  );
+}
+
+function SnackbarDemo() {
+  return (
+    <div id="snackbar" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Snackbar</h2>
+      <div className="max-w-xl space-y-4">
+        <Snackbar
+          variant="vipEarn"
+          icon={<VipBadgeIcon />}
+          title="You're killing it! You've earned 1,000pts"
+          description="Find out how to redeem them, and earn more..."
+          primaryLabel="Redeem points"
+          closable
+        />
+        <Snackbar primaryLabel="Accept" secondaryLabel="Dismiss">
+          <span className="typography-body-2-medium">
+            <span>@user.with.username</span> changed their subscription price to <span>$43.99</span>{" "}
+            per month
+          </span>
+        </Snackbar>
+        <Snackbar
+          variant="welcome"
+          title="Welcome to Fanvue 👋"
+          description="Let's get you started!"
+          primaryLabel="Become a creator"
+          secondaryLabel="Discover creators"
+        />
+      </div>
+    </div>
+  );
+}
+
+function SwitchDemo() {
+  return (
+    <div id="switch" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Switch</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <Switch aria-label="Toggle default" />
+        <Switch aria-label="Toggle default checked" defaultChecked />
+        <Switch aria-label="Toggle small" size="small" />
+        <Switch aria-label="Toggle small checked" size="small" defaultChecked />
+        <Switch aria-label="Toggle disabled" disabled />
+        <Switch aria-label="Toggle disabled checked" disabled defaultChecked />
+        <Switch aria-label="Toggle small disabled" size="small" disabled />
+        <Switch aria-label="Toggle small disabled checked" size="small" disabled defaultChecked />
+      </div>
+    </div>
+  );
+}
+
+function SwitchFieldDemo() {
+  return (
+    <div id="switchfield" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Switch Field</h2>
+      <div className="flex max-w-2xl flex-col gap-4">
+        <SwitchField label="Notifications" />
+        <SwitchField label="Notifications" defaultChecked />
+        <SwitchField label="Notifications" helperText="Receive push notifications" />
+        <SwitchField label="Notifications" helperText="Receive push notifications" defaultChecked />
+        <SwitchField label="Notifications" infoText="Info text" />
+        <SwitchField
+          label="Notifications"
+          helperText="Receive push notifications"
+          infoText="Info text"
+        />
+        <SwitchField label="Notifications" orientation="left" />
+        <SwitchField label="Notifications" orientation="left" defaultChecked />
+        <SwitchField
+          label="Notifications"
+          orientation="left"
+          helperText="Receive push notifications"
+        />
+        <SwitchField
+          label="Notifications"
+          orientation="left"
+          helperText="Receive push notifications"
+          defaultChecked
+        />
+        <SwitchField label="Notifications" orientation="left" infoText="Info text" />
+        <SwitchField
+          label="Notifications"
+          orientation="left"
+          helperText="Receive push notifications"
+          infoText="Info text"
+        />
+        <SwitchField label="Small switch" size="small" />
+        <SwitchField label="Small switch" size="small" defaultChecked />
+        <SwitchField label="Small switch" size="small" helperText="A smaller variant" />
+        <SwitchField label="Small switch" size="small" orientation="left" />
+        <SwitchField label="Small switch" size="small" orientation="left" defaultChecked />
+        <SwitchField
+          label="Small switch"
+          size="small"
+          orientation="left"
+          helperText="A smaller variant"
+        />
+        <SwitchField label="Disabled" disabled />
+        <SwitchField label="Disabled checked" disabled defaultChecked />
+        <SwitchField label="Disabled" disabled helperText="This option is not available" />
+        <SwitchField label="Disabled" disabled orientation="left" />
+        <SwitchField label="Disabled" disabled size="small" />
+        <SwitchField label="Disabled" disabled size="small" helperText="Not available" />
+      </div>
+    </div>
+  );
+}
+
+function SwitchToggleDemo() {
+  return (
+    <div id="switchtoggle" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Switch Toggle</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <SwitchToggle
+          size="24"
+          options={[
+            { label: "Monthly", value: "monthly" },
+            { label: "Yearly", value: "yearly" },
+          ]}
+        />
+        <SwitchToggle
+          size="24"
+          options={[
+            { label: "Monthly", value: "monthly" },
+            { label: "Yearly", value: "yearly" },
+          ]}
+          defaultValue="yearly"
+        />
+        <SwitchToggle
+          size="32"
+          options={[
+            { label: "Monthly", value: "monthly" },
+            { label: "Yearly", value: "yearly" },
+          ]}
+        />
+        <SwitchToggle
+          size="32"
+          options={[
+            { label: "Monthly", value: "monthly" },
+            { label: "Yearly", value: "yearly" },
+          ]}
+          defaultValue="yearly"
+        />
+        <SwitchToggle
+          size="40"
+          options={[
+            { label: "Monthly", value: "monthly" },
+            { label: "Yearly", value: "yearly" },
+          ]}
+        />
+        <SwitchToggle
+          size="40"
+          options={[
+            { label: "Monthly", value: "monthly" },
+            { label: "Yearly", value: "yearly" },
+          ]}
+          defaultValue="yearly"
+        />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <SwitchToggle
+          size="24"
+          disabled
+          options={[
+            { label: "On", value: "on" },
+            { label: "Off", value: "off" },
+          ]}
+        />
+        <SwitchToggle
+          size="24"
+          disabled
+          defaultValue="off"
+          options={[
+            { label: "On", value: "on" },
+            { label: "Off", value: "off" },
+          ]}
+        />
+        <SwitchToggle
+          size="32"
+          disabled
+          options={[
+            { label: "On", value: "on" },
+            { label: "Off", value: "off" },
+          ]}
+        />
+        <SwitchToggle
+          size="32"
+          disabled
+          defaultValue="off"
+          options={[
+            { label: "On", value: "on" },
+            { label: "Off", value: "off" },
+          ]}
+        />
+        <SwitchToggle
+          size="40"
+          disabled
+          options={[
+            { label: "On", value: "on" },
+            { label: "Off", value: "off" },
+          ]}
+        />
+        <SwitchToggle
+          size="40"
+          disabled
+          defaultValue="off"
+          options={[
+            { label: "On", value: "on" },
+            { label: "Off", value: "off" },
+          ]}
+        />
+      </div>
+    </div>
+  );
+}
+
+function DatePickerDemo() {
+  return (
+    <div id="datepicker" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Date Picker</h2>
+      <DatePickerShowcase />
+    </div>
+  );
+}
+
+function DividerDemo() {
+  return (
+    <div id="divider" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Divider</h2>
+      <div className="flex flex-col gap-6">
+        <Divider />
+        <Divider className="w-1/2" />
+        <Divider label="or" />
+        <div className="flex h-24 items-center gap-6">
+          <Divider orientation="vertical" />
+          <Divider orientation="vertical" className="h-1/2" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TabsDemo() {
+  return (
+    <div id="tabs" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Tabs</h2>
+      <div className="flex flex-wrap items-start gap-8">
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Photos</TabsTrigger>
+            <TabsTrigger value="tab2">Videos</TabsTrigger>
+            <TabsTrigger value="tab3">Posts</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">
+            <p className="pt-4 text-neutral-400 text-sm">Photos content</p>
+          </TabsContent>
+          <TabsContent value="tab2">
+            <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
+          </TabsContent>
+          <TabsContent value="tab3">
+            <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
+          </TabsContent>
+        </Tabs>
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1">Active</TabsTrigger>
+            <TabsTrigger value="tab2">Normal</TabsTrigger>
+            <TabsTrigger value="tab3" disabled>
+              Disabled
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">
+            <p className="pt-4 text-neutral-400 text-sm">Active tab content</p>
+          </TabsContent>
+          <TabsContent value="tab2">
+            <p className="pt-4 text-neutral-400 text-sm">Normal tab content</p>
+          </TabsContent>
+        </Tabs>
+        <Tabs defaultValue="t">
+          <TabsList>
+            <TabsTrigger value="t">Tab</TabsTrigger>
+          </TabsList>
+          <TabsContent value="t">
+            <p className="pt-4 text-neutral-400 text-sm">Single tab content</p>
+          </TabsContent>
+        </Tabs>
+        <Tabs defaultValue="t">
+          <TabsList>
+            <TabsTrigger value="t" disabled>
+              Tab
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="t">
+            <p className="pt-4 text-neutral-400 text-sm">Disabled tab content</p>
+          </TabsContent>
+        </Tabs>
+        <Tabs defaultValue="other">
+          <TabsList>
+            <TabsTrigger value="t">Tab</TabsTrigger>
+          </TabsList>
+          <TabsContent value="t">
+            <p className="pt-4 text-neutral-400 text-sm">Inactive tab content</p>
+          </TabsContent>
+        </Tabs>
+        <Tabs defaultValue="other">
+          <TabsList>
+            <TabsTrigger value="t" disabled>
+              Tab
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="t">
+            <p className="pt-4 text-neutral-400 text-sm">Disabled inactive tab content</p>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+}
+
+function SliderDemo() {
+  return (
+    <div id="slider" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Slider</h2>
+      <SliderShowcase />
+    </div>
+  );
+}
+
+function PaginationDemo() {
+  return (
+    <div id="pagination" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Pagination</h2>
+      <PaginationShowcase />
+    </div>
+  );
+}
+
+function ProgressBarDemo() {
+  return (
+    <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Progress Bar</h2>
+      <div className="flex max-w-md flex-col gap-6">
+        {/* Default variant — color-coded by value */}
+        <ProgressBar value={20} />
+        <ProgressBar value={60} />
+        <ProgressBar value={100} />
+
+        {/* Generic variant — always green */}
+        <ProgressBar value={20} variant="generic" />
+        <ProgressBar value={60} variant="generic" />
+        <ProgressBar value={100} variant="generic" />
+
+        {/* Small size */}
+        <ProgressBar value={20} size="small" />
+        <ProgressBar value={60} size="small" />
+        <ProgressBar value={100} size="small" />
+
+        {/* Small + generic */}
+        <ProgressBar value={50} size="small" variant="generic" />
+
+        {/* With title */}
+        <ProgressBar value={75} title="Profile completeness" />
+        <ProgressBar value={30} title="Upload progress" />
+
+        {/* With showCompletion */}
+        <ProgressBar value={25} showCompletion />
+        <ProgressBar value={65} showCompletion />
+        <ProgressBar value={100} showCompletion />
+
+        {/* Small with showCompletion */}
+        <ProgressBar value={45} size="small" showCompletion />
+
+        {/* Generic with showCompletion */}
+        <ProgressBar value={70} variant="generic" showCompletion />
+
+        {/* With stepsLabel */}
+        <ProgressBar value={50} stepsLabel="4/8 steps" />
+        <ProgressBar value={100} stepsLabel="8/8 steps" />
+
+        {/* Title + showCompletion + stepsLabel (full header) */}
+        <ProgressBar value={37} title="Verification" showCompletion stepsLabel="3/8 steps" />
+        <ProgressBar value={100} title="Verification" showCompletion stepsLabel="8/8 steps" />
+
+        {/* With helperLeft / helperRight */}
+        <ProgressBar value={50} helperLeft="50% complete" helperRight="5 of 10" />
+        <ProgressBar value={80} helperRight="Almost there!" />
+
+        {/* With leftIcon */}
+        <ProgressBar
+          value={60}
+          leftIcon={<InfoCircleIcon className="size-5" />}
+          helperLeft="Keep going"
+        />
+        <ProgressBar
+          value={100}
+          leftIcon={<CheckCircleIcon className="size-5" />}
+          helperLeft="Completed"
+          helperRight="All done"
+        />
+
+        {/* Full kitchen sink — default variant */}
+        <ProgressBar
+          value={62}
+          title="Profile setup"
+          showCompletion
+          stepsLabel="5/8 steps"
+          leftIcon={<InfoCircleIcon className="size-5" />}
+          helperLeft="Complete your profile"
+          helperRight="3 remaining"
+        />
+
+        {/* Full kitchen sink — generic variant */}
+        <ProgressBar
+          value={85}
+          variant="generic"
+          title="Storage used"
+          showCompletion
+          stepsLabel="8.5/10 GB"
+          leftIcon={<WarningTriangleIcon className="size-5" />}
+          helperLeft="Running low"
+          helperRight="Upgrade plan"
+        />
+
+        {/* Full kitchen sink — small size */}
+        <ProgressBar
+          value={40}
+          size="small"
+          title="Level progress"
+          showCompletion
+          stepsLabel="Level 4"
+          leftIcon={<FireIcon className="size-5" />}
+          helperLeft="Keep it up!"
+          helperRight="60 XP to go"
+        />
+      </div>
+    </div>
+  );
+}
+
+function TooltipDemo() {
+  return (
+    <div id="tooltip" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Tooltip</h2>
+      <TooltipProvider>
+        <div className="flex flex-wrap items-center gap-4">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="secondary" size="32">
+                Default
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Tooltip with arrow</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="secondary" size="32">
+                No arrow
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent showArrow={false}>Tooltip without arrow</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="secondary" size="32">
+                Side right
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">Tooltip on right</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="secondary" size="32">
+                Side left
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="left">Tooltip on left</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="secondary" size="32">
+                Side bottom
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Tooltip on bottom</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
+            </TooltipTrigger>
+            <TooltipContent>More information about this feature</TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
+    </div>
+  );
+}
+
+function AudioUploadDemo() {
+  return (
+    <div id="audioupload" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Audio Upload</h2>
+      <AudioUpload
+        className="w-80"
+        onFilesAccepted={(files) => console.log("Accepted:", files)}
+        onRecordingComplete={(blob, duration) => console.log("Recording:", blob, duration)}
+      />
+      <AudioUpload
+        className="w-80"
+        allowRecording={false}
+        onFilesAccepted={(files) => console.log("Accepted:", files)}
+      />
+      <AudioUpload className="w-80" disabled />
+      <AudioUpload
+        className="w-80"
+        uploadTitle="Drop your audio here"
+        uploadDescription="MP3, WAV, OGG — max 5MB"
+        separatorText="or alternatively"
+        recordButtonLabel="Use microphone"
+        maxFileSize={5 * 1024 * 1024}
+      />
+      <AudioUpload
+        className="w-80"
+        maxFiles={7}
+        uploadDescription="Audio files only, up to 10MB each (max 7 files)"
+      />
+      <AudioUpload className="w-80" maxRecordingDuration={10} />
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -1293,6 +2085,7 @@ function App() {
     { id: "progressbar", label: "Progress Bar" },
     { id: "tooltip", label: "Tooltip" },
     { id: "toast", label: "Toast" },
+    { id: "audioupload", label: "Audio Upload" },
   ];
 
   const scrollToSection = (id: string) => {
@@ -1414,772 +2207,50 @@ function App() {
             <SearchFieldShowcase />
 
             {/* Count */}
-            <div id="count" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Count</h2>
-              <div className="flex flex-wrap items-center gap-4">
-                <Count value={5} variant="default" />
-                <Count value={12} variant="brand" />
-                <Count value={8} variant="pink" />
-                <Count value={3} variant="info" />
-                <Count value={7} variant="success" />
-                <Count value={15} variant="warning" />
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Count value={9} />
-                <Count value={42} />
-                <Count value={99} />
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Count value={150} max={99} />
-                <Count value={1000} max={999} />
-              </div>
-            </div>
+            <CountDemo />
 
             {/* Chip */}
-            <div id="chip" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Chip</h2>
-              <div className="flex flex-wrap items-center gap-3">
-                <Chip>Chip</Chip>
-                <Chip variant="square">Chip</Chip>
-                <Chip variant="dark">Chip</Chip>
-                <Chip selected>Chip</Chip>
-                <Chip variant="square" selected>
-                  Chip
-                </Chip>
-                <Chip disabled>Chip</Chip>
-                <Chip variant="square" disabled>
-                  Chip
-                </Chip>
-                <Chip variant="dark" disabled>
-                  Chip
-                </Chip>
-                <Chip selected disabled>
-                  Chip
-                </Chip>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Chip size="40">Chip</Chip>
-                <Chip size="40" variant="square">
-                  Chip
-                </Chip>
-                <Chip size="40" variant="dark">
-                  Chip
-                </Chip>
-                <Chip size="40" selected>
-                  Chip
-                </Chip>
-                <Chip size="40" variant="square" selected>
-                  Chip
-                </Chip>
-                <Chip size="40" disabled>
-                  Chip
-                </Chip>
-                <Chip size="40" variant="dark" disabled>
-                  Chip
-                </Chip>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Chip onClick={() => {}}>Clickable</Chip>
-                <Chip onClick={() => {}} selected>
-                  Selected
-                </Chip>
-                <Chip onClick={() => {}} disabled>
-                  Disabled
-                </Chip>
-                <Chip onClick={() => {}} variant="square">
-                  Square
-                </Chip>
-                <Chip onClick={() => {}} variant="square" selected>
-                  Selected
-                </Chip>
-                <Chip onClick={() => {}} variant="dark">
-                  Dark
-                </Chip>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Chip leftDot>Chip</Chip>
-                <Chip leftDot selected>
-                  Chip
-                </Chip>
-                <Chip leftDot variant="dark">
-                  Chip
-                </Chip>
-                <Chip leftDot variant="square">
-                  Chip
-                </Chip>
-                <Chip leftDot disabled>
-                  Chip
-                </Chip>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Chip leftIcon={<CheckCircleIcon className="size-5" />}>Chip</Chip>
-                <Chip rightIcon={<CrossIcon className="size-5" />} onClick={() => {}}>
-                  Chip
-                </Chip>
-                <Chip
-                  leftIcon={<CheckCircleIcon className="size-5" />}
-                  rightIcon={<CrossIcon className="size-5" />}
-                >
-                  Chip
-                </Chip>
-                <Chip leftIcon={<CheckCircleIcon className="size-5" />} selected>
-                  Chip
-                </Chip>
-                <Chip leftIcon={<CheckCircleIcon className="size-5" />} variant="dark">
-                  Chip
-                </Chip>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Chip notificationLabel="3">Chip</Chip>
-                <Chip notificationLabel="99+">Chip</Chip>
-                <Chip notificationLabel="3" selected>
-                  Chip
-                </Chip>
-                <Chip notificationLabel="3" variant="dark">
-                  Chip
-                </Chip>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Chip
-                  leftDot
-                  leftIcon={<CheckCircleIcon className="size-5" />}
-                  rightIcon={<CrossIcon className="size-5" />}
-                  notificationLabel="5"
-                  selected
-                  onClick={() => {}}
-                >
-                  Full
-                </Chip>
-                <Chip
-                  leftDot
-                  leftIcon={<CheckCircleIcon className="size-5" />}
-                  rightIcon={<CrossIcon className="size-5" />}
-                  notificationLabel="5"
-                  variant="square"
-                  onClick={() => {}}
-                >
-                  Full
-                </Chip>
-                <Chip
-                  leftDot
-                  leftIcon={<CheckCircleIcon className="size-5" />}
-                  rightIcon={<CrossIcon className="size-5" />}
-                  notificationLabel="5"
-                  variant="dark"
-                >
-                  Full
-                </Chip>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Chip
-                  size="40"
-                  leftDot
-                  leftIcon={<CheckCircleIcon className="size-5" />}
-                  rightIcon={<CrossIcon className="size-5" />}
-                  notificationLabel="5"
-                  selected
-                  onClick={() => {}}
-                >
-                  Full MD
-                </Chip>
-                <Chip
-                  size="40"
-                  leftDot
-                  leftIcon={<CheckCircleIcon className="size-5" />}
-                  rightIcon={<CrossIcon className="size-5" />}
-                  notificationLabel="5"
-                  variant="square"
-                  onClick={() => {}}
-                >
-                  Full MD
-                </Chip>
-                <Chip
-                  size="40"
-                  leftDot
-                  leftIcon={<CheckCircleIcon className="size-5" />}
-                  rightIcon={<CrossIcon className="size-5" />}
-                  notificationLabel="5"
-                  variant="dark"
-                >
-                  Full MD
-                </Chip>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Chip
-                  variant="square"
-                  size="40"
-                  leftIcon={
-                    <img
-                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23F7931A'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3E%E2%82%BF%3C/text%3E%3C/svg%3E"
-                      alt="Bitcoin"
-                      className="size-5 rounded-full"
-                    />
-                  }
-                  onClick={() => {}}
-                >
-                  Bitcoin
-                </Chip>
-                <Chip
-                  variant="square"
-                  size="40"
-                  leftIcon={
-                    <img
-                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%234285F4'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3EG%3C/text%3E%3C/svg%3E"
-                      alt="Google Pay"
-                      className="size-5 rounded-full"
-                    />
-                  }
-                  selected
-                  onClick={() => {}}
-                >
-                  Google Pay
-                </Chip>
-                <Chip
-                  variant="square"
-                  size="40"
-                  leftIcon={
-                    <img
-                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23003087'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3EP%3C/text%3E%3C/svg%3E"
-                      alt="PayPal"
-                      className="size-5 rounded-full"
-                    />
-                  }
-                  onClick={() => {}}
-                >
-                  PayPal
-                </Chip>
-                <Chip
-                  variant="square"
-                  size="40"
-                  leftIcon={
-                    <img
-                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23000'/%3E%3Ctext x='10' y='14' text-anchor='middle' fill='white' font-size='10' font-family='sans-serif'%3EA%3C/text%3E%3C/svg%3E"
-                      alt="Apple Pay"
-                      className="size-5 rounded-full"
-                    />
-                  }
-                  disabled
-                >
-                  Apple Pay
-                </Chip>
-              </div>
-            </div>
+            <ChipDemo />
 
             {/* Snackbar */}
-            <div id="snackbar" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Snackbar</h2>
-              <div className="max-w-xl space-y-4">
-                <Snackbar
-                  variant="vipEarn"
-                  icon={<VipBadgeIcon />}
-                  title="You're killing it! You've earned 1,000pts"
-                  description="Find out how to redeem them, and earn more..."
-                  primaryLabel="Redeem points"
-                  closable
-                />
-                <Snackbar primaryLabel="Accept" secondaryLabel="Dismiss">
-                  <span className="typography-body-2-medium">
-                    <span>@user.with.username</span> changed their subscription price to{" "}
-                    <span>$43.99</span> per month
-                  </span>
-                </Snackbar>
-                <Snackbar
-                  variant="welcome"
-                  title="Welcome to Fanvue 👋"
-                  description="Let's get you started!"
-                  primaryLabel="Become a creator"
-                  secondaryLabel="Discover creators"
-                />
-              </div>
-            </div>
+            <SnackbarDemo />
 
             {/* Switch */}
-            <div id="switch" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Switch</h2>
-              <div className="flex flex-wrap items-center gap-4">
-                <Switch aria-label="Toggle default" />
-                <Switch aria-label="Toggle default checked" defaultChecked />
-                <Switch aria-label="Toggle small" size="small" />
-                <Switch aria-label="Toggle small checked" size="small" defaultChecked />
-                <Switch aria-label="Toggle disabled" disabled />
-                <Switch aria-label="Toggle disabled checked" disabled defaultChecked />
-                <Switch aria-label="Toggle small disabled" size="small" disabled />
-                <Switch
-                  aria-label="Toggle small disabled checked"
-                  size="small"
-                  disabled
-                  defaultChecked
-                />
-              </div>
-            </div>
+            <SwitchDemo />
 
             {/* SwitchField */}
-            <div id="switchfield" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Switch Field</h2>
-              <div className="flex max-w-2xl flex-col gap-4">
-                <SwitchField label="Notifications" />
-                <SwitchField label="Notifications" defaultChecked />
-                <SwitchField label="Notifications" helperText="Receive push notifications" />
-                <SwitchField
-                  label="Notifications"
-                  helperText="Receive push notifications"
-                  defaultChecked
-                />
-                <SwitchField label="Notifications" infoText="Info text" />
-                <SwitchField
-                  label="Notifications"
-                  helperText="Receive push notifications"
-                  infoText="Info text"
-                />
-                <SwitchField label="Notifications" orientation="left" />
-                <SwitchField label="Notifications" orientation="left" defaultChecked />
-                <SwitchField
-                  label="Notifications"
-                  orientation="left"
-                  helperText="Receive push notifications"
-                />
-                <SwitchField
-                  label="Notifications"
-                  orientation="left"
-                  helperText="Receive push notifications"
-                  defaultChecked
-                />
-                <SwitchField label="Notifications" orientation="left" infoText="Info text" />
-                <SwitchField
-                  label="Notifications"
-                  orientation="left"
-                  helperText="Receive push notifications"
-                  infoText="Info text"
-                />
-                <SwitchField label="Small switch" size="small" />
-                <SwitchField label="Small switch" size="small" defaultChecked />
-                <SwitchField label="Small switch" size="small" helperText="A smaller variant" />
-                <SwitchField label="Small switch" size="small" orientation="left" />
-                <SwitchField label="Small switch" size="small" orientation="left" defaultChecked />
-                <SwitchField
-                  label="Small switch"
-                  size="small"
-                  orientation="left"
-                  helperText="A smaller variant"
-                />
-                <SwitchField label="Disabled" disabled />
-                <SwitchField label="Disabled checked" disabled defaultChecked />
-                <SwitchField label="Disabled" disabled helperText="This option is not available" />
-                <SwitchField label="Disabled" disabled orientation="left" />
-                <SwitchField label="Disabled" disabled size="small" />
-                <SwitchField label="Disabled" disabled size="small" helperText="Not available" />
-              </div>
-            </div>
+            <SwitchFieldDemo />
 
             {/* SwitchToggle */}
-            <div id="switchtoggle" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Switch Toggle</h2>
-              <div className="flex flex-wrap items-center gap-4">
-                <SwitchToggle
-                  size="24"
-                  options={[
-                    { label: "Monthly", value: "monthly" },
-                    { label: "Yearly", value: "yearly" },
-                  ]}
-                />
-                <SwitchToggle
-                  size="24"
-                  options={[
-                    { label: "Monthly", value: "monthly" },
-                    { label: "Yearly", value: "yearly" },
-                  ]}
-                  defaultValue="yearly"
-                />
-                <SwitchToggle
-                  size="32"
-                  options={[
-                    { label: "Monthly", value: "monthly" },
-                    { label: "Yearly", value: "yearly" },
-                  ]}
-                />
-                <SwitchToggle
-                  size="32"
-                  options={[
-                    { label: "Monthly", value: "monthly" },
-                    { label: "Yearly", value: "yearly" },
-                  ]}
-                  defaultValue="yearly"
-                />
-                <SwitchToggle
-                  size="40"
-                  options={[
-                    { label: "Monthly", value: "monthly" },
-                    { label: "Yearly", value: "yearly" },
-                  ]}
-                />
-                <SwitchToggle
-                  size="40"
-                  options={[
-                    { label: "Monthly", value: "monthly" },
-                    { label: "Yearly", value: "yearly" },
-                  ]}
-                  defaultValue="yearly"
-                />
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <SwitchToggle
-                  size="24"
-                  disabled
-                  options={[
-                    { label: "On", value: "on" },
-                    { label: "Off", value: "off" },
-                  ]}
-                />
-                <SwitchToggle
-                  size="24"
-                  disabled
-                  defaultValue="off"
-                  options={[
-                    { label: "On", value: "on" },
-                    { label: "Off", value: "off" },
-                  ]}
-                />
-                <SwitchToggle
-                  size="32"
-                  disabled
-                  options={[
-                    { label: "On", value: "on" },
-                    { label: "Off", value: "off" },
-                  ]}
-                />
-                <SwitchToggle
-                  size="32"
-                  disabled
-                  defaultValue="off"
-                  options={[
-                    { label: "On", value: "on" },
-                    { label: "Off", value: "off" },
-                  ]}
-                />
-                <SwitchToggle
-                  size="40"
-                  disabled
-                  options={[
-                    { label: "On", value: "on" },
-                    { label: "Off", value: "off" },
-                  ]}
-                />
-                <SwitchToggle
-                  size="40"
-                  disabled
-                  defaultValue="off"
-                  options={[
-                    { label: "On", value: "on" },
-                    { label: "Off", value: "off" },
-                  ]}
-                />
-              </div>
-            </div>
+            <SwitchToggleDemo />
 
             {/* DatePicker */}
-            <div id="datepicker" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Date Picker</h2>
-              <DatePickerShowcase />
-            </div>
+            <DatePickerDemo />
 
             {/* Divider */}
-            <div id="divider" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Divider</h2>
-              <div className="flex flex-col gap-6">
-                <Divider />
-                <Divider className="w-1/2" />
-                <Divider label="or" />
-                <div className="flex h-24 items-center gap-6">
-                  <Divider orientation="vertical" />
-                  <Divider orientation="vertical" className="h-1/2" />
-                </div>
-              </div>
-            </div>
+            <DividerDemo />
 
             {/* Tabs */}
-            <div id="tabs" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Tabs</h2>
-              <div className="flex flex-wrap items-start gap-8">
-                <Tabs defaultValue="tab1">
-                  <TabsList>
-                    <TabsTrigger value="tab1">Photos</TabsTrigger>
-                    <TabsTrigger value="tab2">Videos</TabsTrigger>
-                    <TabsTrigger value="tab3">Posts</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="tab1">
-                    <p className="pt-4 text-neutral-400 text-sm">Photos content</p>
-                  </TabsContent>
-                  <TabsContent value="tab2">
-                    <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
-                  </TabsContent>
-                  <TabsContent value="tab3">
-                    <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
-                  </TabsContent>
-                </Tabs>
-                <Tabs defaultValue="tab1">
-                  <TabsList>
-                    <TabsTrigger value="tab1">Active</TabsTrigger>
-                    <TabsTrigger value="tab2">Normal</TabsTrigger>
-                    <TabsTrigger value="tab3" disabled>
-                      Disabled
-                    </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="tab1">
-                    <p className="pt-4 text-neutral-400 text-sm">Active tab content</p>
-                  </TabsContent>
-                  <TabsContent value="tab2">
-                    <p className="pt-4 text-neutral-400 text-sm">Normal tab content</p>
-                  </TabsContent>
-                </Tabs>
-                <Tabs defaultValue="t">
-                  <TabsList>
-                    <TabsTrigger value="t">Tab</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="t">
-                    <p className="pt-4 text-neutral-400 text-sm">Single tab content</p>
-                  </TabsContent>
-                </Tabs>
-                <Tabs defaultValue="t">
-                  <TabsList>
-                    <TabsTrigger value="t" disabled>
-                      Tab
-                    </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="t">
-                    <p className="pt-4 text-neutral-400 text-sm">Disabled tab content</p>
-                  </TabsContent>
-                </Tabs>
-                <Tabs defaultValue="other">
-                  <TabsList>
-                    <TabsTrigger value="t">Tab</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="t">
-                    <p className="pt-4 text-neutral-400 text-sm">Inactive tab content</p>
-                  </TabsContent>
-                </Tabs>
-                <Tabs defaultValue="other">
-                  <TabsList>
-                    <TabsTrigger value="t" disabled>
-                      Tab
-                    </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="t">
-                    <p className="pt-4 text-neutral-400 text-sm">Disabled inactive tab content</p>
-                  </TabsContent>
-                </Tabs>
-              </div>
-            </div>
+            <TabsDemo />
 
             {/* Slider */}
-            <div id="slider" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Slider</h2>
-              <SliderShowcase />
-            </div>
+            <SliderDemo />
 
             {/* Pagination */}
-            <div id="pagination" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Pagination</h2>
-              <PaginationShowcase />
-            </div>
+            <PaginationDemo />
 
             {/* ProgressBar */}
-            <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Progress Bar</h2>
-              <div className="flex max-w-md flex-col gap-6">
-                {/* Default variant — color-coded by value */}
-                <ProgressBar value={20} />
-                <ProgressBar value={60} />
-                <ProgressBar value={100} />
-
-                {/* Generic variant — always green */}
-                <ProgressBar value={20} variant="generic" />
-                <ProgressBar value={60} variant="generic" />
-                <ProgressBar value={100} variant="generic" />
-
-                {/* Small size */}
-                <ProgressBar value={20} size="small" />
-                <ProgressBar value={60} size="small" />
-                <ProgressBar value={100} size="small" />
-
-                {/* Small + generic */}
-                <ProgressBar value={50} size="small" variant="generic" />
-
-                {/* With title */}
-                <ProgressBar value={75} title="Profile completeness" />
-                <ProgressBar value={30} title="Upload progress" />
-
-                {/* With showCompletion */}
-                <ProgressBar value={25} showCompletion />
-                <ProgressBar value={65} showCompletion />
-                <ProgressBar value={100} showCompletion />
-
-                {/* Small with showCompletion */}
-                <ProgressBar value={45} size="small" showCompletion />
-
-                {/* Generic with showCompletion */}
-                <ProgressBar value={70} variant="generic" showCompletion />
-
-                {/* With stepsLabel */}
-                <ProgressBar value={50} stepsLabel="4/8 steps" />
-                <ProgressBar value={100} stepsLabel="8/8 steps" />
-
-                {/* Title + showCompletion + stepsLabel (full header) */}
-                <ProgressBar
-                  value={37}
-                  title="Verification"
-                  showCompletion
-                  stepsLabel="3/8 steps"
-                />
-                <ProgressBar
-                  value={100}
-                  title="Verification"
-                  showCompletion
-                  stepsLabel="8/8 steps"
-                />
-
-                {/* With helperLeft / helperRight */}
-                <ProgressBar value={50} helperLeft="50% complete" helperRight="5 of 10" />
-                <ProgressBar value={80} helperRight="Almost there!" />
-
-                {/* With leftIcon */}
-                <ProgressBar
-                  value={60}
-                  leftIcon={<InfoCircleIcon className="size-5" />}
-                  helperLeft="Keep going"
-                />
-                <ProgressBar
-                  value={100}
-                  leftIcon={<CheckCircleIcon className="size-5" />}
-                  helperLeft="Completed"
-                  helperRight="All done"
-                />
-
-                {/* Full kitchen sink — default variant */}
-                <ProgressBar
-                  value={62}
-                  title="Profile setup"
-                  showCompletion
-                  stepsLabel="5/8 steps"
-                  leftIcon={<InfoCircleIcon className="size-5" />}
-                  helperLeft="Complete your profile"
-                  helperRight="3 remaining"
-                />
-
-                {/* Full kitchen sink — generic variant */}
-                <ProgressBar
-                  value={85}
-                  variant="generic"
-                  title="Storage used"
-                  showCompletion
-                  stepsLabel="8.5/10 GB"
-                  leftIcon={<WarningTriangleIcon className="size-5" />}
-                  helperLeft="Running low"
-                  helperRight="Upgrade plan"
-                />
-
-                {/* Full kitchen sink — small size */}
-                <ProgressBar
-                  value={40}
-                  size="small"
-                  title="Level progress"
-                  showCompletion
-                  stepsLabel="Level 4"
-                  leftIcon={<FireIcon className="size-5" />}
-                  helperLeft="Keep it up!"
-                  helperRight="60 XP to go"
-                />
-              </div>
-            </div>
+            <ProgressBarDemo />
 
             {/* Tooltip */}
-            <div id="tooltip" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Tooltip</h2>
-              <TooltipProvider>
-                <div className="flex flex-wrap items-center gap-4">
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="secondary" size="32">
-                        Default
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Tooltip with arrow</TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="secondary" size="32">
-                        No arrow
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent showArrow={false}>Tooltip without arrow</TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="secondary" size="32">
-                        Side right
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="right">Tooltip on right</TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="secondary" size="32">
-                        Side left
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="left">Tooltip on left</TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="secondary" size="32">
-                        Side bottom
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom">Tooltip on bottom</TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
-                    </TooltipTrigger>
-                    <TooltipContent>More information about this feature</TooltipContent>
-                  </Tooltip>
-                </div>
-              </TooltipProvider>
-            </div>
+            <TooltipDemo />
 
             {/* Audio Upload */}
-            <div id="audioupload" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Audio Upload</h2>
-              <AudioUpload
-                className="w-80"
-                onFilesAccepted={(files) => console.log("Accepted:", files)}
-                onRecordingComplete={(blob, duration) => console.log("Recording:", blob, duration)}
-              />
-              <AudioUpload
-                className="w-80"
-                allowRecording={false}
-                onFilesAccepted={(files) => console.log("Accepted:", files)}
-              />
-              <AudioUpload className="w-80" disabled />
-              <AudioUpload
-                className="w-80"
-                uploadTitle="Drop your audio here"
-                uploadDescription="MP3, WAV, OGG — max 5MB"
-                separatorText="or alternatively"
-                recordButtonLabel="Use microphone"
-                maxFileSize={5 * 1024 * 1024}
-              />
-              <AudioUpload
-                className="w-80"
-                maxFiles={7}
-                uploadDescription="Audio files only, up to 10MB each (max 7 files)"
-              />
-              <AudioUpload className="w-80" maxRecordingDuration={10} />
-            </div>
+            <AudioUploadDemo />
+
+            {/* Toast */}
+            <ToastDemo />
           </section>
-          <ToastDemo />
         </main>
       </ToastProvider>
     </div>
