@@ -899,13 +899,321 @@ function AvatarDemo() {
   );
 }
 
+function AlertDemo() {
+  return (
+    <div id="alert" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Alert</h2>
+      <div className="max-w-2xl space-y-4">
+        <Alert variant="info" icon={<InfoCircleIcon />}>
+          This is an informational alert message.
+        </Alert>
+        <Alert variant="success" icon={<CheckCircleIcon />}>
+          Your changes have been saved successfully.
+        </Alert>
+        <Alert variant="warning" icon={<WarningTriangleIcon />}>
+          Please review your information before proceeding.
+        </Alert>
+        <Alert variant="error" icon={<ErrorCircleIcon />}>
+          An error occurred while processing your request.
+        </Alert>
+        <Alert variant="info" icon={<InfoCircleIcon />} closable>
+          This is a closable info alert.
+        </Alert>
+        <Alert variant="info" icon={<InfoCircleIcon />} title="Informational title">
+          This alert has a title and a description body.
+        </Alert>
+        <Alert variant="error" icon={<ErrorCircleIcon />} title="Something went wrong" closable>
+          This alert shows title, icon, and closable all together.
+        </Alert>
+      </div>
+    </div>
+  );
+}
+
+function ButtonDemo() {
+  return (
+    <div id="button" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Button</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <Button variant="primary">Label</Button>
+        <Button variant="secondary">Label</Button>
+        <Button variant="tertiary">Label</Button>
+        <Button variant="brand">Label</Button>
+        <Button variant="link">Label</Button>
+        <Button variant="destructive">Label</Button>
+        <div className="rounded-lg bg-body-black-solid-constant p-3">
+          <Button variant="white">Label</Button>
+        </div>
+        <Button variant="tertiaryDestructive">Label</Button>
+        <Button variant="text">Label</Button>
+      </div>
+
+      <div className="flex flex-wrap items-end gap-4">
+        <Button size="48">Label</Button>
+        <Button size="40">Label</Button>
+        <Button size="32">Label</Button>
+        <Button variant="text" size="24">
+          Label
+        </Button>
+      </div>
+
+      <div className="space-y-3">
+        {(["48", "40", "32"] as const).map((size) => (
+          <div key={size} className="flex flex-wrap items-center gap-3">
+            <Button variant="primary" size={size}>
+              Label
+            </Button>
+            <Button variant="secondary" size={size}>
+              Label
+            </Button>
+            <Button variant="tertiary" size={size}>
+              Label
+            </Button>
+            <Button variant="brand" size={size}>
+              Label
+            </Button>
+            <Button variant="link" size={size}>
+              Label
+            </Button>
+            <Button variant="destructive" size={size}>
+              Label
+            </Button>
+            <div className="rounded-lg bg-body-black-solid-constant p-2">
+              <Button variant="white" size={size}>
+                Label
+              </Button>
+            </div>
+            <Button variant="tertiaryDestructive" size={size}>
+              Label
+            </Button>
+            <Button variant="text" size={size}>
+              Label
+            </Button>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Button variant="primary" disabled>
+          Label
+        </Button>
+        <Button variant="secondary" disabled>
+          Label
+        </Button>
+        <Button variant="tertiary" disabled>
+          Label
+        </Button>
+        <Button variant="brand" disabled>
+          Label
+        </Button>
+        <Button variant="link" disabled>
+          Label
+        </Button>
+        <Button variant="destructive" disabled>
+          Label
+        </Button>
+        <div className="rounded-lg bg-body-black-solid-constant p-3">
+          <Button variant="white" disabled>
+            Label
+          </Button>
+        </div>
+        <Button variant="tertiaryDestructive" disabled>
+          Label
+        </Button>
+        <Button variant="text" disabled>
+          Label
+        </Button>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Button variant="primary" loading>
+          Label
+        </Button>
+        <Button variant="secondary" loading>
+          Label
+        </Button>
+        <Button variant="tertiary" loading>
+          Label
+        </Button>
+        <Button variant="brand" loading>
+          Label
+        </Button>
+        <Button variant="link" loading>
+          Label
+        </Button>
+        <Button variant="destructive" loading>
+          Label
+        </Button>
+        <div className="rounded-lg bg-body-black-solid-constant p-3">
+          <Button variant="white" loading>
+            Label
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Button variant="primary" leftIcon={<HomeIcon />}>
+          Label
+        </Button>
+        <Button variant="primary" rightIcon={<HomeIcon />}>
+          Label
+        </Button>
+        <Button variant="brand" leftIcon={<HomeIcon />} rightIcon={<HomeIcon />}>
+          Label
+        </Button>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Button variant="primary" price="$9.99/month">
+          Subscribe
+        </Button>
+        <Button variant="primary" discount="$X.XX" price="$X.XX/ month">
+          Join now
+        </Button>
+        <div className="rounded-lg bg-body-black-solid-constant p-3">
+          <Button variant="white" rightIcon={<CrownIcon />} discount="$X.XX" price="$X.XX/ month">
+            Join now
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Button variant="primary" asChild>
+          <a href="#link">Link as Primary</a>
+        </Button>
+        <Button variant="brand" asChild>
+          <a href="#link">Link as Brand</a>
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function BadgeDemo() {
+  return (
+    <div id="badge" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Badge</h2>
+      <div className="flex flex-wrap gap-4">
+        <Badge variant="default">Default</Badge>
+        <Badge variant="dark">Dark</Badge>
+        <Badge variant="info">Info</Badge>
+        <Badge variant="success">Success</Badge>
+        <Badge variant="warning">Warning</Badge>
+        <Badge variant="error">Error</Badge>
+        <Badge variant="special">Special</Badge>
+        <Badge variant="brand">Brand</Badge>
+        <Badge variant="pink">Pink</Badge>
+        <Badge variant="online">Online</Badge>
+        <Badge variant="brandLight">Brand light</Badge>
+        <Badge variant="pinkLight">Pink light</Badge>
+        <Badge variant="default" leftDot={false}>
+          No dot
+        </Badge>
+        <Badge variant="info" leftDot={false} leftIcon={<InfoCircleIcon />}>
+          Left icon
+        </Badge>
+        <Badge variant="success" leftDot={false} rightIcon={<ArrowUpRightIcon />}>
+          Right icon
+        </Badge>
+      </div>
+    </div>
+  );
+}
+
+function IconButtonDemo() {
+  return (
+    <div id="iconbutton" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Icon Button</h2>
+      <div className="space-y-6">
+        <div className="flex flex-wrap items-center gap-4">
+          <IconButton variant="primary" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="secondary" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="tertiary" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="brand" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} aria-label="Close" />
+          <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
+        </div>
+
+        <div className="rounded-lg bg-body-black-solid-constant p-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <IconButton variant="contrast" icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="messaging" icon={<PlusIcon />} aria-label="Add" />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4">
+          <IconButton variant="primary" icon={<HomeIcon />} size="24" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="32" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="40" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="52" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="72" aria-label="Home" />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4">
+          <IconButton variant="primary" icon={<HomeIcon />} disabled aria-label="Home" />
+          <IconButton variant="secondary" icon={<HomeIcon />} disabled aria-label="Home" />
+          <IconButton variant="tertiary" icon={<HomeIcon />} disabled aria-label="Home" />
+          <IconButton variant="brand" icon={<HomeIcon />} disabled aria-label="Home" />
+          <IconButton
+            variant="tertiaryDestructive"
+            icon={<CrossIcon />}
+            disabled
+            aria-label="Close"
+          />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4">
+          <IconButton variant="tertiary" icon={<HomeIcon />} counterValue={5} aria-label="Home" />
+          <IconButton variant="tertiary" icon={<HomeIcon />} counterValue={12} aria-label="Home" />
+          <IconButton variant="navTray" icon={<HomeIcon />} counterValue={99} aria-label="Home" />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4">
+          <IconButton variant="stop" icon={<StopIcon />} size="52" aria-label="Stop" />
+          <IconButton
+            variant="microphone"
+            icon={<MicrophoneIcon />}
+            size="52"
+            aria-label="Microphone"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PillDemo() {
+  return (
+    <div id="pill" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Pill</h2>
+      <div className="flex flex-wrap gap-4">
+        <Pill variant="green">Green</Pill>
+        <Pill variant="grey">Grey</Pill>
+        <Pill variant="blue">Blue</Pill>
+        <Pill variant="gold">Gold</Pill>
+        <Pill variant="pinkLight">Pink Light</Pill>
+        <Pill variant="base">Base</Pill>
+        <Pill variant="brand">Brand</Pill>
+        <Pill variant="brandLight">Brand light</Pill>
+        <Pill variant="beta">Beta</Pill>
+        <Pill variant="error">Error</Pill>
+      </div>
+
+      <div className="flex flex-wrap gap-4">
+        <Pill variant="brand" leftIcon={<CheckCircleIcon className="size-3" />}>
+          Left icon
+        </Pill>
+        <Pill variant="blue" rightIcon={<ArrowUpRightIcon className="size-3" />}>
+          Right icon
+        </Pill>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
-  const AlertInfoIcon = <InfoCircleIcon />;
-  const AlertSuccessIcon = <CheckCircleIcon />;
-  const AlertWarningIcon = <WarningTriangleIcon />;
-  const AlertErrorIcon = <ErrorCircleIcon />;
 
   const sections = [
     { id: "logo", label: "Logo" },
@@ -1024,333 +1332,19 @@ function App() {
             <AvatarDemo />
 
             {/* Alert */}
-            <div id="alert" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Alert</h2>
-              <div className="max-w-2xl space-y-4">
-                <Alert variant="info" icon={AlertInfoIcon}>
-                  This is an informational alert message.
-                </Alert>
-                <Alert variant="success" icon={AlertSuccessIcon}>
-                  Your changes have been saved successfully.
-                </Alert>
-                <Alert variant="warning" icon={AlertWarningIcon}>
-                  Please review your information before proceeding.
-                </Alert>
-                <Alert variant="error" icon={AlertErrorIcon}>
-                  An error occurred while processing your request.
-                </Alert>
-                <Alert variant="info" icon={AlertInfoIcon} closable>
-                  This is a closable info alert.
-                </Alert>
-                <Alert variant="info" icon={AlertInfoIcon} title="Informational title">
-                  This alert has a title and a description body.
-                </Alert>
-                <Alert variant="error" icon={AlertErrorIcon} title="Something went wrong" closable>
-                  This alert shows title, icon, and closable all together.
-                </Alert>
-              </div>
-            </div>
+            <AlertDemo />
 
             {/* Button */}
-            <div id="button" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Button</h2>
-              <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary">Label</Button>
-                <Button variant="secondary">Label</Button>
-                <Button variant="tertiary">Label</Button>
-                <Button variant="brand">Label</Button>
-                <Button variant="link">Label</Button>
-                <Button variant="destructive">Label</Button>
-                <div className="rounded-lg bg-body-black-solid-constant p-3">
-                  <Button variant="white">Label</Button>
-                </div>
-                <Button variant="tertiaryDestructive">Label</Button>
-                <Button variant="text">Label</Button>
-              </div>
-
-              <div className="flex flex-wrap items-end gap-4">
-                <Button size="48">Label</Button>
-                <Button size="40">Label</Button>
-                <Button size="32">Label</Button>
-                <Button variant="text" size="24">
-                  Label
-                </Button>
-              </div>
-
-              <div className="space-y-3">
-                {(["48", "40", "32"] as const).map((size) => (
-                  <div key={size} className="flex flex-wrap items-center gap-3">
-                    <Button variant="primary" size={size}>
-                      Label
-                    </Button>
-                    <Button variant="secondary" size={size}>
-                      Label
-                    </Button>
-                    <Button variant="tertiary" size={size}>
-                      Label
-                    </Button>
-                    <Button variant="brand" size={size}>
-                      Label
-                    </Button>
-                    <Button variant="link" size={size}>
-                      Label
-                    </Button>
-                    <Button variant="destructive" size={size}>
-                      Label
-                    </Button>
-                    <div className="rounded-lg bg-body-black-solid-constant p-2">
-                      <Button variant="white" size={size}>
-                        Label
-                      </Button>
-                    </div>
-                    <Button variant="tertiaryDestructive" size={size}>
-                      Label
-                    </Button>
-                    <Button variant="text" size={size}>
-                      Label
-                    </Button>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary" disabled>
-                  Label
-                </Button>
-                <Button variant="secondary" disabled>
-                  Label
-                </Button>
-                <Button variant="tertiary" disabled>
-                  Label
-                </Button>
-                <Button variant="brand" disabled>
-                  Label
-                </Button>
-                <Button variant="link" disabled>
-                  Label
-                </Button>
-                <Button variant="destructive" disabled>
-                  Label
-                </Button>
-                <div className="rounded-lg bg-body-black-solid-constant p-3">
-                  <Button variant="white" disabled>
-                    Label
-                  </Button>
-                </div>
-                <Button variant="tertiaryDestructive" disabled>
-                  Label
-                </Button>
-                <Button variant="text" disabled>
-                  Label
-                </Button>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary" loading>
-                  Label
-                </Button>
-                <Button variant="secondary" loading>
-                  Label
-                </Button>
-                <Button variant="tertiary" loading>
-                  Label
-                </Button>
-                <Button variant="brand" loading>
-                  Label
-                </Button>
-                <Button variant="link" loading>
-                  Label
-                </Button>
-                <Button variant="destructive" loading>
-                  Label
-                </Button>
-                <div className="rounded-lg bg-body-black-solid-constant p-3">
-                  <Button variant="white" loading>
-                    Label
-                  </Button>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary" leftIcon={<HomeIcon />}>
-                  Label
-                </Button>
-                <Button variant="primary" rightIcon={<HomeIcon />}>
-                  Label
-                </Button>
-                <Button variant="brand" leftIcon={<HomeIcon />} rightIcon={<HomeIcon />}>
-                  Label
-                </Button>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary" price="$9.99/month">
-                  Subscribe
-                </Button>
-                <Button variant="primary" discount="$X.XX" price="$X.XX/ month">
-                  Join now
-                </Button>
-                <div className="rounded-lg bg-body-black-solid-constant p-3">
-                  <Button
-                    variant="white"
-                    rightIcon={<CrownIcon />}
-                    discount="$X.XX"
-                    price="$X.XX/ month"
-                  >
-                    Join now
-                  </Button>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary" asChild>
-                  <a href="#link">Link as Primary</a>
-                </Button>
-                <Button variant="brand" asChild>
-                  <a href="#link">Link as Brand</a>
-                </Button>
-              </div>
-            </div>
+            <ButtonDemo />
 
             {/* Badge */}
-            <div id="badge" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Badge</h2>
-              <div className="flex flex-wrap gap-4">
-                <Badge variant="default">Default</Badge>
-                <Badge variant="dark">Dark</Badge>
-                <Badge variant="info">Info</Badge>
-                <Badge variant="success">Success</Badge>
-                <Badge variant="warning">Warning</Badge>
-                <Badge variant="error">Error</Badge>
-                <Badge variant="special">Special</Badge>
-                <Badge variant="brand">Brand</Badge>
-                <Badge variant="pink">Pink</Badge>
-                <Badge variant="online">Online</Badge>
-                <Badge variant="brandLight">Brand light</Badge>
-                <Badge variant="pinkLight">Pink light</Badge>
-                <Badge variant="default" leftDot={false}>
-                  No dot
-                </Badge>
-                <Badge
-                  variant="info"
-                  leftDot={false}
-                  leftIcon={<InfoCircleIcon className="size-3" />}
-                >
-                  Left icon
-                </Badge>
-                <Badge
-                  variant="success"
-                  leftDot={false}
-                  rightIcon={<ArrowUpRightIcon className="size-3" />}
-                >
-                  Right icon
-                </Badge>
-              </div>
-            </div>
+            <BadgeDemo />
 
             {/* Icon Button */}
-            <div id="iconbutton" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Icon Button</h2>
-              <div className="space-y-6">
-                <div className="flex flex-wrap items-center gap-4">
-                  <IconButton variant="primary" icon={<HomeIcon />} aria-label="Home" />
-                  <IconButton variant="secondary" icon={<HomeIcon />} aria-label="Home" />
-                  <IconButton variant="tertiary" icon={<HomeIcon />} aria-label="Home" />
-                  <IconButton variant="brand" icon={<HomeIcon />} aria-label="Home" />
-                  <IconButton
-                    variant="tertiaryDestructive"
-                    icon={<CrossIcon />}
-                    aria-label="Close"
-                  />
-                  <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
-                </div>
-
-                <div className="rounded-lg bg-body-black-solid-constant p-4">
-                  <div className="flex flex-wrap items-center gap-4">
-                    <IconButton variant="contrast" icon={<HomeIcon />} aria-label="Home" />
-                    <IconButton variant="messaging" icon={<PlusIcon />} aria-label="Add" />
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4">
-                  <IconButton variant="primary" icon={<HomeIcon />} size="24" aria-label="Home" />
-                  <IconButton variant="primary" icon={<HomeIcon />} size="32" aria-label="Home" />
-                  <IconButton variant="primary" icon={<HomeIcon />} size="40" aria-label="Home" />
-                  <IconButton variant="primary" icon={<HomeIcon />} size="52" aria-label="Home" />
-                  <IconButton variant="primary" icon={<HomeIcon />} size="72" aria-label="Home" />
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4">
-                  <IconButton variant="primary" icon={<HomeIcon />} disabled aria-label="Home" />
-                  <IconButton variant="secondary" icon={<HomeIcon />} disabled aria-label="Home" />
-                  <IconButton variant="tertiary" icon={<HomeIcon />} disabled aria-label="Home" />
-                  <IconButton variant="brand" icon={<HomeIcon />} disabled aria-label="Home" />
-                  <IconButton
-                    variant="tertiaryDestructive"
-                    icon={<CrossIcon />}
-                    disabled
-                    aria-label="Close"
-                  />
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4">
-                  <IconButton
-                    variant="tertiary"
-                    icon={<HomeIcon />}
-                    counterValue={5}
-                    aria-label="Home"
-                  />
-                  <IconButton
-                    variant="tertiary"
-                    icon={<HomeIcon />}
-                    counterValue={12}
-                    aria-label="Home"
-                  />
-                  <IconButton
-                    variant="navTray"
-                    icon={<HomeIcon />}
-                    counterValue={99}
-                    aria-label="Home"
-                  />
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4">
-                  <IconButton variant="stop" icon={<StopIcon />} size="52" aria-label="Stop" />
-                  <IconButton
-                    variant="microphone"
-                    icon={<MicrophoneIcon />}
-                    size="52"
-                    aria-label="Microphone"
-                  />
-                </div>
-              </div>
-            </div>
+            <IconButtonDemo />
 
             {/* Pill */}
-            <div id="pill" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Pill</h2>
-              <div className="flex flex-wrap gap-4">
-                <Pill variant="green">Green</Pill>
-                <Pill variant="grey">Grey</Pill>
-                <Pill variant="blue">Blue</Pill>
-                <Pill variant="gold">Gold</Pill>
-                <Pill variant="pinkLight">Pink Light</Pill>
-                <Pill variant="base">Base</Pill>
-                <Pill variant="brand">Brand</Pill>
-                <Pill variant="brandLight">Brand light</Pill>
-                <Pill variant="beta">Beta</Pill>
-                <Pill variant="error">Error</Pill>
-              </div>
-
-              <div className="flex flex-wrap gap-4">
-                <Pill variant="brand" leftIcon={<CheckCircleIcon className="size-3" />}>
-                  Left icon
-                </Pill>
-                <Pill variant="blue" rightIcon={<ArrowUpRightIcon className="size-3" />}>
-                  Right icon
-                </Pill>
-              </div>
-            </div>
+            <PillDemo />
 
             {/* Checkbox */}
             <div id="checkbox" className="flex scroll-mt-20 flex-col gap-4">
@@ -2155,7 +2149,9 @@ function App() {
               </TooltipProvider>
             </div>
 
-            <div className="flex flex-wrap items-start gap-6">
+            {/* Audio Upload */}
+            <div id="audioupload" className="flex scroll-mt-20 flex-col gap-4">
+              <h2 className="typography-h3 mb-4">Audio Upload</h2>
               <AudioUpload
                 className="w-80"
                 onFilesAccepted={(files) => console.log("Accepted:", files)}
