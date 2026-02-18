@@ -473,42 +473,39 @@ function ToastDemo() {
   };
 
   return (
-    <div>
-      {/* Toast */}
-      <div id="toast" className="flex scroll-mt-20 flex-col gap-4">
-        <h2 className="typography-h3 mb-4">Toast</h2>
-        <div className="space-y-4">
-          <div className="flex flex-wrap gap-3">
-            <Button variant="primary" size="40" onClick={() => showToast("info")}>
-              Show Info Toast
-            </Button>
-            <Button variant="primary" size="40" onClick={() => showToast("warning")}>
-              Show Warning Toast
-            </Button>
-            <Button variant="primary" size="40" onClick={() => showToast("success")}>
-              Show Success Toast
-            </Button>
-            <Button variant="primary" size="40" onClick={() => showToast("error")}>
-              Show Error Toast
-            </Button>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Button variant="secondary" size="40" onClick={() => showToast("withAction")}>
-              With Action Button
-            </Button>
-            <Button variant="secondary" size="40" onClick={() => showToast("noClose")}>
-              No Close Button
-            </Button>
-            <Button variant="secondary" size="40" onClick={() => showToast("titleOnly")}>
-              Title Only
-            </Button>
-            <Button variant="secondary" size="40" onClick={() => showToast("longContent")}>
-              Long Content
-            </Button>
-            <Button variant="secondary" size="40" onClick={() => showToast("messageToast")}>
-              Message Toast
-            </Button>
-          </div>
+    <div id="toast" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Toast</h2>
+      <div className="space-y-4">
+        <div className="flex flex-wrap gap-3">
+          <Button variant="primary" size="40" onClick={() => showToast("info")}>
+            Show Info Toast
+          </Button>
+          <Button variant="primary" size="40" onClick={() => showToast("warning")}>
+            Show Warning Toast
+          </Button>
+          <Button variant="primary" size="40" onClick={() => showToast("success")}>
+            Show Success Toast
+          </Button>
+          <Button variant="primary" size="40" onClick={() => showToast("error")}>
+            Show Error Toast
+          </Button>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Button variant="secondary" size="40" onClick={() => showToast("withAction")}>
+            With Action Button
+          </Button>
+          <Button variant="secondary" size="40" onClick={() => showToast("noClose")}>
+            No Close Button
+          </Button>
+          <Button variant="secondary" size="40" onClick={() => showToast("titleOnly")}>
+            Title Only
+          </Button>
+          <Button variant="secondary" size="40" onClick={() => showToast("longContent")}>
+            Long Content
+          </Button>
+          <Button variant="secondary" size="40" onClick={() => showToast("messageToast")}>
+            Message Toast
+          </Button>
         </div>
       </div>
       <Toast
@@ -579,7 +576,322 @@ function ToastDemo() {
         open={toasts.messageToast}
         onOpenChange={(open: boolean) => !open && hideToast("messageToast")}
       />
-      <ToastViewport />{" "}
+      <ToastViewport />
+    </div>
+  );
+}
+
+function LogoDemo() {
+  return (
+    <div id="logo" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Logo</h2>
+      <div className="flex flex-wrap items-start gap-8">
+        <Logo variant="full" color="fullColour" />
+        <Logo variant="icon" color="fullColour" />
+        <Logo variant="portrait" color="fullColour" />
+        <Logo variant="wordmark" color="fullColour" />
+        <Logo variant="full" color="decolour" />
+        <Logo variant="icon" color="decolour" />
+        <Logo variant="portrait" color="decolour" />
+        <Logo variant="wordmark" color="decolour" />
+      </div>
+      <div className="rounded-lg bg-background-white-solid-constant p-4">
+        <div className="flex flex-wrap items-start gap-8">
+          <Logo variant="full" color="blackAlways" />
+          <Logo variant="icon" color="blackAlways" />
+          <Logo variant="portrait" color="blackAlways" />
+          <Logo variant="wordmark" color="blackAlways" />
+        </div>
+      </div>
+      <div className="rounded-lg bg-body-black-solid-constant p-4">
+        <div className="flex flex-wrap items-start gap-8">
+          <Logo variant="full" color="whiteAlways" />
+          <Logo variant="icon" color="whiteAlways" />
+          <Logo variant="portrait" color="whiteAlways" />
+          <Logo variant="wordmark" color="whiteAlways" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IconsDemo() {
+  return (
+    <div id="icons" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Icons</h2>
+      <div className="space-y-6">
+        <div className="flex flex-wrap items-end gap-6">
+          {(
+            [
+              ["ArrowRightIcon", ArrowRightIcon],
+              ["ArrowUpRightIcon", ArrowUpRightIcon],
+              ["CheckCircleIcon", CheckCircleIcon],
+              ["CheckIcon", CheckIcon],
+              ["ChevronLeftIcon", ChevronLeftIcon],
+              ["ChevronRightIcon", ChevronRightIcon],
+              ["CloseIcon", CloseIcon],
+              ["CrossIcon", CrossIcon],
+              ["CrownIcon", CrownIcon],
+              ["ErrorCircleIcon", ErrorCircleIcon],
+              ["ErrorIcon", ErrorIcon],
+              ["EyeIcon", EyeIcon],
+              ["FireIcon", FireIcon],
+              ["HomeIcon", HomeIcon],
+              ["InfoCircleIcon", InfoCircleIcon],
+              ["InfoIcon", InfoIcon],
+              ["MicrophoneIcon", MicrophoneIcon],
+              ["MinusIcon", MinusIcon],
+              ["PlusIcon", PlusIcon],
+              ["SpinnerIcon", SpinnerIcon],
+              ["StopIcon", StopIcon],
+              ["SuccessIcon", SuccessIcon],
+              ["WarningIcon", WarningIcon],
+              ["WarningTriangleIcon", WarningTriangleIcon],
+            ] as const
+          ).map(([name, Icon]) => (
+            <div key={name} className="flex flex-col items-center gap-2">
+              <Icon className="size-6" />
+              <span className="text-[10px] text-body-200 leading-tight">
+                {name.replace("Icon", "")}
+              </span>
+            </div>
+          ))}
+          <div className="flex flex-col items-center gap-2">
+            <VipBadgeIcon className="size-6" />
+            <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-background-white-solid-constant p-4 text-body-black-solid-constant">
+          {(
+            [
+              ["ArrowRight", ArrowRightIcon],
+              ["ArrowUpRight", ArrowUpRightIcon],
+              ["CheckCircle", CheckCircleIcon],
+              ["Check", CheckIcon],
+              ["ChevronLeft", ChevronLeftIcon],
+              ["ChevronRight", ChevronRightIcon],
+              ["Close", CloseIcon],
+              ["Cross", CrossIcon],
+              ["Crown", CrownIcon],
+              ["ErrorCircle", ErrorCircleIcon],
+              ["Error", ErrorIcon],
+              ["Eye", EyeIcon],
+              ["Fire", FireIcon],
+              ["Home", HomeIcon],
+              ["InfoCircle", InfoCircleIcon],
+              ["Info", InfoIcon],
+              ["Microphone", MicrophoneIcon],
+              ["Minus", MinusIcon],
+              ["Plus", PlusIcon],
+              ["Spinner", SpinnerIcon],
+              ["Stop", StopIcon],
+              ["Success", SuccessIcon],
+              ["Warning", WarningIcon],
+              ["WarningTriangle", WarningTriangleIcon],
+            ] as const
+          ).map(([name, Icon]) => (
+            <div key={name} className="flex flex-col items-center gap-2">
+              <Icon className="size-6" />
+              <span className="text-[10px] text-body-200 leading-tight">{name}</span>
+            </div>
+          ))}
+          <div className="flex flex-col items-center gap-2">
+            <VipBadgeIcon className="size-6" />
+            <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-body-black-solid-constant p-4 text-body-white-solid-constant">
+          {(
+            [
+              ["ArrowRight", ArrowRightIcon],
+              ["ArrowUpRight", ArrowUpRightIcon],
+              ["CheckCircle", CheckCircleIcon],
+              ["Check", CheckIcon],
+              ["ChevronLeft", ChevronLeftIcon],
+              ["ChevronRight", ChevronRightIcon],
+              ["Close", CloseIcon],
+              ["Cross", CrossIcon],
+              ["Crown", CrownIcon],
+              ["ErrorCircle", ErrorCircleIcon],
+              ["Error", ErrorIcon],
+              ["Eye", EyeIcon],
+              ["Fire", FireIcon],
+              ["Home", HomeIcon],
+              ["InfoCircle", InfoCircleIcon],
+              ["Info", InfoIcon],
+              ["Microphone", MicrophoneIcon],
+              ["Minus", MinusIcon],
+              ["Plus", PlusIcon],
+              ["Spinner", SpinnerIcon],
+              ["Stop", StopIcon],
+              ["Success", SuccessIcon],
+              ["Warning", WarningIcon],
+              ["WarningTriangle", WarningTriangleIcon],
+            ] as const
+          ).map(([name, Icon]) => (
+            <div key={name} className="flex flex-col items-center gap-2">
+              <Icon className="size-6" />
+              <span className="text-[10px] text-body-200 leading-tight">{name}</span>
+            </div>
+          ))}
+          <div className="flex flex-col items-center gap-2">
+            <VipBadgeIcon className="size-6" />
+            <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
+          </div>
+        </div>
+
+        {/* Sizes */}
+        <div className="flex flex-wrap items-end gap-8">
+          <div className="flex flex-col items-center gap-1">
+            <HomeIcon className="size-4" />
+            <span className="text-[10px] text-body-200">16px</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <HomeIcon />
+            <span className="text-[10px] text-body-200">20px</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <HomeIcon className="size-6" />
+            <span className="text-[10px] text-body-200">24px</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <HomeIcon className="size-8" />
+            <span className="text-[10px] text-body-200">32px</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <HomeIcon className="size-10" />
+            <span className="text-[10px] text-body-200">40px</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AvatarDemo() {
+  return (
+    <div id="avatar" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Avatar</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <Avatar
+          size={16}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="16"
+        />
+        <Avatar
+          size={24}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="24"
+        />
+        <Avatar
+          size={32}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="32"
+        />
+        <Avatar
+          size={40}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="40"
+        />
+        <Avatar
+          size={48}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="48"
+        />
+        <Avatar
+          size={64}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="64"
+        />
+        <Avatar
+          size={88}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="88"
+        />
+        <Avatar
+          size={148}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="148"
+        />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Avatar
+          size={40}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="JD"
+        />
+        <Avatar size={40} fallback="AB" />
+        <Avatar size={40} fallback={<CheckCircleIcon className="size-6" />} />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Avatar
+          size={24}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="JD"
+          onlineIndicator={true}
+        />
+        <Avatar
+          size={32}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="JD"
+          onlineIndicator={true}
+        />
+        <Avatar
+          size={40}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="JD"
+          onlineIndicator={true}
+        />
+        <Avatar size={48} fallback="AB" onlineIndicator={true} />
+        <Avatar size={64} fallback="AB" onlineIndicator={true} />
+        <Avatar size={88} fallback="AB" onlineIndicator={true} />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Avatar
+          size={40}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="JD"
+          platinumShow
+        />
+        <Avatar
+          size={64}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="JD"
+          platinumShow
+        />
+        <Avatar
+          size={88}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="JD"
+          platinumShow
+        />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Avatar
+          size={40}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="JD"
+          NSFWShow
+        />
+        <Avatar
+          size={64}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="JD"
+          NSFWShow
+        />
+        <Avatar
+          size={88}
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          fallback="JD"
+          NSFWShow
+        />
+      </div>
     </div>
   );
 }
@@ -700,310 +1012,13 @@ function App() {
         <main className="container mx-auto px-4 py-12">
           <section className="space-y-8">
             {/* Logo */}
-            <div id="logo" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Logo</h2>
-              <div className="flex flex-wrap items-start gap-8">
-                <Logo variant="full" color="fullColour" />
-                <Logo variant="icon" color="fullColour" />
-                <Logo variant="portrait" color="fullColour" />
-                <Logo variant="wordmark" color="fullColour" />
-                <Logo variant="full" color="decolour" />
-                <Logo variant="icon" color="decolour" />
-                <Logo variant="portrait" color="decolour" />
-                <Logo variant="wordmark" color="decolour" />
-              </div>
-              <div className="rounded-lg bg-background-white-solid-constant p-4">
-                <div className="flex flex-wrap items-start gap-8">
-                  <Logo variant="full" color="blackAlways" />
-                  <Logo variant="icon" color="blackAlways" />
-                  <Logo variant="portrait" color="blackAlways" />
-                  <Logo variant="wordmark" color="blackAlways" />
-                </div>
-              </div>
-              <div className="rounded-lg bg-body-black-solid-constant p-4">
-                <div className="flex flex-wrap items-start gap-8">
-                  <Logo variant="full" color="whiteAlways" />
-                  <Logo variant="icon" color="whiteAlways" />
-                  <Logo variant="portrait" color="whiteAlways" />
-                  <Logo variant="wordmark" color="whiteAlways" />
-                </div>
-              </div>
-            </div>
+            <LogoDemo />
 
             {/* Icons */}
-            <div id="icons" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Icons</h2>
-              <div className="space-y-6">
-                <div className="flex flex-wrap items-end gap-6">
-                  {(
-                    [
-                      ["ArrowRightIcon", ArrowRightIcon],
-                      ["ArrowUpRightIcon", ArrowUpRightIcon],
-                      ["CheckCircleIcon", CheckCircleIcon],
-                      ["CheckIcon", CheckIcon],
-                      ["ChevronLeftIcon", ChevronLeftIcon],
-                      ["ChevronRightIcon", ChevronRightIcon],
-                      ["CloseIcon", CloseIcon],
-                      ["CrossIcon", CrossIcon],
-                      ["CrownIcon", CrownIcon],
-                      ["ErrorCircleIcon", ErrorCircleIcon],
-                      ["ErrorIcon", ErrorIcon],
-                      ["EyeIcon", EyeIcon],
-                      ["FireIcon", FireIcon],
-                      ["HomeIcon", HomeIcon],
-                      ["InfoCircleIcon", InfoCircleIcon],
-                      ["InfoIcon", InfoIcon],
-                      ["MicrophoneIcon", MicrophoneIcon],
-                      ["MinusIcon", MinusIcon],
-                      ["PlusIcon", PlusIcon],
-                      ["SpinnerIcon", SpinnerIcon],
-                      ["StopIcon", StopIcon],
-                      ["SuccessIcon", SuccessIcon],
-                      ["WarningIcon", WarningIcon],
-                      ["WarningTriangleIcon", WarningTriangleIcon],
-                    ] as const
-                  ).map(([name, Icon]) => (
-                    <div key={name} className="flex flex-col items-center gap-2">
-                      <Icon className="size-6" />
-                      <span className="text-[10px] text-body-200 leading-tight">
-                        {name.replace("Icon", "")}
-                      </span>
-                    </div>
-                  ))}
-                  <div className="flex flex-col items-center gap-2">
-                    <VipBadgeIcon className="size-6" />
-                    <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-end gap-6 rounded-lg bg-background-white-solid-constant p-4 text-body-black-solid-constant">
-                  {(
-                    [
-                      ["ArrowRight", ArrowRightIcon],
-                      ["ArrowUpRight", ArrowUpRightIcon],
-                      ["CheckCircle", CheckCircleIcon],
-                      ["Check", CheckIcon],
-                      ["ChevronLeft", ChevronLeftIcon],
-                      ["ChevronRight", ChevronRightIcon],
-                      ["Close", CloseIcon],
-                      ["Cross", CrossIcon],
-                      ["Crown", CrownIcon],
-                      ["ErrorCircle", ErrorCircleIcon],
-                      ["Error", ErrorIcon],
-                      ["Eye", EyeIcon],
-                      ["Fire", FireIcon],
-                      ["Home", HomeIcon],
-                      ["InfoCircle", InfoCircleIcon],
-                      ["Info", InfoIcon],
-                      ["Microphone", MicrophoneIcon],
-                      ["Minus", MinusIcon],
-                      ["Plus", PlusIcon],
-                      ["Spinner", SpinnerIcon],
-                      ["Stop", StopIcon],
-                      ["Success", SuccessIcon],
-                      ["Warning", WarningIcon],
-                      ["WarningTriangle", WarningTriangleIcon],
-                    ] as const
-                  ).map(([name, Icon]) => (
-                    <div key={name} className="flex flex-col items-center gap-2">
-                      <Icon className="size-6" />
-                      <span className="text-[10px] text-body-200 leading-tight">{name}</span>
-                    </div>
-                  ))}
-                  <div className="flex flex-col items-center gap-2">
-                    <VipBadgeIcon className="size-6" />
-                    <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-end gap-6 rounded-lg bg-body-black-solid-constant p-4 text-body-white-solid-constant">
-                  {(
-                    [
-                      ["ArrowRight", ArrowRightIcon],
-                      ["ArrowUpRight", ArrowUpRightIcon],
-                      ["CheckCircle", CheckCircleIcon],
-                      ["Check", CheckIcon],
-                      ["ChevronLeft", ChevronLeftIcon],
-                      ["ChevronRight", ChevronRightIcon],
-                      ["Close", CloseIcon],
-                      ["Cross", CrossIcon],
-                      ["Crown", CrownIcon],
-                      ["ErrorCircle", ErrorCircleIcon],
-                      ["Error", ErrorIcon],
-                      ["Eye", EyeIcon],
-                      ["Fire", FireIcon],
-                      ["Home", HomeIcon],
-                      ["InfoCircle", InfoCircleIcon],
-                      ["Info", InfoIcon],
-                      ["Microphone", MicrophoneIcon],
-                      ["Minus", MinusIcon],
-                      ["Plus", PlusIcon],
-                      ["Spinner", SpinnerIcon],
-                      ["Stop", StopIcon],
-                      ["Success", SuccessIcon],
-                      ["Warning", WarningIcon],
-                      ["WarningTriangle", WarningTriangleIcon],
-                    ] as const
-                  ).map(([name, Icon]) => (
-                    <div key={name} className="flex flex-col items-center gap-2">
-                      <Icon className="size-6" />
-                      <span className="text-[10px] text-body-200 leading-tight">{name}</span>
-                    </div>
-                  ))}
-                  <div className="flex flex-col items-center gap-2">
-                    <VipBadgeIcon className="size-6" />
-                    <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
-                  </div>
-                </div>
-
-                {/* Sizes */}
-                <div className="flex flex-wrap items-end gap-8">
-                  <div className="flex flex-col items-center gap-1">
-                    <HomeIcon className="size-4" />
-                    <span className="text-[10px] text-body-200">16px</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-1">
-                    <HomeIcon />
-                    <span className="text-[10px] text-body-200">20px</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-1">
-                    <HomeIcon className="size-6" />
-                    <span className="text-[10px] text-body-200">24px</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-1">
-                    <HomeIcon className="size-8" />
-                    <span className="text-[10px] text-body-200">32px</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-1">
-                    <HomeIcon className="size-10" />
-                    <span className="text-[10px] text-body-200">40px</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <IconsDemo />
 
             {/* Avatar */}
-            <div id="avatar" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Avatar</h2>
-              <div className="flex flex-wrap items-center gap-4">
-                <Avatar
-                  size={16}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="16"
-                />
-                <Avatar
-                  size={24}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="24"
-                />
-                <Avatar
-                  size={32}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="32"
-                />
-                <Avatar
-                  size={40}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="40"
-                />
-                <Avatar
-                  size={48}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="48"
-                />
-                <Avatar
-                  size={64}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="64"
-                />
-                <Avatar
-                  size={88}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="88"
-                />
-                <Avatar
-                  size={148}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="148"
-                />
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Avatar
-                  size={40}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="JD"
-                />
-                <Avatar size={40} fallback="AB" />
-                <Avatar size={40} fallback={<CheckCircleIcon className="size-6" />} />
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Avatar
-                  size={24}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="JD"
-                  onlineIndicator={true}
-                />
-                <Avatar
-                  size={32}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="JD"
-                  onlineIndicator={true}
-                />
-                <Avatar
-                  size={40}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="JD"
-                  onlineIndicator={true}
-                />
-                <Avatar size={48} fallback="AB" onlineIndicator={true} />
-                <Avatar size={64} fallback="AB" onlineIndicator={true} />
-                <Avatar size={88} fallback="AB" onlineIndicator={true} />
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Avatar
-                  size={40}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="JD"
-                  platinumShow
-                />
-                <Avatar
-                  size={64}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="JD"
-                  platinumShow
-                />
-                <Avatar
-                  size={88}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="JD"
-                  platinumShow
-                />
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Avatar
-                  size={40}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="JD"
-                  NSFWShow
-                />
-                <Avatar
-                  size={64}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="JD"
-                  NSFWShow
-                />
-                <Avatar
-                  size={88}
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-                  fallback="JD"
-                  NSFWShow
-                />
-              </div>
-            </div>
+            <AvatarDemo />
 
             {/* Alert */}
             <div id="alert" className="flex scroll-mt-20 flex-col gap-4">
@@ -2186,8 +2201,8 @@ function App() {
               <AudioUpload className="w-80" maxRecordingDuration={10} />
             </div>
           </section>
+          <ToastDemo />
         </main>
-        <ToastDemo />
       </ToastProvider>
     </div>
   );
