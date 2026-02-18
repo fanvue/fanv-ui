@@ -1,5 +1,3 @@
-# NOTE: If you rename the deploy job, update the CHECKS array in release.yml
-# which sets status checks for release-please PRs via the Statuses API.
 name: Showcase Preview
 
 on:
@@ -49,6 +47,14 @@ jobs:
           destination_dir: pr-${{ github.event.number }}
           keep_files: true
 
+  comment:
+    name: Comment on PR
+    needs: deploy
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
       - name: Comment on PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
