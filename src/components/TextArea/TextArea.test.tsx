@@ -142,7 +142,7 @@ describe("TextArea", () => {
       expect(onClear).toHaveBeenCalledTimes(1);
     });
 
-    it("does not call onChange when clear button is clicked", async () => {
+    it("calls onChange with empty value when clear button is clicked", async () => {
       const user = userEvent.setup();
       const onChange = vi.fn();
       render(<TextArea label="Test" showClearButton value="Text" onChange={onChange} />);
@@ -150,7 +150,12 @@ describe("TextArea", () => {
       const clearButton = screen.getByLabelText("Clear text");
       await user.click(clearButton);
 
-      expect(onChange).not.toHaveBeenCalled();
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          target: expect.objectContaining({ value: "" }),
+        }),
+      );
     });
   });
 

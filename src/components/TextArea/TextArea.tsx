@@ -25,7 +25,7 @@ export interface TextAreaProps
   fullWidth?: boolean;
   /** Whether to show a clear button when text is present. @default false */
   showClearButton?: boolean;
-  /** Callback fired when the clear button is clicked. */
+  /** Callback fired when the clear button is clicked. Note: `onChange` is also called with an empty value when clearing. */
   onClear?: () => void;
   /** Minimum number of rows (lines) for the textarea. */
   minRows?: number;
@@ -132,31 +132,33 @@ function useTextAreaValue(
   showClearButton: boolean,
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement>,
   onClear?: () => void,
+  textareaRef?: React.RefObject<HTMLTextAreaElement | null>,
 ) {
-  const [internalValue, setInternalValue] = React.useState(value ?? defaultValue ?? "");
+  const [internalValue, setInternalValue] = React.useState(defaultValue ?? "");
+  const resolvedValue = value !== undefined ? value : internalValue;
 
-  React.useEffect(() => {
-    if (value !== undefined) {
-      setInternalValue(value);
-    }
-  }, [value]);
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInternalValue(e.target.value);
+    onChange?.(e);
+  };
 
-  const handleChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setInternalValue(e.target.value);
-      onChange?.(e);
-    },
-    [onChange],
-  );
-
-  const handleClear = React.useCallback(() => {
+  const handleClear = () => {
     setInternalValue("");
+
+    if (onChange && textareaRef?.current) {
+      const syntheticEvent = {
+        target: { ...textareaRef.current, value: "" },
+        currentTarget: { ...textareaRef.current, value: "" },
+      } as React.ChangeEvent<HTMLTextAreaElement>;
+      onChange(syntheticEvent);
+    }
+
     onClear?.();
-  }, [onClear]);
+  };
 
   return {
-    internalValue,
-    displayValue: showClearButton ? internalValue : value,
+    resolvedValue,
+    displayValue: showClearButton ? resolvedValue : value,
     resolvedDefaultValue: showClearButton ? undefined : defaultValue,
     handleChange,
     handleClear,
@@ -210,10 +212,21 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const bottomText = error && errorMessage ? errorMessage : helperText;
     const maxHeight = calculateMaxHeight(size, maxRows);
 
-    const { internalValue, displayValue, resolvedDefaultValue, handleChange, handleClear } =
-      useTextAreaValue(value, defaultValue, showClearButton, onChange, onClear);
+    const internalRef = React.useRef<HTMLTextAreaElement>(null);
 
-    const showClear = showClearButton && internalValue !== "" && !disabled;
+    const { resolvedValue, displayValue, resolvedDefaultValue, handleChange, handleClear } =
+      useTextAreaValue(value, defaultValue, showClearButton, onChange, onClear, internalRef);
+
+    const mergedRef = (node: HTMLTextAreaElement | null) => {
+      internalRef.current = node;
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref) {
+        (ref as React.MutableRefObject<HTMLTextAreaElement | null>).current = node;
+      }
+    };
+
+    const showClear = showClearButton && resolvedValue !== "" && !disabled;
     const showValidated = validated && !showClear;
     const ariaDescribedBy = bottomText ? helperTextId : undefined;
     const textareaStyle = maxHeight ? { maxHeight } : undefined;
@@ -237,7 +250,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
         <div className={getContainerClassName(size, error, disabled)}>
           <textarea
-            ref={ref}
+            ref={mergedRef}
             id={inputId}
             disabled={disabled}
             aria-describedby={ariaDescribedBy}
