@@ -188,7 +188,8 @@ function TextFieldShowcase() {
     setValue(e.target.value);
   };
   return (
-    <div className="flex max-w-2xl flex-col gap-4">
+    <div id="textfield" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Text Field</h2>
       <TextField label="Size 48" placeholder="Placeholder" size="48" autoComplete="off" />
       <TextField label="Size 40" placeholder="Placeholder" size="40" autoComplete="off" />
       <TextField label="Size 32" placeholder="Placeholder" size="32" autoComplete="off" />
@@ -266,7 +267,8 @@ function PasswordFieldShowcase() {
     setValue(e.target.value);
   };
   return (
-    <div className="flex max-w-2xl flex-col gap-4">
+    <div id="passwordfield" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Password Field</h2>
       <PasswordField label="Size 48" placeholder="Enter password" size="48" autoComplete="off" />
       <PasswordField label="Size 40" placeholder="Enter password" size="40" autoComplete="off" />
       <PasswordField label="Size 32" placeholder="Enter password" size="32" autoComplete="off" />
@@ -393,7 +395,8 @@ function SearchFieldShowcase() {
     setValue(e.target.value);
   };
   return (
-    <div className="flex max-w-2xl flex-col gap-4">
+    <div id="searchfield" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Search Field</h2>
       <SearchField label="Size 48" placeholder="Search..." size="48" autoComplete="off" />
       <SearchField label="Size 40" placeholder="Search..." size="40" autoComplete="off" />
       <SearchField label="Size 32" placeholder="Search..." size="32" autoComplete="off" />
@@ -1225,6 +1228,23 @@ function App() {
                 <Badge variant="online">Online</Badge>
                 <Badge variant="brandLight">Brand light</Badge>
                 <Badge variant="pinkLight">Pink light</Badge>
+                <Badge variant="default" leftDot={false}>
+                  No dot
+                </Badge>
+                <Badge
+                  variant="info"
+                  leftDot={false}
+                  leftIcon={<InfoCircleIcon className="size-3" />}
+                >
+                  Left icon
+                </Badge>
+                <Badge
+                  variant="success"
+                  leftDot={false}
+                  rightIcon={<ArrowUpRightIcon className="size-3" />}
+                >
+                  Right icon
+                </Badge>
               </div>
             </div>
 
@@ -1304,26 +1324,6 @@ function App() {
                   />
                 </div>
               </div>
-            </div>
-
-            <div className="flex flex-wrap gap-4">
-              <Badge variant="default" leftDot={false}>
-                No dot
-              </Badge>
-              <Badge
-                variant="info"
-                leftDot={false}
-                leftIcon={<InfoCircleIcon className="size-3" />}
-              >
-                Left icon
-              </Badge>
-              <Badge
-                variant="success"
-                leftDot={false}
-                rightIcon={<ArrowUpRightIcon className="size-3" />}
-              >
-                Right icon
-              </Badge>
             </div>
 
             {/* Pill */}
@@ -1408,34 +1408,16 @@ function App() {
             </div>
 
             {/* TextField */}
-            <div id="textfield" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Text Field</h2>
-              <TextFieldShowcase />
-            </div>
+            <TextFieldShowcase />
 
             {/* PasswordField */}
-            <div id="passwordfield" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Password Field</h2>
-              <PasswordFieldShowcase />
-            </div>
+            <PasswordFieldShowcase />
 
             {/* TextArea */}
             <TextAreaShowcase />
 
             {/* SearchField */}
-            <div id="searchfield" className="flex scroll-mt-20 flex-col gap-4">
-              <h2 className="typography-h3 mb-4">Search Field</h2>
-              <SearchFieldShowcase />
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <Count value={5} variant="default" />
-              <Count value={12} variant="brand" />
-              <Count value={8} variant="pink" />
-              <Count value={3} variant="info" />
-              <Count value={7} variant="success" />
-              <Count value={15} variant="warning" />
-            </div>
+            <SearchFieldShowcase />
 
             {/* Count */}
             <div id="count" className="flex scroll-mt-20 flex-col gap-4">
