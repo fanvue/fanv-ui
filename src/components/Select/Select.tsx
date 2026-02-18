@@ -7,10 +7,6 @@ import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 /** Select field height in pixels. */
 export type SelectSize = "48" | "40" | "32";
 
-// ---------------------------------------------------------------------------
-// Internal context — passes size/error to the styled trigger
-// ---------------------------------------------------------------------------
-
 type SelectContextValue = {
   size: SelectSize;
   error: boolean;
@@ -21,10 +17,6 @@ const SelectContext = React.createContext<SelectContextValue>({
   size: "48",
   error: false,
 });
-
-// ---------------------------------------------------------------------------
-// Size maps — mirrors TextField
-// ---------------------------------------------------------------------------
 
 const TRIGGER_HEIGHT: Record<SelectSize, string> = {
   "48": "h-12",
@@ -49,10 +41,6 @@ const TRIGGER_TYPOGRAPHY: Record<SelectSize, string> = {
   "40": "typography-body-1-regular",
   "32": "typography-body-2-regular",
 };
-
-// ---------------------------------------------------------------------------
-// Select (root + field wrapper + trigger)
-// ---------------------------------------------------------------------------
 
 export interface SelectProps extends Omit<SelectPrimitive.SelectProps, "dir"> {
   /** Label text displayed above the trigger. Also used as the accessible name. */
@@ -202,10 +190,6 @@ export const Select = React.forwardRef<
 
 Select.displayName = "Select";
 
-// ---------------------------------------------------------------------------
-// SelectContent
-// ---------------------------------------------------------------------------
-
 export interface SelectContentProps
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {}
 
@@ -220,9 +204,6 @@ export const SelectContent = React.forwardRef<
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       ref={ref}
-      onClick={() => {
-        console.log("clicked");
-      }}
       position={position}
       sideOffset={sideOffset}
       className={cn(
@@ -241,10 +222,6 @@ export const SelectContent = React.forwardRef<
 ));
 
 SelectContent.displayName = "SelectContent";
-
-// ---------------------------------------------------------------------------
-// SelectItem
-// ---------------------------------------------------------------------------
 
 export interface SelectItemProps
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {}
@@ -274,10 +251,6 @@ export const SelectItem = React.forwardRef<
 
 SelectItem.displayName = "SelectItem";
 
-// ---------------------------------------------------------------------------
-// SelectGroup + SelectLabel
-// ---------------------------------------------------------------------------
-
 /** Props for {@link SelectGroup}. */
 export type SelectGroupProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Group>;
 
@@ -305,10 +278,6 @@ export const SelectLabel = React.forwardRef<
 ));
 
 SelectLabel.displayName = "SelectLabel";
-
-// ---------------------------------------------------------------------------
-// SelectSeparator
-// ---------------------------------------------------------------------------
 
 export interface SelectSeparatorProps
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator> {}
