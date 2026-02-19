@@ -95,7 +95,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             variant="tertiary"
             size="24"
             onClick={onClose}
-            className={cn("self-start", CLOSE_BUTTON_CLASSES[variant])}
+            className={cn("self-start px-0", CLOSE_BUTTON_CLASSES[variant])}
             aria-label={closeLabel}
           >
             <CrossIcon />
