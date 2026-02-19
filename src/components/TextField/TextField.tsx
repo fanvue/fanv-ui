@@ -174,7 +174,11 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             disabled={disabled}
             aria-describedby={bottomText ? helperTextId : undefined}
             aria-invalid={error || undefined}
-            className={getInputClassName(size)}
+            className={cn(
+              getInputClassName(size),
+              // Hide native clear button for input[type="search"] in WebKit browsers (Safari/Chrome)
+              "[&[type='search']::-webkit-search-cancel-button]:hidden [&[type='search']::-webkit-search-cancel-button]:appearance-none",
+            )}
             {...props}
           />
 
