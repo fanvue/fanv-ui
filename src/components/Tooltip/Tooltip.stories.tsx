@@ -25,10 +25,6 @@ const meta: Meta<typeof TooltipContent> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// ---------------------------------------------------------------------------
-// Tooltip (simple)
-// ---------------------------------------------------------------------------
-
 export const Default: Story = {
   render: () => (
     <Tooltip defaultOpen>
@@ -109,10 +105,6 @@ export const LongContent: Story = {
     </Tooltip>
   ),
 };
-
-// ---------------------------------------------------------------------------
-// Infobox variant — structured props
-// ---------------------------------------------------------------------------
 
 export const InfoboxDefault: Story = {
   render: () => (
@@ -216,10 +208,6 @@ export const InfoboxFull: Story = {
     </Tooltip>
   ),
 };
-
-// ---------------------------------------------------------------------------
-// All placements
-// ---------------------------------------------------------------------------
 
 export const AllPlacements: Story = {
   render: () => (
