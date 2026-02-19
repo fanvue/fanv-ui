@@ -9,7 +9,7 @@ const meta: Meta<typeof TooltipContent> = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=621-1403&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=698-10990",
     },
   },
   tags: ["autodocs"],
@@ -24,6 +24,10 @@ const meta: Meta<typeof TooltipContent> = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+// ---------------------------------------------------------------------------
+// Tooltip (simple)
+// ---------------------------------------------------------------------------
 
 export const Default: Story = {
   render: () => (
@@ -105,6 +109,117 @@ export const LongContent: Story = {
     </Tooltip>
   ),
 };
+
+// ---------------------------------------------------------------------------
+// Infobox variant — structured props
+// ---------------------------------------------------------------------------
+
+export const InfoboxDefault: Story = {
+  render: () => (
+    <Tooltip defaultOpen>
+      <TooltipTrigger asChild>
+        <button type="button" className="text-body-200">
+          <InfoCircleIcon className="size-5" />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent variant="infobox" heading="Title">
+        Info text
+      </TooltipContent>
+    </Tooltip>
+  ),
+};
+
+export const InfoboxWithIcon: Story = {
+  render: () => (
+    <Tooltip defaultOpen>
+      <TooltipTrigger asChild>
+        <button type="button" className="text-body-200">
+          <InfoCircleIcon className="size-5" />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent
+        variant="infobox"
+        icon={<InfoCircleIcon className="size-5 text-background-inverse-solid" />}
+        heading="Title"
+      >
+        Info text
+      </TooltipContent>
+    </Tooltip>
+  ),
+};
+
+export const InfoboxWithPill: Story = {
+  render: () => (
+    <Tooltip defaultOpen>
+      <TooltipTrigger asChild>
+        <button type="button" className="text-body-200">
+          <InfoCircleIcon className="size-5" />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent
+        variant="infobox"
+        heading="Title"
+        pill={
+          <span className="typography-caption-semibold rounded-full bg-neutral-solid px-3 py-1 text-background-inverse-solid">
+            Example
+          </span>
+        }
+      >
+        Info text
+      </TooltipContent>
+    </Tooltip>
+  ),
+};
+
+export const InfoboxWithActions: Story = {
+  render: () => (
+    <Tooltip defaultOpen>
+      <TooltipTrigger asChild>
+        <button type="button" className="text-body-200">
+          <InfoCircleIcon className="size-5" />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent
+        variant="infobox"
+        heading="Title"
+        primaryAction={{ label: "OK" }}
+        secondaryAction={{ label: "Dismiss" }}
+      >
+        Info text
+      </TooltipContent>
+    </Tooltip>
+  ),
+};
+
+export const InfoboxFull: Story = {
+  render: () => (
+    <Tooltip defaultOpen>
+      <TooltipTrigger asChild>
+        <button type="button" className="text-body-200">
+          <InfoCircleIcon className="size-5" />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent
+        variant="infobox"
+        icon={<InfoCircleIcon className="size-5 text-background-inverse-solid" />}
+        heading="Title"
+        pill={
+          <span className="typography-caption-semibold rounded-full bg-neutral-solid px-3 py-1 text-background-inverse-solid">
+            Example
+          </span>
+        }
+        primaryAction={{ label: "OK" }}
+        secondaryAction={{ label: "Dismiss" }}
+      >
+        Info text
+      </TooltipContent>
+    </Tooltip>
+  ),
+};
+
+// ---------------------------------------------------------------------------
+// All placements
+// ---------------------------------------------------------------------------
 
 export const AllPlacements: Story = {
   render: () => (

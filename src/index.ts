@@ -163,7 +163,9 @@ export type {
 } from "./components/Toast/Toast";
 export { Toast, ToastProvider, ToastViewport } from "./components/Toast/Toast";
 export type {
+  TooltipAction,
   TooltipContentProps,
+  TooltipContentVariant,
   TooltipProps,
   TooltipProviderProps,
   TooltipTriggerProps,
