@@ -52,9 +52,45 @@ const getTypographyClasses = (typographyTokens) => {
   return typographyClasses;
 };
 
-const getEffectTokens = () => {
-  // Temp solution to get specific effects
-  return `  --shadow-background-blur: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500);\n  --shadow-focus-ring: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500);`;
+const getEffectTokens = (effectTokens) => {
+  let effectClasses = "";
+  for (const [key, effectObject] of Object.entries(effectTokens)) {
+    // Figma exports the hex values instead of the token names so the theme doesn't work
+    if (key === "focus ring") {
+      continue;
+    }
+    if (effectObject.value) {
+      // Make sure the effect type is dropShadow
+      if (effectObject.value.shadowType !== "dropShadow") {
+        continue;
+      }
+      const effectClass = `  --shadow-${key.replaceAll(" ", "-").replaceAll("---", "-")}: ${effectObject.value.radius}px ${effectObject.value.color} ${effectObject.value.offsetX}px ${effectObject.value.offsetY}px ${effectObject.value.spread}px;\n`;
+      effectClasses = `${effectClasses}${effectClass}`;
+    }
+    if (effectObject["0"] && effectObject["1"]) {
+      if (
+        effectObject["1"].value.shadowType !== "dropShadow" ||
+        effectObject["0"].value.shadowType !== "dropShadow"
+      ) {
+        continue;
+      }
+      const effectClass = `  --shadow-${key.replaceAll(" ", "-").replaceAll("---", "-")}: ${effectObject["1"].value.radius}px ${effectObject["1"].value.color} ${effectObject["1"].value.offsetX}px ${effectObject["1"].value.offsetY}px ${effectObject["1"].value.spread}px, ${effectObject["0"].value.radius}px ${effectObject["0"].value.color} ${effectObject["0"].value.offsetX}px ${effectObject["0"].value.offsetY}px ${effectObject["0"].value.spread}px;\n`;
+      effectClasses = `${effectClasses}${effectClass}`;
+    }
+
+    if (effectObject["0"] === null && effectObject["1"]) {
+      if (effectObject["1"].value.shadowType !== "dropShadow") {
+        continue;
+      }
+      const effectClass = `  --shadow-${key.replaceAll(" ", "-").replaceAll("---", "-")}: ${effectObject["1"].value.radius}px ${effectObject["1"].value.color} ${effectObject["1"].value.offsetX}px ${effectObject["1"].value.offsetY}px ${effectObject["1"].value.spread}px;\n`;
+      effectClasses = `${effectClasses}${effectClass}`;
+    }
+  }
+
+  // To get the right focus ring values, we need to add them manually
+  // DO NOT FORGET TO ADD THE FOCUS RING VALUES MANUALLY WHEN THE COLOR TOKENS CHANGE
+  effectClasses = `${effectClasses}  --shadow-focus-ring: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500); \n`;
+  return effectClasses;
 };
 
 StyleDictionary.registerFormat({
@@ -64,7 +100,7 @@ StyleDictionary.registerFormat({
       dictionary.allTokens,
     );
     const typographyClasses = getTypographyClasses(dictionary.tokens.typography);
-    const effectClasses = getEffectTokens();
+    const effectClasses = getEffectTokens(dictionary.tokens.effect);
     return `/* Consumers must provide their own Tailwind import: @import "tailwindcss"; */\n\n@variant dark (&:where(.dark, .dark *));\n\n@theme {\n${effectClasses}\n${themeColorTokens}}\n\n:root {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}\n${typographyClasses}\n`;
   },
 });
