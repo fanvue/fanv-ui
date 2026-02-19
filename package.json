@@ -21,6 +21,16 @@
         "default": "./dist/cjs/index.cjs"
       }
     },
+    "./date-picker": {
+      "import": {
+        "types": "./dist/date-picker.d.ts",
+        "default": "./dist/date-picker.mjs"
+      },
+      "require": {
+        "types": "./dist/date-picker.d.ts",
+        "default": "./dist/cjs/date-picker.cjs"
+      }
+    },
     "./styles/*": "./dist/styles/*"
   },
   "sideEffects": [
@@ -125,7 +135,8 @@
   "pnpm": {
     "overrides": {
       "@isaacs/brace-expansion": ">=5.0.1",
-      "qs": ">=6.14.2"
+      "qs": ">=6.14.2",
+      "minimatch": ">=10.2.1"
     }
   },
   "size-limit": [

@@ -15,7 +15,10 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: resolve(import.meta.dirname, "src/index.ts"),
+      entry: {
+        index: resolve(import.meta.dirname, "src/index.ts"),
+        "date-picker": resolve(import.meta.dirname, "src/date-picker.ts"),
+      },
     },
     rollupOptions: {
       external: [
