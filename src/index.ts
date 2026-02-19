@@ -35,13 +35,6 @@ export type { ChipProps, ChipSize, ChipVariant } from "./components/Chip/Chip";
 export { Chip } from "./components/Chip/Chip";
 export type { CountProps, CountVariant } from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
-export type {
-  DatePickerOwnProps,
-  DatePickerProps,
-  DatePickerVariant,
-  DateRange,
-} from "./components/DatePicker/DatePicker";
-export { DatePicker } from "./components/DatePicker/DatePicker";
 export type { DividerProps } from "./components/Divider/Divider";
 export { Divider } from "./components/Divider/Divider";
 export type {
@@ -55,6 +48,7 @@ export { ArrowUpRightIcon } from "./components/Icons/ArrowUpRightIcon";
 export { CheckCircleIcon } from "./components/Icons/CheckCircleIcon";
 export { CheckIcon } from "./components/Icons/CheckIcon";
 export { CheckOutlineIcon } from "./components/Icons/CheckOutlineIcon";
+export { ChevronDownIcon } from "./components/Icons/ChevronDownIcon";
 export { ChevronLeftIcon } from "./components/Icons/ChevronLeftIcon";
 export { ChevronRightIcon } from "./components/Icons/ChevronRightIcon";
 export { CloseIcon } from "./components/Icons/CloseIcon";
@@ -109,6 +103,23 @@ export type {
   SearchFieldSize,
 } from "./components/SearchField/SearchField";
 export { SearchField } from "./components/SearchField/SearchField";
+export type {
+  SelectContentProps,
+  SelectGroupProps,
+  SelectItemProps,
+  SelectLabelProps,
+  SelectProps,
+  SelectSeparatorProps,
+  SelectSize,
+} from "./components/Select/Select";
+export {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+} from "./components/Select/Select";
 export type {
   SliderLabelPosition,
   SliderProps,

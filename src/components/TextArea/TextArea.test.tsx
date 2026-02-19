@@ -150,6 +150,7 @@ describe("TextArea", () => {
       const clearButton = screen.getByLabelText("Clear text");
       await user.click(clearButton);
 
+      expect(onChange).toHaveBeenCalledTimes(1);
       expect(onChange).toHaveBeenCalledWith(
         expect.objectContaining({
           target: expect.objectContaining({ value: "" }),
