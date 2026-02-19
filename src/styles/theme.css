@@ -2,18 +2,14 @@
 
 @variant dark (&:where(.dark, .dark *));
 
-@layer base {
-  html {
-    touch-action: manipulation;
-  }
-}
-
 @theme {
-  --breakpoint-sm: 850px;
-  --breakpoint-md: 1280px;
+  --shadow-box-shadow-med: 4px #0000000d 0px 2px 0px;
+  --shadow-box-shadow-small: 2px #0000000d 0px 2px 0px;
+  --shadow-nav-box-shadow: 12px #0000000d 0px -2px 0px;
+  --shadow-menu-blur-+-shadow: 12px #0000001a 0px 6px 0px;
+  --shadow-floating-item: 40px #00000026 0px 12px 2px;
+  --shadow-focus-ring: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500); 
 
-  --shadow-background-blur: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500);
-  --shadow-focus-ring: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500);
   --color-primary-50: var(--color-primary-50);
   --color-primary-100: var(--color-primary-100);
   --color-primary-200: var(--color-primary-200);
