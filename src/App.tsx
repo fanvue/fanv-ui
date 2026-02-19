@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
+import { DatePicker } from "./date-picker";
 import {
   Alert,
   ArrowRightIcon,
@@ -18,7 +19,6 @@ import {
   Count,
   CrossIcon,
   CrownIcon,
-  DatePicker,
   Divider,
   ErrorCircleIcon,
   ErrorIcon,
@@ -359,12 +359,7 @@ function TextAreaShowcase() {
         maxRows={8}
         helperText="Starts with 3 rows, max 8 rows"
       />
-      <TextArea
-        label="With clear button"
-        placeholder="Enter description..."
-        showClearButton
-        defaultValue="This text can be cleared"
-      />
+      <TextArea label="With clear button" placeholder="Enter description..." showClearButton />
       <TextArea
         label="Error"
         placeholder="Enter description..."
