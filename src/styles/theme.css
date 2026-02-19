@@ -2,6 +2,22 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+@layer base {
+  html {
+    touch-action: manipulation;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-body-100);
+    transition: background-color 9999s ease-in-out 0s;
+  }
+}
+
 @theme {
   --shadow-box-shadow-med: 4px #0000000d 0px 2px 0px;
   --shadow-box-shadow-small: 2px #0000000d 0px 2px 0px;
