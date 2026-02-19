@@ -35,13 +35,6 @@ export type { ChipProps, ChipSize, ChipVariant } from "./components/Chip/Chip";
 export { Chip } from "./components/Chip/Chip";
 export type { CountProps, CountVariant } from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
-export type {
-  DatePickerOwnProps,
-  DatePickerProps,
-  DatePickerVariant,
-  DateRange,
-} from "./components/DatePicker/DatePicker";
-export { DatePicker } from "./components/DatePicker/DatePicker";
 export type { DividerProps } from "./components/Divider/Divider";
 export { Divider } from "./components/Divider/Divider";
 export type {
