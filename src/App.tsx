@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { DatePicker } from "./date-picker";
@@ -2261,6 +2262,10 @@ function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
 
+  React.useEffect(() => {
+    document.body.classList.toggle("dark", dark);
+  }, [dark]);
+
   const sections = [
     { id: "logo", label: "Logo" },
     { id: "icons", label: "Icons" },
@@ -2310,9 +2315,7 @@ function App() {
   };
 
   return (
-    <div
-      className={`min-h-screen ${dark ? "dark bg-body-black-solid-constant text-body-white-solid-constant" : "bg-background-white-solid-constant text-body-100"}`}
-    >
+    <div className="min-h-screen bg-background-inverse-solid text-body-100">
       <ToastProvider>
         {/* Dark / Light toggle and TOC */}
         <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-200 border-b bg-inherit px-4 py-3">
