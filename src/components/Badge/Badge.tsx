@@ -100,7 +100,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {...props}
       >
         {leftIcon && (
-          <span className="flex" aria-hidden="true">
+          <span className="flex size-3" aria-hidden="true">
             {leftIcon}
           </span>
         )}
@@ -112,7 +112,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         )}
         <Slottable>{children}</Slottable>
         {rightIcon && (
-          <span className="flex" aria-hidden="true">
+          <span className="flex size-3" aria-hidden="true">
             {rightIcon}
           </span>
         )}
