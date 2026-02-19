@@ -148,4 +148,14 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run audit
-        run: pnpm audit --audit-level=high
+        run: |
+          if ! output=$(pnpm audit --audit-level=high 2>&1); then
+            echo "$output"
+            if echo "$output" | grep -q "ERR_PNPM_AUDIT_BAD_RESPONSE"; then
+              echo ""
+              echo "::warning::npm audit registry is unavailable — skipping audit"
+              exit 0
+            fi
+            exit 1
+          fi
+          echo "$output"
