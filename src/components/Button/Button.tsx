@@ -41,7 +41,7 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
   "48": "h-12 px-4 py-3 typography-button-large",
   "40": "h-10 px-4 py-2 typography-button-small",
   "32": "h-8 px-3 py-2 typography-body-2-semibold",
-  "24": "h-6 px-0 py-1 typography-body-2-semibold",
+  "24": "h-6 px-2 py-1 typography-body-2-semibold",
 };
 
 const ICON_SIZE_CLASS: Record<ButtonSize, string> = {
