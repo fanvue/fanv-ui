@@ -1269,6 +1269,104 @@ function RadioDemo() {
   );
 }
 
+function SelectDemo() {
+  return (
+    <div id="select" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Select</h2>
+      <div className="flex max-w-sm flex-col gap-4">
+        <Select label="Size 48" placeholder="Select an option" size="48">
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b">Option B</SelectItem>
+            <SelectItem value="c">Option C</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select label="Size 40" placeholder="Select an option" size="40">
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b">Option B</SelectItem>
+            <SelectItem value="c">Option C</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select label="Size 32" placeholder="Select an option" size="32">
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b">Option B</SelectItem>
+            <SelectItem value="c">Option C</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select
+          label="With helper"
+          placeholder="Select an option"
+          helperText="Choose one of the options"
+        >
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b">Option B</SelectItem>
+            <SelectItem value="c">Option C</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select placeholder="No label" aria-label="Standalone select">
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b">Option B</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select label="Left icon" placeholder="Select an option" leftIcon={<HomeIcon />}>
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b">Option B</SelectItem>
+            <SelectItem value="c">Option C</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select
+          label="Error"
+          placeholder="Select an option"
+          error
+          errorMessage="This field is required"
+        >
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b">Option B</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select label="Disabled" placeholder="Select an option" disabled>
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b">Option B</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select label="With groups" placeholder="Select a category">
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+              <SelectItem value="mango">Mango</SelectItem>
+            </SelectGroup>
+            <SelectSeparator />
+            <SelectGroup>
+              <SelectLabel>Vegetables</SelectLabel>
+              <SelectItem value="carrot">Carrot</SelectItem>
+              <SelectItem value="broccoli">Broccoli</SelectItem>
+              <SelectItem value="spinach">Spinach</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Select label="With disabled item" placeholder="Select an option">
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b" disabled>
+              Option B (disabled)
+            </SelectItem>
+            <SelectItem value="c">Option C</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
+}
+
 function CountDemo() {
   return (
     <div id="count" className="flex scroll-mt-20 flex-col gap-4">
@@ -2212,6 +2310,9 @@ function App() {
 
             {/* SearchField */}
             <SearchFieldShowcase />
+
+            {/* Select */}
+            <SelectDemo />
 
             {/* Count */}
             <CountDemo />
