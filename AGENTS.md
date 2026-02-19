@@ -66,6 +66,7 @@ nvm use
 - Prefer Radix UI primitives for complex components (dropdowns, dialogs, etc.)
 - Export all components and types in `src/index.ts`
 - Use pnpm (not npm/yarn)
+- Do not use inline comments anywhere in component, story, or test files
 
 **New component workflow:**
 
