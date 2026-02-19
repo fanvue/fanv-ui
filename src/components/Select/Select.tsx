@@ -153,13 +153,16 @@ export const Select = React.forwardRef<
             >
               <div className="flex items-center gap-2">
                 {leftIcon && (
-                  <span className="flex size-5 shrink-0 items-center justify-center text-body-200">
+                  <span
+                    className="flex size-5 shrink-0 items-center justify-center text-body-200"
+                    data-testid="left-icon"
+                  >
                     {leftIcon}
                   </span>
                 )}
                 <SelectPrimitive.Value
                   placeholder={placeholder}
-                  className="min-w-0 flex-1 truncate text-left text-body-100 [&[data-placeholder]]:text-body-200 [&[data-placeholder]]:opacity-40"
+                  className="min-w-0 flex-1 truncate text-left text-body-100 data-placeholder:text-body-200 data-placeholder:opacity-40"
                 />
               </div>
 

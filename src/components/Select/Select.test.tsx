@@ -5,7 +5,6 @@ import { axe } from "vitest-axe";
 import { HomeIcon } from "../Icons/HomeIcon";
 import { Select, SelectContent, SelectItem } from "./Select";
 
-// Minimal helper to render a usable Select
 function renderSelect(props: Partial<React.ComponentProps<typeof Select>> = {}) {
   return render(
     <Select aria-label="Test select" {...props}>
@@ -129,8 +128,8 @@ describe("Select", () => {
 
   describe("left icon", () => {
     it("renders left icon", () => {
-      const { container } = renderSelect({ leftIcon: <HomeIcon /> });
-      expect(container.querySelector("svg")).toBeInTheDocument();
+      const { container } = renderSelect({ leftIcon: <HomeIcon data-testid="left-icon" /> });
+      expect(container.querySelector('[data-testid="left-icon"]')).toBeInTheDocument();
     });
   });
 
