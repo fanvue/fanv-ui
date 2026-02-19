@@ -125,6 +125,7 @@ export const TooltipContent = React.forwardRef<
       primaryAction,
       secondaryAction,
       children,
+      side,
       ...props
     },
     ref,
@@ -144,6 +145,9 @@ export const TooltipContent = React.forwardRef<
             isInfobox && "border border-neutral-200",
             className,
           )}
+          align="center"
+          arrowPadding={12}
+          side={side}
           {...props}
         >
           {isInfobox ? (
@@ -183,12 +187,15 @@ export const TooltipContent = React.forwardRef<
             children
           )}
           {showArrow && (
-            <TooltipPrimitive.Arrow className="fill-background-solid" width={12} height={6} />
+            <TooltipPrimitive.Arrow
+              className={"-translate-y-px! fill-background-solid stroke-2 stroke-background-solid"}
+              width={12}
+              height={6}
+            />
           )}
         </TooltipPrimitive.Content>
       </TooltipPrimitive.Portal>
     );
   },
 );
-
 TooltipContent.displayName = "TooltipContent";
