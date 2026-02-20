@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.5.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.4.0...ui-v1.5.0) (2026-02-20)
+
+
+### Features
+
+* add Loader component and default animate-spin on SpinnerIcon ([#164](https://github.com/fanvue/fanv-ui/issues/164)) ([766ec7b](https://github.com/fanvue/fanv-ui/commit/766ec7b68b415a1a0af435df42e192d04d2df460))
+* add Loader component and update SpinnerIcon docs ([766ec7b](https://github.com/fanvue/fanv-ui/commit/766ec7b68b415a1a0af435df42e192d04d2df460))
+* import box shadow efects from tokens ([6ff0c6e](https://github.com/fanvue/fanv-ui/commit/6ff0c6ed23b9f71032ce0b2963e6f059da857de9))
+* Import box shadow efects from tokens ([#162](https://github.com/fanvue/fanv-ui/issues/162)) ([6ff0c6e](https://github.com/fanvue/fanv-ui/commit/6ff0c6ed23b9f71032ce0b2963e6f059da857de9))
+* search input component. Includes debounce and minChar features ([#147](https://github.com/fanvue/fanv-ui/issues/147)) ([712ede4](https://github.com/fanvue/fanv-ui/commit/712ede42b207f22ee4fc31d0b993cabcbbb88c51))
+* Select Field Component ([#156](https://github.com/fanvue/fanv-ui/issues/156)) ([630dd97](https://github.com/fanvue/fanv-ui/commit/630dd97235bc20056d66d8a5aadce7c75d08ddf9))
+
+
+### Bug Fixes
+
+* add horizontal padding to size-24 button ([#159](https://github.com/fanvue/fanv-ui/issues/159)) ([f2adc2b](https://github.com/fanvue/fanv-ui/commit/f2adc2bfe0b9b9653c2fd8ae59b2232aa852a169))
+* **ci:** isolate PR comment from gh-pages deploy to fix bad credentials ([#155](https://github.com/fanvue/fanv-ui/issues/155)) ([82a6220](https://github.com/fanvue/fanv-ui/commit/82a6220327dc26386bdb50cfa0bbd4e73f30408d))
+* **ci:** remove forced status checks for release-please PRs ([#151](https://github.com/fanvue/fanv-ui/issues/151)) ([d450f22](https://github.com/fanvue/fanv-ui/commit/d450f225e95076811f476b3d000492b71c0701b4))
+* **ci:** tolerate npm audit registry outages in CI ([#161](https://github.com/fanvue/fanv-ui/issues/161)) ([d5d7417](https://github.com/fanvue/fanv-ui/commit/d5d741705eda40b54ac81898739bffc248dc5de4))
+* **ci:** use PAT for release-please to fix bad credentials ([#149](https://github.com/fanvue/fanv-ui/issues/149)) ([c436436](https://github.com/fanvue/fanv-ui/commit/c4364362ece937bb872942b111bde92d8bf97610))
+* **ci:** use PAT for release-please to fix bad credentials error ([c436436](https://github.com/fanvue/fanv-ui/commit/c4364362ece937bb872942b111bde92d8bf97610))
+* Fix clear icon bugs ([#152](https://github.com/fanvue/fanv-ui/issues/152)) ([5ac7ad6](https://github.com/fanvue/fanv-ui/commit/5ac7ad6ed091904b025d7ccb5180120e8b40bf59))
+* move DatePicker to separate subpath export ([#157](https://github.com/fanvue/fanv-ui/issues/157)) ([96d38f8](https://github.com/fanvue/fanv-ui/commit/96d38f81a4f8b25922c1f1752c2e467843c0cc79))
+* move DatePicker to separate subpath export to avoid hard-importing optional peer dep ([96d38f8](https://github.com/fanvue/fanv-ui/commit/96d38f81a4f8b25922c1f1752c2e467843c0cc79))
+* override browser autofill background on inputs ([#160](https://github.com/fanvue/fanv-ui/issues/160)) ([ead0325](https://github.com/fanvue/fanv-ui/commit/ead03257fc0d143bca56aec86c108af41c250a59))
+* override qs to &gt;=6.14.2 to patch CVE-2026-2391 DoS vulnerability ([5d28ed4](https://github.com/fanvue/fanv-ui/commit/5d28ed4dfebb16e0c95df5814d6ebec04b013380))
+* override qs to patch CVE-2026-2391 DoS vulnerability ([#153](https://github.com/fanvue/fanv-ui/issues/153)) ([5d28ed4](https://github.com/fanvue/fanv-ui/commit/5d28ed4dfebb16e0c95df5814d6ebec04b013380))
+
 ## [1.4.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.3.0...ui-v1.4.0) (2026-02-17)
 
 
