@@ -68,7 +68,7 @@ Use this table to determine which library provides each component. Where @fanvue
 | Snackbar | ✅ `Snackbar` | ✅ | ❌ |
 | Banner | ❌ | ✅ | ❌ |
 | Progress bar | ✅ `ProgressBar` | ✅ | ✅ `LinearProgress` |
-| Circular spinner | ✅ `SpinnerIcon` | ✅ `Loader` | ✅ `CircularProgress` |
+| Circular spinner | ✅ `SpinnerIcon` / `Loader` | ✅ `Loader` | ✅ `CircularProgress` |
 | Skeleton | ❌ | ❌ | ✅ `Skeleton` |
 
 ### Data Display
@@ -98,13 +98,13 @@ Use this table to determine which library provides each component. Where @fanvue
 | Switch toggle (multi-option) | ✅ `SwitchToggle` | ❌ | ❌ |
 | Slider | ✅ `Slider` | ✅ | ✅ |
 | Text field | ✅ `TextField` | ✅ `TextField` | ✅ |
-| Password field | ❌ | ✅ `PasswordField` | ❌ |
-| Text area | ❌ | ✅ `TextArea` | ✅ |
-| Select / dropdown | ❌ | ✅ `Select` | ✅ |
+| Password field | ✅ `PasswordField` | ✅ `PasswordField` | ❌ |
+| Text area | ✅ `TextArea` | ✅ `TextArea` | ✅ |
+| Select / dropdown | ✅ `Select` | ✅ `Select` | ✅ |
 | Autocomplete | ❌ | ❌ | ✅ `Autocomplete` |
 | Date picker | ✅ `DatePicker` | ❌ | ✅ `DatePicker` (MUI X) |
 | Date range picker | ❌ | ❌ | ✅ `DateRangePicker` (MUI X Pro) |
-| Search field | ❌ | ✅ `SearchField` | ❌ |
+| Search field | ✅ `SearchField` | ✅ `SearchField` | ❌ |
 | Audio upload / record | ✅ `AudioUpload` | ❌ | ❌ |
 | Form control / label | ✅ Built into components (`TextField`, `Checkbox`, `SwitchField`) | ❌ | ✅ `FormControl` / `FormControlLabel` |
 | Input adornment | ✅ `TextField` `leftIcon` / `rightIcon` | ❌ | ✅ `InputAdornment` |
@@ -164,8 +164,8 @@ Use this table to determine which library provides each component. Where @fanvue
 
 | Status | Count |
 |---|---|
-| ✅ Available in @fanvue/ui (or Tailwind equivalent) | 40 |
-| ❌ Not yet available — needs development or stays on MUI | 25 |
+| ✅ Available in @fanvue/ui (or Tailwind equivalent) | 44 |
+| ❌ Not yet available — needs development or stays on MUI | 21 |
 
 ---
 
@@ -198,13 +198,31 @@ The following table maps every Olympus component to its @fanvue/ui replacement (
 | `IconButton` | `IconButton` | Different size/variant naming |
 | `InputFields` / `TextField` | `TextField` | Different API (see [Prop Name Changes](#prop-name-changes)) |
 | `Accordion` | N/A | Not yet available in @fanvue/ui |
-| `Loader` | N/A | Not yet available. Use `SpinnerIcon` or Tailwind `animate-spin` |
+| `Loader` | `Loader` | Drop-in layout component with `show`, `center`, `centerX`, `centerY`, and `minHeight` props. Wraps `SpinnerIcon` in a relatively-positioned container with absolute centering. For standalone spinner usage, use `SpinnerIcon` with `className="animate-spin"`. |
 | `DropdownMenu` | N/A | Not yet available in @fanvue/ui |
 | `Banner` | N/A | Not yet available in @fanvue/ui |
 | `Table` | N/A | Not yet available in @fanvue/ui |
 | `Boxes` (Flex, CenterFlex, etc.) | N/A (Tailwind utilities) | Replace with `<div className="flex ...">` |
 | `AudioUploadBox` (custom) | `AudioUpload` | Replaces custom `AiVoiceUploadArea` + `react-dropzone` + custom `useAudioRecorder` + `RealTimeWaveform`. See [AudioUpload](#audioupload) |
 | `ProgressBar` | `ProgressBar` | Different API (see above) |
+
+> ⚠️ **`SpinnerIcon` does NOT animate by default** — it is a static SVG icon. Add `className="animate-spin"` when using it standalone, or use the `Loader` component which handles animation automatically.
+>
+> **Migrating from Olympus `Loader`?** Use the new `Loader` component — it provides the same layout behaviour (`show`, `center`, `centerX`, `centerY`, `minHeight`) as the Olympus original:
+>
+> ```tsx
+> // Olympus
+> import { Loader } from "@pandora/olympus/Loader";
+> <Loader show center minHeight={200} />
+>
+> // @fanvue/ui — same API
+> import { Loader } from "@fanvue/ui";
+> <Loader show center minHeight={200} />
+>
+> // Standalone spinner (must add animate-spin yourself)
+> import { SpinnerIcon } from "@fanvue/ui";
+> <SpinnerIcon className="animate-spin" />
+> ```
 
 ### Prop Name Changes
 
@@ -641,9 +659,9 @@ These Olympus / MUI components are heavily used in Pandora. Some now have @fanvu
 |---|---|:---:|
 | **Typography** | 447 | ❌ (token system TBD — keep on Olympus/MUI for now) |
 | **Boxes / Flex** | 270 | ✅ Tailwind `flex` / `grid` |
-| **InputFields / TextField** | 87 | ✅ (simple inputs only — `PasswordField`, `TextArea`, `Select`, and `multiline` are ❌) |
+| **InputFields / TextField** | 87 | ✅ (`TextField`, `PasswordField`, `TextArea`, `Select`, `SearchField`) |
 | **Skeleton** | 73 | ❌ |
-| **Loader** | 68 | ✅ (`SpinnerIcon`) |
+| **Loader** | 68 | ✅ (`Loader` / `SpinnerIcon`) |
 | **Dialog / Modal** | 46 | ❌ |
 | **Avatar** | 37 | ✅ |
 | **Chip** | 26 | ✅ |
@@ -1005,9 +1023,9 @@ className="max-w-[640px] min-w-[300px]"  // contentRails
 
 ---
 
-### 7. Most Form Components Are Not Yet Available
+### 7. Form Component Availability
 
-`TextField` is now available in @fanvue/ui, but `PasswordField`, `Select`, and `TextArea` from Olympus InputFields (87 imports) don't have @fanvue/ui equivalents yet. Plan to keep MUI for those during the initial migration phase.
+`TextField`, `PasswordField`, `Select`, `TextArea`, and `SearchField` are now available in @fanvue/ui. Note that `TextField` does not support `multiline` — use `TextArea` for multi-line inputs.
 
 ---
 
@@ -1031,7 +1049,7 @@ Suggested migration order based on usage frequency in Eden and migration complex
 | 6 | **Avatar** → @fanvue/ui Avatar | 37 imports | Medium (API restructure) |
 | 7 | **Checkbox/Radio** → @fanvue/ui | 9 imports | Low |
 | 8 | **Toggle** → @fanvue/ui Switch | 7 imports | Low |
-| 9 | **Loader** → SpinnerIcon | 68 imports | Low |
+| 9 | **Loader** → @fanvue/ui Loader | 68 imports | Low |
 | 10 | **TextField** → @fanvue/ui TextField | 87 imports | Medium (API changes; PasswordField/TextArea/Select still need MUI) |
 | 11 | **Toast** (notistack → Radix) | 7 imports | Medium |
 | 12 | **sx prop removal** | 2,731 occurrences | High (volume) |

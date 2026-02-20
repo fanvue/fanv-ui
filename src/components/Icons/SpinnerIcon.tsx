@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
-/** A circular spinner icon for loading states (20 × 20). Pair with a CSS `animate-spin` class. */
+/** A circular spinner icon for loading states (20 × 20). Pair with a CSS `animate-spin` class or use the `Loader` component. */
 export const SpinnerIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, ...props }, ref) => (
     <svg
