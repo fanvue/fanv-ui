@@ -74,6 +74,8 @@ export { UploadCloudIcon } from "./components/Icons/UploadCloudIcon";
 export { VipBadgeIcon } from "./components/Icons/VipBadgeIcon";
 export { WarningIcon } from "./components/Icons/WarningIcon";
 export { WarningTriangleIcon } from "./components/Icons/WarningTriangleIcon";
+export type { LoaderProps } from "./components/Loader/Loader";
+export { Loader } from "./components/Loader/Loader";
 export type { LogoColor, LogoProps, LogoVariant } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type {

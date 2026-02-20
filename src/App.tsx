@@ -28,6 +28,7 @@ import {
   IconButton,
   InfoCircleIcon,
   InfoIcon,
+  Loader,
   Logo,
   MicrophoneIcon,
   MinusIcon,
@@ -2156,6 +2157,20 @@ function AudioUploadDemo() {
   );
 }
 
+function LoaderDemo() {
+  return (
+    <div id="loader" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Loader</h2>
+      <div className="flex flex-col gap-6">
+        <Loader show center minHeight={120} />
+        <Loader show centerX minHeight={80} />
+        <Loader show centerY minHeight={120} />
+        <Loader show minHeight={80} />
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -2191,6 +2206,7 @@ function App() {
     { id: "tooltip", label: "Tooltip" },
     { id: "toast", label: "Toast" },
     { id: "audioupload", label: "Audio Upload" },
+    { id: "loader", label: "Loader" },
   ];
 
   const scrollToSection = (id: string) => {
@@ -2355,6 +2371,9 @@ function App() {
 
             {/* Audio Upload */}
             <AudioUploadDemo />
+
+            {/* Loader */}
+            <LoaderDemo />
 
             {/* Toast */}
             <ToastDemo />
