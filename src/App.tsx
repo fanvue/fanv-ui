@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { DatePicker } from "./date-picker";
@@ -2067,57 +2068,158 @@ function ProgressBarDemo() {
 }
 
 function TooltipDemo() {
+  const [open, setOpen] = useState(false);
   return (
     <div id="tooltip" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-h3 mb-4">Tooltip</h2>
       <TooltipProvider>
-        <div className="flex flex-wrap items-center gap-4">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="secondary" size="32">
-                Default
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Tooltip with arrow</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="secondary" size="32">
-                No arrow
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent showArrow={false}>Tooltip without arrow</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="secondary" size="32">
-                Side right
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="right">Tooltip on right</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="secondary" size="32">
-                Side left
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="left">Tooltip on left</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="secondary" size="32">
-                Side bottom
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">Tooltip on bottom</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
-            </TooltipTrigger>
-            <TooltipContent>More information about this feature</TooltipContent>
-          </Tooltip>
+        <div className="flex flex-col gap-8">
+          {/* Controlled */}
+          {/*
+          Controlled Tooltip Example
+          Demonstrates programmatically controlling tooltip open/close state.
+        */}
+          <div className="flex items-center gap-4">
+            {(() => {
+              return (
+                <>
+                  <Tooltip open={open} onOpenChange={setOpen}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="secondary"
+                        size="32"
+                        onMouseEnter={() => setOpen(true)}
+                        onMouseLeave={() => setOpen(false)}
+                        onFocus={() => setOpen(true)}
+                        onBlur={() => setOpen(false)}
+                      >
+                        Hover/focus me (controlled)
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      This tooltip is <span className="font-semibold">controlled</span> via state.
+                    </TooltipContent>
+                  </Tooltip>
+                  <Button
+                    variant="tertiary"
+                    size="32"
+                    onClick={() => setOpen((prev) => !prev)}
+                    aria-pressed={open}
+                  >
+                    {open ? "Hide Tooltip" : "Show Tooltip"}
+                  </Button>
+                </>
+              );
+            })()}
+          </div>
+          {/* Simple tooltip */}
+          <div className="flex flex-wrap items-center gap-4">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  Top (default)
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Tooltip with arrow</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  No arrow
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent showArrow={false}>Tooltip without arrow</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  Right
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="right">Tooltip on right</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  Left
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="left">Tooltip on left</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  Bottom
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Tooltip on bottom</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
+              </TooltipTrigger>
+              <TooltipContent>More information about this feature</TooltipContent>
+            </Tooltip>
+          </div>
+
+          {/* Infobox variant */}
+          <div className="flex flex-wrap items-center gap-4">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  Infobox
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent variant="infobox" heading="Title">
+                Info text
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  With icon
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent
+                variant="infobox"
+                side="right"
+                icon={<InfoCircleIcon className="text-background-inverse-solid" />}
+                heading="Title"
+              >
+                Info text
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  With actions
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent
+                variant="infobox"
+                side="bottom"
+                heading="Title"
+                primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
+                secondaryAction={{ label: "Dismiss", onClick: () => console.log("Dismiss") }}
+              >
+                Info text with a longer description that wraps across multiple lines.
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
+              </TooltipTrigger>
+              <TooltipContent
+                variant="infobox"
+                icon={<InfoCircleIcon className="text-background-inverse-solid" />}
+                heading="Title"
+                primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
+                secondaryAction={{ label: "Dismiss", onClick: () => console.log("Dismiss") }}
+              >
+                Info text
+              </TooltipContent>
+            </Tooltip>
+          </div>
         </div>
       </TooltipProvider>
     </div>
@@ -2175,6 +2277,10 @@ function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
 
+  React.useEffect(() => {
+    document.body.classList.toggle("dark", dark);
+  }, [dark]);
+
   const sections = [
     { id: "logo", label: "Logo" },
     { id: "icons", label: "Icons" },
@@ -2225,9 +2331,7 @@ function App() {
   };
 
   return (
-    <div
-      className={`min-h-screen ${dark ? "dark bg-body-black-solid-constant text-body-white-solid-constant" : "bg-background-white-solid-constant text-body-100"}`}
-    >
+    <div className="min-h-screen bg-background-inverse-solid text-body-100">
       <ToastProvider>
         {/* Dark / Light toggle and TOC */}
         <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-200 border-b bg-inherit px-4 py-3">
