@@ -45,6 +45,11 @@ export interface TooltipAction {
   label: string;
   /** Click handler. */
   onClick?: () => void;
+  /**
+   * Optional custom React node to be rendered for the action instead of the default button.
+   * Only used in the infobox variant.
+   */
+  element?: React.ReactNode;
 }
 
 export interface TooltipContentProps
@@ -170,16 +175,22 @@ export const TooltipContent = React.forwardRef<
               )}
               {hasActions && (
                 <div className="flex items-center gap-1">
-                  {primaryAction && (
-                    <Button variant="brand" size="32" onClick={primaryAction.onClick}>
-                      {primaryAction.label}
-                    </Button>
-                  )}
-                  {secondaryAction && (
-                    <Button variant="tertiary" size="32" onClick={secondaryAction.onClick}>
-                      {secondaryAction.label}
-                    </Button>
-                  )}
+                  {primaryAction &&
+                    (primaryAction.element ? (
+                      primaryAction.element
+                    ) : (
+                      <Button variant="brand" size="32" onClick={primaryAction.onClick}>
+                        {primaryAction.label}
+                      </Button>
+                    ))}
+                  {secondaryAction &&
+                    (secondaryAction.element ? (
+                      secondaryAction.element
+                    ) : (
+                      <Button variant="tertiary" size="32" onClick={secondaryAction.onClick}>
+                        {secondaryAction.label}
+                      </Button>
+                    ))}
                 </div>
               )}
             </div>
