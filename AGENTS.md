@@ -67,6 +67,7 @@ nvm use
 - Export all components and types in `src/index.ts`
 - Use pnpm (not npm/yarn)
 - Do not use inline comments anywhere in component, story, or test files
+- Prefer use of library components when building new components. (e.g. <button/> --> <Button/>)
 
 **New component workflow:**
 
