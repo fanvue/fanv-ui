@@ -225,7 +225,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...loadingLabelProps}
         className={cn(
           // Base styles
-          "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition-colors",
+          "inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full transition-colors",
           // Focus ring
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled state
