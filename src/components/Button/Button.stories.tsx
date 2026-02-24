@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
 import { CrownIcon } from "../Icons/CrownIcon";
 import { PlusIcon } from "../Icons/PlusIcon";
+import { Pill } from "../Pill/Pill";
 import { Button } from "./Button";
 
 const meta = {
@@ -367,6 +368,42 @@ export const AllStylesSize32: Story = {
       </div>
       <Button variant="tertiaryDestructive" size="32">
         Tertiary Destructive
+      </Button>
+    </div>
+  ),
+};
+
+export const WithPill: Story = {
+  render: () => (
+    <Button variant="secondary" size="48">
+      Register as a Manager
+      <Pill variant="beta" className="shrink-0">
+        Beta
+      </Pill>
+    </Button>
+  ),
+};
+
+export const WithPillAllSizes: Story = {
+  render: () => (
+    <div className="flex flex-col items-start gap-4">
+      <Button variant="secondary" size="48">
+        Register as a Manager
+        <Pill variant="beta" className="shrink-0">
+          Beta
+        </Pill>
+      </Button>
+      <Button variant="secondary" size="40">
+        Register as a Manager
+        <Pill variant="beta" className="shrink-0">
+          Beta
+        </Pill>
+      </Button>
+      <Button variant="secondary" size="32">
+        Register as a Manager
+        <Pill variant="beta" className="shrink-0">
+          Beta
+        </Pill>
       </Button>
     </div>
   ),
