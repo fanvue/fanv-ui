@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.6.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.5.0...ui-v1.6.0) (2026-02-24)
+
+
+### Features
+
+* add Loader component and update SpinnerIcon docs ([617604c](https://github.com/fanvue/fanv-ui/commit/617604c2e8bd6fd48a385ca3048ef80a8322426b))
+* Tooltip Component ([#163](https://github.com/fanvue/fanv-ui/issues/163)) ([617604c](https://github.com/fanvue/fanv-ui/commit/617604c2e8bd6fd48a385ca3048ef80a8322426b))
+
+
+### Bug Fixes
+
+* prevent text clipping in buttons containing pills ([#166](https://github.com/fanvue/fanv-ui/issues/166)) ([6999095](https://github.com/fanvue/fanv-ui/commit/6999095283afc6819b9863c2043879533ecfde47))
+
 ## [1.5.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.4.0...ui-v1.5.0) (2026-02-20)
 
 
