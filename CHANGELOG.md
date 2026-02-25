@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.8.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.7.1...ui-v1.8.0) (2026-02-25)
+
+
+### Features
+
+* replace Tabs border indicator with animated sliding indicator ([edf3a4b](https://github.com/fanvue/fanv-ui/commit/edf3a4b93fef6ecf9ca229b47036a3a9143daadd))
+
+## [1.7.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.7.0...ui-v1.7.1) (2026-02-25)
+
+
+### Bug Fixes
+
+* prevent pill overflow in button icon wrapper ([#173](https://github.com/fanvue/fanv-ui/issues/173)) ([f1f887c](https://github.com/fanvue/fanv-ui/commit/f1f887c4c76c4ef5a2d9159a7d363718315c2a0e))
+
+## [1.7.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.6.0...ui-v1.7.0) (2026-02-25)
+
+
+### Features
+
+* show default icon per variant in Alert component ([e7ac282](https://github.com/fanvue/fanv-ui/commit/e7ac282afdb4ac1b097e6961c035cc1ef5f146f5))
+
+
+### Bug Fixes
+
+* change Button default size from 48 to 40 ([b0ef9fe](https://github.com/fanvue/fanv-ui/commit/b0ef9fe42299d442945539081f8cb3a0adc38b0c))
+* update TabsTrigger horizontal padding to py-3 px-4 ([1d2119c](https://github.com/fanvue/fanv-ui/commit/1d2119cb3ac46f46216cd26f9a565fea39dc29ec))
+
 ## [1.6.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.5.0...ui-v1.6.0) (2026-02-24)
 
 
