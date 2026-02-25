@@ -61,6 +61,8 @@ function Day({ day, modifiers, className, ...divProps }: DayProps) {
 
 function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps) {
   const ref = useRef<HTMLButtonElement>(null);
+  const { range_start, range_end } = modifiers;
+  const isSingleDayRange = range_start && range_end;
 
   useEffect(() => {
     if (modifiers.focused) ref.current?.focus();
@@ -81,6 +83,8 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
           ? "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-green-500"
           : "text-body-100",
         modifiers.range_middle && "rounded-none bg-transparent",
+        range_start && !isSingleDayRange && "rounded-r-none",
+        range_end && !isSingleDayRange && "rounded-l-none",
         modifiers.outside && "pointer-events-none opacity-50",
       )}
       {...buttonProps}
@@ -187,7 +191,10 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
           numberOfMonths={numberOfMonths}
           formatters={{
             formatCaption: (date: Date) =>
-              date.toLocaleDateString("en-US", { month: "short", year: "numeric" }),
+              date.toLocaleDateString("en-US", {
+                month: "short",
+                year: "numeric",
+              }),
             ...formatters,
           }}
           classNames={{
