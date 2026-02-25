@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.7.0...ui-v1.7.1) (2026-02-25)
+
+
+### Bug Fixes
+
+* prevent pill overflow in button icon wrapper ([#173](https://github.com/fanvue/fanv-ui/issues/173)) ([f1f887c](https://github.com/fanvue/fanv-ui/commit/f1f887c4c76c4ef5a2d9159a7d363718315c2a0e))
+
 ## [1.7.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.6.0...ui-v1.7.0) (2026-02-25)
 
 
