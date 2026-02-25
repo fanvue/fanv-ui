@@ -409,6 +409,19 @@ export const WithPillAllSizes: Story = {
   ),
 };
 
+export const WithPillAsRightIcon: Story = {
+  render: () => (
+    <div className="flex flex-col items-start gap-4">
+      <Button variant="secondary" size="48" rightIcon={<Pill variant="beta">Beta</Pill>}>
+        Register as a Manager
+      </Button>
+      <Button variant="tertiary" size="40" rightIcon={<Pill variant="beta">Beta</Pill>}>
+        Become a Manager
+      </Button>
+    </div>
+  ),
+};
+
 export const AllStatesMatrix: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
