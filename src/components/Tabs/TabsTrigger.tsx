@@ -17,7 +17,7 @@ export const TabsTrigger = React.forwardRef<
       "rounded-xs border-transparent",
       "typography-body-1-semibold cursor-pointer text-body-100",
       "motion-safe:transition-[color,border-color] motion-safe:duration-150 motion-safe:ease-in-out",
-      "data-[orientation=horizontal]:border-b-4 data-[orientation=horizontal]:px-3 data-[orientation=horizontal]:pb-4",
+      "data-[orientation=horizontal]:border-b-4 data-[orientation=horizontal]:px-4 data-[orientation=horizontal]:py-3",
       "data-[orientation=vertical]:justify-start data-[orientation=vertical]:border-r-4 data-[orientation=vertical]:px-4 data-[orientation=vertical]:py-3",
       "data-[state=active]:border-brand-green-500",
       "data-[state=active]:hover:text-hover-100",
