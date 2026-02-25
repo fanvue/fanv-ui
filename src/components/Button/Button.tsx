@@ -21,7 +21,7 @@ export type ButtonSize = "48" | "40" | "32" | "24";
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual style variant of the button. @default "primary" */
   variant?: ButtonVariant;
-  /** Height of the button in pixels. @default "48" */
+  /** Height of the button in pixels. @default "40" */
   size?: ButtonSize;
   /** Icon element displayed before the label. */
   leftIcon?: React.ReactNode;
@@ -178,7 +178,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     {
       className,
       variant = "primary",
-      size = "48",
+      size = "40",
       leftIcon,
       rightIcon,
       loading = false,
