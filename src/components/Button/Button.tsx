@@ -51,6 +51,14 @@ const ICON_SIZE_CLASS: Record<ButtonSize, string> = {
   "24": "size-3.5",
 };
 
+/** Targets only direct SVG children so non-icon content (e.g. Pill) can size naturally. */
+const ICON_WRAPPER_CLASS: Record<ButtonSize, string> = {
+  "48": "[&>svg]:size-5",
+  "40": "[&>svg]:size-5",
+  "32": "[&>svg]:size-4",
+  "24": "[&>svg]:size-3.5",
+};
+
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
     "bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant active:bg-brand-green-500 active:text-body-black-solid-constant",
@@ -193,10 +201,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : "button";
     const isDisabled = disabled || loading;
-    const iconSizeClass = ICON_SIZE_CLASS[size];
+    const iconSizeClass = ICON_WRAPPER_CLASS[size];
 
     const buttonSpecificProps = !asChild
-      ? { type: "button" as const, "data-testid": "button", disabled: isDisabled }
+      ? {
+          type: "button" as const,
+          "data-testid": "button",
+          disabled: isDisabled,
+        }
       : isDisabled
         ? { "aria-disabled": true }
         : {};
