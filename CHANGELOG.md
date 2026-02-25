@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.9.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.8.0...ui-v1.9.0) (2026-02-25)
+
+
+### Features
+
+* count size props and adjustment to iconbutton count usage ([#168](https://github.com/fanvue/fanv-ui/issues/168)) ([87aa0db](https://github.com/fanvue/fanv-ui/commit/87aa0dbc99bec1097b89c63defd2d17ead1844be))
+
+
+### Bug Fixes
+
+* prevent text wrapping in Chip component ([#177](https://github.com/fanvue/fanv-ui/issues/177)) ([6cc8c0d](https://github.com/fanvue/fanv-ui/commit/6cc8c0d1fae9bb943f79d84fe310d876f21f2d11))
+
 ## [1.8.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.7.1...ui-v1.8.0) (2026-02-25)
 
 
