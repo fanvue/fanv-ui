@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.7.1...ui-v1.8.0) (2026-02-25)
+
+
+### Features
+
+* replace Tabs border indicator with animated sliding indicator ([edf3a4b](https://github.com/fanvue/fanv-ui/commit/edf3a4b93fef6ecf9ca229b47036a3a9143daadd))
+
 ## [1.7.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.7.0...ui-v1.7.1) (2026-02-25)
 
 
