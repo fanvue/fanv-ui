@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { Count } from "../Count/Count";
+import { Count, type CountSize } from "../Count/Count";
 
 const iconButtonVariants = {
   primary:
@@ -39,6 +39,14 @@ const sizeVariants = {
   52: "p-2",
   72: "p-4",
 } as const;
+
+const countSizeMap: Record<string, CountSize> = {
+  24: "16",
+  32: "24",
+  40: "32",
+  52: "32",
+  72: "32",
+};
 
 /** Visual style variant of the icon button. */
 export type IconButtonVariant =
@@ -116,10 +124,12 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           {icon}
         </span>
 
-        {counterValue !== undefined && (variant === "tertiary" || variant === "navTray") && (
-          <div className="absolute top-0 right-0">
-            <Count value={counterValue} />
-          </div>
+        {counterValue !== undefined && (
+          <Count
+            value={counterValue}
+            size={countSizeMap[size]}
+            className="absolute -top-0.5 -right-0.5"
+          />
         )}
       </button>
     );

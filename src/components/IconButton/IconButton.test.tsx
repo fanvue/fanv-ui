@@ -39,13 +39,6 @@ describe("IconButton", () => {
       expect(container.textContent).toContain("12");
     });
 
-    it("does not show counter badge for Primary style even when counterShow is true", () => {
-      const { container } = render(
-        <IconButton icon={<HomeIcon />} variant="primary" counterValue={12} />,
-      );
-      expect(container.textContent).not.toContain("12");
-    });
-
     it("does not show counter badge when counterValue is 0", () => {
       const { container } = render(
         <IconButton icon={<HomeIcon />} variant="tertiary" counterValue={0} />,
