@@ -1,25 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import type * as React from "react";
 import { useState } from "react";
-import { CheckCircleIcon } from "../Icons/CheckCircleIcon";
-import { ErrorCircleIcon } from "../Icons/ErrorCircleIcon";
-import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
-import { WarningTriangleIcon } from "../Icons/WarningTriangleIcon";
+import { FireIcon } from "../Icons/FireIcon";
 import { Alert } from "./Alert";
-
-const InfoIcon = <InfoCircleIcon />;
-const SuccessIcon = <CheckCircleIcon />;
-const WarningIcon = <WarningTriangleIcon />;
-const ErrorIcon = <ErrorCircleIcon />;
-
-// Icon mapping for Storybook controls
-const iconMap = {
-  none: undefined,
-  info: InfoIcon,
-  success: SuccessIcon,
-  warning: WarningIcon,
-  error: ErrorIcon,
-};
 
 const meta = {
   title: "Components/Alert",
@@ -39,11 +21,6 @@ const meta = {
     },
     title: { control: "text" },
     closable: { control: "boolean" },
-    icon: {
-      control: "select",
-      options: ["none", "info", "success", "warning", "error"],
-      mapping: iconMap,
-    },
   },
 } satisfies Meta<typeof Alert>;
 
@@ -53,7 +30,6 @@ type Story = StoryObj<typeof meta>;
 export const Info: Story = {
   args: {
     variant: "info",
-    icon: "info" as unknown as React.ReactNode,
     children: "This is an informational alert message.",
   },
 };
@@ -61,7 +37,6 @@ export const Info: Story = {
 export const Success: Story = {
   args: {
     variant: "success",
-    icon: "success" as unknown as React.ReactNode,
     children: "Your changes have been saved successfully.",
   },
 };
@@ -69,7 +44,6 @@ export const Success: Story = {
 export const Warning: Story = {
   args: {
     variant: "warning",
-    icon: "warning" as unknown as React.ReactNode,
     children: "Please review your information before proceeding.",
   },
 };
@@ -78,7 +52,6 @@ export const Warning: Story = {
 export const Error: Story = {
   args: {
     variant: "error",
-    icon: "error" as unknown as React.ReactNode,
     children: "An error occurred while processing your request.",
   },
 };
@@ -87,7 +60,7 @@ export const InfoClosable: Story = {
   render: (args) => {
     const [visible, setVisible] = useState(true);
     return visible ? (
-      <Alert {...args} variant="info" icon={InfoIcon} closable onClose={() => setVisible(false)}>
+      <Alert {...args} variant="info" closable onClose={() => setVisible(false)}>
         This is a closable info alert.
       </Alert>
     ) : (
@@ -109,13 +82,7 @@ export const SuccessClosable: Story = {
   render: (args) => {
     const [visible, setVisible] = useState(true);
     return visible ? (
-      <Alert
-        {...args}
-        variant="success"
-        icon={SuccessIcon}
-        closable
-        onClose={() => setVisible(false)}
-      >
+      <Alert {...args} variant="success" closable onClose={() => setVisible(false)}>
         This is a closable success alert.
       </Alert>
     ) : (
@@ -137,13 +104,7 @@ export const WarningClosable: Story = {
   render: (args) => {
     const [visible, setVisible] = useState(true);
     return visible ? (
-      <Alert
-        {...args}
-        variant="warning"
-        icon={WarningIcon}
-        closable
-        onClose={() => setVisible(false)}
-      >
+      <Alert {...args} variant="warning" closable onClose={() => setVisible(false)}>
         This is a closable warning alert.
       </Alert>
     ) : (
@@ -165,7 +126,7 @@ export const ErrorClosable: Story = {
   render: (args) => {
     const [visible, setVisible] = useState(true);
     return visible ? (
-      <Alert {...args} variant="error" icon={ErrorIcon} closable onClose={() => setVisible(false)}>
+      <Alert {...args} variant="error" closable onClose={() => setVisible(false)}>
         This is a closable error alert.
       </Alert>
     ) : (
@@ -186,7 +147,7 @@ export const ErrorClosable: Story = {
 export const WithoutIcon: Story = {
   args: {
     variant: "info",
-    icon: "none" as unknown as React.ReactNode,
+    icon: null,
     children: "This is an alert without an icon.",
   },
 };
@@ -194,7 +155,6 @@ export const WithoutIcon: Story = {
 export const WithTitle: Story = {
   args: {
     variant: "info",
-    icon: "info" as unknown as React.ReactNode,
     title: "Alert title",
     children: "This is the body text for info in-app alert, longer text for the reference",
   },
@@ -203,7 +163,6 @@ export const WithTitle: Story = {
 export const SuccessWithTitle: Story = {
   args: {
     variant: "success",
-    icon: "success" as unknown as React.ReactNode,
     title: "Success!",
     children: "Your changes have been saved successfully.",
   },
@@ -212,7 +171,6 @@ export const SuccessWithTitle: Story = {
 export const WarningWithTitle: Story = {
   args: {
     variant: "warning",
-    icon: "warning" as unknown as React.ReactNode,
     title: "Warning",
     children: "Please review your information before proceeding.",
   },
@@ -221,7 +179,6 @@ export const WarningWithTitle: Story = {
 export const ErrorWithTitle: Story = {
   args: {
     variant: "error",
-    icon: "error" as unknown as React.ReactNode,
     title: "Error",
     children: "An error occurred while processing your request.",
   },
@@ -234,7 +191,6 @@ export const WithTitleClosable: Story = {
       <Alert
         {...args}
         variant="warning"
-        icon={WarningIcon}
         title="Important Update"
         closable
         onClose={() => setVisible(false)}
@@ -256,11 +212,19 @@ export const WithTitleClosable: Story = {
   },
 };
 
+export const CustomIcon: Story = {
+  args: {
+    variant: "warning",
+    icon: <FireIcon />,
+    children: "This alert uses a custom icon instead of the default.",
+  },
+};
+
 export const LongContent: Story = {
   render: (args) => {
     const [visible, setVisible] = useState(true);
     return visible ? (
-      <Alert {...args} variant="info" icon={InfoIcon} closable onClose={() => setVisible(false)}>
+      <Alert {...args} variant="info" closable onClose={() => setVisible(false)}>
         This is a longer alert message that contains multiple sentences. It demonstrates how the
         alert component handles more extensive content and ensures proper text wrapping and layout
         across different screen sizes.
@@ -283,14 +247,12 @@ export const LongContent: Story = {
 export const WithCustomContent: Story = {
   args: {
     variant: "warning",
-    icon: "warning" as unknown as React.ReactNode,
     title: "Important Update",
     children:
       "Your subscription will expire in 3 days. Please renew to continue enjoying our services.",
   },
 };
 
-// Interactive example showing dismissal behavior
 export const InteractiveDismissible: Story = {
   render: (args) => {
     const [visible, setVisible] = useState(true);
@@ -298,13 +260,7 @@ export const InteractiveDismissible: Story = {
     return (
       <div className="space-y-4">
         {visible ? (
-          <Alert
-            {...args}
-            variant="info"
-            icon={InfoIcon}
-            closable
-            onClose={() => setVisible(false)}
-          >
+          <Alert {...args} variant="info" closable onClose={() => setVisible(false)}>
             Click the close button to dismiss this alert. It will disappear.
           </Alert>
         ) : (
@@ -324,7 +280,6 @@ export const InteractiveDismissible: Story = {
   },
 };
 
-// Multiple alerts with independent dismissal
 export const MultipleDismissible: Story = {
   render: () => {
     const [alerts, setAlerts] = useState({
@@ -337,19 +292,13 @@ export const MultipleDismissible: Story = {
     return (
       <div className="space-y-4">
         {alerts.info && (
-          <Alert
-            variant="info"
-            icon={InfoIcon}
-            closable
-            onClose={() => setAlerts({ ...alerts, info: false })}
-          >
+          <Alert variant="info" closable onClose={() => setAlerts({ ...alerts, info: false })}>
             This is an informational alert. Click to dismiss.
           </Alert>
         )}
         {alerts.success && (
           <Alert
             variant="success"
-            icon={SuccessIcon}
             closable
             onClose={() => setAlerts({ ...alerts, success: false })}
           >
@@ -359,7 +308,6 @@ export const MultipleDismissible: Story = {
         {alerts.warning && (
           <Alert
             variant="warning"
-            icon={WarningIcon}
             closable
             onClose={() => setAlerts({ ...alerts, warning: false })}
           >
@@ -367,12 +315,7 @@ export const MultipleDismissible: Story = {
           </Alert>
         )}
         {alerts.error && (
-          <Alert
-            variant="error"
-            icon={ErrorIcon}
-            closable
-            onClose={() => setAlerts({ ...alerts, error: false })}
-          >
+          <Alert variant="error" closable onClose={() => setAlerts({ ...alerts, error: false })}>
             An error occurred. Click to dismiss.
           </Alert>
         )}

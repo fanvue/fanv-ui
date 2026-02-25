@@ -1,18 +1,29 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { Button } from "../Button/Button";
+import { CheckCircleIcon } from "../Icons/CheckCircleIcon";
 import { CrossIcon } from "../Icons/CrossIcon";
+import { ErrorCircleIcon } from "../Icons/ErrorCircleIcon";
+import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
+import { WarningTriangleIcon } from "../Icons/WarningTriangleIcon";
 
 /** Visual style variant of the alert. */
 export type AlertVariant = "info" | "success" | "warning" | "error";
+
+const DEFAULT_ICONS: Record<AlertVariant, React.ReactNode> = {
+  info: <InfoCircleIcon />,
+  success: <CheckCircleIcon />,
+  warning: <WarningTriangleIcon />,
+  error: <ErrorCircleIcon />,
+};
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Visual style variant of the alert. @default "info" */
   variant?: AlertVariant;
   /** Optional title text displayed in bold above the description. */
   title?: string;
-  /** Icon element displayed at the leading edge of the alert. */
-  icon?: React.ReactNode;
+  /** Custom icon override. Pass `null` to hide the icon entirely. Each variant shows a default icon when left `undefined`. */
+  icon?: React.ReactNode | null;
   /** Whether to show the close button. @default false */
   closable?: boolean;
   /** Callback fired when the close button is clicked. */
@@ -34,8 +45,11 @@ const CLOSE_BUTTON_CLASSES: Record<AlertVariant, string> = {
 /**
  * Displays a contextual feedback message to the user.
  *
- * Supports `info`, `success`, `warning`, and `error` variants with an optional
- * icon, title, description, and dismiss button.
+ * Supports `info`, `success`, `warning`, and `error` variants with a default
+ * icon per variant, optional title, description, and dismiss button.
+ *
+ * Each variant renders a default icon automatically. Pass a custom `icon` to
+ * override, or `icon={null}` to hide the icon entirely.
  *
  * @example
  * ```tsx
@@ -59,6 +73,8 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     },
     ref,
   ) => {
+    const resolvedIcon = icon === null ? null : (icon ?? DEFAULT_ICONS[variant]);
+
     return (
       <div
         ref={ref}
@@ -66,10 +82,10 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         data-testid="alert"
         className={cn(
           "grid gap-x-3 rounded-lg p-4 text-sm leading-[18px]",
-          icon && closable && "grid-cols-[auto_1fr_auto]",
-          icon && !closable && "grid-cols-[auto_1fr]",
-          !icon && closable && "grid-cols-[1fr_auto]",
-          !icon && !closable && "grid-cols-[1fr]",
+          resolvedIcon && closable && "grid-cols-[auto_1fr_auto]",
+          resolvedIcon && !closable && "grid-cols-[auto_1fr]",
+          !resolvedIcon && closable && "grid-cols-[1fr_auto]",
+          !resolvedIcon && !closable && "grid-cols-[1fr]",
           title && children ? "items-start" : "items-center",
           variant === "info" && "bg-info-50 text-info-500",
           variant === "success" && "bg-success-50 text-success-500",
@@ -79,9 +95,9 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         )}
         {...props}
       >
-        {icon && (
+        {resolvedIcon && (
           <span className="flex shrink-0 items-start" aria-hidden="true">
-            {icon}
+            {resolvedIcon}
           </span>
         )}
 
