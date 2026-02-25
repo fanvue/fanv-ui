@@ -36,6 +36,47 @@ describe("Alert", () => {
     });
   });
 
+  describe("default icons", () => {
+    it("renders a default icon for the info variant", () => {
+      render(<Alert variant="info">Info</Alert>);
+      const alert = screen.getByRole("alert");
+      expect(alert.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("renders a default icon for the success variant", () => {
+      render(<Alert variant="success">Success</Alert>);
+      const alert = screen.getByRole("alert");
+      expect(alert.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("renders a default icon for the warning variant", () => {
+      render(<Alert variant="warning">Warning</Alert>);
+      const alert = screen.getByRole("alert");
+      expect(alert.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("renders a default icon for the error variant", () => {
+      render(<Alert variant="error">Error</Alert>);
+      const alert = screen.getByRole("alert");
+      expect(alert.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("hides the icon when icon={null}", () => {
+      render(
+        <Alert variant="info" icon={null}>
+          No icon
+        </Alert>,
+      );
+      const alert = screen.getByRole("alert");
+      expect(alert.querySelector("svg")).not.toBeInTheDocument();
+    });
+
+    it("renders a custom icon when provided", () => {
+      render(<Alert icon={<span data-testid="custom-icon">★</span>}>Custom</Alert>);
+      expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
+    });
+  });
+
   describe("closable behavior", () => {
     it("calls onClose when close button is clicked", async () => {
       const user = userEvent.setup();
