@@ -89,7 +89,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
             !disabled &&
             !isDark &&
             !selected &&
-            "hover:bg-hover-400 active:bg-hover-400",
+            "hover:bg-hover-300 active:bg-hover-300",
           // Focus
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled
