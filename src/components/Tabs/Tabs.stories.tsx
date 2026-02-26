@@ -82,6 +82,25 @@ export const Vertical: Story = {
   ),
 };
 
+export const FullWidth: Story = {
+  render: () => (
+    <div style={{ width: 500 }}>
+      <Tabs defaultValue="tab1">
+        <TabsList fullWidth>
+          <TabsTrigger value="tab1">Messages</TabsTrigger>
+          <TabsTrigger value="tab2">Media</TabsTrigger>
+        </TabsList>
+        <TabsContent value="tab1">
+          <p className="pt-4 text-neutral-400 text-sm">Messages content</p>
+        </TabsContent>
+        <TabsContent value="tab2">
+          <p className="pt-4 text-neutral-400 text-sm">Media content</p>
+        </TabsContent>
+      </Tabs>
+    </div>
+  ),
+};
+
 export const AllStates: Story = {
   name: "All States (Matrix)",
   render: () => (

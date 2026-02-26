@@ -106,6 +106,19 @@ describe("Tabs", () => {
       expect(ref.current).toBeInstanceOf(HTMLButtonElement);
     });
 
+    it("applies fullWidth classes to TabsList", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList fullWidth>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      const tablist = screen.getByRole("tablist");
+      expect(tablist).toHaveClass("w-full");
+      expect(tablist).not.toHaveClass("inline-flex");
+    });
+
     it("forwards ref to TabsContent", () => {
       const ref = React.createRef<HTMLDivElement>();
       render(
