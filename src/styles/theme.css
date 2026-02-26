@@ -165,6 +165,8 @@
 }
 
 :root {
+  --fanvue-ui-portal-z-index: 50;
+
   --color-primary-50: #1515150a;
   --color-primary-100: #15151533;
   --color-primary-200: #15151566;

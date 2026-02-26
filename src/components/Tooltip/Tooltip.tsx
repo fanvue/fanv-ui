@@ -145,8 +145,9 @@ export const TooltipContent = React.forwardRef<
         <TooltipPrimitive.Content
           ref={ref}
           sideOffset={sideOffset}
+          style={{ zIndex: "var(--fanvue-ui-portal-z-index)" }}
           className={cn(
-            "typography-body-2-regular z-50 max-w-[320px] overflow-hidden rounded-3xl bg-background-solid p-4 text-background-inverse-solid shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",
+            "typography-body-2-regular max-w-[320px] overflow-hidden rounded-3xl bg-background-solid p-4 text-background-inverse-solid shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",
             isInfobox && "border border-neutral-200",
             className,
           )}

@@ -209,8 +209,9 @@ export const SelectContent = React.forwardRef<
       ref={ref}
       position={position}
       sideOffset={sideOffset}
+      style={{ zIndex: "var(--fanvue-ui-portal-z-index)" }}
       className={cn(
-        "relative z-50 min-w-(--radix-select-trigger-width) overflow-hidden rounded-xl border border-neutral-200 bg-background-inverse-solid text-body-100 shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+        "relative min-w-(--radix-select-trigger-width) overflow-hidden rounded-xl border border-neutral-200 bg-background-inverse-solid text-body-100 shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
         "data-[state=closed]:animate-out data-[state=open]:animate-in",
         "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
