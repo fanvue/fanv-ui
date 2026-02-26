@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.10.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.10.1...ui-v1.10.2) (2026-02-26)
+
+
+### Bug Fixes
+
+* **deps:** patch minimatch ReDoS vulnerabilities ([#188](https://github.com/fanvue/fanv-ui/issues/188)) ([d0e5327](https://github.com/fanvue/fanv-ui/commit/d0e53273c081da1066487df006658f82886de748))
+* **deps:** patch minimatch ReDoS vulnerabilities (GHSA-7r86, GHSA-23c5) ([d0e5327](https://github.com/fanvue/fanv-ui/commit/d0e53273c081da1066487df006658f82886de748))
+* **ui:** configurable z-index for portaled Select and Tooltip ([#187](https://github.com/fanvue/fanv-ui/issues/187)) ([ccfd3aa](https://github.com/fanvue/fanv-ui/commit/ccfd3aa830114617ce5685c0a53a99933023dada))
+
 ## [1.10.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.10.0...ui-v1.10.1) (2026-02-26)
 
 
