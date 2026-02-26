@@ -4,7 +4,7 @@ import { cn } from "../../utils/cn";
 
 /** Props for the {@link TabsList} component. */
 export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
-  /** When `true`, the tab list spans the full width of its container and each tab grows equally. */
+  /** When `true` (the default), the tab list spans the full width of its container and each tab grows equally. Set to `false` for inline sizing. */
   fullWidth?: boolean;
 };
 
@@ -12,7 +12,7 @@ export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.
 export const TabsList = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.List>,
   TabsListProps
->(({ className, children, fullWidth, ...props }, ref) => {
+>(({ className, children, fullWidth = true, ...props }, ref) => {
   const innerRef = React.useRef<HTMLDivElement>(null);
   const indicatorRef = React.useRef<HTMLSpanElement>(null);
 

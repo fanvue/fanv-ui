@@ -82,22 +82,24 @@ export const Vertical: Story = {
   ),
 };
 
-export const FullWidth: Story = {
+export const Inline: Story = {
   render: () => (
-    <div style={{ width: 500 }}>
-      <Tabs defaultValue="tab1">
-        <TabsList fullWidth>
-          <TabsTrigger value="tab1">Messages</TabsTrigger>
-          <TabsTrigger value="tab2">Media</TabsTrigger>
-        </TabsList>
-        <TabsContent value="tab1">
-          <p className="pt-4 text-neutral-400 text-sm">Messages content</p>
-        </TabsContent>
-        <TabsContent value="tab2">
-          <p className="pt-4 text-neutral-400 text-sm">Media content</p>
-        </TabsContent>
-      </Tabs>
-    </div>
+    <Tabs defaultValue="tab1">
+      <TabsList fullWidth={false}>
+        <TabsTrigger value="tab1">Photos</TabsTrigger>
+        <TabsTrigger value="tab2">Videos</TabsTrigger>
+        <TabsTrigger value="tab3">Posts</TabsTrigger>
+      </TabsList>
+      <TabsContent value="tab1">
+        <p className="pt-4 text-neutral-400 text-sm">Photos content</p>
+      </TabsContent>
+      <TabsContent value="tab2">
+        <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
+      </TabsContent>
+      <TabsContent value="tab3">
+        <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
+      </TabsContent>
+    </Tabs>
   ),
 };
 
