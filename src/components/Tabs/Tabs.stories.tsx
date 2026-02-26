@@ -82,6 +82,27 @@ export const Vertical: Story = {
   ),
 };
 
+export const Inline: Story = {
+  render: () => (
+    <Tabs defaultValue="tab1">
+      <TabsList fullWidth={false}>
+        <TabsTrigger value="tab1">Photos</TabsTrigger>
+        <TabsTrigger value="tab2">Videos</TabsTrigger>
+        <TabsTrigger value="tab3">Posts</TabsTrigger>
+      </TabsList>
+      <TabsContent value="tab1">
+        <p className="pt-4 text-neutral-400 text-sm">Photos content</p>
+      </TabsContent>
+      <TabsContent value="tab2">
+        <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
+      </TabsContent>
+      <TabsContent value="tab3">
+        <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
+      </TabsContent>
+    </Tabs>
+  ),
+};
+
 export const AllStates: Story = {
   name: "All States (Matrix)",
   render: () => (

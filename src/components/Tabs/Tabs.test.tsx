@@ -106,6 +106,32 @@ describe("Tabs", () => {
       expect(ref.current).toBeInstanceOf(HTMLButtonElement);
     });
 
+    it("is fullWidth by default", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      const tablist = screen.getByRole("tablist");
+      expect(tablist).toHaveClass("w-full");
+      expect(tablist).not.toHaveClass("inline-flex");
+    });
+
+    it("renders inline when fullWidth is false", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList fullWidth={false}>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      const tablist = screen.getByRole("tablist");
+      expect(tablist).toHaveClass("inline-flex");
+      expect(tablist).not.toHaveClass("w-full");
+    });
+
     it("forwards ref to TabsContent", () => {
       const ref = React.createRef<HTMLDivElement>();
       render(
