@@ -203,13 +203,13 @@ export interface SelectContentProps
 export const SelectContent = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Content>,
   SelectContentProps
->(({ className, children, position = "popper", sideOffset = 4, ...props }, ref) => (
+>(({ className, children, position = "popper", sideOffset = 4, style, ...props }, ref) => (
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       ref={ref}
       position={position}
       sideOffset={sideOffset}
-      style={{ zIndex: "var(--fanvue-ui-portal-z-index)" }}
+      style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
       className={cn(
         "relative min-w-(--radix-select-trigger-width) overflow-hidden rounded-xl border border-neutral-200 bg-background-inverse-solid text-body-100 shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
         "data-[state=closed]:animate-out data-[state=open]:animate-in",
