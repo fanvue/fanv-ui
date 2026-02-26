@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.10.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.10.0...ui-v1.10.1) (2026-02-26)
+
+
+### Bug Fixes
+
+* constrain SelectContent dropdown to available viewport height ([57b7c66](https://github.com/fanvue/fanv-ui/commit/57b7c667a775d9d2a239042422dff046436b425c))
+* make non-selected Chip hover state visible ([956f23b](https://github.com/fanvue/fanv-ui/commit/956f23bc0a43eb48745af12e00fb5fac0f63ebd1))
+* patch Storybook WebSocket Hijacking vulnerability (GHSA-mjf5-7g4m-gx5w) ([eed73c4](https://github.com/fanvue/fanv-ui/commit/eed73c4c459b3e4bae723206dc66f2267f091306))
+
 ## [1.10.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.9.0...ui-v1.10.0) (2026-02-26)
 
 
