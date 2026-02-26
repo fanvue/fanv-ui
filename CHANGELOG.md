@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.10.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.9.0...ui-v1.10.0) (2026-02-26)
+
+
+### Features
+
+* **Tabs:** add fullWidth prop to TabsList ([#182](https://github.com/fanvue/fanv-ui/issues/182)) ([a330ce3](https://github.com/fanvue/fanv-ui/commit/a330ce38f11fafacbed1426e7f3e7cf6c22ec7fe))
+
+
+### Bug Fixes
+
+* center Chip text by default ([19f81c3](https://github.com/fanvue/fanv-ui/commit/19f81c38cb43a8018b123ce471f3fcf81ba09178))
+* patch rollup path traversal vulnerability (GHSA-mw96-cpmx-2vgc) ([2ffa337](https://github.com/fanvue/fanv-ui/commit/2ffa3375b9322c3659be375a59a670e5cddb4589))
+
 ## [1.9.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.8.0...ui-v1.9.0) (2026-02-25)
 
 
