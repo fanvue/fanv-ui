@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.11.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.10.2...ui-v1.11.0) (2026-02-27)
+
+
+### Features
+
+* optional resize textarea ([#192](https://github.com/fanvue/fanv-ui/issues/192)) ([eb6bad6](https://github.com/fanvue/fanv-ui/commit/eb6bad6e777aa38111aa5460e17b2dd7836c0dd6))
+
+
+### Bug Fixes
+
+* **ui:** restore Avatar bold font and fix IconButton circularity ([#190](https://github.com/fanvue/fanv-ui/issues/190)) ([e8a63e2](https://github.com/fanvue/fanv-ui/commit/e8a63e23af4860e6a9675085eea0674b9d230f30))
+
 ## [1.10.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.10.1...ui-v1.10.2) (2026-02-26)
 
 
