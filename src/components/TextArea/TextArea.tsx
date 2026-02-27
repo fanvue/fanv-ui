@@ -31,6 +31,8 @@ export interface TextAreaProps
   minRows?: number;
   /** Maximum number of rows (lines) for the textarea. */
   maxRows?: number;
+  /** Whether the textarea can be resized by the user. @default true */
+  resizable?: boolean;
 }
 
 const CONTAINER_MIN_HEIGHT: Record<TextAreaSize, string> = {
@@ -73,9 +75,15 @@ function getContainerClassName(size: TextAreaSize, error: boolean, disabled?: bo
   );
 }
 
-function getTextareaClassName(size: TextAreaSize, hasClearButton: boolean, hasMinRows: boolean) {
+function getTextareaClassName(
+  size: TextAreaSize,
+  hasClearButton: boolean,
+  hasMinRows: boolean,
+  resizable: boolean,
+) {
   return cn(
-    "w-full resize-y rounded-xl bg-transparent text-body-100 no-underline placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+    "w-full rounded-xl bg-transparent text-body-100 no-underline placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+    resizable ? "resize-y" : "resize-none",
     !hasMinRows && "min-h-[80px]",
     TEXTAREA_SIZE_CLASSES[size],
     PADDING_HORIZONTAL[size],
@@ -202,6 +210,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       onChange,
       minRows,
       maxRows,
+      resizable = true,
       ...props
     },
     ref,
@@ -255,7 +264,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             disabled={disabled}
             aria-describedby={ariaDescribedBy}
             aria-invalid={error || undefined}
-            className={getTextareaClassName(size, showClear, !!minRows)}
+            className={getTextareaClassName(size, showClear, !!minRows, resizable)}
             value={displayValue}
             defaultValue={resolvedDefaultValue}
             onChange={handleChange}

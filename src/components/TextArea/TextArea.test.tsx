@@ -179,6 +179,28 @@ describe("TextArea", () => {
     });
   });
 
+  describe("resizable", () => {
+    it("applies resize-y class by default", () => {
+      render(<TextArea label="Test" />);
+      const textarea = screen.getByRole("textbox");
+      expect(textarea).toHaveClass("resize-y");
+    });
+
+    it("applies resize-none when resizable is false", () => {
+      render(<TextArea label="Test" resizable={false} />);
+      const textarea = screen.getByRole("textbox");
+      expect(textarea).toHaveClass("resize-none");
+      expect(textarea).not.toHaveClass("resize-y");
+    });
+
+    it("applies resize-y when resizable is true", () => {
+      render(<TextArea label="Test" resizable={true} />);
+      const textarea = screen.getByRole("textbox");
+      expect(textarea).toHaveClass("resize-y");
+      expect(textarea).not.toHaveClass("resize-none");
+    });
+  });
+
   describe("rows props", () => {
     it("applies minRows as rows attribute", () => {
       render(<TextArea label="Test" minRows={5} />);
