@@ -51,6 +51,9 @@ const meta: Meta<typeof TextArea> = {
     maxRows: {
       control: "number",
     },
+    resizable: {
+      control: "boolean",
+    },
   },
   decorators: [
     (Story) => (
@@ -277,6 +280,15 @@ export const AllStates: Story = {
       <TextArea label="Disabled with value" defaultValue="Value" disabled />
     </div>
   ),
+};
+
+export const NotResizable: Story = {
+  args: {
+    label: "Description",
+    placeholder: "This textarea cannot be resized",
+    resizable: false,
+    defaultValue: "The resize handle is hidden.",
+  },
 };
 
 export const AllSizeVariants: Story = {
