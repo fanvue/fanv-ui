@@ -33,11 +33,11 @@ const iconSizeVariants = {
 } as const;
 
 const sizeVariants = {
-  24: "p-1",
-  32: "p-1.5",
-  40: "p-[10px]",
-  52: "p-2",
-  72: "p-4",
+  24: "size-6 p-1",
+  32: "size-8 p-1.5",
+  40: "size-10 p-[10px]",
+  52: "size-[52px] p-2",
+  72: "size-[72px] p-4",
 } as const;
 
 const countSizeMap: Record<string, CountSize> = {
