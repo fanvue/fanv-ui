@@ -151,7 +151,7 @@ export const Select = React.forwardRef<
                 disabled && "cursor-not-allowed opacity-50",
               )}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex min-w-0 items-center gap-2">
                 {leftIcon && (
                   <span
                     className="flex size-5 shrink-0 items-center justify-center text-body-200"
