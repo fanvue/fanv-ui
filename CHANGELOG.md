@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.12.0...ui-v1.12.1) (2026-03-02)
+
+
+### Bug Fixes
+
+* **Chip:** improve hover styles and add toggle stories ([#196](https://github.com/fanvue/fanv-ui/issues/196)) ([a7ac14b](https://github.com/fanvue/fanv-ui/commit/a7ac14b2d9135d0fc89bc3869037cdcdf0d1ae1f))
+
 ## [1.12.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.11.0...ui-v1.12.0) (2026-03-02)
 
 
