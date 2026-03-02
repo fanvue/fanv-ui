@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.12.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.12.1...ui-v1.12.2) (2026-03-02)
+
+
+### Bug Fixes
+
+* **Avatar:** use opaque background color ([#198](https://github.com/fanvue/fanv-ui/issues/198)) ([89678ad](https://github.com/fanvue/fanv-ui/commit/89678ad1c482580416fc938fa4e9f4ce4e56058b))
+* **Avatar:** use opaque background color instead of transparent ([89678ad](https://github.com/fanvue/fanv-ui/commit/89678ad1c482580416fc938fa4e9f4ce4e56058b))
+
 ## [1.12.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.12.0...ui-v1.12.1) (2026-03-02)
 
 
