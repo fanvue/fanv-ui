@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.12.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.11.0...ui-v1.12.0) (2026-03-02)
+
+
+### Features
+
+* add fullWidth and space-between to button ([#193](https://github.com/fanvue/fanv-ui/issues/193)) ([85f70ce](https://github.com/fanvue/fanv-ui/commit/85f70ced3be70cf6ab6548c5666386817cd1be60))
+
+
+### Bug Fixes
+
+* **Select:** add min-w-0 to trigger inner div to enable text truncation ([fe3dbb6](https://github.com/fanvue/fanv-ui/commit/fe3dbb6610490e18317f8d003d4abf2a48c00376))
+* **Select:** truncate long text in trigger ([#194](https://github.com/fanvue/fanv-ui/issues/194)) ([fe3dbb6](https://github.com/fanvue/fanv-ui/commit/fe3dbb6610490e18317f8d003d4abf2a48c00376))
+
 ## [1.11.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.10.2...ui-v1.11.0) (2026-02-27)
 
 
