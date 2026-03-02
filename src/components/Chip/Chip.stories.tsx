@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
 import { CheckCircleIcon } from "../Icons/CheckCircleIcon";
 import { CrossIcon } from "../Icons/CrossIcon";
 import { Chip } from "./Chip";
@@ -247,6 +248,37 @@ export const PaymentMethodDisabled: Story = {
     leftIcon: <PaymentLogo label="P" color="#003087" />,
     children: "PayPal",
     disabled: true,
+  },
+};
+
+export const Toggle: Story = {
+  render: () => {
+    const [selected, setSelected] = useState(false);
+    return (
+      <Chip selected={selected} onClick={() => setSelected((s) => !s)}>
+        Click to toggle
+      </Chip>
+    );
+  },
+};
+
+export const FilterGroup: Story = {
+  render: () => {
+    const [active, setActive] = useState<string>("all");
+    const filters = [
+      { id: "all", label: "All 32" },
+      { id: "polls", label: "Polls (26)" },
+      { id: "collection", label: "Poll collection test" },
+    ];
+    return (
+      <div className="flex flex-wrap gap-2">
+        {filters.map((f) => (
+          <Chip key={f.id} selected={active === f.id} onClick={() => setActive(f.id)}>
+            {f.label}
+          </Chip>
+        ))}
+      </div>
+    );
   },
 };
 
