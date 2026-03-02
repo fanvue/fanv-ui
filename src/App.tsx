@@ -1078,7 +1078,7 @@ function ButtonDemo() {
         <Button variant="primary" price="$9.99/month">
           Subscribe
         </Button>
-        <Button variant="primary" discount="$X.XX" price="$X.XX/ month">
+        <Button fullWidth variant="primary" discount="$X.XX" price="$X.XX/ month">
           Join now
         </Button>
         <div className="rounded-lg bg-body-black-solid-constant p-3">

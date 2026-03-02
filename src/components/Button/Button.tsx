@@ -35,6 +35,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   discount?: string;
   /** Current price shown inside the button after the label and icons. */
   price?: string;
+  /** When `true`, the button will take the full width of its container. @default false */
+  fullWidth?: boolean;
 }
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
@@ -120,6 +122,7 @@ function renderContent({
   iconSizeClass: string;
   discount?: string;
   price?: string;
+  fullWidth?: boolean;
 }) {
   if (loading) {
     // When asChild, clone the child element with spinner content instead of
@@ -160,12 +163,20 @@ function renderContent({
           {rightIcon}
         </span>
       )}
-      {discount != null && (
-        <span className="typography-body-1-regular line-through" aria-hidden="true">
-          {discount}
-        </span>
+      {(price || discount) && (
+        <div>
+          {discount && (
+            <span className="typography-body-1-regular line-through" aria-hidden="true">
+              {discount}
+            </span>
+          )}
+          {price && (
+            <span className="ml-2" aria-hidden="true">
+              {price}
+            </span>
+          )}
+        </div>
       )}
-      {price != null && <span aria-hidden="true">{price}</span>}
     </>
   );
 }
@@ -195,6 +206,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       discount,
       price,
+      fullWidth = false,
       ...props
     },
     ref,
@@ -237,12 +249,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...loadingLabelProps}
         className={cn(
           // Base styles
-          "inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full transition-colors",
+          "inline-flex cursor-pointer items-center gap-2 whitespace-nowrap rounded-full transition-colors",
           // Focus ring
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled state
           "disabled:pointer-events-none disabled:opacity-50",
           "aria-disabled:pointer-events-none aria-disabled:opacity-50",
+          `${price ? "justify-between" : "justify-center"}`,
+          fullWidth && "w-full",
           // Size styles
           SIZE_CLASSES[size],
           // Variant styles
