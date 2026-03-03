@@ -3,7 +3,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 
 /** Colour variant for the count badge. */
-export type CountVariant = "default" | "brand" | "pink" | "info" | "success" | "warning";
+export type CountVariant = "default" | "alert" | "brand" | "pink" | "info" | "success" | "warning";
 
 /** Size of the count badge, aligned with button and icon-button sizes. */
 export type CountSize = "16" | "24" | "32";
@@ -63,7 +63,8 @@ export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
           size === "16" && "h-3 min-w-3 px-0.5 text-[8px]",
           size === "24" && "h-4 min-w-4 px-1 text-[10px]",
           size === "32" && "h-5 min-w-5 px-1.5 text-[12px]",
-          variant === "default" && "bg-error-500 text-body-white-solid-constant",
+          variant === "default" && "bg-body-100 text-body-300",
+          variant === "alert" && "bg-error-500 text-body-white-solid-constant",
           variant === "brand" && "bg-brand-green-500 text-body-black-solid-constant",
           variant === "pink" && "bg-brand-pink-500 text-body-black-solid-constant",
           variant === "info" && "bg-info-500 text-body-white-solid-constant",
