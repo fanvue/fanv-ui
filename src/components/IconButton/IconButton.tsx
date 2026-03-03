@@ -127,6 +127,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         {counterValue !== undefined && (
           <Count
             value={counterValue}
+            variant="alert"
             size={countSizeMap[size]}
             className="absolute -top-0.5 -right-0.5"
           />

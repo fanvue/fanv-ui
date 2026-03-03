@@ -16,7 +16,7 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "brand", "pink", "info", "success", "warning"],
+      options: ["default", "alert", "brand", "pink", "info", "success", "warning"],
     },
     value: {
       control: { type: "number", min: 0, max: 999 },
@@ -32,6 +32,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    value: 5,
+  },
+};
+
+export const Alert: Story = {
+  args: {
+    variant: "alert",
     value: 5,
   },
 };
@@ -94,7 +101,7 @@ export const OnButton: Story = {
   render: () => (
     <Button variant="tertiary" size="40" className="relative">
       Messages
-      <Count value={24} className="absolute -top-2 -right-2" />
+      <Count value={24} variant="alert" className="absolute -top-2 -right-2" />
     </Button>
   ),
 };
@@ -103,6 +110,7 @@ export const MultipleVariants: Story = {
   render: () => (
     <div className="flex items-center gap-4">
       <Count value={5} variant="default" />
+      <Count value={3} variant="alert" />
       <Count value={12} variant="brand" />
       <Count value={8} variant="pink" />
       <Count value={3} variant="info" />
