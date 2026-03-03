@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.12.2...ui-v1.13.0) (2026-03-03)
+
+
+### Features
+
+* add alert variant to Count and make default neutral ([9027ac7](https://github.com/fanvue/fanv-ui/commit/9027ac7442aea117ff23aa02e0c2649b538a71a0))
+
 ## [1.12.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.12.1...ui-v1.12.2) (2026-03-02)
 
 
