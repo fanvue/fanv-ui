@@ -71,6 +71,7 @@ import {
   VipBadgeIcon,
   WarningIcon,
   WarningTriangleIcon,
+  WhatsNewBanner,
 } from "./index";
 import "./showcase.css";
 
@@ -2273,6 +2274,46 @@ function LoaderDemo() {
   );
 }
 
+const WHATS_NEW_IMAGE =
+  "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=264&h=264&fit=crop&auto=format";
+
+function WhatsNewBannerDemo() {
+  return (
+    <div id="whatsnewbanner" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">What's New Banner</h2>
+      <div className="flex flex-wrap items-start gap-4">
+        <WhatsNewBanner
+          variant="portrait"
+          title="Perfectly proportioned"
+          description="Aspect ratio selection is here!"
+          ctaLabel="See how it works"
+          ctaHref="#"
+          imageSrc={WHATS_NEW_IMAGE}
+          imageAlt="Feature preview"
+        />
+        <WhatsNewBanner
+          variant="landscape"
+          title="Perfectly proportioned"
+          description="Aspect ratio selection is here!"
+          ctaLabel="See how it works"
+          ctaHref="#"
+          imageSrc={WHATS_NEW_IMAGE}
+          imageAlt="Feature preview"
+        />
+        <WhatsNewBanner
+          variant="landscape-small"
+          title="Perfectly proportioned"
+          description="Aspect ratio selection is here!"
+          ctaLabel="See how it works"
+          ctaHref="#"
+          imageSrc={WHATS_NEW_IMAGE}
+          imageAlt="Feature preview"
+        />
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -2313,6 +2354,7 @@ function App() {
     { id: "toast", label: "Toast" },
     { id: "audioupload", label: "Audio Upload" },
     { id: "loader", label: "Loader" },
+    { id: "whatsnewbanner", label: "What's New Banner" },
   ];
 
   const scrollToSection = (id: string) => {
@@ -2481,6 +2523,9 @@ function App() {
 
             {/* Toast */}
             <ToastDemo />
+
+            {/* What's New Banner */}
+            <WhatsNewBannerDemo />
           </section>
         </main>
       </ToastProvider>

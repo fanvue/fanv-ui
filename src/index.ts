@@ -178,5 +178,10 @@ export {
   TooltipProvider,
   TooltipTrigger,
 } from "./components/Tooltip/Tooltip";
+export type {
+  WhatsNewBannerProps,
+  WhatsNewBannerVariant,
+} from "./components/WhatsNewBanner/WhatsNewBanner";
+export { WhatsNewBanner } from "./components/WhatsNewBanner/WhatsNewBanner";
 export { cn } from "./utils/cn";
 export type { OmitDistributed } from "./utils/types";
