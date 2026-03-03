@@ -210,7 +210,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       onChange,
       minRows,
       maxRows,
-      resizable = true,
+      resizable = false,
       ...props
     },
     ref,
