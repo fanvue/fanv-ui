@@ -160,10 +160,9 @@ export const Select = React.forwardRef<
                     {leftIcon}
                   </span>
                 )}
-                <SelectPrimitive.Value
-                  placeholder={placeholder}
-                  className="min-w-0 flex-1 truncate text-left text-body-100 data-placeholder:text-body-200 data-placeholder:opacity-40"
-                />
+                <span className="min-w-0 flex-1 truncate text-left text-body-100 [&>[data-placeholder]]:text-body-200 [&>[data-placeholder]]:opacity-40">
+                  <SelectPrimitive.Value placeholder={placeholder} />
+                </span>
               </div>
 
               <SelectPrimitive.Icon asChild>
