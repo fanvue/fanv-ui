@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.13.0...ui-v1.13.1) (2026-03-03)
+
+
+### Bug Fixes
+
+* **Select:** truncate long text in trigger ([#204](https://github.com/fanvue/fanv-ui/issues/204)) ([9b60af8](https://github.com/fanvue/fanv-ui/commit/9b60af87de560db8a3e3fda4a72620b4a01b0ddb))
+
 ## [1.13.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.12.2...ui-v1.13.0) (2026-03-03)
 
 
