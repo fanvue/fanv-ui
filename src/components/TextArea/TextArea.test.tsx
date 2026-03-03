@@ -180,10 +180,10 @@ describe("TextArea", () => {
   });
 
   describe("resizable", () => {
-    it("applies resize-y class by default", () => {
+    it("applies resize-none class by default", () => {
       render(<TextArea label="Test" />);
       const textarea = screen.getByRole("textbox");
-      expect(textarea).toHaveClass("resize-y");
+      expect(textarea).toHaveClass("resize-none");
     });
 
     it("applies resize-none when resizable is false", () => {
