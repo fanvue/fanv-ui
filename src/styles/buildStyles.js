@@ -1,126 +1,207 @@
-import StyleDictionary from "style-dictionary";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const getColorTokens = (tokens) => {
-  let lightColorTokens = "";
-  let darkColorTokens = "";
-  let themeColorTokens = "";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const tokensPath = path.join(__dirname, "styleTokens.json");
+const outputPath = path.join(__dirname, "theme.css");
 
-  tokens.forEach((token) => {
-    if (token.type === "color") {
-      const path = structuredClone(token.path);
+const SKIP_KEYS = new Set(["extensions", "description", "blendMode"]);
 
-      // Build light color tokens as :root defaults
-      if (path.includes("light")) {
-        path.splice(1, 1);
-        lightColorTokens += `  --${path.join("-")}: ${token.value};\n`;
-      }
+const toKebab = (str) =>
+  str
+    .replace(/([a-z])([A-Z])/g, "$1-$2")
+    .replace(/\s+/g, "-")
+    .toLowerCase();
 
-      // Build dark color tokens as .dark overrides
-      if (path.includes("dark")) {
-        const path = structuredClone(token.path);
-        path.splice(1, 1);
-        darkColorTokens += `  --${path.join("-")}: ${token.value};\n`;
-      }
-      // Build theme variables
-      const tokenKey = path.join("-");
-      themeColorTokens += `  --${tokenKey}: var(--${tokenKey});\n`;
+const flattenTokens = (obj, path = []) => {
+  if (!obj || typeof obj !== "object") return [];
+  if ("value" in obj && "type" in obj) {
+    return [{ path, value: obj.value, type: obj.type }];
+  }
+  const results = [];
+  for (const [k, v] of Object.entries(obj)) {
+    if (SKIP_KEYS.has(k)) continue;
+    results.push(...flattenTokens(v, [...path, k]));
+  }
+  return results;
+};
+
+const semanticVarName = (parts) => `--color-${parts.map(toKebab).join("-")}`;
+
+const resolveRef = (value) => {
+  if (typeof value !== "string" || !value.startsWith("{")) return value;
+  const inner = value.slice(1, -1);
+
+  if (inner.startsWith("primitives.")) {
+    const cssVar = `--${inner.split(".").map(toKebab).join("-")}`;
+    return `var(${cssVar})`;
+  }
+
+  if (inner.startsWith("semantic.")) {
+    const parts = inner.split(".");
+    const semanticParts = parts.slice(3);
+    return `var(${semanticVarName(semanticParts)})`;
+  }
+
+  return value;
+};
+
+const getColorSections = (rawTokens) => {
+  const semanticLightTokens = flattenTokens(rawTokens.semantic.light.color);
+  const semanticDarkTokens = flattenTokens(rawTokens.semantic.dark.color);
+
+  const darkMap = new Map(semanticDarkTokens.map(({ path, value }) => [path.join("."), value]));
+
+  let themeVars = "";
+  let rootVars = "";
+  let darkVars = "";
+
+  for (const { path, value } of semanticLightTokens) {
+    const cssVar = semanticVarName(path);
+    themeVars += `  ${cssVar}: var(${cssVar});\n`;
+
+    const lightResolved = resolveRef(value);
+    rootVars += `  ${cssVar}: ${lightResolved};\n`;
+
+    const darkRaw = darkMap.get(path.join("."));
+    const darkResolved = darkRaw !== undefined ? resolveRef(darkRaw) : lightResolved;
+    darkVars += `  ${cssVar}: ${darkResolved};\n`;
+  }
+
+  let primitivesVars = "";
+  for (const mode of ["light", "dark"]) {
+    const primTokens = flattenTokens(rawTokens.primitives[mode].color);
+    for (const { path, value } of primTokens) {
+      const varName = `--primitives-${mode}-color-${path.map(toKebab).join("-")}`;
+      primitivesVars += `  ${varName}: ${value};\n`;
     }
-  });
+  }
 
-  return {
-    themeColorTokens,
-    lightColorTokens,
-    darkColorTokens,
-  };
+  return { themeVars, rootVars, darkVars, primitivesVars };
 };
 
 const getTypographyClasses = (typographyTokens) => {
-  let typographyClasses = "";
-  for (const [key, typographyObject] of Object.entries(typographyTokens)) {
-    let typographyClass = "";
-    const typographyClassName = `typography-${key.replaceAll(" ", "-").replaceAll("---", "-")}`;
-    typographyClass = `${typographyClass}\n@utility ${typographyClassName} {\n`;
+  let output = "";
 
-    for (const typographyProp of Object.values(typographyObject)) {
-      const kebabedPropName = typographyProp.name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
-      typographyClass = `${typographyClass}  ${kebabedPropName}: ${typographyProp.value}${typographyProp.type === "dimension" ? "px" : ""};\n`;
+  for (const [weight, styles] of Object.entries(typographyTokens)) {
+    for (const [styleName, props] of Object.entries(styles)) {
+      const className = `typography-${toKebab(weight)}-${toKebab(styleName)}`;
+      output += `\n@utility ${className} {\n`;
+
+      for (const [propName, propObj] of Object.entries(props)) {
+        if (SKIP_KEYS.has(propName)) continue;
+        const kebabProp = toKebab(propName);
+        const suffix = propObj.type === "dimension" ? "px" : "";
+        output += `  ${kebabProp}: ${propObj.value}${suffix};\n`;
+      }
+
+      output += `}\n`;
     }
-
-    typographyClasses = `${typographyClasses}${typographyClass}}\n`;
   }
 
-  return typographyClasses;
+  return output;
+};
+
+const shadowValue = (s) => `${s.offsetX}px ${s.offsetY}px ${s.radius}px ${s.spread}px ${s.color}`;
+
+const getShadowVars = (shadowGroup, prefix) => {
+  let output = "";
+
+  for (const [name, entry] of Object.entries(shadowGroup)) {
+    if (SKIP_KEYS.has(name)) continue;
+    const cssName = `--shadow-${prefix ? `${prefix}-` : ""}${toKebab(name)}`;
+
+    if (entry === null || typeof entry !== "object") continue;
+
+    if ("value" in entry) {
+      if (entry.value?.shadowType !== "dropShadow") continue;
+      output += `  ${cssName}: ${shadowValue(entry.value)};\n`;
+    } else if (entry["0"] && entry["1"]) {
+      if (
+        entry["0"].value?.shadowType !== "dropShadow" ||
+        entry["1"].value?.shadowType !== "dropShadow"
+      )
+        continue;
+      output += `  ${cssName}: ${shadowValue(entry["0"].value)}, ${shadowValue(entry["1"].value)};\n`;
+    } else if (entry["0"] === null && entry["1"]) {
+      if (entry["1"].value?.shadowType !== "dropShadow") continue;
+      output += `  ${cssName}: ${shadowValue(entry["1"].value)};\n`;
+    }
+  }
+
+  return output;
 };
 
 const getEffectTokens = (effectTokens) => {
-  let effectClasses = "";
-  for (const [key, effectObject] of Object.entries(effectTokens)) {
-    // Figma exports the hex values instead of the token names so the theme doesn't work
-    if (key === "focus ring") {
-      continue;
-    }
-    if (effectObject.value) {
-      // Make sure the effect type is dropShadow
-      if (effectObject.value.shadowType !== "dropShadow") {
-        continue;
-      }
-      const effectClass = `  --shadow-${key.replaceAll(" ", "-").replaceAll("---", "-")}: ${effectObject.value.radius}px ${effectObject.value.color} ${effectObject.value.offsetX}px ${effectObject.value.offsetY}px ${effectObject.value.spread}px;\n`;
-      effectClasses = `${effectClasses}${effectClass}`;
-    }
-    if (effectObject["0"] && effectObject["1"]) {
-      if (
-        effectObject["1"].value.shadowType !== "dropShadow" ||
-        effectObject["0"].value.shadowType !== "dropShadow"
-      ) {
-        continue;
-      }
-      const effectClass = `  --shadow-${key.replaceAll(" ", "-").replaceAll("---", "-")}: ${effectObject["1"].value.radius}px ${effectObject["1"].value.color} ${effectObject["1"].value.offsetX}px ${effectObject["1"].value.offsetY}px ${effectObject["1"].value.spread}px, ${effectObject["0"].value.radius}px ${effectObject["0"].value.color} ${effectObject["0"].value.offsetX}px ${effectObject["0"].value.offsetY}px ${effectObject["0"].value.spread}px;\n`;
-      effectClasses = `${effectClasses}${effectClass}`;
-    }
+  let output = "";
 
-    if (effectObject["0"] === null && effectObject["1"]) {
-      if (effectObject["1"].value.shadowType !== "dropShadow") {
-        continue;
-      }
-      const effectClass = `  --shadow-${key.replaceAll(" ", "-").replaceAll("---", "-")}: ${effectObject["1"].value.radius}px ${effectObject["1"].value.color} ${effectObject["1"].value.offsetX}px ${effectObject["1"].value.offsetY}px ${effectObject["1"].value.spread}px;\n`;
-      effectClasses = `${effectClasses}${effectClass}`;
-    }
+  if (effectTokens.shadow) {
+    output += getShadowVars(effectTokens.shadow, "");
   }
 
-  // To get the right focus ring values, we need to add them manually
-  // DO NOT FORGET TO ADD THE FOCUS RING VALUES MANUALLY WHEN THE COLOR TOKENS CHANGE
-  effectClasses = `${effectClasses}  --shadow-focus-ring: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500); \n`;
-  return effectClasses;
+  if (effectTokens.blurShadow) {
+    output += getShadowVars(effectTokens.blurShadow, "blur");
+  }
+
+  output += `  --shadow-focus-ring: 0 0 0 2px var(--color-surface-page), 0 0 0 4px var(--color-ring);\n`;
+
+  return output;
 };
 
-StyleDictionary.registerFormat({
-  name: "css/tailwind-variables",
-  format: ({ dictionary }) => {
-    const { themeColorTokens, lightColorTokens, darkColorTokens } = getColorTokens(
-      dictionary.allTokens,
-    );
-    const typographyClasses = getTypographyClasses(dictionary.tokens.typography);
-    const effectClasses = getEffectTokens(dictionary.tokens.effect);
-    return `/* Consumers must provide their own Tailwind import: @import "tailwindcss"; */\n\n@variant dark (&:where(.dark, .dark *));\n\n@theme {\n${effectClasses}\n${themeColorTokens}}\n\n:root {\n${lightColorTokens}\n}\n\n.dark {\n${darkColorTokens}\n}\n${typographyClasses}\n`;
-  },
-});
+const BASE_LAYER = `@layer base {
+  html {
+    touch-action: manipulation;
+  }
 
-const tailwindStyleDictionary = new StyleDictionary({
-  source: ["src/styles/styleTokens.json"],
-  platforms: {
-    css: {
-      buildPath: "src/styles/",
-      files: [
-        {
-          format: "css/tailwind-variables",
-          destination: "theme.css",
-        },
-      ],
-    },
-  },
-  log: {
-    // verbosity: "verbose",
-  },
-});
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-foreground-default);
+    transition: background-color 9999s ease-in-out 0s;
+  }
+}`;
 
-void tailwindStyleDictionary.buildAllPlatforms();
+const rawTokens = JSON.parse(fs.readFileSync(tokensPath, "utf-8"));
+
+const { themeVars, rootVars, darkVars, primitivesVars } = getColorSections(rawTokens);
+const effectVars = getEffectTokens(rawTokens.effect);
+const typographyClasses = getTypographyClasses(rawTokens.typography);
+
+const output = [
+  `/* Consumers must provide their own Tailwind import: @import "tailwindcss"; */`,
+  ``,
+  `@variant dark (&:where(.dark, .dark *));`,
+  ``,
+  BASE_LAYER,
+  ``,
+  `@theme {`,
+  effectVars,
+  themeVars,
+  `}`,
+  ``,
+  `:root {`,
+  `  /* Stacking layer for portal-rendered overlays (Select, Tooltip).`,
+  `     Override to sit above high-z containers such as MUI Dialog:`,
+  `     :root { --fanvue-ui-portal-z-index: 1400; } */`,
+  `  --fanvue-ui-portal-z-index: 50;`,
+  ``,
+  rootVars,
+  `}`,
+  ``,
+  `.dark {`,
+  darkVars,
+  `}`,
+  ``,
+  `.primitives {`,
+  primitivesVars,
+  `}`,
+  typographyClasses,
+  ``,
+].join("\n");
+
+fs.writeFileSync(outputPath, output, "utf-8");
+console.log(`✓ theme.css written to ${outputPath}`);

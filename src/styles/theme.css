@@ -13,155 +13,88 @@
   textarea:-webkit-autofill,
   textarea:-webkit-autofill:hover,
   textarea:-webkit-autofill:focus {
-    -webkit-text-fill-color: var(--color-body-100);
+    -webkit-text-fill-color: var(--color-foreground-default);
     transition: background-color 9999s ease-in-out 0s;
   }
 }
 
 @theme {
-  --shadow-box-shadow-med: 4px #0000000d 0px 2px 0px;
-  --shadow-box-shadow-small: 2px #0000000d 0px 2px 0px;
-  --shadow-nav-box-shadow: 12px #0000000d 0px -2px 0px;
-  --shadow-menu-blur-+-shadow: 12px #0000001a 0px 6px 0px;
-  --shadow-floating-item: 40px #00000026 0px 12px 2px;
-  --shadow-focus-ring: 0 0 0 2px var(--color-background-inverse-solid), 0 0 0 4px var(--color-brand-purple-500); 
+  --shadow-cardsubtle: 0px 1px 4px -2px #0000000d, 0px 1px 2px -1px #0000000d;
+  --shadow-card: 0px 2px 4px -2px #00000014, 0px 1px 2px -1px #00000014;
+  --shadow-float: 0px 4px 6px -4px #0000001a, 0px 10px 15px -3px #0000001a;
+  --shadow-lifted: 0px 8px 10px -6px #0000001a, 0px 20px 25px -5px #0000001a;
+  --shadow-nav: 0px -2px 12px 0px #0000000d;
+  --shadow-blur-menu: 0px 6px 12px 0px #0000001a;
+  --shadow-blur-floating: 0px 12px 40px 2px #00000026;
+  --shadow-focus-ring: 0 0 0 2px var(--color-surface-page), 0 0 0 4px var(--color-ring);
 
-  --color-primary-50: var(--color-primary-50);
-  --color-primary-100: var(--color-primary-100);
-  --color-primary-200: var(--color-primary-200);
-  --color-primary-300: var(--color-primary-300);
-  --color-primary-400: var(--color-primary-400);
-  --color-primary-500: var(--color-primary-500);
   --color-neutral-50: var(--color-neutral-50);
   --color-neutral-100: var(--color-neutral-100);
+  --color-neutral-150: var(--color-neutral-150);
   --color-neutral-200: var(--color-neutral-200);
-  --color-neutral-250: var(--color-neutral-250);
   --color-neutral-300: var(--color-neutral-300);
-  --color-neutral-350: var(--color-neutral-350);
   --color-neutral-400: var(--color-neutral-400);
   --color-neutral-500: var(--color-neutral-500);
-  --color-body-100: var(--color-body-100);
-  --color-body-200: var(--color-body-200);
-  --color-body-300: var(--color-body-300);
-  --color-body-400: var(--color-body-400);
-  --color-body-black-solid-constant: var(--color-body-black-solid-constant);
-  --color-body-white-solid-constant: var(--color-body-white-solid-constant);
-  --color-success-50: var(--color-success-50);
-  --color-success-500: var(--color-success-500);
-  --color-warning-50: var(--color-warning-50);
-  --color-warning-500: var(--color-warning-500);
-  --color-error-50: var(--color-error-50);
-  --color-error-500: var(--color-error-500);
-  --color-background-0: var(--color-background-0);
-  --color-background-1: var(--color-background-1);
-  --color-background-150: var(--color-background-150);
-  --color-background-200: var(--color-background-200);
-  --color-background-250: var(--color-background-250);
-  --color-background-350: var(--color-background-350);
-  --color-background-400: var(--color-background-400);
-  --color-background-500: var(--color-background-500);
-  --color-background-600: var(--color-background-600);
-  --color-background-700: var(--color-background-700);
-  --color-background-800: var(--color-background-800);
-  --color-background-inverse-solid: var(--color-background-inverse-solid);
-  --color-background-solid: var(--color-background-solid);
-  --color-background-inverse-solid-light: var(--color-background-inverse-solid-light);
-  --color-background-white-solid-constant: var(--color-background-white-solid-constant);
-  --color-info-50: var(--color-info-50);
-  --color-info-500: var(--color-info-500);
-  --color-hover-100: var(--color-hover-100);
-  --color-hover-200: var(--color-hover-200);
-  --color-hover-300: var(--color-hover-300);
-  --color-hover-400: var(--color-hover-400);
+  --color-neutral-600: var(--color-neutral-600);
+  --color-neutral-700: var(--color-neutral-700);
+  --color-neutral-800: var(--color-neutral-800);
+  --color-neutral-900: var(--color-neutral-900);
+  --color-neutral-950: var(--color-neutral-950);
+  --color-neutral-solid: var(--color-neutral-solid);
+  --color-neutral-inversesolid: var(--color-neutral-inversesolid);
+  --color-foreground-default: var(--color-foreground-default);
+  --color-foreground-secondary: var(--color-foreground-secondary);
+  --color-foreground-inverse: var(--color-foreground-inverse);
+  --color-foreground-onaccent: var(--color-foreground-onaccent);
+  --color-foreground-onaccentinverse: var(--color-foreground-onaccentinverse);
+  --color-foreground-tertiary: var(--color-foreground-tertiary);
+  --color-success-background: var(--color-success-background);
+  --color-success-default: var(--color-success-default);
+  --color-success-border: var(--color-success-border);
+  --color-warning-background: var(--color-warning-background);
+  --color-warning-default: var(--color-warning-default);
+  --color-warning-border: var(--color-warning-border);
+  --color-error-background: var(--color-error-background);
+  --color-error-default: var(--color-error-default);
+  --color-error-border: var(--color-error-border);
+  --color-info-background: var(--color-info-background);
+  --color-info-default: var(--color-info-default);
+  --color-info-border: var(--color-info-border);
   --color-link-500: var(--color-link-500);
   --color-link-600: var(--color-link-600);
-  --color-disabled-100: var(--color-disabled-100);
-  --color-disabled-400: var(--color-disabled-400);
-  --color-disabled-500: var(--color-disabled-500);
-  --color-disabled-600: var(--color-disabled-600);
-  --color-chart-50: var(--color-chart-50);
-  --color-chart-100: var(--color-chart-100);
-  --color-chart-200: var(--color-chart-200);
-  --color-chart-300: var(--color-chart-300);
-  --color-chart-400: var(--color-chart-400);
-  --color-chart-500: var(--color-chart-500);
-  --color-chart-600: var(--color-chart-600);
-  --color-brand-green-50: var(--color-brand-green-50);
-  --color-brand-green-500: var(--color-brand-green-500);
-  --color-brand-pink-50: var(--color-brand-pink-50);
-  --color-brand-pink-500: var(--color-brand-pink-500);
-  --color-brand-purple-50: var(--color-brand-purple-50);
-  --color-brand-purple-500: var(--color-brand-purple-500);
   --color-special-50: var(--color-special-50);
   --color-special-500: var(--color-special-500);
-  --color-dark-primary-50: var(--color-dark-primary-50);
-  --color-dark-primary-100: var(--color-dark-primary-100);
-  --color-dark-primary-200: var(--color-dark-primary-200);
-  --color-dark-primary-300: var(--color-dark-primary-300);
-  --color-dark-primary-400: var(--color-dark-primary-400);
-  --color-dark-primary-500: var(--color-dark-primary-500);
-  --color-dark-neutral-50: var(--color-dark-neutral-50);
-  --color-dark-neutral-100: var(--color-dark-neutral-100);
-  --color-dark-neutral-200: var(--color-dark-neutral-200);
-  --color-dark-neutral-250: var(--color-dark-neutral-250);
-  --color-dark-neutral-300: var(--color-dark-neutral-300);
-  --color-dark-neutral-350: var(--color-dark-neutral-350);
-  --color-dark-neutral-400: var(--color-dark-neutral-400);
-  --color-dark-neutral-500: var(--color-dark-neutral-500);
-  --color-dark-body-100: var(--color-dark-body-100);
-  --color-dark-body-200: var(--color-dark-body-200);
-  --color-dark-body-300: var(--color-dark-body-300);
-  --color-dark-body-400: var(--color-dark-body-400);
-  --color-dark-body-black-solid-constant: var(--color-dark-body-black-solid-constant);
-  --color-dark-body-white-solid-constant: var(--color-dark-body-white-solid-constant);
-  --color-dark-success-50: var(--color-dark-success-50);
-  --color-dark-success-500: var(--color-dark-success-500);
-  --color-dark-warning-50: var(--color-dark-warning-50);
-  --color-dark-warning-500: var(--color-dark-warning-500);
-  --color-dark-error-50: var(--color-dark-error-50);
-  --color-dark-error-500: var(--color-dark-error-500);
-  --color-dark-background-0: var(--color-dark-background-0);
-  --color-dark-background-1: var(--color-dark-background-1);
-  --color-dark-background-150: var(--color-dark-background-150);
-  --color-dark-background-200: var(--color-dark-background-200);
-  --color-dark-background-250: var(--color-dark-background-250);
-  --color-dark-background-350: var(--color-dark-background-350);
-  --color-dark-background-400: var(--color-dark-background-400);
-  --color-dark-background-500: var(--color-dark-background-500);
-  --color-dark-background-600: var(--color-dark-background-600);
-  --color-dark-background-700: var(--color-dark-background-700);
-  --color-dark-background-800: var(--color-dark-background-800);
-  --color-dark-background-inverse-solid: var(--color-dark-background-inverse-solid);
-  --color-dark-background-solid: var(--color-dark-background-solid);
-  --color-dark-background-inverse-solid-light: var(--color-dark-background-inverse-solid-light);
-  --color-dark-background-white-solid-constant: var(--color-dark-background-white-solid-constant);
-  --color-dark-info-50: var(--color-dark-info-50);
-  --color-dark-info-500: var(--color-dark-info-500);
-  --color-dark-hover-100: var(--color-dark-hover-100);
-  --color-dark-hover-200: var(--color-dark-hover-200);
-  --color-dark-hover-300: var(--color-dark-hover-300);
-  --color-dark-hover-400: var(--color-dark-hover-400);
-  --color-dark-link-500: var(--color-dark-link-500);
-  --color-dark-link-600: var(--color-dark-link-600);
-  --color-dark-disabled-100: var(--color-dark-disabled-100);
-  --color-dark-disabled-400: var(--color-dark-disabled-400);
-  --color-dark-disabled-500: var(--color-dark-disabled-500);
-  --color-dark-disabled-600: var(--color-dark-disabled-600);
-  --color-dark-chart-50: var(--color-dark-chart-50);
-  --color-dark-chart-100: var(--color-dark-chart-100);
-  --color-dark-chart-200: var(--color-dark-chart-200);
-  --color-dark-chart-300: var(--color-dark-chart-300);
-  --color-dark-chart-400: var(--color-dark-chart-400);
-  --color-dark-chart-500: var(--color-dark-chart-500);
-  --color-dark-chart-600: var(--color-dark-chart-600);
-  --color-dark-brand-green-50: var(--color-dark-brand-green-50);
-  --color-dark-brand-green-500: var(--color-dark-brand-green-500);
-  --color-dark-brand-pink-50: var(--color-dark-brand-pink-50);
-  --color-dark-brand-pink-500: var(--color-dark-brand-pink-500);
-  --color-dark-brand-purple-50: var(--color-dark-brand-purple-50);
-  --color-dark-brand-purple-500: var(--color-dark-brand-purple-500);
-  --color-dark-special-50: var(--color-dark-special-50);
-  --color-dark-special-500: var(--color-dark-special-500);
+  --color-special-chart-teal: var(--color-special-chart-teal);
+  --color-special-chart-sky: var(--color-special-chart-sky);
+  --color-special-chart-magenta: var(--color-special-chart-magenta);
+  --color-special-chart-orange: var(--color-special-chart-orange);
+  --color-special-chart-gray: var(--color-special-chart-gray);
+  --color-special-chart-pink: var(--color-special-chart-pink);
+  --color-special-chart-purple: var(--color-special-chart-purple);
+  --color-brand-accent-default: var(--color-brand-accent-default);
+  --color-brand-accent-muted: var(--color-brand-accent-muted);
+  --color-brand-accent-hover: var(--color-brand-accent-hover);
+  --color-brand-accent-foreground: var(--color-brand-accent-foreground);
+  --color-brand-secondary-default: var(--color-brand-secondary-default);
+  --color-brand-secondary-muted: var(--color-brand-secondary-muted);
+  --color-brand-secondary-hover: var(--color-brand-secondary-hover);
+  --color-brand-secondary-foreground: var(--color-brand-secondary-foreground);
+  --color-brand-tertiary-default: var(--color-brand-tertiary-default);
+  --color-brand-tertiary-muted: var(--color-brand-tertiary-muted);
+  --color-brand-tertiary-hover: var(--color-brand-tertiary-hover);
+  --color-brand-tertiary-foreground: var(--color-brand-tertiary-foreground);
+  --color-surface-page: var(--color-surface-page);
+  --color-surface-container: var(--color-surface-container);
+  --color-surface-containerraised: var(--color-surface-containerraised);
+  --color-surface-modal: var(--color-surface-modal);
+  --color-surface-pageinverse: var(--color-surface-pageinverse);
+  --color-surface-backdrop: var(--color-surface-backdrop);
+  --color-surface-containersubtle: var(--color-surface-containersubtle);
+  --color-surface-pageinversesoft: var(--color-surface-pageinversesoft);
+  --color-surface-input: var(--color-surface-input);
+  --color-surface-behindpage: var(--color-surface-behindpage);
+  --color-ring: var(--color-ring);
+
 }
 
 :root {
@@ -170,150 +103,402 @@
      :root { --fanvue-ui-portal-z-index: 1400; } */
   --fanvue-ui-portal-z-index: 50;
 
-  --color-primary-50: #1515150a;
-  --color-primary-100: #15151533;
-  --color-primary-200: #15151566;
-  --color-primary-300: #15151599;
-  --color-primary-400: #151515cc;
-  --color-primary-500: #151515ff;
-  --color-neutral-50: #15151526;
-  --color-neutral-100: #1515150a;
-  --color-neutral-200: #15151533;
-  --color-neutral-250: #15151566;
-  --color-neutral-300: #15151599;
-  --color-neutral-350: #151515cc;
-  --color-neutral-400: #151515ff;
-  --color-neutral-500: #f6f6f6ff;
-  --color-body-100: #151515ff;
-  --color-body-200: #151515cc;
-  --color-body-300: #ffffffff;
-  --color-body-400: #ffffffff;
-  --color-body-black-solid-constant: #151515ff;
-  --color-body-white-solid-constant: #ffffffff;
-  --color-success-50: #e6fff5ff;
-  --color-success-500: #00874cff;
-  --color-warning-50: #fff6eaff;
-  --color-warning-500: #ff9000ff;
-  --color-error-50: #fdececff;
-  --color-error-500: #e33d3dff;
-  --color-background-0: #ffffff00;
-  --color-background-1: #00000026;
-  --color-background-150: #ffffffff;
-  --color-background-200: #ffffffff;
-  --color-background-250: #ffffff66;
-  --color-background-350: #15151533;
-  --color-background-400: #151515e6;
-  --color-background-500: #15151580;
-  --color-background-600: #1515151a;
-  --color-background-700: #1515150d;
-  --color-background-800: #15151599;
-  --color-background-inverse-solid: #ffffffff;
-  --color-background-solid: #151515ff;
-  --color-background-inverse-solid-light: #efefefff;
-  --color-background-white-solid-constant: #ffffffff;
-  --color-info-50: #ebf8fcff;
-  --color-info-500: #007bffff;
-  --color-hover-100: #000000cc;
-  --color-hover-200: #00000080;
-  --color-hover-300: #0000001a;
-  --color-hover-400: #0000000d;
-  --color-link-500: #151515ff;
-  --color-link-600: #000000cc;
-  --color-disabled-100: #15151566;
-  --color-disabled-400: #15151580;
-  --color-disabled-500: #15151599;
-  --color-disabled-600: #000000b3;
-  --color-chart-50: #28ba8eff;
-  --color-chart-100: #4fb2f9ff;
-  --color-chart-200: #d74ff9ff;
-  --color-chart-300: #f4a124ff;
-  --color-chart-400: #c6c6c6ff;
-  --color-chart-500: #ff59acff;
-  --color-chart-600: #785dffff;
-  --color-brand-green-50: #49f26433;
-  --color-brand-green-500: #49f264ff;
-  --color-brand-pink-50: #fc61ff33;
-  --color-brand-pink-500: #fc61ffff;
-  --color-brand-purple-50: #9772ff33;
-  --color-brand-purple-500: #9772ffff;
+  --color-neutral-50: var(--primitives-light-color-blackalpha-50);
+  --color-neutral-100: var(--primitives-light-color-blackalpha-100);
+  --color-neutral-150: #15151526;
+  --color-neutral-200: var(--primitives-light-color-blackalpha-200);
+  --color-neutral-300: var(--primitives-light-color-blackalpha-300);
+  --color-neutral-400: var(--primitives-light-color-blackalpha-400);
+  --color-neutral-500: var(--primitives-light-color-blackalpha-500);
+  --color-neutral-600: var(--primitives-light-color-blackalpha-600);
+  --color-neutral-700: var(--primitives-light-color-blackalpha-700);
+  --color-neutral-800: var(--primitives-light-color-blackalpha-800);
+  --color-neutral-900: var(--primitives-light-color-blackalpha-900);
+  --color-neutral-950: var(--primitives-light-color-blackalpha-950);
+  --color-neutral-solid: var(--primitives-light-color-gray-black);
+  --color-neutral-inversesolid: var(--primitives-light-color-gray-50);
+  --color-foreground-default: var(--primitives-light-color-gray-black);
+  --color-foreground-secondary: var(--primitives-light-color-gray-700);
+  --color-foreground-inverse: var(--primitives-light-color-gray-white);
+  --color-foreground-onaccent: var(--primitives-light-color-gray-black);
+  --color-foreground-onaccentinverse: var(--primitives-light-color-gray-white);
+  --color-foreground-tertiary: var(--primitives-light-color-gray-500);
+  --color-success-background: var(--primitives-light-color-emerald-green-50);
+  --color-success-default: var(--primitives-light-color-emerald-green-700);
+  --color-success-border: var(--primitives-light-color-emerald-green-300);
+  --color-warning-background: var(--primitives-light-color-amber-50);
+  --color-warning-default: var(--primitives-light-color-amber-600);
+  --color-warning-border: var(--primitives-light-color-amber-300);
+  --color-error-background: var(--primitives-light-color-red-50);
+  --color-error-default: var(--primitives-light-color-red-600);
+  --color-error-border: var(--primitives-light-color-red-300);
+  --color-info-background: var(--primitives-light-color-blue-50);
+  --color-info-default: var(--primitives-light-color-blue-600);
+  --color-info-border: var(--primitives-light-color-blue-300);
+  --color-link-500: var(--color-neutral-solid);
+  --color-link-600: var(--color-neutral-800);
   --color-special-50: #fdf1ffff;
   --color-special-500: #9c27b0ff;
+  --color-special-chart-teal: #28ba8eff;
+  --color-special-chart-sky: #4fb2f9ff;
+  --color-special-chart-magenta: #d74ff9ff;
+  --color-special-chart-orange: #f4a124ff;
+  --color-special-chart-gray: #c6c6c6ff;
+  --color-special-chart-pink: #ff59acff;
+  --color-special-chart-purple: #785dffff;
+  --color-brand-accent-default: var(--primitives-light-color-green-500);
+  --color-brand-accent-muted: #49f26433;
+  --color-brand-accent-hover: var(--primitives-light-color-green-400);
+  --color-brand-accent-foreground: var(--primitives-light-color-gray-black);
+  --color-brand-secondary-default: var(--primitives-light-color-purple-500);
+  --color-brand-secondary-muted: #9772ff33;
+  --color-brand-secondary-hover: var(--primitives-light-color-purple-400);
+  --color-brand-secondary-foreground: var(--primitives-light-color-gray-black);
+  --color-brand-tertiary-default: var(--primitives-light-color-purple-500);
+  --color-brand-tertiary-muted: #9772ff33;
+  --color-brand-tertiary-hover: var(--primitives-light-color-purple-400);
+  --color-brand-tertiary-foreground: var(--primitives-light-color-gray-black);
+  --color-surface-page: var(--primitives-light-color-gray-white);
+  --color-surface-container: var(--primitives-light-color-gray-white);
+  --color-surface-containerraised: var(--primitives-light-color-gray-white);
+  --color-surface-modal: var(--primitives-light-color-gray-white);
+  --color-surface-pageinverse: var(--primitives-light-color-gray-black);
+  --color-surface-backdrop: var(--primitives-light-color-blackalpha-500);
+  --color-surface-containersubtle: var(--primitives-light-color-gray-white);
+  --color-surface-pageinversesoft: var(--primitives-light-color-gray-700);
+  --color-surface-input: var(--primitives-light-color-gray-100);
+  --color-surface-behindpage: var(--primitives-light-color-gray-200);
+  --color-ring: var(--primitives-light-color-purple-600);
 
 }
 
 .dark {
-  --color-primary-50: #ffffff14;
-  --color-primary-100: #ffffff4d;
-  --color-primary-200: #ffffff99;
-  --color-primary-300: #ffffffb3;
-  --color-primary-400: #ffffffcc;
-  --color-primary-500: #ffffffff;
-  --color-neutral-50: #232323cc;
-  --color-neutral-100: #ffffff14;
-  --color-neutral-200: #ffffff33;
-  --color-neutral-250: #ffffff66;
-  --color-neutral-300: #ffffff99;
-  --color-neutral-350: #ffffffcc;
-  --color-neutral-400: #ffffffff;
-  --color-neutral-500: #272727ff;
-  --color-body-100: #ffffffff;
-  --color-body-200: #ffffffcc;
-  --color-body-300: #151515ff;
-  --color-body-400: #151515ff;
-  --color-body-black-solid-constant: #151515ff;
-  --color-body-white-solid-constant: #ffffffff;
-  --color-success-50: #224235ff;
-  --color-success-500: #13ce7cff;
-  --color-warning-50: #553820ff;
-  --color-warning-500: #ffba30ff;
-  --color-error-50: #5e1b1bff;
-  --color-error-500: #ff7070ff;
-  --color-background-0: #15151500;
-  --color-background-1: #000000ff;
-  --color-background-150: #363636cc;
-  --color-background-200: #2c2c2ccc;
-  --color-background-250: #15151599;
-  --color-background-350: #15151533;
-  --color-background-400: #ffffffe6;
-  --color-background-500: #ffffff80;
-  --color-background-600: #ffffff26;
-  --color-background-700: #ffffff26;
-  --color-background-800: #15151599;
-  --color-background-inverse-solid: #151515ff;
-  --color-background-solid: #ffffffff;
-  --color-background-inverse-solid-light: #272727ff;
-  --color-background-white-solid-constant: #ffffffff;
-  --color-info-50: #003063ff;
-  --color-info-500: #3f9cffff;
-  --color-hover-100: #ffffffcc;
-  --color-hover-200: #ffffff80;
-  --color-hover-300: #ffffff1a;
-  --color-hover-400: #ffffff0d;
-  --color-link-500: #ffffffff;
-  --color-link-600: #ffffffcc;
-  --color-disabled-100: #ffffff66;
-  --color-disabled-400: #ffffff80;
-  --color-disabled-500: #ffffff99;
-  --color-disabled-600: #ffffffb3;
-  --color-chart-50: #28ba8eff;
-  --color-chart-100: #4fb2f9ff;
-  --color-chart-200: #d74ff9ff;
-  --color-chart-300: #f4a124ff;
-  --color-chart-400: #c6c6c6ff;
-  --color-chart-500: #ff59acff;
-  --color-chart-600: #785dffff;
-  --color-brand-green-50: #49f26426;
-  --color-brand-green-500: #49f264ff;
-  --color-brand-pink-50: #fc61ff33;
-  --color-brand-pink-500: #fc61ffff;
-  --color-brand-purple-50: #9772ff33;
-  --color-brand-purple-500: #9772ffff;
+  --color-neutral-50: var(--primitives-dark-color-whitealpha-100);
+  --color-neutral-100: var(--primitives-dark-color-whitealpha-100);
+  --color-neutral-150: #232323cc;
+  --color-neutral-200: var(--primitives-dark-color-whitealpha-200);
+  --color-neutral-300: var(--primitives-dark-color-whitealpha-300);
+  --color-neutral-400: var(--primitives-dark-color-whitealpha-400);
+  --color-neutral-500: var(--primitives-dark-color-whitealpha-500);
+  --color-neutral-600: var(--primitives-dark-color-whitealpha-600);
+  --color-neutral-700: var(--primitives-dark-color-whitealpha-700);
+  --color-neutral-800: var(--primitives-dark-color-whitealpha-800);
+  --color-neutral-900: var(--primitives-dark-color-whitealpha-900);
+  --color-neutral-950: var(--primitives-dark-color-whitealpha-950);
+  --color-neutral-solid: var(--primitives-dark-color-gray-white);
+  --color-neutral-inversesolid: var(--primitives-dark-color-gray-900);
+  --color-foreground-default: var(--primitives-dark-color-gray-white);
+  --color-foreground-secondary: var(--primitives-dark-color-gray-300);
+  --color-foreground-inverse: var(--primitives-dark-color-gray-black);
+  --color-foreground-onaccent: var(--primitives-dark-color-gray-black);
+  --color-foreground-onaccentinverse: var(--primitives-dark-color-gray-white);
+  --color-foreground-tertiary: var(--primitives-dark-color-gray-400);
+  --color-success-background: var(--primitives-dark-color-emerald-green-900);
+  --color-success-default: var(--primitives-dark-color-emerald-green-600);
+  --color-success-border: var(--primitives-dark-color-emerald-green-700);
+  --color-warning-background: var(--primitives-dark-color-amber-900);
+  --color-warning-default: var(--primitives-dark-color-amber-400);
+  --color-warning-border: var(--primitives-dark-color-amber-700);
+  --color-error-background: var(--primitives-dark-color-red-950);
+  --color-error-default: var(--primitives-dark-color-red-400);
+  --color-error-border: var(--primitives-dark-color-red-700);
+  --color-info-background: var(--primitives-dark-color-blue-900);
+  --color-info-default: var(--primitives-dark-color-blue-500);
+  --color-info-border: var(--primitives-dark-color-blue-700);
+  --color-link-500: var(--color-neutral-solid);
+  --color-link-600: var(--color-neutral-800);
   --color-special-50: #4f1259ff;
   --color-special-500: #ed81ffff;
+  --color-special-chart-teal: #28ba8eff;
+  --color-special-chart-sky: #4fb2f9ff;
+  --color-special-chart-magenta: #d74ff9ff;
+  --color-special-chart-orange: #f4a124ff;
+  --color-special-chart-gray: #c6c6c6ff;
+  --color-special-chart-pink: #ff59acff;
+  --color-special-chart-purple: #785dffff;
+  --color-brand-accent-default: var(--primitives-dark-color-green-500);
+  --color-brand-accent-muted: #49f26426;
+  --color-brand-accent-hover: var(--primitives-dark-color-green-400);
+  --color-brand-accent-foreground: var(--primitives-dark-color-gray-black);
+  --color-brand-secondary-default: var(--primitives-dark-color-purple-500);
+  --color-brand-secondary-muted: #9772ff33;
+  --color-brand-secondary-hover: var(--primitives-dark-color-purple-400);
+  --color-brand-secondary-foreground: var(--primitives-dark-color-gray-black);
+  --color-brand-tertiary-default: var(--primitives-dark-color-purple-500);
+  --color-brand-tertiary-muted: #9772ff33;
+  --color-brand-tertiary-hover: var(--primitives-dark-color-purple-400);
+  --color-brand-tertiary-foreground: var(--primitives-dark-color-gray-black);
+  --color-surface-page: var(--primitives-dark-color-gray-black);
+  --color-surface-container: var(--primitives-dark-color-gray-900);
+  --color-surface-containerraised: var(--primitives-dark-color-gray-800);
+  --color-surface-modal: var(--primitives-dark-color-gray-800);
+  --color-surface-pageinverse: var(--primitives-dark-color-gray-white);
+  --color-surface-backdrop: var(--primitives-dark-color-blackalpha-500);
+  --color-surface-containersubtle: var(--primitives-dark-color-gray-950);
+  --color-surface-pageinversesoft: var(--primitives-dark-color-gray-300);
+  --color-surface-input: var(--primitives-dark-color-gray-950);
+  --color-surface-behindpage: var(--primitives-dark-color-gray-900);
+  --color-ring: var(--primitives-dark-color-purple-400);
 
 }
 
-@utility typography-body-1-regular {
+.primitives {
+  --primitives-light-color-gray-50: #fafafaff;
+  --primitives-light-color-gray-100: #f5f5f5ff;
+  --primitives-light-color-gray-200: #e5e5e5ff;
+  --primitives-light-color-gray-300: #d4d4d4ff;
+  --primitives-light-color-gray-400: #a3a3a3ff;
+  --primitives-light-color-gray-500: #737373ff;
+  --primitives-light-color-gray-600: #525252ff;
+  --primitives-light-color-gray-700: #404040ff;
+  --primitives-light-color-gray-800: #333333ff;
+  --primitives-light-color-gray-900: #262626ff;
+  --primitives-light-color-gray-950: #1c1c1cff;
+  --primitives-light-color-gray-black: #151515ff;
+  --primitives-light-color-gray-white: #ffffffff;
+  --primitives-light-color-green-50: #effef4ff;
+  --primitives-light-color-green-100: #d9fce5ff;
+  --primitives-light-color-green-200: #b5f8cdff;
+  --primitives-light-color-green-300: #7bf1a9ff;
+  --primitives-light-color-green-400: #5ae882ff;
+  --primitives-light-color-green-500: #49f264ff;
+  --primitives-light-color-green-600: #1cc848ff;
+  --primitives-light-color-green-700: #199d39ff;
+  --primitives-light-color-green-800: #197c31ff;
+  --primitives-light-color-green-900: #17662bff;
+  --primitives-light-color-green-950: #053914ff;
+  --primitives-light-color-pink-50: #fef4ffff;
+  --primitives-light-color-pink-100: #fde8ffff;
+  --primitives-light-color-pink-200: #fad1ffff;
+  --primitives-light-color-pink-300: #f8a8ffff;
+  --primitives-light-color-pink-400: #f47bffff;
+  --primitives-light-color-pink-500: #fc61ffff;
+  --primitives-light-color-pink-600: #d934e0ff;
+  --primitives-light-color-pink-700: #b521b8ff;
+  --primitives-light-color-pink-800: #941d96ff;
+  --primitives-light-color-pink-900: #7a1e79ff;
+  --primitives-light-color-pink-950: #520753ff;
+  --primitives-light-color-purple-50: #f5f2ffff;
+  --primitives-light-color-purple-100: #ede8ffff;
+  --primitives-light-color-purple-200: #ddd3ffff;
+  --primitives-light-color-purple-300: #c3b0ffff;
+  --primitives-light-color-purple-400: #a688ffff;
+  --primitives-light-color-purple-500: #9772ffff;
+  --primitives-light-color-purple-600: #7c4dffff;
+  --primitives-light-color-purple-700: #6a38ebff;
+  --primitives-light-color-purple-800: #592fc5ff;
+  --primitives-light-color-purple-900: #4a29a1ff;
+  --primitives-light-color-purple-950: #2c186eff;
+  --primitives-light-color-red-50: #fdececff;
+  --primitives-light-color-red-100: #fee2e2ff;
+  --primitives-light-color-red-200: #fecacaff;
+  --primitives-light-color-red-300: #fca5a5ff;
+  --primitives-light-color-red-400: #ff7070ff;
+  --primitives-light-color-red-500: #e33d3dff;
+  --primitives-light-color-red-600: #ce2d2dff;
+  --primitives-light-color-red-700: #b91c1cff;
+  --primitives-light-color-red-800: #991b1bff;
+  --primitives-light-color-red-900: #7f1d1dff;
+  --primitives-light-color-red-950: #5e1b1bff;
+  --primitives-light-color-amber-50: #fff6eaff;
+  --primitives-light-color-amber-100: #fef3c7ff;
+  --primitives-light-color-amber-200: #fde68aff;
+  --primitives-light-color-amber-300: #fcd34dff;
+  --primitives-light-color-amber-400: #ffba30ff;
+  --primitives-light-color-amber-500: #f59e0bff;
+  --primitives-light-color-amber-600: #ff9000ff;
+  --primitives-light-color-amber-700: #b45309ff;
+  --primitives-light-color-amber-800: #92400eff;
+  --primitives-light-color-amber-900: #553820ff;
+  --primitives-light-color-amber-950: #451a03ff;
+  --primitives-light-color-blue-50: #ebf8fcff;
+  --primitives-light-color-blue-100: #dbeafeff;
+  --primitives-light-color-blue-200: #bfdbfeff;
+  --primitives-light-color-blue-300: #93c5fdff;
+  --primitives-light-color-blue-400: #60a5faff;
+  --primitives-light-color-blue-500: #3f9cffff;
+  --primitives-light-color-blue-600: #007bffff;
+  --primitives-light-color-blue-700: #1d4ed8ff;
+  --primitives-light-color-blue-800: #1e40afff;
+  --primitives-light-color-blue-900: #003063ff;
+  --primitives-light-color-blue-950: #172554ff;
+  --primitives-light-color-blackalpha-0: #15151500;
+  --primitives-light-color-blackalpha-50: #1515150d;
+  --primitives-light-color-blackalpha-100: #1515151a;
+  --primitives-light-color-blackalpha-200: #15151533;
+  --primitives-light-color-blackalpha-300: #1515154d;
+  --primitives-light-color-blackalpha-400: #15151566;
+  --primitives-light-color-blackalpha-500: #15151580;
+  --primitives-light-color-blackalpha-600: #15151599;
+  --primitives-light-color-blackalpha-700: #151515b3;
+  --primitives-light-color-blackalpha-800: #151515cc;
+  --primitives-light-color-blackalpha-900: #151515e6;
+  --primitives-light-color-blackalpha-950: #151515f2;
+  --primitives-light-color-whitealpha-0: #ffffff00;
+  --primitives-light-color-whitealpha-50: #ffffff0d;
+  --primitives-light-color-whitealpha-100: #ffffff1a;
+  --primitives-light-color-whitealpha-200: #ffffff33;
+  --primitives-light-color-whitealpha-300: #ffffff4d;
+  --primitives-light-color-whitealpha-400: #ffffff66;
+  --primitives-light-color-whitealpha-500: #ffffff80;
+  --primitives-light-color-whitealpha-600: #ffffff99;
+  --primitives-light-color-whitealpha-700: #ffffffb3;
+  --primitives-light-color-whitealpha-800: #ffffffcc;
+  --primitives-light-color-whitealpha-900: #ffffffe6;
+  --primitives-light-color-whitealpha-950: #fffffff2;
+  --primitives-light-color-emerald-green-50: #e6fff5ff;
+  --primitives-light-color-emerald-green-100: #ccffe9ff;
+  --primitives-light-color-emerald-green-200: #99ffd3ff;
+  --primitives-light-color-emerald-green-300: #66ffbdff;
+  --primitives-light-color-emerald-green-400: #33ffa7ff;
+  --primitives-light-color-emerald-green-500: #00ff91ff;
+  --primitives-light-color-emerald-green-600: #13ce7cff;
+  --primitives-light-color-emerald-green-700: #00874cff;
+  --primitives-light-color-emerald-green-800: #00663aff;
+  --primitives-light-color-emerald-green-900: #224235ff;
+  --primitives-light-color-emerald-green-950: #002414ff;
+  --primitives-light-color-alpha-0: #ffffff00;
+  --primitives-light-color-alpha-50: #ffffff0d;
+  --primitives-light-color-alpha-100: #ffffff1a;
+  --primitives-light-color-alpha-200: #ffffff33;
+  --primitives-light-color-alpha-300: #ffffff4d;
+  --primitives-light-color-alpha-400: #ffffff66;
+  --primitives-light-color-alpha-500: #ffffff80;
+  --primitives-light-color-alpha-600: #ffffff99;
+  --primitives-light-color-alpha-700: #ffffffb3;
+  --primitives-light-color-alpha-800: #ffffffcc;
+  --primitives-light-color-alpha-900: #ffffffe6;
+  --primitives-light-color-alpha-950: #fffffff2;
+  --primitives-dark-color-gray-50: #fafafaff;
+  --primitives-dark-color-gray-100: #f5f5f5ff;
+  --primitives-dark-color-gray-200: #e5e5e5ff;
+  --primitives-dark-color-gray-300: #d4d4d4ff;
+  --primitives-dark-color-gray-400: #a3a3a3ff;
+  --primitives-dark-color-gray-500: #737373ff;
+  --primitives-dark-color-gray-600: #525252ff;
+  --primitives-dark-color-gray-700: #404040ff;
+  --primitives-dark-color-gray-800: #333333ff;
+  --primitives-dark-color-gray-900: #262626ff;
+  --primitives-dark-color-gray-950: #1c1c1cff;
+  --primitives-dark-color-gray-black: #151515ff;
+  --primitives-dark-color-gray-white: #ffffffff;
+  --primitives-dark-color-green-50: #effef4ff;
+  --primitives-dark-color-green-100: #d9fce5ff;
+  --primitives-dark-color-green-200: #b5f8cdff;
+  --primitives-dark-color-green-300: #7bf1a9ff;
+  --primitives-dark-color-green-400: #5ae882ff;
+  --primitives-dark-color-green-500: #49f264ff;
+  --primitives-dark-color-green-600: #1cc848ff;
+  --primitives-dark-color-green-700: #199d39ff;
+  --primitives-dark-color-green-800: #197c31ff;
+  --primitives-dark-color-green-900: #17662bff;
+  --primitives-dark-color-green-950: #053914ff;
+  --primitives-dark-color-pink-50: #fef4ffff;
+  --primitives-dark-color-pink-100: #fde8ffff;
+  --primitives-dark-color-pink-200: #fad1ffff;
+  --primitives-dark-color-pink-300: #f8a8ffff;
+  --primitives-dark-color-pink-400: #f47bffff;
+  --primitives-dark-color-pink-500: #fc61ffff;
+  --primitives-dark-color-pink-600: #d934e0ff;
+  --primitives-dark-color-pink-700: #b521b8ff;
+  --primitives-dark-color-pink-800: #941d96ff;
+  --primitives-dark-color-pink-900: #7a1e79ff;
+  --primitives-dark-color-pink-950: #520753ff;
+  --primitives-dark-color-purple-50: #f5f2ffff;
+  --primitives-dark-color-purple-100: #ede8ffff;
+  --primitives-dark-color-purple-200: #ddd3ffff;
+  --primitives-dark-color-purple-300: #c3b0ffff;
+  --primitives-dark-color-purple-400: #a688ffff;
+  --primitives-dark-color-purple-500: #9772ffff;
+  --primitives-dark-color-purple-600: #7c4dffff;
+  --primitives-dark-color-purple-700: #6a38ebff;
+  --primitives-dark-color-purple-800: #592fc5ff;
+  --primitives-dark-color-purple-900: #4a29a1ff;
+  --primitives-dark-color-purple-950: #2c186eff;
+  --primitives-dark-color-red-50: #fdececff;
+  --primitives-dark-color-red-100: #fee2e2ff;
+  --primitives-dark-color-red-200: #fecacaff;
+  --primitives-dark-color-red-300: #fca5a5ff;
+  --primitives-dark-color-red-400: #ff7070ff;
+  --primitives-dark-color-red-500: #e33d3dff;
+  --primitives-dark-color-red-600: #ce2d2dff;
+  --primitives-dark-color-red-700: #b91c1cff;
+  --primitives-dark-color-red-800: #991b1bff;
+  --primitives-dark-color-red-900: #7f1d1dff;
+  --primitives-dark-color-red-950: #5e1b1bff;
+  --primitives-dark-color-amber-50: #fff6eaff;
+  --primitives-dark-color-amber-100: #fef3c7ff;
+  --primitives-dark-color-amber-200: #fde68aff;
+  --primitives-dark-color-amber-300: #fcd34dff;
+  --primitives-dark-color-amber-400: #ffba30ff;
+  --primitives-dark-color-amber-500: #f59e0bff;
+  --primitives-dark-color-amber-600: #ff9000ff;
+  --primitives-dark-color-amber-700: #b45309ff;
+  --primitives-dark-color-amber-800: #92400eff;
+  --primitives-dark-color-amber-900: #553820ff;
+  --primitives-dark-color-amber-950: #451a03ff;
+  --primitives-dark-color-blue-50: #ebf8fcff;
+  --primitives-dark-color-blue-100: #dbeafeff;
+  --primitives-dark-color-blue-200: #bfdbfeff;
+  --primitives-dark-color-blue-300: #93c5fdff;
+  --primitives-dark-color-blue-400: #60a5faff;
+  --primitives-dark-color-blue-500: #3f9cffff;
+  --primitives-dark-color-blue-600: #007bffff;
+  --primitives-dark-color-blue-700: #1d4ed8ff;
+  --primitives-dark-color-blue-800: #1e40afff;
+  --primitives-dark-color-blue-900: #003063ff;
+  --primitives-dark-color-blue-950: #172554ff;
+  --primitives-dark-color-blackalpha-0: #15151500;
+  --primitives-dark-color-blackalpha-50: #1515150d;
+  --primitives-dark-color-blackalpha-100: #1515151a;
+  --primitives-dark-color-blackalpha-200: #15151533;
+  --primitives-dark-color-blackalpha-300: #1515154d;
+  --primitives-dark-color-blackalpha-400: #15151566;
+  --primitives-dark-color-blackalpha-500: #15151580;
+  --primitives-dark-color-blackalpha-600: #15151599;
+  --primitives-dark-color-blackalpha-700: #151515b3;
+  --primitives-dark-color-blackalpha-800: #151515cc;
+  --primitives-dark-color-blackalpha-900: #151515e6;
+  --primitives-dark-color-blackalpha-950: #151515f2;
+  --primitives-dark-color-whitealpha-0: #ffffff00;
+  --primitives-dark-color-whitealpha-50: #ffffff0d;
+  --primitives-dark-color-whitealpha-100: #ffffff1a;
+  --primitives-dark-color-whitealpha-200: #ffffff33;
+  --primitives-dark-color-whitealpha-300: #ffffff4d;
+  --primitives-dark-color-whitealpha-400: #ffffff66;
+  --primitives-dark-color-whitealpha-500: #ffffff80;
+  --primitives-dark-color-whitealpha-600: #ffffff99;
+  --primitives-dark-color-whitealpha-700: #ffffffb3;
+  --primitives-dark-color-whitealpha-800: #ffffffcc;
+  --primitives-dark-color-whitealpha-900: #ffffffe6;
+  --primitives-dark-color-whitealpha-950: #fffffff2;
+  --primitives-dark-color-emerald-green-50: #e6fff5ff;
+  --primitives-dark-color-emerald-green-100: #ccffe9ff;
+  --primitives-dark-color-emerald-green-200: #99ffd3ff;
+  --primitives-dark-color-emerald-green-300: #66ffbdff;
+  --primitives-dark-color-emerald-green-400: #33ffa7ff;
+  --primitives-dark-color-emerald-green-500: #00ff91ff;
+  --primitives-dark-color-emerald-green-600: #13ce7cff;
+  --primitives-dark-color-emerald-green-700: #00874cff;
+  --primitives-dark-color-emerald-green-800: #00663aff;
+  --primitives-dark-color-emerald-green-900: #224235ff;
+  --primitives-dark-color-emerald-green-950: #002414ff;
+  --primitives-dark-color-alpha-0: #15151500;
+  --primitives-dark-color-alpha-50: #1515150d;
+  --primitives-dark-color-alpha-100: #1515151a;
+  --primitives-dark-color-alpha-200: #15151533;
+  --primitives-dark-color-alpha-300: #1515154d;
+  --primitives-dark-color-alpha-400: #15151566;
+  --primitives-dark-color-alpha-500: #15151580;
+  --primitives-dark-color-alpha-600: #15151599;
+  --primitives-dark-color-alpha-700: #151515b3;
+  --primitives-dark-color-alpha-800: #151515cc;
+  --primitives-dark-color-alpha-900: #151515e6;
+  --primitives-dark-color-alpha-950: #151515f2;
+
+}
+
+@utility typography-regular-body-lg {
   font-size: 16px;
   text-decoration: none;
   font-family: Inter;
@@ -327,35 +512,7 @@
   text-case: none;
 }
 
-@utility typography-body-1-medium {
-  font-size: 16px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 500;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 24px;
-  paragraph-indent: 0px;
-  paragraph-spacing: 8px;
-  text-case: none;
-}
-
-@utility typography-body-1-semibold {
-  font-size: 16px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 24px;
-  paragraph-indent: 0px;
-  paragraph-spacing: 8px;
-  text-case: none;
-}
-
-@utility typography-body-2-regular {
+@utility typography-regular-body-md {
   font-size: 14px;
   text-decoration: none;
   font-family: Inter;
@@ -369,36 +526,22 @@
   text-case: none;
 }
 
-@utility typography-body-2-medium {
-  font-size: 14px;
+@utility typography-regular-body-sm {
+  font-size: 12px;
   text-decoration: none;
   font-family: Inter;
-  font-weight: 500;
+  font-weight: 400;
   font-style: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  line-height: 18px;
+  line-height: 16px;
   paragraph-indent: 0px;
   paragraph-spacing: 0px;
   text-case: none;
 }
 
-@utility typography-body-2-semibold {
-  font-size: 14px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 18px;
-  paragraph-indent: 0px;
-  paragraph-spacing: 0px;
-  text-case: none;
-}
-
-@utility typography-button-large {
-  font-size: 18px;
+@utility typography-semibold-body-lg {
+  font-size: 16px;
   text-decoration: none;
   font-family: Inter;
   font-weight: 600;
@@ -407,13 +550,41 @@
   letter-spacing: 0px;
   line-height: 24px;
   paragraph-indent: 0px;
+  paragraph-spacing: 8px;
+  text-case: none;
+}
+
+@utility typography-semibold-body-md {
+  font-size: 14px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 18px;
+  paragraph-indent: 0px;
   paragraph-spacing: 0px;
   text-case: none;
 }
 
-@utility typography-button-small {
-  font-size: 16px;
+@utility typography-semibold-body-sm {
+  font-size: 12px;
   text-decoration: none;
+  font-family: Inter;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 16px;
+  paragraph-indent: 0px;
+  paragraph-spacing: 0px;
+  text-case: none;
+}
+
+@utility typography-semibold-link-lg {
+  font-size: 16px;
+  text-decoration: underline;
   font-family: Inter;
   font-weight: 600;
   font-style: normal;
@@ -425,25 +596,11 @@
   text-case: none;
 }
 
-@utility typography-link-large {
-  font-size: 16px;
-  text-decoration: underline;
-  font-family: Inter;
-  font-weight: 500;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 22px;
-  paragraph-indent: 0px;
-  paragraph-spacing: 0px;
-  text-case: none;
-}
-
-@utility typography-link-small {
+@utility typography-semibold-link-md {
   font-size: 14px;
   text-decoration: underline;
   font-family: Inter;
-  font-weight: 500;
+  font-weight: 600;
   font-style: normal;
   font-stretch: normal;
   letter-spacing: 0px;
@@ -453,38 +610,10 @@
   text-case: none;
 }
 
-@utility typography-link-x-small {
+@utility typography-semibold-link-xs {
   font-size: 12px;
   text-decoration: underline;
   font-family: Inter;
-  font-weight: 500;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 16px;
-  paragraph-indent: 0px;
-  paragraph-spacing: 0px;
-  text-case: none;
-}
-
-@utility typography-caption-regular {
-  font-size: 12px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 400;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 16px;
-  paragraph-indent: 0px;
-  paragraph-spacing: 0px;
-  text-case: none;
-}
-
-@utility typography-caption-semibold {
-  font-size: 12px;
-  text-decoration: none;
-  font-family: Inter;
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
@@ -495,21 +624,21 @@
   text-case: none;
 }
 
-@utility typography-subtitle {
-  font-size: 18px;
+@utility typography-semibold-badge {
+  font-size: 9px;
   text-decoration: none;
   font-family: Inter;
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 24px;
+  letter-spacing: 0.9px;
+  line-height: 10.8px;
   paragraph-indent: 0px;
   paragraph-spacing: 0px;
-  text-case: none;
+  text-case: uppercase;
 }
 
-@utility typography-heading-4 {
+@utility typography-bold-heading-xs {
   font-size: 20px;
   text-decoration: none;
   font-family: Inter;
@@ -517,13 +646,13 @@
   font-style: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  line-height: 26px;
+  line-height: 24px;
   paragraph-indent: 0px;
   paragraph-spacing: 0px;
   text-case: none;
 }
 
-@utility typography-heading-3 {
+@utility typography-bold-heading-sm {
   font-size: 24px;
   text-decoration: none;
   font-family: Inter;
@@ -537,7 +666,7 @@
   text-case: none;
 }
 
-@utility typography-heading-32 {
+@utility typography-bold-heading-md {
   font-size: 32px;
   text-decoration: none;
   font-family: Inter;
@@ -545,13 +674,13 @@
   font-style: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  line-height: 40px;
+  line-height: 35.2px;
   paragraph-indent: 0px;
   paragraph-spacing: 0px;
   text-case: none;
 }
 
-@utility typography-heading-2 {
+@utility typography-bold-heading-lg {
   font-size: 40px;
   text-decoration: none;
   font-family: Inter;
@@ -565,7 +694,7 @@
   text-case: none;
 }
 
-@utility typography-heading-1 {
+@utility typography-bold-heading-xl {
   font-size: 48px;
   text-decoration: none;
   font-family: Inter;
@@ -579,11 +708,11 @@
   text-case: none;
 }
 
-@utility typography-hero {
+@utility typography-bold-display {
   font-size: 64px;
   text-decoration: none;
   font-family: Inter;
-  font-weight: 800;
+  font-weight: 700;
   font-style: normal;
   font-stretch: normal;
   letter-spacing: 0px;
@@ -591,19 +720,5 @@
   paragraph-indent: 0px;
   paragraph-spacing: 0px;
   text-case: none;
-}
-
-@utility typography-badge {
-  font-size: 9px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0.9px;
-  line-height: 10.8px;
-  paragraph-indent: 0px;
-  paragraph-spacing: 0px;
-  text-case: uppercase;
 }
 
