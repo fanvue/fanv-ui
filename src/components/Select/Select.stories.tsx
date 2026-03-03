@@ -302,6 +302,32 @@ export const LongList: Story = {
   ),
 };
 
+export const Truncation: Story = {
+  name: "Truncation",
+  decorators: [
+    (Story) => (
+      <div style={{ width: "180px" }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    label: "Country Code",
+    placeholder: "Select a country",
+    defaultValue: "gb",
+    fullWidth: true,
+  },
+  render: (args) => (
+    <Select {...args}>
+      <SelectContent>
+        <SelectItem value="us">United States of America</SelectItem>
+        <SelectItem value="gb">Great Britain and Northern Ireland</SelectItem>
+        <SelectItem value="kr">Democratic People's Republic of Korea</SelectItem>
+      </SelectContent>
+    </Select>
+  ),
+};
+
 export const AllStates: Story = {
   name: "All States",
   render: () => (
