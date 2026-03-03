@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.12.2...ui-v2.0.0) (2026-03-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* Count default variant is now neutral instead of red. Use variant="alert" to get the previous red styling.
+
+### Features
+
+* add alert variant to Count and make default neutral ([7c7c6cd](https://github.com/fanvue/fanv-ui/commit/7c7c6cd3cf5282922c7032e2eb028abc79a946c6))
+
 ## [1.12.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.12.1...ui-v1.12.2) (2026-03-02)
 
 
