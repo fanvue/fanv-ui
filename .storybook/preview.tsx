@@ -67,12 +67,16 @@ const preview: Preview = {
         const root = document.documentElement;
         root.style.colorScheme = theme;
         root.setAttribute("data-color-scheme", theme);
+        root.classList.add("light");
+        root.classList.add("primitives");
 
         // Toggle dark class for Tailwind CSS dark mode
         if (isDark) {
           root.classList.add("dark");
+          root.classList.remove("light");
         } else {
           root.classList.remove("dark");
+          root.classList.add("light");
         }
 
         // Update all .docs-story elements (autodocs canvas containers)
