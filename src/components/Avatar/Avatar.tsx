@@ -10,16 +10,17 @@ const AvatarContext = React.createContext<{ size: AvatarSize; NSFWShow: boolean 
   NSFWShow: false,
 });
 
-const STATUS_POSITIONS: Record<AvatarSize, { top: number; right: number }> = {
-  16: { top: -4, right: -4 },
-  24: { top: -3, right: -3 },
-  32: { top: -2, right: -2 },
-  40: { top: -1, right: -1 },
-  48: { top: 0, right: 0 },
-  64: { top: 2, right: 2 },
-  88: { top: 6, right: 6 },
-  148: { top: 15, right: 15 },
-};
+const STATUS_POSITIONS: Record<AvatarSize, { top: number; right: number; indicatorSize: string }> =
+  {
+    16: { top: -2, right: -2, indicatorSize: "size-2" },
+    24: { top: 0, right: 0, indicatorSize: "size-2" },
+    32: { top: 0, right: 0, indicatorSize: "size-2" },
+    40: { top: 2, right: 2, indicatorSize: "size-2" },
+    48: { top: 5, right: 2, indicatorSize: "size-2" },
+    64: { top: 5, right: 1, indicatorSize: "size-3" },
+    88: { top: 8, right: 6, indicatorSize: "size-3" },
+    148: { top: 15, right: 15, indicatorSize: "size-3" },
+  };
 
 /** Shared avatar styling props. */
 interface AvatarStyleProps {
@@ -69,7 +70,7 @@ const AvatarRoot = React.forwardRef<
             ref={ref}
             data-testid="avatar"
             className={cn(
-              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-500",
+              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-200",
               size === 16 && "size-4 text-[10px]",
               size === 24 && "size-6 text-xs",
               size === 32 && "size-8 text-xs",
@@ -97,7 +98,10 @@ const AvatarRoot = React.forwardRef<
           )}
           {onlineIndicator && (
             <span
-              className="absolute size-3 rounded-full border-2 border-background-150 bg-brand-green-500"
+              className={cn(
+                "absolute rounded-full border-2 border-surface-container bg-brand-accent-default",
+                statusPosition.indicatorSize,
+              )}
               style={{
                 top: `${statusPosition.top}px`,
                 right: `${statusPosition.right}px`,
@@ -146,7 +150,7 @@ const AvatarFallback = React.forwardRef<
   <AvatarPrimitive.Fallback
     ref={ref}
     className={cn(
-      "flex size-full items-center justify-center bg-neutral-500 font-semibold text-neutral-400 uppercase leading-none",
+      "flex size-full items-center justify-center font-semibold text-foreground-default uppercase leading-none",
       className,
     )}
     delayMs={0}
