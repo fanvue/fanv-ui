@@ -4,9 +4,9 @@ import { cn } from "../../utils/cn";
 const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
   if (color === "fullColour") {
     return {
-      icon: "var(--color-brand-green-500)",
-      iconInner: "var(--color-body-black-solid-constant)",
-      textClass: "", // Uses parent's text-body-900 dark:text-body-100
+      icon: "var(--color-brand-accent-default)",
+      iconInner: "var(--color-foreground-onaccent)",
+      textClass: "", // Uses parent's text-body-900 dark:text-foreground-default
     };
   }
 
@@ -14,7 +14,7 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
     return {
       iconClass: "fill-[#151515] dark:fill-[#ffffff]",
       iconInnerClass: "fill-[#ffffff] dark:fill-[#151515]",
-      textClass: "", // Uses parent's text-body-900 dark:text-body-100
+      textClass: "", // Uses parent's text-body-900 dark:text-foreground-default
     };
   }
 
@@ -22,10 +22,10 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
     return {
       icon:
         variant === "icon"
-          ? "var(--color-body-white-solid-constant)"
-          : "var(--color-brand-green-500)",
-      iconInner: "var(--color-body-black-solid-constant)",
-      textClass: "text-body-white-solid-constant",
+          ? "var(--color-foreground-onaccentinverse)"
+          : "var(--color-brand-accent-default)",
+      iconInner: "var(--color-foreground-onaccent)",
+      textClass: "text-foreground-onaccentinverse",
     };
   }
 
@@ -33,19 +33,19 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
     return {
       icon:
         variant === "icon"
-          ? "var(--color-body-black-solid-constant)"
-          : "var(--color-brand-green-500)",
+          ? "var(--color-foreground-onaccent)"
+          : "var(--color-brand-accent-default)",
       iconInner:
         variant === "icon"
-          ? "var(--color-body-white-solid-constant)"
-          : "var(--color-body-black-solid-constant)",
-      textClass: "text-body-black-solid-constant",
+          ? "var(--color-foreground-onaccentinverse)"
+          : "var(--color-foreground-onaccent)",
+      textClass: "text-foreground-onaccent",
     };
   }
 
   return {
-    icon: "var(--color-brand-green-500)",
-    iconInner: "var(--color-body-black-solid-constant)",
+    icon: "var(--color-brand-accent-default)",
+    iconInner: "var(--color-foreground-onaccent)",
     textClass: "", // Default to adaptive color
   };
 };
@@ -136,7 +136,7 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
         ref={ref}
         data-testid="logo"
         className={cn(
-          "inline-flex items-center text-body-900 dark:text-body-100",
+          "inline-flex items-center text-body-900 dark:text-foreground-default",
           variant === "portrait" ? "flex-col" : "flex-row",
           variant === "full" && "gap-2",
           className,
