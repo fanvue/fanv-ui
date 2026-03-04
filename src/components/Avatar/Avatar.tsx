@@ -70,7 +70,7 @@ const AvatarRoot = React.forwardRef<
             ref={ref}
             data-testid="avatar"
             className={cn(
-              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-500",
+              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-200",
               size === 16 && "size-4 text-[10px]",
               size === 24 && "size-6 text-xs",
               size === 32 && "size-8 text-xs",
@@ -150,7 +150,7 @@ const AvatarFallback = React.forwardRef<
   <AvatarPrimitive.Fallback
     ref={ref}
     className={cn(
-      "flex size-full items-center justify-center bg-neutral-200 font-semibold text-foreground-default uppercase leading-none",
+      "flex size-full items-center justify-center font-semibold text-foreground-default uppercase leading-none",
       className,
     )}
     delayMs={0}

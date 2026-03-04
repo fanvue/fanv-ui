@@ -4,8 +4,8 @@ import "./preview.css";
 import tokens from "../src/styles/styleTokens.json";
 
 const BACKGROUNDS = {
-  light: tokens.primitives.light.color.alpha[500].value,
-  dark: tokens.primitives.dark.color.blackalpha[500].value,
+  light: tokens.primitives.light.color.gray.white.value,
+  dark: tokens.primitives.dark.color.gray.black.value,
 } as const;
 
 const preview: Preview = {
