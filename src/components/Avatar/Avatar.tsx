@@ -69,15 +69,15 @@ const AvatarRoot = React.forwardRef<
             ref={ref}
             data-testid="avatar"
             className={cn(
-              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-500",
-              size === 16 && "size-4 text-[10px]",
-              size === 24 && "size-6 text-xs",
-              size === 32 && "size-8 text-xs",
-              size === 40 && "size-10 text-sm",
-              size === 48 && "size-12 text-base",
-              size === 64 && "size-16 text-xl",
-              size === 88 && "size-[88px] text-2xl",
-              size === 148 && "size-[148px] text-4xl",
+              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-200",
+              size === 16 && "size-4",
+              size === 24 && "size-6",
+              size === 32 && "size-8",
+              size === 40 && "size-10",
+              size === 48 && "size-12",
+              size === 64 && "size-16",
+              size === 88 && "size-[88px]",
+              size === 148 && "size-[148px]",
               className,
             )}
             {...props}
@@ -97,7 +97,7 @@ const AvatarRoot = React.forwardRef<
           )}
           {onlineIndicator && (
             <span
-              className="absolute size-3 rounded-full border-2 border-background-150 bg-brand-green-500"
+              className="absolute size-3 rounded-full border-2 border-foreground-inverse bg-brand-accent-default"
               style={{
                 top: `${statusPosition.top}px`,
                 right: `${statusPosition.right}px`,
@@ -126,7 +126,7 @@ const AvatarImage = React.forwardRef<
   return (
     <AvatarPrimitive.Image
       ref={ref}
-      className={cn("size-full bg-neutral-500 object-cover", NSFWShow && "blur-md", className)}
+      className={cn("size-full bg-neutral-200 object-cover", NSFWShow && "blur-md", className)}
       {...props}
     />
   );
@@ -142,19 +142,30 @@ export interface AvatarFallbackProps
 const AvatarFallback = React.forwardRef<
   React.ComponentRef<typeof AvatarPrimitive.Fallback>,
   AvatarFallbackProps
->(({ className, children, ...props }, ref) => (
-  <AvatarPrimitive.Fallback
-    ref={ref}
-    className={cn(
-      "flex size-full items-center justify-center bg-neutral-500 font-semibold text-neutral-400 uppercase leading-none",
-      className,
-    )}
-    delayMs={0}
-    {...props}
-  >
-    {children}
-  </AvatarPrimitive.Fallback>
-));
+>(({ className, children, ...props }, ref) => {
+  const { size } = React.useContext(AvatarContext);
+  return (
+    <AvatarPrimitive.Fallback
+      ref={ref}
+      className={cn(
+        "flex size-full items-center justify-center bg-neutral-200 text-foreground-default uppercase",
+        size === 16 && "text-[10px] font-semibold leading-none",
+        size === 24 && "typography-semibold-body-sm",
+        size === 32 && "typography-semibold-body-md",
+        size === 40 && "typography-semibold-body-lg",
+        size === 48 && "typography-bold-heading-xs",
+        size === 64 && "typography-bold-heading-sm",
+        size === 88 && "typography-bold-heading-lg",
+        size === 148 && "typography-bold-heading-xl",
+        className,
+      )}
+      delayMs={0}
+      {...props}
+    >
+      {children}
+    </AvatarPrimitive.Fallback>
+  );
+});
 
 AvatarFallback.displayName = "AvatarFallback";
 
