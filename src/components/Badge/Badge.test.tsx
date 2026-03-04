@@ -55,7 +55,7 @@ describe("Badge", () => {
     it("renders correct dot color for dark variant", () => {
       const { container } = render(<Badge variant="dark">Dark</Badge>);
       const dot = container.querySelector('[aria-hidden="true"].rounded-full');
-      expect(dot).toHaveClass("bg-body-300");
+      expect(dot).toHaveClass("bg-foreground-inverse");
     });
   });
 
