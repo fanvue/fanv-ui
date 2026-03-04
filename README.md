@@ -86,9 +86,8 @@ Customize the theme by overriding CSS variables:
 
 ```css
 :root {
-  --color-primary-500: #00aeef;
+  --color-neutral-400: #00aeef;
   --color-neutral-500: #6b7280;
-  --color-background-0: #ffffff;
 }
 ```
 

@@ -124,7 +124,7 @@ export const Select = React.forwardRef<
           {label && (
             <label
               htmlFor={triggerId}
-              className="typography-caption-semibold px-1 pt-1 pb-2 text-body-100"
+              className="typography-caption-semibold px-1 pt-1 pb-2 text-foreground-default"
             >
               {label}
             </label>
@@ -144,7 +144,7 @@ export const Select = React.forwardRef<
                 TRIGGER_PADDING_X[size],
                 TRIGGER_GAP[size],
                 TRIGGER_TYPOGRAPHY[size],
-                error ? "border-error-500" : "border-transparent",
+                error ? "border-error-default" : "border-transparent",
                 !disabled &&
                   !error &&
                   "hover:border-neutral-400 data-[state=open]:border-neutral-400",
@@ -154,13 +154,13 @@ export const Select = React.forwardRef<
               <div className="flex min-w-0 items-center gap-2">
                 {leftIcon && (
                   <span
-                    className="flex size-5 shrink-0 items-center justify-center text-body-200"
+                    className="flex size-5 shrink-0 items-center justify-center text-foreground-secondary"
                     data-testid="left-icon"
                   >
                     {leftIcon}
                   </span>
                 )}
-                <span className="min-w-0 flex-1 truncate text-left text-body-100 [&>[data-placeholder]]:text-body-200 [&>[data-placeholder]]:opacity-40">
+                <span className="min-w-0 flex-1 truncate text-left text-foreground-default [&>[data-placeholder]]:text-foreground-secondary [&>[data-placeholder]]:opacity-40">
                   <SelectPrimitive.Value placeholder={placeholder} />
                 </span>
               </div>
@@ -178,7 +178,7 @@ export const Select = React.forwardRef<
               id={helperTextId}
               className={cn(
                 "typography-caption-regular px-2 pt-1 pb-0.5",
-                error ? "text-error-500" : "text-body-200",
+                error ? "text-error-default" : "text-foreground-secondary",
               )}
             >
               {bottomText}
@@ -210,7 +210,7 @@ export const SelectContent = React.forwardRef<
       sideOffset={sideOffset}
       style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
       className={cn(
-        "relative min-w-(--radix-select-trigger-width) overflow-hidden rounded-xl border border-neutral-200 bg-background-inverse-solid text-body-100 shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+        "relative min-w-(--radix-select-trigger-width) overflow-hidden rounded-xl border border-neutral-200 bg-surface-page text-foreground-default shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
         "data-[state=closed]:animate-out data-[state=open]:animate-in",
         "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -241,7 +241,7 @@ export const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "typography-body-1-regular relative flex w-full cursor-pointer select-none items-center gap-2 rounded-lg py-2 pr-2 pl-3 text-body-100 outline-none",
+      "typography-body-1-regular relative flex w-full cursor-pointer select-none items-center gap-2 rounded-lg py-2 pr-2 pl-3 text-foreground-default outline-none",
       "focus:bg-neutral-100 data-disabled:pointer-events-none data-disabled:opacity-50",
       className,
     )}
@@ -249,7 +249,7 @@ export const SelectItem = React.forwardRef<
   >
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     <SelectPrimitive.ItemIndicator className="ml-auto flex size-4 shrink-0 items-center justify-center">
-      <CheckIcon className="size-4 text-body-100" />
+      <CheckIcon className="size-4 text-foreground-default" />
     </SelectPrimitive.ItemIndicator>
   </SelectPrimitive.Item>
 ));
@@ -277,7 +277,7 @@ export const SelectLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Label
     ref={ref}
-    className={cn("typography-caption-semibold px-3 py-1.5 text-body-200", className)}
+    className={cn("typography-caption-semibold px-3 py-1.5 text-foreground-secondary", className)}
     {...props}
   />
 ));

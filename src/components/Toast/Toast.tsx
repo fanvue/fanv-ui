@@ -66,13 +66,13 @@ ToastViewport.displayName = "ToastViewport";
 const VariantIcon = ({ variant }: { variant: ToastVariant }) => {
   switch (variant) {
     case "info":
-      return <InfoIcon className="size-5 text-info-500" />;
+      return <InfoIcon className="size-5 text-info-default" />;
     case "warning":
-      return <WarningIcon className="size-5 text-warning-500" />;
+      return <WarningIcon className="size-5 text-warning-default" />;
     case "success":
-      return <SuccessIcon className="size-5 text-success-500" />;
+      return <SuccessIcon className="size-5 text-success-default" />;
     case "error":
-      return <ErrorIcon className="size-5 text-error-500" />;
+      return <ErrorIcon className="size-5 text-error-default" />;
   }
 };
 
@@ -113,7 +113,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
         data-testid="toast"
         className={cn(
           // Base styles
-          "group pointer-events-auto relative flex w-full flex-col items-start gap-3 overflow-hidden rounded-lg border-none bg-background-solid p-4 text-background-inverse-solid shadow-lg transition-all",
+          "group pointer-events-auto relative flex w-full flex-col items-start gap-3 overflow-hidden rounded-lg border-none bg-surface-pageInverse p-4 text-surface-page shadow-lg transition-all",
           // Dark mode
           "dark:border-opacity-100",
           // Animation
@@ -147,7 +147,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
               <Button
                 variant="secondary"
                 // These styles are basically inverted from the selected theme
-                className="mt-4 border-body-400 text-body-400"
+                className="mt-4 border-foreground-inverse text-foreground-inverse"
                 size="32"
                 onClick={onActionClick}
               >
@@ -162,7 +162,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
               icon={<CloseIcon />}
               aria-label={closeLabel}
               // same as the button above
-              className="absolute top-2 right-2 text-body-300"
+              className="absolute top-2 right-2 text-foreground-inverse"
               variant="tertiary"
               size="24"
             />

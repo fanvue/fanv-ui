@@ -225,7 +225,7 @@ function TypographyRow({ token }: { token: TypographyToken }) {
           style={{
             fontSize: 13,
             fontWeight: 600,
-            color: "var(--color-body-100)",
+            color: "var(--color-foreground-default)",
             marginBottom: 4,
           }}
         >
@@ -236,19 +236,22 @@ function TypographyRow({ token }: { token: TypographyToken }) {
             style={{
               fontFamily: "monospace",
               fontSize: 11,
-              color: "var(--color-primary-300)",
+              color: "var(--color-neutral-300)",
             }}
           >
             {token.className}
           </span>
-          <span style={{ fontSize: 11, color: "var(--color-body-200)" }}>
+          <span style={{ fontSize: 11, color: "var(--color-foreground-secondary)" }}>
             {token.size} / {token.lineHeight} · {weightLabels[token.weight] || token.weight}
             {token.letterSpacing ? ` · LS ${token.letterSpacing}` : ""}
             {token.textTransform ? ` · ${token.textTransform}` : ""}
           </span>
         </div>
       </div>
-      <div className={token.className} style={{ color: "var(--color-body-100)", minWidth: 0 }}>
+      <div
+        className={token.className}
+        style={{ color: "var(--color-foreground-default)", minWidth: 0 }}
+      >
         {token.sample}
       </div>
     </div>
@@ -262,7 +265,7 @@ export const Scale: Story = {
         style={{
           fontSize: 32,
           fontWeight: 800,
-          color: "var(--color-body-100)",
+          color: "var(--color-foreground-default)",
           margin: "0 0 8px",
         }}
       >
@@ -271,7 +274,7 @@ export const Scale: Story = {
       <p
         style={{
           fontSize: 16,
-          color: "var(--color-body-200)",
+          color: "var(--color-foreground-secondary)",
           margin: "0 0 12px",
           maxWidth: 640,
           lineHeight: 1.5,
@@ -292,9 +295,9 @@ export const Scale: Story = {
           style={{
             fontSize: 13,
             fontFamily: "monospace",
-            color: "var(--color-primary-300)",
+            color: "var(--color-neutral-300)",
             padding: "8px 12px",
-            backgroundColor: "var(--color-background-600)",
+            backgroundColor: "var(--color-surface-containerraised)",
             borderRadius: 6,
           }}
         >
@@ -309,7 +312,7 @@ export const Scale: Story = {
             fontWeight: 600,
             textTransform: "uppercase",
             letterSpacing: "0.05em",
-            color: "var(--color-primary-300)",
+            color: "var(--color-neutral-300)",
             margin: "0 0 8px",
           }}
         >
@@ -334,7 +337,7 @@ export const Scale: Story = {
             fontWeight: 600,
             textTransform: "uppercase",
             letterSpacing: "0.05em",
-            color: "var(--color-primary-300)",
+            color: "var(--color-neutral-300)",
             margin: "0 0 8px",
           }}
         >
@@ -354,7 +357,7 @@ export const Scale: Story = {
             fontWeight: 600,
             textTransform: "uppercase",
             letterSpacing: "0.05em",
-            color: "var(--color-primary-300)",
+            color: "var(--color-neutral-300)",
             margin: "0 0 8px",
           }}
         >
@@ -374,7 +377,7 @@ export const Scale: Story = {
             fontWeight: 600,
             textTransform: "uppercase",
             letterSpacing: "0.05em",
-            color: "var(--color-primary-300)",
+            color: "var(--color-neutral-300)",
             margin: "0 0 8px",
           }}
         >
@@ -394,7 +397,7 @@ export const Scale: Story = {
             fontWeight: 600,
             textTransform: "uppercase",
             letterSpacing: "0.05em",
-            color: "var(--color-primary-300)",
+            color: "var(--color-neutral-300)",
             margin: "0 0 8px",
           }}
         >

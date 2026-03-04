@@ -68,7 +68,7 @@ const CLEAR_BUTTON_RIGHT: Record<TextAreaSize, string> = {
 function getContainerClassName(size: TextAreaSize, error: boolean, disabled?: boolean) {
   return cn(
     "relative rounded-xl border bg-neutral-100 has-focus-visible:outline-none motion-safe:transition-colors",
-    error ? "border-error-500" : "border-transparent",
+    error ? "border-error-default" : "border-transparent",
     !disabled && !error && "hover:border-neutral-400",
     CONTAINER_MIN_HEIGHT[size],
     disabled && "opacity-50",
@@ -82,7 +82,7 @@ function getTextareaClassName(
   resizable: boolean,
 ) {
   return cn(
-    "w-full rounded-xl bg-transparent text-body-100 no-underline placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+    "w-full rounded-xl bg-transparent text-foreground-default no-underline placeholder:text-foreground-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
     resizable ? "resize-y" : "resize-none",
     !hasMinRows && "min-h-[80px]",
     TEXTAREA_SIZE_CLASSES[size],
@@ -105,7 +105,7 @@ function TextAreaHelperText({
       id={id}
       className={cn(
         "typography-caption-regular px-2 pt-1 pb-0.5",
-        error ? "text-error-500" : "text-body-200",
+        error ? "text-error-default" : "text-foreground-secondary",
       )}
     >
       {children}
@@ -251,7 +251,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="typography-caption-semibold px-1 pt-1 pb-2 text-body-100"
+            className="typography-caption-semibold px-1 pt-1 pb-2 text-foreground-default"
           >
             {label}
           </label>
@@ -293,7 +293,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
                 CLEAR_BUTTON_RIGHT[size],
               )}
             >
-              <CheckOutlineIcon className="text-success-500" />
+              <CheckOutlineIcon className="text-success-default" />
             </div>
           )}
         </div>

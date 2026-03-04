@@ -170,7 +170,7 @@ export const WithInputTrigger: Story = {
           placeholder="Select a date…"
           value={formatted}
           onClick={() => setOpen((prev) => !prev)}
-          className="w-56 cursor-pointer rounded-lg border border-neutral-200 bg-background-inverse-solid px-3 py-2 text-body-100 text-sm placeholder:text-body-200 focus:outline-none focus:ring-2 focus:ring-brand-purple-500"
+          className="w-56 cursor-pointer rounded-lg border border-neutral-200 bg-surface-page px-3 py-2 text-foreground-default text-sm placeholder:text-foreground-secondary focus:outline-none focus:ring-2 focus:ring-brand-tertiary-default"
         />
 
         {open && (

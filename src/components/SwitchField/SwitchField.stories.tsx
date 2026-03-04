@@ -135,17 +135,21 @@ export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
-        <span className="typography-body-2-semibold text-body-200">
+        <span className="typography-body-2-semibold text-foreground-secondary">
           Default - Right orientation
         </span>
         <SwitchField label="Toggle" helperText="Helper" orientation="right" checked={true} />
       </div>
       <div className="flex flex-col gap-3">
-        <span className="typography-body-2-semibold text-body-200">Default - Left orientation</span>
+        <span className="typography-body-2-semibold text-foreground-secondary">
+          Default - Left orientation
+        </span>
         <SwitchField label="Toggle" helperText="Helper" orientation="left" checked={true} />
       </div>
       <div className="flex flex-col gap-3">
-        <span className="typography-body-2-semibold text-body-200">Small - Right orientation</span>
+        <span className="typography-body-2-semibold text-foreground-secondary">
+          Small - Right orientation
+        </span>
         <SwitchField
           label="Toggle"
           helperText="Helper"
@@ -155,7 +159,9 @@ export const AllVariants: Story = {
         />
       </div>
       <div className="flex flex-col gap-3">
-        <span className="typography-body-2-semibold text-body-200">Small - Left orientation</span>
+        <span className="typography-body-2-semibold text-foreground-secondary">
+          Small - Left orientation
+        </span>
         <SwitchField
           label="Toggle"
           helperText="Helper"

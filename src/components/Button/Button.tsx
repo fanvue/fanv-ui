@@ -63,19 +63,21 @@ const ICON_WRAPPER_CLASS: Record<ButtonSize, string> = {
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant active:bg-brand-green-500 active:text-body-black-solid-constant",
+    "bg-neutral-400 text-foreground-inverse hover:bg-brand-accent-default hover:text-foreground-onaccent active:bg-brand-accent-default active:text-foreground-onaccent",
   secondary:
-    "border-body-100 border border-1 border-body-100 bg-transparent text-body-100 hover:bg-brand-green-50 active:bg-brand-green-50",
-  tertiary: "bg-transparent text-body-100 hover:bg-brand-green-50 active:bg-brand-green-50",
-  link: "bg-transparent text-body-100 underline decoration-solid hover:bg-brand-green-50 active:bg-brand-green-50",
+    "border-foreground-default border border-1 border-foreground-default bg-transparent text-foreground-default hover:bg-brand-accent-muted active:bg-brand-accent-muted",
+  tertiary:
+    "bg-transparent text-foreground-default hover:bg-brand-accent-muted active:bg-brand-accent-muted",
+  link: "bg-transparent text-foreground-default underline decoration-solid hover:bg-brand-accent-muted active:bg-brand-accent-muted",
   brand:
-    "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-pink-500 active:bg-brand-pink-500",
+    "bg-brand-accent-default text-foreground-onaccent hover:bg-brand-secondary-default active:bg-brand-secondary-default",
   destructive:
-    "bg-error-500 text-body-white-solid-constant hover:bg-background-solid dark:hover:bg-background-white-solid-constant dark:hover:text-error-500 active:bg-background-solid dark:active:bg-background-white-solid-constant dark:active:text-error-500",
+    "bg-error-default text-foreground-onaccentinverse hover:bg-surface-pageInverse dark:hover:bg-primitives-light-color-gray-white dark:hover:text-error-default active:bg-surface-pageInverse dark:active:bg-primitives-light-color-gray-white dark:active:text-error-default",
   white:
-    "bg-background-white-solid-constant text-body-black-solid-constant hover:bg-brand-green-500 active:bg-brand-green-500",
-  tertiaryDestructive: "bg-transparent text-error-500 hover:bg-error-50 active:bg-error-50",
-  text: "bg-transparent text-body-100 hover:underline active:underline",
+    "bg-primitives-light-color-gray-white text-foreground-onaccent hover:bg-brand-accent-default active:bg-brand-accent-default",
+  tertiaryDestructive:
+    "bg-transparent text-error-default hover:bg-error-background active:bg-error-background",
+  text: "bg-transparent text-foreground-default hover:underline active:underline",
 };
 
 /** Recursively extract text content from React nodes for accessible labels */

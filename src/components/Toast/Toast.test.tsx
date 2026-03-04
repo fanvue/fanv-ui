@@ -89,7 +89,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-background-inverse-solid");
+      expect(toast).toHaveClass("text-surface-page");
     });
 
     it("renders warning variant correctly", () => {
@@ -102,7 +102,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-background-inverse-solid");
+      expect(toast).toHaveClass("text-surface-page");
     });
 
     it("renders success variant correctly", () => {
@@ -115,7 +115,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-background-inverse-solid");
+      expect(toast).toHaveClass("text-surface-page");
     });
 
     it("renders error variant correctly", () => {
@@ -128,7 +128,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-background-inverse-solid");
+      expect(toast).toHaveClass("text-surface-page");
     });
 
     it("renders messageToast variant correctly", () => {
@@ -147,8 +147,8 @@ describe("Toast", () => {
         </ToastWrapper>,
       );
       const toast = screen.getByTestId("toast");
-      expect(toast).toHaveClass("bg-background-solid");
-      expect(toast).toHaveClass("text-background-inverse-solid");
+      expect(toast).toHaveClass("bg-surface-pageInverse");
+      expect(toast).toHaveClass("text-surface-page");
       expect(screen.getByTestId("avatar")).toBeInTheDocument();
     });
   });

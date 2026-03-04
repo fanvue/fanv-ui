@@ -97,7 +97,7 @@ const AvatarRoot = React.forwardRef<
           )}
           {onlineIndicator && (
             <span
-              className="absolute size-3 rounded-full border-2 border-background-150 bg-brand-green-500"
+              className="absolute size-3 rounded-full border-2 border-surface-container bg-brand-accent-default"
               style={{
                 top: `${statusPosition.top}px`,
                 right: `${statusPosition.right}px`,

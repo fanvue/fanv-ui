@@ -104,7 +104,7 @@ export const ControlledExample: Story = {
     return (
       <div className="flex items-center gap-3">
         <Switch checked={checked} onCheckedChange={setChecked} aria-label="Toggle feature" />
-        <span className="text-body-200 text-sm">{checked ? "On" : "Off"}</span>
+        <span className="text-foreground-secondary text-sm">{checked ? "On" : "Off"}</span>
       </div>
     );
   },
@@ -116,11 +116,11 @@ export const UncontrolledExample: Story = {
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-3">
         <Switch aria-label="Default unchecked" />
-        <span className="text-body-200 text-sm">Default (unchecked)</span>
+        <span className="text-foreground-secondary text-sm">Default (unchecked)</span>
       </div>
       <div className="flex items-center gap-3">
         <Switch defaultChecked aria-label="Default checked" />
-        <span className="text-body-200 text-sm">Default checked</span>
+        <span className="text-foreground-secondary text-sm">Default checked</span>
       </div>
     </div>
   ),
@@ -130,7 +130,7 @@ export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
-        <span className="typography-body-2-semibold text-body-200">Default Size</span>
+        <span className="typography-body-2-semibold text-foreground-secondary">Default Size</span>
         <div className="flex items-center gap-4">
           <Switch checked={true} aria-label="On" />
           <Switch checked={false} aria-label="Off" />
@@ -139,7 +139,7 @@ export const AllVariants: Story = {
         </div>
       </div>
       <div className="flex flex-col gap-3">
-        <span className="typography-body-2-semibold text-body-200">Small Size</span>
+        <span className="typography-body-2-semibold text-foreground-secondary">Small Size</span>
         <div className="flex items-center gap-4">
           <Switch size="small" checked={true} aria-label="On" />
           <Switch size="small" checked={false} aria-label="Off" />

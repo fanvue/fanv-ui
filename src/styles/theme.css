@@ -60,10 +60,8 @@
   --color-info-background: var(--color-info-background);
   --color-info-default: var(--color-info-default);
   --color-info-border: var(--color-info-border);
-  --color-link-500: var(--color-link-500);
-  --color-link-600: var(--color-link-600);
-  --color-special-50: var(--color-special-50);
-  --color-special-500: var(--color-special-500);
+  --color-link-default: var(--color-link-default);
+  --color-link-hover: var(--color-link-hover);
   --color-special-chart-teal: var(--color-special-chart-teal);
   --color-special-chart-sky: var(--color-special-chart-sky);
   --color-special-chart-magenta: var(--color-special-chart-magenta);
@@ -71,6 +69,8 @@
   --color-special-chart-gray: var(--color-special-chart-gray);
   --color-special-chart-pink: var(--color-special-chart-pink);
   --color-special-chart-purple: var(--color-special-chart-purple);
+  --color-special-default: var(--color-special-default);
+  --color-special-background: var(--color-special-background);
   --color-brand-accent-default: var(--color-brand-accent-default);
   --color-brand-accent-muted: var(--color-brand-accent-muted);
   --color-brand-accent-hover: var(--color-brand-accent-hover);
@@ -135,10 +135,8 @@
   --color-info-background: var(--primitives-light-color-blue-50);
   --color-info-default: var(--primitives-light-color-blue-600);
   --color-info-border: var(--primitives-light-color-blue-300);
-  --color-link-500: var(--color-neutral-solid);
-  --color-link-600: var(--color-neutral-800);
-  --color-special-50: #fdf1ffff;
-  --color-special-500: #9c27b0ff;
+  --color-link-default: var(--color-surface-pageinverse);
+  --color-link-hover: var(--color-neutral-800);
   --color-special-chart-teal: #28ba8eff;
   --color-special-chart-sky: #4fb2f9ff;
   --color-special-chart-magenta: #d74ff9ff;
@@ -146,6 +144,8 @@
   --color-special-chart-gray: #c6c6c6ff;
   --color-special-chart-pink: #ff59acff;
   --color-special-chart-purple: #785dffff;
+  --color-special-default: #9c27b0ff;
+  --color-special-background: #fdf1ffff;
   --color-brand-accent-default: var(--primitives-light-color-green-500);
   --color-brand-accent-muted: #49f26433;
   --color-brand-accent-hover: var(--primitives-light-color-green-400);
@@ -205,10 +205,8 @@
   --color-info-background: var(--primitives-dark-color-blue-900);
   --color-info-default: var(--primitives-dark-color-blue-500);
   --color-info-border: var(--primitives-dark-color-blue-700);
-  --color-link-500: var(--color-neutral-solid);
-  --color-link-600: var(--color-neutral-800);
-  --color-special-50: #4f1259ff;
-  --color-special-500: #ed81ffff;
+  --color-link-default: var(--color-surface-page);
+  --color-link-hover: var(--color-neutral-800);
   --color-special-chart-teal: #28ba8eff;
   --color-special-chart-sky: #4fb2f9ff;
   --color-special-chart-magenta: #d74ff9ff;
@@ -216,6 +214,8 @@
   --color-special-chart-gray: #c6c6c6ff;
   --color-special-chart-pink: #ff59acff;
   --color-special-chart-purple: #785dffff;
+  --color-special-default: #ed81ffff;
+  --color-special-background: #4f1259ff;
   --color-brand-accent-default: var(--primitives-dark-color-green-500);
   --color-brand-accent-muted: #49f26426;
   --color-brand-accent-hover: var(--primitives-dark-color-green-400);

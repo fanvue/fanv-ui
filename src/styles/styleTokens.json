@@ -1376,10 +1376,10 @@
           }
         },
         "link": {
-          "500": {
+          "default": {
             "description": "",
             "type": "color",
-            "value": "{semantic.light.color.neutral.solid}",
+            "value": "{semantic.light.color.surface.pageinverse}",
             "extensions": {
               "org.lukasoppermann.figmaDesignTokens": {
                 "mode": "Light",
@@ -1391,7 +1391,7 @@
               }
             }
           },
-          "600": {
+          "hover": {
             "description": "",
             "type": "color",
             "value": "{semantic.light.color.neutral.800}",
@@ -1408,36 +1408,6 @@
           }
         },
         "special": {
-          "50": {
-            "type": "color",
-            "value": "#fdf1ffff",
-            "blendMode": "normal",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Light",
-                "modeId": "4:0",
-                "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
-                "variableId": "VariableID:4052:9683",
-                "exportKey": "variables"
-              }
-            }
-          },
-          "500": {
-            "type": "color",
-            "value": "#9c27b0ff",
-            "blendMode": "normal",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Light",
-                "modeId": "4:0",
-                "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
-                "variableId": "VariableID:4052:9682",
-                "exportKey": "variables"
-              }
-            }
-          },
           "chart": {
             "teal": {
               "type": "color",
@@ -1542,6 +1512,36 @@
                   "variableId": "VariableID:4630:29250",
                   "exportKey": "variables"
                 }
+              }
+            }
+          },
+          "default": {
+            "type": "color",
+            "value": "#9c27b0ff",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["ALL_SCOPES"],
+                "variableId": "VariableID:4052:9682",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "background": {
+            "type": "color",
+            "value": "#fdf1ffff",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["ALL_SCOPES"],
+                "variableId": "VariableID:4052:9683",
+                "exportKey": "variables"
               }
             }
           }
@@ -2498,10 +2498,10 @@
           }
         },
         "link": {
-          "500": {
+          "default": {
             "description": "",
             "type": "color",
-            "value": "{semantic.dark.color.neutral.solid}",
+            "value": "{semantic.dark.color.surface.page}",
             "extensions": {
               "org.lukasoppermann.figmaDesignTokens": {
                 "mode": "Dark",
@@ -2513,7 +2513,7 @@
               }
             }
           },
-          "600": {
+          "hover": {
             "description": "",
             "type": "color",
             "value": "{semantic.dark.color.neutral.800}",
@@ -2530,36 +2530,6 @@
           }
         },
         "special": {
-          "50": {
-            "type": "color",
-            "value": "#4f1259ff",
-            "blendMode": "normal",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Dark",
-                "modeId": "4:1",
-                "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
-                "variableId": "VariableID:4052:9683",
-                "exportKey": "variables"
-              }
-            }
-          },
-          "500": {
-            "type": "color",
-            "value": "#ed81ffff",
-            "blendMode": "normal",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Dark",
-                "modeId": "4:1",
-                "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
-                "variableId": "VariableID:4052:9682",
-                "exportKey": "variables"
-              }
-            }
-          },
           "chart": {
             "teal": {
               "type": "color",
@@ -2664,6 +2634,36 @@
                   "variableId": "VariableID:4630:29250",
                   "exportKey": "variables"
                 }
+              }
+            }
+          },
+          "default": {
+            "type": "color",
+            "value": "#ed81ffff",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["ALL_SCOPES"],
+                "variableId": "VariableID:4052:9682",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "background": {
+            "type": "color",
+            "value": "#4f1259ff",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["ALL_SCOPES"],
+                "variableId": "VariableID:4052:9683",
+                "exportKey": "variables"
               }
             }
           }

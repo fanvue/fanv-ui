@@ -95,7 +95,7 @@ export const ControlledExample: Story = {
           onChange={setValue}
           aria-label="Toggle view"
         />
-        <span className="text-body-200 text-sm">Selected: {value}</span>
+        <span className="text-foreground-secondary text-sm">Selected: {value}</span>
       </div>
     );
   },
@@ -110,11 +110,13 @@ export const UncontrolledExample: Story = {
   render: () => (
     <div className="flex flex-col items-start gap-4">
       <div className="flex flex-col gap-2">
-        <span className="text-body-200 text-sm">Default (first option selected)</span>
+        <span className="text-foreground-secondary text-sm">Default (first option selected)</span>
         <SwitchToggle options={defaultOptions} aria-label="Default toggle" />
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-body-200 text-sm">With defaultValue (second option selected)</span>
+        <span className="text-foreground-secondary text-sm">
+          With defaultValue (second option selected)
+        </span>
         <SwitchToggle options={defaultOptions} defaultValue="gross" aria-label="Preset toggle" />
       </div>
     </div>
@@ -139,15 +141,15 @@ export const AllSizes: Story = {
   render: () => (
     <div className="flex flex-col items-start gap-4">
       <div className="flex flex-col gap-2">
-        <span className="typography-body-2-semibold text-body-200">Small (24)</span>
+        <span className="typography-body-2-semibold text-foreground-secondary">Small (24)</span>
         <SwitchToggle size="24" options={defaultOptions} aria-label="Small toggle" />
       </div>
       <div className="flex flex-col gap-2">
-        <span className="typography-body-2-semibold text-body-200">Medium (32)</span>
+        <span className="typography-body-2-semibold text-foreground-secondary">Medium (32)</span>
         <SwitchToggle size="32" options={defaultOptions} aria-label="Medium toggle" />
       </div>
       <div className="flex flex-col gap-2">
-        <span className="typography-body-2-semibold text-body-200">Large (40)</span>
+        <span className="typography-body-2-semibold text-foreground-secondary">Large (40)</span>
         <SwitchToggle size="40" options={defaultOptions} aria-label="Large toggle" />
       </div>
     </div>

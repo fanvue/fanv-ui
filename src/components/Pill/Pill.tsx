@@ -4,16 +4,16 @@ import { cn } from "../../utils/cn";
 
 const pillVariants = {
   variant: {
-    green: "bg-success-50 text-success-500",
-    grey: "bg-neutral-100 text-body-200",
-    blue: "bg-info-50 text-info-500",
-    gold: "bg-warning-50 text-warning-500",
-    pinkLight: "bg-brand-pink-50 text-body-100",
-    base: "bg-neutral-400 text-body-300",
-    brand: "bg-brand-green-500 text-body-black-solid-constant",
-    brandLight: "bg-brand-green-50 text-body-black-solid-constant",
-    beta: "bg-brand-pink-500 text-body-black-solid-constant",
-    error: "bg-error-500 text-error-50",
+    green: "bg-success-background text-success-default",
+    grey: "bg-neutral-100 text-foreground-secondary",
+    blue: "bg-info-background text-info-default",
+    gold: "bg-warning-background text-warning-default",
+    pinkLight: "bg-brand-secondary-muted text-foreground-default",
+    base: "bg-neutral-400 text-foreground-inverse",
+    brand: "bg-brand-accent-default text-foreground-onaccent",
+    brandLight: "bg-brand-accent-muted text-foreground-onaccent",
+    beta: "bg-brand-secondary-default text-foreground-onaccent",
+    error: "bg-error-default text-error-background",
   },
 } as const;
 

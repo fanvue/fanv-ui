@@ -33,13 +33,13 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const CLOSE_BUTTON_CLASSES: Record<AlertVariant, string> = {
-  info: "hover:bg-info-500/10 active:bg-info-500/10 text-info-500 motion-safe:transition-colors motion-safe:duration-150",
+  info: "hover:bg-info-default/10 active:bg-info-default/10 text-info-default motion-safe:transition-colors motion-safe:duration-150",
   success:
-    "hover:bg-success-500/10 active:bg-success-500/10 text-success-500 motion-safe:transition-colors motion-safe:duration-150",
+    "hover:bg-success-default/10 active:bg-success-default/10 text-success-default motion-safe:transition-colors motion-safe:duration-150",
   warning:
-    "hover:bg-warning-500/10 active:bg-warning-500/10 text-warning-500 motion-safe:transition-colors motion-safe:duration-150",
+    "hover:bg-warning-default/10 active:bg-warning-default/10 text-warning-default motion-safe:transition-colors motion-safe:duration-150",
   error:
-    "hover:bg-error-500/10 active:bg-error-500/10 text-error-500 motion-safe:transition-colors motion-safe:duration-150",
+    "hover:bg-error-default/10 active:bg-error-default/10 text-error-default motion-safe:transition-colors motion-safe:duration-150",
 };
 
 /**
@@ -87,10 +87,10 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
           !resolvedIcon && closable && "grid-cols-[1fr_auto]",
           !resolvedIcon && !closable && "grid-cols-[1fr]",
           title && children ? "items-start" : "items-center",
-          variant === "info" && "bg-info-50 text-info-500",
-          variant === "success" && "bg-success-50 text-success-500",
-          variant === "warning" && "bg-warning-50 text-warning-500",
-          variant === "error" && "bg-error-50 text-error-500",
+          variant === "info" && "bg-info-background text-info-default",
+          variant === "success" && "bg-success-background text-success-default",
+          variant === "warning" && "bg-warning-background text-warning-default",
+          variant === "error" && "bg-error-background text-error-default",
           className,
         )}
         {...props}
@@ -102,8 +102,10 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         )}
 
         <div className="flex min-w-0 flex-col gap-2">
-          {title && <div className="typography-body-2-semibold text-body-100">{title}</div>}
-          <div className="typography-body-2-regular text-body-200">{children}</div>
+          {title && (
+            <div className="typography-body-2-semibold text-foreground-default">{title}</div>
+          )}
+          <div className="typography-body-2-regular text-foreground-secondary">{children}</div>
         </div>
 
         {closable && (

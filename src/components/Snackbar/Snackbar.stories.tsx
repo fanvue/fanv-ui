@@ -74,7 +74,7 @@ export const DefaultWithCustomSlots: Story = {
       </Button>
     ),
     secondarySlot: (
-      <a href="#dismiss" className="typography-link-small text-body-200">
+      <a href="#dismiss" className="typography-link-small text-foreground-secondary">
         Custom link
       </a>
     ),
@@ -113,7 +113,7 @@ export const VipEarnClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-body-100 underline"
+          className="cursor-pointer text-foreground-default underline"
         >
           Show again
         </button>
@@ -148,7 +148,7 @@ export const VipEarnWithCustomSlot: Story = {
     title: "You're killing it! You've earned 1,000pts",
     description: "Find out how to redeem them, and earn more...",
     primarySlot: (
-      <a href="#redeem" className="typography-link-small text-brand-purple-500">
+      <a href="#redeem" className="typography-link-small text-brand-tertiary-default">
         Redeem now
       </a>
     ),
@@ -196,7 +196,7 @@ export const WelcomeWithCustomSlots: Story = {
       </Button>
     ),
     secondarySlot: (
-      <a href="#explore" className="text-body-200 text-sm underline">
+      <a href="#explore" className="text-foreground-secondary text-sm underline">
         Explore instead
       </a>
     ),
@@ -224,7 +224,7 @@ export const DefaultClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-body-100 underline"
+          className="cursor-pointer text-foreground-default underline"
         >
           Show again
         </button>
@@ -281,7 +281,7 @@ export const MultipleDismissible: Story = {
             <button
               type="button"
               onClick={() => setSnackbars({ vipEarn: true, default: true, welcome: true })}
-              className="cursor-pointer text-body-100 underline"
+              className="cursor-pointer text-foreground-default underline"
             >
               Reset all
             </button>

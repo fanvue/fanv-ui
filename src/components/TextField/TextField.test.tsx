@@ -104,7 +104,7 @@ describe("TextField", () => {
   describe("error state", () => {
     it("applies error state styling", () => {
       const { container } = render(<TextField aria-label="Test" error />);
-      const inputContainer = container.querySelector('[class*="border-error-500"]');
+      const inputContainer = container.querySelector('[class*="border-error-default"]');
       expect(inputContainer).toBeInTheDocument();
     });
 
@@ -135,7 +135,7 @@ describe("TextField", () => {
     it("applies error styling to helper text when error is true", () => {
       render(<TextField aria-label="Test" error helperText="Helper text" />);
       const helperText = screen.getByText("Helper text");
-      expect(helperText).toHaveClass("text-error-500");
+      expect(helperText).toHaveClass("text-error-default");
     });
 
     it("supports disabled state", () => {
@@ -241,9 +241,9 @@ describe("TextField", () => {
       expect(inputContainer).toHaveClass("border-transparent");
     });
 
-    it("renders border-error-500 instead of border-transparent when error", () => {
+    it("renders border-error-default instead of border-transparent when error", () => {
       const { container } = render(<TextField aria-label="Test" error />);
-      const inputContainer = container.querySelector('[class*="border-error-500"]');
+      const inputContainer = container.querySelector('[class*="border-error-default"]');
       expect(inputContainer).toBeInTheDocument();
       expect(inputContainer).toHaveClass("border");
       expect(inputContainer).not.toHaveClass("border-transparent");
