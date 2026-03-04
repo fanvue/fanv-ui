@@ -76,20 +76,32 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           size === "32" && "h-8 py-1",
           size === "40" && "h-10 py-2.5",
           // Variant colors
-          isDark && "bg---primitives-color-blackalpha-600 text-foreground-onaccentinverse",
-          !isDark && selected && "bg-brand-accent-muted text-neutral-400",
-          !isDark && !selected && "bg-neutral-100 text-neutral-400",
+          isDark && "bg-primitives-color-blackalpha-600 text-foreground-onaccentinverse",
+          !isDark && selected && "bg-brand-accent-muted text-neutral-solid",
+          !isDark && !selected && "bg-neutral-50 text-neutral-solid",
           // Hover
+          isInteractive &&
+            !disabled &&
+            isDark &&
+            "hover:bg-surface-container active:bg-surface-container",
           isInteractive &&
             !disabled &&
             !isDark &&
             !selected &&
             "hover:bg-brand-accent-muted active:bg-brand-accent-muted",
+          isInteractive &&
+            !disabled &&
+            !isDark &&
+            selected &&
+            "hover:bg-brand-accent-default hover:text-foreground-onaccent active:bg-brand-accent-default active:text-foreground-onaccent",
           // Focus
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
+          // Square selected border
+          variant === "square" && selected && "border border-brand-accent-default",
           // Disabled
           disabled && isDark && "pointer-events-none opacity-50",
-          disabled && !isDark && "pointer-events-none text-neutral-300",
+          disabled && !isDark && !selected && "pointer-events-none text-neutral-600",
+          disabled && !isDark && selected && "pointer-events-none text-neutral-400",
           className,
         )}
         {...(isInteractive && {
