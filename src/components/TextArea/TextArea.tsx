@@ -126,10 +126,10 @@ function warnMissingAccessibleName(label?: string, ariaLabel?: string, ariaLabel
 function calculateMaxHeight(size: TextAreaSize, maxRows?: number): string | undefined {
   if (!maxRows) return undefined;
 
-  // Line height is 24px for body-1 (sizes 48 and 40) and 20px for body-2 (size 32)
-  const lineHeight = size === "32" ? 20 : 24;
-  // py-2 = 8px, py-3 = 12px
-  const verticalPadding = size === "32" ? 8 : size === "40" ? 8 : 12;
+  // Line height is 24px for body-1 (sizes 48 and 40) and 18px for body-2 (size 32)
+  const lineHeight = size === "32" ? 18 : 24;
+  // py-[7px] = 7px, py-[11px] = 11px
+  const verticalPadding = size === "48" ? 11 : 7;
 
   return `${lineHeight * maxRows + verticalPadding * 2}px`;
 }
