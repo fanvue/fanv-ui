@@ -97,7 +97,7 @@
 
 }
 
-:root {
+.light {
   /* Stacking layer for portal-rendered overlays (Select, Tooltip).
      Override to sit above high-z containers such as MUI Dialog:
      :root { --fanvue-ui-portal-z-index: 1400; } */

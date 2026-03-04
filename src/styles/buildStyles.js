@@ -55,7 +55,7 @@ const getColorSections = (rawTokens) => {
   const darkMap = new Map(semanticDarkTokens.map(({ path, value }) => [path.join("."), value]));
 
   let themeVars = "";
-  let rootVars = "";
+  let lightVars = "";
   let darkVars = "";
 
   for (const { path, value } of semanticLightTokens) {
@@ -63,7 +63,7 @@ const getColorSections = (rawTokens) => {
     themeVars += `  ${cssVar}: var(${cssVar});\n`;
 
     const lightResolved = resolveRef(value);
-    rootVars += `  ${cssVar}: ${lightResolved};\n`;
+    lightVars += `  ${cssVar}: ${lightResolved};\n`;
 
     const darkRaw = darkMap.get(path.join("."));
     const darkResolved = darkRaw !== undefined ? resolveRef(darkRaw) : lightResolved;
@@ -77,7 +77,7 @@ const getColorSections = (rawTokens) => {
     primitivesVars += `  ${varName}: ${value};\n`;
   }
 
-  return { themeVars, rootVars, darkVars, primitivesVars };
+  return { themeVars, lightVars, darkVars, primitivesVars };
 };
 
 const getTypographyClasses = (typographyTokens) => {
@@ -166,7 +166,7 @@ const BASE_LAYER = `@layer base {
 
 const rawTokens = JSON.parse(fs.readFileSync(tokensPath, "utf-8"));
 
-const { themeVars, rootVars, darkVars, primitivesVars } = getColorSections(rawTokens);
+const { themeVars, lightVars, darkVars, primitivesVars } = getColorSections(rawTokens);
 const effectVars = getEffectTokens(rawTokens.effect);
 const typographyClasses = getTypographyClasses(rawTokens.typography);
 
@@ -182,13 +182,13 @@ const output = [
   themeVars,
   `}`,
   ``,
-  `:root {`,
+  `.light {`,
   `  /* Stacking layer for portal-rendered overlays (Select, Tooltip).`,
   `     Override to sit above high-z containers such as MUI Dialog:`,
   `     :root { --fanvue-ui-portal-z-index: 1400; } */`,
   `  --fanvue-ui-portal-z-index: 50;`,
   ``,
-  rootVars,
+  lightVars,
   `}`,
   ``,
   `.dark {`,

@@ -2279,6 +2279,7 @@ function App() {
 
   React.useEffect(() => {
     document.body.classList.toggle("dark", dark);
+    document.body.classList.toggle("light", !dark);
   }, [dark]);
 
   const sections = [
