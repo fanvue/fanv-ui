@@ -85,13 +85,13 @@ const colorGroups: ColorGroup[] = [
       },
       {
         name: "350",
-        variable: "--color-primitives-light-color-blackalpha-200",
-        tailwind: "primitives-light-color-blackalpha-200",
+        variable: "--color-primitives-color-blackalpha-200",
+        tailwind: "primitives-color-blackalpha-200",
       },
       {
         name: "400",
-        variable: "--color-primitives-light-color-blackalpha-900",
-        tailwind: "primitives-light-color-blackalpha-900",
+        variable: "--color-primitives-color-blackalpha-900",
+        tailwind: "primitives-color-blackalpha-900",
       },
       { name: "500", variable: "--color-surface-backdrop", tailwind: "surface-backdrop" },
       {
@@ -106,8 +106,8 @@ const colorGroups: ColorGroup[] = [
       },
       {
         name: "800",
-        variable: "--color---primitives-light-color-blackalpha-600",
-        tailwind: "--primitives-light-color-blackalpha-600",
+        variable: "--color---primitives-color-blackalpha-600",
+        tailwind: "--primitives-color-blackalpha-600",
       },
       {
         name: "Inverse Solid",
@@ -122,8 +122,8 @@ const colorGroups: ColorGroup[] = [
       },
       {
         name: "White Solid Constant",
-        variable: "--color-primitives-light-color-gray-white",
-        tailwind: "primitives-light-color-gray-white",
+        variable: "--color-primitives-color-gray-white",
+        tailwind: "primitives-color-gray-white",
       },
     ],
   },

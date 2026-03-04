@@ -609,7 +609,7 @@ function LogoDemo() {
         <Logo variant="portrait" color="decolour" />
         <Logo variant="wordmark" color="decolour" />
       </div>
-      <div className="rounded-lg bg-primitives-light-color-gray-white p-4">
+      <div className="rounded-lg bg-primitives-color-gray-white p-4">
         <div className="flex flex-wrap items-start gap-8">
           <Logo variant="full" color="blackAlways" />
           <Logo variant="icon" color="blackAlways" />
@@ -676,7 +676,7 @@ function IconsDemo() {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-primitives-light-color-gray-white p-4 text-foreground-onaccent">
+        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-primitives-color-gray-white p-4 text-foreground-onaccent">
           {(
             [
               ["ArrowRight", ArrowRightIcon],
@@ -2334,12 +2334,12 @@ function App() {
     <div className="min-h-screen bg-surface-page text-foreground-default">
       <ToastProvider>
         {/* Dark / Light toggle and TOC */}
-        <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-200 border-b bg-inherit px-4 py-3">
+        <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-200 border-b bg-surface-page px-4 py-3">
           <div className="relative">
             <button
               type="button"
               onClick={() => setTocOpen((prev) => !prev)}
-              className="typography-body-2-medium flex items-center gap-2 rounded-lg border border-neutral-200 bg-primitives-light-color-gray-white px-3 py-2 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-foreground-onaccent dark:hover:bg-neutral-800"
+              className="typography-body-2-medium flex items-center gap-2 rounded-lg border border-neutral-200 bg-primitives-color-gray-white px-3 py-2 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-foreground-onaccent dark:hover:bg-neutral-800"
               aria-label="Toggle table of contents"
             >
               <HomeIcon className="size-4" />
@@ -2355,7 +2355,7 @@ function App() {
                   onClick={() => setTocOpen(false)}
                   aria-hidden="true"
                 />
-                <div className="absolute top-full left-0 z-50 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-lg border border-neutral-200 bg-primitives-light-color-gray-white shadow-lg dark:border-neutral-700 dark:bg-foreground-onaccent">
+                <div className="absolute top-full left-0 z-50 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-lg border border-neutral-200 bg-primitives-color-gray-white shadow-lg dark:border-neutral-700 dark:bg-foreground-onaccent">
                   <div className="p-2">
                     {sections.map((section) => (
                       <button
@@ -2373,17 +2373,12 @@ function App() {
             )}
           </div>
           <div className="flex items-center gap-3">
-            <span className="typography-body-2-medium">{dark ? "Dark" : "Light"}</span>
-            <button
-              type="button"
-              onClick={() => setDark((d) => !d)}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${dark ? "bg-brand-accent-default" : "bg-neutral-200"}`}
-              aria-label="Toggle dark mode"
-            >
-              <span
-                className={`pointer-events-none inline-block size-5 rounded-full bg-primitives-light-color-gray-white shadow-sm ring-0 transition-transform ${dark ? "translate-x-5" : "translate-x-0"}`}
-              />
-            </button>
+            <SwitchField
+              label="Dark mode"
+              orientation="left"
+              checked={dark}
+              onCheckedChange={() => setDark((d) => !d)}
+            />
           </div>
         </div>
 

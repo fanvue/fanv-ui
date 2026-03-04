@@ -72,9 +72,9 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   brand:
     "bg-brand-accent-default text-foreground-onaccent hover:bg-brand-secondary-default active:bg-brand-secondary-default",
   destructive:
-    "bg-error-default text-foreground-onaccentinverse hover:bg-surface-pageInverse dark:hover:bg-primitives-light-color-gray-white dark:hover:text-error-default active:bg-surface-pageInverse dark:active:bg-primitives-light-color-gray-white dark:active:text-error-default",
+    "bg-error-default text-foreground-onaccentinverse hover:bg-surface-pageInverse dark:hover:bg-primitives-color-gray-white dark:hover:text-error-default active:bg-surface-pageInverse dark:active:bg-primitives-color-gray-white dark:active:text-error-default",
   white:
-    "bg-primitives-light-color-gray-white text-foreground-onaccent hover:bg-brand-accent-default active:bg-brand-accent-default",
+    "bg-primitives-color-gray-white text-foreground-onaccent hover:bg-brand-accent-default active:bg-brand-accent-default",
   tertiaryDestructive:
     "bg-transparent text-error-default hover:bg-error-background active:bg-error-background",
   text: "bg-transparent text-foreground-default hover:underline active:underline",

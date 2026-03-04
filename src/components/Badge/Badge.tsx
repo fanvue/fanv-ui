@@ -5,7 +5,7 @@ import { cn } from "../../utils/cn";
 const badgeVariants = {
   variant: {
     default: "bg-neutral-100 text-neutral-400",
-    dark: "bg---primitives-light-color-blackalpha-600 text-foreground-inverse dark:text-foreground-onaccentinverse",
+    dark: "bg---primitives-color-blackalpha-600 text-foreground-inverse dark:text-foreground-onaccentinverse",
     success: "bg-neutral-100 text-neutral-400",
     warning: "bg-neutral-100 text-neutral-400",
     error: "bg-neutral-100 text-neutral-400",

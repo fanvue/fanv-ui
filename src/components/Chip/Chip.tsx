@@ -76,7 +76,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           size === "32" && "h-8 py-1",
           size === "40" && "h-10 py-2.5",
           // Variant colors
-          isDark && "bg---primitives-light-color-blackalpha-600 text-foreground-onaccentinverse",
+          isDark && "bg---primitives-color-blackalpha-600 text-foreground-onaccentinverse",
           !isDark && selected && "bg-brand-accent-muted text-neutral-400",
           !isDark && !selected && "bg-neutral-100 text-neutral-400",
           // Hover

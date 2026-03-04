@@ -34,7 +34,8 @@ const resolveRef = (value) => {
   const inner = value.slice(1, -1);
 
   if (inner.startsWith("primitives.")) {
-    const cssVar = `--${inner.split(".").map(toKebab).join("-")}`;
+    const parts = inner.split(".");
+    const cssVar = `--primitives-color-${parts.slice(3).map(toKebab).join("-")}`;
     return `var(${cssVar})`;
   }
 
@@ -70,12 +71,10 @@ const getColorSections = (rawTokens) => {
   }
 
   let primitivesVars = "";
-  for (const mode of ["light", "dark"]) {
-    const primTokens = flattenTokens(rawTokens.primitives[mode].color);
-    for (const { path, value } of primTokens) {
-      const varName = `--primitives-${mode}-color-${path.map(toKebab).join("-")}`;
-      primitivesVars += `  ${varName}: ${value};\n`;
-    }
+  const primTokens = flattenTokens(rawTokens.primitives.light.color);
+  for (const { path, value } of primTokens) {
+    const varName = `--primitives-color-${path.map(toKebab).join("-")}`;
+    primitivesVars += `  ${varName}: ${value};\n`;
   }
 
   return { themeVars, rootVars, darkVars, primitivesVars };
