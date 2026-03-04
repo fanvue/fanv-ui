@@ -146,7 +146,7 @@ const AvatarFallback = React.forwardRef<
   <AvatarPrimitive.Fallback
     ref={ref}
     className={cn(
-      "flex size-full items-center justify-center bg-neutral-500 font-semibold text-neutral-400 uppercase leading-none",
+      "flex size-full items-center justify-center bg-neutral-200 font-semibold text-foreground-inverse uppercase leading-none",
       className,
     )}
     delayMs={0}

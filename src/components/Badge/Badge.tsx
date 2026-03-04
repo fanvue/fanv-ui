@@ -4,22 +4,26 @@ import { cn } from "../../utils/cn";
 
 const badgeVariants = {
   variant: {
-    default: "bg-neutral-100 text-neutral-400",
-    dark: "bg---primitives-color-blackalpha-600 text-foreground-inverse dark:text-foreground-onaccentinverse",
-    success: "bg-neutral-100 text-neutral-400",
-    warning: "bg-neutral-100 text-neutral-400",
-    error: "bg-neutral-100 text-neutral-400",
-    special: "bg-neutral-100 text-neutral-400",
-    info: "bg-neutral-100 text-neutral-400",
-    online: "bg-surface-container text-brand-accent-default",
-    brand: "bg-brand-accent-default text-foreground-onaccent",
-    pink: "bg-brand-secondary-default text-foreground-onaccent",
-    brandLight: "bg-brand-accent-muted text-foreground-onaccent",
-    pinkLight: "bg-brand-secondary-muted text-foreground-onaccent",
+    default: "gap-2 bg-neutral-50 text-neutral-solid",
+    dark: "gap-2 bg-primitives-color-blackalpha-600 text-foreground-onaccentinverse",
+    success: "gap-2 bg-neutral-50 text-neutral-solid",
+    warning: "gap-2 bg-neutral-50 text-neutral-solid",
+    error: "gap-2 bg-neutral-50 text-neutral-solid",
+    special: "gap-2 bg-neutral-50 text-neutral-solid",
+    info: "gap-2 bg-neutral-50 text-neutral-solid",
+    online: "gap-1 bg-surface-page text-brand-accent-default",
+    brand: "gap-1 bg-brand-accent-default text-foreground-onaccent",
+    pink: "gap-1 bg-brand-secondary-default text-foreground-onaccent",
+    brandLight: "gap-1 bg-brand-accent-muted text-foreground-default",
+    pinkLight: "gap-1 bg-brand-secondary-muted text-foreground-default",
+    successBg: "gap-1 bg-success-background text-foreground-default",
+    warningBg: "gap-1 bg-warning-background text-foreground-default",
+    errorBg: "gap-1 bg-error-background text-foreground-default",
+    infoBg: "gap-1 bg-info-background text-foreground-default",
   },
   dotColor: {
-    default: "bg-foreground-onaccent",
-    dark: "bg-foreground-inverse dark:bg-foreground-onaccentinverse",
+    default: "bg-foreground-default",
+    dark: "bg-foreground-default",
     success: "bg-success-default",
     warning: "bg-warning-default",
     error: "bg-error-default",
@@ -28,8 +32,12 @@ const badgeVariants = {
     online: "bg-brand-accent-default",
     brand: "bg-foreground-onaccent",
     pink: "bg-foreground-onaccent",
-    brandLight: "bg-foreground-onaccent",
-    pinkLight: "bg-foreground-onaccent",
+    brandLight: "bg-foreground-default",
+    pinkLight: "bg-foreground-default",
+    successBg: "bg-success-default",
+    warningBg: "bg-warning-default",
+    errorBg: "bg-error-default",
+    infoBg: "bg-info-default",
   },
 } as const;
 
@@ -46,7 +54,11 @@ export type BadgeVariant =
   | "brand"
   | "pink"
   | "brandLight"
-  | "pinkLight";
+  | "pinkLight"
+  | "successBg"
+  | "warningBg"
+  | "errorBg"
+  | "infoBg";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Visual style variant of the badge. @default "default" */
@@ -91,7 +103,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         data-testid="badge"
         className={cn(
           // Base styles
-          "typography-semibold-body-sm inline-flex h-5 items-center gap-2 rounded-full px-2",
+          "typography-semibold-body-sm inline-flex h-5 items-center rounded-full px-2",
           // Variant styles
           badgeVariants.variant[variant],
           // Manual CSS overrides
