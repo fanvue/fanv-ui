@@ -25,83 +25,166 @@ type ColorGroup = {
   tokens: ColorToken[];
 };
 
-const colorGroups: ColorGroup[] = [
+const semanticGroups: ColorGroup[] = [
   {
-    title: "Primary",
-    description: "Core text and UI element colors. Adapts between dark and light themes.",
+    title: "Foreground",
+    description: "Text and icon colors.",
     tokens: [
-      { name: "50", variable: "--color-primary-50", tailwind: "primary-50" },
-      { name: "100", variable: "--color-primary-100", tailwind: "primary-100" },
-      { name: "200", variable: "--color-primary-200", tailwind: "primary-200" },
-      { name: "300", variable: "--color-primary-300", tailwind: "primary-300" },
-      { name: "400", variable: "--color-primary-400", tailwind: "primary-400" },
-      { name: "500", variable: "--color-primary-500", tailwind: "primary-500" },
+      { name: "Default", variable: "--color-foreground-default", tailwind: "foreground-default" },
+      {
+        name: "Secondary",
+        variable: "--color-foreground-secondary",
+        tailwind: "foreground-secondary",
+      },
+      {
+        name: "Tertiary",
+        variable: "--color-foreground-tertiary",
+        tailwind: "foreground-tertiary",
+      },
+      { name: "Inverse", variable: "--color-foreground-inverse", tailwind: "foreground-inverse" },
+      {
+        name: "On Accent",
+        variable: "--color-foreground-onaccent",
+        tailwind: "foreground-onaccent",
+      },
+      {
+        name: "On Accent Inverse",
+        variable: "--color-foreground-onaccentinverse",
+        tailwind: "foreground-onaccentinverse",
+      },
+    ],
+  },
+  {
+    title: "Surface",
+    description: "Background and container colors for layouts.",
+    tokens: [
+      { name: "Page", variable: "--color-surface-page", tailwind: "surface-page" },
+      {
+        name: "Page Inverse",
+        variable: "--color-surface-pageinverse",
+        tailwind: "surface-pageinverse",
+      },
+      {
+        name: "Page Inverse Soft",
+        variable: "--color-surface-pageinversesoft",
+        tailwind: "surface-pageinversesoft",
+      },
+      {
+        name: "Behind Page",
+        variable: "--color-surface-behindpage",
+        tailwind: "surface-behindpage",
+      },
+      {
+        name: "Container",
+        variable: "--color-surface-container",
+        tailwind: "surface-container",
+      },
+      {
+        name: "Container Raised",
+        variable: "--color-surface-containerraised",
+        tailwind: "surface-containerraised",
+      },
+      {
+        name: "Container Subtle",
+        variable: "--color-surface-containersubtle",
+        tailwind: "surface-containersubtle",
+      },
+      { name: "Input", variable: "--color-surface-input", tailwind: "surface-input" },
+      { name: "Modal", variable: "--color-surface-modal", tailwind: "surface-modal" },
+      { name: "Backdrop", variable: "--color-surface-backdrop", tailwind: "surface-backdrop" },
     ],
   },
   {
     title: "Neutral",
-    description: "Subtle tones for borders, dividers, and secondary surfaces.",
+    description: "Borders, dividers, and secondary UI tones.",
     tokens: [
       { name: "50", variable: "--color-neutral-50", tailwind: "neutral-50" },
       { name: "100", variable: "--color-neutral-100", tailwind: "neutral-100" },
+      { name: "150", variable: "--color-neutral-150", tailwind: "neutral-150" },
       { name: "200", variable: "--color-neutral-200", tailwind: "neutral-200" },
-      { name: "250", variable: "--color-neutral-250", tailwind: "neutral-250" },
       { name: "300", variable: "--color-neutral-300", tailwind: "neutral-300" },
-      { name: "350", variable: "--color-neutral-350", tailwind: "neutral-350" },
       { name: "400", variable: "--color-neutral-400", tailwind: "neutral-400" },
       { name: "500", variable: "--color-neutral-500", tailwind: "neutral-500" },
-    ],
-  },
-  {
-    title: "Body",
-    description: "Text colors and constant values that don't change with theme.",
-    tokens: [
-      { name: "100", variable: "--color-body-100", tailwind: "body-100" },
-      { name: "200", variable: "--color-body-200", tailwind: "body-200" },
-      { name: "300", variable: "--color-body-300", tailwind: "body-300" },
-      { name: "400", variable: "--color-body-400", tailwind: "body-400" },
-      {
-        name: "Black Solid",
-        variable: "--color-body-black-solid-constant",
-        tailwind: "body-black-solid-constant",
-      },
-      {
-        name: "White Solid",
-        variable: "--color-body-white-solid-constant",
-        tailwind: "body-white-solid-constant",
-      },
-    ],
-  },
-  {
-    title: "Background",
-    description: "Surface and overlay colors for layouts and containers.",
-    tokens: [
-      { name: "0", variable: "--color-background-0", tailwind: "background-0" },
-      { name: "1", variable: "--color-background-1", tailwind: "background-1" },
-      { name: "150", variable: "--color-background-150", tailwind: "background-150" },
-      { name: "200", variable: "--color-background-200", tailwind: "background-200" },
-      { name: "250", variable: "--color-background-250", tailwind: "background-250" },
-      { name: "350", variable: "--color-background-350", tailwind: "background-350" },
-      { name: "400", variable: "--color-background-400", tailwind: "background-400" },
-      { name: "500", variable: "--color-background-500", tailwind: "background-500" },
-      { name: "600", variable: "--color-background-600", tailwind: "background-600" },
-      { name: "700", variable: "--color-background-700", tailwind: "background-700" },
-      { name: "800", variable: "--color-background-800", tailwind: "background-800" },
+      { name: "600", variable: "--color-neutral-600", tailwind: "neutral-600" },
+      { name: "700", variable: "--color-neutral-700", tailwind: "neutral-700" },
+      { name: "800", variable: "--color-neutral-800", tailwind: "neutral-800" },
+      { name: "900", variable: "--color-neutral-900", tailwind: "neutral-900" },
+      { name: "950", variable: "--color-neutral-950", tailwind: "neutral-950" },
+      { name: "Solid", variable: "--color-neutral-solid", tailwind: "neutral-solid" },
       {
         name: "Inverse Solid",
-        variable: "--color-background-inverse-solid",
-        tailwind: "background-inverse-solid",
+        variable: "--color-neutral-inversesolid",
+        tailwind: "neutral-inversesolid",
       },
-      { name: "Solid", variable: "--color-background-solid", tailwind: "background-solid" },
+    ],
+  },
+  {
+    title: "Brand — Accent",
+    description: "Primary brand accent (green).",
+    tokens: [
+      { name: "Muted", variable: "--color-brand-accent-muted", tailwind: "brand-accent-muted" },
       {
-        name: "Inverse Solid Light",
-        variable: "--color-background-inverse-solid-light",
-        tailwind: "background-inverse-solid-light",
+        name: "Default",
+        variable: "--color-brand-accent-default",
+        tailwind: "brand-accent-default",
+      },
+      { name: "Hover", variable: "--color-brand-accent-hover", tailwind: "brand-accent-hover" },
+      {
+        name: "Foreground",
+        variable: "--color-brand-accent-foreground",
+        tailwind: "brand-accent-foreground",
+      },
+    ],
+  },
+  {
+    title: "Brand — Secondary",
+    description: "Secondary brand color (pink).",
+    tokens: [
+      {
+        name: "Muted",
+        variable: "--color-brand-secondary-muted",
+        tailwind: "brand-secondary-muted",
       },
       {
-        name: "White Solid Constant",
-        variable: "--color-background-white-solid-constant",
-        tailwind: "background-white-solid-constant",
+        name: "Default",
+        variable: "--color-brand-secondary-default",
+        tailwind: "brand-secondary-default",
+      },
+      {
+        name: "Hover",
+        variable: "--color-brand-secondary-hover",
+        tailwind: "brand-secondary-hover",
+      },
+      {
+        name: "Foreground",
+        variable: "--color-brand-secondary-foreground",
+        tailwind: "brand-secondary-foreground",
+      },
+    ],
+  },
+  {
+    title: "Brand — Tertiary",
+    description: "Tertiary brand color (purple).",
+    tokens: [
+      {
+        name: "Muted",
+        variable: "--color-brand-tertiary-muted",
+        tailwind: "brand-tertiary-muted",
+      },
+      {
+        name: "Default",
+        variable: "--color-brand-tertiary-default",
+        tailwind: "brand-tertiary-default",
+      },
+      {
+        name: "Hover",
+        variable: "--color-brand-tertiary-hover",
+        tailwind: "brand-tertiary-hover",
+      },
+      {
+        name: "Foreground",
+        variable: "--color-brand-tertiary-foreground",
+        tailwind: "brand-tertiary-foreground",
       },
     ],
   },
@@ -109,95 +192,107 @@ const colorGroups: ColorGroup[] = [
     title: "Success",
     description: "Positive feedback and confirmation states.",
     tokens: [
-      { name: "50", variable: "--color-success-50", tailwind: "success-50" },
-      { name: "500", variable: "--color-success-500", tailwind: "success-500" },
+      {
+        name: "Background",
+        variable: "--color-success-background",
+        tailwind: "success-background",
+      },
+      { name: "Default", variable: "--color-success-default", tailwind: "success-default" },
+      { name: "Border", variable: "--color-success-border", tailwind: "success-border" },
     ],
   },
   {
     title: "Warning",
     description: "Caution and attention states.",
     tokens: [
-      { name: "50", variable: "--color-warning-50", tailwind: "warning-50" },
-      { name: "500", variable: "--color-warning-500", tailwind: "warning-500" },
+      {
+        name: "Background",
+        variable: "--color-warning-background",
+        tailwind: "warning-background",
+      },
+      { name: "Default", variable: "--color-warning-default", tailwind: "warning-default" },
+      { name: "Border", variable: "--color-warning-border", tailwind: "warning-border" },
     ],
   },
   {
     title: "Error",
     description: "Destructive and error states.",
     tokens: [
-      { name: "50", variable: "--color-error-50", tailwind: "error-50" },
-      { name: "500", variable: "--color-error-500", tailwind: "error-500" },
+      { name: "Background", variable: "--color-error-background", tailwind: "error-background" },
+      { name: "Default", variable: "--color-error-default", tailwind: "error-default" },
+      { name: "Border", variable: "--color-error-border", tailwind: "error-border" },
     ],
   },
   {
     title: "Info",
     description: "Informational feedback states.",
     tokens: [
-      { name: "50", variable: "--color-info-50", tailwind: "info-50" },
-      { name: "500", variable: "--color-info-500", tailwind: "info-500" },
-    ],
-  },
-  {
-    title: "Hover",
-    description: "Interactive hover state overlays.",
-    tokens: [
-      { name: "100", variable: "--color-hover-100", tailwind: "hover-100" },
-      { name: "200", variable: "--color-hover-200", tailwind: "hover-200" },
-      { name: "300", variable: "--color-hover-300", tailwind: "hover-300" },
-      { name: "400", variable: "--color-hover-400", tailwind: "hover-400" },
+      { name: "Background", variable: "--color-info-background", tailwind: "info-background" },
+      { name: "Default", variable: "--color-info-default", tailwind: "info-default" },
+      { name: "Border", variable: "--color-info-border", tailwind: "info-border" },
     ],
   },
   {
     title: "Link",
     description: "Anchor and interactive link colors.",
     tokens: [
-      { name: "500", variable: "--color-link-500", tailwind: "link-500" },
-      { name: "600", variable: "--color-link-600", tailwind: "link-600" },
+      { name: "Default", variable: "--color-link-default", tailwind: "link-default" },
+      { name: "Hover", variable: "--color-link-hover", tailwind: "link-hover" },
     ],
   },
   {
-    title: "Disabled",
-    description: "Disabled and inactive element states.",
+    title: "Ring",
+    description: "Focus ring color.",
+    tokens: [{ name: "Ring", variable: "--color-ring", tailwind: "ring" }],
+  },
+  {
+    title: "Special",
+    description: "Premium and special feature colors.",
     tokens: [
-      { name: "100", variable: "--color-disabled-100", tailwind: "disabled-100" },
-      { name: "400", variable: "--color-disabled-400", tailwind: "disabled-400" },
-      { name: "500", variable: "--color-disabled-500", tailwind: "disabled-500" },
-      { name: "600", variable: "--color-disabled-600", tailwind: "disabled-600" },
+      {
+        name: "Background",
+        variable: "--color-special-background",
+        tailwind: "special-background",
+      },
+      { name: "Default", variable: "--color-special-default", tailwind: "special-default" },
     ],
   },
   {
     title: "Chart",
-    description: "Data visualization palette for charts and graphs.",
+    description: "Data visualization palette.",
     tokens: [
-      { name: "50", variable: "--color-chart-50", tailwind: "chart-50" },
-      { name: "100", variable: "--color-chart-100", tailwind: "chart-100" },
-      { name: "200", variable: "--color-chart-200", tailwind: "chart-200" },
-      { name: "300", variable: "--color-chart-300", tailwind: "chart-300" },
-      { name: "400", variable: "--color-chart-400", tailwind: "chart-400" },
-      { name: "500", variable: "--color-chart-500", tailwind: "chart-500" },
-      { name: "600", variable: "--color-chart-600", tailwind: "chart-600" },
+      { name: "Teal", variable: "--color-special-chart-teal", tailwind: "special-chart-teal" },
+      { name: "Sky", variable: "--color-special-chart-sky", tailwind: "special-chart-sky" },
+      {
+        name: "Magenta",
+        variable: "--color-special-chart-magenta",
+        tailwind: "special-chart-magenta",
+      },
+      {
+        name: "Orange",
+        variable: "--color-special-chart-orange",
+        tailwind: "special-chart-orange",
+      },
+      { name: "Gray", variable: "--color-special-chart-gray", tailwind: "special-chart-gray" },
+      { name: "Pink", variable: "--color-special-chart-pink", tailwind: "special-chart-pink" },
+      {
+        name: "Purple",
+        variable: "--color-special-chart-purple",
+        tailwind: "special-chart-purple",
+      },
     ],
   },
-  {
-    title: "Brand",
-    description: "Fanvue brand identity colors.",
-    tokens: [
-      { name: "Green 50", variable: "--color-brand-green-50", tailwind: "brand-green-50" },
-      { name: "Green 500", variable: "--color-brand-green-500", tailwind: "brand-green-500" },
-      { name: "Pink 50", variable: "--color-brand-pink-50", tailwind: "brand-pink-50" },
-      { name: "Pink 500", variable: "--color-brand-pink-500", tailwind: "brand-pink-500" },
-      { name: "Purple 50", variable: "--color-brand-purple-50", tailwind: "brand-purple-50" },
-      { name: "Purple 500", variable: "--color-brand-purple-500", tailwind: "brand-purple-500" },
-    ],
-  },
-  {
-    title: "Special",
-    description: "Accent colors for premium and special features.",
-    tokens: [
-      { name: "50", variable: "--color-special-50", tailwind: "special-50" },
-      { name: "500", variable: "--color-special-500", tailwind: "special-500" },
-    ],
-  },
+];
+
+const shadowTokens = [
+  { name: "Focus Ring", variable: "--shadow-focus-ring", tailwind: "shadow-focus-ring" },
+  { name: "Card", variable: "--shadow-card", tailwind: "shadow-card" },
+  { name: "Card Subtle", variable: "--shadow-cardsubtle", tailwind: "shadow-cardsubtle" },
+  { name: "Float", variable: "--shadow-float", tailwind: "shadow-float" },
+  { name: "Lifted", variable: "--shadow-lifted", tailwind: "shadow-lifted" },
+  { name: "Nav", variable: "--shadow-nav", tailwind: "shadow-nav" },
+  { name: "Blur Floating", variable: "--shadow-blur-floating", tailwind: "shadow-blur-floating" },
+  { name: "Blur Menu", variable: "--shadow-blur-menu", tailwind: "shadow-blur-menu" },
 ];
 
 function resolveColor(variable: string): string {
@@ -209,8 +304,7 @@ function Swatch({ token }: { token: ColorToken }) {
   const [hex, setHex] = useState("");
 
   useEffect(() => {
-    const value = resolveColor(token.variable);
-    setHex(value);
+    setHex(resolveColor(token.variable));
   });
 
   const checkerboard = "repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 12px 12px";
@@ -238,12 +332,14 @@ function Swatch({ token }: { token: ColorToken }) {
         />
       </div>
       <div style={{ fontSize: 12, lineHeight: 1.3 }}>
-        <div style={{ fontWeight: 600, color: "var(--color-body-100)" }}>{token.name}</div>
+        <div style={{ fontWeight: 600, color: "var(--color-foreground-default)" }}>
+          {token.name}
+        </div>
         <div
           style={{
             fontFamily: "monospace",
             fontSize: 11,
-            color: "var(--color-body-200)",
+            color: "var(--color-foreground-secondary)",
             wordBreak: "break-all",
           }}
         >
@@ -253,7 +349,7 @@ function Swatch({ token }: { token: ColorToken }) {
           style={{
             fontFamily: "monospace",
             fontSize: 10,
-            color: "var(--color-primary-300)",
+            color: "var(--color-neutral-300)",
             marginTop: 2,
           }}
         >
@@ -271,7 +367,7 @@ function ColorGroupSection({ group }: { group: ColorGroup }) {
         style={{
           fontSize: 18,
           fontWeight: 700,
-          color: "var(--color-body-100)",
+          color: "var(--color-foreground-default)",
           margin: "0 0 4px",
         }}
       >
@@ -281,7 +377,7 @@ function ColorGroupSection({ group }: { group: ColorGroup }) {
         <p
           style={{
             fontSize: 14,
-            color: "var(--color-body-200)",
+            color: "var(--color-foreground-secondary)",
             margin: "0 0 16px",
           }}
         >
@@ -310,7 +406,7 @@ export const Palette: Story = {
         style={{
           fontSize: 32,
           fontWeight: 800,
-          color: "var(--color-body-100)",
+          color: "var(--color-foreground-default)",
           margin: "0 0 8px",
         }}
       >
@@ -319,24 +415,24 @@ export const Palette: Story = {
       <p
         style={{
           fontSize: 16,
-          color: "var(--color-body-200)",
+          color: "var(--color-foreground-secondary)",
           margin: "0 0 12px",
           maxWidth: 640,
           lineHeight: 1.5,
         }}
       >
-        Our color tokens are exported from Figma and auto-generated into CSS custom properties.
-        Every token adapts between light and dark themes. Use the theme toggle in the toolbar above
-        to preview both modes.
+        Color tokens are exported from Figma and auto-generated into CSS custom properties. Every
+        semantic token adapts between light and dark themes. Use the theme toggle in the toolbar to
+        preview both modes.
       </p>
       <p
         style={{
           fontSize: 13,
           fontFamily: "monospace",
-          color: "var(--color-primary-300)",
+          color: "var(--color-neutral-300)",
           margin: "0 0 40px",
           padding: "8px 12px",
-          backgroundColor: "var(--color-background-600)",
+          backgroundColor: "var(--color-surface-containerraised)",
           borderRadius: 6,
           display: "inline-block",
         }}
@@ -344,7 +440,7 @@ export const Palette: Story = {
         @import "fanv-ui/styles/theme.css";
       </p>
 
-      {colorGroups.map((group) => (
+      {semanticGroups.map((group) => (
         <ColorGroupSection key={group.title} group={group} />
       ))}
 
@@ -355,7 +451,7 @@ export const Palette: Story = {
           style={{
             fontSize: 18,
             fontWeight: 700,
-            color: "var(--color-body-100)",
+            color: "var(--color-foreground-default)",
             margin: "0 0 4px",
           }}
         >
@@ -364,40 +460,35 @@ export const Palette: Story = {
         <p
           style={{
             fontSize: 14,
-            color: "var(--color-body-200)",
+            color: "var(--color-foreground-secondary)",
             margin: "0 0 16px",
           }}
         >
-          Focus ring and background blur tokens for interactive element states.
+          Elevation and focus tokens.
         </p>
-        <div style={{ display: "flex", gap: 32 }}>
-          {[
-            { name: "Focus Ring", variable: "--shadow-focus-ring", tailwind: "shadow-focus-ring" },
-            {
-              name: "Background Blur",
-              variable: "--shadow-background-blur",
-              tailwind: "shadow-background-blur",
-            },
-          ].map((shadow) => (
+        <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
+          {shadowTokens.map((shadow) => (
             <div key={shadow.name} style={{ textAlign: "center" }}>
               <div
                 style={{
                   width: 80,
                   height: 80,
                   borderRadius: 12,
-                  backgroundColor: "var(--color-background-200)",
+                  backgroundColor: "var(--color-surface-container)",
                   boxShadow: `var(${shadow.variable})`,
                   margin: "0 auto 8px",
                 }}
               />
-              <div style={{ fontSize: 13, fontWeight: 600, color: "var(--color-body-100)" }}>
+              <div
+                style={{ fontSize: 13, fontWeight: 600, color: "var(--color-foreground-default)" }}
+              >
                 {shadow.name}
               </div>
               <div
                 style={{
                   fontFamily: "monospace",
                   fontSize: 10,
-                  color: "var(--color-primary-300)",
+                  color: "var(--color-neutral-300)",
                 }}
               >
                 {shadow.tailwind}
