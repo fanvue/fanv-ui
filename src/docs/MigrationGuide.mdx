@@ -8,11 +8,6 @@ import { Meta } from '@storybook/addon-docs/blocks';
 >
 > **Last updated:** 2026-02-17
 
-> ⚠️ **Components Only Release**
->
-> This version of `@fanvue/ui` focuses exclusively on **component exports**. Design tokens (colors, typography scales, spacing) are **not yet finalized and may change**. Do not rely on specific CSS variable names, color utility classes, or typography class names from the library — these are subject to breaking changes in a future release.
->
-> This guide covers **component API migration only**. Guidance on design tokens, CSS variables, and theme migration will be added once the token system is stable.
 
 A reference for Pandora maintainers migrating from **Olympus** (`@pandora/olympus`) and **MUI** (`@mui/material`) to **@fanvue/ui** and **Tailwind CSS**.
 
@@ -615,27 +610,27 @@ Olympus uses a `<Typography>` component with MUI variants. @fanvue/ui provides *
 
 | Olympus `<Typography variant="...">` | @fanvue/ui CSS Class | Size |
 |---|---|---|
-| `variant="hero"` | `typography-hero` | 64px / 800 |
-| `variant="heading1"` | `typography-heading-1` | 48px / 700 |
-| `variant="heading2"` | `typography-heading-2` | 40px / 700 |
-| `variant="heading32"` | `typography-heading-32` | 32px / 700 |
-| `variant="heading3"` | `typography-heading-3` | 24px / 700 |
-| `variant="heading4"` | `typography-heading-4` | 20px / 700 |
-| `variant="subtitle1"` | `typography-subtitle` | 18px / 600 |
-| `variant="body1SemiBold"` | `typography-body-1-semibold` | 16px / 600 |
-| `variant="body1Medium"` | `typography-body-1-medium` | 16px / 500 |
-| `variant="body1Regular"` | `typography-body-1-regular` | 16px / 400 |
-| `variant="body2SemiBold"` | `typography-body-2-semibold` | 14px / 600 |
-| `variant="body2Medium"` | `typography-body-2-medium` | 14px / 500 |
-| `variant="body2Regular"` | `typography-body-2-regular` | 14px / 400 |
-| `variant="buttonLarge"` | `typography-button-large` | 18px / 600 |
-| `variant="buttonSmall"` | `typography-button-small` | 16px / 600 |
-| `variant="linkLarge"` | `typography-link-large` | 16px / 500 / underline |
-| `variant="linkSmall"` | `typography-link-small` | 14px / 500 / underline |
-| `variant="linkXSmall"` | `typography-link-x-small` | 12px / 500 / underline |
-| `variant="captionSemiBold"` | `typography-caption-semibold` | 12px / 600 |
-| `variant="captionRegular"` | `typography-caption-regular` | 12px / 400 |
-| `variant="badge"` | `typography-badge` | 9px / 600 / uppercase |
+| `variant="hero"` | `typography-bold-display` | 64px / 800 |
+| `variant="heading1"` | `typography-bold-heading-xl` | 48px / 700 |
+| `variant="heading2"` | `typography-bold-heading-lg` | 40px / 700 |
+| `variant="heading32"` | `typography-bold-heading-md` | 32px / 700 |
+| `variant="heading3"` | `typography-bold-heading-sm` | 24px / 700 |
+| `variant="heading4"` | `typography-bold-heading-xs` | 20px / 700 |
+| `variant="subtitle1"` | `typography-bold-heading-xs` | 18px / 600 |
+| `variant="body1SemiBold"` | `typography-semibold-body-lg` | 16px / 600 |
+| `variant="body1Medium"` | `typography-semibold-body-lg` | 16px / 500 |
+| `variant="body1Regular"` | `typography-regular-body-lg` | 16px / 400 |
+| `variant="body2SemiBold"` | `typography-semibold-body-md` | 14px / 600 |
+| `variant="body2Medium"` | `typography-semibold-body-md` | 14px / 500 |
+| `variant="body2Regular"` | `typography-regular-body-md` | 14px / 400 |
+| `variant="buttonLarge"` | `typography-semibold-body-lg` | 18px / 600 |
+| `variant="buttonSmall"` | `typography-semibold-body-lg` | 16px / 600 |
+| `variant="linkLarge"` | `typography-semibold-link-lg` | 16px / 500 / underline |
+| `variant="linkSmall"` | `typography-semibold-link-md` | 14px / 500 / underline |
+| `variant="linkXSmall"` | `typography-semibold-link-xs` | 12px / 500 / underline |
+| `variant="captionSemiBold"` | `typography-semibold-body-sm` | 12px / 600 |
+| `variant="captionRegular"` | `typography-regular-body-sm` | 12px / 400 |
+| `variant="badge"` | `typography-semibold-badge` | 9px / 600 / uppercase |
 
 ```tsx
 // Olympus
@@ -643,14 +638,14 @@ Olympus uses a `<Typography>` component with MUI variants. @fanvue/ui provides *
 <Typography variant="body1Regular">Body text</Typography>
 
 // @fanvue/ui + Tailwind
-<h3 className="typography-heading-3">Title</h3>
-<p className="typography-body-1-regular">Body text</p>
+<h3 className="typography-bold-heading-sm">Title</h3>
+<p className="typography-regular-body-lg">Body text</p>
 ```
 
 > **Watch out for:**
 > - Olympus Typography renders as a `<span>` by default (unless `component` prop is set). Choose your own semantic HTML element.
 > - Naming convention changes from camelCase (`body1Regular`) to kebab-case (`body-1-regular`).
-> - These are `@utility` rules, so Tailwind modifiers work: `md:typography-heading-3`, `dark:typography-body-1-regular`.
+> - These are `@utility` rules, so Tailwind modifiers work: `md:typography-bold-heading-sm`, `dark:typography-regular-body-lg`.
 ### High-Volume Components and Migration Notes
 
 These Olympus / MUI components are heavily used in Pandora. Some now have @fanvue/ui equivalents; others need alternative approaches:

@@ -1,6 +1,8 @@
 import { create } from "storybook/theming";
 import tokens from "../src/styles/styleTokens.json";
 
+const dark = tokens.primitives.dark.color;
+
 export default create({
   base: "dark",
 
@@ -9,17 +11,17 @@ export default create({
   brandUrl: "https://fanvue.com",
   brandImage: "./logo.svg",
   brandTarget: "_self",
-  colorPrimary: tokens.color.dark.brand.green[500].value,
-  colorSecondary: tokens.color.dark.brand.green[500].value,
-  appBg: tokens.color.dark.background[250].value,
-  appContentBg: tokens.color.dark.background[250].value,
-  appBorderColor: tokens.color.dark.neutral[200].value,
-  textColor: tokens.color.dark.primary[500].value,
-  textInverseColor: tokens.color.dark.primary[200].value,
-  textMutedColor: tokens.color.dark.primary[100].value,
+  colorPrimary: dark.green[500].value,
+  colorSecondary: dark.green[500].value,
+  appBg: dark.gray[900].value,
+  appContentBg: dark.gray[900].value,
+  appBorderColor: dark.whitealpha[200].value,
+  textColor: dark.gray.white.value,
+  textInverseColor: dark.gray[300].value,
+  textMutedColor: dark.gray[400].value,
 
-  barTextColor: tokens.color.dark.primary[500].value,
-  barHoverColor: tokens.color.dark.primary[500].value,
-  barSelectedColor: tokens.color.dark.brand.green[500].value,
-  barBg: tokens.color.dark.background[350].value,
+  barTextColor: dark.gray.white.value,
+  barHoverColor: dark.gray.white.value,
+  barSelectedColor: dark.green[500].value,
+  barBg: dark.gray[800].value,
 });

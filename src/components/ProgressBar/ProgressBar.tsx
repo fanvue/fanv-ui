@@ -96,7 +96,10 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
             {title != null && <p className="typography-caption-semibold text-body-100">{title}</p>}
             {showCompletion && (
               <span
-                className={cn(textColor, isSmall ? "typography-heading-3" : "typography-heading-1")}
+                className={cn(
+                  textColor,
+                  isSmall ? "typography-bold-heading-sm" : "typography-bold-heading-xl",
+                )}
               >
                 {Math.round(clampedValue)}%
               </span>
