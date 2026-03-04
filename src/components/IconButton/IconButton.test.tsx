@@ -44,7 +44,7 @@ describe("IconButton", () => {
         <IconButton icon={<HomeIcon />} variant="tertiary" counterValue={0} />,
       );
       // Find the badge element
-      const badge = container.querySelector(".bg-brand-green-500");
+      const badge = container.querySelector(".bg-brand-accent-default");
       expect(badge).not.toBeInTheDocument();
     });
   });
