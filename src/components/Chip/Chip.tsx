@@ -69,27 +69,39 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         ref={ref}
         data-testid="chip"
         className={cn(
-          "typography-caption-semibold relative inline-flex items-center justify-center gap-2 whitespace-nowrap px-3 motion-safe:transition-colors motion-safe:duration-150",
+          "typography-semibold-body-sm relative inline-flex items-center justify-center gap-2 whitespace-nowrap px-3 motion-safe:transition-colors motion-safe:duration-150",
           // Shape
           variant === "square" ? "rounded-lg" : "rounded-full",
           // Size
           size === "32" && "h-8 py-1",
           size === "40" && "h-10 py-2.5",
           // Variant colors
-          isDark && "bg-background-800 text-body-white-solid-constant",
-          !isDark && selected && "bg-brand-green-50 text-neutral-400",
-          !isDark && !selected && "bg-neutral-100 text-neutral-400",
+          isDark && "bg-primitives-color-blackalpha-600 text-foreground-onaccentinverse",
+          !isDark && selected && "bg-brand-accent-muted text-neutral-solid",
+          !isDark && !selected && "bg-neutral-50 text-neutral-solid",
           // Hover
+          isInteractive &&
+            !disabled &&
+            isDark &&
+            "hover:bg-surface-container active:bg-surface-container",
           isInteractive &&
             !disabled &&
             !isDark &&
             !selected &&
-            "hover:bg-brand-green-50 active:bg-brand-green-50",
+            "hover:bg-brand-accent-muted active:bg-brand-accent-muted",
+          isInteractive &&
+            !disabled &&
+            !isDark &&
+            selected &&
+            "hover:bg-brand-accent-default hover:text-foreground-onaccent active:bg-brand-accent-default active:text-foreground-onaccent",
           // Focus
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
+          // Square selected border
+          variant === "square" && selected && "border border-brand-accent-default",
           // Disabled
           disabled && isDark && "pointer-events-none opacity-50",
-          disabled && !isDark && "pointer-events-none text-neutral-300",
+          disabled && !isDark && !selected && "pointer-events-none text-neutral-600",
+          disabled && !isDark && selected && "pointer-events-none text-neutral-400",
           className,
         )}
         {...(isInteractive && {
@@ -115,7 +127,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           </span>
         )}
         {notificationLabel && (
-          <span className="typography-caption-semibold absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-body-100 px-1 text-body-300">
+          <span className="typography-semibold-body-sm absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground-default px-1 text-foreground-inverse">
             {notificationLabel}
           </span>
         )}
