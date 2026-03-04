@@ -86,7 +86,7 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
               className={cn(
                 "cursor-pointer select-none text-foreground-default",
                 disabled && "cursor-not-allowed text-neutral-250",
-                size === "default" ? "typography-body-1-semibold" : "typography-body-2-semibold",
+                size === "default" ? "typography-semibold-body-lg" : "typography-semibold-body-md",
               )}
             >
               {label}
@@ -114,7 +114,7 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
             className={cn(
               "text-foreground-secondary", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
               disabled && "text-neutral-250",
-              size === "default" ? "typography-body-2-regular" : "typography-caption-regular",
+              size === "default" ? "typography-regular-body-md" : "typography-regular-body-sm",
             )}
           >
             {helperText}

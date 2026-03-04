@@ -94,17 +94,20 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
         {showHeader && (
           <div className="flex w-full items-end justify-between">
             {title != null && (
-              <p className="typography-caption-semibold text-foreground-default">{title}</p>
+              <p className="typography-semibold-body-sm text-foreground-default">{title}</p>
             )}
             {showCompletion && (
               <span
-                className={cn(textColor, isSmall ? "typography-heading-3" : "typography-heading-1")}
+                className={cn(
+                  textColor,
+                  isSmall ? "typography-heading-3" : "typography-bold-heading-xl",
+                )}
               >
                 {Math.round(clampedValue)}%
               </span>
             )}
             {stepsLabel != null && (
-              <span className="typography-caption-regular text-foreground-default">
+              <span className="typography-regular-body-sm text-foreground-default">
                 {stepsLabel}
               </span>
             )}
@@ -137,11 +140,11 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
                 </span>
               )}
               {helperLeft != null && (
-                <span className="typography-caption-regular text-neutral-400">{helperLeft}</span>
+                <span className="typography-regular-body-sm text-neutral-400">{helperLeft}</span>
               )}
             </div>
             {helperRight != null && (
-              <span className="typography-caption-regular text-neutral-400">{helperRight}</span>
+              <span className="typography-regular-body-sm text-neutral-400">{helperRight}</span>
             )}
           </div>
         )}

@@ -130,7 +130,7 @@ export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
-        <span className="typography-body-2-semibold text-foreground-secondary">Default Size</span>
+        <span className="typography-semibold-body-md text-foreground-secondary">Default Size</span>
         <div className="flex items-center gap-4">
           <Switch checked={true} aria-label="On" />
           <Switch checked={false} aria-label="Off" />
@@ -139,7 +139,7 @@ export const AllVariants: Story = {
         </div>
       </div>
       <div className="flex flex-col gap-3">
-        <span className="typography-body-2-semibold text-foreground-secondary">Small Size</span>
+        <span className="typography-semibold-body-md text-foreground-secondary">Small Size</span>
         <div className="flex items-center gap-4">
           <Switch size="small" checked={true} aria-label="On" />
           <Switch size="small" checked={false} aria-label="Off" />

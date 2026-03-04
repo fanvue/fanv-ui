@@ -91,7 +91,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         data-testid="badge"
         className={cn(
           // Base styles
-          "typography-caption-semibold inline-flex h-5 items-center gap-2 rounded-full px-2",
+          "typography-semibold-body-sm inline-flex h-5 items-center gap-2 rounded-full px-2",
           // Variant styles
           badgeVariants.variant[variant],
           // Manual CSS overrides

@@ -34,9 +34,9 @@ const CONTAINER_HEIGHT: Record<TextFieldSize, string> = {
 };
 
 const INPUT_SIZE_CLASSES: Record<TextFieldSize, string> = {
-  "48": "py-3 typography-body-1-regular",
-  "40": "py-2 typography-body-1-regular",
-  "32": "py-2 typography-body-2-regular",
+  "48": "py-3 typography-regular-body-lg",
+  "40": "py-2 typography-regular-body-lg",
+  "32": "py-2 typography-regular-body-md",
 };
 
 const PADDING_HORIZONTAL: Record<TextFieldSize, string> = {
@@ -91,7 +91,7 @@ function TextFieldHelperText({
     <p
       id={id}
       className={cn(
-        "typography-caption-regular px-2 pt-1 pb-0.5",
+        "typography-regular-body-sm px-2 pt-1 pb-0.5",
         error ? "text-error-default" : "text-foreground-secondary",
       )}
     >
@@ -161,7 +161,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="typography-caption-semibold px-1 pt-1 pb-2 text-foreground-default"
+            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-foreground-default"
           >
             {label}
           </label>

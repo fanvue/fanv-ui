@@ -80,10 +80,10 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
 
     const sizeClass =
       size === "24"
-        ? "px-2 py-1 typography-caption-semibold"
+        ? "px-2 py-1 typography-semibold-body-sm"
         : size === "32"
-          ? "px-3 py-1.75 typography-body-2-semibold"
-          : "h-10 px-4 py-2.25 typography-button-small";
+          ? "px-3 py-1.75 typography-semibold-body-md"
+          : "h-10 px-4 py-2.25 typography-semibold-body-lg";
 
     const handleSelect = (optionValue: string) => {
       if (disabled || optionValue === currentValue) return;

@@ -56,7 +56,7 @@ export const Radio = React.forwardRef<
               htmlFor={inputId}
               className={cn(
                 "cursor-pointer select-none text-foreground-default group-has-disabled:cursor-not-allowed group-has-disabled:text-neutral-250",
-                size === "small" ? "typography-body-2-semibold" : "typography-body-1-semibold",
+                size === "small" ? "typography-semibold-body-md" : "typography-semibold-body-lg",
               )}
             >
               {label}
@@ -67,7 +67,7 @@ export const Radio = React.forwardRef<
               id={helperTextId}
               className={cn(
                 "text-foreground-secondary group-has-disabled:cursor-not-allowed group-has-disabled:text-neutral-250",
-                size === "small" ? "typography-body-2-semibold" : "typography-caption-regular",
+                size === "small" ? "typography-semibold-body-md" : "typography-regular-body-sm",
               )}
             >
               {helperText}

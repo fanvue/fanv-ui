@@ -141,7 +141,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
               className={cn(
                 "cursor-pointer select-none text-foreground-default",
                 "group-has-disabled:cursor-not-allowed group-has-disabled:text-neutral-250",
-                size === "small" ? "typography-body-2-semibold" : "typography-body-1-semibold",
+                size === "small" ? "typography-semibold-body-md" : "typography-semibold-body-lg",
               )}
             >
               {label}
@@ -154,7 +154,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             className={cn(
               "ml-7 text-foreground-secondary",
               "in-[.is-disabled]:cursor-not-allowed in-[.is-disabled]:text-neutral-250",
-              size === "small" ? "typography-caption-regular" : "typography-body-2-regular",
+              size === "small" ? "typography-regular-body-sm" : "typography-regular-body-md",
             )}
           >
             {helperText}

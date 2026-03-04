@@ -69,7 +69,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         ref={ref}
         data-testid="chip"
         className={cn(
-          "typography-caption-semibold relative inline-flex items-center justify-center gap-2 whitespace-nowrap px-3 motion-safe:transition-colors motion-safe:duration-150",
+          "typography-semibold-body-sm relative inline-flex items-center justify-center gap-2 whitespace-nowrap px-3 motion-safe:transition-colors motion-safe:duration-150",
           // Shape
           variant === "square" ? "rounded-lg" : "rounded-full",
           // Size
@@ -115,7 +115,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           </span>
         )}
         {notificationLabel && (
-          <span className="typography-caption-semibold absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground-default px-1 text-foreground-inverse">
+          <span className="typography-semibold-body-sm absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground-default px-1 text-foreground-inverse">
             {notificationLabel}
           </span>
         )}

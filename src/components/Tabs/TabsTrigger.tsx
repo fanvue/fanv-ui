@@ -15,7 +15,7 @@ export const TabsTrigger = React.forwardRef<
     className={cn(
       "inline-flex items-center justify-center",
       "rounded-xs",
-      "typography-body-1-semibold cursor-pointer text-foreground-default",
+      "typography-semibold-body-lg cursor-pointer text-foreground-default",
       "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
       "data-[orientation=horizontal]:px-4 data-[orientation=horizontal]:py-3",
       "data-[orientation=vertical]:justify-start data-[orientation=vertical]:px-4 data-[orientation=vertical]:py-3",

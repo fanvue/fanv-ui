@@ -1643,7 +1643,7 @@ function SnackbarDemo() {
           closable
         />
         <Snackbar primaryLabel="Accept" secondaryLabel="Dismiss">
-          <span className="typography-body-2-medium">
+          <span className="typography-semibold-body-md">
             <span>@user.with.username</span> changed their subscription price to <span>$43.99</span>{" "}
             per month
           </span>
@@ -2340,7 +2340,7 @@ function App() {
             <button
               type="button"
               onClick={() => setTocOpen((prev) => !prev)}
-              className="typography-body-2-medium flex items-center gap-2 rounded-lg border border-neutral-200 bg-primitives-color-gray-white px-3 py-2 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-foreground-onaccent dark:hover:bg-neutral-800"
+              className="typography-semibold-body-md flex items-center gap-2 rounded-lg border border-neutral-200 bg-primitives-color-gray-white px-3 py-2 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-foreground-onaccent dark:hover:bg-neutral-800"
               aria-label="Toggle table of contents"
             >
               <HomeIcon className="size-4" />
@@ -2363,7 +2363,7 @@ function App() {
                         key={section.id}
                         type="button"
                         onClick={() => scrollToSection(section.id)}
-                        className="typography-body-2-medium w-full rounded px-3 py-2 text-left hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left hover:bg-neutral-100 dark:hover:bg-neutral-800"
                       >
                         {section.label}
                       </button>

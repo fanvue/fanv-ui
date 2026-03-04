@@ -148,7 +148,7 @@ export const TooltipContent = React.forwardRef<
           sideOffset={sideOffset}
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
           className={cn(
-            "typography-body-2-regular max-w-[320px] overflow-hidden rounded-3xl bg-surface-pageInverse p-4 text-surface-page shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",
+            "typography-regular-body-md max-w-[320px] overflow-hidden rounded-3xl bg-surface-pageInverse p-4 text-surface-page shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",
             isInfobox && "border border-neutral-200",
             className,
           )}
@@ -163,7 +163,7 @@ export const TooltipContent = React.forwardRef<
                 <div className="flex items-center gap-3">
                   {icon && <div className="size-5 shrink-0">{icon}</div>}
                   {heading && (
-                    <p className="typography-subtitle min-w-0 flex-1 text-surface-page">
+                    <p className="typography-bold-heading-xs min-w-0 flex-1 text-surface-page">
                       {heading}
                     </p>
                   )}
@@ -171,7 +171,7 @@ export const TooltipContent = React.forwardRef<
                 </div>
               )}
               {children && (
-                <div className="typography-body-2-regular text-surface-page">{children}</div>
+                <div className="typography-regular-body-md text-surface-page">{children}</div>
               )}
               {hasActions && (
                 <div className="flex items-center gap-1">

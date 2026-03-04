@@ -37,9 +37,9 @@ const TRIGGER_GAP: Record<SelectSize, string> = {
 };
 
 const TRIGGER_TYPOGRAPHY: Record<SelectSize, string> = {
-  "48": "typography-body-1-regular",
-  "40": "typography-body-1-regular",
-  "32": "typography-body-2-regular",
+  "48": "typography-regular-body-lg",
+  "40": "typography-regular-body-lg",
+  "32": "typography-regular-body-md",
 };
 
 export interface SelectProps extends Omit<SelectPrimitive.SelectProps, "dir"> {
@@ -124,7 +124,7 @@ export const Select = React.forwardRef<
           {label && (
             <label
               htmlFor={triggerId}
-              className="typography-caption-semibold px-1 pt-1 pb-2 text-foreground-default"
+              className="typography-semibold-body-sm px-1 pt-1 pb-2 text-foreground-default"
             >
               {label}
             </label>
@@ -177,7 +177,7 @@ export const Select = React.forwardRef<
             <p
               id={helperTextId}
               className={cn(
-                "typography-caption-regular px-2 pt-1 pb-0.5",
+                "typography-regular-body-sm px-2 pt-1 pb-0.5",
                 error ? "text-error-default" : "text-foreground-secondary",
               )}
             >
@@ -241,7 +241,7 @@ export const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "typography-body-1-regular relative flex w-full cursor-pointer select-none items-center gap-2 rounded-lg py-2 pr-2 pl-3 text-foreground-default outline-none",
+      "typography-regular-body-lg relative flex w-full cursor-pointer select-none items-center gap-2 rounded-lg py-2 pr-2 pl-3 text-foreground-default outline-none",
       "focus:bg-neutral-100 data-disabled:pointer-events-none data-disabled:opacity-50",
       className,
     )}
@@ -277,7 +277,7 @@ export const SelectLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Label
     ref={ref}
-    className={cn("typography-caption-semibold px-3 py-1.5 text-foreground-secondary", className)}
+    className={cn("typography-semibold-body-sm px-3 py-1.5 text-foreground-secondary", className)}
     {...props}
   />
 ));

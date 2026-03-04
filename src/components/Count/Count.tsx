@@ -59,7 +59,7 @@ export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
       <Comp
         ref={ref}
         className={cn(
-          "typography-caption-semibold inline-flex shrink-0 items-center justify-center rounded-full tabular-nums leading-none",
+          "typography-semibold-body-sm inline-flex shrink-0 items-center justify-center rounded-full tabular-nums leading-none",
           size === "16" && "h-3 min-w-3 px-0.5 text-[8px]",
           size === "24" && "h-4 min-w-4 px-1 text-[10px]",
           size === "32" && "h-5 min-w-5 px-1.5 text-[12px]",

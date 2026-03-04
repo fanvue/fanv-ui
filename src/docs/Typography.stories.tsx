@@ -27,7 +27,7 @@ type TypographyToken = {
 const typographyTokens: TypographyToken[] = [
   {
     name: "Hero",
-    className: "typography-hero",
+    className: "typography-bold-display",
     size: "64px",
     weight: 800,
     lineHeight: "64px",
@@ -35,7 +35,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Heading 1",
-    className: "typography-heading-1",
+    className: "typography-bold-heading-xl",
     size: "48px",
     weight: 700,
     lineHeight: "52.8px",
@@ -43,7 +43,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Heading 2",
-    className: "typography-heading-2",
+    className: "typography-bold-heading-lg",
     size: "40px",
     weight: 700,
     lineHeight: "44px",
@@ -51,7 +51,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Heading 32",
-    className: "typography-heading-32",
+    className: "typography-bold-heading-md",
     size: "32px",
     weight: 700,
     lineHeight: "40px",
@@ -67,7 +67,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Heading 4",
-    className: "typography-heading-4",
+    className: "typography-bold-heading-xs",
     size: "20px",
     weight: 700,
     lineHeight: "26px",
@@ -75,7 +75,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Subtitle",
-    className: "typography-subtitle",
+    className: "typography-bold-heading-xs",
     size: "18px",
     weight: 600,
     lineHeight: "24px",
@@ -83,7 +83,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Body 1 Regular",
-    className: "typography-body-1-regular",
+    className: "typography-regular-body-lg",
     size: "16px",
     weight: 400,
     lineHeight: "24px",
@@ -91,7 +91,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Body 1 Medium",
-    className: "typography-body-1-medium",
+    className: "typography-semibold-body-lg",
     size: "16px",
     weight: 500,
     lineHeight: "24px",
@@ -99,7 +99,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Body 1 Semibold",
-    className: "typography-body-1-semibold",
+    className: "typography-semibold-body-lg",
     size: "16px",
     weight: 600,
     lineHeight: "24px",
@@ -107,7 +107,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Body 2 Regular",
-    className: "typography-body-2-regular",
+    className: "typography-regular-body-md",
     size: "14px",
     weight: 400,
     lineHeight: "18px",
@@ -115,7 +115,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Body 2 Medium",
-    className: "typography-body-2-medium",
+    className: "typography-semibold-body-md",
     size: "14px",
     weight: 500,
     lineHeight: "18px",
@@ -123,7 +123,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Body 2 Semibold",
-    className: "typography-body-2-semibold",
+    className: "typography-semibold-body-md",
     size: "14px",
     weight: 600,
     lineHeight: "18px",
@@ -131,7 +131,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Button Large",
-    className: "typography-button-large",
+    className: "typography-semibold-body-lg",
     size: "18px",
     weight: 600,
     lineHeight: "24px",
@@ -139,7 +139,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Button Small",
-    className: "typography-button-small",
+    className: "typography-semibold-body-lg",
     size: "16px",
     weight: 600,
     lineHeight: "22px",
@@ -147,7 +147,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Link Large",
-    className: "typography-link-large",
+    className: "typography-semibold-link-lg",
     size: "16px",
     weight: 500,
     lineHeight: "22px",
@@ -156,7 +156,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Link Small",
-    className: "typography-link-small",
+    className: "typography-semibold-link-md",
     size: "14px",
     weight: 500,
     lineHeight: "18px",
@@ -165,7 +165,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Link X-Small",
-    className: "typography-link-x-small",
+    className: "typography-semibold-link-xs",
     size: "12px",
     weight: 500,
     lineHeight: "16px",
@@ -174,7 +174,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Caption Regular",
-    className: "typography-caption-regular",
+    className: "typography-regular-body-sm",
     size: "12px",
     weight: 400,
     lineHeight: "16px",
@@ -182,7 +182,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Caption Semibold",
-    className: "typography-caption-semibold",
+    className: "typography-semibold-body-sm",
     size: "12px",
     weight: 600,
     lineHeight: "16px",
@@ -190,7 +190,7 @@ const typographyTokens: TypographyToken[] = [
   },
   {
     name: "Badge",
-    className: "typography-badge",
+    className: "typography-semibold-badge",
     size: "9px",
     weight: 600,
     lineHeight: "10.8px",
@@ -301,7 +301,7 @@ export const Scale: Story = {
             borderRadius: 6,
           }}
         >
-          {'<p className="typography-body-1-regular">...</p>'}
+          {'<p className="typography-regular-body-lg">...</p>'}
         </code>
       </div>
 

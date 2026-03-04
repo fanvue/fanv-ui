@@ -152,7 +152,7 @@ export const InfoboxWithPill: Story = {
         variant="infobox"
         heading="Title"
         pill={
-          <span className="typography-caption-semibold rounded-full bg-neutral-solid px-3 py-1 text-surface-page">
+          <span className="typography-semibold-body-sm rounded-full bg-neutral-solid px-3 py-1 text-surface-page">
             Example
           </span>
         }
@@ -196,7 +196,7 @@ export const InfoboxFull: Story = {
         icon={<InfoCircleIcon className="size-5 text-surface-page" />}
         heading="Title"
         pill={
-          <span className="typography-caption-semibold rounded-full bg-neutral-solid px-3 py-1 text-surface-page">
+          <span className="typography-semibold-body-sm rounded-full bg-neutral-solid px-3 py-1 text-surface-page">
             Example
           </span>
         }

@@ -250,7 +250,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
             <p
               role="timer"
               aria-label="Recording time"
-              className="typography-body-1-regular text-foreground-default"
+              className="typography-regular-body-lg text-foreground-default"
             >
               {formattedElapsed} / {formatAudioTime(maxRecordingDuration * 1000)}
             </p>
@@ -314,13 +314,13 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
         >
           <UploadCloudIcon className="size-5 text-foreground-default" />
 
-          <span className="typography-body-1-semibold text-center text-foreground-default">
+          <span className="typography-semibold-body-lg text-center text-foreground-default">
             {uploadTitle}
           </span>
 
           <span
             id={descriptionId}
-            className="typography-body-2-regular text-center text-foreground-default"
+            className="typography-regular-body-md text-center text-foreground-default"
           >
             {uploadDescription}
           </span>
@@ -328,7 +328,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
 
         {allowRecording && isRecordingSupported && (
           <>
-            <p className="typography-body-2-regular text-center text-foreground-default">
+            <p className="typography-regular-body-md text-center text-foreground-default">
               {separatorText}
             </p>
 

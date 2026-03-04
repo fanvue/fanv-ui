@@ -113,10 +113,10 @@ function VipEarnContent({
       <div className="flex min-w-0 flex-1 flex-col gap-4">
         <div className="flex flex-col">
           {title && (
-            <p className="typography-body-1-semibold text-foreground-default leading-6">{title}</p>
+            <p className="typography-semibold-body-lg text-foreground-default leading-6">{title}</p>
           )}
           {description && (
-            <p className="typography-body-2-regular text-foreground-secondary">{description}</p>
+            <p className="typography-regular-body-md text-foreground-secondary">{description}</p>
           )}
         </div>
         {showActions && primary && <div className="self-start">{primary}</div>}
@@ -157,9 +157,9 @@ function WelcomeContent({
   return (
     <>
       <div className="flex flex-col items-center gap-2 px-8 text-center text-foreground-default">
-        {title && <p className="typography-heading-4 text-foreground-default">{title}</p>}
+        {title && <p className="typography-bold-heading-xs text-foreground-default">{title}</p>}
         {description && (
-          <p className="typography-body-2-regular text-foreground-secondary">{description}</p>
+          <p className="typography-regular-body-md text-foreground-secondary">{description}</p>
         )}
       </div>
       {showActions && (primary || secondary) && (
@@ -203,7 +203,7 @@ function DefaultContent({
 
   return (
     <>
-      <div className="typography-body-1-medium flex min-w-0 flex-1 items-center self-stretch text-foreground-default">
+      <div className="typography-semibold-body-lg flex min-w-0 flex-1 items-center self-stretch text-foreground-default">
         {children}
       </div>
       {showActions && (primary || secondary) && (
