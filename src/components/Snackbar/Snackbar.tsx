@@ -112,8 +112,12 @@ function VipEarnContent({
       )}
       <div className="flex min-w-0 flex-1 flex-col gap-4">
         <div className="flex flex-col">
-          {title && <p className="typography-body-1-semibold text-body-100 leading-6">{title}</p>}
-          {description && <p className="typography-body-2-regular text-body-200">{description}</p>}
+          {title && (
+            <p className="typography-semibold-body-lg text-foreground-default leading-6">{title}</p>
+          )}
+          {description && (
+            <p className="typography-regular-body-md text-foreground-secondary">{description}</p>
+          )}
         </div>
         {showActions && primary && <div className="self-start">{primary}</div>}
       </div>
@@ -152,9 +156,11 @@ function WelcomeContent({
 
   return (
     <>
-      <div className="flex flex-col items-center gap-2 px-8 text-center text-body-100">
-        {title && <p className="typography-heading-4 text-body-100">{title}</p>}
-        {description && <p className="typography-body-2-regular text-body-200">{description}</p>}
+      <div className="flex flex-col items-center gap-2 px-8 text-center text-foreground-default">
+        {title && <p className="typography-bold-heading-xs text-foreground-default">{title}</p>}
+        {description && (
+          <p className="typography-regular-body-md text-foreground-secondary">{description}</p>
+        )}
       </div>
       {showActions && (primary || secondary) && (
         <div className="flex w-full flex-col gap-4 px-8 sm:flex-row sm:*:flex-1">
@@ -197,7 +203,7 @@ function DefaultContent({
 
   return (
     <>
-      <div className="typography-body-1-medium flex min-w-0 flex-1 items-center self-stretch text-body-100">
+      <div className="typography-regular-body-lg flex min-w-0 flex-1 items-center self-stretch text-foreground-default">
         {children}
       </div>
       {showActions && (primary || secondary) && (
@@ -263,8 +269,7 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
             "border border-neutral-50 bg-background-200 p-4 backdrop-blur-md",
           variant === "default" && "flex-wrap items-start",
           variant === "vipEarn" && "items-start",
-          variant === "welcome" &&
-            "relative flex-col items-center bg-background-inverse-solid py-6",
+          variant === "welcome" && "relative flex-col items-center bg-surface-page py-6",
           className,
         )}
         {...props}
