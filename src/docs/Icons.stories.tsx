@@ -347,19 +347,19 @@ function IconCard({ entry, size }: { entry: IconEntry; size: string }) {
         padding: 16,
         borderRadius: 8,
         border: "1px solid var(--color-neutral-100)",
-        backgroundColor: copied ? "var(--color-success-50)" : "var(--color-background-700)",
+        backgroundColor: copied ? "var(--color-success-background)" : "var(--color-neutral-100)",
         cursor: "pointer",
         transition: "background-color 150ms, border-color 150ms",
         width: "100%",
       }}
       title={`Click to copy: ${importText}`}
     >
-      <Icon className={size} style={{ color: "var(--color-body-100)" }} />
+      <Icon className={size} style={{ color: "var(--color-foreground-default)" }} />
       <span
         style={{
           fontSize: 11,
           fontFamily: "monospace",
-          color: copied ? "var(--color-success-500)" : "var(--color-body-200)",
+          color: copied ? "var(--color-success-default)" : "var(--color-foreground-secondary)",
           textAlign: "center",
           wordBreak: "break-all",
         }}
@@ -385,7 +385,7 @@ function IconGallery() {
         style={{
           fontSize: 32,
           fontWeight: 800,
-          color: "var(--color-body-100)",
+          color: "var(--color-foreground-default)",
           margin: "0 0 8px",
         }}
       >
@@ -394,7 +394,7 @@ function IconGallery() {
       <p
         style={{
           fontSize: 16,
-          color: "var(--color-body-200)",
+          color: "var(--color-foreground-secondary)",
           margin: "0 0 12px",
           maxWidth: 640,
           lineHeight: 1.5,
@@ -406,7 +406,7 @@ function IconGallery() {
             fontSize: 14,
             fontFamily: "monospace",
             padding: "1px 4px",
-            backgroundColor: "var(--color-background-600)",
+            backgroundColor: "var(--color-neutral-100)",
             borderRadius: 3,
           }}
         >
@@ -418,7 +418,7 @@ function IconGallery() {
             fontSize: 14,
             fontFamily: "monospace",
             padding: "1px 4px",
-            backgroundColor: "var(--color-background-600)",
+            backgroundColor: "var(--color-neutral-100)",
             borderRadius: 3,
           }}
         >
@@ -438,9 +438,9 @@ function IconGallery() {
           style={{
             fontSize: 13,
             fontFamily: "monospace",
-            color: "var(--color-primary-300)",
+            color: "var(--color-foreground-tertiary)",
             padding: "8px 12px",
-            backgroundColor: "var(--color-background-600)",
+            backgroundColor: "var(--color-neutral-100)",
             borderRadius: 6,
           }}
         >
@@ -468,8 +468,8 @@ function IconGallery() {
             fontSize: 14,
             borderRadius: 6,
             border: "1px solid var(--color-neutral-200)",
-            backgroundColor: "var(--color-background-200)",
-            color: "var(--color-body-100)",
+            backgroundColor: "var(--color-surface-input)",
+            color: "var(--color-foreground-default)",
             outline: "none",
           }}
         />
@@ -492,9 +492,9 @@ function IconGallery() {
                 border: "1px solid var(--color-neutral-200)",
                 backgroundColor:
                   size === opt.value
-                    ? "var(--color-brand-purple-500)"
-                    : "var(--color-background-700)",
-                color: size === opt.value ? "#fff" : "var(--color-body-200)",
+                    ? "var(--color-brand-secondary-default)"
+                    : "var(--color-neutral-100)",
+                color: size === opt.value ? "#fff" : "var(--color-foreground-secondary)",
                 cursor: "pointer",
               }}
             >
@@ -505,7 +505,7 @@ function IconGallery() {
       </div>
 
       {filtered.length === 0 ? (
-        <p style={{ color: "var(--color-body-200)", fontSize: 14, padding: "40px 0" }}>
+        <p style={{ color: "var(--color-foreground-secondary)", fontSize: 14, padding: "40px 0" }}>
           No icons matching "{search}".
         </p>
       ) : (

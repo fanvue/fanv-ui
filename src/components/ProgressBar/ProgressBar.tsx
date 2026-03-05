@@ -140,11 +140,11 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
                 </span>
               )}
               {helperLeft != null && (
-                <span className="typography-regular-body-sm text-primary-500">{helperLeft}</span>
+                <span className="typography-regular-body-sm text-foreground-default">{helperLeft}</span>
               )}
             </div>
             {helperRight != null && (
-              <span className="typography-regular-body-sm text-primary-500">{helperRight}</span>
+              <span className="typography-regular-body-sm text-foreground-default">{helperRight}</span>
             )}
           </div>
         )}

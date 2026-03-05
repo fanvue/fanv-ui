@@ -105,7 +105,7 @@ describe("PasswordField", () => {
       const { container } = render(<PasswordField placeholder="No label" />);
       const input = screen.getByPlaceholderText("No label");
       expect(input).toBeInTheDocument();
-      const textLabel = container.querySelector("label.typography-caption-semibold");
+      const textLabel = container.querySelector("label.typography-semibold-body-sm");
       expect(textLabel).toBeNull();
     });
 
