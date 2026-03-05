@@ -784,6 +784,129 @@ function IconsDemo() {
   );
 }
 
+function TypographyDemo() {
+  const boldTokens = [
+    { name: "Display", className: "typography-bold-display", sample: "Display" },
+    { name: "Heading Xl", className: "typography-bold-heading-xl", sample: "Heading XL" },
+    { name: "Heading Lg", className: "typography-bold-heading-lg", sample: "Heading Lg" },
+    { name: "Heading Md", className: "typography-bold-heading-md", sample: "Heading Md" },
+    { name: "Heading Sm", className: "typography-bold-heading-sm", sample: "Heading Sm" },
+    { name: "Heading Xs", className: "typography-bold-heading-xs", sample: "Heading Xs" },
+  ];
+
+  const semiboldTokens = [
+    {
+      name: "Body Lg",
+      className: "typography-semibold-body-lg",
+      sample: "Body text with semibold weight for strong emphasis.",
+    },
+    {
+      name: "Body Md",
+      className: "typography-semibold-body-md",
+      sample: "Smaller body text with semibold weight.",
+    },
+    {
+      name: "Body Sm",
+      className: "typography-semibold-body-sm",
+      sample: "Semibold caption for labels and emphasis.",
+    },
+    { name: "Link Lg", className: "typography-semibold-link-lg", sample: "Large link text" },
+    { name: "Link Md", className: "typography-semibold-link-md", sample: "Medium link text" },
+    { name: "Link Xs", className: "typography-semibold-link-xs", sample: "Extra small link text" },
+    { name: "Badge", className: "typography-semibold-badge", sample: "Badge Label" },
+  ];
+
+  const regularTokens = [
+    {
+      name: "Body Lg",
+      className: "typography-regular-body-lg",
+      sample: "Body text at the standard reading size for paragraphs and content.",
+    },
+    {
+      name: "Body Md",
+      className: "typography-regular-body-md",
+      sample: "Smaller body text for secondary content and descriptions.",
+    },
+    {
+      name: "Body Sm",
+      className: "typography-regular-body-sm",
+      sample: "Caption text for annotations and helper text.",
+    },
+  ];
+
+  return (
+    <div id="typography" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Typography</h2>
+      <p className="mb-6 text-body-200">
+        All typography is set in <strong>Inter</strong>. Styles are available as utility classes
+        generated from Figma tokens.
+      </p>
+
+      <div className="space-y-8">
+        <div>
+          <h3 className="mb-3 font-semibold text-body-200 text-xs uppercase tracking-wider">
+            Bold
+          </h3>
+          <div className="space-y-4">
+            {boldTokens.map((token) => (
+              <div
+                key={token.className}
+                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+              >
+                <div className="w-48 shrink-0">
+                  <div className="font-semibold text-sm">{token.name}</div>
+                  <code className="text-[11px] text-body-200">{token.className}</code>
+                </div>
+                <div className={token.className}>{token.sample}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="mb-3 font-semibold text-body-200 text-xs uppercase tracking-wider">
+            Semibold
+          </h3>
+          <div className="space-y-4">
+            {semiboldTokens.map((token) => (
+              <div
+                key={token.className}
+                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+              >
+                <div className="w-48 shrink-0">
+                  <div className="font-semibold text-sm">{token.name}</div>
+                  <code className="text-[11px] text-body-200">{token.className}</code>
+                </div>
+                <div className={token.className}>{token.sample}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="mb-3 font-semibold text-body-200 text-xs uppercase tracking-wider">
+            Regular
+          </h3>
+          <div className="space-y-4">
+            {regularTokens.map((token) => (
+              <div
+                key={token.className}
+                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+              >
+                <div className="w-48 shrink-0">
+                  <div className="font-semibold text-sm">{token.name}</div>
+                  <code className="text-[11px] text-body-200">{token.className}</code>
+                </div>
+                <div className={token.className}>{token.sample}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AvatarDemo() {
   return (
     <div id="avatar" className="flex scroll-mt-20 flex-col gap-4">
@@ -2284,6 +2407,7 @@ function App() {
   const sections = [
     { id: "logo", label: "Logo" },
     { id: "icons", label: "Icons" },
+    { id: "typography", label: "Typography" },
     { id: "avatar", label: "Avatar" },
     { id: "alert", label: "Alert" },
     { id: "button", label: "Button" },
@@ -2394,6 +2518,9 @@ function App() {
 
             {/* Icons */}
             <IconsDemo />
+
+            {/* Typography */}
+            <TypographyDemo />
 
             {/* Avatar */}
             <AvatarDemo />
