@@ -80,10 +80,10 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
 
     const sizeClass =
       size === "24"
-        ? "px-2 py-1 typography-caption-semibold"
+        ? "px-2 py-1 typography-semibold-body-sm"
         : size === "32"
-          ? "px-3 py-1.75 typography-body-2-semibold"
-          : "h-10 px-4 py-2.25 typography-button-small";
+          ? "px-3 py-1.75 typography-semibold-body-md"
+          : "h-10 px-4 py-2.25 typography-semibold-body-lg";
 
     const handleSelect = (optionValue: string) => {
       if (disabled || optionValue === currentValue) return;
@@ -121,7 +121,7 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
         <span
           aria-hidden="true"
           className={cn(
-            "absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full border border-brand-green-500 bg-brand-green-50",
+            "absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full border border-brand-accent-default bg-brand-accent-muted",
             "motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-in-out",
             isSecondSelected && "translate-x-full",
           )}
@@ -143,9 +143,9 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
               onClick={() => handleSelect(option.value)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               className={cn(
-                "relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-transparent text-body-100",
+                "relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-transparent text-foreground-default",
                 "focus-visible:shadow-focus-ring focus-visible:outline-none",
-                "active:rounded-full active:bg-brand-green-50",
+                "active:rounded-full active:bg-brand-accent-muted",
                 disabled && "pointer-events-none",
                 sizeClass,
               )}
