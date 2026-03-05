@@ -127,6 +127,16 @@
       }
     },
     {
+      "includes": ["**/Icons/AIIcon.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": "off"
+          }
+        }
+      }
+    },
+    {
       "includes": ["**/DatePicker/DatePicker.tsx"],
       "linter": {
         "rules": {

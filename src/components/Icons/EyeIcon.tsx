@@ -2,35 +2,24 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
-/** An eye icon for visibility/show actions (20 × 20). */
 export const EyeIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ className, ...props }, ref) => (
-    <svg
-      ref={ref}
-      viewBox="0 0 20 20"
-      fill="none"
-      aria-hidden="true"
-      className={cn("size-5", className)}
-      {...props}
-    >
-      <path
-        d="M1 10s3-7 9-7 9 7 9 7-3 7-9 7-9-7-9-7Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle
-        cx="10"
-        cy="10"
-        r="3"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
+  ({ className, ...props }, ref) => {
+    return (
+      <svg
+        ref={ref}
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        className={cn("size-6", className)}
+        {...props}
+      >
+        <g fill="currentColor">
+          <path d="M12 16.33c-2.39 0-4.33-1.94-4.33-4.33S9.61 7.67 12 7.67s4.33 1.94 4.33 4.33-1.94 4.33-4.33 4.33m0-7.16c-1.56 0-2.83 1.27-2.83 2.83s1.27 2.83 2.83 2.83 2.83-1.27 2.83-2.83S13.56 9.17 12 9.17" />
+          <path d="M12 21.02c-3.76 0-7.31-2.2-9.75-6.02-1.06-1.65-1.06-4.34 0-6 2.45-3.82 6-6.02 9.75-6.02s7.3 2.2 9.74 6.02c1.06 1.65 1.06 4.34 0 6-2.44 3.82-5.99 6.02-9.74 6.02m0-16.54c-3.23 0-6.32 1.94-8.48 5.33-.75 1.17-.75 3.21 0 4.38 2.16 3.39 5.25 5.33 8.48 5.33s6.32-1.94 8.48-5.33c.75-1.17.75-3.21 0-4.38-2.16-3.39-5.25-5.33-8.48-5.33" />
+        </g>
+      </svg>
+    );
+  },
 );
 
 EyeIcon.displayName = "EyeIcon";

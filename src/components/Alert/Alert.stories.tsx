@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { FireIcon } from "../Icons/FireIcon";
+import { FlameIcon } from "../Icons/FlameIcon";
 import { Alert } from "./Alert";
 
 const meta = {
@@ -215,7 +215,7 @@ export const WithTitleClosable: Story = {
 export const CustomIcon: Story = {
   args: {
     variant: "warning",
-    icon: <FireIcon />,
+    icon: <FlameIcon />,
     children: "This alert uses a custom icon instead of the default.",
   },
 };

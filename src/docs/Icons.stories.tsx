@@ -1,31 +1,123 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { type ComponentType, useState } from "react";
+import { AddIcon } from "../components/Icons/AddIcon";
+import { AIIcon } from "../components/Icons/AIIcon";
+import { AlertIcon } from "../components/Icons/AlertIcon";
+import { ArrowDownIcon } from "../components/Icons/ArrowDownIcon";
+import { ArrowLeftIcon } from "../components/Icons/ArrowLeftIcon";
 import { ArrowRightIcon } from "../components/Icons/ArrowRightIcon";
+import { ArrowUpIcon } from "../components/Icons/ArrowUpIcon";
 import { ArrowUpRightIcon } from "../components/Icons/ArrowUpRightIcon";
+import { BankIcon } from "../components/Icons/BankIcon";
+import { BellIcon } from "../components/Icons/BellIcon";
+import { BellOffIcon } from "../components/Icons/BellOffIcon";
+import { BoltIcon } from "../components/Icons/BoltIcon";
+import { BulbIcon } from "../components/Icons/BulbIcon";
+import { Calendar2Icon } from "../components/Icons/Calendar2Icon";
+import { CalendarIcon } from "../components/Icons/CalendarIcon";
+import { CameraIcon } from "../components/Icons/CameraIcon";
+import { ChartIcon } from "../components/Icons/ChartIcon";
 import { CheckCircleIcon } from "../components/Icons/CheckCircleIcon";
 import { CheckIcon } from "../components/Icons/CheckIcon";
+import { CheckOutlineIcon } from "../components/Icons/CheckOutlineIcon";
+import { ChevronDownIcon } from "../components/Icons/ChevronDownIcon";
 import { ChevronLeftIcon } from "../components/Icons/ChevronLeftIcon";
 import { ChevronRightIcon } from "../components/Icons/ChevronRightIcon";
+import { ChevronUpIcon } from "../components/Icons/ChevronUpIcon";
+import { ClockIcon } from "../components/Icons/ClockIcon";
 import { CloseIcon } from "../components/Icons/CloseIcon";
+import { CodeIcon } from "../components/Icons/CodeIcon";
+import { CoinIcon } from "../components/Icons/CoinIcon";
+import { CompassIcon } from "../components/Icons/CompassIcon";
+import { CopyIcon } from "../components/Icons/CopyIcon";
 import { CrossIcon } from "../components/Icons/CrossIcon";
 import { CrownIcon } from "../components/Icons/CrownIcon";
+import { DiamondIcon } from "../components/Icons/DiamondIcon";
+import { DiscountIcon } from "../components/Icons/DiscountIcon";
+import { DonateIcon } from "../components/Icons/DonateIcon";
+import { DoubleTickIcon } from "../components/Icons/DoubleTickIcon";
+import { DownloadIcon } from "../components/Icons/DownloadIcon";
+import { EditIcon } from "../components/Icons/EditIcon";
 import { ErrorCircleIcon } from "../components/Icons/ErrorCircleIcon";
 import { ErrorIcon } from "../components/Icons/ErrorIcon";
+import { ExpandIcon } from "../components/Icons/ExpandIcon";
+import { EyeClosedIcon } from "../components/Icons/EyeClosedIcon";
 import { EyeIcon } from "../components/Icons/EyeIcon";
-import { FireIcon } from "../components/Icons/FireIcon";
+import { EyeSlashIcon } from "../components/Icons/EyeSlashIcon";
+import { FlagIcon } from "../components/Icons/FlagIcon";
+import { FlameIcon } from "../components/Icons/FlameIcon";
+import { FolderIcon } from "../components/Icons/FolderIcon";
+import { ForwardIcon } from "../components/Icons/ForwardIcon";
+import { GalleryIcon } from "../components/Icons/GalleryIcon";
+import { GenderIcon } from "../components/Icons/GenderIcon";
+import { GiftIcon } from "../components/Icons/GiftIcon";
+import { HelpIcon } from "../components/Icons/HelpIcon";
 import { HomeIcon } from "../components/Icons/HomeIcon";
+import { HourglassIcon } from "../components/Icons/HourglassIcon";
+import { ImageIcon } from "../components/Icons/ImageIcon";
+import { InboxIcon } from "../components/Icons/InboxIcon";
 import { InfoCircleIcon } from "../components/Icons/InfoCircleIcon";
 import { InfoIcon } from "../components/Icons/InfoIcon";
+import { LinkIcon } from "../components/Icons/LinkIcon";
+import { LocationIcon } from "../components/Icons/LocationIcon";
+import { LockerOffIcon } from "../components/Icons/LockerOffIcon";
+import { LockerOnIcon } from "../components/Icons/LockerOnIcon";
+import { LogoutIcon } from "../components/Icons/LogoutIcon";
+import { LoveIcon } from "../components/Icons/LoveIcon";
+import { MegaphoneIcon } from "../components/Icons/MegaphoneIcon";
+import { MenuCloseIcon } from "../components/Icons/MenuCloseIcon";
+import { MenuIcon } from "../components/Icons/MenuIcon";
+import { MenuOpenIcon } from "../components/Icons/MenuOpenIcon";
+import { MessageIcon } from "../components/Icons/MessageIcon";
 import { MicrophoneIcon } from "../components/Icons/MicrophoneIcon";
 import { MinusIcon } from "../components/Icons/MinusIcon";
+import { MoonIcon } from "../components/Icons/MoonIcon";
+import { MoreIcon } from "../components/Icons/MoreIcon";
+import { MoreVerticalIcon } from "../components/Icons/MoreVerticalIcon";
+import { PauseIcon } from "../components/Icons/PauseIcon";
+import { PhoneIcon } from "../components/Icons/PhoneIcon";
+import { PhoneOffIcon } from "../components/Icons/PhoneOffIcon";
+import { PinIcon } from "../components/Icons/PinIcon";
+import { PlayIcon } from "../components/Icons/PlayIcon";
 import { PlusIcon } from "../components/Icons/PlusIcon";
+import { PrivacyIcon } from "../components/Icons/PrivacyIcon";
+import { RepeatIcon } from "../components/Icons/RepeatIcon";
+import { Reply2Icon } from "../components/Icons/Reply2Icon";
+import { ReplyIcon } from "../components/Icons/ReplyIcon";
+import { SearchIcon } from "../components/Icons/SearchIcon";
+import { SendIcon } from "../components/Icons/SendIcon";
+import { SettingsIcon } from "../components/Icons/SettingsIcon";
+import { ShareIcon } from "../components/Icons/ShareIcon";
 import { SpinnerIcon } from "../components/Icons/SpinnerIcon";
+import { StarIcon } from "../components/Icons/StarIcon";
 import { StopIcon } from "../components/Icons/StopIcon";
 import { SuccessIcon } from "../components/Icons/SuccessIcon";
+import { SunIcon } from "../components/Icons/SunIcon";
+import { Support2Icon } from "../components/Icons/Support2Icon";
+import { SupportIcon } from "../components/Icons/SupportIcon";
+import { TagIcon } from "../components/Icons/TagIcon";
+import { TaskIcon } from "../components/Icons/TaskIcon";
+import { ThumbDownIcon } from "../components/Icons/ThumbDownIcon";
+import { ThumbUpIcon } from "../components/Icons/ThumbUpIcon";
+import { TickCircleIcon } from "../components/Icons/TickCircleIcon";
+import { TickCircleOffIcon } from "../components/Icons/TickCircleOffIcon";
+import { TickIcon } from "../components/Icons/TickIcon";
+import { TrashBinIcon } from "../components/Icons/TrashBinIcon";
+import { TrophyIcon } from "../components/Icons/TrophyIcon";
 import type { IconProps } from "../components/Icons/types";
+import { UploadCloudIcon } from "../components/Icons/UploadCloudIcon";
+import { UploadIcon } from "../components/Icons/UploadIcon";
+import { UserCircleIcon } from "../components/Icons/UserCircleIcon";
+import { UserIcon } from "../components/Icons/UserIcon";
+import { UsersIcon } from "../components/Icons/UsersIcon";
+import { VideoIcon } from "../components/Icons/VideoIcon";
 import { VipBadgeIcon } from "../components/Icons/VipBadgeIcon";
+import { WalletIcon } from "../components/Icons/WalletIcon";
 import { WarningIcon } from "../components/Icons/WarningIcon";
 import { WarningTriangleIcon } from "../components/Icons/WarningTriangleIcon";
+import { WifiOffIcon } from "../components/Icons/WifiOffIcon";
+import { WifiOnIcon } from "../components/Icons/WifiOnIcon";
+import { WrenchIcon } from "../components/Icons/WrenchIcon";
 
 const meta = {
   title: "Foundations/Icons",
@@ -46,82 +138,194 @@ type IconEntry = {
 };
 
 const icons: IconEntry[] = [
+  { name: "AddIcon", component: AddIcon, tags: ["add", "plus", "create", "new"] },
+  { name: "AIIcon", component: AIIcon, tags: ["ai", "artificial", "intelligence", "machine"] },
+  { name: "AlertIcon", component: AlertIcon, tags: ["alert", "dots", "more", "vertical"] },
+  { name: "ArrowDownIcon", component: ArrowDownIcon, tags: ["arrow", "down", "navigation"] },
+  {
+    name: "ArrowLeftIcon",
+    component: ArrowLeftIcon,
+    tags: ["arrow", "left", "back", "navigation"],
+  },
   {
     name: "ArrowRightIcon",
     component: ArrowRightIcon,
     tags: ["arrow", "right", "navigation", "next"],
   },
+  { name: "ArrowUpIcon", component: ArrowUpIcon, tags: ["arrow", "up", "navigation"] },
   {
     name: "ArrowUpRightIcon",
     component: ArrowUpRightIcon,
     tags: ["arrow", "up", "right", "external", "link"],
   },
+  { name: "BankIcon", component: BankIcon, tags: ["bank", "login", "enter", "door"] },
+  { name: "BellIcon", component: BellIcon, tags: ["bell", "notification", "alarm"] },
+  { name: "BellOffIcon", component: BellOffIcon, tags: ["bell", "off", "mute", "notification"] },
+  { name: "BoltIcon", component: BoltIcon, tags: ["bolt", "wifi", "signal", "connection"] },
+  { name: "BulbIcon", component: BulbIcon, tags: ["bulb", "code", "terminal", "dev"] },
+  {
+    name: "Calendar2Icon",
+    component: Calendar2Icon,
+    tags: ["calendar", "date", "schedule", "simple"],
+  },
+  { name: "CalendarIcon", component: CalendarIcon, tags: ["calendar", "date", "schedule"] },
+  { name: "CameraIcon", component: CameraIcon, tags: ["camera", "photo", "capture"] },
+  { name: "ChartIcon", component: ChartIcon, tags: ["chart", "love", "heart", "analytics"] },
   {
     name: "CheckCircleIcon",
     component: CheckCircleIcon,
-    tags: ["check", "circle", "success", "done", "complete"],
+    tags: ["check", "circle", "success", "done"],
   },
   { name: "CheckIcon", component: CheckIcon, tags: ["check", "tick", "done", "confirm"] },
   {
-    name: "ChevronLeftIcon",
-    component: ChevronLeftIcon,
-    tags: ["chevron", "left", "back", "navigation"],
+    name: "CheckOutlineIcon",
+    component: CheckOutlineIcon,
+    tags: ["check", "outline", "circle", "confirm"],
   },
   {
-    name: "ChevronRightIcon",
-    component: ChevronRightIcon,
-    tags: ["chevron", "right", "forward", "navigation"],
+    name: "ChevronDownIcon",
+    component: ChevronDownIcon,
+    tags: ["chevron", "down", "dots", "more"],
   },
-  { name: "CloseIcon", component: CloseIcon, tags: ["close", "x", "dismiss", "remove"] },
+  {
+    name: "ChevronLeftIcon",
+    component: ChevronLeftIcon,
+    tags: ["chevron", "left", "check", "circle"],
+  },
+  { name: "ChevronRightIcon", component: ChevronRightIcon, tags: ["chevron", "right", "circle"] },
+  { name: "ChevronUpIcon", component: ChevronUpIcon, tags: ["chevron", "up", "gift", "present"] },
+  { name: "ClockIcon", component: ClockIcon, tags: ["clock", "time", "schedule"] },
+  { name: "CloseIcon", component: CloseIcon, tags: ["close", "warning", "alert", "danger"] },
+  { name: "CodeIcon", component: CodeIcon, tags: ["code", "brackets", "programming"] },
+  { name: "CoinIcon", component: CoinIcon, tags: ["coin", "money", "currency", "star"] },
+  { name: "CompassIcon", component: CompassIcon, tags: ["compass", "share", "forward"] },
+  { name: "CopyIcon", component: CopyIcon, tags: ["copy", "chevron", "right"] },
   { name: "CrossIcon", component: CrossIcon, tags: ["cross", "x", "close", "cancel", "remove"] },
   { name: "CrownIcon", component: CrownIcon, tags: ["crown", "premium", "vip", "special"] },
+  { name: "DiamondIcon", component: DiamondIcon, tags: ["diamond", "gem", "premium"] },
+  { name: "DiscountIcon", component: DiscountIcon, tags: ["discount", "sale", "percent"] },
+  { name: "DonateIcon", component: DonateIcon, tags: ["donate", "gift", "give"] },
+  { name: "DoubleTickIcon", component: DoubleTickIcon, tags: ["double", "tick", "check", "read"] },
+  { name: "DownloadIcon", component: DownloadIcon, tags: ["download", "save", "file"] },
+  { name: "EditIcon", component: EditIcon, tags: ["edit", "pen", "write", "modify"] },
   {
     name: "ErrorCircleIcon",
     component: ErrorCircleIcon,
     tags: ["error", "circle", "alert", "danger"],
   },
   { name: "ErrorIcon", component: ErrorIcon, tags: ["error", "alert", "danger", "warning"] },
-  { name: "EyeIcon", component: EyeIcon, tags: ["eye", "view", "visibility", "show", "watch"] },
-  { name: "FireIcon", component: FireIcon, tags: ["fire", "hot", "trending", "popular"] },
-  { name: "HomeIcon", component: HomeIcon, tags: ["home", "house", "main", "start"] },
+  { name: "ExpandIcon", component: ExpandIcon, tags: ["expand", "fullscreen", "resize"] },
   {
-    name: "InfoCircleIcon",
-    component: InfoCircleIcon,
-    tags: ["info", "circle", "information", "help"],
+    name: "EyeClosedIcon",
+    component: EyeClosedIcon,
+    tags: ["eye", "closed", "hidden", "invisible"],
   },
-  { name: "InfoIcon", component: InfoIcon, tags: ["info", "information", "help", "details"] },
+  { name: "EyeIcon", component: EyeIcon, tags: ["eye", "view", "visibility", "show"] },
+  { name: "EyeSlashIcon", component: EyeSlashIcon, tags: ["eye", "slash", "hidden", "invisible"] },
+  { name: "FlagIcon", component: FlagIcon, tags: ["flag", "report", "bookmark"] },
+  {
+    name: "FlameIcon",
+    component: FlameIcon,
+    tags: ["flame", "fire", "hot", "trending", "popular"],
+  },
+  { name: "FolderIcon", component: FolderIcon, tags: ["folder", "directory", "file"] },
+  { name: "ForwardIcon", component: ForwardIcon, tags: ["forward", "next", "skip"] },
+  { name: "GalleryIcon", component: GalleryIcon, tags: ["gallery", "image", "photo"] },
+  { name: "GenderIcon", component: GenderIcon, tags: ["gender", "identity"] },
+  { name: "GiftIcon", component: GiftIcon, tags: ["gift", "present", "reward"] },
+  { name: "HelpIcon", component: HelpIcon, tags: ["help", "question", "support"] },
+  { name: "HomeIcon", component: HomeIcon, tags: ["home", "house", "main", "start"] },
+  { name: "HourglassIcon", component: HourglassIcon, tags: ["hourglass", "timer", "wait"] },
+  { name: "ImageIcon", component: ImageIcon, tags: ["image", "photo", "picture", "gallery"] },
+  { name: "InboxIcon", component: InboxIcon, tags: ["inbox", "mail", "message"] },
+  { name: "InfoCircleIcon", component: InfoCircleIcon, tags: ["info", "circle", "information"] },
+  { name: "InfoIcon", component: InfoIcon, tags: ["info", "information", "help"] },
+  { name: "LinkIcon", component: LinkIcon, tags: ["link", "chain", "url"] },
+  { name: "LocationIcon", component: LocationIcon, tags: ["location", "map", "pin"] },
+  { name: "LockerOffIcon", component: LockerOffIcon, tags: ["locker", "off", "unlock", "open"] },
+  { name: "LockerOnIcon", component: LockerOnIcon, tags: ["locker", "on", "lock", "secure"] },
+  { name: "LogoutIcon", component: LogoutIcon, tags: ["logout", "exit", "sign out"] },
+  { name: "LoveIcon", component: LoveIcon, tags: ["love", "heart", "like", "favorite"] },
+  { name: "MegaphoneIcon", component: MegaphoneIcon, tags: ["megaphone", "announce", "speaker"] },
+  { name: "MenuCloseIcon", component: MenuCloseIcon, tags: ["menu", "close", "sidebar"] },
+  { name: "MenuIcon", component: MenuIcon, tags: ["menu", "hamburger", "navigation"] },
+  { name: "MenuOpenIcon", component: MenuOpenIcon, tags: ["menu", "open", "sidebar"] },
+  { name: "MessageIcon", component: MessageIcon, tags: ["message", "chat", "comment"] },
   {
     name: "MicrophoneIcon",
     component: MicrophoneIcon,
-    tags: ["microphone", "mic", "audio", "voice", "record"],
+    tags: ["microphone", "mic", "audio", "voice"],
   },
   { name: "MinusIcon", component: MinusIcon, tags: ["minus", "subtract", "remove", "decrease"] },
+  { name: "MoonIcon", component: MoonIcon, tags: ["moon", "night", "dark", "theme"] },
+  { name: "MoreIcon", component: MoreIcon, tags: ["more", "horizontal", "dots", "ellipsis"] },
+  {
+    name: "MoreVerticalIcon",
+    component: MoreVerticalIcon,
+    tags: ["more", "vertical", "dots", "ellipsis"],
+  },
+  { name: "PauseIcon", component: PauseIcon, tags: ["pause", "media", "stop"] },
+  { name: "PhoneIcon", component: PhoneIcon, tags: ["phone", "call", "contact"] },
+  { name: "PhoneOffIcon", component: PhoneOffIcon, tags: ["phone", "off", "end", "call"] },
+  { name: "PinIcon", component: PinIcon, tags: ["pin", "bookmark", "save"] },
+  { name: "PlayIcon", component: PlayIcon, tags: ["play", "media", "start", "video"] },
   { name: "PlusIcon", component: PlusIcon, tags: ["plus", "add", "create", "new", "increase"] },
-  { name: "SpinnerIcon", component: SpinnerIcon, tags: ["spinner", "loading", "progress", "wait"] },
-  { name: "StopIcon", component: StopIcon, tags: ["stop", "halt", "pause", "end"] },
+  { name: "PrivacyIcon", component: PrivacyIcon, tags: ["privacy", "shield", "secure"] },
+  { name: "RepeatIcon", component: RepeatIcon, tags: ["repeat", "loop", "refresh"] },
+  { name: "Reply2Icon", component: Reply2Icon, tags: ["reply", "respond", "arrow"] },
+  { name: "ReplyIcon", component: ReplyIcon, tags: ["reply", "respond", "arrow"] },
+  { name: "SearchIcon", component: SearchIcon, tags: ["search", "find", "magnify", "look"] },
+  { name: "SendIcon", component: SendIcon, tags: ["send", "submit", "paper plane"] },
+  { name: "SettingsIcon", component: SettingsIcon, tags: ["settings", "gear", "config"] },
+  { name: "ShareIcon", component: ShareIcon, tags: ["share", "social", "send"] },
+  { name: "SpinnerIcon", component: SpinnerIcon, tags: ["spinner", "loading", "progress"] },
+  { name: "StarIcon", component: StarIcon, tags: ["star", "favorite", "rating"] },
+  { name: "StopIcon", component: StopIcon, tags: ["stop", "halt", "end"] },
+  { name: "SuccessIcon", component: SuccessIcon, tags: ["success", "check", "done"] },
+  { name: "SunIcon", component: SunIcon, tags: ["sun", "light", "day", "theme"] },
+  { name: "Support2Icon", component: Support2Icon, tags: ["support", "help", "lifebuoy"] },
+  { name: "SupportIcon", component: SupportIcon, tags: ["support", "help", "headset"] },
+  { name: "TagIcon", component: TagIcon, tags: ["tag", "label", "category"] },
+  { name: "TaskIcon", component: TaskIcon, tags: ["task", "todo", "checklist"] },
+  { name: "TickCircleIcon", component: TickCircleIcon, tags: ["tick", "circle", "check", "done"] },
   {
-    name: "SuccessIcon",
-    component: SuccessIcon,
-    tags: ["success", "check", "done", "complete", "approve"],
+    name: "TickCircleOffIcon",
+    component: TickCircleOffIcon,
+    tags: ["tick", "circle", "off", "unchecked"],
   },
+  { name: "TickIcon", component: TickIcon, tags: ["tick", "check", "done", "confirm"] },
+  { name: "TrashBinIcon", component: TrashBinIcon, tags: ["trash", "bin", "delete", "remove"] },
+  { name: "TrophyIcon", component: TrophyIcon, tags: ["trophy", "award", "medal", "achievement"] },
+  { name: "ThumbDownIcon", component: ThumbDownIcon, tags: ["thumb", "down", "dislike"] },
+  { name: "ThumbUpIcon", component: ThumbUpIcon, tags: ["thumb", "up", "like"] },
+  { name: "UploadCloudIcon", component: UploadCloudIcon, tags: ["upload", "cloud"] },
+  { name: "UploadIcon", component: UploadIcon, tags: ["upload", "send", "file"] },
   {
-    name: "VipBadgeIcon",
-    component: VipBadgeIcon,
-    tags: ["vip", "badge", "premium", "special", "star"],
+    name: "UserCircleIcon",
+    component: UserCircleIcon,
+    tags: ["user", "circle", "avatar", "profile"],
   },
+  { name: "UserIcon", component: UserIcon, tags: ["user", "person", "profile"] },
+  { name: "UsersIcon", component: UsersIcon, tags: ["users", "group", "people", "team"] },
+  { name: "VideoIcon", component: VideoIcon, tags: ["video", "camera", "record", "media"] },
+  { name: "VipBadgeIcon", component: VipBadgeIcon, tags: ["vip", "badge", "premium", "special"] },
+  { name: "WalletIcon", component: WalletIcon, tags: ["wallet", "money", "payment"] },
   { name: "WarningIcon", component: WarningIcon, tags: ["warning", "caution", "alert"] },
   {
     name: "WarningTriangleIcon",
     component: WarningTriangleIcon,
-    tags: ["warning", "triangle", "caution", "alert", "danger"],
+    tags: ["warning", "triangle", "caution"],
   },
+  { name: "WifiOffIcon", component: WifiOffIcon, tags: ["wifi", "off", "disconnected"] },
+  { name: "WifiOnIcon", component: WifiOnIcon, tags: ["wifi", "on", "connected", "internet"] },
+  { name: "WrenchIcon", component: WrenchIcon, tags: ["wrench", "tool", "settings", "fix"] },
 ];
 
 function IconCard({ entry, size }: { entry: IconEntry; size: string }) {
   const [copied, setCopied] = useState(false);
   const Icon = entry.component;
 
-  const importText = `import { ${entry.name} } from "fanv-ui";`;
+  const importText = `import { ${entry.name} } from "@fanvue/ui";`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(importText).then(() => {
@@ -168,7 +372,7 @@ function IconCard({ entry, size }: { entry: IconEntry; size: string }) {
 
 function IconGallery() {
   const [search, setSearch] = useState("");
-  const [size, setSize] = useState("size-5");
+  const [size, setSize] = useState("size-6");
 
   const filtered = icons.filter((icon) => {
     const q = search.toLowerCase();
@@ -218,9 +422,9 @@ function IconGallery() {
             borderRadius: 3,
           }}
         >
-          size-5
+          size-6
         </code>{" "}
-        (20px). Click any icon to copy its import statement.
+        (24px). Click any icon to copy its import statement.
       </p>
       <div
         style={{
@@ -240,7 +444,7 @@ function IconGallery() {
             borderRadius: 6,
           }}
         >
-          {'import { CheckIcon } from "fanv-ui";'}
+          {'import { CheckIcon } from "@fanvue/ui";'}
         </code>
       </div>
 

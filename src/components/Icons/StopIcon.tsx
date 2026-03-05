@@ -2,23 +2,24 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
-/** A filled-square stop icon for media/recording controls (40 × 40). */
 export const StopIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ className, ...props }, ref) => (
-    <svg
-      ref={ref}
-      className={cn("size-5", className)}
-      aria-hidden="true"
-      viewBox="0 0 40 40"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M11 25.9975V13.9883C11 13.1628 11.294 12.4583 11.8821 11.875C12.4699 11.2917 13.1767 11 14.0025 11H26.0117C26.8372 11 27.5417 11.294 28.125 11.8821C28.7083 12.4699 29 13.1767 29 14.0025V26.0117C29 26.8372 28.706 27.5417 28.1179 28.125C27.5301 28.7083 26.8233 29 25.9975 29H13.9883C13.1628 29 12.4583 28.706 11.875 28.1179C11.2917 27.5301 11 26.8233 11 25.9975Z"
-        fill="currentColor"
-      />
-    </svg>
-  ),
+  ({ className, ...props }, ref) => {
+    return (
+      <svg
+        ref={ref}
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        className={cn("size-6", className)}
+        {...props}
+      >
+        <g fill="currentColor">
+          <path d="M11.97 22.75C6.05 22.75 1.22 17.93 1.22 12S6.05 1.25 11.97 1.25 22.72 6.07 22.72 12 17.9 22.75 11.97 22.75m0-20c-5.1 0-9.25 4.15-9.25 9.25s4.15 9.25 9.25 9.25 9.25-4.15 9.25-9.25-4.15-9.25-9.25-9.25" />
+          <path d="M13.27 16.98h-2.54c-2.53 0-3.71-1.18-3.71-3.71v-2.54c0-2.53 1.18-3.71 3.71-3.71h2.54c2.53 0 3.71 1.18 3.71 3.71v2.54c0 2.53-1.18 3.71-3.71 3.71m-2.54-8.46c-1.69 0-2.21.52-2.21 2.21v2.54c0 1.69.52 2.21 2.21 2.21h2.54c1.69 0 2.21-.52 2.21-2.21v-2.54c0-1.69-.52-2.21-2.21-2.21z" />
+        </g>
+      </svg>
+    );
+  },
 );
 
 StopIcon.displayName = "StopIcon";
