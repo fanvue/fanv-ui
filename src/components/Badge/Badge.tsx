@@ -5,31 +5,31 @@ import { cn } from "../../utils/cn";
 const badgeVariants = {
   variant: {
     default: "bg-neutral-100 text-neutral-400",
-    dark: "bg-background-800 text-body-300 dark:text-body-white-solid-constant",
+    dark: "bg-neutral-50 text-foreground-inverse dark:text-foreground-onaccentinverse",
     success: "bg-neutral-100 text-neutral-400",
     warning: "bg-neutral-100 text-neutral-400",
     error: "bg-neutral-100 text-neutral-400",
     special: "bg-neutral-100 text-neutral-400",
     info: "bg-neutral-100 text-neutral-400",
-    online: "bg-background-200 text-brand-green-500",
-    brand: "bg-brand-green-500 text-body-black-solid-constant",
-    pink: "bg-brand-pink-500 text-body-black-solid-constant",
-    brandLight: "bg-brand-green-50 text-body-black-solid-constant",
-    pinkLight: "bg-brand-pink-50 text-body-black-solid-constant",
+    online: "bg-neutral-100 text-brand-accent-default",
+    brand: "bg-brand-accent-default text-foreground-onaccent",
+    pink: "bg-brand-secondary-default text-foreground-onaccent",
+    brandLight: "bg-brand-accent-muted text-foreground-onaccent",
+    pinkLight: "bg-brand-secondary-muted text-foreground-onaccent",
   },
   dotColor: {
-    default: "bg-body-black-solid-constant",
-    dark: "bg-body-300 dark:bg-body-white-solid-constant",
-    success: "bg-success-500",
-    warning: "bg-warning-500",
-    error: "bg-error-500",
-    special: "bg-special-500",
-    info: "bg-info-500",
-    online: "bg-brand-green-500",
-    brand: "bg-body-black-solid-constant",
-    pink: "bg-body-black-solid-constant",
-    brandLight: "bg-body-black-solid-constant",
-    pinkLight: "bg-body-black-solid-constant",
+    default: "bg-foreground-onaccent",
+    dark: "bg-foreground-inverse dark:bg-foreground-onaccentinverse",
+    success: "bg-success-default",
+    warning: "bg-warning-default",
+    error: "bg-error-default",
+    special: "bg-special-default",
+    info: "bg-info-default",
+    online: "bg-brand-accent-default",
+    brand: "bg-foreground-onaccent",
+    pink: "bg-foreground-onaccent",
+    brandLight: "bg-foreground-onaccent",
+    pinkLight: "bg-foreground-onaccent",
   },
 } as const;
 
@@ -91,7 +91,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         data-testid="badge"
         className={cn(
           // Base styles
-          "typography-caption-semibold inline-flex h-5 items-center gap-2 rounded-full px-2",
+          "typography-semibold-body-sm inline-flex h-5 items-center gap-2 rounded-full px-2",
           // Variant styles
           badgeVariants.variant[variant],
           // Manual CSS overrides
