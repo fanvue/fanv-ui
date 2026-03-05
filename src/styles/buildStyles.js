@@ -472,7 +472,7 @@ const LEGACY_SHADOW_VARS = `
   --shadow-box-shadow-med: 4px #0000000d 0px 2px 0px;
   --shadow-box-shadow-small: 2px #0000000d 0px 2px 0px;
   --shadow-nav-box-shadow: 12px #0000000d 0px -2px 0px;
-  --shadow-menu-blur-+-shadow: 12px #0000001a 0px 6px 0px;
+  --shadow-menu-blur-shadow: 12px #0000001a 0px 6px 0px;
   --shadow-floating-item: 40px #00000026 0px 12px 2px;
 `;
 
