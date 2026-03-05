@@ -37,7 +37,7 @@ export const Divider = React.forwardRef<
           className="h-px flex-1 bg-neutral-200"
           {...props}
         />
-        <span className="typography-body-2-regular shrink-0 text-body-100">{label}</span>
+        <span className="typography-regular-body-md shrink-0 text-foreground-default">{label}</span>
         <SeparatorPrimitive.Root
           decorative
           orientation="horizontal"
