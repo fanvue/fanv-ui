@@ -26,6 +26,12 @@ const preview: Preview = {
     backgrounds: {
       disable: true,
     },
+    chromatic: {
+      modes: {
+        light: { theme: "light" },
+        dark: { theme: "dark" },
+      },
+    },
     viewport: {
       viewports: {
         mobile: { name: "Mobile", styles: { width: "375px", height: "667px" } },
