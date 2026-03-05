@@ -84,9 +84,9 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
             <label
               htmlFor={id}
               className={cn(
-                "cursor-pointer select-none text-body-100",
-                disabled && "cursor-not-allowed text-disabled-100",
-                size === "default" ? "typography-body-1-semibold" : "typography-body-2-semibold",
+                "cursor-pointer select-none text-foreground-default",
+                disabled && "cursor-not-allowed text-neutral-250",
+                size === "default" ? "typography-semibold-body-lg" : "typography-semibold-body-md",
               )}
             >
               {label}
@@ -96,7 +96,10 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button type="button" aria-label={infoLabel} className="flex shrink-0 pt-0.5">
-                      <InfoCircleIcon aria-hidden="true" className="size-5 text-body-200" />
+                      <InfoCircleIcon
+                        aria-hidden="true"
+                        className="size-5 text-foreground-secondary"
+                      />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent side="bottom">{infoText}</TooltipContent>
@@ -109,9 +112,9 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
           <span
             id={helperTextId}
             className={cn(
-              "text-body-200", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
-              disabled && "text-disabled-100",
-              size === "default" ? "typography-body-2-regular" : "typography-caption-regular",
+              "text-foreground-secondary",
+              disabled && "text-neutral-250",
+              size === "default" ? "typography-regular-body-md" : "typography-regular-body-sm",
             )}
           >
             {helperText}
