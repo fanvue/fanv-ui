@@ -130,7 +130,7 @@ const AvatarImage = React.forwardRef<
   return (
     <AvatarPrimitive.Image
       ref={ref}
-      className={cn("size-full bg-neutral-500 object-cover", NSFWShow && "blur-md", className)}
+      className={cn("size-full object-cover", NSFWShow && "blur-md", className)}
       {...props}
     />
   );
