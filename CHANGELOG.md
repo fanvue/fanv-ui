@@ -1,5 +1,44 @@
 # Changelog
 
+## [1.14.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.13.1...ui-v1.14.0) (2026-03-05)
+
+
+### Features
+
+* **Alert:** migrate to design tokens ([#242](https://github.com/fanvue/fanv-ui/issues/242)) ([d306475](https://github.com/fanvue/fanv-ui/commit/d306475ae63b38d34771c293c1e9fe707425cf77))
+* **Avatar:** migrate to design tokens ([#289](https://github.com/fanvue/fanv-ui/issues/289)) ([c69aa58](https://github.com/fanvue/fanv-ui/commit/c69aa58b36dd8e74ffd8a6cefcfe5de92a9b9593))
+* **Avatar:** refine online indicator sizing and token cleanup ([#292](https://github.com/fanvue/fanv-ui/issues/292)) ([f9791b3](https://github.com/fanvue/fanv-ui/commit/f9791b360d0bba30d9a0b8275cfa5dacde8431a9))
+* **Avatar:** refine online indicator sizing and token migration ([f9791b3](https://github.com/fanvue/fanv-ui/commit/f9791b360d0bba30d9a0b8275cfa5dacde8431a9))
+* **Button:** migrate to design tokens ([#246](https://github.com/fanvue/fanv-ui/issues/246)) ([767ad29](https://github.com/fanvue/fanv-ui/commit/767ad29a7304fdde19c93a02084e7d40f60d89e3))
+* **chromatic:** capture dark mode snapshots for visual regression testing ([#274](https://github.com/fanvue/fanv-ui/issues/274)) ([94c68b9](https://github.com/fanvue/fanv-ui/commit/94c68b999c2311b52ce08e98e5517026138d393a))
+* **Count:** migrate to design tokens ([#249](https://github.com/fanvue/fanv-ui/issues/249)) ([21df5ee](https://github.com/fanvue/fanv-ui/commit/21df5eef75ac41b2e1b4cc0803ad597dbb88c9d0))
+* **DatePicker:** migrate to design tokens ([#250](https://github.com/fanvue/fanv-ui/issues/250)) ([55754c2](https://github.com/fanvue/fanv-ui/commit/55754c23262b467fe3b8397bf670a87ac40a40d2))
+* **Divider:** migrate to design tokens ([#251](https://github.com/fanvue/fanv-ui/issues/251)) ([bd0d402](https://github.com/fanvue/fanv-ui/commit/bd0d4027368b63d67338bdd6b5de433ed0836701))
+* **IconButton:** migrate to design tokens ([#252](https://github.com/fanvue/fanv-ui/issues/252)) ([7162fe0](https://github.com/fanvue/fanv-ui/commit/7162fe0a777f72db039b122e9df33b9a49eb2bad))
+* **icons:** importing sax iconography ([#271](https://github.com/fanvue/fanv-ui/issues/271)) ([7280c00](https://github.com/fanvue/fanv-ui/commit/7280c00f8bb0267d5fbea2a4993dba2c991d2cc5))
+* **icons:** migrate to design system iconography ([7280c00](https://github.com/fanvue/fanv-ui/commit/7280c00f8bb0267d5fbea2a4993dba2c991d2cc5))
+* migrate all components to semantic design tokens ([#291](https://github.com/fanvue/fanv-ui/issues/291)) ([801a22f](https://github.com/fanvue/fanv-ui/commit/801a22f074eeda5e1d7ef86c4e62891214811fdd))
+* **Pagination:** migrate to design tokens ([#255](https://github.com/fanvue/fanv-ui/issues/255)) ([3cf466e](https://github.com/fanvue/fanv-ui/commit/3cf466e4b069f1b4a96372cc1b1265bca2a461da))
+* **Radio:** migrate to design tokens ([#285](https://github.com/fanvue/fanv-ui/issues/285)) ([d47742d](https://github.com/fanvue/fanv-ui/commit/d47742d6127c3ca611f3f5d1402899164474a41b))
+* **Select:** migrate to design tokens ([#282](https://github.com/fanvue/fanv-ui/issues/282)) ([52abc14](https://github.com/fanvue/fanv-ui/commit/52abc146aa52968ab6e7aa903d7abd73f509d602))
+* **showcase:** add typography section to showcase ([#273](https://github.com/fanvue/fanv-ui/issues/273)) ([a893448](https://github.com/fanvue/fanv-ui/commit/a89344846e110b9d7cdfbbb871017618b6c38253))
+* **Slider:** migrate to design tokens ([#284](https://github.com/fanvue/fanv-ui/issues/284)) ([87efe5c](https://github.com/fanvue/fanv-ui/commit/87efe5ccab94f0ebde0367ffbcd5d435732a3d83))
+* **Snackbar:** migrate to design tokens ([#279](https://github.com/fanvue/fanv-ui/issues/279)) ([2cacb32](https://github.com/fanvue/fanv-ui/commit/2cacb32e69c27c67d9fabd306b1e70bd57330920))
+* **SwitchField:** migrate to design tokens ([#287](https://github.com/fanvue/fanv-ui/issues/287)) ([13991ac](https://github.com/fanvue/fanv-ui/commit/13991ac4a0df842085738898c8a46eaf16653ed2))
+* **Switch:** migrate to design tokens ([#286](https://github.com/fanvue/fanv-ui/issues/286)) ([f3ad9eb](https://github.com/fanvue/fanv-ui/commit/f3ad9eb963758ef3c4fb643a6475bd9a5eac3f56))
+* **SwitchToggle:** migrate to design tokens ([#288](https://github.com/fanvue/fanv-ui/issues/288)) ([7703e3a](https://github.com/fanvue/fanv-ui/commit/7703e3a3aa1065b81a86b5f5dfd793a4b4148dac))
+* **TextArea:** migrate to design tokens ([#281](https://github.com/fanvue/fanv-ui/issues/281)) ([966fd35](https://github.com/fanvue/fanv-ui/commit/966fd35f3dfd3fe1bc3be745868f0e73616b22c9))
+* **TextField:** migrate to design tokens ([#280](https://github.com/fanvue/fanv-ui/issues/280)) ([7ff8c53](https://github.com/fanvue/fanv-ui/commit/7ff8c5399694f62dfae01377742a849a9d6c4ee0))
+* **Toast:** migrate to design tokens ([#278](https://github.com/fanvue/fanv-ui/issues/278)) ([ae10c1c](https://github.com/fanvue/fanv-ui/commit/ae10c1c3ea020f3bb3aeaa5c1d15c5a863819054))
+* **tokens:** import new design tokens from Figma with legacy compatibility ([609ff10](https://github.com/fanvue/fanv-ui/commit/609ff10b1e2bc2aee25229be5b2e5810f9d46147))
+* **tokens:** importing new design tokens from figma with legacy compatibility ([#239](https://github.com/fanvue/fanv-ui/issues/239)) ([609ff10](https://github.com/fanvue/fanv-ui/commit/609ff10b1e2bc2aee25229be5b2e5810f9d46147))
+* **Tooltip:** migrate to design tokens ([#277](https://github.com/fanvue/fanv-ui/issues/277)) ([142b4f7](https://github.com/fanvue/fanv-ui/commit/142b4f74dd255b6e37bf5a43461f63f2d68b0ac7))
+
+
+### Bug Fixes
+
+* **tokens:** prevent CSS tree-shaking of primitive design tokens ([#276](https://github.com/fanvue/fanv-ui/issues/276)) ([925eb8e](https://github.com/fanvue/fanv-ui/commit/925eb8e871fe52a0b97a06a150303004539062b4))
+
 ## [1.13.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.13.0...ui-v1.13.1) (2026-03-03)
 
 
