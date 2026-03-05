@@ -89,13 +89,13 @@ describe("TextArea", () => {
   describe("validated state", () => {
     it("shows validation icon when validated is true", () => {
       const { container } = render(<TextArea label="Test" validated defaultValue="Valid text" />);
-      const icon = container.querySelector(".text-success-500");
+      const icon = container.querySelector(".text-success-default");
       expect(icon).toBeInTheDocument();
     });
 
     it("does not show validation icon when validated is false", () => {
       const { container } = render(<TextArea label="Test" defaultValue="Text" />);
-      const icon = container.querySelector(".text-success-500");
+      const icon = container.querySelector(".text-success-default");
       expect(icon).not.toBeInTheDocument();
     });
 
@@ -103,7 +103,7 @@ describe("TextArea", () => {
       const { container } = render(
         <TextArea label="Test" validated showClearButton value="Text" />,
       );
-      const validationIcon = container.querySelector(".text-success-500");
+      const validationIcon = container.querySelector(".text-success-default");
       const clearButton = screen.getByLabelText("Clear text");
       expect(clearButton).toBeInTheDocument();
       expect(validationIcon).not.toBeInTheDocument();
