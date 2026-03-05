@@ -40,10 +40,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  "48": "h-12 px-4 py-3 typography-button-large",
-  "40": "h-10 px-4 py-2 typography-button-small",
-  "32": "h-8 px-3 py-2 typography-body-2-semibold",
-  "24": "h-6 px-2 py-1 typography-body-2-semibold",
+  "48": "h-12 px-4 py-3 typography-semibold-body-lg",
+  "40": "h-10 px-4 py-2 typography-semibold-body-lg",
+  "32": "h-8 px-3 py-2 typography-semibold-body-md",
+  "24": "h-6 px-2 py-1 typography-semibold-body-md",
 };
 
 const ICON_SIZE_CLASS: Record<ButtonSize, string> = {
@@ -63,19 +63,21 @@ const ICON_WRAPPER_CLASS: Record<ButtonSize, string> = {
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "bg-neutral-400 text-body-300 hover:bg-brand-green-500 hover:text-body-black-solid-constant active:bg-brand-green-500 active:text-body-black-solid-constant",
+    "bg-neutral-solid text-foreground-inverse hover:bg-brand-accent-muted hover:text-foreground-default active:bg-brand-accent-muted active:text-foreground-default",
   secondary:
-    "border-body-100 border border-1 border-body-100 bg-transparent text-body-100 hover:bg-brand-green-50 active:bg-brand-green-50",
-  tertiary: "bg-transparent text-body-100 hover:bg-brand-green-50 active:bg-brand-green-50",
-  link: "bg-transparent text-body-100 underline decoration-solid hover:bg-brand-green-50 active:bg-brand-green-50",
+    "border-foreground-default border border-1 border-foreground-default bg-transparent text-foreground-default hover:bg-brand-accent-muted active:bg-brand-accent-muted",
+  tertiary:
+    "bg-transparent text-foreground-default hover:bg-brand-accent-muted active:bg-brand-accent-muted",
+  link: "bg-transparent text-foreground-default underline decoration-solid hover:bg-brand-accent-muted active:bg-brand-accent-muted",
   brand:
-    "bg-brand-green-500 text-body-black-solid-constant hover:bg-brand-pink-500 active:bg-brand-pink-500",
+    "bg-brand-accent-default text-foreground-onaccent hover:bg-brand-accent-muted hover:text-foreground-default active:bg-brand-accent-muted active:text-foreground-default",
   destructive:
-    "bg-error-500 text-body-white-solid-constant hover:bg-background-solid dark:hover:bg-background-white-solid-constant dark:hover:text-error-500 active:bg-background-solid dark:active:bg-background-white-solid-constant dark:active:text-error-500",
+    "bg-error-default text-foreground-onaccentinverse hover:bg-brand-accent-muted hover:text-foreground-default active:bg-brand-accent-muted active:text-foreground-default",
   white:
-    "bg-background-white-solid-constant text-body-black-solid-constant hover:bg-brand-green-500 active:bg-brand-green-500",
-  tertiaryDestructive: "bg-transparent text-error-500 hover:bg-error-50 active:bg-error-50",
-  text: "bg-transparent text-body-100 hover:underline active:underline",
+    "bg-foreground-onaccentinverse text-foreground-onaccent hover:bg-brand-accent-muted hover:text-foreground-default active:bg-brand-accent-muted active:text-foreground-default",
+  tertiaryDestructive:
+    "bg-transparent text-error-default hover:bg-error-background active:bg-error-background",
+  text: "bg-transparent text-foreground-default hover:underline active:underline",
 };
 
 /** Recursively extract text content from React nodes for accessible labels */
@@ -166,7 +168,7 @@ function renderContent({
       {(price || discount) && (
         <div>
           {discount && (
-            <span className="typography-body-1-regular line-through" aria-hidden="true">
+            <span className="typography-regular-body-lg line-through" aria-hidden="true">
               {discount}
             </span>
           )}
