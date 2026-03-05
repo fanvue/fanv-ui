@@ -36,7 +36,7 @@ export const Switch = React.forwardRef<
       className={cn(
         "inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent transition-colors duration-150",
         "focus-visible:shadow-focus-ring focus-visible:outline-none",
-        "data-[state=checked]:border-neutral-200 data-[state=checked]:bg-brand-green-500",
+        "data-[state=checked]:border-neutral-200 data-[state=checked]:bg-brand-accent-default",
         "data-[state=unchecked]:bg-neutral-400",
         "not-disabled:active:opacity-80",
         "disabled:cursor-not-allowed disabled:opacity-50",
@@ -48,7 +48,7 @@ export const Switch = React.forwardRef<
     >
       <SwitchPrimitive.Thumb
         className={cn(
-          "pointer-events-none rounded-full bg-body-white-solid-constant shadow-sm transition-transform duration-150 dark:bg-body-black-solid-constant",
+          "pointer-events-none rounded-full bg-surface-page shadow-sm transition-transform duration-150",
           thumbSizeClass,
         )}
       />
