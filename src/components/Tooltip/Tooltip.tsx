@@ -92,6 +92,64 @@ export interface TooltipContentProps
   secondaryAction?: TooltipAction;
 }
 
+const ActionButton = ({
+  action,
+  variant,
+}: {
+  action: TooltipAction;
+  variant: "brand" | "tertiary";
+}) =>
+  action.element ? (
+    action.element
+  ) : (
+    <Button variant={variant} size="32" onClick={action.onClick}>
+      {action.label}
+    </Button>
+  );
+
+const InfoboxContent = ({
+  icon,
+  heading,
+  pill,
+  children,
+  primaryAction,
+  secondaryAction,
+  hasHeader,
+  hasActions,
+}: {
+  icon?: React.ReactNode;
+  heading?: React.ReactNode;
+  pill?: React.ReactNode;
+  children?: React.ReactNode;
+  primaryAction?: TooltipAction;
+  secondaryAction?: TooltipAction;
+  hasHeader: boolean;
+  hasActions: boolean;
+}) => (
+  <div className="flex flex-col gap-3">
+    {hasHeader && (
+      <div className="flex items-center gap-3">
+        {icon && <div className="size-5 shrink-0">{icon}</div>}
+        {heading && (
+          <p className="typography-semibold-body-lg min-w-0 flex-1 text-foreground-inverse">
+            {heading}
+          </p>
+        )}
+        {pill && <div className="shrink-0">{pill}</div>}
+      </div>
+    )}
+    {children && (
+      <div className="typography-regular-body-md text-foreground-inverse">{children}</div>
+    )}
+    {hasActions && (
+      <div className="flex items-center gap-1">
+        {primaryAction && <ActionButton action={primaryAction} variant="brand" />}
+        {secondaryAction && <ActionButton action={secondaryAction} variant="tertiary" />}
+      </div>
+    )}
+  </div>
+);
+
 /**
  * The popup content of the tooltip. Renders inside a portal.
  *
@@ -158,42 +216,17 @@ export const TooltipContent = React.forwardRef<
           {...props}
         >
           {isInfobox ? (
-            <div className="flex flex-col gap-3">
-              {hasHeader && (
-                <div className="flex items-center gap-3">
-                  {icon && <div className="size-5 shrink-0">{icon}</div>}
-                  {heading && (
-                    <p className="typography-semibold-body-lg min-w-0 flex-1 text-foreground-inverse">
-                      {heading}
-                    </p>
-                  )}
-                  {pill && <div className="shrink-0">{pill}</div>}
-                </div>
-              )}
-              {children && (
-                <div className="typography-regular-body-md text-foreground-inverse">{children}</div>
-              )}
-              {hasActions && (
-                <div className="flex items-center gap-1">
-                  {primaryAction &&
-                    (primaryAction.element ? (
-                      primaryAction.element
-                    ) : (
-                      <Button variant="brand" size="32" onClick={primaryAction.onClick}>
-                        {primaryAction.label}
-                      </Button>
-                    ))}
-                  {secondaryAction &&
-                    (secondaryAction.element ? (
-                      secondaryAction.element
-                    ) : (
-                      <Button variant="tertiary" size="32" onClick={secondaryAction.onClick}>
-                        {secondaryAction.label}
-                      </Button>
-                    ))}
-                </div>
-              )}
-            </div>
+            <InfoboxContent
+              icon={icon}
+              heading={heading}
+              pill={pill}
+              primaryAction={primaryAction}
+              secondaryAction={secondaryAction}
+              hasHeader={hasHeader}
+              hasActions={hasActions}
+            >
+              {children}
+            </InfoboxContent>
           ) : (
             children
           )}
