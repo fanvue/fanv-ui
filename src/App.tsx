@@ -3,55 +3,125 @@ import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { DatePicker } from "./date-picker";
 import {
+  AddIcon,
+  AIIcon,
   Alert,
+  AlertIcon,
+  ArrowDownIcon,
+  ArrowLeftIcon,
   ArrowRightIcon,
+  ArrowUpIcon,
   ArrowUpRightIcon,
   AudioUpload,
   Avatar,
   Badge,
+  BankIcon,
+  BellIcon,
+  BellOffIcon,
+  BoltIcon,
+  BulbIcon,
   Button,
+  CalendarIcon,
+  CameraIcon,
+  ChartIcon,
   Checkbox,
   CheckCircleIcon,
   CheckIcon,
+  ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ChevronUpIcon,
   Chip,
+  ClockIcon,
   CloseIcon,
+  CodeIcon,
+  CoinIcon,
+  CompassIcon,
+  CopyIcon,
   Count,
   CrossIcon,
   CrownIcon,
+  DiamondIcon,
+  DiscountIcon,
   Divider,
+  DonateIcon,
+  DoubleTickIcon,
+  DownloadIcon,
+  EditIcon,
   ErrorCircleIcon,
   ErrorIcon,
+  ExpandIcon,
   EyeIcon,
-  FireIcon,
+  EyeSlashIcon,
+  FlagIcon,
+  FlameIcon,
+  FolderIcon,
+  ForwardIcon,
+  GalleryIcon,
+  GenderIcon,
+  GiftIcon,
+  HelpIcon,
   HomeIcon,
+  HourglassIcon,
   IconButton,
+  ImageIcon,
+  InboxIcon,
   InfoCircleIcon,
   InfoIcon,
+  LinkIcon,
   Loader,
+  LocationIcon,
+  LockerOffIcon,
+  LockerOnIcon,
   Logo,
+  LogoutIcon,
+  LoveIcon,
+  MegaphoneIcon,
+  MenuCloseIcon,
+  MenuIcon,
+  MenuOpenIcon,
+  MessageIcon,
   MicrophoneIcon,
   MinusIcon,
+  MoonIcon,
+  MoreIcon,
+  MoreVerticalIcon,
   Pagination,
   PasswordField,
+  PauseIcon,
+  PhoneIcon,
+  PhoneOffIcon,
   Pill,
+  PinIcon,
+  PlayIcon,
   PlusIcon,
+  PrivacyIcon,
   ProgressBar,
   Radio,
   RadioGroup,
+  RepeatIcon,
+  Reply2Icon,
+  ReplyIcon,
   SearchField,
+  SearchIcon,
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectLabel,
   SelectSeparator,
+  SendIcon,
+  SettingsIcon,
+  ShareIcon,
   Slider,
   Snackbar,
   SpinnerIcon,
+  StarIcon,
   StopIcon,
   SuccessIcon,
+  SunIcon,
+  Support2Icon,
+  SupportIcon,
   Switch,
   SwitchField,
   SwitchToggle,
@@ -59,8 +129,15 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  TagIcon,
+  TaskIcon,
   TextArea,
   TextField,
+  ThumbDownIcon,
+  ThumbUpIcon,
+  TickCircleIcon,
+  TickCircleOffIcon,
+  TickIcon,
   Toast,
   ToastProvider,
   ToastViewport,
@@ -68,9 +145,20 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
+  TrashBinIcon,
+  TrophyIcon,
+  UploadIcon,
+  UserCircleIcon,
+  UserIcon,
+  UsersIcon,
+  VideoIcon,
   VipBadgeIcon,
+  WalletIcon,
   WarningIcon,
   WarningTriangleIcon,
+  WifiOffIcon,
+  WifiOnIcon,
+  WrenchIcon,
 } from "./index";
 import "./showcase.css";
 
@@ -630,130 +718,151 @@ function LogoDemo() {
 }
 
 function IconsDemo() {
+  const allIcons = [
+    ["Add", AddIcon],
+    ["AI", AIIcon],
+    ["Alert", AlertIcon],
+    ["ArrowDown", ArrowDownIcon],
+    ["ArrowLeft", ArrowLeftIcon],
+    ["ArrowRight", ArrowRightIcon],
+    ["ArrowUp", ArrowUpIcon],
+    ["ArrowUpRight", ArrowUpRightIcon],
+    ["Bank", BankIcon],
+    ["Bell", BellIcon],
+    ["BellOff", BellOffIcon],
+    ["Bolt", BoltIcon],
+    ["Bulb", BulbIcon],
+    ["Calendar", CalendarIcon],
+    ["Camera", CameraIcon],
+    ["Chart", ChartIcon],
+    ["CheckCircle", CheckCircleIcon],
+    ["Check", CheckIcon],
+    ["ChevronDown", ChevronDownIcon],
+    ["ChevronLeft", ChevronLeftIcon],
+    ["ChevronRight", ChevronRightIcon],
+    ["ChevronUp", ChevronUpIcon],
+    ["Clock", ClockIcon],
+    ["Close", CloseIcon],
+    ["Code", CodeIcon],
+    ["Coin", CoinIcon],
+    ["Compass", CompassIcon],
+    ["Copy", CopyIcon],
+    ["Cross", CrossIcon],
+    ["Crown", CrownIcon],
+    ["Diamond", DiamondIcon],
+    ["Discount", DiscountIcon],
+    ["Donate", DonateIcon],
+    ["DoubleTick", DoubleTickIcon],
+    ["Download", DownloadIcon],
+    ["Edit", EditIcon],
+    ["ErrorCircle", ErrorCircleIcon],
+    ["Error", ErrorIcon],
+    ["Expand", ExpandIcon],
+    ["Eye", EyeIcon],
+    ["EyeSlash", EyeSlashIcon],
+    ["Flag", FlagIcon],
+    ["Flame", FlameIcon],
+    ["Folder", FolderIcon],
+    ["Forward", ForwardIcon],
+    ["Gallery", GalleryIcon],
+    ["Gender", GenderIcon],
+    ["Gift", GiftIcon],
+    ["Help", HelpIcon],
+    ["Home", HomeIcon],
+    ["Hourglass", HourglassIcon],
+    ["Image", ImageIcon],
+    ["Inbox", InboxIcon],
+    ["InfoCircle", InfoCircleIcon],
+    ["Info", InfoIcon],
+    ["Link", LinkIcon],
+    ["Location", LocationIcon],
+    ["LockerOff", LockerOffIcon],
+    ["LockerOn", LockerOnIcon],
+    ["Logout", LogoutIcon],
+    ["Love", LoveIcon],
+    ["Megaphone", MegaphoneIcon],
+    ["MenuClose", MenuCloseIcon],
+    ["Menu", MenuIcon],
+    ["MenuOpen", MenuOpenIcon],
+    ["Message", MessageIcon],
+    ["Microphone", MicrophoneIcon],
+    ["Minus", MinusIcon],
+    ["Moon", MoonIcon],
+    ["More", MoreIcon],
+    ["MoreVertical", MoreVerticalIcon],
+    ["Pause", PauseIcon],
+    ["Phone", PhoneIcon],
+    ["PhoneOff", PhoneOffIcon],
+    ["Pin", PinIcon],
+    ["Play", PlayIcon],
+    ["Plus", PlusIcon],
+    ["Privacy", PrivacyIcon],
+    ["Repeat", RepeatIcon],
+    ["Reply2", Reply2Icon],
+    ["Reply", ReplyIcon],
+    ["Search", SearchIcon],
+    ["Send", SendIcon],
+    ["Settings", SettingsIcon],
+    ["Share", ShareIcon],
+    ["Spinner", SpinnerIcon],
+    ["Star", StarIcon],
+    ["Stop", StopIcon],
+    ["Success", SuccessIcon],
+    ["Sun", SunIcon],
+    ["Support2", Support2Icon],
+    ["Support", SupportIcon],
+    ["Tag", TagIcon],
+    ["Task", TaskIcon],
+    ["TickCircle", TickCircleIcon],
+    ["TickCircleOff", TickCircleOffIcon],
+    ["Tick", TickIcon],
+    ["TrashBin", TrashBinIcon],
+    ["Trophy", TrophyIcon],
+    ["ThumbDown", ThumbDownIcon],
+    ["ThumbUp", ThumbUpIcon],
+    ["Upload", UploadIcon],
+    ["UserCircle", UserCircleIcon],
+    ["User", UserIcon],
+    ["Users", UsersIcon],
+    ["Video", VideoIcon],
+    ["VipBadge", VipBadgeIcon],
+    ["Wallet", WalletIcon],
+    ["Warning", WarningIcon],
+    ["WarningTriangle", WarningTriangleIcon],
+    ["WifiOff", WifiOffIcon],
+    ["WifiOn", WifiOnIcon],
+    ["Wrench", WrenchIcon],
+  ] as const;
+
   return (
     <div id="icons" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-h3 mb-4">Icons</h2>
       <div className="space-y-6">
         <div className="flex flex-wrap items-end gap-6">
-          {(
-            [
-              ["ArrowRightIcon", ArrowRightIcon],
-              ["ArrowUpRightIcon", ArrowUpRightIcon],
-              ["CheckCircleIcon", CheckCircleIcon],
-              ["CheckIcon", CheckIcon],
-              ["ChevronLeftIcon", ChevronLeftIcon],
-              ["ChevronRightIcon", ChevronRightIcon],
-              ["CloseIcon", CloseIcon],
-              ["CrossIcon", CrossIcon],
-              ["CrownIcon", CrownIcon],
-              ["ErrorCircleIcon", ErrorCircleIcon],
-              ["ErrorIcon", ErrorIcon],
-              ["EyeIcon", EyeIcon],
-              ["FireIcon", FireIcon],
-              ["HomeIcon", HomeIcon],
-              ["InfoCircleIcon", InfoCircleIcon],
-              ["InfoIcon", InfoIcon],
-              ["MicrophoneIcon", MicrophoneIcon],
-              ["MinusIcon", MinusIcon],
-              ["PlusIcon", PlusIcon],
-              ["SpinnerIcon", SpinnerIcon],
-              ["StopIcon", StopIcon],
-              ["SuccessIcon", SuccessIcon],
-              ["WarningIcon", WarningIcon],
-              ["WarningTriangleIcon", WarningTriangleIcon],
-            ] as const
-          ).map(([name, Icon]) => (
+          {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
-              <span className="text-[10px] text-body-200 leading-tight">
-                {name.replace("Icon", "")}
-              </span>
+              <span className="text-[10px] text-body-200 leading-tight">{name}</span>
             </div>
           ))}
-          <div className="flex flex-col items-center gap-2">
-            <VipBadgeIcon className="size-6" />
-            <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
-          </div>
         </div>
 
         <div className="flex flex-wrap items-end gap-6 rounded-lg bg-background-white-solid-constant p-4 text-body-black-solid-constant">
-          {(
-            [
-              ["ArrowRight", ArrowRightIcon],
-              ["ArrowUpRight", ArrowUpRightIcon],
-              ["CheckCircle", CheckCircleIcon],
-              ["Check", CheckIcon],
-              ["ChevronLeft", ChevronLeftIcon],
-              ["ChevronRight", ChevronRightIcon],
-              ["Close", CloseIcon],
-              ["Cross", CrossIcon],
-              ["Crown", CrownIcon],
-              ["ErrorCircle", ErrorCircleIcon],
-              ["Error", ErrorIcon],
-              ["Eye", EyeIcon],
-              ["Fire", FireIcon],
-              ["Home", HomeIcon],
-              ["InfoCircle", InfoCircleIcon],
-              ["Info", InfoIcon],
-              ["Microphone", MicrophoneIcon],
-              ["Minus", MinusIcon],
-              ["Plus", PlusIcon],
-              ["Spinner", SpinnerIcon],
-              ["Stop", StopIcon],
-              ["Success", SuccessIcon],
-              ["Warning", WarningIcon],
-              ["WarningTriangle", WarningTriangleIcon],
-            ] as const
-          ).map(([name, Icon]) => (
+          {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
-              <span className="text-[10px] text-body-200 leading-tight">{name}</span>
+              <span className="text-[10px] leading-tight">{name}</span>
             </div>
           ))}
-          <div className="flex flex-col items-center gap-2">
-            <VipBadgeIcon className="size-6" />
-            <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
-          </div>
         </div>
 
         <div className="flex flex-wrap items-end gap-6 rounded-lg bg-body-black-solid-constant p-4 text-body-white-solid-constant">
-          {(
-            [
-              ["ArrowRight", ArrowRightIcon],
-              ["ArrowUpRight", ArrowUpRightIcon],
-              ["CheckCircle", CheckCircleIcon],
-              ["Check", CheckIcon],
-              ["ChevronLeft", ChevronLeftIcon],
-              ["ChevronRight", ChevronRightIcon],
-              ["Close", CloseIcon],
-              ["Cross", CrossIcon],
-              ["Crown", CrownIcon],
-              ["ErrorCircle", ErrorCircleIcon],
-              ["Error", ErrorIcon],
-              ["Eye", EyeIcon],
-              ["Fire", FireIcon],
-              ["Home", HomeIcon],
-              ["InfoCircle", InfoCircleIcon],
-              ["Info", InfoIcon],
-              ["Microphone", MicrophoneIcon],
-              ["Minus", MinusIcon],
-              ["Plus", PlusIcon],
-              ["Spinner", SpinnerIcon],
-              ["Stop", StopIcon],
-              ["Success", SuccessIcon],
-              ["Warning", WarningIcon],
-              ["WarningTriangle", WarningTriangleIcon],
-            ] as const
-          ).map(([name, Icon]) => (
+          {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
-              <span className="text-[10px] text-body-200 leading-tight">{name}</span>
+              <span className="text-[10px] leading-tight">{name}</span>
             </div>
           ))}
-          <div className="flex flex-col items-center gap-2">
-            <VipBadgeIcon className="size-6" />
-            <span className="text-[10px] text-body-200 leading-tight">VipBadge</span>
-          </div>
         </div>
 
         {/* Sizes */}
@@ -2181,7 +2290,7 @@ function ProgressBarDemo() {
           title="Level progress"
           showCompletion
           stepsLabel="Level 4"
-          leftIcon={<FireIcon className="size-5" />}
+          leftIcon={<FlameIcon className="size-5" />}
           helperLeft="Keep it up!"
           helperRight="60 XP to go"
         />

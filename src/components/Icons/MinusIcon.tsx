@@ -2,20 +2,24 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
-/** Small minus/indeterminate icon for use in checkbox components (12x12 viewBox) */
 export const MinusIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ className, ...props }, ref) => (
-    <svg
-      ref={ref}
-      viewBox="0 0 12 12"
-      fill="none"
-      aria-hidden="true"
-      className={cn("size-3", className)}
-      {...props}
-    >
-      <path d="M2 6h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  ),
+  ({ className, ...props }, ref) => {
+    return (
+      <svg
+        ref={ref}
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        className={cn("size-6", className)}
+        {...props}
+      >
+        <path
+          fill="currentColor"
+          d="M18 12.75H6c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h12c.41 0 .75.34.75.75s-.34.75-.75.75"
+        />
+      </svg>
+    );
+  },
 );
 
 MinusIcon.displayName = "MinusIcon";

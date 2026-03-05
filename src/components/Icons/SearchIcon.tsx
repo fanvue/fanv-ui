@@ -2,35 +2,24 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
-/** A magnifying glass search icon (20 × 20). */
 export const SearchIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ className, ...props }, ref) => (
-    <svg
-      ref={ref}
-      viewBox="0 0 20 20"
-      fill="none"
-      aria-hidden="true"
-      className={cn("size-5", className)}
-      {...props}
-    >
-      <circle
-        cx="8.5"
-        cy="8.5"
-        r="5.5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M12.5 12.5L17 17"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
+  ({ className, ...props }, ref) => {
+    return (
+      <svg
+        ref={ref}
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        className={cn("size-6", className)}
+        {...props}
+      >
+        <path
+          fill="currentColor"
+          d="M11.5 21.75c-5.65 0-10.25-4.6-10.25-10.25S5.85 1.25 11.5 1.25s10.25 4.6 10.25 10.25-4.6 10.25-10.25 10.25m0-19c-4.83 0-8.75 3.93-8.75 8.75s3.92 8.75 8.75 8.75 8.75-3.93 8.75-8.75-3.92-8.75-8.75-8.75M22 22.75c-.19 0-.38-.07-.53-.22l-2-2a.754.754 0 0 1 0-1.06c.29-.29.77-.29 1.06 0l2 2c.29.29.29.77 0 1.06-.15.15-.34.22-.53.22"
+        />
+      </svg>
+    );
+  },
 );
 
 SearchIcon.displayName = "SearchIcon";

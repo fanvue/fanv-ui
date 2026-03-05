@@ -1,0 +1,29 @@
+import * as React from "react";
+import { cn } from "@/utils/cn";
+import type { IconProps } from "./types";
+
+export const ChevronUpIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <svg
+        ref={ref}
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        className={cn("size-6", className)}
+        {...props}
+      >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeMiterlimit="10"
+          strokeWidth="1.5"
+          d="m8 14 4-4 4 4"
+        />
+      </svg>
+    );
+  },
+);
+
+ChevronUpIcon.displayName = "ChevronUpIcon";
