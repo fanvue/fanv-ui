@@ -795,9 +795,21 @@ function TypographyDemo() {
   ];
 
   const semiboldTokens = [
-    { name: "Body Lg", className: "typography-semibold-body-lg", sample: "Body text with semibold weight for strong emphasis." },
-    { name: "Body Md", className: "typography-semibold-body-md", sample: "Smaller body text with semibold weight." },
-    { name: "Body Sm", className: "typography-semibold-body-sm", sample: "Semibold caption for labels and emphasis." },
+    {
+      name: "Body Lg",
+      className: "typography-semibold-body-lg",
+      sample: "Body text with semibold weight for strong emphasis.",
+    },
+    {
+      name: "Body Md",
+      className: "typography-semibold-body-md",
+      sample: "Smaller body text with semibold weight.",
+    },
+    {
+      name: "Body Sm",
+      className: "typography-semibold-body-sm",
+      sample: "Semibold caption for labels and emphasis.",
+    },
     { name: "Link Lg", className: "typography-semibold-link-lg", sample: "Large link text" },
     { name: "Link Md", className: "typography-semibold-link-md", sample: "Medium link text" },
     { name: "Link Xs", className: "typography-semibold-link-xs", sample: "Extra small link text" },
@@ -805,26 +817,44 @@ function TypographyDemo() {
   ];
 
   const regularTokens = [
-    { name: "Body Lg", className: "typography-regular-body-lg", sample: "Body text at the standard reading size for paragraphs and content." },
-    { name: "Body Md", className: "typography-regular-body-md", sample: "Smaller body text for secondary content and descriptions." },
-    { name: "Body Sm", className: "typography-regular-body-sm", sample: "Caption text for annotations and helper text." },
+    {
+      name: "Body Lg",
+      className: "typography-regular-body-lg",
+      sample: "Body text at the standard reading size for paragraphs and content.",
+    },
+    {
+      name: "Body Md",
+      className: "typography-regular-body-md",
+      sample: "Smaller body text for secondary content and descriptions.",
+    },
+    {
+      name: "Body Sm",
+      className: "typography-regular-body-sm",
+      sample: "Caption text for annotations and helper text.",
+    },
   ];
 
   return (
     <div id="typography" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-h3 mb-4">Typography</h2>
-      <p className="text-body-200 mb-6">
-        All typography is set in <strong>Inter</strong>. Styles are available as utility classes generated from Figma tokens.
+      <p className="mb-6 text-body-200">
+        All typography is set in <strong>Inter</strong>. Styles are available as utility classes
+        generated from Figma tokens.
       </p>
 
       <div className="space-y-8">
         <div>
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-body-200">Bold</h3>
+          <h3 className="mb-3 font-semibold text-body-200 text-xs uppercase tracking-wider">
+            Bold
+          </h3>
           <div className="space-y-4">
             {boldTokens.map((token) => (
-              <div key={token.className} className="flex items-baseline gap-6 border-neutral-200 border-b pb-4">
+              <div
+                key={token.className}
+                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+              >
                 <div className="w-48 shrink-0">
-                  <div className="text-sm font-semibold">{token.name}</div>
+                  <div className="font-semibold text-sm">{token.name}</div>
                   <code className="text-[11px] text-body-200">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
@@ -834,12 +864,17 @@ function TypographyDemo() {
         </div>
 
         <div>
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-body-200">Semibold</h3>
+          <h3 className="mb-3 font-semibold text-body-200 text-xs uppercase tracking-wider">
+            Semibold
+          </h3>
           <div className="space-y-4">
             {semiboldTokens.map((token) => (
-              <div key={token.className} className="flex items-baseline gap-6 border-neutral-200 border-b pb-4">
+              <div
+                key={token.className}
+                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+              >
                 <div className="w-48 shrink-0">
-                  <div className="text-sm font-semibold">{token.name}</div>
+                  <div className="font-semibold text-sm">{token.name}</div>
                   <code className="text-[11px] text-body-200">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
@@ -849,12 +884,17 @@ function TypographyDemo() {
         </div>
 
         <div>
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-body-200">Regular</h3>
+          <h3 className="mb-3 font-semibold text-body-200 text-xs uppercase tracking-wider">
+            Regular
+          </h3>
           <div className="space-y-4">
             {regularTokens.map((token) => (
-              <div key={token.className} className="flex items-baseline gap-6 border-neutral-200 border-b pb-4">
+              <div
+                key={token.className}
+                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+              >
                 <div className="w-48 shrink-0">
-                  <div className="text-sm font-semibold">{token.name}</div>
+                  <div className="font-semibold text-sm">{token.name}</div>
                   <code className="text-[11px] text-body-200">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
