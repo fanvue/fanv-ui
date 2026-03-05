@@ -260,7 +260,7 @@ function IconCard({ entry, size }: { entry: IconEntry; size: string }) {
   const [copied, setCopied] = useState(false);
   const Icon = entry.component;
 
-  const importText = `import { ${entry.name} } from "fanv-ui";`;
+  const importText = `import { ${entry.name} } from "@fanvue/ui";`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(importText).then(() => {
@@ -379,7 +379,7 @@ function IconGallery() {
             borderRadius: 6,
           }}
         >
-          {'import { CheckIcon } from "fanv-ui";'}
+          {'import { CheckIcon } from "@fanvue/ui";'}
         </code>
       </div>
 
