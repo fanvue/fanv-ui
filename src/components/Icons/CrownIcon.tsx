@@ -2,20 +2,24 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
-/** A crown icon used for premium/VIP indicators (20 × 20). */
 export const CrownIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ className, ...props }, ref) => (
-    <svg
-      ref={ref}
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      aria-hidden="true"
-      className={cn("size-5", className)}
-      {...props}
-    >
-      <path d="M3.848 13.913 2 3.91l5.081 4.548L10.315 3l3.234 5.457 5.081-4.548-1.848 10.004H3.848Zm12.934 2.729c0 .546-.37.91-.924.91H4.772c-.555 0-.924-.364-.924-.91v-.91h12.934v.91Z" />
-    </svg>
-  ),
+  ({ className, ...props }, ref) => {
+    return (
+      <svg
+        ref={ref}
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        className={cn("size-6", className)}
+        {...props}
+      >
+        <path
+          fill="currentColor"
+          d="M17 21.04H7c-3.17 0-5.75-2.58-5.75-5.75V5.71c0-1.3.6-1.75.96-1.9s1.1-.26 2.02.66l2.59 2.59c.1.1.26.1.35 0l3.59-3.59c.66-.66 1.82-.66 2.47 0l3.59 3.59c.1.1.26.1.35 0l2.59-2.59c.92-.92 1.66-.8 2.02-.66.36.15.96.59.96 1.9v9.59c.01 3.43-2.3 5.74-5.74 5.74M2.81 5.24c-.03.08-.06.23-.06.47v9.59A4.26 4.26 0 0 0 7 19.55h10c2.58 0 4.25-1.67 4.25-4.25V5.71c0-.24-.03-.38-.06-.46-.08.04-.2.12-.37.29l-2.59 2.59c-.66.66-1.82.66-2.47 0l-3.59-3.59c-.1-.1-.26-.1-.35 0L8.24 8.12c-.66.66-1.82.66-2.47 0L3.18 5.53c-.17-.17-.3-.25-.37-.29"
+        />
+      </svg>
+    );
+  },
 );
 
 CrownIcon.displayName = "CrownIcon";

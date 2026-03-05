@@ -1,0 +1,26 @@
+import * as React from "react";
+import { cn } from "@/utils/cn";
+import type { IconProps } from "./types";
+
+export const GenderIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <svg
+        ref={ref}
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        className={cn("size-6", className)}
+        {...props}
+      >
+        <g fill="currentColor">
+          <path d="M10.25 22.25c-4.69 0-8.5-3.81-8.5-8.5s3.81-8.5 8.5-8.5 8.5 3.81 8.5 8.5-3.81 8.5-8.5 8.5m0-15.5c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7" />
+          <path d="M16 8.75c-.19 0-.38-.07-.53-.22a.754.754 0 0 1 0-1.06l5.5-5.5c.29-.29.77-.29 1.06 0s.29.77 0 1.06l-5.5 5.5c-.15.15-.34.22-.53.22" />
+          <path d="M21.5 9.75c-.41 0-.75-.34-.75-.75V3.25H15c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h6.5c.41 0 .75.34.75.75V9c0 .41-.34.75-.75.75" />
+        </g>
+      </svg>
+    );
+  },
+);
+
+GenderIcon.displayName = "GenderIcon";
