@@ -266,7 +266,7 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
         className={cn(
           "flex gap-4 rounded-2xl",
           (variant === "default" || variant === "vipEarn") &&
-            "border border-neutral-50 bg-background-200 p-4 backdrop-blur-md",
+            "border border-neutral-50 bg-surface-container p-4 backdrop-blur-md",
           variant === "default" && "flex-wrap items-start",
           variant === "vipEarn" && "items-start",
           variant === "welcome" && "relative flex-col items-center bg-surface-page py-6",

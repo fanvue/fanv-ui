@@ -697,7 +697,7 @@ function LogoDemo() {
         <Logo variant="portrait" color="decolour" />
         <Logo variant="wordmark" color="decolour" />
       </div>
-      <div className="rounded-lg bg-background-white-solid-constant p-4">
+      <div className="rounded-lg bg-white p-4">
         <div className="flex flex-wrap items-start gap-8">
           <Logo variant="full" color="blackAlways" />
           <Logo variant="icon" color="blackAlways" />
@@ -705,7 +705,7 @@ function LogoDemo() {
           <Logo variant="wordmark" color="blackAlways" />
         </div>
       </div>
-      <div className="rounded-lg bg-body-black-solid-constant p-4">
+      <div className="rounded-lg bg-neutral-solid p-4">
         <div className="flex flex-wrap items-start gap-8">
           <Logo variant="full" color="whiteAlways" />
           <Logo variant="icon" color="whiteAlways" />
@@ -842,12 +842,12 @@ function IconsDemo() {
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
-              <span className="text-[10px] text-body-200 leading-tight">{name}</span>
+              <span className="text-[10px] text-foreground-secondary leading-tight">{name}</span>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-background-white-solid-constant p-4 text-body-black-solid-constant">
+        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-white p-4 text-foreground-default">
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
@@ -856,7 +856,7 @@ function IconsDemo() {
           ))}
         </div>
 
-        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-body-black-solid-constant p-4 text-body-white-solid-constant">
+        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-neutral-solid p-4 text-foreground-inverse">
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
@@ -869,23 +869,23 @@ function IconsDemo() {
         <div className="flex flex-wrap items-end gap-8">
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-4" />
-            <span className="text-[10px] text-body-200">16px</span>
+            <span className="text-[10px] text-foreground-secondary">16px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon />
-            <span className="text-[10px] text-body-200">20px</span>
+            <span className="text-[10px] text-foreground-secondary">20px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-6" />
-            <span className="text-[10px] text-body-200">24px</span>
+            <span className="text-[10px] text-foreground-secondary">24px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-8" />
-            <span className="text-[10px] text-body-200">32px</span>
+            <span className="text-[10px] text-foreground-secondary">32px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-10" />
-            <span className="text-[10px] text-body-200">40px</span>
+            <span className="text-[10px] text-foreground-secondary">40px</span>
           </div>
         </div>
       </div>
@@ -946,14 +946,14 @@ function TypographyDemo() {
   return (
     <div id="typography" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-h3 mb-4">Typography</h2>
-      <p className="mb-6 text-body-200">
+      <p className="mb-6 text-foreground-secondary">
         All typography is set in <strong>Inter</strong>. Styles are available as utility classes
         generated from Figma tokens.
       </p>
 
       <div className="space-y-8">
         <div>
-          <h3 className="mb-3 font-semibold text-body-200 text-xs uppercase tracking-wider">
+          <h3 className="mb-3 font-semibold text-foreground-secondary text-xs uppercase tracking-wider">
             Bold
           </h3>
           <div className="space-y-4">
@@ -964,7 +964,7 @@ function TypographyDemo() {
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-body-200">{token.className}</code>
+                  <code className="text-[11px] text-foreground-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -973,7 +973,7 @@ function TypographyDemo() {
         </div>
 
         <div>
-          <h3 className="mb-3 font-semibold text-body-200 text-xs uppercase tracking-wider">
+          <h3 className="mb-3 font-semibold text-foreground-secondary text-xs uppercase tracking-wider">
             Semibold
           </h3>
           <div className="space-y-4">
@@ -984,7 +984,7 @@ function TypographyDemo() {
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-body-200">{token.className}</code>
+                  <code className="text-[11px] text-foreground-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -993,7 +993,7 @@ function TypographyDemo() {
         </div>
 
         <div>
-          <h3 className="mb-3 font-semibold text-body-200 text-xs uppercase tracking-wider">
+          <h3 className="mb-3 font-semibold text-foreground-secondary text-xs uppercase tracking-wider">
             Regular
           </h3>
           <div className="space-y-4">
@@ -1004,7 +1004,7 @@ function TypographyDemo() {
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-body-200">{token.className}</code>
+                  <code className="text-[11px] text-foreground-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -1184,7 +1184,7 @@ function ButtonDemo() {
         <Button variant="brand">Label</Button>
         <Button variant="link">Label</Button>
         <Button variant="destructive">Label</Button>
-        <div className="rounded-lg bg-body-black-solid-constant p-3">
+        <div className="rounded-lg bg-neutral-solid p-3">
           <Button variant="white">Label</Button>
         </div>
         <Button variant="tertiaryDestructive">Label</Button>
@@ -1221,7 +1221,7 @@ function ButtonDemo() {
             <Button variant="destructive" size={size}>
               Label
             </Button>
-            <div className="rounded-lg bg-body-black-solid-constant p-2">
+            <div className="rounded-lg bg-neutral-solid p-2">
               <Button variant="white" size={size}>
                 Label
               </Button>
@@ -1255,7 +1255,7 @@ function ButtonDemo() {
         <Button variant="destructive" disabled>
           Label
         </Button>
-        <div className="rounded-lg bg-body-black-solid-constant p-3">
+        <div className="rounded-lg bg-neutral-solid p-3">
           <Button variant="white" disabled>
             Label
           </Button>
@@ -1287,7 +1287,7 @@ function ButtonDemo() {
         <Button variant="destructive" loading>
           Label
         </Button>
-        <div className="rounded-lg bg-body-black-solid-constant p-3">
+        <div className="rounded-lg bg-neutral-solid p-3">
           <Button variant="white" loading>
             Label
           </Button>
@@ -1313,7 +1313,7 @@ function ButtonDemo() {
         <Button fullWidth variant="primary" discount="$X.XX" price="$X.XX/ month">
           Join now
         </Button>
-        <div className="rounded-lg bg-body-black-solid-constant p-3">
+        <div className="rounded-lg bg-neutral-solid p-3">
           <Button variant="white" rightIcon={<CrownIcon />} discount="$X.XX" price="$X.XX/ month">
             Join now
           </Button>
@@ -1377,7 +1377,7 @@ function IconButtonDemo() {
           <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
         </div>
 
-        <div className="rounded-lg bg-body-black-solid-constant p-4">
+        <div className="rounded-lg bg-neutral-solid p-4">
           <div className="flex flex-wrap items-center gap-4">
             <IconButton variant="contrast" icon={<HomeIcon />} aria-label="Home" />
             <IconButton variant="messaging" icon={<PlusIcon />} aria-label="Add" />
@@ -1875,7 +1875,7 @@ function SnackbarDemo() {
           closable
         />
         <Snackbar primaryLabel="Accept" secondaryLabel="Dismiss">
-          <span className="typography-body-2-medium">
+          <span className="typography-semibold-body-md">
             <span>@user.with.username</span> changed their subscription price to <span>$43.99</span>{" "}
             per month
           </span>
@@ -2415,7 +2415,7 @@ function TooltipDemo() {
               <TooltipContent
                 variant="infobox"
                 side="right"
-                icon={<InfoCircleIcon className="text-background-inverse-solid" />}
+                icon={<InfoCircleIcon className="text-foreground-inverse" />}
                 heading="Title"
               >
                 Info text
@@ -2443,7 +2443,7 @@ function TooltipDemo() {
               </TooltipTrigger>
               <TooltipContent
                 variant="infobox"
-                icon={<InfoCircleIcon className="text-background-inverse-solid" />}
+                icon={<InfoCircleIcon className="text-foreground-inverse" />}
                 heading="Title"
                 primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
                 secondaryAction={{ label: "Dismiss", onClick: () => console.log("Dismiss") }}
@@ -2564,7 +2564,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background-inverse-solid text-body-100">
+    <div className="min-h-screen bg-surface-page text-foreground-default">
       <ToastProvider>
         {/* Dark / Light toggle and TOC */}
         <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-200 border-b bg-inherit px-4 py-3">
@@ -2572,7 +2572,7 @@ function App() {
             <button
               type="button"
               onClick={() => setTocOpen((prev) => !prev)}
-              className="typography-body-2-medium flex items-center gap-2 rounded-lg border border-neutral-200 bg-background-white-solid-constant px-3 py-2 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-body-black-solid-constant dark:hover:bg-neutral-800"
+              className="typography-semibold-body-md flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-2 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-solid dark:hover:bg-neutral-800"
               aria-label="Toggle table of contents"
             >
               <HomeIcon className="size-4" />
@@ -2588,14 +2588,14 @@ function App() {
                   onClick={() => setTocOpen(false)}
                   aria-hidden="true"
                 />
-                <div className="absolute top-full left-0 z-50 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-lg border border-neutral-200 bg-background-white-solid-constant shadow-lg dark:border-neutral-700 dark:bg-body-black-solid-constant">
+                <div className="absolute top-full left-0 z-50 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-lg border border-neutral-200 bg-white shadow-lg dark:border-neutral-700 dark:bg-neutral-solid">
                   <div className="p-2">
                     {sections.map((section) => (
                       <button
                         key={section.id}
                         type="button"
                         onClick={() => scrollToSection(section.id)}
-                        className="typography-body-2-medium w-full rounded px-3 py-2 text-left hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left hover:bg-neutral-100 dark:hover:bg-neutral-800"
                       >
                         {section.label}
                       </button>
@@ -2606,15 +2606,15 @@ function App() {
             )}
           </div>
           <div className="flex items-center gap-3">
-            <span className="typography-body-2-medium">{dark ? "Dark" : "Light"}</span>
+            <span className="typography-semibold-body-md">{dark ? "Dark" : "Light"}</span>
             <button
               type="button"
               onClick={() => setDark((d) => !d)}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${dark ? "bg-brand-green-500" : "bg-neutral-200"}`}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${dark ? "bg-brand-accent-default" : "bg-neutral-200"}`}
               aria-label="Toggle dark mode"
             >
               <span
-                className={`pointer-events-none inline-block size-5 rounded-full bg-background-white-solid-constant shadow-sm ring-0 transition-transform ${dark ? "translate-x-5" : "translate-x-0"}`}
+                className={`pointer-events-none inline-block size-5 rounded-full bg-white shadow-sm ring-0 transition-transform ${dark ? "translate-x-5" : "translate-x-0"}`}
               />
             </button>
           </div>
