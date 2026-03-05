@@ -244,13 +244,13 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
               className="flex size-[72px] items-center justify-center rounded-full bg-neutral-400"
               aria-hidden="true"
             >
-              <MicrophoneIcon className="size-5 text-body-300" />
+              <MicrophoneIcon className="size-5 text-foreground-inverse" />
             </div>
 
             <p
               role="timer"
               aria-label="Recording time"
-              className="typography-body-1-regular text-body-100"
+              className="typography-regular-body-lg text-foreground-default"
             >
               {formattedElapsed} / {formatAudioTime(maxRecordingDuration * 1000)}
             </p>
@@ -268,7 +268,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
             ref={stopButtonRef}
             type="button"
             onClick={handleStopClick}
-            className="mt-1 flex size-11 items-center justify-center rounded-full bg-error-500 text-body-white-solid-constant transition-colors hover:bg-error-500/80 focus:shadow-focus-ring focus-visible:outline-none"
+            className="mt-1 flex size-11 items-center justify-center rounded-full bg-error-default text-foreground-onaccentinverse transition-colors hover:bg-error-default/80 focus:shadow-focus-ring focus-visible:outline-none"
             aria-label={stopButtonAriaLabel}
           >
             <StopIcon className="size-5" />
@@ -291,7 +291,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
         onDragLeave={handleDragLeave}
         className={cn(
           "flex flex-col items-center justify-center gap-2 rounded-xl bg-neutral-100 px-4 py-3 transition-colors",
-          isDragActive && "bg-brand-green-50 ring-2 ring-brand-green-500",
+          isDragActive && "bg-brand-accent-muted ring-2 ring-brand-accent-default",
           disabled && "pointer-events-none opacity-50",
           className,
         )}
@@ -312,20 +312,20 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
           htmlFor={inputId}
           className="flex cursor-pointer flex-col items-center gap-2 rounded-lg px-2 py-1 peer-focus-visible:shadow-focus-ring"
         >
-          <UploadCloudIcon className="size-5 text-body-100" />
+          <UploadCloudIcon className="size-5 text-foreground-default" />
 
-          <span className="typography-body-1-semibold text-center text-body-100">
+          <span className="typography-semibold-body-lg text-center text-foreground-default">
             {uploadTitle}
           </span>
 
-          <span id={descriptionId} className="typography-body-2-regular text-center text-body-100">
+          <span id={descriptionId} className="typography-regular-body-md text-center text-foreground-default">
             {uploadDescription}
           </span>
         </label>
 
         {allowRecording && isRecordingSupported && (
           <>
-            <p className="typography-body-2-regular text-center text-body-100">{separatorText}</p>
+            <p className="typography-regular-body-md text-center text-foreground-default">{separatorText}</p>
 
             <Button
               variant="brand"
