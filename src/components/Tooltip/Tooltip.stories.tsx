@@ -29,7 +29,7 @@ export const Default: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -42,7 +42,7 @@ export const Bottom: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -55,7 +55,7 @@ export const Left: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -68,7 +68,7 @@ export const Right: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -81,7 +81,7 @@ export const NoArrow: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -94,7 +94,7 @@ export const LongContent: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -110,7 +110,7 @@ export const InfoboxDefault: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -125,13 +125,13 @@ export const InfoboxWithIcon: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
       <TooltipContent
         variant="infobox"
-        icon={<InfoCircleIcon className="size-5 text-background-inverse-solid" />}
+        icon={<InfoCircleIcon className="size-5 text-foreground-inverse" />}
         heading="Title"
       >
         Info text
@@ -144,7 +144,7 @@ export const InfoboxWithPill: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -152,7 +152,7 @@ export const InfoboxWithPill: Story = {
         variant="infobox"
         heading="Title"
         pill={
-          <span className="typography-caption-semibold rounded-full bg-neutral-solid px-3 py-1 text-background-inverse-solid">
+          <span className="typography-semibold-body-sm rounded-full bg-neutral-solid px-3 py-1 text-foreground-inverse">
             Example
           </span>
         }
@@ -167,7 +167,7 @@ export const InfoboxWithActions: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -187,16 +187,16 @@ export const InfoboxFull: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-body-200">
+        <button type="button" className="text-foreground-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
       <TooltipContent
         variant="infobox"
-        icon={<InfoCircleIcon className="size-5 text-background-inverse-solid" />}
+        icon={<InfoCircleIcon className="size-5 text-foreground-inverse" />}
         heading="Title"
         pill={
-          <span className="typography-caption-semibold rounded-full bg-neutral-solid px-3 py-1 text-background-inverse-solid">
+          <span className="typography-semibold-body-sm rounded-full bg-neutral-solid px-3 py-1 text-foreground-inverse">
             Example
           </span>
         }
@@ -214,7 +214,7 @@ export const AllPlacements: Story = {
     <div className="flex flex-col items-center gap-24 py-16">
       <Tooltip defaultOpen>
         <TooltipTrigger asChild>
-          <button type="button" className="text-body-200">
+          <button type="button" className="text-foreground-secondary">
             <InfoCircleIcon className="size-5" />
           </button>
         </TooltipTrigger>
@@ -223,7 +223,7 @@ export const AllPlacements: Story = {
       <div className="flex gap-48">
         <Tooltip defaultOpen>
           <TooltipTrigger asChild>
-            <button type="button" className="text-body-200">
+            <button type="button" className="text-foreground-secondary">
               <InfoCircleIcon className="size-5" />
             </button>
           </TooltipTrigger>
@@ -231,7 +231,7 @@ export const AllPlacements: Story = {
         </Tooltip>
         <Tooltip defaultOpen>
           <TooltipTrigger asChild>
-            <button type="button" className="text-body-200">
+            <button type="button" className="text-foreground-secondary">
               <InfoCircleIcon className="size-5" />
             </button>
           </TooltipTrigger>
@@ -240,7 +240,7 @@ export const AllPlacements: Story = {
       </div>
       <Tooltip defaultOpen>
         <TooltipTrigger asChild>
-          <button type="button" className="text-body-200">
+          <button type="button" className="text-foreground-secondary">
             <InfoCircleIcon className="size-5" />
           </button>
         </TooltipTrigger>
