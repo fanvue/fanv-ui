@@ -2,23 +2,23 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
-/** A left-pointing chevron icon (20 × 20). */
 export const ChevronLeftIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, ...props }, ref) => (
     <svg
       ref={ref}
-      viewBox="0 0 20 20"
+      viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
       className={cn("size-5", className)}
       {...props}
     >
       <path
-        d="M12.5 15L7.5 10L12.5 5"
         stroke="currentColor"
-        strokeWidth="1.67"
         strokeLinecap="round"
         strokeLinejoin="round"
+        strokeMiterlimit="10"
+        strokeWidth="1.5"
+        d="M15 19.92 8.48 13.4c-.77-.77-.77-2.03 0-2.8L15 4.08"
       />
     </svg>
   ),

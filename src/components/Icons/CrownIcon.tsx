@@ -2,18 +2,23 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import type { IconProps } from "./types";
 
-/** A crown icon used for premium/VIP indicators (20 × 20). */
 export const CrownIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, ...props }, ref) => (
     <svg
       ref={ref}
-      viewBox="0 0 20 20"
-      fill="currentColor"
+      viewBox="0 0 24 24"
+      fill="none"
       aria-hidden="true"
       className={cn("size-5", className)}
       {...props}
     >
-      <path d="M3.848 13.913 2 3.91l5.081 4.548L10.315 3l3.234 5.457 5.081-4.548-1.848 10.004H3.848Zm12.934 2.729c0 .546-.37.91-.924.91H4.772c-.555 0-.924-.364-.924-.91v-.91h12.934v.91Z" />
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M2 15.29V5.71c0-1.33.77-1.65 1.71-.71L6.3 7.59c.39.39 1.03.39 1.41 0L11.29 4a.996.996 0 0 1 1.41 0l3.59 3.59c.39.39 1.03.39 1.41 0L20.29 5c.94-.94 1.71-.62 1.71.71v9.59c0 3-2 5-5 5H7c-2.76-.01-5-2.25-5-5.01"
+      />
     </svg>
   ),
 );
