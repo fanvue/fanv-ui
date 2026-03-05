@@ -66,13 +66,13 @@ ToastViewport.displayName = "ToastViewport";
 const VariantIcon = ({ variant }: { variant: ToastVariant }) => {
   switch (variant) {
     case "info":
-      return <InfoIcon className="size-5 text-info-500" />;
+      return <InfoIcon className="size-5 text-info-default" />;
     case "warning":
-      return <WarningIcon className="size-5 text-warning-500" />;
+      return <WarningIcon className="size-5 text-warning-default" />;
     case "success":
-      return <SuccessIcon className="size-5 text-success-500" />;
+      return <SuccessIcon className="size-5 text-success-default" />;
     case "error":
-      return <ErrorIcon className="size-5 text-error-500" />;
+      return <ErrorIcon className="size-5 text-error-default" />;
   }
 };
 
@@ -113,7 +113,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
         data-testid="toast"
         className={cn(
           // Base styles
-          "group pointer-events-auto relative flex w-full flex-col items-start gap-3 overflow-hidden rounded-lg border-none bg-background-solid p-4 text-background-inverse-solid shadow-lg transition-all",
+          "group pointer-events-auto relative flex w-full flex-col items-start gap-3 overflow-hidden rounded-lg border-none bg-surface-pageinverse p-4 text-foreground-inverse shadow-lg transition-all",
           // Dark mode
           "dark:border-opacity-100",
           // Animation
@@ -133,12 +133,12 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
           </div>
           <div className="flex flex-1 flex-col items-start">
             {title && (
-              <ToastPrimitive.Title className="typography-body-2-semibold">
+              <ToastPrimitive.Title className="typography-semibold-body-md">
                 {title}
               </ToastPrimitive.Title>
             )}
             {description && (
-              <ToastPrimitive.Description className="typography-body-2-regular mt-1 opacity-90">
+              <ToastPrimitive.Description className="typography-regular-body-md mt-1 opacity-90">
                 {description}
               </ToastPrimitive.Description>
             )}
@@ -147,7 +147,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
               <Button
                 variant="secondary"
                 // These styles are basically inverted from the selected theme
-                className="mt-4 border-body-400 text-body-400"
+                className="mt-4 border-foreground-inverse text-foreground-inverse"
                 size="32"
                 onClick={onActionClick}
               >
@@ -162,7 +162,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
               icon={<CloseIcon />}
               aria-label={closeLabel}
               // same as the button above
-              className="absolute top-2 right-2 text-body-300"
+              className="absolute top-2 right-2 text-foreground-inverse"
               variant="tertiary"
               size="24"
             />
