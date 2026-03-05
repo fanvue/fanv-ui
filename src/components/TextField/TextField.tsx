@@ -34,9 +34,9 @@ const CONTAINER_HEIGHT: Record<TextFieldSize, string> = {
 };
 
 const INPUT_SIZE_CLASSES: Record<TextFieldSize, string> = {
-  "48": "py-3 typography-body-1-regular",
-  "40": "py-2 typography-body-1-regular",
-  "32": "py-2 typography-body-2-regular",
+  "48": "py-3 typography-regular-body-lg",
+  "40": "py-2 typography-regular-body-lg",
+  "32": "py-2 typography-regular-body-md",
 };
 
 const PADDING_HORIZONTAL: Record<TextFieldSize, string> = {
@@ -54,7 +54,7 @@ const ICON_SPACING: Record<TextFieldSize, string> = {
 function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: boolean) {
   return cn(
     "flex items-center rounded-xl border bg-neutral-100 has-focus-visible:outline-none motion-safe:transition-colors",
-    error ? "border-error-500" : "border-transparent",
+    error ? "border-error-default" : "border-transparent",
     !disabled && !error && "hover:border-neutral-400",
     CONTAINER_HEIGHT[size],
     PADDING_HORIZONTAL[size],
@@ -65,14 +65,16 @@ function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: b
 
 function getInputClassName(size: TextFieldSize) {
   return cn(
-    "h-full flex-1 rounded-xl bg-transparent text-body-100 no-underline placeholder:text-body-200 placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+    "h-full flex-1 rounded-xl bg-transparent text-foreground-default no-underline placeholder:text-foreground-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
     INPUT_SIZE_CLASSES[size],
   );
 }
 
 function TextFieldIcon({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex size-5 shrink-0 items-center justify-center text-body-200">{children}</div>
+    <div className="flex size-5 shrink-0 items-center justify-center text-foreground-secondary">
+      {children}
+    </div>
   );
 }
 
@@ -89,8 +91,8 @@ function TextFieldHelperText({
     <p
       id={id}
       className={cn(
-        "typography-caption-regular px-2 pt-1 pb-0.5",
-        error ? "text-error-500" : "text-body-200",
+        "typography-regular-body-sm px-2 pt-1 pb-0.5",
+        error ? "text-error-default" : "text-foreground-secondary",
       )}
     >
       {children}
@@ -159,7 +161,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="typography-caption-semibold px-1 pt-1 pb-2 text-body-100"
+            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-foreground-default"
           >
             {label}
           </label>
@@ -185,7 +187,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           {rightIcon && <TextFieldIcon>{rightIcon}</TextFieldIcon>}
           {validated && (
             <TextFieldIcon>
-              <CheckOutlineIcon className="text-success-500" />
+              <CheckOutlineIcon className="text-success-default" />
             </TextFieldIcon>
           )}
         </div>
