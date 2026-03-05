@@ -111,7 +111,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
               typeof page === "string" ? (
                 <span
                   key={page}
-                  className="flex size-4 items-center justify-center text-body-200 text-xs"
+                  className="flex size-4 items-center justify-center text-foreground-secondary text-xs"
                   aria-hidden="true"
                 >
                   &hellip;
@@ -126,8 +126,8 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
                   className={cn(
                     "flex size-4 cursor-pointer items-center justify-center rounded-full text-xs focus-visible:shadow-focus-ring focus-visible:outline-none motion-safe:transition-colors motion-safe:duration-150",
                     page === currentPage
-                      ? "bg-neutral-400 text-body-300"
-                      : "bg-neutral-100 text-body-100 hover:bg-neutral-200 active:bg-neutral-200",
+                      ? "bg-neutral-400 text-foreground-inverse"
+                      : "bg-neutral-100 text-foreground-default hover:bg-neutral-200 active:bg-neutral-200",
                   )}
                 >
                   {page}
