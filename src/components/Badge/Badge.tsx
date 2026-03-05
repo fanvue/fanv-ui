@@ -4,13 +4,13 @@ import { cn } from "../../utils/cn";
 
 const badgeVariants = {
   variant: {
-    default: "bg-neutral-100 text-neutral-400",
+    default: "bg-neutral-100 text-foreground-secondary",
     dark: "bg-neutral-50 text-foreground-inverse dark:text-foreground-onaccentinverse",
-    success: "bg-neutral-100 text-neutral-400",
-    warning: "bg-neutral-100 text-neutral-400",
-    error: "bg-neutral-100 text-neutral-400",
-    special: "bg-neutral-100 text-neutral-400",
-    info: "bg-neutral-100 text-neutral-400",
+    success: "bg-neutral-100 text-foreground-secondary",
+    warning: "bg-neutral-100 text-foreground-secondary",
+    error: "bg-neutral-100 text-foreground-secondary",
+    special: "bg-neutral-100 text-foreground-secondary",
+    info: "bg-neutral-100 text-foreground-secondary",
     online: "bg-neutral-100 text-brand-accent-default",
     brand: "bg-brand-accent-default text-foreground-onaccent",
     pink: "bg-brand-secondary-default text-foreground-onaccent",
