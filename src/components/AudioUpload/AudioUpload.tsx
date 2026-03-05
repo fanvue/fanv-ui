@@ -318,14 +318,19 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
             {uploadTitle}
           </span>
 
-          <span id={descriptionId} className="typography-regular-body-md text-center text-foreground-default">
+          <span
+            id={descriptionId}
+            className="typography-regular-body-md text-center text-foreground-default"
+          >
             {uploadDescription}
           </span>
         </label>
 
         {allowRecording && isRecordingSupported && (
           <>
-            <p className="typography-regular-body-md text-center text-foreground-default">{separatorText}</p>
+            <p className="typography-regular-body-md text-center text-foreground-default">
+              {separatorText}
+            </p>
 
             <Button
               variant="brand"
