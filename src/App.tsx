@@ -161,7 +161,6 @@ import {
   WalletIcon,
   WarningIcon,
   WarningTriangleIcon,
-  WhatsNewBanner,
   WifiOffIcon,
   WifiOnIcon,
   WrenchIcon,
