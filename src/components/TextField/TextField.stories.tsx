@@ -265,6 +265,29 @@ export const AllStates: Story = {
   ),
 };
 
+export const TextOverflow: Story = {
+  name: "Text Overflow",
+  render: () => (
+    <div className="flex w-[200px] flex-col gap-6">
+      <TextField
+        label="Default"
+        defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
+      />
+      <TextField
+        label="With icons"
+        leftIcon={<HomeIcon />}
+        rightIcon={<InfoCircleIcon />}
+        defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
+      />
+      <TextField
+        label="Size 32"
+        size="32"
+        defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
+      />
+    </div>
+  ),
+};
+
 export const AllSizeVariants: Story = {
   name: "All Sizes",
   render: () => (

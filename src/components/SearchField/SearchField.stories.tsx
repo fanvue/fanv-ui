@@ -102,6 +102,24 @@ export const WithClearButton: Story = {
   },
 };
 
+export const TextOverflow: Story = {
+  name: "Text Overflow",
+  render: () => (
+    <div className="flex w-[200px] flex-col gap-6">
+      <SearchField
+        placeholder="Search..."
+        defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
+      />
+      <SearchField
+        label="With label"
+        placeholder="Search..."
+        size="32"
+        defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
+      />
+    </div>
+  ),
+};
+
 export const FullWidth: Story = {
   args: {
     label: "Search",

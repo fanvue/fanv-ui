@@ -291,6 +291,28 @@ export const NotResizable: Story = {
   },
 };
 
+export const TextOverflow: Story = {
+  name: "Text Overflow",
+  render: () => (
+    <div className="flex w-[200px] flex-col gap-6">
+      <TextArea
+        label="Default"
+        defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
+      />
+      <TextArea
+        label="With clear button"
+        showClearButton
+        defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
+      />
+      <TextArea
+        label="Size 32"
+        size="32"
+        defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
+      />
+    </div>
+  ),
+};
+
 export const AllSizeVariants: Story = {
   name: "All Sizes",
   render: () => (
