@@ -219,6 +219,23 @@ export const ControlledExample: Story = {
   },
 };
 
+export const TextOverflow: Story = {
+  name: "Text Overflow",
+  render: () => (
+    <div className="flex w-[200px] flex-col gap-6">
+      <PasswordField
+        label="Default"
+        defaultValue="averylongpasswordthatshoulddefinitelynotoverflowthecontainerboundary"
+      />
+      <PasswordField
+        label="Size 32"
+        size="32"
+        defaultValue="averylongpasswordthatshoulddefinitelynotoverflowthecontainerboundary"
+      />
+    </div>
+  ),
+};
+
 export const AllSizeVariants: Story = {
   name: "All Sizes",
   render: () => (
