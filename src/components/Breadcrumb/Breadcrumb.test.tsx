@@ -100,7 +100,7 @@ describe("Breadcrumb", () => {
           </BreadcrumbList>
         </Breadcrumb>,
       );
-      const separators = document.querySelectorAll('[aria-hidden="true"]');
+      const separators = document.querySelectorAll('li[aria-hidden="true"]');
       expect(separators).toHaveLength(2);
     });
 
@@ -114,7 +114,7 @@ describe("Breadcrumb", () => {
           </BreadcrumbList>
         </Breadcrumb>,
       );
-      const separators = document.querySelectorAll('[aria-hidden="true"]');
+      const separators = document.querySelectorAll('li[aria-hidden="true"]');
       expect(separators).toHaveLength(0);
     });
 
