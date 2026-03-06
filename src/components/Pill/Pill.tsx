@@ -51,7 +51,16 @@ export interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
  */
 export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
   (
-    { className, variant = "green", leftIcon, rightIcon, asChild = false, onClick, children, ...props },
+    {
+      className,
+      variant = "green",
+      leftIcon,
+      rightIcon,
+      asChild = false,
+      onClick,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const Comp = asChild ? Slot : "span";
