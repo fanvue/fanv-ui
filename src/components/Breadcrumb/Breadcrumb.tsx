@@ -91,7 +91,7 @@ export const BreadcrumbLink = React.forwardRef<HTMLAnchorElement, BreadcrumbLink
       <Comp
         ref={ref}
         className={cn(
-          "typography-regular-body-sm text-foreground-secondary transition-colors hover:text-foreground-default",
+          "typography-regular-body-sm rounded-sm text-foreground-secondary underline-offset-2 transition-colors hover:text-foreground-default hover:underline focus-visible:shadow-focus-ring focus-visible:outline-none",
           className,
         )}
         {...props}
@@ -130,7 +130,6 @@ export const BreadcrumbSeparator = React.forwardRef<HTMLLIElement, BreadcrumbSep
   ({ className, children, ...props }, ref) => (
     <li
       ref={ref}
-      role="presentation"
       aria-hidden="true"
       className={cn("flex items-center text-foreground-secondary", className)}
       {...props}
