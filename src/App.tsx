@@ -19,6 +19,11 @@ import {
   BellIcon,
   BellOffIcon,
   BoltIcon,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
   BulbIcon,
   Button,
   CalendarIcon,
@@ -2505,6 +2510,55 @@ function LoaderDemo() {
   );
 }
 
+function BreadcrumbDemo() {
+  return (
+    <div id="breadcrumb" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Breadcrumb</h2>
+      <div className="flex flex-col gap-4">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/section">Section</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/section">Section</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/section/subsection">Subsection</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -2546,6 +2600,7 @@ function App() {
     { id: "toast", label: "Toast" },
     { id: "audioupload", label: "Audio Upload" },
     { id: "loader", label: "Loader" },
+    { id: "breadcrumb", label: "Breadcrumb" },
   ];
 
   const scrollToSection = (id: string) => {
@@ -2717,6 +2772,9 @@ function App() {
 
             {/* Toast */}
             <ToastDemo />
+
+            {/* Breadcrumb */}
+            <BreadcrumbDemo />
           </section>
         </main>
       </ToastProvider>
