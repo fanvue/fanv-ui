@@ -79,7 +79,8 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           isDark && "bg-neutral-50 text-foreground-onaccentinverse",
           !isDark && selected && "bg-brand-accent-muted text-neutral-400",
           !isDark && !selected && "bg-neutral-100 text-neutral-400",
-          // Hover
+          // Interactive
+          isInteractive && !disabled && "cursor-pointer",
           isInteractive &&
             !disabled &&
             !isDark &&
