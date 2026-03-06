@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.14.0...ui-v1.14.1) (2026-03-06)
+
+
+### Bug Fixes
+
+* **Chip,Pill,Badge:** add cursor-pointer when interactive ([#296](https://github.com/fanvue/fanv-ui/issues/296)) ([1779696](https://github.com/fanvue/fanv-ui/commit/1779696d68628aef3f0dce9dee60eaaad824fcb9))
+* **TextField, TextArea:** prevent text overflow in form inputs ([#295](https://github.com/fanvue/fanv-ui/issues/295)) ([d6432f3](https://github.com/fanvue/fanv-ui/commit/d6432f3cfaab7d5478b245c32ece1cc48514ce5e))
+
 ## [1.14.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.13.1...ui-v1.14.0) (2026-03-05)
 
 
