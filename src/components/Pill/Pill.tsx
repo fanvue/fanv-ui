@@ -51,7 +51,7 @@ export interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
  */
 export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
   (
-    { className, variant = "green", leftIcon, rightIcon, asChild = false, children, ...props },
+    { className, variant = "green", leftIcon, rightIcon, asChild = false, onClick, children, ...props },
     ref,
   ) => {
     const Comp = asChild ? Slot : "span";
@@ -67,9 +67,12 @@ export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
           "typography-semibold-body-sm",
           // Variant styles
           pillVariants.variant[variant],
+          // Interactive
+          onClick && "cursor-pointer",
           // Manual CSS overrides
           className,
         )}
+        onClick={onClick}
         {...props}
       >
         {leftIcon && (

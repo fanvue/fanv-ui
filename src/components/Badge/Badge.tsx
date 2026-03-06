@@ -78,6 +78,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       leftIcon,
       rightIcon,
       asChild = false,
+      onClick,
       children,
       ...props
     },
@@ -94,9 +95,12 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           "typography-semibold-body-sm inline-flex h-5 items-center gap-2 rounded-full px-2",
           // Variant styles
           badgeVariants.variant[variant],
+          // Interactive
+          onClick && "cursor-pointer",
           // Manual CSS overrides
           className,
         )}
+        onClick={onClick}
         {...props}
       >
         {leftIcon && (
