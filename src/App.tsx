@@ -19,6 +19,11 @@ import {
   BellIcon,
   BellOffIcon,
   BoltIcon,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
   BulbIcon,
   Button,
   CalendarIcon,
@@ -2509,6 +2514,55 @@ function LoaderDemo() {
 const WHATS_NEW_IMAGE =
   "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=264&h=264&fit=crop&auto=format";
 
+function BreadcrumbDemo() {
+  return (
+    <div id="breadcrumb" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Breadcrumb</h2>
+      <div className="flex flex-col gap-4">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/section">Section</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/section">Section</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/section/subsection">Subsection</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+    </div>
+  );
+}
+
 function WhatsNewBannerDemo() {
   return (
     <div id="whatsnewbanner" className="flex scroll-mt-20 flex-col gap-4">
@@ -2588,6 +2642,7 @@ function App() {
     { id: "audioupload", label: "Audio Upload" },
     { id: "loader", label: "Loader" },
     { id: "whatsnewbanner", label: "What's New Banner" },
+    { id: "breadcrumb", label: "Breadcrumb" },
   ];
 
   const scrollToSection = (id: string) => {
@@ -2762,6 +2817,9 @@ function App() {
 
             {/* What's New Banner */}
             <WhatsNewBannerDemo />
+
+            {/* Breadcrumb */}
+            <BreadcrumbDemo />
           </section>
         </main>
       </ToastProvider>
