@@ -82,7 +82,7 @@ describe("Select", () => {
   describe("error state", () => {
     it("applies error border on trigger", () => {
       const { container } = renderSelect({ error: true });
-      const trigger = container.querySelector(".border-error-500");
+      const trigger = container.querySelector(".border-error-default");
       expect(trigger).toBeInTheDocument();
     });
 
@@ -109,7 +109,7 @@ describe("Select", () => {
 
     it("applies error colour to helper text", () => {
       renderSelect({ error: true, helperText: "Error helper" });
-      expect(screen.getByText("Error helper")).toHaveClass("text-error-500");
+      expect(screen.getByText("Error helper")).toHaveClass("text-error-default");
     });
   });
 

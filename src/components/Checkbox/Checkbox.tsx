@@ -92,26 +92,26 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             "flex size-5 items-center justify-center rounded border-2",
             "transition-[border-color,background-color,color,box-shadow] duration-150",
             // Default state
-            "border-body-100 bg-transparent text-transparent",
+            "border-foreground-default bg-transparent text-transparent",
             // Checked state
-            "data-[state=checked]:border-body-100 data-[state=checked]:bg-body-100 data-[state=checked]:text-body-300",
+            "data-[state=checked]:border-foreground-default data-[state=checked]:bg-foreground-default data-[state=checked]:text-foreground-inverse",
             // Indeterminate state
-            "data-[state=indeterminate]:border-body-100 data-[state=indeterminate]:bg-body-100 data-[state=indeterminate]:text-body-300",
+            "data-[state=indeterminate]:border-foreground-default data-[state=indeterminate]:bg-foreground-default data-[state=indeterminate]:text-foreground-inverse",
             // Hover & active state
-            "hover:ring-2 hover:ring-brand-green-500 group-hover:ring-2 group-hover:ring-brand-green-500",
-            "not-disabled:active:ring-2 not-disabled:active:ring-brand-green-500",
+            "hover:ring-2 hover:ring-brand-accent-default group-hover:ring-2 group-hover:ring-brand-accent-default",
+            "not-disabled:active:ring-2 not-disabled:active:ring-brand-accent-default",
             // Focus state
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background-inverse-solid",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page",
             // Disabled state
-            "disabled:cursor-not-allowed disabled:border-disabled-400 disabled:ring-0 disabled:group-hover:ring-0",
-            "disabled:data-[state=checked]:border-disabled-400 disabled:data-[state=checked]:bg-disabled-400 disabled:data-[state=checked]:text-disabled-100",
+            "disabled:cursor-not-allowed disabled:border-neutral-300 disabled:ring-0 disabled:group-hover:ring-0",
+            "disabled:data-[state=checked]:border-neutral-300 disabled:data-[state=checked]:bg-neutral-300 disabled:data-[state=checked]:text-neutral-250",
             !hasLabel && className,
           )}
         >
           <CheckboxPrimitive.Indicator
             forceMount
             className={cn(
-              "flex size-3 items-center justify-center text-body-300",
+              "flex size-3 items-center justify-center text-foreground-inverse",
               "data-[state=unchecked]:invisible",
             )}
           >
@@ -139,9 +139,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             <label
               htmlFor={id}
               className={cn(
-                "cursor-pointer select-none text-body-100",
-                "group-has-disabled:cursor-not-allowed group-has-disabled:text-disabled-100",
-                size === "small" ? "typography-body-2-semibold" : "typography-body-1-semibold",
+                "cursor-pointer select-none text-foreground-default",
+                "group-has-disabled:cursor-not-allowed group-has-disabled:text-neutral-250",
+                size === "small" ? "typography-semibold-body-md" : "typography-semibold-body-lg",
               )}
             >
               {label}
@@ -152,9 +152,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <span
             id={helperTextId}
             className={cn(
-              "ml-7 text-body-200",
-              "in-[.is-disabled]:cursor-not-allowed in-[.is-disabled]:text-disabled-100",
-              size === "small" ? "typography-caption-regular" : "typography-body-2-regular",
+              "ml-7 text-foreground-secondary",
+              "in-[.is-disabled]:cursor-not-allowed in-[.is-disabled]:text-neutral-250",
+              size === "small" ? "typography-regular-body-sm" : "typography-regular-body-md",
             )}
           >
             {helperText}

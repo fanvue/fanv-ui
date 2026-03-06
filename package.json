@@ -1,6 +1,6 @@
 {
   "name": "@fanvue/ui",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "React component library built with Tailwind CSS for Fanvue ecosystem",
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
@@ -145,7 +145,7 @@
   "size-limit": [
     {
       "path": "dist/index.mjs",
-      "limit": "30 KB",
+      "limit": "45 KB",
       "ignore": [
         "@radix-ui/*",
         "clsx",

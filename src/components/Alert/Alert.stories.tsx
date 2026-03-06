@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { FireIcon } from "../Icons/FireIcon";
+import { FlameIcon } from "../Icons/FlameIcon";
 import { Alert } from "./Alert";
 
 const meta = {
@@ -69,7 +69,7 @@ export const InfoClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-info-500 underline"
+          className="cursor-pointer text-info-default underline"
         >
           Show again
         </button>
@@ -91,7 +91,7 @@ export const SuccessClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-success-500 underline"
+          className="cursor-pointer text-success-default underline"
         >
           Show again
         </button>
@@ -113,7 +113,7 @@ export const WarningClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-warning-500 underline"
+          className="cursor-pointer text-warning-default underline"
         >
           Show again
         </button>
@@ -135,7 +135,7 @@ export const ErrorClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-error-500 underline"
+          className="cursor-pointer text-error-default underline"
         >
           Show again
         </button>
@@ -203,7 +203,7 @@ export const WithTitleClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-warning-500 underline"
+          className="cursor-pointer text-warning-default underline"
         >
           Show again
         </button>
@@ -215,7 +215,7 @@ export const WithTitleClosable: Story = {
 export const CustomIcon: Story = {
   args: {
     variant: "warning",
-    icon: <FireIcon />,
+    icon: <FlameIcon />,
     children: "This alert uses a custom icon instead of the default.",
   },
 };
@@ -235,7 +235,7 @@ export const LongContent: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-info-500 underline"
+          className="cursor-pointer text-info-default underline"
         >
           Show again
         </button>
@@ -269,7 +269,7 @@ export const InteractiveDismissible: Story = {
             <button
               type="button"
               onClick={() => setVisible(true)}
-              className="cursor-pointer text-info-500 underline"
+              className="cursor-pointer text-info-default underline"
             >
               Show again
             </button>
@@ -325,7 +325,7 @@ export const MultipleDismissible: Story = {
             <button
               type="button"
               onClick={() => setAlerts({ info: true, success: true, warning: true, error: true })}
-              className="cursor-pointer text-info-500 underline"
+              className="cursor-pointer text-info-default underline"
             >
               Reset all
             </button>

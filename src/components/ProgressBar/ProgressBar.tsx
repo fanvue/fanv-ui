@@ -40,15 +40,15 @@ const GAP: Record<ProgressBarSize, string> = {
 };
 
 function getDefaultBarColor(value: number): string {
-  if (value >= 100) return "bg-success-500";
-  if (value >= 40) return "bg-warning-500";
-  return "bg-error-500";
+  if (value >= 100) return "bg-success-default";
+  if (value >= 40) return "bg-warning-default";
+  return "bg-error-default";
 }
 
 function getDefaultTextColor(value: number): string {
-  if (value >= 100) return "text-success-500";
-  if (value >= 40) return "text-warning-500";
-  return "text-error-500";
+  if (value >= 100) return "text-success-default";
+  if (value >= 40) return "text-warning-default";
+  return "text-error-default";
 }
 
 /**
@@ -83,8 +83,8 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
     const isGeneric = variant === "generic";
     const isSmall = size === "small";
 
-    const barColor = isGeneric ? "bg-brand-green-500" : getDefaultBarColor(clampedValue);
-    const textColor = isGeneric ? "text-brand-green-500" : getDefaultTextColor(clampedValue);
+    const barColor = isGeneric ? "bg-brand-accent-default" : getDefaultBarColor(clampedValue);
+    const textColor = isGeneric ? "text-brand-accent-default" : getDefaultTextColor(clampedValue);
 
     const showHeader = title != null || showCompletion || stepsLabel != null;
     const showFooter = leftIcon != null || helperLeft != null || helperRight != null;
@@ -93,16 +93,23 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
       <div ref={ref} className={cn("flex w-full flex-col", GAP[size], className)} {...props}>
         {showHeader && (
           <div className="flex w-full items-end justify-between">
-            {title != null && <p className="typography-caption-semibold text-body-100">{title}</p>}
+            {title != null && (
+              <p className="typography-semibold-body-sm text-foreground-default">{title}</p>
+            )}
             {showCompletion && (
               <span
-                className={cn(textColor, isSmall ? "typography-heading-3" : "typography-heading-1")}
+                className={cn(
+                  textColor,
+                  isSmall ? "typography-bold-heading-sm" : "typography-bold-heading-xl",
+                )}
               >
                 {Math.round(clampedValue)}%
               </span>
             )}
             {stepsLabel != null && (
-              <span className="typography-caption-regular text-body-100">{stepsLabel}</span>
+              <span className="typography-regular-body-sm text-foreground-default">
+                {stepsLabel}
+              </span>
             )}
           </div>
         )}
@@ -133,11 +140,15 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
                 </span>
               )}
               {helperLeft != null && (
-                <span className="typography-caption-regular text-primary-500">{helperLeft}</span>
+                <span className="typography-regular-body-sm text-foreground-default">
+                  {helperLeft}
+                </span>
               )}
             </div>
             {helperRight != null && (
-              <span className="typography-caption-regular text-primary-500">{helperRight}</span>
+              <span className="typography-regular-body-sm text-foreground-default">
+                {helperRight}
+              </span>
             )}
           </div>
         )}

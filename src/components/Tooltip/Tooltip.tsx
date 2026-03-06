@@ -92,6 +92,64 @@ export interface TooltipContentProps
   secondaryAction?: TooltipAction;
 }
 
+const ActionButton = ({
+  action,
+  variant,
+}: {
+  action: TooltipAction;
+  variant: "brand" | "tertiary";
+}) =>
+  action.element ? (
+    action.element
+  ) : (
+    <Button variant={variant} size="32" onClick={action.onClick}>
+      {action.label}
+    </Button>
+  );
+
+const InfoboxContent = ({
+  icon,
+  heading,
+  pill,
+  children,
+  primaryAction,
+  secondaryAction,
+  hasHeader,
+  hasActions,
+}: {
+  icon?: React.ReactNode;
+  heading?: React.ReactNode;
+  pill?: React.ReactNode;
+  children?: React.ReactNode;
+  primaryAction?: TooltipAction;
+  secondaryAction?: TooltipAction;
+  hasHeader: boolean;
+  hasActions: boolean;
+}) => (
+  <div className="flex flex-col gap-3">
+    {hasHeader && (
+      <div className="flex items-center gap-3">
+        {icon && <div className="size-5 shrink-0">{icon}</div>}
+        {heading && (
+          <p className="typography-semibold-body-lg min-w-0 flex-1 text-foreground-inverse">
+            {heading}
+          </p>
+        )}
+        {pill && <div className="shrink-0">{pill}</div>}
+      </div>
+    )}
+    {children && (
+      <div className="typography-regular-body-md text-foreground-inverse">{children}</div>
+    )}
+    {hasActions && (
+      <div className="flex items-center gap-1">
+        {primaryAction && <ActionButton action={primaryAction} variant="brand" />}
+        {secondaryAction && <ActionButton action={secondaryAction} variant="tertiary" />}
+      </div>
+    )}
+  </div>
+);
+
 /**
  * The popup content of the tooltip. Renders inside a portal.
  *
@@ -148,7 +206,7 @@ export const TooltipContent = React.forwardRef<
           sideOffset={sideOffset}
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
           className={cn(
-            "typography-body-2-regular max-w-[320px] overflow-hidden rounded-3xl bg-background-solid p-4 text-background-inverse-solid shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",
+            "typography-regular-body-md max-w-[320px] overflow-hidden rounded-3xl bg-surface-pageinverse p-4 text-foreground-inverse shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",
             isInfobox && "border border-neutral-200",
             className,
           )}
@@ -158,50 +216,25 @@ export const TooltipContent = React.forwardRef<
           {...props}
         >
           {isInfobox ? (
-            <div className="flex flex-col gap-3">
-              {hasHeader && (
-                <div className="flex items-center gap-3">
-                  {icon && <div className="size-5 shrink-0">{icon}</div>}
-                  {heading && (
-                    <p className="typography-subtitle min-w-0 flex-1 text-background-inverse-solid">
-                      {heading}
-                    </p>
-                  )}
-                  {pill && <div className="shrink-0">{pill}</div>}
-                </div>
-              )}
-              {children && (
-                <div className="typography-body-2-regular text-background-inverse-solid">
-                  {children}
-                </div>
-              )}
-              {hasActions && (
-                <div className="flex items-center gap-1">
-                  {primaryAction &&
-                    (primaryAction.element ? (
-                      primaryAction.element
-                    ) : (
-                      <Button variant="brand" size="32" onClick={primaryAction.onClick}>
-                        {primaryAction.label}
-                      </Button>
-                    ))}
-                  {secondaryAction &&
-                    (secondaryAction.element ? (
-                      secondaryAction.element
-                    ) : (
-                      <Button variant="tertiary" size="32" onClick={secondaryAction.onClick}>
-                        {secondaryAction.label}
-                      </Button>
-                    ))}
-                </div>
-              )}
-            </div>
+            <InfoboxContent
+              icon={icon}
+              heading={heading}
+              pill={pill}
+              primaryAction={primaryAction}
+              secondaryAction={secondaryAction}
+              hasHeader={hasHeader}
+              hasActions={hasActions}
+            >
+              {children}
+            </InfoboxContent>
           ) : (
             children
           )}
           {showArrow && (
             <TooltipPrimitive.Arrow
-              className={"-translate-y-px! fill-background-solid stroke-2 stroke-background-solid"}
+              className={
+                "-translate-y-px! fill-surface-pageinverse stroke-2 stroke-surface-pageinverse"
+              }
               width={12}
               height={6}
             />

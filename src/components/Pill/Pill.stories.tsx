@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ArrowUpRightIcon } from "../Icons/ArrowUpRightIcon";
-import { FireIcon } from "../Icons/FireIcon";
+import { FlameIcon } from "../Icons/FlameIcon";
 import { Pill } from "./Pill";
 
 const meta = {
@@ -110,7 +110,7 @@ export const Error: Story = {
 export const LeftIcon: Story = {
   args: {
     variant: "base",
-    leftIcon: <FireIcon className="size-4" />,
+    leftIcon: <FlameIcon className="size-4" />,
     children: "Example",
   },
 };

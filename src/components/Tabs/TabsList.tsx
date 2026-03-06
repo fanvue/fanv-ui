@@ -89,7 +89,7 @@ export const TabsList = React.forwardRef<
       <span
         ref={indicatorRef}
         aria-hidden
-        className="pointer-events-none absolute rounded-full bg-brand-green-500 motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
+        className="pointer-events-none absolute rounded-full bg-brand-accent-default motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
         style={{ opacity: 0 }}
       />
     </TabsPrimitive.List>

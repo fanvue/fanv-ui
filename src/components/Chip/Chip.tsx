@@ -69,22 +69,22 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         ref={ref}
         data-testid="chip"
         className={cn(
-          "typography-caption-semibold relative inline-flex items-center justify-center gap-2 whitespace-nowrap px-3 motion-safe:transition-colors motion-safe:duration-150",
+          "typography-semibold-body-sm relative inline-flex items-center justify-center gap-2 whitespace-nowrap px-3 motion-safe:transition-colors motion-safe:duration-150",
           // Shape
           variant === "square" ? "rounded-lg" : "rounded-full",
           // Size
           size === "32" && "h-8 py-1",
           size === "40" && "h-10 py-2.5",
           // Variant colors
-          isDark && "bg-background-800 text-body-white-solid-constant",
-          !isDark && selected && "bg-brand-green-50 text-neutral-400",
+          isDark && "bg-neutral-50 text-foreground-onaccentinverse",
+          !isDark && selected && "bg-brand-accent-muted text-neutral-400",
           !isDark && !selected && "bg-neutral-100 text-neutral-400",
           // Hover
           isInteractive &&
             !disabled &&
             !isDark &&
             !selected &&
-            "hover:bg-brand-green-50 active:bg-brand-green-50",
+            "hover:bg-brand-accent-muted active:bg-brand-accent-muted",
           // Focus
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled
@@ -115,7 +115,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           </span>
         )}
         {notificationLabel && (
-          <span className="typography-caption-semibold absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-body-100 px-1 text-body-300">
+          <span className="typography-semibold-body-sm absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground-default px-1 text-foreground-inverse">
             {notificationLabel}
           </span>
         )}
