@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.14.1...ui-v1.15.0) (2026-03-07)
+
+
+### Features
+
+* **Skeleton:** add Skeleton component for loading placeholders ([#298](https://github.com/fanvue/fanv-ui/issues/298)) ([4b26d20](https://github.com/fanvue/fanv-ui/commit/4b26d20ab66ecbb47d7d09f097f8856274718ccb))
+
 ## [1.14.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.14.0...ui-v1.14.1) (2026-03-06)
 
 
