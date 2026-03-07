@@ -81,16 +81,6 @@ export const NoAnimation: Story = {
   },
 };
 
-export const TextLines: Story = {
-  render: () => (
-    <div className="w-64 space-y-1">
-      <Skeleton variant="text" />
-      <Skeleton variant="text" width="80%" />
-      <Skeleton variant="text" width="60%" />
-    </div>
-  ),
-};
-
 export const AvatarWithText: Story = {
   render: () => (
     <div className="flex items-center gap-3">
@@ -117,21 +107,6 @@ export const CardSkeleton: Story = {
       <div className="space-y-1 px-2">
         <Skeleton variant="text" />
         <Skeleton variant="text" width="90%" />
-      </div>
-    </div>
-  ),
-};
-
-export const WaveCardSkeleton: Story = {
-  render: () => (
-    <div className="w-72 space-y-3">
-      <Skeleton variant="rectangular" width="100%" height={160} animation="wave" />
-      <div className="flex items-center gap-3 px-2">
-        <Skeleton variant="circular" width={40} height={40} animation="wave" />
-        <div className="flex-1 space-y-1">
-          <Skeleton variant="text" width="70%" animation="wave" />
-          <Skeleton variant="text" width="50%" animation="wave" />
-        </div>
       </div>
     </div>
   ),

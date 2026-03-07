@@ -37,6 +37,9 @@ const VARIANT_CLASSES: Record<SkeletonVariant, string> = {
  * A placeholder preview of content before data is loaded, reducing perceived
  * load time. Mirrors common MUI Skeleton props for easy migration.
  *
+ * When used as a loading state, wrap the skeleton region with `aria-busy="true"`
+ * and provide an accessible label so screen readers can convey the loading state.
+ *
  * @example
  * ```tsx
  * <Skeleton variant="text" width={200} />
@@ -46,19 +49,10 @@ const VARIANT_CLASSES: Record<SkeletonVariant, string> = {
  */
 export const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(
   (
-    {
-      className,
-      variant = "text",
-      animation = "pulse",
-      width,
-      height,
-      style,
-      children,
-      ...props
-    },
+    { className, variant = "text", animation = "pulse", width, height, style, children, ...props },
     ref,
   ) => {
-    const hasChildren = Boolean(children);
+    const hasChildren = React.Children.count(children) > 0;
     const sizeStyle: React.CSSProperties = {
       ...style,
       ...(width !== undefined && { width: typeof width === "number" ? `${width}px` : width }),
@@ -69,18 +63,12 @@ export const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(
       <span
         ref={ref}
         aria-hidden="true"
-        data-testid="skeleton"
         className={cn(
-          // Base
-          "block bg-neutral-200",
-          // Variant shape
+          "block bg-neutral-200 dark:bg-neutral-200",
           VARIANT_CLASSES[variant],
-          // Default height for text variant when no explicit height or children
           variant === "text" && !height && !hasChildren && "h-[1em]",
-          // Animation
           animation === "pulse" && "animate-pulse",
           animation === "wave" && "fv-skeleton-wave",
-          // When wrapping children, make them invisible so the skeleton takes their shape
           hasChildren && "relative overflow-hidden [&>*]:invisible",
           className,
         )}

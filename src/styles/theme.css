@@ -486,6 +486,7 @@
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
+    will-change: transform;
     background-image: linear-gradient(
       90deg,
       transparent,
