@@ -118,6 +118,7 @@ import {
   SendIcon,
   SettingsIcon,
   ShareIcon,
+  Skeleton,
   Slider,
   Snackbar,
   SpinnerIcon,
@@ -2559,6 +2560,102 @@ function BreadcrumbDemo() {
   );
 }
 
+function SkeletonDemo() {
+  return (
+    <div id="skeleton" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Skeleton</h2>
+
+      {/* Variants */}
+      <h3 className="typography-semibold-body-lg">Variants</h3>
+      <div className="flex flex-col gap-4">
+        <div>
+          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">text</p>
+          <Skeleton variant="text" width={240} />
+          <Skeleton variant="text" width="80%" />
+          <Skeleton variant="text" width="60%" />
+        </div>
+        <div>
+          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">circular</p>
+          <div className="flex gap-3">
+            <Skeleton variant="circular" width={24} height={24} />
+            <Skeleton variant="circular" width={40} height={40} />
+            <Skeleton variant="circular" width={64} height={64} />
+          </div>
+        </div>
+        <div>
+          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">rectangular</p>
+          <Skeleton variant="rectangular" width="100%" height={120} />
+        </div>
+        <div>
+          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">rounded</p>
+          <Skeleton variant="rounded" width="100%" height={120} />
+        </div>
+      </div>
+
+      {/* Animations */}
+      <h3 className="typography-semibold-body-lg mt-4">Animations</h3>
+      <div className="flex flex-col gap-4">
+        <div>
+          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">
+            pulse (default)
+          </p>
+          <Skeleton variant="rectangular" width="100%" height={60} animation="pulse" />
+        </div>
+        <div>
+          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">wave</p>
+          <Skeleton variant="rectangular" width="100%" height={60} animation="wave" />
+        </div>
+        <div>
+          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">disabled</p>
+          <Skeleton variant="rectangular" width="100%" height={60} animation={false} />
+        </div>
+      </div>
+
+      {/* Wrapping children */}
+      <h3 className="typography-semibold-body-lg mt-4">Wrapping children</h3>
+      <Skeleton variant="rounded">
+        <div className="h-24 w-64">Content shape preserved</div>
+      </Skeleton>
+
+      {/* Composition: Avatar + Text */}
+      <h3 className="typography-semibold-body-lg mt-4">Composition patterns</h3>
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center gap-3">
+          <Skeleton variant="circular" width={48} height={48} />
+          <div className="flex-1 space-y-1">
+            <Skeleton variant="text" width="60%" />
+            <Skeleton variant="text" width="40%" />
+          </div>
+        </div>
+
+        {/* Composition: Card */}
+        <div className="w-72 space-y-3 rounded-lg border border-neutral-200 p-0 pb-3">
+          <Skeleton variant="rectangular" width="100%" height={160} />
+          <div className="flex items-center gap-3 px-3">
+            <Skeleton variant="circular" width={40} height={40} />
+            <div className="flex-1 space-y-1">
+              <Skeleton variant="text" width="70%" />
+              <Skeleton variant="text" width="50%" />
+            </div>
+          </div>
+        </div>
+
+        {/* Composition: Card with wave */}
+        <div className="w-72 space-y-3 rounded-lg border border-neutral-200 p-0 pb-3">
+          <Skeleton variant="rectangular" width="100%" height={160} animation="wave" />
+          <div className="flex items-center gap-3 px-3">
+            <Skeleton variant="circular" width={40} height={40} animation="wave" />
+            <div className="flex-1 space-y-1">
+              <Skeleton variant="text" width="70%" animation="wave" />
+              <Skeleton variant="text" width="50%" animation="wave" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -2601,6 +2698,7 @@ function App() {
     { id: "audioupload", label: "Audio Upload" },
     { id: "loader", label: "Loader" },
     { id: "breadcrumb", label: "Breadcrumb" },
+    { id: "skeleton", label: "Skeleton" },
   ];
 
   const scrollToSection = (id: string) => {
@@ -2769,6 +2867,9 @@ function App() {
 
             {/* Loader */}
             <LoaderDemo />
+
+            {/* Skeleton */}
+            <SkeletonDemo />
 
             {/* Toast */}
             <ToastDemo />
