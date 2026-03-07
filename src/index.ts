@@ -210,6 +210,12 @@ export {
   SelectSeparator,
 } from "./components/Select/Select";
 export type {
+  SkeletonAnimation,
+  SkeletonProps,
+  SkeletonVariant,
+} from "./components/Skeleton/Skeleton";
+export { Skeleton } from "./components/Skeleton/Skeleton";
+export type {
   SliderLabelPosition,
   SliderProps,
 } from "./components/Slider/Slider";
