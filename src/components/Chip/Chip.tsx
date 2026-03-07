@@ -77,7 +77,9 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           size === "40" && "h-10 py-2.5",
           // Variant colors
           isDark && "bg-neutral-50 text-foreground-onaccentinverse",
-          !isDark && selected && "bg-brand-accent-muted text-neutral-400 ring-1 ring-inset ring-brand-accent-default",
+          !isDark &&
+            selected &&
+            "bg-brand-accent-muted text-neutral-400 ring-1 ring-inset ring-brand-accent-default",
           !isDark && !selected && "bg-neutral-100 text-neutral-400",
           // Interactive
           isInteractive && !disabled && "cursor-pointer",
