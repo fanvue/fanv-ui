@@ -193,6 +193,12 @@ export type {
 } from "./components/SearchField/SearchField";
 export { SearchField } from "./components/SearchField/SearchField";
 export type {
+  SkeletonAnimation,
+  SkeletonProps,
+  SkeletonVariant,
+} from "./components/Skeleton/Skeleton";
+export { Skeleton } from "./components/Skeleton/Skeleton";
+export type {
   SelectContentProps,
   SelectGroupProps,
   SelectItemProps,
