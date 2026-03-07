@@ -29,6 +29,23 @@ export type { BadgeProps, BadgeVariant } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
 export type { ButtonProps, ButtonSize, ButtonVariant } from "./components/Button/Button";
 export { Button } from "./components/Button/Button";
+export type {
+  CardContentProps,
+  CardDescriptionProps,
+  CardFooterProps,
+  CardHeaderProps,
+  CardProps,
+  CardTitleProps,
+  CardVariant,
+} from "./components/Card/Card";
+export {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./components/Card/Card";
 export type { CheckboxProps, CheckboxSize } from "./components/Checkbox/Checkbox";
 export { Checkbox } from "./components/Checkbox/Checkbox";
 export type { ChipProps, ChipSize, ChipVariant } from "./components/Chip/Chip";
