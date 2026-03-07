@@ -23,6 +23,12 @@ import {
   Button,
   CalendarIcon,
   CameraIcon,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
   ChartIcon,
   Checkbox,
   CheckCircleIcon,
@@ -2602,6 +2608,71 @@ function SkeletonDemo() {
   );
 }
 
+function CardDemo() {
+  return (
+    <div id="card" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Card</h2>
+
+      {/* All variants */}
+      <h3 className="typography-semibold-body-lg">Variants</h3>
+      <div className="flex flex-wrap items-start gap-6">
+        {(["outlined", "elevated", "filled", "ghost"] as const).map((variant) => (
+          <Card key={variant} variant={variant} className="w-64">
+            <CardHeader action={<HomeIcon className="size-5" />}>
+              <CardTitle>Card title</CardTitle>
+              <CardDescription>Card description text</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="typography-regular-body-md text-foreground-tertiary">
+                Content goes here
+              </p>
+            </CardContent>
+            <CardFooter>
+              <Button variant="secondary" size="40">
+                Label
+              </Button>
+              <Button variant="primary" size="40">
+                Label
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+
+      {/* Header only */}
+      <h3 className="typography-semibold-body-lg mt-4">Header only</h3>
+      <Card className="max-w-sm">
+        <CardHeader action={<SettingsIcon className="size-5" />}>
+          <CardTitle>Settings</CardTitle>
+          <CardDescription>Manage your account preferences</CardDescription>
+        </CardHeader>
+      </Card>
+
+      {/* Content only */}
+      <h3 className="typography-semibold-body-lg mt-4">Content only</h3>
+      <Card className="max-w-sm">
+        <CardContent>
+          <p className="typography-regular-body-md text-foreground-default">
+            A simple card with just content and no header or footer.
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* No padding (media card) */}
+      <h3 className="typography-semibold-body-lg mt-4">No padding</h3>
+      <Card className="max-w-sm" noPadding>
+        <div className="h-40 w-full rounded-t-2xl bg-neutral-200" />
+        <div className="p-4">
+          <CardHeader>
+            <CardTitle>Media Card</CardTitle>
+            <CardDescription>Card with an image banner</CardDescription>
+          </CardHeader>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -2644,6 +2715,7 @@ function App() {
     { id: "audioupload", label: "Audio Upload" },
     { id: "loader", label: "Loader" },
     { id: "skeleton", label: "Skeleton" },
+    { id: "card", label: "Card" },
   ];
 
   const scrollToSection = (id: string) => {
@@ -2815,6 +2887,9 @@ function App() {
 
             {/* Skeleton */}
             <SkeletonDemo />
+
+            {/* Card */}
+            <CardDemo />
 
             {/* Toast */}
             <ToastDemo />
