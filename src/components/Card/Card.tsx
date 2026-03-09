@@ -62,7 +62,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          "flex flex-col rounded-2xl",
+          "flex flex-col overflow-hidden rounded-2xl",
           !noPadding && "p-4",
           fullWidth && "w-full",
           VARIANT_CLASSES[variant],
