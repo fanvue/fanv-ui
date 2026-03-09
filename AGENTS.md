@@ -68,6 +68,7 @@ nvm use
 - Use pnpm (not npm/yarn)
 - Do not use inline comments anywhere in component, story, or test files
 - Prefer use of library components when building new components. (e.g. <button/> --> <Button/>)
+- When adding a new component or updating an old one, update App.tsx with a demo
 
 **New component workflow:**
 
