@@ -86,11 +86,7 @@ export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
     return (
       <div ref={ref} className={cn("flex items-start gap-3", className)} {...props}>
         <div className="min-w-0 flex-1">{children}</div>
-        {action && (
-          <div className="shrink-0">
-            {action}
-          </div>
-        )}
+        {action && <div className="shrink-0">{action}</div>}
       </div>
     );
   },

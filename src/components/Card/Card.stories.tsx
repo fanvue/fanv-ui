@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { HomeIcon } from "../Icons/HomeIcon";
-import { SettingsIcon } from "../Icons/SettingsIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { PinIcon } from "../Icons/PinIcon";
+import { SettingsIcon } from "../Icons/SettingsIcon";
 import { StarIcon } from "../Icons/StarIcon";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./Card";
 
@@ -187,15 +187,14 @@ export const WithMultipleActions: Story = {
       <CardHeader
         action={
           <div className="flex items-center gap-1">
-            <IconButton variant="ghost" size="32" aria-label="Favorite">
-              <StarIcon />
-            </IconButton>
-            <IconButton variant="ghost" size="32" aria-label="Pin">
-              <PinIcon />
-            </IconButton>
-            <IconButton variant="ghost" size="32" aria-label="More options">
-              <MoreIcon />
-            </IconButton>
+            <IconButton variant="tertiary" size="32" icon={<StarIcon />} aria-label="Favorite" />
+            <IconButton variant="tertiary" size="32" icon={<PinIcon />} aria-label="Pin" />
+            <IconButton
+              variant="tertiary"
+              size="32"
+              icon={<MoreIcon />}
+              aria-label="More options"
+            />
           </div>
         }
       >
