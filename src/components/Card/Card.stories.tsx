@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "../Button/Button";
+import { IconButton } from "../IconButton/IconButton";
 import { HomeIcon } from "../Icons/HomeIcon";
 import { SettingsIcon } from "../Icons/SettingsIcon";
+import { MoreIcon } from "../Icons/MoreIcon";
+import { PinIcon } from "../Icons/PinIcon";
 import { StarIcon } from "../Icons/StarIcon";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./Card";
 
@@ -178,12 +181,26 @@ export const ContentOnly: Story = {
   ),
 };
 
-export const WithCustomAction: Story = {
+export const WithMultipleActions: Story = {
   render: () => (
     <Card className="max-w-sm">
-      <CardHeader action={<StarIcon className="size-5 text-foreground-tertiary" />}>
+      <CardHeader
+        action={
+          <div className="flex items-center gap-1">
+            <IconButton variant="ghost" size="32" aria-label="Favorite">
+              <StarIcon />
+            </IconButton>
+            <IconButton variant="ghost" size="32" aria-label="Pin">
+              <PinIcon />
+            </IconButton>
+            <IconButton variant="ghost" size="32" aria-label="More options">
+              <MoreIcon />
+            </IconButton>
+          </div>
+        }
+      >
         <CardTitle>Featured</CardTitle>
-        <CardDescription>This card has a custom action icon</CardDescription>
+        <CardDescription>This card has multiple action icons</CardDescription>
       </CardHeader>
       <CardContent>
         <p className="typography-regular-body-md text-foreground-tertiary">
