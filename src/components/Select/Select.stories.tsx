@@ -328,6 +328,37 @@ export const Truncation: Story = {
   ),
 };
 
+export const NarrowViewport: Story = {
+  name: "Narrow Viewport (scroll)",
+  parameters: {
+    layout: "fullscreen",
+    chromatic: { viewports: [375] },
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ height: "200px", overflow: "hidden", padding: "8px" }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    label: "US State",
+    placeholder: "Select a state",
+    defaultOpen: true,
+  },
+  render: (args) => (
+    <Select {...args}>
+      <SelectContent>
+        {US_STATES.map((s) => (
+          <SelectItem key={s.value} value={s.value}>
+            {s.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  ),
+};
+
 export const AllStates: Story = {
   name: "All States",
   render: () => (
