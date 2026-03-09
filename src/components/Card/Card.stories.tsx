@@ -1,11 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { HomeIcon } from "../Icons/HomeIcon";
+import { LoveIcon } from "../Icons/LoveIcon";
+import { MessageIcon } from "../Icons/MessageIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { PinIcon } from "../Icons/PinIcon";
 import { SettingsIcon } from "../Icons/SettingsIcon";
 import { StarIcon } from "../Icons/StarIcon";
+import { Skeleton } from "../Skeleton/Skeleton";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./Card";
 
 const meta = {
@@ -236,6 +240,83 @@ export const InlineWidth: Story = {
         <CardTitle>Inline card</CardTitle>
         <CardDescription>This card does not stretch to full width</CardDescription>
       </CardHeader>
+    </Card>
+  ),
+};
+
+export const MediaPost: Story = {
+  render: () => (
+    <Card noPadding className="max-w-[480px]">
+      <div className="flex items-center gap-3 p-4 pb-2">
+        <Avatar
+          src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+          alt="Creator With Everything"
+          fallback="CW"
+          size={40}
+          platinumShow
+        />
+        <div className="min-w-0 flex-1">
+          <p className="typography-semibold-body-md text-foreground-default">
+            Creator With Everything
+          </p>
+          <p className="typography-regular-body-sm text-foreground-secondary">
+            @creator-with-everything
+          </p>
+        </div>
+        <div className="flex items-center gap-1">
+          <IconButton variant="tertiary" size="32" icon={<StarIcon />} aria-label="Favorite" />
+          <IconButton variant="tertiary" size="32" icon={<MoreIcon />} aria-label="More options" />
+        </div>
+      </div>
+      <p className="typography-regular-body-md px-4 pb-2 text-foreground-default">testtest</p>
+      <div className="relative">
+        <img
+          src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=960&h=640&fit=crop"
+          alt="Forest with large tree"
+          className="w-full object-cover"
+          style={{ aspectRatio: "4/3" }}
+        />
+        <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1">
+          <span className="flex size-5 items-center justify-center rounded-full border border-white font-bold text-[10px] text-white">
+            $
+          </span>
+          <span className="typography-regular-body-sm text-white">Subscribers only</span>
+        </div>
+        <span className="typography-regular-body-xs absolute bottom-2 left-3 text-white/70">
+          fanvue.com/creator-with-everything
+        </span>
+      </div>
+      <div className="flex items-center gap-4 px-4 pt-3 pb-1">
+        <LoveIcon className="size-6 text-foreground-default" />
+        <MessageIcon className="size-6 text-foreground-default" />
+      </div>
+      <div className="flex items-center justify-between px-4 pt-1 pb-4">
+        <div className="flex items-center gap-3">
+          <span className="typography-regular-body-sm text-foreground-default">3 likes</span>
+          <span className="typography-regular-body-sm text-foreground-default">8 comments</span>
+        </div>
+        <button
+          type="button"
+          className="typography-semibold-body-sm cursor-pointer rounded-lg border border-neutral-200 px-3 py-1.5 text-foreground-default"
+        >
+          Show comments
+        </button>
+      </div>
+    </Card>
+  ),
+};
+
+export const MediaPostSkeleton: Story = {
+  render: () => (
+    <Card noPadding className="max-w-[480px]">
+      <div className="flex items-center gap-3 p-4 pb-2">
+        <Skeleton variant="circular" width={40} height={40} />
+        <div className="min-w-0 flex-1 space-y-1.5">
+          <Skeleton variant="text" width={160} height={14} />
+          <Skeleton variant="text" width={120} height={12} />
+        </div>
+      </div>
+      <Skeleton variant="rectangular" width="100%" style={{ aspectRatio: "4/3" }} />
     </Card>
   ),
 };
