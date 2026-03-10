@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.0...ui-v1.16.1) (2026-03-10)
+
+
+### Bug Fixes
+
+* **Skeleton:** use opaque background instead of semi-transparent neutral-200 ([#308](https://github.com/fanvue/fanv-ui/issues/308)) ([b6f02f6](https://github.com/fanvue/fanv-ui/commit/b6f02f66c808c84a1e5cb24af113b09ddd4baf72))
+
 ## [1.16.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.15.0...ui-v1.16.0) (2026-03-10)
 
 
