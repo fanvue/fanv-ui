@@ -9,11 +9,11 @@ export type TabsTriggerProps = React.ComponentPropsWithoutRef<typeof TabsPrimiti
 export const TabsTrigger = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
->(({ className, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "inline-flex items-center justify-center",
+      "inline-flex min-w-0 items-center justify-center",
       "rounded-xs",
       "typography-semibold-body-lg cursor-pointer text-foreground-default",
       "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
@@ -30,7 +30,9 @@ export const TabsTrigger = React.forwardRef<
       className,
     )}
     {...props}
-  />
+  >
+    <span className="min-w-0 truncate">{children}</span>
+  </TabsPrimitive.Trigger>
 ));
 
 TabsTrigger.displayName = "TabsTrigger";

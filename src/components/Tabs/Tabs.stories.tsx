@@ -8,7 +8,7 @@ const meta = {
   title: "Components/Tabs",
   component: Tabs,
   parameters: {
-    layout: "centered",
+    layout: "padded",
     design: {
       type: "figma",
       url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=87-4098&m=dev",
@@ -100,6 +100,25 @@ export const Inline: Story = {
         <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
       </TabsContent>
     </Tabs>
+  ),
+};
+
+export const Truncated: Story = {
+  render: () => (
+    <div style={{ width: 250 }}>
+      <Tabs defaultValue="tab1">
+        <TabsList>
+          <TabsTrigger value="tab1">Very Long Tab Name Here</TabsTrigger>
+          <TabsTrigger value="tab2">Another Long Tab Name</TabsTrigger>
+        </TabsList>
+        <TabsContent value="tab1">
+          <p className="pt-4 text-neutral-400 text-sm">First tab content</p>
+        </TabsContent>
+        <TabsContent value="tab2">
+          <p className="pt-4 text-neutral-400 text-sm">Second tab content</p>
+        </TabsContent>
+      </Tabs>
+    </div>
   ),
 };
 

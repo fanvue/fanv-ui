@@ -107,6 +107,20 @@ export const Error: Story = {
   },
 };
 
+export const Truncated: Story = {
+  render: () => (
+    <div className="flex flex-col gap-3" style={{ width: 100 }}>
+      <Pill variant="brand">This is a very long pill label</Pill>
+      <Pill variant="base" leftIcon={<FlameIcon className="size-4" />}>
+        Truncated with icon
+      </Pill>
+      <Pill variant="brand" rightIcon={<ArrowUpRightIcon className="size-4" />}>
+        Truncated right icon
+      </Pill>
+    </div>
+  ),
+};
+
 export const LeftIcon: Story = {
   args: {
     variant: "base",

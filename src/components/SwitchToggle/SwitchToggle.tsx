@@ -143,14 +143,14 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
               onClick={() => handleSelect(option.value)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               className={cn(
-                "relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-transparent text-foreground-default",
+                "relative z-10 inline-flex min-w-0 cursor-pointer items-center justify-center rounded-full border border-transparent text-foreground-default",
                 "focus-visible:shadow-focus-ring focus-visible:outline-none",
                 "active:rounded-full active:bg-brand-accent-muted",
                 disabled && "pointer-events-none",
                 sizeClass,
               )}
             >
-              {option.label}
+              <span className="min-w-0 truncate">{option.label}</span>
             </button>
           );
         })}

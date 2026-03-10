@@ -133,6 +133,21 @@ export const CustomLabels: Story = {
   },
 };
 
+export const Truncated: Story = {
+  args: {
+    options: [
+      { label: "Monthly billing", value: "monthly" },
+      { label: "Annual billing", value: "annual" },
+    ],
+    "aria-label": "Billing period",
+  },
+  render: (args) => (
+    <div style={{ width: 150 }}>
+      <SwitchToggle {...args} />
+    </div>
+  ),
+};
+
 export const AllSizes: Story = {
   args: {
     options: defaultOptions,

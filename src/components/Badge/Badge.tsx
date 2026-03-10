@@ -92,7 +92,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         data-testid="badge"
         className={cn(
           // Base styles
-          "typography-semibold-body-sm inline-flex h-5 items-center gap-2 rounded-full px-2",
+          "typography-semibold-body-sm inline-flex h-5 min-w-0 items-center gap-2 rounded-full px-2",
           // Variant styles
           badgeVariants.variant[variant],
           // Interactive
@@ -114,7 +114,11 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
             aria-hidden="true"
           />
         )}
-        <Slottable>{children}</Slottable>
+        {asChild ? (
+          <Slottable>{children}</Slottable>
+        ) : (
+          <span className="min-w-0 truncate">{children}</span>
+        )}
         {rightIcon && (
           <span className="flex size-3" aria-hidden="true">
             {rightIcon}
