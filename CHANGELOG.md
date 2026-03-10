@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.16.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.15.0...ui-v1.16.0) (2026-03-10)
+
+
+### Features
+
+* Breadcrumbs component ([#294](https://github.com/fanvue/fanv-ui/issues/294)) ([caf5031](https://github.com/fanvue/fanv-ui/commit/caf5031b716653be58355a5bc8afad5bdf650967))
+* **Card:** add composable Card component ([#300](https://github.com/fanvue/fanv-ui/issues/300)) ([047840e](https://github.com/fanvue/fanv-ui/commit/047840eb7954a2f2a6732cc62b5b53a0f998f880))
+
+
+### Bug Fixes
+
+* **components:** add text truncation with ellipsis to prevent overflow ([2e6cad4](https://github.com/fanvue/fanv-ui/commit/2e6cad426fd9641b33d0b9af40aa7d821452c55b))
+* **components:** truncate overflowing text with ellipsis ([#306](https://github.com/fanvue/fanv-ui/issues/306)) ([2e6cad4](https://github.com/fanvue/fanv-ui/commit/2e6cad426fd9641b33d0b9af40aa7d821452c55b))
+* **Select, Tooltip:** constrain dropdowns to viewport height ([#307](https://github.com/fanvue/fanv-ui/issues/307)) ([72b7fb8](https://github.com/fanvue/fanv-ui/commit/72b7fb8608ef1af9ebae1ec1cba4437a399a77e5))
+
 ## [1.15.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.14.1...ui-v1.15.0) (2026-03-07)
 
 
