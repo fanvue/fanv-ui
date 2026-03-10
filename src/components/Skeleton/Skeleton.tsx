@@ -55,8 +55,12 @@ export const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(
     const hasChildren = React.Children.count(children) > 0;
     const sizeStyle: React.CSSProperties = {
       ...style,
-      ...(width !== undefined && { width: typeof width === "number" ? `${width}px` : width }),
-      ...(height !== undefined && { height: typeof height === "number" ? `${height}px` : height }),
+      ...(width !== undefined && {
+        width: typeof width === "number" ? `${width}px` : width,
+      }),
+      ...(height !== undefined && {
+        height: typeof height === "number" ? `${height}px` : height,
+      }),
     };
 
     return (
@@ -64,7 +68,7 @@ export const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(
         ref={ref}
         aria-hidden="true"
         className={cn(
-          "block bg-neutral-200 dark:bg-neutral-200",
+          "block bg-[color-mix(in_srgb,var(--color-foreground-default)_11%,var(--color-surface-page))]",
           VARIANT_CLASSES[variant],
           variant === "text" && !height && !hasChildren && "h-[1em]",
           animation === "pulse" && "animate-pulse",

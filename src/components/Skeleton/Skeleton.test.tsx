@@ -125,9 +125,9 @@ describe("Skeleton", () => {
       expect(getSkeleton(container)).not.toHaveClass("h-[1em]");
     });
 
-    it("includes dark mode background class", () => {
+    it("has an opaque background using color-mix", () => {
       const { container } = render(<Skeleton />);
-      expect(getSkeleton(container)).toHaveClass("dark:bg-neutral-200");
+      expect(getSkeleton(container).className).toContain("bg-[color-mix(");
     });
   });
 
