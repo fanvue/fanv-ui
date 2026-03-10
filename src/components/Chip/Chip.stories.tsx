@@ -251,6 +251,22 @@ export const PaymentMethodDisabled: Story = {
   },
 };
 
+export const Truncated: Story = {
+  render: () => (
+    <div className="flex flex-col gap-3" style={{ width: 120 }}>
+      <Chip>This is a very long chip label that truncates</Chip>
+      <Chip
+        leftIcon={<CheckCircleIcon className="size-5" />}
+        rightIcon={<CrossIcon className="size-5" />}
+      >
+        Long chip with icons
+      </Chip>
+      <Chip leftDot>Truncated chip with dot indicator</Chip>
+      <Chip notificationLabel="99+">Truncated with notification</Chip>
+    </div>
+  ),
+};
+
 export const Toggle: Story = {
   render: () => {
     const [selected, setSelected] = useState(false);

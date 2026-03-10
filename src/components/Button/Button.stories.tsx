@@ -422,6 +422,25 @@ export const WithPillAsRightIcon: Story = {
   ),
 };
 
+export const Truncated: Story = {
+  render: () => (
+    <div className="flex flex-col items-start gap-4" style={{ width: 200 }}>
+      <Button variant="brand" size="48" fullWidth>
+        Join now Nkr289.50 Nkr101.36/month
+      </Button>
+      <Button variant="primary" size="40" fullWidth>
+        This is a very long button label that should truncate
+      </Button>
+      <Button variant="secondary" size="32" fullWidth leftIcon={<PlusIcon />}>
+        Truncated with icon
+      </Button>
+      <Button variant="brand" size="48" fullWidth price="$9.99/mo" discount="$19.99">
+        Subscribe now
+      </Button>
+    </div>
+  ),
+};
+
 export const AllStatesMatrix: Story = {
   render: () => (
     <div className="flex flex-col gap-4">

@@ -123,6 +123,20 @@ export const PinkLight: Story = {
   },
 };
 
+export const Truncated: Story = {
+  render: () => (
+    <div className="flex flex-col gap-3" style={{ width: 80 }}>
+      <Badge variant="success">Very long badge text here</Badge>
+      <Badge variant="brand" leftDot={false} leftIcon={<CheckCircleIcon className="size-3" />}>
+        Truncated with icon
+      </Badge>
+      <Badge variant="default" rightIcon={<ArrowUpRightIcon className="size-3" />}>
+        Truncated right icon
+      </Badge>
+    </div>
+  ),
+};
+
 export const WithoutDot: Story = {
   args: {
     leftDot: false,

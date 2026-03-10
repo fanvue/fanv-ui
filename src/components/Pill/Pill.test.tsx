@@ -7,7 +7,7 @@ describe("Pill", () => {
   describe("API", () => {
     it("applies custom className", () => {
       render(<Pill className="custom-class">Custom</Pill>);
-      const pill = screen.getByText("Custom").closest("span");
+      const pill = screen.getByTestId("pill");
       expect(pill).toHaveClass("custom-class");
     });
 

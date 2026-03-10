@@ -156,7 +156,13 @@ function renderContent({
           {leftIcon}
         </span>
       )}
-      {children}
+      {React.Children.map(children, (child) =>
+        typeof child === "string" || typeof child === "number" ? (
+          <span className="min-w-0 truncate">{child}</span>
+        ) : (
+          child
+        ),
+      )}
       {rightIcon && (
         <span
           className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
@@ -251,7 +257,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...loadingLabelProps}
         className={cn(
           // Base styles
-          "inline-flex cursor-pointer items-center gap-2 whitespace-nowrap rounded-full transition-colors",
+          "inline-flex min-w-0 cursor-pointer items-center gap-2 whitespace-nowrap rounded-full transition-colors",
           // Focus ring
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled state

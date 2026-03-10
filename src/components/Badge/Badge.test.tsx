@@ -7,7 +7,7 @@ describe("Badge", () => {
   describe("API", () => {
     it("applies custom className", () => {
       render(<Badge className="custom-class">Custom</Badge>);
-      const badge = screen.getByText("Custom").closest("span");
+      const badge = screen.getByTestId("badge");
       expect(badge).toHaveClass("custom-class");
     });
 
