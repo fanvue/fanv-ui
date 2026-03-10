@@ -208,6 +208,7 @@ export const SelectContent = React.forwardRef<
       ref={ref}
       position={position}
       sideOffset={sideOffset}
+      collisionPadding={8}
       style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
       className={cn(
         "relative min-w-(--radix-select-trigger-width) overflow-hidden rounded-xl border border-neutral-200 bg-surface-page text-foreground-default shadow-[0_4px_16px_rgba(0,0,0,0.10)]",

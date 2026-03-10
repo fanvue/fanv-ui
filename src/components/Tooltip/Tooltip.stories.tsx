@@ -209,6 +209,57 @@ export const InfoboxFull: Story = {
   ),
 };
 
+export const NarrowViewport: Story = {
+  name: "Narrow Viewport (constraint)",
+  parameters: {
+    layout: "fullscreen",
+    chromatic: {
+      modes: {
+        "light-narrow": { theme: "light", viewport: 375 },
+        "dark-narrow": { theme: "dark", viewport: 375 },
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <TooltipProvider delayDuration={0}>
+        <div
+          style={{
+            height: "200px",
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            padding: "16px",
+          }}
+        >
+          <Story />
+        </div>
+      </TooltipProvider>
+    ),
+  ],
+  render: () => (
+    <Tooltip defaultOpen>
+      <TooltipTrigger asChild>
+        <button type="button" className="text-foreground-secondary">
+          <InfoCircleIcon className="size-5" />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent
+        variant="infobox"
+        icon={<InfoCircleIcon className="size-5 text-foreground-inverse" />}
+        heading="Title"
+        primaryAction={{ label: "OK" }}
+        secondaryAction={{ label: "Dismiss" }}
+      >
+        This is a long infobox tooltip that tests how the component handles content in a very narrow
+        viewport where vertical space is limited. The tooltip should stay within bounds and not
+        overflow.
+      </TooltipContent>
+    </Tooltip>
+  ),
+};
+
 export const AllPlacements: Story = {
   render: () => (
     <div className="flex flex-col items-center gap-24 py-16">
