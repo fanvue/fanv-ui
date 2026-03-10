@@ -54,7 +54,7 @@ describe("ChartContainer", () => {
       expect(wrapper?.getAttribute("data-chart")).toMatch(/^chart-/);
     });
 
-    it("injects CSS variables via style element", () => {
+    it("injects CSS variables as inline styles", () => {
       const { container } = render(
         <ChartContainer config={chartConfig}>
           <BarChart data={chartData}>
@@ -62,10 +62,9 @@ describe("ChartContainer", () => {
           </BarChart>
         </ChartContainer>,
       );
-      const style = container.querySelector("style");
-      expect(style).toBeInTheDocument();
-      expect(style?.textContent).toContain("--color-desktop");
-      expect(style?.textContent).toContain("--color-mobile");
+      const wrapper = container.firstElementChild as HTMLElement;
+      expect(wrapper.style.getPropertyValue("--color-desktop")).toBe("#2563eb");
+      expect(wrapper.style.getPropertyValue("--color-mobile")).toBe("#60a5fa");
     });
 
     it("forwards ref", () => {
