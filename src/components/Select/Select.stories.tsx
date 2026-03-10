@@ -332,7 +332,12 @@ export const NarrowViewport: Story = {
   name: "Narrow Viewport (scroll)",
   parameters: {
     layout: "fullscreen",
-    chromatic: { viewports: [375] },
+    chromatic: {
+      modes: {
+        "light-narrow": { theme: "light", viewport: 375 },
+        "dark-narrow": { theme: "dark", viewport: 375 },
+      },
+    },
   },
   decorators: [
     (Story) => (
