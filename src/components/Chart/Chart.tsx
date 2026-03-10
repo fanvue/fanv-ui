@@ -12,8 +12,8 @@ const THEMES = { light: "", dark: ".dark" } as const;
  * @example
  * ```tsx
  * const config = {
- *   revenue: { label: "Revenue", color: "var(--color-chart-50)" },
- *   expenses: { label: "Expenses", color: "var(--color-chart-100)" },
+ *   revenue: { label: "Revenue", color: "var(--color-special-chart-teal)" },
+ *   expenses: { label: "Expenses", color: "var(--color-special-chart-sky)" },
  * } satisfies ChartConfig;
  * ```
  */
@@ -139,7 +139,7 @@ const ChartAxisStyle = ({ id }: { id: string }) => (
   <style
     // biome-ignore lint/security/noDangerouslySetInnerHtml: scoped CSS for axis tick legibility
     dangerouslySetInnerHTML={{
-      __html: `[data-chart=${id}] .recharts-cartesian-axis-tick-value { fill: var(--color-body-100) !important; }`,
+      __html: `[data-chart=${id}] .recharts-cartesian-axis-tick-value, [data-chart=${id}] .recharts-polar-angle-axis-tick-value { fill: var(--color-foreground-default) !important; }`,
     }}
   />
 );
@@ -231,7 +231,7 @@ const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltipContent
 
       if (labelFormatter) {
         return (
-          <div className={cn("typography-caption-semibold", labelClassName)}>
+          <div className={cn("typography-semibold-body-sm", labelClassName)}>
             {labelFormatter(value, payload)}
           </div>
         );
@@ -241,7 +241,7 @@ const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltipContent
         return null;
       }
 
-      return <div className={cn("typography-caption-semibold", labelClassName)}>{value}</div>;
+      return <div className={cn("typography-semibold-body-sm", labelClassName)}>{value}</div>;
     }, [label, labelFormatter, payload, hideLabel, labelClassName, config, labelKey]);
 
     if (!active || !payload?.length) {
@@ -254,7 +254,7 @@ const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltipContent
       <div
         ref={ref}
         className={cn(
-          "grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-neutral-200 bg-background-inverse-solid px-2.5 py-1.5 text-xs shadow-floating-item",
+          "grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-neutral-200 bg-surface-page px-2.5 py-1.5 text-xs shadow-blur-floating",
           className,
         )}
       >
@@ -271,7 +271,7 @@ const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltipContent
                 <div
                   key={`${item.dataKey ?? item.name ?? index}`}
                   className={cn(
-                    "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-body-200",
+                    "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-foreground-secondary",
                     indicator === "dot" && "items-center",
                   )}
                 >
@@ -311,10 +311,12 @@ const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltipContent
                       >
                         <div className="grid gap-1.5">
                           {nestLabel ? tooltipLabel : null}
-                          <span className="text-body-200">{itemConfig?.label || item.name}</span>
+                          <span className="text-foreground-secondary">
+                            {itemConfig?.label || item.name}
+                          </span>
                         </div>
                         {item.value !== undefined && (
-                          <span className="font-medium font-mono text-body-100 tabular-nums">
+                          <span className="font-medium font-mono text-foreground-default tabular-nums">
                             {item.value.toLocaleString()}
                           </span>
                         )}
@@ -383,7 +385,7 @@ const ChartLegendContent = React.forwardRef<HTMLDivElement, ChartLegendContentPr
             return (
               <div
                 key={item.value}
-                className="flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-body-200"
+                className="flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-foreground-secondary"
               >
                 {itemConfig?.icon && !hideIcon ? (
                   <itemConfig.icon />
