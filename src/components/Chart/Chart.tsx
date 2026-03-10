@@ -67,17 +67,22 @@ export interface ChartContainerProps extends React.HTMLAttributes<HTMLDivElement
  * ```
  */
 const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
-  ({ id, className, children, config, ...props }, ref) => {
+  ({ id, className, children, config, style, ...props }, ref) => {
     const uniqueId = React.useId();
     const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`;
+
+    const { inlineStyles, themeConfig } = React.useMemo(() => buildChartStyles(config), [config]);
 
     return (
       <ChartContext.Provider value={{ config }}>
         <div
+          id={id}
           data-chart={chartId}
           ref={ref}
           className={cn(
             "flex aspect-video text-xs",
+            "[&_.recharts-cartesian-axis-tick-value]:fill-foreground-default",
+            "[&_.recharts-polar-angle-axis-tick-value]:fill-foreground-default",
             "[&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-neutral-200/50",
             "[&_.recharts-curve.recharts-tooltip-cursor]:stroke-neutral-200",
             "[&_.recharts-dot[stroke='#fff']]:stroke-transparent",
@@ -91,10 +96,10 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
             "[&_.recharts-surface]:outline-hidden",
             className,
           )}
+          style={{ ...inlineStyles, ...style } as React.CSSProperties}
           {...props}
         >
-          <ChartStyle id={chartId} config={config} />
-          <ChartAxisStyle id={chartId} />
+          {themeConfig.length > 0 && <ChartStyle id={chartId} config={themeConfig} />}
           <RechartsPrimitive.ResponsiveContainer>{children}</RechartsPrimitive.ResponsiveContainer>
         </div>
       </ChartContext.Provider>
@@ -103,24 +108,35 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 );
 ChartContainer.displayName = "ChartContainer";
 
-const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
-  const colorConfig = Object.entries(config).filter(
-    ([, itemConfig]) => itemConfig.theme || itemConfig.color,
-  );
+function buildChartStyles(config: ChartConfig) {
+  const inlineStyles: Record<string, string> = {};
+  const themeConfig: [string, ChartConfig[string]][] = [];
 
-  if (!colorConfig.length) {
+  for (const [key, itemConfig] of Object.entries(config)) {
+    if (itemConfig.theme) {
+      themeConfig.push([key, itemConfig]);
+    } else if (itemConfig.color) {
+      inlineStyles[`--color-${key}`] = itemConfig.color;
+    }
+  }
+
+  return { inlineStyles, themeConfig };
+}
+
+const ChartStyle = ({ id, config }: { id: string; config: [string, ChartConfig[string]][] }) => {
+  if (!config.length) {
     return null;
   }
 
   return (
     <style
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: scoped CSS injection from developer-provided ChartConfig values
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: required for per-theme color overrides that cannot be expressed as inline styles
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)
           .map(
             ([theme, prefix]) => `
 ${prefix} [data-chart=${id}] {
-${colorConfig
+${config
   .map(([key, itemConfig]) => {
     const color = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color;
     return color ? `  --color-${key}: ${color};` : null;
@@ -134,15 +150,6 @@ ${colorConfig
     />
   );
 };
-
-const ChartAxisStyle = ({ id }: { id: string }) => (
-  <style
-    // biome-ignore lint/security/noDangerouslySetInnerHtml: scoped CSS for axis tick legibility
-    dangerouslySetInnerHTML={{
-      __html: `[data-chart=${id}] .recharts-cartesian-axis-tick-value, [data-chart=${id}] .recharts-polar-angle-axis-tick-value { fill: var(--color-foreground-default) !important; }`,
-    }}
-  />
-);
 
 /**
  * Recharts `Tooltip` re-export for use with {@link ChartTooltipContent}.
