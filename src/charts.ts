@@ -11,4 +11,5 @@ export {
   ChartStyle,
   ChartTooltip,
   ChartTooltipContent,
+  useChart,
 } from "./components/Chart/Chart";
