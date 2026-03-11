@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.4](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.3...ui-v1.16.4) (2026-03-11)
+
+
+### Bug Fixes
+
+* **Alert:** fix close button invisible on hover in colored variants ([#322](https://github.com/fanvue/fanv-ui/issues/322)) ([bb215c3](https://github.com/fanvue/fanv-ui/commit/bb215c3b89bf1797211344be4e2f31364417c198))
+
 ## [1.16.3](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.2...ui-v1.16.3) (2026-03-11)
 
 
