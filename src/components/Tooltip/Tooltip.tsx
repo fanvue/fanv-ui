@@ -92,7 +92,7 @@ export interface TooltipContentProps
   secondaryAction?: TooltipAction;
 }
 
-/** Class overrides so buttons render correctly on the tooltip's inverted background. */
+/** Class overrides so CTA buttons render correctly on the tooltip's inverted background. */
 const TOOLTIP_ACTION_CLASSES: Record<"brand" | "tertiary", string> = {
   brand: "hover:bg-brand-accent-default/80 hover:text-foreground-onaccent",
   tertiary: "text-foreground-inverse hover:text-foreground-inverse hover:bg-foreground-inverse/10",
