@@ -131,6 +131,33 @@ describe("Chip", () => {
     });
   });
 
+  describe("truncation", () => {
+    it("wraps content in an overflow-hidden container to preserve padding during truncation", () => {
+      const { container } = render(<Chip>Label</Chip>);
+      const inner = container.querySelector('[data-testid="chip"] > span');
+      expect(inner).toHaveClass("overflow-hidden");
+      expect(inner).toHaveClass("px-3");
+    });
+
+    it("applies truncate on the label span for text overflow", () => {
+      const { container } = render(<Chip>Label</Chip>);
+      const labelSpan = container.querySelector('[data-testid="chip"] span.truncate');
+      expect(labelSpan).toBeInTheDocument();
+      expect(labelSpan).toHaveClass("truncate");
+      expect(labelSpan).toHaveClass("min-w-0");
+    });
+
+    it("does not apply truncation classes when using asChild", () => {
+      const { container } = render(
+        <Chip asChild>
+          <a href="/test">Link Chip</a>
+        </Chip>,
+      );
+      const truncateSpan = container.querySelector("span.truncate");
+      expect(truncateSpan).not.toBeInTheDocument();
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations (static)", async () => {
       const { container } = render(<Chip>Accessible Chip</Chip>);

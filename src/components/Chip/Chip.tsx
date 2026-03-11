@@ -69,7 +69,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         ref={ref}
         data-testid="chip"
         className={cn(
-          "typography-semibold-body-sm relative inline-flex min-w-0 items-center justify-center gap-2 whitespace-nowrap px-3 motion-safe:transition-colors motion-safe:duration-150",
+          "typography-semibold-body-sm relative inline-flex min-w-0 items-center justify-center whitespace-nowrap motion-safe:transition-colors motion-safe:duration-150",
           // Shape
           variant === "square" ? "rounded-lg" : "rounded-full",
           // Size
@@ -103,26 +103,38 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         {...(selected && { "data-selected": "" })}
         {...props}
       >
-        {leftDot && <span className="size-2 shrink-0 rounded-full bg-current" aria-hidden="true" />}
-        {leftIcon && (
-          <span className="flex size-5 shrink-0 items-center justify-center" aria-hidden="true">
-            {leftIcon}
-          </span>
-        )}
         {asChild ? (
           <Slottable>{children}</Slottable>
         ) : (
-          <span className="min-w-0 truncate">{children}</span>
-        )}
-        {rightIcon && (
-          <span className="flex size-5 shrink-0 items-center justify-center" aria-hidden="true">
-            {rightIcon}
-          </span>
-        )}
-        {notificationLabel && (
-          <span className="typography-semibold-body-sm absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground-default px-1 text-foreground-inverse">
-            {notificationLabel}
-          </span>
+          <>
+            <span className="flex min-w-0 items-center gap-0.5 overflow-hidden px-3">
+              {leftDot && (
+                <span className="size-2 shrink-0 rounded-full bg-current" aria-hidden="true" />
+              )}
+              {leftIcon && (
+                <span
+                  className="flex size-5 shrink-0 items-center justify-center"
+                  aria-hidden="true"
+                >
+                  {leftIcon}
+                </span>
+              )}
+              <span className="min-w-0 truncate">{children}</span>
+              {rightIcon && (
+                <span
+                  className="flex size-5 shrink-0 items-center justify-center"
+                  aria-hidden="true"
+                >
+                  {rightIcon}
+                </span>
+              )}
+            </span>
+            {notificationLabel && (
+              <span className="typography-semibold-body-sm absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground-default px-1 text-foreground-inverse">
+                {notificationLabel}
+              </span>
+            )}
+          </>
         )}
       </Comp>
     );
