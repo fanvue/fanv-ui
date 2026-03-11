@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.16.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.1...ui-v1.16.2) (2026-03-11)
+
+
+### Bug Fixes
+
+* **chip:** prevent label from collapsing in flex containers ([#313](https://github.com/fanvue/fanv-ui/issues/313)) ([a3f54e3](https://github.com/fanvue/fanv-ui/commit/a3f54e3c41c4b371e28fe2e2eb40b59fc70ba2e3))
+* **Tooltip:** fix CTA button styles on inverted background ([#312](https://github.com/fanvue/fanv-ui/issues/312)) ([f4de205](https://github.com/fanvue/fanv-ui/commit/f4de20523c7820abf84041958984683f35602a4c))
+* **Tooltip:** fix CTA button styles on inverted tooltip background ([f4de205](https://github.com/fanvue/fanv-ui/commit/f4de20523c7820abf84041958984683f35602a4c))
+
 ## [1.16.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.0...ui-v1.16.1) (2026-03-10)
 
 
