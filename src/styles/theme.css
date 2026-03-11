@@ -7,6 +7,11 @@
     touch-action: manipulation;
   }
 
+  body {
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
