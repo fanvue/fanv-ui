@@ -92,6 +92,12 @@ export interface TooltipContentProps
   secondaryAction?: TooltipAction;
 }
 
+/** Class overrides so buttons render correctly on the tooltip's inverted background. */
+const TOOLTIP_ACTION_CLASSES: Record<"brand" | "tertiary", string> = {
+  brand: "hover:bg-brand-accent-default/80 hover:text-foreground-onaccent",
+  tertiary: "text-foreground-inverse hover:text-foreground-inverse hover:bg-foreground-inverse/10",
+};
+
 const ActionButton = ({
   action,
   variant,
@@ -102,7 +108,7 @@ const ActionButton = ({
   action.element ? (
     action.element
   ) : (
-    <Button variant={variant} size="32" onClick={action.onClick}>
+    <Button variant={variant} onClick={action.onClick} className={TOOLTIP_ACTION_CLASSES[variant]}>
       {action.label}
     </Button>
   );
