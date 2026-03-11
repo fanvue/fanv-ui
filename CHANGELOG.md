@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.3](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.2...ui-v1.16.3) (2026-03-11)
+
+
+### Bug Fixes
+
+* **Tooltip:** clarify CTA button style override comment ([#317](https://github.com/fanvue/fanv-ui/issues/317)) ([30a4eb8](https://github.com/fanvue/fanv-ui/commit/30a4eb8c8997dd7a6e5cc03c82ee5823bdbffc25))
+
 ## [1.16.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.1...ui-v1.16.2) (2026-03-11)
 
 
