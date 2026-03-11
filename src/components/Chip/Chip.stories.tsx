@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { CheckCircleIcon } from "../Icons/CheckCircleIcon";
+import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CrossIcon } from "../Icons/CrossIcon";
 import { Chip } from "./Chip";
 
@@ -263,6 +264,35 @@ export const Truncated: Story = {
       </Chip>
       <Chip leftDot>Truncated chip with dot indicator</Chip>
       <Chip notificationLabel="99+">Truncated with notification</Chip>
+    </div>
+  ),
+};
+
+/** Demonstrates that chips in a constrained flex row truncate gracefully without collapsing. */
+export const TruncatedFlexRow: Story = {
+  render: () => (
+    <div className="flex gap-2" style={{ width: 480 }}>
+      <Chip leftIcon={<ChevronDownIcon />} onClick={() => {}}>
+        Sort by: Most recent messages
+      </Chip>
+      <Chip leftIcon={<ChevronDownIcon />} onClick={() => {}}>
+        Filters
+      </Chip>
+      <Chip onClick={() => {}}>Unread</Chip>
+      <Chip onClick={() => {}}>Online</Chip>
+      <Chip onClick={() => {}}>Archived</Chip>
+    </div>
+  ),
+};
+
+/** Demonstrates that short chips are not padded wider than their content. */
+export const ShortLabels: Story = {
+  render: () => (
+    <div className="flex gap-2">
+      <Chip onClick={() => {}}>AI</Chip>
+      <Chip onClick={() => {}}>Chat</Chip>
+      <Chip onClick={() => {}}>OK</Chip>
+      <Chip onClick={() => {}}>Unread</Chip>
     </div>
   ),
 };
