@@ -14,7 +14,7 @@ export const CloseIcon = React.forwardRef<SVGSVGElement, IconProps>(
         {...props}
       >
         <g stroke="currentColor" strokeLinecap="round" strokeWidth="1.5">
-          <path d="m8.466 8.468 7.071 7.071M15.537 8.46l-7.071 7.072" />
+          <path d="M7.003 7.006 17 17.003M17 6.996l-9.997 9.998" />
         </g>
       </svg>
     );
