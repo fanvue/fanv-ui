@@ -39,6 +39,7 @@ import { DonateIcon } from "./DonateIcon";
 import { DoubleTickIcon } from "./DoubleTickIcon";
 import { DownloadIcon } from "./DownloadIcon";
 import { EditIcon } from "./EditIcon";
+import { EmojiIcon } from "./EmojiIcon";
 import { ErrorCircleIcon } from "./ErrorCircleIcon";
 import { ErrorIcon } from "./ErrorIcon";
 import { ExpandIcon } from "./ExpandIcon";
@@ -158,6 +159,7 @@ const icons = [
   { name: "DoubleTickIcon", Component: DoubleTickIcon },
   { name: "DownloadIcon", Component: DownloadIcon },
   { name: "EditIcon", Component: EditIcon },
+  { name: "EmojiIcon", Component: EmojiIcon },
   { name: "ErrorCircleIcon", Component: ErrorCircleIcon },
   { name: "ErrorIcon", Component: ErrorIcon },
   { name: "ExpandIcon", Component: ExpandIcon },
