@@ -15,11 +15,11 @@ const STATUS_POSITIONS: Record<
   { top: number; right: number; indicatorSize: string; borderSize: string }
 > = {
   16: { top: -2, right: -2, indicatorSize: "size-2", borderSize: "border" },
-  24: { top: 0, right: 0, indicatorSize: "size-[10px]", borderSize: "border" },
+  24: { top: 0, right: 0, indicatorSize: "size-2.5", borderSize: "border" },
   32: { top: 0, right: 0, indicatorSize: "size-3", borderSize: "border" },
-  40: { top: 0, right: 0, indicatorSize: "size-[14px]", borderSize: "border" },
+  40: { top: 0, right: 0, indicatorSize: "size-3.5", borderSize: "border" },
   48: { top: 0, right: 0, indicatorSize: "size-4", borderSize: "border" },
-  64: { top: 2, right: 0, indicatorSize: "size-[18px]", borderSize: "border" },
+  64: { top: 2, right: 0, indicatorSize: "size-4.5", borderSize: "border" },
   88: { top: 6, right: 4, indicatorSize: "size-5", borderSize: "border-2" },
   148: { top: 14, right: 14, indicatorSize: "size-6", borderSize: "border-2" },
 };
@@ -73,14 +73,14 @@ const AvatarRoot = React.forwardRef<
             data-testid="avatar"
             className={cn(
               "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-200",
-              size === 16 && "size-4 text-[10px]",
+              size === 16 && "size-4 text-2xs",
               size === 24 && "size-6 text-xs",
               size === 32 && "size-8 text-xs",
               size === 40 && "size-10 text-sm",
               size === 48 && "size-12 text-base",
               size === 64 && "size-16 text-xl",
-              size === 88 && "size-[88px] text-2xl",
-              size === 148 && "size-[148px] text-4xl",
+              size === 88 && "size-22 text-2xl",
+              size === 148 && "size-37 text-4xl",
               className,
             )}
             {...props}
