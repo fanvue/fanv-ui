@@ -28,6 +28,14 @@ describe("Avatar", () => {
       const customFallback = await screen.findByTestId("custom-fallback");
       expect(customFallback).toBeInTheDocument();
     });
+
+    it("uses the larger online indicator for 48px avatars", async () => {
+      const { container } = render(<Avatar size={48} fallback="AB" onlineIndicator={true} />);
+      await screen.findByText("AB");
+      const statusDot = container.querySelector('span[aria-hidden="true"]');
+      expect(statusDot).toHaveClass("size-4", "border");
+      expect(statusDot).toHaveStyle({ top: "0px", right: "0px" });
+    });
   });
 
   describe("individual component exports", () => {

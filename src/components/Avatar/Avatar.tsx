@@ -10,17 +10,19 @@ const AvatarContext = React.createContext<{ size: AvatarSize; NSFWShow: boolean 
   NSFWShow: false,
 });
 
-const STATUS_POSITIONS: Record<AvatarSize, { top: number; right: number; indicatorSize: string }> =
-  {
-    16: { top: -2, right: -2, indicatorSize: "size-2" },
-    24: { top: 0, right: 0, indicatorSize: "size-2" },
-    32: { top: 0, right: 0, indicatorSize: "size-2" },
-    40: { top: 2, right: 2, indicatorSize: "size-2" },
-    48: { top: 5, right: 2, indicatorSize: "size-2" },
-    64: { top: 5, right: 1, indicatorSize: "size-3" },
-    88: { top: 8, right: 6, indicatorSize: "size-3" },
-    148: { top: 15, right: 15, indicatorSize: "size-3" },
-  };
+const STATUS_POSITIONS: Record<
+  AvatarSize,
+  { top: number; right: number; indicatorSize: string; borderSize: string }
+> = {
+  16: { top: -2, right: -2, indicatorSize: "size-2", borderSize: "border" },
+  24: { top: 0, right: 0, indicatorSize: "size-[10px]", borderSize: "border" },
+  32: { top: 0, right: 0, indicatorSize: "size-3", borderSize: "border" },
+  40: { top: 0, right: 0, indicatorSize: "size-[14px]", borderSize: "border" },
+  48: { top: 0, right: 0, indicatorSize: "size-4", borderSize: "border" },
+  64: { top: 2, right: 0, indicatorSize: "size-[18px]", borderSize: "border" },
+  88: { top: 6, right: 4, indicatorSize: "size-5", borderSize: "border-2" },
+  148: { top: 14, right: 14, indicatorSize: "size-6", borderSize: "border-2" },
+};
 
 /** Shared avatar styling props. */
 interface AvatarStyleProps {
@@ -99,7 +101,8 @@ const AvatarRoot = React.forwardRef<
           {onlineIndicator && (
             <span
               className={cn(
-                "absolute rounded-full border-2 border-surface-container bg-brand-accent-default",
+                "absolute rounded-full border-surface-container bg-brand-accent-default",
+                statusPosition.borderSize,
                 statusPosition.indicatorSize,
               )}
               style={{
