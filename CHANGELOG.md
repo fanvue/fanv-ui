@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.5](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.4...ui-v1.16.5) (2026-03-12)
+
+
+### Bug Fixes
+
+* **icon:** Change showPassword icon to EyeSlash ([#324](https://github.com/fanvue/fanv-ui/issues/324)) ([6207e41](https://github.com/fanvue/fanv-ui/commit/6207e41c64a50d69421ae01f283a64513b2e7475))
+
 ## [1.16.4](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.3...ui-v1.16.4) (2026-03-11)
 
 
