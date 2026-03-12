@@ -1,6 +1,6 @@
 import * as React from "react";
-import { EyeClosedIcon } from "../Icons/EyeClosedIcon";
 import { EyeIcon } from "../Icons/EyeIcon";
+import { EyeSlashIcon } from "../Icons/EyeSlashIcon";
 import { TextField, type TextFieldProps } from "../TextField/TextField";
 
 export type PasswordFieldSize = "48" | "40" | "32";
@@ -27,7 +27,7 @@ export const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldPro
         tabIndex={-1}
         className="flex size-5 shrink-0 items-center justify-center text-foreground-secondary transition-colors hover:text-foreground-default focus:outline-none disabled:cursor-not-allowed"
       >
-        {showPassword ? <EyeClosedIcon /> : <EyeIcon />}
+        {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
       </button>
     );
 
