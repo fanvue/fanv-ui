@@ -85,7 +85,7 @@ export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
         {...props}
       >
         {leftIcon && (
-          <span className="flex size-3" aria-hidden="true">
+          <span className="flex svg:size-3" aria-hidden="true">
             {leftIcon}
           </span>
         )}
