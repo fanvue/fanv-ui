@@ -38,6 +38,7 @@ import { DonateIcon } from "../components/Icons/DonateIcon";
 import { DoubleTickIcon } from "../components/Icons/DoubleTickIcon";
 import { DownloadIcon } from "../components/Icons/DownloadIcon";
 import { EditIcon } from "../components/Icons/EditIcon";
+import { EmojiIcon } from "../components/Icons/EmojiIcon";
 import { ErrorCircleIcon } from "../components/Icons/ErrorCircleIcon";
 import { ErrorIcon } from "../components/Icons/ErrorIcon";
 import { ExpandIcon } from "../components/Icons/ExpandIcon";
@@ -208,6 +209,7 @@ const icons: IconEntry[] = [
   { name: "DoubleTickIcon", component: DoubleTickIcon, tags: ["double", "tick", "check", "read"] },
   { name: "DownloadIcon", component: DownloadIcon, tags: ["download", "save", "file"] },
   { name: "EditIcon", component: EditIcon, tags: ["edit", "pen", "write", "modify"] },
+  { name: "EmojiIcon", component: EmojiIcon, tags: ["emoji", "smiley", "face", "happy"] },
   {
     name: "ErrorCircleIcon",
     component: ErrorCircleIcon,

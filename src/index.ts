@@ -114,6 +114,7 @@ export { DonateIcon } from "./components/Icons/DonateIcon";
 export { DoubleTickIcon } from "./components/Icons/DoubleTickIcon";
 export { DownloadIcon } from "./components/Icons/DownloadIcon";
 export { EditIcon } from "./components/Icons/EditIcon";
+export { EmojiIcon } from "./components/Icons/EmojiIcon";
 export { ErrorCircleIcon } from "./components/Icons/ErrorCircleIcon";
 export { ErrorIcon } from "./components/Icons/ErrorIcon";
 export { ExpandIcon } from "./components/Icons/ExpandIcon";
