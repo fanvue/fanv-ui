@@ -16,7 +16,7 @@ const meta = {
   argTypes: {
     value: { control: { type: "range", min: 0, max: 100 } },
     size: { control: "select", options: ["default", "small"] },
-    variant: { control: "select", options: ["default", "generic"] },
+    variant: { control: "select", options: ["default", "generic", "neutral"] },
     showCompletion: { control: "boolean" },
     title: { control: "text" },
     stepsLabel: { control: "text" },
@@ -49,6 +49,20 @@ export const Generic: Story = {
     value: 80,
     variant: "generic",
   },
+};
+
+export const Neutral: Story = {
+  args: {
+    value: 70,
+    variant: "neutral",
+  },
+  decorators: [
+    (Story) => (
+      <div className="rounded-lg bg-neutral-800 p-6">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export const GenericSmall: Story = {

@@ -3,15 +3,15 @@ import { cn } from "@/utils/cn";
 
 /** Track height — `"default"` (12px) or `"small"` (6px). */
 export type ProgressBarSize = "default" | "small";
-/** Colour mode — `"default"` uses red/yellow/green by value, `"generic"` always uses brand green. */
-export type ProgressBarVariant = "default" | "generic";
+/** Colour mode — `"default"` uses red/yellow/green by value, `"generic"` always uses brand green, `"neutral"` always uses white. */
+export type ProgressBarVariant = "default" | "generic" | "neutral";
 
 export interface ProgressBarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   /** Current progress value, clamped to 0–100. */
   value: number;
   /** Track height — `"default"` (12px) or `"small"` (6px). @default "default" */
   size?: ProgressBarSize;
-  /** Colour mode — `"default"` is colour-coded by value, `"generic"` always uses brand green. @default "default" */
+  /** Colour mode — `"default"` is colour-coded by value, `"generic"` always uses brand green, `"neutral"` always uses white. @default "default" */
   variant?: ProgressBarVariant;
   /** Title content shown at the top-left of the bar. */
   title?: React.ReactNode;
@@ -51,6 +51,16 @@ function getDefaultTextColor(value: number): string {
   return "text-error-default";
 }
 
+function resolveColors(
+  variant: ProgressBarVariant,
+  value: number,
+): { barColor: string; textColor: string } {
+  if (variant === "neutral") return { barColor: "bg-white", textColor: "text-white" };
+  if (variant === "generic")
+    return { barColor: "bg-brand-accent-default", textColor: "text-brand-accent-default" };
+  return { barColor: getDefaultBarColor(value), textColor: getDefaultTextColor(value) };
+}
+
 /**
  * A horizontal progress indicator with optional title, completion percentage,
  * step count, and helper text. The bar colour reflects progress when using the
@@ -80,11 +90,8 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
     ref,
   ) => {
     const clampedValue = Math.min(100, Math.max(0, value));
-    const isGeneric = variant === "generic";
     const isSmall = size === "small";
-
-    const barColor = isGeneric ? "bg-brand-accent-default" : getDefaultBarColor(clampedValue);
-    const textColor = isGeneric ? "text-brand-accent-default" : getDefaultTextColor(clampedValue);
+    const { barColor, textColor } = resolveColors(variant, clampedValue);
 
     const showHeader = title != null || showCompletion || stepsLabel != null;
     const showFooter = leftIcon != null || helperLeft != null || helperRight != null;

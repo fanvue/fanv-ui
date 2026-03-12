@@ -2232,6 +2232,15 @@ function ProgressBarDemo() {
         {/* Small + generic */}
         <ProgressBar value={50} size="small" variant="generic" />
 
+        {/* Neutral variant — always white */}
+        <div className="rounded-lg bg-neutral-800 p-4">
+          <div className="flex flex-col gap-6">
+            <ProgressBar value={20} variant="neutral" />
+            <ProgressBar value={60} variant="neutral" />
+            <ProgressBar value={80} variant="neutral" size="small" />
+          </div>
+        </div>
+
         {/* With title */}
         <ProgressBar value={75} title="Profile completeness" />
         <ProgressBar value={30} title="Upload progress" />
