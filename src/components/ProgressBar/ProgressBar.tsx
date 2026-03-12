@@ -3,7 +3,7 @@ import { cn } from "@/utils/cn";
 
 /** Track height — `"default"` (12px) or `"small"` (6px). */
 export type ProgressBarSize = "default" | "small";
-/** Colour mode — `"default"` uses red/yellow/green by value, `"generic"` always uses brand green, `"neutral"` always uses white. */
+/** Colour mode — `"default"` uses red/yellow/green by value, `"generic"` always uses brand green, `"neutral"` uses a theme-aware inverse colour. */
 export type ProgressBarVariant = "default" | "generic" | "neutral";
 
 export interface ProgressBarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
@@ -11,7 +11,7 @@ export interface ProgressBarProps extends Omit<React.HTMLAttributes<HTMLDivEleme
   value: number;
   /** Track height — `"default"` (12px) or `"small"` (6px). @default "default" */
   size?: ProgressBarSize;
-  /** Colour mode — `"default"` is colour-coded by value, `"generic"` always uses brand green, `"neutral"` always uses white. @default "default" */
+  /** Colour mode — `"default"` is colour-coded by value, `"generic"` always uses brand green, `"neutral"` uses a theme-aware inverse colour. @default "default" */
   variant?: ProgressBarVariant;
   /** Title content shown at the top-left of the bar. */
   title?: React.ReactNode;
@@ -55,7 +55,8 @@ function resolveColors(
   variant: ProgressBarVariant,
   value: number,
 ): { barColor: string; textColor: string } {
-  if (variant === "neutral") return { barColor: "bg-white", textColor: "text-white" };
+  if (variant === "neutral")
+    return { barColor: "bg-foreground-inverse", textColor: "text-foreground-inverse" };
   if (variant === "generic")
     return { barColor: "bg-brand-accent-default", textColor: "text-brand-accent-default" };
   return { barColor: getDefaultBarColor(value), textColor: getDefaultTextColor(value) };
