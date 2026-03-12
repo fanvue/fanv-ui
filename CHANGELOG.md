@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.17.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.5...ui-v1.17.0) (2026-03-12)
+
+
+### Features
+
+* add neutral variant to ProgressBar ([#326](https://github.com/fanvue/fanv-ui/issues/326)) ([084463c](https://github.com/fanvue/fanv-ui/commit/084463c0631287acf0b980dd842139d2c9111314))
+* **icons:** add EmojiIcon ([#327](https://github.com/fanvue/fanv-ui/issues/327)) ([7b36eab](https://github.com/fanvue/fanv-ui/commit/7b36eab9a9c91dd3685638d91748f0e4429f7757))
+
 ## [1.16.5](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.4...ui-v1.16.5) (2026-03-12)
 
 
