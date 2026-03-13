@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.0...ui-v1.17.1) (2026-03-12)
+
+
+### Bug Fixes
+
+* **avatar:** increase online indicator size ([#330](https://github.com/fanvue/fanv-ui/issues/330)) ([a312f67](https://github.com/fanvue/fanv-ui/commit/a312f6799e157fa10fb037dd39d88461b48b6657))
+
 ## [1.17.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.5...ui-v1.17.0) (2026-03-12)
 
 
