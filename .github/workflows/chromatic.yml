@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    types: [labeled]
+    types: [opened, synchronize, reopened, labeled]
   workflow_dispatch:
 
 permissions:
@@ -16,9 +16,9 @@ jobs:
   chromatic:
     name: Visual Regression
     if: >-
-      github.event_name == 'push' ||
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'pull_request' && github.event.label.name == 'chromatic')
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'chromatic')) ||
+      (github.event_name == 'push' && !startsWith(github.event.head_commit.message, 'chore(main): release'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -64,3 +64,29 @@ jobs:
             |---------|--------|
             | [View Storybook](${{ steps.chromatic.outputs.storybookUrl }}) | ✅ Ready |
             | [View Chromatic Build](${{ steps.chromatic.outputs.buildUrl }}) | ${{ steps.chromatic.outputs.changeCount }} change(s) |
+
+  chromatic-ok:
+    name: Chromatic OK
+    needs: [chromatic]
+    if: always() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check result
+        env:
+          RESULT: ${{ needs.chromatic.result }}
+          IS_RELEASE_PR: ${{ startsWith(github.head_ref, 'release-please--') }}
+        run: |
+          if [[ "$RESULT" == "success" ]]; then
+            echo "Chromatic passed"
+            exit 0
+          fi
+          if [[ "$RESULT" == "skipped" && "$IS_RELEASE_PR" == "true" ]]; then
+            echo "Release PR — Chromatic intentionally skipped"
+            exit 0
+          fi
+          if [[ "$RESULT" == "skipped" ]]; then
+            echo "Chromatic has not been run. Apply the 'chromatic' label to trigger visual regression tests."
+            exit 1
+          fi
+          echo "Chromatic failed with result: $RESULT"
+          exit 1
