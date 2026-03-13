@@ -56,7 +56,7 @@ function resolveColors(
   value: number,
 ): { barColor: string; textColor: string } {
   if (variant === "neutral")
-    return { barColor: "bg-foreground-inverse", textColor: "text-foreground-inverse" };
+    return { barColor: "bg-foreground-tertiary", textColor: "text-foreground-tertiary" };
   if (variant === "generic")
     return { barColor: "bg-brand-accent-default", textColor: "text-brand-accent-default" };
   return { barColor: getDefaultBarColor(value), textColor: getDefaultTextColor(value) };
