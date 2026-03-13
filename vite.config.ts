@@ -18,6 +18,7 @@ export default defineConfig({
       entry: {
         index: resolve(import.meta.dirname, "src/index.ts"),
         "date-picker": resolve(import.meta.dirname, "src/date-picker.ts"),
+        charts: resolve(import.meta.dirname, "src/charts.ts"),
       },
     },
     rollupOptions: {
@@ -27,6 +28,7 @@ export default defineConfig({
         "react/jsx-runtime",
         "tailwindcss",
         "react-day-picker",
+        "recharts",
         /^@radix-ui\//,
         "clsx",
         "tailwind-merge",
