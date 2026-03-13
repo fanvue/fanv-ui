@@ -15,13 +15,13 @@ const STATUS_POSITIONS: Record<
   { top: number; right: number; indicatorSize: string; borderSize: string }
 > = {
   16: { top: -2, right: -2, indicatorSize: "size-2", borderSize: "border" },
-  24: { top: 0, right: 0, indicatorSize: "size-2.5", borderSize: "border" },
-  32: { top: 0, right: 0, indicatorSize: "size-3", borderSize: "border" },
-  40: { top: 0, right: 0, indicatorSize: "size-3.5", borderSize: "border" },
-  48: { top: 0, right: 0, indicatorSize: "size-4", borderSize: "border" },
-  64: { top: 2, right: 0, indicatorSize: "size-4.5", borderSize: "border" },
-  88: { top: 6, right: 4, indicatorSize: "size-5", borderSize: "border-2" },
-  148: { top: 14, right: 14, indicatorSize: "size-6", borderSize: "border-2" },
+  24: { top: 0, right: 0, indicatorSize: "size-2", borderSize: "border" },
+  32: { top: 0, right: 0, indicatorSize: "size-2", borderSize: "border" },
+  40: { top: 2, right: 2, indicatorSize: "size-2", borderSize: "border" },
+  48: { top: 5, right: 2, indicatorSize: "size-2", borderSize: "border" },
+  64: { top: 5, right: 1, indicatorSize: "size-3", borderSize: "border" },
+  88: { top: 8, right: 6, indicatorSize: "size-3", borderSize: "border" },
+  148: { top: 15, right: 15, indicatorSize: "size-3", borderSize: "border" },
 };
 
 /** Shared avatar styling props. */
