@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.1...ui-v1.17.2) (2026-03-13)
+
+
+### Bug Fixes
+
+* **ProgressBar:** force release for neutral variant color updates ([#334](https://github.com/fanvue/fanv-ui/issues/334)) ([d090f67](https://github.com/fanvue/fanv-ui/commit/d090f67a2bc186c38fd30646ea58065a83526446))
+
 ## [1.17.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.0...ui-v1.17.1) (2026-03-12)
 
 
