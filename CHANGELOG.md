@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.3](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.2...ui-v1.17.3) (2026-03-13)
+
+
+### Bug Fixes
+
+* **avatar:** match online indicator size and position to Figma specs ([#336](https://github.com/fanvue/fanv-ui/issues/336)) ([ce823a6](https://github.com/fanvue/fanv-ui/commit/ce823a6af0a84b07557b774f0e341d1e0aadf28f))
+
 ## [1.17.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.1...ui-v1.17.2) (2026-03-13)
 
 
