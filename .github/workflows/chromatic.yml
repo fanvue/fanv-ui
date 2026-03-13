@@ -16,9 +16,9 @@ jobs:
   chromatic:
     name: Visual Regression
     if: >-
-      github.event_name == 'push' ||
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'pull_request' && github.event.label.name == 'chromatic')
+      (github.event_name == 'pull_request' && github.event.label.name == 'chromatic') ||
+      (github.event_name == 'push' && !startsWith(github.event.head_commit.message, 'chore(main): release'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
