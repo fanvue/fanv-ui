@@ -139,7 +139,7 @@ export const Select = React.forwardRef<
               aria-describedby={bottomText ? helperTextId : undefined}
               aria-invalid={error || undefined}
               className={cn(
-                "flex w-full cursor-pointer items-center justify-between rounded-xl border bg-neutral-100 outline-none motion-safe:transition-colors",
+                "flex w-full cursor-pointer items-center justify-between rounded-xl border bg-neutral-100 focus-visible:shadow-focus-ring focus-visible:outline-none motion-safe:transition-colors",
                 TRIGGER_HEIGHT[size],
                 TRIGGER_PADDING_X[size],
                 TRIGGER_GAP[size],
