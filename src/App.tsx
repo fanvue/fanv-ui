@@ -3,6 +3,10 @@ import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { DatePicker } from "./date-picker";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
   AddIcon,
   AIIcon,
   Alert,
@@ -1149,6 +1153,59 @@ function AvatarDemo() {
           fallback="JD"
           NSFWShow
         />
+      </div>
+    </div>
+  );
+}
+
+function AccordionDemo() {
+  return (
+    <div id="accordion" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Accordion</h2>
+      <div className="flex flex-wrap items-start gap-8">
+        <div className="w-80">
+          <p className="typography-regular-body-sm mb-2 text-neutral-250">Single / Collapsible</p>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Section 1</AccordionTrigger>
+              <AccordionContent>Content for the first section.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Section 2</AccordionTrigger>
+              <AccordionContent>Content for the second section.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Section 3</AccordionTrigger>
+              <AccordionContent>Content for the third section.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+        <div className="w-80">
+          <p className="typography-regular-body-sm mb-2 text-neutral-250">Multiple</p>
+          <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Open 1</AccordionTrigger>
+              <AccordionContent>Both items are open at once.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Open 2</AccordionTrigger>
+              <AccordionContent>Both items are open at once.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+        <div className="w-80">
+          <p className="typography-regular-body-sm mb-2 text-neutral-250">Disabled Item</p>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Enabled</AccordionTrigger>
+              <AccordionContent>This item works normally.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2" disabled>
+              <AccordionTrigger>Disabled</AccordionTrigger>
+              <AccordionContent>You should not see this.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
       </div>
     </div>
   );
@@ -2745,6 +2802,7 @@ function App() {
   }, [dark]);
 
   const sections = [
+    { id: "accordion", label: "Accordion" },
     { id: "alert", label: "Alert" },
     { id: "audioupload", label: "Audio Upload" },
     { id: "avatar", label: "Avatar" },
@@ -2869,6 +2927,9 @@ function App() {
 
             {/* Avatar */}
             <AvatarDemo />
+
+            {/* Accordion */}
+            <AccordionDemo />
 
             {/* Alert */}
             <AlertDemo />

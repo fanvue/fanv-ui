@@ -4,6 +4,14 @@
  * Avoid barrel files, re-exports of entire modules, or side effects in this entry point.
  */
 
+export type { AccordionProps } from "./components/Accordion/Accordion";
+export { Accordion } from "./components/Accordion/Accordion";
+export type { AccordionContentProps } from "./components/Accordion/AccordionContent";
+export { AccordionContent } from "./components/Accordion/AccordionContent";
+export type { AccordionItemProps } from "./components/Accordion/AccordionItem";
+export { AccordionItem } from "./components/Accordion/AccordionItem";
+export type { AccordionTriggerProps } from "./components/Accordion/AccordionTrigger";
+export { AccordionTrigger } from "./components/Accordion/AccordionTrigger";
 export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
 export type {
