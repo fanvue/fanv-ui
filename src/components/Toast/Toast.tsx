@@ -124,7 +124,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
         {...props}
       >
         <div className="flex w-full items-center gap-3">
-          <div className="self-start">
+          <div className="shrink-0">
             {variant === "messageToast" ? (
               avatarSrc && <Avatar src={avatarSrc} alt={avatarAlt} fallback={avatarFallback} />
             ) : (
