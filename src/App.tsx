@@ -17,6 +17,7 @@ import {
   ArrowUpIcon,
   ArrowUpRightIcon,
   AudioUpload,
+  Autocomplete,
   Avatar,
   Badge,
   BankIcon,
@@ -1582,6 +1583,99 @@ function RadioDemo() {
   );
 }
 
+const AUTOCOMPLETE_OPTIONS = [
+  { value: "apple", label: "Apple" },
+  { value: "banana", label: "Banana" },
+  { value: "cherry", label: "Cherry" },
+  { value: "date", label: "Date" },
+  { value: "elderberry", label: "Elderberry" },
+];
+
+function AutocompleteDemo() {
+  const [controlled, setControlled] = useState<string | null>("apple");
+
+  return (
+    <div id="autocomplete" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Autocomplete</h2>
+      <div className="flex max-w-sm flex-col gap-4">
+        <Autocomplete
+          label="Default"
+          placeholder="Search..."
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Size 40"
+          placeholder="Search..."
+          size="40"
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Size 32"
+          placeholder="Search..."
+          size="32"
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="With helper"
+          placeholder="Search..."
+          helperText="Pick a fruit"
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Error"
+          placeholder="Search..."
+          error
+          errorMessage="This field is required"
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Disabled"
+          placeholder="Search..."
+          disabled
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="With left icon"
+          placeholder="Search..."
+          leftIcon={<HomeIcon />}
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Clearable"
+          placeholder="Search..."
+          clearable
+          clearAriaLabel="Clear selection"
+          defaultValue="banana"
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Multi-select"
+          placeholder="Select fruits..."
+          defaultMultiValue={["apple", "cherry"]}
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Controlled"
+          placeholder="Search..."
+          value={controlled}
+          onChange={setControlled}
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+      </div>
+    </div>
+  );
+}
+
 function SelectDemo() {
   return (
     <div id="select" className="flex scroll-mt-20 flex-col gap-4">
@@ -3044,6 +3138,7 @@ function App() {
   const sections = [
     { id: "accordion", label: "Accordion" },
     { id: "alert", label: "Alert" },
+    { id: "autocomplete", label: "Autocomplete" },
     { id: "audioupload", label: "Audio Upload" },
     { id: "avatar", label: "Avatar" },
     { id: "badge", label: "Badge" },
@@ -3205,6 +3300,9 @@ function App() {
 
             {/* SearchField */}
             <SearchFieldShowcase />
+
+            {/* Autocomplete */}
+            <AutocompleteDemo />
 
             {/* Select */}
             <SelectDemo />

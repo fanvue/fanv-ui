@@ -26,6 +26,12 @@ export type {
 } from "./components/AudioUpload/useAudioRecorder";
 export { useAudioRecorder } from "./components/AudioUpload/useAudioRecorder";
 export type {
+  AutocompleteOption,
+  AutocompleteProps,
+  AutocompleteSize,
+} from "./components/Autocomplete/Autocomplete";
+export { Autocomplete } from "./components/Autocomplete/Autocomplete";
+export type {
   AvatarFallbackProps,
   AvatarImageProps,
   AvatarProps,
