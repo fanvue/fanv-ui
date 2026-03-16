@@ -10,7 +10,7 @@ export const LockerOffIcon = React.forwardRef<SVGSVGElement, IconProps>(
         viewBox="0 0 24 24"
         fill="none"
         aria-hidden="true"
-        className={cn("size-6", className)}
+        className={cn("size-6 text-foreground-default", className)}
         {...props}
       >
         <g fill="currentColor">
