@@ -93,6 +93,12 @@ describe("PasswordField", () => {
       expect(toggleButton).toHaveAttribute("tabIndex", "-1");
     });
 
+    it("toggle button has cursor-default class", () => {
+      render(<PasswordField />);
+      const toggleButton = screen.getByRole("button", { name: "Show password" });
+      expect(toggleButton).toHaveClass("cursor-default");
+    });
+
     it("disables toggle button when input is disabled", () => {
       render(<PasswordField disabled />);
       const toggleButton = screen.getByRole("button", { name: "Show password" });
