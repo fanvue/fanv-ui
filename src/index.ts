@@ -40,6 +40,10 @@ export {
 } from "./components/Avatar/Avatar";
 export type { BadgeProps, BadgeVariant } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
+export type { BottomNavigationProps } from "./components/BottomNavigation/BottomNavigation";
+export { BottomNavigation } from "./components/BottomNavigation/BottomNavigation";
+export type { BottomNavigationActionProps } from "./components/BottomNavigation/BottomNavigationAction";
+export { BottomNavigationAction } from "./components/BottomNavigation/BottomNavigationAction";
 export type {
   BreadcrumbItemProps,
   BreadcrumbLinkProps,
