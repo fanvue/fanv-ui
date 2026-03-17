@@ -52,6 +52,15 @@ import {
   Count,
   CrossIcon,
   CrownIcon,
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
   DiamondIcon,
   DiscountIcon,
   Divider,
@@ -2526,6 +2535,143 @@ function LoaderDemo() {
   );
 }
 
+function DialogDemo() {
+  const [basicOpen, setBasicOpen] = useState(false);
+  const [smOpen, setSmOpen] = useState(false);
+  const [lgOpen, setLgOpen] = useState(false);
+  const [backOpen, setBackOpen] = useState(false);
+  const [scrollOpen, setScrollOpen] = useState(false);
+
+  return (
+    <div id="dialog" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Dialog</h2>
+
+      {/* Basic */}
+      <h3 className="typography-semibold-body-lg">Basic</h3>
+      <div className="flex flex-wrap gap-3">
+        <Dialog open={basicOpen} onOpenChange={setBasicOpen}>
+          <DialogTrigger asChild>
+            <Button>Open Dialog</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Dialog Title</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>
+                Dialog body text goes here. Describe the content or provide information to the user.
+              </DialogDescription>
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogClose>
+              <Button>Accept</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* Sizes */}
+      <h3 className="typography-semibold-body-lg mt-4">Sizes</h3>
+      <div className="flex flex-wrap gap-3">
+        <Dialog open={smOpen} onOpenChange={setSmOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Small (400px)</Button>
+          </DialogTrigger>
+          <DialogContent size="sm">
+            <DialogHeader>
+              <DialogTitle>Small Dialog</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>A compact confirmation dialog.</DialogDescription>
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogClose>
+              <Button>Confirm</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={lgOpen} onOpenChange={setLgOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Large (600px)</Button>
+          </DialogTrigger>
+          <DialogContent size="lg">
+            <DialogHeader>
+              <DialogTitle>Large Dialog</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>A wider dialog for complex content.</DialogDescription>
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogClose>
+              <Button>Save</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* With Back Button */}
+      <h3 className="typography-semibold-body-lg mt-4">With Back Button</h3>
+      <div className="flex flex-wrap gap-3">
+        <Dialog open={backOpen} onOpenChange={setBackOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">With Back</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader onBack={() => setBackOpen(false)}>
+              <DialogTitle>Step 2</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>This dialog has a back button in the header.</DialogDescription>
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogClose>
+              <Button>Next</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* Scrollable */}
+      <h3 className="typography-semibold-body-lg mt-4">Scrollable</h3>
+      <div className="flex flex-wrap gap-3">
+        <Dialog open={scrollOpen} onOpenChange={setScrollOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Scrollable</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Terms and Conditions</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              {Array.from({ length: 15 }, (_, i) => `paragraph-${i + 1}`).map((id) => (
+                <p key={id} className="typography-regular-body-lg mb-4 text-foreground-secondary">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
+                </p>
+              ))}
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Decline</Button>
+              </DialogClose>
+              <Button>Accept</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
+  );
+}
+
 function BreadcrumbDemo() {
   return (
     <div id="breadcrumb" className="flex scroll-mt-20 flex-col gap-4">
@@ -2755,6 +2901,7 @@ function App() {
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
     { id: "datepicker", label: "Date Picker" },
+    { id: "dialog", label: "Dialog" },
     { id: "divider", label: "Divider" },
     { id: "iconbutton", label: "Icon Button" },
     { id: "icons", label: "Icons" },
@@ -2959,6 +3106,9 @@ function App() {
 
             {/* Toast */}
             <ToastDemo />
+
+            {/* Dialog */}
+            <DialogDemo />
 
             {/* Breadcrumb */}
             <BreadcrumbDemo />

@@ -24,7 +24,12 @@ export type {
   AvatarRootProps,
   AvatarSize,
 } from "./components/Avatar/Avatar";
-export { Avatar, AvatarFallback, AvatarImage, AvatarRoot } from "./components/Avatar/Avatar";
+export {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  AvatarRoot,
+} from "./components/Avatar/Avatar";
 export type { BadgeProps, BadgeVariant } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
 export type {
@@ -43,7 +48,11 @@ export {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "./components/Breadcrumb/Breadcrumb";
-export type { ButtonProps, ButtonSize, ButtonVariant } from "./components/Button/Button";
+export type {
+  ButtonProps,
+  ButtonSize,
+  ButtonVariant,
+} from "./components/Button/Button";
 export { Button } from "./components/Button/Button";
 export type {
   CardContentProps,
@@ -62,12 +71,43 @@ export {
   CardHeader,
   CardTitle,
 } from "./components/Card/Card";
-export type { CheckboxProps, CheckboxSize } from "./components/Checkbox/Checkbox";
+export type {
+  CheckboxProps,
+  CheckboxSize,
+} from "./components/Checkbox/Checkbox";
 export { Checkbox } from "./components/Checkbox/Checkbox";
 export type { ChipProps, ChipSize, ChipVariant } from "./components/Chip/Chip";
 export { Chip } from "./components/Chip/Chip";
-export type { CountProps, CountSize, CountVariant } from "./components/Count/Count";
+export type {
+  CountProps,
+  CountSize,
+  CountVariant,
+} from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
+export type {
+  DialogBodyProps,
+  DialogCloseProps,
+  DialogContentProps,
+  DialogDescriptionProps,
+  DialogFooterProps,
+  DialogHeaderProps,
+  DialogOverlayProps,
+  DialogProps,
+  DialogTitleProps,
+  DialogTriggerProps,
+} from "./components/Dialog/Dialog";
+export {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogTitle,
+  DialogTrigger,
+} from "./components/Dialog/Dialog";
 export type { DividerProps } from "./components/Divider/Divider";
 export { Divider } from "./components/Divider/Divider";
 export type {
@@ -280,9 +320,15 @@ export type { TabsListProps } from "./components/Tabs/TabsList";
 export { TabsList } from "./components/Tabs/TabsList";
 export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
-export type { TextAreaProps, TextAreaSize } from "./components/TextArea/TextArea";
+export type {
+  TextAreaProps,
+  TextAreaSize,
+} from "./components/TextArea/TextArea";
 export { TextArea } from "./components/TextArea/TextArea";
-export type { TextFieldProps, TextFieldSize } from "./components/TextField/TextField";
+export type {
+  TextFieldProps,
+  TextFieldSize,
+} from "./components/TextField/TextField";
 export { TextField } from "./components/TextField/TextField";
 export type {
   ToastProps,
