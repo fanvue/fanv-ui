@@ -53,7 +53,7 @@ const ICON_SPACING: Record<TextFieldSize, string> = {
 
 function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: boolean) {
   return cn(
-    "flex items-center overflow-hidden rounded-xl border bg-neutral-100 has-focus-visible:outline-none motion-safe:transition-colors",
+    "flex items-center rounded-xl border bg-neutral-100 has-focus-visible:outline-none motion-safe:transition-colors",
     error ? "border-error-default" : "border-transparent",
     !disabled && !error && "hover:border-neutral-400",
     CONTAINER_HEIGHT[size],
