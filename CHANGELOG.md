@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.18.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.3...ui-v1.18.0) (2026-03-17)
+
+
+### Features
+
+* **Accordion:** add composable Accordion component ([#344](https://github.com/fanvue/fanv-ui/issues/344)) ([3b037cf](https://github.com/fanvue/fanv-ui/commit/3b037cfd7ad43aec3854108f7143582c21ee1131))
+* **Autocomplete:** add composable combobox component ([#345](https://github.com/fanvue/fanv-ui/issues/345)) ([68322b6](https://github.com/fanvue/fanv-ui/commit/68322b6e7a707f0d954d77d52018018aac0c22a7))
+* **BottomNavigation:** add mobile bottom navigation ([#343](https://github.com/fanvue/fanv-ui/issues/343)) ([06bc937](https://github.com/fanvue/fanv-ui/commit/06bc937fcd39e199d3433b80ce9622fbebf078e3))
+* **dialog:** add Dialog component built on Radix UI ([#340](https://github.com/fanvue/fanv-ui/issues/340)) ([c020ba4](https://github.com/fanvue/fanv-ui/commit/c020ba48c80eb7cca77eeb358d9ebdead7b516c1))
+* **Drawer:** add composable Drawer component ([#341](https://github.com/fanvue/fanv-ui/issues/341)) ([b73c518](https://github.com/fanvue/fanv-ui/commit/b73c5180c84943e7816e52c93a6706938d9ca6e2))
+* **MobileStepper:** add MobileStepper component ([#342](https://github.com/fanvue/fanv-ui/issues/342)) ([20a0e9f](https://github.com/fanvue/fanv-ui/commit/20a0e9fa53ad07f6684e89b96303e9ca81add803))
+* **MobileStepper:** add MobileStepper component for step navigation ([20a0e9f](https://github.com/fanvue/fanv-ui/commit/20a0e9fa53ad07f6684e89b96303e9ca81add803))
+
 ## [1.17.3](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.2...ui-v1.17.3) (2026-03-13)
 
 
