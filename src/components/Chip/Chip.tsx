@@ -112,10 +112,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
                 <span className="size-2 shrink-0 rounded-full bg-current" aria-hidden="true" />
               )}
               {leftIcon && (
-                <span
-                  className="flex size-5 shrink-0 items-center justify-center"
-                  aria-hidden="true"
-                >
+                <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
                   {leftIcon}
                 </span>
               )}
