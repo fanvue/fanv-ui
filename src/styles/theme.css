@@ -509,7 +509,7 @@
   }
 }
 
-@keyframes fv-accordion-expand {
+@keyframes accordion-expand {
   from {
     height: 0;
   }
@@ -518,7 +518,7 @@
   }
 }
 
-@keyframes fv-accordion-collapse {
+@keyframes accordion-collapse {
   from {
     height: var(--radix-accordion-content-height);
   }
@@ -528,9 +528,9 @@
 }
 
 @utility animate-accordion-expand {
-  animation: fv-accordion-expand 200ms ease-out;
+  animation: accordion-expand 200ms ease-out;
 }
 
 @utility animate-accordion-collapse {
-  animation: fv-accordion-collapse 200ms ease-out;
+  animation: accordion-collapse 200ms ease-out;
 }
