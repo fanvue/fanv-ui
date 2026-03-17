@@ -72,6 +72,14 @@ import {
   DonateIcon,
   DoubleTickIcon,
   DownloadIcon,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
   EditIcon,
   ErrorCircleIcon,
   ErrorIcon,
@@ -1217,6 +1225,115 @@ function AccordionDemo() {
             </AccordionItem>
           </Accordion>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function DrawerDemo() {
+  return (
+    <div id="drawer" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Drawer</h2>
+      <div className="flex flex-wrap items-start gap-4">
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Right (default)</Button>
+          </DrawerTrigger>
+          <DrawerContent position="right">
+            <DrawerHeader>
+              <DrawerTitle>Right Drawer</DrawerTitle>
+              <DrawerDescription>Slides in from the right.</DrawerDescription>
+            </DrawerHeader>
+            <div className="flex-1 p-4">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Left</Button>
+          </DrawerTrigger>
+          <DrawerContent position="left">
+            <DrawerHeader>
+              <DrawerTitle>Left Drawer</DrawerTitle>
+              <DrawerDescription>Slides in from the left.</DrawerDescription>
+            </DrawerHeader>
+            <div className="flex-1 p-4">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Top</Button>
+          </DrawerTrigger>
+          <DrawerContent position="top">
+            <DrawerHeader>
+              <DrawerTitle>Top Drawer</DrawerTitle>
+              <DrawerDescription>Slides in from the top.</DrawerDescription>
+            </DrawerHeader>
+            <div className="p-4">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Bottom</Button>
+          </DrawerTrigger>
+          <DrawerContent position="bottom">
+            <DrawerHeader>
+              <DrawerTitle>Bottom Drawer</DrawerTitle>
+              <DrawerDescription>Slides in from the bottom.</DrawerDescription>
+            </DrawerHeader>
+            <div className="p-4">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button variant="secondary">Without Overlay</Button>
+          </DrawerTrigger>
+          <DrawerContent position="right" overlay={false}>
+            <DrawerHeader>
+              <DrawerTitle>No Overlay</DrawerTitle>
+              <DrawerDescription>No backdrop behind this drawer.</DrawerDescription>
+            </DrawerHeader>
+            <div className="flex-1 p-4">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       </div>
     </div>
   );
@@ -3151,6 +3268,7 @@ function App() {
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
     { id: "divider", label: "Divider" },
+    { id: "drawer", label: "Drawer" },
     { id: "iconbutton", label: "Icon Button" },
     { id: "icons", label: "Icons" },
     { id: "loader", label: "Loader" },
@@ -3331,6 +3449,9 @@ function App() {
 
             {/* Divider */}
             <DividerDemo />
+
+            {/* Drawer */}
+            <DrawerDemo />
 
             {/* Tabs */}
             <TabsDemo />
