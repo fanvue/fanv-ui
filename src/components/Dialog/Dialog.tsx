@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { IconButton } from "../IconButton/IconButton";
 import { ArrowLeftIcon } from "../Icons/ArrowLeftIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 
@@ -168,9 +169,6 @@ export interface DialogHeaderProps extends React.HTMLAttributes<HTMLDivElement> 
  * </DialogHeader>
  * ```
  */
-const HEADER_ICON_BTN =
-  "flex shrink-0 cursor-pointer items-center justify-center rounded-full p-1.5 text-foreground-default hover:bg-neutral-100 dark:hover:bg-neutral-800 focus-visible:shadow-focus-ring focus-visible:outline-none disabled:opacity-50 disabled:cursor-not-allowed";
-
 export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
   (
     {
@@ -194,20 +192,19 @@ export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
         {...props}
       >
         {shouldShowBack && (
-          <button
-            type="button"
+          <IconButton
+            variant="tertiary"
+            size="32"
+            icon={<ArrowLeftIcon />}
             onClick={onBack}
             disabled={!onBack}
-            className={HEADER_ICON_BTN}
             aria-label={backLabel}
-          >
-            <ArrowLeftIcon className="size-5" />
-          </button>
+          />
         )}
         <div className="min-w-0 flex-1">{children}</div>
         {showClose && (
-          <DialogPrimitive.Close className={HEADER_ICON_BTN} aria-label={closeLabel}>
-            <CloseIcon className="size-5" />
+          <DialogPrimitive.Close asChild>
+            <IconButton variant="tertiary" size="32" icon={<CloseIcon />} aria-label={closeLabel} />
           </DialogPrimitive.Close>
         )}
       </div>
