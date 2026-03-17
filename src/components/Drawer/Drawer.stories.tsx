@@ -47,7 +47,7 @@ type Story = StoryObj<typeof meta>;
 const openDrawer: Story["play"] = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const buttons = canvas.getAllByRole("button");
-  await userEvent.click(buttons[0]);
+  await userEvent.click(buttons[0] as HTMLElement);
 };
 
 export const Default: Story = {
