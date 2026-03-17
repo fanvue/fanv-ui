@@ -1,6 +1,16 @@
 import * as React from "react";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
+import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import {
+  ChartCard,
+  ChartContainer,
+  ChartLoadingOverlay,
+  ChartSeriesToggle,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "./charts";
+import { simpleLineConfig, simpleLineData } from "./components/Chart/chartStoryFixtures";
 import { DatePicker } from "./date-picker";
 import {
   Accordion,
@@ -3049,6 +3059,7 @@ function App() {
     { id: "badge", label: "Badge" },
     { id: "button", label: "Button" },
     { id: "card", label: "Card" },
+    { id: "charts", label: "Charts" },
     { id: "checkbox", label: "Checkbox" },
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
@@ -3271,9 +3282,113 @@ function App() {
 
             {/* Breadcrumb */}
             <BreadcrumbDemo />
+
+            {/* Charts */}
+            <ChartsDemo />
           </section>
         </main>
       </ToastProvider>
+    </div>
+  );
+}
+
+const chartMultiConfig = {
+  subscription: { label: "Subscription", color: "var(--color-special-chart-teal)" },
+  message: { label: "Message", color: "var(--color-special-chart-sky)" },
+  tip: { label: "Tip", color: "var(--color-special-chart-orange)" },
+};
+const chartMultiData = [
+  { day: "Mon", subscription: 85, message: 23, tip: 8 },
+  { day: "Tue", subscription: 92, message: 34, tip: 15 },
+  { day: "Wed", subscription: 108, message: 41, tip: 22 },
+  { day: "Thu", subscription: 89, message: 28, tip: 18 },
+  { day: "Fri", subscription: 134, message: 52, tip: 28 },
+];
+
+const chartBarConfig = {
+  revenue: { label: "Revenue", color: "var(--color-special-chart-teal)" },
+};
+const chartBarData = [
+  { type: "Photos", revenue: 4200 },
+  { type: "Videos", revenue: 7800 },
+  { type: "Messages", revenue: 3100 },
+  { type: "Tips", revenue: 5400 },
+];
+
+function ChartsDemo() {
+  const [visible, setVisible] = React.useState(new Set(["subscription", "message", "tip"]));
+
+  return (
+    <div id="charts" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Charts</h2>
+
+      <h3 className="typography-semibold-body-lg">ChartCard + Line</h3>
+      <ChartCard
+        title="Total Earnings"
+        subtitle="$4,523"
+        trendChip={{ label: "12.5%", trend: "positive" }}
+        dateInfo="Mar 1 – Mar 14"
+      >
+        <ChartContainer config={simpleLineConfig} className="h-48 w-full">
+          <LineChart accessibilityLayer data={simpleLineData}>
+            <CartesianGrid vertical={false} strokeDasharray="5 3" />
+            <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Line
+              type="monotone"
+              dataKey="earnings"
+              stroke="var(--color-earnings)"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ChartContainer>
+      </ChartCard>
+
+      <h3 className="typography-semibold-body-lg">ChartCard Loading</h3>
+      <ChartCard title="Revenue" loading>
+        <ChartLoadingOverlay loading>
+          <div className="h-48 w-full" />
+        </ChartLoadingOverlay>
+      </ChartCard>
+
+      <h3 className="typography-semibold-body-lg">Toggleable Multi-Series</h3>
+      <ChartSeriesToggle
+        items={[
+          { key: "subscription", label: "Subscription", color: "var(--color-special-chart-teal)" },
+          { key: "message", label: "Message", color: "var(--color-special-chart-sky)" },
+          { key: "tip", label: "Tip", color: "var(--color-special-chart-orange)" },
+        ]}
+        value={visible}
+        onValueChange={setVisible}
+      />
+      <ChartContainer config={chartMultiConfig} className="h-48 w-full">
+        <LineChart accessibilityLayer data={chartMultiData}>
+          <CartesianGrid vertical={false} />
+          <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
+          <ChartTooltip content={<ChartTooltipContent />} />
+          {[...visible].map((key) => (
+            <Line
+              key={key}
+              type="monotone"
+              dataKey={key}
+              stroke={`var(--color-${key})`}
+              strokeWidth={2}
+              dot={false}
+            />
+          ))}
+        </LineChart>
+      </ChartContainer>
+
+      <h3 className="typography-semibold-body-lg">Bar Chart</h3>
+      <ChartContainer config={chartBarConfig} className="h-48 w-full">
+        <BarChart accessibilityLayer data={chartBarData}>
+          <CartesianGrid vertical={false} />
+          <XAxis dataKey="type" tickLine={false} axisLine={false} tickMargin={8} />
+          <ChartTooltip content={<ChartTooltipContent />} />
+          <Bar dataKey="revenue" fill="var(--color-revenue)" radius={[999, 999, 0, 0]} />
+        </BarChart>
+      </ChartContainer>
     </div>
   );
 }
