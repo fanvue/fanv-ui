@@ -1,8 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
-/* ---------------------------------- Types --------------------------------- */
-
 export interface BottomNavigationProps extends React.HTMLAttributes<HTMLElement> {
   /** The currently selected action value. */
   value?: string;
@@ -15,8 +13,6 @@ export interface BottomNavigationProps extends React.HTMLAttributes<HTMLElement>
   /** When `true`, the navigation bar is hidden on viewports wider than `md` (768 px). @default false */
   hideOnDesktop?: boolean;
 }
-
-/* --------------------------------- Context -------------------------------- */
 
 interface BottomNavigationContextValue {
   value?: string;
@@ -34,8 +30,6 @@ export function useBottomNavigationContext(): BottomNavigationContextValue {
   return React.useContext(BottomNavigationContext);
 }
 
-/* ------------------------------- Component -------------------------------- */
-
 export const BottomNavigation = React.forwardRef<HTMLElement, BottomNavigationProps>(
   (
     {
@@ -50,13 +44,13 @@ export const BottomNavigation = React.forwardRef<HTMLElement, BottomNavigationPr
     },
     ref,
   ) => {
-    const ctx = React.useMemo<BottomNavigationContextValue>(
+    const contextValue = React.useMemo<BottomNavigationContextValue>(
       () => ({ value, onValueChange, showLabelsOnlyWhenActive, hideLabels }),
       [value, onValueChange, showLabelsOnlyWhenActive, hideLabels],
     );
 
     return (
-      <BottomNavigationContext.Provider value={ctx}>
+      <BottomNavigationContext.Provider value={contextValue}>
         <nav
           ref={ref}
           className={cn(

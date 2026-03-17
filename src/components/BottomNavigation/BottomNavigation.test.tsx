@@ -3,20 +3,10 @@ import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { HomeIcon } from "../Icons/HomeIcon";
+import { SearchIcon } from "../Icons/SearchIcon";
 import { BottomNavigation } from "./BottomNavigation";
 import { BottomNavigationAction } from "./BottomNavigationAction";
-
-const HomeIcon = () => (
-  <svg data-testid="home-icon" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-  </svg>
-);
-
-const SearchIcon = () => (
-  <svg data-testid="search-icon" viewBox="0 0 24 24" aria-hidden="true">
-    <circle cx="11" cy="11" r="8" />
-  </svg>
-);
 
 function renderNav(props?: {
   value?: string;
@@ -215,7 +205,7 @@ describe("BottomNavigation", () => {
         </BottomNavigation>,
       );
       const link = screen.getByRole("link");
-      expect(link.querySelector('[data-testid="home-icon"]')).toBeInTheDocument();
+      expect(link.querySelector("svg")).toBeInTheDocument();
       expect(link).toHaveTextContent("Home");
     });
 

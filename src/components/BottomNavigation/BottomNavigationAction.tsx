@@ -3,14 +3,12 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { useBottomNavigationContext } from "./BottomNavigation";
 
-/* ---------------------------------- Types --------------------------------- */
-
 export interface BottomNavigationActionProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "value"> {
   /** Unique value that identifies this action. */
   value: string;
   /** Icon element displayed above the label. */
-  icon: React.ReactNode;
+  icon: React.ReactElement;
   /** Text label displayed below the icon. */
   label?: string;
   /** Optional badge element (e.g. {@link Count}) rendered at the top-end corner of the icon. */
@@ -18,8 +16,6 @@ export interface BottomNavigationActionProps
   /** Merge props onto a child element instead of rendering a `<button>`. @default false */
   asChild?: boolean;
 }
-
-/* ------------------------------- Component -------------------------------- */
 
 export const BottomNavigationAction = React.forwardRef<
   HTMLButtonElement,
