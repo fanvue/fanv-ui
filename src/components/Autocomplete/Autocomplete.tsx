@@ -82,15 +82,15 @@ const CONTAINER_HEIGHT: Record<AutocompleteSize, string> = {
 };
 
 const INPUT_SIZE_CLASSES: Record<AutocompleteSize, string> = {
-  "48": "py-3 typography-regular-body-lg",
-  "40": "py-2 typography-regular-body-lg",
-  "32": "py-2 typography-regular-body-md",
+  "48": "typography-regular-body-lg",
+  "40": "typography-regular-body-lg",
+  "32": "typography-regular-body-md",
 };
 
 const PADDING_CLASSES: Record<AutocompleteSize, string> = {
-  "48": "px-4 gap-3",
-  "40": "px-4 gap-3",
-  "32": "px-3 gap-2",
+  "48": "px-4 py-1.5 gap-3",
+  "40": "px-4 py-1 gap-3",
+  "32": "px-3 py-1 gap-2",
 };
 
 function warnMissingAccessibleName(label?: string, ariaLabel?: string, ariaLabelledBy?: string) {
@@ -173,45 +173,47 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
               </div>
             )}
 
-            {ac.isMulti &&
-              ac.selectedMultiOptions.map((opt) => (
-                <AutocompleteTag
-                  key={opt.value}
-                  option={opt}
-                  disabled={disabled}
-                  onRemove={() => ac.toggleMulti(opt.value)}
-                  renderTag={renderTag}
-                />
-              ))}
+            <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
+              {ac.isMulti &&
+                ac.selectedMultiOptions.map((opt) => (
+                  <AutocompleteTag
+                    key={opt.value}
+                    option={opt}
+                    disabled={disabled}
+                    onRemove={() => ac.toggleMulti(opt.value)}
+                    renderTag={renderTag}
+                  />
+                ))}
 
-            <input
-              ref={ac.inputRef}
-              id={ac.inputId}
-              role="combobox"
-              type="text"
-              disabled={disabled}
-              aria-expanded={ac.isOpen}
-              aria-controls={ac.isOpen ? ac.listboxId : undefined}
-              aria-activedescendant={ac.activeDescendantId}
-              aria-autocomplete="list"
-              aria-describedby={bottomText ? ac.helperTextId : undefined}
-              aria-invalid={error || undefined}
-              aria-label={ariaLabel}
-              aria-labelledby={ariaLabelledby}
-              autoComplete="off"
-              placeholder={
-                ac.isMulti && ac.selectedMultiValues.length > 0 ? undefined : placeholder
-              }
-              value={ac.displayInputValue}
-              onChange={ac.handleInputChange}
-              onKeyDown={ac.handleKeyDown}
-              onFocus={ac.handleFocus}
-              onBlur={ac.handleBlur}
-              className={cn(
-                "h-full min-w-[40px] flex-1 truncate rounded-xl bg-transparent text-foreground-default no-underline placeholder:text-foreground-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
-                INPUT_SIZE_CLASSES[size],
-              )}
-            />
+              <input
+                ref={ac.inputRef}
+                id={ac.inputId}
+                role="combobox"
+                type="text"
+                disabled={disabled}
+                aria-expanded={ac.isOpen}
+                aria-controls={ac.isOpen ? ac.listboxId : undefined}
+                aria-activedescendant={ac.activeDescendantId}
+                aria-autocomplete="list"
+                aria-describedby={bottomText ? ac.helperTextId : undefined}
+                aria-invalid={error || undefined}
+                aria-label={ariaLabel}
+                aria-labelledby={ariaLabelledby}
+                autoComplete="off"
+                placeholder={
+                  ac.isMulti && ac.selectedMultiValues.length > 0 ? undefined : placeholder
+                }
+                value={ac.displayInputValue}
+                onChange={ac.handleInputChange}
+                onKeyDown={ac.handleKeyDown}
+                onFocus={ac.handleFocus}
+                onBlur={ac.handleBlur}
+                className={cn(
+                  "min-w-[40px] flex-1 truncate rounded-xl bg-transparent text-foreground-default no-underline placeholder:text-foreground-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+                  INPUT_SIZE_CLASSES[size],
+                )}
+              />
+            </div>
 
             <div className="flex shrink-0 items-center gap-1">
               {loading && <SpinnerIcon className="size-4 animate-spin text-foreground-secondary" />}
