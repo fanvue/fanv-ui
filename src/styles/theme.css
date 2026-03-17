@@ -508,3 +508,29 @@
     transform: translateX(100%);
   }
 }
+
+@keyframes accordion-expand {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-collapse {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@utility animate-accordion-expand {
+  animation: accordion-expand 200ms ease-out;
+}
+
+@utility animate-accordion-collapse {
+  animation: accordion-collapse 200ms ease-out;
+}
