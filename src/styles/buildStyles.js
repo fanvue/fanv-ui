@@ -495,6 +495,63 @@ const buildLegacyTypographyAliases = (newTypographyCSS) => {
   return output;
 };
 
+// ---------------------------------------------------------------------------
+// Keyframe animations & utility classes
+// ---------------------------------------------------------------------------
+const KEYFRAMES_AND_ANIMATIONS = `
+@utility fv-skeleton-wave {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    will-change: transform;
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-foreground-default) 8%, transparent),
+      color-mix(in srgb, var(--color-foreground-default) 16%, transparent),
+      transparent
+    );
+    animation: fv-skeleton-shimmer 1.5s ease-in-out infinite;
+    content: "";
+  }
+}
+
+@keyframes fv-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes accordion-expand {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-collapse {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@utility animate-accordion-expand {
+  animation: accordion-expand 200ms ease-out;
+}
+
+@utility animate-accordion-collapse {
+  animation: accordion-collapse 200ms ease-out;
+}`;
+
 const rawTokens = JSON.parse(fs.readFileSync(tokensPath, "utf-8"));
 
 const { themeVars, lightVars, darkVars, primitivesVars } = getColorSections(rawTokens);
@@ -532,6 +589,7 @@ const output = [
   `}`,
   typographyClasses,
   legacyTypography,
+  KEYFRAMES_AND_ANIMATIONS,
 ].join("\n");
 
 fs.writeFileSync(outputPath, output, "utf-8");
