@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.18.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.18.0...ui-v1.18.1) (2026-03-17)
+
+
+### Bug Fixes
+
+* **Avatar:** use solid surface token for fallback background ([#355](https://github.com/fanvue/fanv-ui/issues/355)) ([04f4322](https://github.com/fanvue/fanv-ui/commit/04f4322c6d1ed58ddf39ba50e1b2bb260c3e5d5c))
+* **Icons:** correct lock icon colour for light/dark mode ([#353](https://github.com/fanvue/fanv-ui/issues/353)) ([72c1f29](https://github.com/fanvue/fanv-ui/commit/72c1f29ef3449e2bee4cc93764b01bb834fee80d))
+* **Icons:** reduce pin icon to correct size ([#348](https://github.com/fanvue/fanv-ui/issues/348)) ([5c2f891](https://github.com/fanvue/fanv-ui/commit/5c2f891d3ed4a67ee59536f1577c57302bda635a))
+* **Pagination:** add bottom padding below See More ([#350](https://github.com/fanvue/fanv-ui/issues/350)) ([918d226](https://github.com/fanvue/fanv-ui/commit/918d22695be40124a85f2250050077a891e49689))
+* **PasswordField:** correct cursor on show/hide toggle button ([#351](https://github.com/fanvue/fanv-ui/issues/351)) ([9cca73b](https://github.com/fanvue/fanv-ui/commit/9cca73b2320ef684214b0f0042fdaab0f692487e))
+* **Tabs:** suppress focus ring on mouse click ([#354](https://github.com/fanvue/fanv-ui/issues/354)) ([ac66ce4](https://github.com/fanvue/fanv-ui/commit/ac66ce42a7af65619d7643e5fd34dce69891a2d5))
+* **TextField:** remove overflow-hidden to fix caret clipping ([#356](https://github.com/fanvue/fanv-ui/issues/356)) ([fa05cd7](https://github.com/fanvue/fanv-ui/commit/fa05cd7fb8a49168d750f4fb13742a31aad1cac8))
+
 ## [1.18.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.3...ui-v1.18.0) (2026-03-17)
 
 
