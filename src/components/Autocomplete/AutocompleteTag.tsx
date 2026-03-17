@@ -25,7 +25,7 @@ export function AutocompleteTag({
         type="button"
         tabIndex={-1}
         aria-label={`Remove ${getLabel(option)}`}
-        className="flex size-4 shrink-0 items-center justify-center rounded-sm text-foreground-secondary hover:text-foreground-default"
+        className="flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-sm text-foreground-secondary hover:text-foreground-default active:scale-95"
         onClick={(e) => {
           e.stopPropagation();
           onRemove();

@@ -14,7 +14,10 @@ const options: AutocompleteOption[] = [
 ];
 
 function renderAutocomplete(props: Partial<React.ComponentProps<typeof Autocomplete>> = {}) {
-  return render(<Autocomplete aria-label="Test autocomplete" options={options} {...props} />);
+  const merged = { "aria-label": "Test autocomplete", options, ...props } as React.ComponentProps<
+    typeof Autocomplete
+  >;
+  return render(<Autocomplete {...merged} />);
 }
 
 describe("Autocomplete", () => {
@@ -210,7 +213,6 @@ describe("Autocomplete", () => {
     it("supports controlled value", () => {
       renderAutocomplete({ value: "banana" });
       const input = screen.getByRole("combobox");
-      // When not open, should display selected value
       expect(input).toHaveValue("Banana");
     });
 
@@ -223,50 +225,50 @@ describe("Autocomplete", () => {
 
   describe("multi select", () => {
     it("renders selected tags in multi-select mode", () => {
-      renderAutocomplete({ multiValue: ["apple", "banana"] });
+      renderAutocomplete({ multiple: true, value: ["apple", "banana"] });
       expect(screen.getByText("Apple")).toBeInTheDocument();
       expect(screen.getByText("Banana")).toBeInTheDocument();
     });
 
-    it("calls onMultiChange when toggling options", async () => {
+    it("calls onChange when toggling options", async () => {
       const user = userEvent.setup();
-      const onMultiChange = vi.fn();
-      renderAutocomplete({ multiValue: [], onMultiChange });
+      const onChange = vi.fn();
+      renderAutocomplete({ multiple: true, value: [], onChange });
       const input = screen.getByRole("combobox");
 
       await user.click(input);
       const listbox = screen.getByRole("listbox");
       await user.click(within(listbox).getByText("Apple"));
 
-      expect(onMultiChange).toHaveBeenCalledWith(["apple"]);
+      expect(onChange).toHaveBeenCalledWith(["apple"]);
     });
 
     it("removes a tag when its remove button is clicked", async () => {
       const user = userEvent.setup();
-      const onMultiChange = vi.fn();
-      renderAutocomplete({ multiValue: ["apple", "banana"], onMultiChange });
+      const onChange = vi.fn();
+      renderAutocomplete({ multiple: true, value: ["apple", "banana"], onChange });
 
       const removeButton = screen.getByLabelText("Remove Apple");
       await user.click(removeButton);
 
-      expect(onMultiChange).toHaveBeenCalledWith(["banana"]);
+      expect(onChange).toHaveBeenCalledWith(["banana"]);
     });
 
     it("removes last tag on backspace when input is empty", async () => {
       const user = userEvent.setup();
-      const onMultiChange = vi.fn();
-      renderAutocomplete({ multiValue: ["apple", "banana"], onMultiChange });
+      const onChange = vi.fn();
+      renderAutocomplete({ multiple: true, value: ["apple", "banana"], onChange });
       const input = screen.getByRole("combobox");
 
       await user.click(input);
       await user.keyboard("{Backspace}");
 
-      expect(onMultiChange).toHaveBeenCalledWith(["apple"]);
+      expect(onChange).toHaveBeenCalledWith(["apple"]);
     });
 
     it("sets aria-multiselectable on listbox", async () => {
       const user = userEvent.setup();
-      renderAutocomplete({ multiValue: [] });
+      renderAutocomplete({ multiple: true, value: [] });
       const input = screen.getByRole("combobox");
       await user.click(input);
 
@@ -320,9 +322,7 @@ describe("Autocomplete", () => {
       renderAutocomplete({ defaultOpen: false });
       const input = screen.getByRole("combobox");
 
-      // Focus without opening (tab into)
       await user.tab();
-      // Close if it opened on focus
       await user.keyboard("{Escape}");
       expect(input).toHaveAttribute("aria-expanded", "false");
 
@@ -341,12 +341,12 @@ describe("Autocomplete", () => {
       const input = screen.getByRole("combobox");
 
       await user.click(input);
-      await user.keyboard("{ArrowDown}"); // index 0 (A)
-      await user.keyboard("{ArrowDown}"); // skip B (disabled), go to index 2 (C)
+      await user.keyboard("{ArrowDown}");
+      await user.keyboard("{ArrowDown}");
 
       const listbox = screen.getByRole("listbox");
-      const options = within(listbox).getAllByRole("option");
-      expect(input).toHaveAttribute("aria-activedescendant", options[2]?.id);
+      const opts = within(listbox).getAllByRole("option");
+      expect(input).toHaveAttribute("aria-activedescendant", opts[2]?.id);
     });
   });
 

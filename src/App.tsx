@@ -1659,7 +1659,8 @@ function AutocompleteDemo() {
         <Autocomplete
           label="Multi-select"
           placeholder="Select fruits..."
-          defaultMultiValue={["apple", "cherry"]}
+          multiple
+          defaultValue={["apple", "cherry"]}
           options={AUTOCOMPLETE_OPTIONS}
           emptyText="No results"
         />

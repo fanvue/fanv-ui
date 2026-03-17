@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
 import { HomeIcon } from "../Icons/HomeIcon";
-import { Autocomplete, type AutocompleteOption } from "./Autocomplete";
+import { Autocomplete, type AutocompleteOption, type AutocompleteProps } from "./Autocomplete";
 
 const COUNTRIES: AutocompleteOption[] = [
   { value: "us", label: "United States" },
@@ -24,7 +24,7 @@ const FRUITS: AutocompleteOption[] = [
   { value: "grape", label: "Grape" },
 ];
 
-const meta: Meta<typeof Autocomplete> = {
+const meta = {
   title: "Components/Autocomplete",
   component: Autocomplete,
   parameters: {
@@ -54,10 +54,10 @@ const meta: Meta<typeof Autocomplete> = {
       </div>
     ),
   ],
-};
+} as Meta<AutocompleteProps>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<AutocompleteProps>;
 
 export const Default: Story = {
   args: {
@@ -123,7 +123,8 @@ export const MultiSelect: Story = {
     label: "Fruits",
     placeholder: "Select fruits...",
     options: FRUITS,
-    defaultMultiValue: ["apple", "cherry"],
+    multiple: true,
+    defaultValue: ["apple", "cherry"],
     emptyText: "No results",
   },
 };
@@ -168,7 +169,7 @@ export const CustomRenderOption: Story = {
     placeholder: "Search countries...",
     options: COUNTRIES,
     emptyText: "No results",
-    renderOption: (option, state) => (
+    renderOption: (option: AutocompleteOption, state: { selected: boolean; active: boolean }) => (
       <div className="flex w-full items-center gap-2">
         <span className="min-w-0 flex-1 truncate">{option.label ?? option.value}</span>
         {state.selected && <span className="text-foreground-secondary text-xs">Selected</span>}
@@ -182,12 +183,17 @@ export const CustomRenderTag: Story = {
     label: "Fruits",
     placeholder: "Select fruits...",
     options: FRUITS,
-    defaultMultiValue: ["apple", "banana"],
+    multiple: true,
+    defaultValue: ["apple", "banana"],
     emptyText: "No results",
-    renderTag: (option, onRemove) => (
+    renderTag: (option: AutocompleteOption, onRemove: () => void) => (
       <span className="inline-flex items-center gap-1 rounded-full bg-primary-100 px-2 py-0.5 text-xs">
         {option.label ?? option.value}
-        <button type="button" onClick={onRemove} className="ml-1 text-foreground-secondary">
+        <button
+          type="button"
+          onClick={onRemove}
+          className="ml-1 cursor-pointer text-foreground-secondary"
+        >
           x
         </button>
       </span>
@@ -207,7 +213,7 @@ export const WithLeftIcon: Story = {
 
 export const FullWidth: Story = {
   decorators: [
-    (Story) => (
+    (Story: React.ComponentType) => (
       <div style={{ width: "100%", maxWidth: "600px" }}>
         <Story />
       </div>
@@ -271,7 +277,7 @@ const LONG_OPTIONS: AutocompleteOption[] = [
   { value: "png", label: "Papua New Guinea (Independent State of Papua New Guinea)" },
   { value: "gb", label: "United Kingdom of Great Britain and Northern Ireland" },
   { value: "caf", label: "Central African Republic" },
-  { value: "stpm", label: "Saint Pierre and Miquelon (Collectivité territoriale)" },
+  { value: "stpm", label: "Saint Pierre and Miquelon (Collectivit\u00e9 territoriale)" },
 ];
 
 const LONG_FRUITS: AutocompleteOption[] = [
@@ -279,7 +285,7 @@ const LONG_FRUITS: AutocompleteOption[] = [
   { value: "dragon", label: "Dragon fruit (Hylocereus undatus)" },
   { value: "star", label: "Star fruit / Carambola (Averrhoa carambola)" },
   { value: "jack", label: "Jackfruit (Artocarpus heterophyllus)" },
-  { value: "blood", label: "Blood orange (Citrus × sinensis)" },
+  { value: "blood", label: "Blood orange (Citrus \u00d7 sinensis)" },
 ];
 
 export const TruncatedOptions: Story = {
@@ -297,14 +303,15 @@ export const TruncatedMultiSelectTags: Story = {
     label: "Fruits",
     placeholder: "Select fruits...",
     options: LONG_FRUITS,
-    defaultMultiValue: ["passion", "dragon", "star", "jack", "blood"],
+    multiple: true,
+    defaultValue: ["passion", "dragon", "star", "jack", "blood"],
     emptyText: "No results",
   },
 };
 
 export const TruncatedNarrow: Story = {
   decorators: [
-    (Story) => (
+    (Story: React.ComponentType) => (
       <div style={{ width: "200px" }}>
         <Story />
       </div>
