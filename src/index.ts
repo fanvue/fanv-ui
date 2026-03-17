@@ -129,6 +129,30 @@ export {
 export type { DividerProps } from "./components/Divider/Divider";
 export { Divider } from "./components/Divider/Divider";
 export type {
+  DrawerCloseProps,
+  DrawerContentProps,
+  DrawerDescriptionProps,
+  DrawerFooterProps,
+  DrawerHeaderProps,
+  DrawerOverlayProps,
+  DrawerPosition,
+  DrawerProps,
+  DrawerSize,
+  DrawerTitleProps,
+  DrawerTriggerProps,
+} from "./components/Drawer/Drawer";
+export {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerTitle,
+  DrawerTrigger,
+} from "./components/Drawer/Drawer";
+export type {
   IconButtonProps,
   IconButtonSize,
   IconButtonVariant,
