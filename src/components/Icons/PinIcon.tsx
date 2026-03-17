@@ -10,7 +10,7 @@ export const PinIcon = React.forwardRef<SVGSVGElement, IconProps>(
         viewBox="0 0 24 24"
         fill="none"
         aria-hidden="true"
-        className={cn("size-6", className)}
+        className={cn("size-4", className)}
         {...props}
       >
         <g fill="currentColor">
