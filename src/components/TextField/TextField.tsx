@@ -66,6 +66,10 @@ function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: b
 function getInputClassName(size: TextFieldSize) {
   return cn(
     "h-full min-w-0 flex-1 rounded-xl bg-transparent text-foreground-default no-underline placeholder:text-foreground-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+    // Override browser autofill background so it fills the full container consistently
+    "[&:-webkit-autofill]:[box-shadow:inset_0_0_0_1000px_var(--color-neutral-100)] [&:-webkit-autofill]:[-webkit-text-fill-color:var(--color-foreground-default)]",
+    "[&:-webkit-autofill:hover]:[box-shadow:inset_0_0_0_1000px_var(--color-neutral-100)]",
+    "[&:-webkit-autofill:focus]:[box-shadow:inset_0_0_0_1000px_var(--color-neutral-100)]",
     INPUT_SIZE_CLASSES[size],
   );
 }
