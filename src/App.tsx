@@ -103,6 +103,7 @@ import {
   MessageIcon,
   MicrophoneIcon,
   MinusIcon,
+  MobileStepper,
   MoonIcon,
   MoreIcon,
   MoreVerticalIcon,
@@ -2329,6 +2330,99 @@ function ProgressBarDemo() {
   );
 }
 
+function MobileStepperDemo() {
+  const [activeStep, setActiveStep] = useState(0);
+  const steps = 6;
+
+  return (
+    <div id="mobilestepper" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Mobile Stepper</h2>
+      <div className="flex max-w-md flex-col gap-6">
+        {/* Dots variant */}
+        <MobileStepper
+          steps={steps}
+          activeStep={activeStep}
+          variant="dots"
+          backButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === 0}
+              onClick={() => setActiveStep((prev) => prev - 1)}
+            >
+              Back
+            </Button>
+          }
+          nextButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === steps - 1}
+              onClick={() => setActiveStep((prev) => prev + 1)}
+            >
+              Next
+            </Button>
+          }
+        />
+
+        {/* Progress variant */}
+        <MobileStepper
+          steps={steps}
+          activeStep={activeStep}
+          variant="progress"
+          backButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === 0}
+              onClick={() => setActiveStep((prev) => prev - 1)}
+            >
+              Back
+            </Button>
+          }
+          nextButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === steps - 1}
+              onClick={() => setActiveStep((prev) => prev + 1)}
+            >
+              Next
+            </Button>
+          }
+        />
+
+        {/* Text variant */}
+        <MobileStepper
+          steps={steps}
+          activeStep={activeStep}
+          variant="text"
+          backButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === 0}
+              onClick={() => setActiveStep((prev) => prev - 1)}
+            >
+              Back
+            </Button>
+          }
+          nextButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === steps - 1}
+              onClick={() => setActiveStep((prev) => prev + 1)}
+            >
+              Next
+            </Button>
+          }
+        />
+      </div>
+    </div>
+  );
+}
+
 function TooltipDemo() {
   const [open, setOpen] = useState(false);
   return (
@@ -2907,6 +3001,7 @@ function App() {
     { id: "icons", label: "Icons" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
+    { id: "mobilestepper", label: "Mobile Stepper" },
     { id: "pagination", label: "Pagination" },
     { id: "passwordfield", label: "Password Field" },
     { id: "pill", label: "Pill" },
@@ -3088,6 +3183,9 @@ function App() {
 
             {/* ProgressBar */}
             <ProgressBarDemo />
+
+            {/* MobileStepper */}
+            <MobileStepperDemo />
 
             {/* Tooltip */}
             <TooltipDemo />

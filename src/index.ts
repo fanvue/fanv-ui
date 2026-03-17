@@ -240,6 +240,12 @@ export { Loader } from "./components/Loader/Loader";
 export type { LogoColor, LogoProps, LogoVariant } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type {
+  MobileStepperPosition,
+  MobileStepperProps,
+  MobileStepperVariant,
+} from "./components/MobileStepper/MobileStepper";
+export { MobileStepper } from "./components/MobileStepper/MobileStepper";
+export type {
   PaginationProps,
   PaginationVariant,
 } from "./components/Pagination/Pagination";

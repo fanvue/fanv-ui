@@ -27,6 +27,8 @@ export interface ProgressBarProps extends Omit<React.HTMLAttributes<HTMLDivEleme
   leftIcon?: React.ReactNode;
   /** Accessible label for the `progressbar` role. @default "Progress" */
   ariaLabel?: string;
+  /** Human-readable text alternative for the current value (e.g. "Step 3 of 5"). */
+  ariaValueText?: string;
 }
 
 const TRACK_HEIGHT: Record<ProgressBarSize, string> = {
@@ -85,6 +87,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
       helperRight,
       leftIcon,
       ariaLabel,
+      ariaValueText,
       className,
       ...props
     },
@@ -128,6 +131,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
           aria-valuenow={clampedValue}
           aria-valuemin={0}
           aria-valuemax={100}
+          aria-valuetext={ariaValueText}
           className={cn("relative w-full rounded-full bg-neutral-100", TRACK_HEIGHT[size])}
         >
           <div
