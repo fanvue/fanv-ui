@@ -17,6 +17,12 @@ describe("Avatar", () => {
       expect(fallback).toBeInTheDocument();
     });
 
+    it("uses a solid background on the avatar root so overlapping transparent elements do not bleed through", async () => {
+      render(<Avatar fallback="AB" />);
+      await screen.findByText("AB");
+      expect(screen.getByTestId("avatar")).toHaveClass("bg-surface-behindpage");
+    });
+
     it("renders fallback when image fails to load", async () => {
       render(<Avatar src="https://invalid-url.com/avatar.jpg" fallback="AB" />);
       const fallback = await screen.findByText("AB");
