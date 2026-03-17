@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Tabs } from "./Tabs";
 import { TabsContent } from "./TabsContent";
@@ -162,6 +162,36 @@ describe("Tabs", () => {
       tab1.focus();
       await user.keyboard("{ArrowRight}");
       expect(screen.getByRole("tab", { name: "Tab 2" })).toHaveFocus();
+    });
+
+    it("does not show focus-visible ring on left-click (primary button)", async () => {
+      const user = userEvent.setup();
+      renderTabs();
+      const tab2 = screen.getByRole("tab", { name: "Tab 2" });
+      await user.click(tab2);
+      // After a mouse click the tab should still have focus (programmatically
+      // applied), and the tab panel should switch — but :focus-visible should
+      // NOT be triggered. We can't assert CSS pseudo-classes directly in JSDOM,
+      // but we verify the element is focused and the tab content has switched.
+      expect(tab2).toHaveFocus();
+      expect(screen.getByRole("tabpanel")).toHaveTextContent("Content 2");
+    });
+
+    it("does not interfere with right-click (context menu) on tab triggers", async () => {
+      const onMouseDown = vi.fn();
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1" onMouseDown={onMouseDown}>
+              Tab 1
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+        </Tabs>,
+      );
+      const tab1 = screen.getByRole("tab", { name: "Tab 1" });
+      fireEvent.mouseDown(tab1, { button: 2 });
+      expect(onMouseDown).toHaveBeenCalledTimes(1);
     });
   });
 });

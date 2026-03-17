@@ -13,6 +13,12 @@ export const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     onMouseDown={(e) => {
+      // Only intercept primary (left) button clicks. Right-click and other
+      // buttons should fall through untouched so context menus are unaffected.
+      if (e.button !== 0) {
+        onMouseDown?.(e);
+        return;
+      }
       // Prevent :focus-visible from appearing on mouse clicks. Native focus is
       // suppressed via preventDefault; we re-apply focus programmatically so
       // the element remains focusable for keyboard users, but the browser won't
