@@ -89,7 +89,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
         ref={ref}
         aria-label={ariaLabel}
         className={cn(
-          "inline-flex items-center",
+          "inline-flex items-center pb-4",
           variant === "default" && "gap-3",
           variant === "dots" && "gap-4",
           className,

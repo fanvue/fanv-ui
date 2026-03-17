@@ -11,6 +11,11 @@ describe("Pagination", () => {
       expect(nav).toHaveClass("custom");
     });
 
+    it("has bottom padding on the nav element", () => {
+      render(<Pagination totalPages={5} currentPage={1} />);
+      expect(screen.getByRole("navigation")).toHaveClass("pb-4");
+    });
+
     it("forwards ref to nav element", () => {
       const ref = { current: null } as React.RefObject<HTMLElement | null>;
       render(<Pagination ref={ref} totalPages={5} currentPage={1} />);
