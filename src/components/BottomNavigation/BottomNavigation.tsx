@@ -6,10 +6,6 @@ export interface BottomNavigationProps extends React.HTMLAttributes<HTMLElement>
   value?: string;
   /** Called when the selected action changes. */
   onValueChange?: (value: string) => void;
-  /** When `true`, labels are only shown on the active action. @default false */
-  showLabelsOnlyWhenActive?: boolean;
-  /** When `true`, all labels are hidden. @default false */
-  hideLabels?: boolean;
   /** When `true`, the navigation bar is hidden on viewports wider than `md` (768 px). @default false */
   hideOnDesktop?: boolean;
 }
@@ -17,36 +13,19 @@ export interface BottomNavigationProps extends React.HTMLAttributes<HTMLElement>
 interface BottomNavigationContextValue {
   value?: string;
   onValueChange?: (value: string) => void;
-  showLabelsOnlyWhenActive: boolean;
-  hideLabels: boolean;
 }
 
-const BottomNavigationContext = React.createContext<BottomNavigationContextValue>({
-  showLabelsOnlyWhenActive: false,
-  hideLabels: false,
-});
+const BottomNavigationContext = React.createContext<BottomNavigationContextValue>({});
 
 export function useBottomNavigationContext(): BottomNavigationContextValue {
   return React.useContext(BottomNavigationContext);
 }
 
 export const BottomNavigation = React.forwardRef<HTMLElement, BottomNavigationProps>(
-  (
-    {
-      className,
-      children,
-      value,
-      onValueChange,
-      showLabelsOnlyWhenActive = false,
-      hideLabels = false,
-      hideOnDesktop = false,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ className, children, value, onValueChange, hideOnDesktop = false, ...props }, ref) => {
     const contextValue = React.useMemo<BottomNavigationContextValue>(
-      () => ({ value, onValueChange, showLabelsOnlyWhenActive, hideLabels }),
-      [value, onValueChange, showLabelsOnlyWhenActive, hideLabels],
+      () => ({ value, onValueChange }),
+      [value, onValueChange],
     );
 
     return (
@@ -56,7 +35,7 @@ export const BottomNavigation = React.forwardRef<HTMLElement, BottomNavigationPr
           className={cn(
             "fixed inset-x-0 bottom-0",
             "flex h-[calc(env(safe-area-inset-bottom,0px)+68px)] items-center justify-around",
-            "border-neutral-200 border-t bg-surface-page/[.82] backdrop-blur-[16px]",
+            "border-neutral-200 border-t bg-surface-page",
             "pb-[env(safe-area-inset-bottom,0px)]",
             hideOnDesktop && "md:hidden",
             className,

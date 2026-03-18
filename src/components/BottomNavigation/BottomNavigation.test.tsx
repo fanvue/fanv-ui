@@ -11,8 +11,6 @@ import { BottomNavigationAction } from "./BottomNavigationAction";
 function renderNav(props?: {
   value?: string;
   onValueChange?: (v: string) => void;
-  hideLabels?: boolean;
-  showLabelsOnlyWhenActive?: boolean;
   hideOnDesktop?: boolean;
 }) {
   const onValueChange = props?.onValueChange ?? vi.fn();
@@ -23,8 +21,6 @@ function renderNav(props?: {
         value={props?.value ?? "home"}
         onValueChange={onValueChange}
         aria-label="Main navigation"
-        hideLabels={props?.hideLabels}
-        showLabelsOnlyWhenActive={props?.showLabelsOnlyWhenActive}
         hideOnDesktop={props?.hideOnDesktop}
       >
         <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
@@ -114,39 +110,12 @@ describe("BottomNavigation", () => {
     });
   });
 
-  describe("labels", () => {
-    it("hides all labels when hideLabels is true", () => {
-      renderNav({ hideLabels: true });
-      expect(screen.queryByText("Home")).not.toBeInTheDocument();
-      expect(screen.queryByText("Search")).not.toBeInTheDocument();
-    });
-
-    it("adds aria-label when labels are hidden", () => {
-      renderNav({ hideLabels: true });
+  describe("aria-label", () => {
+    it("applies label prop as aria-label on actions", () => {
+      renderNav();
       const buttons = screen.getAllByRole("button");
       expect(buttons[0]).toHaveAttribute("aria-label", "Home");
       expect(buttons[1]).toHaveAttribute("aria-label", "Search");
-    });
-
-    it("shows labels only on active item when showLabelsOnlyWhenActive is true", () => {
-      renderNav({ value: "home", showLabelsOnlyWhenActive: true });
-      expect(screen.getByText("Home")).toBeInTheDocument();
-      expect(screen.queryByText("Search")).not.toBeInTheDocument();
-      expect(screen.queryByText("Profile")).not.toBeInTheDocument();
-    });
-
-    it("adds aria-label to inactive items when showLabelsOnlyWhenActive is true", () => {
-      renderNav({ value: "home", showLabelsOnlyWhenActive: true });
-      const homeBtn = screen.getByRole("button", { name: /home/i });
-      const searchBtn = screen.getByRole("button", { name: /search/i });
-      expect(homeBtn).not.toHaveAttribute("aria-label");
-      expect(searchBtn).toHaveAttribute("aria-label", "Search");
-    });
-
-    it("does not add aria-label when labels are visible", () => {
-      renderNav();
-      const buttons = screen.getAllByRole("button");
-      expect(buttons[0]).not.toHaveAttribute("aria-label");
     });
   });
 
