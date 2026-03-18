@@ -93,7 +93,6 @@ export function useAutocomplete(props: AutocompleteProps) {
   const prevOptionsLengthRef = React.useRef(visibleOptions.length);
   const prevSearchTextRef = React.useRef(searchText);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally reset only when search text or option count actually changes
   React.useEffect(() => {
     if (
       searchText !== prevSearchTextRef.current ||

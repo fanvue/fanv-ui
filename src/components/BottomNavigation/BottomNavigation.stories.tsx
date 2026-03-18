@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
+import { Avatar } from "../Avatar/Avatar";
+import { Count } from "../Count/Count";
+import { AddIcon } from "../Icons/AddIcon";
+import { BellIcon } from "../Icons/BellIcon";
 import { HomeIcon } from "../Icons/HomeIcon";
 import { LoveIcon } from "../Icons/LoveIcon";
+import { MessageIcon } from "../Icons/MessageIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { UserIcon } from "../Icons/UserIcon";
 import { BottomNavigation } from "./BottomNavigation";
@@ -32,9 +37,40 @@ export const Default: Story = {
     return (
       <BottomNavigation value={value} onValueChange={setValue} aria-label="Main navigation">
         <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
-        <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" />
-        <BottomNavigationAction value="favorites" icon={<LoveIcon />} label="Favorites" />
-        <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" />
+        <BottomNavigationAction
+          value="notifications"
+          icon={<BellIcon />}
+          label="Notifications"
+          badge={
+            <Count
+              value={5}
+              max={99}
+              variant="default"
+              size="24"
+              className="ring-2 ring-surface-page"
+            />
+          }
+        />
+        <BottomNavigationAction value="create" icon={<AddIcon />} label="Create" />
+        <BottomNavigationAction
+          value="messages"
+          icon={<MessageIcon />}
+          label="Messages"
+          badge={
+            <Count
+              value={1}
+              max={99}
+              variant="default"
+              size="24"
+              className="ring-2 ring-surface-page"
+            />
+          }
+        />
+        <BottomNavigationAction
+          value="profile"
+          icon={<Avatar size={32} alt="User" fallback="JD" />}
+          label="Profile"
+        />
       </BottomNavigation>
     );
   },
@@ -52,49 +88,15 @@ export const WithBadges: Story = {
           icon={<LoveIcon />}
           label="Favorites"
           badge={
-            <span className="flex size-4 items-center justify-center rounded-full bg-error-default text-[10px] text-white">
-              3
-            </span>
+            <Count
+              value={5}
+              max={99}
+              variant="alert"
+              size="24"
+              className="ring-2 ring-surface-page"
+            />
           }
         />
-        <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" />
-      </BottomNavigation>
-    );
-  },
-};
-
-export const HideLabels: Story = {
-  render: () => {
-    const [value, setValue] = React.useState("home");
-    return (
-      <BottomNavigation
-        value={value}
-        onValueChange={setValue}
-        hideLabels
-        aria-label="Main navigation"
-      >
-        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
-        <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" />
-        <BottomNavigationAction value="favorites" icon={<LoveIcon />} label="Favorites" />
-        <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" />
-      </BottomNavigation>
-    );
-  },
-};
-
-export const ShowLabelsOnlyWhenActive: Story = {
-  render: () => {
-    const [value, setValue] = React.useState("home");
-    return (
-      <BottomNavigation
-        value={value}
-        onValueChange={setValue}
-        showLabelsOnlyWhenActive
-        aria-label="Main navigation"
-      >
-        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
-        <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" />
-        <BottomNavigationAction value="favorites" icon={<LoveIcon />} label="Favorites" />
         <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" />
       </BottomNavigation>
     );
@@ -108,16 +110,20 @@ export const WithAsChild: Story = {
     return (
       <BottomNavigation value={value} onValueChange={setValue} aria-label="Main navigation">
         <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" asChild>
-          <a href="#home">Home</a>
+          {/* biome-ignore lint/a11y/useAnchorContent: content provided by Slot */}
+          <a href="#home" aria-label="Home" />
         </BottomNavigationAction>
         <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" asChild>
-          <a href="#search">Search</a>
+          {/* biome-ignore lint/a11y/useAnchorContent: content provided by Slot */}
+          <a href="#search" aria-label="Search" />
         </BottomNavigationAction>
         <BottomNavigationAction value="favorites" icon={<LoveIcon />} label="Favorites" asChild>
-          <a href="#favorites">Favorites</a>
+          {/* biome-ignore lint/a11y/useAnchorContent: content provided by Slot */}
+          <a href="#favorites" aria-label="Favorites" />
         </BottomNavigationAction>
         <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" asChild>
-          <a href="#profile">Profile</a>
+          {/* biome-ignore lint/a11y/useAnchorContent: content provided by Slot */}
+          <a href="#profile" aria-label="Profile" />
         </BottomNavigationAction>
       </BottomNavigation>
     );

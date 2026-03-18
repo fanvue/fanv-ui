@@ -19,15 +19,21 @@ export const AccordionContent = React.forwardRef<
     ref={ref}
     className={cn(
       "overflow-hidden",
-      "typography-regular-body-md text-foreground-secondary",
       "motion-safe:data-[state=closed]:animate-accordion-collapse",
       "motion-safe:data-[state=open]:animate-accordion-expand",
-      !noPadding && "px-3 pb-3",
       className,
     )}
     {...props}
   >
-    <div className="min-w-0 overflow-wrap-anywhere">{children}</div>
+    <div
+      className={cn(
+        "overflow-wrap-anywhere min-w-0",
+        "typography-regular-body-md text-foreground-secondary",
+        !noPadding && "px-3 pt-2 pb-3",
+      )}
+    >
+      {children}
+    </div>
   </AccordionPrimitive.Content>
 ));
 

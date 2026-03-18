@@ -24,6 +24,8 @@ import {
   BellIcon,
   BellOffIcon,
   BoltIcon,
+  BottomNavigation,
+  BottomNavigationAction,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -732,7 +734,7 @@ function LogoDemo() {
         <Logo variant="portrait" color="decolour" />
         <Logo variant="wordmark" color="decolour" />
       </div>
-      <div className="rounded-lg bg-white p-4">
+      <div className="rounded-lg bg-[#ffffff] p-4">
         <div className="flex flex-wrap items-start gap-8">
           <Logo variant="full" color="blackAlways" />
           <Logo variant="icon" color="blackAlways" />
@@ -740,7 +742,7 @@ function LogoDemo() {
           <Logo variant="wordmark" color="blackAlways" />
         </div>
       </div>
-      <div className="rounded-lg bg-neutral-solid p-4">
+      <div className="rounded-lg bg-[#151515] p-4">
         <div className="flex flex-wrap items-start gap-8">
           <Logo variant="full" color="whiteAlways" />
           <Logo variant="icon" color="whiteAlways" />
@@ -882,7 +884,7 @@ function IconsDemo() {
           ))}
         </div>
 
-        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-white p-4 text-foreground-default">
+        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-[#ffffff] p-4 text-[#151515]">
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
@@ -891,7 +893,7 @@ function IconsDemo() {
           ))}
         </div>
 
-        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-neutral-solid p-4 text-foreground-inverse">
+        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-[#151515] p-4 text-[#ffffff]">
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
@@ -1381,7 +1383,7 @@ function ButtonDemo() {
         <Button variant="brand">Label</Button>
         <Button variant="link">Label</Button>
         <Button variant="destructive">Label</Button>
-        <div className="rounded-lg bg-neutral-solid p-3">
+        <div className="rounded-lg bg-surface-pageinverse p-3">
           <Button variant="white">Label</Button>
         </div>
         <Button variant="tertiaryDestructive">Label</Button>
@@ -1418,7 +1420,7 @@ function ButtonDemo() {
             <Button variant="destructive" size={size}>
               Label
             </Button>
-            <div className="rounded-lg bg-neutral-solid p-2">
+            <div className="rounded-lg bg-surface-pageinverse p-2">
               <Button variant="white" size={size}>
                 Label
               </Button>
@@ -1452,7 +1454,7 @@ function ButtonDemo() {
         <Button variant="destructive" disabled>
           Label
         </Button>
-        <div className="rounded-lg bg-neutral-solid p-3">
+        <div className="rounded-lg bg-surface-pageinverse p-3">
           <Button variant="white" disabled>
             Label
           </Button>
@@ -1484,7 +1486,7 @@ function ButtonDemo() {
         <Button variant="destructive" loading>
           Label
         </Button>
-        <div className="rounded-lg bg-neutral-solid p-3">
+        <div className="rounded-lg bg-surface-pageinverse p-3">
           <Button variant="white" loading>
             Label
           </Button>
@@ -1510,7 +1512,7 @@ function ButtonDemo() {
         <Button fullWidth variant="primary" discount="$X.XX" price="$X.XX/ month">
           Join now
         </Button>
-        <div className="rounded-lg bg-neutral-solid p-3">
+        <div className="rounded-lg bg-surface-pageinverse p-3">
           <Button variant="white" rightIcon={<CrownIcon />} discount="$X.XX" price="$X.XX/ month">
             Join now
           </Button>
@@ -1574,7 +1576,7 @@ function IconButtonDemo() {
           <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
         </div>
 
-        <div className="rounded-lg bg-neutral-solid p-4">
+        <div className="rounded-lg bg-surface-pageinverse p-4">
           <div className="flex flex-wrap items-center gap-4">
             <IconButton variant="contrast" icon={<HomeIcon />} aria-label="Home" />
             <IconButton variant="messaging" icon={<PlusIcon />} aria-label="Add" />
@@ -3035,6 +3037,59 @@ function DialogDemo() {
   );
 }
 
+function BottomNavigationDemo() {
+  const [navValue, setNavValue] = React.useState("home");
+  return (
+    <div id="bottom-navigation" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Bottom Navigation</h2>
+      <div className="relative h-[80px] overflow-hidden rounded-lg border border-neutral-200">
+        <BottomNavigation
+          value={navValue}
+          onValueChange={setNavValue}
+          aria-label="Demo navigation"
+          className="absolute"
+        >
+          <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
+          <BottomNavigationAction
+            value="notifications"
+            icon={<BellIcon />}
+            label="Notifications"
+            badge={
+              <Count
+                value={5}
+                max={99}
+                variant="default"
+                size="24"
+                className="ring-2 ring-surface-page"
+              />
+            }
+          />
+          <BottomNavigationAction value="create" icon={<AddIcon />} label="Create" />
+          <BottomNavigationAction
+            value="messages"
+            icon={<MessageIcon />}
+            label="Messages"
+            badge={
+              <Count
+                value={1}
+                max={99}
+                variant="default"
+                size="24"
+                className="ring-2 ring-surface-page"
+              />
+            }
+          />
+          <BottomNavigationAction
+            value="profile"
+            icon={<Avatar size={32} alt="User" fallback="JD" />}
+            label="Profile"
+          />
+        </BottomNavigation>
+      </div>
+    </div>
+  );
+}
+
 function BreadcrumbDemo() {
   return (
     <div id="breadcrumb" className="flex scroll-mt-20 flex-col gap-4">
@@ -3260,6 +3315,7 @@ function App() {
     { id: "audioupload", label: "Audio Upload" },
     { id: "avatar", label: "Avatar" },
     { id: "badge", label: "Badge" },
+    { id: "bottom-navigation", label: "Bottom Navigation" },
     { id: "button", label: "Button" },
     { id: "card", label: "Card" },
     { id: "checkbox", label: "Checkbox" },
@@ -3319,33 +3375,35 @@ function App() {
         {/* Dark / Light toggle and TOC */}
         <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-200 border-b bg-inherit px-4 py-3">
           <div className="relative">
-            <button
-              type="button"
+            <Button
+              variant="secondary"
+              size="40"
               onClick={() => setTocOpen((prev) => !prev)}
-              className="typography-semibold-body-md flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-2 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-solid dark:hover:bg-neutral-800"
               aria-label="Toggle table of contents"
+              leftIcon={<HomeIcon />}
+              rightIcon={
+                <ChevronRightIcon
+                  className={`transition-transform ${tocOpen ? "rotate-90" : ""}`}
+                />
+              }
             >
-              <HomeIcon className="size-4" />
-              <span>Components</span>
-              <ChevronRightIcon
-                className={`size-4 transition-transform ${tocOpen ? "rotate-90" : ""}`}
-              />
-            </button>
+              Components
+            </Button>
             {tocOpen && (
               <>
                 <div
-                  className="fixed inset-0 z-40"
+                  className="fixed inset-0 z-60"
                   onClick={() => setTocOpen(false)}
                   aria-hidden="true"
                 />
-                <div className="absolute top-full left-0 z-50 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-lg border border-neutral-200 bg-white shadow-lg dark:border-neutral-700 dark:bg-neutral-solid">
+                <div className="absolute top-full left-0 z-70 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-lg border border-neutral-200 bg-surface-container shadow-lg">
                   <div className="p-2">
                     {sections.map((section) => (
                       <button
                         key={section.id}
                         type="button"
                         onClick={() => scrollToSection(section.id)}
-                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left text-foreground-default hover:bg-neutral-100"
                       >
                         {section.label}
                       </button>
@@ -3488,6 +3546,9 @@ function App() {
 
             {/* Dialog */}
             <DialogDemo />
+
+            {/* Bottom Navigation */}
+            <BottomNavigationDemo />
 
             {/* Breadcrumb */}
             <BreadcrumbDemo />
