@@ -99,6 +99,9 @@ import {
   IconButton,
   ImageIcon,
   InboxIcon,
+  InfoBox,
+  InfoBoxContent,
+  InfoBoxTrigger,
   InfoCircleIcon,
   InfoIcon,
   LinkIcon,
@@ -2753,7 +2756,7 @@ function TooltipDemo() {
                   No arrow
                 </Button>
               </TooltipTrigger>
-              <TooltipContent showArrow={false}>Tooltip without arrow</TooltipContent>
+              <TooltipContent>Tooltip without arrow</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -2786,67 +2789,68 @@ function TooltipDemo() {
               <TooltipContent>More information about this feature</TooltipContent>
             </Tooltip>
           </div>
-
-          {/* Infobox variant */}
-          <div className="flex flex-wrap items-center gap-4">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="secondary" size="32">
-                  Infobox
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent variant="infobox" heading="Title">
-                Info text
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="secondary" size="32">
-                  With icon
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent
-                variant="infobox"
-                side="right"
-                icon={<InfoCircleIcon className="text-foreground-inverse" />}
-                heading="Title"
-              >
-                Info text
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="secondary" size="32">
-                  With actions
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent
-                variant="infobox"
-                side="bottom"
-                heading="Title"
-                primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
-                secondaryAction={{ label: "Dismiss", onClick: () => console.log("Dismiss") }}
-              >
-                Info text with a longer description that wraps across multiple lines.
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
-              </TooltipTrigger>
-              <TooltipContent
-                variant="infobox"
-                icon={<InfoCircleIcon className="text-foreground-inverse" />}
-                heading="Title"
-                primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
-                secondaryAction={{ label: "Dismiss", onClick: () => console.log("Dismiss") }}
-              >
-                Info text
-              </TooltipContent>
-            </Tooltip>
-          </div>
         </div>
       </TooltipProvider>
+    </div>
+  );
+}
+
+function InfoBoxDemo() {
+  return (
+    <div id="infobox" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">InfoBox</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <InfoBox>
+          <InfoBoxTrigger asChild>
+            <Button variant="secondary" size="32">
+              Infobox
+            </Button>
+          </InfoBoxTrigger>
+          <InfoBoxContent heading="Title">Info text</InfoBoxContent>
+        </InfoBox>
+        <InfoBox>
+          <InfoBoxTrigger asChild>
+            <Button variant="secondary" size="32">
+              With icon
+            </Button>
+          </InfoBoxTrigger>
+          <InfoBoxContent
+            side="right"
+            icon={<InfoCircleIcon className="text-foreground-inverse" />}
+            heading="Title"
+          >
+            Info text
+          </InfoBoxContent>
+        </InfoBox>
+        <InfoBox>
+          <InfoBoxTrigger asChild>
+            <Button variant="secondary" size="32">
+              With actions
+            </Button>
+          </InfoBoxTrigger>
+          <InfoBoxContent
+            side="bottom"
+            heading="Title"
+            primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
+            secondaryAction={{ label: "Dismiss", onClick: () => console.log("Dismiss") }}
+          >
+            Info text with a longer description that wraps across multiple lines.
+          </InfoBoxContent>
+        </InfoBox>
+        <InfoBox>
+          <InfoBoxTrigger asChild>
+            <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
+          </InfoBoxTrigger>
+          <InfoBoxContent
+            icon={<InfoCircleIcon className="text-foreground-inverse" />}
+            heading="Title"
+            primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
+            secondaryAction={{ label: "Dismiss", onClick: () => console.log("Dismiss") }}
+          >
+            Info text
+          </InfoBoxContent>
+        </InfoBox>
+      </div>
     </div>
   );
 }
@@ -3271,6 +3275,7 @@ function App() {
     { id: "drawer", label: "Drawer" },
     { id: "iconbutton", label: "Icon Button" },
     { id: "icons", label: "Icons" },
+    { id: "infobox", label: "InfoBox" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
     { id: "mobilestepper", label: "Mobile Stepper" },
@@ -3470,6 +3475,7 @@ function App() {
 
             {/* Tooltip */}
             <TooltipDemo />
+            <InfoBoxDemo />
 
             {/* Audio Upload */}
             <AudioUploadDemo />

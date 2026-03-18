@@ -277,6 +277,17 @@ export { WarningTriangleIcon } from "./components/Icons/WarningTriangleIcon";
 export { WifiOffIcon } from "./components/Icons/WifiOffIcon";
 export { WifiOnIcon } from "./components/Icons/WifiOnIcon";
 export { WrenchIcon } from "./components/Icons/WrenchIcon";
+export type {
+  InfoBoxAction,
+  InfoBoxContentProps,
+  InfoBoxProps,
+  InfoBoxTriggerProps,
+} from "./components/InfoBox/InfoBox";
+export {
+  InfoBox,
+  InfoBoxContent,
+  InfoBoxTrigger,
+} from "./components/InfoBox/InfoBox";
 export type { LoaderProps } from "./components/Loader/Loader";
 export { Loader } from "./components/Loader/Loader";
 export type { LogoColor, LogoProps, LogoVariant } from "./components/Logo/Logo";
@@ -386,9 +397,7 @@ export type {
 } from "./components/Toast/Toast";
 export { Toast, ToastProvider, ToastViewport } from "./components/Toast/Toast";
 export type {
-  TooltipAction,
   TooltipContentProps,
-  TooltipContentVariant,
   TooltipProps,
   TooltipProviderProps,
   TooltipTriggerProps,
