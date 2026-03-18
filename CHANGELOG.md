@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.18.2...ui-v1.19.0) (2026-03-18)
+
+
+### Features
+
+* **chart:** add composable chart components with Recharts ([#347](https://github.com/fanvue/fanv-ui/issues/347)) ([34edbe0](https://github.com/fanvue/fanv-ui/commit/34edbe08c280e20dfe8077551af73b17b03b4c51))
+
 ## [1.18.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.18.1...ui-v1.18.2) (2026-03-18)
 
 
