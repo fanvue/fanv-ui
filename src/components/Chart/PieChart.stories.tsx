@@ -90,8 +90,9 @@ export const SemiCircleDonut: Story = {
           nameKey="name"
           startAngle={180}
           endAngle={0}
-          innerRadius={80}
-          outerRadius={100}
+          innerRadius={60}
+          outerRadius={80}
+          cy="80%"
           cornerRadius={4}
         >
           <Label
