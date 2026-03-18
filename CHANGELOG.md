@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.18.1...ui-v1.18.2) (2026-03-18)
+
+
+### Bug Fixes
+
+* **TextField:** Fix autofill background not filling full container ([#358](https://github.com/fanvue/fanv-ui/issues/358)) ([ac301e5](https://github.com/fanvue/fanv-ui/commit/ac301e55b1c0ec9c70d566c4a730d64c9fdfa0be))
+
 ## [1.18.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.18.0...ui-v1.18.1) (2026-03-17)
 
 
