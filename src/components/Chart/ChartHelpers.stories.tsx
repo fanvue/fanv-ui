@@ -9,7 +9,7 @@ import { SimpleLineChart, simpleLineConfig } from "./chartStoryFixtures";
 const meta = {
   title: "Components/Charts/Helpers",
   component: ChartCard,
-  parameters: { layout: "centered" },
+  parameters: { layout: "padded" },
   tags: ["autodocs"],
 } satisfies Meta<typeof ChartCard>;
 
