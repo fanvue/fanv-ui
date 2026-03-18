@@ -9,7 +9,7 @@ import type { ChartConfig } from "./types";
 const meta = {
   title: "Components/Charts/BarChart",
   component: ChartContainer,
-  parameters: { layout: "centered" },
+  parameters: { layout: "padded" },
   tags: ["autodocs"],
 } satisfies Meta<typeof ChartContainer>;
 
