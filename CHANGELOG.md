@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.19.0...ui-v1.20.0) (2026-03-18)
+
+
+### Features
+
+* **InfoBox:** split Tooltip into standalone Tooltip and InfoBox ([#364](https://github.com/fanvue/fanv-ui/issues/364)) ([a5f2b72](https://github.com/fanvue/fanv-ui/commit/a5f2b7251e9246ead247d2eb54cfb758a61e0856))
+
 ## [1.19.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.18.2...ui-v1.19.0) (2026-03-18)
 
 
