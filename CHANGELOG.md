@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.20.0...ui-v1.20.1) (2026-03-19)
+
+
+### Bug Fixes
+
+* **charts:** fix stories rendering with zero width ([#367](https://github.com/fanvue/fanv-ui/issues/367)) ([efddca2](https://github.com/fanvue/fanv-ui/commit/efddca2fca6e7230f486868e0287af1ae6bb762c))
+
 ## [1.20.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.19.0...ui-v1.20.0) (2026-03-18)
 
 
