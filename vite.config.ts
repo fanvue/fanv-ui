@@ -28,8 +28,6 @@ export default defineConfig({
         "@fanvue/ui",
         /^@fanvue\/ui\//,
         /^@radix-ui\//,
-        "clsx",
-        "tailwind-merge",
       ],
       output: [
         {
