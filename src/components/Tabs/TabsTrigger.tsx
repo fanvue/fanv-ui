@@ -9,24 +9,9 @@ export type TabsTriggerProps = React.ComponentPropsWithoutRef<typeof TabsPrimiti
 export const TabsTrigger = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
->(({ className, children, onMouseDown, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
-    onMouseDown={(e) => {
-      // Only intercept primary (left) button clicks. Right-click and other
-      // buttons should fall through untouched so context menus are unaffected.
-      if (e.button !== 0) {
-        onMouseDown?.(e);
-        return;
-      }
-      // Prevent :focus-visible from appearing on mouse clicks. Native focus is
-      // suppressed via preventDefault; we re-apply focus programmatically so
-      // the element remains focusable for keyboard users, but the browser won't
-      // mark the focus origin as "pointer", so Escape won't trigger the ring.
-      e.preventDefault();
-      if (!props.disabled) e.currentTarget.focus();
-      onMouseDown?.(e);
-    }}
     className={cn(
       "inline-flex min-w-0 items-center justify-center",
       "rounded-xs",
