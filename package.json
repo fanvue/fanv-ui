@@ -1,0 +1,138 @@
+{
+  "name": "@fanvue/ui-internal",
+  "version": "0.0.0",
+  "description": "Private React component library built on @fanvue/ui for Fanvue ecosystem",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/cjs/index.cjs"
+      }
+    }
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:storybook": "vitest --project=storybook",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "storybook": "storybook dev -p 6007",
+    "build-storybook": "storybook build --stats-json",
+    "prepare": "husky",
+    "prepublishOnly": "pnpm run build",
+    "publish:dry-run": "pnpm run build && pnpm publish --dry-run"
+  },
+  "peerDependencies": {
+    "@fanvue/ui": ">=1.20.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@biomejs/biome": "2.3.13",
+    "@chromatic-com/storybook": "5.0.0",
+    "@commitlint/cli": "20.3.1",
+    "@commitlint/config-conventional": "20.3.1",
+    "@commitlint/types": "20.3.1",
+    "@fanvue/ui": "1.20.1",
+    "@playwright/test": "1.58.1",
+    "@storybook/addon-a11y": "10.2.1",
+    "@storybook/addon-designs": "11.1.1",
+    "@storybook/addon-docs": "10.2.0",
+    "@storybook/addon-vitest": "10.2.3",
+    "@storybook/react": "10.2.1",
+    "@storybook/react-vite": "10.2.1",
+    "@tailwindcss/postcss": "4.1.18",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "25.0.10",
+    "@types/react": "19.2.9",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.2",
+    "@vitest/browser-playwright": "4.0.18",
+    "@vitest/coverage-v8": "4.0.18",
+    "autoprefixer": "10.4.23",
+    "axe-core": "4.11.1",
+    "chromatic": "13.3.5",
+    "husky": "9.1.7",
+    "jsdom": "27.4.0",
+    "lint-staged": "16.2.7",
+    "playwright": "^1.58.1",
+    "postcss": "8.5.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remark-gfm": "4.0.1",
+    "storybook": "10.2.13",
+    "tailwindcss": "4.1.18",
+    "typescript": "5.9.3",
+    "vite": "7.3.1",
+    "vite-plugin-dts": "4.5.4",
+    "vitest": "4.0.18",
+    "vitest-axe": "1.0.0-pre.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@isaacs/brace-expansion": ">=5.0.1",
+      "qs": ">=6.14.2",
+      "minimatch": ">=10.2.3",
+      "rollup": ">=4.59.0",
+      "storybook": ">=10.2.10"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,json,css,md}": [
+      "biome check --write --no-errors-on-unmatched"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fanvue/fanv-ui-internal.git"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "design-system",
+    "tailwind",
+    "fanvue",
+    "internal"
+  ],
+  "author": "Fanvue",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/fanvue/fanv-ui-internal/issues"
+  },
+  "homepage": "https://github.com/fanvue/fanv-ui-internal#readme",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.4"
+}

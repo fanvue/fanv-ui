@@ -1,0 +1,65 @@
+# Chromatic Workflow - Visual regression testing
+name: Chromatic
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [labeled]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  chromatic:
+    name: Visual Regression
+    if: >-
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' && github.event.label.name == 'chromatic')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      - name: Run Chromatic
+        id: chromatic
+        uses: chromaui/action@v15
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          storybookBuildDir: storybook-static
+          onlyChanged: true
+          autoAcceptChanges: main
+          exitZeroOnChanges: true
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: chromatic
+          message: |
+            ## Chromatic Build
+
+            | Preview | Status |
+            |---------|--------|
+            | [View Storybook](${{ steps.chromatic.outputs.storybookUrl }}) | Ready |
+            | [View Chromatic Build](${{ steps.chromatic.outputs.buildUrl }}) | ${{ steps.chromatic.outputs.changeCount }} change(s) |

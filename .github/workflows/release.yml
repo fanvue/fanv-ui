@@ -1,0 +1,120 @@
+# Release Workflow - Automated versioning and publishing
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+  packages: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create Release PR or Publish
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_PRIVATE_KEY }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Setup pnpm
+        if: ${{ steps.release.outputs.release_created }}
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+          registry-url: "https://npm.pkg.github.com"
+
+      - name: Install dependencies
+        if: ${{ steps.release.outputs.release_created }}
+        run: pnpm install --frozen-lockfile
+
+      - name: Build library
+        if: ${{ steps.release.outputs.release_created }}
+        run: pnpm build
+
+      - name: Publish to GitHub Packages
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          # Override project .npmrc scoped registry to target GitHub Packages
+          npm config set @fanvue:registry https://npm.pkg.github.com --location=project
+          VERSION="${{ steps.release.outputs.version }}"
+          if [[ "$VERSION" == *"-"* ]]; then
+            echo "Publishing prerelease version $VERSION to GitHub Packages with tag alpha"
+            npm publish --registry https://npm.pkg.github.com --tag alpha
+          else
+            echo "Publishing stable version $VERSION to GitHub Packages"
+            npm publish --registry https://npm.pkg.github.com
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify Slack
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          VERSION: ${{ steps.release.outputs.version }}
+          TAG_NAME: ${{ steps.release.outputs.tag_name }}
+          RELEASE_BODY: ${{ steps.release.outputs.body }}
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          # Truncate to 2500 chars to stay within Slack limits
+          if [ ${#RELEASE_BODY} -gt 2500 ]; then
+            RELEASE_BODY="${RELEASE_BODY:0:2500}..."
+          fi
+          # Escape special JSON characters
+          RELEASE_BODY=$(echo "$RELEASE_BODY" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
+          curl -X POST "$SLACK_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            --fail-with-body \
+            -d @- <<PAYLOAD
+          {
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "@fanvue/ui-internal v${VERSION} released",
+                  "emoji": true
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": ${RELEASE_BODY}
+                }
+              },
+              {
+                "type": "actions",
+                "elements": [
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "View Release"
+                    },
+                    "url": "${REPO_URL}/releases/tag/${TAG_NAME}"
+                  }
+                ]
+              }
+            ]
+          }
+          PAYLOAD
