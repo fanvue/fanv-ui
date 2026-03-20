@@ -1,5 +1,13 @@
 import { cn } from "../../utils/cn";
-import anonymousPlaceholderLogo from "./assets/anonymous-placeholder-logo.png";
+
+const PLACEHOLDER_LOGO_FILE = "fanvue-logo-glass-levitating.svg";
+
+/** Public URL for the packaged SVG (avoids inlining a multi‑MB asset into JS). */
+function fanvueLogoGlassLevitatingSrc(): string {
+  const u = import.meta.url;
+  const slash = u.lastIndexOf("/");
+  return `${u.slice(0, slash + 1)}assets/${PLACEHOLDER_LOGO_FILE}`;
+}
 
 export interface AvatarAnonymousPlaceholderProps {
   className?: string;
@@ -18,7 +26,7 @@ export function AvatarAnonymousPlaceholder({ className }: AvatarAnonymousPlaceho
       <div className="absolute inset-0 rounded-full" style={{ backgroundColor: "#EAE9DD" }} />
       <div className="relative flex size-full items-center justify-center">
         <img
-          src={anonymousPlaceholderLogo}
+          src={fanvueLogoGlassLevitatingSrc()}
           alt=""
           className="pointer-events-none max-h-[46.6%] w-[52.3%] object-contain"
         />

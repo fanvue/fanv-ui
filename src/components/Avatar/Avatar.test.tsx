@@ -32,8 +32,10 @@ describe("Avatar", () => {
     it("renders anonymous placeholder when anonymousUser is true and there is no src", async () => {
       const { container } = render(<Avatar anonymousUser size={48} />);
       await screen.findByTestId("avatar");
+      await waitFor(() => {
+        expect(container.querySelector("img")).toBeTruthy();
+      });
       const img = container.querySelector("img");
-      expect(img).toBeTruthy();
       expect(img).toHaveAttribute("alt", "");
     });
 
