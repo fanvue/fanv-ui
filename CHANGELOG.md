@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.0.0...ui-v2.1.0) (2026-03-20)
+
+
+### Features
+
+* add Border Radius and Shadows foundation stories ([#374](https://github.com/fanvue/fanv-ui/issues/374)) ([941ed3e](https://github.com/fanvue/fanv-ui/commit/941ed3e07b82ac04947bd51361b8fd0399da4bc4))
+
+
+### Bug Fixes
+
+* remove unused Banner component ([#377](https://github.com/fanvue/fanv-ui/issues/377)) ([9b949db](https://github.com/fanvue/fanv-ui/commit/9b949db9fadfd057951e82755df1a379ea879ea4))
+
 ## [2.0.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.21.0...ui-v2.0.0) (2026-03-20)
 
 
