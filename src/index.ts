@@ -293,6 +293,19 @@ export { Loader } from "./components/Loader/Loader";
 export type { LogoColor, LogoProps, LogoVariant } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type {
+  MainContainerHeaderDevice,
+  MainContainerHeaderEndProps,
+  MainContainerHeaderProps,
+  MainContainerHeaderStartProps,
+  MainContainerHeaderTitleProps,
+} from "./components/MainContainerHeader/MainContainerHeader";
+export {
+  MainContainerHeader,
+  MainContainerHeaderEnd,
+  MainContainerHeaderStart,
+  MainContainerHeaderTitle,
+} from "./components/MainContainerHeader/MainContainerHeader";
+export type {
   MobileStepperPosition,
   MobileStepperProps,
   MobileStepperVariant,
