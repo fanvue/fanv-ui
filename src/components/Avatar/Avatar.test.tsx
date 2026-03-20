@@ -33,8 +33,9 @@ describe("Avatar", () => {
       const { container } = render(<Avatar anonymousUser size={48} />);
       await screen.findByTestId("avatar");
       await waitFor(() => {
-        expect(container.querySelector("svg image")).toBeTruthy();
+        expect(container.querySelector("img")).toBeTruthy();
       });
+      expect(container.querySelector("img")).toHaveAttribute("alt", "");
     });
 
     it("prefers anonymous placeholder over string fallback when anonymousUser is true", async () => {
@@ -42,7 +43,7 @@ describe("Avatar", () => {
       expect(screen.queryByText("AB")).not.toBeInTheDocument();
       await screen.findByTestId("avatar");
       await waitFor(() => {
-        expect(container.querySelector("svg image")).toBeTruthy();
+        expect(container.querySelector("img")).toBeTruthy();
       });
     });
 
@@ -99,7 +100,7 @@ describe("Avatar", () => {
       );
       await screen.findByTestId("avatar");
       await waitFor(() => {
-        expect(container.querySelector("svg image")).toBeTruthy();
+        expect(container.querySelector("img")).toBeTruthy();
       });
     });
   });
