@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.21.0...ui-v2.0.0) (2026-03-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate design token system to v2 ([#366](https://github.com/fanvue/fanv-ui/issues/366))
+
+### Features
+
+* migrate design token system to v2 ([#366](https://github.com/fanvue/fanv-ui/issues/366)) ([a5dde61](https://github.com/fanvue/fanv-ui/commit/a5dde6197dbb184f69bbdbd64da2c69d701abd09))
+
 ## [1.21.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.20.1...ui-v1.21.0) (2026-03-20)
 
 
