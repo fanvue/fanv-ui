@@ -2,10 +2,12 @@ import { resolve } from "node:path";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
+import { publishRuntimeAssetsPlugin } from "./vite.publishRuntimeAssets.plugin";
 
 export default defineConfig({
   plugins: [
     react(),
+    publishRuntimeAssetsPlugin(import.meta.dirname),
     dts({
       include: ["src"],
       exclude: ["**/*.test.tsx", "**/*.stories.tsx"],

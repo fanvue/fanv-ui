@@ -38,6 +38,7 @@
     "src",
     ".storybook",
     "vite.config.ts",
+    "vite.publishRuntimeAssets.plugin.ts",
     "vite.showcase.config.ts",
     "vitest.config.ts",
     "playwright.config.ts",
