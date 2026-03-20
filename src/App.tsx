@@ -155,6 +155,14 @@ import {
   RepeatIcon,
   Reply2Icon,
   ReplyIcon,
+  ScreenHeader,
+  ScreenHeaderActions,
+  ScreenHeaderDotIndicators,
+  ScreenHeaderGreeting,
+  ScreenHeaderOnboardingRow,
+  ScreenHeaderSteps,
+  ScreenHeaderTitle,
+  ScreenHeaderToolbar,
   SearchField,
   SearchIcon,
   Select,
@@ -2769,6 +2777,54 @@ function MainContainerHeaderDemo() {
   );
 }
 
+function ScreenHeaderDemo() {
+  return (
+    <div id="screenheader" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Screen header</h2>
+      <div className="flex max-w-md flex-col gap-6">
+        <ScreenHeader>
+          <ScreenHeaderToolbar>
+            <ScreenHeaderTitle className="min-w-0 flex-1">Home</ScreenHeaderTitle>
+            <ScreenHeaderActions>
+              <IconButton variant="tertiary" size="32" icon={<SearchIcon />} aria-label="Search" />
+            </ScreenHeaderActions>
+          </ScreenHeaderToolbar>
+        </ScreenHeader>
+        <ScreenHeader>
+          <ScreenHeaderToolbar>
+            <ScreenHeaderGreeting greetingTitle="Hello, [Name]" greetingSubtitle="Profile" />
+          </ScreenHeaderToolbar>
+        </ScreenHeader>
+        <ScreenHeader className="flex-col items-stretch">
+          <ScreenHeaderSteps total={6} activeIndex={0} />
+        </ScreenHeader>
+        <ScreenHeader className="flex-col items-stretch gap-0 p-0">
+          <ScreenHeaderOnboardingRow>
+            <IconButton
+              variant="tertiary"
+              size="32"
+              icon={<ChevronLeftIcon />}
+              aria-label="Previous"
+            />
+            <div className="flex flex-col items-center gap-3">
+              <p className="typography-semibold-body-lg text-center text-foreground-default">
+                Title
+              </p>
+              <ScreenHeaderDotIndicators count={11} activeIndex={0} className="w-[168px]" />
+            </div>
+            <IconButton
+              variant="tertiary"
+              size="32"
+              icon={<ChevronRightIcon />}
+              aria-label="Next"
+            />
+          </ScreenHeaderOnboardingRow>
+        </ScreenHeader>
+      </div>
+    </div>
+  );
+}
+
 function TooltipDemo() {
   const [open, setOpen] = useState(false);
   return (
@@ -3606,6 +3662,8 @@ function App() {
 
             {/* MainContainerHeader */}
             <MainContainerHeaderDemo />
+
+            <ScreenHeaderDemo />
 
             {/* Tooltip */}
             <TooltipDemo />

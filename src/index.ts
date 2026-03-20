@@ -334,6 +334,28 @@ export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";
 export type {
+  ScreenHeaderActionsProps,
+  ScreenHeaderDevice,
+  ScreenHeaderDotIndicatorsProps,
+  ScreenHeaderGreetingProps,
+  ScreenHeaderOnboardingRowProps,
+  ScreenHeaderProps,
+  ScreenHeaderStepsProps,
+  ScreenHeaderSurface,
+  ScreenHeaderTitleProps,
+  ScreenHeaderToolbarProps,
+} from "./components/ScreenHeader/ScreenHeader";
+export {
+  ScreenHeader,
+  ScreenHeaderActions,
+  ScreenHeaderDotIndicators,
+  ScreenHeaderGreeting,
+  ScreenHeaderOnboardingRow,
+  ScreenHeaderSteps,
+  ScreenHeaderTitle,
+  ScreenHeaderToolbar,
+} from "./components/ScreenHeader/ScreenHeader";
+export type {
   SearchFieldProps,
   SearchFieldSize,
 } from "./components/SearchField/SearchField";
