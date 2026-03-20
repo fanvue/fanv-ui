@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.20.1...ui-v1.21.0) (2026-03-20)
+
+
+### Features
+
+* add DropdownMenu, Banner, and OnlineBlinkingIcon components ([#370](https://github.com/fanvue/fanv-ui/issues/370)) ([c56b25e](https://github.com/fanvue/fanv-ui/commit/c56b25eae7823751d1c0afe5f8ce784ae3ccaf28))
+
 ## [1.20.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.20.0...ui-v1.20.1) (2026-03-19)
 
 
