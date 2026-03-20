@@ -25,7 +25,7 @@ export const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldPro
         disabled={disabled}
         aria-label={showPassword ? "Hide password" : "Show password"}
         tabIndex={-1}
-        className="flex size-5 shrink-0 cursor-default items-center justify-center text-foreground-secondary transition-colors hover:text-foreground-default focus:outline-none disabled:cursor-not-allowed"
+        className="flex size-5 shrink-0 cursor-default items-center justify-center text-content-secondary transition-colors hover:text-content-primary focus:outline-none disabled:cursor-not-allowed"
       >
         {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
       </button>

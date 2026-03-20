@@ -19,13 +19,13 @@ export function AutocompleteTag({
   }
 
   return (
-    <span className="typography-regular-body-sm inline-flex max-w-full items-center gap-1 rounded-md bg-neutral-200 px-2 py-0.5 text-foreground-default">
+    <span className="typography-regular-body-sm inline-flex max-w-full items-center gap-1 rounded-xs bg-neutral-alphas-200 px-2 py-0.5 text-content-primary">
       <span className="truncate">{getLabel(option)}</span>
       <button
         type="button"
         tabIndex={-1}
         aria-label={`Remove ${getLabel(option)}`}
-        className="flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-sm text-foreground-secondary hover:text-foreground-default active:scale-95"
+        className="flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-xs text-content-secondary hover:text-content-primary active:scale-95"
         onClick={(e) => {
           e.stopPropagation();
           onRemove();

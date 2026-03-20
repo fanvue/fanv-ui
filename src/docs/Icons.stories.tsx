@@ -141,7 +141,7 @@ type IconEntry = {
 const icons: IconEntry[] = [
   { name: "AddIcon", component: AddIcon, tags: ["add", "plus", "create", "new"] },
   { name: "AIIcon", component: AIIcon, tags: ["ai", "artificial", "intelligence", "machine"] },
-  { name: "AlertIcon", component: AlertIcon, tags: ["alert", "dots", "more", "vertical"] },
+  { name: "AlertIcon", component: AlertIcon, tags: ["alert", "warning", "exclamation"] },
   { name: "ArrowDownIcon", component: ArrowDownIcon, tags: ["arrow", "down", "navigation"] },
   {
     name: "ArrowLeftIcon",
@@ -162,8 +162,8 @@ const icons: IconEntry[] = [
   { name: "BankIcon", component: BankIcon, tags: ["bank", "login", "enter", "door"] },
   { name: "BellIcon", component: BellIcon, tags: ["bell", "notification", "alarm"] },
   { name: "BellOffIcon", component: BellOffIcon, tags: ["bell", "off", "mute", "notification"] },
-  { name: "BoltIcon", component: BoltIcon, tags: ["bolt", "wifi", "signal", "connection"] },
-  { name: "BulbIcon", component: BulbIcon, tags: ["bulb", "code", "terminal", "dev"] },
+  { name: "BoltIcon", component: BoltIcon, tags: ["bolt", "lightning", "power", "energy"] },
+  { name: "BulbIcon", component: BulbIcon, tags: ["bulb", "light", "idea", "lamp"] },
   {
     name: "Calendar2Icon",
     component: Calendar2Icon,
@@ -186,21 +186,29 @@ const icons: IconEntry[] = [
   {
     name: "ChevronDownIcon",
     component: ChevronDownIcon,
-    tags: ["chevron", "down", "dots", "more"],
+    tags: ["chevron", "down", "arrow", "expand"],
   },
   {
     name: "ChevronLeftIcon",
     component: ChevronLeftIcon,
-    tags: ["chevron", "left", "check", "circle"],
+    tags: ["chevron", "left", "arrow", "back"],
   },
-  { name: "ChevronRightIcon", component: ChevronRightIcon, tags: ["chevron", "right", "circle"] },
-  { name: "ChevronUpIcon", component: ChevronUpIcon, tags: ["chevron", "up", "gift", "present"] },
+  {
+    name: "ChevronRightIcon",
+    component: ChevronRightIcon,
+    tags: ["chevron", "right", "arrow", "next"],
+  },
+  { name: "ChevronUpIcon", component: ChevronUpIcon, tags: ["chevron", "up", "arrow", "collapse"] },
   { name: "ClockIcon", component: ClockIcon, tags: ["clock", "time", "schedule"] },
-  { name: "CloseIcon", component: CloseIcon, tags: ["close", "warning", "alert", "danger"] },
+  { name: "CloseIcon", component: CloseIcon, tags: ["close", "x", "dismiss", "remove"] },
   { name: "CodeIcon", component: CodeIcon, tags: ["code", "brackets", "programming"] },
   { name: "CoinIcon", component: CoinIcon, tags: ["coin", "money", "currency", "star"] },
-  { name: "CompassIcon", component: CompassIcon, tags: ["compass", "share", "forward"] },
-  { name: "CopyIcon", component: CopyIcon, tags: ["copy", "chevron", "right"] },
+  {
+    name: "CompassIcon",
+    component: CompassIcon,
+    tags: ["compass", "navigation", "direction", "explore"],
+  },
+  { name: "CopyIcon", component: CopyIcon, tags: ["copy", "duplicate", "clipboard", "paste"] },
   { name: "CrossIcon", component: CrossIcon, tags: ["cross", "x", "close", "cancel", "remove"] },
   { name: "CrownIcon", component: CrownIcon, tags: ["crown", "premium", "vip", "special"] },
   { name: "DiamondIcon", component: DiamondIcon, tags: ["diamond", "gem", "premium"] },
@@ -348,20 +356,22 @@ function IconCard({ entry, size }: { entry: IconEntry; size: string }) {
         gap: 8,
         padding: 16,
         borderRadius: 8,
-        border: "1px solid var(--color-neutral-100)",
-        backgroundColor: copied ? "var(--color-success-background)" : "var(--color-neutral-100)",
+        border: "1px solid var(--color-neutral-alphas-100)",
+        backgroundColor: copied
+          ? "var(--color-success-surface)"
+          : "var(--color-neutral-alphas-100)",
         cursor: "pointer",
         transition: "background-color 150ms, border-color 150ms",
         width: "100%",
       }}
       title={`Click to copy: ${importText}`}
     >
-      <Icon className={size} style={{ color: "var(--color-foreground-default)" }} />
+      <Icon className={size} style={{ color: "var(--color-content-primary)" }} />
       <span
         style={{
           fontSize: 11,
           fontFamily: "monospace",
-          color: copied ? "var(--color-success-default)" : "var(--color-foreground-secondary)",
+          color: copied ? "var(--color-success-content)" : "var(--color-content-secondary)",
           textAlign: "center",
           wordBreak: "break-all",
         }}
@@ -387,7 +397,7 @@ function IconGallery() {
         style={{
           fontSize: 32,
           fontWeight: 800,
-          color: "var(--color-foreground-default)",
+          color: "var(--color-content-primary)",
           margin: "0 0 8px",
         }}
       >
@@ -396,7 +406,7 @@ function IconGallery() {
       <p
         style={{
           fontSize: 16,
-          color: "var(--color-foreground-secondary)",
+          color: "var(--color-content-secondary)",
           margin: "0 0 12px",
           maxWidth: 640,
           lineHeight: 1.5,
@@ -408,7 +418,7 @@ function IconGallery() {
             fontSize: 14,
             fontFamily: "monospace",
             padding: "1px 4px",
-            backgroundColor: "var(--color-neutral-100)",
+            backgroundColor: "var(--color-neutral-alphas-100)",
             borderRadius: 3,
           }}
         >
@@ -420,7 +430,7 @@ function IconGallery() {
             fontSize: 14,
             fontFamily: "monospace",
             padding: "1px 4px",
-            backgroundColor: "var(--color-neutral-100)",
+            backgroundColor: "var(--color-neutral-alphas-100)",
             borderRadius: 3,
           }}
         >
@@ -440,9 +450,9 @@ function IconGallery() {
           style={{
             fontSize: 13,
             fontFamily: "monospace",
-            color: "var(--color-foreground-tertiary)",
+            color: "var(--color-content-tertiary)",
             padding: "8px 12px",
-            backgroundColor: "var(--color-neutral-100)",
+            backgroundColor: "var(--color-neutral-alphas-100)",
             borderRadius: 6,
           }}
         >
@@ -469,9 +479,9 @@ function IconGallery() {
             padding: "8px 12px",
             fontSize: 14,
             borderRadius: 6,
-            border: "1px solid var(--color-neutral-200)",
-            backgroundColor: "var(--color-surface-input)",
-            color: "var(--color-foreground-default)",
+            border: "1px solid var(--color-neutral-alphas-200)",
+            backgroundColor: "var(--color-surface-inputs)",
+            color: "var(--color-content-primary)",
             outline: "none",
           }}
         />
@@ -491,12 +501,12 @@ function IconGallery() {
                 fontSize: 12,
                 fontFamily: "monospace",
                 borderRadius: 4,
-                border: "1px solid var(--color-neutral-200)",
+                border: "1px solid var(--color-neutral-alphas-200)",
                 backgroundColor:
                   size === opt.value
                     ? "var(--color-brand-secondary-default)"
-                    : "var(--color-neutral-100)",
-                color: size === opt.value ? "#fff" : "var(--color-foreground-secondary)",
+                    : "var(--color-neutral-alphas-100)",
+                color: size === opt.value ? "#fff" : "var(--color-content-secondary)",
                 cursor: "pointer",
               }}
             >
@@ -507,7 +517,7 @@ function IconGallery() {
       </div>
 
       {filtered.length === 0 ? (
-        <p style={{ color: "var(--color-foreground-secondary)", fontSize: 14, padding: "40px 0" }}>
+        <p style={{ color: "var(--color-content-secondary)", fontSize: 14, padding: "40px 0" }}>
           No icons matching "{search}".
         </p>
       ) : (

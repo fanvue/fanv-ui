@@ -62,9 +62,9 @@ export const ChartSeriesToggle = React.forwardRef<HTMLDivElement, ChartSeriesTog
               type="button"
               aria-pressed={isActive}
               className={cn(
-                "typography-regular-body-sm flex items-center gap-2 rounded-full border px-3 py-1.5 text-foreground-default transition-opacity hover:opacity-100",
+                "typography-regular-body-sm flex items-center gap-2 rounded-full border px-3 py-1.5 text-content-primary transition-opacity hover:opacity-100",
                 isActive
-                  ? "border-neutral-200 bg-surface-container"
+                  ? "border-neutral-alphas-200 bg-surface-primary"
                   : "border-transparent bg-transparent opacity-50",
               )}
               onClick={() => toggle(item.key)}

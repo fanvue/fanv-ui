@@ -22,7 +22,7 @@ export const Default: Story = {
   render: () => (
     <InfoBox defaultOpen>
       <InfoBoxTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </InfoBoxTrigger>
@@ -35,12 +35,12 @@ export const WithIcon: Story = {
   render: () => (
     <InfoBox defaultOpen>
       <InfoBoxTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </InfoBoxTrigger>
       <InfoBoxContent
-        icon={<InfoCircleIcon className="size-5 text-foreground-inverse" />}
+        icon={<InfoCircleIcon className="size-5 text-content-primary-inverted" />}
         heading="Title"
       >
         Info text
@@ -53,14 +53,14 @@ export const WithPill: Story = {
   render: () => (
     <InfoBox defaultOpen>
       <InfoBoxTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </InfoBoxTrigger>
       <InfoBoxContent
         heading="Title"
         pill={
-          <span className="typography-semibold-body-sm rounded-full bg-neutral-solid px-3 py-1 text-foreground-inverse">
+          <span className="typography-semibold-body-sm rounded-full bg-buttons-primary px-3 py-1 text-content-primary-inverted">
             Example
           </span>
         }
@@ -75,7 +75,7 @@ export const WithActions: Story = {
   render: () => (
     <InfoBox defaultOpen>
       <InfoBoxTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </InfoBoxTrigger>
@@ -94,15 +94,15 @@ export const Full: Story = {
   render: () => (
     <InfoBox defaultOpen>
       <InfoBoxTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </InfoBoxTrigger>
       <InfoBoxContent
-        icon={<InfoCircleIcon className="size-5 text-foreground-inverse" />}
+        icon={<InfoCircleIcon className="size-5 text-content-primary-inverted" />}
         heading="Title"
         pill={
-          <span className="typography-semibold-body-sm rounded-full bg-neutral-solid px-3 py-1 text-foreground-inverse">
+          <span className="typography-semibold-body-sm rounded-full bg-buttons-primary px-3 py-1 text-content-primary-inverted">
             Example
           </span>
         }
@@ -119,7 +119,7 @@ export const BottomPlacement: Story = {
   render: () => (
     <InfoBox defaultOpen>
       <InfoBoxTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </InfoBoxTrigger>
@@ -160,12 +160,12 @@ export const NarrowViewport: Story = {
   render: () => (
     <InfoBox defaultOpen>
       <InfoBoxTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </InfoBoxTrigger>
       <InfoBoxContent
-        icon={<InfoCircleIcon className="size-5 text-foreground-inverse" />}
+        icon={<InfoCircleIcon className="size-5 text-content-primary-inverted" />}
         heading="Title"
         primaryAction={{ label: "OK" }}
         secondaryAction={{ label: "Dismiss" }}

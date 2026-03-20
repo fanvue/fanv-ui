@@ -69,7 +69,7 @@ export const InfoClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-info-default underline"
+          className="cursor-pointer text-info-content underline"
         >
           Show again
         </button>
@@ -91,7 +91,7 @@ export const SuccessClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-success-default underline"
+          className="cursor-pointer text-success-content underline"
         >
           Show again
         </button>
@@ -113,7 +113,7 @@ export const WarningClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-warning-default underline"
+          className="cursor-pointer text-warning-content underline"
         >
           Show again
         </button>
@@ -135,7 +135,7 @@ export const ErrorClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-error-default underline"
+          className="cursor-pointer text-error-content underline"
         >
           Show again
         </button>
@@ -203,7 +203,7 @@ export const WithTitleClosable: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-warning-default underline"
+          className="cursor-pointer text-warning-content underline"
         >
           Show again
         </button>
@@ -235,7 +235,7 @@ export const LongContent: Story = {
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-info-default underline"
+          className="cursor-pointer text-info-content underline"
         >
           Show again
         </button>
@@ -269,7 +269,7 @@ export const InteractiveDismissible: Story = {
             <button
               type="button"
               onClick={() => setVisible(true)}
-              className="cursor-pointer text-info-default underline"
+              className="cursor-pointer text-info-content underline"
             >
               Show again
             </button>
@@ -325,7 +325,7 @@ export const MultipleDismissible: Story = {
             <button
               type="button"
               onClick={() => setAlerts({ info: true, success: true, warning: true, error: true })}
-              className="cursor-pointer text-info-default underline"
+              className="cursor-pointer text-info-content underline"
             >
               Reset all
             </button>

@@ -67,9 +67,9 @@ const CLEAR_BUTTON_RIGHT: Record<TextAreaSize, string> = {
 
 function getContainerClassName(size: TextAreaSize, error: boolean, disabled?: boolean) {
   return cn(
-    "relative rounded-xl border bg-neutral-100 has-focus-visible:outline-none motion-safe:transition-colors",
-    error ? "border-error-default" : "border-transparent",
-    !disabled && !error && "hover:border-neutral-400",
+    "relative rounded-sm border bg-neutral-alphas-50 has-focus-visible:outline-none motion-safe:transition-colors",
+    error ? "border-error-content" : "border-transparent",
+    !disabled && !error && "hover:border-neutral-alphas-400",
     CONTAINER_MIN_HEIGHT[size],
     disabled && "opacity-50",
   );
@@ -82,7 +82,7 @@ function getTextareaClassName(
   resizable: boolean,
 ) {
   return cn(
-    "w-full rounded-xl bg-transparent text-foreground-default no-underline placeholder:text-foreground-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+    "h-full w-full bg-transparent text-content-primary no-underline placeholder:text-content-secondary focus:outline-none disabled:cursor-not-allowed",
     resizable ? "resize-y" : "resize-none",
     !hasMinRows && "min-h-[80px]",
     TEXTAREA_SIZE_CLASSES[size],
@@ -105,7 +105,7 @@ function TextAreaHelperText({
       id={id}
       className={cn(
         "typography-regular-body-sm px-2 pt-1 pb-0.5",
-        error ? "text-error-default" : "text-foreground-secondary",
+        error ? "text-error-content" : "text-content-secondary",
       )}
     >
       {children}
@@ -251,7 +251,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-foreground-default"
+            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-content-primary"
           >
             {label}
           </label>
@@ -293,7 +293,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
                 CLEAR_BUTTON_RIGHT[size],
               )}
             >
-              <CheckOutlineIcon className="text-success-default" />
+              <CheckOutlineIcon className="text-success-content" />
             </div>
           )}
         </div>

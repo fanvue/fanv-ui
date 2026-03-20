@@ -211,7 +211,7 @@ export const ControlledExample: Story = {
           errorMessage={error ? "Password must be at least 8 characters" : undefined}
           helperText={!error ? `${value.length} characters` : undefined}
         />
-        <div className="typography-regular-body-sm text-foreground-secondary">
+        <div className="typography-regular-body-sm text-content-secondary">
           Current value: {value || "(empty)"}
         </div>
       </div>

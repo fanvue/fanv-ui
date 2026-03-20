@@ -1,0 +1,159 @@
+# Design Token Migration Guide (v2.0)
+
+This release restructures the entire colour token system. All CSS custom properties and Tailwind utility classes have been renamed. This is a **breaking change**.
+
+## Token Rename Mapping
+
+### Color tokens
+
+| Old CSS variable | New CSS variable |
+|---|---|
+| `--color-foreground-default` | `--color-content-primary` |
+| `--color-foreground-secondary` | `--color-content-secondary` |
+| `--color-foreground-tertiary` | `--color-content-tertiary` |
+| `--color-foreground-inverse` | `--color-content-primary-inverted` |
+| `--color-foreground-onaccent` | `--color-content-on-brand` |
+| `--color-foreground-onaccentinverse` | `--color-content-on-brand-inverted` |
+| `--color-surface-page` | `--color-bg-primary` |
+| `--color-surface-container` | `--color-surface-primary` |
+| `--color-surface-containersubtle` | `--color-surface-primary` |
+| `--color-surface-containerraised` | `--color-surface-secondary` |
+| `--color-surface-modal` | `--color-surface-secondary` |
+| `--color-surface-input` | `--color-surface-inputs` |
+| `--color-surface-pageinverse` | `--color-surface-primary-inverted` |
+| `--color-surface-backdrop` | `--color-bg-overlay` |
+| `--color-surface-behindpage` | Removed |
+| `--color-surface-pageinversesoft` | Removed |
+| `--color-neutral-solid` | Removed — use `--color-buttons-primary` |
+| `--color-neutral-inversesolid` | Removed — use `--color-surface-primary` |
+| `--color-brand-accent-default` | `--color-brand-primary-default` |
+| `--color-brand-accent-muted` | `--color-brand-primary-muted` |
+| `--color-brand-accent-hover` | `--color-brand-primary-hover` |
+| `--color-brand-accent-foreground` | Removed |
+| `--color-brand-tertiary-*` | Merged into `--color-brand-secondary-*` |
+| `--color-brand-secondary-foreground` | Removed |
+| `--color-success-default` | `--color-success-content` |
+| `--color-success-background` | `--color-success-surface` |
+| `--color-success-border` | `--color-success-secondary` |
+| `--color-warning-default` | `--color-warning-content` |
+| `--color-warning-background` | `--color-warning-surface` |
+| `--color-warning-border` | `--color-warning-secondary` |
+| `--color-error-default` | `--color-error-content` |
+| `--color-error-background` | `--color-error-surface` |
+| `--color-error-border` | `--color-error-secondary` |
+| `--color-info-default` | `--color-info-content` |
+| `--color-info-background` | `--color-info-surface` |
+| `--color-info-border` | `--color-info-secondary` |
+| `--color-link-default` | `--color-link-default` (value changed: now `content-primary` instead of `surface-pageinverse`) |
+| `--color-link-hover` | `--color-link-hover` (value changed: now `buttons-primary-hover` instead of `neutral-800`) |
+| `--color-ring` | `--color-interaction-focus` |
+
+### New token groups
+
+| Group | Tokens |
+|---|---|
+| `border` | `primary`, `strong`, `error` |
+| `bg` | `primary`, `overlay`, `gradient-start`, `gradient-end` |
+| `icons` | `primary`, `secondary`, `tertiary`, `brand-green`, `brand-purple`, `primary-inverted` |
+| `buttons` | `primary`, `primary-hover`, `primary-muted`, `brand`, `brand-hover`, `brand-muted` |
+| `surface` (new) | `tertiary`, `inputs-off`, `purple-muted`, `green-muted` |
+| `interaction` | `focus` |
+
+### Neutral tokens
+
+The `neutral` group has been renamed to `neutral-alphas`. All Tailwind classes change accordingly (e.g. `bg-neutral-100` → `bg-neutral-alphas-100`, `border-neutral-200` → `border-neutral-alphas-200`). Tokens `neutral-solid` and `neutral-inversesolid` have been removed.
+
+### Border group mapping
+
+The `border` group is new. Old patterns that used neutral or inline border colours should migrate as follows:
+
+| Old pattern | New token |
+|---|---|
+| `border-neutral-200` / inline `#e5e5e5` borders | `border-border-primary` |
+| Stronger/emphasized borders | `border-border-strong` |
+| Error state borders | `border-border-error` (or `border-error-content` for form fields) |
+
+### New semantic tokens
+
+| Token | Purpose |
+|---|---|
+| `--color-content-on-brand` | Text on brand-coloured backgrounds (green, purple) |
+| `--color-content-on-brand-inverted` | Text on dark/inverted backgrounds |
+| `--color-bg-gradient-start` | Start colour for page background gradients |
+| `--color-bg-gradient-end` | End colour for page background gradients |
+| `--color-icons-primary-inverted` | Icon colour on dark/inverted backgrounds |
+
+## Shadow changes
+
+| Old | New |
+|---|---|
+| `shadow-cardsubtle` | `shadow-sm` |
+| `shadow-card` | `shadow-md` |
+| `shadow-float` | `shadow-lg` |
+| `shadow-lifted` | `shadow-lg` |
+| `shadow-nav` | Removed |
+
+New shadow tokens added:
+
+| Token | Purpose |
+|---|---|
+| `--shadow-blur-menu` | Drop shadow for dropdown menus and popovers |
+| `--shadow-blur-floating` | Drop shadow for floating/draggable elements |
+| `--shadow-focus-ring` | Combined box-shadow for keyboard focus indicators |
+
+New shadow values use a consistent two-layer system.
+
+## Radius scale (new)
+
+| Token | Tailwind class | Value |
+|---|---|---|
+| `--radius-xs` | `rounded-xs` | 8px |
+| `--radius-sm` | `rounded-sm` | 12px |
+| `--radius-md` | `rounded-md` | 16px |
+| `--radius-lg` | `rounded-lg` | 24px |
+| `--radius-xl` | `rounded-xl` | 32px |
+| `--radius-2xl` | `rounded-2xl` | 40px |
+| `--radius-full` | `rounded-full` | 9999px |
+
+Note: the old Tailwind default `rounded-lg` (8px) is now `rounded-xs`. The scale has shifted — review all border-radius usage.
+
+## Spacing scale (new)
+
+| Token | Value |
+|---|---|
+| `--spacing-2xs` | 4px |
+| `--spacing-xs` | 8px |
+| `--spacing-sm` | 12px |
+| `--spacing-md` | 16px |
+| `--spacing-lg` | 24px |
+| `--spacing-xl` | 32px |
+
+## Typography changes
+
+Legacy typography aliases have been removed:
+- `typography-subtitle` → use `typography-semibold-body-lg`
+- `typography-button-large` → use `typography-semibold-body-lg`
+- `typography-button-small` → use `typography-semibold-body-lg`
+- `typography-body-1-medium` → use `typography-semibold-body-lg`
+- `typography-body-2-medium` → use `typography-semibold-body-md`
+- All old `typography-body-1-*`, `typography-body-2-*`, `typography-caption-*`, `typography-heading-*`, `typography-hero`, `typography-badge` aliases are removed
+
+## Button behaviour
+
+The primary button is now **neutral-first** (dark background) instead of brand-coloured. Use `variant="brand"` for the green CTA.
+
+## Other breaking changes
+
+- `body { -webkit-font-smoothing: antialiased }` has been removed from the base layer. Add this to your app's global styles if needed.
+- `font.semibold.display` typography style has been removed from the token set.
+
+## Migration steps
+
+1. Update `@fanvue/ui` to the latest version
+2. Search your codebase for old token names using the mapping table above
+3. Replace all Tailwind utility classes (e.g. `text-foreground-default` → `text-content-primary`)
+4. Replace all CSS variable references (e.g. `var(--color-foreground-default)` → `var(--color-content-primary)`)
+5. Replace shadow classes (`shadow-cardsubtle` → `shadow-sm`, etc.)
+6. Replace `neutral-*` utility classes with `neutral-alphas-*` (e.g. `bg-neutral-100` → `bg-neutral-alphas-100`)
+7. Remove usage of deleted tokens (`neutral-solid`, etc.) and replace with new tokens
+8. Verify your app renders correctly in both light and dark themes

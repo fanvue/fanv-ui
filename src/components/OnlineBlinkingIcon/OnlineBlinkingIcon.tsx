@@ -32,8 +32,8 @@ export const OnlineBlinkingIcon = React.forwardRef<HTMLSpanElement, OnlineBlinki
       aria-hidden="true"
       {...props}
     >
-      <span className="absolute inset-0 animate-ping rounded-full bg-success-default opacity-75" />
-      <span className="absolute inset-0 rounded-full bg-success-default" />
+      <span className="absolute inset-0 animate-ping rounded-full bg-success-content opacity-75" />
+      <span className="absolute inset-0 rounded-full bg-success-content" />
     </span>
   ),
 );

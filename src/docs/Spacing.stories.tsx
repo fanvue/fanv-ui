@@ -69,7 +69,7 @@ function SpacingRow({ step }: { step: SpacingStep }) {
         gap: 12,
         alignItems: "center",
         padding: "6px 0",
-        borderBottom: "1px solid var(--color-neutral-100)",
+        borderBottom: "1px solid var(--color-neutral-alphas-100)",
         fontSize: 13,
       }}
     >
@@ -77,7 +77,7 @@ function SpacingRow({ step }: { step: SpacingStep }) {
         style={{
           fontFamily: "monospace",
           fontWeight: 600,
-          color: "var(--color-foreground-default)",
+          color: "var(--color-content-primary)",
         }}
       >
         {step.name}
@@ -85,7 +85,7 @@ function SpacingRow({ step }: { step: SpacingStep }) {
       <span
         style={{
           fontFamily: "monospace",
-          color: "var(--color-foreground-secondary)",
+          color: "var(--color-content-secondary)",
         }}
       >
         {step.rem}
@@ -93,7 +93,7 @@ function SpacingRow({ step }: { step: SpacingStep }) {
       <span
         style={{
           fontFamily: "monospace",
-          color: "var(--color-foreground-tertiary)",
+          color: "var(--color-content-tertiary)",
           textAlign: "right",
         }}
       >
@@ -129,7 +129,7 @@ export const Scale: Story = {
         style={{
           fontSize: 32,
           fontWeight: 800,
-          color: "var(--color-foreground-default)",
+          color: "var(--color-content-primary)",
           margin: "0 0 8px",
         }}
       >
@@ -138,7 +138,7 @@ export const Scale: Story = {
       <p
         style={{
           fontSize: 16,
-          color: "var(--color-foreground-secondary)",
+          color: "var(--color-content-secondary)",
           margin: "0 0 12px",
           maxWidth: 640,
           lineHeight: 1.5,
@@ -160,9 +160,9 @@ export const Scale: Story = {
           style={{
             fontSize: 13,
             fontFamily: "monospace",
-            color: "var(--color-foreground-tertiary)",
+            color: "var(--color-content-tertiary)",
             padding: "8px 12px",
-            backgroundColor: "var(--color-neutral-100)",
+            backgroundColor: "var(--color-neutral-alphas-100)",
             borderRadius: 6,
           }}
         >
@@ -172,9 +172,9 @@ export const Scale: Story = {
           style={{
             fontSize: 13,
             fontFamily: "monospace",
-            color: "var(--color-foreground-tertiary)",
+            color: "var(--color-content-tertiary)",
             padding: "8px 12px",
-            backgroundColor: "var(--color-neutral-100)",
+            backgroundColor: "var(--color-neutral-alphas-100)",
             borderRadius: 6,
           }}
         >
@@ -184,9 +184,9 @@ export const Scale: Story = {
           style={{
             fontSize: 13,
             fontFamily: "monospace",
-            color: "var(--color-foreground-tertiary)",
+            color: "var(--color-content-tertiary)",
             padding: "8px 12px",
-            backgroundColor: "var(--color-neutral-100)",
+            backgroundColor: "var(--color-neutral-alphas-100)",
             borderRadius: 6,
           }}
         >
@@ -200,12 +200,12 @@ export const Scale: Story = {
           gridTemplateColumns: "56px 88px 56px 1fr",
           gap: 12,
           padding: "8px 0",
-          borderBottom: "2px solid var(--color-neutral-200)",
+          borderBottom: "2px solid var(--color-neutral-alphas-200)",
           fontSize: 11,
           fontWeight: 600,
           textTransform: "uppercase",
           letterSpacing: "0.05em",
-          color: "var(--color-foreground-tertiary)",
+          color: "var(--color-content-tertiary)",
         }}
       >
         <span>Name</span>
@@ -222,14 +222,14 @@ export const Scale: Story = {
         style={{
           marginTop: 40,
           paddingTop: 24,
-          borderTop: "1px solid var(--color-neutral-200)",
+          borderTop: "1px solid var(--color-neutral-alphas-200)",
         }}
       >
         <h3
           style={{
             fontSize: 18,
             fontWeight: 700,
-            color: "var(--color-foreground-default)",
+            color: "var(--color-content-primary)",
             margin: "0 0 12px",
           }}
         >
@@ -269,14 +269,14 @@ export const Scale: Story = {
               style={{
                 padding: 16,
                 borderRadius: 8,
-                backgroundColor: "var(--color-neutral-100)",
+                backgroundColor: "var(--color-neutral-alphas-100)",
               }}
             >
               <div
                 style={{
                   fontSize: 14,
                   fontWeight: 600,
-                  color: "var(--color-foreground-default)",
+                  color: "var(--color-content-primary)",
                   marginBottom: 4,
                 }}
               >
@@ -285,7 +285,7 @@ export const Scale: Story = {
               <div
                 style={{
                   fontSize: 12,
-                  color: "var(--color-foreground-secondary)",
+                  color: "var(--color-content-secondary)",
                   marginBottom: 8,
                 }}
               >
@@ -300,7 +300,7 @@ export const Scale: Story = {
                       fontFamily: "monospace",
                       padding: "2px 6px",
                       borderRadius: 4,
-                      backgroundColor: "var(--color-neutral-100)",
+                      backgroundColor: "var(--color-neutral-alphas-100)",
                       color: "var(--color-brand-secondary-default)",
                     }}
                   >

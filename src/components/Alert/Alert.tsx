@@ -33,13 +33,13 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const CLOSE_BUTTON_CLASSES: Record<AlertVariant, string> = {
-  info: "hover:bg-info-default/10 active:bg-info-default/20 text-info-default motion-safe:transition-colors motion-safe:duration-150",
+  info: "hover:bg-info-content/10 active:bg-info-content/20 text-info-content motion-safe:transition-colors motion-safe:duration-150",
   success:
-    "hover:bg-success-default/10 active:bg-success-default/20 text-success-default motion-safe:transition-colors motion-safe:duration-150",
+    "hover:bg-success-content/10 active:bg-success-content/20 text-success-content motion-safe:transition-colors motion-safe:duration-150",
   warning:
-    "hover:bg-warning-default/10 active:bg-warning-default/20 text-warning-default motion-safe:transition-colors motion-safe:duration-150",
+    "hover:bg-warning-content/10 active:bg-warning-content/20 text-warning-content motion-safe:transition-colors motion-safe:duration-150",
   error:
-    "hover:bg-error-default/10 active:bg-error-default/20 text-error-default motion-safe:transition-colors motion-safe:duration-150",
+    "hover:bg-error-content/10 active:bg-error-content/20 text-error-content motion-safe:transition-colors motion-safe:duration-150",
 };
 
 /**
@@ -81,16 +81,16 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         role="alert"
         data-testid="alert"
         className={cn(
-          "grid gap-x-3 rounded-lg p-4 text-sm leading-[18px]",
+          "grid gap-x-3 rounded-xs p-4 text-sm leading-[18px]",
           resolvedIcon && closable && "grid-cols-[auto_1fr_auto]",
           resolvedIcon && !closable && "grid-cols-[auto_1fr]",
           !resolvedIcon && closable && "grid-cols-[1fr_auto]",
           !resolvedIcon && !closable && "grid-cols-[1fr]",
           title && children ? "items-start" : "items-center",
-          variant === "info" && "bg-info-background text-info-default",
-          variant === "success" && "bg-success-background text-success-default",
-          variant === "warning" && "bg-warning-background text-warning-default",
-          variant === "error" && "bg-error-background text-error-default",
+          variant === "info" && "bg-info-surface text-info-content",
+          variant === "success" && "bg-success-surface text-success-content",
+          variant === "warning" && "bg-warning-surface text-warning-content",
+          variant === "error" && "bg-error-surface text-error-content",
           className,
         )}
         {...props}
@@ -102,10 +102,8 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         )}
 
         <div className="flex min-w-0 flex-col gap-2">
-          {title && (
-            <div className="typography-semibold-body-md text-foreground-default">{title}</div>
-          )}
-          <div className="typography-regular-body-md text-foreground-secondary">{children}</div>
+          {title && <div className="typography-semibold-body-md text-content-primary">{title}</div>}
+          <div className="typography-regular-body-md text-content-primary">{children}</div>
         </div>
 
         {closable && (

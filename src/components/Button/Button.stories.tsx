@@ -304,7 +304,7 @@ export const AllStylesSize48: Story = {
       <Button variant="destructive" size="48">
         Destructive
       </Button>
-      <div className="rounded bg-neutral-400 p-2">
+      <div className="rounded bg-neutral-alphas-400 p-2">
         <Button variant="white" size="48">
           White
         </Button>
@@ -334,7 +334,7 @@ export const AllStylesSize40: Story = {
       <Button variant="destructive" size="40">
         Destructive
       </Button>
-      <div className="rounded bg-neutral-400 p-2">
+      <div className="rounded bg-neutral-alphas-400 p-2">
         <Button variant="white" size="40">
           White
         </Button>
@@ -361,7 +361,7 @@ export const AllStylesSize32: Story = {
       <Button variant="destructive" size="32">
         Destructive
       </Button>
-      <div className="rounded bg-neutral-400 p-2">
+      <div className="rounded bg-neutral-alphas-400 p-2">
         <Button variant="white" size="32">
           White
         </Button>

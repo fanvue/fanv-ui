@@ -28,7 +28,7 @@ export const AccordionContent = React.forwardRef<
     <div
       className={cn(
         "overflow-wrap-anywhere min-w-0",
-        "typography-regular-body-md text-foreground-secondary",
+        "typography-regular-body-md text-content-secondary",
         !noPadding && "px-3 pt-2 pb-3",
       )}
     >

@@ -188,7 +188,7 @@ export const Controlled: Story = {
     return (
       <div className="flex items-center gap-4">
         <Button onClick={() => setOpen(true)}>Open Controlled Drawer</Button>
-        <span className="typography-regular-body-sm text-foreground-secondary">
+        <span className="typography-regular-body-sm text-content-secondary">
           {open ? "Open" : "Closed"}
         </span>
         <Drawer open={open} onOpenChange={setOpen}>

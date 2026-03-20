@@ -9,7 +9,7 @@ export interface ChartCenterLabelProps
   value: React.ReactNode;
   /** Secondary text below the value. */
   subtitle: React.ReactNode;
-  /** Custom className for the value tspan. @default "fill-foreground-default font-bold text-3xl" */
+  /** Custom className for the value tspan. @default "fill-content-primary font-bold text-3xl" */
   valueClassName?: string;
 }
 
@@ -31,7 +31,7 @@ export const ChartCenterLabel = React.forwardRef<SVGTextElement, ChartCenterLabe
       viewBox,
       value,
       subtitle,
-      valueClassName = "fill-foreground-default font-bold text-3xl",
+      valueClassName = "fill-content-primary font-bold text-3xl",
       ...props
     },
     ref,
@@ -50,7 +50,7 @@ export const ChartCenterLabel = React.forwardRef<SVGTextElement, ChartCenterLabe
         <tspan x={viewBox.cx} y={viewBox.cy} className={valueClassName}>
           {value}
         </tspan>
-        <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-foreground-tertiary">
+        <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-content-tertiary">
           {subtitle}
         </tspan>
       </text>

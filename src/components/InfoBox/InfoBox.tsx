@@ -50,8 +50,9 @@ export interface InfoBoxContentProps
 }
 
 const ACTION_CLASSES: Record<"brand" | "tertiary", string> = {
-  brand: "hover:bg-brand-accent-default/80 hover:text-foreground-onaccent",
-  tertiary: "text-foreground-inverse hover:text-foreground-inverse hover:bg-foreground-inverse/10",
+  brand: "hover:bg-brand-primary-default/80 hover:text-content-on-brand",
+  tertiary:
+    "text-content-primary-inverted hover:text-content-primary-inverted hover:bg-content-primary-inverted/10",
 };
 
 const ActionButton = ({
@@ -102,7 +103,7 @@ export const InfoBoxContent = React.forwardRef<
           collisionPadding={8}
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
           className={cn(
-            "typography-regular-body-md max-w-[280px] overflow-hidden rounded-2xl border border-neutral-200 bg-surface-pageinverse p-4 text-foreground-inverse shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",
+            "typography-regular-body-md max-w-[280px] overflow-hidden rounded-md border border-white/20 bg-surface-primary-inverted p-4 text-content-primary-inverted shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",
             className,
           )}
           align="center"
@@ -122,7 +123,7 @@ export const InfoBoxContent = React.forwardRef<
                 {heading && (
                   <p
                     id={headingId}
-                    className="typography-semibold-body-lg min-w-0 flex-1 text-foreground-inverse"
+                    className="typography-semibold-body-lg min-w-0 flex-1 text-content-primary-inverted"
                   >
                     {heading}
                   </p>
@@ -131,7 +132,9 @@ export const InfoBoxContent = React.forwardRef<
               </div>
             )}
             {children && (
-              <div className="typography-regular-body-md text-foreground-inverse">{children}</div>
+              <div className="typography-regular-body-md text-content-primary-inverted">
+                {children}
+              </div>
             )}
             {hasActions && (
               <div className="flex items-center gap-1">
@@ -143,7 +146,7 @@ export const InfoBoxContent = React.forwardRef<
           {showArrow && (
             <PopoverPrimitive.Arrow
               className={
-                "-translate-y-px! fill-surface-pageinverse stroke-2 stroke-surface-pageinverse"
+                "-translate-y-px! fill-surface-primary-inverted stroke-2 stroke-surface-primary-inverted"
               }
               width={12}
               height={6}

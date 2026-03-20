@@ -27,9 +27,9 @@ export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
 export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
-  outlined: "border border-neutral-200 bg-surface-container shadow-cardsubtle",
-  elevated: "border border-neutral-200 bg-surface-container shadow-card",
-  filled: "bg-neutral-500",
+  outlined: "border border-neutral-alphas-200 bg-surface-primary shadow-sm",
+  elevated: "border border-neutral-alphas-200 bg-surface-primary shadow-md",
+  filled: "bg-surface-secondary",
   ghost: "bg-transparent",
 };
 
@@ -62,7 +62,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          "flex flex-col overflow-hidden rounded-2xl",
+          "flex flex-col overflow-hidden rounded-md",
           !noPadding && "p-4",
           fullWidth && "w-full",
           VARIANT_CLASSES[variant],
@@ -99,7 +99,7 @@ export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
     return (
       <h3
         ref={ref}
-        className={cn("typography-semibold-body-lg text-foreground-default", className)}
+        className={cn("typography-semibold-body-lg text-content-primary", className)}
         {...props}
       >
         {children}
@@ -115,7 +115,7 @@ export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescri
     return (
       <p
         ref={ref}
-        className={cn("typography-regular-body-sm text-foreground-secondary", className)}
+        className={cn("typography-regular-body-sm text-content-secondary", className)}
         {...props}
       >
         {children}

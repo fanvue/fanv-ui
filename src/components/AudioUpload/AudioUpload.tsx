@@ -234,23 +234,23 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
           data-testid="audio-upload"
           data-state="recording"
           className={cn(
-            "flex flex-col items-center justify-center gap-2 rounded-xl bg-neutral-100 px-4 py-3",
+            "flex flex-col items-center justify-center gap-2 rounded-md bg-surface-secondary px-4 py-3",
             className,
           )}
           {...props}
         >
           <div className="flex flex-1 flex-col items-center gap-2">
             <div
-              className="flex size-[72px] items-center justify-center rounded-full bg-neutral-400"
+              className="flex size-[72px] items-center justify-center rounded-full bg-buttons-primary"
               aria-hidden="true"
             >
-              <MicrophoneIcon className="size-5 text-foreground-inverse" />
+              <MicrophoneIcon className="size-5 text-content-primary-inverted" />
             </div>
 
             <p
               role="timer"
               aria-label="Recording time"
-              className="typography-regular-body-lg text-foreground-default"
+              className="typography-regular-body-lg text-content-primary"
             >
               {formattedElapsed} / {formatAudioTime(maxRecordingDuration * 1000)}
             </p>
@@ -268,7 +268,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
             ref={stopButtonRef}
             type="button"
             onClick={handleStopClick}
-            className="mt-1 flex size-11 items-center justify-center rounded-full bg-error-default text-foreground-onaccentinverse transition-colors hover:bg-error-default/80 focus:shadow-focus-ring focus-visible:outline-none"
+            className="mt-1 flex size-11 items-center justify-center rounded-full bg-error-content text-content-on-brand-inverted transition-colors hover:bg-error-content/80 focus:shadow-focus-ring focus-visible:outline-none"
             aria-label={stopButtonAriaLabel}
           >
             <StopIcon className="size-5" />
@@ -290,8 +290,8 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={cn(
-          "flex flex-col items-center justify-center gap-2 rounded-xl bg-neutral-100 px-4 py-3 transition-colors",
-          isDragActive && "bg-brand-accent-muted ring-2 ring-brand-accent-default",
+          "flex flex-col items-center justify-center gap-2 rounded-md bg-surface-secondary px-4 py-3 transition-colors",
+          isDragActive && "bg-brand-primary-muted ring-2 ring-brand-primary-default",
           disabled && "pointer-events-none opacity-50",
           className,
         )}
@@ -310,17 +310,17 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
 
         <label
           htmlFor={inputId}
-          className="flex cursor-pointer flex-col items-center gap-2 rounded-lg px-2 py-1 peer-focus-visible:shadow-focus-ring"
+          className="flex cursor-pointer flex-col items-center gap-2 rounded-xs px-2 py-1 peer-focus-visible:shadow-focus-ring"
         >
-          <UploadCloudIcon className="size-5 text-foreground-default" />
+          <UploadCloudIcon className="size-5 text-content-primary" />
 
-          <span className="typography-semibold-body-lg text-center text-foreground-default">
+          <span className="typography-semibold-body-lg text-center text-content-primary">
             {uploadTitle}
           </span>
 
           <span
             id={descriptionId}
-            className="typography-regular-body-md text-center text-foreground-default"
+            className="typography-regular-body-md text-center text-content-primary"
           >
             {uploadDescription}
           </span>
@@ -328,7 +328,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
 
         {allowRecording && isRecordingSupported && (
           <>
-            <p className="typography-regular-body-md text-center text-foreground-default">
+            <p className="typography-regular-body-md text-center text-content-primary">
               {separatorText}
             </p>
 

@@ -37,8 +37,8 @@ export function AutocompleteOptionItem({
       aria-disabled={option.disabled || undefined}
       data-option-index={index}
       className={cn(
-        "typography-regular-body-lg relative flex w-full cursor-pointer select-none items-center gap-2 rounded-lg py-2 pr-2 pl-3 text-foreground-default outline-none",
-        isActive && "bg-neutral-100",
+        "typography-regular-body-lg relative flex w-full cursor-pointer select-none items-center gap-2 rounded-xs py-2 pr-2 pl-3 text-content-primary outline-none",
+        isActive && "bg-neutral-alphas-100",
         option.disabled && "pointer-events-none opacity-50",
         isCreate && "italic",
       )}
@@ -61,7 +61,7 @@ export function AutocompleteOptionItem({
           <span className="min-w-0 flex-1 truncate">{getLabel(option)}</span>
           {isSelected && (
             <span className="ml-auto flex size-4 shrink-0 items-center justify-center">
-              <CheckIcon className="size-4 text-foreground-default" />
+              <CheckIcon className="size-4 text-content-primary" />
             </span>
           )}
         </>

@@ -41,9 +41,9 @@ export const BottomNavigationAction = React.forwardRef<
       data-state={isActive ? "active" : "inactive"}
       className={cn(
         "relative flex min-w-0 flex-1 cursor-pointer flex-col items-center justify-center gap-0.5 overflow-hidden px-2 py-2",
-        "text-foreground-default",
+        "text-content-primary",
         "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
         className,
       )}
       onClick={handleClick}

@@ -144,7 +144,7 @@ describe("PasswordField", () => {
   describe("error state", () => {
     it("applies error state styling", () => {
       const { container } = render(<PasswordField error />);
-      const inputContainer = container.querySelector('div[class*="border-error-default"]');
+      const inputContainer = container.querySelector('div[class*="border-error-content"]');
       expect(inputContainer).toBeInTheDocument();
     });
 
@@ -173,7 +173,7 @@ describe("PasswordField", () => {
     it("applies error styling to helper text when error is true", () => {
       render(<PasswordField error helperText="Helper text" />);
       const helperText = screen.getByText("Helper text");
-      expect(helperText).toHaveClass("text-error-default");
+      expect(helperText).toHaveClass("text-error-content");
     });
 
     it("supports disabled state", () => {

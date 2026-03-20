@@ -120,7 +120,7 @@ export const MobileStepper = React.forwardRef<HTMLElement, MobileStepperProps>(
                       data-state={state}
                       className={cn(
                         "block size-2 shrink-0 rounded-full motion-safe:transition-colors motion-safe:duration-150",
-                        state === "active" ? "bg-foreground-default" : "bg-neutral-200",
+                        state === "active" ? "bg-content-primary" : "bg-neutral-alphas-200",
                       )}
                       aria-hidden="true"
                     />
@@ -146,7 +146,7 @@ export const MobileStepper = React.forwardRef<HTMLElement, MobileStepperProps>(
           {variant === "text" && (
             <output
               aria-live="polite"
-              className="typography-regular-body-sm truncate text-foreground-secondary"
+              className="typography-regular-body-sm truncate text-content-secondary"
             >
               {formatText(clampedStep + 1, safeSteps)}
             </output>

@@ -168,7 +168,7 @@ describe("Dialog", () => {
       const { baseElement } = renderDialog({ overlay: false });
       expect(screen.getByRole("dialog")).toBeInTheDocument();
       // The overlay element should not be rendered
-      expect(baseElement.querySelector(".bg-surface-backdrop")).not.toBeInTheDocument();
+      expect(baseElement.querySelector(".bg-bg-overlay")).not.toBeInTheDocument();
     });
 
     it("shows back button automatically when onBack is provided", () => {

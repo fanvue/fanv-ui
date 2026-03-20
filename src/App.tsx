@@ -335,7 +335,7 @@ function TextFieldShowcase() {
   };
   return (
     <div id="textfield" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Text Field</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Text Field</h2>
       <TextField label="Size 48" placeholder="Placeholder" size="48" autoComplete="off" />
       <TextField label="Size 40" placeholder="Placeholder" size="40" autoComplete="off" />
       <TextField label="Size 32" placeholder="Placeholder" size="32" autoComplete="off" />
@@ -414,7 +414,7 @@ function PasswordFieldShowcase() {
   };
   return (
     <div id="passwordfield" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Password Field</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Password Field</h2>
       <PasswordField label="Size 48" placeholder="Enter password" size="48" autoComplete="off" />
       <PasswordField label="Size 40" placeholder="Enter password" size="40" autoComplete="off" />
       <PasswordField label="Size 32" placeholder="Enter password" size="32" autoComplete="off" />
@@ -467,7 +467,7 @@ function TextAreaShowcase() {
   };
   return (
     <div id="textarea" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Text Area</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Text Area</h2>
       <div className="flex max-w-2xl flex-col gap-4">
         <TextArea label="Size 48" placeholder="Enter description..." size="48" />
         <TextArea label="Size 40" placeholder="Enter description..." size="40" />
@@ -545,7 +545,7 @@ function SearchFieldShowcase() {
   };
   return (
     <div id="searchfield" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Search Field</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Search Field</h2>
       <SearchField label="Size 48" placeholder="Search..." size="48" autoComplete="off" />
       <SearchField label="Size 40" placeholder="Search..." size="40" autoComplete="off" />
       <SearchField label="Size 32" placeholder="Search..." size="32" autoComplete="off" />
@@ -626,7 +626,7 @@ function ToastDemo() {
 
   return (
     <div id="toast" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Toast</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Toast</h2>
       <div className="space-y-4">
         <div className="flex flex-wrap gap-3">
           <Button variant="primary" size="40" onClick={() => showToast("info")}>
@@ -736,7 +736,7 @@ function ToastDemo() {
 function LogoDemo() {
   return (
     <div id="logo" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Logo</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Logo</h2>
       <div className="flex flex-wrap items-start gap-8">
         <Logo variant="full" color="fullColour" />
         <Logo variant="icon" color="fullColour" />
@@ -747,7 +747,7 @@ function LogoDemo() {
         <Logo variant="portrait" color="decolour" />
         <Logo variant="wordmark" color="decolour" />
       </div>
-      <div className="rounded-lg bg-[#ffffff] p-4">
+      <div className="rounded-xs bg-[#ffffff] p-4">
         <div className="flex flex-wrap items-start gap-8">
           <Logo variant="full" color="blackAlways" />
           <Logo variant="icon" color="blackAlways" />
@@ -755,7 +755,7 @@ function LogoDemo() {
           <Logo variant="wordmark" color="blackAlways" />
         </div>
       </div>
-      <div className="rounded-lg bg-[#151515] p-4">
+      <div className="rounded-xs bg-[#151515] p-4">
         <div className="flex flex-wrap items-start gap-8">
           <Logo variant="full" color="whiteAlways" />
           <Logo variant="icon" color="whiteAlways" />
@@ -886,18 +886,18 @@ function IconsDemo() {
 
   return (
     <div id="icons" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Icons</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Icons</h2>
       <div className="space-y-6">
         <div className="flex flex-wrap items-end gap-6">
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
-              <span className="text-[10px] text-foreground-secondary leading-tight">{name}</span>
+              <span className="text-[10px] text-content-secondary leading-tight">{name}</span>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-[#ffffff] p-4 text-[#151515]">
+        <div className="flex flex-wrap items-end gap-6 rounded-xs bg-[#ffffff] p-4 text-[#151515]">
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
@@ -906,7 +906,7 @@ function IconsDemo() {
           ))}
         </div>
 
-        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-[#151515] p-4 text-[#ffffff]">
+        <div className="flex flex-wrap items-end gap-6 rounded-xs bg-[#151515] p-4 text-[#ffffff]">
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
@@ -919,23 +919,23 @@ function IconsDemo() {
         <div className="flex flex-wrap items-end gap-8">
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-4" />
-            <span className="text-[10px] text-foreground-secondary">16px</span>
+            <span className="text-[10px] text-content-secondary">16px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon />
-            <span className="text-[10px] text-foreground-secondary">20px</span>
+            <span className="text-[10px] text-content-secondary">20px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-6" />
-            <span className="text-[10px] text-foreground-secondary">24px</span>
+            <span className="text-[10px] text-content-secondary">24px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-8" />
-            <span className="text-[10px] text-foreground-secondary">32px</span>
+            <span className="text-[10px] text-content-secondary">32px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-10" />
-            <span className="text-[10px] text-foreground-secondary">40px</span>
+            <span className="text-[10px] text-content-secondary">40px</span>
           </div>
         </div>
       </div>
@@ -995,26 +995,26 @@ function TypographyDemo() {
 
   return (
     <div id="typography" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Typography</h2>
-      <p className="mb-6 text-foreground-secondary">
+      <h2 className="typography-bold-heading-sm mb-4">Typography</h2>
+      <p className="mb-6 text-content-secondary">
         All typography is set in <strong>Inter</strong>. Styles are available as utility classes
         generated from Figma tokens.
       </p>
 
       <div className="space-y-8">
         <div>
-          <h3 className="mb-3 font-semibold text-foreground-secondary text-xs uppercase tracking-wider">
+          <h3 className="mb-3 font-semibold text-content-secondary text-xs uppercase tracking-wider">
             Bold
           </h3>
           <div className="space-y-4">
             {boldTokens.map((token) => (
               <div
                 key={token.className}
-                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+                className="flex items-baseline gap-6 border-border-primary border-b pb-4"
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-foreground-secondary">{token.className}</code>
+                  <code className="text-[11px] text-content-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -1023,18 +1023,18 @@ function TypographyDemo() {
         </div>
 
         <div>
-          <h3 className="mb-3 font-semibold text-foreground-secondary text-xs uppercase tracking-wider">
+          <h3 className="mb-3 font-semibold text-content-secondary text-xs uppercase tracking-wider">
             Semibold
           </h3>
           <div className="space-y-4">
             {semiboldTokens.map((token) => (
               <div
                 key={token.className}
-                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+                className="flex items-baseline gap-6 border-border-primary border-b pb-4"
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-foreground-secondary">{token.className}</code>
+                  <code className="text-[11px] text-content-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -1043,18 +1043,18 @@ function TypographyDemo() {
         </div>
 
         <div>
-          <h3 className="mb-3 font-semibold text-foreground-secondary text-xs uppercase tracking-wider">
+          <h3 className="mb-3 font-semibold text-content-secondary text-xs uppercase tracking-wider">
             Regular
           </h3>
           <div className="space-y-4">
             {regularTokens.map((token) => (
               <div
                 key={token.className}
-                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+                className="flex items-baseline gap-6 border-border-primary border-b pb-4"
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-foreground-secondary">{token.className}</code>
+                  <code className="text-[11px] text-content-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -1069,7 +1069,7 @@ function TypographyDemo() {
 function AvatarDemo() {
   return (
     <div id="avatar" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Avatar</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Avatar</h2>
       <div className="flex flex-wrap items-center gap-4">
         <Avatar
           size={16}
@@ -1195,10 +1195,12 @@ function AvatarDemo() {
 function AccordionDemo() {
   return (
     <div id="accordion" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Accordion</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Accordion</h2>
       <div className="flex flex-wrap items-start gap-8">
         <div className="w-80">
-          <p className="typography-regular-body-sm mb-2 text-neutral-250">Single / Collapsible</p>
+          <p className="typography-regular-body-sm mb-2 text-content-tertiary">
+            Single / Collapsible
+          </p>
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Section 1</AccordionTrigger>
@@ -1215,7 +1217,7 @@ function AccordionDemo() {
           </Accordion>
         </div>
         <div className="w-80">
-          <p className="typography-regular-body-sm mb-2 text-neutral-250">Multiple</p>
+          <p className="typography-regular-body-sm mb-2 text-content-tertiary">Multiple</p>
           <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
             <AccordionItem value="item-1">
               <AccordionTrigger>Open 1</AccordionTrigger>
@@ -1228,7 +1230,7 @@ function AccordionDemo() {
           </Accordion>
         </div>
         <div className="w-80">
-          <p className="typography-regular-body-sm mb-2 text-neutral-250">Disabled Item</p>
+          <p className="typography-regular-body-sm mb-2 text-content-tertiary">Disabled Item</p>
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Enabled</AccordionTrigger>
@@ -1248,7 +1250,7 @@ function AccordionDemo() {
 function DrawerDemo() {
   return (
     <div id="drawer" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Drawer</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Drawer</h2>
       <div className="flex flex-wrap items-start gap-4">
         <Drawer>
           <DrawerTrigger asChild>
@@ -1357,7 +1359,7 @@ function DrawerDemo() {
 function AlertDemo() {
   return (
     <div id="alert" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Alert</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Alert</h2>
       <div className="max-w-2xl space-y-4">
         <Alert variant="info" icon={<InfoCircleIcon />}>
           This is an informational alert message.
@@ -1388,7 +1390,7 @@ function AlertDemo() {
 function ButtonDemo() {
   return (
     <div id="button" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Button</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Button</h2>
       <div className="flex flex-wrap items-center gap-4">
         <Button variant="primary">Label</Button>
         <Button variant="secondary">Label</Button>
@@ -1396,7 +1398,7 @@ function ButtonDemo() {
         <Button variant="brand">Label</Button>
         <Button variant="link">Label</Button>
         <Button variant="destructive">Label</Button>
-        <div className="rounded-lg bg-surface-pageinverse p-3">
+        <div className="rounded-xs bg-surface-primary-inverted p-3">
           <Button variant="white">Label</Button>
         </div>
         <Button variant="tertiaryDestructive">Label</Button>
@@ -1433,7 +1435,7 @@ function ButtonDemo() {
             <Button variant="destructive" size={size}>
               Label
             </Button>
-            <div className="rounded-lg bg-surface-pageinverse p-2">
+            <div className="rounded-xs bg-surface-primary-inverted p-2">
               <Button variant="white" size={size}>
                 Label
               </Button>
@@ -1467,7 +1469,7 @@ function ButtonDemo() {
         <Button variant="destructive" disabled>
           Label
         </Button>
-        <div className="rounded-lg bg-surface-pageinverse p-3">
+        <div className="rounded-xs bg-surface-primary-inverted p-3">
           <Button variant="white" disabled>
             Label
           </Button>
@@ -1499,7 +1501,7 @@ function ButtonDemo() {
         <Button variant="destructive" loading>
           Label
         </Button>
-        <div className="rounded-lg bg-surface-pageinverse p-3">
+        <div className="rounded-xs bg-surface-primary-inverted p-3">
           <Button variant="white" loading>
             Label
           </Button>
@@ -1525,7 +1527,7 @@ function ButtonDemo() {
         <Button fullWidth variant="primary" discount="$X.XX" price="$X.XX/ month">
           Join now
         </Button>
-        <div className="rounded-lg bg-surface-pageinverse p-3">
+        <div className="rounded-xs bg-surface-primary-inverted p-3">
           <Button variant="white" rightIcon={<CrownIcon />} discount="$X.XX" price="$X.XX/ month">
             Join now
           </Button>
@@ -1547,7 +1549,7 @@ function ButtonDemo() {
 function BadgeDemo() {
   return (
     <div id="badge" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Badge</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Badge</h2>
       <div className="flex flex-wrap gap-4">
         <Badge variant="default">Default</Badge>
         <Badge variant="dark">Dark</Badge>
@@ -1578,7 +1580,7 @@ function BadgeDemo() {
 function IconButtonDemo() {
   return (
     <div id="iconbutton" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Icon Button</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Icon Button</h2>
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-4">
           <IconButton variant="primary" icon={<HomeIcon />} aria-label="Home" />
@@ -1589,7 +1591,7 @@ function IconButtonDemo() {
           <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
         </div>
 
-        <div className="rounded-lg bg-surface-pageinverse p-4">
+        <div className="rounded-xs bg-surface-primary-inverted p-4">
           <div className="flex flex-wrap items-center gap-4">
             <IconButton variant="contrast" icon={<HomeIcon />} aria-label="Home" />
             <IconButton variant="messaging" icon={<PlusIcon />} aria-label="Add" />
@@ -1640,7 +1642,7 @@ function IconButtonDemo() {
 function PillDemo() {
   return (
     <div id="pill" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Pill</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Pill</h2>
       <div className="flex flex-wrap gap-4">
         <Pill variant="green">Green</Pill>
         <Pill variant="grey">Grey</Pill>
@@ -1669,7 +1671,7 @@ function PillDemo() {
 function CheckboxDemo() {
   return (
     <div id="checkbox" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Checkbox</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Checkbox</h2>
       <div className="flex flex-col gap-4">
         <Checkbox label="Default checkbox" />
         <Checkbox label="Small text size" size="small" helperText="Label and helper are smaller" />
@@ -1688,7 +1690,7 @@ function CheckboxDemo() {
 function RadioDemo() {
   return (
     <div id="radio" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Radio</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Radio</h2>
       <RadioGroup defaultValue="option1" aria-label="Options" className="flex flex-col gap-4">
         <Radio label="Option 1" value="option1" helperText="This is the first option" />
         <Radio label="Option 2" value="option2" helperText="This is the second option" />
@@ -1728,7 +1730,7 @@ function AutocompleteDemo() {
 
   return (
     <div id="autocomplete" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Autocomplete</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Autocomplete</h2>
       <div className="flex max-w-sm flex-col gap-4">
         <Autocomplete
           label="Default"
@@ -1812,7 +1814,7 @@ function AutocompleteDemo() {
 function SelectDemo() {
   return (
     <div id="select" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Select</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Select</h2>
       <div className="flex max-w-sm flex-col gap-4">
         <Select label="Size 48" placeholder="Select an option" size="48">
           <SelectContent>
@@ -1910,7 +1912,7 @@ function SelectDemo() {
 function CountDemo() {
   return (
     <div id="count" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Count</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Count</h2>
       <div className="flex flex-wrap items-center gap-4">
         <Count value={5} variant="default" />
         <Count value={12} variant="brand" />
@@ -1937,7 +1939,7 @@ function CountDemo() {
 function ChipDemo() {
   return (
     <div id="chip" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Chip</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Chip</h2>
       <div className="flex flex-wrap items-center gap-3">
         <Chip>Chip</Chip>
         <Chip variant="square">Chip</Chip>
@@ -2170,7 +2172,7 @@ function ChipDemo() {
 function SnackbarDemo() {
   return (
     <div id="snackbar" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Snackbar</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Snackbar</h2>
       <div className="max-w-xl space-y-4">
         <Snackbar
           variant="vipEarn"
@@ -2201,7 +2203,7 @@ function SnackbarDemo() {
 function SwitchDemo() {
   return (
     <div id="switch" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Switch</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Switch</h2>
       <div className="flex flex-wrap items-center gap-4">
         <Switch aria-label="Toggle default" />
         <Switch aria-label="Toggle default checked" defaultChecked />
@@ -2219,7 +2221,7 @@ function SwitchDemo() {
 function SwitchFieldDemo() {
   return (
     <div id="switchfield" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Switch Field</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Switch Field</h2>
       <div className="flex max-w-2xl flex-col gap-4">
         <SwitchField label="Notifications" />
         <SwitchField label="Notifications" defaultChecked />
@@ -2276,7 +2278,7 @@ function SwitchFieldDemo() {
 function SwitchToggleDemo() {
   return (
     <div id="switchtoggle" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Switch Toggle</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Switch Toggle</h2>
       <div className="flex flex-wrap items-center gap-4">
         <SwitchToggle
           size="24"
@@ -2385,7 +2387,7 @@ function SwitchToggleDemo() {
 function DatePickerDemo() {
   return (
     <div id="datepicker" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Date Picker</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Date Picker</h2>
       <DatePickerShowcase />
     </div>
   );
@@ -2394,7 +2396,7 @@ function DatePickerDemo() {
 function DividerDemo() {
   return (
     <div id="divider" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Divider</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Divider</h2>
       <div className="flex flex-col gap-6">
         <Divider />
         <Divider className="w-1/2" />
@@ -2411,7 +2413,7 @@ function DividerDemo() {
 function TabsDemo() {
   return (
     <div id="tabs" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Tabs</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Tabs</h2>
       <div className="flex flex-wrap items-start gap-8">
         <Tabs defaultValue="tab1">
           <TabsList>
@@ -2420,13 +2422,13 @@ function TabsDemo() {
             <TabsTrigger value="tab3">Posts</TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">
-            <p className="pt-4 text-neutral-400 text-sm">Photos content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Photos content</p>
           </TabsContent>
           <TabsContent value="tab2">
-            <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Videos content</p>
           </TabsContent>
           <TabsContent value="tab3">
-            <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Posts content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="tab1">
@@ -2438,10 +2440,10 @@ function TabsDemo() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">
-            <p className="pt-4 text-neutral-400 text-sm">Active tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Active tab content</p>
           </TabsContent>
           <TabsContent value="tab2">
-            <p className="pt-4 text-neutral-400 text-sm">Normal tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Normal tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="t">
@@ -2449,7 +2451,7 @@ function TabsDemo() {
             <TabsTrigger value="t">Tab</TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-400 text-sm">Single tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Single tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="t">
@@ -2459,7 +2461,7 @@ function TabsDemo() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-400 text-sm">Disabled tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Disabled tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="other">
@@ -2467,7 +2469,7 @@ function TabsDemo() {
             <TabsTrigger value="t">Tab</TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-400 text-sm">Inactive tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Inactive tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="other">
@@ -2477,7 +2479,7 @@ function TabsDemo() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-400 text-sm">Disabled inactive tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Disabled inactive tab content</p>
           </TabsContent>
         </Tabs>
       </div>
@@ -2488,7 +2490,7 @@ function TabsDemo() {
 function SliderDemo() {
   return (
     <div id="slider" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Slider</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Slider</h2>
       <SliderShowcase />
     </div>
   );
@@ -2497,7 +2499,7 @@ function SliderDemo() {
 function PaginationDemo() {
   return (
     <div id="pagination" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Pagination</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Pagination</h2>
       <PaginationShowcase />
     </div>
   );
@@ -2506,7 +2508,7 @@ function PaginationDemo() {
 function ProgressBarDemo() {
   return (
     <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Progress Bar</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Progress Bar</h2>
       <div className="flex max-w-md flex-col gap-6">
         {/* Default variant — color-coded by value */}
         <ProgressBar value={20} />
@@ -2527,7 +2529,7 @@ function ProgressBarDemo() {
         <ProgressBar value={50} size="small" variant="generic" />
 
         {/* Neutral variant — always white */}
-        <div className="rounded-lg bg-neutral-800 p-4">
+        <div className="rounded-xs bg-neutral-alphas-800 p-4">
           <div className="flex flex-col gap-6">
             <ProgressBar value={20} variant="neutral" />
             <ProgressBar value={60} variant="neutral" />
@@ -2620,7 +2622,7 @@ function MobileStepperDemo() {
 
   return (
     <div id="mobilestepper" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Mobile Stepper</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Mobile Stepper</h2>
       <div className="flex max-w-md flex-col gap-6">
         {/* Dots variant */}
         <MobileStepper
@@ -2711,7 +2713,7 @@ function TooltipDemo() {
   const [open, setOpen] = useState(false);
   return (
     <div id="tooltip" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Tooltip</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Tooltip</h2>
       <TooltipProvider>
         <div className="flex flex-col gap-8">
           {/* Controlled */}
@@ -2810,7 +2812,7 @@ function TooltipDemo() {
 function InfoBoxDemo() {
   return (
     <div id="infobox" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">InfoBox</h2>
+      <h2 className="typography-bold-heading-sm mb-4">InfoBox</h2>
       <div className="flex flex-wrap items-center gap-4">
         <InfoBox>
           <InfoBoxTrigger asChild>
@@ -2828,7 +2830,7 @@ function InfoBoxDemo() {
           </InfoBoxTrigger>
           <InfoBoxContent
             side="right"
-            icon={<InfoCircleIcon className="text-foreground-inverse" />}
+            icon={<InfoCircleIcon className="text-content-primary-inverted" />}
             heading="Title"
           >
             Info text
@@ -2854,7 +2856,7 @@ function InfoBoxDemo() {
             <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
           </InfoBoxTrigger>
           <InfoBoxContent
-            icon={<InfoCircleIcon className="text-foreground-inverse" />}
+            icon={<InfoCircleIcon className="text-content-primary-inverted" />}
             heading="Title"
             primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
             secondaryAction={{ label: "Dismiss", onClick: () => console.log("Dismiss") }}
@@ -2870,7 +2872,7 @@ function InfoBoxDemo() {
 function AudioUploadDemo() {
   return (
     <div id="audioupload" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Audio Upload</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Audio Upload</h2>
       <AudioUpload
         className="w-80"
         onFilesAccepted={(files) => console.log("Accepted:", files)}
@@ -2903,7 +2905,7 @@ function AudioUploadDemo() {
 function LoaderDemo() {
   return (
     <div id="loader" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Loader</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Loader</h2>
       <div className="flex flex-col gap-6">
         <Loader show center minHeight={120} />
         <Loader show centerX minHeight={80} />
@@ -3032,7 +3034,7 @@ function DialogDemo() {
             </DialogHeader>
             <DialogBody>
               {Array.from({ length: 15 }, (_, i) => `paragraph-${i + 1}`).map((id) => (
-                <p key={id} className="typography-regular-body-lg mb-4 text-foreground-secondary">
+                <p key={id} className="typography-regular-body-lg mb-4 text-content-secondary">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
                   incididunt ut labore et dolore magna aliqua.
                 </p>
@@ -3055,8 +3057,8 @@ function BottomNavigationDemo() {
   const [navValue, setNavValue] = React.useState("home");
   return (
     <div id="bottom-navigation" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Bottom Navigation</h2>
-      <div className="relative h-[80px] overflow-hidden rounded-lg border border-neutral-200">
+      <h2 className="typography-bold-heading-sm mb-4">Bottom Navigation</h2>
+      <div className="relative h-[80px] overflow-hidden rounded-xs border border-neutral-alphas-200">
         <BottomNavigation
           value={navValue}
           onValueChange={setNavValue}
@@ -3074,7 +3076,7 @@ function BottomNavigationDemo() {
                 max={99}
                 variant="default"
                 size="24"
-                className="ring-2 ring-surface-page"
+                className="ring-2 ring-bg-primary"
               />
             }
           />
@@ -3089,7 +3091,7 @@ function BottomNavigationDemo() {
                 max={99}
                 variant="default"
                 size="24"
-                className="ring-2 ring-surface-page"
+                className="ring-2 ring-bg-primary"
               />
             }
           />
@@ -3107,7 +3109,7 @@ function BottomNavigationDemo() {
 function BreadcrumbDemo() {
   return (
     <div id="breadcrumb" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Breadcrumb</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Breadcrumb</h2>
       <div className="flex flex-col gap-4">
         <Breadcrumb>
           <BreadcrumbList>
@@ -3162,13 +3164,13 @@ function SkeletonDemo() {
       <h3 className="typography-semibold-body-lg">Variants</h3>
       <div className="flex flex-col gap-4">
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">text</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">text</p>
           <Skeleton variant="text" width={240} />
           <Skeleton variant="text" width="80%" />
           <Skeleton variant="text" width="60%" />
         </div>
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">circular</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">circular</p>
           <div className="flex gap-3">
             <Skeleton variant="circular" width={24} height={24} />
             <Skeleton variant="circular" width={40} height={40} />
@@ -3176,11 +3178,11 @@ function SkeletonDemo() {
           </div>
         </div>
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">rectangular</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">rectangular</p>
           <Skeleton variant="rectangular" width="100%" height={120} />
         </div>
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">rounded</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">rounded</p>
           <Skeleton variant="rounded" width="100%" height={120} />
         </div>
       </div>
@@ -3189,17 +3191,15 @@ function SkeletonDemo() {
       <h3 className="typography-semibold-body-lg mt-4">Animations</h3>
       <div className="flex flex-col gap-4">
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">
-            pulse (default)
-          </p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">pulse (default)</p>
           <Skeleton variant="rectangular" width="100%" height={60} animation="pulse" />
         </div>
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">wave</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">wave</p>
           <Skeleton variant="rectangular" width="100%" height={60} animation="wave" />
         </div>
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">disabled</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">disabled</p>
           <Skeleton variant="rectangular" width="100%" height={60} animation={false} />
         </div>
       </div>
@@ -3222,7 +3222,7 @@ function SkeletonDemo() {
         </div>
 
         {/* Composition: Card */}
-        <div className="w-72 space-y-3 rounded-lg border border-neutral-200 p-0 pb-3">
+        <div className="w-72 space-y-3 rounded-xs border border-neutral-alphas-200 p-0 pb-3">
           <Skeleton variant="rectangular" width="100%" height={160} />
           <div className="flex items-center gap-3 px-3">
             <Skeleton variant="circular" width={40} height={40} />
@@ -3234,7 +3234,7 @@ function SkeletonDemo() {
         </div>
 
         {/* Composition: Card with wave */}
-        <div className="w-72 space-y-3 rounded-lg border border-neutral-200 p-0 pb-3">
+        <div className="w-72 space-y-3 rounded-xs border border-neutral-alphas-200 p-0 pb-3">
           <Skeleton variant="rectangular" width="100%" height={160} animation="wave" />
           <div className="flex items-center gap-3 px-3">
             <Skeleton variant="circular" width={40} height={40} animation="wave" />
@@ -3264,9 +3264,7 @@ function CardDemo() {
               <CardDescription>Card description text</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="typography-regular-body-md text-foreground-tertiary">
-                Content goes here
-              </p>
+              <p className="typography-regular-body-md text-content-tertiary">Content goes here</p>
             </CardContent>
             <CardFooter>
               <Button variant="secondary" size="40">
@@ -3293,7 +3291,7 @@ function CardDemo() {
       <h3 className="typography-semibold-body-lg mt-4">Content only</h3>
       <Card className="max-w-sm">
         <CardContent>
-          <p className="typography-regular-body-md text-foreground-default">
+          <p className="typography-regular-body-md text-content-primary">
             A simple card with just content and no header or footer.
           </p>
         </CardContent>
@@ -3302,7 +3300,7 @@ function CardDemo() {
       {/* No padding (media card) */}
       <h3 className="typography-semibold-body-lg mt-4">No padding</h3>
       <Card className="max-w-sm" noPadding>
-        <div className="h-40 w-full rounded-t-2xl bg-neutral-200" />
+        <div className="h-40 w-full rounded-t-md bg-neutral-alphas-200" />
         <div className="p-4">
           <CardHeader>
             <CardTitle>Media Card</CardTitle>
@@ -3386,10 +3384,10 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-page text-foreground-default">
+    <div className="min-h-screen bg-bg-primary text-content-primary">
       <ToastProvider>
         {/* Dark / Light toggle and TOC */}
-        <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-200 border-b bg-inherit px-4 py-3">
+        <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-alphas-200 border-b bg-inherit px-4 py-3">
           <div className="relative">
             <Button
               variant="secondary"
@@ -3412,14 +3410,14 @@ function App() {
                   onClick={() => setTocOpen(false)}
                   aria-hidden="true"
                 />
-                <div className="absolute top-full left-0 z-70 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-lg border border-neutral-200 bg-surface-container shadow-lg">
+                <div className="absolute top-full left-0 z-70 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-xs border border-neutral-alphas-200 bg-surface-primary shadow-lg">
                   <div className="p-2">
                     {sections.map((section) => (
                       <button
                         key={section.id}
                         type="button"
                         onClick={() => scrollToSection(section.id)}
-                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left text-foreground-default hover:bg-neutral-100"
+                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left text-content-primary hover:bg-neutral-alphas-100"
                       >
                         {section.label}
                       </button>
@@ -3434,7 +3432,7 @@ function App() {
             <button
               type="button"
               onClick={() => setDark((d) => !d)}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${dark ? "bg-brand-accent-default" : "bg-neutral-200"}`}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${dark ? "bg-brand-primary-default" : "bg-neutral-alphas-200"}`}
               aria-label="Toggle dark mode"
             >
               <span

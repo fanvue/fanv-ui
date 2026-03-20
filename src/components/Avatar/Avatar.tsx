@@ -72,7 +72,7 @@ const AvatarRoot = React.forwardRef<
             ref={ref}
             data-testid="avatar"
             className={cn(
-              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-surface-behindpage",
+              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-neutral-alphas-200",
               size === 16 && "size-4 text-2xs",
               size === 24 && "size-6 text-xs",
               size === 32 && "size-8 text-xs",
@@ -101,7 +101,7 @@ const AvatarRoot = React.forwardRef<
           {onlineIndicator && (
             <span
               className={cn(
-                "absolute rounded-full border-surface-container bg-brand-accent-default",
+                "absolute rounded-full border-surface-primary bg-brand-primary-default",
                 statusPosition.borderSize,
                 statusPosition.indicatorSize,
               )}
@@ -153,7 +153,7 @@ const AvatarFallback = React.forwardRef<
   <AvatarPrimitive.Fallback
     ref={ref}
     className={cn(
-      "flex size-full items-center justify-center font-semibold text-foreground-default uppercase leading-none",
+      "flex size-full items-center justify-center font-semibold text-content-primary uppercase leading-none",
       className,
     )}
     delayMs={0}

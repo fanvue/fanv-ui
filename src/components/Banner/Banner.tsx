@@ -34,9 +34,9 @@ export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
  * backgrounds are always light regardless of the current colour scheme.
  */
 const LIGHT_MODE_OVERRIDES: React.CSSProperties = {
-  "--color-foreground-default": "#151515ff",
-  "--color-foreground-secondary": "#404040ff",
-  "--color-neutral-100": "#1515150a",
+  "--color-content-primary": "#151515ff",
+  "--color-content-secondary": "#404040ff",
+  "--color-neutral-alphas-100": "#1515150a",
 } as React.CSSProperties;
 
 /**
@@ -63,7 +63,7 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(
       <div
         ref={ref}
         className={cn(
-          "flex flex-col items-start gap-2 rounded-2xl bg-gradient-to-br p-3 text-foreground-default",
+          "flex flex-col items-start gap-2 overflow-hidden rounded-2xl bg-gradient-to-br p-3 text-content-primary",
           VARIANT_GRADIENTS[variant],
           className,
         )}
