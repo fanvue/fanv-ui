@@ -46,6 +46,18 @@ jobs:
           source-dir: dist-showcase
           umbrella-dir: pr-preview
           action: deploy
+          comment: false
+
+      - name: Comment preview URL
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: showcase-preview
+          message: |
+            ## Showcase Preview
+
+            | Preview | URL |
+            |---------|-----|
+            | Showcase | https://fanvue.github.io/fanv-ui-internal/pr-preview/pr-${{ github.event.pull_request.number }}/ |
 
   cleanup-preview:
     name: Cleanup Preview
@@ -61,20 +73,3 @@ jobs:
           source-dir: dist-showcase
           umbrella-dir: pr-preview
           action: remove
-
-  comment:
-    name: Comment on PR
-    needs: deploy-preview
-    if: github.event.action != 'closed'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Comment preview URL
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: showcase-preview
-          message: |
-            ## Showcase Preview
-
-            | Preview | URL |
-            |---------|-----|
-            | Showcase | https://fanvue.github.io/fanv-ui-internal/pr-preview/pr-${{ github.event.pull_request.number }}/ |
