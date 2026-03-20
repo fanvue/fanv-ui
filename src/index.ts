@@ -395,6 +395,57 @@ export type {
   SwitchToggleSize,
 } from "./components/SwitchToggle/SwitchToggle";
 export { SwitchToggle } from "./components/SwitchToggle/SwitchToggle";
+export type {
+  TableBodyProps,
+  TableCardProps,
+  TableCellGroupProps,
+  TableCellIntent,
+  TableCellProps,
+  TableCellVariant,
+  TableFooterProps,
+  TableHeaderProps,
+  TableHeadIntent,
+  TableHeadProps,
+  TableLineClampProps,
+  TableMediaThumbnailProps,
+  TablePillProgressLayoutProps,
+  TableProgressTrackProps,
+  TableProps,
+  TableRowProps,
+  TableRowsPerPageSelectProps,
+  TableScrollAreaProps,
+  TableSize,
+  TableSortLabelProps,
+  TableStackedTextProps,
+  TableStatusDotProps,
+  TableToolbarProps,
+} from "./components/Table/Table";
+export {
+  Table,
+  TableBody,
+  TableCard,
+  TableCell,
+  TableCellGroup,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableLineClamp,
+  TableMediaThumbnail,
+  TablePillProgressLayout,
+  TableProgressTrack,
+  TableRow,
+  TableRowsPerPageSelect,
+  TableScrollArea,
+  TableSortLabel,
+  TableStackedText,
+  TableStatusDot,
+  TableToolbar,
+} from "./components/Table/Table";
+export type {
+  TablePaginationLayout,
+  TablePaginationProps,
+} from "./components/Table/TablePagination";
+export { TablePagination } from "./components/Table/TablePagination";
 export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";
