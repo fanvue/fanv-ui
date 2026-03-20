@@ -1,6 +1,6 @@
 {
   "name": "@fanvue/ui-internal",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Private React component library built on @fanvue/ui for Fanvue ecosystem",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
