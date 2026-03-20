@@ -1,7 +1,13 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
-import { Avatar, AvatarFallback, AvatarImage, AvatarRoot } from "./Avatar";
+import {
+  Avatar,
+  AvatarAnonymousPlaceholder,
+  AvatarFallback,
+  AvatarImage,
+  AvatarRoot,
+} from "./Avatar";
 
 describe("Avatar", () => {
   describe("API", () => {
@@ -21,6 +27,23 @@ describe("Avatar", () => {
       render(<Avatar fallback="AB" />);
       await screen.findByText("AB");
       expect(screen.getByTestId("avatar")).toHaveClass("bg-neutral-alphas-200");
+    });
+
+    it("renders anonymous placeholder when anonymousUser is true and there is no src", async () => {
+      const { container } = render(<Avatar anonymousUser size={48} />);
+      await screen.findByTestId("avatar");
+      const img = container.querySelector("img");
+      expect(img).toBeTruthy();
+      expect(img).toHaveAttribute("alt", "");
+    });
+
+    it("prefers anonymous placeholder over string fallback when anonymousUser is true", async () => {
+      const { container } = render(<Avatar anonymousUser fallback="AB" />);
+      expect(screen.queryByText("AB")).not.toBeInTheDocument();
+      await screen.findByTestId("avatar");
+      await waitFor(() => {
+        expect(container.querySelector("img")).toBeTruthy();
+      });
     });
 
     it("renders fallback when image fails to load", async () => {
@@ -65,6 +88,20 @@ describe("Avatar", () => {
       const fallback = await screen.findByText("AB");
       expect(fallback).toHaveClass("custom-fallback");
     });
+
+    it("allows AvatarAnonymousPlaceholder inside AvatarFallback", async () => {
+      const { container } = render(
+        <AvatarRoot size={40}>
+          <AvatarFallback>
+            <AvatarAnonymousPlaceholder />
+          </AvatarFallback>
+        </AvatarRoot>,
+      );
+      await screen.findByTestId("avatar");
+      await waitFor(() => {
+        expect(container.querySelector("img")).toBeTruthy();
+      });
+    });
   });
 
   describe("accessibility", () => {
@@ -97,6 +134,12 @@ describe("Avatar", () => {
           <AvatarFallback>AB</AvatarFallback>
         </AvatarRoot>,
       );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with anonymousUser", async () => {
+      const { container } = render(<Avatar anonymousUser aria-label="Unknown partner" />);
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });

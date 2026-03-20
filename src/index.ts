@@ -32,6 +32,7 @@ export type {
 } from "./components/Autocomplete/Autocomplete";
 export { Autocomplete } from "./components/Autocomplete/Autocomplete";
 export type {
+  AvatarAnonymousPlaceholderProps,
   AvatarFallbackProps,
   AvatarImageProps,
   AvatarProps,
@@ -40,6 +41,7 @@ export type {
 } from "./components/Avatar/Avatar";
 export {
   Avatar,
+  AvatarAnonymousPlaceholder,
   AvatarFallback,
   AvatarImage,
   AvatarRoot,

@@ -26,6 +26,7 @@ const meta = {
     onlineIndicator: { control: "boolean" },
     platinumShow: { control: "boolean" },
     NSFWShow: { control: "boolean" },
+    anonymousUser: { control: "boolean" },
   },
 } satisfies Meta<typeof Avatar>;
 
@@ -200,7 +201,36 @@ export const WithOnlineStatusIcon: Story = {
   },
 };
 
-// Empty/placeholder avatar
+// Anonymous / no known user (Fanvue Library — Basic Profile User)
+export const AnonymousUser: Story = {
+  args: {
+    anonymousUser: true,
+    size: 88,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=15990-684&m=dev",
+    },
+  },
+};
+
+export const AnonymousUserSmall: Story = {
+  args: {
+    anonymousUser: true,
+    size: 32,
+  },
+};
+
+export const AnonymousUserWithOnlineStatus: Story = {
+  args: {
+    anonymousUser: true,
+    size: 48,
+    onlineIndicator: true,
+  },
+};
+
+// Legacy empty fallback (blank initials slot)
 export const Empty: Story = {
   args: {
     fallback: "",

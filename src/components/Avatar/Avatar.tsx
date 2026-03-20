@@ -1,6 +1,7 @@
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { AvatarAnonymousPlaceholder } from "./AvatarAnonymousPlaceholder";
 
 /** Allowed pixel sizes for the avatar. */
 export type AvatarSize = 16 | 24 | 32 | 40 | 48 | 64 | 88 | 148;
@@ -174,6 +175,12 @@ export interface AvatarProps
   alt?: string;
   /** Fallback content rendered when the image has not loaded (e.g. initials or an icon). */
   fallback?: React.ReactNode;
+  /**
+   * When `true` (simple API only, no `children`), use the library anonymous-user
+   * placeholder instead of `fallback` whenever the image is not shown (no `src`, or
+   * image failed to load).
+   */
+  anonymousUser?: boolean;
 }
 
 /**
@@ -197,6 +204,7 @@ export const Avatar = React.forwardRef<
       src,
       alt,
       fallback,
+      anonymousUser = false,
       onlineIndicator = false,
       platinumShow = false,
       NSFWShow = false,
@@ -213,6 +221,7 @@ export const Avatar = React.forwardRef<
       NSFWShow,
       className,
       ...props,
+      ...(anonymousUser && props.role === undefined ? { role: "img" as const } : {}),
     };
 
     if (children) {
@@ -222,7 +231,13 @@ export const Avatar = React.forwardRef<
     return (
       <AvatarRoot {...rootProps}>
         {src && <AvatarImage src={src} alt={alt ?? "Avatar"} />}
-        <AvatarFallback>{fallback}</AvatarFallback>
+        <AvatarFallback
+          className={cn(
+            anonymousUser && "p-0 font-normal normal-case leading-none tracking-normal",
+          )}
+        >
+          {anonymousUser ? <AvatarAnonymousPlaceholder /> : fallback}
+        </AvatarFallback>
       </AvatarRoot>
     );
   },
@@ -231,3 +246,5 @@ export const Avatar = React.forwardRef<
 Avatar.displayName = "Avatar";
 
 export { AvatarRoot, AvatarImage, AvatarFallback };
+export type { AvatarAnonymousPlaceholderProps } from "./AvatarAnonymousPlaceholder";
+export { AvatarAnonymousPlaceholder } from "./AvatarAnonymousPlaceholder";
