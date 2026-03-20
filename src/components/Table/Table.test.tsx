@@ -64,7 +64,7 @@ describe("Table", () => {
         </TableCard>,
       );
       const cell = container.querySelector("td");
-      expect(cell).toHaveClass("border-neutral-200");
+      expect(cell).toHaveClass("border-border-primary");
     });
 
     it("applies checkbox column preset on TableHead when intent is checkbox", () => {

@@ -2442,7 +2442,7 @@ function TableDemo() {
       <h2 className="typography-h3 mb-4">Table</h2>
       <div className="flex max-w-4xl flex-col gap-12">
         <div>
-          <h3 className="typography-semibold-body-lg mb-3 text-foreground-default">Table — md</h3>
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">Table — md</h3>
           <TableCard>
             <TableToolbar>
               <span className="typography-regular-body-md text-foreground-default">2 selected</span>
@@ -2531,7 +2531,7 @@ function TableDemo() {
         </div>
 
         <div>
-          <h3 className="typography-semibold-body-lg mb-3 text-foreground-default">Table — lg</h3>
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">Table — lg</h3>
           <TableCard size="lg">
             <TableScrollArea>
               <Table>
@@ -2577,9 +2577,7 @@ function TableDemo() {
         </div>
 
         <div>
-          <h3 className="typography-semibold-body-lg mb-3 text-foreground-default">
-            Cell variants
-          </h3>
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">Cell variants</h3>
           <TableCard>
             <TableScrollArea>
               <Table>
@@ -2702,10 +2700,10 @@ function TableDemo() {
         </div>
 
         <div>
-          <h3 className="typography-semibold-body-lg mb-3 text-foreground-default">
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">
             Pagination — desktop
           </h3>
-          <div className="max-w-[628px] rounded-2xl bg-surface-page py-4">
+          <div className="max-w-[628px] rounded-md bg-bg-primary py-4">
             <TablePagination
               leadingSlot={<TableRowsPerPageSelect id="app-table-pag-desk" />}
               paginationSlot={
@@ -2722,12 +2720,12 @@ function TableDemo() {
         </div>
 
         <div>
-          <h3 className="typography-semibold-body-lg mb-3 text-foreground-default">
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">
             Pagination — mobile
           </h3>
           <TablePagination
             layout="mobile"
-            className="max-w-sm rounded-2xl bg-surface-page py-4"
+            className="max-w-sm rounded-md bg-bg-primary py-4"
             leadingSlot={<TableRowsPerPageSelect id="app-table-pag-mob" />}
             paginationSlot={
               <Pagination

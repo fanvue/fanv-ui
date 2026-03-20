@@ -49,7 +49,7 @@ export const TableCard = React.forwardRef<HTMLDivElement, TableCardProps>(
         <div
           ref={ref}
           className={cn(
-            "isolate flex flex-col gap-4 overflow-hidden rounded-2xl bg-surface-page pb-4",
+            "isolate flex flex-col gap-4 overflow-hidden rounded-md bg-bg-primary pb-4",
             className,
           )}
           {...props}
@@ -71,7 +71,7 @@ export const TableToolbar = React.forwardRef<HTMLDivElement, TableToolbarProps>(
       <div
         ref={ref}
         className={cn(
-          "flex flex-wrap items-center gap-4 rounded-t-2xl bg-surface-page px-6",
+          "flex flex-wrap items-center gap-4 rounded-t-md bg-bg-primary px-6",
           className,
         )}
         {...props}
@@ -98,7 +98,7 @@ export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaP
         ref={ref}
         className={cn(
           "relative w-full min-w-0 overflow-hidden",
-          roundTop && "rounded-t-2xl",
+          roundTop && "rounded-t-md",
           className,
         )}
         {...props}
@@ -139,7 +139,7 @@ export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeader
       <thead
         ref={ref}
         className={cn(
-          "[&_tr:first-child_th:first-child]:rounded-tl-2xl [&_tr:first-child_th:last-child]:rounded-tr-2xl",
+          "[&_tr:first-child_th:first-child]:rounded-tl-md [&_tr:first-child_th:last-child]:rounded-tr-md",
           className,
         )}
         {...props}
@@ -198,7 +198,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         ref={ref}
         scope={scope}
         className={cn(
-          "typography-semibold-body-sm box-border h-8 min-h-8 bg-surface-behindpage px-2 py-2 align-middle text-foreground-default",
+          "typography-semibold-body-sm box-border h-8 min-h-8 bg-surface-secondary px-2 py-2 align-middle text-content-primary",
           HEAD_INTENT_CLASSES[intent],
           className,
         )}
@@ -218,9 +218,9 @@ const CELL_MIN_HEIGHT: Record<TableSize, string> = {
 export type TableCellVariant = "default" | "chip" | "pillProgress";
 
 const CELL_VARIANT_CLASSES: Record<TableCellVariant, string> = {
-  default: "border-neutral-200 border-b px-2 py-2",
-  chip: "border-neutral-200 border-b px-2 py-2",
-  pillProgress: "border-neutral-200 border-b px-4 py-2",
+  default: "border-border-primary border-b px-2 py-2",
+  chip: "border-border-primary border-b px-2 py-2",
+  pillProgress: "border-border-primary border-b px-4 py-2",
 };
 
 /** Layout / typography preset for {@link TableCell} (orthogonal to {@link TableCellVariant}). */
@@ -251,7 +251,7 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
         ref={ref}
         className={cn(
           typo,
-          "align-middle text-foreground-default",
+          "align-middle text-content-primary",
           CELL_VARIANT_CLASSES[cellVariant],
           CELL_MIN_HEIGHT[size],
           CELL_INTENT_CLASSES[intent],
@@ -296,8 +296,8 @@ export const TableMediaThumbnail = React.forwardRef<HTMLDivElement, TableMediaTh
     const tableSize = useTableSize();
     const frame =
       tableSize === "lg"
-        ? "h-[62px] w-11 overflow-hidden rounded-lg bg-neutral-200"
-        : "h-10 w-[29px] overflow-hidden rounded-lg bg-neutral-200";
+        ? "h-[62px] w-11 overflow-hidden rounded-xs bg-neutral-alphas-200"
+        : "h-10 w-[29px] overflow-hidden rounded-xs bg-neutral-alphas-200";
     return (
       <div
         ref={ref}
@@ -325,7 +325,7 @@ export const TableStatusDot = React.forwardRef<HTMLDivElement, TableStatusDotPro
     return (
       <div
         ref={ref}
-        className={cn("size-2 shrink-0 rounded-full bg-info-default", className)}
+        className={cn("size-2 shrink-0 rounded-full bg-info-content", className)}
         {...props}
       />
     );
@@ -354,11 +354,14 @@ export const TableProgressTrack = React.forwardRef<HTMLDivElement, TableProgress
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={ariaLabel}
-        className={cn("relative h-1 w-full overflow-hidden rounded-full bg-neutral-200", className)}
+        className={cn(
+          "relative h-1 w-full overflow-hidden rounded-full bg-neutral-alphas-200",
+          className,
+        )}
         {...props}
       >
         <div
-          className="absolute top-0 left-0 h-1 rounded-full bg-neutral-solid"
+          className="absolute top-0 left-0 h-1 rounded-full bg-buttons-primary"
           style={{ width: `${width}%` }}
           aria-hidden
         />
@@ -399,7 +402,7 @@ export const TableSortLabel = React.forwardRef<HTMLSpanElement, TableSortLabelPr
     return (
       <span ref={ref} className={cn("inline-flex items-center gap-2.5", className)} {...props}>
         <span className="typography-semibold-body-sm">{children}</span>
-        <span className="text-foreground-secondary" aria-hidden>
+        <span className="text-content-secondary" aria-hidden>
           ↕
         </span>
       </span>
@@ -422,7 +425,7 @@ export function TableStackedText({ title, subtitle }: TableStackedTextProps) {
   return (
     <div className="flex flex-col gap-1">
       <span className="typography-semibold-body-md">{title}</span>
-      <span className="typography-regular-body-sm text-foreground-secondary">{subtitle}</span>
+      <span className="typography-regular-body-sm text-content-secondary">{subtitle}</span>
     </div>
   );
 }
@@ -472,7 +475,7 @@ export function TableRowsPerPageSelect(props: TableRowsPerPageSelectProps) {
       defaultValue="10"
       size="32"
       aria-label={ariaLabel}
-      className="w-[154px] [&_button]:rounded-lg [&_button]:border-transparent [&_button]:bg-transparent"
+      className="w-[154px] [&_button]:rounded-xs [&_button]:border-transparent [&_button]:bg-transparent"
       id={id}
     >
       <SelectContent>

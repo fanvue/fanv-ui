@@ -39,13 +39,13 @@ export const TablePagination = React.forwardRef<HTMLDivElement, TablePaginationP
         >
           <div className="flex w-full items-center gap-2.5">
             {leadingSlot != null ? (
-              <div className="flex min-w-0 shrink-0 items-center rounded-lg bg-surface-behindpage">
+              <div className="flex min-w-0 shrink-0 items-center rounded-xs bg-surface-secondary">
                 {leadingSlot}
               </div>
             ) : null}
             <div
               className={cn(
-                "typography-regular-body-md min-w-0 flex-1 text-foreground-secondary",
+                "typography-regular-body-md min-w-0 flex-1 text-content-secondary",
                 leadingSlot == null && "text-left",
                 leadingSlot != null && "text-right",
               )}
@@ -68,15 +68,13 @@ export const TablePagination = React.forwardRef<HTMLDivElement, TablePaginationP
       >
         <div className="flex min-h-0 min-w-0 flex-1 flex-col items-start justify-center">
           {leadingSlot != null ? (
-            <div className="inline-flex min-w-0 rounded-lg bg-surface-behindpage">
-              {leadingSlot}
-            </div>
+            <div className="inline-flex min-w-0 rounded-xs bg-surface-secondary">{leadingSlot}</div>
           ) : null}
         </div>
         {paginationSlot != null ? (
           <div className="flex shrink-0 items-center justify-center">{paginationSlot}</div>
         ) : null}
-        <div className="typography-regular-body-md min-w-0 flex-1 text-right text-foreground-secondary">
+        <div className="typography-regular-body-md min-w-0 flex-1 text-right text-content-secondary">
           {summary}
         </div>
       </div>

@@ -60,7 +60,7 @@ export const VariantMd: Story = {
     return (
       <TableCard className="max-w-4xl">
         <TableToolbar>
-          <span className="typography-regular-body-md text-foreground-default">2 selected</span>
+          <span className="typography-regular-body-md text-content-primary">2 selected</span>
           <div className="flex flex-wrap gap-1">
             <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
               Assign to creators
@@ -109,7 +109,7 @@ export const VariantMd: Story = {
                         <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" />
                         <span>5</span>
                         <ChevronDownIcon
-                          className="size-5 shrink-0 text-foreground-default"
+                          className="size-5 shrink-0 text-content-primary"
                           aria-hidden
                         />
                       </TableCellGroup>
@@ -122,7 +122,7 @@ export const VariantMd: Story = {
                         />
                         <span>5</span>
                         <ChevronDownIcon
-                          className="size-5 shrink-0 text-foreground-default"
+                          className="size-5 shrink-0 text-content-primary"
                           aria-hidden
                         />
                       </TableCellGroup>
@@ -211,7 +211,7 @@ export const CellVariants: Story = {
   render: () => (
     <div className="flex max-w-3xl flex-col gap-10">
       <div>
-        <p className="typography-semibold-body-md mb-3 text-foreground-default">Header</p>
+        <p className="typography-semibold-body-md mb-3 text-content-primary">Header</p>
         <TableCard>
           <TableScrollArea>
             <Table>
@@ -229,7 +229,7 @@ export const CellVariants: Story = {
       </div>
 
       <div>
-        <p className="typography-semibold-body-md mb-3 text-foreground-default">Body cells</p>
+        <p className="typography-semibold-body-md mb-3 text-content-primary">Body cells</p>
         <TableCard>
           <TableScrollArea>
             <Table>
@@ -325,15 +325,15 @@ export const CellVariants: Story = {
                 <TableRow>
                   <TableCell intent="sideLabel">Share</TableCell>
                   <TableCell>
-                    <ShareIcon className="size-5 text-foreground-default" aria-hidden />
+                    <ShareIcon className="size-5 text-content-primary" aria-hidden />
                   </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell intent="sideLabel">More</TableCell>
                   <TableCell>
                     <TableCellGroup>
-                      <MoreIcon className="size-5 text-foreground-default" aria-hidden />
-                      <MoreVerticalIcon className="size-5 text-foreground-default" aria-hidden />
+                      <MoreIcon className="size-5 text-content-primary" aria-hidden />
+                      <MoreVerticalIcon className="size-5 text-content-primary" aria-hidden />
                     </TableCellGroup>
                   </TableCell>
                 </TableRow>
@@ -365,7 +365,7 @@ export const PaginationDesktop: Story = {
   render: function PaginationDesktopStory() {
     const [page, setPage] = React.useState(2);
     return (
-      <div className="w-full max-w-[628px] rounded-2xl bg-surface-page py-4">
+      <div className="w-full max-w-[628px] rounded-md bg-bg-primary py-4">
         <TablePagination
           leadingSlot={<TableRowsPerPageSelect id="desk-rows" />}
           paginationSlot={
@@ -391,7 +391,7 @@ export const PaginationMobile: Story = {
     return (
       <TablePagination
         layout="mobile"
-        className="max-w-sm rounded-2xl bg-surface-page py-4"
+        className="max-w-sm rounded-md bg-bg-primary py-4"
         leadingSlot={<TableRowsPerPageSelect id="mob-rows" />}
         paginationSlot={
           <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
