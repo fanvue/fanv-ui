@@ -85,8 +85,8 @@ export const Slider = React.forwardRef<
         )}
         {...props}
       >
-        <SliderPrimitive.Track className="relative h-3 w-full overflow-hidden rounded-full border border-neutral-100 bg-neutral-100">
-          <SliderPrimitive.Range className="absolute h-full rounded-full bg-brand-accent-default" />
+        <SliderPrimitive.Track className="relative h-3 w-full overflow-hidden rounded-full border border-border-primary bg-surface-secondary">
+          <SliderPrimitive.Range className="absolute h-full rounded-full bg-brand-primary-default" />
         </SliderPrimitive.Track>
 
         {Array.from({ length: thumbCount }, (_, i) => (

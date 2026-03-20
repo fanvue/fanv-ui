@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const meta = {
   title: "Foundations/Colors",
@@ -215,43 +215,31 @@ const semanticGroups: ColorGroup[] = [
         (step) =>
           ({
             name: String(step),
-            variable: `--color-neutral-${step}`,
-            tailwind: `neutral-${step}`,
+            variable: `--color-neutral-alphas-${step}`,
+            tailwind: `neutral-alphas-${step}`,
           }) satisfies ColorToken,
       ),
-      { name: "Solid", variable: "--color-neutral-solid", tailwind: "neutral-solid" },
-      {
-        name: "Inverse Solid",
-        variable: "--color-neutral-inversesolid",
-        tailwind: "neutral-inversesolid",
-      },
     ],
   },
   {
-    title: "Foreground",
+    title: "Content",
     description: "Text and icon colors.",
     tokens: [
-      { name: "Default", variable: "--color-foreground-default", tailwind: "foreground-default" },
+      { name: "Primary", variable: "--color-content-primary", tailwind: "content-primary" },
       {
         name: "Secondary",
-        variable: "--color-foreground-secondary",
-        tailwind: "foreground-secondary",
+        variable: "--color-content-secondary",
+        tailwind: "content-secondary",
       },
       {
         name: "Tertiary",
-        variable: "--color-foreground-tertiary",
-        tailwind: "foreground-tertiary",
-      },
-      { name: "Inverse", variable: "--color-foreground-inverse", tailwind: "foreground-inverse" },
-      {
-        name: "On Accent",
-        variable: "--color-foreground-onaccent",
-        tailwind: "foreground-onaccent",
+        variable: "--color-content-tertiary",
+        tailwind: "content-tertiary",
       },
       {
-        name: "On Accent Inverse",
-        variable: "--color-foreground-onaccentinverse",
-        tailwind: "foreground-onaccentinverse",
+        name: "Primary Inverted",
+        variable: "--color-content-primary-inverted",
+        tailwind: "content-primary-inverted",
       },
     ],
   },
@@ -259,58 +247,59 @@ const semanticGroups: ColorGroup[] = [
     title: "Surface",
     description: "Background and container colors for layouts.",
     tokens: [
-      { name: "Page", variable: "--color-surface-page", tailwind: "surface-page" },
+      { name: "Primary", variable: "--color-surface-primary", tailwind: "surface-primary" },
       {
-        name: "Behind Page",
-        variable: "--color-surface-behindpage",
-        tailwind: "surface-behindpage",
+        name: "Secondary",
+        variable: "--color-surface-secondary",
+        tailwind: "surface-secondary",
       },
       {
-        name: "Container",
-        variable: "--color-surface-container",
-        tailwind: "surface-container",
+        name: "Tertiary",
+        variable: "--color-surface-tertiary",
+        tailwind: "surface-tertiary",
+      },
+      { name: "Inputs", variable: "--color-surface-inputs", tailwind: "surface-inputs" },
+      {
+        name: "Inputs Off",
+        variable: "--color-surface-inputs-off",
+        tailwind: "surface-inputs-off",
       },
       {
-        name: "Container Subtle",
-        variable: "--color-surface-containersubtle",
-        tailwind: "surface-containersubtle",
+        name: "Primary Inverted",
+        variable: "--color-surface-primary-inverted",
+        tailwind: "surface-primary-inverted",
       },
       {
-        name: "Container Raised",
-        variable: "--color-surface-containerraised",
-        tailwind: "surface-containerraised",
-      },
-      { name: "Modal", variable: "--color-surface-modal", tailwind: "surface-modal" },
-      { name: "Input", variable: "--color-surface-input", tailwind: "surface-input" },
-      {
-        name: "Page Inverse",
-        variable: "--color-surface-pageinverse",
-        tailwind: "surface-pageinverse",
+        name: "Purple Muted",
+        variable: "--color-surface-purple-muted",
+        tailwind: "surface-purple-muted",
       },
       {
-        name: "Page Inverse Soft",
-        variable: "--color-surface-pageinversesoft",
-        tailwind: "surface-pageinversesoft",
+        name: "Green Muted",
+        variable: "--color-surface-green-muted",
+        tailwind: "surface-green-muted",
       },
-      { name: "Backdrop", variable: "--color-surface-backdrop", tailwind: "surface-backdrop" },
     ],
   },
   {
-    title: "Brand — Accent",
+    title: "Background",
+    description: "Page-level background colors.",
+    tokens: [
+      { name: "Primary", variable: "--color-bg-primary", tailwind: "bg-primary" },
+      { name: "Overlay", variable: "--color-bg-overlay", tailwind: "bg-overlay" },
+    ],
+  },
+  {
+    title: "Brand — Primary",
     description: "Primary brand color (green).",
     tokens: [
       {
         name: "Default",
-        variable: "--color-brand-accent-default",
-        tailwind: "brand-accent-default",
+        variable: "--color-brand-primary-default",
+        tailwind: "brand-primary-default",
       },
-      { name: "Muted", variable: "--color-brand-accent-muted", tailwind: "brand-accent-muted" },
-      { name: "Hover", variable: "--color-brand-accent-hover", tailwind: "brand-accent-hover" },
-      {
-        name: "Foreground",
-        variable: "--color-brand-accent-foreground",
-        tailwind: "brand-accent-foreground",
-      },
+      { name: "Muted", variable: "--color-brand-primary-muted", tailwind: "brand-primary-muted" },
+      { name: "Hover", variable: "--color-brand-primary-hover", tailwind: "brand-primary-hover" },
     ],
   },
   {
@@ -332,37 +321,6 @@ const semanticGroups: ColorGroup[] = [
         variable: "--color-brand-secondary-hover",
         tailwind: "brand-secondary-hover",
       },
-      {
-        name: "Foreground",
-        variable: "--color-brand-secondary-foreground",
-        tailwind: "brand-secondary-foreground",
-      },
-    ],
-  },
-  {
-    title: "Brand — Tertiary",
-    description: "Tertiary brand color.",
-    tokens: [
-      {
-        name: "Default",
-        variable: "--color-brand-tertiary-default",
-        tailwind: "brand-tertiary-default",
-      },
-      {
-        name: "Muted",
-        variable: "--color-brand-tertiary-muted",
-        tailwind: "brand-tertiary-muted",
-      },
-      {
-        name: "Hover",
-        variable: "--color-brand-tertiary-hover",
-        tailwind: "brand-tertiary-hover",
-      },
-      {
-        name: "Foreground",
-        variable: "--color-brand-tertiary-foreground",
-        tailwind: "brand-tertiary-foreground",
-      },
     ],
   },
   {
@@ -370,12 +328,12 @@ const semanticGroups: ColorGroup[] = [
     description: "Positive feedback and confirmation states.",
     tokens: [
       {
-        name: "Background",
-        variable: "--color-success-background",
-        tailwind: "success-background",
+        name: "Surface",
+        variable: "--color-success-surface",
+        tailwind: "success-surface",
       },
-      { name: "Default", variable: "--color-success-default", tailwind: "success-default" },
-      { name: "Border", variable: "--color-success-border", tailwind: "success-border" },
+      { name: "Content", variable: "--color-success-content", tailwind: "success-content" },
+      { name: "Secondary", variable: "--color-success-secondary", tailwind: "success-secondary" },
     ],
   },
   {
@@ -383,30 +341,30 @@ const semanticGroups: ColorGroup[] = [
     description: "Caution and attention states.",
     tokens: [
       {
-        name: "Background",
-        variable: "--color-warning-background",
-        tailwind: "warning-background",
+        name: "Surface",
+        variable: "--color-warning-surface",
+        tailwind: "warning-surface",
       },
-      { name: "Default", variable: "--color-warning-default", tailwind: "warning-default" },
-      { name: "Border", variable: "--color-warning-border", tailwind: "warning-border" },
+      { name: "Content", variable: "--color-warning-content", tailwind: "warning-content" },
+      { name: "Secondary", variable: "--color-warning-secondary", tailwind: "warning-secondary" },
     ],
   },
   {
     title: "Error",
     description: "Destructive and error states.",
     tokens: [
-      { name: "Background", variable: "--color-error-background", tailwind: "error-background" },
-      { name: "Default", variable: "--color-error-default", tailwind: "error-default" },
-      { name: "Border", variable: "--color-error-border", tailwind: "error-border" },
+      { name: "Surface", variable: "--color-error-surface", tailwind: "error-surface" },
+      { name: "Content", variable: "--color-error-content", tailwind: "error-content" },
+      { name: "Secondary", variable: "--color-error-secondary", tailwind: "error-secondary" },
     ],
   },
   {
     title: "Info",
     description: "Informational feedback states.",
     tokens: [
-      { name: "Background", variable: "--color-info-background", tailwind: "info-background" },
-      { name: "Default", variable: "--color-info-default", tailwind: "info-default" },
-      { name: "Border", variable: "--color-info-border", tailwind: "info-border" },
+      { name: "Surface", variable: "--color-info-surface", tailwind: "info-surface" },
+      { name: "Content", variable: "--color-info-content", tailwind: "info-content" },
+      { name: "Secondary", variable: "--color-info-secondary", tailwind: "info-secondary" },
     ],
   },
   {
@@ -455,9 +413,63 @@ const semanticGroups: ColorGroup[] = [
     ],
   },
   {
-    title: "Ring",
+    title: "Interaction",
     description: "Focus ring color for keyboard navigation.",
-    tokens: [{ name: "Ring", variable: "--color-ring", tailwind: "ring" }],
+    tokens: [
+      { name: "Focus", variable: "--color-interaction-focus", tailwind: "interaction-focus" },
+    ],
+  },
+  {
+    title: "Border",
+    description: "Border colors for containers and inputs.",
+    tokens: [
+      { name: "Primary", variable: "--color-border-primary", tailwind: "border-primary" },
+      { name: "Strong", variable: "--color-border-strong", tailwind: "border-strong" },
+      { name: "Error", variable: "--color-border-error", tailwind: "border-error" },
+    ],
+  },
+  {
+    title: "Icons",
+    description: "Icon-specific color tokens.",
+    tokens: [
+      { name: "Primary", variable: "--color-icons-primary", tailwind: "icons-primary" },
+      { name: "Secondary", variable: "--color-icons-secondary", tailwind: "icons-secondary" },
+      { name: "Tertiary", variable: "--color-icons-tertiary", tailwind: "icons-tertiary" },
+      { name: "Brand Green", variable: "--color-icons-brand-green", tailwind: "icons-brand-green" },
+      {
+        name: "Brand Purple",
+        variable: "--color-icons-brand-purple",
+        tailwind: "icons-brand-purple",
+      },
+    ],
+  },
+  {
+    title: "Buttons",
+    description: "Button-specific color tokens.",
+    tokens: [
+      { name: "Primary", variable: "--color-buttons-primary", tailwind: "buttons-primary" },
+      {
+        name: "Primary Hover",
+        variable: "--color-buttons-primary-hover",
+        tailwind: "buttons-primary-hover",
+      },
+      {
+        name: "Primary Muted",
+        variable: "--color-buttons-primary-muted",
+        tailwind: "buttons-primary-muted",
+      },
+      { name: "Brand", variable: "--color-buttons-brand", tailwind: "buttons-brand" },
+      {
+        name: "Brand Hover",
+        variable: "--color-buttons-brand-hover",
+        tailwind: "buttons-brand-hover",
+      },
+      {
+        name: "Brand Muted",
+        variable: "--color-buttons-brand-muted",
+        tailwind: "buttons-brand-muted",
+      },
+    ],
   },
 ];
 
@@ -466,19 +478,17 @@ function resolveColor(variable: string): string {
 }
 
 function Swatch({ token }: { token: ColorToken }) {
-  const ref = useRef<HTMLDivElement>(null);
   const [hex, setHex] = useState("");
 
   useEffect(() => {
     setHex(resolveColor(token.variable));
-  });
+  }, [token.variable]);
 
   const checkerboard = "repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 12px 12px";
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 0 }}>
       <div
-        ref={ref}
         style={{
           width: "100%",
           aspectRatio: "1",
@@ -498,14 +508,12 @@ function Swatch({ token }: { token: ColorToken }) {
         />
       </div>
       <div style={{ fontSize: 12, lineHeight: 1.3 }}>
-        <div style={{ fontWeight: 600, color: "var(--color-foreground-default)" }}>
-          {token.name}
-        </div>
+        <div style={{ fontWeight: 600, color: "var(--color-content-primary)" }}>{token.name}</div>
         <div
           style={{
             fontFamily: "monospace",
             fontSize: 11,
-            color: "var(--color-foreground-secondary)",
+            color: "var(--color-content-secondary)",
             wordBreak: "break-all",
           }}
         >
@@ -515,7 +523,7 @@ function Swatch({ token }: { token: ColorToken }) {
           style={{
             fontFamily: "monospace",
             fontSize: 10,
-            color: "var(--color-foreground-tertiary)",
+            color: "var(--color-content-tertiary)",
             marginTop: 2,
           }}
         >
@@ -533,7 +541,7 @@ function ColorGroupSection({ group }: { group: ColorGroup }) {
         style={{
           fontSize: 18,
           fontWeight: 700,
-          color: "var(--color-foreground-default)",
+          color: "var(--color-content-primary)",
           margin: "0 0 4px",
         }}
       >
@@ -543,7 +551,7 @@ function ColorGroupSection({ group }: { group: ColorGroup }) {
         <p
           style={{
             fontSize: 14,
-            color: "var(--color-foreground-secondary)",
+            color: "var(--color-content-secondary)",
             margin: "0 0 16px",
           }}
         >
@@ -566,11 +574,9 @@ function ColorGroupSection({ group }: { group: ColorGroup }) {
 }
 
 const shadowTokens = [
-  { name: "Card Subtle", variable: "--shadow-cardsubtle", tailwind: "shadow-cardsubtle" },
-  { name: "Card", variable: "--shadow-card", tailwind: "shadow-card" },
-  { name: "Float", variable: "--shadow-float", tailwind: "shadow-float" },
-  { name: "Lifted", variable: "--shadow-lifted", tailwind: "shadow-lifted" },
-  { name: "Nav", variable: "--shadow-nav", tailwind: "shadow-nav" },
+  { name: "Small", variable: "--shadow-sm", tailwind: "shadow-sm" },
+  { name: "Medium", variable: "--shadow-md", tailwind: "shadow-md" },
+  { name: "Large", variable: "--shadow-lg", tailwind: "shadow-lg" },
   { name: "Blur Menu", variable: "--shadow-blur-menu", tailwind: "shadow-blur-menu" },
   {
     name: "Blur Floating",
@@ -587,7 +593,7 @@ export const Primitives: Story = {
         style={{
           fontSize: 32,
           fontWeight: 800,
-          color: "var(--color-foreground-default)",
+          color: "var(--color-content-primary)",
           margin: "0 0 8px",
         }}
       >
@@ -596,7 +602,7 @@ export const Primitives: Story = {
       <p
         style={{
           fontSize: 16,
-          color: "var(--color-foreground-secondary)",
+          color: "var(--color-content-secondary)",
           margin: "0 0 12px",
           maxWidth: 720,
           lineHeight: 1.5,
@@ -610,10 +616,10 @@ export const Primitives: Story = {
         style={{
           fontSize: 13,
           fontFamily: "monospace",
-          color: "var(--color-foreground-tertiary)",
+          color: "var(--color-content-tertiary)",
           margin: "0 0 40px",
           padding: "8px 12px",
-          backgroundColor: "var(--color-surface-input)",
+          backgroundColor: "var(--color-surface-inputs)",
           borderRadius: 6,
           display: "inline-block",
         }}
@@ -635,7 +641,7 @@ export const Semantic: Story = {
         style={{
           fontSize: 32,
           fontWeight: 800,
-          color: "var(--color-foreground-default)",
+          color: "var(--color-content-primary)",
           margin: "0 0 8px",
         }}
       >
@@ -644,7 +650,7 @@ export const Semantic: Story = {
       <p
         style={{
           fontSize: 16,
-          color: "var(--color-foreground-secondary)",
+          color: "var(--color-content-secondary)",
           margin: "0 0 12px",
           maxWidth: 720,
           lineHeight: 1.5,
@@ -657,10 +663,10 @@ export const Semantic: Story = {
         style={{
           fontSize: 13,
           fontFamily: "monospace",
-          color: "var(--color-foreground-tertiary)",
+          color: "var(--color-content-tertiary)",
           margin: "0 0 40px",
           padding: "8px 12px",
-          backgroundColor: "var(--color-surface-input)",
+          backgroundColor: "var(--color-surface-inputs)",
           borderRadius: 6,
           display: "inline-block",
         }}
@@ -676,14 +682,14 @@ export const Semantic: Story = {
         style={{
           marginTop: 48,
           paddingTop: 24,
-          borderTop: "1px solid var(--color-neutral-200)",
+          borderTop: "1px solid var(--color-neutral-alphas-200)",
         }}
       >
         <h3
           style={{
             fontSize: 18,
             fontWeight: 700,
-            color: "var(--color-foreground-default)",
+            color: "var(--color-content-primary)",
             margin: "0 0 4px",
           }}
         >
@@ -692,7 +698,7 @@ export const Semantic: Story = {
         <p
           style={{
             fontSize: 14,
-            color: "var(--color-foreground-secondary)",
+            color: "var(--color-content-secondary)",
             margin: "0 0 16px",
           }}
         >
@@ -706,7 +712,7 @@ export const Semantic: Story = {
                   width: 80,
                   height: 80,
                   borderRadius: 12,
-                  backgroundColor: "var(--color-surface-container)",
+                  backgroundColor: "var(--color-surface-primary)",
                   boxShadow: `var(${shadow.variable})`,
                   margin: "0 auto 8px",
                 }}
@@ -715,7 +721,7 @@ export const Semantic: Story = {
                 style={{
                   fontSize: 13,
                   fontWeight: 600,
-                  color: "var(--color-foreground-default)",
+                  color: "var(--color-content-primary)",
                 }}
               >
                 {shadow.name}
@@ -724,7 +730,7 @@ export const Semantic: Story = {
                 style={{
                   fontFamily: "monospace",
                   fontSize: 10,
-                  color: "var(--color-foreground-tertiary)",
+                  color: "var(--color-content-tertiary)",
                 }}
               >
                 {shadow.tailwind}

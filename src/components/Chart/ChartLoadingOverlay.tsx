@@ -30,7 +30,7 @@ export const ChartLoadingOverlay = React.forwardRef<HTMLDivElement, ChartLoading
       <div ref={ref} className={cn("relative", className)} {...props}>
         {children}
         {loading && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface-container/60">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface-primary/60">
             <Loader show center />
           </div>
         )}

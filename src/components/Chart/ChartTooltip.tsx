@@ -102,10 +102,10 @@ function TooltipRow({
       >
         <div className="grid gap-1.5">
           {nestLabel ? tooltipLabel : null}
-          <span className="text-foreground-tertiary">{itemConfig?.label || item.name}</span>
+          <span className="text-content-tertiary">{itemConfig?.label || item.name}</span>
         </div>
         {item.value !== undefined && (
-          <span className="font-medium font-mono text-foreground-default tabular-nums">
+          <span className="font-medium font-mono text-content-primary tabular-nums">
             {typeof item.value === "number" ? item.value.toLocaleString() : item.value}
           </span>
         )}
@@ -179,7 +179,7 @@ export const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltip
       <div
         ref={ref}
         className={cn(
-          "grid min-w-32 items-start gap-1.5 rounded-lg border border-neutral-200 bg-surface-container px-2.5 py-1.5 text-xs shadow-float",
+          "grid min-w-32 items-start gap-1.5 rounded-xs border border-neutral-alphas-200 bg-surface-primary px-2.5 py-1.5 text-xs shadow-lg",
           className,
         )}
       >
@@ -195,7 +195,7 @@ export const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltip
               <div
                 key={`${item.dataKey ?? item.name ?? index}`}
                 className={cn(
-                  "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-foreground-tertiary",
+                  "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-content-tertiary",
                   indicator === "dot" && "items-center",
                 )}
               >

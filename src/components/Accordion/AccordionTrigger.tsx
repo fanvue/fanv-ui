@@ -19,7 +19,7 @@ export const AccordionTrigger = React.forwardRef<
   const showIcon = icon !== null;
   const iconElement =
     icon === undefined ? (
-      <ChevronDownIcon className="size-4 shrink-0 text-foreground-secondary" />
+      <ChevronDownIcon className="size-4 shrink-0 text-content-secondary" />
     ) : (
       icon
     );
@@ -30,12 +30,12 @@ export const AccordionTrigger = React.forwardRef<
         ref={ref}
         className={cn(
           "flex flex-1 items-center justify-between gap-3",
-          "rounded-xl px-3 py-3",
-          "typography-semibold-body-md text-foreground-default",
+          "rounded-sm px-3 py-3",
+          "typography-semibold-body-md text-content-primary",
           "cursor-pointer",
           "motion-safe:transition-colors motion-safe:duration-200 motion-safe:ease-in-out",
-          "hover:bg-neutral-100",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page",
+          "hover:bg-neutral-alphas-100",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
           "data-disabled:pointer-events-none data-disabled:opacity-50",
           className,
         )}

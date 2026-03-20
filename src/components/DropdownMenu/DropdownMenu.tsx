@@ -50,7 +50,7 @@ export const DropdownMenuContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "min-w-[180px] overflow-y-auto rounded-lg border border-neutral-200 bg-surface-page p-1 shadow-lg",
+        "min-w-[180px] overflow-y-auto rounded-lg border border-neutral-alphas-200 bg-bg-primary p-1 shadow-lg",
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
         "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
         "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
@@ -88,7 +88,7 @@ export const DropdownMenuLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Label
     ref={ref}
-    className={cn("typography-medium-body-xs px-2 py-1.5 text-foreground-secondary", className)}
+    className={cn("typography-medium-body-xs px-2 py-1.5 text-content-secondary", className)}
     {...props}
   />
 ));
@@ -147,11 +147,11 @@ export const DropdownMenuItem = React.forwardRef<
     const itemClassName = cn(
       "flex w-full cursor-pointer items-center gap-1 rounded px-2 outline-none",
       "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
-      "data-[highlighted]:bg-neutral-100",
+      "data-[highlighted]:bg-neutral-alphas-100",
       size === "sm" ? "min-h-[34px] py-1" : "min-h-[40px] py-1.5",
       size === "sm" ? "typography-medium-body-sm" : "typography-medium-body-md",
-      destructive && "text-error-default",
-      selected && "bg-success-background",
+      destructive && "text-error-content",
+      selected && "bg-success-surface",
       className,
     );
 
@@ -185,7 +185,7 @@ export const DropdownMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn("my-1 h-px bg-neutral-200", className)}
+    className={cn("my-1 h-px bg-neutral-alphas-200", className)}
     {...props}
   />
 ));

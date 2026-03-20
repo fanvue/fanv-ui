@@ -98,7 +98,7 @@ export const Controlled: Story = {
     const [value, setValue] = useState("item-1");
     return (
       <div className="max-w-md space-y-4">
-        <p className="typography-regular-body-sm text-foreground-secondary">
+        <p className="typography-regular-body-sm text-content-secondary">
           Current value: <strong>{value || "(none)"}</strong>
         </p>
         <Accordion type="single" collapsible value={value} onValueChange={setValue}>
@@ -145,7 +145,9 @@ export const AllStates: Story = {
   render: () => (
     <div className="flex flex-col gap-8">
       <div>
-        <p className="typography-semibold-body-md mb-4 text-neutral-300">Single, Collapsible</p>
+        <p className="typography-semibold-body-md mb-4 text-content-tertiary">
+          Single, Collapsible
+        </p>
         <Accordion type="single" collapsible defaultValue="item-1" className="max-w-sm">
           <AccordionItem value="item-1">
             <AccordionTrigger>Expanded</AccordionTrigger>
@@ -158,7 +160,7 @@ export const AllStates: Story = {
         </Accordion>
       </div>
       <div>
-        <p className="typography-semibold-body-md mb-4 text-neutral-300">Disabled Item</p>
+        <p className="typography-semibold-body-md mb-4 text-content-tertiary">Disabled Item</p>
         <Accordion type="single" collapsible className="max-w-sm">
           <AccordionItem value="item-1">
             <AccordionTrigger>Enabled</AccordionTrigger>
@@ -171,7 +173,7 @@ export const AllStates: Story = {
         </Accordion>
       </div>
       <div>
-        <p className="typography-semibold-body-md mb-4 text-neutral-300">Multiple Mode</p>
+        <p className="typography-semibold-body-md mb-4 text-content-tertiary">Multiple Mode</p>
         <Accordion type="multiple" defaultValue={["item-1", "item-2"]} className="max-w-sm">
           <AccordionItem value="item-1">
             <AccordionTrigger>Open 1</AccordionTrigger>
@@ -184,7 +186,7 @@ export const AllStates: Story = {
         </Accordion>
       </div>
       <div>
-        <p className="typography-semibold-body-md mb-4 text-neutral-300">Root Disabled</p>
+        <p className="typography-semibold-body-md mb-4 text-content-tertiary">Root Disabled</p>
         <Accordion type="single" collapsible disabled className="max-w-sm">
           <AccordionItem value="item-1">
             <AccordionTrigger>Disabled 1</AccordionTrigger>

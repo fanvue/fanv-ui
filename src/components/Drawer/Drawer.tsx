@@ -100,7 +100,7 @@ export const DrawerOverlay = React.forwardRef<
     ref={ref}
     style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
     className={cn(
-      "fixed inset-0 bg-surface-backdrop",
+      "fixed inset-0 bg-bg-overlay",
       "data-[state=closed]:animate-out data-[state=open]:animate-in",
       "data-[state=closed]:fade-out-0 data-[state=closed]:duration-150 data-[state=closed]:ease-in",
       "data-[state=open]:fade-in-0 data-[state=open]:duration-200 data-[state=open]:ease-out",
@@ -121,7 +121,7 @@ const SLIDE_CLASSES: Record<DrawerPosition, string> = {
   left: "inset-y-0 left-0 h-full w-2/3 data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
   top: "inset-x-0 top-0 w-full data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
   bottom:
-    "inset-x-0 bottom-0 w-full rounded-t-lg data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+    "inset-x-0 bottom-0 w-full rounded-t-xs data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
 };
 
 /** Props for the {@link DrawerContent} component. */
@@ -201,7 +201,7 @@ export const DrawerContent = React.forwardRef<
           ref={ref}
           style={{ zIndex: "calc(var(--fanvue-ui-portal-z-index, 50) + 1)", ...style }}
           className={cn(
-            "fixed flex flex-col bg-surface-modal shadow-lifted outline-none backdrop-blur-lg",
+            "fixed flex flex-col bg-surface-secondary shadow-lg outline-none backdrop-blur-lg",
             "data-[state=closed]:animate-out data-[state=open]:animate-in",
             "data-[state=closed]:duration-150 data-[state=closed]:ease-in",
             "data-[state=open]:duration-200 data-[state=open]:ease-out",
@@ -273,7 +273,7 @@ export const DrawerTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn("typography-semibold-body-lg truncate text-foreground-default", className)}
+    className={cn("typography-semibold-body-lg truncate text-content-primary", className)}
     {...props}
   />
 ));
@@ -290,7 +290,7 @@ export const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("typography-regular-body-md text-foreground-secondary", className)}
+    className={cn("typography-regular-body-md text-content-secondary", className)}
     {...props}
   />
 ));

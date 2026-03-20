@@ -234,7 +234,7 @@ export const ControlledExample: Story = {
           errorMessage={error ? "Username must be at least 3 characters" : undefined}
           helperText={!error ? `${value.length} characters` : undefined}
         />
-        <div className="typography-regular-body-sm text-foreground-secondary">
+        <div className="typography-regular-body-sm text-content-secondary">
           Current value: {value || "(empty)"}
         </div>
       </div>

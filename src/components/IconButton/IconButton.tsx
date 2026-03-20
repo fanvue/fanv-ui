@@ -4,24 +4,24 @@ import { Count, type CountSize } from "../Count/Count";
 
 const iconButtonVariants = {
   primary:
-    "bg-neutral-400 text-foreground-inverse hover:bg-neutral-800 not-disabled:active:bg-neutral-800 disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-primary-hover not-disabled:active:bg-buttons-primary-hover disabled:opacity-50 focus-visible:shadow-focus-ring",
   secondary:
-    "bg-neutral-100 text-neutral-400 hover:bg-neutral-200 not-disabled:active:bg-neutral-200 disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-neutral-alphas-50 text-icons-primary hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
   tertiary:
-    "bg-transparent text-neutral-400 hover:bg-neutral-100 not-disabled:active:bg-brand-accent-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-transparent text-content-primary hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
   brand:
-    "bg-foreground-onaccent text-brand-accent-default hover:bg-brand-accent-default hover:text-foreground-onaccent not-disabled:active:bg-brand-accent-default not-disabled:active:text-foreground-onaccent disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-content-on-brand text-brand-primary-default hover:bg-brand-primary-default hover:text-content-on-brand not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-on-brand disabled:opacity-50 focus-visible:shadow-focus-ring",
   contrast:
-    "bg-transparent text-foreground-onaccentinverse hover:bg-neutral-100 not-disabled:active:bg-neutral-100 disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-transparent text-content-on-brand-inverted hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
   messaging:
-    "bg-foreground-onaccent text-brand-accent-default hover:bg-brand-accent-default hover:text-foreground-onaccent not-disabled:active:bg-brand-accent-default not-disabled:active:text-foreground-onaccent disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-content-on-brand text-brand-primary-default hover:bg-brand-primary-default hover:text-content-on-brand not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-on-brand disabled:opacity-50 focus-visible:shadow-focus-ring",
   navTray:
-    "bg-transparent text-neutral-400 hover:bg-neutral-100 not-disabled:active:bg-brand-accent-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-transparent text-content-primary hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
   tertiaryDestructive:
-    "bg-transparent text-error-default hover:bg-neutral-100 not-disabled:active:bg-neutral-100 disabled:opacity-50 focus-visible:shadow-focus-ring",
-  stop: "bg-neutral-400 text-foreground-inverse hover:bg-brand-accent-default hover:text-foreground-onaccent not-disabled:active:bg-brand-accent-default not-disabled:active:text-foreground-onaccent disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-transparent text-error-content hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
+  stop: "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-brand hover:text-content-on-brand not-disabled:active:bg-buttons-brand not-disabled:active:text-content-on-brand disabled:opacity-50 focus-visible:shadow-focus-ring",
   microphone:
-    "bg-neutral-400 text-foreground-inverse hover:bg-brand-accent-default hover:text-foreground-onaccent not-disabled:active:bg-brand-accent-default not-disabled:active:text-foreground-onaccent disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-brand hover:text-content-on-brand not-disabled:active:bg-buttons-brand not-disabled:active:text-content-on-brand disabled:opacity-50 focus-visible:shadow-focus-ring",
 };
 
 const iconSizeVariants = {

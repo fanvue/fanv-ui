@@ -162,7 +162,7 @@ test.describe("AudioUpload", () => {
       });
 
       await expect(upload).toHaveClass(/ring-2/);
-      await expect(upload).toHaveClass(/bg-brand-accent-muted/);
+      await expect(upload).toHaveClass(/bg-brand-primary-muted/);
     });
 
     test("removes visual feedback on dragleave", async ({ page }) => {
@@ -207,7 +207,7 @@ test.describe("AudioUpload", () => {
       });
 
       await expect(upload).not.toHaveClass(/ring-2/);
-      await expect(upload).not.toHaveClass(/bg-brand-accent-muted/);
+      await expect(upload).not.toHaveClass(/bg-brand-primary-muted/);
     });
   });
 

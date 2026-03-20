@@ -52,7 +52,7 @@ export const ChartLegendContent = React.forwardRef<HTMLDivElement, ChartLegendCo
           return (
             <div
               key={item.value}
-              className="flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-foreground-tertiary"
+              className="flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-content-tertiary"
             >
               {itemConfig?.icon && !hideIcon ? (
                 <itemConfig.icon />

@@ -30,7 +30,7 @@ const VARIANT_CLASSES: Record<SkeletonVariant, string> = {
   text: "rounded my-0.5",
   circular: "rounded-full",
   rectangular: "",
-  rounded: "rounded-lg",
+  rounded: "rounded-xs",
 };
 
 /**
@@ -68,7 +68,7 @@ export const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(
         ref={ref}
         aria-hidden="true"
         className={cn(
-          "block bg-[color-mix(in_srgb,var(--color-foreground-default)_11%,var(--color-surface-page))]",
+          "block bg-[color-mix(in_srgb,var(--color-content-primary)_11%,var(--color-bg-primary))]",
           VARIANT_CLASSES[variant],
           variant === "text" && !height && !hasChildren && "h-[1em]",
           animation === "pulse" && "animate-pulse",

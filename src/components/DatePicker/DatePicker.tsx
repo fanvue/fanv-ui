@@ -51,8 +51,8 @@ function Day({ day, modifiers, className, ...divProps }: DayProps) {
       className={cn(
         className,
         (range_start || range_end) && !isSingleDayRange && "from-50% from-transparent to-50%",
-        range_start && !isSingleDayRange && "bg-linear-to-r to-brand-accent-muted",
-        range_end && !isSingleDayRange && "bg-linear-to-l to-brand-accent-muted",
+        range_start && !isSingleDayRange && "bg-linear-to-r to-brand-primary-muted",
+        range_end && !isSingleDayRange && "bg-linear-to-l to-brand-primary-muted",
       )}
       {...divProps}
     />
@@ -71,15 +71,15 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
       ref={ref}
       type="button"
       className={cn(
-        "relative z-10 inline-flex size-10 cursor-pointer items-center justify-center rounded-lg",
+        "relative z-10 inline-flex size-10 cursor-pointer items-center justify-center rounded-xs",
         "typography-regular-body-md",
-        "transition-colors hover:bg-brand-accent-muted not-disabled:active:bg-brand-accent-muted",
-        "focus-visible:outline-2 focus-visible:outline-brand-tertiary-default focus-visible:outline-offset-[-2px]",
+        "transition-colors hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted",
+        "focus-visible:outline-2 focus-visible:outline-brand-secondary-default focus-visible:outline-offset-[-2px]",
         "disabled:cursor-not-allowed disabled:opacity-50",
-        modifiers.today && !modifiers.selected && "border border-brand-accent-default",
+        modifiers.today && !modifiers.selected && "border border-brand-primary-default",
         modifiers.selected && !modifiers.range_middle
-          ? "bg-brand-accent-default text-foreground-onaccent hover:bg-brand-accent-default"
-          : "text-foreground-default",
+          ? "bg-brand-primary-default text-content-on-brand hover:bg-brand-primary-default"
+          : "text-content-primary",
         modifiers.range_middle && "rounded-none bg-transparent",
         modifiers.outside && "pointer-events-none opacity-50",
       )}
@@ -178,7 +178,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       <div
         ref={ref}
         className={cn(
-          "inline-flex flex-col rounded-2xl border border-neutral-200 bg-surface-page shadow-[0px_6px_12px_0px_rgba(0,0,0,0.1)] backdrop-blur-sm",
+          "inline-flex flex-col rounded-md border border-neutral-alphas-200 bg-bg-primary shadow-blur-menu backdrop-blur-sm",
           className,
         )}
       >
@@ -195,22 +195,22 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             months: "relative flex",
             month: "flex flex-1 flex-col",
             month_caption: cn("flex items-center py-4", isMulti ? "justify-center px-2" : "px-5"),
-            caption_label: "typography-semibold-body-lg text-foreground-default",
+            caption_label: "typography-semibold-body-lg text-content-primary",
             nav: cn(
               "absolute top-4 z-20 flex",
               isMulti ? "pointer-events-none inset-x-3 justify-between" : "right-3 gap-1",
             ),
             button_previous:
-              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-foreground-default transition-colors hover:bg-brand-accent-muted not-disabled:active:bg-brand-accent-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-tertiary-default disabled:cursor-not-allowed disabled:opacity-50", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
+              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-content-primary transition-colors hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary-default disabled:cursor-not-allowed disabled:opacity-50", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
             button_next:
-              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-foreground-default transition-colors hover:bg-brand-accent-muted not-disabled:active:bg-brand-accent-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-tertiary-default disabled:cursor-not-allowed disabled:opacity-50", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
+              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-content-primary transition-colors hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary-default disabled:cursor-not-allowed disabled:opacity-50", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
             month_grid: cn("mb-4", isMulti ? "mx-2" : "mx-4"),
             weekdays: "flex",
             weekday:
-              "flex h-[30px] w-10 flex-1 items-center justify-center typography-regular-body-md text-foreground-secondary",
-            week: "flex overflow-hidden rounded-lg",
+              "flex h-[30px] w-10 flex-1 items-center justify-center typography-regular-body-md text-content-secondary",
+            week: "flex overflow-hidden rounded-xs",
             day: "relative flex w-10 flex-1 items-center justify-center",
-            range_middle: "bg-brand-accent-muted",
+            range_middle: "bg-brand-primary-muted",
             hidden: "hidden",
           }}
           components={{

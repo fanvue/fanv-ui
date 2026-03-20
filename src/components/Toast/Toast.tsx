@@ -66,13 +66,13 @@ ToastViewport.displayName = "ToastViewport";
 const VariantIcon = ({ variant }: { variant: ToastVariant }) => {
   switch (variant) {
     case "info":
-      return <InfoIcon className="size-5 text-info-default" />;
+      return <InfoIcon className="size-5 text-info-content" />;
     case "warning":
-      return <WarningIcon className="size-5 text-warning-default" />;
+      return <WarningIcon className="size-5 text-warning-content" />;
     case "success":
-      return <SuccessIcon className="size-5 text-success-default" />;
+      return <SuccessIcon className="size-5 text-success-content" />;
     case "error":
-      return <ErrorIcon className="size-5 text-error-default" />;
+      return <ErrorIcon className="size-5 text-error-content" />;
   }
 };
 
@@ -113,7 +113,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
         data-testid="toast"
         className={cn(
           // Base styles
-          "group pointer-events-auto relative flex w-full flex-col items-start gap-3 overflow-hidden rounded-lg border-none bg-surface-pageinverse p-4 text-foreground-inverse shadow-lg transition-all",
+          "group pointer-events-auto relative flex w-full flex-col items-start gap-3 overflow-hidden rounded-xs border-none bg-surface-primary-inverted p-4 text-content-primary-inverted shadow-lg transition-all",
           // Dark mode
           "dark:border-opacity-100",
           // Animation
@@ -147,7 +147,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
               <Button
                 variant="secondary"
                 // These styles are basically inverted from the selected theme
-                className="mt-4 border-foreground-inverse text-foreground-inverse"
+                className="mt-4 border-content-primary-inverted text-content-primary-inverted"
                 size="32"
                 onClick={onActionClick}
               >
@@ -162,7 +162,7 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
               icon={<CloseIcon />}
               aria-label={closeLabel}
               // same as the button above
-              className="absolute top-2 right-2 text-foreground-inverse"
+              className="absolute top-2 right-2 text-content-primary-inverted"
               variant="tertiary"
               size="24"
             />

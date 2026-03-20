@@ -146,7 +146,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
         {label && (
           <label
             htmlFor={ac.inputId}
-            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-foreground-default"
+            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-content-primary"
           >
             {label}
           </label>
@@ -157,10 +157,10 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
           {/* biome-ignore lint/a11y/useKeyWithClickEvents: Keyboard interaction is handled by the inner combobox input */}
           <div
             className={cn(
-              "flex flex-wrap items-center overflow-hidden rounded-xl border bg-neutral-100 has-focus-visible:outline-none motion-safe:transition-colors",
-              error ? "border-error-default" : "border-transparent",
-              !disabled && !error && "hover:border-neutral-400",
-              ac.isOpen && !error && !disabled && "border-neutral-400",
+              "flex flex-wrap items-center overflow-hidden rounded-sm border bg-neutral-alphas-100 has-focus-visible:outline-none motion-safe:transition-colors",
+              error ? "border-error-content" : "border-transparent",
+              !disabled && !error && "hover:border-neutral-alphas-400",
+              ac.isOpen && !error && !disabled && "border-neutral-alphas-400",
               CONTAINER_HEIGHT[size],
               PADDING_CLASSES[size],
               disabled && "opacity-50",
@@ -168,7 +168,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
             onClick={ac.handleContainerClick}
           >
             {leftIcon && (
-              <div className="flex size-5 shrink-0 items-center justify-center text-foreground-secondary">
+              <div className="flex size-5 shrink-0 items-center justify-center text-content-secondary">
                 {leftIcon}
               </div>
             )}
@@ -209,26 +209,26 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
                 onFocus={ac.handleFocus}
                 onBlur={ac.handleBlur}
                 className={cn(
-                  "min-w-[40px] flex-1 truncate rounded-xl bg-transparent text-foreground-default no-underline placeholder:text-foreground-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+                  "min-w-[40px] flex-1 truncate bg-transparent text-content-primary no-underline placeholder:text-content-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
                   INPUT_SIZE_CLASSES[size],
                 )}
               />
             </div>
 
             <div className="flex shrink-0 items-center gap-1">
-              {loading && <SpinnerIcon className="size-4 animate-spin text-foreground-secondary" />}
+              {loading && <SpinnerIcon className="size-4 animate-spin text-content-secondary" />}
               {clearable && ac.hasClearableValue && !disabled && (
                 <button
                   type="button"
                   tabIndex={-1}
                   aria-label={clearAriaLabel}
-                  className="flex size-5 shrink-0 cursor-pointer items-center justify-center text-foreground-secondary hover:text-foreground-default active:scale-95"
+                  className="flex size-5 shrink-0 cursor-pointer items-center justify-center text-content-secondary hover:text-content-primary active:scale-95"
                   onClick={ac.handleClear}
                 >
                   <CloseIcon className="size-4" />
                 </button>
               )}
-              <div className="flex size-5 shrink-0 items-center justify-center text-foreground-secondary">
+              <div className="flex size-5 shrink-0 items-center justify-center text-content-secondary">
                 <ChevronDownIcon
                   className={cn("size-5 transition-transform", ac.isOpen && "rotate-180")}
                 />
@@ -245,7 +245,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
             onCloseAutoFocus={(e) => e.preventDefault()}
             style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)" }}
             className={cn(
-              "w-(--radix-popover-trigger-width) min-w-(--radix-popper-anchor-width) overflow-hidden rounded-xl border border-neutral-200 bg-surface-page text-foreground-default shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+              "w-(--radix-popover-trigger-width) min-w-(--radix-popper-anchor-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-bg-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
               "data-[state=closed]:animate-out data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
               "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -283,7 +283,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
             id={ac.helperTextId}
             className={cn(
               "typography-regular-body-sm px-2 pt-1 pb-0.5",
-              error ? "text-error-default" : "text-foreground-secondary",
+              error ? "text-error-content" : "text-content-secondary",
             )}
           >
             {bottomText}

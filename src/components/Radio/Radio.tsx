@@ -40,13 +40,13 @@ export const Radio = React.forwardRef<
         data-testid="radio"
         aria-describedby={helperText ? helperTextId : undefined}
         className={cn(
-          "relative h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-full border border-foreground-default bg-transparent outline-ring transition-colors hover:bg-brand-accent-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 not-disabled:active:bg-brand-accent-muted disabled:cursor-not-allowed disabled:border-neutral-300 disabled:bg-transparent data-[state=checked]:border-foreground-default data-[state=checked]:bg-transparent dark:border-foreground-default dark:disabled:border-neutral-300",
+          "relative h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-full border border-content-primary bg-transparent transition-colors hover:bg-brand-primary-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary not-disabled:active:bg-brand-primary-muted disabled:cursor-not-allowed disabled:border-neutral-alphas-600 disabled:bg-transparent data-[state=checked]:border-content-primary data-[state=checked]:bg-transparent",
           helperText && "mt-1 self-start",
         )}
         {...props}
       >
         <RadioGroupPrimitive.Indicator className="absolute inset-0 flex items-center justify-center">
-          <span className="size-2 rounded-full bg-foreground-default group-has-disabled:bg-neutral-300 dark:bg-foreground-default dark:group-has-disabled:bg-neutral-300" />
+          <span className="size-2 rounded-full bg-content-primary group-has-disabled:bg-neutral-alphas-600" />
         </RadioGroupPrimitive.Indicator>
       </RadioGroupPrimitive.Item>
       {(label || helperText) && (
@@ -55,7 +55,7 @@ export const Radio = React.forwardRef<
             <label
               htmlFor={inputId}
               className={cn(
-                "cursor-pointer select-none text-foreground-default group-has-disabled:cursor-not-allowed group-has-disabled:text-neutral-250",
+                "cursor-pointer select-none text-content-primary group-has-disabled:cursor-not-allowed group-has-disabled:text-content-tertiary",
                 size === "small" ? "typography-semibold-body-md" : "typography-semibold-body-lg",
               )}
             >
@@ -66,7 +66,7 @@ export const Radio = React.forwardRef<
             <span
               id={helperTextId}
               className={cn(
-                "text-foreground-secondary group-has-disabled:cursor-not-allowed group-has-disabled:text-neutral-250",
+                "text-content-secondary group-has-disabled:cursor-not-allowed group-has-disabled:text-content-tertiary",
                 size === "small" ? "typography-semibold-body-md" : "typography-regular-body-sm",
               )}
             >

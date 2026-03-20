@@ -32,8 +32,8 @@ export interface ChartCardProps extends Omit<React.HTMLAttributes<HTMLDivElement
 }
 
 const TREND_CLASSES: Record<"positive" | "negative", string> = {
-  positive: "bg-success-background text-success-default",
-  negative: "bg-error-background text-error-default",
+  positive: "bg-success-surface text-success-content",
+  negative: "bg-error-surface text-error-content",
 };
 
 /**
@@ -82,7 +82,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
           ) : (
             <>
               <div className="flex items-center gap-1.5">
-                <span className="typography-semibold-body-md text-foreground-default">{title}</span>
+                <span className="typography-semibold-body-md text-content-primary">{title}</span>
                 {tooltip && (
                   <TooltipProvider>
                     <Tooltip>
@@ -91,7 +91,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                           variant="tertiary"
                           size="24"
                           aria-label={tooltipAriaLabel}
-                          icon={<InfoCircleIcon className="size-4 text-foreground-tertiary" />}
+                          icon={<InfoCircleIcon className="size-4 text-content-tertiary" />}
                         />
                       </TooltipTrigger>
                       <TooltipContent>{tooltip}</TooltipContent>
@@ -101,7 +101,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
               </div>
               {subtitle && (
                 <div className="flex items-center gap-2">
-                  <span className="typography-bold-heading-sm text-foreground-default">
+                  <span className="typography-bold-heading-sm text-content-primary">
                     {subtitle}
                   </span>
                   {trendChip && (
@@ -117,9 +117,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                 </div>
               )}
               {dateInfo && (
-                <span className="typography-regular-body-sm text-foreground-tertiary">
-                  {dateInfo}
-                </span>
+                <span className="typography-regular-body-sm text-content-tertiary">{dateInfo}</span>
               )}
             </>
           )}

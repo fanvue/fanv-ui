@@ -37,9 +37,9 @@ export function AutocompleteDropdownContent({
     return (
       // biome-ignore lint/a11y/useSemanticElements: <output> is not appropriate here; using role="status" for live region announcements
       <div role="status" className="flex items-center justify-center py-4">
-        <SpinnerIcon className="size-5 animate-spin text-foreground-secondary" />
+        <SpinnerIcon className="size-5 animate-spin text-content-secondary" />
         {loadingText && (
-          <span className="typography-regular-body-md ml-2 text-foreground-secondary">
+          <span className="typography-regular-body-md ml-2 text-content-secondary">
             {loadingText}
           </span>
         )}
@@ -49,7 +49,7 @@ export function AutocompleteDropdownContent({
 
   if (visibleOptions.length === 0) {
     return (
-      <div className="typography-regular-body-md block px-3 py-4 text-center text-foreground-secondary">
+      <div className="typography-regular-body-md block px-3 py-4 text-center text-content-secondary">
         {emptyText}
       </div>
     );

@@ -32,7 +32,7 @@ describe("Card", () => {
       render(<Card data-testid="card">Content</Card>);
       const el = screen.getByTestId("card");
       expect(el).toHaveClass("border");
-      expect(el).toHaveClass("shadow-cardsubtle");
+      expect(el).toHaveClass("shadow-sm");
     });
 
     it("renders elevated variant", () => {
@@ -43,7 +43,7 @@ describe("Card", () => {
       );
       const el = screen.getByTestId("card");
       expect(el).toHaveClass("border");
-      expect(el).toHaveClass("shadow-card");
+      expect(el).toHaveClass("shadow-md");
     });
 
     it("renders filled variant", () => {
@@ -53,7 +53,7 @@ describe("Card", () => {
         </Card>,
       );
       const el = screen.getByTestId("card");
-      expect(el).toHaveClass("bg-neutral-500");
+      expect(el).toHaveClass("bg-surface-secondary");
       expect(el).not.toHaveClass("border");
     });
 
@@ -166,7 +166,7 @@ describe("Card", () => {
 
     it("applies secondary text color", () => {
       render(<CardDescription>Description</CardDescription>);
-      expect(screen.getByText("Description")).toHaveClass("text-foreground-secondary");
+      expect(screen.getByText("Description")).toHaveClass("text-content-secondary");
     });
 
     it("forwards ref correctly", () => {

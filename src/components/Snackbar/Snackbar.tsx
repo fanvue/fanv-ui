@@ -113,10 +113,10 @@ function VipEarnContent({
       <div className="flex min-w-0 flex-1 flex-col gap-4">
         <div className="flex flex-col">
           {title && (
-            <p className="typography-semibold-body-lg text-foreground-default leading-6">{title}</p>
+            <p className="typography-semibold-body-lg text-content-primary leading-6">{title}</p>
           )}
           {description && (
-            <p className="typography-regular-body-md text-foreground-secondary">{description}</p>
+            <p className="typography-regular-body-md text-content-secondary">{description}</p>
           )}
         </div>
         {showActions && primary && <div className="self-start">{primary}</div>}
@@ -156,10 +156,10 @@ function WelcomeContent({
 
   return (
     <>
-      <div className="flex flex-col items-center gap-2 px-8 text-center text-foreground-default">
-        {title && <p className="typography-bold-heading-xs text-foreground-default">{title}</p>}
+      <div className="flex flex-col items-center gap-2 px-8 text-center text-content-primary">
+        {title && <p className="typography-bold-heading-xs text-content-primary">{title}</p>}
         {description && (
-          <p className="typography-regular-body-md text-foreground-secondary">{description}</p>
+          <p className="typography-regular-body-md text-content-secondary">{description}</p>
         )}
       </div>
       {showActions && (primary || secondary) && (
@@ -203,7 +203,7 @@ function DefaultContent({
 
   return (
     <>
-      <div className="typography-regular-body-lg flex min-w-0 flex-1 items-center self-stretch text-foreground-default">
+      <div className="typography-regular-body-lg flex min-w-0 flex-1 items-center self-stretch text-content-primary">
         {children}
       </div>
       {showActions && (primary || secondary) && (
@@ -264,12 +264,12 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
         role="status"
         data-testid="snackbar"
         className={cn(
-          "flex gap-4 rounded-2xl",
+          "flex gap-4 rounded-md",
           (variant === "default" || variant === "vipEarn") &&
-            "border border-neutral-50 bg-surface-container p-4 backdrop-blur-md",
+            "border border-neutral-alphas-50 bg-surface-primary p-4 backdrop-blur-md",
           variant === "default" && "flex-wrap items-start",
           variant === "vipEarn" && "items-start",
-          variant === "welcome" && "relative flex-col items-center bg-surface-page py-6",
+          variant === "welcome" && "relative flex-col items-center bg-bg-primary py-6",
           className,
         )}
         {...props}

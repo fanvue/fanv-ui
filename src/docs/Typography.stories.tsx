@@ -180,7 +180,7 @@ function TypographyRow({ token }: { token: TypographyToken }) {
         gridTemplateColumns: "200px 1fr",
         gap: 24,
         padding: "20px 0",
-        borderBottom: "1px solid var(--color-neutral-200)",
+        borderBottom: "1px solid var(--color-border-primary)",
         alignItems: "baseline",
       }}
     >
@@ -189,7 +189,7 @@ function TypographyRow({ token }: { token: TypographyToken }) {
           style={{
             fontSize: 13,
             fontWeight: 600,
-            color: "var(--color-foreground-default)",
+            color: "var(--color-content-primary)",
             marginBottom: 4,
           }}
         >
@@ -200,12 +200,12 @@ function TypographyRow({ token }: { token: TypographyToken }) {
             style={{
               fontFamily: "monospace",
               fontSize: 11,
-              color: "var(--color-foreground-tertiary)",
+              color: "var(--color-content-tertiary)",
             }}
           >
             {token.className}
           </span>
-          <span style={{ fontSize: 11, color: "var(--color-foreground-secondary)" }}>
+          <span style={{ fontSize: 11, color: "var(--color-content-secondary)" }}>
             {token.size} / {token.lineHeight} · {weightLabels[token.weight] || token.weight}
             {token.letterSpacing ? ` · LS ${token.letterSpacing}` : ""}
             {token.textTransform ? ` · ${token.textTransform}` : ""}
@@ -214,7 +214,7 @@ function TypographyRow({ token }: { token: TypographyToken }) {
       </div>
       <div
         className={token.className}
-        style={{ color: "var(--color-foreground-default)", minWidth: 0 }}
+        style={{ color: "var(--color-content-primary)", minWidth: 0 }}
       >
         {token.sample}
       </div>
@@ -230,7 +230,7 @@ function SectionHeading({ children }: { children: string }) {
         fontWeight: 600,
         textTransform: "uppercase",
         letterSpacing: "0.05em",
-        color: "var(--color-foreground-tertiary)",
+        color: "var(--color-content-tertiary)",
         margin: "0 0 8px",
       }}
     >
@@ -246,7 +246,7 @@ export const Scale: Story = {
         style={{
           fontSize: 32,
           fontWeight: 800,
-          color: "var(--color-foreground-default)",
+          color: "var(--color-content-primary)",
           margin: "0 0 8px",
         }}
       >
@@ -255,7 +255,7 @@ export const Scale: Story = {
       <p
         style={{
           fontSize: 16,
-          color: "var(--color-foreground-secondary)",
+          color: "var(--color-content-secondary)",
           margin: "0 0 12px",
           maxWidth: 640,
           lineHeight: 1.5,
@@ -276,9 +276,9 @@ export const Scale: Story = {
           style={{
             fontSize: 13,
             fontFamily: "monospace",
-            color: "var(--color-foreground-tertiary)",
+            color: "var(--color-content-tertiary)",
             padding: "8px 12px",
-            backgroundColor: "var(--color-surface-input)",
+            backgroundColor: "var(--color-surface-inputs)",
             borderRadius: 6,
           }}
         >

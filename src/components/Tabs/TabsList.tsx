@@ -79,8 +79,8 @@ export const TabsList = React.forwardRef<
       className={cn(
         "relative",
         fullWidth ? "flex w-full [&>[role=tab]]:flex-1" : "inline-flex",
-        "data-[orientation=horizontal]:items-center data-[orientation=horizontal]:shadow-[inset_0_-1px_0_0_var(--color-neutral-200)]",
-        "data-[orientation=vertical]:flex-col data-[orientation=vertical]:shadow-[inset_-1px_0_0_0_var(--color-neutral-200)]",
+        "data-[orientation=horizontal]:items-center data-[orientation=horizontal]:shadow-[inset_0_-1px_0_0_var(--color-neutral-alphas-200)]",
+        "data-[orientation=vertical]:flex-col data-[orientation=vertical]:shadow-[inset_-1px_0_0_0_var(--color-neutral-alphas-200)]",
         className,
       )}
       {...props}
@@ -89,7 +89,7 @@ export const TabsList = React.forwardRef<
       <span
         ref={indicatorRef}
         aria-hidden
-        className="pointer-events-none absolute rounded-full bg-brand-accent-default motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
+        className="pointer-events-none absolute rounded-full bg-brand-primary-default motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
         style={{ opacity: 0 }}
       />
     </TabsPrimitive.List>

@@ -172,7 +172,7 @@ export const CustomRenderOption: Story = {
     renderOption: (option: AutocompleteOption, state: { selected: boolean; active: boolean }) => (
       <div className="flex w-full items-center gap-2">
         <span className="min-w-0 flex-1 truncate">{option.label ?? option.value}</span>
-        {state.selected && <span className="text-foreground-secondary text-xs">Selected</span>}
+        {state.selected && <span className="text-content-secondary text-xs">Selected</span>}
       </div>
     ),
   },
@@ -192,7 +192,7 @@ export const CustomRenderTag: Story = {
         <button
           type="button"
           onClick={onRemove}
-          className="ml-1 cursor-pointer text-foreground-secondary"
+          className="ml-1 cursor-pointer text-content-secondary"
         >
           x
         </button>
@@ -243,7 +243,7 @@ function ControlledExample() {
         clearAriaLabel="Clear selection"
         emptyText="No results"
       />
-      <p className="typography-regular-body-sm text-foreground-secondary">
+      <p className="typography-regular-body-sm text-content-secondary">
         Selected: {value ?? "none"}
       </p>
     </div>

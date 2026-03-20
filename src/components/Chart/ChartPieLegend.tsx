@@ -51,10 +51,10 @@ export const ChartPieLegend = React.forwardRef<HTMLDivElement, ChartPieLegendPro
                   style={{ backgroundColor: item.color }}
                 />
               )}
-              <span className="typography-regular-body-sm min-w-0 flex-1 truncate text-foreground-secondary">
+              <span className="typography-regular-body-sm min-w-0 flex-1 truncate text-content-secondary">
                 {item.label}
               </span>
-              <span className="typography-semibold-body-md text-foreground-default tabular-nums">
+              <span className="typography-semibold-body-md text-content-primary tabular-nums">
                 {item.formattedValue ?? item.value.toLocaleString()}
               </span>
             </div>

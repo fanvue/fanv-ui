@@ -46,7 +46,7 @@ export const Outlined: Story = {
         <CardDescription>Card description text</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="typography-regular-body-md text-foreground-tertiary">Content goes here</p>
+        <p className="typography-regular-body-md text-content-tertiary">Content goes here</p>
       </CardContent>
       <CardFooter>
         <Button variant="secondary" size="40">
@@ -71,7 +71,7 @@ export const Elevated: Story = {
         <CardDescription>Card description text</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="typography-regular-body-md text-foreground-tertiary">Content goes here</p>
+        <p className="typography-regular-body-md text-content-tertiary">Content goes here</p>
       </CardContent>
       <CardFooter>
         <Button variant="secondary" size="40">
@@ -96,7 +96,7 @@ export const Filled: Story = {
         <CardDescription>Card description text</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="typography-regular-body-md text-foreground-tertiary">Content goes here</p>
+        <p className="typography-regular-body-md text-content-tertiary">Content goes here</p>
       </CardContent>
       <CardFooter>
         <Button variant="secondary" size="40">
@@ -121,7 +121,7 @@ export const Ghost: Story = {
         <CardDescription>Card description text</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="typography-regular-body-md text-foreground-tertiary">Content goes here</p>
+        <p className="typography-regular-body-md text-content-tertiary">Content goes here</p>
       </CardContent>
       <CardFooter>
         <Button variant="secondary" size="40">
@@ -148,7 +148,7 @@ export const AllVariants: Story = {
             <CardDescription>Card description text</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="typography-regular-body-md text-foreground-tertiary">Content goes here</p>
+            <p className="typography-regular-body-md text-content-tertiary">Content goes here</p>
           </CardContent>
           <CardFooter>
             <Button variant="secondary" size="40">
@@ -179,7 +179,7 @@ export const ContentOnly: Story = {
   render: () => (
     <Card className="max-w-sm">
       <CardContent>
-        <p className="typography-regular-body-md text-foreground-default">
+        <p className="typography-regular-body-md text-content-primary">
           A simple card with just content and no header or footer.
         </p>
       </CardContent>
@@ -208,7 +208,7 @@ export const WithMultipleActions: Story = {
         <CardDescription>This card has multiple action icons</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="typography-regular-body-md text-foreground-tertiary">
+        <p className="typography-regular-body-md text-content-tertiary">
           Content area for featured items
         </p>
       </CardContent>
@@ -224,7 +224,7 @@ export const WithMultipleActions: Story = {
 export const NoPadding: Story = {
   render: () => (
     <Card className="max-w-sm" noPadding>
-      <div className="h-40 w-full rounded-t-2xl bg-neutral-200" />
+      <div className="h-40 w-full rounded-t-md bg-neutral-alphas-200" />
       <div className="p-4">
         <CardHeader>
           <CardTitle>Media Card</CardTitle>
@@ -277,10 +277,10 @@ function MediaPostExample() {
           platinumShow
         />
         <div className="min-w-0 flex-1">
-          <p className="typography-semibold-body-md text-foreground-default">
+          <p className="typography-semibold-body-md text-content-primary">
             Creator With Everything
           </p>
-          <p className="typography-regular-body-sm text-foreground-secondary">
+          <p className="typography-regular-body-sm text-content-secondary">
             @creator-with-everything
           </p>
         </div>
@@ -289,7 +289,7 @@ function MediaPostExample() {
           <IconButton variant="tertiary" size="32" icon={<MoreIcon />} aria-label="More options" />
         </div>
       </div>
-      <p className="typography-regular-body-md px-4 pb-2 text-foreground-default">testtest</p>
+      <p className="typography-regular-body-md px-4 pb-2 text-content-primary">testtest</p>
       <button type="button" className="group relative cursor-pointer">
         <img
           src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=960&h=640&fit=crop"
@@ -308,8 +308,8 @@ function MediaPostExample() {
         </div>
       </button>
       <div className="flex items-center gap-4 px-4 pt-3 pb-1">
-        <LoveIcon className="size-6 text-foreground-default" />
-        <MessageIcon className="size-6 text-foreground-default" />
+        <LoveIcon className="size-6 text-content-primary" />
+        <MessageIcon className="size-6 text-content-primary" />
       </div>
       <div className="flex items-center justify-between px-4 pt-1 pb-4">
         <div className="flex items-center gap-3">
@@ -322,7 +322,7 @@ function MediaPostExample() {
         </div>
         <button
           type="button"
-          className="typography-semibold-body-sm cursor-pointer rounded-lg border border-neutral-200 px-3 py-1.5 text-foreground-default"
+          className="typography-semibold-body-sm cursor-pointer rounded-xs border border-neutral-alphas-200 px-3 py-1.5 text-content-primary"
           onClick={() => setShowComments(!showComments)}
         >
           {showComments ? "Hide comments" : "Show comments"}
@@ -340,14 +340,14 @@ function MediaPostExample() {
               />
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline gap-2">
-                  <span className="typography-semibold-body-sm text-foreground-default">
+                  <span className="typography-semibold-body-sm text-content-primary">
                     {comment.username}
                   </span>
-                  <span className="typography-regular-body-xs text-foreground-tertiary">
+                  <span className="typography-regular-body-xs text-content-tertiary">
                     {comment.time}
                   </span>
                 </div>
-                <p className="typography-regular-body-sm text-foreground-default">{comment.text}</p>
+                <p className="typography-regular-body-sm text-content-primary">{comment.text}</p>
               </div>
             </div>
           ))}

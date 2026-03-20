@@ -91,7 +91,7 @@ describe("Autocomplete", () => {
   describe("error state", () => {
     it("applies error border on container", () => {
       const { container } = renderAutocomplete({ error: true });
-      const trigger = container.querySelector(".border-error-default");
+      const trigger = container.querySelector(".border-error-content");
       expect(trigger).toBeInTheDocument();
     });
 
@@ -118,7 +118,7 @@ describe("Autocomplete", () => {
 
     it("applies error colour to helper text", () => {
       renderAutocomplete({ error: true, helperText: "Error helper" });
-      expect(screen.getByText("Error helper")).toHaveClass("text-error-default");
+      expect(screen.getByText("Error helper")).toHaveClass("text-error-content");
     });
   });
 

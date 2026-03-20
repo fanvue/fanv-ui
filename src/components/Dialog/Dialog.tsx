@@ -44,7 +44,7 @@ export const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 fixed inset-0 bg-surface-backdrop data-[state=closed]:animate-out data-[state=open]:animate-in",
+      "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 fixed inset-0 bg-bg-overlay data-[state=closed]:animate-out data-[state=open]:animate-in",
       className,
     )}
     style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
@@ -113,9 +113,9 @@ export const DialogContent = React.forwardRef<
       style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
       className={cn(
         // Base
-        "fixed flex flex-col overflow-hidden bg-surface-modal shadow-lifted focus:outline-none",
+        "fixed flex flex-col overflow-hidden bg-bg-primary shadow-lg focus:outline-none",
         // Mobile: bottom sheet
-        "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-3xl",
+        "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-lg",
         // Animation (shared)
         "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
         "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
@@ -123,7 +123,7 @@ export const DialogContent = React.forwardRef<
         "data-[state=open]:slide-in-from-bottom-full",
         "data-[state=closed]:slide-out-to-bottom-full",
         // Desktop: centered dialog
-        "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[85vh] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-3xl",
+        "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[85vh] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
         // Desktop: scale in/out (cancel mobile slide)
         "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
         "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
@@ -226,7 +226,7 @@ export const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn("typography-bold-heading-xs truncate text-foreground-default", className)}
+    className={cn("typography-bold-heading-xs truncate text-content-primary", className)}
     {...props}
   />
 ));
@@ -244,7 +244,7 @@ export const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("typography-regular-body-lg text-foreground-secondary", className)}
+    className={cn("typography-regular-body-lg text-content-secondary", className)}
     {...props}
   />
 ));

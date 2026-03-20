@@ -177,7 +177,7 @@ describe("DropdownMenuItem", () => {
           Delete
         </DropdownMenuItem>,
       );
-      expect(screen.getByTestId("item")).toHaveClass("text-error-default");
+      expect(screen.getByTestId("item")).toHaveClass("text-error-content");
     });
 
     it("does not fire onSelect when disabled", async () => {
@@ -212,7 +212,7 @@ describe("DropdownMenuItem", () => {
           Item
         </DropdownMenuItem>,
       );
-      expect(screen.getByTestId("item")).toHaveClass("bg-success-background");
+      expect(screen.getByTestId("item")).toHaveClass("bg-success-surface");
     });
 
     it("renders leading and trailing icons", () => {
@@ -259,7 +259,7 @@ describe("DropdownMenuItem", () => {
           <a href="/delete">Delete</a>
         </DropdownMenuItem>,
       );
-      expect(screen.getByRole("menuitem")).toHaveClass("text-error-default");
+      expect(screen.getByRole("menuitem")).toHaveClass("text-error-content");
     });
   });
 });

@@ -29,7 +29,7 @@ export const Default: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -42,7 +42,7 @@ export const Bottom: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -55,7 +55,7 @@ export const Left: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -68,7 +68,7 @@ export const Right: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -81,7 +81,7 @@ export const LongContent: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
@@ -97,7 +97,7 @@ export const AllPlacements: Story = {
     <div className="flex flex-col items-center gap-24 py-16">
       <Tooltip defaultOpen>
         <TooltipTrigger asChild>
-          <button type="button" className="text-foreground-secondary">
+          <button type="button" className="text-content-secondary">
             <InfoCircleIcon className="size-5" />
           </button>
         </TooltipTrigger>
@@ -106,7 +106,7 @@ export const AllPlacements: Story = {
       <div className="flex gap-48">
         <Tooltip defaultOpen>
           <TooltipTrigger asChild>
-            <button type="button" className="text-foreground-secondary">
+            <button type="button" className="text-content-secondary">
               <InfoCircleIcon className="size-5" />
             </button>
           </TooltipTrigger>
@@ -114,7 +114,7 @@ export const AllPlacements: Story = {
         </Tooltip>
         <Tooltip defaultOpen>
           <TooltipTrigger asChild>
-            <button type="button" className="text-foreground-secondary">
+            <button type="button" className="text-content-secondary">
               <InfoCircleIcon className="size-5" />
             </button>
           </TooltipTrigger>
@@ -123,7 +123,7 @@ export const AllPlacements: Story = {
       </div>
       <Tooltip defaultOpen>
         <TooltipTrigger asChild>
-          <button type="button" className="text-foreground-secondary">
+          <button type="button" className="text-content-secondary">
             <InfoCircleIcon className="size-5" />
           </button>
         </TooltipTrigger>

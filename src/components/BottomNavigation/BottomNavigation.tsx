@@ -35,7 +35,7 @@ export const BottomNavigation = React.forwardRef<HTMLElement, BottomNavigationPr
           className={cn(
             "fixed inset-x-0 bottom-0",
             "flex h-[calc(env(safe-area-inset-bottom,0px)+68px)] items-center justify-around",
-            "border-neutral-200 border-t bg-surface-page",
+            "border-neutral-alphas-200 border-t bg-bg-primary",
             "pb-[env(safe-area-inset-bottom,0px)]",
             hideOnDesktop && "md:hidden",
             className,
