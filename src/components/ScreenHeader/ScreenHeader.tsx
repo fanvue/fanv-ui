@@ -63,13 +63,13 @@ export interface ScreenHeaderOnboardingRowProps extends React.HTMLAttributes<HTM
  * ```
  */
 export const ScreenHeader = React.forwardRef<HTMLDivElement, ScreenHeaderProps>(
-  ({ className, device = "mobile", surface = "default", ...props }, ref) => {
+  ({ className, device = "desktop", surface = "default", ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
           "flex min-h-16 w-full flex-wrap items-center gap-2",
-          device === "mobile" ? "p-4" : "px-6 py-4",
+          device === "desktop" ? "px-6 py-4" : "p-4",
           surface === "frosted" &&
             "bg-surface-container/80 backdrop-blur-[20px] supports-[backdrop-filter]:bg-surface-container/60",
           className,
