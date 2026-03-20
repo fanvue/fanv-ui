@@ -46,8 +46,6 @@ export {
 } from "./components/Avatar/Avatar";
 export type { BadgeProps, BadgeVariant } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
-export type { BannerProps, BannerVariant } from "./components/Banner/Banner";
-export { Banner } from "./components/Banner/Banner";
 export type { BottomNavigationProps } from "./components/BottomNavigation/BottomNavigation";
 export { BottomNavigation } from "./components/BottomNavigation/BottomNavigation";
 export type { BottomNavigationActionProps } from "./components/BottomNavigation/BottomNavigationAction";
