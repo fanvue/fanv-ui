@@ -124,6 +124,10 @@ import {
   Logo,
   LogoutIcon,
   LoveIcon,
+  MainContainerHeader,
+  MainContainerHeaderEnd,
+  MainContainerHeaderStart,
+  MainContainerHeaderTitle,
   MegaphoneIcon,
   MenuCloseIcon,
   MenuIcon,
@@ -151,6 +155,14 @@ import {
   RepeatIcon,
   Reply2Icon,
   ReplyIcon,
+  ScreenHeader,
+  ScreenHeaderActions,
+  ScreenHeaderDotIndicators,
+  ScreenHeaderGreeting,
+  ScreenHeaderOnboardingRow,
+  ScreenHeaderSteps,
+  ScreenHeaderTitle,
+  ScreenHeaderToolbar,
   SearchField,
   SearchIcon,
   Select,
@@ -2709,6 +2721,161 @@ function MobileStepperDemo() {
   );
 }
 
+function HeaderDemoPreviewShell({
+  caption,
+  maxWidthClass,
+  children,
+}: {
+  caption: string;
+  maxWidthClass: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="typography-regular-body-sm text-content-secondary">{caption}</p>
+      <div
+        className={`w-full overflow-hidden rounded-md border border-border-primary bg-bg-primary shadow-sm ${maxWidthClass}`}
+      >
+        {children}
+        <div className="typography-regular-body-sm bg-surface-tertiary px-4 py-12 text-content-tertiary">
+          Page content
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MainContainerHeaderDemo() {
+  const demoAvatar =
+    "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=80&h=80&fit=crop";
+
+  return (
+    <div id="maincontainerheader" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Main container header</h2>
+      <p className="typography-regular-body-md -mt-2 mb-2 max-w-2xl text-content-secondary">
+        Previews sit in a rounded panel with a placeholder body so the header reads like the top of
+        a real column or screen.
+      </p>
+      <div className="flex flex-col gap-8">
+        <HeaderDemoPreviewShell caption="Desktop-width main column" maxWidthClass="max-w-[568px]">
+          <MainContainerHeader className="rounded-none">
+            <MainContainerHeaderStart>
+              <Avatar src={demoAvatar} alt="Creator" fallback="C" size={40} onlineIndicator />
+              <MainContainerHeaderTitle>Title</MainContainerHeaderTitle>
+              <Badge variant="success" className="text-content-primary" leftDot>
+                Live
+              </Badge>
+            </MainContainerHeaderStart>
+            <MainContainerHeaderEnd>
+              <IconButton variant="tertiary" size="32" icon={<SearchIcon />} aria-label="Search" />
+              <span className="typography-semibold-body-sm inline-flex items-center justify-center rounded-full bg-brand-secondary-default px-2 py-1 text-content-on-brand">
+                Beta
+              </span>
+              <IconButton
+                variant="tertiary"
+                size="32"
+                icon={<MoreIcon />}
+                aria-label="More options"
+              />
+              <IconButton
+                variant="tertiary"
+                size="32"
+                icon={<BoltIcon />}
+                aria-label="Quick actions"
+              />
+              <IconButton variant="tertiary" size="32" icon={<PlusIcon />} aria-label="Add" />
+            </MainContainerHeaderEnd>
+          </MainContainerHeader>
+        </HeaderDemoPreviewShell>
+        <HeaderDemoPreviewShell caption="Mobile-width panel" maxWidthClass="max-w-[375px]">
+          <MainContainerHeader device="mobile" className="rounded-none">
+            <MainContainerHeaderStart>
+              <Avatar src={demoAvatar} alt="Creator" fallback="C" size={40} onlineIndicator />
+              <MainContainerHeaderTitle>Title</MainContainerHeaderTitle>
+            </MainContainerHeaderStart>
+            <MainContainerHeaderEnd>
+              <span className="typography-semibold-body-sm inline-flex items-center justify-center rounded-full bg-brand-secondary-default px-2 py-1 text-content-on-brand">
+                Beta
+              </span>
+              <IconButton
+                variant="tertiary"
+                size="32"
+                icon={<MoreIcon />}
+                aria-label="More options"
+              />
+            </MainContainerHeaderEnd>
+          </MainContainerHeader>
+        </HeaderDemoPreviewShell>
+      </div>
+    </div>
+  );
+}
+
+function ScreenHeaderDemo() {
+  return (
+    <div id="screenheader" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Screen header</h2>
+      <p className="typography-regular-body-md -mt-2 mb-2 max-w-2xl text-content-secondary">
+        Each example is framed at a typical phone width (375px) with content below the header
+        region.
+      </p>
+      <div className="flex flex-col gap-8">
+        <HeaderDemoPreviewShell caption="Toolbar + search" maxWidthClass="max-w-[375px]">
+          <ScreenHeader className="rounded-none border-border-primary border-b">
+            <ScreenHeaderToolbar>
+              <ScreenHeaderTitle className="min-w-0 flex-1">Home</ScreenHeaderTitle>
+              <ScreenHeaderActions>
+                <IconButton
+                  variant="tertiary"
+                  size="32"
+                  icon={<SearchIcon />}
+                  aria-label="Search"
+                />
+              </ScreenHeaderActions>
+            </ScreenHeaderToolbar>
+          </ScreenHeader>
+        </HeaderDemoPreviewShell>
+        <HeaderDemoPreviewShell caption="Greeting block" maxWidthClass="max-w-[375px]">
+          <ScreenHeader className="rounded-none border-border-primary border-b">
+            <ScreenHeaderToolbar>
+              <ScreenHeaderGreeting greetingTitle="Hello, [Name]" greetingSubtitle="Profile" />
+            </ScreenHeaderToolbar>
+          </ScreenHeader>
+        </HeaderDemoPreviewShell>
+        <HeaderDemoPreviewShell caption="Step segments (page ticker)" maxWidthClass="max-w-[375px]">
+          <ScreenHeader className="flex-col items-stretch rounded-none border-border-primary border-b">
+            <ScreenHeaderSteps total={6} activeIndex={0} />
+          </ScreenHeader>
+        </HeaderDemoPreviewShell>
+        <HeaderDemoPreviewShell caption="Onboarding carousel bar" maxWidthClass="max-w-[375px]">
+          <ScreenHeader className="flex-col items-stretch gap-0 rounded-none border-border-primary border-b p-0">
+            <ScreenHeaderOnboardingRow>
+              <IconButton
+                variant="tertiary"
+                size="32"
+                icon={<ChevronLeftIcon />}
+                aria-label="Previous"
+              />
+              <div className="flex flex-col items-center gap-3">
+                <p className="typography-semibold-body-lg text-center text-content-primary">
+                  Title
+                </p>
+                <ScreenHeaderDotIndicators count={11} activeIndex={0} className="w-[168px]" />
+              </div>
+              <IconButton
+                variant="tertiary"
+                size="32"
+                icon={<ChevronRightIcon />}
+                aria-label="Next"
+              />
+            </ScreenHeaderOnboardingRow>
+          </ScreenHeader>
+        </HeaderDemoPreviewShell>
+      </div>
+    </div>
+  );
+}
+
 function TooltipDemo() {
   const [open, setOpen] = useState(false);
   return (
@@ -3343,6 +3510,7 @@ function App() {
     { id: "infobox", label: "InfoBox" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
+    { id: "maincontainerheader", label: "Main Container Header" },
     { id: "mobilestepper", label: "Mobile Stepper" },
     { id: "pagination", label: "Pagination" },
     { id: "passwordfield", label: "Password Field" },
@@ -3350,6 +3518,7 @@ function App() {
     { id: "progressbar", label: "Progress Bar" },
     { id: "radio", label: "Radio" },
     { id: "searchfield", label: "Search Field" },
+    { id: "screenheader", label: "Screen Header" },
     { id: "select", label: "Select" },
     { id: "skeleton", label: "Skeleton" },
     { id: "slider", label: "Slider" },
@@ -3539,6 +3708,10 @@ function App() {
 
             {/* MobileStepper */}
             <MobileStepperDemo />
+
+            <MainContainerHeaderDemo />
+
+            <ScreenHeaderDemo />
 
             {/* Tooltip */}
             <TooltipDemo />

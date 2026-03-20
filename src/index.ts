@@ -312,6 +312,19 @@ export { Loader } from "./components/Loader/Loader";
 export type { LogoColor, LogoProps, LogoVariant } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type {
+  MainContainerHeaderDevice,
+  MainContainerHeaderEndProps,
+  MainContainerHeaderProps,
+  MainContainerHeaderStartProps,
+  MainContainerHeaderTitleProps,
+} from "./components/MainContainerHeader/MainContainerHeader";
+export {
+  MainContainerHeader,
+  MainContainerHeaderEnd,
+  MainContainerHeaderStart,
+  MainContainerHeaderTitle,
+} from "./components/MainContainerHeader/MainContainerHeader";
+export type {
   MobileStepperPosition,
   MobileStepperProps,
   MobileStepperVariant,
@@ -344,6 +357,28 @@ export type { RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";
+export type {
+  ScreenHeaderActionsProps,
+  ScreenHeaderDevice,
+  ScreenHeaderDotIndicatorsProps,
+  ScreenHeaderGreetingProps,
+  ScreenHeaderOnboardingRowProps,
+  ScreenHeaderProps,
+  ScreenHeaderStepsProps,
+  ScreenHeaderSurface,
+  ScreenHeaderTitleProps,
+  ScreenHeaderToolbarProps,
+} from "./components/ScreenHeader/ScreenHeader";
+export {
+  ScreenHeader,
+  ScreenHeaderActions,
+  ScreenHeaderDotIndicators,
+  ScreenHeaderGreeting,
+  ScreenHeaderOnboardingRow,
+  ScreenHeaderSteps,
+  ScreenHeaderTitle,
+  ScreenHeaderToolbar,
+} from "./components/ScreenHeader/ScreenHeader";
 export type {
   SearchFieldProps,
   SearchFieldSize,
