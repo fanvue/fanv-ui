@@ -51,7 +51,7 @@
   ],
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build && mkdir -p dist/styles dist/components/Avatar/assets dist/cjs/components/Avatar/assets && cp src/styles/theme.css dist/styles/theme.css && cp src/components/Avatar/assets/fanvue-logo-glass-levitating.png dist/components/Avatar/assets/ && cp src/components/Avatar/assets/fanvue-logo-glass-levitating.png dist/cjs/components/Avatar/assets/",
+    "build": "vite build && mkdir -p dist/styles && cp src/styles/theme.css dist/styles/theme.css && node scripts/copy-published-assets.mjs",
     "build:showcase": "vite build --config vite.showcase.config.ts",
     "preview": "vite preview",
     "test": "vitest run",
