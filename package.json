@@ -42,6 +42,7 @@
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
     "storybook": "storybook dev -p 6007",
+    "build:showcase": "vite build --config vite.showcase.config.ts",
     "build-storybook": "storybook build --stats-json",
     "prepare": "husky",
     "prepublishOnly": "pnpm run build",

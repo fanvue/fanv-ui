@@ -1,25 +1,29 @@
-# Chromatic Workflow - Visual regression testing
+# Chromatic Workflow - Visual regression testing & Storybook preview
 name: Chromatic
 
 on:
   push:
     branches: [main]
   pull_request:
-    types: [labeled]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
   pull-requests: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   chromatic:
     name: Visual Regression
-    if: >-
-      github.event_name == 'push' ||
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'pull_request' && github.event.label.name == 'chromatic')
     runs-on: ubuntu-latest
+    outputs:
+      storybook-url: ${{ steps.chromatic.outputs.storybookUrl }}
+      build-url: ${{ steps.chromatic.outputs.buildUrl }}
+      change-count: ${{ steps.chromatic.outputs.changeCount }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -51,6 +55,7 @@ jobs:
           onlyChanged: true
           autoAcceptChanges: main
           exitZeroOnChanges: true
+          exitOnceUploaded: true
 
       - name: Comment on PR
         if: github.event_name == 'pull_request'
@@ -58,7 +63,7 @@ jobs:
         with:
           header: chromatic
           message: |
-            ## Chromatic Build
+            ## Storybook Preview
 
             | Preview | Status |
             |---------|--------|

@@ -10,6 +10,7 @@
     "includes": [
       "**",
       "!**/dist",
+      "!**/dist-showcase",
       "!**/coverage",
       "!**/node_modules",
       "!**/storybook-static",
@@ -107,7 +108,7 @@
       }
     },
     {
-      "includes": ["**/*.stories.tsx"],
+      "includes": ["**/App.tsx", "**/*.stories.tsx"],
       "linter": {
         "rules": {
           "style": {
