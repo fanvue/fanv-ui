@@ -46,6 +46,7 @@ import { ExpandIcon } from "./ExpandIcon";
 import { EyeClosedIcon } from "./EyeClosedIcon";
 import { EyeIcon } from "./EyeIcon";
 import { EyeSlashIcon } from "./EyeSlashIcon";
+import { FanvueLogoGlassLevitatingIcon } from "./FanvueLogoGlassLevitatingIcon";
 import { FlagIcon } from "./FlagIcon";
 import { FlameIcon } from "./FlameIcon";
 import { FolderIcon } from "./FolderIcon";
@@ -166,6 +167,7 @@ const icons = [
   { name: "EyeClosedIcon", Component: EyeClosedIcon },
   { name: "EyeIcon", Component: EyeIcon },
   { name: "EyeSlashIcon", Component: EyeSlashIcon },
+  { name: "FanvueLogoGlassLevitatingIcon", Component: FanvueLogoGlassLevitatingIcon },
   { name: "FlagIcon", Component: FlagIcon },
   { name: "FlameIcon", Component: FlameIcon },
   { name: "FolderIcon", Component: FolderIcon },

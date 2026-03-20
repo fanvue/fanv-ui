@@ -226,6 +226,7 @@ export { ExpandIcon } from "./components/Icons/ExpandIcon";
 export { EyeClosedIcon } from "./components/Icons/EyeClosedIcon";
 export { EyeIcon } from "./components/Icons/EyeIcon";
 export { EyeSlashIcon } from "./components/Icons/EyeSlashIcon";
+export { FanvueLogoGlassLevitatingIcon } from "./components/Icons/FanvueLogoGlassLevitatingIcon";
 export { FlagIcon } from "./components/Icons/FlagIcon";
 export { FlameIcon } from "./components/Icons/FlameIcon";
 export { FolderIcon } from "./components/Icons/FolderIcon";
