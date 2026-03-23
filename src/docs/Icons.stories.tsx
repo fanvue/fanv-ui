@@ -85,6 +85,7 @@ import { PrivacyIcon } from "../components/Icons/PrivacyIcon";
 import { RepeatIcon } from "../components/Icons/RepeatIcon";
 import { Reply2Icon } from "../components/Icons/Reply2Icon";
 import { ReplyIcon } from "../components/Icons/ReplyIcon";
+import { ReverseIcon } from "../components/Icons/ReverseIcon";
 import { SearchIcon } from "../components/Icons/SearchIcon";
 import { SendIcon } from "../components/Icons/SendIcon";
 import { SettingsIcon } from "../components/Icons/SettingsIcon";
@@ -284,6 +285,7 @@ const icons: IconEntry[] = [
   { name: "RepeatIcon", component: RepeatIcon, tags: ["repeat", "loop", "refresh"] },
   { name: "Reply2Icon", component: Reply2Icon, tags: ["reply", "respond", "arrow"] },
   { name: "ReplyIcon", component: ReplyIcon, tags: ["reply", "respond", "arrow"] },
+  { name: "ReverseIcon", component: ReverseIcon, tags: ["reverse", "undo", "back"] },
   { name: "SearchIcon", component: SearchIcon, tags: ["search", "find", "magnify", "look"] },
   { name: "SendIcon", component: SendIcon, tags: ["send", "submit", "paper plane"] },
   { name: "SettingsIcon", component: SettingsIcon, tags: ["settings", "gear", "config"] },

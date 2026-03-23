@@ -262,6 +262,7 @@ export { PrivacyIcon } from "./components/Icons/PrivacyIcon";
 export { RepeatIcon } from "./components/Icons/RepeatIcon";
 export { Reply2Icon } from "./components/Icons/Reply2Icon";
 export { ReplyIcon } from "./components/Icons/ReplyIcon";
+export { ReverseIcon } from "./components/Icons/ReverseIcon";
 export { SearchIcon } from "./components/Icons/SearchIcon";
 export { SendIcon } from "./components/Icons/SendIcon";
 export { SettingsIcon } from "./components/Icons/SettingsIcon";
