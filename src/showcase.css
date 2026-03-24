@@ -1,8 +1,11 @@
 @import "tailwindcss";
 @import "@fanvue/ui/styles/theme.css";
-@source "../src";
+@source ".";
 
-/* Same breakpoints as Eden — see src/showcase.css */
+/*
+ * Match Eden (pandora/eden/src/styles/fanvue-ui.css): Tailwind sm/md align with MUI / Olympus.
+ * Default Tailwind md (768px) is not used here.
+ */
 @theme {
   --breakpoint-*: initial;
   --breakpoint-sm: 1024px;
