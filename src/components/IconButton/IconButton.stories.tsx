@@ -83,6 +83,7 @@ import { PrivacyIcon } from "../Icons/PrivacyIcon";
 import { RepeatIcon } from "../Icons/RepeatIcon";
 import { Reply2Icon } from "../Icons/Reply2Icon";
 import { ReplyIcon } from "../Icons/ReplyIcon";
+import { ReverseIcon } from "../Icons/ReverseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { SendIcon } from "../Icons/SendIcon";
 import { SettingsIcon } from "../Icons/SettingsIcon";
@@ -482,6 +483,7 @@ const allIcons = [
   { name: "RepeatIcon", icon: <RepeatIcon /> },
   { name: "Reply2Icon", icon: <Reply2Icon /> },
   { name: "ReplyIcon", icon: <ReplyIcon /> },
+  { name: "ReverseIcon", icon: <ReverseIcon /> },
   { name: "SearchIcon", icon: <SearchIcon /> },
   { name: "SendIcon", icon: <SendIcon /> },
   { name: "SettingsIcon", icon: <SettingsIcon /> },
