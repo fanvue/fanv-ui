@@ -252,6 +252,7 @@ export { MinusIcon } from "./components/Icons/MinusIcon";
 export { MoonIcon } from "./components/Icons/MoonIcon";
 export { MoreIcon } from "./components/Icons/MoreIcon";
 export { MoreVerticalIcon } from "./components/Icons/MoreVerticalIcon";
+export { NewMessageIcon } from "./components/Icons/NewMessageIcon";
 export { PauseIcon } from "./components/Icons/PauseIcon";
 export { PhoneIcon } from "./components/Icons/PhoneIcon";
 export { PhoneOffIcon } from "./components/Icons/PhoneOffIcon";

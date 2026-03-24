@@ -75,6 +75,7 @@ import { MinusIcon } from "../components/Icons/MinusIcon";
 import { MoonIcon } from "../components/Icons/MoonIcon";
 import { MoreIcon } from "../components/Icons/MoreIcon";
 import { MoreVerticalIcon } from "../components/Icons/MoreVerticalIcon";
+import { NewMessageIcon } from "../components/Icons/NewMessageIcon";
 import { PauseIcon } from "../components/Icons/PauseIcon";
 import { PhoneIcon } from "../components/Icons/PhoneIcon";
 import { PhoneOffIcon } from "../components/Icons/PhoneOffIcon";
@@ -262,6 +263,11 @@ const icons: IconEntry[] = [
   { name: "MenuIcon", component: MenuIcon, tags: ["menu", "hamburger", "navigation"] },
   { name: "MenuOpenIcon", component: MenuOpenIcon, tags: ["menu", "open", "sidebar"] },
   { name: "MessageIcon", component: MessageIcon, tags: ["message", "chat", "comment"] },
+  {
+    name: "NewMessageIcon",
+    component: NewMessageIcon,
+    tags: ["message", "chat", "comment", "new"],
+  },
   {
     name: "MicrophoneIcon",
     component: MicrophoneIcon,
