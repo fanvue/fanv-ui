@@ -1,65 +1,84 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { Button } from "../Button/Button";
+import { Badge, type BadgeVariant } from "../Badge/Badge";
+import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
 
-/** Marketing / onboarding surface matching Fanvue Library Banner. */
-export type BannerTone = "inverse" | "subtle" | "feature" | "guide";
+/**
+ * Matches the Fanvue Library Banner Figma component property `Type`
+ * (`Default`, `Subtle`, `whatsNew`, `appStore1`, `appStore2`, `appStore3`).
+ */
+export type BannerVariant =
+  | "Default"
+  | "Subtle"
+  | "whatsNew"
+  | "appStore1"
+  | "appStore2"
+  | "appStore3";
 
-/** Layout. Subtle is always horizontal; guide is always vertical. */
+/** Layout (`Vertical` / `Horizontal` / `HorizontalSmall` in Figma). Ignored for `Subtle` and app store types. */
 export type BannerLayout = "vertical" | "horizontal" | "compact";
 
-/** Gradient card style when `tone="guide"`. */
-export type BannerGuideStyle = "sage" | "lavender" | "blend";
+type AppStoreVariant = "appStore1" | "appStore2" | "appStore3";
+
+const APP_STORE_VARIANTS: readonly AppStoreVariant[] = ["appStore1", "appStore2", "appStore3"];
+
+function isAppStoreVariant(variant: BannerVariant): variant is AppStoreVariant {
+  return (APP_STORE_VARIANTS as readonly string[]).includes(variant);
+}
+
+const GUIDE_BADGE_VARIANT: Record<AppStoreVariant, BadgeVariant> = {
+  appStore1: "dark",
+  appStore2: "default",
+  appStore3: "default",
+};
 
 const BANNER_SHADOW = "shadow-sm";
 
-const guideGradient: Record<BannerGuideStyle, React.CSSProperties> = {
-  sage: {
+const guideGradient: Record<AppStoreVariant, React.CSSProperties> = {
+  appStore1: {
     backgroundImage:
       "linear-gradient(125.54deg, var(--color-brand-primary-muted) 0%, var(--color-neutral-alphas-50) 100%)",
   },
-  lavender: {
+  appStore2: {
     backgroundImage:
       "linear-gradient(125.54deg, var(--color-brand-secondary-muted) 0%, var(--color-brand-secondary-muted) 100%)",
   },
-  blend: {
+  appStore3: {
     backgroundImage:
       "linear-gradient(125.54deg, var(--color-brand-secondary-muted) 0%, color-mix(in srgb, var(--color-info-surface) 80%, transparent) 100%)",
   },
 };
 
-export interface BannerProps extends React.HTMLAttributes<HTMLElement> {
-  /** Visual treatment from the library. */
-  tone: BannerTone;
+export interface BannerProps extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
+  /** Figma `Type` — selects structure, surfaces, and app store gradient. */
+  variant: BannerVariant;
   /**
-   * Arrangement. Ignored when `tone` is `subtle` (horizontal) or `guide` (vertical).
-   * @default "vertical" for inverse, "horizontal" for feature
+   * Figma `Orientation`. Ignored when `variant` is `Subtle` (horizontal) or an app store type (vertical).
+   * @default `"vertical"` for `Default`, `"horizontal"` for `whatsNew`
    */
   layout?: BannerLayout;
-  /** Gradient preset for `tone="guide"`. @default "sage" */
-  guideStyle?: BannerGuideStyle;
   /** Leading visual (image, illustration, or composite). */
   media?: React.ReactNode;
   /** Small uppercase label (e.g. HOW TO). */
   eyebrow?: React.ReactNode;
-  /** Top badge row (e.g. NEW pill) — mainly for subtle. */
+  /** Top badge row (e.g. NEW pill) — mainly for `Subtle`. */
   leadBadge?: React.ReactNode;
   /** Main heading. */
   title?: React.ReactNode;
   /** Primary body copy. */
   description?: React.ReactNode;
-  /** Extra line under description (subtle informational). */
+  /** Extra line under description (`Subtle`). */
   secondaryLine?: React.ReactNode;
-  /** Left-stacked pill action (e.g. Account Health) — subtle. */
+  /** Left-stacked pill action (`Subtle`). */
   stackedAction?: React.ReactNode;
-  /** Row under stacked action (status chips) — subtle. */
+  /** Row under stacked action (`Subtle`). */
   statusRow?: React.ReactNode;
   /** Primary button (e.g. Learn more). */
   primaryAction?: React.ReactNode;
-  /** Text-style CTA with trailing affordance — feature / guide. */
+  /** Text-style CTA (`whatsNew` / app store). */
   textAction?: React.ReactNode;
-  /** When set, shows a dismiss control. */
+  /** When set, shows a dismiss control (`Default` only). */
   onDismiss?: () => void;
   /** Accessible label for dismiss. @default "Dismiss banner" */
   dismissLabel?: string;
@@ -68,59 +87,54 @@ export interface BannerProps extends React.HTMLAttributes<HTMLElement> {
 function BannerDismiss({
   onDismiss,
   dismissLabel,
-  inverted,
 }: {
   onDismiss: () => void;
   dismissLabel: string;
-  inverted: boolean;
 }) {
   return (
-    <Button
-      type="button"
-      variant="tertiary"
+    <IconButton
+      variant="contrast"
       size="24"
+      icon={<CrossIcon />}
       onClick={onDismiss}
       aria-label={dismissLabel}
-      className={cn(
-        "shrink-0 px-1",
-        inverted &&
-          "text-content-primary-inverted hover:bg-white/10 active:bg-white/15 motion-safe:transition-colors motion-safe:duration-150",
-      )}
-    >
-      <CrossIcon className="size-4" />
-    </Button>
+      className="hover:bg-white/10 active:bg-white/15"
+    />
   );
 }
 
-function resolveLayout(tone: BannerTone, layoutProp: BannerLayout | undefined): BannerLayout {
-  if (tone === "subtle") {
+function resolveLayout(variant: BannerVariant, layoutProp: BannerLayout | undefined): BannerLayout {
+  if (variant === "Subtle") {
     return "horizontal";
   }
-  if (tone === "guide") {
+  if (isAppStoreVariant(variant)) {
     return "vertical";
   }
-  return layoutProp ?? (tone === "feature" ? "horizontal" : "vertical");
+  if (variant === "whatsNew") {
+    return layoutProp ?? "horizontal";
+  }
+  return layoutProp ?? "vertical";
 }
 
-function bannerRootClass(tone: BannerTone, layout: BannerLayout, className?: string): string {
+function bannerRootClass(variant: BannerVariant, layout: BannerLayout, className?: string): string {
   return cn(
     "flex rounded-md",
     BANNER_SHADOW,
-    tone === "inverse" && "gap-3 bg-surface-primary-inverted p-4 text-content-primary-inverted",
-    tone === "subtle" &&
+    variant === "Default" && "gap-3 bg-surface-primary-inverted p-4 text-content-primary-inverted",
+    variant === "Subtle" &&
       "w-full max-w-[600px] items-start gap-3 border border-border-primary bg-surface-secondary p-4 text-content-primary",
-    tone === "feature" &&
+    variant === "whatsNew" &&
       layout === "horizontal" &&
       "w-full max-w-[446px] items-center gap-4 bg-surface-purple-muted p-4 text-content-primary",
-    tone === "feature" &&
+    variant === "whatsNew" &&
       layout === "vertical" &&
       "w-full max-w-[220px] flex-col items-stretch gap-4 border border-border-primary bg-surface-secondary p-4 text-content-primary",
-    tone === "feature" &&
+    variant === "whatsNew" &&
       layout === "compact" &&
       "w-full max-w-[446px] items-start gap-4 bg-surface-purple-muted p-4 text-content-primary",
-    tone === "guide" && "w-full max-w-[280px] flex-col gap-4 p-6",
-    layout === "vertical" && tone === "inverse" && "max-w-[360px]",
-    layout === "horizontal" && tone === "inverse" && "w-full max-w-[600px] items-start",
+    isAppStoreVariant(variant) && "w-full max-w-[280px] flex-col gap-4 p-6",
+    layout === "vertical" && variant === "Default" && "max-w-[360px]",
+    layout === "horizontal" && variant === "Default" && "w-full max-w-[600px] items-start",
     className,
   );
 }
@@ -144,13 +158,13 @@ const BannerSection = React.forwardRef<HTMLElement, BannerSectionProps>(
 );
 BannerSection.displayName = "BannerSection";
 
-type GuideBodyProps = Pick<
-  BannerProps,
-  "eyebrow" | "title" | "description" | "textAction" | "guideStyle"
-> & { labelledBy?: string };
+type GuideBodyProps = Pick<BannerProps, "eyebrow" | "title" | "description" | "textAction"> & {
+  appStoreVariant: AppStoreVariant;
+  labelledBy?: string;
+};
 
 function BannerGuideBody({
-  guideStyle = "sage",
+  appStoreVariant,
   eyebrow,
   title,
   description,
@@ -160,16 +174,13 @@ function BannerGuideBody({
   return (
     <>
       {eyebrow !== undefined && eyebrow !== null && eyebrow !== false && (
-        <div
-          className={cn(
-            "inline-flex h-5 items-center rounded-full px-2",
-            guideStyle === "sage"
-              ? "bg-neutral-alphas-600 text-content-on-brand-inverted"
-              : "bg-neutral-alphas-50 text-content-primary",
-          )}
+        <Badge
+          variant={GUIDE_BADGE_VARIANT[appStoreVariant]}
+          leftDot={false}
+          className="typography-semibold-badge self-start"
         >
-          <span className="typography-semibold-badge">{eyebrow}</span>
-        </div>
+          {eyebrow}
+        </Badge>
       )}
       {title !== undefined && title !== null && title !== false && (
         <p id={labelledBy} className="typography-semibold-body-lg text-content-primary">
@@ -357,9 +368,8 @@ export const Banner = React.forwardRef<HTMLElement, BannerProps>(
   (
     {
       className,
-      tone,
+      variant,
       layout: layoutProp,
-      guideStyle = "sage",
       media,
       eyebrow,
       leadBadge,
@@ -376,25 +386,25 @@ export const Banner = React.forwardRef<HTMLElement, BannerProps>(
     },
     ref,
   ) => {
-    const layout = resolveLayout(tone, layoutProp);
-    const showDismiss = onDismiss !== undefined && tone === "inverse";
+    const layout = resolveLayout(variant, layoutProp);
+    const showDismiss = onDismiss !== undefined && variant === "Default";
     const titleId = React.useId();
     const regionLabelledBy =
       title !== undefined && title !== null && title !== false ? titleId : undefined;
 
-    const rootClass = bannerRootClass(tone, layout, className);
+    const rootClass = bannerRootClass(variant, layout, className);
 
-    if (tone === "guide") {
+    if (isAppStoreVariant(variant)) {
       return (
         <BannerSection
           ref={ref}
           labelledBy={regionLabelledBy}
-          style={guideGradient[guideStyle]}
+          style={guideGradient[variant]}
           className={rootClass}
           {...props}
         >
           <BannerGuideBody
-            guideStyle={guideStyle}
+            appStoreVariant={variant}
             eyebrow={eyebrow}
             title={title}
             description={description}
@@ -405,7 +415,7 @@ export const Banner = React.forwardRef<HTMLElement, BannerProps>(
       );
     }
 
-    if (tone === "feature") {
+    if (variant === "whatsNew") {
       return (
         <BannerSection ref={ref} labelledBy={regionLabelledBy} className={rootClass} {...props}>
           <BannerFeatureBody
@@ -420,7 +430,7 @@ export const Banner = React.forwardRef<HTMLElement, BannerProps>(
       );
     }
 
-    if (tone === "subtle") {
+    if (variant === "Subtle") {
       return (
         <BannerSection ref={ref} labelledBy={regionLabelledBy} className={rootClass} {...props}>
           <BannerSubtleBody
@@ -440,7 +450,7 @@ export const Banner = React.forwardRef<HTMLElement, BannerProps>(
 
     const dismissSlot =
       showDismiss && onDismiss !== undefined ? (
-        <BannerDismiss onDismiss={onDismiss} dismissLabel={dismissLabel} inverted />
+        <BannerDismiss onDismiss={onDismiss} dismissLabel={dismissLabel} />
       ) : null;
 
     return (

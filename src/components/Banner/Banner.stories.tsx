@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ReactNode } from "react";
 import { useState } from "react";
+import { Badge } from "../Badge/Badge";
 import { Button } from "../Button/Button";
 import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
 import { WarningTriangleIcon } from "../Icons/WarningTriangleIcon";
@@ -17,6 +18,12 @@ const meta = {
     },
   },
   tags: ["autodocs"],
+  argTypes: {
+    variant: {
+      control: "select",
+      options: ["Default", "Subtle", "whatsNew", "appStore1", "appStore2", "appStore3"],
+    },
+  },
 } satisfies Meta<typeof Banner>;
 
 export default meta;
@@ -32,25 +39,43 @@ const sampleImg = (
 
 function NewBadge() {
   return (
-    <div className="flex h-5 items-center gap-1 rounded-full bg-success-surface px-2">
-      <span className="size-1 shrink-0 rounded-full bg-success-content" aria-hidden />
-      <span className="typography-semibold-badge text-content-primary">new</span>
-    </div>
+    <Badge variant="success" leftDot className="typography-semibold-badge">
+      new
+    </Badge>
   );
 }
 
 function StatusChip({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-5 items-center gap-2 rounded-full bg-neutral-alphas-50 px-2">
-      <WarningTriangleIcon className="size-2.5 text-content-primary" />
-      <span className="typography-semibold-badge text-content-primary">{children}</span>
-    </div>
+    <Badge
+      variant="default"
+      leftDot={false}
+      leftIcon={<WarningTriangleIcon className="size-2.5" />}
+      className="typography-semibold-badge"
+    >
+      {children}
+    </Badge>
   );
 }
 
-export const InverseVertical: Story = {
+function BannerTertiaryTextAction({ label }: { label: string }) {
+  return (
+    <Button
+      type="button"
+      variant="tertiary"
+      size="32"
+      className="h-auto min-h-0 px-0 py-1 shadow-none hover:bg-transparent active:bg-transparent"
+      rightIcon={<ArrowRightIcon className="size-3" aria-hidden />}
+    >
+      {label}
+    </Button>
+  );
+}
+
+/** Figma `Type`: Default, `Orientation`: Vertical */
+export const DefaultVertical: Story = {
   args: {
-    tone: "inverse",
+    variant: "Default",
     layout: "vertical",
     media: sampleImg,
     eyebrow: "HOW TO",
@@ -60,9 +85,10 @@ export const InverseVertical: Story = {
   },
 };
 
-export const InverseHorizontal: Story = {
+/** Figma `Type`: Default, `Orientation`: Horizontal */
+export const DefaultHorizontal: Story = {
   args: {
-    tone: "inverse",
+    variant: "Default",
     layout: "horizontal",
     media: sampleImg,
     eyebrow: "HOW TO",
@@ -72,13 +98,14 @@ export const InverseHorizontal: Story = {
   },
 };
 
-export const InverseDismissible: Story = {
+export const DefaultDismissible: Story = {
+  args: { variant: "Default" },
   render: (args) => {
     const [open, setOpen] = useState(true);
     return open ? (
       <Banner
         {...args}
-        tone="inverse"
+        variant="Default"
         layout="vertical"
         media={sampleImg}
         eyebrow="HOW TO"
@@ -88,20 +115,17 @@ export const InverseDismissible: Story = {
         onDismiss={() => setOpen(false)}
       />
     ) : (
-      <button
-        type="button"
-        className="typography-regular-body-sm text-content-secondary underline"
-        onClick={() => setOpen(true)}
-      >
+      <Button type="button" variant="text" size="32" onClick={() => setOpen(true)}>
         Reset banner
-      </button>
+      </Button>
     );
   },
 };
 
+/** Figma `Type`: Subtle */
 export const SubtleInformational: Story = {
   args: {
-    tone: "subtle",
+    variant: "Subtle",
     media: sampleImg,
     leadBadge: <NewBadge />,
     title: "Find out how OAuth works",
@@ -123,9 +147,10 @@ export const SubtleInformational: Story = {
   },
 };
 
-export const FeatureHorizontal: Story = {
+/** Figma `Type`: whatsNew, `Orientation`: Horizontal */
+export const WhatsNewHorizontal: Story = {
   args: {
-    tone: "feature",
+    variant: "whatsNew",
     layout: "horizontal",
     media: (
       <div className="typography-regular-body-sm flex size-full items-center justify-center bg-surface-tertiary text-content-secondary">
@@ -134,21 +159,14 @@ export const FeatureHorizontal: Story = {
     ),
     title: "Perfectly proportioned",
     description: "Aspect ratio selection is here!",
-    textAction: (
-      <button
-        type="button"
-        className="typography-semibold-body-md inline-flex items-center gap-2 rounded-full py-0.5 text-content-primary"
-      >
-        See how it works
-        <ArrowRightIcon className="size-3" aria-hidden />
-      </button>
-    ),
+    textAction: <BannerTertiaryTextAction label="See how it works" />,
   },
 };
 
-export const FeatureVertical: Story = {
+/** Figma `Type`: whatsNew, `Orientation`: Vertical */
+export const WhatsNewVertical: Story = {
   args: {
-    tone: "feature",
+    variant: "whatsNew",
     layout: "vertical",
     media: (
       <div className="typography-regular-body-sm flex size-full min-h-[100px] items-center justify-center bg-surface-tertiary text-content-secondary">
@@ -157,21 +175,14 @@ export const FeatureVertical: Story = {
     ),
     title: "Perfectly proportioned",
     description: "Aspect ratio selection is here!",
-    textAction: (
-      <button
-        type="button"
-        className="typography-semibold-body-md inline-flex items-center gap-2 rounded-full py-0.5 text-content-primary"
-      >
-        See how it works
-        <ArrowRightIcon className="size-3" aria-hidden />
-      </button>
-    ),
+    textAction: <BannerTertiaryTextAction label="See how it works" />,
   },
 };
 
-export const FeatureCompact: Story = {
+/** Figma `Type`: whatsNew, `Orientation`: HorizontalSmall */
+export const WhatsNewCompact: Story = {
   args: {
-    tone: "feature",
+    variant: "whatsNew",
     layout: "compact",
     media: (
       <div className="typography-regular-body-sm flex size-full items-center justify-center bg-surface-tertiary text-content-secondary">
@@ -180,71 +191,39 @@ export const FeatureCompact: Story = {
     ),
     title: "Perfectly proportioned",
     description: "Aspect ratio selection is here!",
-    textAction: (
-      <button
-        type="button"
-        className="typography-semibold-body-md inline-flex items-center gap-2 rounded-full py-0.5 text-content-primary"
-      >
-        See how it works
-        <ArrowRightIcon className="size-3" aria-hidden />
-      </button>
-    ),
+    textAction: <BannerTertiaryTextAction label="See how it works" />,
   },
 };
 
-export const GuideSage: Story = {
+/** Figma `Type`: appStore1 */
+export const AppStore1: Story = {
   args: {
-    tone: "guide",
-    guideStyle: "sage",
+    variant: "appStore1",
     eyebrow: "Learn",
     title: "Heading of guide here",
     description: "Subheading of guide here, maybe over 2 lines",
-    textAction: (
-      <button
-        type="button"
-        className="typography-semibold-body-md inline-flex items-center gap-1.5 rounded-full py-0.5 text-content-primary"
-      >
-        CTA label
-        <ArrowRightIcon className="size-3" aria-hidden />
-      </button>
-    ),
+    textAction: <BannerTertiaryTextAction label="CTA label" />,
   },
 };
 
-export const GuideLavender: Story = {
+/** Figma `Type`: appStore2 */
+export const AppStore2: Story = {
   args: {
-    tone: "guide",
-    guideStyle: "lavender",
+    variant: "appStore2",
     eyebrow: "Learn",
     title: "Heading of guide here",
     description: "Subheading of guide here, maybe over 2 lines",
-    textAction: (
-      <button
-        type="button"
-        className="typography-semibold-body-md inline-flex items-center gap-1.5 rounded-full py-0.5 text-content-primary"
-      >
-        CTA label
-        <ArrowRightIcon className="size-3" aria-hidden />
-      </button>
-    ),
+    textAction: <BannerTertiaryTextAction label="CTA label" />,
   },
 };
 
-export const GuideBlend: Story = {
+/** Figma `Type`: appStore3 */
+export const AppStore3: Story = {
   args: {
-    tone: "guide",
-    guideStyle: "blend",
+    variant: "appStore3",
     eyebrow: "Learn",
     title: "Heading of guide here",
     description: "Subheading of guide here, maybe over 2 lines",
-    textAction: (
-      <button
-        type="button"
-        className="typography-semibold-body-md inline-flex items-center gap-1.5 rounded-full py-0.5 text-content-primary"
-      >
-        CTA label
-        <ArrowRightIcon className="size-3" aria-hidden />
-      </button>
-    ),
+    textAction: <BannerTertiaryTextAction label="CTA label" />,
   },
 };

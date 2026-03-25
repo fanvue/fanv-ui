@@ -46,12 +46,7 @@ export {
 } from "./components/Avatar/Avatar";
 export type { BadgeProps, BadgeVariant } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
-export type {
-  BannerGuideStyle,
-  BannerLayout,
-  BannerProps,
-  BannerTone,
-} from "./components/Banner/Banner";
+export type { BannerLayout, BannerProps, BannerVariant } from "./components/Banner/Banner";
 export { Banner } from "./components/Banner/Banner";
 export type { BottomNavigationProps } from "./components/BottomNavigation/BottomNavigation";
 export { BottomNavigation } from "./components/BottomNavigation/BottomNavigation";
@@ -260,7 +255,9 @@ export { MoonIcon } from "./components/Icons/MoonIcon";
 export { MoreIcon } from "./components/Icons/MoreIcon";
 export { MoreVerticalIcon } from "./components/Icons/MoreVerticalIcon";
 export { NewMessageIcon } from "./components/Icons/NewMessageIcon";
+export { OpenIcon } from "./components/Icons/OpenIcon";
 export { PauseIcon } from "./components/Icons/PauseIcon";
+export { PeopleIcon } from "./components/Icons/PeopleIcon";
 export { PhoneIcon } from "./components/Icons/PhoneIcon";
 export { PhoneOffIcon } from "./components/Icons/PhoneOffIcon";
 export { PinIcon } from "./components/Icons/PinIcon";

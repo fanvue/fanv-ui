@@ -74,7 +74,9 @@ import { MoonIcon } from "../Icons/MoonIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { MoreVerticalIcon } from "../Icons/MoreVerticalIcon";
 import { NewMessageIcon } from "../Icons/NewMessageIcon";
+import { OpenIcon } from "../Icons/OpenIcon";
 import { PauseIcon } from "../Icons/PauseIcon";
+import { PeopleIcon } from "../Icons/PeopleIcon";
 import { PhoneIcon } from "../Icons/PhoneIcon";
 import { PhoneOffIcon } from "../Icons/PhoneOffIcon";
 import { PinIcon } from "../Icons/PinIcon";
@@ -475,7 +477,9 @@ const allIcons = [
   { name: "MoreIcon", icon: <MoreIcon /> },
   { name: "MoreVerticalIcon", icon: <MoreVerticalIcon /> },
   { name: "NewMessageIcon", icon: <NewMessageIcon /> },
+  { name: "OpenIcon", icon: <OpenIcon /> },
   { name: "PauseIcon", icon: <PauseIcon /> },
+  { name: "PeopleIcon", icon: <PeopleIcon /> },
   { name: "PhoneIcon", icon: <PhoneIcon /> },
   { name: "PhoneOffIcon", icon: <PhoneOffIcon /> },
   { name: "PinIcon", icon: <PinIcon /> },
