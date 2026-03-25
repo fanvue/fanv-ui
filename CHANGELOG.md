@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.0...ui-v2.1.1) (2026-03-25)
+
+
+### Bug Fixes
+
+* **ENG-9012:** default collision padding for dropdown panels ([#383](https://github.com/fanvue/fanv-ui/issues/383)) ([037415f](https://github.com/fanvue/fanv-ui/commit/037415f4be147a945d24bc3fec8c506ff5ad8f49))
+* **ENG-9012:** default collision padding for floating dropdown panels ([037415f](https://github.com/fanvue/fanv-ui/commit/037415f4be147a945d24bc3fec8c506ff5ad8f49))
+
 ## [2.1.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.0.0...ui-v2.1.0) (2026-03-25)
 
 
