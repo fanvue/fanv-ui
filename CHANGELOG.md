@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.1.3](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.2...ui-v2.1.3) (2026-03-25)
+
+
+### Bug Fixes
+
+* **Dialog:** prevent focus ring on close button when dialog opens ([#392](https://github.com/fanvue/fanv-ui/issues/392)) ([409cba2](https://github.com/fanvue/fanv-ui/commit/409cba2766fba7bb6118f4b0ca48e3e33e6dfb5d))
+* **DropdownMenu:** use rounded-xs for menu content panel ([6c1a5bf](https://github.com/fanvue/fanv-ui/commit/6c1a5bfaf794268e4ad342d91d4496576a54d2a6))
+* **DropdownMenu:** use xs border radius for content ([#389](https://github.com/fanvue/fanv-ui/issues/389)) ([6c1a5bf](https://github.com/fanvue/fanv-ui/commit/6c1a5bfaf794268e4ad342d91d4496576a54d2a6))
+
 ## [2.1.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.1...ui-v2.1.2) (2026-03-25)
 
 
