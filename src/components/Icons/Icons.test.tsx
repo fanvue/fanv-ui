@@ -76,6 +76,7 @@ import { MinusIcon } from "./MinusIcon";
 import { MoonIcon } from "./MoonIcon";
 import { MoreIcon } from "./MoreIcon";
 import { MoreVerticalIcon } from "./MoreVerticalIcon";
+import { NewMessageIcon } from "./NewMessageIcon";
 import { PauseIcon } from "./PauseIcon";
 import { PhoneIcon } from "./PhoneIcon";
 import { PhoneOffIcon } from "./PhoneOffIcon";
@@ -197,6 +198,7 @@ const icons = [
   { name: "MoonIcon", Component: MoonIcon },
   { name: "MoreIcon", Component: MoreIcon },
   { name: "MoreVerticalIcon", Component: MoreVerticalIcon },
+  { name: "NewMessageIcon", Component: NewMessageIcon },
   { name: "PauseIcon", Component: PauseIcon },
   { name: "PhoneIcon", Component: PhoneIcon },
   { name: "PhoneOffIcon", Component: PhoneOffIcon },

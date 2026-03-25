@@ -73,6 +73,7 @@ import { MinusIcon } from "../Icons/MinusIcon";
 import { MoonIcon } from "../Icons/MoonIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { MoreVerticalIcon } from "../Icons/MoreVerticalIcon";
+import { NewMessageIcon } from "../Icons/NewMessageIcon";
 import { PauseIcon } from "../Icons/PauseIcon";
 import { PhoneIcon } from "../Icons/PhoneIcon";
 import { PhoneOffIcon } from "../Icons/PhoneOffIcon";
@@ -473,6 +474,7 @@ const allIcons = [
   { name: "MoonIcon", icon: <MoonIcon /> },
   { name: "MoreIcon", icon: <MoreIcon /> },
   { name: "MoreVerticalIcon", icon: <MoreVerticalIcon /> },
+  { name: "NewMessageIcon", icon: <NewMessageIcon /> },
   { name: "PauseIcon", icon: <PauseIcon /> },
   { name: "PhoneIcon", icon: <PhoneIcon /> },
   { name: "PhoneOffIcon", icon: <PhoneOffIcon /> },
