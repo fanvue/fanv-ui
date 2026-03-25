@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Tabs } from "./Tabs";
 import { TabsContent } from "./TabsContent";
@@ -162,6 +162,35 @@ describe("Tabs", () => {
       tab1.focus();
       await user.keyboard("{ArrowRight}");
       expect(screen.getByRole("tab", { name: "Tab 2" })).toHaveFocus();
+    });
+
+    it("blurs the tab on Escape to prevent focus ring after click", async () => {
+      const user = userEvent.setup();
+      renderTabs();
+      const tab1 = screen.getByRole("tab", { name: "Tab 1" });
+      await user.click(tab1);
+      expect(tab1).toHaveFocus();
+      await user.keyboard("{Escape}");
+      expect(tab1).not.toHaveFocus();
+    });
+
+    it("forwards custom onKeyDown when Escape is pressed", async () => {
+      const onKeyDown = vi.fn();
+      const user = userEvent.setup();
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1" onKeyDown={onKeyDown}>
+              Tab 1
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+        </Tabs>,
+      );
+      const tab1 = screen.getByRole("tab", { name: "Tab 1" });
+      await user.click(tab1);
+      await user.keyboard("{Escape}");
+      expect(onKeyDown).toHaveBeenCalled();
     });
   });
 });

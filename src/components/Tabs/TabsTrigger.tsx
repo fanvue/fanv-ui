@@ -9,9 +9,13 @@ export type TabsTriggerProps = React.ComponentPropsWithoutRef<typeof TabsPrimiti
 export const TabsTrigger = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
->(({ className, children, ...props }, ref) => (
+>(({ className, children, onKeyDown, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
+    onKeyDown={(e) => {
+      if (e.key === "Escape") e.currentTarget.blur();
+      onKeyDown?.(e);
+    }}
     className={cn(
       "inline-flex min-w-0 items-center justify-center",
       "rounded-xs",
