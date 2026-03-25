@@ -92,6 +92,12 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
   EditIcon,
   ErrorCircleIcon,
   ErrorIcon,
@@ -1931,6 +1937,91 @@ function SelectDemo() {
   );
 }
 
+function DropdownMenuDemo() {
+  return (
+    <div id="dropdownmenu" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Dropdown menu</h2>
+      <p className="typography-regular-body-md max-w-xl text-content-secondary">
+        Panel width follows label length (at least as wide as the trigger). Short items stay narrow;
+        long labels expand the menu.
+      </p>
+      <div className="flex flex-wrap items-start gap-8">
+        <div className="flex flex-col gap-2">
+          <span className="typography-semibold-body-sm text-content-secondary">
+            Icon trigger, short labels
+          </span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <IconButton
+                variant="secondary"
+                size="40"
+                aria-label="Open menu"
+                icon={<MoreVerticalIcon />}
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem leadingIcon={<EditIcon className="size-4" />}>
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem leadingIcon={<CopyIcon className="size-4" />}>
+                Copy
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="typography-semibold-body-sm text-content-secondary">
+            Button trigger, long label
+          </span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
+                Actions
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem>
+                Export selected items as CSV for accounting reconciliation
+              </DropdownMenuItem>
+              <DropdownMenuItem>Duplicate</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="typography-semibold-body-sm text-content-secondary">Grouped</span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="40">
+                More
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuLabel>Account</DropdownMenuLabel>
+              <DropdownMenuItem leadingIcon={<UserIcon className="size-4" />}>
+                Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem leadingIcon={<SettingsIcon className="size-4" />}>
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Session</DropdownMenuLabel>
+              <DropdownMenuItem leadingIcon={<LogoutIcon className="size-4" />}>
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function CountDemo() {
   return (
     <div id="count" className="flex scroll-mt-20 flex-col gap-4">
@@ -3674,6 +3765,7 @@ function App() {
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
     { id: "divider", label: "Divider" },
+    { id: "dropdownmenu", label: "Dropdown menu" },
     { id: "drawer", label: "Drawer" },
     { id: "iconbutton", label: "Icon Button" },
     { id: "icons", label: "Icons" },
@@ -3859,6 +3951,9 @@ function App() {
 
             {/* Divider */}
             <DividerDemo />
+
+            {/* Dropdown menu */}
+            <DropdownMenuDemo />
 
             {/* Drawer */}
             <DrawerDemo />
