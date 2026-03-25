@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.1.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.0.0...ui-v2.1.0) (2026-03-25)
+
+
+### Features
+
+* add Border Radius and Shadows foundation stories ([#374](https://github.com/fanvue/fanv-ui/issues/374)) ([941ed3e](https://github.com/fanvue/fanv-ui/commit/941ed3e07b82ac04947bd51361b8fd0399da4bc4))
+* Add NewMessageIcon ([#381](https://github.com/fanvue/fanv-ui/issues/381)) ([19caf74](https://github.com/fanvue/fanv-ui/commit/19caf74668c41233ace5cea35b700fd544116d1f))
+* Add ReverseIcon ([#380](https://github.com/fanvue/fanv-ui/issues/380)) ([cd71fd6](https://github.com/fanvue/fanv-ui/commit/cd71fd61225cbc5654bcc580699bb84545ec5250))
+* **table:** Table primitives, pagination bar, and demos ([#378](https://github.com/fanvue/fanv-ui/issues/378)) ([9712c2c](https://github.com/fanvue/fanv-ui/commit/9712c2c109dc8cb4a49fee1df4f980520c57e5a7))
+
+
+### Bug Fixes
+
+* **dialog:** use elevated surface background in dark mode ([#382](https://github.com/fanvue/fanv-ui/issues/382)) ([320bfcc](https://github.com/fanvue/fanv-ui/commit/320bfcc92458554d86321c7a95f1ccf09760430b))
+* remove unused Banner component ([#377](https://github.com/fanvue/fanv-ui/issues/377)) ([9b949db](https://github.com/fanvue/fanv-ui/commit/9b949db9fadfd057951e82755df1a379ea879ea4))
+
 ## [2.0.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.21.0...ui-v2.0.0) (2026-03-20)
 
 
