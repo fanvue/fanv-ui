@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.3...ui-v2.2.0) (2026-03-25)
+
+
+### Features
+
+* Banner (Figma library) + OpenIcon, PeopleIcon ([#391](https://github.com/fanvue/fanv-ui/issues/391)) ([aae1216](https://github.com/fanvue/fanv-ui/commit/aae121666677cc214179afb1b2c606ba3ff02f46))
+
 ## [2.1.3](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.2...ui-v2.1.3) (2026-03-25)
 
 
