@@ -31,6 +31,7 @@ import {
   Avatar,
   Badge,
   BankIcon,
+  Banner,
   BellIcon,
   BellOffIcon,
   BoltIcon,
@@ -142,9 +143,11 @@ import {
   MoreIcon,
   MoreVerticalIcon,
   NewMessageIcon,
+  OpenIcon,
   Pagination,
   PasswordField,
   PauseIcon,
+  PeopleIcon,
   PhoneIcon,
   PhoneOffIcon,
   Pill,
@@ -867,7 +870,9 @@ function IconsDemo() {
     ["More", MoreIcon],
     ["MoreVertical", MoreVerticalIcon],
     ["NewMessage", NewMessageIcon],
+    ["Open", OpenIcon],
     ["Pause", PauseIcon],
+    ["People", PeopleIcon],
     ["Phone", PhoneIcon],
     ["PhoneOff", PhoneOffIcon],
     ["Pin", PinIcon],
@@ -1410,6 +1415,103 @@ function AlertDemo() {
         <Alert variant="error" icon={<ErrorCircleIcon />} title="Something went wrong" closable>
           This alert shows title, icon, and closable all together.
         </Alert>
+      </div>
+    </div>
+  );
+}
+
+function BannerDemo() {
+  const [defaultBannerVisible, setDefaultBannerVisible] = useState(true);
+  const sampleThumb = (
+    <div className="typography-regular-body-sm flex size-full items-center justify-center bg-surface-tertiary text-content-secondary">
+      img
+    </div>
+  );
+  return (
+    <div id="banner" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Banner</h2>
+      <div className="flex max-w-4xl flex-col gap-6">
+        {defaultBannerVisible ? (
+          <Banner
+            variant="Default"
+            layout="vertical"
+            media={sampleThumb}
+            eyebrow="HOW TO"
+            title="Use Paid Media Links"
+            description="Short demo copy for the showcase app."
+            primaryAction={<Button variant="brand">Learn more</Button>}
+            onDismiss={() => setDefaultBannerVisible(false)}
+          />
+        ) : (
+          <Button
+            type="button"
+            variant="tertiary"
+            size="32"
+            onClick={() => setDefaultBannerVisible(true)}
+          >
+            Show Default banner again
+          </Button>
+        )}
+        <Banner
+          variant="Default"
+          layout="horizontal"
+          media={sampleThumb}
+          eyebrow="HOW TO"
+          title="Horizontal layout"
+          description="Primary action aligns with the text row."
+          primaryAction={<Button variant="brand">Learn more</Button>}
+        />
+        <Banner
+          variant="Subtle"
+          media={sampleThumb}
+          leadBadge={
+            <Badge variant="success" leftDot className="typography-semibold-badge">
+              new
+            </Badge>
+          }
+          title="Informational banner"
+          description="Body text for OAuth-style or account messaging."
+          primaryAction={<Button variant="secondary">Learn more</Button>}
+        />
+        <Banner
+          variant="whatsNew"
+          layout="horizontal"
+          media={
+            <div className="typography-regular-body-sm flex size-full items-center justify-center bg-surface-tertiary text-content-secondary">
+              art
+            </div>
+          }
+          title="Perfectly proportioned"
+          description="Feature highlight on purple-muted surface."
+          textAction={
+            <Button
+              type="button"
+              variant="tertiary"
+              size="32"
+              className="h-auto min-h-0 px-0 py-1 shadow-none hover:bg-transparent active:bg-transparent"
+              rightIcon={<ArrowRightIcon className="size-3" aria-hidden />}
+            >
+              See how it works
+            </Button>
+          }
+        />
+        <Banner
+          variant="appStore1"
+          eyebrow="Learn"
+          title="Guide card"
+          description="Gradient card with text CTA."
+          textAction={
+            <Button
+              type="button"
+              variant="tertiary"
+              size="32"
+              className="h-auto min-h-0 px-0 py-1 shadow-none hover:bg-transparent active:bg-transparent"
+              rightIcon={<ArrowRightIcon className="size-3" aria-hidden />}
+            >
+              CTA label
+            </Button>
+          }
+        />
       </div>
     </div>
   );
@@ -3751,6 +3853,7 @@ function App() {
   const sections = [
     { id: "accordion", label: "Accordion" },
     { id: "alert", label: "Alert" },
+    { id: "banner", label: "Banner" },
     { id: "autocomplete", label: "Autocomplete" },
     { id: "audioupload", label: "Audio Upload" },
     { id: "avatar", label: "Avatar" },
@@ -3891,6 +3994,9 @@ function App() {
 
             {/* Alert */}
             <AlertDemo />
+
+            {/* Banner */}
+            <BannerDemo />
 
             {/* Button */}
             <ButtonDemo />

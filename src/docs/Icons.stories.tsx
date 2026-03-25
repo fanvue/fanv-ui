@@ -76,7 +76,9 @@ import { MoonIcon } from "../components/Icons/MoonIcon";
 import { MoreIcon } from "../components/Icons/MoreIcon";
 import { MoreVerticalIcon } from "../components/Icons/MoreVerticalIcon";
 import { NewMessageIcon } from "../components/Icons/NewMessageIcon";
+import { OpenIcon } from "../components/Icons/OpenIcon";
 import { PauseIcon } from "../components/Icons/PauseIcon";
+import { PeopleIcon } from "../components/Icons/PeopleIcon";
 import { PhoneIcon } from "../components/Icons/PhoneIcon";
 import { PhoneOffIcon } from "../components/Icons/PhoneOffIcon";
 import { PinIcon } from "../components/Icons/PinIcon";
@@ -269,6 +271,11 @@ const icons: IconEntry[] = [
     tags: ["message", "chat", "comment", "new"],
   },
   {
+    name: "OpenIcon",
+    component: OpenIcon,
+    tags: ["open", "external", "link", "new window"],
+  },
+  {
     name: "MicrophoneIcon",
     component: MicrophoneIcon,
     tags: ["microphone", "mic", "audio", "voice"],
@@ -282,6 +289,11 @@ const icons: IconEntry[] = [
     tags: ["more", "vertical", "dots", "ellipsis"],
   },
   { name: "PauseIcon", component: PauseIcon, tags: ["pause", "media", "stop"] },
+  {
+    name: "PeopleIcon",
+    component: PeopleIcon,
+    tags: ["people", "users", "group", "followers", "social"],
+  },
   { name: "PhoneIcon", component: PhoneIcon, tags: ["phone", "call", "contact"] },
   { name: "PhoneOffIcon", component: PhoneOffIcon, tags: ["phone", "off", "end", "call"] },
   { name: "PinIcon", component: PinIcon, tags: ["pin", "bookmark", "save"] },
