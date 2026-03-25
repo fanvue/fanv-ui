@@ -113,7 +113,7 @@ export const DialogContent = React.forwardRef<
       style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
       className={cn(
         // Base
-        "fixed flex flex-col overflow-hidden bg-bg-primary shadow-lg focus:outline-none",
+        "fixed flex flex-col overflow-hidden bg-bg-primary shadow-lg focus:outline-none dark:bg-surface-primary",
         // Mobile: bottom sheet
         "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-lg",
         // Animation (shared)
