@@ -1,6 +1,7 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
 import { Button } from "../Button/Button";
 
 /** Props for the {@link InfoBox} root component. */
@@ -87,6 +88,7 @@ export const InfoBoxContent = React.forwardRef<
       children,
       style,
       onOpenAutoFocus,
+      collisionPadding = FLOATING_CONTENT_COLLISION_PADDING,
       ...props
     },
     ref,
@@ -100,7 +102,7 @@ export const InfoBoxContent = React.forwardRef<
         <PopoverPrimitive.Content
           ref={ref}
           sideOffset={sideOffset}
-          collisionPadding={8}
+          collisionPadding={collisionPadding}
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
           className={cn(
             "typography-regular-body-md max-w-[280px] overflow-hidden rounded-md border border-white/20 bg-surface-primary-inverted p-4 text-content-primary-inverted shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",

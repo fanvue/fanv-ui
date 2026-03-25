@@ -1,6 +1,7 @@
 import * as SelectPrimitive from "@radix-ui/react-select";
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 
@@ -202,30 +203,43 @@ export interface SelectContentProps
 export const SelectContent = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Content>,
   SelectContentProps
->(({ className, children, position = "popper", sideOffset = 4, style, ...props }, ref) => (
-  <SelectPrimitive.Portal>
-    <SelectPrimitive.Content
-      ref={ref}
-      position={position}
-      sideOffset={sideOffset}
-      collisionPadding={8}
-      style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
-      className={cn(
-        "relative min-w-(--radix-select-trigger-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-bg-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
-        "data-[state=closed]:animate-out data-[state=open]:animate-in",
-        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-        "data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2",
-        className,
-      )}
-      {...props}
-    >
-      <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-1">
-        {children}
-      </SelectPrimitive.Viewport>
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
-));
+>(
+  (
+    {
+      className,
+      children,
+      position = "popper",
+      sideOffset = 4,
+      collisionPadding = FLOATING_CONTENT_COLLISION_PADDING,
+      style,
+      ...props
+    },
+    ref,
+  ) => (
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content
+        ref={ref}
+        position={position}
+        sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
+        style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
+        className={cn(
+          "relative min-w-(--radix-select-trigger-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-bg-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+          "data-[state=closed]:animate-out data-[state=open]:animate-in",
+          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2",
+          className,
+        )}
+        {...props}
+      >
+        <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-1">
+          {children}
+        </SelectPrimitive.Viewport>
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
+  ),
+);
 
 SelectContent.displayName = "SelectContent";
 
