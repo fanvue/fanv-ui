@@ -1,6 +1,7 @@
 import * as Popover from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
@@ -240,7 +241,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
         <Popover.Portal>
           <Popover.Content
             sideOffset={4}
-            collisionPadding={8}
+            collisionPadding={FLOATING_CONTENT_COLLISION_PADDING}
             onOpenAutoFocus={(e) => e.preventDefault()}
             onCloseAutoFocus={(e) => e.preventDefault()}
             style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)" }}

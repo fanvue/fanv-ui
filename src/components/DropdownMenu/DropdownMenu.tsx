@@ -1,6 +1,7 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
 
 /** Props for the {@link DropdownMenu} root component. */
 export interface DropdownMenuProps
@@ -44,28 +45,40 @@ export interface DropdownMenuContentProps
 export const DropdownMenuContent = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Content>,
   DropdownMenuContentProps
->(({ className, style, sideOffset = 4, ...props }, ref) => (
-  <DropdownMenuPrimitive.Portal>
-    <DropdownMenuPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      className={cn(
-        "min-w-[180px] overflow-y-auto rounded-lg border border-neutral-alphas-200 bg-bg-primary p-1 shadow-lg",
-        "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-        "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
-        "data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2",
-        className,
-      )}
-      style={{
-        zIndex: "var(--fanvue-ui-portal-z-index, 50)",
-        maxHeight: "var(--radix-dropdown-menu-content-available-height)",
-        ...style,
-      }}
-      {...props}
-    />
-  </DropdownMenuPrimitive.Portal>
-));
+>(
+  (
+    {
+      className,
+      style,
+      sideOffset = 4,
+      collisionPadding = FLOATING_CONTENT_COLLISION_PADDING,
+      ...props
+    },
+    ref,
+  ) => (
+    <DropdownMenuPrimitive.Portal>
+      <DropdownMenuPrimitive.Content
+        ref={ref}
+        sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
+        className={cn(
+          "min-w-[180px] overflow-y-auto rounded-lg border border-neutral-alphas-200 bg-bg-primary p-1 shadow-lg",
+          "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
+          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+          "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
+          "data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2",
+          className,
+        )}
+        style={{
+          zIndex: "var(--fanvue-ui-portal-z-index, 50)",
+          maxHeight: "var(--radix-dropdown-menu-content-available-height)",
+          ...style,
+        }}
+        {...props}
+      />
+    </DropdownMenuPrimitive.Portal>
+  ),
+);
 DropdownMenuContent.displayName = "DropdownMenuContent";
 
 /** Props for the {@link DropdownMenuGroup} component. */
