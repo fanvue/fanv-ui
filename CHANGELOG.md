@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.1...ui-v2.1.2) (2026-03-25)
+
+
+### Bug Fixes
+
+* **ENG-9150:** dropdown width fits content, demo, rounded-sm panel ([#386](https://github.com/fanvue/fanv-ui/issues/386)) ([3267072](https://github.com/fanvue/fanv-ui/commit/3267072354b4121e2a8f6b279b189d7ab9f6c10c))
+* **tooltip:** use sm border radius instead of full ([#388](https://github.com/fanvue/fanv-ui/issues/388)) ([7559707](https://github.com/fanvue/fanv-ui/commit/755970778ac94861c9dc71e004a0045189f4310e))
+
 ## [2.1.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.0...ui-v2.1.1) (2026-03-25)
 
 
