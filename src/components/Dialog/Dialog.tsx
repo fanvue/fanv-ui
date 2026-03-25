@@ -105,12 +105,20 @@ const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
 export const DialogContent = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(({ className, children, size = "md", overlay = true, style, ...props }, ref) => (
+>(({ className, children, size = "md", overlay = true, style, onOpenAutoFocus, ...props }, ref) => (
   <DialogPrimitive.Portal>
     {overlay && <DialogOverlay />}
     <DialogPrimitive.Content
       ref={ref}
       style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
+      onOpenAutoFocus={(e) => {
+        if (onOpenAutoFocus) {
+          onOpenAutoFocus(e);
+          return;
+        }
+        e.preventDefault();
+        (e.currentTarget as HTMLElement).focus();
+      }}
       className={cn(
         // Base
         "fixed flex flex-col overflow-hidden bg-bg-primary shadow-lg focus:outline-none dark:bg-surface-primary",
