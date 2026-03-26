@@ -100,6 +100,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   EditIcon,
+  EmptyState,
   ErrorCircleIcon,
   ErrorIcon,
   ExpandIcon,
@@ -1511,6 +1512,39 @@ function BannerDemo() {
               CTA label
             </Button>
           }
+        />
+      </div>
+    </div>
+  );
+}
+
+function EmptyStateDemo() {
+  const artwork = (
+    <div className="relative h-full w-full bg-surface-secondary">
+      <div className="absolute left-3 top-10 size-20 rounded-full bg-surface-primary" />
+      <div className="absolute left-20 top-6 size-36 rounded-full bg-surface-tertiary" />
+      <div className="absolute left-48 top-24 size-24 rounded-full bg-surface-primary" />
+    </div>
+  );
+
+  return (
+    <div id="empty-state" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Empty State</h2>
+      <div className="flex flex-wrap items-start gap-8">
+        <EmptyState
+          layout="default"
+          media={artwork}
+          title="Empty Vault, Full Potential!"
+          description="Add your photos to the Vault to start sharing your creations and earning."
+          primaryAction={<Button variant="brand">Add Media to Vault</Button>}
+        />
+        <EmptyState
+          layout="centered"
+          media={artwork}
+          title="Empty Vault, Full Potential!"
+          description="Add your photos to the Vault to start sharing your creations and earning."
+          primaryAction={<Button variant="brand">Add Media to Vault</Button>}
+          secondaryAction={<Button variant="secondary">Learn more</Button>}
         />
       </div>
     </div>
@@ -3868,6 +3902,7 @@ function App() {
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
     { id: "divider", label: "Divider" },
+    { id: "empty-state", label: "Empty State" },
     { id: "dropdownmenu", label: "Dropdown menu" },
     { id: "drawer", label: "Drawer" },
     { id: "iconbutton", label: "Icon Button" },
@@ -3997,6 +4032,9 @@ function App() {
 
             {/* Banner */}
             <BannerDemo />
+
+            {/* Empty State */}
+            <EmptyStateDemo />
 
             {/* Button */}
             <ButtonDemo />

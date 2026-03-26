@@ -173,6 +173,8 @@ export {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./components/DropdownMenu/DropdownMenu";
+export type { EmptyStateLayout, EmptyStateProps } from "./components/EmptyState/EmptyState";
+export { EmptyState } from "./components/EmptyState/EmptyState";
 export type {
   IconButtonProps,
   IconButtonSize,
