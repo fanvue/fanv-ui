@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.3.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.2.0...ui-v2.3.0) (2026-03-26)
+
+
+### Features
+
+* **ENG-9169:** add initial EmptyState component ([#394](https://github.com/fanvue/fanv-ui/issues/394)) ([e71ca3a](https://github.com/fanvue/fanv-ui/commit/e71ca3ae1f9ba5b8312ad9a95fc0ca25bb8c20a3))
+
+
+### Bug Fixes
+
+* update logo wordmark SVG and spacing ([#396](https://github.com/fanvue/fanv-ui/issues/396)) ([4fafbec](https://github.com/fanvue/fanv-ui/commit/4fafbecc72b8349b4b35228d0fbffc2bfac8484e))
+
 ## [2.2.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.3...ui-v2.2.0) (2026-03-25)
 
 
