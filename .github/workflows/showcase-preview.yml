@@ -1,4 +1,3 @@
-# Deploy showcase preview for pull requests
 name: Showcase Preview
 
 on:
@@ -11,11 +10,11 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: preview-${{ github.event.pull_request.number }}
+  group: showcase-preview-${{ github.event.number }}
   cancel-in-progress: true
 
 jobs:
-  deploy-preview:
+  deploy:
     name: Deploy Preview
     if: github.event.action != 'closed'
     runs-on: ubuntu-latest
@@ -38,38 +37,51 @@ jobs:
       - name: Build showcase
         run: pnpm build:showcase
         env:
-          VITE_BASE: /fanv-ui-internal/pr-preview/pr-${{ github.event.pull_request.number }}/
+          VITE_BASE: /fanv-ui-internal/pr-${{ github.event.number }}/
 
       - name: Deploy preview
-        uses: rossjrw/pr-preview-action@v1
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          source-dir: dist-showcase
-          umbrella-dir: pr-preview
-          action: deploy
-          comment: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist-showcase
+          destination_dir: pr-${{ github.event.number }}
+          keep_files: true
 
-      - name: Comment preview URL
+  comment:
+    name: Comment on PR
+    needs: deploy
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Comment on PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: showcase-preview
           message: |
             ## Showcase Preview
 
-            | Preview | URL |
-            |---------|-----|
-            | Showcase | https://fanvue.github.io/fanv-ui-internal/pr-preview/pr-${{ github.event.pull_request.number }}/ |
+            | Preview | Status |
+            |---------|--------|
+            | [View Showcase](https://fanvue.github.io/fanv-ui-internal/pr-${{ github.event.number }}/) | ✅ Ready |
 
-  cleanup-preview:
+  cleanup:
     name: Cleanup Preview
     if: github.event.action == 'closed'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout gh-pages
         uses: actions/checkout@v4
-
-      - name: Cleanup preview
-        uses: rossjrw/pr-preview-action@v1
         with:
-          source-dir: dist-showcase
-          umbrella-dir: pr-preview
-          action: remove
+          ref: gh-pages
+
+      - name: Remove preview directory
+        run: |
+          if [ -d "pr-${{ github.event.number }}" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git rm -rf "pr-${{ github.event.number }}"
+            git commit -m "chore: remove showcase preview for PR #${{ github.event.number }}"
+            git push
+          fi
