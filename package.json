@@ -104,7 +104,9 @@
       "minimatch": ">=10.2.3",
       "rollup": ">=4.59.0",
       "storybook": ">=10.2.10",
-      "playwright": "1.58.2"
+      "playwright": "1.58.2",
+      "picomatch": ">=4.0.4",
+      "micromatch>picomatch": "2.3.2"
     }
   },
   "lint-staged": {
