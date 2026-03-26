@@ -28,7 +28,7 @@ describe("EmptyState", () => {
   it("has no serious axe violations", async () => {
     const { container } = render(
       <EmptyState
-        layout="centered"
+        variant="centered"
         title="No media yet"
         description="Add content to start earning."
         primaryAction={<Button variant="brand">Add media</Button>}

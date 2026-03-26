@@ -1532,14 +1532,14 @@ function EmptyStateDemo() {
       <h2 className="typography-bold-heading-sm mb-4">Empty State</h2>
       <div className="flex flex-wrap items-start gap-8">
         <EmptyState
-          layout="default"
+          variant="default"
           media={artwork}
           title="Empty Vault, Full Potential!"
           description="Add your photos to the Vault to start sharing your creations and earning."
           primaryAction={<Button variant="brand">Add Media to Vault</Button>}
         />
         <EmptyState
-          layout="centered"
+          variant="centered"
           media={artwork}
           title="Empty Vault, Full Potential!"
           description="Add your photos to the Vault to start sharing your creations and earning."

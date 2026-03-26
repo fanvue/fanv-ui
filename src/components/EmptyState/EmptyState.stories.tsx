@@ -14,7 +14,7 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    layout: {
+    variant: {
       control: "select",
       options: ["default", "centered"],
     },
@@ -44,21 +44,21 @@ const defaultArgs = {
 
 export const Default: Story = {
   args: {
-    layout: "default",
+    variant: "default",
     ...defaultArgs,
   },
 };
 
 export const Centered: Story = {
   args: {
-    layout: "centered",
+    variant: "centered",
     ...defaultArgs,
   },
 };
 
 export const WithSecondaryAction: Story = {
   args: {
-    layout: "default",
+    variant: "default",
     ...defaultArgs,
     secondaryAction: <Button variant="secondary">Learn more</Button>,
   },
