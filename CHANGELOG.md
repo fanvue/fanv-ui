@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.3.0...ui-v2.4.0) (2026-03-26)
+
+
+### Features
+
+* add FacebookIcon, GoogleIcon, TwitterIcon ([#398](https://github.com/fanvue/fanv-ui/issues/398)) ([b2f376f](https://github.com/fanvue/fanv-ui/commit/b2f376f953a0eb267a65aec1ae7e4e42eda08466))
+* add FacebookIcon, GoogleIcon, TwitterIcon social icons ([b2f376f](https://github.com/fanvue/fanv-ui/commit/b2f376f953a0eb267a65aec1ae7e4e42eda08466))
+
 ## [2.3.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.2.0...ui-v2.3.0) (2026-03-26)
 
 
