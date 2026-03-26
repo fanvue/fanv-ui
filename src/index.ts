@@ -342,6 +342,8 @@ export type {
 export { PasswordField } from "./components/PasswordField/PasswordField";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
+export type { ProfileCardProps } from "./components/ProfileCard/ProfileCard";
+export { ProfileCard } from "./components/ProfileCard/ProfileCard";
 export type {
   ProgressBarProps,
   ProgressBarSize,
