@@ -113,8 +113,8 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
         data-testid="logo"
         className={cn(
           "inline-flex items-center text-content-primary",
-          variant === "portrait" ? "flex-col" : "flex-row",
-          variant === "full" && "gap-[5px]",
+          variant === "portrait" ? "flex-col gap-2" : "flex-row",
+          variant === "full" && "gap-2",
           className,
         )}
         {...ariaProps}
