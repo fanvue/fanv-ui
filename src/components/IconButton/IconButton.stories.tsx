@@ -100,7 +100,9 @@ import { Support2Icon } from "../Icons/Support2Icon";
 import { SupportIcon } from "../Icons/SupportIcon";
 import { TagIcon } from "../Icons/TagIcon";
 import { TaskIcon } from "../Icons/TaskIcon";
+import { ThumbDownFilledIcon } from "../Icons/ThumbDownFilledIcon";
 import { ThumbDownIcon } from "../Icons/ThumbDownIcon";
+import { ThumbUpFilledIcon } from "../Icons/ThumbUpFilledIcon";
 import { ThumbUpIcon } from "../Icons/ThumbUpIcon";
 import { TickCircleIcon } from "../Icons/TickCircleIcon";
 import { TickCircleOffIcon } from "../Icons/TickCircleOffIcon";
@@ -508,7 +510,9 @@ const allIcons = [
   { name: "TickIcon", icon: <TickIcon /> },
   { name: "TrashBinIcon", icon: <TrashBinIcon /> },
   { name: "TrophyIcon", icon: <TrophyIcon /> },
+  { name: "ThumbDownFilledIcon", icon: <ThumbDownFilledIcon /> },
   { name: "ThumbDownIcon", icon: <ThumbDownIcon /> },
+  { name: "ThumbUpFilledIcon", icon: <ThumbUpFilledIcon /> },
   { name: "ThumbUpIcon", icon: <ThumbUpIcon /> },
   { name: "UploadCloudIcon", icon: <UploadCloudIcon /> },
   { name: "UploadIcon", icon: <UploadIcon /> },

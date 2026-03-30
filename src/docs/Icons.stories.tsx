@@ -104,7 +104,9 @@ import { Support2Icon } from "../components/Icons/Support2Icon";
 import { SupportIcon } from "../components/Icons/SupportIcon";
 import { TagIcon } from "../components/Icons/TagIcon";
 import { TaskIcon } from "../components/Icons/TaskIcon";
+import { ThumbDownFilledIcon } from "../components/Icons/ThumbDownFilledIcon";
 import { ThumbDownIcon } from "../components/Icons/ThumbDownIcon";
+import { ThumbUpFilledIcon } from "../components/Icons/ThumbUpFilledIcon";
 import { ThumbUpIcon } from "../components/Icons/ThumbUpIcon";
 import { TickCircleIcon } from "../components/Icons/TickCircleIcon";
 import { TickCircleOffIcon } from "../components/Icons/TickCircleOffIcon";
@@ -331,7 +333,17 @@ const icons: IconEntry[] = [
   { name: "TickIcon", component: TickIcon, tags: ["tick", "check", "done", "confirm"] },
   { name: "TrashBinIcon", component: TrashBinIcon, tags: ["trash", "bin", "delete", "remove"] },
   { name: "TrophyIcon", component: TrophyIcon, tags: ["trophy", "award", "medal", "achievement"] },
+  {
+    name: "ThumbDownFilledIcon",
+    component: ThumbDownFilledIcon,
+    tags: ["thumb", "down", "dislike", "filled"],
+  },
   { name: "ThumbDownIcon", component: ThumbDownIcon, tags: ["thumb", "down", "dislike"] },
+  {
+    name: "ThumbUpFilledIcon",
+    component: ThumbUpFilledIcon,
+    tags: ["thumb", "up", "like", "filled"],
+  },
   { name: "ThumbUpIcon", component: ThumbUpIcon, tags: ["thumb", "up", "like"] },
   { name: "UploadCloudIcon", component: UploadCloudIcon, tags: ["upload", "cloud"] },
   { name: "UploadIcon", component: UploadIcon, tags: ["upload", "send", "file"] },
