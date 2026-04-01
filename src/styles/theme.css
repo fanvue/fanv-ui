@@ -24,10 +24,19 @@
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
+  input:autofill,
+  input:autofill:hover,
+  input:autofill:focus,
   textarea:-webkit-autofill,
   textarea:-webkit-autofill:hover,
-  textarea:-webkit-autofill:focus {
+  textarea:-webkit-autofill:focus,
+  textarea:autofill,
+  textarea:autofill:hover,
+  textarea:autofill:focus {
     -webkit-text-fill-color: var(--color-content-primary);
+    -webkit-box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
+    box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
+    background-clip: padding-box !important;
     transition: background-color 9999s ease-in-out 0s;
   }
 }
@@ -38,7 +47,8 @@
   --shadow-lg: 0px 4px 8px -1px #00000014, 0px 8px 22px -1px #0000001a;
   --shadow-blur-menu: 0px 6px 12px 0px #0000001a;
   --shadow-blur-floating: 0px 12px 40px 2px #00000026;
-  --shadow-focus-ring: 0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-interaction-focus);
+  --shadow-focus-ring:
+    0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-interaction-focus);
 
   --radius-xs: 8px;
   --radius-sm: 12px;
@@ -47,7 +57,6 @@
   --radius-xl: 32px;
   --radius-2xl: 40px;
   --radius-full: 9999px;
-
 
   --color-neutral-alphas-50: var(--primitives-color-blackalpha-50);
   --color-neutral-alphas-100: var(--primitives-color-blackalpha-100);
@@ -124,7 +133,6 @@
   --color-icons-brand-green: var(--color-brand-primary-default);
   --color-icons-brand-purple: var(--color-brand-secondary-default);
   --color-icons-primary-inverted: var(--primitives-color-gray-white);
-
 }
 
 :root {
@@ -141,7 +149,6 @@
   --spacing-xs: 8px;
   --spacing-sm: 12px;
   --spacing-2xs: 4px;
-
 
   --primitives-color-gray-50: #fafafaff;
   --primitives-color-gray-75: #f7f7f7ff;
@@ -278,7 +285,6 @@
   --primitives-color-alpha-900: #ffffffe6;
   --primitives-color-alpha-950: #fffffff2;
 
-
   /* Light-mode semantic tokens must also live in :root because @theme
      cannot resolve var() references to :root primitives at build time. */
   --color-neutral-alphas-50: var(--primitives-color-blackalpha-50);
@@ -356,7 +362,6 @@
   --color-icons-brand-green: var(--color-brand-primary-default);
   --color-icons-brand-purple: var(--color-brand-secondary-default);
   --color-icons-primary-inverted: var(--primitives-color-gray-white);
-
 }
 
 .dark {
@@ -435,7 +440,6 @@
   --color-icons-brand-green: var(--color-brand-primary-default);
   --color-icons-brand-purple: var(--color-brand-secondary-default);
   --color-icons-primary-inverted: var(--primitives-color-gray-black);
-
 }
 
 @utility typography-regular-body-lg {
@@ -614,7 +618,6 @@
   letter-spacing: 0px;
   line-height: 64px;
 }
-
 
 @utility fv-skeleton-wave {
   position: relative;
