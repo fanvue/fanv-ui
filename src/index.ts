@@ -395,6 +395,17 @@ export type {
   SnackbarVariant,
 } from "./components/Snackbar/Snackbar";
 export { Snackbar } from "./components/Snackbar/Snackbar";
+export type {
+  StepItem,
+  StepperProps,
+} from "./components/Stepper/Stepper";
+export { Stepper } from "./components/Stepper/Stepper";
+export type {
+  StepperStepProps,
+  StepperStepSize,
+  StepperStepState,
+} from "./components/Stepper/StepperStep";
+export { StepperStep } from "./components/Stepper/StepperStep";
 export type { SwitchProps, SwitchSize } from "./components/Switch/Switch";
 export { Switch } from "./components/Switch/Switch";
 export type {
