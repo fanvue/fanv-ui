@@ -69,12 +69,6 @@ const LABEL_COLOR: Record<StepperStepState, string> = {
   upcoming: "text-content-tertiary",
 };
 
-const LABEL_ALIGNMENT: Record<StepperStepState, string> = {
-  completed: "items-start",
-  active: "items-start",
-  upcoming: "items-center",
-};
-
 const CHECK_ICON_SIZE: Record<StepperStepSize, string> = {
   sm: "size-3",
   md: "size-4",
@@ -118,7 +112,7 @@ export const StepperStep = React.forwardRef<HTMLDivElement, StepperStepProps>(
         </div>
 
         {hasLabels && (
-          <div className={cn("flex flex-col gap-1", LABEL_COLOR[state], LABEL_ALIGNMENT[state])}>
+          <div className={cn("flex flex-col items-center gap-1 text-center", LABEL_COLOR[state])}>
             {title != null && <span className={TITLE_TYPOGRAPHY[size]}>{title}</span>}
             {description != null && (
               <span className={DESCRIPTION_TYPOGRAPHY[size]}>{description}</span>
