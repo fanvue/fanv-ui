@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.5.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.0...ui-v2.5.1) (2026-04-01)
+
+
+### Bug Fixes
+
+* Firefox autofill background and input border-radius ([#405](https://github.com/fanvue/fanv-ui/issues/405)) ([9bb33e3](https://github.com/fanvue/fanv-ui/commit/9bb33e37760ef4c85d4ef7162dc9b35d818e879d))
+* Firefox autofill background and input layout ([9bb33e3](https://github.com/fanvue/fanv-ui/commit/9bb33e37760ef4c85d4ef7162dc9b35d818e879d))
+
 ## [2.5.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.4.0...ui-v2.5.0) (2026-04-01)
 
 
