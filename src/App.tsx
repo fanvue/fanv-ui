@@ -53,6 +53,7 @@ import {
   CardHeader,
   CardTitle,
   ChartIcon,
+  ChatInput,
   Checkbox,
   CheckCircleIcon,
   CheckIcon,
@@ -567,6 +568,69 @@ function TextAreaShowcase() {
           onChange={handleChange}
           showClearButton
           onClear={() => setValue("")}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ChatInputShowcase() {
+  const [value, setValue] = useState("");
+  const [model, setModel] = useState("sonnet-4.6");
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+  };
+
+  return (
+    <div id="chatinput" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Chat Input</h2>
+      <div className="flex max-w-2xl flex-col gap-4">
+        <ChatInput placeholder="Type a message..." name="chat-default" autoComplete="off" />
+        <ChatInput
+          placeholder="Min and max rows"
+          minRows={3}
+          maxRows={8}
+          name="chat-rows"
+          autoComplete="off"
+        />
+        <ChatInput placeholder="Disabled" disabled value="Cannot edit" onChange={() => {}} />
+        <ChatInput placeholder="Loading" loading value="Sending…" onChange={() => {}} />
+        <ChatInput
+          placeholder="With file attach"
+          showFileButton
+          name="chat-file"
+          autoComplete="off"
+        />
+        <ChatInput
+          placeholder="With model selector"
+          selectOptions={[
+            { value: "sonnet-4.6", label: "Sonnet 4.6" },
+            { value: "opus-4.6", label: "Opus 4.6" },
+          ]}
+          selectValue={model}
+          onSelectChange={setModel}
+          name="chat-select"
+          autoComplete="off"
+        />
+        <ChatInput
+          placeholder="File + selector"
+          showFileButton
+          selectOptions={[
+            { value: "sonnet-4.6", label: "Sonnet 4.6" },
+            { value: "opus-4.6", label: "Opus 4.6" },
+          ]}
+          selectValue={model}
+          onSelectChange={setModel}
+          name="chat-full"
+          autoComplete="off"
+        />
+        <ChatInput
+          placeholder="Controlled"
+          value={value}
+          onChange={handleChange}
+          onSubmit={() => setValue("")}
+          name="chat-controlled"
+          autoComplete="off"
         />
       </div>
     </div>
@@ -4182,6 +4246,9 @@ function App() {
 
             {/* TextArea */}
             <TextAreaShowcase />
+
+            {/* ChatInput */}
+            <ChatInputShowcase />
 
             {/* SearchField */}
             <SearchFieldShowcase />
