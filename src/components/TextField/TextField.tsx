@@ -39,42 +39,40 @@ const INPUT_SIZE_CLASSES: Record<TextFieldSize, string> = {
   "32": "py-2 typography-regular-body-md",
 };
 
-const PADDING_HORIZONTAL: Record<TextFieldSize, string> = {
+const INPUT_PL: Record<TextFieldSize, { default: string; withIcon: string }> = {
+  "48": { default: "pl-4", withIcon: "pl-10" },
+  "40": { default: "pl-4", withIcon: "pl-10" },
+  "32": { default: "pl-3", withIcon: "pl-9" },
+};
+
+const INPUT_PR: Record<TextFieldSize, { default: string; withIcon: string }> = {
+  "48": { default: "pr-4", withIcon: "pr-10" },
+  "40": { default: "pr-4", withIcon: "pr-10" },
+  "32": { default: "pr-3", withIcon: "pr-9" },
+};
+
+const ICON_INSET: Record<TextFieldSize, string> = {
   "48": "px-4",
   "40": "px-4",
   "32": "px-3",
 };
 
-const ICON_SPACING: Record<TextFieldSize, string> = {
-  "48": "gap-2",
-  "40": "gap-2",
-  "32": "gap-2",
-};
-
 function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: boolean) {
   return cn(
-    "flex items-center rounded-sm border bg-neutral-alphas-50 has-focus-visible:outline-none motion-safe:transition-colors",
+    "relative overflow-hidden rounded-sm border bg-neutral-alphas-50 has-focus-visible:outline-none motion-safe:transition-colors",
     error ? "border-error-content" : "border-transparent",
     !disabled && !error && "hover:border-neutral-alphas-400",
     CONTAINER_HEIGHT[size],
-    PADDING_HORIZONTAL[size],
-    ICON_SPACING[size],
     disabled && "opacity-50",
   );
 }
 
-function getInputClassName(size: TextFieldSize) {
+function getInputClassName(size: TextFieldSize, hasLeftIcon: boolean, hasRightIcon: boolean) {
   return cn(
-    "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-secondary focus:outline-none disabled:cursor-not-allowed",
+    "h-full w-full rounded-sm bg-transparent text-content-primary no-underline placeholder:text-content-secondary focus:outline-none disabled:cursor-not-allowed",
     INPUT_SIZE_CLASSES[size],
-  );
-}
-
-function TextFieldIcon({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex size-4 shrink-0 items-center justify-center text-content-secondary">
-      {children}
-    </div>
+    hasLeftIcon ? INPUT_PL[size].withIcon : INPUT_PL[size].default,
+    hasRightIcon ? INPUT_PR[size].withIcon : INPUT_PR[size].default,
   );
 }
 
@@ -168,8 +166,6 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         )}
 
         <div className={getContainerClassName(size, error, disabled)}>
-          {leftIcon && <TextFieldIcon>{leftIcon}</TextFieldIcon>}
-
           <input
             ref={ref}
             id={inputId}
@@ -177,18 +173,39 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             aria-describedby={bottomText ? helperTextId : undefined}
             aria-invalid={error || undefined}
             className={cn(
-              getInputClassName(size),
-              // Hide native clear button for input[type="search"] in WebKit browsers (Safari/Chrome)
+              getInputClassName(size, !!leftIcon, !!(rightIcon || validated)),
               "[&[type='search']::-webkit-search-cancel-button]:hidden [&[type='search']::-webkit-search-cancel-button]:appearance-none",
             )}
             {...props}
           />
 
-          {rightIcon && <TextFieldIcon>{rightIcon}</TextFieldIcon>}
-          {validated && (
-            <TextFieldIcon>
-              <CheckOutlineIcon className="text-success-content" />
-            </TextFieldIcon>
+          {leftIcon && (
+            <div
+              className={cn(
+                "pointer-events-none absolute inset-y-0 left-0 flex items-center text-content-secondary",
+                ICON_INSET[size],
+              )}
+            >
+              <div className="flex size-4 shrink-0 items-center justify-center">{leftIcon}</div>
+            </div>
+          )}
+
+          {(rightIcon || validated) && (
+            <div
+              className={cn(
+                "absolute inset-y-0 right-0 flex items-center gap-2 text-content-secondary",
+                ICON_INSET[size],
+              )}
+            >
+              {rightIcon && (
+                <div className="flex size-4 shrink-0 items-center justify-center">{rightIcon}</div>
+              )}
+              {validated && (
+                <div className="pointer-events-none flex size-4 shrink-0 items-center justify-center">
+                  <CheckOutlineIcon className="text-success-content" />
+                </div>
+              )}
+            </div>
           )}
         </div>
 
