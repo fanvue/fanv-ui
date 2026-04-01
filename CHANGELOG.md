@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.5.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.4.0...ui-v2.5.0) (2026-04-01)
+
+
+### Features
+
+* replace default breakpoints with custom breakpoints ([#401](https://github.com/fanvue/fanv-ui/issues/401)) ([1bf7d56](https://github.com/fanvue/fanv-ui/commit/1bf7d56233d4e321b394870a9d4f19e9cb04fe8b))
+* **stepper:** add stepper components ([#404](https://github.com/fanvue/fanv-ui/issues/404)) ([793db91](https://github.com/fanvue/fanv-ui/commit/793db919a99e8fbfe4f11ec35fde843952a81175))
+* Thumbs Up and Down Filled icons ([#400](https://github.com/fanvue/fanv-ui/issues/400)) ([ebd90cf](https://github.com/fanvue/fanv-ui/commit/ebd90cfa0d9247599abff929585055f83fb5b6fb))
+
 ## [2.4.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.3.0...ui-v2.4.0) (2026-03-26)
 
 
