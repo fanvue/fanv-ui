@@ -45,6 +45,7 @@ import { ExpandIcon } from "../components/Icons/ExpandIcon";
 import { EyeClosedIcon } from "../components/Icons/EyeClosedIcon";
 import { EyeIcon } from "../components/Icons/EyeIcon";
 import { EyeSlashIcon } from "../components/Icons/EyeSlashIcon";
+import { FacebookIcon } from "../components/Icons/FacebookIcon";
 import { FlagIcon } from "../components/Icons/FlagIcon";
 import { FlameIcon } from "../components/Icons/FlameIcon";
 import { FolderIcon } from "../components/Icons/FolderIcon";
@@ -52,6 +53,7 @@ import { ForwardIcon } from "../components/Icons/ForwardIcon";
 import { GalleryIcon } from "../components/Icons/GalleryIcon";
 import { GenderIcon } from "../components/Icons/GenderIcon";
 import { GiftIcon } from "../components/Icons/GiftIcon";
+import { GoogleIcon } from "../components/Icons/GoogleIcon";
 import { HelpIcon } from "../components/Icons/HelpIcon";
 import { HomeIcon } from "../components/Icons/HomeIcon";
 import { HourglassIcon } from "../components/Icons/HourglassIcon";
@@ -102,13 +104,16 @@ import { Support2Icon } from "../components/Icons/Support2Icon";
 import { SupportIcon } from "../components/Icons/SupportIcon";
 import { TagIcon } from "../components/Icons/TagIcon";
 import { TaskIcon } from "../components/Icons/TaskIcon";
+import { ThumbDownFilledIcon } from "../components/Icons/ThumbDownFilledIcon";
 import { ThumbDownIcon } from "../components/Icons/ThumbDownIcon";
+import { ThumbUpFilledIcon } from "../components/Icons/ThumbUpFilledIcon";
 import { ThumbUpIcon } from "../components/Icons/ThumbUpIcon";
 import { TickCircleIcon } from "../components/Icons/TickCircleIcon";
 import { TickCircleOffIcon } from "../components/Icons/TickCircleOffIcon";
 import { TickIcon } from "../components/Icons/TickIcon";
 import { TrashBinIcon } from "../components/Icons/TrashBinIcon";
 import { TrophyIcon } from "../components/Icons/TrophyIcon";
+import { TwitterIcon } from "../components/Icons/TwitterIcon";
 import type { IconProps } from "../components/Icons/types";
 import { UploadCloudIcon } from "../components/Icons/UploadCloudIcon";
 import { UploadIcon } from "../components/Icons/UploadIcon";
@@ -236,6 +241,7 @@ const icons: IconEntry[] = [
   },
   { name: "EyeIcon", component: EyeIcon, tags: ["eye", "view", "visibility", "show"] },
   { name: "EyeSlashIcon", component: EyeSlashIcon, tags: ["eye", "slash", "hidden", "invisible"] },
+  { name: "FacebookIcon", component: FacebookIcon, tags: ["facebook", "social", "login"] },
   { name: "FlagIcon", component: FlagIcon, tags: ["flag", "report", "bookmark"] },
   {
     name: "FlameIcon",
@@ -245,6 +251,7 @@ const icons: IconEntry[] = [
   { name: "FolderIcon", component: FolderIcon, tags: ["folder", "directory", "file"] },
   { name: "ForwardIcon", component: ForwardIcon, tags: ["forward", "next", "skip"] },
   { name: "GalleryIcon", component: GalleryIcon, tags: ["gallery", "image", "photo"] },
+  { name: "GoogleIcon", component: GoogleIcon, tags: ["google", "social", "login"] },
   { name: "GenderIcon", component: GenderIcon, tags: ["gender", "identity"] },
   { name: "GiftIcon", component: GiftIcon, tags: ["gift", "present", "reward"] },
   { name: "HelpIcon", component: HelpIcon, tags: ["help", "question", "support"] },
@@ -326,7 +333,17 @@ const icons: IconEntry[] = [
   { name: "TickIcon", component: TickIcon, tags: ["tick", "check", "done", "confirm"] },
   { name: "TrashBinIcon", component: TrashBinIcon, tags: ["trash", "bin", "delete", "remove"] },
   { name: "TrophyIcon", component: TrophyIcon, tags: ["trophy", "award", "medal", "achievement"] },
+  {
+    name: "ThumbDownFilledIcon",
+    component: ThumbDownFilledIcon,
+    tags: ["thumb", "down", "dislike", "filled"],
+  },
   { name: "ThumbDownIcon", component: ThumbDownIcon, tags: ["thumb", "down", "dislike"] },
+  {
+    name: "ThumbUpFilledIcon",
+    component: ThumbUpFilledIcon,
+    tags: ["thumb", "up", "like", "filled"],
+  },
   { name: "ThumbUpIcon", component: ThumbUpIcon, tags: ["thumb", "up", "like"] },
   { name: "UploadCloudIcon", component: UploadCloudIcon, tags: ["upload", "cloud"] },
   { name: "UploadIcon", component: UploadIcon, tags: ["upload", "send", "file"] },
@@ -349,6 +366,7 @@ const icons: IconEntry[] = [
   { name: "WifiOffIcon", component: WifiOffIcon, tags: ["wifi", "off", "disconnected"] },
   { name: "WifiOnIcon", component: WifiOnIcon, tags: ["wifi", "on", "connected", "internet"] },
   { name: "WrenchIcon", component: WrenchIcon, tags: ["wrench", "tool", "settings", "fix"] },
+  { name: "TwitterIcon", component: TwitterIcon, tags: ["x", "twitter", "social", "login"] },
 ];
 
 function IconCard({ entry, size }: { entry: IconEntry; size: string }) {

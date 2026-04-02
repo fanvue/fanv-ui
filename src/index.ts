@@ -226,6 +226,7 @@ export { ExpandIcon } from "./components/Icons/ExpandIcon";
 export { EyeClosedIcon } from "./components/Icons/EyeClosedIcon";
 export { EyeIcon } from "./components/Icons/EyeIcon";
 export { EyeSlashIcon } from "./components/Icons/EyeSlashIcon";
+export { FacebookIcon } from "./components/Icons/FacebookIcon";
 export { FlagIcon } from "./components/Icons/FlagIcon";
 export { FlameIcon } from "./components/Icons/FlameIcon";
 export { FolderIcon } from "./components/Icons/FolderIcon";
@@ -233,6 +234,7 @@ export { ForwardIcon } from "./components/Icons/ForwardIcon";
 export { GalleryIcon } from "./components/Icons/GalleryIcon";
 export { GenderIcon } from "./components/Icons/GenderIcon";
 export { GiftIcon } from "./components/Icons/GiftIcon";
+export { GoogleIcon } from "./components/Icons/GoogleIcon";
 export { HelpIcon } from "./components/Icons/HelpIcon";
 export { HomeIcon } from "./components/Icons/HomeIcon";
 export { HourglassIcon } from "./components/Icons/HourglassIcon";
@@ -283,13 +285,16 @@ export { Support2Icon } from "./components/Icons/Support2Icon";
 export { SupportIcon } from "./components/Icons/SupportIcon";
 export { TagIcon } from "./components/Icons/TagIcon";
 export { TaskIcon } from "./components/Icons/TaskIcon";
+export { ThumbDownFilledIcon } from "./components/Icons/ThumbDownFilledIcon";
 export { ThumbDownIcon } from "./components/Icons/ThumbDownIcon";
+export { ThumbUpFilledIcon } from "./components/Icons/ThumbUpFilledIcon";
 export { ThumbUpIcon } from "./components/Icons/ThumbUpIcon";
 export { TickCircleIcon } from "./components/Icons/TickCircleIcon";
 export { TickCircleOffIcon } from "./components/Icons/TickCircleOffIcon";
 export { TickIcon } from "./components/Icons/TickIcon";
 export { TrashBinIcon } from "./components/Icons/TrashBinIcon";
 export { TrophyIcon } from "./components/Icons/TrophyIcon";
+export { TwitterIcon } from "./components/Icons/TwitterIcon";
 export type { IconProps } from "./components/Icons/types";
 export { UploadCloudIcon } from "./components/Icons/UploadCloudIcon";
 export { UploadIcon } from "./components/Icons/UploadIcon";
@@ -392,6 +397,17 @@ export type {
   SnackbarVariant,
 } from "./components/Snackbar/Snackbar";
 export { Snackbar } from "./components/Snackbar/Snackbar";
+export type {
+  StepItem,
+  StepperProps,
+} from "./components/Stepper/Stepper";
+export { Stepper } from "./components/Stepper/Stepper";
+export type {
+  StepperStepProps,
+  StepperStepSize,
+  StepperStepState,
+} from "./components/Stepper/StepperStep";
+export { StepperStep } from "./components/Stepper/StepperStep";
 export type { SwitchProps, SwitchSize } from "./components/Switch/Switch";
 export { Switch } from "./components/Switch/Switch";
 export type {

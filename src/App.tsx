@@ -106,6 +106,7 @@ import {
   ExpandIcon,
   EyeIcon,
   EyeSlashIcon,
+  FacebookIcon,
   FlagIcon,
   FlameIcon,
   FolderIcon,
@@ -113,6 +114,7 @@ import {
   GalleryIcon,
   GenderIcon,
   GiftIcon,
+  GoogleIcon,
   HelpIcon,
   HomeIcon,
   HourglassIcon,
@@ -180,6 +182,8 @@ import {
   Snackbar,
   SpinnerIcon,
   StarIcon,
+  Stepper,
+  StepperStep,
   StopIcon,
   SuccessIcon,
   SunIcon,
@@ -214,7 +218,9 @@ import {
   TaskIcon,
   TextArea,
   TextField,
+  ThumbDownFilledIcon,
   ThumbDownIcon,
+  ThumbUpFilledIcon,
   ThumbUpIcon,
   TickCircleIcon,
   TickCircleOffIcon,
@@ -228,6 +234,7 @@ import {
   TooltipTrigger,
   TrashBinIcon,
   TrophyIcon,
+  TwitterIcon,
   UploadIcon,
   UserCircleIcon,
   UserIcon,
@@ -841,12 +848,14 @@ function IconsDemo() {
     ["Expand", ExpandIcon],
     ["Eye", EyeIcon],
     ["EyeSlash", EyeSlashIcon],
+    ["Facebook", FacebookIcon],
     ["Flag", FlagIcon],
     ["Flame", FlameIcon],
     ["Folder", FolderIcon],
     ["Forward", ForwardIcon],
     ["Gallery", GalleryIcon],
     ["Gender", GenderIcon],
+    ["Google", GoogleIcon],
     ["Gift", GiftIcon],
     ["Help", HelpIcon],
     ["Home", HomeIcon],
@@ -903,7 +912,9 @@ function IconsDemo() {
     ["Tick", TickIcon],
     ["TrashBin", TrashBinIcon],
     ["Trophy", TrophyIcon],
+    ["ThumbDownFilled", ThumbDownFilledIcon],
     ["ThumbDown", ThumbDownIcon],
+    ["ThumbUpFilled", ThumbUpFilledIcon],
     ["ThumbUp", ThumbUpIcon],
     ["Upload", UploadIcon],
     ["UserCircle", UserCircleIcon],
@@ -917,6 +928,7 @@ function IconsDemo() {
     ["WifiOff", WifiOffIcon],
     ["WifiOn", WifiOnIcon],
     ["Wrench", WrenchIcon],
+    ["Twitter", TwitterIcon],
   ] as const;
 
   return (
@@ -3197,6 +3209,113 @@ function ProgressBarDemo() {
   );
 }
 
+function StepperDemo() {
+  const [activeStep, setActiveStep] = useState(1);
+
+  return (
+    <div id="stepper" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Stepper</h2>
+
+      <div className="flex max-w-2xl flex-col gap-8">
+        <div className="flex flex-col gap-2">
+          <p className="typography-semibold-body-sm text-content-secondary">
+            3 steps (interactive)
+          </p>
+          <Stepper
+            activeStep={activeStep}
+            steps={[
+              { title: "Account", description: "Create account" },
+              { title: "Profile", description: "Set up profile" },
+              { title: "Review", description: "Final review" },
+            ]}
+          />
+          <div className="mt-2 flex gap-2">
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === 0}
+              onClick={() => setActiveStep((prev) => prev - 1)}
+            >
+              Back
+            </Button>
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === 3}
+              onClick={() => setActiveStep((prev) => prev + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <p className="typography-semibold-body-sm text-content-secondary">5 steps</p>
+          <Stepper
+            activeStep={2}
+            steps={[
+              { title: "Account", description: "Create account" },
+              { title: "Profile", description: "Set up profile" },
+              { title: "Verify", description: "Verify identity" },
+              { title: "Payment", description: "Add payment" },
+              { title: "Review", description: "Final review" },
+            ]}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <p className="typography-semibold-body-sm text-content-secondary">Sizes</p>
+          <div className="flex flex-col gap-6">
+            <Stepper
+              activeStep={1}
+              size="sm"
+              steps={[
+                { title: "Small", description: "Step 1" },
+                { title: "Active", description: "Step 2" },
+                { title: "Upcoming", description: "Step 3" },
+              ]}
+            />
+            <Stepper
+              activeStep={1}
+              size="md"
+              steps={[
+                { title: "Medium", description: "Step 1" },
+                { title: "Active", description: "Step 2" },
+                { title: "Upcoming", description: "Step 3" },
+              ]}
+            />
+            <Stepper
+              activeStep={1}
+              size="lg"
+              steps={[
+                { title: "Large", description: "Step 1" },
+                { title: "Active", description: "Step 2" },
+                { title: "Upcoming", description: "Step 3" },
+              ]}
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <p className="typography-semibold-body-sm text-content-secondary">
+            StepperStep standalone
+          </p>
+          <div className="flex items-start gap-6">
+            <StepperStep state="completed" stepNumber={1} title="Completed" description="Done" />
+            <StepperStep state="active" stepNumber={2} title="Active" description="In progress" />
+            <StepperStep
+              state="upcoming"
+              stepNumber={3}
+              title="Upcoming"
+              description="Not started"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MobileStepperDemo() {
   const [activeStep, setActiveStep] = useState(0);
   const steps = 6;
@@ -3927,6 +4046,7 @@ function App() {
     { id: "infobox", label: "InfoBox" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
+    { id: "stepper", label: "Stepper" },
     { id: "mobilestepper", label: "Mobile Stepper" },
     { id: "pagination", label: "Pagination" },
     { id: "passwordfield", label: "Password Field" },
@@ -4137,6 +4257,9 @@ function App() {
 
             {/* ProgressBar */}
             <ProgressBarDemo />
+
+            {/* Stepper */}
+            <StepperDemo />
 
             {/* MobileStepper */}
             <MobileStepperDemo />

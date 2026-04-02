@@ -189,10 +189,19 @@ const BASE_LAYER = `@layer base {
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
+  input:autofill,
+  input:autofill:hover,
+  input:autofill:focus,
   textarea:-webkit-autofill,
   textarea:-webkit-autofill:hover,
-  textarea:-webkit-autofill:focus {
+  textarea:-webkit-autofill:focus,
+  textarea:autofill,
+  textarea:autofill:hover,
+  textarea:autofill:focus {
     -webkit-text-fill-color: var(--color-content-primary);
+    -webkit-box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
+    box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
+    background-clip: padding-box !important;
     transition: background-color 9999s ease-in-out 0s;
   }
 }`;

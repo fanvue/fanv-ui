@@ -1,5 +1,42 @@
 # Changelog
 
+## [2.5.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.0...ui-v2.5.1) (2026-04-01)
+
+
+### Bug Fixes
+
+* Firefox autofill background and input border-radius ([#405](https://github.com/fanvue/fanv-ui/issues/405)) ([9bb33e3](https://github.com/fanvue/fanv-ui/commit/9bb33e37760ef4c85d4ef7162dc9b35d818e879d))
+* Firefox autofill background and input layout ([9bb33e3](https://github.com/fanvue/fanv-ui/commit/9bb33e37760ef4c85d4ef7162dc9b35d818e879d))
+
+## [2.5.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.4.0...ui-v2.5.0) (2026-04-01)
+
+
+### Features
+
+* replace default breakpoints with custom breakpoints ([#401](https://github.com/fanvue/fanv-ui/issues/401)) ([1bf7d56](https://github.com/fanvue/fanv-ui/commit/1bf7d56233d4e321b394870a9d4f19e9cb04fe8b))
+* **stepper:** add stepper components ([#404](https://github.com/fanvue/fanv-ui/issues/404)) ([793db91](https://github.com/fanvue/fanv-ui/commit/793db919a99e8fbfe4f11ec35fde843952a81175))
+* Thumbs Up and Down Filled icons ([#400](https://github.com/fanvue/fanv-ui/issues/400)) ([ebd90cf](https://github.com/fanvue/fanv-ui/commit/ebd90cfa0d9247599abff929585055f83fb5b6fb))
+
+## [2.4.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.3.0...ui-v2.4.0) (2026-03-26)
+
+
+### Features
+
+* add FacebookIcon, GoogleIcon, TwitterIcon ([#398](https://github.com/fanvue/fanv-ui/issues/398)) ([b2f376f](https://github.com/fanvue/fanv-ui/commit/b2f376f953a0eb267a65aec1ae7e4e42eda08466))
+* add FacebookIcon, GoogleIcon, TwitterIcon social icons ([b2f376f](https://github.com/fanvue/fanv-ui/commit/b2f376f953a0eb267a65aec1ae7e4e42eda08466))
+
+## [2.3.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.2.0...ui-v2.3.0) (2026-03-26)
+
+
+### Features
+
+* **ENG-9169:** add initial EmptyState component ([#394](https://github.com/fanvue/fanv-ui/issues/394)) ([e71ca3a](https://github.com/fanvue/fanv-ui/commit/e71ca3ae1f9ba5b8312ad9a95fc0ca25bb8c20a3))
+
+
+### Bug Fixes
+
+* update logo wordmark SVG and spacing ([#396](https://github.com/fanvue/fanv-ui/issues/396)) ([4fafbec](https://github.com/fanvue/fanv-ui/commit/4fafbecc72b8349b4b35228d0fbffc2bfac8484e))
+
 ## [2.2.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.3...ui-v2.2.0) (2026-03-25)
 
 
