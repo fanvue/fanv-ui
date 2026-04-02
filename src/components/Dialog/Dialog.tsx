@@ -44,7 +44,7 @@ export const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 fixed inset-0 bg-bg-overlay data-[state=closed]:animate-out data-[state=open]:animate-in",
+      "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 fixed inset-0 bg-background-overlay data-[state=closed]:animate-out data-[state=open]:animate-in",
       className,
     )}
     style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
@@ -121,7 +121,7 @@ export const DialogContent = React.forwardRef<
       }}
       className={cn(
         // Base
-        "fixed flex flex-col overflow-hidden bg-bg-primary shadow-lg focus:outline-none dark:bg-surface-primary",
+        "fixed flex flex-col overflow-hidden bg-background-primary shadow-lg focus:outline-none dark:bg-surface-primary",
         // Mobile: bottom sheet
         "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-lg",
         // Animation (shared)

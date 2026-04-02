@@ -25,7 +25,7 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
           ? "var(--primitives-color-gray-white)"
           : "var(--color-brand-primary-default)",
       iconInner: "var(--primitives-color-gray-black)",
-      textClass: "text-content-on-brand-inverted",
+      textClass: "text-content-always-white",
     };
   }
 
@@ -39,7 +39,7 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
         variant === "icon"
           ? "var(--primitives-color-gray-white)"
           : "var(--primitives-color-gray-black)",
-      textClass: "text-content-on-brand",
+      textClass: "text-content-always-black",
     };
   }
 

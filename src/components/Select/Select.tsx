@@ -224,7 +224,7 @@ export const SelectContent = React.forwardRef<
         collisionPadding={collisionPadding}
         style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
         className={cn(
-          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-bg-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-background-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
           "data-[state=closed]:animate-out data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",

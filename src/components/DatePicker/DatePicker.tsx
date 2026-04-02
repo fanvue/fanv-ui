@@ -78,7 +78,7 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
         "disabled:cursor-not-allowed disabled:opacity-50",
         modifiers.today && !modifiers.selected && "border border-brand-primary-default",
         modifiers.selected && !modifiers.range_middle
-          ? "bg-brand-primary-default text-content-on-brand hover:bg-brand-primary-default"
+          ? "bg-brand-primary-default text-content-always-black hover:bg-brand-primary-default"
           : "text-content-primary",
         modifiers.range_middle && "rounded-none bg-transparent",
         modifiers.outside && "pointer-events-none opacity-50",
@@ -178,7 +178,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       <div
         ref={ref}
         className={cn(
-          "inline-flex flex-col rounded-md border border-neutral-alphas-200 bg-bg-primary shadow-blur-menu backdrop-blur-sm",
+          "inline-flex flex-col rounded-md border border-neutral-alphas-200 bg-background-primary shadow-blur-menu backdrop-blur-sm",
           className,
         )}
       >

@@ -518,7 +518,7 @@ function IconGallery() {
             fontSize: 14,
             borderRadius: 6,
             border: "1px solid var(--color-neutral-alphas-200)",
-            backgroundColor: "var(--color-surface-inputs)",
+            backgroundColor: "var(--color-inputs-inputs-primary)",
             color: "var(--color-content-primary)",
             outline: "none",
           }}

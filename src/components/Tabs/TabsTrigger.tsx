@@ -26,7 +26,7 @@ export const TabsTrigger = React.forwardRef<
       "data-disabled:pointer-events-none",
       "data-disabled:data-[state=active]:text-content-tertiary",
       "data-disabled:data-[state=inactive]:text-neutral-alphas-300",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary",
       className,
     )}
     {...props}

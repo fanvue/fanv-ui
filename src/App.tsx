@@ -2946,7 +2946,7 @@ function TableDemo() {
           <h3 className="typography-semibold-body-lg mb-3 text-content-primary">
             Pagination — desktop
           </h3>
-          <div className="max-w-[628px] rounded-md bg-bg-primary py-4">
+          <div className="max-w-[628px] rounded-md bg-background-primary py-4">
             <TablePagination
               leadingSlot={<TableRowsPerPageSelect id="app-table-pag-desk" />}
               paginationSlot={
@@ -2968,7 +2968,7 @@ function TableDemo() {
           </h3>
           <TablePagination
             layout="mobile"
-            className="max-w-sm rounded-md bg-bg-primary py-4"
+            className="max-w-sm rounded-md bg-background-primary py-4"
             leadingSlot={<TableRowsPerPageSelect id="app-table-pag-mob" />}
             paginationSlot={
               <Pagination
@@ -3759,7 +3759,7 @@ function BottomNavigationDemo() {
                 max={99}
                 variant="default"
                 size="24"
-                className="ring-2 ring-bg-primary"
+                className="ring-2 ring-background-primary"
               />
             }
           />
@@ -3774,7 +3774,7 @@ function BottomNavigationDemo() {
                 max={99}
                 variant="default"
                 size="24"
-                className="ring-2 ring-bg-primary"
+                className="ring-2 ring-background-primary"
               />
             }
           />
@@ -4072,7 +4072,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-bg-primary text-content-primary">
+    <div className="min-h-screen bg-background-primary text-content-primary">
       <ToastProvider>
         {/* Dark / Light toggle and TOC */}
         <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-alphas-200 border-b bg-inherit px-4 py-3">

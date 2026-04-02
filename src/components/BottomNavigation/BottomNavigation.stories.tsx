@@ -47,7 +47,7 @@ export const Default: Story = {
               max={99}
               variant="default"
               size="24"
-              className="ring-2 ring-bg-primary"
+              className="ring-2 ring-background-primary"
             />
           }
         />
@@ -62,7 +62,7 @@ export const Default: Story = {
               max={99}
               variant="default"
               size="24"
-              className="ring-2 ring-bg-primary"
+              className="ring-2 ring-background-primary"
             />
           }
         />
@@ -93,7 +93,7 @@ export const WithBadges: Story = {
               max={99}
               variant="alert"
               size="24"
-              className="ring-2 ring-bg-primary"
+              className="ring-2 ring-background-primary"
             />
           }
         />

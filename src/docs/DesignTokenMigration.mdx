@@ -12,16 +12,16 @@ This release restructures the entire colour token system. All CSS custom propert
 | `--color-foreground-secondary` | `--color-content-secondary` |
 | `--color-foreground-tertiary` | `--color-content-tertiary` |
 | `--color-foreground-inverse` | `--color-content-primary-inverted` |
-| `--color-foreground-onaccent` | `--color-content-on-brand` |
-| `--color-foreground-onaccentinverse` | `--color-content-on-brand-inverted` |
-| `--color-surface-page` | `--color-bg-primary` |
+| `--color-foreground-onaccent` | `--color-content-always-black` |
+| `--color-foreground-onaccentinverse` | `--color-content-always-white` |
+| `--color-surface-page` | `--color-background-primary` |
 | `--color-surface-container` | `--color-surface-primary` |
 | `--color-surface-containersubtle` | `--color-surface-primary` |
 | `--color-surface-containerraised` | `--color-surface-secondary` |
 | `--color-surface-modal` | `--color-surface-secondary` |
-| `--color-surface-input` | `--color-surface-inputs` |
+| `--color-surface-input` | `--color-inputs-inputs-primary` |
 | `--color-surface-pageinverse` | `--color-surface-primary-inverted` |
-| `--color-surface-backdrop` | `--color-bg-overlay` |
+| `--color-surface-backdrop` | `--color-background-overlay` |
 | `--color-surface-behindpage` | Removed |
 | `--color-surface-pageinversesoft` | Removed |
 | `--color-neutral-solid` | Removed — use `--color-buttons-primary` |
@@ -77,10 +77,10 @@ The `border` group is new. Old patterns that used neutral or inline border colou
 
 | Token | Purpose |
 |---|---|
-| `--color-content-on-brand` | Text on brand-coloured backgrounds (green, purple) |
-| `--color-content-on-brand-inverted` | Text on dark/inverted backgrounds |
-| `--color-bg-gradient-start` | Start colour for page background gradients |
-| `--color-bg-gradient-end` | End colour for page background gradients |
+| `--color-content-always-black` | Text on brand-coloured backgrounds (green, purple) |
+| `--color-content-always-white` | Text on dark/inverted backgrounds |
+| `--color-background-gradient-start` | Start colour for page background gradients |
+| `--color-background-gradient-end` | End colour for page background gradients |
 | `--color-icons-primary-inverted` | Icon colour on dark/inverted backgrounds |
 
 ## Shadow changes

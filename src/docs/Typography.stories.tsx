@@ -278,7 +278,7 @@ export const Scale: Story = {
             fontFamily: "monospace",
             color: "var(--color-content-tertiary)",
             padding: "8px 12px",
-            backgroundColor: "var(--color-surface-inputs)",
+            backgroundColor: "var(--color-inputs-inputs-primary)",
             borderRadius: 6,
           }}
         >

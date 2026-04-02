@@ -268,7 +268,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
             ref={stopButtonRef}
             type="button"
             onClick={handleStopClick}
-            className="mt-1 flex size-11 items-center justify-center rounded-full bg-error-content text-content-on-brand-inverted transition-colors hover:bg-error-content/80 focus:shadow-focus-ring focus-visible:outline-none"
+            className="mt-1 flex size-11 items-center justify-center rounded-full bg-error-content text-content-always-white transition-colors hover:bg-error-content/80 focus:shadow-focus-ring focus-visible:outline-none"
             aria-label={stopButtonAriaLabel}
           >
             <StopIcon className="size-5" />

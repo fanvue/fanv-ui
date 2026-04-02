@@ -68,7 +68,7 @@ export const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(
         ref={ref}
         aria-hidden="true"
         className={cn(
-          "block bg-[color-mix(in_srgb,var(--color-content-primary)_11%,var(--color-bg-primary))]",
+          "block bg-[color-mix(in_srgb,var(--color-content-primary)_11%,var(--color-background-primary))]",
           VARIANT_CLASSES[variant],
           variant === "text" && !height && !hasChildren && "h-[1em]",
           animation === "pulse" && "animate-pulse",

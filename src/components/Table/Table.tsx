@@ -49,7 +49,7 @@ export const TableCard = React.forwardRef<HTMLDivElement, TableCardProps>(
         <div
           ref={ref}
           className={cn(
-            "isolate flex flex-col gap-4 overflow-hidden rounded-md bg-bg-primary pb-4",
+            "isolate flex flex-col gap-4 overflow-hidden rounded-md bg-background-primary pb-4",
             className,
           )}
           {...props}
@@ -71,7 +71,7 @@ export const TableToolbar = React.forwardRef<HTMLDivElement, TableToolbarProps>(
       <div
         ref={ref}
         className={cn(
-          "flex flex-wrap items-center gap-4 rounded-t-md bg-bg-primary px-6",
+          "flex flex-wrap items-center gap-4 rounded-t-md bg-background-primary px-6",
           className,
         )}
         {...props}

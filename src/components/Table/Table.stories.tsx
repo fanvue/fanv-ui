@@ -365,7 +365,7 @@ export const PaginationDesktop: Story = {
   render: function PaginationDesktopStory() {
     const [page, setPage] = React.useState(2);
     return (
-      <div className="w-full max-w-[628px] rounded-md bg-bg-primary py-4">
+      <div className="w-full max-w-[628px] rounded-md bg-background-primary py-4">
         <TablePagination
           leadingSlot={<TableRowsPerPageSelect id="desk-rows" />}
           paginationSlot={
@@ -391,7 +391,7 @@ export const PaginationMobile: Story = {
     return (
       <TablePagination
         layout="mobile"
-        className="max-w-sm rounded-md bg-bg-primary py-4"
+        className="max-w-sm rounded-md bg-background-primary py-4"
         leadingSlot={<TableRowsPerPageSelect id="mob-rows" />}
         paginationSlot={
           <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />

@@ -1,612 +1,4 @@
 {
-  "gradient": {
-    "gradient": {
-      "fadeDown": {
-        "description": "",
-        "type": "custom-gradient",
-        "value": {
-          "gradientType": "linear",
-          "rotation": 180,
-          "stops": [
-            {
-              "position": 0,
-              "color": "#ffffff00"
-            },
-            {
-              "position": 0.73,
-              "color": "#ffffffff"
-            },
-            {
-              "position": 1,
-              "color": "#ffffffff"
-            }
-          ]
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:137b01225170df095470304201f36bac49c762be,",
-            "exportKey": "gradient"
-          }
-        }
-      },
-      "fadeUp": {
-        "description": "",
-        "type": "custom-gradient",
-        "value": {
-          "gradientType": "linear",
-          "rotation": 180,
-          "stops": [
-            {
-              "position": 0,
-              "color": "#ffffffff"
-            },
-            {
-              "position": 0.26,
-              "color": "#ffffffff"
-            },
-            {
-              "position": 1,
-              "color": "#ffffff00"
-            }
-          ]
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:5aa17fa91582fb5764722771075c659d977b55bc,",
-            "exportKey": "gradient"
-          }
-        }
-      },
-      "fadeLeft": {
-        "description": "",
-        "type": "custom-gradient",
-        "value": {
-          "gradientType": "linear",
-          "rotation": 119.65697010883645,
-          "stops": [
-            {
-              "position": 0,
-              "color": "#ffffffff"
-            },
-            {
-              "position": 1,
-              "color": "#ffffff00"
-            }
-          ]
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:159b13a29774e748f4841ada649d0943664536b9,",
-            "exportKey": "gradient"
-          }
-        }
-      },
-      "fadeRight": {
-        "description": "",
-        "type": "custom-gradient",
-        "value": {
-          "gradientType": "linear",
-          "rotation": 119.65697010883645,
-          "stops": [
-            {
-              "position": 0,
-              "color": "#ffffff00"
-            },
-            {
-              "position": 1,
-              "color": "#ffffffff"
-            }
-          ]
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:da77cf25e67a42388407d9fe5c7fbd42f5c172b3,",
-            "exportKey": "gradient"
-          }
-        }
-      },
-      "loader": {
-        "description": "",
-        "type": "custom-gradient",
-        "value": {
-          "gradientType": "angular",
-          "rotation": 89.99999999999994,
-          "stops": [
-            {
-              "position": 0,
-              "color": "#f7f7f7ff"
-            },
-            {
-              "position": 0,
-              "color": "#f7f7f7ff"
-            },
-            {
-              "position": 1,
-              "color": "#151515ff"
-            }
-          ]
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:8da5abf566b22e6d18fd751154eb9c01bb6ba854,",
-            "exportKey": "gradient"
-          }
-        }
-      },
-      "loaderContrast": {
-        "description": "",
-        "type": "custom-gradient",
-        "value": {
-          "gradientType": "angular",
-          "rotation": 89.99999999999994,
-          "stops": [
-            {
-              "position": 0,
-              "color": "#ffffff00"
-            },
-            {
-              "position": 0,
-              "color": "#ffffff00"
-            },
-            {
-              "position": 1,
-              "color": "#ffffffff"
-            }
-          ]
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:e083484194274febe26c0b0aad4848ed50820f1f,",
-            "exportKey": "gradient"
-          }
-        }
-      },
-      "platinumFill": {
-        "description": "",
-        "type": "custom-gradient",
-        "value": {
-          "gradientType": "linear",
-          "rotation": 322.47841041382446,
-          "stops": [
-            {
-              "position": 0,
-              "color": "#a8a8a6ff"
-            },
-            {
-              "position": 0.39,
-              "color": "#696969ff"
-            },
-            {
-              "position": 0.67,
-              "color": "#f9f8f6ff"
-            },
-            {
-              "position": 0.89,
-              "color": "#d4d4d4ff"
-            },
-            {
-              "position": 1,
-              "color": "#7f7f7fff"
-            }
-          ]
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:d71b836646417b17433e6b0e55e4071de2186b7b,",
-            "exportKey": "gradient"
-          }
-        }
-      },
-      "platinumOutline": {
-        "description": "",
-        "type": "custom-gradient",
-        "value": {
-          "gradientType": "linear",
-          "rotation": 31.235314195562637,
-          "stops": [
-            {
-              "position": 0,
-              "color": "#504f54ff"
-            },
-            {
-              "position": 0.2,
-              "color": "#b1b1b1ff"
-            },
-            {
-              "position": 0.39,
-              "color": "#13181cff"
-            },
-            {
-              "position": 0.59,
-              "color": "#c6c6c8ff"
-            },
-            {
-              "position": 0.69,
-              "color": "#ffffffff"
-            },
-            {
-              "position": 0.81,
-              "color": "#0c0f14ff"
-            },
-            {
-              "position": 1,
-              "color": "#696a6eff"
-            }
-          ]
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:f6c2858adbca4eef927d0ca1dd7c80b41b6ad589,",
-            "exportKey": "gradient"
-          }
-        }
-      }
-    },
-    "bg": {
-      "gradient": {
-        "description": "Background gradient. Stops bound to Color/bg/gradient-start and Color/bg/gradient-end variables for theme awareness.",
-        "type": "custom-gradient",
-        "value": {
-          "gradientType": "linear",
-          "rotation": 180,
-          "stops": [
-            {
-              "position": 0,
-              "color": "#fcfdfaff"
-            },
-            {
-              "position": 1,
-              "color": "#f2f5efff"
-            }
-          ]
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:2d100573e578ea8abd6b8bfe23243429efb4b579,",
-            "exportKey": "gradient"
-          }
-        }
-      }
-    }
-  },
-  "font": {
-    "regular": {
-      "bodyLg": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 16,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 400,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 24,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 8,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:553c550ac00240cff28325d2d1bc6e1a413f92ed,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "bodyMd": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 14,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 400,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 18,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:016533ed98de0431b70e341242767ad62ac78b7c,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "bodySm": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 12,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 400,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 16,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:0f1e8b035890ba34393484114540f5db76c2b473,",
-            "exportKey": "font"
-          }
-        }
-      }
-    },
-    "semibold": {
-      "bodyLg": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 16,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 600,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 24,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 8,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:bb989105f29b8d79a6d513834ba3b01b6e5c36db,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "bodyMd": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 14,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 600,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 18,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:e14d12d132e478b4d2df7167a5e0d4960e03b6b2,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "bodySm": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 12,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 600,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 16,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:d610f9a4dd57aa0deda927f4b59aebf2c149a06d,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "linkLg": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 16,
-          "textDecoration": "underline",
-          "fontFamily": "Inter",
-          "fontWeight": 600,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 22,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:dff6bdc2472dc4f06591d59043da93849e4baf59,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "linkMd": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 14,
-          "textDecoration": "underline",
-          "fontFamily": "Inter",
-          "fontWeight": 600,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 18,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:28755d77f655b926d220489eb4d85bc3d988478f,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "linkXs": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 12,
-          "textDecoration": "underline",
-          "fontFamily": "Inter",
-          "fontWeight": 600,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 16,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:a5855c5f44739241226946aa56f0a03aff3db5c7,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "badge": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 9,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 600,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0.9,
-          "lineHeight": 10.8,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "uppercase"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:03d2567d0d26f54a4d06f4e1d37226fe677fc017,",
-            "exportKey": "font"
-          }
-        }
-      }
-    },
-    "bold": {
-      "headingXs": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 20,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 700,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 24,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:6fb6628492a250fb4602217c3cdeeb91e6de8cfc,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "headingSm": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 24,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 700,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 32,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:5e48bb11defb815afb08ff93f341b782c530aef7,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "headingMd": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 32,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 700,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 35.2,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:690e8dbf9a570338c070af3765312c17c2c1d29a,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "headingLg": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 40,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 700,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 44,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:41c985274cea9317c1ae5b70a3f983208bc9f589,",
-            "exportKey": "font"
-          }
-        }
-      },
-      "headingXl": {
-        "type": "custom-fontStyle",
-        "value": {
-          "fontSize": 48,
-          "textDecoration": "none",
-          "fontFamily": "Inter",
-          "fontWeight": 700,
-          "fontStyle": "normal",
-          "fontStretch": "normal",
-          "letterSpacing": 0,
-          "lineHeight": 52.8,
-          "paragraphIndent": 0,
-          "paragraphSpacing": 0,
-          "textCase": "none"
-        },
-        "extensions": {
-          "org.lukasoppermann.figmaDesignTokens": {
-            "styleId": "S:8fa8a43559b2f5f1638b68ef45408a9055439add,",
-            "exportKey": "font"
-          }
-        }
-      }
-    }
-  },
   "effect": {
     "focusRing": {
       "0": {
@@ -625,7 +17,7 @@
         "value": {
           "shadowType": "dropShadow",
           "radius": 0,
-          "color": "#ffffffff",
+          "color": "#fafafaff",
           "offsetX": 0,
           "offsetY": 0,
           "spread": 2
@@ -1030,7 +422,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["TEXT_FILL"],
                 "variableId": "VariableID:56:8110",
                 "exportKey": "variables"
               }
@@ -1045,7 +437,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["TEXT_FILL"],
                 "variableId": "VariableID:56:8111",
                 "exportKey": "variables"
               }
@@ -1060,7 +452,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["TEXT_FILL"],
                 "variableId": "VariableID:56:8112",
                 "exportKey": "variables"
               }
@@ -1075,28 +467,14 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["TEXT_FILL"],
                 "variableId": "VariableID:13939:49818",
                 "exportKey": "variables"
               }
             }
           },
-          "onBrand": {
-            "description": "Text on brand-coloured backgrounds",
-            "type": "color",
-            "value": "{primitives.light.color.gray.black}",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Light",
-                "modeId": "4:0",
-                "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
-                "exportKey": "variables"
-              }
-            }
-          },
-          "onBrandInverted": {
-            "description": "Text on dark/inverted backgrounds",
+          "alwaysWhite": {
+            "description": "",
             "type": "color",
             "value": "{primitives.light.color.gray.white}",
             "extensions": {
@@ -1104,7 +482,23 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["TEXT_FILL"],
+                "variableId": "VariableID:16334:67027",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "alwaysBlack": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.light.color.gray.black}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["TEXT_FILL"],
+                "variableId": "VariableID:16334:67028",
                 "exportKey": "variables"
               }
             }
@@ -1575,7 +969,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:13938:45764",
                 "exportKey": "variables"
               }
@@ -1590,7 +984,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:13938:45765",
                 "exportKey": "variables"
               }
@@ -1605,23 +999,8 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:13938:45767",
-                "exportKey": "variables"
-              }
-            }
-          },
-          "inputs": {
-            "description": "",
-            "type": "color",
-            "value": "{primitives.light.color.gray.75}",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Light",
-                "modeId": "4:0",
-                "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
-                "variableId": "VariableID:13939:49903",
                 "exportKey": "variables"
               }
             }
@@ -1635,23 +1014,8 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:15630:101328",
-                "exportKey": "variables"
-              }
-            }
-          },
-          "inputsOff": {
-            "description": "",
-            "type": "color",
-            "value": "{primitives.light.color.gray.white}",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Light",
-                "modeId": "4:0",
-                "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
-                "variableId": "VariableID:15630:101329",
                 "exportKey": "variables"
               }
             }
@@ -1665,7 +1029,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:15630:101330",
                 "exportKey": "variables"
               }
@@ -1680,8 +1044,87 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:15630:101331",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "status": {
+            "active": {
+              "description": "",
+              "type": "color",
+              "value": "{semantic.light.color.brand.primary.default}",
+              "extensions": {
+                "org.lukasoppermann.figmaDesignTokens": {
+                  "mode": "Light",
+                  "modeId": "4:0",
+                  "collection": "Semantic",
+                  "scopes": ["ALL_SCOPES"],
+                  "variableId": "VariableID:16334:69101",
+                  "exportKey": "variables"
+                }
+              }
+            },
+            "inactive": {
+              "description": "",
+              "type": "color",
+              "value": "{semantic.light.color.content.secondary}",
+              "extensions": {
+                "org.lukasoppermann.figmaDesignTokens": {
+                  "mode": "Light",
+                  "modeId": "4:0",
+                  "collection": "Semantic",
+                  "scopes": ["ALL_SCOPES"],
+                  "variableId": "VariableID:16334:69102",
+                  "exportKey": "variables"
+                }
+              }
+            }
+          }
+        },
+        "inputs": {
+          "inputsPrimary": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.light.color.gray.100}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
+                "variableId": "VariableID:13939:49903",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "inputsOff": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.light.color.gray.white}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
+                "variableId": "VariableID:15630:101329",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "inputsElevated": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.light.color.gray.150}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["ALL_SCOPES"],
+                "variableId": "VariableID:16633:67068",
                 "exportKey": "variables"
               }
             }
@@ -1704,7 +1147,7 @@
             }
           }
         },
-        "bg": {
+        "background": {
           "primary": {
             "description": "",
             "type": "color",
@@ -1714,7 +1157,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:15630:40638",
                 "exportKey": "variables"
               }
@@ -1729,7 +1172,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:15630:40639",
                 "exportKey": "variables"
               }
@@ -1745,7 +1188,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:15630:40640",
                 "exportKey": "variables"
               }
@@ -1761,7 +1204,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:15630:40641",
                 "exportKey": "variables"
               }
@@ -1778,7 +1221,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15630:104388",
                 "exportKey": "variables"
               }
@@ -1793,7 +1236,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15630:104389",
                 "exportKey": "variables"
               }
@@ -1808,8 +1251,23 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15630:104390",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "background": {
+            "description": "",
+            "type": "color",
+            "value": "{semantic.light.color.surface.primary}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["ALL_SCOPES"],
+                "variableId": "VariableID:16334:67033",
                 "exportKey": "variables"
               }
             }
@@ -1917,7 +1375,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15631:105014",
                 "exportKey": "variables"
               }
@@ -1932,7 +1390,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15631:105015",
                 "exportKey": "variables"
               }
@@ -1947,7 +1405,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15631:105016",
                 "exportKey": "variables"
               }
@@ -1962,7 +1420,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15631:105017",
                 "exportKey": "variables"
               }
@@ -1977,7 +1435,7 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15631:105019",
                 "exportKey": "variables"
               }
@@ -1992,8 +1450,38 @@
                 "mode": "Light",
                 "modeId": "4:0",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15707:69270",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "alwaysWhite": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.light.color.gray.white}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
+                "variableId": "VariableID:16446:61632",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "alwaysBlack": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.light.color.gray.black}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
+                "variableId": "VariableID:16446:61633",
                 "exportKey": "variables"
               }
             }
@@ -2124,7 +1612,16 @@
               "mode": "Light",
               "modeId": "4:0",
               "collection": "Semantic",
-              "scopes": ["ALL_SCOPES"],
+              "scopes": [
+                "TEXT_CONTENT",
+                "WIDTH_HEIGHT",
+                "GAP",
+                "STROKE_FLOAT",
+                "EFFECT_FLOAT",
+                "OPACITY",
+                "PARAGRAPH_SPACING",
+                "FONT_VARIATIONS"
+              ],
               "variableId": "VariableID:15633:105921",
               "exportKey": "variables"
             }
@@ -2326,7 +1823,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["TEXT_FILL"],
                 "variableId": "VariableID:56:8110",
                 "exportKey": "variables"
               }
@@ -2341,7 +1838,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["TEXT_FILL"],
                 "variableId": "VariableID:56:8111",
                 "exportKey": "variables"
               }
@@ -2356,7 +1853,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["TEXT_FILL"],
                 "variableId": "VariableID:56:8112",
                 "exportKey": "variables"
               }
@@ -2371,28 +1868,14 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["TEXT_FILL"],
                 "variableId": "VariableID:13939:49818",
                 "exportKey": "variables"
               }
             }
           },
-          "onBrand": {
-            "description": "Text on brand-coloured backgrounds",
-            "type": "color",
-            "value": "{primitives.dark.color.gray.black}",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Dark",
-                "modeId": "4:1",
-                "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
-                "exportKey": "variables"
-              }
-            }
-          },
-          "onBrandInverted": {
-            "description": "Text on dark/inverted backgrounds",
+          "alwaysWhite": {
+            "description": "",
             "type": "color",
             "value": "{primitives.dark.color.gray.white}",
             "extensions": {
@@ -2400,7 +1883,23 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["TEXT_FILL"],
+                "variableId": "VariableID:16334:67027",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "alwaysBlack": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.dark.color.gray.black}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["TEXT_FILL"],
+                "variableId": "VariableID:16334:67028",
                 "exportKey": "variables"
               }
             }
@@ -2871,7 +2370,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:13938:45764",
                 "exportKey": "variables"
               }
@@ -2886,7 +2385,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:13938:45765",
                 "exportKey": "variables"
               }
@@ -2901,23 +2400,8 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:13938:45767",
-                "exportKey": "variables"
-              }
-            }
-          },
-          "inputs": {
-            "description": "",
-            "type": "color",
-            "value": "{primitives.dark.color.gray.750}",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Dark",
-                "modeId": "4:1",
-                "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
-                "variableId": "VariableID:13939:49903",
                 "exportKey": "variables"
               }
             }
@@ -2931,23 +2415,8 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:15630:101328",
-                "exportKey": "variables"
-              }
-            }
-          },
-          "inputsOff": {
-            "description": "",
-            "type": "color",
-            "value": "{primitives.dark.color.gray.850}",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Dark",
-                "modeId": "4:1",
-                "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
-                "variableId": "VariableID:15630:101329",
                 "exportKey": "variables"
               }
             }
@@ -2961,7 +2430,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:15630:101330",
                 "exportKey": "variables"
               }
@@ -2976,8 +2445,87 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
                 "variableId": "VariableID:15630:101331",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "status": {
+            "active": {
+              "description": "",
+              "type": "color",
+              "value": "{semantic.dark.color.brand.primary.default}",
+              "extensions": {
+                "org.lukasoppermann.figmaDesignTokens": {
+                  "mode": "Dark",
+                  "modeId": "4:1",
+                  "collection": "Semantic",
+                  "scopes": ["ALL_SCOPES"],
+                  "variableId": "VariableID:16334:69101",
+                  "exportKey": "variables"
+                }
+              }
+            },
+            "inactive": {
+              "description": "",
+              "type": "color",
+              "value": "{semantic.dark.color.content.secondary}",
+              "extensions": {
+                "org.lukasoppermann.figmaDesignTokens": {
+                  "mode": "Dark",
+                  "modeId": "4:1",
+                  "collection": "Semantic",
+                  "scopes": ["ALL_SCOPES"],
+                  "variableId": "VariableID:16334:69102",
+                  "exportKey": "variables"
+                }
+              }
+            }
+          }
+        },
+        "inputs": {
+          "inputsPrimary": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.dark.color.gray.900}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
+                "variableId": "VariableID:13939:49903",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "inputsOff": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.dark.color.gray.850}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "EFFECT_COLOR"],
+                "variableId": "VariableID:15630:101329",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "inputsElevated": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.dark.color.gray.700}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["ALL_SCOPES"],
+                "variableId": "VariableID:16633:67068",
                 "exportKey": "variables"
               }
             }
@@ -3000,7 +2548,7 @@
             }
           }
         },
-        "bg": {
+        "background": {
           "primary": {
             "description": "",
             "type": "color",
@@ -3010,7 +2558,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:15630:40638",
                 "exportKey": "variables"
               }
@@ -3025,7 +2573,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:15630:40639",
                 "exportKey": "variables"
               }
@@ -3040,7 +2588,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:15630:40640",
                 "exportKey": "variables"
               }
@@ -3055,7 +2603,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:15630:40641",
                 "exportKey": "variables"
               }
@@ -3072,7 +2620,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15630:104388",
                 "exportKey": "variables"
               }
@@ -3087,7 +2635,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15630:104389",
                 "exportKey": "variables"
               }
@@ -3102,8 +2650,23 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15630:104390",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "background": {
+            "description": "",
+            "type": "color",
+            "value": "{semantic.dark.color.surface.primary}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["ALL_SCOPES"],
+                "variableId": "VariableID:16334:67033",
                 "exportKey": "variables"
               }
             }
@@ -3211,7 +2774,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15631:105014",
                 "exportKey": "variables"
               }
@@ -3226,7 +2789,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15631:105015",
                 "exportKey": "variables"
               }
@@ -3241,7 +2804,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15631:105016",
                 "exportKey": "variables"
               }
@@ -3256,7 +2819,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15631:105017",
                 "exportKey": "variables"
               }
@@ -3271,7 +2834,7 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15631:105019",
                 "exportKey": "variables"
               }
@@ -3286,8 +2849,38 @@
                 "mode": "Dark",
                 "modeId": "4:1",
                 "collection": "Semantic",
-                "scopes": ["ALL_SCOPES"],
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
                 "variableId": "VariableID:15707:69270",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "alwaysWhite": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.dark.color.gray.white}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
+                "variableId": "VariableID:16446:61632",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "alwaysBlack": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.dark.color.gray.black}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
+                "variableId": "VariableID:16446:61633",
                 "exportKey": "variables"
               }
             }
@@ -3418,7 +3011,16 @@
               "mode": "Dark",
               "modeId": "4:1",
               "collection": "Semantic",
-              "scopes": ["ALL_SCOPES"],
+              "scopes": [
+                "TEXT_CONTENT",
+                "WIDTH_HEIGHT",
+                "GAP",
+                "STROKE_FLOAT",
+                "EFFECT_FLOAT",
+                "OPACITY",
+                "PARAGRAPH_SPACING",
+                "FONT_VARIATIONS"
+              ],
               "variableId": "VariableID:15633:105921",
               "exportKey": "variables"
             }
@@ -3897,6 +3499,21 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "1000": {
+            "type": "color",
+            "value": "#0a210eff",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "13252:3",
+                "collection": "Primitives",
+                "scopes": ["ALL_SCOPES"],
+                "variableId": "VariableID:16559:11106",
+                "exportKey": "variables"
+              }
+            }
           }
         },
         "pink": {
@@ -5559,6 +5176,20 @@
               "collection": "Primitives",
               "scopes": ["CORNER_RADIUS"],
               "variableId": "VariableID:15159:74091",
+              "exportKey": "variables"
+            }
+          }
+        },
+        "rounded2xs": {
+          "type": "dimension",
+          "value": 4,
+          "extensions": {
+            "org.lukasoppermann.figmaDesignTokens": {
+              "mode": "Light",
+              "modeId": "13252:3",
+              "collection": "Primitives",
+              "scopes": ["CORNER_RADIUS"],
+              "variableId": "VariableID:16420:35379",
               "exportKey": "variables"
             }
           }
@@ -6344,6 +5975,21 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "1000": {
+            "type": "color",
+            "value": "#0a210eff",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "14104:0",
+                "collection": "Primitives",
+                "scopes": ["ALL_SCOPES"],
+                "variableId": "VariableID:16559:11106",
+                "exportKey": "variables"
+              }
+            }
           }
         },
         "pink": {
@@ -8009,6 +7655,20 @@
               "exportKey": "variables"
             }
           }
+        },
+        "rounded2xs": {
+          "type": "dimension",
+          "value": 4,
+          "extensions": {
+            "org.lukasoppermann.figmaDesignTokens": {
+              "mode": "Dark",
+              "modeId": "14104:0",
+              "collection": "Primitives",
+              "scopes": ["CORNER_RADIUS"],
+              "variableId": "VariableID:16420:35379",
+              "exportKey": "variables"
+            }
+          }
         }
       },
       "spacing": {
@@ -8324,8 +7984,286 @@
     }
   },
   "typography": {
-    "regular": {
-      "bodyLg": {
+    "header": {
+      "headingXl": {
+        "fontSize": {
+          "type": "dimension",
+          "value": 48
+        },
+        "textDecoration": {
+          "type": "string",
+          "value": "none"
+        },
+        "fontFamily": {
+          "type": "string",
+          "value": "Inter"
+        },
+        "fontWeight": {
+          "type": "number",
+          "value": 700
+        },
+        "fontStyle": {
+          "type": "string",
+          "value": "normal"
+        },
+        "fontStretch": {
+          "type": "string",
+          "value": "normal"
+        },
+        "letterSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "lineHeight": {
+          "type": "dimension",
+          "value": 52.8
+        },
+        "paragraphIndent": {
+          "type": "dimension",
+          "value": 0
+        },
+        "paragraphSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "textCase": {
+          "type": "string",
+          "value": "none"
+        }
+      },
+      "headingLg": {
+        "fontSize": {
+          "type": "dimension",
+          "value": 40
+        },
+        "textDecoration": {
+          "type": "string",
+          "value": "none"
+        },
+        "fontFamily": {
+          "type": "string",
+          "value": "Inter"
+        },
+        "fontWeight": {
+          "type": "number",
+          "value": 700
+        },
+        "fontStyle": {
+          "type": "string",
+          "value": "normal"
+        },
+        "fontStretch": {
+          "type": "string",
+          "value": "normal"
+        },
+        "letterSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "lineHeight": {
+          "type": "dimension",
+          "value": 44
+        },
+        "paragraphIndent": {
+          "type": "dimension",
+          "value": 0
+        },
+        "paragraphSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "textCase": {
+          "type": "string",
+          "value": "none"
+        }
+      },
+      "headingMd": {
+        "fontSize": {
+          "type": "dimension",
+          "value": 32
+        },
+        "textDecoration": {
+          "type": "string",
+          "value": "none"
+        },
+        "fontFamily": {
+          "type": "string",
+          "value": "Inter"
+        },
+        "fontWeight": {
+          "type": "number",
+          "value": 700
+        },
+        "fontStyle": {
+          "type": "string",
+          "value": "normal"
+        },
+        "fontStretch": {
+          "type": "string",
+          "value": "normal"
+        },
+        "letterSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "lineHeight": {
+          "type": "dimension",
+          "value": 35.2
+        },
+        "paragraphIndent": {
+          "type": "dimension",
+          "value": 0
+        },
+        "paragraphSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "textCase": {
+          "type": "string",
+          "value": "none"
+        }
+      },
+      "headingSm": {
+        "fontSize": {
+          "type": "dimension",
+          "value": 24
+        },
+        "textDecoration": {
+          "type": "string",
+          "value": "none"
+        },
+        "fontFamily": {
+          "type": "string",
+          "value": "Inter"
+        },
+        "fontWeight": {
+          "type": "number",
+          "value": 700
+        },
+        "fontStyle": {
+          "type": "string",
+          "value": "normal"
+        },
+        "fontStretch": {
+          "type": "string",
+          "value": "normal"
+        },
+        "letterSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "lineHeight": {
+          "type": "dimension",
+          "value": 32
+        },
+        "paragraphIndent": {
+          "type": "dimension",
+          "value": 0
+        },
+        "paragraphSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "textCase": {
+          "type": "string",
+          "value": "none"
+        }
+      },
+      "headingXs": {
+        "fontSize": {
+          "type": "dimension",
+          "value": 20
+        },
+        "textDecoration": {
+          "type": "string",
+          "value": "none"
+        },
+        "fontFamily": {
+          "type": "string",
+          "value": "Inter"
+        },
+        "fontWeight": {
+          "type": "number",
+          "value": 700
+        },
+        "fontStyle": {
+          "type": "string",
+          "value": "normal"
+        },
+        "fontStretch": {
+          "type": "string",
+          "value": "normal"
+        },
+        "letterSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "lineHeight": {
+          "type": "dimension",
+          "value": 24
+        },
+        "paragraphIndent": {
+          "type": "dimension",
+          "value": 0
+        },
+        "paragraphSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "textCase": {
+          "type": "string",
+          "value": "none"
+        }
+      }
+    },
+    "bodyDefault16px": {
+      "semibold": {
+        "fontSize": {
+          "type": "dimension",
+          "value": 16
+        },
+        "textDecoration": {
+          "type": "string",
+          "value": "none"
+        },
+        "fontFamily": {
+          "type": "string",
+          "value": "Inter"
+        },
+        "fontWeight": {
+          "type": "number",
+          "value": 600
+        },
+        "fontStyle": {
+          "type": "string",
+          "value": "normal"
+        },
+        "fontStretch": {
+          "type": "string",
+          "value": "normal"
+        },
+        "letterSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "lineHeight": {
+          "type": "dimension",
+          "value": 24
+        },
+        "paragraphIndent": {
+          "type": "dimension",
+          "value": 0
+        },
+        "paragraphSpacing": {
+          "type": "dimension",
+          "value": 8
+        },
+        "textCase": {
+          "type": "string",
+          "value": "none"
+        }
+      },
+      "regular": {
         "fontSize": {
           "type": "dimension",
           "value": 16
@@ -8370,8 +8308,56 @@
           "type": "string",
           "value": "none"
         }
+      }
+    },
+    "bodySmall14px": {
+      "semibold": {
+        "fontSize": {
+          "type": "dimension",
+          "value": 14
+        },
+        "textDecoration": {
+          "type": "string",
+          "value": "none"
+        },
+        "fontFamily": {
+          "type": "string",
+          "value": "Inter"
+        },
+        "fontWeight": {
+          "type": "number",
+          "value": 600
+        },
+        "fontStyle": {
+          "type": "string",
+          "value": "normal"
+        },
+        "fontStretch": {
+          "type": "string",
+          "value": "normal"
+        },
+        "letterSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "lineHeight": {
+          "type": "dimension",
+          "value": 18
+        },
+        "paragraphIndent": {
+          "type": "dimension",
+          "value": 0
+        },
+        "paragraphSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "textCase": {
+          "type": "string",
+          "value": "none"
+        }
       },
-      "bodyMd": {
+      "regular": {
         "fontSize": {
           "type": "dimension",
           "value": 14
@@ -8416,8 +8402,56 @@
           "type": "string",
           "value": "none"
         }
+      }
+    },
+    "description12px": {
+      "semibold": {
+        "fontSize": {
+          "type": "dimension",
+          "value": 12
+        },
+        "textDecoration": {
+          "type": "string",
+          "value": "none"
+        },
+        "fontFamily": {
+          "type": "string",
+          "value": "Inter"
+        },
+        "fontWeight": {
+          "type": "number",
+          "value": 600
+        },
+        "fontStyle": {
+          "type": "string",
+          "value": "normal"
+        },
+        "fontStretch": {
+          "type": "string",
+          "value": "normal"
+        },
+        "letterSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "lineHeight": {
+          "type": "dimension",
+          "value": 16
+        },
+        "paragraphIndent": {
+          "type": "dimension",
+          "value": 0
+        },
+        "paragraphSpacing": {
+          "type": "dimension",
+          "value": 0
+        },
+        "textCase": {
+          "type": "string",
+          "value": "none"
+        }
       },
-      "bodySm": {
+      "regular": {
         "fontSize": {
           "type": "dimension",
           "value": 12
@@ -8464,11 +8498,11 @@
         }
       }
     },
-    "semibold": {
-      "bodyLg": {
+    "badge": {
+      "badge": {
         "fontSize": {
           "type": "dimension",
-          "value": 16
+          "value": 9
         },
         "textDecoration": {
           "type": "string",
@@ -8492,57 +8526,11 @@
         },
         "letterSpacing": {
           "type": "dimension",
-          "value": 0
+          "value": 0.9
         },
         "lineHeight": {
           "type": "dimension",
-          "value": 24
-        },
-        "paragraphIndent": {
-          "type": "dimension",
-          "value": 0
-        },
-        "paragraphSpacing": {
-          "type": "dimension",
-          "value": 8
-        },
-        "textCase": {
-          "type": "string",
-          "value": "none"
-        }
-      },
-      "bodyMd": {
-        "fontSize": {
-          "type": "dimension",
-          "value": 14
-        },
-        "textDecoration": {
-          "type": "string",
-          "value": "none"
-        },
-        "fontFamily": {
-          "type": "string",
-          "value": "Inter"
-        },
-        "fontWeight": {
-          "type": "number",
-          "value": 600
-        },
-        "fontStyle": {
-          "type": "string",
-          "value": "normal"
-        },
-        "fontStretch": {
-          "type": "string",
-          "value": "normal"
-        },
-        "letterSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "lineHeight": {
-          "type": "dimension",
-          "value": 18
+          "value": 10.8
         },
         "paragraphIndent": {
           "type": "dimension",
@@ -8554,55 +8542,11 @@
         },
         "textCase": {
           "type": "string",
-          "value": "none"
+          "value": "uppercase"
         }
-      },
-      "bodySm": {
-        "fontSize": {
-          "type": "dimension",
-          "value": 12
-        },
-        "textDecoration": {
-          "type": "string",
-          "value": "none"
-        },
-        "fontFamily": {
-          "type": "string",
-          "value": "Inter"
-        },
-        "fontWeight": {
-          "type": "number",
-          "value": 600
-        },
-        "fontStyle": {
-          "type": "string",
-          "value": "normal"
-        },
-        "fontStretch": {
-          "type": "string",
-          "value": "normal"
-        },
-        "letterSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "lineHeight": {
-          "type": "dimension",
-          "value": 16
-        },
-        "paragraphIndent": {
-          "type": "dimension",
-          "value": 0
-        },
-        "paragraphSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "textCase": {
-          "type": "string",
-          "value": "none"
-        }
-      },
+      }
+    },
+    "links": {
       "linkLg": {
         "fontSize": {
           "type": "dimension",
@@ -8727,330 +8671,6 @@
         "lineHeight": {
           "type": "dimension",
           "value": 16
-        },
-        "paragraphIndent": {
-          "type": "dimension",
-          "value": 0
-        },
-        "paragraphSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "textCase": {
-          "type": "string",
-          "value": "none"
-        }
-      },
-      "badge": {
-        "fontSize": {
-          "type": "dimension",
-          "value": 9
-        },
-        "textDecoration": {
-          "type": "string",
-          "value": "none"
-        },
-        "fontFamily": {
-          "type": "string",
-          "value": "Inter"
-        },
-        "fontWeight": {
-          "type": "number",
-          "value": 600
-        },
-        "fontStyle": {
-          "type": "string",
-          "value": "normal"
-        },
-        "fontStretch": {
-          "type": "string",
-          "value": "normal"
-        },
-        "letterSpacing": {
-          "type": "dimension",
-          "value": 0.9
-        },
-        "lineHeight": {
-          "type": "dimension",
-          "value": 10.8
-        },
-        "paragraphIndent": {
-          "type": "dimension",
-          "value": 0
-        },
-        "paragraphSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "textCase": {
-          "type": "string",
-          "value": "uppercase"
-        }
-      }
-    },
-    "bold": {
-      "headingXs": {
-        "fontSize": {
-          "type": "dimension",
-          "value": 20
-        },
-        "textDecoration": {
-          "type": "string",
-          "value": "none"
-        },
-        "fontFamily": {
-          "type": "string",
-          "value": "Inter"
-        },
-        "fontWeight": {
-          "type": "number",
-          "value": 700
-        },
-        "fontStyle": {
-          "type": "string",
-          "value": "normal"
-        },
-        "fontStretch": {
-          "type": "string",
-          "value": "normal"
-        },
-        "letterSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "lineHeight": {
-          "type": "dimension",
-          "value": 24
-        },
-        "paragraphIndent": {
-          "type": "dimension",
-          "value": 0
-        },
-        "paragraphSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "textCase": {
-          "type": "string",
-          "value": "none"
-        }
-      },
-      "headingSm": {
-        "fontSize": {
-          "type": "dimension",
-          "value": 24
-        },
-        "textDecoration": {
-          "type": "string",
-          "value": "none"
-        },
-        "fontFamily": {
-          "type": "string",
-          "value": "Inter"
-        },
-        "fontWeight": {
-          "type": "number",
-          "value": 700
-        },
-        "fontStyle": {
-          "type": "string",
-          "value": "normal"
-        },
-        "fontStretch": {
-          "type": "string",
-          "value": "normal"
-        },
-        "letterSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "lineHeight": {
-          "type": "dimension",
-          "value": 32
-        },
-        "paragraphIndent": {
-          "type": "dimension",
-          "value": 0
-        },
-        "paragraphSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "textCase": {
-          "type": "string",
-          "value": "none"
-        }
-      },
-      "headingMd": {
-        "fontSize": {
-          "type": "dimension",
-          "value": 32
-        },
-        "textDecoration": {
-          "type": "string",
-          "value": "none"
-        },
-        "fontFamily": {
-          "type": "string",
-          "value": "Inter"
-        },
-        "fontWeight": {
-          "type": "number",
-          "value": 700
-        },
-        "fontStyle": {
-          "type": "string",
-          "value": "normal"
-        },
-        "fontStretch": {
-          "type": "string",
-          "value": "normal"
-        },
-        "letterSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "lineHeight": {
-          "type": "dimension",
-          "value": 35.2
-        },
-        "paragraphIndent": {
-          "type": "dimension",
-          "value": 0
-        },
-        "paragraphSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "textCase": {
-          "type": "string",
-          "value": "none"
-        }
-      },
-      "headingLg": {
-        "fontSize": {
-          "type": "dimension",
-          "value": 40
-        },
-        "textDecoration": {
-          "type": "string",
-          "value": "none"
-        },
-        "fontFamily": {
-          "type": "string",
-          "value": "Inter"
-        },
-        "fontWeight": {
-          "type": "number",
-          "value": 700
-        },
-        "fontStyle": {
-          "type": "string",
-          "value": "normal"
-        },
-        "fontStretch": {
-          "type": "string",
-          "value": "normal"
-        },
-        "letterSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "lineHeight": {
-          "type": "dimension",
-          "value": 44
-        },
-        "paragraphIndent": {
-          "type": "dimension",
-          "value": 0
-        },
-        "paragraphSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "textCase": {
-          "type": "string",
-          "value": "none"
-        }
-      },
-      "headingXl": {
-        "fontSize": {
-          "type": "dimension",
-          "value": 48
-        },
-        "textDecoration": {
-          "type": "string",
-          "value": "none"
-        },
-        "fontFamily": {
-          "type": "string",
-          "value": "Inter"
-        },
-        "fontWeight": {
-          "type": "number",
-          "value": 700
-        },
-        "fontStyle": {
-          "type": "string",
-          "value": "normal"
-        },
-        "fontStretch": {
-          "type": "string",
-          "value": "normal"
-        },
-        "letterSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "lineHeight": {
-          "type": "dimension",
-          "value": 52.8
-        },
-        "paragraphIndent": {
-          "type": "dimension",
-          "value": 0
-        },
-        "paragraphSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "textCase": {
-          "type": "string",
-          "value": "none"
-        }
-      },
-      "display": {
-        "fontSize": {
-          "type": "dimension",
-          "value": 64
-        },
-        "textDecoration": {
-          "type": "string",
-          "value": "none"
-        },
-        "fontFamily": {
-          "type": "string",
-          "value": "Inter"
-        },
-        "fontWeight": {
-          "type": "number",
-          "value": 700
-        },
-        "fontStyle": {
-          "type": "string",
-          "value": "normal"
-        },
-        "fontStretch": {
-          "type": "string",
-          "value": "normal"
-        },
-        "letterSpacing": {
-          "type": "dimension",
-          "value": 0
-        },
-        "lineHeight": {
-          "type": "dimension",
-          "value": 64
         },
         "paragraphIndent": {
           "type": "dimension",

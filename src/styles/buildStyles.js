@@ -171,7 +171,7 @@ const getEffectTokens = (effectTokens) => {
   if (effectTokens.shadow) processShadowGroup(effectTokens.shadow, "");
   if (effectTokens.blurShadow) processShadowGroup(effectTokens.blurShadow, "blur-");
 
-  output += `  --shadow-focus-ring: 0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-interaction-focus);\n`;
+  output += `  --shadow-focus-ring: 0 0 0 2px var(--color-background-primary), 0 0 0 4px var(--color-interaction-focus);\n`;
 
   return output;
 };
