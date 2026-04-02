@@ -97,10 +97,10 @@ function calculateHeight(rows: number): number {
  *   showFileButton
  *   onFileClick={() => openFilePicker()}
  *   selectOptions={[
- *     { value: "sonnet", label: "Sonnet 4.6" },
- *     { value: "opus", label: "Opus 4.6" },
+ *     { value: "fanvue-ai", label: "Fanvue AI", icon: <AIIcon className="size-4" /> },
+ *     { value: "example", label: "Example", icon: <BulbIcon className="size-4" /> },
  *   ]}
- *   selectValue="sonnet"
+ *   selectValue="fanvue-ai"
  *   onSelectChange={(v) => setModel(v)}
  *   onSubmit={(text) => send(text)}
  * />
@@ -215,7 +215,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
     return (
       <div
         className={cn(
-          "relative flex flex-col rounded-lg border border-neutral-alphas-200 bg-surface-primary",
+          "relative flex flex-col gap-6 rounded-lg border border-border-primary bg-surface-primary",
           "has-focus-visible:border-neutral-alphas-400 has-focus-visible:outline-none",
           "motion-safe:transition-colors",
           disabled && "opacity-50",
@@ -247,7 +247,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
           }}
         />
 
-        <div className="flex items-center justify-between gap-2 px-4 pb-4 pt-3">
+        <div className="flex items-center justify-between gap-2 px-4 pb-4">
           <div className="flex items-center gap-1">
             {showFileButton && (
               <IconButton
@@ -271,7 +271,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
               aria-label={submitAriaLabel}
               onClick={handleSubmit}
               disabled={!canSubmit}
-              className="disabled:bg-surface-tertiary disabled:text-icons-primary"
+              className="disabled:bg-surface-secondary disabled:opacity-100 disabled:text-icons-primary"
             />
           </div>
         </div>
@@ -325,7 +325,7 @@ function InlineSelect({ options, value, onChange, disabled, selectedOption }: In
         disabled={disabled}
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "typography-semibold-body-sm text-content-secondary",
+          "typography-semibold-body-sm text-content-primary",
           "flex items-center gap-1 rounded-sm px-2 py-1",
           "hover:bg-neutral-alphas-50 focus-visible:shadow-focus-ring focus-visible:outline-none",
           "disabled:cursor-not-allowed disabled:opacity-50",
@@ -346,7 +346,7 @@ function InlineSelect({ options, value, onChange, disabled, selectedOption }: In
           role="listbox"
           className={cn(
             "absolute right-0 bottom-full z-10 mb-1 min-w-[140px]",
-            "overflow-hidden rounded-xs border border-neutral-alphas-200 bg-surface-primary p-1 shadow-lg",
+            "overflow-hidden rounded-xs border border-border-primary bg-surface-primary p-1 shadow-lg",
           )}
         >
           {options.map((option) => (

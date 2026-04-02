@@ -1,15 +1,22 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { AIIcon } from "../Icons/AIIcon";
+import { BulbIcon } from "../Icons/BulbIcon";
 import { ChatInput } from "./ChatInput";
 
-const SonnetIcon = () => <svg data-testid="sonnet-icon" />;
-const OpusIcon = () => <svg data-testid="opus-icon" />;
-
 const MODEL_OPTIONS = [
-  { value: "sonnet", label: "Sonnet 4.6", icon: <SonnetIcon /> },
-  { value: "opus", label: "Opus 4.6", icon: <OpusIcon /> },
+  {
+    value: "fanvue-ai",
+    label: "Fanvue AI",
+    icon: <AIIcon className="size-4" data-testid="fanvue-ai-icon" />,
+  },
+  {
+    value: "example",
+    label: "Example",
+    icon: <BulbIcon className="size-4" data-testid="example-icon" />,
+  },
 ];
 
 describe("ChatInput", () => {
@@ -194,28 +201,38 @@ describe("ChatInput", () => {
 
   describe("inline select", () => {
     it("renders the selected option label", () => {
-      render(<ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="sonnet" />);
-      expect(screen.getByText("Sonnet 4.6")).toBeInTheDocument();
+      render(
+        <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
+      );
+      expect(screen.getByText("Fanvue AI")).toBeInTheDocument();
     });
 
     it("renders the selected option icon in the trigger", () => {
-      render(<ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="sonnet" />);
-      expect(screen.getByTestId("sonnet-icon")).toBeInTheDocument();
+      render(
+        <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
+      );
+      expect(screen.getByTestId("fanvue-ai-icon")).toBeInTheDocument();
     });
 
     it("renders per-option icons in the dropdown", async () => {
       const user = userEvent.setup();
-      render(<ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="sonnet" />);
+      render(
+        <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
+      );
       await user.click(screen.getByRole("combobox", { name: "Select model" }));
-      expect(screen.getByTestId("opus-icon")).toBeInTheDocument();
+      const listbox = screen.getByRole("listbox");
+      expect(within(listbox).getByTestId("fanvue-ai-icon")).toBeInTheDocument();
+      expect(within(listbox).getByTestId("example-icon")).toBeInTheDocument();
     });
 
     it("opens dropdown on click and shows all options", async () => {
       const user = userEvent.setup();
-      render(<ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="sonnet" />);
+      render(
+        <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
+      );
       await user.click(screen.getByRole("combobox", { name: "Select model" }));
-      expect(screen.getByRole("option", { name: "Sonnet 4.6" })).toBeInTheDocument();
-      expect(screen.getByRole("option", { name: "Opus 4.6" })).toBeInTheDocument();
+      expect(screen.getByRole("option", { name: "Fanvue AI" })).toBeInTheDocument();
+      expect(screen.getByRole("option", { name: "Example" })).toBeInTheDocument();
     });
 
     it("calls onSelectChange when an option is clicked", async () => {
@@ -225,27 +242,31 @@ describe("ChatInput", () => {
         <ChatInput
           placeholder="Test"
           selectOptions={MODEL_OPTIONS}
-          selectValue="sonnet"
+          selectValue="fanvue-ai"
           onSelectChange={handleChange}
         />,
       );
       await user.click(screen.getByRole("combobox", { name: "Select model" }));
-      await user.click(screen.getByRole("option", { name: "Opus 4.6" }));
-      expect(handleChange).toHaveBeenCalledWith("opus");
+      await user.click(screen.getByRole("option", { name: "Example" }));
+      expect(handleChange).toHaveBeenCalledWith("example");
     });
 
     it("closes dropdown after selecting an option", async () => {
       const user = userEvent.setup();
-      render(<ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="sonnet" />);
+      render(
+        <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
+      );
       await user.click(screen.getByRole("combobox", { name: "Select model" }));
       expect(screen.getByRole("listbox")).toBeInTheDocument();
-      await user.click(screen.getByRole("option", { name: "Opus 4.6" }));
+      await user.click(screen.getByRole("option", { name: "Example" }));
       expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
     });
 
     it("closes dropdown on Escape key", async () => {
       const user = userEvent.setup();
-      render(<ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="sonnet" />);
+      render(
+        <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
+      );
       await user.click(screen.getByRole("combobox", { name: "Select model" }));
       expect(screen.getByRole("listbox")).toBeInTheDocument();
       await user.keyboard("{Escape}");
@@ -257,7 +278,7 @@ describe("ChatInput", () => {
         <ChatInput
           placeholder="Test"
           selectOptions={MODEL_OPTIONS}
-          selectValue="sonnet"
+          selectValue="fanvue-ai"
           toolbarRight={<span data-testid="custom-toolbar">Custom</span>}
         />,
       );
@@ -271,7 +292,7 @@ describe("ChatInput", () => {
       render(
         <ChatInput
           placeholder="Test"
-          toolbarRight={<span data-testid="model-selector">Sonnet</span>}
+          toolbarRight={<span data-testid="model-selector">Fanvue AI</span>}
         />,
       );
       expect(screen.getByTestId("model-selector")).toBeInTheDocument();
@@ -315,7 +336,7 @@ describe("ChatInput", () => {
         <ChatInput
           placeholder="Type a message..."
           selectOptions={MODEL_OPTIONS}
-          selectValue="sonnet"
+          selectValue="fanvue-ai"
         />,
       );
       const results = await axe(container);

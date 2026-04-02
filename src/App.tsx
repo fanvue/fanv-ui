@@ -576,7 +576,7 @@ function TextAreaShowcase() {
 
 function ChatInputShowcase() {
   const [value, setValue] = useState("");
-  const [model, setModel] = useState("sonnet-4.6");
+  const [model, setModel] = useState("fanvue-ai");
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
@@ -604,8 +604,8 @@ function ChatInputShowcase() {
         <ChatInput
           placeholder="With model selector"
           selectOptions={[
-            { value: "sonnet-4.6", label: "Sonnet 4.6" },
-            { value: "opus-4.6", label: "Opus 4.6" },
+            { value: "fanvue-ai", label: "Fanvue AI", icon: <AIIcon className="size-4" /> },
+            { value: "example", label: "Example", icon: <BulbIcon className="size-4" /> },
           ]}
           selectValue={model}
           onSelectChange={setModel}
@@ -616,8 +616,8 @@ function ChatInputShowcase() {
           placeholder="File + selector"
           showFileButton
           selectOptions={[
-            { value: "sonnet-4.6", label: "Sonnet 4.6" },
-            { value: "opus-4.6", label: "Opus 4.6" },
+            { value: "fanvue-ai", label: "Fanvue AI", icon: <AIIcon className="size-4" /> },
+            { value: "example", label: "Example", icon: <BulbIcon className="size-4" /> },
           ]}
           selectValue={model}
           onSelectChange={setModel}

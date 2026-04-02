@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { AIIcon } from "../Icons/AIIcon";
+import { BulbIcon } from "../Icons/BulbIcon";
 import { ChatInput } from "./ChatInput";
 
-const PlaceholderBrandIcon = () => <AIIcon className="size-4" />;
-
-const MODEL_OPTIONS = [
-  { value: "sonnet-4.6", label: "Sonnet 4.6", icon: <PlaceholderBrandIcon /> },
-  { value: "opus-4.6", label: "Opus 4.6", icon: <PlaceholderBrandIcon /> },
+const SELECT_OPTIONS = [
+  { value: "fanvue-ai", label: "Fanvue AI", icon: <AIIcon className="size-4" /> },
+  { value: "example", label: "Example", icon: <BulbIcon className="size-4" /> },
 ];
 
 const meta = {
@@ -75,12 +74,12 @@ export const WithFileButton: Story = {
 
 export const WithModelSelector: Story = {
   render: () => {
-    const [model, setModel] = useState("sonnet-4.6");
+    const [model, setModel] = useState("fanvue-ai");
 
     return (
       <ChatInput
         placeholder="Type a message..."
-        selectOptions={MODEL_OPTIONS}
+        selectOptions={SELECT_OPTIONS}
         selectValue={model}
         onSelectChange={setModel}
       />
@@ -90,13 +89,13 @@ export const WithModelSelector: Story = {
 
 export const WithFileButtonAndModelSelector: Story = {
   render: () => {
-    const [model, setModel] = useState("sonnet-4.6");
+    const [model, setModel] = useState("fanvue-ai");
 
     return (
       <ChatInput
         placeholder="Type a message..."
         showFileButton
-        selectOptions={MODEL_OPTIONS}
+        selectOptions={SELECT_OPTIONS}
         selectValue={model}
         onSelectChange={setModel}
       />
@@ -167,7 +166,7 @@ export const Controlled: Story = {
 export const FullFeature: Story = {
   render: () => {
     const [value, setValue] = useState("");
-    const [model, setModel] = useState("sonnet-4.6");
+    const [model, setModel] = useState("fanvue-ai");
     const [fileHint, setFileHint] = useState<string | null>(null);
 
     return (
@@ -179,7 +178,7 @@ export const FullFeature: Story = {
           onSubmit={() => setValue("")}
           showFileButton
           onFileClick={() => setFileHint("Attach tapped.")}
-          selectOptions={MODEL_OPTIONS}
+          selectOptions={SELECT_OPTIONS}
           selectValue={model}
           onSelectChange={setModel}
         />
