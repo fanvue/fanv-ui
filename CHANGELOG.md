@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.1...ui-v2.5.2) (2026-04-02)
+
+
+### Bug Fixes
+
+* resolve high-severity lodash audit vulnerabilities ([#408](https://github.com/fanvue/fanv-ui/issues/408)) ([d8bdac0](https://github.com/fanvue/fanv-ui/commit/d8bdac07a09cf037cc5f17588c59dd2a4ea720d6))
+
 ## [2.5.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.0...ui-v2.5.1) (2026-04-01)
 
 
