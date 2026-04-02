@@ -258,11 +258,15 @@ const semanticGroups: ColorGroup[] = [
         variable: "--color-surface-tertiary",
         tailwind: "surface-tertiary",
       },
-      { name: "Inputs", variable: "--color-surface-inputs", tailwind: "surface-inputs" },
+      {
+        name: "Inputs",
+        variable: "--color-inputs-inputs-primary",
+        tailwind: "inputs-inputs-primary",
+      },
       {
         name: "Inputs Off",
-        variable: "--color-surface-inputs-off",
-        tailwind: "surface-inputs-off",
+        variable: "--color-inputs-inputs-off",
+        tailwind: "inputs-inputs-off",
       },
       {
         name: "Primary Inverted",
@@ -285,8 +289,8 @@ const semanticGroups: ColorGroup[] = [
     title: "Background",
     description: "Page-level background colors.",
     tokens: [
-      { name: "Primary", variable: "--color-bg-primary", tailwind: "bg-primary" },
-      { name: "Overlay", variable: "--color-bg-overlay", tailwind: "bg-overlay" },
+      { name: "Primary", variable: "--color-background-primary", tailwind: "bg-primary" },
+      { name: "Overlay", variable: "--color-background-overlay", tailwind: "bg-overlay" },
     ],
   },
   {
@@ -619,7 +623,7 @@ export const Primitives: Story = {
           color: "var(--color-content-tertiary)",
           margin: "0 0 40px",
           padding: "8px 12px",
-          backgroundColor: "var(--color-surface-inputs)",
+          backgroundColor: "var(--color-inputs-inputs-primary)",
           borderRadius: 6,
           display: "inline-block",
         }}
@@ -666,7 +670,7 @@ export const Semantic: Story = {
           color: "var(--color-content-tertiary)",
           margin: "0 0 40px",
           padding: "8px 12px",
-          backgroundColor: "var(--color-surface-inputs)",
+          backgroundColor: "var(--color-inputs-inputs-primary)",
           borderRadius: 6,
           display: "inline-block",
         }}

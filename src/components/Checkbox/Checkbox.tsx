@@ -101,7 +101,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             "hover:ring-2 hover:ring-brand-primary-default group-hover:ring-2 group-hover:ring-brand-primary-default",
             "not-disabled:active:ring-2 not-disabled:active:ring-brand-primary-default",
             // Focus state
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary",
             // Disabled state
             "disabled:cursor-not-allowed disabled:border-neutral-alphas-600 disabled:ring-0 disabled:group-hover:ring-0",
             "disabled:data-[state=checked]:border-neutral-alphas-600 disabled:data-[state=checked]:bg-neutral-alphas-600 disabled:data-[state=checked]:text-content-tertiary",

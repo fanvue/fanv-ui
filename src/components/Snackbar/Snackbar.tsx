@@ -269,7 +269,7 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
             "border border-neutral-alphas-50 bg-surface-primary p-4 backdrop-blur-md",
           variant === "default" && "flex-wrap items-start",
           variant === "vipEarn" && "items-start",
-          variant === "welcome" && "relative flex-col items-center bg-bg-primary py-6",
+          variant === "welcome" && "relative flex-col items-center bg-background-primary py-6",
           className,
         )}
         {...props}

@@ -64,12 +64,12 @@ export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
           size === "24" && "h-4 min-w-4 px-1 text-[10px]",
           size === "32" && "h-5 min-w-5 px-1.5 text-[12px]",
           variant === "default" && "bg-content-primary text-content-primary-inverted",
-          variant === "alert" && "bg-error-content text-content-on-brand-inverted",
-          variant === "brand" && "bg-brand-primary-default text-content-on-brand",
-          variant === "pink" && "bg-brand-secondary-default text-content-on-brand",
-          variant === "info" && "bg-info-content text-content-on-brand-inverted",
-          variant === "success" && "bg-success-content text-content-on-brand-inverted",
-          variant === "warning" && "bg-warning-content text-content-on-brand",
+          variant === "alert" && "bg-error-content text-content-always-white",
+          variant === "brand" && "bg-brand-primary-default text-content-always-black",
+          variant === "pink" && "bg-brand-secondary-default text-content-always-black",
+          variant === "info" && "bg-info-content text-content-always-white",
+          variant === "success" && "bg-success-content text-content-always-white",
+          variant === "warning" && "bg-warning-content text-content-always-black",
           className,
         )}
         {...props}

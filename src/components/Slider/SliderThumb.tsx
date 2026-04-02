@@ -43,11 +43,11 @@ export function SliderThumb({
         }
       }}
       className={cn(
-        "flex size-6 items-center justify-center rounded-full border border-border-primary bg-bg-primary shadow-sm",
+        "flex size-6 items-center justify-center rounded-full border border-border-primary bg-background-primary shadow-sm",
         "transition-shadow duration-150",
         "hover:ring-2 hover:ring-brand-primary-default",
         "not-data-disabled:active:ring-2 not-data-disabled:active:ring-brand-primary-default",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary",
         "data-disabled:cursor-not-allowed",
       )}
     >

@@ -51,7 +51,7 @@ export interface InfoBoxContentProps
 }
 
 const ACTION_CLASSES: Record<"brand" | "tertiary", string> = {
-  brand: "hover:bg-brand-primary-default/80 hover:text-content-on-brand",
+  brand: "hover:bg-brand-primary-default/80 hover:text-content-always-black",
   tertiary:
     "text-content-primary-inverted hover:text-content-primary-inverted hover:bg-content-primary-inverted/10",
 };

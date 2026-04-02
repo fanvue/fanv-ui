@@ -70,11 +70,11 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
     "bg-transparent text-content-primary hover:bg-brand-primary-muted active:bg-brand-primary-muted",
   link: "bg-transparent text-content-primary underline decoration-solid hover:bg-brand-primary-muted active:bg-brand-primary-muted",
   brand:
-    "bg-buttons-brand text-content-on-brand hover:bg-buttons-brand-hover hover:text-content-on-brand active:bg-buttons-brand-hover active:text-content-on-brand",
+    "bg-buttons-brand text-content-always-black hover:bg-buttons-brand-hover hover:text-content-always-black active:bg-buttons-brand-hover active:text-content-always-black",
   destructive:
-    "bg-error-content text-content-on-brand-inverted hover:bg-brand-primary-muted hover:text-content-primary active:bg-brand-primary-muted active:text-content-primary",
+    "bg-error-content text-content-always-white hover:bg-brand-primary-muted hover:text-content-primary active:bg-brand-primary-muted active:text-content-primary",
   white:
-    "bg-content-on-brand-inverted text-content-on-brand hover:bg-brand-primary-muted hover:text-content-primary active:bg-brand-primary-muted active:text-content-primary",
+    "bg-content-always-white text-content-always-black hover:bg-brand-primary-muted hover:text-content-primary active:bg-brand-primary-muted active:text-content-primary",
   tertiaryDestructive:
     "bg-transparent text-error-content hover:bg-error-surface active:bg-error-surface",
   text: "bg-transparent text-content-primary hover:underline active:underline",

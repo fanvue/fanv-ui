@@ -48,7 +48,7 @@ export const Switch = React.forwardRef<
     >
       <SwitchPrimitive.Thumb
         className={cn(
-          "pointer-events-none rounded-full bg-bg-primary shadow-sm transition-transform duration-150",
+          "pointer-events-none rounded-full bg-background-primary shadow-sm transition-transform duration-150",
           thumbSizeClass,
         )}
       />

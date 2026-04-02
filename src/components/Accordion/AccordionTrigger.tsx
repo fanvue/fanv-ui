@@ -35,7 +35,7 @@ export const AccordionTrigger = React.forwardRef<
           "cursor-pointer",
           "motion-safe:transition-colors motion-safe:duration-200 motion-safe:ease-in-out",
           "hover:bg-neutral-alphas-100",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary",
           "data-disabled:pointer-events-none data-disabled:opacity-50",
           className,
         )}

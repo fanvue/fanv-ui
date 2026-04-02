@@ -87,7 +87,7 @@ describe("Drawer", () => {
       renderDrawer();
       await user.click(screen.getByRole("button", { name: "Open drawer" }));
       expect(screen.getByRole("dialog")).toBeInTheDocument();
-      const overlay = document.querySelector(".bg-bg-overlay");
+      const overlay = document.querySelector(".bg-background-overlay");
       expect(overlay).toBeInTheDocument();
       await user.click(overlay as Element);
       await waitFor(() => {
@@ -190,21 +190,21 @@ describe("Drawer", () => {
       const user = userEvent.setup();
       renderDrawer();
       await user.click(screen.getByRole("button", { name: "Open drawer" }));
-      expect(document.querySelector(".bg-bg-overlay")).toBeInTheDocument();
+      expect(document.querySelector(".bg-background-overlay")).toBeInTheDocument();
     });
 
     it("does not render overlay when overlay=false on root", async () => {
       const user = userEvent.setup();
       renderDrawer(undefined, { overlay: false });
       await user.click(screen.getByRole("button", { name: "Open drawer" }));
-      expect(document.querySelector(".bg-bg-overlay")).not.toBeInTheDocument();
+      expect(document.querySelector(".bg-background-overlay")).not.toBeInTheDocument();
     });
 
     it("does not render overlay when overlay=false on content", async () => {
       const user = userEvent.setup();
       renderDrawer({ overlay: false });
       await user.click(screen.getByRole("button", { name: "Open drawer" }));
-      expect(document.querySelector(".bg-bg-overlay")).not.toBeInTheDocument();
+      expect(document.querySelector(".bg-background-overlay")).not.toBeInTheDocument();
     });
   });
 

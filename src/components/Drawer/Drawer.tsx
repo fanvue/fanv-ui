@@ -100,7 +100,7 @@ export const DrawerOverlay = React.forwardRef<
     ref={ref}
     style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
     className={cn(
-      "fixed inset-0 bg-bg-overlay",
+      "fixed inset-0 bg-background-overlay",
       "data-[state=closed]:animate-out data-[state=open]:animate-in",
       "data-[state=closed]:fade-out-0 data-[state=closed]:duration-150 data-[state=closed]:ease-in",
       "data-[state=open]:fade-in-0 data-[state=open]:duration-200 data-[state=open]:ease-out",

@@ -67,7 +67,7 @@ const focusToken: ShadowToken = {
   tailwind: "shadow-focus-ring",
   description:
     "Keyboard navigation indicator. Two-layer ring using bg-primary and interaction-focus.",
-  value: "0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-interaction-focus)",
+  value: "0 0 0 2px var(--color-background-primary), 0 0 0 4px var(--color-interaction-focus)",
 };
 
 function ShadowCard({ token }: { token: ShadowToken }) {

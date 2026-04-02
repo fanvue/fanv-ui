@@ -1,15 +1,6 @@
 /* Consumers must provide their own Tailwind import: @import "tailwindcss"; */
 
 @variant dark (&:where(.dark, .dark *));
-@custom-variant infloww (&:is([data-infloww] *));
-
-@theme {
-  --breakpoint-*: initial;
-  --breakpoint-sm: 850px;
-  --breakpoint-md: 1024px;
-  --breakpoint-inflowwmd: 1223px;
-  --breakpoint-lg: 1280px;
-}
 
 @layer base {
   html {
@@ -47,9 +38,9 @@
   --shadow-lg: 0px 4px 8px -1px #00000014, 0px 8px 22px -1px #0000001a;
   --shadow-blur-menu: 0px 6px 12px 0px #0000001a;
   --shadow-blur-floating: 0px 12px 40px 2px #00000026;
-  --shadow-focus-ring:
-    0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-interaction-focus);
+  --shadow-focus-ring: 0 0 0 2px var(--color-background-primary), 0 0 0 4px var(--color-interaction-focus);
 
+  --radius-2xs: 4px;
   --radius-xs: 8px;
   --radius-sm: 12px;
   --radius-md: 16px;
@@ -57,6 +48,7 @@
   --radius-xl: 32px;
   --radius-2xl: 40px;
   --radius-full: 9999px;
+
 
   --color-neutral-alphas-50: var(--primitives-color-blackalpha-50);
   --color-neutral-alphas-100: var(--primitives-color-blackalpha-100);
@@ -74,8 +66,8 @@
   --color-content-secondary: var(--primitives-color-gray-700);
   --color-content-primary-inverted: var(--primitives-color-gray-white);
   --color-content-tertiary: var(--primitives-color-gray-600);
-  --color-content-on-brand: var(--primitives-color-gray-black);
-  --color-content-on-brand-inverted: var(--primitives-color-gray-white);
+  --color-content-always-white: var(--primitives-color-gray-white);
+  --color-content-always-black: var(--primitives-color-gray-black);
   --color-success-surface: var(--primitives-color-emerald-green-50);
   --color-success-content: var(--primitives-color-emerald-green-700);
   --color-success-secondary: var(--primitives-color-emerald-green-300);
@@ -108,19 +100,23 @@
   --color-surface-primary: var(--primitives-color-gray-50);
   --color-surface-secondary: var(--primitives-color-gray-75);
   --color-surface-primary-inverted: var(--primitives-color-gray-900);
-  --color-surface-inputs: var(--primitives-color-gray-75);
   --color-surface-tertiary: var(--primitives-color-gray-150);
-  --color-surface-inputs-off: var(--primitives-color-gray-white);
   --color-surface-purple-muted: var(--color-brand-secondary-muted);
   --color-surface-green-muted: var(--color-brand-primary-muted);
+  --color-surface-status-active: var(--color-brand-primary-default);
+  --color-surface-status-inactive: var(--color-content-secondary);
+  --color-inputs-inputs-primary: var(--primitives-color-gray-100);
+  --color-inputs-inputs-off: var(--primitives-color-gray-white);
+  --color-inputs-inputs-elevated: var(--primitives-color-gray-150);
   --color-interaction-focus: var(--primitives-color-purple-600);
-  --color-bg-primary: var(--primitives-color-gray-white);
-  --color-bg-overlay: var(--primitives-color-blackalpha-500);
-  --color-bg-gradient-start: #fcfdfaff;
-  --color-bg-gradient-end: #f2f5efff;
+  --color-background-primary: var(--primitives-color-gray-white);
+  --color-background-overlay: var(--primitives-color-blackalpha-500);
+  --color-background-gradient-start: #fcfdfaff;
+  --color-background-gradient-end: #f2f5efff;
   --color-border-primary: var(--primitives-color-gray-150);
   --color-border-strong: var(--primitives-color-gray-300);
   --color-border-error: var(--primitives-color-red-450);
+  --color-border-background: var(--color-surface-primary);
   --color-buttons-primary: var(--primitives-color-gray-black);
   --color-buttons-primary-hover: var(--primitives-color-gray-600);
   --color-buttons-primary-muted: var(--primitives-color-gray-350);
@@ -133,6 +129,9 @@
   --color-icons-brand-green: var(--color-brand-primary-default);
   --color-icons-brand-purple: var(--color-brand-secondary-default);
   --color-icons-primary-inverted: var(--primitives-color-gray-white);
+  --color-icons-always-white: var(--primitives-color-gray-white);
+  --color-icons-always-black: var(--primitives-color-gray-black);
+
 }
 
 :root {
@@ -149,6 +148,7 @@
   --spacing-xs: 8px;
   --spacing-sm: 12px;
   --spacing-2xs: 4px;
+
 
   --primitives-color-gray-50: #fafafaff;
   --primitives-color-gray-75: #f7f7f7ff;
@@ -181,6 +181,7 @@
   --primitives-color-green-800: #197c31ff;
   --primitives-color-green-900: #17662bff;
   --primitives-color-green-950: #053914ff;
+  --primitives-color-green-1000: #0a210eff;
   --primitives-color-pink-50: #fef4ffff;
   --primitives-color-pink-100: #fde8ffff;
   --primitives-color-pink-200: #fad1ffff;
@@ -285,6 +286,7 @@
   --primitives-color-alpha-900: #ffffffe6;
   --primitives-color-alpha-950: #fffffff2;
 
+
   /* Light-mode semantic tokens must also live in :root because @theme
      cannot resolve var() references to :root primitives at build time. */
   --color-neutral-alphas-50: var(--primitives-color-blackalpha-50);
@@ -303,8 +305,8 @@
   --color-content-secondary: var(--primitives-color-gray-700);
   --color-content-primary-inverted: var(--primitives-color-gray-white);
   --color-content-tertiary: var(--primitives-color-gray-600);
-  --color-content-on-brand: var(--primitives-color-gray-black);
-  --color-content-on-brand-inverted: var(--primitives-color-gray-white);
+  --color-content-always-white: var(--primitives-color-gray-white);
+  --color-content-always-black: var(--primitives-color-gray-black);
   --color-success-surface: var(--primitives-color-emerald-green-50);
   --color-success-content: var(--primitives-color-emerald-green-700);
   --color-success-secondary: var(--primitives-color-emerald-green-300);
@@ -337,19 +339,23 @@
   --color-surface-primary: var(--primitives-color-gray-50);
   --color-surface-secondary: var(--primitives-color-gray-75);
   --color-surface-primary-inverted: var(--primitives-color-gray-900);
-  --color-surface-inputs: var(--primitives-color-gray-75);
   --color-surface-tertiary: var(--primitives-color-gray-150);
-  --color-surface-inputs-off: var(--primitives-color-gray-white);
   --color-surface-purple-muted: var(--color-brand-secondary-muted);
   --color-surface-green-muted: var(--color-brand-primary-muted);
+  --color-surface-status-active: var(--color-brand-primary-default);
+  --color-surface-status-inactive: var(--color-content-secondary);
+  --color-inputs-inputs-primary: var(--primitives-color-gray-100);
+  --color-inputs-inputs-off: var(--primitives-color-gray-white);
+  --color-inputs-inputs-elevated: var(--primitives-color-gray-150);
   --color-interaction-focus: var(--primitives-color-purple-600);
-  --color-bg-primary: var(--primitives-color-gray-white);
-  --color-bg-overlay: var(--primitives-color-blackalpha-500);
-  --color-bg-gradient-start: #fcfdfaff;
-  --color-bg-gradient-end: #f2f5efff;
+  --color-background-primary: var(--primitives-color-gray-white);
+  --color-background-overlay: var(--primitives-color-blackalpha-500);
+  --color-background-gradient-start: #fcfdfaff;
+  --color-background-gradient-end: #f2f5efff;
   --color-border-primary: var(--primitives-color-gray-150);
   --color-border-strong: var(--primitives-color-gray-300);
   --color-border-error: var(--primitives-color-red-450);
+  --color-border-background: var(--color-surface-primary);
   --color-buttons-primary: var(--primitives-color-gray-black);
   --color-buttons-primary-hover: var(--primitives-color-gray-600);
   --color-buttons-primary-muted: var(--primitives-color-gray-350);
@@ -362,6 +368,9 @@
   --color-icons-brand-green: var(--color-brand-primary-default);
   --color-icons-brand-purple: var(--color-brand-secondary-default);
   --color-icons-primary-inverted: var(--primitives-color-gray-white);
+  --color-icons-always-white: var(--primitives-color-gray-white);
+  --color-icons-always-black: var(--primitives-color-gray-black);
+
 }
 
 .dark {
@@ -381,8 +390,8 @@
   --color-content-secondary: var(--primitives-color-gray-300);
   --color-content-primary-inverted: var(--primitives-color-gray-black);
   --color-content-tertiary: var(--primitives-color-gray-400);
-  --color-content-on-brand: var(--primitives-color-gray-black);
-  --color-content-on-brand-inverted: var(--primitives-color-gray-white);
+  --color-content-always-white: var(--primitives-color-gray-white);
+  --color-content-always-black: var(--primitives-color-gray-black);
   --color-success-surface: var(--primitives-color-emerald-green-900);
   --color-success-content: var(--primitives-color-emerald-green-600);
   --color-success-secondary: var(--primitives-color-emerald-green-700);
@@ -415,19 +424,23 @@
   --color-surface-primary: var(--primitives-color-gray-900);
   --color-surface-secondary: var(--primitives-color-gray-850);
   --color-surface-primary-inverted: var(--primitives-color-gray-50);
-  --color-surface-inputs: var(--primitives-color-gray-750);
   --color-surface-tertiary: var(--primitives-color-gray-600);
-  --color-surface-inputs-off: var(--primitives-color-gray-850);
   --color-surface-purple-muted: var(--color-brand-secondary-muted);
   --color-surface-green-muted: var(--color-brand-primary-muted);
+  --color-surface-status-active: var(--color-brand-primary-default);
+  --color-surface-status-inactive: var(--color-content-secondary);
+  --color-inputs-inputs-primary: var(--primitives-color-gray-900);
+  --color-inputs-inputs-off: var(--primitives-color-gray-850);
+  --color-inputs-inputs-elevated: var(--primitives-color-gray-700);
   --color-interaction-focus: var(--primitives-color-purple-400);
-  --color-bg-primary: var(--primitives-color-gray-black);
-  --color-bg-overlay: var(--primitives-color-blackalpha-500);
-  --color-bg-gradient-start: var(--primitives-color-gray-950);
-  --color-bg-gradient-end: var(--primitives-color-gray-black);
+  --color-background-primary: var(--primitives-color-gray-black);
+  --color-background-overlay: var(--primitives-color-blackalpha-500);
+  --color-background-gradient-start: var(--primitives-color-gray-950);
+  --color-background-gradient-end: var(--primitives-color-gray-black);
   --color-border-primary: var(--primitives-color-gray-800);
   --color-border-strong: var(--primitives-color-gray-700);
   --color-border-error: var(--primitives-color-red-450);
+  --color-border-background: var(--color-surface-primary);
   --color-buttons-primary: var(--primitives-color-gray-white);
   --color-buttons-primary-hover: var(--primitives-color-gray-350);
   --color-buttons-primary-muted: var(--primitives-color-gray-450);
@@ -440,9 +453,78 @@
   --color-icons-brand-green: var(--color-brand-primary-default);
   --color-icons-brand-purple: var(--color-brand-secondary-default);
   --color-icons-primary-inverted: var(--primitives-color-gray-black);
+  --color-icons-always-white: var(--primitives-color-gray-white);
+  --color-icons-always-black: var(--primitives-color-gray-black);
+
 }
 
-@utility typography-regular-body-lg {
+@utility typography-header-heading-xl {
+  font-size: 48px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 52.8px;
+}
+
+@utility typography-header-heading-lg {
+  font-size: 40px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 44px;
+}
+
+@utility typography-header-heading-md {
+  font-size: 32px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 35.2px;
+}
+
+@utility typography-header-heading-sm {
+  font-size: 24px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 32px;
+}
+
+@utility typography-header-heading-xs {
+  font-size: 20px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 24px;
+}
+
+@utility typography-body-default-16px-semibold {
+  font-size: 16px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 24px;
+}
+
+@utility typography-body-default-16px-regular {
   font-size: 16px;
   text-decoration: none;
   font-family: Inter;
@@ -453,7 +535,18 @@
   line-height: 24px;
 }
 
-@utility typography-regular-body-md {
+@utility typography-body-small-14px-semibold {
+  font-size: 14px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 18px;
+}
+
+@utility typography-body-small-14px-regular {
   font-size: 14px;
   text-decoration: none;
   font-family: Inter;
@@ -464,7 +557,18 @@
   line-height: 18px;
 }
 
-@utility typography-regular-body-sm {
+@utility typography-description-12px-semibold {
+  font-size: 12px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 16px;
+}
+
+@utility typography-description-12px-regular {
   font-size: 12px;
   text-decoration: none;
   font-family: Inter;
@@ -475,73 +579,7 @@
   line-height: 16px;
 }
 
-@utility typography-semibold-body-lg {
-  font-size: 16px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 24px;
-}
-
-@utility typography-semibold-body-md {
-  font-size: 14px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 18px;
-}
-
-@utility typography-semibold-body-sm {
-  font-size: 12px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 16px;
-}
-
-@utility typography-semibold-link-lg {
-  font-size: 16px;
-  text-decoration: underline;
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 22px;
-}
-
-@utility typography-semibold-link-md {
-  font-size: 14px;
-  text-decoration: underline;
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 18px;
-}
-
-@utility typography-semibold-link-xs {
-  font-size: 12px;
-  text-decoration: underline;
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 16px;
-}
-
-@utility typography-semibold-badge {
+@utility typography-badge-badge {
   font-size: 9px;
   text-decoration: none;
   font-family: Inter;
@@ -553,71 +591,39 @@
   text-transform: uppercase;
 }
 
-@utility typography-bold-heading-xs {
-  font-size: 20px;
-  text-decoration: none;
+@utility typography-links-link-lg {
+  font-size: 16px;
+  text-decoration: underline;
   font-family: Inter;
-  font-weight: 700;
+  font-weight: 600;
   font-style: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  line-height: 24px;
+  line-height: 22px;
 }
 
-@utility typography-bold-heading-sm {
-  font-size: 24px;
-  text-decoration: none;
+@utility typography-links-link-md {
+  font-size: 14px;
+  text-decoration: underline;
   font-family: Inter;
-  font-weight: 700;
+  font-weight: 600;
   font-style: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  line-height: 32px;
+  line-height: 18px;
 }
 
-@utility typography-bold-heading-md {
-  font-size: 32px;
-  text-decoration: none;
+@utility typography-links-link-xs {
+  font-size: 12px;
+  text-decoration: underline;
   font-family: Inter;
-  font-weight: 700;
+  font-weight: 600;
   font-style: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  line-height: 35.2px;
+  line-height: 16px;
 }
 
-@utility typography-bold-heading-lg {
-  font-size: 40px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 700;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 44px;
-}
-
-@utility typography-bold-heading-xl {
-  font-size: 48px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 700;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 52.8px;
-}
-
-@utility typography-bold-display {
-  font-size: 64px;
-  text-decoration: none;
-  font-family: Inter;
-  font-weight: 700;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  line-height: 64px;
-}
 
 @utility fv-skeleton-wave {
   position: relative;
