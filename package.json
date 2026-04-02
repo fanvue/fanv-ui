@@ -160,7 +160,9 @@
       "rollup": ">=4.59.0",
       "storybook": ">=10.2.10",
       "picomatch": ">=4.0.4",
-      "micromatch>picomatch": "2.3.2"
+      "micromatch>picomatch": "2.3.2",
+      "lodash": ">=4.18.0",
+      "lodash-es": ">=4.18.0"
     }
   },
   "size-limit": [
