@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.2...ui-v2.6.0) (2026-04-03)
+
+
+### Features
+
+* Chat input ([#403](https://github.com/fanvue/fanv-ui/issues/403)) ([75e599b](https://github.com/fanvue/fanv-ui/commit/75e599b1f4d58bb1e5a7c11fcd832c49bda581aa))
+
 ## [2.5.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.1...ui-v2.5.2) (2026-04-02)
 
 
