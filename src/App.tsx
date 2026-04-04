@@ -1298,6 +1298,34 @@ function AvatarDemo() {
           NSFWShow
         />
       </div>
+
+      <div className="flex flex-col gap-2">
+        <p className="typography-regular-body-xs text-body-200">
+          Half overlap on split background (image and text fallback): corners outside the circle
+          should not show an opaque square.
+        </p>
+        <div className="flex flex-wrap items-end gap-8">
+          <div className="relative h-28 w-56 shrink-0 overflow-visible rounded-lg border border-neutral-300">
+            <div className="absolute inset-x-0 top-0 h-1/2 bg-[repeating-linear-gradient(135deg,#fca5a5_0_6px,#fde047_6px_12px)]" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[repeating-linear-gradient(-45deg,#93c5fd_0_6px,#86efac_6px_12px)]" />
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <Avatar
+                size={64}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                alt=""
+                fallback="JD"
+              />
+            </div>
+          </div>
+          <div className="relative h-28 w-56 shrink-0 overflow-visible rounded-lg border border-neutral-300">
+            <div className="absolute inset-x-0 top-0 h-1/2 bg-[repeating-linear-gradient(135deg,#fca5a5_0_6px,#fde047_6px_12px)]" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[repeating-linear-gradient(-45deg,#93c5fd_0_6px,#86efac_6px_12px)]" />
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <Avatar size={64} fallback="AB" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
