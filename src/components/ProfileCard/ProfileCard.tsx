@@ -62,15 +62,21 @@ export const ProfileCard = React.forwardRef<HTMLDivElement, ProfileCardProps>(
 
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[90px] bg-black/20 backdrop-blur-xl"
+          className={cn(
+            "pointer-events-none absolute inset-x-0 bottom-0 h-[90px] bg-black/20 backdrop-blur-xl",
+            "[mask-image:linear-gradient(to_top,black_0%,black_42%,transparent_100%)]",
+            "[-webkit-mask-image:linear-gradient(to_top,black_0%,black_42%,transparent_100%)]",
+          )}
         />
 
         <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2">
             <Avatar src={avatarSrc} alt={avatarAlt ?? name} size={40} />
             <div className="min-w-0">
-              <p className="typography-semibold-body-lg truncate text-content-white">{name}</p>
-              <p className="typography-semibold-body-md truncate text-content-white">
+              <p className="typography-semibold-body-lg truncate text-content-on-brand-inverted">
+                {name}
+              </p>
+              <p className="typography-semibold-body-md truncate text-[var(--primitives-color-gray-300)]">
                 {normalizedUsername}
               </p>
             </div>
