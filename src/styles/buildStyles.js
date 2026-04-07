@@ -176,89 +176,8 @@ const getEffectTokens = (effectTokens) => {
   return output;
 };
 
-const BASE_LAYER = `@layer base {
-  html {
-    touch-action: manipulation;
-  }
-
-  body {
-    -webkit-font-smoothing: antialiased;
-    scrollbar-gutter: stable;
-  }
-
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  input:autofill,
-  input:autofill:hover,
-  input:autofill:focus,
-  textarea:-webkit-autofill,
-  textarea:-webkit-autofill:hover,
-  textarea:-webkit-autofill:focus,
-  textarea:autofill,
-  textarea:autofill:hover,
-  textarea:autofill:focus {
-    -webkit-text-fill-color: var(--color-content-primary);
-    -webkit-box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
-    box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
-    background-clip: padding-box !important;
-    transition: background-color 9999s ease-in-out 0s;
-  }
-}`;
-
-const KEYFRAMES_AND_ANIMATIONS = `
-@utility fv-skeleton-wave {
-  position: relative;
-  overflow: hidden;
-
-  &::after {
-    position: absolute;
-    inset: 0;
-    transform: translateX(-100%);
-    will-change: transform;
-    background-image: linear-gradient(
-      90deg,
-      transparent,
-      color-mix(in srgb, var(--color-content-primary) 8%, transparent),
-      color-mix(in srgb, var(--color-content-primary) 16%, transparent),
-      transparent
-    );
-    animation: fv-skeleton-shimmer 1.5s ease-in-out infinite;
-    content: "";
-  }
-}
-
-@keyframes fv-skeleton-shimmer {
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes accordion-expand {
-  from {
-    height: 0;
-  }
-  to {
-    height: var(--radix-accordion-content-height);
-  }
-}
-
-@keyframes accordion-collapse {
-  from {
-    height: var(--radix-accordion-content-height);
-  }
-  to {
-    height: 0;
-  }
-}
-
-@utility animate-accordion-expand {
-  animation: accordion-expand 200ms ease-out;
-}
-
-@utility animate-accordion-collapse {
-  animation: accordion-collapse 200ms ease-out;
-}`;
+/* Hand-written styles (base layer, utilities, keyframes, autofill overrides)
+ * live in base.css and are imported into the generated theme.css. */
 
 const rawTokens = JSON.parse(fs.readFileSync(tokensPath, "utf-8"));
 
@@ -272,14 +191,23 @@ const output = [
   `/* Consumers must provide their own Tailwind import: @import "tailwindcss"; */`,
   ``,
   `@variant dark (&:where(.dark, .dark *));`,
-  ``,
-  BASE_LAYER,
+  `@custom-variant infloww (&:is([data-infloww] *));`,
   ``,
   `@theme {`,
-  effectVars,
-  radiusVars,
+  `  --breakpoint-*: initial;`,
+  `  --breakpoint-sm: 850px;`,
+  `  --breakpoint-md: 1024px;`,
+  `  --breakpoint-inflowwmd: 1223px;`,
+  `  --breakpoint-lg: 1280px;`,
+  `}`,
   ``,
-  themeVars,
+  `@import "./base.css";`,
+  ``,
+  `@theme {`,
+  effectVars.trimEnd(),
+  radiusVars.trimEnd(),
+  ``,
+  themeVars.trimEnd(),
   `}`,
   ``,
   `:root {`,
@@ -290,20 +218,19 @@ const output = [
   ``,
   `  /* Spacing tokens live in :root (not @theme) to avoid overriding`,
   `     Tailwind v4's default --spacing-* scale used by p-*, m-*, gap-*, etc. */`,
-  spacingVars,
+  spacingVars.trimEnd(),
   ``,
-  primitivesVars,
+  primitivesVars.trimEnd(),
   ``,
   `  /* Light-mode semantic tokens must also live in :root because @theme`,
   `     cannot resolve var() references to :root primitives at build time. */`,
-  lightVars,
+  lightVars.trimEnd(),
   `}`,
   ``,
   `.dark {`,
-  darkVars,
+  darkVars.trimEnd(),
   `}`,
   typographyClasses,
-  KEYFRAMES_AND_ANIMATIONS,
 ].join("\n");
 
 fs.writeFileSync(outputPath, output, "utf-8");

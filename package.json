@@ -51,7 +51,7 @@
   ],
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build && mkdir -p dist/styles && cp src/styles/theme.css dist/styles/theme.css",
+    "build": "vite build && mkdir -p dist/styles && cp src/styles/theme.css src/styles/base.css dist/styles/",
     "build:showcase": "vite build --config vite.showcase.config.ts",
     "preview": "vite preview",
     "test": "vitest run",
