@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.6.1...ui-v2.6.2) (2026-04-07)
+
+
+### Bug Fixes
+
+* override font properties on autofilled inputs ([#416](https://github.com/fanvue/fanv-ui/issues/416)) ([8c4355a](https://github.com/fanvue/fanv-ui/commit/8c4355a92d178a5bdda79f9caa94e76b90986d37))
+
 ## [2.6.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.6.0...ui-v2.6.1) (2026-04-07)
 
 
