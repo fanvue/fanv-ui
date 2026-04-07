@@ -42,9 +42,9 @@ const CONTAINER_MIN_HEIGHT: Record<TextAreaSize, string> = {
 };
 
 const TEXTAREA_SIZE_CLASSES: Record<TextAreaSize, string> = {
-  "48": "py-3 typography-regular-body-lg",
-  "40": "py-2 typography-regular-body-lg",
-  "32": "py-2 typography-regular-body-md",
+  "48": "py-3 typography-regular-body-lg autofill-body-lg",
+  "40": "py-2 typography-regular-body-lg autofill-body-lg",
+  "32": "py-2 typography-regular-body-md autofill-body-md",
 };
 
 const PADDING_HORIZONTAL: Record<TextAreaSize, string> = {

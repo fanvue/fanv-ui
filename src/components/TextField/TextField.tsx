@@ -34,9 +34,9 @@ const CONTAINER_HEIGHT: Record<TextFieldSize, string> = {
 };
 
 const INPUT_SIZE_CLASSES: Record<TextFieldSize, string> = {
-  "48": "py-3 typography-regular-body-lg",
-  "40": "py-2 typography-regular-body-lg",
-  "32": "py-2 typography-regular-body-md",
+  "48": "py-3 typography-regular-body-lg autofill-body-lg",
+  "40": "py-2 typography-regular-body-lg autofill-body-lg",
+  "32": "py-2 typography-regular-body-md autofill-body-md",
 };
 
 const INPUT_PL: Record<TextFieldSize, { default: string; withIcon: string }> = {
