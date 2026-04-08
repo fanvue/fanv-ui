@@ -91,6 +91,8 @@ export {
   CardHeader,
   CardTitle,
 } from "./components/Card/Card";
+export type { ChatInputProps, ChatInputSelectOption } from "./components/ChatInput/ChatInput";
+export { ChatInput } from "./components/ChatInput/ChatInput";
 export type {
   CheckboxProps,
   CheckboxSize,

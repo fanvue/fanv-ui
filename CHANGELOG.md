@@ -1,5 +1,36 @@
 # Changelog
 
+## [2.6.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.6.1...ui-v2.6.2) (2026-04-07)
+
+
+### Bug Fixes
+
+* override font properties on autofilled inputs ([#416](https://github.com/fanvue/fanv-ui/issues/416)) ([8c4355a](https://github.com/fanvue/fanv-ui/commit/8c4355a92d178a5bdda79f9caa94e76b90986d37))
+
+## [2.6.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.6.0...ui-v2.6.1) (2026-04-07)
+
+
+### Bug Fixes
+
+* **avatar:** solid fallback background (ENG-9566) ([#411](https://github.com/fanvue/fanv-ui/issues/411)) ([ec9f5a2](https://github.com/fanvue/fanv-ui/commit/ec9f5a22c5838ac570d9bab4b64379676d45a73c))
+* **deps:** resolve high-severity audit (vite 7.3.2, lodash overrides) ([5e827b1](https://github.com/fanvue/fanv-ui/commit/5e827b1ba90488e8dc5cd67fba0350c9c59fff87))
+* **deps:** resolve high-severity pnpm audit ([#413](https://github.com/fanvue/fanv-ui/issues/413)) ([5e827b1](https://github.com/fanvue/fanv-ui/commit/5e827b1ba90488e8dc5cd67fba0350c9c59fff87))
+* preserve font styles on browser autofill inputs ([#414](https://github.com/fanvue/fanv-ui/issues/414)) ([91039b5](https://github.com/fanvue/fanv-ui/commit/91039b5518ea82d546187bd174b900c27833b740))
+
+## [2.6.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.2...ui-v2.6.0) (2026-04-03)
+
+
+### Features
+
+* Chat input ([#403](https://github.com/fanvue/fanv-ui/issues/403)) ([75e599b](https://github.com/fanvue/fanv-ui/commit/75e599b1f4d58bb1e5a7c11fcd832c49bda581aa))
+
+## [2.5.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.1...ui-v2.5.2) (2026-04-02)
+
+
+### Bug Fixes
+
+* resolve high-severity lodash audit vulnerabilities ([#408](https://github.com/fanvue/fanv-ui/issues/408)) ([d8bdac0](https://github.com/fanvue/fanv-ui/commit/d8bdac07a09cf037cc5f17588c59dd2a4ea720d6))
+
 ## [2.5.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.0...ui-v2.5.1) (2026-04-01)
 
 

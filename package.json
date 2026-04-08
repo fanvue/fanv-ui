@@ -1,6 +1,6 @@
 {
   "name": "@fanvue/ui",
-  "version": "2.5.1",
+  "version": "2.6.2",
   "description": "React component library built with Tailwind CSS for Fanvue ecosystem",
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
@@ -51,7 +51,7 @@
   ],
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build && mkdir -p dist/styles && cp src/styles/theme.css dist/styles/theme.css",
+    "build": "vite build && mkdir -p dist/styles && cp src/styles/theme.css src/styles/base.css dist/styles/",
     "build:showcase": "vite build --config vite.showcase.config.ts",
     "preview": "vite preview",
     "test": "vitest run",
@@ -147,13 +147,15 @@
     "style-dictionary": "4.2.0",
     "tailwindcss": "4.1.18",
     "typescript": "5.9.3",
-    "vite": "7.3.1",
+    "vite": "7.3.2",
     "vite-plugin-dts": "4.5.4",
     "vitest": "4.0.18",
     "vitest-axe": "1.0.0-pre.3"
   },
   "pnpm": {
     "overrides": {
+      "lodash": ">=4.18.0",
+      "lodash-es": ">=4.18.0",
       "@isaacs/brace-expansion": ">=5.0.1",
       "qs": ">=6.14.2",
       "minimatch": ">=10.2.3",
