@@ -1768,6 +1768,13 @@
             }
           }
         },
+        "background": {
+          "avatar": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.light.color.gray.300}"
+          }
+        },
         "border": {
           "primary": {
             "description": "",
@@ -3060,6 +3067,13 @@
                 "exportKey": "variables"
               }
             }
+          }
+        },
+        "background": {
+          "avatar": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.dark.color.gray.700}"
           }
         },
         "border": {
