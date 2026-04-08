@@ -72,7 +72,7 @@ const AvatarRoot = React.forwardRef<
             ref={ref}
             data-testid="avatar"
             className={cn(
-              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-300",
+              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-background-avatar",
               size === 16 && "size-4 text-2xs",
               size === 24 && "size-6 text-xs",
               size === 32 && "size-8 text-xs",
