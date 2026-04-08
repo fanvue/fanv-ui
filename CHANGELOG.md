@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.7.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.6.2...ui-v2.7.0) (2026-04-08)
+
+
+### Features
+
+* **avatar:** semantic background token for fallback ([#418](https://github.com/fanvue/fanv-ui/issues/418)) ([2a95f72](https://github.com/fanvue/fanv-ui/commit/2a95f72ab51f31c4e3db8c49ef3a8f152560ca6b))
+* **avatar:** use semantic background token for fallback surface ([2a95f72](https://github.com/fanvue/fanv-ui/commit/2a95f72ab51f31c4e3db8c49ef3a8f152560ca6b))
+
 ## [2.6.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.6.1...ui-v2.6.2) (2026-04-07)
 
 
