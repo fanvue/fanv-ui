@@ -5,18 +5,21 @@ import { cn } from "../../utils/cn";
 /** Breakpoint values for responsive props. */
 type Breakpoint = "sm" | "md" | "lg" | "xl";
 
-const alignLeftBreakpointClasses: Record<Breakpoint, string> = {
-  sm: "[&>[role=tab]]:flex-1 [&>[role=tab]]:sm:flex-initial",
-  md: "[&>[role=tab]]:flex-1 [&>[role=tab]]:md:flex-initial",
-  lg: "[&>[role=tab]]:flex-1 [&>[role=tab]]:lg:flex-initial",
-  xl: "[&>[role=tab]]:flex-1 [&>[role=tab]]:xl:flex-initial",
+const alignLeftClasses: Record<Breakpoint | "always", string> = {
+  always: "[&>[role=tab]]:flex-initial",
+  sm: "[&>[role=tab]]:sm:flex-initial",
+  md: "[&>[role=tab]]:md:flex-initial",
+  lg: "[&>[role=tab]]:lg:flex-initial",
+  xl: "[&>[role=tab]]:xl:flex-initial",
 };
 
 function getLayoutClass(fullWidth: boolean, alignLeft?: boolean | Breakpoint): string {
   if (!fullWidth) return "inline-flex";
-  if (alignLeft === true) return "flex w-full";
-  if (typeof alignLeft === "string") return `flex w-full ${alignLeftBreakpointClasses[alignLeft]}`;
-  return "flex w-full [&>[role=tab]]:flex-1";
+
+  const base = "flex w-full [&>[role=tab]]:flex-1";
+  if (alignLeft === true) return `${base} ${alignLeftClasses.always}`;
+  if (typeof alignLeft === "string") return `${base} ${alignLeftClasses[alignLeft]}`;
+  return base;
 }
 
 /** Props for the {@link TabsList} component. */
