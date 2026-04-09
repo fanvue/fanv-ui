@@ -12,6 +12,13 @@ const alignLeftBreakpointClasses: Record<Breakpoint, string> = {
   xl: "[&>[role=tab]]:flex-1 [&>[role=tab]]:xl:flex-initial",
 };
 
+function getLayoutClass(fullWidth: boolean, alignLeft?: boolean | Breakpoint): string {
+  if (!fullWidth) return "inline-flex";
+  if (alignLeft === true) return "flex w-full";
+  if (typeof alignLeft === "string") return `flex w-full ${alignLeftBreakpointClasses[alignLeft]}`;
+  return "flex w-full [&>[role=tab]]:flex-1";
+}
+
 /** Props for the {@link TabsList} component. */
 export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
   /** When `true` (the default), the tab list spans the full width of its container and each tab grows equally. Set to `false` for inline sizing. */
@@ -95,16 +102,7 @@ export const TabsList = React.forwardRef<
       ref={innerRef}
       className={cn(
         "relative",
-        fullWidth
-          ? [
-              "flex w-full",
-              alignLeft === true
-                ? null
-                : typeof alignLeft === "string"
-                  ? alignLeftBreakpointClasses[alignLeft]
-                  : "[&>[role=tab]]:flex-1",
-            ]
-          : "inline-flex",
+        getLayoutClass(fullWidth, alignLeft),
         "data-[orientation=horizontal]:items-center data-[orientation=horizontal]:shadow-[inset_0_-1px_0_0_var(--color-neutral-alphas-200)]",
         "data-[orientation=vertical]:flex-col data-[orientation=vertical]:shadow-[inset_-1px_0_0_0_var(--color-neutral-alphas-200)]",
         className,
