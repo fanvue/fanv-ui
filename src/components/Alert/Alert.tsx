@@ -96,7 +96,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         {...props}
       >
         {resolvedIcon && (
-          <span className="flex shrink-0 items-start" aria-hidden="true">
+          <span className="flex shrink-0 items-start h-full" aria-hidden="true">
             {resolvedIcon}
           </span>
         )}

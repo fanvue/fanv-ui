@@ -1556,7 +1556,8 @@ function AlertDemo() {
       <h2 className="typography-bold-heading-sm mb-4">Alert</h2>
       <div className="max-w-2xl space-y-4">
         <Alert variant="info" icon={<InfoCircleIcon />}>
-          This is an informational alert message.
+          This is an informational alert with enough text to wrap across multiple lines so the icon
+          stays aligned to the top of the message.
         </Alert>
         <Alert variant="success" icon={<CheckCircleIcon />}>
           Your changes have been saved successfully.
