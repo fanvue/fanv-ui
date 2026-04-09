@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.8.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.7.0...ui-v2.8.0) (2026-04-09)
+
+
+### Features
+
+* **tabs:** allow left align keeping full width border ([#420](https://github.com/fanvue/fanv-ui/issues/420)) ([b2f74be](https://github.com/fanvue/fanv-ui/commit/b2f74be76c3ff4551c9351db5fd9f16f427d4972))
+
+
+### Bug Fixes
+
+* **alert:** top-align icon for multi-line body text ([#422](https://github.com/fanvue/fanv-ui/issues/422)) ([a20c789](https://github.com/fanvue/fanv-ui/commit/a20c78919f4fec54dd6f8228625dce379be65c78))
+
 ## [2.7.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.6.2...ui-v2.7.0) (2026-04-08)
 
 
