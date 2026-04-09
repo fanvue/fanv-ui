@@ -2,17 +2,34 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
+/** Breakpoint values for responsive props. */
+type Breakpoint = "sm" | "md" | "lg" | "xl";
+
+const alignLeftBreakpointClasses: Record<Breakpoint, string> = {
+  sm: "[&>[role=tab]]:flex-1 [&>[role=tab]]:sm:flex-initial",
+  md: "[&>[role=tab]]:flex-1 [&>[role=tab]]:md:flex-initial",
+  lg: "[&>[role=tab]]:flex-1 [&>[role=tab]]:lg:flex-initial",
+  xl: "[&>[role=tab]]:flex-1 [&>[role=tab]]:xl:flex-initial",
+};
+
 /** Props for the {@link TabsList} component. */
 export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
   /** When `true` (the default), the tab list spans the full width of its container and each tab grows equally. Set to `false` for inline sizing. */
   fullWidth?: boolean;
+  /**
+   * Controls tab alignment within a full-width container.
+   * - `false` (default): tabs spread evenly
+   * - `true`: tabs left-aligned, sized to content
+   * - `"md"` (breakpoint): spread on mobile, left-aligned at breakpoint and up
+   */
+  alignLeft?: boolean | Breakpoint;
 };
 
 /** Container for {@link TabsTrigger} elements. Renders a sliding active-tab indicator that animates between tabs. */
 export const TabsList = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.List>,
   TabsListProps
->(({ className, children, fullWidth = true, ...props }, ref) => {
+>(({ className, children, fullWidth = true, alignLeft, ...props }, ref) => {
   const innerRef = React.useRef<HTMLDivElement>(null);
   const indicatorRef = React.useRef<HTMLSpanElement>(null);
 
@@ -78,7 +95,16 @@ export const TabsList = React.forwardRef<
       ref={innerRef}
       className={cn(
         "relative",
-        fullWidth ? "flex w-full [&>[role=tab]]:flex-1" : "inline-flex",
+        fullWidth
+          ? [
+              "flex w-full",
+              alignLeft === true
+                ? null
+                : typeof alignLeft === "string"
+                  ? alignLeftBreakpointClasses[alignLeft]
+                  : "[&>[role=tab]]:flex-1",
+            ]
+          : "inline-flex",
         "data-[orientation=horizontal]:items-center data-[orientation=horizontal]:shadow-[inset_0_-1px_0_0_var(--color-neutral-200)]",
         "data-[orientation=vertical]:flex-col data-[orientation=vertical]:shadow-[inset_-1px_0_0_0_var(--color-neutral-200)]",
         className,

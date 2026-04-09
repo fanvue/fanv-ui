@@ -907,12 +907,36 @@ function IconsDemo() {
 
 function TypographyDemo() {
   const boldTokens = [
-    { name: "Display", className: "typography-bold-display", sample: "Display" },
-    { name: "Heading Xl", className: "typography-bold-heading-xl", sample: "Heading XL" },
-    { name: "Heading Lg", className: "typography-bold-heading-lg", sample: "Heading Lg" },
-    { name: "Heading Md", className: "typography-bold-heading-md", sample: "Heading Md" },
-    { name: "Heading Sm", className: "typography-bold-heading-sm", sample: "Heading Sm" },
-    { name: "Heading Xs", className: "typography-bold-heading-xs", sample: "Heading Xs" },
+    {
+      name: "Display",
+      className: "typography-bold-display",
+      sample: "Display",
+    },
+    {
+      name: "Heading Xl",
+      className: "typography-bold-heading-xl",
+      sample: "Heading XL",
+    },
+    {
+      name: "Heading Lg",
+      className: "typography-bold-heading-lg",
+      sample: "Heading Lg",
+    },
+    {
+      name: "Heading Md",
+      className: "typography-bold-heading-md",
+      sample: "Heading Md",
+    },
+    {
+      name: "Heading Sm",
+      className: "typography-bold-heading-sm",
+      sample: "Heading Sm",
+    },
+    {
+      name: "Heading Xs",
+      className: "typography-bold-heading-xs",
+      sample: "Heading Xs",
+    },
   ];
 
   const semiboldTokens = [
@@ -931,10 +955,26 @@ function TypographyDemo() {
       className: "typography-semibold-body-sm",
       sample: "Semibold caption for labels and emphasis.",
     },
-    { name: "Link Lg", className: "typography-semibold-link-lg", sample: "Large link text" },
-    { name: "Link Md", className: "typography-semibold-link-md", sample: "Medium link text" },
-    { name: "Link Xs", className: "typography-semibold-link-xs", sample: "Extra small link text" },
-    { name: "Badge", className: "typography-semibold-badge", sample: "Badge Label" },
+    {
+      name: "Link Lg",
+      className: "typography-semibold-link-lg",
+      sample: "Large link text",
+    },
+    {
+      name: "Link Md",
+      className: "typography-semibold-link-md",
+      sample: "Medium link text",
+    },
+    {
+      name: "Link Xs",
+      className: "typography-semibold-link-xs",
+      sample: "Extra small link text",
+    },
+    {
+      name: "Badge",
+      className: "typography-semibold-badge",
+      sample: "Badge Label",
+    },
   ];
 
   const regularTokens = [
@@ -2186,6 +2226,26 @@ function TabsDemo() {
             <p className="pt-4 text-neutral-400 text-sm">Disabled inactive tab content</p>
           </TabsContent>
         </Tabs>
+        <Tabs defaultValue="tab1">
+          <TabsList alignLeft>
+            <TabsTrigger value="tab1">Photos</TabsTrigger>
+            <TabsTrigger value="tab2">Videos</TabsTrigger>
+            <TabsTrigger value="tab3">Posts</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">
+            <p className="pt-4 text-neutral-400 text-sm">Align left</p>
+          </TabsContent>
+        </Tabs>
+        <Tabs defaultValue="tab1">
+          <TabsList alignLeft="md">
+            <TabsTrigger value="tab1">App Store</TabsTrigger>
+            <TabsTrigger value="tab2">My apps</TabsTrigger>
+            <TabsTrigger value="tab3">Builder</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">
+            <p className="pt-4 text-neutral-400 text-sm">Align left (responsive)</p>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
@@ -2452,8 +2512,14 @@ function TooltipDemo() {
                 variant="infobox"
                 side="bottom"
                 heading="Title"
-                primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
-                secondaryAction={{ label: "Dismiss", onClick: () => console.log("Dismiss") }}
+                primaryAction={{
+                  label: "OK",
+                  onClick: () => console.log("OK"),
+                }}
+                secondaryAction={{
+                  label: "Dismiss",
+                  onClick: () => console.log("Dismiss"),
+                }}
               >
                 Info text with a longer description that wraps across multiple lines.
               </TooltipContent>
@@ -2466,8 +2532,14 @@ function TooltipDemo() {
                 variant="infobox"
                 icon={<InfoCircleIcon className="text-foreground-inverse" />}
                 heading="Title"
-                primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
-                secondaryAction={{ label: "Dismiss", onClick: () => console.log("Dismiss") }}
+                primaryAction={{
+                  label: "OK",
+                  onClick: () => console.log("OK"),
+                }}
+                secondaryAction={{
+                  label: "Dismiss",
+                  onClick: () => console.log("Dismiss"),
+                }}
               >
                 Info text
               </TooltipContent>
