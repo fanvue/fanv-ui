@@ -103,6 +103,55 @@ export const Inline: Story = {
   ),
 };
 
+export const AlignLeft: Story = {
+  name: "Full Width - Align Left",
+  render: () => (
+    <Tabs defaultValue="tab1">
+      <TabsList alignLeft>
+        <TabsTrigger value="tab1">Photos</TabsTrigger>
+        <TabsTrigger value="tab2">Videos</TabsTrigger>
+        <TabsTrigger value="tab3">Posts</TabsTrigger>
+      </TabsList>
+      <TabsContent value="tab1">
+        <p className="pt-4 text-neutral-400 text-sm">
+          Full width container with left-aligned tabs (sized to content)
+        </p>
+      </TabsContent>
+      <TabsContent value="tab2">
+        <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
+      </TabsContent>
+      <TabsContent value="tab3">
+        <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
+      </TabsContent>
+    </Tabs>
+  ),
+};
+
+export const AlignLeftResponsive: Story = {
+  name: "Full Width - Align Left (Responsive)",
+  render: () => (
+    <Tabs defaultValue="tab1">
+      <TabsList alignLeft="md">
+        <TabsTrigger value="tab1">App Store</TabsTrigger>
+        <TabsTrigger value="tab2">My apps</TabsTrigger>
+        <TabsTrigger value="tab3">Builder</TabsTrigger>
+      </TabsList>
+      <TabsContent value="tab1">
+        <p className="pt-4 text-neutral-400 text-sm">
+          Tabs spread evenly on mobile, left-aligned on md and up. Resize the viewport to see the
+          difference.
+        </p>
+      </TabsContent>
+      <TabsContent value="tab2">
+        <p className="pt-4 text-neutral-400 text-sm">My apps content</p>
+      </TabsContent>
+      <TabsContent value="tab3">
+        <p className="pt-4 text-neutral-400 text-sm">Builder content</p>
+      </TabsContent>
+    </Tabs>
+  ),
+};
+
 export const Truncated: Story = {
   render: () => (
     <div style={{ width: 250 }}>
