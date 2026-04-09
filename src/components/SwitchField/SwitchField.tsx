@@ -84,8 +84,8 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
             <label
               htmlFor={id}
               className={cn(
-                "cursor-pointer select-none text-foreground-default",
-                disabled && "cursor-not-allowed text-neutral-250",
+                "cursor-pointer select-none text-content-primary",
+                disabled && "cursor-not-allowed text-content-tertiary",
                 size === "default" ? "typography-semibold-body-lg" : "typography-semibold-body-md",
               )}
             >
@@ -98,7 +98,7 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
                     <button type="button" aria-label={infoLabel} className="flex shrink-0 pt-0.5">
                       <InfoCircleIcon
                         aria-hidden="true"
-                        className="size-5 text-foreground-secondary"
+                        className="size-5 text-content-secondary"
                       />
                     </button>
                   </TooltipTrigger>
@@ -112,8 +112,8 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
           <span
             id={helperTextId}
             className={cn(
-              "text-foreground-secondary",
-              disabled && "text-neutral-250",
+              "text-content-secondary",
+              disabled && "text-content-tertiary",
               size === "default" ? "typography-regular-body-md" : "typography-regular-body-sm",
             )}
           >

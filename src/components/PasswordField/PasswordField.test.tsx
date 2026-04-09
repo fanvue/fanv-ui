@@ -93,6 +93,12 @@ describe("PasswordField", () => {
       expect(toggleButton).toHaveAttribute("tabIndex", "-1");
     });
 
+    it("toggle button has cursor-default class", () => {
+      render(<PasswordField />);
+      const toggleButton = screen.getByRole("button", { name: "Show password" });
+      expect(toggleButton).toHaveClass("cursor-default");
+    });
+
     it("disables toggle button when input is disabled", () => {
       render(<PasswordField disabled />);
       const toggleButton = screen.getByRole("button", { name: "Show password" });
@@ -138,7 +144,7 @@ describe("PasswordField", () => {
   describe("error state", () => {
     it("applies error state styling", () => {
       const { container } = render(<PasswordField error />);
-      const inputContainer = container.querySelector('div[class*="border-error-default"]');
+      const inputContainer = container.querySelector('div[class*="border-error-content"]');
       expect(inputContainer).toBeInTheDocument();
     });
 
@@ -167,7 +173,7 @@ describe("PasswordField", () => {
     it("applies error styling to helper text when error is true", () => {
       render(<PasswordField error helperText="Helper text" />);
       const helperText = screen.getByText("Helper text");
-      expect(helperText).toHaveClass("text-error-default");
+      expect(helperText).toHaveClass("text-error-content");
     });
 
     it("supports disabled state", () => {

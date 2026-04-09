@@ -45,6 +45,7 @@ import { ExpandIcon } from "../components/Icons/ExpandIcon";
 import { EyeClosedIcon } from "../components/Icons/EyeClosedIcon";
 import { EyeIcon } from "../components/Icons/EyeIcon";
 import { EyeSlashIcon } from "../components/Icons/EyeSlashIcon";
+import { FacebookIcon } from "../components/Icons/FacebookIcon";
 import { FlagIcon } from "../components/Icons/FlagIcon";
 import { FlameIcon } from "../components/Icons/FlameIcon";
 import { FolderIcon } from "../components/Icons/FolderIcon";
@@ -52,6 +53,7 @@ import { ForwardIcon } from "../components/Icons/ForwardIcon";
 import { GalleryIcon } from "../components/Icons/GalleryIcon";
 import { GenderIcon } from "../components/Icons/GenderIcon";
 import { GiftIcon } from "../components/Icons/GiftIcon";
+import { GoogleIcon } from "../components/Icons/GoogleIcon";
 import { HelpIcon } from "../components/Icons/HelpIcon";
 import { HomeIcon } from "../components/Icons/HomeIcon";
 import { HourglassIcon } from "../components/Icons/HourglassIcon";
@@ -75,7 +77,10 @@ import { MinusIcon } from "../components/Icons/MinusIcon";
 import { MoonIcon } from "../components/Icons/MoonIcon";
 import { MoreIcon } from "../components/Icons/MoreIcon";
 import { MoreVerticalIcon } from "../components/Icons/MoreVerticalIcon";
+import { NewMessageIcon } from "../components/Icons/NewMessageIcon";
+import { OpenIcon } from "../components/Icons/OpenIcon";
 import { PauseIcon } from "../components/Icons/PauseIcon";
+import { PeopleIcon } from "../components/Icons/PeopleIcon";
 import { PhoneIcon } from "../components/Icons/PhoneIcon";
 import { PhoneOffIcon } from "../components/Icons/PhoneOffIcon";
 import { PinIcon } from "../components/Icons/PinIcon";
@@ -85,6 +90,7 @@ import { PrivacyIcon } from "../components/Icons/PrivacyIcon";
 import { RepeatIcon } from "../components/Icons/RepeatIcon";
 import { Reply2Icon } from "../components/Icons/Reply2Icon";
 import { ReplyIcon } from "../components/Icons/ReplyIcon";
+import { ReverseIcon } from "../components/Icons/ReverseIcon";
 import { SearchIcon } from "../components/Icons/SearchIcon";
 import { SendIcon } from "../components/Icons/SendIcon";
 import { SettingsIcon } from "../components/Icons/SettingsIcon";
@@ -98,13 +104,16 @@ import { Support2Icon } from "../components/Icons/Support2Icon";
 import { SupportIcon } from "../components/Icons/SupportIcon";
 import { TagIcon } from "../components/Icons/TagIcon";
 import { TaskIcon } from "../components/Icons/TaskIcon";
+import { ThumbDownFilledIcon } from "../components/Icons/ThumbDownFilledIcon";
 import { ThumbDownIcon } from "../components/Icons/ThumbDownIcon";
+import { ThumbUpFilledIcon } from "../components/Icons/ThumbUpFilledIcon";
 import { ThumbUpIcon } from "../components/Icons/ThumbUpIcon";
 import { TickCircleIcon } from "../components/Icons/TickCircleIcon";
 import { TickCircleOffIcon } from "../components/Icons/TickCircleOffIcon";
 import { TickIcon } from "../components/Icons/TickIcon";
 import { TrashBinIcon } from "../components/Icons/TrashBinIcon";
 import { TrophyIcon } from "../components/Icons/TrophyIcon";
+import { TwitterIcon } from "../components/Icons/TwitterIcon";
 import type { IconProps } from "../components/Icons/types";
 import { UploadCloudIcon } from "../components/Icons/UploadCloudIcon";
 import { UploadIcon } from "../components/Icons/UploadIcon";
@@ -141,7 +150,7 @@ type IconEntry = {
 const icons: IconEntry[] = [
   { name: "AddIcon", component: AddIcon, tags: ["add", "plus", "create", "new"] },
   { name: "AIIcon", component: AIIcon, tags: ["ai", "artificial", "intelligence", "machine"] },
-  { name: "AlertIcon", component: AlertIcon, tags: ["alert", "dots", "more", "vertical"] },
+  { name: "AlertIcon", component: AlertIcon, tags: ["alert", "warning", "exclamation"] },
   { name: "ArrowDownIcon", component: ArrowDownIcon, tags: ["arrow", "down", "navigation"] },
   {
     name: "ArrowLeftIcon",
@@ -162,8 +171,8 @@ const icons: IconEntry[] = [
   { name: "BankIcon", component: BankIcon, tags: ["bank", "login", "enter", "door"] },
   { name: "BellIcon", component: BellIcon, tags: ["bell", "notification", "alarm"] },
   { name: "BellOffIcon", component: BellOffIcon, tags: ["bell", "off", "mute", "notification"] },
-  { name: "BoltIcon", component: BoltIcon, tags: ["bolt", "wifi", "signal", "connection"] },
-  { name: "BulbIcon", component: BulbIcon, tags: ["bulb", "code", "terminal", "dev"] },
+  { name: "BoltIcon", component: BoltIcon, tags: ["bolt", "lightning", "power", "energy"] },
+  { name: "BulbIcon", component: BulbIcon, tags: ["bulb", "light", "idea", "lamp"] },
   {
     name: "Calendar2Icon",
     component: Calendar2Icon,
@@ -186,21 +195,29 @@ const icons: IconEntry[] = [
   {
     name: "ChevronDownIcon",
     component: ChevronDownIcon,
-    tags: ["chevron", "down", "dots", "more"],
+    tags: ["chevron", "down", "arrow", "expand"],
   },
   {
     name: "ChevronLeftIcon",
     component: ChevronLeftIcon,
-    tags: ["chevron", "left", "check", "circle"],
+    tags: ["chevron", "left", "arrow", "back"],
   },
-  { name: "ChevronRightIcon", component: ChevronRightIcon, tags: ["chevron", "right", "circle"] },
-  { name: "ChevronUpIcon", component: ChevronUpIcon, tags: ["chevron", "up", "gift", "present"] },
+  {
+    name: "ChevronRightIcon",
+    component: ChevronRightIcon,
+    tags: ["chevron", "right", "arrow", "next"],
+  },
+  { name: "ChevronUpIcon", component: ChevronUpIcon, tags: ["chevron", "up", "arrow", "collapse"] },
   { name: "ClockIcon", component: ClockIcon, tags: ["clock", "time", "schedule"] },
-  { name: "CloseIcon", component: CloseIcon, tags: ["close", "warning", "alert", "danger"] },
+  { name: "CloseIcon", component: CloseIcon, tags: ["close", "x", "dismiss", "remove"] },
   { name: "CodeIcon", component: CodeIcon, tags: ["code", "brackets", "programming"] },
   { name: "CoinIcon", component: CoinIcon, tags: ["coin", "money", "currency", "star"] },
-  { name: "CompassIcon", component: CompassIcon, tags: ["compass", "share", "forward"] },
-  { name: "CopyIcon", component: CopyIcon, tags: ["copy", "chevron", "right"] },
+  {
+    name: "CompassIcon",
+    component: CompassIcon,
+    tags: ["compass", "navigation", "direction", "explore"],
+  },
+  { name: "CopyIcon", component: CopyIcon, tags: ["copy", "duplicate", "clipboard", "paste"] },
   { name: "CrossIcon", component: CrossIcon, tags: ["cross", "x", "close", "cancel", "remove"] },
   { name: "CrownIcon", component: CrownIcon, tags: ["crown", "premium", "vip", "special"] },
   { name: "DiamondIcon", component: DiamondIcon, tags: ["diamond", "gem", "premium"] },
@@ -224,6 +241,7 @@ const icons: IconEntry[] = [
   },
   { name: "EyeIcon", component: EyeIcon, tags: ["eye", "view", "visibility", "show"] },
   { name: "EyeSlashIcon", component: EyeSlashIcon, tags: ["eye", "slash", "hidden", "invisible"] },
+  { name: "FacebookIcon", component: FacebookIcon, tags: ["facebook", "social", "login"] },
   { name: "FlagIcon", component: FlagIcon, tags: ["flag", "report", "bookmark"] },
   {
     name: "FlameIcon",
@@ -233,6 +251,7 @@ const icons: IconEntry[] = [
   { name: "FolderIcon", component: FolderIcon, tags: ["folder", "directory", "file"] },
   { name: "ForwardIcon", component: ForwardIcon, tags: ["forward", "next", "skip"] },
   { name: "GalleryIcon", component: GalleryIcon, tags: ["gallery", "image", "photo"] },
+  { name: "GoogleIcon", component: GoogleIcon, tags: ["google", "social", "login"] },
   { name: "GenderIcon", component: GenderIcon, tags: ["gender", "identity"] },
   { name: "GiftIcon", component: GiftIcon, tags: ["gift", "present", "reward"] },
   { name: "HelpIcon", component: HelpIcon, tags: ["help", "question", "support"] },
@@ -254,6 +273,16 @@ const icons: IconEntry[] = [
   { name: "MenuOpenIcon", component: MenuOpenIcon, tags: ["menu", "open", "sidebar"] },
   { name: "MessageIcon", component: MessageIcon, tags: ["message", "chat", "comment"] },
   {
+    name: "NewMessageIcon",
+    component: NewMessageIcon,
+    tags: ["message", "chat", "comment", "new"],
+  },
+  {
+    name: "OpenIcon",
+    component: OpenIcon,
+    tags: ["open", "external", "link", "new window"],
+  },
+  {
     name: "MicrophoneIcon",
     component: MicrophoneIcon,
     tags: ["microphone", "mic", "audio", "voice"],
@@ -267,6 +296,11 @@ const icons: IconEntry[] = [
     tags: ["more", "vertical", "dots", "ellipsis"],
   },
   { name: "PauseIcon", component: PauseIcon, tags: ["pause", "media", "stop"] },
+  {
+    name: "PeopleIcon",
+    component: PeopleIcon,
+    tags: ["people", "users", "group", "followers", "social"],
+  },
   { name: "PhoneIcon", component: PhoneIcon, tags: ["phone", "call", "contact"] },
   { name: "PhoneOffIcon", component: PhoneOffIcon, tags: ["phone", "off", "end", "call"] },
   { name: "PinIcon", component: PinIcon, tags: ["pin", "bookmark", "save"] },
@@ -276,6 +310,7 @@ const icons: IconEntry[] = [
   { name: "RepeatIcon", component: RepeatIcon, tags: ["repeat", "loop", "refresh"] },
   { name: "Reply2Icon", component: Reply2Icon, tags: ["reply", "respond", "arrow"] },
   { name: "ReplyIcon", component: ReplyIcon, tags: ["reply", "respond", "arrow"] },
+  { name: "ReverseIcon", component: ReverseIcon, tags: ["reverse", "undo", "back"] },
   { name: "SearchIcon", component: SearchIcon, tags: ["search", "find", "magnify", "look"] },
   { name: "SendIcon", component: SendIcon, tags: ["send", "submit", "paper plane"] },
   { name: "SettingsIcon", component: SettingsIcon, tags: ["settings", "gear", "config"] },
@@ -298,7 +333,17 @@ const icons: IconEntry[] = [
   { name: "TickIcon", component: TickIcon, tags: ["tick", "check", "done", "confirm"] },
   { name: "TrashBinIcon", component: TrashBinIcon, tags: ["trash", "bin", "delete", "remove"] },
   { name: "TrophyIcon", component: TrophyIcon, tags: ["trophy", "award", "medal", "achievement"] },
+  {
+    name: "ThumbDownFilledIcon",
+    component: ThumbDownFilledIcon,
+    tags: ["thumb", "down", "dislike", "filled"],
+  },
   { name: "ThumbDownIcon", component: ThumbDownIcon, tags: ["thumb", "down", "dislike"] },
+  {
+    name: "ThumbUpFilledIcon",
+    component: ThumbUpFilledIcon,
+    tags: ["thumb", "up", "like", "filled"],
+  },
   { name: "ThumbUpIcon", component: ThumbUpIcon, tags: ["thumb", "up", "like"] },
   { name: "UploadCloudIcon", component: UploadCloudIcon, tags: ["upload", "cloud"] },
   { name: "UploadIcon", component: UploadIcon, tags: ["upload", "send", "file"] },
@@ -321,6 +366,7 @@ const icons: IconEntry[] = [
   { name: "WifiOffIcon", component: WifiOffIcon, tags: ["wifi", "off", "disconnected"] },
   { name: "WifiOnIcon", component: WifiOnIcon, tags: ["wifi", "on", "connected", "internet"] },
   { name: "WrenchIcon", component: WrenchIcon, tags: ["wrench", "tool", "settings", "fix"] },
+  { name: "TwitterIcon", component: TwitterIcon, tags: ["x", "twitter", "social", "login"] },
 ];
 
 function IconCard({ entry, size }: { entry: IconEntry; size: string }) {
@@ -348,20 +394,22 @@ function IconCard({ entry, size }: { entry: IconEntry; size: string }) {
         gap: 8,
         padding: 16,
         borderRadius: 8,
-        border: "1px solid var(--color-neutral-100)",
-        backgroundColor: copied ? "var(--color-success-background)" : "var(--color-neutral-100)",
+        border: "1px solid var(--color-neutral-alphas-100)",
+        backgroundColor: copied
+          ? "var(--color-success-surface)"
+          : "var(--color-neutral-alphas-100)",
         cursor: "pointer",
         transition: "background-color 150ms, border-color 150ms",
         width: "100%",
       }}
       title={`Click to copy: ${importText}`}
     >
-      <Icon className={size} style={{ color: "var(--color-foreground-default)" }} />
+      <Icon className={size} style={{ color: "var(--color-content-primary)" }} />
       <span
         style={{
           fontSize: 11,
           fontFamily: "monospace",
-          color: copied ? "var(--color-success-default)" : "var(--color-foreground-secondary)",
+          color: copied ? "var(--color-success-content)" : "var(--color-content-secondary)",
           textAlign: "center",
           wordBreak: "break-all",
         }}
@@ -387,7 +435,7 @@ function IconGallery() {
         style={{
           fontSize: 32,
           fontWeight: 800,
-          color: "var(--color-foreground-default)",
+          color: "var(--color-content-primary)",
           margin: "0 0 8px",
         }}
       >
@@ -396,7 +444,7 @@ function IconGallery() {
       <p
         style={{
           fontSize: 16,
-          color: "var(--color-foreground-secondary)",
+          color: "var(--color-content-secondary)",
           margin: "0 0 12px",
           maxWidth: 640,
           lineHeight: 1.5,
@@ -408,7 +456,7 @@ function IconGallery() {
             fontSize: 14,
             fontFamily: "monospace",
             padding: "1px 4px",
-            backgroundColor: "var(--color-neutral-100)",
+            backgroundColor: "var(--color-neutral-alphas-100)",
             borderRadius: 3,
           }}
         >
@@ -420,7 +468,7 @@ function IconGallery() {
             fontSize: 14,
             fontFamily: "monospace",
             padding: "1px 4px",
-            backgroundColor: "var(--color-neutral-100)",
+            backgroundColor: "var(--color-neutral-alphas-100)",
             borderRadius: 3,
           }}
         >
@@ -440,9 +488,9 @@ function IconGallery() {
           style={{
             fontSize: 13,
             fontFamily: "monospace",
-            color: "var(--color-foreground-tertiary)",
+            color: "var(--color-content-tertiary)",
             padding: "8px 12px",
-            backgroundColor: "var(--color-neutral-100)",
+            backgroundColor: "var(--color-neutral-alphas-100)",
             borderRadius: 6,
           }}
         >
@@ -469,9 +517,9 @@ function IconGallery() {
             padding: "8px 12px",
             fontSize: 14,
             borderRadius: 6,
-            border: "1px solid var(--color-neutral-200)",
-            backgroundColor: "var(--color-surface-input)",
-            color: "var(--color-foreground-default)",
+            border: "1px solid var(--color-neutral-alphas-200)",
+            backgroundColor: "var(--color-surface-inputs)",
+            color: "var(--color-content-primary)",
             outline: "none",
           }}
         />
@@ -491,12 +539,12 @@ function IconGallery() {
                 fontSize: 12,
                 fontFamily: "monospace",
                 borderRadius: 4,
-                border: "1px solid var(--color-neutral-200)",
+                border: "1px solid var(--color-neutral-alphas-200)",
                 backgroundColor:
                   size === opt.value
                     ? "var(--color-brand-secondary-default)"
-                    : "var(--color-neutral-100)",
-                color: size === opt.value ? "#fff" : "var(--color-foreground-secondary)",
+                    : "var(--color-neutral-alphas-100)",
+                color: size === opt.value ? "#fff" : "var(--color-content-secondary)",
                 cursor: "pointer",
               }}
             >
@@ -507,7 +555,7 @@ function IconGallery() {
       </div>
 
       {filtered.length === 0 ? (
-        <p style={{ color: "var(--color-foreground-secondary)", fontSize: 14, padding: "40px 0" }}>
+        <p style={{ color: "var(--color-content-secondary)", fontSize: 14, padding: "40px 0" }}>
           No icons matching "{search}".
         </p>
       ) : (

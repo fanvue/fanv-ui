@@ -89,7 +89,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-foreground-inverse");
+      expect(toast).toHaveClass("text-content-primary-inverted");
     });
 
     it("renders warning variant correctly", () => {
@@ -102,7 +102,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-foreground-inverse");
+      expect(toast).toHaveClass("text-content-primary-inverted");
     });
 
     it("renders success variant correctly", () => {
@@ -115,7 +115,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-foreground-inverse");
+      expect(toast).toHaveClass("text-content-primary-inverted");
     });
 
     it("renders error variant correctly", () => {
@@ -128,7 +128,7 @@ describe("Toast", () => {
       );
       const toast = screen.getByTestId("toast");
       expect(toast).toHaveClass("border-none");
-      expect(toast).toHaveClass("text-foreground-inverse");
+      expect(toast).toHaveClass("text-content-primary-inverted");
     });
 
     it("renders messageToast variant correctly", () => {
@@ -147,8 +147,8 @@ describe("Toast", () => {
         </ToastWrapper>,
       );
       const toast = screen.getByTestId("toast");
-      expect(toast).toHaveClass("bg-surface-pageinverse");
-      expect(toast).toHaveClass("text-foreground-inverse");
+      expect(toast).toHaveClass("bg-surface-primary-inverted");
+      expect(toast).toHaveClass("text-content-primary-inverted");
       expect(screen.getByTestId("avatar")).toBeInTheDocument();
     });
   });

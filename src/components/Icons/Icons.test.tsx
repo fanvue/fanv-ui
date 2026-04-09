@@ -46,6 +46,7 @@ import { ExpandIcon } from "./ExpandIcon";
 import { EyeClosedIcon } from "./EyeClosedIcon";
 import { EyeIcon } from "./EyeIcon";
 import { EyeSlashIcon } from "./EyeSlashIcon";
+import { FacebookIcon } from "./FacebookIcon";
 import { FlagIcon } from "./FlagIcon";
 import { FlameIcon } from "./FlameIcon";
 import { FolderIcon } from "./FolderIcon";
@@ -53,6 +54,7 @@ import { ForwardIcon } from "./ForwardIcon";
 import { GalleryIcon } from "./GalleryIcon";
 import { GenderIcon } from "./GenderIcon";
 import { GiftIcon } from "./GiftIcon";
+import { GoogleIcon } from "./GoogleIcon";
 import { HelpIcon } from "./HelpIcon";
 import { HomeIcon } from "./HomeIcon";
 import { HourglassIcon } from "./HourglassIcon";
@@ -76,7 +78,10 @@ import { MinusIcon } from "./MinusIcon";
 import { MoonIcon } from "./MoonIcon";
 import { MoreIcon } from "./MoreIcon";
 import { MoreVerticalIcon } from "./MoreVerticalIcon";
+import { NewMessageIcon } from "./NewMessageIcon";
+import { OpenIcon } from "./OpenIcon";
 import { PauseIcon } from "./PauseIcon";
+import { PeopleIcon } from "./PeopleIcon";
 import { PhoneIcon } from "./PhoneIcon";
 import { PhoneOffIcon } from "./PhoneOffIcon";
 import { PinIcon } from "./PinIcon";
@@ -86,6 +91,7 @@ import { PrivacyIcon } from "./PrivacyIcon";
 import { RepeatIcon } from "./RepeatIcon";
 import { Reply2Icon } from "./Reply2Icon";
 import { ReplyIcon } from "./ReplyIcon";
+import { ReverseIcon } from "./ReverseIcon";
 import { SearchIcon } from "./SearchIcon";
 import { SendIcon } from "./SendIcon";
 import { SettingsIcon } from "./SettingsIcon";
@@ -99,13 +105,16 @@ import { Support2Icon } from "./Support2Icon";
 import { SupportIcon } from "./SupportIcon";
 import { TagIcon } from "./TagIcon";
 import { TaskIcon } from "./TaskIcon";
+import { ThumbDownFilledIcon } from "./ThumbDownFilledIcon";
 import { ThumbDownIcon } from "./ThumbDownIcon";
+import { ThumbUpFilledIcon } from "./ThumbUpFilledIcon";
 import { ThumbUpIcon } from "./ThumbUpIcon";
 import { TickCircleIcon } from "./TickCircleIcon";
 import { TickCircleOffIcon } from "./TickCircleOffIcon";
 import { TickIcon } from "./TickIcon";
 import { TrashBinIcon } from "./TrashBinIcon";
 import { TrophyIcon } from "./TrophyIcon";
+import { TwitterIcon } from "./TwitterIcon";
 import { UploadCloudIcon } from "./UploadCloudIcon";
 import { UploadIcon } from "./UploadIcon";
 import { UserCircleIcon } from "./UserCircleIcon";
@@ -166,11 +175,13 @@ const icons = [
   { name: "EyeClosedIcon", Component: EyeClosedIcon },
   { name: "EyeIcon", Component: EyeIcon },
   { name: "EyeSlashIcon", Component: EyeSlashIcon },
+  { name: "FacebookIcon", Component: FacebookIcon },
   { name: "FlagIcon", Component: FlagIcon },
   { name: "FlameIcon", Component: FlameIcon },
   { name: "FolderIcon", Component: FolderIcon },
   { name: "ForwardIcon", Component: ForwardIcon },
   { name: "GalleryIcon", Component: GalleryIcon },
+  { name: "GoogleIcon", Component: GoogleIcon },
   { name: "GenderIcon", Component: GenderIcon },
   { name: "GiftIcon", Component: GiftIcon },
   { name: "HelpIcon", Component: HelpIcon },
@@ -196,7 +207,10 @@ const icons = [
   { name: "MoonIcon", Component: MoonIcon },
   { name: "MoreIcon", Component: MoreIcon },
   { name: "MoreVerticalIcon", Component: MoreVerticalIcon },
+  { name: "NewMessageIcon", Component: NewMessageIcon },
+  { name: "OpenIcon", Component: OpenIcon },
   { name: "PauseIcon", Component: PauseIcon },
+  { name: "PeopleIcon", Component: PeopleIcon },
   { name: "PhoneIcon", Component: PhoneIcon },
   { name: "PhoneOffIcon", Component: PhoneOffIcon },
   { name: "PinIcon", Component: PinIcon },
@@ -206,6 +220,7 @@ const icons = [
   { name: "RepeatIcon", Component: RepeatIcon },
   { name: "Reply2Icon", Component: Reply2Icon },
   { name: "ReplyIcon", Component: ReplyIcon },
+  { name: "ReverseIcon", Component: ReverseIcon },
   { name: "SearchIcon", Component: SearchIcon },
   { name: "SendIcon", Component: SendIcon },
   { name: "SettingsIcon", Component: SettingsIcon },
@@ -224,7 +239,9 @@ const icons = [
   { name: "TickIcon", Component: TickIcon },
   { name: "TrashBinIcon", Component: TrashBinIcon },
   { name: "TrophyIcon", Component: TrophyIcon },
+  { name: "ThumbDownFilledIcon", Component: ThumbDownFilledIcon },
   { name: "ThumbDownIcon", Component: ThumbDownIcon },
+  { name: "ThumbUpFilledIcon", Component: ThumbUpFilledIcon },
   { name: "ThumbUpIcon", Component: ThumbUpIcon },
   { name: "UploadCloudIcon", Component: UploadCloudIcon },
   { name: "UploadIcon", Component: UploadIcon },
@@ -239,6 +256,7 @@ const icons = [
   { name: "WifiOffIcon", Component: WifiOffIcon },
   { name: "WifiOnIcon", Component: WifiOnIcon },
   { name: "WrenchIcon", Component: WrenchIcon },
+  { name: "TwitterIcon", Component: TwitterIcon },
 ];
 
 describe("Icons", () => {

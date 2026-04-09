@@ -112,7 +112,7 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
         ref={ref}
         role="radiogroup"
         className={cn(
-          "relative inline-grid grid-cols-2 rounded-full border border-neutral-200 p-1",
+          "relative inline-grid grid-cols-2 rounded-full border border-neutral-alphas-200 p-1",
           disabled && "cursor-not-allowed opacity-50",
           className,
         )}
@@ -121,7 +121,7 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
         <span
           aria-hidden="true"
           className={cn(
-            "absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full border border-brand-accent-default bg-brand-accent-muted",
+            "absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full border border-brand-primary-default bg-brand-primary-muted",
             "motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-in-out",
             isSecondSelected && "translate-x-full",
           )}
@@ -143,9 +143,9 @@ export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
               onClick={() => handleSelect(option.value)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               className={cn(
-                "relative z-10 inline-flex min-w-0 cursor-pointer items-center justify-center rounded-full border border-transparent text-foreground-default",
+                "relative z-10 inline-flex min-w-0 cursor-pointer items-center justify-center rounded-full border border-transparent text-content-primary",
                 "focus-visible:shadow-focus-ring focus-visible:outline-none",
-                "active:rounded-full active:bg-brand-accent-muted",
+                "active:rounded-full active:bg-brand-primary-muted",
                 disabled && "pointer-events-none",
                 sizeClass,
               )}

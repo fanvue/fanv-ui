@@ -27,6 +27,8 @@ export interface ProgressBarProps extends Omit<React.HTMLAttributes<HTMLDivEleme
   leftIcon?: React.ReactNode;
   /** Accessible label for the `progressbar` role. @default "Progress" */
   ariaLabel?: string;
+  /** Human-readable text alternative for the current value (e.g. "Step 3 of 5"). */
+  ariaValueText?: string;
 }
 
 const TRACK_HEIGHT: Record<ProgressBarSize, string> = {
@@ -40,15 +42,15 @@ const GAP: Record<ProgressBarSize, string> = {
 };
 
 function getDefaultBarColor(value: number): string {
-  if (value >= 100) return "bg-success-default";
-  if (value >= 40) return "bg-warning-default";
-  return "bg-error-default";
+  if (value >= 100) return "bg-success-content";
+  if (value >= 40) return "bg-warning-content";
+  return "bg-error-content";
 }
 
 function getDefaultTextColor(value: number): string {
-  if (value >= 100) return "text-success-default";
-  if (value >= 40) return "text-warning-default";
-  return "text-error-default";
+  if (value >= 100) return "text-success-content";
+  if (value >= 40) return "text-warning-content";
+  return "text-error-content";
 }
 
 function resolveColors(
@@ -56,9 +58,9 @@ function resolveColors(
   value: number,
 ): { barColor: string; textColor: string } {
   if (variant === "neutral")
-    return { barColor: "bg-foreground-inverse", textColor: "text-foreground-inverse" };
+    return { barColor: "bg-content-tertiary", textColor: "text-content-tertiary" };
   if (variant === "generic")
-    return { barColor: "bg-brand-accent-default", textColor: "text-brand-accent-default" };
+    return { barColor: "bg-brand-primary-default", textColor: "text-brand-primary-default" };
   return { barColor: getDefaultBarColor(value), textColor: getDefaultTextColor(value) };
 }
 
@@ -85,6 +87,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
       helperRight,
       leftIcon,
       ariaLabel,
+      ariaValueText,
       className,
       ...props
     },
@@ -102,7 +105,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
         {showHeader && (
           <div className="flex w-full items-end justify-between">
             {title != null && (
-              <p className="typography-semibold-body-sm text-foreground-default">{title}</p>
+              <p className="typography-semibold-body-sm text-content-primary">{title}</p>
             )}
             {showCompletion && (
               <span
@@ -115,9 +118,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
               </span>
             )}
             {stepsLabel != null && (
-              <span className="typography-regular-body-sm text-foreground-default">
-                {stepsLabel}
-              </span>
+              <span className="typography-regular-body-sm text-content-primary">{stepsLabel}</span>
             )}
           </div>
         )}
@@ -128,7 +129,8 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
           aria-valuenow={clampedValue}
           aria-valuemin={0}
           aria-valuemax={100}
-          className={cn("relative w-full rounded-full bg-neutral-100", TRACK_HEIGHT[size])}
+          aria-valuetext={ariaValueText}
+          className={cn("relative w-full rounded-full bg-neutral-alphas-50", TRACK_HEIGHT[size])}
         >
           <div
             className={cn(
@@ -148,15 +150,13 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
                 </span>
               )}
               {helperLeft != null && (
-                <span className="typography-regular-body-sm text-foreground-default">
+                <span className="typography-regular-body-sm text-content-primary">
                   {helperLeft}
                 </span>
               )}
             </div>
             {helperRight != null && (
-              <span className="typography-regular-body-sm text-foreground-default">
-                {helperRight}
-              </span>
+              <span className="typography-regular-body-sm text-content-primary">{helperRight}</span>
             )}
           </div>
         )}

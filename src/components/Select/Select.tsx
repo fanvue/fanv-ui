@@ -1,6 +1,7 @@
 import * as SelectPrimitive from "@radix-ui/react-select";
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 
@@ -124,7 +125,7 @@ export const Select = React.forwardRef<
           {label && (
             <label
               htmlFor={triggerId}
-              className="typography-semibold-body-sm px-1 pt-1 pb-2 text-foreground-default"
+              className="typography-semibold-body-sm px-1 pt-1 pb-2 text-content-primary"
             >
               {label}
             </label>
@@ -139,28 +140,28 @@ export const Select = React.forwardRef<
               aria-describedby={bottomText ? helperTextId : undefined}
               aria-invalid={error || undefined}
               className={cn(
-                "flex w-full cursor-pointer items-center justify-between rounded-xl border bg-neutral-100 outline-none motion-safe:transition-colors",
+                "flex w-full cursor-pointer items-center justify-between rounded-sm border bg-neutral-alphas-50 outline-none motion-safe:transition-colors",
                 TRIGGER_HEIGHT[size],
                 TRIGGER_PADDING_X[size],
                 TRIGGER_GAP[size],
                 TRIGGER_TYPOGRAPHY[size],
-                error ? "border-error-default" : "border-transparent",
+                error ? "border-error-content" : "border-transparent",
                 !disabled &&
                   !error &&
-                  "hover:border-neutral-400 data-[state=open]:border-neutral-400",
+                  "hover:border-neutral-alphas-400 data-[state=open]:border-neutral-alphas-400",
                 disabled && "cursor-not-allowed opacity-50",
               )}
             >
               <div className="flex min-w-0 items-center gap-2">
                 {leftIcon && (
                   <span
-                    className="flex size-5 shrink-0 items-center justify-center text-foreground-secondary"
+                    className="flex size-5 shrink-0 items-center justify-center text-content-secondary"
                     data-testid="left-icon"
                   >
                     {leftIcon}
                   </span>
                 )}
-                <span className="min-w-0 flex-1 truncate text-left text-foreground-default [&>[data-placeholder]]:text-foreground-secondary [&>[data-placeholder]]:opacity-40">
+                <span className="min-w-0 flex-1 truncate text-left text-content-primary [&>[data-placeholder]]:text-content-secondary [&>[data-placeholder]]:opacity-40">
                   <SelectPrimitive.Value placeholder={placeholder} />
                 </span>
               </div>
@@ -178,7 +179,7 @@ export const Select = React.forwardRef<
               id={helperTextId}
               className={cn(
                 "typography-regular-body-sm px-2 pt-1 pb-0.5",
-                error ? "text-error-default" : "text-foreground-secondary",
+                error ? "text-error-content" : "text-content-secondary",
               )}
             >
               {bottomText}
@@ -202,30 +203,43 @@ export interface SelectContentProps
 export const SelectContent = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Content>,
   SelectContentProps
->(({ className, children, position = "popper", sideOffset = 4, style, ...props }, ref) => (
-  <SelectPrimitive.Portal>
-    <SelectPrimitive.Content
-      ref={ref}
-      position={position}
-      sideOffset={sideOffset}
-      collisionPadding={8}
-      style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
-      className={cn(
-        "relative min-w-(--radix-select-trigger-width) overflow-hidden rounded-xl border border-neutral-200 bg-surface-page text-foreground-default shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
-        "data-[state=closed]:animate-out data-[state=open]:animate-in",
-        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-        "data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2",
-        className,
-      )}
-      {...props}
-    >
-      <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-1">
-        {children}
-      </SelectPrimitive.Viewport>
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
-));
+>(
+  (
+    {
+      className,
+      children,
+      position = "popper",
+      sideOffset = 4,
+      collisionPadding = FLOATING_CONTENT_COLLISION_PADDING,
+      style,
+      ...props
+    },
+    ref,
+  ) => (
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content
+        ref={ref}
+        position={position}
+        sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
+        style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
+        className={cn(
+          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-bg-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+          "data-[state=closed]:animate-out data-[state=open]:animate-in",
+          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2",
+          className,
+        )}
+        {...props}
+      >
+        <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-1">
+          {children}
+        </SelectPrimitive.Viewport>
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
+  ),
+);
 
 SelectContent.displayName = "SelectContent";
 
@@ -242,15 +256,15 @@ export const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "typography-regular-body-lg relative flex w-full cursor-pointer select-none items-center gap-2 rounded-lg py-2 pr-2 pl-3 text-foreground-default outline-none",
-      "focus:bg-neutral-100 data-disabled:pointer-events-none data-disabled:opacity-50",
+      "typography-regular-body-lg relative flex w-full cursor-pointer select-none items-center gap-2 rounded-xs py-2 pr-2 pl-3 text-content-primary outline-none",
+      "focus:bg-neutral-alphas-100 data-disabled:pointer-events-none data-disabled:opacity-50",
       className,
     )}
     {...props}
   >
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     <SelectPrimitive.ItemIndicator className="ml-auto flex size-4 shrink-0 items-center justify-center">
-      <CheckIcon className="size-4 text-foreground-default" />
+      <CheckIcon className="size-4 text-content-primary" />
     </SelectPrimitive.ItemIndicator>
   </SelectPrimitive.Item>
 ));
@@ -278,7 +292,7 @@ export const SelectLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Label
     ref={ref}
-    className={cn("typography-semibold-body-sm px-3 py-1.5 text-foreground-secondary", className)}
+    className={cn("typography-semibold-body-sm px-3 py-1.5 text-content-secondary", className)}
     {...props}
   />
 ));
@@ -295,7 +309,7 @@ export const SelectSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-neutral-200", className)}
+    className={cn("-mx-1 my-1 h-px bg-neutral-alphas-200", className)}
     {...props}
   />
 ));

@@ -1,0 +1,121 @@
+/*
+ * Hand-written styles that are not generated from design tokens.
+ * Imported by the generated theme.css via @import "./base.css".
+ */
+
+@layer base {
+  html {
+    touch-action: manipulation;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    scrollbar-gutter: stable;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:autofill,
+  input:autofill:hover,
+  input:autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  textarea:autofill,
+  textarea:autofill:hover,
+  textarea:autofill:focus {
+    -webkit-text-fill-color: var(--color-content-primary);
+    -webkit-box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
+    box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
+    background-clip: padding-box !important;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+}
+
+/*
+ * Chrome's autofill UA stylesheet overrides `inherit` for font properties,
+ * so autofilled text renders at the wrong size until user interaction.
+ * These utilities re-declare the concrete font values from the typography
+ * tokens they correspond to, with !important to beat the UA stylesheet.
+ *
+ * Only the typography classes used on input elements need overrides.
+ * Add more as needed when new input components use different typography.
+ */
+
+/* typography-regular-body-lg: used by TextField/TextArea size 48 and 40 */
+@utility autofill-body-lg {
+  &:-webkit-autofill,
+  &:autofill {
+    font-size: 16px !important;
+    font-family: Inter !important;
+    font-weight: 400 !important;
+    line-height: 24px !important;
+    letter-spacing: 0px !important;
+  }
+}
+
+/* typography-regular-body-md: used by TextField/TextArea size 32 */
+@utility autofill-body-md {
+  &:-webkit-autofill,
+  &:autofill {
+    font-size: 14px !important;
+    font-family: Inter !important;
+    font-weight: 400 !important;
+    line-height: 18px !important;
+    letter-spacing: 0px !important;
+  }
+}
+
+@utility fv-skeleton-wave {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    will-change: transform;
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-content-primary) 8%, transparent),
+      color-mix(in srgb, var(--color-content-primary) 16%, transparent),
+      transparent
+    );
+    animation: fv-skeleton-shimmer 1.5s ease-in-out infinite;
+    content: "";
+  }
+}
+
+@keyframes fv-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes accordion-expand {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-collapse {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@utility animate-accordion-expand {
+  animation: accordion-expand 200ms ease-out;
+}
+
+@utility animate-accordion-collapse {
+  animation: accordion-collapse 200ms ease-out;
+}

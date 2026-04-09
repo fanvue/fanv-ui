@@ -9,7 +9,7 @@ const meta: Meta<typeof TooltipContent> = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=698-10990",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=11704-59942",
     },
   },
   tags: ["autodocs"],
@@ -29,11 +29,11 @@ export const Default: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
-      <TooltipContent>Info text</TooltipContent>
+      <TooltipContent>Tooltip</TooltipContent>
     </Tooltip>
   ),
 };
@@ -42,11 +42,11 @@ export const Bottom: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
-      <TooltipContent side="bottom">Info text</TooltipContent>
+      <TooltipContent side="bottom">Tooltip</TooltipContent>
     </Tooltip>
   ),
 };
@@ -55,11 +55,11 @@ export const Left: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
-      <TooltipContent side="left">Info text</TooltipContent>
+      <TooltipContent side="left">Tooltip</TooltipContent>
     </Tooltip>
   ),
 };
@@ -68,24 +68,11 @@ export const Right: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
-      <TooltipContent side="right">Info text</TooltipContent>
-    </Tooltip>
-  ),
-};
-
-export const NoArrow: Story = {
-  render: () => (
-    <Tooltip defaultOpen>
-      <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
-          <InfoCircleIcon className="size-5" />
-        </button>
-      </TooltipTrigger>
-      <TooltipContent showArrow={false}>Info text</TooltipContent>
+      <TooltipContent side="right">Tooltip</TooltipContent>
     </Tooltip>
   ),
 };
@@ -94,167 +81,12 @@ export const LongContent: Story = {
   render: () => (
     <Tooltip defaultOpen>
       <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
+        <button type="button" className="text-content-secondary">
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
       <TooltipContent>
-        This is a longer tooltip that demonstrates how the component handles multiline text content
-        within the max-width constraint.
-      </TooltipContent>
-    </Tooltip>
-  ),
-};
-
-export const InfoboxDefault: Story = {
-  render: () => (
-    <Tooltip defaultOpen>
-      <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
-          <InfoCircleIcon className="size-5" />
-        </button>
-      </TooltipTrigger>
-      <TooltipContent variant="infobox" heading="Title">
-        Info text
-      </TooltipContent>
-    </Tooltip>
-  ),
-};
-
-export const InfoboxWithIcon: Story = {
-  render: () => (
-    <Tooltip defaultOpen>
-      <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
-          <InfoCircleIcon className="size-5" />
-        </button>
-      </TooltipTrigger>
-      <TooltipContent
-        variant="infobox"
-        icon={<InfoCircleIcon className="size-5 text-foreground-inverse" />}
-        heading="Title"
-      >
-        Info text
-      </TooltipContent>
-    </Tooltip>
-  ),
-};
-
-export const InfoboxWithPill: Story = {
-  render: () => (
-    <Tooltip defaultOpen>
-      <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
-          <InfoCircleIcon className="size-5" />
-        </button>
-      </TooltipTrigger>
-      <TooltipContent
-        variant="infobox"
-        heading="Title"
-        pill={
-          <span className="typography-semibold-body-sm rounded-full bg-neutral-solid px-3 py-1 text-foreground-inverse">
-            Example
-          </span>
-        }
-      >
-        Info text
-      </TooltipContent>
-    </Tooltip>
-  ),
-};
-
-export const InfoboxWithActions: Story = {
-  render: () => (
-    <Tooltip defaultOpen>
-      <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
-          <InfoCircleIcon className="size-5" />
-        </button>
-      </TooltipTrigger>
-      <TooltipContent
-        variant="infobox"
-        heading="Title"
-        primaryAction={{ label: "OK" }}
-        secondaryAction={{ label: "Dismiss" }}
-      >
-        Info text
-      </TooltipContent>
-    </Tooltip>
-  ),
-};
-
-export const InfoboxFull: Story = {
-  render: () => (
-    <Tooltip defaultOpen>
-      <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
-          <InfoCircleIcon className="size-5" />
-        </button>
-      </TooltipTrigger>
-      <TooltipContent
-        variant="infobox"
-        icon={<InfoCircleIcon className="size-5 text-foreground-inverse" />}
-        heading="Title"
-        pill={
-          <span className="typography-semibold-body-sm rounded-full bg-neutral-solid px-3 py-1 text-foreground-inverse">
-            Example
-          </span>
-        }
-        primaryAction={{ label: "OK" }}
-        secondaryAction={{ label: "Dismiss" }}
-      >
-        Info text
-      </TooltipContent>
-    </Tooltip>
-  ),
-};
-
-export const NarrowViewport: Story = {
-  name: "Narrow Viewport (constraint)",
-  parameters: {
-    layout: "fullscreen",
-    chromatic: {
-      modes: {
-        "light-narrow": { theme: "light", viewport: 375 },
-        "dark-narrow": { theme: "dark", viewport: 375 },
-      },
-    },
-  },
-  decorators: [
-    (Story) => (
-      <TooltipProvider delayDuration={0}>
-        <div
-          style={{
-            height: "200px",
-            overflow: "hidden",
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            padding: "16px",
-          }}
-        >
-          <Story />
-        </div>
-      </TooltipProvider>
-    ),
-  ],
-  render: () => (
-    <Tooltip defaultOpen>
-      <TooltipTrigger asChild>
-        <button type="button" className="text-foreground-secondary">
-          <InfoCircleIcon className="size-5" />
-        </button>
-      </TooltipTrigger>
-      <TooltipContent
-        variant="infobox"
-        icon={<InfoCircleIcon className="size-5 text-foreground-inverse" />}
-        heading="Title"
-        primaryAction={{ label: "OK" }}
-        secondaryAction={{ label: "Dismiss" }}
-      >
-        This is a long infobox tooltip that tests how the component handles content in a very narrow
-        viewport where vertical space is limited. The tooltip should stay within bounds and not
-        overflow.
+        This is a longer tooltip that demonstrates how the component handles multiline text content.
       </TooltipContent>
     </Tooltip>
   ),
@@ -265,7 +97,7 @@ export const AllPlacements: Story = {
     <div className="flex flex-col items-center gap-24 py-16">
       <Tooltip defaultOpen>
         <TooltipTrigger asChild>
-          <button type="button" className="text-foreground-secondary">
+          <button type="button" className="text-content-secondary">
             <InfoCircleIcon className="size-5" />
           </button>
         </TooltipTrigger>
@@ -274,7 +106,7 @@ export const AllPlacements: Story = {
       <div className="flex gap-48">
         <Tooltip defaultOpen>
           <TooltipTrigger asChild>
-            <button type="button" className="text-foreground-secondary">
+            <button type="button" className="text-content-secondary">
               <InfoCircleIcon className="size-5" />
             </button>
           </TooltipTrigger>
@@ -282,7 +114,7 @@ export const AllPlacements: Story = {
         </Tooltip>
         <Tooltip defaultOpen>
           <TooltipTrigger asChild>
-            <button type="button" className="text-foreground-secondary">
+            <button type="button" className="text-content-secondary">
               <InfoCircleIcon className="size-5" />
             </button>
           </TooltipTrigger>
@@ -291,7 +123,7 @@ export const AllPlacements: Story = {
       </div>
       <Tooltip defaultOpen>
         <TooltipTrigger asChild>
-          <button type="button" className="text-foreground-secondary">
+          <button type="button" className="text-content-secondary">
             <InfoCircleIcon className="size-5" />
           </button>
         </TooltipTrigger>

@@ -73,7 +73,10 @@ import { MinusIcon } from "../Icons/MinusIcon";
 import { MoonIcon } from "../Icons/MoonIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { MoreVerticalIcon } from "../Icons/MoreVerticalIcon";
+import { NewMessageIcon } from "../Icons/NewMessageIcon";
+import { OpenIcon } from "../Icons/OpenIcon";
 import { PauseIcon } from "../Icons/PauseIcon";
+import { PeopleIcon } from "../Icons/PeopleIcon";
 import { PhoneIcon } from "../Icons/PhoneIcon";
 import { PhoneOffIcon } from "../Icons/PhoneOffIcon";
 import { PinIcon } from "../Icons/PinIcon";
@@ -83,6 +86,7 @@ import { PrivacyIcon } from "../Icons/PrivacyIcon";
 import { RepeatIcon } from "../Icons/RepeatIcon";
 import { Reply2Icon } from "../Icons/Reply2Icon";
 import { ReplyIcon } from "../Icons/ReplyIcon";
+import { ReverseIcon } from "../Icons/ReverseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { SendIcon } from "../Icons/SendIcon";
 import { SettingsIcon } from "../Icons/SettingsIcon";
@@ -96,7 +100,9 @@ import { Support2Icon } from "../Icons/Support2Icon";
 import { SupportIcon } from "../Icons/SupportIcon";
 import { TagIcon } from "../Icons/TagIcon";
 import { TaskIcon } from "../Icons/TaskIcon";
+import { ThumbDownFilledIcon } from "../Icons/ThumbDownFilledIcon";
 import { ThumbDownIcon } from "../Icons/ThumbDownIcon";
+import { ThumbUpFilledIcon } from "../Icons/ThumbUpFilledIcon";
 import { ThumbUpIcon } from "../Icons/ThumbUpIcon";
 import { TickCircleIcon } from "../Icons/TickCircleIcon";
 import { TickCircleOffIcon } from "../Icons/TickCircleOffIcon";
@@ -472,7 +478,10 @@ const allIcons = [
   { name: "MoonIcon", icon: <MoonIcon /> },
   { name: "MoreIcon", icon: <MoreIcon /> },
   { name: "MoreVerticalIcon", icon: <MoreVerticalIcon /> },
+  { name: "NewMessageIcon", icon: <NewMessageIcon /> },
+  { name: "OpenIcon", icon: <OpenIcon /> },
   { name: "PauseIcon", icon: <PauseIcon /> },
+  { name: "PeopleIcon", icon: <PeopleIcon /> },
   { name: "PhoneIcon", icon: <PhoneIcon /> },
   { name: "PhoneOffIcon", icon: <PhoneOffIcon /> },
   { name: "PinIcon", icon: <PinIcon /> },
@@ -482,6 +491,7 @@ const allIcons = [
   { name: "RepeatIcon", icon: <RepeatIcon /> },
   { name: "Reply2Icon", icon: <Reply2Icon /> },
   { name: "ReplyIcon", icon: <ReplyIcon /> },
+  { name: "ReverseIcon", icon: <ReverseIcon /> },
   { name: "SearchIcon", icon: <SearchIcon /> },
   { name: "SendIcon", icon: <SendIcon /> },
   { name: "SettingsIcon", icon: <SettingsIcon /> },
@@ -500,7 +510,9 @@ const allIcons = [
   { name: "TickIcon", icon: <TickIcon /> },
   { name: "TrashBinIcon", icon: <TrashBinIcon /> },
   { name: "TrophyIcon", icon: <TrophyIcon /> },
+  { name: "ThumbDownFilledIcon", icon: <ThumbDownFilledIcon /> },
   { name: "ThumbDownIcon", icon: <ThumbDownIcon /> },
+  { name: "ThumbUpFilledIcon", icon: <ThumbUpFilledIcon /> },
   { name: "ThumbUpIcon", icon: <ThumbUpIcon /> },
   { name: "UploadCloudIcon", icon: <UploadCloudIcon /> },
   { name: "UploadIcon", icon: <UploadIcon /> },

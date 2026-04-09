@@ -63,21 +63,21 @@ const ICON_WRAPPER_CLASS: Record<ButtonSize, string> = {
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "bg-neutral-solid text-foreground-inverse hover:bg-brand-accent-muted hover:text-foreground-default active:bg-brand-accent-muted active:text-foreground-default",
+    "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-primary-hover hover:text-content-primary-inverted active:bg-buttons-primary-hover active:text-content-primary-inverted",
   secondary:
-    "border-foreground-default border border-1 border-foreground-default bg-transparent text-foreground-default hover:bg-brand-accent-muted active:bg-brand-accent-muted",
+    "border-content-primary border bg-transparent text-content-primary hover:bg-brand-primary-muted active:bg-brand-primary-muted",
   tertiary:
-    "bg-transparent text-foreground-default hover:bg-brand-accent-muted active:bg-brand-accent-muted",
-  link: "bg-transparent text-foreground-default underline decoration-solid hover:bg-brand-accent-muted active:bg-brand-accent-muted",
+    "bg-transparent text-content-primary hover:bg-brand-primary-muted active:bg-brand-primary-muted",
+  link: "bg-transparent text-content-primary underline decoration-solid hover:bg-brand-primary-muted active:bg-brand-primary-muted",
   brand:
-    "bg-brand-accent-default text-foreground-onaccent hover:bg-brand-accent-muted hover:text-foreground-default active:bg-brand-accent-muted active:text-foreground-default",
+    "bg-buttons-brand text-content-on-brand hover:bg-buttons-brand-hover hover:text-content-on-brand active:bg-buttons-brand-hover active:text-content-on-brand",
   destructive:
-    "bg-error-default text-foreground-onaccentinverse hover:bg-brand-accent-muted hover:text-foreground-default active:bg-brand-accent-muted active:text-foreground-default",
+    "bg-error-content text-content-on-brand-inverted hover:bg-brand-primary-muted hover:text-content-primary active:bg-brand-primary-muted active:text-content-primary",
   white:
-    "bg-foreground-onaccentinverse text-foreground-onaccent hover:bg-brand-accent-muted hover:text-foreground-default active:bg-brand-accent-muted active:text-foreground-default",
+    "bg-content-on-brand-inverted text-content-on-brand hover:bg-brand-primary-muted hover:text-content-primary active:bg-brand-primary-muted active:text-content-primary",
   tertiaryDestructive:
-    "bg-transparent text-error-default hover:bg-error-background active:bg-error-background",
-  text: "bg-transparent text-foreground-default hover:underline active:underline",
+    "bg-transparent text-error-content hover:bg-error-surface active:bg-error-surface",
+  text: "bg-transparent text-content-primary hover:underline active:underline",
 };
 
 /** Recursively extract text content from React nodes for accessible labels */
@@ -157,7 +157,11 @@ function renderContent({
         </span>
       )}
       {React.Children.map(children, (child) =>
-        typeof child === "string" || typeof child === "number" ? (
+        typeof child === "string" ? (
+          child.trim() ? (
+            <span className="min-w-0 truncate">{child}</span>
+          ) : null
+        ) : typeof child === "number" ? (
           <span className="min-w-0 truncate">{child}</span>
         ) : (
           child

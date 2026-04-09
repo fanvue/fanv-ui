@@ -71,26 +71,26 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         className={cn(
           "typography-semibold-body-sm relative inline-flex min-w-0 items-center justify-center whitespace-nowrap motion-safe:transition-colors motion-safe:duration-150",
           // Shape
-          variant === "square" ? "rounded-lg" : "rounded-full",
+          variant === "square" ? "rounded-xs" : "rounded-full",
           // Size
           size === "32" && "h-8 py-1",
           size === "40" && "h-10 py-2.5",
           // Variant colors
-          isDark && "bg-neutral-50 text-foreground-onaccentinverse",
-          !isDark && selected && "bg-brand-accent-muted text-neutral-400",
-          !isDark && !selected && "bg-neutral-100 text-neutral-400",
+          isDark && "bg-neutral-alphas-150 text-content-on-brand-inverted",
+          !isDark && selected && "bg-brand-primary-muted text-neutral-alphas-900",
+          !isDark && !selected && "bg-neutral-alphas-50 text-neutral-alphas-900",
           // Interactive
           isInteractive && !disabled && "cursor-pointer",
           isInteractive &&
             !disabled &&
             !isDark &&
             !selected &&
-            "hover:bg-brand-accent-muted active:bg-brand-accent-muted",
+            "hover:bg-brand-primary-muted active:bg-brand-primary-muted",
           // Focus
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled
           disabled && isDark && "pointer-events-none opacity-50",
-          disabled && !isDark && "pointer-events-none text-neutral-300",
+          disabled && !isDark && "pointer-events-none text-neutral-alphas-400",
           className,
         )}
         {...(isInteractive && {
@@ -112,10 +112,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
                 <span className="size-2 shrink-0 rounded-full bg-current" aria-hidden="true" />
               )}
               {leftIcon && (
-                <span
-                  className="flex size-5 shrink-0 items-center justify-center"
-                  aria-hidden="true"
-                >
+                <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
                   {leftIcon}
                 </span>
               )}
@@ -130,7 +127,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
               )}
             </span>
             {notificationLabel && (
-              <span className="typography-semibold-body-sm absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground-default px-1 text-foreground-inverse">
+              <span className="typography-semibold-body-sm absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-content-primary px-1 text-content-primary-inverted">
                 {notificationLabel}
               </span>
             )}

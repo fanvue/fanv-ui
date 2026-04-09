@@ -43,21 +43,21 @@ export function SliderThumb({
         }
       }}
       className={cn(
-        "flex size-6 items-center justify-center rounded-full border border-neutral-100 bg-surface-page shadow-sm",
+        "flex size-6 items-center justify-center rounded-full border border-border-primary bg-bg-primary shadow-sm",
         "transition-shadow duration-150",
-        "hover:ring-2 hover:ring-brand-accent-default",
-        "not-data-disabled:active:ring-2 not-data-disabled:active:ring-brand-accent-default",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page",
+        "hover:ring-2 hover:ring-brand-primary-default",
+        "not-data-disabled:active:ring-2 not-data-disabled:active:ring-brand-primary-default",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
         "data-disabled:cursor-not-allowed",
       )}
     >
-      <span className="block size-3 rounded-full bg-brand-accent-default shadow-[inset_0px_1px_2px_0px_rgba(0,0,0,0.1)]" />
+      <span className="block size-3 rounded-full bg-brand-primary-default shadow-[inset_0px_1px_2px_0px_rgba(0,0,0,0.1)]" />
 
       {showTooltip && (
         <span
           role="tooltip"
           data-slider-tooltip
-          className="typography-semibold-body-sm pointer-events-none absolute bottom-full mb-2 rounded-3xl bg-surface-pageinverse px-2 py-1 text-foreground-inverse shadow-sm"
+          className="typography-semibold-body-sm pointer-events-none absolute bottom-full mb-2 rounded-lg bg-surface-primary-inverted px-2 py-1 text-content-primary-inverted shadow-sm"
         />
       )}
     </SliderPrimitive.Thumb>

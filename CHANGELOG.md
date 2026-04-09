@@ -1,5 +1,222 @@
 # Changelog
 
+## [2.7.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.6.2...ui-v2.7.0) (2026-04-08)
+
+
+### Features
+
+* **avatar:** semantic background token for fallback ([#418](https://github.com/fanvue/fanv-ui/issues/418)) ([2a95f72](https://github.com/fanvue/fanv-ui/commit/2a95f72ab51f31c4e3db8c49ef3a8f152560ca6b))
+* **avatar:** use semantic background token for fallback surface ([2a95f72](https://github.com/fanvue/fanv-ui/commit/2a95f72ab51f31c4e3db8c49ef3a8f152560ca6b))
+
+## [2.6.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.6.1...ui-v2.6.2) (2026-04-07)
+
+
+### Bug Fixes
+
+* override font properties on autofilled inputs ([#416](https://github.com/fanvue/fanv-ui/issues/416)) ([8c4355a](https://github.com/fanvue/fanv-ui/commit/8c4355a92d178a5bdda79f9caa94e76b90986d37))
+
+## [2.6.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.6.0...ui-v2.6.1) (2026-04-07)
+
+
+### Bug Fixes
+
+* **avatar:** solid fallback background (ENG-9566) ([#411](https://github.com/fanvue/fanv-ui/issues/411)) ([ec9f5a2](https://github.com/fanvue/fanv-ui/commit/ec9f5a22c5838ac570d9bab4b64379676d45a73c))
+* **deps:** resolve high-severity audit (vite 7.3.2, lodash overrides) ([5e827b1](https://github.com/fanvue/fanv-ui/commit/5e827b1ba90488e8dc5cd67fba0350c9c59fff87))
+* **deps:** resolve high-severity pnpm audit ([#413](https://github.com/fanvue/fanv-ui/issues/413)) ([5e827b1](https://github.com/fanvue/fanv-ui/commit/5e827b1ba90488e8dc5cd67fba0350c9c59fff87))
+* preserve font styles on browser autofill inputs ([#414](https://github.com/fanvue/fanv-ui/issues/414)) ([91039b5](https://github.com/fanvue/fanv-ui/commit/91039b5518ea82d546187bd174b900c27833b740))
+
+## [2.6.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.2...ui-v2.6.0) (2026-04-03)
+
+
+### Features
+
+* Chat input ([#403](https://github.com/fanvue/fanv-ui/issues/403)) ([75e599b](https://github.com/fanvue/fanv-ui/commit/75e599b1f4d58bb1e5a7c11fcd832c49bda581aa))
+
+## [2.5.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.1...ui-v2.5.2) (2026-04-02)
+
+
+### Bug Fixes
+
+* resolve high-severity lodash audit vulnerabilities ([#408](https://github.com/fanvue/fanv-ui/issues/408)) ([d8bdac0](https://github.com/fanvue/fanv-ui/commit/d8bdac07a09cf037cc5f17588c59dd2a4ea720d6))
+
+## [2.5.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.5.0...ui-v2.5.1) (2026-04-01)
+
+
+### Bug Fixes
+
+* Firefox autofill background and input border-radius ([#405](https://github.com/fanvue/fanv-ui/issues/405)) ([9bb33e3](https://github.com/fanvue/fanv-ui/commit/9bb33e37760ef4c85d4ef7162dc9b35d818e879d))
+* Firefox autofill background and input layout ([9bb33e3](https://github.com/fanvue/fanv-ui/commit/9bb33e37760ef4c85d4ef7162dc9b35d818e879d))
+
+## [2.5.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.4.0...ui-v2.5.0) (2026-04-01)
+
+
+### Features
+
+* replace default breakpoints with custom breakpoints ([#401](https://github.com/fanvue/fanv-ui/issues/401)) ([1bf7d56](https://github.com/fanvue/fanv-ui/commit/1bf7d56233d4e321b394870a9d4f19e9cb04fe8b))
+* **stepper:** add stepper components ([#404](https://github.com/fanvue/fanv-ui/issues/404)) ([793db91](https://github.com/fanvue/fanv-ui/commit/793db919a99e8fbfe4f11ec35fde843952a81175))
+* Thumbs Up and Down Filled icons ([#400](https://github.com/fanvue/fanv-ui/issues/400)) ([ebd90cf](https://github.com/fanvue/fanv-ui/commit/ebd90cfa0d9247599abff929585055f83fb5b6fb))
+
+## [2.4.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.3.0...ui-v2.4.0) (2026-03-26)
+
+
+### Features
+
+* add FacebookIcon, GoogleIcon, TwitterIcon ([#398](https://github.com/fanvue/fanv-ui/issues/398)) ([b2f376f](https://github.com/fanvue/fanv-ui/commit/b2f376f953a0eb267a65aec1ae7e4e42eda08466))
+* add FacebookIcon, GoogleIcon, TwitterIcon social icons ([b2f376f](https://github.com/fanvue/fanv-ui/commit/b2f376f953a0eb267a65aec1ae7e4e42eda08466))
+
+## [2.3.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.2.0...ui-v2.3.0) (2026-03-26)
+
+
+### Features
+
+* **ENG-9169:** add initial EmptyState component ([#394](https://github.com/fanvue/fanv-ui/issues/394)) ([e71ca3a](https://github.com/fanvue/fanv-ui/commit/e71ca3ae1f9ba5b8312ad9a95fc0ca25bb8c20a3))
+
+
+### Bug Fixes
+
+* update logo wordmark SVG and spacing ([#396](https://github.com/fanvue/fanv-ui/issues/396)) ([4fafbec](https://github.com/fanvue/fanv-ui/commit/4fafbecc72b8349b4b35228d0fbffc2bfac8484e))
+
+## [2.2.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.3...ui-v2.2.0) (2026-03-25)
+
+
+### Features
+
+* Banner (Figma library) + OpenIcon, PeopleIcon ([#391](https://github.com/fanvue/fanv-ui/issues/391)) ([aae1216](https://github.com/fanvue/fanv-ui/commit/aae121666677cc214179afb1b2c606ba3ff02f46))
+
+## [2.1.3](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.2...ui-v2.1.3) (2026-03-25)
+
+
+### Bug Fixes
+
+* **Dialog:** prevent focus ring on close button when dialog opens ([#392](https://github.com/fanvue/fanv-ui/issues/392)) ([409cba2](https://github.com/fanvue/fanv-ui/commit/409cba2766fba7bb6118f4b0ca48e3e33e6dfb5d))
+* **DropdownMenu:** use rounded-xs for menu content panel ([6c1a5bf](https://github.com/fanvue/fanv-ui/commit/6c1a5bfaf794268e4ad342d91d4496576a54d2a6))
+* **DropdownMenu:** use xs border radius for content ([#389](https://github.com/fanvue/fanv-ui/issues/389)) ([6c1a5bf](https://github.com/fanvue/fanv-ui/commit/6c1a5bfaf794268e4ad342d91d4496576a54d2a6))
+
+## [2.1.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.1...ui-v2.1.2) (2026-03-25)
+
+
+### Bug Fixes
+
+* **ENG-9150:** dropdown width fits content, demo, rounded-sm panel ([#386](https://github.com/fanvue/fanv-ui/issues/386)) ([3267072](https://github.com/fanvue/fanv-ui/commit/3267072354b4121e2a8f6b279b189d7ab9f6c10c))
+* **tooltip:** use sm border radius instead of full ([#388](https://github.com/fanvue/fanv-ui/issues/388)) ([7559707](https://github.com/fanvue/fanv-ui/commit/755970778ac94861c9dc71e004a0045189f4310e))
+
+## [2.1.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.1.0...ui-v2.1.1) (2026-03-25)
+
+
+### Bug Fixes
+
+* **ENG-9012:** default collision padding for dropdown panels ([#383](https://github.com/fanvue/fanv-ui/issues/383)) ([037415f](https://github.com/fanvue/fanv-ui/commit/037415f4be147a945d24bc3fec8c506ff5ad8f49))
+* **ENG-9012:** default collision padding for floating dropdown panels ([037415f](https://github.com/fanvue/fanv-ui/commit/037415f4be147a945d24bc3fec8c506ff5ad8f49))
+
+## [2.1.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.0.0...ui-v2.1.0) (2026-03-25)
+
+
+### Features
+
+* add Border Radius and Shadows foundation stories ([#374](https://github.com/fanvue/fanv-ui/issues/374)) ([941ed3e](https://github.com/fanvue/fanv-ui/commit/941ed3e07b82ac04947bd51361b8fd0399da4bc4))
+* Add NewMessageIcon ([#381](https://github.com/fanvue/fanv-ui/issues/381)) ([19caf74](https://github.com/fanvue/fanv-ui/commit/19caf74668c41233ace5cea35b700fd544116d1f))
+* Add ReverseIcon ([#380](https://github.com/fanvue/fanv-ui/issues/380)) ([cd71fd6](https://github.com/fanvue/fanv-ui/commit/cd71fd61225cbc5654bcc580699bb84545ec5250))
+* **table:** Table primitives, pagination bar, and demos ([#378](https://github.com/fanvue/fanv-ui/issues/378)) ([9712c2c](https://github.com/fanvue/fanv-ui/commit/9712c2c109dc8cb4a49fee1df4f980520c57e5a7))
+
+
+### Bug Fixes
+
+* **dialog:** use elevated surface background in dark mode ([#382](https://github.com/fanvue/fanv-ui/issues/382)) ([320bfcc](https://github.com/fanvue/fanv-ui/commit/320bfcc92458554d86321c7a95f1ccf09760430b))
+* remove unused Banner component ([#377](https://github.com/fanvue/fanv-ui/issues/377)) ([9b949db](https://github.com/fanvue/fanv-ui/commit/9b949db9fadfd057951e82755df1a379ea879ea4))
+
+## [2.0.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.21.0...ui-v2.0.0) (2026-03-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate design token system to v2 ([#366](https://github.com/fanvue/fanv-ui/issues/366))
+
+### Features
+
+* migrate design token system to v2 ([#366](https://github.com/fanvue/fanv-ui/issues/366)) ([a5dde61](https://github.com/fanvue/fanv-ui/commit/a5dde6197dbb184f69bbdbd64da2c69d701abd09))
+
+## [1.21.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.20.1...ui-v1.21.0) (2026-03-20)
+
+
+### Features
+
+* add DropdownMenu, Banner, and OnlineBlinkingIcon components ([#370](https://github.com/fanvue/fanv-ui/issues/370)) ([c56b25e](https://github.com/fanvue/fanv-ui/commit/c56b25eae7823751d1c0afe5f8ce784ae3ccaf28))
+
+## [1.20.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.20.0...ui-v1.20.1) (2026-03-19)
+
+
+### Bug Fixes
+
+* **charts:** fix stories rendering with zero width ([#367](https://github.com/fanvue/fanv-ui/issues/367)) ([efddca2](https://github.com/fanvue/fanv-ui/commit/efddca2fca6e7230f486868e0287af1ae6bb762c))
+
+## [1.20.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.19.0...ui-v1.20.0) (2026-03-18)
+
+
+### Features
+
+* **InfoBox:** split Tooltip into standalone Tooltip and InfoBox ([#364](https://github.com/fanvue/fanv-ui/issues/364)) ([a5f2b72](https://github.com/fanvue/fanv-ui/commit/a5f2b7251e9246ead247d2eb54cfb758a61e0856))
+
+## [1.19.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.18.2...ui-v1.19.0) (2026-03-18)
+
+
+### Features
+
+* **chart:** add composable chart components with Recharts ([#347](https://github.com/fanvue/fanv-ui/issues/347)) ([34edbe0](https://github.com/fanvue/fanv-ui/commit/34edbe08c280e20dfe8077551af73b17b03b4c51))
+
+## [1.18.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.18.1...ui-v1.18.2) (2026-03-18)
+
+
+### Bug Fixes
+
+* **TextField:** Fix autofill background not filling full container ([#358](https://github.com/fanvue/fanv-ui/issues/358)) ([ac301e5](https://github.com/fanvue/fanv-ui/commit/ac301e55b1c0ec9c70d566c4a730d64c9fdfa0be))
+
+## [1.18.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.18.0...ui-v1.18.1) (2026-03-17)
+
+
+### Bug Fixes
+
+* **Avatar:** use solid surface token for fallback background ([#355](https://github.com/fanvue/fanv-ui/issues/355)) ([04f4322](https://github.com/fanvue/fanv-ui/commit/04f4322c6d1ed58ddf39ba50e1b2bb260c3e5d5c))
+* **Icons:** correct lock icon colour for light/dark mode ([#353](https://github.com/fanvue/fanv-ui/issues/353)) ([72c1f29](https://github.com/fanvue/fanv-ui/commit/72c1f29ef3449e2bee4cc93764b01bb834fee80d))
+* **Icons:** reduce pin icon to correct size ([#348](https://github.com/fanvue/fanv-ui/issues/348)) ([5c2f891](https://github.com/fanvue/fanv-ui/commit/5c2f891d3ed4a67ee59536f1577c57302bda635a))
+* **Pagination:** add bottom padding below See More ([#350](https://github.com/fanvue/fanv-ui/issues/350)) ([918d226](https://github.com/fanvue/fanv-ui/commit/918d22695be40124a85f2250050077a891e49689))
+* **PasswordField:** correct cursor on show/hide toggle button ([#351](https://github.com/fanvue/fanv-ui/issues/351)) ([9cca73b](https://github.com/fanvue/fanv-ui/commit/9cca73b2320ef684214b0f0042fdaab0f692487e))
+* **Tabs:** suppress focus ring on mouse click ([#354](https://github.com/fanvue/fanv-ui/issues/354)) ([ac66ce4](https://github.com/fanvue/fanv-ui/commit/ac66ce42a7af65619d7643e5fd34dce69891a2d5))
+* **TextField:** remove overflow-hidden to fix caret clipping ([#356](https://github.com/fanvue/fanv-ui/issues/356)) ([fa05cd7](https://github.com/fanvue/fanv-ui/commit/fa05cd7fb8a49168d750f4fb13742a31aad1cac8))
+
+## [1.18.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.3...ui-v1.18.0) (2026-03-17)
+
+
+### Features
+
+* **Accordion:** add composable Accordion component ([#344](https://github.com/fanvue/fanv-ui/issues/344)) ([3b037cf](https://github.com/fanvue/fanv-ui/commit/3b037cfd7ad43aec3854108f7143582c21ee1131))
+* **Autocomplete:** add composable combobox component ([#345](https://github.com/fanvue/fanv-ui/issues/345)) ([68322b6](https://github.com/fanvue/fanv-ui/commit/68322b6e7a707f0d954d77d52018018aac0c22a7))
+* **BottomNavigation:** add mobile bottom navigation ([#343](https://github.com/fanvue/fanv-ui/issues/343)) ([06bc937](https://github.com/fanvue/fanv-ui/commit/06bc937fcd39e199d3433b80ce9622fbebf078e3))
+* **dialog:** add Dialog component built on Radix UI ([#340](https://github.com/fanvue/fanv-ui/issues/340)) ([c020ba4](https://github.com/fanvue/fanv-ui/commit/c020ba48c80eb7cca77eeb358d9ebdead7b516c1))
+* **Drawer:** add composable Drawer component ([#341](https://github.com/fanvue/fanv-ui/issues/341)) ([b73c518](https://github.com/fanvue/fanv-ui/commit/b73c5180c84943e7816e52c93a6706938d9ca6e2))
+* **MobileStepper:** add MobileStepper component ([#342](https://github.com/fanvue/fanv-ui/issues/342)) ([20a0e9f](https://github.com/fanvue/fanv-ui/commit/20a0e9fa53ad07f6684e89b96303e9ca81add803))
+* **MobileStepper:** add MobileStepper component for step navigation ([20a0e9f](https://github.com/fanvue/fanv-ui/commit/20a0e9fa53ad07f6684e89b96303e9ca81add803))
+
+## [1.17.3](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.2...ui-v1.17.3) (2026-03-13)
+
+
+### Bug Fixes
+
+* **avatar:** match online indicator size and position to Figma specs ([#336](https://github.com/fanvue/fanv-ui/issues/336)) ([ce823a6](https://github.com/fanvue/fanv-ui/commit/ce823a6af0a84b07557b774f0e341d1e0aadf28f))
+
+## [1.17.2](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.1...ui-v1.17.2) (2026-03-13)
+
+
+### Bug Fixes
+
+* **ProgressBar:** force release for neutral variant color updates ([#334](https://github.com/fanvue/fanv-ui/issues/334)) ([d090f67](https://github.com/fanvue/fanv-ui/commit/d090f67a2bc186c38fd30646ea58065a83526446))
+
+## [1.17.1](https://github.com/fanvue/fanv-ui/compare/ui-v1.17.0...ui-v1.17.1) (2026-03-12)
+
+
+### Bug Fixes
+
+* **avatar:** increase online indicator size ([#330](https://github.com/fanvue/fanv-ui/issues/330)) ([a312f67](https://github.com/fanvue/fanv-ui/commit/a312f6799e157fa10fb037dd39d88461b48b6657))
+
 ## [1.17.0](https://github.com/fanvue/fanv-ui/compare/ui-v1.16.5...ui-v1.17.0) (2026-03-12)
 
 

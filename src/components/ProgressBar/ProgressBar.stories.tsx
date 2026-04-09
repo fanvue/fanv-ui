@@ -56,13 +56,6 @@ export const Neutral: Story = {
     value: 70,
     variant: "neutral",
   },
-  decorators: [
-    (Story) => (
-      <div className="rounded-lg bg-neutral-800 p-6">
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export const GenericSmall: Story = {

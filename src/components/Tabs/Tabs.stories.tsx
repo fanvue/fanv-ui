@@ -29,13 +29,13 @@ export const Default: Story = {
         <TabsTrigger value="tab3">Posts</TabsTrigger>
       </TabsList>
       <TabsContent value="tab1">
-        <p className="pt-4 text-neutral-400 text-sm">Photos content</p>
+        <p className="pt-4 text-content-tertiary text-sm">Photos content</p>
       </TabsContent>
       <TabsContent value="tab2">
-        <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
+        <p className="pt-4 text-content-tertiary text-sm">Videos content</p>
       </TabsContent>
       <TabsContent value="tab3">
-        <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
+        <p className="pt-4 text-content-tertiary text-sm">Posts content</p>
       </TabsContent>
     </Tabs>
   ),
@@ -52,10 +52,10 @@ export const WithDisabledTab: Story = {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="tab1">
-        <p className="pt-4 text-neutral-400 text-sm">Active tab content</p>
+        <p className="pt-4 text-content-tertiary text-sm">Active tab content</p>
       </TabsContent>
       <TabsContent value="tab2">
-        <p className="pt-4 text-neutral-400 text-sm">Normal tab content</p>
+        <p className="pt-4 text-content-tertiary text-sm">Normal tab content</p>
       </TabsContent>
     </Tabs>
   ),
@@ -70,13 +70,13 @@ export const Vertical: Story = {
         <TabsTrigger value="tab3">Posts</TabsTrigger>
       </TabsList>
       <TabsContent value="tab1">
-        <p className="pl-4 text-neutral-400 text-sm">Photos content</p>
+        <p className="pl-4 text-content-tertiary text-sm">Photos content</p>
       </TabsContent>
       <TabsContent value="tab2">
-        <p className="pl-4 text-neutral-400 text-sm">Videos content</p>
+        <p className="pl-4 text-content-tertiary text-sm">Videos content</p>
       </TabsContent>
       <TabsContent value="tab3">
-        <p className="pl-4 text-neutral-400 text-sm">Posts content</p>
+        <p className="pl-4 text-content-tertiary text-sm">Posts content</p>
       </TabsContent>
     </Tabs>
   ),
@@ -91,13 +91,13 @@ export const Inline: Story = {
         <TabsTrigger value="tab3">Posts</TabsTrigger>
       </TabsList>
       <TabsContent value="tab1">
-        <p className="pt-4 text-neutral-400 text-sm">Photos content</p>
+        <p className="pt-4 text-content-tertiary text-sm">Photos content</p>
       </TabsContent>
       <TabsContent value="tab2">
-        <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
+        <p className="pt-4 text-content-tertiary text-sm">Videos content</p>
       </TabsContent>
       <TabsContent value="tab3">
-        <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
+        <p className="pt-4 text-content-tertiary text-sm">Posts content</p>
       </TabsContent>
     </Tabs>
   ),
@@ -161,10 +161,10 @@ export const Truncated: Story = {
           <TabsTrigger value="tab2">Another Long Tab Name</TabsTrigger>
         </TabsList>
         <TabsContent value="tab1">
-          <p className="pt-4 text-neutral-400 text-sm">First tab content</p>
+          <p className="pt-4 text-content-tertiary text-sm">First tab content</p>
         </TabsContent>
         <TabsContent value="tab2">
-          <p className="pt-4 text-neutral-400 text-sm">Second tab content</p>
+          <p className="pt-4 text-content-tertiary text-sm">Second tab content</p>
         </TabsContent>
       </Tabs>
     </div>
@@ -176,10 +176,10 @@ export const AllStates: Story = {
   render: () => (
     <div className="flex flex-col gap-8">
       <div>
-        <p className="typography-semibold-body-md mb-4 text-neutral-300">Active</p>
+        <p className="typography-semibold-body-md mb-4 text-content-tertiary">Active</p>
         <div className="flex gap-10">
           <div className="flex flex-col items-center gap-2">
-            <p className="typography-regular-body-sm text-neutral-250">Default</p>
+            <p className="typography-regular-body-sm text-content-tertiary">Default</p>
             <Tabs defaultValue="t">
               <TabsList>
                 <TabsTrigger value="t">Tab</TabsTrigger>
@@ -187,7 +187,7 @@ export const AllStates: Story = {
             </Tabs>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <p className="typography-regular-body-sm text-neutral-250">Disabled</p>
+            <p className="typography-regular-body-sm text-content-tertiary">Disabled</p>
             <Tabs defaultValue="t">
               <TabsList>
                 <TabsTrigger value="t" disabled>
@@ -199,10 +199,10 @@ export const AllStates: Story = {
         </div>
       </div>
       <div>
-        <p className="typography-semibold-body-md mb-4 text-neutral-300">Inactive</p>
+        <p className="typography-semibold-body-md mb-4 text-content-tertiary">Inactive</p>
         <div className="flex gap-10">
           <div className="flex flex-col items-center gap-2">
-            <p className="typography-regular-body-sm text-neutral-250">Default</p>
+            <p className="typography-regular-body-sm text-content-tertiary">Default</p>
             <Tabs defaultValue="other">
               <TabsList>
                 <TabsTrigger value="t">Tab</TabsTrigger>
@@ -210,7 +210,7 @@ export const AllStates: Story = {
             </Tabs>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <p className="typography-regular-body-sm text-neutral-250">Disabled</p>
+            <p className="typography-regular-body-sm text-content-tertiary">Disabled</p>
             <Tabs defaultValue="other">
               <TabsList>
                 <TabsTrigger value="t" disabled>

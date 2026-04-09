@@ -1,8 +1,22 @@
 import * as React from "react";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
+import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import {
+  ChartCard,
+  ChartContainer,
+  ChartLoadingOverlay,
+  ChartSeriesToggle,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "./charts";
+import { simpleLineConfig, simpleLineData } from "./components/Chart/chartStoryFixtures";
 import { DatePicker } from "./date-picker";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
   AddIcon,
   AIIcon,
   Alert,
@@ -13,12 +27,16 @@ import {
   ArrowUpIcon,
   ArrowUpRightIcon,
   AudioUpload,
+  Autocomplete,
   Avatar,
   Badge,
   BankIcon,
+  Banner,
   BellIcon,
   BellOffIcon,
   BoltIcon,
+  BottomNavigation,
+  BottomNavigationAction,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -35,6 +53,7 @@ import {
   CardHeader,
   CardTitle,
   ChartIcon,
+  ChatInput,
   Checkbox,
   CheckCircleIcon,
   CheckIcon,
@@ -52,18 +71,43 @@ import {
   Count,
   CrossIcon,
   CrownIcon,
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
   DiamondIcon,
   DiscountIcon,
   Divider,
   DonateIcon,
   DoubleTickIcon,
   DownloadIcon,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
   EditIcon,
+  EmptyState,
   ErrorCircleIcon,
   ErrorIcon,
   ExpandIcon,
   EyeIcon,
   EyeSlashIcon,
+  FacebookIcon,
   FlagIcon,
   FlameIcon,
   FolderIcon,
@@ -71,12 +115,16 @@ import {
   GalleryIcon,
   GenderIcon,
   GiftIcon,
+  GoogleIcon,
   HelpIcon,
   HomeIcon,
   HourglassIcon,
   IconButton,
   ImageIcon,
   InboxIcon,
+  InfoBox,
+  InfoBoxContent,
+  InfoBoxTrigger,
   InfoCircleIcon,
   InfoIcon,
   LinkIcon,
@@ -94,12 +142,16 @@ import {
   MessageIcon,
   MicrophoneIcon,
   MinusIcon,
+  MobileStepper,
   MoonIcon,
   MoreIcon,
   MoreVerticalIcon,
+  NewMessageIcon,
+  OpenIcon,
   Pagination,
   PasswordField,
   PauseIcon,
+  PeopleIcon,
   PhoneIcon,
   PhoneOffIcon,
   Pill,
@@ -113,6 +165,7 @@ import {
   RepeatIcon,
   Reply2Icon,
   ReplyIcon,
+  ReverseIcon,
   SearchField,
   SearchIcon,
   Select,
@@ -129,6 +182,8 @@ import {
   Snackbar,
   SpinnerIcon,
   StarIcon,
+  Stepper,
+  StepperStep,
   StopIcon,
   SuccessIcon,
   SunIcon,
@@ -137,6 +192,24 @@ import {
   Switch,
   SwitchField,
   SwitchToggle,
+  Table,
+  TableBody,
+  TableCard,
+  TableCell,
+  TableCellGroup,
+  TableHead,
+  TableHeader,
+  TableLineClamp,
+  TableMediaThumbnail,
+  TablePagination,
+  TablePillProgressLayout,
+  TableProgressTrack,
+  TableRow,
+  TableRowsPerPageSelect,
+  TableScrollArea,
+  TableStackedText,
+  TableStatusDot,
+  TableToolbar,
   Tabs,
   TabsContent,
   TabsList,
@@ -145,7 +218,9 @@ import {
   TaskIcon,
   TextArea,
   TextField,
+  ThumbDownFilledIcon,
   ThumbDownIcon,
+  ThumbUpFilledIcon,
   ThumbUpIcon,
   TickCircleIcon,
   TickCircleOffIcon,
@@ -159,6 +234,7 @@ import {
   TooltipTrigger,
   TrashBinIcon,
   TrophyIcon,
+  TwitterIcon,
   UploadIcon,
   UserCircleIcon,
   UserIcon,
@@ -297,7 +373,7 @@ function TextFieldShowcase() {
   };
   return (
     <div id="textfield" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Text Field</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Text Field</h2>
       <TextField label="Size 48" placeholder="Placeholder" size="48" autoComplete="off" />
       <TextField label="Size 40" placeholder="Placeholder" size="40" autoComplete="off" />
       <TextField label="Size 32" placeholder="Placeholder" size="32" autoComplete="off" />
@@ -376,7 +452,7 @@ function PasswordFieldShowcase() {
   };
   return (
     <div id="passwordfield" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Password Field</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Password Field</h2>
       <PasswordField label="Size 48" placeholder="Enter password" size="48" autoComplete="off" />
       <PasswordField label="Size 40" placeholder="Enter password" size="40" autoComplete="off" />
       <PasswordField label="Size 32" placeholder="Enter password" size="32" autoComplete="off" />
@@ -429,7 +505,7 @@ function TextAreaShowcase() {
   };
   return (
     <div id="textarea" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Text Area</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Text Area</h2>
       <div className="flex max-w-2xl flex-col gap-4">
         <TextArea label="Size 48" placeholder="Enter description..." size="48" />
         <TextArea label="Size 40" placeholder="Enter description..." size="40" />
@@ -498,6 +574,85 @@ function TextAreaShowcase() {
   );
 }
 
+function ChatInputShowcase() {
+  const [value, setValue] = useState("");
+  const [model, setModel] = useState("fanvue-ai");
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+  };
+
+  return (
+    <div id="chatinput" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Chat Input</h2>
+      <div className="flex max-w-2xl flex-col gap-4">
+        <ChatInput placeholder="Type a message..." name="chat-default" autoComplete="off" />
+        <ChatInput
+          placeholder="Min and max rows"
+          minRows={3}
+          maxRows={8}
+          name="chat-rows"
+          autoComplete="off"
+        />
+        <ChatInput placeholder="Disabled" disabled value="Cannot edit" onChange={() => {}} />
+        <ChatInput placeholder="Loading" loading value="Sending…" onChange={() => {}} />
+        <ChatInput
+          placeholder="With file attach"
+          showFileButton
+          name="chat-file"
+          autoComplete="off"
+        />
+        <ChatInput
+          placeholder="With model selector"
+          selectOptions={[
+            {
+              value: "fanvue-ai",
+              label: "Fanvue AI",
+              icon: <AIIcon className="size-4" />,
+            },
+            {
+              value: "example",
+              label: "Example",
+              icon: <BulbIcon className="size-4" />,
+            },
+          ]}
+          selectValue={model}
+          onSelectChange={setModel}
+          name="chat-select"
+          autoComplete="off"
+        />
+        <ChatInput
+          placeholder="File + selector"
+          showFileButton
+          selectOptions={[
+            {
+              value: "fanvue-ai",
+              label: "Fanvue AI",
+              icon: <AIIcon className="size-4" />,
+            },
+            {
+              value: "example",
+              label: "Example",
+              icon: <BulbIcon className="size-4" />,
+            },
+          ]}
+          selectValue={model}
+          onSelectChange={setModel}
+          name="chat-full"
+          autoComplete="off"
+        />
+        <ChatInput
+          placeholder="Controlled"
+          value={value}
+          onChange={handleChange}
+          onSubmit={() => setValue("")}
+          name="chat-controlled"
+          autoComplete="off"
+        />
+      </div>
+    </div>
+  );
+}
+
 function SearchFieldShowcase() {
   const [value, setValue] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
@@ -507,7 +662,7 @@ function SearchFieldShowcase() {
   };
   return (
     <div id="searchfield" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Search Field</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Search Field</h2>
       <SearchField label="Size 48" placeholder="Search..." size="48" autoComplete="off" />
       <SearchField label="Size 40" placeholder="Search..." size="40" autoComplete="off" />
       <SearchField label="Size 32" placeholder="Search..." size="32" autoComplete="off" />
@@ -588,7 +743,7 @@ function ToastDemo() {
 
   return (
     <div id="toast" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Toast</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Toast</h2>
       <div className="space-y-4">
         <div className="flex flex-wrap gap-3">
           <Button variant="primary" size="40" onClick={() => showToast("info")}>
@@ -698,7 +853,7 @@ function ToastDemo() {
 function LogoDemo() {
   return (
     <div id="logo" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Logo</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Logo</h2>
       <div className="flex flex-wrap items-start gap-8">
         <Logo variant="full" color="fullColour" />
         <Logo variant="icon" color="fullColour" />
@@ -709,7 +864,7 @@ function LogoDemo() {
         <Logo variant="portrait" color="decolour" />
         <Logo variant="wordmark" color="decolour" />
       </div>
-      <div className="rounded-lg bg-white p-4">
+      <div className="rounded-xs bg-[#ffffff] p-4">
         <div className="flex flex-wrap items-start gap-8">
           <Logo variant="full" color="blackAlways" />
           <Logo variant="icon" color="blackAlways" />
@@ -717,7 +872,7 @@ function LogoDemo() {
           <Logo variant="wordmark" color="blackAlways" />
         </div>
       </div>
-      <div className="rounded-lg bg-neutral-solid p-4">
+      <div className="rounded-xs bg-[#151515] p-4">
         <div className="flex flex-wrap items-start gap-8">
           <Logo variant="full" color="whiteAlways" />
           <Logo variant="icon" color="whiteAlways" />
@@ -772,12 +927,14 @@ function IconsDemo() {
     ["Expand", ExpandIcon],
     ["Eye", EyeIcon],
     ["EyeSlash", EyeSlashIcon],
+    ["Facebook", FacebookIcon],
     ["Flag", FlagIcon],
     ["Flame", FlameIcon],
     ["Folder", FolderIcon],
     ["Forward", ForwardIcon],
     ["Gallery", GalleryIcon],
     ["Gender", GenderIcon],
+    ["Google", GoogleIcon],
     ["Gift", GiftIcon],
     ["Help", HelpIcon],
     ["Home", HomeIcon],
@@ -802,7 +959,10 @@ function IconsDemo() {
     ["Moon", MoonIcon],
     ["More", MoreIcon],
     ["MoreVertical", MoreVerticalIcon],
+    ["NewMessage", NewMessageIcon],
+    ["Open", OpenIcon],
     ["Pause", PauseIcon],
+    ["People", PeopleIcon],
     ["Phone", PhoneIcon],
     ["PhoneOff", PhoneOffIcon],
     ["Pin", PinIcon],
@@ -812,6 +972,7 @@ function IconsDemo() {
     ["Repeat", RepeatIcon],
     ["Reply2", Reply2Icon],
     ["Reply", ReplyIcon],
+    ["Reverse", ReverseIcon],
     ["Search", SearchIcon],
     ["Send", SendIcon],
     ["Settings", SettingsIcon],
@@ -830,7 +991,9 @@ function IconsDemo() {
     ["Tick", TickIcon],
     ["TrashBin", TrashBinIcon],
     ["Trophy", TrophyIcon],
+    ["ThumbDownFilled", ThumbDownFilledIcon],
     ["ThumbDown", ThumbDownIcon],
+    ["ThumbUpFilled", ThumbUpFilledIcon],
     ["ThumbUp", ThumbUpIcon],
     ["Upload", UploadIcon],
     ["UserCircle", UserCircleIcon],
@@ -844,22 +1007,23 @@ function IconsDemo() {
     ["WifiOff", WifiOffIcon],
     ["WifiOn", WifiOnIcon],
     ["Wrench", WrenchIcon],
+    ["Twitter", TwitterIcon],
   ] as const;
 
   return (
     <div id="icons" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Icons</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Icons</h2>
       <div className="space-y-6">
         <div className="flex flex-wrap items-end gap-6">
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
-              <span className="text-[10px] text-foreground-secondary leading-tight">{name}</span>
+              <span className="text-[10px] text-content-secondary leading-tight">{name}</span>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-white p-4 text-foreground-default">
+        <div className="flex flex-wrap items-end gap-6 rounded-xs bg-[#ffffff] p-4 text-[#151515]">
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
@@ -868,7 +1032,7 @@ function IconsDemo() {
           ))}
         </div>
 
-        <div className="flex flex-wrap items-end gap-6 rounded-lg bg-neutral-solid p-4 text-foreground-inverse">
+        <div className="flex flex-wrap items-end gap-6 rounded-xs bg-[#151515] p-4 text-[#ffffff]">
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
@@ -881,23 +1045,23 @@ function IconsDemo() {
         <div className="flex flex-wrap items-end gap-8">
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-4" />
-            <span className="text-[10px] text-foreground-secondary">16px</span>
+            <span className="text-[10px] text-content-secondary">16px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon />
-            <span className="text-[10px] text-foreground-secondary">20px</span>
+            <span className="text-[10px] text-content-secondary">20px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-6" />
-            <span className="text-[10px] text-foreground-secondary">24px</span>
+            <span className="text-[10px] text-content-secondary">24px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-8" />
-            <span className="text-[10px] text-foreground-secondary">32px</span>
+            <span className="text-[10px] text-content-secondary">32px</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-10" />
-            <span className="text-[10px] text-foreground-secondary">40px</span>
+            <span className="text-[10px] text-content-secondary">40px</span>
           </div>
         </div>
       </div>
@@ -997,26 +1161,26 @@ function TypographyDemo() {
 
   return (
     <div id="typography" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Typography</h2>
-      <p className="mb-6 text-foreground-secondary">
+      <h2 className="typography-bold-heading-sm mb-4">Typography</h2>
+      <p className="mb-6 text-content-secondary">
         All typography is set in <strong>Inter</strong>. Styles are available as utility classes
         generated from Figma tokens.
       </p>
 
       <div className="space-y-8">
         <div>
-          <h3 className="mb-3 font-semibold text-foreground-secondary text-xs uppercase tracking-wider">
+          <h3 className="mb-3 font-semibold text-content-secondary text-xs uppercase tracking-wider">
             Bold
           </h3>
           <div className="space-y-4">
             {boldTokens.map((token) => (
               <div
                 key={token.className}
-                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+                className="flex items-baseline gap-6 border-border-primary border-b pb-4"
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-foreground-secondary">{token.className}</code>
+                  <code className="text-[11px] text-content-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -1025,18 +1189,18 @@ function TypographyDemo() {
         </div>
 
         <div>
-          <h3 className="mb-3 font-semibold text-foreground-secondary text-xs uppercase tracking-wider">
+          <h3 className="mb-3 font-semibold text-content-secondary text-xs uppercase tracking-wider">
             Semibold
           </h3>
           <div className="space-y-4">
             {semiboldTokens.map((token) => (
               <div
                 key={token.className}
-                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+                className="flex items-baseline gap-6 border-border-primary border-b pb-4"
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-foreground-secondary">{token.className}</code>
+                  <code className="text-[11px] text-content-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -1045,18 +1209,18 @@ function TypographyDemo() {
         </div>
 
         <div>
-          <h3 className="mb-3 font-semibold text-foreground-secondary text-xs uppercase tracking-wider">
+          <h3 className="mb-3 font-semibold text-content-secondary text-xs uppercase tracking-wider">
             Regular
           </h3>
           <div className="space-y-4">
             {regularTokens.map((token) => (
               <div
                 key={token.className}
-                className="flex items-baseline gap-6 border-neutral-200 border-b pb-4"
+                className="flex items-baseline gap-6 border-border-primary border-b pb-4"
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-foreground-secondary">{token.className}</code>
+                  <code className="text-[11px] text-content-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -1071,7 +1235,7 @@ function TypographyDemo() {
 function AvatarDemo() {
   return (
     <div id="avatar" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Avatar</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Avatar</h2>
       <div className="flex flex-wrap items-center gap-4">
         <Avatar
           size={16}
@@ -1190,6 +1354,198 @@ function AvatarDemo() {
           NSFWShow
         />
       </div>
+
+      <div className="flex flex-col gap-2">
+        <p className="typography-regular-body-xs text-body-200">
+          Half overlap on split background (image and text fallback): corners outside the circle
+          should not show an opaque square.
+        </p>
+        <div className="flex flex-wrap items-end gap-8">
+          <div className="relative h-28 w-56 shrink-0 overflow-visible rounded-lg border border-neutral-300">
+            <div className="absolute inset-x-0 top-0 h-1/2 bg-[repeating-linear-gradient(135deg,#fca5a5_0_6px,#fde047_6px_12px)]" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[repeating-linear-gradient(-45deg,#93c5fd_0_6px,#86efac_6px_12px)]" />
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <Avatar
+                size={64}
+                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+                alt=""
+                fallback="JD"
+              />
+            </div>
+          </div>
+          <div className="relative h-28 w-56 shrink-0 overflow-visible rounded-lg border border-neutral-300">
+            <div className="absolute inset-x-0 top-0 h-1/2 bg-[repeating-linear-gradient(135deg,#fca5a5_0_6px,#fde047_6px_12px)]" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[repeating-linear-gradient(-45deg,#93c5fd_0_6px,#86efac_6px_12px)]" />
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <Avatar size={64} fallback="AB" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AccordionDemo() {
+  return (
+    <div id="accordion" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Accordion</h2>
+      <div className="flex flex-wrap items-start gap-8">
+        <div className="w-80">
+          <p className="typography-regular-body-sm mb-2 text-content-tertiary">
+            Single / Collapsible
+          </p>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Section 1</AccordionTrigger>
+              <AccordionContent>Content for the first section.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Section 2</AccordionTrigger>
+              <AccordionContent>Content for the second section.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Section 3</AccordionTrigger>
+              <AccordionContent>Content for the third section.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+        <div className="w-80">
+          <p className="typography-regular-body-sm mb-2 text-content-tertiary">Multiple</p>
+          <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Open 1</AccordionTrigger>
+              <AccordionContent>Both items are open at once.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Open 2</AccordionTrigger>
+              <AccordionContent>Both items are open at once.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+        <div className="w-80">
+          <p className="typography-regular-body-sm mb-2 text-content-tertiary">Disabled Item</p>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Enabled</AccordionTrigger>
+              <AccordionContent>This item works normally.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2" disabled>
+              <AccordionTrigger>Disabled</AccordionTrigger>
+              <AccordionContent>You should not see this.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DrawerDemo() {
+  return (
+    <div id="drawer" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Drawer</h2>
+      <div className="flex flex-wrap items-start gap-4">
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Right (default)</Button>
+          </DrawerTrigger>
+          <DrawerContent position="right">
+            <DrawerHeader>
+              <DrawerTitle>Right Drawer</DrawerTitle>
+              <DrawerDescription>Slides in from the right.</DrawerDescription>
+            </DrawerHeader>
+            <div className="flex-1 p-4">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Left</Button>
+          </DrawerTrigger>
+          <DrawerContent position="left">
+            <DrawerHeader>
+              <DrawerTitle>Left Drawer</DrawerTitle>
+              <DrawerDescription>Slides in from the left.</DrawerDescription>
+            </DrawerHeader>
+            <div className="flex-1 p-4">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Top</Button>
+          </DrawerTrigger>
+          <DrawerContent position="top">
+            <DrawerHeader>
+              <DrawerTitle>Top Drawer</DrawerTitle>
+              <DrawerDescription>Slides in from the top.</DrawerDescription>
+            </DrawerHeader>
+            <div className="p-4">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Bottom</Button>
+          </DrawerTrigger>
+          <DrawerContent position="bottom">
+            <DrawerHeader>
+              <DrawerTitle>Bottom Drawer</DrawerTitle>
+              <DrawerDescription>Slides in from the bottom.</DrawerDescription>
+            </DrawerHeader>
+            <div className="p-4">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button variant="secondary">Without Overlay</Button>
+          </DrawerTrigger>
+          <DrawerContent position="right" overlay={false}>
+            <DrawerHeader>
+              <DrawerTitle>No Overlay</DrawerTitle>
+              <DrawerDescription>No backdrop behind this drawer.</DrawerDescription>
+            </DrawerHeader>
+            <div className="flex-1 p-4">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      </div>
     </div>
   );
 }
@@ -1197,7 +1553,7 @@ function AvatarDemo() {
 function AlertDemo() {
   return (
     <div id="alert" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Alert</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Alert</h2>
       <div className="max-w-2xl space-y-4">
         <Alert variant="info" icon={<InfoCircleIcon />}>
           This is an informational alert message.
@@ -1225,10 +1581,140 @@ function AlertDemo() {
   );
 }
 
+function BannerDemo() {
+  const [defaultBannerVisible, setDefaultBannerVisible] = useState(true);
+  const sampleThumb = (
+    <div className="typography-regular-body-sm flex size-full items-center justify-center bg-surface-tertiary text-content-secondary">
+      img
+    </div>
+  );
+  return (
+    <div id="banner" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Banner</h2>
+      <div className="flex max-w-4xl flex-col gap-6">
+        {defaultBannerVisible ? (
+          <Banner
+            variant="Default"
+            layout="vertical"
+            media={sampleThumb}
+            eyebrow="HOW TO"
+            title="Use Paid Media Links"
+            description="Short demo copy for the showcase app."
+            primaryAction={<Button variant="brand">Learn more</Button>}
+            onDismiss={() => setDefaultBannerVisible(false)}
+          />
+        ) : (
+          <Button
+            type="button"
+            variant="tertiary"
+            size="32"
+            onClick={() => setDefaultBannerVisible(true)}
+          >
+            Show Default banner again
+          </Button>
+        )}
+        <Banner
+          variant="Default"
+          layout="horizontal"
+          media={sampleThumb}
+          eyebrow="HOW TO"
+          title="Horizontal layout"
+          description="Primary action aligns with the text row."
+          primaryAction={<Button variant="brand">Learn more</Button>}
+        />
+        <Banner
+          variant="Subtle"
+          media={sampleThumb}
+          leadBadge={
+            <Badge variant="success" leftDot className="typography-semibold-badge">
+              new
+            </Badge>
+          }
+          title="Informational banner"
+          description="Body text for OAuth-style or account messaging."
+          primaryAction={<Button variant="secondary">Learn more</Button>}
+        />
+        <Banner
+          variant="whatsNew"
+          layout="horizontal"
+          media={
+            <div className="typography-regular-body-sm flex size-full items-center justify-center bg-surface-tertiary text-content-secondary">
+              art
+            </div>
+          }
+          title="Perfectly proportioned"
+          description="Feature highlight on purple-muted surface."
+          textAction={
+            <Button
+              type="button"
+              variant="tertiary"
+              size="32"
+              className="h-auto min-h-0 px-0 py-1 shadow-none hover:bg-transparent active:bg-transparent"
+              rightIcon={<ArrowRightIcon className="size-3" aria-hidden />}
+            >
+              See how it works
+            </Button>
+          }
+        />
+        <Banner
+          variant="appStore1"
+          eyebrow="Learn"
+          title="Guide card"
+          description="Gradient card with text CTA."
+          textAction={
+            <Button
+              type="button"
+              variant="tertiary"
+              size="32"
+              className="h-auto min-h-0 px-0 py-1 shadow-none hover:bg-transparent active:bg-transparent"
+              rightIcon={<ArrowRightIcon className="size-3" aria-hidden />}
+            >
+              CTA label
+            </Button>
+          }
+        />
+      </div>
+    </div>
+  );
+}
+
+function EmptyStateDemo() {
+  const artwork = (
+    <div className="relative h-full w-full bg-surface-secondary">
+      <div className="absolute left-3 top-10 size-20 rounded-full bg-surface-primary" />
+      <div className="absolute left-20 top-6 size-36 rounded-full bg-surface-tertiary" />
+      <div className="absolute left-48 top-24 size-24 rounded-full bg-surface-primary" />
+    </div>
+  );
+
+  return (
+    <div id="empty-state" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Empty State</h2>
+      <div className="flex flex-wrap items-start gap-8">
+        <EmptyState
+          variant="default"
+          media={artwork}
+          title="Empty Vault, Full Potential!"
+          description="Add your photos to the Vault to start sharing your creations and earning."
+          primaryAction={<Button variant="brand">Add Media to Vault</Button>}
+        />
+        <EmptyState
+          variant="centered"
+          media={artwork}
+          title="Empty Vault, Full Potential!"
+          description="Add your photos to the Vault to start sharing your creations and earning."
+          primaryAction={<Button variant="brand">Add Media to Vault</Button>}
+          secondaryAction={<Button variant="secondary">Learn more</Button>}
+        />
+      </div>
+    </div>
+  );
+}
+
 function ButtonDemo() {
   return (
     <div id="button" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Button</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Button</h2>
       <div className="flex flex-wrap items-center gap-4">
         <Button variant="primary">Label</Button>
         <Button variant="secondary">Label</Button>
@@ -1236,7 +1722,7 @@ function ButtonDemo() {
         <Button variant="brand">Label</Button>
         <Button variant="link">Label</Button>
         <Button variant="destructive">Label</Button>
-        <div className="rounded-lg bg-neutral-solid p-3">
+        <div className="rounded-xs bg-surface-primary-inverted p-3">
           <Button variant="white">Label</Button>
         </div>
         <Button variant="tertiaryDestructive">Label</Button>
@@ -1273,7 +1759,7 @@ function ButtonDemo() {
             <Button variant="destructive" size={size}>
               Label
             </Button>
-            <div className="rounded-lg bg-neutral-solid p-2">
+            <div className="rounded-xs bg-surface-primary-inverted p-2">
               <Button variant="white" size={size}>
                 Label
               </Button>
@@ -1307,7 +1793,7 @@ function ButtonDemo() {
         <Button variant="destructive" disabled>
           Label
         </Button>
-        <div className="rounded-lg bg-neutral-solid p-3">
+        <div className="rounded-xs bg-surface-primary-inverted p-3">
           <Button variant="white" disabled>
             Label
           </Button>
@@ -1339,7 +1825,7 @@ function ButtonDemo() {
         <Button variant="destructive" loading>
           Label
         </Button>
-        <div className="rounded-lg bg-neutral-solid p-3">
+        <div className="rounded-xs bg-surface-primary-inverted p-3">
           <Button variant="white" loading>
             Label
           </Button>
@@ -1365,7 +1851,7 @@ function ButtonDemo() {
         <Button fullWidth variant="primary" discount="$X.XX" price="$X.XX/ month">
           Join now
         </Button>
-        <div className="rounded-lg bg-neutral-solid p-3">
+        <div className="rounded-xs bg-surface-primary-inverted p-3">
           <Button variant="white" rightIcon={<CrownIcon />} discount="$X.XX" price="$X.XX/ month">
             Join now
           </Button>
@@ -1387,7 +1873,7 @@ function ButtonDemo() {
 function BadgeDemo() {
   return (
     <div id="badge" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Badge</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Badge</h2>
       <div className="flex flex-wrap gap-4">
         <Badge variant="default">Default</Badge>
         <Badge variant="dark">Dark</Badge>
@@ -1418,7 +1904,7 @@ function BadgeDemo() {
 function IconButtonDemo() {
   return (
     <div id="iconbutton" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Icon Button</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Icon Button</h2>
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-4">
           <IconButton variant="primary" icon={<HomeIcon />} aria-label="Home" />
@@ -1429,7 +1915,7 @@ function IconButtonDemo() {
           <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
         </div>
 
-        <div className="rounded-lg bg-neutral-solid p-4">
+        <div className="rounded-xs bg-surface-primary-inverted p-4">
           <div className="flex flex-wrap items-center gap-4">
             <IconButton variant="contrast" icon={<HomeIcon />} aria-label="Home" />
             <IconButton variant="messaging" icon={<PlusIcon />} aria-label="Add" />
@@ -1480,7 +1966,7 @@ function IconButtonDemo() {
 function PillDemo() {
   return (
     <div id="pill" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Pill</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Pill</h2>
       <div className="flex flex-wrap gap-4">
         <Pill variant="green">Green</Pill>
         <Pill variant="grey">Grey</Pill>
@@ -1509,7 +1995,7 @@ function PillDemo() {
 function CheckboxDemo() {
   return (
     <div id="checkbox" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Checkbox</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Checkbox</h2>
       <div className="flex flex-col gap-4">
         <Checkbox label="Default checkbox" />
         <Checkbox label="Small text size" size="small" helperText="Label and helper are smaller" />
@@ -1528,7 +2014,7 @@ function CheckboxDemo() {
 function RadioDemo() {
   return (
     <div id="radio" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Radio</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Radio</h2>
       <RadioGroup defaultValue="option1" aria-label="Options" className="flex flex-col gap-4">
         <Radio label="Option 1" value="option1" helperText="This is the first option" />
         <Radio label="Option 2" value="option2" helperText="This is the second option" />
@@ -1555,10 +2041,104 @@ function RadioDemo() {
   );
 }
 
+const AUTOCOMPLETE_OPTIONS = [
+  { value: "apple", label: "Apple" },
+  { value: "banana", label: "Banana" },
+  { value: "cherry", label: "Cherry" },
+  { value: "date", label: "Date" },
+  { value: "elderberry", label: "Elderberry" },
+];
+
+function AutocompleteDemo() {
+  const [controlled, setControlled] = useState<string | null>("apple");
+
+  return (
+    <div id="autocomplete" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Autocomplete</h2>
+      <div className="flex max-w-sm flex-col gap-4">
+        <Autocomplete
+          label="Default"
+          placeholder="Search..."
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Size 40"
+          placeholder="Search..."
+          size="40"
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Size 32"
+          placeholder="Search..."
+          size="32"
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="With helper"
+          placeholder="Search..."
+          helperText="Pick a fruit"
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Error"
+          placeholder="Search..."
+          error
+          errorMessage="This field is required"
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Disabled"
+          placeholder="Search..."
+          disabled
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="With left icon"
+          placeholder="Search..."
+          leftIcon={<HomeIcon />}
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Clearable"
+          placeholder="Search..."
+          clearable
+          clearAriaLabel="Clear selection"
+          defaultValue="banana"
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Multi-select"
+          placeholder="Select fruits..."
+          multiple
+          defaultValue={["apple", "cherry"]}
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+        <Autocomplete
+          label="Controlled"
+          placeholder="Search..."
+          value={controlled}
+          onChange={setControlled}
+          options={AUTOCOMPLETE_OPTIONS}
+          emptyText="No results"
+        />
+      </div>
+    </div>
+  );
+}
+
 function SelectDemo() {
   return (
     <div id="select" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Select</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Select</h2>
       <div className="flex max-w-sm flex-col gap-4">
         <Select label="Size 48" placeholder="Select an option" size="48">
           <SelectContent>
@@ -1653,10 +2233,95 @@ function SelectDemo() {
   );
 }
 
+function DropdownMenuDemo() {
+  return (
+    <div id="dropdownmenu" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Dropdown menu</h2>
+      <p className="typography-regular-body-md max-w-xl text-content-secondary">
+        Panel width follows label length (at least as wide as the trigger). Short items stay narrow;
+        long labels expand the menu.
+      </p>
+      <div className="flex flex-wrap items-start gap-8">
+        <div className="flex flex-col gap-2">
+          <span className="typography-semibold-body-sm text-content-secondary">
+            Icon trigger, short labels
+          </span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <IconButton
+                variant="secondary"
+                size="40"
+                aria-label="Open menu"
+                icon={<MoreVerticalIcon />}
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem leadingIcon={<EditIcon className="size-4" />}>
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem leadingIcon={<CopyIcon className="size-4" />}>
+                Copy
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="typography-semibold-body-sm text-content-secondary">
+            Button trigger, long label
+          </span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
+                Actions
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem>
+                Export selected items as CSV for accounting reconciliation
+              </DropdownMenuItem>
+              <DropdownMenuItem>Duplicate</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="typography-semibold-body-sm text-content-secondary">Grouped</span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="40">
+                More
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuLabel>Account</DropdownMenuLabel>
+              <DropdownMenuItem leadingIcon={<UserIcon className="size-4" />}>
+                Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem leadingIcon={<SettingsIcon className="size-4" />}>
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Session</DropdownMenuLabel>
+              <DropdownMenuItem leadingIcon={<LogoutIcon className="size-4" />}>
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function CountDemo() {
   return (
     <div id="count" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Count</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Count</h2>
       <div className="flex flex-wrap items-center gap-4">
         <Count value={5} variant="default" />
         <Count value={12} variant="brand" />
@@ -1683,7 +2348,7 @@ function CountDemo() {
 function ChipDemo() {
   return (
     <div id="chip" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Chip</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Chip</h2>
       <div className="flex flex-wrap items-center gap-3">
         <Chip>Chip</Chip>
         <Chip variant="square">Chip</Chip>
@@ -1916,7 +2581,7 @@ function ChipDemo() {
 function SnackbarDemo() {
   return (
     <div id="snackbar" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Snackbar</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Snackbar</h2>
       <div className="max-w-xl space-y-4">
         <Snackbar
           variant="vipEarn"
@@ -1947,7 +2612,7 @@ function SnackbarDemo() {
 function SwitchDemo() {
   return (
     <div id="switch" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Switch</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Switch</h2>
       <div className="flex flex-wrap items-center gap-4">
         <Switch aria-label="Toggle default" />
         <Switch aria-label="Toggle default checked" defaultChecked />
@@ -1965,7 +2630,7 @@ function SwitchDemo() {
 function SwitchFieldDemo() {
   return (
     <div id="switchfield" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Switch Field</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Switch Field</h2>
       <div className="flex max-w-2xl flex-col gap-4">
         <SwitchField label="Notifications" />
         <SwitchField label="Notifications" defaultChecked />
@@ -2022,7 +2687,7 @@ function SwitchFieldDemo() {
 function SwitchToggleDemo() {
   return (
     <div id="switchtoggle" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Switch Toggle</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Switch Toggle</h2>
       <div className="flex flex-wrap items-center gap-4">
         <SwitchToggle
           size="24"
@@ -2131,7 +2796,7 @@ function SwitchToggleDemo() {
 function DatePickerDemo() {
   return (
     <div id="datepicker" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Date Picker</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Date Picker</h2>
       <DatePickerShowcase />
     </div>
   );
@@ -2140,7 +2805,7 @@ function DatePickerDemo() {
 function DividerDemo() {
   return (
     <div id="divider" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Divider</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Divider</h2>
       <div className="flex flex-col gap-6">
         <Divider />
         <Divider className="w-1/2" />
@@ -2154,10 +2819,325 @@ function DividerDemo() {
   );
 }
 
+const TABLE_DEMO_MEDIA =
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=112&h=160&fit=crop";
+
+function TableDemo() {
+  const [pageMd, setPageMd] = useState(2);
+  const [pageLg, setPageLg] = useState(1);
+  const [pageDesk, setPageDesk] = useState(2);
+  const [pageMob, setPageMob] = useState(2);
+
+  return (
+    <div id="table" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Table</h2>
+      <div className="flex max-w-4xl flex-col gap-12">
+        <div>
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">Table — md</h3>
+          <TableCard>
+            <TableToolbar>
+              <span className="typography-regular-body-md text-foreground-default">2 selected</span>
+              <div className="flex flex-wrap gap-1">
+                <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
+                  Assign to creators
+                </Button>
+                <Button
+                  variant="tertiaryDestructive"
+                  size="32"
+                  leftIcon={<TrashBinIcon className="size-3.5" />}
+                >
+                  Delete
+                </Button>
+              </div>
+            </TableToolbar>
+            <TableScrollArea>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead intent="checkbox">
+                      <Checkbox aria-label="Select all rows" />
+                    </TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Preview</TableHead>
+                    <TableHead>Channel</TableHead>
+                    <TableHead>Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {["Feb 18, 2025, 4:19 PM", "Feb 17, 2025, 2:00 PM", "Feb 16, 2025, 9:30 AM"].map(
+                    (date) => (
+                      <TableRow key={date}>
+                        <TableCell intent="checkbox">
+                          <Checkbox aria-label={`Select row ${date}`} />
+                        </TableCell>
+                        <TableCell>{date}</TableCell>
+                        <TableCell intent="multiline">
+                          <TableLineClamp>
+                            Placeholder description.{" "}
+                            <button type="button" className="typography-semibold-body-md">
+                              Read more
+                            </button>
+                          </TableLineClamp>
+                        </TableCell>
+                        <TableCell>
+                          <TableCellGroup>
+                            <TableMediaThumbnail src={TABLE_DEMO_MEDIA} alt="" />
+                            <span>5</span>
+                            <ChevronDownIcon className="size-5 shrink-0" aria-hidden />
+                          </TableCellGroup>
+                        </TableCell>
+                        <TableCell>
+                          <TableCellGroup>
+                            <span
+                              className="inline-block size-5 shrink-0 rounded bg-gradient-to-br from-pink-500 via-purple-500 to-orange-400"
+                              aria-hidden
+                            />
+                            <span>5</span>
+                            <ChevronDownIcon className="size-5 shrink-0" aria-hidden />
+                          </TableCellGroup>
+                        </TableCell>
+                        <TableCell>
+                          <TableStatusDot aria-hidden />
+                        </TableCell>
+                      </TableRow>
+                    ),
+                  )}
+                </TableBody>
+              </Table>
+            </TableScrollArea>
+            <TablePagination
+              leadingSlot={<TableRowsPerPageSelect id="app-table-md-rows" />}
+              paginationSlot={
+                <Pagination
+                  className="pb-0"
+                  totalPages={5}
+                  currentPage={pageMd}
+                  onPageChange={setPageMd}
+                />
+              }
+              summary="20–30 of 100 rows"
+            />
+          </TableCard>
+        </div>
+
+        <div>
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">Table — lg</h3>
+          <TableCard size="lg">
+            <TableScrollArea>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead intent="checkbox">
+                      <Checkbox aria-label="Select all" />
+                    </TableHead>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Media</TableHead>
+                    <TableHead>Label</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell intent="checkbox">
+                      <Checkbox aria-label="Select row" />
+                    </TableCell>
+                    <TableCell>Sample row</TableCell>
+                    <TableCell>
+                      <TableMediaThumbnail src={TABLE_DEMO_MEDIA} alt="" align="center" />
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="info">Badge</Badge>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableScrollArea>
+            <TablePagination
+              leadingSlot={<TableRowsPerPageSelect id="app-table-lg-rows" />}
+              paginationSlot={
+                <Pagination
+                  className="pb-0"
+                  totalPages={5}
+                  currentPage={pageLg}
+                  onPageChange={setPageLg}
+                />
+              }
+              summary="1–10 of 48 rows"
+            />
+          </TableCard>
+        </div>
+
+        <div>
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">Cell variants</h3>
+          <TableCard>
+            <TableScrollArea>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead intent="leading">Variant</TableHead>
+                    <TableHead>Example</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Checkbox</TableCell>
+                    <TableCell>
+                      <Checkbox aria-label="Demo row select" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Text</TableCell>
+                    <TableCell>Cell</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Cell + info</TableCell>
+                    <TableCell intent="stacked">
+                      <TableStackedText title="Cell" subtitle="Secondary line" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Chip</TableCell>
+                    <TableCell cellVariant="chip">
+                      <Chip>Chip</Chip>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Chip + chevron</TableCell>
+                    <TableCell cellVariant="chip">
+                      <TableCellGroup>
+                        <Chip>Chip</Chip>
+                        <ChevronDownIcon className="size-5 shrink-0" aria-hidden />
+                      </TableCellGroup>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Badge</TableCell>
+                    <TableCell>
+                      <Badge variant="info">Badge</Badge>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Badge + chevron</TableCell>
+                    <TableCell>
+                      <TableCellGroup>
+                        <Badge variant="info">Badge</Badge>
+                        <ChevronDownIcon className="size-5 shrink-0" aria-hidden />
+                      </TableCellGroup>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Pill + progress</TableCell>
+                    <TableCell cellVariant="pillProgress">
+                      <TablePillProgressLayout>
+                        <Badge variant="special">Sending</Badge>
+                        <TableProgressTrack value={40} />
+                      </TablePillProgressLayout>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Avatar</TableCell>
+                    <TableCell>
+                      <Avatar src={TABLE_DEMO_MEDIA} alt="" fallback="U" size={40} />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Media</TableCell>
+                    <TableCell>
+                      <TableMediaThumbnail src={TABLE_DEMO_MEDIA} alt="" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Media blurred</TableCell>
+                    <TableCell>
+                      <TableMediaThumbnail src={TABLE_DEMO_MEDIA} alt="" blurred />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Icon</TableCell>
+                    <TableCell>
+                      <span
+                        className="inline-flex size-5 rounded bg-gradient-to-br from-pink-500 via-purple-500 to-orange-400"
+                        aria-hidden
+                      />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Share</TableCell>
+                    <TableCell>
+                      <ShareIcon className="size-5" aria-hidden />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">More</TableCell>
+                    <TableCell>
+                      <TableCellGroup>
+                        <MoreIcon className="size-5" aria-hidden />
+                        <MoreVerticalIcon className="size-5" aria-hidden />
+                      </TableCellGroup>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Button</TableCell>
+                    <TableCell>
+                      <Button variant="secondary" size="32">
+                        Add
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableScrollArea>
+          </TableCard>
+        </div>
+
+        <div>
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">
+            Pagination — desktop
+          </h3>
+          <div className="max-w-[628px] rounded-md bg-bg-primary py-4">
+            <TablePagination
+              leadingSlot={<TableRowsPerPageSelect id="app-table-pag-desk" />}
+              paginationSlot={
+                <Pagination
+                  className="pb-0"
+                  totalPages={5}
+                  currentPage={pageDesk}
+                  onPageChange={setPageDesk}
+                />
+              }
+              summary="20–30 of 100 rows"
+            />
+          </div>
+        </div>
+
+        <div>
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">
+            Pagination — mobile
+          </h3>
+          <TablePagination
+            layout="mobile"
+            className="max-w-sm rounded-md bg-bg-primary py-4"
+            leadingSlot={<TableRowsPerPageSelect id="app-table-pag-mob" />}
+            paginationSlot={
+              <Pagination
+                className="pb-0"
+                totalPages={5}
+                currentPage={pageMob}
+                onPageChange={setPageMob}
+              />
+            }
+            summary="20–30 of 100 rows"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function TabsDemo() {
   return (
     <div id="tabs" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Tabs</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Tabs</h2>
       <div className="flex flex-wrap items-start gap-8">
         <Tabs defaultValue="tab1">
           <TabsList>
@@ -2166,13 +3146,13 @@ function TabsDemo() {
             <TabsTrigger value="tab3">Posts</TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">
-            <p className="pt-4 text-neutral-400 text-sm">Photos content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Photos content</p>
           </TabsContent>
           <TabsContent value="tab2">
-            <p className="pt-4 text-neutral-400 text-sm">Videos content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Videos content</p>
           </TabsContent>
           <TabsContent value="tab3">
-            <p className="pt-4 text-neutral-400 text-sm">Posts content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Posts content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="tab1">
@@ -2184,10 +3164,10 @@ function TabsDemo() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">
-            <p className="pt-4 text-neutral-400 text-sm">Active tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Active tab content</p>
           </TabsContent>
           <TabsContent value="tab2">
-            <p className="pt-4 text-neutral-400 text-sm">Normal tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Normal tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="t">
@@ -2195,7 +3175,7 @@ function TabsDemo() {
             <TabsTrigger value="t">Tab</TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-400 text-sm">Single tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Single tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="t">
@@ -2205,7 +3185,7 @@ function TabsDemo() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-400 text-sm">Disabled tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Disabled tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="other">
@@ -2213,7 +3193,7 @@ function TabsDemo() {
             <TabsTrigger value="t">Tab</TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-400 text-sm">Inactive tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Inactive tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="other">
@@ -2223,7 +3203,7 @@ function TabsDemo() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-400 text-sm">Disabled inactive tab content</p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Disabled inactive tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="tab1">
@@ -2254,7 +3234,7 @@ function TabsDemo() {
 function SliderDemo() {
   return (
     <div id="slider" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Slider</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Slider</h2>
       <SliderShowcase />
     </div>
   );
@@ -2263,7 +3243,7 @@ function SliderDemo() {
 function PaginationDemo() {
   return (
     <div id="pagination" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Pagination</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Pagination</h2>
       <PaginationShowcase />
     </div>
   );
@@ -2272,7 +3252,7 @@ function PaginationDemo() {
 function ProgressBarDemo() {
   return (
     <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Progress Bar</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Progress Bar</h2>
       <div className="flex max-w-md flex-col gap-6">
         {/* Default variant — color-coded by value */}
         <ProgressBar value={20} />
@@ -2293,7 +3273,7 @@ function ProgressBarDemo() {
         <ProgressBar value={50} size="small" variant="generic" />
 
         {/* Neutral variant — always white */}
-        <div className="rounded-lg bg-neutral-800 p-4">
+        <div className="rounded-xs bg-neutral-alphas-800 p-4">
           <div className="flex flex-col gap-6">
             <ProgressBar value={20} variant="neutral" />
             <ProgressBar value={60} variant="neutral" />
@@ -2380,11 +3360,211 @@ function ProgressBarDemo() {
   );
 }
 
+function StepperDemo() {
+  const [activeStep, setActiveStep] = useState(1);
+
+  return (
+    <div id="stepper" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Stepper</h2>
+
+      <div className="flex max-w-2xl flex-col gap-8">
+        <div className="flex flex-col gap-2">
+          <p className="typography-semibold-body-sm text-content-secondary">
+            3 steps (interactive)
+          </p>
+          <Stepper
+            activeStep={activeStep}
+            steps={[
+              { title: "Account", description: "Create account" },
+              { title: "Profile", description: "Set up profile" },
+              { title: "Review", description: "Final review" },
+            ]}
+          />
+          <div className="mt-2 flex gap-2">
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === 0}
+              onClick={() => setActiveStep((prev) => prev - 1)}
+            >
+              Back
+            </Button>
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === 3}
+              onClick={() => setActiveStep((prev) => prev + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <p className="typography-semibold-body-sm text-content-secondary">5 steps</p>
+          <Stepper
+            activeStep={2}
+            steps={[
+              { title: "Account", description: "Create account" },
+              { title: "Profile", description: "Set up profile" },
+              { title: "Verify", description: "Verify identity" },
+              { title: "Payment", description: "Add payment" },
+              { title: "Review", description: "Final review" },
+            ]}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <p className="typography-semibold-body-sm text-content-secondary">Sizes</p>
+          <div className="flex flex-col gap-6">
+            <Stepper
+              activeStep={1}
+              size="sm"
+              steps={[
+                { title: "Small", description: "Step 1" },
+                { title: "Active", description: "Step 2" },
+                { title: "Upcoming", description: "Step 3" },
+              ]}
+            />
+            <Stepper
+              activeStep={1}
+              size="md"
+              steps={[
+                { title: "Medium", description: "Step 1" },
+                { title: "Active", description: "Step 2" },
+                { title: "Upcoming", description: "Step 3" },
+              ]}
+            />
+            <Stepper
+              activeStep={1}
+              size="lg"
+              steps={[
+                { title: "Large", description: "Step 1" },
+                { title: "Active", description: "Step 2" },
+                { title: "Upcoming", description: "Step 3" },
+              ]}
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <p className="typography-semibold-body-sm text-content-secondary">
+            StepperStep standalone
+          </p>
+          <div className="flex items-start gap-6">
+            <StepperStep state="completed" stepNumber={1} title="Completed" description="Done" />
+            <StepperStep state="active" stepNumber={2} title="Active" description="In progress" />
+            <StepperStep
+              state="upcoming"
+              stepNumber={3}
+              title="Upcoming"
+              description="Not started"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MobileStepperDemo() {
+  const [activeStep, setActiveStep] = useState(0);
+  const steps = 6;
+
+  return (
+    <div id="mobilestepper" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Mobile Stepper</h2>
+      <div className="flex max-w-md flex-col gap-6">
+        {/* Dots variant */}
+        <MobileStepper
+          steps={steps}
+          activeStep={activeStep}
+          variant="dots"
+          backButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === 0}
+              onClick={() => setActiveStep((prev) => prev - 1)}
+            >
+              Back
+            </Button>
+          }
+          nextButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === steps - 1}
+              onClick={() => setActiveStep((prev) => prev + 1)}
+            >
+              Next
+            </Button>
+          }
+        />
+
+        {/* Progress variant */}
+        <MobileStepper
+          steps={steps}
+          activeStep={activeStep}
+          variant="progress"
+          backButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === 0}
+              onClick={() => setActiveStep((prev) => prev - 1)}
+            >
+              Back
+            </Button>
+          }
+          nextButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === steps - 1}
+              onClick={() => setActiveStep((prev) => prev + 1)}
+            >
+              Next
+            </Button>
+          }
+        />
+
+        {/* Text variant */}
+        <MobileStepper
+          steps={steps}
+          activeStep={activeStep}
+          variant="text"
+          backButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === 0}
+              onClick={() => setActiveStep((prev) => prev - 1)}
+            >
+              Back
+            </Button>
+          }
+          nextButton={
+            <Button
+              size="32"
+              variant="tertiary"
+              disabled={activeStep === steps - 1}
+              onClick={() => setActiveStep((prev) => prev + 1)}
+            >
+              Next
+            </Button>
+          }
+        />
+      </div>
+    </div>
+  );
+}
+
 function TooltipDemo() {
   const [open, setOpen] = useState(false);
   return (
     <div id="tooltip" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Tooltip</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Tooltip</h2>
       <TooltipProvider>
         <div className="flex flex-col gap-8">
           {/* Controlled */}
@@ -2441,7 +3621,7 @@ function TooltipDemo() {
                   No arrow
                 </Button>
               </TooltipTrigger>
-              <TooltipContent showArrow={false}>Tooltip without arrow</TooltipContent>
+              <TooltipContent>Tooltip without arrow</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -2474,79 +3654,74 @@ function TooltipDemo() {
               <TooltipContent>More information about this feature</TooltipContent>
             </Tooltip>
           </div>
-
-          {/* Infobox variant */}
-          <div className="flex flex-wrap items-center gap-4">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="secondary" size="32">
-                  Infobox
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent variant="infobox" heading="Title">
-                Info text
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="secondary" size="32">
-                  With icon
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent
-                variant="infobox"
-                side="right"
-                icon={<InfoCircleIcon className="text-foreground-inverse" />}
-                heading="Title"
-              >
-                Info text
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="secondary" size="32">
-                  With actions
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent
-                variant="infobox"
-                side="bottom"
-                heading="Title"
-                primaryAction={{
-                  label: "OK",
-                  onClick: () => console.log("OK"),
-                }}
-                secondaryAction={{
-                  label: "Dismiss",
-                  onClick: () => console.log("Dismiss"),
-                }}
-              >
-                Info text with a longer description that wraps across multiple lines.
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
-              </TooltipTrigger>
-              <TooltipContent
-                variant="infobox"
-                icon={<InfoCircleIcon className="text-foreground-inverse" />}
-                heading="Title"
-                primaryAction={{
-                  label: "OK",
-                  onClick: () => console.log("OK"),
-                }}
-                secondaryAction={{
-                  label: "Dismiss",
-                  onClick: () => console.log("Dismiss"),
-                }}
-              >
-                Info text
-              </TooltipContent>
-            </Tooltip>
-          </div>
         </div>
       </TooltipProvider>
+    </div>
+  );
+}
+
+function InfoBoxDemo() {
+  return (
+    <div id="infobox" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">InfoBox</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <InfoBox>
+          <InfoBoxTrigger asChild>
+            <Button variant="secondary" size="32">
+              Infobox
+            </Button>
+          </InfoBoxTrigger>
+          <InfoBoxContent heading="Title">Info text</InfoBoxContent>
+        </InfoBox>
+        <InfoBox>
+          <InfoBoxTrigger asChild>
+            <Button variant="secondary" size="32">
+              With icon
+            </Button>
+          </InfoBoxTrigger>
+          <InfoBoxContent
+            side="right"
+            icon={<InfoCircleIcon className="text-content-primary-inverted" />}
+            heading="Title"
+          >
+            Info text
+          </InfoBoxContent>
+        </InfoBox>
+        <InfoBox>
+          <InfoBoxTrigger asChild>
+            <Button variant="secondary" size="32">
+              With actions
+            </Button>
+          </InfoBoxTrigger>
+          <InfoBoxContent
+            side="bottom"
+            heading="Title"
+            primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
+            secondaryAction={{
+              label: "Dismiss",
+              onClick: () => console.log("Dismiss"),
+            }}
+          >
+            Info text with a longer description that wraps across multiple lines.
+          </InfoBoxContent>
+        </InfoBox>
+        <InfoBox>
+          <InfoBoxTrigger asChild>
+            <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
+          </InfoBoxTrigger>
+          <InfoBoxContent
+            icon={<InfoCircleIcon className="text-content-primary-inverted" />}
+            heading="Title"
+            primaryAction={{ label: "OK", onClick: () => console.log("OK") }}
+            secondaryAction={{
+              label: "Dismiss",
+              onClick: () => console.log("Dismiss"),
+            }}
+          >
+            Info text
+          </InfoBoxContent>
+        </InfoBox>
+      </div>
     </div>
   );
 }
@@ -2554,7 +3729,7 @@ function TooltipDemo() {
 function AudioUploadDemo() {
   return (
     <div id="audioupload" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Audio Upload</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Audio Upload</h2>
       <AudioUpload
         className="w-80"
         onFilesAccepted={(files) => console.log("Accepted:", files)}
@@ -2587,7 +3762,7 @@ function AudioUploadDemo() {
 function LoaderDemo() {
   return (
     <div id="loader" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Loader</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Loader</h2>
       <div className="flex flex-col gap-6">
         <Loader show center minHeight={120} />
         <Loader show centerX minHeight={80} />
@@ -2598,10 +3773,200 @@ function LoaderDemo() {
   );
 }
 
+function DialogDemo() {
+  const [basicOpen, setBasicOpen] = useState(false);
+  const [smOpen, setSmOpen] = useState(false);
+  const [lgOpen, setLgOpen] = useState(false);
+  const [backOpen, setBackOpen] = useState(false);
+  const [scrollOpen, setScrollOpen] = useState(false);
+
+  return (
+    <div id="dialog" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Dialog</h2>
+
+      {/* Basic */}
+      <h3 className="typography-semibold-body-lg">Basic</h3>
+      <div className="flex flex-wrap gap-3">
+        <Dialog open={basicOpen} onOpenChange={setBasicOpen}>
+          <DialogTrigger asChild>
+            <Button>Open Dialog</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Dialog Title</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>
+                Dialog body text goes here. Describe the content or provide information to the user.
+              </DialogDescription>
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogClose>
+              <Button>Accept</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* Sizes */}
+      <h3 className="typography-semibold-body-lg mt-4">Sizes</h3>
+      <div className="flex flex-wrap gap-3">
+        <Dialog open={smOpen} onOpenChange={setSmOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Small (400px)</Button>
+          </DialogTrigger>
+          <DialogContent size="sm">
+            <DialogHeader>
+              <DialogTitle>Small Dialog</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>A compact confirmation dialog.</DialogDescription>
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogClose>
+              <Button>Confirm</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={lgOpen} onOpenChange={setLgOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Large (600px)</Button>
+          </DialogTrigger>
+          <DialogContent size="lg">
+            <DialogHeader>
+              <DialogTitle>Large Dialog</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>A wider dialog for complex content.</DialogDescription>
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogClose>
+              <Button>Save</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* With Back Button */}
+      <h3 className="typography-semibold-body-lg mt-4">With Back Button</h3>
+      <div className="flex flex-wrap gap-3">
+        <Dialog open={backOpen} onOpenChange={setBackOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">With Back</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader onBack={() => setBackOpen(false)}>
+              <DialogTitle>Step 2</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>This dialog has a back button in the header.</DialogDescription>
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogClose>
+              <Button>Next</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* Scrollable */}
+      <h3 className="typography-semibold-body-lg mt-4">Scrollable</h3>
+      <div className="flex flex-wrap gap-3">
+        <Dialog open={scrollOpen} onOpenChange={setScrollOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Scrollable</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Terms and Conditions</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              {Array.from({ length: 15 }, (_, i) => `paragraph-${i + 1}`).map((id) => (
+                <p key={id} className="typography-regular-body-lg mb-4 text-content-secondary">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
+                </p>
+              ))}
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Decline</Button>
+              </DialogClose>
+              <Button>Accept</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
+  );
+}
+
+function BottomNavigationDemo() {
+  const [navValue, setNavValue] = React.useState("home");
+  return (
+    <div id="bottom-navigation" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Bottom Navigation</h2>
+      <div className="relative h-[80px] overflow-hidden rounded-xs border border-neutral-alphas-200">
+        <BottomNavigation
+          value={navValue}
+          onValueChange={setNavValue}
+          aria-label="Demo navigation"
+          className="absolute"
+        >
+          <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
+          <BottomNavigationAction
+            value="notifications"
+            icon={<BellIcon />}
+            label="Notifications"
+            badge={
+              <Count
+                value={5}
+                max={99}
+                variant="default"
+                size="24"
+                className="ring-2 ring-bg-primary"
+              />
+            }
+          />
+          <BottomNavigationAction value="create" icon={<AddIcon />} label="Create" />
+          <BottomNavigationAction
+            value="messages"
+            icon={<MessageIcon />}
+            label="Messages"
+            badge={
+              <Count
+                value={1}
+                max={99}
+                variant="default"
+                size="24"
+                className="ring-2 ring-bg-primary"
+              />
+            }
+          />
+          <BottomNavigationAction
+            value="profile"
+            icon={<Avatar size={32} alt="User" fallback="JD" />}
+            label="Profile"
+          />
+        </BottomNavigation>
+      </div>
+    </div>
+  );
+}
+
 function BreadcrumbDemo() {
   return (
     <div id="breadcrumb" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-h3 mb-4">Breadcrumb</h2>
+      <h2 className="typography-bold-heading-sm mb-4">Breadcrumb</h2>
       <div className="flex flex-col gap-4">
         <Breadcrumb>
           <BreadcrumbList>
@@ -2656,13 +4021,13 @@ function SkeletonDemo() {
       <h3 className="typography-semibold-body-lg">Variants</h3>
       <div className="flex flex-col gap-4">
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">text</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">text</p>
           <Skeleton variant="text" width={240} />
           <Skeleton variant="text" width="80%" />
           <Skeleton variant="text" width="60%" />
         </div>
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">circular</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">circular</p>
           <div className="flex gap-3">
             <Skeleton variant="circular" width={24} height={24} />
             <Skeleton variant="circular" width={40} height={40} />
@@ -2670,11 +4035,11 @@ function SkeletonDemo() {
           </div>
         </div>
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">rectangular</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">rectangular</p>
           <Skeleton variant="rectangular" width="100%" height={120} />
         </div>
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">rounded</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">rounded</p>
           <Skeleton variant="rounded" width="100%" height={120} />
         </div>
       </div>
@@ -2683,17 +4048,15 @@ function SkeletonDemo() {
       <h3 className="typography-semibold-body-lg mt-4">Animations</h3>
       <div className="flex flex-col gap-4">
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">
-            pulse (default)
-          </p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">pulse (default)</p>
           <Skeleton variant="rectangular" width="100%" height={60} animation="pulse" />
         </div>
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">wave</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">wave</p>
           <Skeleton variant="rectangular" width="100%" height={60} animation="wave" />
         </div>
         <div>
-          <p className="typography-regular-body-sm mb-1 text-foreground-tertiary">disabled</p>
+          <p className="typography-regular-body-sm mb-1 text-content-tertiary">disabled</p>
           <Skeleton variant="rectangular" width="100%" height={60} animation={false} />
         </div>
       </div>
@@ -2716,7 +4079,7 @@ function SkeletonDemo() {
         </div>
 
         {/* Composition: Card */}
-        <div className="w-72 space-y-3 rounded-lg border border-neutral-200 p-0 pb-3">
+        <div className="w-72 space-y-3 rounded-xs border border-neutral-alphas-200 p-0 pb-3">
           <Skeleton variant="rectangular" width="100%" height={160} />
           <div className="flex items-center gap-3 px-3">
             <Skeleton variant="circular" width={40} height={40} />
@@ -2728,7 +4091,7 @@ function SkeletonDemo() {
         </div>
 
         {/* Composition: Card with wave */}
-        <div className="w-72 space-y-3 rounded-lg border border-neutral-200 p-0 pb-3">
+        <div className="w-72 space-y-3 rounded-xs border border-neutral-alphas-200 p-0 pb-3">
           <Skeleton variant="rectangular" width="100%" height={160} animation="wave" />
           <div className="flex items-center gap-3 px-3">
             <Skeleton variant="circular" width={40} height={40} animation="wave" />
@@ -2758,9 +4121,7 @@ function CardDemo() {
               <CardDescription>Card description text</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="typography-regular-body-md text-foreground-tertiary">
-                Content goes here
-              </p>
+              <p className="typography-regular-body-md text-content-tertiary">Content goes here</p>
             </CardContent>
             <CardFooter>
               <Button variant="secondary" size="40">
@@ -2787,7 +4148,7 @@ function CardDemo() {
       <h3 className="typography-semibold-body-lg mt-4">Content only</h3>
       <Card className="max-w-sm">
         <CardContent>
-          <p className="typography-regular-body-md text-foreground-default">
+          <p className="typography-regular-body-md text-content-primary">
             A simple card with just content and no header or footer.
           </p>
         </CardContent>
@@ -2796,7 +4157,7 @@ function CardDemo() {
       {/* No padding (media card) */}
       <h3 className="typography-semibold-body-lg mt-4">No padding</h3>
       <Card className="max-w-sm" noPadding>
-        <div className="h-40 w-full rounded-t-2xl bg-neutral-200" />
+        <div className="h-40 w-full rounded-t-md bg-neutral-alphas-200" />
         <div className="p-4">
           <CardHeader>
             <CardTitle>Media Card</CardTitle>
@@ -2817,21 +4178,33 @@ function App() {
   }, [dark]);
 
   const sections = [
+    { id: "accordion", label: "Accordion" },
     { id: "alert", label: "Alert" },
+    { id: "banner", label: "Banner" },
+    { id: "autocomplete", label: "Autocomplete" },
     { id: "audioupload", label: "Audio Upload" },
     { id: "avatar", label: "Avatar" },
     { id: "badge", label: "Badge" },
+    { id: "bottom-navigation", label: "Bottom Navigation" },
     { id: "button", label: "Button" },
     { id: "card", label: "Card" },
+    { id: "charts", label: "Charts" },
     { id: "checkbox", label: "Checkbox" },
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
     { id: "datepicker", label: "Date Picker" },
+    { id: "dialog", label: "Dialog" },
     { id: "divider", label: "Divider" },
+    { id: "empty-state", label: "Empty State" },
+    { id: "dropdownmenu", label: "Dropdown menu" },
+    { id: "drawer", label: "Drawer" },
     { id: "iconbutton", label: "Icon Button" },
     { id: "icons", label: "Icons" },
+    { id: "infobox", label: "InfoBox" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
+    { id: "stepper", label: "Stepper" },
+    { id: "mobilestepper", label: "Mobile Stepper" },
     { id: "pagination", label: "Pagination" },
     { id: "passwordfield", label: "Password Field" },
     { id: "pill", label: "Pill" },
@@ -2846,6 +4219,7 @@ function App() {
     { id: "switchfield", label: "Switch Field" },
     { id: "switchtoggle", label: "Switch Toggle" },
     { id: "tabs", label: "Tabs" },
+    { id: "table", label: "Table" },
     { id: "textarea", label: "Text Area" },
     { id: "textfield", label: "Text Field" },
     { id: "toast", label: "Toast" },
@@ -2872,38 +4246,40 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-page text-foreground-default">
+    <div className="min-h-screen bg-bg-primary text-content-primary">
       <ToastProvider>
         {/* Dark / Light toggle and TOC */}
-        <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-200 border-b bg-inherit px-4 py-3">
+        <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-neutral-alphas-200 border-b bg-inherit px-4 py-3">
           <div className="relative">
-            <button
-              type="button"
+            <Button
+              variant="secondary"
+              size="40"
               onClick={() => setTocOpen((prev) => !prev)}
-              className="typography-semibold-body-md flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-2 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-solid dark:hover:bg-neutral-800"
               aria-label="Toggle table of contents"
+              leftIcon={<HomeIcon />}
+              rightIcon={
+                <ChevronRightIcon
+                  className={`transition-transform ${tocOpen ? "rotate-90" : ""}`}
+                />
+              }
             >
-              <HomeIcon className="size-4" />
-              <span>Components</span>
-              <ChevronRightIcon
-                className={`size-4 transition-transform ${tocOpen ? "rotate-90" : ""}`}
-              />
-            </button>
+              Components
+            </Button>
             {tocOpen && (
               <>
                 <div
-                  className="fixed inset-0 z-40"
+                  className="fixed inset-0 z-60"
                   onClick={() => setTocOpen(false)}
                   aria-hidden="true"
                 />
-                <div className="absolute top-full left-0 z-50 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-lg border border-neutral-200 bg-white shadow-lg dark:border-neutral-700 dark:bg-neutral-solid">
+                <div className="absolute top-full left-0 z-70 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-xs border border-neutral-alphas-200 bg-surface-primary shadow-lg">
                   <div className="p-2">
                     {sections.map((section) => (
                       <button
                         key={section.id}
                         type="button"
                         onClick={() => scrollToSection(section.id)}
-                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left text-content-primary hover:bg-neutral-alphas-100"
                       >
                         {section.label}
                       </button>
@@ -2918,7 +4294,7 @@ function App() {
             <button
               type="button"
               onClick={() => setDark((d) => !d)}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${dark ? "bg-brand-accent-default" : "bg-neutral-200"}`}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${dark ? "bg-brand-primary-default" : "bg-neutral-alphas-200"}`}
               aria-label="Toggle dark mode"
             >
               <span
@@ -2942,8 +4318,17 @@ function App() {
             {/* Avatar */}
             <AvatarDemo />
 
+            {/* Accordion */}
+            <AccordionDemo />
+
             {/* Alert */}
             <AlertDemo />
+
+            {/* Banner */}
+            <BannerDemo />
+
+            {/* Empty State */}
+            <EmptyStateDemo />
 
             {/* Button */}
             <ButtonDemo />
@@ -2972,8 +4357,14 @@ function App() {
             {/* TextArea */}
             <TextAreaShowcase />
 
+            {/* ChatInput */}
+            <ChatInputShowcase />
+
             {/* SearchField */}
             <SearchFieldShowcase />
+
+            {/* Autocomplete */}
+            <AutocompleteDemo />
 
             {/* Select */}
             <SelectDemo />
@@ -3002,8 +4393,17 @@ function App() {
             {/* Divider */}
             <DividerDemo />
 
+            {/* Dropdown menu */}
+            <DropdownMenuDemo />
+
+            {/* Drawer */}
+            <DrawerDemo />
+
             {/* Tabs */}
             <TabsDemo />
+
+            {/* Table */}
+            <TableDemo />
 
             {/* Slider */}
             <SliderDemo />
@@ -3014,8 +4414,15 @@ function App() {
             {/* ProgressBar */}
             <ProgressBarDemo />
 
+            {/* Stepper */}
+            <StepperDemo />
+
+            {/* MobileStepper */}
+            <MobileStepperDemo />
+
             {/* Tooltip */}
             <TooltipDemo />
+            <InfoBoxDemo />
 
             {/* Audio Upload */}
             <AudioUploadDemo />
@@ -3032,11 +4439,136 @@ function App() {
             {/* Toast */}
             <ToastDemo />
 
+            {/* Dialog */}
+            <DialogDemo />
+
+            {/* Bottom Navigation */}
+            <BottomNavigationDemo />
+
             {/* Breadcrumb */}
             <BreadcrumbDemo />
+
+            {/* Charts */}
+            <ChartsDemo />
           </section>
         </main>
       </ToastProvider>
+    </div>
+  );
+}
+
+const chartMultiConfig = {
+  subscription: {
+    label: "Subscription",
+    color: "var(--color-special-chart-teal)",
+  },
+  message: { label: "Message", color: "var(--color-special-chart-sky)" },
+  tip: { label: "Tip", color: "var(--color-special-chart-orange)" },
+};
+const chartMultiData = [
+  { day: "Mon", subscription: 85, message: 23, tip: 8 },
+  { day: "Tue", subscription: 92, message: 34, tip: 15 },
+  { day: "Wed", subscription: 108, message: 41, tip: 22 },
+  { day: "Thu", subscription: 89, message: 28, tip: 18 },
+  { day: "Fri", subscription: 134, message: 52, tip: 28 },
+];
+
+const chartBarConfig = {
+  revenue: { label: "Revenue", color: "var(--color-special-chart-teal)" },
+};
+const chartBarData = [
+  { type: "Photos", revenue: 4200 },
+  { type: "Videos", revenue: 7800 },
+  { type: "Messages", revenue: 3100 },
+  { type: "Tips", revenue: 5400 },
+];
+
+function ChartsDemo() {
+  const [visible, setVisible] = React.useState(new Set(["subscription", "message", "tip"]));
+
+  return (
+    <div id="charts" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Charts</h2>
+
+      <h3 className="typography-semibold-body-lg">ChartCard + Line</h3>
+      <ChartCard
+        title="Total Earnings"
+        subtitle="$4,523"
+        trendChip={{ label: "12.5%", trend: "positive" }}
+        dateInfo="Mar 1 – Mar 14"
+      >
+        <ChartContainer config={simpleLineConfig} className="h-48 w-full">
+          <LineChart accessibilityLayer data={simpleLineData}>
+            <CartesianGrid vertical={false} strokeDasharray="5 3" />
+            <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Line
+              type="monotone"
+              dataKey="earnings"
+              stroke="var(--color-earnings)"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ChartContainer>
+      </ChartCard>
+
+      <h3 className="typography-semibold-body-lg">ChartCard Loading</h3>
+      <ChartCard title="Revenue" loading>
+        <ChartLoadingOverlay loading>
+          <div className="h-48 w-full" />
+        </ChartLoadingOverlay>
+      </ChartCard>
+
+      <h3 className="typography-semibold-body-lg">Toggleable Multi-Series</h3>
+      <ChartSeriesToggle
+        items={[
+          {
+            key: "subscription",
+            label: "Subscription",
+            color: "var(--color-special-chart-teal)",
+          },
+          {
+            key: "message",
+            label: "Message",
+            color: "var(--color-special-chart-sky)",
+          },
+          {
+            key: "tip",
+            label: "Tip",
+            color: "var(--color-special-chart-orange)",
+          },
+        ]}
+        value={visible}
+        onValueChange={setVisible}
+      />
+      <ChartContainer config={chartMultiConfig} className="h-48 w-full">
+        <LineChart accessibilityLayer data={chartMultiData}>
+          <CartesianGrid vertical={false} />
+          <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
+          <ChartTooltip content={<ChartTooltipContent />} />
+          {[...visible].map((key) => (
+            <Line
+              key={key}
+              type="monotone"
+              dataKey={key}
+              stroke={`var(--color-${key})`}
+              strokeWidth={2}
+              dot={false}
+            />
+          ))}
+        </LineChart>
+      </ChartContainer>
+
+      <h3 className="typography-semibold-body-lg">Bar Chart</h3>
+      <ChartContainer config={chartBarConfig} className="h-48 w-full">
+        <BarChart accessibilityLayer data={chartBarData}>
+          <CartesianGrid vertical={false} />
+          <XAxis dataKey="type" tickLine={false} axisLine={false} tickMargin={8} />
+          <ChartTooltip content={<ChartTooltipContent />} />
+          <Bar dataKey="revenue" fill="var(--color-revenue)" radius={[999, 999, 0, 0]} />
+        </BarChart>
+      </ChartContainer>
     </div>
   );
 }

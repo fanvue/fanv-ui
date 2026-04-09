@@ -158,7 +158,7 @@ export const ControlledExample: Story = {
           minLabel="0"
           maxLabel="100"
         />
-        <p className="text-foreground-secondary text-sm">
+        <p className="text-content-secondary text-sm">
           Current value: <strong>{value[0]}</strong>
         </p>
       </div>

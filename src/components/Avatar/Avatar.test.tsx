@@ -17,6 +17,12 @@ describe("Avatar", () => {
       expect(fallback).toBeInTheDocument();
     });
 
+    it("uses the semantic avatar background token on the avatar root for the fallback state", async () => {
+      render(<Avatar fallback="AB" />);
+      await screen.findByText("AB");
+      expect(screen.getByTestId("avatar")).toHaveClass("bg-background-avatar");
+    });
+
     it("renders fallback when image fails to load", async () => {
       render(<Avatar src="https://invalid-url.com/avatar.jpg" fallback="AB" />);
       const fallback = await screen.findByText("AB");
@@ -33,8 +39,8 @@ describe("Avatar", () => {
       const { container } = render(<Avatar size={48} fallback="AB" onlineIndicator={true} />);
       await screen.findByText("AB");
       const statusDot = container.querySelector('span[aria-hidden="true"]');
-      expect(statusDot).toHaveClass("size-4", "border");
-      expect(statusDot).toHaveStyle({ top: "0px", right: "0px" });
+      expect(statusDot).toHaveClass("size-2", "border");
+      expect(statusDot).toHaveStyle({ top: "5px", right: "2px" });
     });
   });
 

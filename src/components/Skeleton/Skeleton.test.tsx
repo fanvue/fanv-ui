@@ -57,12 +57,12 @@ describe("Skeleton", () => {
       const el = getSkeleton(container);
       expect(el).not.toHaveClass("rounded");
       expect(el).not.toHaveClass("rounded-full");
-      expect(el).not.toHaveClass("rounded-lg");
+      expect(el).not.toHaveClass("rounded-xs");
     });
 
     it("renders rounded variant with large rounding", () => {
       const { container } = render(<Skeleton variant="rounded" />);
-      expect(getSkeleton(container)).toHaveClass("rounded-lg");
+      expect(getSkeleton(container)).toHaveClass("rounded-xs");
     });
 
     it("applies pulse animation by default", () => {

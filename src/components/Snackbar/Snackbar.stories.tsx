@@ -74,7 +74,7 @@ export const DefaultWithCustomSlots: Story = {
       </Button>
     ),
     secondarySlot: (
-      <a href="#dismiss" className="typography-semibold-link-md text-foreground-secondary">
+      <a href="#dismiss" className="typography-semibold-link-md text-content-secondary">
         Custom link
       </a>
     ),
@@ -108,12 +108,12 @@ export const VipEarnClosable: Story = {
         onClose={() => setVisible(false)}
       />
     ) : (
-      <div className="text-neutral-300 text-sm">
+      <div className="text-content-tertiary text-sm">
         Snackbar dismissed!{" "}
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-foreground-default underline"
+          className="cursor-pointer text-content-primary underline"
         >
           Show again
         </button>
@@ -196,7 +196,7 @@ export const WelcomeWithCustomSlots: Story = {
       </Button>
     ),
     secondarySlot: (
-      <a href="#explore" className="text-foreground-secondary text-sm underline">
+      <a href="#explore" className="text-content-secondary text-sm underline">
         Explore instead
       </a>
     ),
@@ -219,12 +219,12 @@ export const DefaultClosable: Story = {
         {DefaultMessage}
       </Snackbar>
     ) : (
-      <div className="text-neutral-300 text-sm">
+      <div className="text-content-tertiary text-sm">
         Snackbar dismissed!{" "}
         <button
           type="button"
           onClick={() => setVisible(true)}
-          className="cursor-pointer text-foreground-default underline"
+          className="cursor-pointer text-content-primary underline"
         >
           Show again
         </button>
@@ -276,12 +276,12 @@ export const MultipleDismissible: Story = {
           />
         )}
         {!snackbars.vipEarn && !snackbars.default && !snackbars.welcome && (
-          <div className="text-neutral-300 text-sm">
+          <div className="text-content-tertiary text-sm">
             All snackbars dismissed!{" "}
             <button
               type="button"
               onClick={() => setSnackbars({ vipEarn: true, default: true, welcome: true })}
-              className="cursor-pointer text-foreground-default underline"
+              className="cursor-pointer text-content-primary underline"
             >
               Reset all
             </button>

@@ -92,26 +92,26 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             "flex size-5 items-center justify-center rounded border-2",
             "transition-[border-color,background-color,color,box-shadow] duration-150",
             // Default state
-            "border-foreground-default bg-transparent text-transparent",
+            "border-content-primary bg-transparent text-transparent",
             // Checked state
-            "data-[state=checked]:border-foreground-default data-[state=checked]:bg-foreground-default data-[state=checked]:text-foreground-inverse",
+            "data-[state=checked]:border-content-primary data-[state=checked]:bg-content-primary data-[state=checked]:text-content-primary-inverted",
             // Indeterminate state
-            "data-[state=indeterminate]:border-foreground-default data-[state=indeterminate]:bg-foreground-default data-[state=indeterminate]:text-foreground-inverse",
+            "data-[state=indeterminate]:border-content-primary data-[state=indeterminate]:bg-content-primary data-[state=indeterminate]:text-content-primary-inverted",
             // Hover & active state
-            "hover:ring-2 hover:ring-brand-accent-default group-hover:ring-2 group-hover:ring-brand-accent-default",
-            "not-disabled:active:ring-2 not-disabled:active:ring-brand-accent-default",
+            "hover:ring-2 hover:ring-brand-primary-default group-hover:ring-2 group-hover:ring-brand-primary-default",
+            "not-disabled:active:ring-2 not-disabled:active:ring-brand-primary-default",
             // Focus state
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
             // Disabled state
-            "disabled:cursor-not-allowed disabled:border-neutral-300 disabled:ring-0 disabled:group-hover:ring-0",
-            "disabled:data-[state=checked]:border-neutral-300 disabled:data-[state=checked]:bg-neutral-300 disabled:data-[state=checked]:text-neutral-250",
+            "disabled:cursor-not-allowed disabled:border-neutral-alphas-600 disabled:ring-0 disabled:group-hover:ring-0",
+            "disabled:data-[state=checked]:border-neutral-alphas-600 disabled:data-[state=checked]:bg-neutral-alphas-600 disabled:data-[state=checked]:text-content-tertiary",
             !hasLabel && className,
           )}
         >
           <CheckboxPrimitive.Indicator
             forceMount
             className={cn(
-              "flex size-3 items-center justify-center text-foreground-inverse",
+              "flex size-3 items-center justify-center text-content-primary-inverted",
               "data-[state=unchecked]:invisible",
             )}
           >
@@ -139,8 +139,8 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             <label
               htmlFor={id}
               className={cn(
-                "cursor-pointer select-none text-foreground-default",
-                "group-has-disabled:cursor-not-allowed group-has-disabled:text-neutral-250",
+                "cursor-pointer select-none text-content-primary",
+                "group-has-disabled:cursor-not-allowed group-has-disabled:text-content-tertiary",
                 size === "small" ? "typography-semibold-body-md" : "typography-semibold-body-lg",
               )}
             >
@@ -152,8 +152,8 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <span
             id={helperTextId}
             className={cn(
-              "ml-7 text-foreground-secondary",
-              "in-[.is-disabled]:cursor-not-allowed in-[.is-disabled]:text-neutral-250",
+              "ml-7 text-content-secondary",
+              "in-[.is-disabled]:cursor-not-allowed in-[.is-disabled]:text-content-tertiary",
               size === "small" ? "typography-regular-body-sm" : "typography-regular-body-md",
             )}
           >

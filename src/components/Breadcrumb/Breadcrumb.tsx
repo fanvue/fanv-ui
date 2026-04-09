@@ -91,7 +91,7 @@ export const BreadcrumbLink = React.forwardRef<HTMLAnchorElement, BreadcrumbLink
       <Comp
         ref={ref}
         className={cn(
-          "typography-regular-body-sm rounded-sm text-foreground-secondary underline-offset-2 transition-colors hover:text-foreground-default hover:underline focus-visible:shadow-focus-ring focus-visible:outline-none",
+          "typography-regular-body-sm rounded-[2px] text-content-secondary underline-offset-2 transition-colors hover:text-content-primary hover:underline focus-visible:shadow-focus-ring focus-visible:outline-none",
           className,
         )}
         {...props}
@@ -112,7 +112,7 @@ export const BreadcrumbPage = React.forwardRef<HTMLSpanElement, BreadcrumbPagePr
     <span
       ref={ref}
       aria-current="page"
-      className={cn("typography-semibold-body-sm text-foreground-default", className)}
+      className={cn("typography-semibold-body-sm text-content-primary", className)}
       {...props}
     />
   ),
@@ -131,7 +131,7 @@ export const BreadcrumbSeparator = React.forwardRef<HTMLLIElement, BreadcrumbSep
     <li
       ref={ref}
       aria-hidden="true"
-      className={cn("flex items-center text-foreground-secondary", className)}
+      className={cn("flex items-center text-content-secondary", className)}
       {...props}
     >
       {children ?? <ChevronRightIcon className="size-4" />}

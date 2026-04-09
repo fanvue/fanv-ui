@@ -143,7 +143,5 @@ export function AudioWaveform({ analyserNode, isRecording, className }: AudioWav
     };
   }, [analyserNode, isRecording]);
 
-  return (
-    <canvas ref={canvasRef} className={cn("h-5 w-full text-foreground-secondary", className)} />
-  );
+  return <canvas ref={canvasRef} className={cn("h-5 w-full text-content-secondary", className)} />;
 }
