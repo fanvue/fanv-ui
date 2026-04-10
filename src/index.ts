@@ -46,7 +46,11 @@ export {
 } from "./components/Avatar/Avatar";
 export type { BadgeProps, BadgeVariant } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
-export type { BannerLayout, BannerProps, BannerVariant } from "./components/Banner/Banner";
+export type {
+  BannerLayout,
+  BannerProps,
+  BannerVariant,
+} from "./components/Banner/Banner";
 export { Banner } from "./components/Banner/Banner";
 export type { BottomNavigationProps } from "./components/BottomNavigation/BottomNavigation";
 export { BottomNavigation } from "./components/BottomNavigation/BottomNavigation";
@@ -91,7 +95,10 @@ export {
   CardHeader,
   CardTitle,
 } from "./components/Card/Card";
-export type { ChatInputProps, ChatInputSelectOption } from "./components/ChatInput/ChatInput";
+export type {
+  ChatInputProps,
+  ChatInputSelectOption,
+} from "./components/ChatInput/ChatInput";
 export { ChatInput } from "./components/ChatInput/ChatInput";
 export type {
   CheckboxProps,
@@ -175,7 +182,10 @@ export {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./components/DropdownMenu/DropdownMenu";
-export type { EmptyStateProps, EmptyStateVariant } from "./components/EmptyState/EmptyState";
+export type {
+  EmptyStateProps,
+  EmptyStateVariant,
+} from "./components/EmptyState/EmptyState";
 export { EmptyState } from "./components/EmptyState/EmptyState";
 export type {
   IconButtonProps,
@@ -322,6 +332,8 @@ export {
   InfoBoxContent,
   InfoBoxTrigger,
 } from "./components/InfoBox/InfoBox";
+export type { ItemCardProps } from "./components/ItemCard/ItemCard";
+export { ItemCard } from "./components/ItemCard/ItemCard";
 export type { LoaderProps } from "./components/Loader/Loader";
 export { Loader } from "./components/Loader/Loader";
 export type { LogoColor, LogoProps, LogoVariant } from "./components/Logo/Logo";
@@ -397,10 +409,7 @@ export type {
   SnackbarVariant,
 } from "./components/Snackbar/Snackbar";
 export { Snackbar } from "./components/Snackbar/Snackbar";
-export type {
-  StepItem,
-  StepperProps,
-} from "./components/Stepper/Stepper";
+export type { StepItem, StepperProps } from "./components/Stepper/Stepper";
 export { Stepper } from "./components/Stepper/Stepper";
 export type {
   StepperStepProps,
