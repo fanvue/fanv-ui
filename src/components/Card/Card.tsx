@@ -4,13 +4,23 @@ import { cn } from "../../utils/cn";
 /** Visual style variant of the card. */
 export type CardVariant = "outlined" | "elevated" | "filled" | "ghost";
 
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+/** Layout direction of the card. */
+export type CardDirection = "vertical" | "horizontal";
+
+/** Polymorphic element type for the card. */
+export type CardAs = "div" | "button";
+
+export interface CardProps extends React.HTMLAttributes<HTMLElement> {
   /** Visual style variant of the card. @default "outlined" */
   variant?: CardVariant;
   /** When `true`, the card will take the full width of its container. @default true */
   fullWidth?: boolean;
   /** When `true`, removes all internal padding. @default false */
   noPadding?: boolean;
+  /** Layout direction of the card content. @default "vertical" */
+  direction?: CardDirection;
+  /** HTML element to render. Use "button" for clickable cards. @default "div" */
+  as?: CardAs;
 }
 
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -53,25 +63,37 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
  * </Card>
  * ```
  */
-export const Card = React.forwardRef<HTMLDivElement, CardProps>(
+export const Card = React.forwardRef<HTMLElement, CardProps>(
   (
-    { className, variant = "outlined", fullWidth = true, noPadding = false, children, ...props },
+    {
+      className,
+      variant = "outlined",
+      fullWidth = true,
+      noPadding = false,
+      direction = "vertical",
+      as: Component = "div",
+      children,
+      ...props
+    },
     ref,
   ) => {
     return (
-      <div
-        ref={ref}
+      <Component
+        ref={ref as React.Ref<HTMLDivElement & HTMLButtonElement>}
+        type={Component === "button" ? "button" : undefined}
         className={cn(
-          "flex flex-col overflow-hidden rounded-md",
+          "flex overflow-hidden rounded-md",
+          direction === "vertical" ? "flex-col" : "flex-row items-start",
           !noPadding && "p-4",
           fullWidth && "w-full",
+          Component === "button" && "cursor-pointer text-left",
           VARIANT_CLASSES[variant],
           className,
         )}
         {...props}
       >
         {children}
-      </div>
+      </Component>
     );
   },
 );

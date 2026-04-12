@@ -30,6 +30,14 @@ const meta = {
       control: "select",
       options: ["outlined", "elevated", "filled", "ghost"],
     },
+    direction: {
+      control: "select",
+      options: ["vertical", "horizontal"],
+    },
+    as: {
+      control: "select",
+      options: ["div", "button"],
+    },
     fullWidth: { control: "boolean" },
     noPadding: { control: "boolean" },
   },
@@ -242,6 +250,65 @@ export const InlineWidth: Story = {
         <CardTitle>Inline card</CardTitle>
         <CardDescription>This card does not stretch to full width</CardDescription>
       </CardHeader>
+    </Card>
+  ),
+};
+
+export const Horizontal: Story = {
+  render: () => (
+    <Card direction="horizontal" className="max-w-md gap-4">
+      <div className="flex size-16 shrink-0 items-center justify-center rounded-lg bg-neutral-alphas-100">
+        <HomeIcon className="size-6" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <CardHeader>
+          <CardTitle>Horizontal card</CardTitle>
+          <CardDescription>Content flows left to right</CardDescription>
+        </CardHeader>
+      </div>
+    </Card>
+  ),
+};
+
+export const Clickable: Story = {
+  render: () => (
+    <Card
+      as="button"
+      onClick={() => alert("Card clicked!")}
+      className="max-w-sm transition-colors hover:bg-neutral-alphas-50"
+    >
+      <CardHeader action={<HomeIcon className="size-5" />}>
+        <CardTitle>Clickable card</CardTitle>
+        <CardDescription>This entire card is a button</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="typography-regular-body-md text-content-tertiary">
+          Click anywhere on this card
+        </p>
+      </CardContent>
+    </Card>
+  ),
+};
+
+export const HorizontalClickable: Story = {
+  render: () => (
+    <Card
+      as="button"
+      direction="horizontal"
+      variant="ghost"
+      noPadding
+      onClick={() => alert("Card clicked!")}
+      className="group max-w-md gap-4 rounded-2xl border border-transparent p-3 transition-all hover:border-neutral-alphas-200 hover:bg-neutral-alphas-50"
+    >
+      <div className="flex size-16 shrink-0 items-center justify-center rounded-xl border-2 border-transparent bg-neutral-alphas-100 transition-colors group-hover:border-brand-primary-hover">
+        <HomeIcon className="size-6" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="typography-semibold-body-md truncate text-content-primary">Item title</p>
+        <p className="typography-regular-body-sm text-content-secondary">
+          A horizontal clickable card pattern
+        </p>
+      </div>
     </Card>
   ),
 };

@@ -99,6 +99,50 @@ describe("Card", () => {
       );
       expect(screen.getByTestId("card")).toHaveAttribute("data-custom", "value");
     });
+
+    it("renders vertical direction by default", () => {
+      render(<Card data-testid="card">Content</Card>);
+      expect(screen.getByTestId("card")).toHaveClass("flex-col");
+    });
+
+    it("renders horizontal direction", () => {
+      render(
+        <Card data-testid="card" direction="horizontal">
+          Content
+        </Card>,
+      );
+      const el = screen.getByTestId("card");
+      expect(el).toHaveClass("flex-row");
+      expect(el).toHaveClass("items-start");
+    });
+
+    it("renders as div by default", () => {
+      render(<Card data-testid="card">Content</Card>);
+      expect(screen.getByTestId("card").tagName).toBe("DIV");
+    });
+
+    it("renders as button when as='button'", () => {
+      render(
+        <Card data-testid="card" as="button">
+          Content
+        </Card>,
+      );
+      const el = screen.getByTestId("card");
+      expect(el.tagName).toBe("BUTTON");
+      expect(el).toHaveAttribute("type", "button");
+      expect(el).toHaveClass("cursor-pointer");
+      expect(el).toHaveClass("text-left");
+    });
+
+    it("forwards ref correctly for button", () => {
+      const ref = React.createRef<HTMLElement>();
+      render(
+        <Card ref={ref} as="button">
+          Content
+        </Card>,
+      );
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    });
   });
 
   describe("CardHeader", () => {
@@ -332,6 +376,25 @@ describe("Card", () => {
           <CardFooter>
             <button type="button">Action</button>
           </CardFooter>
+        </Card>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with button variant", async () => {
+      const { container } = render(
+        <Card as="button" onClick={() => {}}>
+          <CardContent>Clickable card content</CardContent>
+        </Card>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with horizontal direction", async () => {
+      const { container } = render(
+        <Card direction="horizontal">
+          <div>Left content</div>
+          <div>Right content</div>
         </Card>,
       );
       expect(await axe(container)).toHaveNoViolations();

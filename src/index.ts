@@ -79,8 +79,10 @@ export type {
 } from "./components/Button/Button";
 export { Button } from "./components/Button/Button";
 export type {
+  CardAs,
   CardContentProps,
   CardDescriptionProps,
+  CardDirection,
   CardFooterProps,
   CardHeaderProps,
   CardProps,
@@ -332,8 +334,6 @@ export {
   InfoBoxContent,
   InfoBoxTrigger,
 } from "./components/InfoBox/InfoBox";
-export type { ItemCardProps } from "./components/ItemCard/ItemCard";
-export { ItemCard } from "./components/ItemCard/ItemCard";
 export type { LoaderProps } from "./components/Loader/Loader";
 export { Loader } from "./components/Loader/Loader";
 export type { LogoColor, LogoProps, LogoVariant } from "./components/Logo/Logo";
