@@ -326,7 +326,7 @@ function InlineSelect({ options, value, onChange, disabled, selectedOption }: In
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
           "typography-semibold-body-sm text-content-primary",
-          "flex items-center gap-1 rounded-sm px-2 py-2",
+          "flex items-center gap-1 rounded-md px-2 py-2",
           "hover:bg-neutral-alphas-50 focus-visible:shadow-focus-ring focus-visible:outline-none",
           "disabled:cursor-not-allowed disabled:opacity-50",
           "motion-safe:transition-colors",
