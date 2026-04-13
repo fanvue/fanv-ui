@@ -46,7 +46,7 @@ export const BottomNavigationAction = React.forwardRef<
         onClick={handleClick}
         {...props}
         className={cn(
-          "relative flex min-w-0 flex-1 cursor-pointer flex-col items-center justify-center gap-1 px-2",
+          "relative flex min-w-0 flex-1 cursor-pointer flex-col items-center justify-center gap-1",
           isActive ? "text-icons-primary" : "text-icons-tertiary",
           "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
