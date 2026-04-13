@@ -4174,7 +4174,6 @@ function CardDemo() {
         direction="horizontal"
         variant="ghost"
         noPadding
-        rounded="md"
         onClick={() => alert("Card clicked!")}
         className="group max-w-md gap-5 border border-transparent p-3 transition-all hover:border-neutral-alphas-200 hover:bg-neutral-alphas-50"
       >
