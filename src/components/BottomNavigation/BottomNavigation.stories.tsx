@@ -17,6 +17,10 @@ const meta: Meta<typeof BottomNavigation> = {
   component: BottomNavigation,
   parameters: {
     layout: "fullscreen",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=17061-28673",
+    },
   },
   tags: ["autodocs"],
   decorators: [
@@ -133,6 +137,132 @@ export const WithAsChild: Story = {
 export const SelectedState: Story = {
   render: () => (
     <BottomNavigation value="favorites" aria-label="Main navigation">
+      <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
+      <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" />
+      <BottomNavigationAction value="favorites" icon={<LoveIcon />} label="Favorites" />
+      <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" />
+    </BottomNavigation>
+  ),
+};
+
+export const InformationArchitectureNav: Story = {
+  name: "Information Architecture Nav",
+  render: () => {
+    const [value, setValue] = React.useState("home");
+    return (
+      <BottomNavigation
+        value={value}
+        onValueChange={setValue}
+        hasInformationArchitectureNav
+        aria-label="Main navigation"
+      >
+        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
+        <BottomNavigationAction
+          value="notifications"
+          icon={<BellIcon />}
+          label="Notifications"
+          badge={
+            <Count
+              value={5}
+              max={99}
+              variant="default"
+              size="24"
+              className="ring-2 ring-bg-primary"
+            />
+          }
+        />
+        <BottomNavigationAction value="create" icon={<AddIcon />} label="Create" />
+        <BottomNavigationAction
+          value="messages"
+          icon={<MessageIcon />}
+          label="Messages"
+          badge={
+            <Count
+              value={1}
+              max={99}
+              variant="default"
+              size="24"
+              className="ring-2 ring-bg-primary"
+            />
+          }
+        />
+        <BottomNavigationAction
+          value="profile"
+          icon={
+            <span className="inline-flex size-6 items-center justify-center overflow-hidden rounded-full">
+              <Avatar size={32} alt="User" fallback="JD" />
+            </span>
+          }
+          label="Profile"
+        />
+      </BottomNavigation>
+    );
+  },
+};
+
+export const InformationArchitectureNavWithBadges: Story = {
+  name: "Information Architecture Nav – With Badges",
+  render: () => {
+    const [value, setValue] = React.useState("home");
+    return (
+      <BottomNavigation
+        value={value}
+        onValueChange={setValue}
+        hasInformationArchitectureNav
+        aria-label="Main navigation"
+      >
+        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
+        <BottomNavigationAction
+          value="search"
+          icon={<SearchIcon />}
+          label="Search"
+          badge={
+            <Count
+              value={3}
+              max={99}
+              variant="alert"
+              size="24"
+              className="ring-2 ring-bg-primary"
+            />
+          }
+        />
+        <BottomNavigationAction
+          value="favorites"
+          icon={<LoveIcon />}
+          label="Favorites"
+          badge={
+            <Count
+              value={5}
+              max={99}
+              variant="alert"
+              size="24"
+              className="ring-2 ring-bg-primary"
+            />
+          }
+        />
+        <BottomNavigationAction
+          value="profile"
+          icon={<UserIcon />}
+          label="Profile"
+          badge={
+            <Count
+              value={12}
+              max={99}
+              variant="alert"
+              size="24"
+              className="ring-2 ring-bg-primary"
+            />
+          }
+        />
+      </BottomNavigation>
+    );
+  },
+};
+
+export const InformationArchitectureNavSelected: Story = {
+  name: "Information Architecture Nav – Selected State",
+  render: () => (
+    <BottomNavigation value="favorites" hasInformationArchitectureNav aria-label="Main navigation">
       <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
       <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" />
       <BottomNavigationAction value="favorites" icon={<LoveIcon />} label="Favorites" />

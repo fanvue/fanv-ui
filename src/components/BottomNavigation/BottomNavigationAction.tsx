@@ -21,7 +21,11 @@ export const BottomNavigationAction = React.forwardRef<
   HTMLButtonElement,
   BottomNavigationActionProps
 >(({ className, value, icon, label, badge, onClick, asChild = false, children, ...props }, ref) => {
-  const { value: selectedValue, onValueChange } = useBottomNavigationContext();
+  const {
+    value: selectedValue,
+    onValueChange,
+    hasInformationArchitectureNav,
+  } = useBottomNavigationContext();
 
   const isActive = selectedValue === value;
 
@@ -31,6 +35,44 @@ export const BottomNavigationAction = React.forwardRef<
   };
 
   const Comp = asChild ? Slot : "button";
+
+  if (hasInformationArchitectureNav) {
+    return (
+      <Comp
+        ref={ref}
+        {...(!asChild && { type: "button" as const })}
+        aria-current={isActive ? ("page" as const) : undefined}
+        data-state={isActive ? "active" : "inactive"}
+        onClick={handleClick}
+        {...props}
+        className={cn(
+          "relative flex min-w-0 flex-1 cursor-pointer flex-col items-center justify-center gap-1 px-2",
+          isActive ? "text-icons-primary" : "text-icons-tertiary",
+          "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
+          className,
+        )}
+      >
+        {asChild && <Slottable>{children}</Slottable>}
+        <span className="relative inline-flex">
+          <span className="flex items-center justify-center [&>svg]:size-6" aria-hidden="true">
+            {icon}
+          </span>
+          {badge && <span className="absolute -end-1 -top-2.5">{badge}</span>}
+        </span>
+        {label && (
+          <span
+            className={cn(
+              "typography-medium-caption-xs truncate text-center motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
+              isActive ? "text-content-primary" : "text-content-tertiary",
+            )}
+          >
+            {label}
+          </span>
+        )}
+      </Comp>
+    );
+  }
 
   return (
     <Comp
