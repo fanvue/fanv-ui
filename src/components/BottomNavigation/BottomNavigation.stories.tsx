@@ -259,6 +259,57 @@ export const InformationArchitectureNavWithBadges: Story = {
   },
 };
 
+export const InformationArchitectureNavPortuguese: Story = {
+  name: "Information Architecture Nav – Portuguese",
+  render: () => {
+    const [value, setValue] = React.useState("notifications");
+    return (
+      <BottomNavigation
+        value={value}
+        onValueChange={setValue}
+        hasInformationArchitectureNav
+        aria-label="Main navigation"
+      >
+        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Início" />
+        <BottomNavigationAction
+          value="notifications"
+          icon={<BellIcon />}
+          label="Notificações"
+          badge={
+            <Count
+              value={6}
+              max={99}
+              variant="default"
+              size="24"
+              className="ring-2 ring-bg-primary"
+            />
+          }
+        />
+        <BottomNavigationAction value="create" icon={<AddIcon />} label="Nova Publicação" />
+        <BottomNavigationAction
+          value="messages"
+          icon={<MessageIcon />}
+          label="Mensagens"
+          badge={
+            <Count
+              value={2}
+              max={99}
+              variant="default"
+              size="24"
+              className="ring-2 ring-bg-primary"
+            />
+          }
+        />
+        <BottomNavigationAction
+          value="profile"
+          icon={<Avatar size={32} alt="User" fallback="OH" />}
+          label="Perfil"
+        />
+      </BottomNavigation>
+    );
+  },
+};
+
 export const InformationArchitectureNavSelected: Story = {
   name: "Information Architecture Nav – Selected State",
   render: () => (
