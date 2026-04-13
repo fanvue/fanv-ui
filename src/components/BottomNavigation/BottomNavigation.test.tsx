@@ -12,6 +12,7 @@ function renderNav(props?: {
   value?: string;
   onValueChange?: (v: string) => void;
   hideOnDesktop?: boolean;
+  hasInformationArchitectureNav?: boolean;
 }) {
   const onValueChange = props?.onValueChange ?? vi.fn();
   return {
@@ -22,6 +23,7 @@ function renderNav(props?: {
         onValueChange={onValueChange}
         aria-label="Main navigation"
         hideOnDesktop={props?.hideOnDesktop}
+        hasInformationArchitectureNav={props?.hasInformationArchitectureNav}
       >
         <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
         <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" />
@@ -117,6 +119,12 @@ describe("BottomNavigation", () => {
       expect(buttons[0]).toHaveAttribute("aria-label", "Home");
       expect(buttons[1]).toHaveAttribute("aria-label", "Search");
     });
+
+    it("does not set aria-label when hasInformationArchitectureNav (visible label provides name)", () => {
+      renderNav({ hasInformationArchitectureNav: true });
+      const buttons = screen.getAllByRole("button");
+      expect(buttons[0]).not.toHaveAttribute("aria-label");
+    });
   });
 
   describe("badge", () => {
@@ -147,6 +155,20 @@ describe("BottomNavigation", () => {
       );
       const badge = screen.getByTestId("badge-count");
       expect(badge.parentElement).not.toHaveAttribute("aria-hidden");
+    });
+
+    it("renders a badge with hasInformationArchitectureNav", () => {
+      render(
+        <BottomNavigation value="home" hasInformationArchitectureNav aria-label="Nav">
+          <BottomNavigationAction
+            value="home"
+            icon={<HomeIcon />}
+            label="Home"
+            badge={<span data-testid="badge-count">3</span>}
+          />
+        </BottomNavigation>,
+      );
+      expect(screen.getByTestId("badge-count")).toBeInTheDocument();
     });
   });
 
@@ -203,6 +225,11 @@ describe("BottomNavigation", () => {
       renderNav();
       expect(screen.getByRole("navigation")).not.toHaveClass("md:hidden");
     });
+
+    it("applies md:hidden with hasInformationArchitectureNav", () => {
+      renderNav({ hideOnDesktop: true, hasInformationArchitectureNav: true });
+      expect(screen.getByRole("navigation")).toHaveClass("md:hidden");
+    });
   });
 
   describe("keyboard navigation", () => {
@@ -224,6 +251,36 @@ describe("BottomNavigation", () => {
       renderNav();
       const nav = screen.getByRole("navigation");
       expect(nav.style.zIndex).toBe("var(--fanvue-ui-portal-z-index, 50)");
+    });
+  });
+
+  describe("hasInformationArchitectureNav", () => {
+    describe("indicator positioning", () => {
+      it("hides indicator when no value matches", () => {
+        const { container } = renderNav({
+          hasInformationArchitectureNav: true,
+          value: "nonexistent",
+        });
+        const indicator = container.querySelector("[data-part='indicator']");
+        expect(indicator).toBeNull();
+      });
+    });
+
+    it("renders visible label text", () => {
+      renderNav({ hasInformationArchitectureNav: true });
+      expect(screen.getByText("Home")).toBeInTheDocument();
+      expect(screen.getByText("Search")).toBeInTheDocument();
+    });
+
+    it("does not render visible label text without hasInformationArchitectureNav", () => {
+      renderNav();
+      expect(screen.queryByText("Home")).not.toBeInTheDocument();
+    });
+
+    it("has no accessibility violations", async () => {
+      const { container } = renderNav({ hasInformationArchitectureNav: true });
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 

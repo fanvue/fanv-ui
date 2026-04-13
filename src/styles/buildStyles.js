@@ -188,7 +188,9 @@ const spacingVars = getSpacingVars(rawTokens.semantic.light.spacing);
 const typographyClasses = getTypographyClasses(rawTokens.typography);
 
 const output = [
-  `/* Consumers must provide their own Tailwind import: @import "tailwindcss"; */`,
+  `/* AUTO-GENERATED — do not edit. Run \`node src/styles/buildStyles.js\` to regenerate. */`,
+  ``,
+  `@import "./base.css";`,
   ``,
   `@variant dark (&:where(.dark, .dark *));`,
   `@custom-variant infloww (&:is([data-infloww] *));`,
@@ -200,8 +202,6 @@ const output = [
   `  --breakpoint-inflowwmd: 1223px;`,
   `  --breakpoint-lg: 1280px;`,
   `}`,
-  ``,
-  `@import "./base.css";`,
   ``,
   `@theme {`,
   effectVars.trimEnd(),

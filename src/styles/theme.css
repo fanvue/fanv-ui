@@ -1,4 +1,6 @@
-/* Consumers must provide their own Tailwind import: @import "tailwindcss"; */
+/* AUTO-GENERATED — do not edit. Run `node src/styles/buildStyles.js` to regenerate. */
+
+@import "./base.css";
 
 @variant dark (&:where(.dark, .dark *));
 @custom-variant infloww (&:is([data-infloww] *));
@@ -10,8 +12,6 @@
   --breakpoint-inflowwmd: 1223px;
   --breakpoint-lg: 1280px;
 }
-
-@import "./base.css";
 
 @theme {
   --shadow-sm: 0px 1px 3px -1px #0000000d, 0px 1px 4px 0px #0000000f;

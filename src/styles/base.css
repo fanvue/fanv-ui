@@ -119,3 +119,20 @@
 @utility animate-accordion-collapse {
   animation: accordion-collapse 200ms ease-out;
 }
+
+/* Static tokens not in Figma — manually maintained for now */
+@utility typography-medium-caption-xs {
+  font-size: 0.625rem;
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 0.75rem;
+}
+
+:root {
+  --color-special-bottom-nav-highlight: var(--primitives-color-green-500);
+}
+
+.dark {
+  --color-special-bottom-nav-highlight: var(--primitives-color-gray-white);
+}
