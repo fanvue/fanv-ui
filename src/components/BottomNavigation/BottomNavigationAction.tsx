@@ -63,7 +63,7 @@ export const BottomNavigationAction = React.forwardRef<
         {label && (
           <span
             className={cn(
-              "typography-medium-caption-xs truncate text-center motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
+              "typography-medium-caption-xs max-w-full truncate text-center motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
               isActive ? "text-content-primary" : "text-content-tertiary",
             )}
           >
