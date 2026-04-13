@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.9.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.9.1...ui-v2.9.2) (2026-04-13)
+
+
+### Bug Fixes
+
+* **BottomNavigation:** fix label truncation and add Portuguese locale story ([19446db](https://github.com/fanvue/fanv-ui/commit/19446dbfa8ff625229018f2163e596783f953e67))
+* **BottomNavigation:** fix label truncation for long locales ([#430](https://github.com/fanvue/fanv-ui/issues/430)) ([19446db](https://github.com/fanvue/fanv-ui/commit/19446dbfa8ff625229018f2163e596783f953e67))
+
 ## [2.9.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.9.0...ui-v2.9.1) (2026-04-13)
 
 
