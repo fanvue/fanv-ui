@@ -41,7 +41,7 @@ export const AccordionTrigger = React.forwardRef<
         )}
         {...props}
       >
-        <span className="min-w-0 flex-1 truncate text-left">{children}</span>
+        <span className="min-w-0 flex-1 text-left">{children}</span>
         {showIcon && (
           <span className="shrink-0 motion-safe:transition-transform motion-safe:duration-200 [[data-state=open]>&]:rotate-180">
             {iconElement}

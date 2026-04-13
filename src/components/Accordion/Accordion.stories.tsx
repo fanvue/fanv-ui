@@ -140,6 +140,50 @@ export const DefaultExpanded: Story = {
   ),
 };
 
+export const MultiLineTrigger: Story = {
+  name: "Multi-line Trigger (Narrow)",
+  render: () => (
+    <Accordion type="single" collapsible defaultValue="step-2" className="w-[320px]">
+      <AccordionItem value="step-1">
+        <AccordionTrigger>
+          <div className="flex flex-row items-start gap-3">
+            <div className="mt-[2px] flex size-5 shrink-0 items-center justify-center rounded border-2 border-content-primary" />
+            <div className="flex flex-col gap-1">
+              <span className="typography-semibold-body-md">Step 1</span>
+              <span className="typography-semibold-body-lg">Build your AI avatar</span>
+            </div>
+          </div>
+        </AccordionTrigger>
+        <AccordionContent>Step 1 content goes here.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="step-2">
+        <AccordionTrigger>
+          <div className="flex flex-row items-start gap-3">
+            <div className="mt-[2px] flex size-5 shrink-0 items-center justify-center rounded border-2 border-content-primary" />
+            <div className="flex flex-col gap-1">
+              <span className="typography-semibold-body-md">Step 2</span>
+              <span className="typography-semibold-body-lg">Upload content to your vault</span>
+            </div>
+          </div>
+        </AccordionTrigger>
+        <AccordionContent>Step 2 content goes here.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="step-3">
+        <AccordionTrigger>
+          <div className="flex flex-row items-start gap-3">
+            <div className="mt-[2px] flex size-5 shrink-0 items-center justify-center rounded border-2 border-content-primary" />
+            <div className="flex flex-col gap-1">
+              <span className="typography-semibold-body-md">Step 3</span>
+              <span className="typography-semibold-body-lg">Set up an automated message</span>
+            </div>
+          </div>
+        </AccordionTrigger>
+        <AccordionContent>Step 3 content goes here.</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+};
+
 export const AllStates: Story = {
   name: "All States (Matrix)",
   render: () => (
