@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.9.0...ui-v2.9.1) (2026-04-13)
+
+
+### Bug Fixes
+
+* **BottomNavigation:** prevent indicator glow clipping on narrow containers ([#428](https://github.com/fanvue/fanv-ui/issues/428)) ([e61359e](https://github.com/fanvue/fanv-ui/commit/e61359e29a03abc738b5f844b3b22169b1a69c26))
+
 ## [2.9.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.8.0...ui-v2.9.0) (2026-04-13)
 
 
