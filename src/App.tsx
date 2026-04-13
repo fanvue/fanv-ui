@@ -4166,6 +4166,72 @@ function CardDemo() {
           </CardHeader>
         </div>
       </Card>
+
+      {/* Horizontal List Item */}
+      <h3 className="typography-semibold-body-lg mt-4">Horizontal List Item</h3>
+      <Card
+        as="button"
+        direction="horizontal"
+        variant="ghost"
+        noPadding
+        rounded="lg"
+        onClick={() => alert("Card clicked!")}
+        className="group max-w-md gap-5 border border-transparent p-3 transition-all hover:border-neutral-alphas-200 hover:bg-neutral-alphas-50"
+      >
+        <div className="relative box-border flex size-[72px] shrink-0 items-center justify-center overflow-hidden rounded-3xl border-2 border-transparent bg-neutral-alphas-100 transition-colors group-hover:border-brand-primary-hover">
+          <span className="typography-bold-body-lg text-content-secondary">AP</span>
+        </div>
+        <div className="flex min-h-px min-w-0 flex-1 flex-col gap-1">
+          <div className="flex w-full shrink-0 items-center gap-3">
+            <p className="typography-semibold-body-md min-w-0 flex-1 truncate text-content-primary">
+              App Name
+            </p>
+            <Button
+              type="button"
+              variant="secondary"
+              size="32"
+              leftIcon={<AddIcon className="size-3.5" aria-hidden />}
+              onClick={(e) => {
+                e.stopPropagation();
+                alert("Add clicked!");
+              }}
+              className="hidden shrink-0 rounded-full px-3 md:inline-flex"
+            >
+              Add
+            </Button>
+          </div>
+          <p className="typography-regular-body-sm line-clamp-2 min-h-[35px] text-content-secondary">
+            A short description of the app that can span up to two lines before truncating.
+          </p>
+          <div className="flex w-full shrink-0 flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2">
+              <StarIcon className="size-3.5 shrink-0 text-content-primary" aria-hidden />
+              <span className="typography-regular-body-sm inline-flex gap-1 whitespace-nowrap text-center">
+                <span className="text-content-primary">4.8</span>
+                <span className="text-content-secondary">(128)</span>
+              </span>
+            </div>
+            <div className="flex min-w-0 flex-1 items-center gap-1">
+              <span className="inline-flex shrink-0 items-center gap-1">
+                <DownloadIcon className="size-3.5 text-content-primary" aria-hidden />
+                <span className="typography-regular-body-sm whitespace-nowrap text-content-primary">
+                  1.2k
+                </span>
+              </span>
+              <p className="typography-regular-body-sm min-w-0 flex-1 truncate text-content-secondary">
+                Free plan available
+              </p>
+            </div>
+            <Badge
+              variant="default"
+              leftDot={false}
+              className="typography-semibold-badge h-5 text-content-primary"
+            >
+              MESSAGING
+            </Badge>
+          </div>
+        </div>
+      </Card>
     </div>
   );
 }

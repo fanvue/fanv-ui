@@ -38,6 +38,10 @@ const meta = {
       control: "select",
       options: ["div", "button"],
     },
+    rounded: {
+      control: "select",
+      options: ["none", "sm", "md", "lg", "xl", "2xl", "3xl", "full"],
+    },
     fullWidth: { control: "boolean" },
     noPadding: { control: "boolean" },
   },

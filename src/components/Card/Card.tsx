@@ -10,6 +10,9 @@ export type CardDirection = "vertical" | "horizontal";
 /** Polymorphic element type for the card. */
 export type CardAs = "div" | "button";
 
+/** Border radius size of the card. */
+export type CardRounded = "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
+
 export interface CardProps extends React.HTMLAttributes<HTMLElement> {
   /** Visual style variant of the card. @default "outlined" */
   variant?: CardVariant;
@@ -21,6 +24,8 @@ export interface CardProps extends React.HTMLAttributes<HTMLElement> {
   direction?: CardDirection;
   /** HTML element to render. Use "button" for clickable cards. @default "div" */
   as?: CardAs;
+  /** Border radius size. @default "md" */
+  rounded?: CardRounded;
 }
 
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -41,6 +46,17 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   elevated: "border border-neutral-alphas-200 bg-surface-primary shadow-md",
   filled: "bg-surface-secondary",
   ghost: "bg-transparent",
+};
+
+const ROUNDED_CLASSES: Record<CardRounded, string> = {
+  none: "rounded-none",
+  sm: "rounded-sm",
+  md: "rounded-md",
+  lg: "rounded-lg",
+  xl: "rounded-xl",
+  "2xl": "rounded-2xl",
+  "3xl": "rounded-3xl",
+  full: "rounded-full",
 };
 
 /**
@@ -72,6 +88,7 @@ export const Card = React.forwardRef<HTMLElement, CardProps>(
       noPadding = false,
       direction = "vertical",
       as: Component = "div",
+      rounded = "md",
       children,
       ...props
     },
@@ -82,7 +99,8 @@ export const Card = React.forwardRef<HTMLElement, CardProps>(
         ref={ref as React.Ref<HTMLDivElement & HTMLButtonElement>}
         type={Component === "button" ? "button" : undefined}
         className={cn(
-          "flex overflow-hidden rounded-md",
+          "flex overflow-hidden",
+          ROUNDED_CLASSES[rounded],
           direction === "vertical" ? "flex-col" : "flex-row items-start",
           !noPadding && "p-4",
           fullWidth && "w-full",

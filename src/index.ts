@@ -86,6 +86,7 @@ export type {
   CardFooterProps,
   CardHeaderProps,
   CardProps,
+  CardRounded,
   CardTitleProps,
   CardVariant,
 } from "./components/Card/Card";
