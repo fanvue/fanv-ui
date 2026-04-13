@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.9.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.8.0...ui-v2.9.0) (2026-04-13)
+
+
+### Features
+
+* **BottomNavigation:** v2 UI redesign behind hasInformationArchitectureNav flag ([#427](https://github.com/fanvue/fanv-ui/issues/427)) ([7bf5448](https://github.com/fanvue/fanv-ui/commit/7bf544829259ad378ac3ce55eb1c1865652a4af0))
+
+
+### Bug Fixes
+
+* **chat:** Make drop-down align with button ([#424](https://github.com/fanvue/fanv-ui/issues/424)) ([239f25b](https://github.com/fanvue/fanv-ui/commit/239f25ba6f99c38815ea84aaeface7863d27ed1f))
+* **input:** Ends rounded, not corners ([#426](https://github.com/fanvue/fanv-ui/issues/426)) ([ab8915b](https://github.com/fanvue/fanv-ui/commit/ab8915bd854bf18916bfab6e8d76ce8846606688))
+
 ## [2.8.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.7.0...ui-v2.8.0) (2026-04-09)
 
 
