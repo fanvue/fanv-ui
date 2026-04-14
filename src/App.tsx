@@ -1695,13 +1695,33 @@ function EmptyStateDemo() {
   return (
     <div id="empty-state" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-bold-heading-sm mb-4">Empty State</h2>
+      <h3 className="typography-bold-heading-xs text-content-secondary">
+        ReactNode slots (previous pattern)
+      </h3>
+      <p className="typography-regular-body-md text-content-secondary max-w-xl">
+        Pass elements for <code className="typography-regular-body-md">media</code>,{" "}
+        <code className="typography-regular-body-md">title</code>,{" "}
+        <code className="typography-regular-body-md">description</code>, and actions—for example
+        custom layout around an image and explicit{" "}
+        <code className="typography-regular-body-md">Button</code> components (including{" "}
+        <code className="typography-regular-body-md">asChild</code> links).
+      </p>
       <div className="flex flex-wrap items-start gap-8">
         <EmptyState
           variant="default"
           media={artwork}
-          title="Empty Vault, Full Potential!"
-          description="Add your photos to the Vault to start sharing your creations and earning."
-          primaryAction={<Button variant="brand">Add Media to Vault</Button>}
+          title={<span className="whitespace-pre-line">{"Empty Vault\nFull Potential!"}</span>}
+          description={
+            <span className="text-content-tertiary">
+              Title and description as custom nodes (e.g. i18n with line breaks or{" "}
+              <code className="typography-regular-body-md">Trans</code>).
+            </span>
+          }
+          primaryAction={
+            <Button variant="primary" asChild>
+              <a href="#empty-state">Discover as link CTA</a>
+            </Button>
+          }
         />
         <EmptyState
           variant="centered"
@@ -1712,7 +1732,7 @@ function EmptyStateDemo() {
           secondaryAction={<Button variant="secondary">Learn more</Button>}
         />
       </div>
-      <h3 className="typography-bold-heading-xs text-content-secondary">String slots</h3>
+      <h3 className="typography-bold-heading-xs text-content-secondary mt-6">String slots</h3>
       <p className="typography-regular-body-md text-content-secondary max-w-xl">
         Title, description, media URL, and action labels as strings: typography and buttons are
         applied inside <code className="typography-regular-body-md">EmptyState</code>.
