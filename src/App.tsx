@@ -1688,6 +1688,10 @@ function EmptyStateDemo() {
     </div>
   );
 
+  const stringSlotMediaSrc = `data:image/svg+xml,${encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280"><rect width="400" height="280" fill="%23e5e7eb"/><circle cx="200" cy="140" r="40" fill="%239ca3af"/></svg>',
+  )}`;
+
   return (
     <div id="empty-state" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-bold-heading-sm mb-4">Empty State</h2>
@@ -1706,6 +1710,21 @@ function EmptyStateDemo() {
           description="Add your photos to the Vault to start sharing your creations and earning."
           primaryAction={<Button variant="brand">Add Media to Vault</Button>}
           secondaryAction={<Button variant="secondary">Learn more</Button>}
+        />
+      </div>
+      <h3 className="typography-bold-heading-xs text-content-secondary">String slots</h3>
+      <p className="typography-regular-body-md text-content-secondary max-w-xl">
+        Title, description, media URL, and action labels as strings: typography and buttons are
+        applied inside <code className="typography-regular-body-md">EmptyState</code>.
+      </p>
+      <div className="flex flex-wrap items-start gap-8">
+        <EmptyState
+          variant="default"
+          media={stringSlotMediaSrc}
+          title="All strings"
+          description="Media is a URL string (inline SVG). Primary and secondary actions are label strings."
+          primaryAction="Primary action"
+          secondaryAction="Secondary action"
         />
       </div>
     </div>

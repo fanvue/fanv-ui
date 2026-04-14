@@ -9,7 +9,7 @@ const meta = {
     layout: "padded",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=14487-61248&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=14487-61260&m=dev",
     },
   },
   tags: ["autodocs"],
