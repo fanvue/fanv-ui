@@ -95,7 +95,10 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       title === null ||
       title === false ||
       title === "" ? null : isNonEmptyString(title) ? (
-        <h2 id={titleId} className="m-0 typography-bold-heading-lg text-content-primary">
+        <h2
+          id={titleId}
+          className="m-0 whitespace-pre-line typography-bold-heading-lg text-content-primary"
+        >
           {title}
         </h2>
       ) : (
@@ -112,7 +115,9 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       description === null ||
       description === false ||
       description === "" ? null : isNonEmptyString(description) ? (
-        <p className="m-0 typography-regular-body-lg text-content-secondary">{description}</p>
+        <p className="m-0 whitespace-pre-line typography-regular-body-lg text-content-secondary">
+          {description}
+        </p>
       ) : (
         <div className="typography-regular-body-lg text-content-secondary min-w-0 w-full">
           {description}
