@@ -4,6 +4,7 @@
  * Avoid barrel files, re-exports of entire modules, or side effects in this entry point.
  */
 
+export { Slot, Slottable } from "@radix-ui/react-slot";
 export type { AccordionProps } from "./components/Accordion/Accordion";
 export { Accordion } from "./components/Accordion/Accordion";
 export type { AccordionContentProps } from "./components/Accordion/AccordionContent";
