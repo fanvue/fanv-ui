@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.3](https://github.com/fanvue/fanv-ui/compare/ui-v2.9.2...ui-v2.9.3) (2026-04-15)
+
+
+### Bug Fixes
+
+* **docs:** document release-please version bump rules ([#435](https://github.com/fanvue/fanv-ui/issues/435)) ([1fd6cb0](https://github.com/fanvue/fanv-ui/commit/1fd6cb0f8fb5e88ee5a9b02d51eda5f02e896731))
+
 ## [2.9.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.9.1...ui-v2.9.2) (2026-04-13)
 
 
