@@ -25,6 +25,27 @@ describe("EmptyState", () => {
     expect(screen.getByRole("button", { name: "Read guide" })).toBeInTheDocument();
   });
 
+  it("renders string actions as full-width buttons", () => {
+    render(<EmptyState title="Title" primaryAction="Primary" secondaryAction="Secondary" />);
+
+    expect(screen.getByRole("button", { name: "Primary" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Secondary" })).toBeInTheDocument();
+  });
+
+  it("renders string media as an image", () => {
+    const { container } = render(<EmptyState title="T" media="https://example.com/empty.png" />);
+
+    const img = container.querySelector("img");
+    expect(img).toBeTruthy();
+    expect(img).toHaveAttribute("src", "https://example.com/empty.png");
+  });
+
+  it("uses a heading for string titles", () => {
+    render(<EmptyState title="No media yet" />);
+
+    expect(screen.getByRole("heading", { level: 2, name: "No media yet" })).toBeInTheDocument();
+  });
+
   it("has no serious axe violations", async () => {
     const { container } = render(
       <EmptyState

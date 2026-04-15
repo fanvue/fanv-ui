@@ -175,7 +175,11 @@ export {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./components/DropdownMenu/DropdownMenu";
-export type { EmptyStateProps, EmptyStateVariant } from "./components/EmptyState/EmptyState";
+export type {
+  EmptyStateProps,
+  EmptyStateSlot,
+  EmptyStateVariant,
+} from "./components/EmptyState/EmptyState";
 export { EmptyState } from "./components/EmptyState/EmptyState";
 export type {
   IconButtonProps,
