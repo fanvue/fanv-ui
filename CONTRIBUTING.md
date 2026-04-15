@@ -218,6 +218,21 @@ docs: add theming guide
 test(button): add accessibility tests
 ```
 
+### Releases (`release-please`)
+
+Pushes to `main` run the [Release workflow](.github/workflows/release.yml) using [release-please](https://github.com/googleapis/release-please). It opens or updates a **Release PR** that bumps `@fanvue/ui` in `package.json`, updates `CHANGELOG.md`, and (after that PR is merged) publishes to npm.
+
+A Release PR appears only when there is a **semver-relevant** conventional commit on `main` since the last release (see `.release-please-manifest.json` and `release-please-config.json`). In practice:
+
+| Commit type | Typical version bump |
+|-------------|----------------------|
+| `feat` | Minor |
+| `fix` | Patch |
+| Breaking change (`feat!:` / `fix!:` / `BREAKING CHANGE:` footer) | Major |
+| `chore`, `refactor`, `docs`, `ci`, `test`, `style`, … | **None** — no new Release PR by themselves |
+
+So a squash-merge title like `refactor(button): …` or `chore: …` on `main` will **not** trigger a release, even if the code change should ship to npm. Prefer **`feat`** or **`fix`** in the merge commit when the work should produce a version bump (or add a small follow-up commit on `main` with a `fix`/`feat` message if you only realized after merge).
+
 ## Pull Request Process
 
 1. **Update tests** - Add/update tests for your changes
