@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.10.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.9.3...ui-v2.10.0) (2026-04-16)
+
+
+### Features
+
+* export Slot and Slottable, move react-slot to peerDependencies ([c9d1d38](https://github.com/fanvue/fanv-ui/commit/c9d1d383b2da9075cc7c3690f96c5553f1602024))
+* export Slot/Slottable, move react-slot to peerDependencies ([#438](https://github.com/fanvue/fanv-ui/issues/438)) ([c9d1d38](https://github.com/fanvue/fanv-ui/commit/c9d1d383b2da9075cc7c3690f96c5553f1602024))
+
 ## [2.9.3](https://github.com/fanvue/fanv-ui/compare/ui-v2.9.2...ui-v2.9.3) (2026-04-15)
 
 
