@@ -47,7 +47,11 @@ export {
 } from "./components/Avatar/Avatar";
 export type { BadgeProps, BadgeVariant } from "./components/Badge/Badge";
 export { Badge } from "./components/Badge/Badge";
-export type { BannerLayout, BannerProps, BannerVariant } from "./components/Banner/Banner";
+export type {
+  BannerLayout,
+  BannerProps,
+  BannerVariant,
+} from "./components/Banner/Banner";
 export { Banner } from "./components/Banner/Banner";
 export type { BottomNavigationProps } from "./components/BottomNavigation/BottomNavigation";
 export { BottomNavigation } from "./components/BottomNavigation/BottomNavigation";
@@ -92,7 +96,10 @@ export {
   CardHeader,
   CardTitle,
 } from "./components/Card/Card";
-export type { ChatInputProps, ChatInputSelectOption } from "./components/ChatInput/ChatInput";
+export type {
+  ChatInputProps,
+  ChatInputSelectOption,
+} from "./components/ChatInput/ChatInput";
 export { ChatInput } from "./components/ChatInput/ChatInput";
 export type {
   CheckboxProps,
@@ -402,10 +409,7 @@ export type {
   SnackbarVariant,
 } from "./components/Snackbar/Snackbar";
 export { Snackbar } from "./components/Snackbar/Snackbar";
-export type {
-  StepItem,
-  StepperProps,
-} from "./components/Stepper/Stepper";
+export type { StepItem, StepperProps } from "./components/Stepper/Stepper";
 export { Stepper } from "./components/Stepper/Stepper";
 export type {
   StepperStepProps,
@@ -429,6 +433,7 @@ export { SwitchToggle } from "./components/SwitchToggle/SwitchToggle";
 export type {
   TableBodyProps,
   TableCardProps,
+  TableCardVariant,
   TableCellGroupProps,
   TableCellIntent,
   TableCellProps,

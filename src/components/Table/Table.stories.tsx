@@ -5,7 +5,10 @@ import { Badge } from "../Badge/Badge";
 import { Button } from "../Button/Button";
 import { Checkbox } from "../Checkbox/Checkbox";
 import { Chip } from "../Chip/Chip";
+import { Divider } from "../Divider/Divider";
+import { IconButton } from "../IconButton/IconButton";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
+import { CopyIcon } from "../Icons/CopyIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { MoreVerticalIcon } from "../Icons/MoreVerticalIcon";
 import { ShareIcon } from "../Icons/ShareIcon";
@@ -400,4 +403,79 @@ export const PaginationMobile: Story = {
       />
     );
   },
+};
+
+export const SettingsVariant: Story = {
+  name: "Table — settings variant",
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/0DrWAtL20IltrVqLIgiQ2e/Fanvue-App-Store?node-id=4327-67287",
+    },
+  },
+  render: () => (
+    <div className="flex max-w-xl flex-col gap-6">
+      <p className="typography-semibold-body-md text-content-primary">
+        Settings variant for key-value displays (e.g., OAuth credentials)
+      </p>
+      <TableCard variant="settings">
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell intent="label">Client ID</TableCell>
+              <TableCell intent="value">8a5e6009-1028-4db5-85c4-057a9cff7405</TableCell>
+              <TableCell intent="action">
+                <IconButton
+                  variant="tertiary"
+                  size="24"
+                  icon={<CopyIcon />}
+                  aria-label="Copy client ID"
+                />
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+        <Divider />
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell intent="label">Client Secret</TableCell>
+              <TableCell intent="value">****************************</TableCell>
+              <TableCell intent="action">
+                <Button variant="tertiaryDestructive" size="32">
+                  Reset secret
+                </Button>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableCard>
+
+      <p className="typography-semibold-body-md text-content-primary">
+        Comparison with default variant
+      </p>
+      <TableCard>
+        <TableScrollArea>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Setting</TableHead>
+                <TableHead>Value</TableHead>
+                <TableHead />
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>Client ID</TableCell>
+                <TableCell>8a5e6009-1028-4db5-85c4-057a9cff7405</TableCell>
+                <TableCell>
+                  <IconButton variant="tertiary" size="24" icon={<CopyIcon />} aria-label="Copy" />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableScrollArea>
+      </TableCard>
+    </div>
+  ),
 };

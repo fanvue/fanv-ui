@@ -5,16 +5,39 @@ import { Select, SelectContent, SelectItem } from "../Select/Select";
 /** Row density for body cells — `md` (60px min height) or `lg` (80px). */
 export type TableSize = "md" | "lg";
 
+/** Visual variant for {@link TableCard}. */
+export type TableCardVariant = "default" | "settings";
+
 export interface TableCardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Row density applied to {@link TableCell} descendants. @default "md" */
   size?: TableSize;
+  /** Visual variant — `settings` for key-value displays, `default` for data tables. @default "default" */
+  variant?: TableCardVariant;
 }
 
-const TableSizeContext = React.createContext<TableSize>("md");
+interface TableContextValue {
+  size: TableSize;
+  variant: TableCardVariant;
+}
 
+const TableContext = React.createContext<TableContextValue>({
+  size: "md",
+  variant: "default",
+});
+
+function useTableContext(): TableContextValue {
+  return React.useContext(TableContext);
+}
+
+/** @deprecated Use `useTableContext().size` instead */
 function useTableSize(): TableSize {
-  return React.useContext(TableSizeContext);
+  return useTableContext().size;
 }
+
+const TABLE_CARD_VARIANT_CLASSES: Record<TableCardVariant, string> = {
+  default: "gap-4 rounded-md bg-bg-primary pb-4",
+  settings: "gap-3 rounded-lg border border-border-primary bg-surface-secondary p-4",
+};
 
 /**
  * Surface wrapper for data tables: rounded container, spacing, and size
@@ -24,6 +47,7 @@ function useTableSize(): TableSize {
  *
  * @example
  * ```tsx
+ * // Data table (default variant)
  * <TableCard size="md">
  *   <TableScrollArea>
  *     <Table>
@@ -40,21 +64,36 @@ function useTableSize(): TableSize {
  *     </Table>
  *   </TableScrollArea>
  * </TableCard>
+ *
+ * // Settings table (key-value display)
+ * <TableCard variant="settings">
+ *   <Table>
+ *     <TableBody>
+ *       <TableRow>
+ *         <TableCell intent="label">Client ID</TableCell>
+ *         <TableCell intent="value">abc-123</TableCell>
+ *         <TableCell intent="action"><IconButton /></TableCell>
+ *       </TableRow>
+ *     </TableBody>
+ *   </Table>
+ * </TableCard>
  * ```
  */
 export const TableCard = React.forwardRef<HTMLDivElement, TableCardProps>(
-  ({ className, size = "md", ...props }, ref) => {
+  ({ className, size = "md", variant = "default", ...props }, ref) => {
+    const contextValue = React.useMemo(() => ({ size, variant }), [size, variant]);
     return (
-      <TableSizeContext.Provider value={size}>
+      <TableContext.Provider value={contextValue}>
         <div
           ref={ref}
           className={cn(
-            "isolate flex flex-col gap-4 overflow-hidden rounded-md bg-bg-primary pb-4",
+            "isolate flex flex-col overflow-hidden",
+            TABLE_CARD_VARIANT_CLASSES[variant],
             className,
           )}
           {...props}
         />
-      </TableSizeContext.Provider>
+      </TableContext.Provider>
     );
   },
 );
@@ -223,8 +262,22 @@ const CELL_VARIANT_CLASSES: Record<TableCellVariant, string> = {
   pillProgress: "border-border-primary border-b px-4 py-2",
 };
 
-/** Layout / typography preset for {@link TableCell} (orthogonal to {@link TableCellVariant}). */
-export type TableCellIntent = "default" | "checkbox" | "stacked" | "multiline" | "sideLabel";
+/**
+ * Layout / typography preset for {@link TableCell} (orthogonal to {@link TableCellVariant}).
+ *
+ * - `label`: Left-aligned label text (settings variant)
+ * - `value`: Right-aligned value text with secondary color (settings variant)
+ * - `action`: Right-aligned, shrink-to-fit for buttons/icons (settings variant)
+ */
+export type TableCellIntent =
+  | "default"
+  | "checkbox"
+  | "stacked"
+  | "multiline"
+  | "sideLabel"
+  | "label"
+  | "value"
+  | "action";
 
 const CELL_INTENT_CLASSES: Record<TableCellIntent, string> = {
   default: "",
@@ -232,6 +285,10 @@ const CELL_INTENT_CLASSES: Record<TableCellIntent, string> = {
   stacked: "align-top",
   multiline: "max-w-[240px]",
   sideLabel: "",
+  // Settings variant intents
+  label: "text-left",
+  value: "text-right",
+  action: "w-0 text-right",
 };
 
 export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
@@ -241,19 +298,50 @@ export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElem
   intent?: TableCellIntent;
 }
 
+/** Get typography class based on intent */
+function getCellTypography(intent: TableCellIntent): string {
+  switch (intent) {
+    case "sideLabel":
+    case "label":
+      return "typography-regular-body-md";
+    case "value":
+      return "typography-regular-body-sm";
+    default:
+      return "typography-regular-body-md";
+  }
+}
+
+/** Get text color class based on intent */
+function getCellTextColor(intent: TableCellIntent): string {
+  switch (intent) {
+    case "value":
+      return "text-content-tertiary";
+    default:
+      return "text-content-primary";
+  }
+}
+
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, cellVariant = "default", intent = "default", ...props }, ref) => {
-    const size = useTableSize();
-    const typo =
-      intent === "sideLabel" ? "typography-semibold-body-md" : "typography-regular-body-md";
+    const { size, variant } = useTableContext();
+    const isSettings = variant === "settings";
+
+    const typo = getCellTypography(intent);
+    const textColor = getCellTextColor(intent);
+
+    // Settings variant uses simpler styling without borders (dividers are separate)
+    const cellClasses = isSettings
+      ? "px-0 py-0"
+      : cn(CELL_VARIANT_CLASSES[cellVariant], CELL_MIN_HEIGHT[size]);
+
     return (
       <td
         ref={ref}
         className={cn(
           typo,
-          "align-middle text-content-primary",
-          CELL_VARIANT_CLASSES[cellVariant],
-          CELL_MIN_HEIGHT[size],
+          textColor,
+          "align-middle",
+          cellClasses,
           CELL_INTENT_CLASSES[intent],
           className,
         )}
