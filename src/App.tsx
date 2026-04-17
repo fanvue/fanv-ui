@@ -159,6 +159,7 @@ import {
   PlayIcon,
   PlusIcon,
   PrivacyIcon,
+  ProfileCard,
   ProgressBar,
   Radio,
   RadioGroup,
@@ -1745,6 +1746,22 @@ function EmptyStateDemo() {
           description="Media is a URL string (inline SVG). Primary and secondary actions are label strings."
           primaryAction="Primary action"
           secondaryAction="Secondary action"
+        />
+      </div>
+    </div>
+  );
+}
+
+function ProfileCardDemo() {
+  return (
+    <div id="profilecard" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Profile Card</h2>
+      <div className="flex flex-wrap items-start gap-8">
+        <ProfileCard
+          name="Aitana Lopez"
+          username="@fit_aitana"
+          bannerSrc="https://www.figma.com/api/mcp/asset/1bcaf49c-a79f-488c-8bd7-812da99b76dd"
+          avatarSrc="https://www.figma.com/api/mcp/asset/6862c012-9d9c-4fbd-a815-bd870ad27b38"
         />
       </div>
     </div>
@@ -4248,6 +4265,7 @@ function App() {
     { id: "pagination", label: "Pagination" },
     { id: "passwordfield", label: "Password Field" },
     { id: "pill", label: "Pill" },
+    { id: "profilecard", label: "Profile Card" },
     { id: "progressbar", label: "Progress Bar" },
     { id: "radio", label: "Radio" },
     { id: "searchfield", label: "Search Field" },
@@ -4319,7 +4337,7 @@ function App() {
                         key={section.id}
                         type="button"
                         onClick={() => scrollToSection(section.id)}
-                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left text-content-primary hover:bg-neutral-alphas-100"
+                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left text-content-primary hover:bg-neutral-alphas-100 cursor-pointer"
                       >
                         {section.label}
                       </button>
@@ -4369,6 +4387,9 @@ function App() {
 
             {/* Empty State */}
             <EmptyStateDemo />
+
+            {/* Profile Card */}
+            <ProfileCardDemo />
 
             {/* Button */}
             <ButtonDemo />

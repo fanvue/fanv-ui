@@ -28,6 +28,7 @@
   --radius-2xl: 40px;
   --radius-full: 9999px;
 
+  --color-background-avatar: var(--primitives-color-gray-300);
   --color-neutral-alphas-50: var(--primitives-color-blackalpha-50);
   --color-neutral-alphas-100: var(--primitives-color-blackalpha-100);
   --color-neutral-alphas-150: #15151526;
@@ -258,6 +259,7 @@
 
   /* Light-mode semantic tokens must also live in :root because @theme
      cannot resolve var() references to :root primitives at build time. */
+  --color-background-avatar: var(--primitives-color-gray-300);
   --color-neutral-alphas-50: var(--primitives-color-blackalpha-50);
   --color-neutral-alphas-100: var(--primitives-color-blackalpha-100);
   --color-neutral-alphas-150: #15151526;
@@ -337,6 +339,7 @@
 }
 
 .dark {
+  --color-background-avatar: var(--primitives-color-gray-700);
   --color-neutral-alphas-50: var(--primitives-color-whitealpha-100);
   --color-neutral-alphas-100: var(--primitives-color-whitealpha-100);
   --color-neutral-alphas-150: #232323cc;
