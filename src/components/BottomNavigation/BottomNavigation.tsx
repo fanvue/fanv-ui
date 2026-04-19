@@ -88,8 +88,8 @@ export const BottomNavigation = React.forwardRef<HTMLElement, BottomNavigationPr
                   }}
                 >
                   <div className="h-px w-full bg-linear-to-r from-transparent via-(--color-special-bottom-nav-highlight) to-transparent" />
-                  <div className="h-20 w-full overflow-hidden">
-                    <div className="mx-auto aspect-square w-[70%] max-w-[70px] -translate-y-1/2 rounded-full bg-(--color-special-bottom-nav-highlight) opacity-30 blur-[min(20px,2vw)] dark:opacity-15" />
+                  <div className="@container h-20 w-full overflow-hidden">
+                    <div className="mx-auto aspect-square w-[70%] max-w-[70px] -translate-y-1/2 rounded-full bg-(--color-special-bottom-nav-highlight) opacity-30 blur-[min(20px,2vw)] @max-[80px]:w-[calc(70%-10px)] dark:opacity-15" />
                   </div>
                 </div>
               </div>
