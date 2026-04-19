@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.10.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.10.0...ui-v2.10.1) (2026-04-19)
+
+
+### Bug Fixes
+
+* **BottomNavigation:** shrink indicator glow on narrow items ([#441](https://github.com/fanvue/fanv-ui/issues/441)) ([bfb07c7](https://github.com/fanvue/fanv-ui/commit/bfb07c73551db4d4a84e8e2b4ad11c21af2f017c))
+* **BottomNavigation:** shrink indicator glow on narrow items to avoid edge clipping ([bfb07c7](https://github.com/fanvue/fanv-ui/commit/bfb07c73551db4d4a84e8e2b4ad11c21af2f017c))
+
 ## [2.10.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.9.3...ui-v2.10.0) (2026-04-16)
 
 
