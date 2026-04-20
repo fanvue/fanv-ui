@@ -1,28 +1,61 @@
 import * as React from "react";
-import { cn } from "@/utils/cn";
-import type { IconProps } from "./types";
+import { BaseIcon } from "./BaseIcon";
+import type { BaseIconProps, IconVariants } from "./types";
 
-export const BoltIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <svg
-        ref={ref}
-        viewBox="0 0 24 24"
-        fill="none"
-        aria-hidden="true"
-        className={cn("size-6", className)}
-        {...props}
-      >
-        <path
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeMiterlimit="10"
-          strokeWidth="1.5"
-          d="m16.22 3.87-3 5.42c-.3.55-.04 1.23.55 1.43l4.12 1.4c.68.23.9 1.08.43 1.61l-6.84 7.7c-.37.42-1.05.1-.98-.45l.76-5.29a1 1 0 0 0-.65-1.08L6.1 13a.995.995 0 0 1-.55-1.4l4.42-8.66c.17-.33.51-.55.89-.55h4.5c.75-.01 1.23.81.86 1.48Z"
-        />
-      </svg>
-    );
+const VARIANTS: IconVariants = {
+  16: {
+    outlined: [
+      {
+        d: "m10.813 2.58-2 3.613c-.2.367-.027.82.367.953l2.746.934c.454.153.6.72.287 1.073l-4.56 5.134c-.247.28-.7.066-.653-.3l.506-3.527a.666.666 0 0 0-.433-.72L4.066 8.666a.664.664 0 0 1-.366-.933L6.646 1.96a.67.67 0 0 1 .594-.367h3c.5-.006.82.54.573.987Z",
+      },
+    ],
+    filled: [
+      {
+        d: "m10.813 2.58-2 3.613c-.2.367-.026.82.367.953l2.747.934c.453.153.6.72.286 1.073l-4.56 5.134c-.246.28-.7.066-.653-.3l.507-3.527a.666.666 0 0 0-.434-.72L4.067 8.666a.664.664 0 0 1-.367-.933L6.647 1.96a.67.67 0 0 1 .593-.367h3c.5-.006.82.54.573.987",
+      },
+    ],
   },
-);
+  24: {
+    outlined: [
+      {
+        d: "m16.22 3.87-3 5.42c-.3.55-.04 1.23.55 1.43l4.12 1.4c.68.23.9 1.08.43 1.61l-6.84 7.7c-.37.42-1.05.1-.98-.45l.76-5.29a1 1 0 0 0-.65-1.08L6.1 13a.995.995 0 0 1-.55-1.4l4.42-8.66c.17-.33.51-.55.89-.55h4.5c.75-.01 1.23.81.86 1.48Z",
+        sw: 1.5,
+      },
+    ],
+    filled: [
+      {
+        d: "m16.22 3.87-3 5.42c-.3.55-.04 1.23.55 1.43l4.12 1.4c.68.23.9 1.08.43 1.61l-6.84 7.7c-.37.42-1.05.1-.98-.45l.76-5.29a1 1 0 0 0-.65-1.08L6.1 13a.995.995 0 0 1-.55-1.4l4.42-8.66c.17-.33.51-.55.89-.55h4.5c.75-.01 1.23.81.86 1.48",
+      },
+    ],
+  },
+  32: {
+    outlined: [
+      {
+        d: "m21.627 5.16-4 7.226a1.33 1.33 0 0 0 .733 1.907l5.493 1.867c.907.306 1.2 1.44.573 2.146l-9.12 10.267c-.493.56-1.4.133-1.306-.6l1.013-7.053a1.33 1.33 0 0 0-.867-1.44l-6.013-2.147a1.327 1.327 0 0 1-.733-1.867L13.293 3.92c.227-.44.68-.734 1.187-.734h6c1-.013 1.64 1.08 1.146 1.974Z",
+        sw: 2,
+      },
+    ],
+    filled: [
+      {
+        d: "m21.627 5.16-4 7.226a1.33 1.33 0 0 0 .733 1.907l5.494 1.867c.906.306 1.2 1.44.573 2.146l-9.12 10.267c-.494.56-1.4.133-1.307-.6l1.014-7.053a1.33 1.33 0 0 0-.867-1.44l-6.014-2.147a1.327 1.327 0 0 1-.733-1.867L13.293 3.92c.227-.44.68-.734 1.187-.734h6c1-.013 1.64 1.08 1.147 1.974",
+      },
+    ],
+  },
+};
+
+/** Props for {@link BoltIcon}. See {@link BaseIconProps} for the shared shape. */
+export type BoltIconProps = BaseIconProps;
+
+/**
+ * Bolt icon. Renders at sizes 16, 24, or 32 px with outlined and filled variants.
+ *
+ * @example
+ * ```tsx
+ * <BoltIcon size={24} filled />
+ * ```
+ */
+export const BoltIcon = React.forwardRef<SVGSVGElement, BoltIconProps>((props, ref) => (
+  <BaseIcon ref={ref} variants={VARIANTS} {...props} />
+));
 
 BoltIcon.displayName = "BoltIcon";

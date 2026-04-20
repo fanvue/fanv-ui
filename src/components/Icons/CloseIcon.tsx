@@ -1,24 +1,32 @@
 import * as React from "react";
-import { cn } from "@/utils/cn";
-import type { IconProps } from "./types";
+import { BaseIcon } from "./BaseIcon";
+import type { BaseIconProps, IconVariants } from "./types";
 
-export const CloseIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <svg
-        ref={ref}
-        viewBox="0 0 24 24"
-        fill="none"
-        aria-hidden="true"
-        className={cn("size-6", className)}
-        {...props}
-      >
-        <g stroke="currentColor" strokeLinecap="round" strokeWidth="1.5">
-          <path d="M7.003 7.006 17 17.003M17 6.996l-9.997 9.998" />
-        </g>
-      </svg>
-    );
+const VARIANTS: IconVariants = {
+  16: {
+    outlined: [{ d: "m4.001 4.004 8 8m0-8.008-8 8", sw: 1.2 }],
   },
-);
+  24: {
+    outlined: [{ d: "m7.001 7.005 10 10m.001-10.01-10 10", sw: 1.5 }],
+  },
+  32: {
+    outlined: [{ d: "m10.002 10.006 12 12m0-12.012-12 12", sw: 1.801 }],
+  },
+};
+
+/** Props for {@link CloseIcon}. See {@link BaseIconProps} for the shared shape. */
+export type CloseIconProps = BaseIconProps;
+
+/**
+ * Close icon. Renders at sizes 16, 24, or 32 px.
+ *
+ * @example
+ * ```tsx
+ * <CloseIcon size={24} />
+ * ```
+ */
+export const CloseIcon = React.forwardRef<SVGSVGElement, CloseIconProps>((props, ref) => (
+  <BaseIcon ref={ref} variants={VARIANTS} {...props} />
+));
 
 CloseIcon.displayName = "CloseIcon";

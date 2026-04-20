@@ -116,6 +116,7 @@ import {
   GenderIcon,
   GiftIcon,
   GoogleIcon,
+  HeartIcon,
   HelpIcon,
   HomeIcon,
   HourglassIcon,
@@ -1062,6 +1063,38 @@ function IconsDemo() {
           <div className="flex flex-col items-center gap-1">
             <HomeIcon className="size-10" />
             <span className="text-[10px] text-content-secondary">40px</span>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <h3 className="typography-body-2-semibold">Prop-based API (size + filled)</h3>
+          <div className="flex flex-wrap items-center gap-8">
+            <div className="flex flex-col items-center gap-2">
+              <HeartIcon size={16} />
+              <HeartIcon size={24} />
+              <HeartIcon size={32} />
+              <span className="text-[10px] text-content-secondary">size 16/24/32 outlined</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <HeartIcon size={16} filled />
+              <HeartIcon size={24} filled />
+              <HeartIcon size={32} filled />
+              <span className="text-[10px] text-content-secondary">size 16/24/32 filled</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <BellIcon size={24} />
+              <BellIcon size={24} filled />
+              <span className="text-[10px] text-content-secondary">
+                {"<BellIcon size={24} filled />"}
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <AddIcon size={24} />
+              <AddIcon size={24} filled />
+              <span className="text-[10px] text-content-secondary">
+                no filled artwork — both render outlined
+              </span>
+            </div>
           </div>
         </div>
       </div>
