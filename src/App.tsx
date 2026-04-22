@@ -44,6 +44,7 @@ import {
   BreadcrumbPage,
   BulbIcon,
   Button,
+  ButtonV2,
   CalendarIcon,
   CameraIcon,
   Card,
@@ -1905,6 +1906,126 @@ function ButtonDemo() {
         <Button variant="brand" asChild>
           <a href="#link">Link as Brand</a>
         </Button>
+      </div>
+    </div>
+  );
+}
+
+function ButtonV2Demo() {
+  const negativeAware = ["primary", "secondary", "tertiary", "outline"] as const;
+  const standalone = ["upsell", "error", "ai", "alwaysWhite", "alwaysBlack"] as const;
+  const sizes = ["48", "40", "32"] as const;
+
+  return (
+    <div id="buttonv2" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Button V2</h2>
+
+      <div className="space-y-3">
+        {sizes.map((size) => (
+          <div key={size} className="flex flex-wrap items-center gap-3">
+            <span className="typography-semibold-body-sm w-10 text-content-secondary">{size}</span>
+            {negativeAware.map((variant) => (
+              <ButtonV2 key={variant} variant={variant} size={size}>
+                {variant}
+              </ButtonV2>
+            ))}
+            {standalone
+              .filter((v) => v !== "alwaysWhite")
+              .map((variant) => (
+                <ButtonV2 key={variant} variant={variant} size={size}>
+                  {variant}
+                </ButtonV2>
+              ))}
+            <div className="rounded-xs bg-surface-primary-inverted p-2">
+              <ButtonV2 variant="alwaysWhite" size={size}>
+                alwaysWhite
+              </ButtonV2>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="rounded-xs bg-surface-primary-inverted p-3">
+        <div className="flex flex-wrap items-center gap-3">
+          {negativeAware.map((variant) => (
+            <ButtonV2 key={variant} variant={variant} negative>
+              {variant} (negative)
+            </ButtonV2>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <ButtonV2 variant="primary" disabled>
+          Primary
+        </ButtonV2>
+        <ButtonV2 variant="secondary" disabled>
+          Secondary
+        </ButtonV2>
+        <ButtonV2 variant="tertiary" disabled>
+          Tertiary
+        </ButtonV2>
+        <ButtonV2 variant="outline" disabled>
+          Outline
+        </ButtonV2>
+        <ButtonV2 variant="upsell" disabled>
+          Upsell
+        </ButtonV2>
+        <ButtonV2 variant="error" disabled>
+          Error
+        </ButtonV2>
+        <ButtonV2 variant="ai" disabled>
+          AI
+        </ButtonV2>
+      </div>
+
+      <div className="rounded-xs bg-surface-primary-inverted p-3">
+        <div className="flex flex-wrap items-center gap-3">
+          {negativeAware.map((variant) => (
+            <ButtonV2 key={variant} variant={variant} negative disabled>
+              {variant}
+            </ButtonV2>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <ButtonV2 variant="primary" loading>
+          Primary
+        </ButtonV2>
+        <ButtonV2 variant="secondary" loading>
+          Secondary
+        </ButtonV2>
+        <ButtonV2 variant="upsell" loading>
+          Upsell
+        </ButtonV2>
+        <ButtonV2 variant="ai" loading>
+          AI
+        </ButtonV2>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <ButtonV2 variant="primary" leftIcon={<PlusIcon />}>
+          Add item
+        </ButtonV2>
+        <ButtonV2 variant="secondary" rightIcon={<ArrowRightIcon />}>
+          Continue
+        </ButtonV2>
+        <ButtonV2 variant="ai" leftIcon={<AIIcon />}>
+          Generate
+        </ButtonV2>
+        <ButtonV2 variant="upsell" leftIcon={<CrownIcon />} rightIcon={<ArrowRightIcon />}>
+          Upgrade
+        </ButtonV2>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <ButtonV2 variant="primary" asChild>
+          <a href="#link">Link as Primary</a>
+        </ButtonV2>
+        <ButtonV2 variant="upsell" asChild>
+          <a href="#link">Link as Upsell</a>
+        </ButtonV2>
       </div>
     </div>
   );
@@ -4227,6 +4348,7 @@ function App() {
     { id: "badge", label: "Badge" },
     { id: "bottom-navigation", label: "Bottom Navigation" },
     { id: "button", label: "Button" },
+    { id: "buttonv2", label: "Button V2" },
     { id: "card", label: "Card" },
     { id: "charts", label: "Charts" },
     { id: "checkbox", label: "Checkbox" },
@@ -4372,6 +4494,9 @@ function App() {
 
             {/* Button */}
             <ButtonDemo />
+
+            {/* Button V2 */}
+            <ButtonV2Demo />
 
             {/* Badge */}
             <BadgeDemo />
