@@ -13,6 +13,25 @@ const meta: Meta<typeof TooltipContent> = {
     },
   },
   tags: ["autodocs"],
+  argTypes: {
+    placement: {
+      control: "select",
+      options: [
+        "top",
+        "top-start",
+        "top-end",
+        "bottom",
+        "bottom-start",
+        "bottom-end",
+        "left",
+        "left-start",
+        "left-end",
+        "right",
+        "right-start",
+        "right-end",
+      ],
+    },
+  },
   decorators: [
     (Story) => (
       <TooltipProvider delayDuration={0}>
@@ -46,7 +65,7 @@ export const Bottom: Story = {
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
-      <TooltipContent side="bottom">Tooltip</TooltipContent>
+      <TooltipContent placement="bottom">Tooltip</TooltipContent>
     </Tooltip>
   ),
 };
@@ -59,7 +78,7 @@ export const Left: Story = {
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
-      <TooltipContent side="left">Tooltip</TooltipContent>
+      <TooltipContent placement="left">Tooltip</TooltipContent>
     </Tooltip>
   ),
 };
@@ -72,7 +91,7 @@ export const Right: Story = {
           <InfoCircleIcon className="size-5" />
         </button>
       </TooltipTrigger>
-      <TooltipContent side="right">Tooltip</TooltipContent>
+      <TooltipContent placement="right">Tooltip</TooltipContent>
     </Tooltip>
   ),
 };
@@ -93,44 +112,45 @@ export const LongContent: Story = {
 };
 
 export const AllPlacements: Story = {
-  render: () => (
-    <div className="flex flex-col items-center gap-24 py-16">
-      <Tooltip defaultOpen>
-        <TooltipTrigger asChild>
-          <button type="button" className="text-content-secondary">
-            <InfoCircleIcon className="size-5" />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent side="top">Top</TooltipContent>
-      </Tooltip>
-      <div className="flex gap-48">
-        <Tooltip defaultOpen>
-          <TooltipTrigger asChild>
-            <button type="button" className="text-content-secondary">
-              <InfoCircleIcon className="size-5" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent side="left">Left</TooltipContent>
-        </Tooltip>
-        <Tooltip defaultOpen>
-          <TooltipTrigger asChild>
-            <button type="button" className="text-content-secondary">
-              <InfoCircleIcon className="size-5" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent side="right">Right</TooltipContent>
-        </Tooltip>
+  render: () => {
+    const placements = [
+      "top-start",
+      "top",
+      "top-end",
+      "left-start",
+      "spacer-1",
+      "right-start",
+      "left",
+      "spacer-2",
+      "right",
+      "left-end",
+      "spacer-3",
+      "right-end",
+      "bottom-start",
+      "bottom",
+      "bottom-end",
+    ] as const;
+    return (
+      <div className="grid grid-cols-3 place-items-center gap-24 py-24">
+        {placements.map((slot) =>
+          slot.startsWith("spacer") ? (
+            <div key={slot} />
+          ) : (
+            <Tooltip key={slot} defaultOpen>
+              <TooltipTrigger asChild>
+                <button type="button" className="text-content-secondary">
+                  <InfoCircleIcon className="size-5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent placement={slot as Exclude<typeof slot, `spacer-${string}`>}>
+                {slot}
+              </TooltipContent>
+            </Tooltip>
+          ),
+        )}
       </div>
-      <Tooltip defaultOpen>
-        <TooltipTrigger asChild>
-          <button type="button" className="text-content-secondary">
-            <InfoCircleIcon className="size-5" />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent side="bottom">Bottom</TooltipContent>
-      </Tooltip>
-    </div>
-  ),
+    );
+  },
   parameters: {
     layout: "padded",
   },

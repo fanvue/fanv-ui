@@ -504,6 +504,7 @@ export type {
 export { Toast, ToastProvider, ToastViewport } from "./components/Toast/Toast";
 export type {
   TooltipContentProps,
+  TooltipPlacement,
   TooltipProps,
   TooltipProviderProps,
   TooltipTriggerProps,
