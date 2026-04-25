@@ -54,6 +54,27 @@ describe("Tooltip", () => {
       await screen.findByRole("tooltip");
       expect(ref.current).toBeInstanceOf(HTMLDivElement);
     });
+
+    it("renders with placement prop without errors", async () => {
+      const user = userEvent.setup();
+      renderTooltip({ placement: "bottom-start" });
+      await user.hover(screen.getByRole("button", { name: "Hover me" }));
+      expect(await screen.findByRole("tooltip")).toHaveTextContent("Tooltip text");
+    });
+
+    it("renders with a placement that has no alignment suffix", async () => {
+      const user = userEvent.setup();
+      renderTooltip({ placement: "right" });
+      await user.hover(screen.getByRole("button", { name: "Hover me" }));
+      expect(await screen.findByRole("tooltip")).toHaveTextContent("Tooltip text");
+    });
+
+    it("still accepts side and align directly when placement is not provided", async () => {
+      const user = userEvent.setup();
+      renderTooltip({ side: "left", align: "end" });
+      await user.hover(screen.getByRole("button", { name: "Hover me" }));
+      expect(await screen.findByRole("tooltip")).toHaveTextContent("Tooltip text");
+    });
   });
 
   describe("accessibility", () => {

@@ -3694,6 +3694,40 @@ function TooltipDemo() {
               <TooltipContent>More information about this feature</TooltipContent>
             </Tooltip>
           </div>
+          <div className="flex flex-wrap items-center gap-4">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  top-start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent placement="top-start">placement="top-start"</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  top-end
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent placement="top-end">placement="top-end"</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  bottom-start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent placement="bottom-start">placement="bottom-start"</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="32">
+                  bottom-end
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent placement="bottom-end">placement="bottom-end"</TooltipContent>
+            </Tooltip>
+          </div>
         </div>
       </TooltipProvider>
     </div>

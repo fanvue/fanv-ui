@@ -24,16 +24,51 @@ export type TooltipTriggerProps = React.ComponentPropsWithoutRef<typeof TooltipP
 /** The element that triggers the tooltip on hover/focus. */
 export const TooltipTrigger = TooltipPrimitive.Trigger;
 
-export type TooltipContentProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>;
+/** Position of the tooltip relative to its trigger, combining side and alignment (MUI-style). */
+export type TooltipPlacement =
+  | "top"
+  | "top-start"
+  | "top-end"
+  | "bottom"
+  | "bottom-start"
+  | "bottom-end"
+  | "left"
+  | "left-start"
+  | "left-end"
+  | "right"
+  | "right-start"
+  | "right-end";
+
+export interface TooltipContentProps
+  extends React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> {
+  /**
+   * Position of the tooltip relative to the trigger. Takes precedence over `side` and `align`.
+   * @default "top"
+   */
+  placement?: TooltipPlacement;
+}
 
 export const TooltipContent = React.forwardRef<
   React.ComponentRef<typeof TooltipPrimitive.Content>,
   TooltipContentProps
->(({ className, sideOffset = 8, style, ...props }, ref) => {
+>(({ className, sideOffset = 8, style, placement, side, align, ...props }, ref) => {
+  let resolvedSide = side;
+  let resolvedAlign: "start" | "center" | "end" = align ?? "center";
+  if (placement) {
+    const [parsedSide, parsedAlign] = placement.split("-") as [
+      "top" | "right" | "bottom" | "left",
+      "start" | "end" | undefined,
+    ];
+    resolvedSide = parsedSide;
+    resolvedAlign = parsedAlign ?? "center";
+  }
+
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
         ref={ref}
+        side={resolvedSide}
+        align={resolvedAlign}
         sideOffset={sideOffset}
         collisionPadding={8}
         style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
@@ -41,7 +76,6 @@ export const TooltipContent = React.forwardRef<
           "typography-semibold-body-sm max-w-[320px] rounded-sm bg-surface-primary-inverted px-4 py-2 text-content-primary-inverted shadow-[0px_1px_4px_0px_rgba(0,0,0,0.06),0px_1px_3px_0px_rgba(0,0,0,0.05)]",
           className,
         )}
-        align="center"
         {...props}
       />
     </TooltipPrimitive.Portal>
