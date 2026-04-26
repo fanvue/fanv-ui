@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.11.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.10.1...ui-v2.11.0) (2026-04-26)
+
+
+### Features
+
+* **icons:** migrate to prop-based API with size/filled variants from Figma ([#443](https://github.com/fanvue/fanv-ui/issues/443)) ([71410eb](https://github.com/fanvue/fanv-ui/commit/71410ebb0ea92daffe98b79cd847168163bec55e))
+* **Tooltip:** add placement prop for MUI-style positioning ([#444](https://github.com/fanvue/fanv-ui/issues/444)) ([7ec17df](https://github.com/fanvue/fanv-ui/commit/7ec17df477bff8f049c755bcd56390639395f003))
+
 ## [2.10.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.10.0...ui-v2.10.1) (2026-04-19)
 
 
