@@ -1,25 +1,61 @@
-import React from "react";
-import { cn } from "@/utils/cn";
-import type { IconProps } from "./types";
+import * as React from "react";
+import { BaseIcon } from "./BaseIcon";
+import type { BaseIconProps, IconVariants } from "./types";
 
-/** A filled warning icon with exclamation mark (20 × 20). */
-export const WarningIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ className, ...props }, ref) => (
-    <svg
-      ref={ref}
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      aria-hidden="true"
-      className={cn("size-5", className)}
-      {...props}
-    >
-      <path
-        fillRule="evenodd"
-        d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
-        clipRule="evenodd"
-      />
-    </svg>
-  ),
-);
+const VARIANTS: IconVariants = {
+  16: {
+    outlined: [
+      {
+        d: "M9.933 1.333H6.067c-.454 0-1.094.267-1.414.587L1.92 4.653c-.32.32-.587.96-.587 1.414v3.866c0 .454.267 1.094.587 1.414l2.733 2.733c.32.32.96.587 1.414.587h3.866c.454 0 1.094-.267 1.414-.587l2.733-2.733c.32-.32.587-.96.587-1.414V6.067c0-.454-.267-1.094-.587-1.414L11.347 1.92c-.32-.32-.96-.587-1.414-.587m-4.266 9 4.666-4.666m0 4.666L5.667 5.667",
+      },
+    ],
+    filled: [
+      {
+        d: "M10.76 1.536H5.24L1.333 5.389v5.443l3.907 3.853h5.52l3.907-3.853V5.39zm.28 8.876-.707.696L8 8.808l-2.333 2.3-.707-.696L7.293 8.11 4.96 5.809l.707-.696L8 7.413l2.333-2.3.707.696-2.333 2.302z",
+      },
+    ],
+  },
+  24: {
+    outlined: [
+      {
+        d: "M14.9 2H9.1c-.68 0-1.64.4-2.12.88l-4.1 4.1C2.4 7.46 2 8.42 2 9.1v5.8c0 .68.4 1.64.88 2.12l4.1 4.1c.48.48 1.44.88 2.12.88h5.8c.68 0 1.64-.4 2.12-.88l4.1-4.1c.48-.48.88-1.44.88-2.12V9.1c0-.68-.4-1.64-.88-2.12l-4.1-4.1C16.54 2.4 15.58 2 14.9 2M8.5 15.5l7-7m0 7-7-7",
+        sw: 1.5,
+      },
+    ],
+    filled: [
+      {
+        d: "M16.14 2.304H7.86L2 8.084v8.165l5.86 5.779h8.28l5.86-5.78V8.084zm.42 13.314-1.06 1.045L12 13.21l-3.5 3.452-1.06-1.045 3.5-3.452-3.5-3.452L8.5 7.67l3.5 3.45 3.5-3.452 1.06 1.045-3.5 3.452z",
+      },
+    ],
+  },
+  32: {
+    outlined: [
+      {
+        d: "M19.867 2.667h-7.734c-.906 0-2.186.533-2.826 1.173L3.84 9.307c-.64.64-1.173 1.92-1.173 2.826v7.734c0 .906.533 2.186 1.173 2.826l5.467 5.467c.64.64 1.92 1.173 2.826 1.173h7.734c.906 0 2.186-.533 2.826-1.173l5.467-5.467c.64-.64 1.173-1.92 1.173-2.826v-7.734c0-.906-.533-2.186-1.173-2.826L22.693 3.84c-.64-.64-1.92-1.173-2.826-1.173m-8.534 18 9.334-9.334m0 9.334-9.334-9.334",
+        sw: 2,
+      },
+    ],
+    filled: [
+      {
+        d: "M21.52 3.072H10.48l-7.813 7.705v10.888l7.813 7.705h11.04l7.813-7.705V10.777zm.56 17.751-1.413 1.394L16 17.615l-4.667 4.602-1.413-1.394 4.667-4.602L9.92 11.62l1.413-1.394L16 14.827l4.667-4.602 1.413 1.394-4.667 4.602z",
+      },
+    ],
+  },
+};
+
+/** Props for {@link WarningIcon}. See {@link BaseIconProps} for the shared shape. */
+export type WarningIconProps = BaseIconProps;
+
+/**
+ * Warning icon. Renders at sizes 16, 24, or 32 px with outlined and filled variants.
+ *
+ * @example
+ * ```tsx
+ * <WarningIcon size={24} filled />
+ * ```
+ */
+export const WarningIcon = React.forwardRef<SVGSVGElement, WarningIconProps>((props, ref) => (
+  <BaseIcon ref={ref} variants={VARIANTS} {...props} />
+));
 
 WarningIcon.displayName = "WarningIcon";

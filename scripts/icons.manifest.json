@@ -1,0 +1,609 @@
+{
+  "icons": [
+    {
+      "name": "AddIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "AI2Icon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "AIDisclosureIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "AIIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "AlertIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "AppsIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ArrowDownIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ArrowLeftIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ArrowRightIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ArrowUpIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "AtSignIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "AutoMessageIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "BankIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "BellIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "BellOffIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "BoltIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "BulbIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "Calendar2Icon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "CalendarIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "CardIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ChartIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "CheckBoxOffIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "CheckBoxOnIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ChevronDownIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ChevronLeftIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ChevronRightIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ChevronUpIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ClockIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "CloseIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "CodeIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "CoinIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "CompassIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "CopyIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "CrownIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "DiamondIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "DiscountIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "DonateIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "DoubleTickIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "DownloadIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "EditIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ExclamationMarkIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ExpandIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "EyeIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "EyeOffIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "FlagIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "FlameIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "FolderIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ForwardIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "GameIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "GenderIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "GiftIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "HealthIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "HeartIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "HelpIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "HomeIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "HourglassIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ImageIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "InboxIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "InfoIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "LanguageIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "LinkIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "LocationIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "LockerIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "LockerOffIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "LogoutIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "LoveIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "MassMessageIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "MegaphoneIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "MenuCloseIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "MenuIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "MenuOpenIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "MessageIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "MicrophoneIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "MinusIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "MoonIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "MoreIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "MoreVerticalIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "NewMessageIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "PauseIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "PhoneIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "PhoneOffIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "PinIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "PlayIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "PrivacyIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "QueueIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "RepeatIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "Reply2Icon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ReplyIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ReverseIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "SearchIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "SendIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "SettingsIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ShareIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "StarIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "StopIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "SunIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "Support2Icon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "SupportIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "TagIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "TaskIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ThumbDownIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ThumbUpIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "TickCircleIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "TickCircleOffIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "TickIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ToolsIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "TrashIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "TrophyIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "UploadIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "UploadToCloudIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "UserAddIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "UserAIIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "UserIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "UserMenuIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "UsersIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "VaultIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "VideoIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "WalletIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "WarningIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "WifiIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "WifiOffIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    }
+  ]
+}

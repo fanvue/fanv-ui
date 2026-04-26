@@ -127,7 +127,12 @@
       }
     },
     {
-      "includes": ["**/Icons/AIIcon.tsx"],
+      "includes": [
+        "**/Icons/AIIcon.tsx",
+        "**/Icons/AI2Icon.tsx",
+        "**/Icons/AIDisclosureIcon.tsx",
+        "**/Icons/UserAIIcon.tsx"
+      ],
       "linter": {
         "rules": {
           "style": {

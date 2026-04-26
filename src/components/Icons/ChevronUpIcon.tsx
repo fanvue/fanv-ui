@@ -1,29 +1,32 @@
 import * as React from "react";
-import { cn } from "@/utils/cn";
-import type { IconProps } from "./types";
+import { BaseIcon } from "./BaseIcon";
+import type { BaseIconProps, IconVariants } from "./types";
 
-export const ChevronUpIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <svg
-        ref={ref}
-        viewBox="0 0 24 24"
-        fill="none"
-        aria-hidden="true"
-        className={cn("size-6", className)}
-        {...props}
-      >
-        <path
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeMiterlimit="10"
-          strokeWidth="1.5"
-          d="m8 14 4-4 4 4"
-        />
-      </svg>
-    );
+const VARIANTS: IconVariants = {
+  16: {
+    outlined: [{ d: "m4 10 4-4 4 4", sw: 1.5 }],
   },
-);
+  24: {
+    outlined: [{ d: "m7 14.5 5-5 5 5", sw: 1.875 }],
+  },
+  32: {
+    outlined: [{ d: "m10 19 6-6 6 6", sw: 2.25 }],
+  },
+};
+
+/** Props for {@link ChevronUpIcon}. See {@link BaseIconProps} for the shared shape. */
+export type ChevronUpIconProps = BaseIconProps;
+
+/**
+ * Chevron Up icon. Renders at sizes 16, 24, or 32 px.
+ *
+ * @example
+ * ```tsx
+ * <ChevronUpIcon size={24} />
+ * ```
+ */
+export const ChevronUpIcon = React.forwardRef<SVGSVGElement, ChevronUpIconProps>((props, ref) => (
+  <BaseIcon ref={ref} variants={VARIANTS} {...props} />
+));
 
 ChevronUpIcon.displayName = "ChevronUpIcon";
