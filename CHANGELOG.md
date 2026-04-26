@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.11.0...ui-v2.12.0) (2026-04-26)
+
+
+### Features
+
+* **Icons:** crossfade between outlined and filled variants ([#446](https://github.com/fanvue/fanv-ui/issues/446)) ([d2f6e64](https://github.com/fanvue/fanv-ui/commit/d2f6e6486439af422c224712e217babee05a44dc))
+
 ## [2.11.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.10.1...ui-v2.11.0) (2026-04-26)
 
 
