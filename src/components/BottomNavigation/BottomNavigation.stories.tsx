@@ -40,10 +40,14 @@ export const Default: Story = {
     const [value, setValue] = React.useState("home");
     return (
       <BottomNavigation value={value} onValueChange={setValue} aria-label="Main navigation">
-        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
+        <BottomNavigationAction
+          value="home"
+          icon={<HomeIcon filled={value === "home"} />}
+          label="Home"
+        />
         <BottomNavigationAction
           value="notifications"
-          icon={<BellIcon />}
+          icon={<BellIcon filled={value === "notifications"} />}
           label="Notifications"
           badge={
             <Count
@@ -58,7 +62,7 @@ export const Default: Story = {
         <BottomNavigationAction value="create" icon={<AddIcon />} label="Create" />
         <BottomNavigationAction
           value="messages"
-          icon={<MessageIcon />}
+          icon={<MessageIcon filled={value === "messages"} />}
           label="Messages"
           badge={
             <Count
@@ -85,11 +89,19 @@ export const WithBadges: Story = {
     const [value, setValue] = React.useState("home");
     return (
       <BottomNavigation value={value} onValueChange={setValue} aria-label="Main navigation">
-        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
-        <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" />
+        <BottomNavigationAction
+          value="home"
+          icon={<HomeIcon filled={value === "home"} />}
+          label="Home"
+        />
+        <BottomNavigationAction
+          value="search"
+          icon={<SearchIcon filled={value === "search"} />}
+          label="Search"
+        />
         <BottomNavigationAction
           value="favorites"
-          icon={<LoveIcon />}
+          icon={<LoveIcon filled={value === "favorites"} />}
           label="Favorites"
           badge={
             <Count
@@ -101,7 +113,11 @@ export const WithBadges: Story = {
             />
           }
         />
-        <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" />
+        <BottomNavigationAction
+          value="profile"
+          icon={<UserIcon filled={value === "profile"} />}
+          label="Profile"
+        />
       </BottomNavigation>
     );
   },
@@ -113,19 +129,39 @@ export const WithAsChild: Story = {
     const [value, setValue] = React.useState("home");
     return (
       <BottomNavigation value={value} onValueChange={setValue} aria-label="Main navigation">
-        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" asChild>
+        <BottomNavigationAction
+          value="home"
+          icon={<HomeIcon filled={value === "home"} />}
+          label="Home"
+          asChild
+        >
           {/* biome-ignore lint/a11y/useAnchorContent: content provided by Slot */}
           <a href="#home" aria-label="Home" />
         </BottomNavigationAction>
-        <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" asChild>
+        <BottomNavigationAction
+          value="search"
+          icon={<SearchIcon filled={value === "search"} />}
+          label="Search"
+          asChild
+        >
           {/* biome-ignore lint/a11y/useAnchorContent: content provided by Slot */}
           <a href="#search" aria-label="Search" />
         </BottomNavigationAction>
-        <BottomNavigationAction value="favorites" icon={<LoveIcon />} label="Favorites" asChild>
+        <BottomNavigationAction
+          value="favorites"
+          icon={<LoveIcon filled={value === "favorites"} />}
+          label="Favorites"
+          asChild
+        >
           {/* biome-ignore lint/a11y/useAnchorContent: content provided by Slot */}
           <a href="#favorites" aria-label="Favorites" />
         </BottomNavigationAction>
-        <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" asChild>
+        <BottomNavigationAction
+          value="profile"
+          icon={<UserIcon filled={value === "profile"} />}
+          label="Profile"
+          asChild
+        >
           {/* biome-ignore lint/a11y/useAnchorContent: content provided by Slot */}
           <a href="#profile" aria-label="Profile" />
         </BottomNavigationAction>
@@ -139,7 +175,7 @@ export const SelectedState: Story = {
     <BottomNavigation value="favorites" aria-label="Main navigation">
       <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
       <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" />
-      <BottomNavigationAction value="favorites" icon={<LoveIcon />} label="Favorites" />
+      <BottomNavigationAction value="favorites" icon={<LoveIcon filled />} label="Favorites" />
       <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" />
     </BottomNavigation>
   ),
@@ -156,10 +192,14 @@ export const InformationArchitectureNav: Story = {
         hasInformationArchitectureNav
         aria-label="Main navigation"
       >
-        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
+        <BottomNavigationAction
+          value="home"
+          icon={<HomeIcon filled={value === "home"} />}
+          label="Home"
+        />
         <BottomNavigationAction
           value="notifications"
-          icon={<BellIcon />}
+          icon={<BellIcon filled={value === "notifications"} />}
           label="Notifications"
           badge={
             <Count
@@ -174,7 +214,7 @@ export const InformationArchitectureNav: Story = {
         <BottomNavigationAction value="create" icon={<AddIcon />} label="Create" />
         <BottomNavigationAction
           value="messages"
-          icon={<MessageIcon />}
+          icon={<MessageIcon filled={value === "messages"} />}
           label="Messages"
           badge={
             <Count
@@ -211,10 +251,14 @@ export const InformationArchitectureNavWithBadges: Story = {
         hasInformationArchitectureNav
         aria-label="Main navigation"
       >
-        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
+        <BottomNavigationAction
+          value="home"
+          icon={<HomeIcon filled={value === "home"} />}
+          label="Home"
+        />
         <BottomNavigationAction
           value="search"
-          icon={<SearchIcon />}
+          icon={<SearchIcon filled={value === "search"} />}
           label="Search"
           badge={
             <Count
@@ -228,7 +272,7 @@ export const InformationArchitectureNavWithBadges: Story = {
         />
         <BottomNavigationAction
           value="favorites"
-          icon={<LoveIcon />}
+          icon={<LoveIcon filled={value === "favorites"} />}
           label="Favorites"
           badge={
             <Count
@@ -242,7 +286,7 @@ export const InformationArchitectureNavWithBadges: Story = {
         />
         <BottomNavigationAction
           value="profile"
-          icon={<UserIcon />}
+          icon={<UserIcon filled={value === "profile"} />}
           label="Profile"
           badge={
             <Count
@@ -270,10 +314,14 @@ export const InformationArchitectureNavPortuguese: Story = {
         hasInformationArchitectureNav
         aria-label="Main navigation"
       >
-        <BottomNavigationAction value="home" icon={<HomeIcon />} label="Início" />
+        <BottomNavigationAction
+          value="home"
+          icon={<HomeIcon filled={value === "home"} />}
+          label="Início"
+        />
         <BottomNavigationAction
           value="notifications"
-          icon={<BellIcon />}
+          icon={<BellIcon filled={value === "notifications"} />}
           label="Notificações"
           badge={
             <Count
@@ -288,7 +336,7 @@ export const InformationArchitectureNavPortuguese: Story = {
         <BottomNavigationAction value="create" icon={<AddIcon />} label="Nova Publicação" />
         <BottomNavigationAction
           value="messages"
-          icon={<MessageIcon />}
+          icon={<MessageIcon filled={value === "messages"} />}
           label="Mensagens"
           badge={
             <Count
@@ -316,7 +364,7 @@ export const InformationArchitectureNavSelected: Story = {
     <BottomNavigation value="favorites" hasInformationArchitectureNav aria-label="Main navigation">
       <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
       <BottomNavigationAction value="search" icon={<SearchIcon />} label="Search" />
-      <BottomNavigationAction value="favorites" icon={<LoveIcon />} label="Favorites" />
+      <BottomNavigationAction value="favorites" icon={<LoveIcon filled />} label="Favorites" />
       <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" />
     </BottomNavigation>
   ),
