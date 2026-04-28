@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.12.0...ui-v2.12.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* **forms:** add focus ring to Select, TextField, TextArea, Autocomplete ([#449](https://github.com/fanvue/fanv-ui/issues/449)) ([50e2384](https://github.com/fanvue/fanv-ui/commit/50e2384ae4406a0268694c8df402f0fe82ff16b3))
+
 ## [2.12.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.11.0...ui-v2.12.0) (2026-04-26)
 
 
