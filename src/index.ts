@@ -76,6 +76,12 @@ export type {
 } from "./components/Button/Button";
 export { Button } from "./components/Button/Button";
 export type {
+  ButtonProps as ButtonV2Props,
+  ButtonSize as ButtonV2Size,
+  ButtonVariant as ButtonV2Variant,
+} from "./components/ButtonV2/Button";
+export { Button as ButtonV2 } from "./components/ButtonV2/Button";
+export type {
   CardContentProps,
   CardDescriptionProps,
   CardFooterProps,

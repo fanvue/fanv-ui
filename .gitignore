@@ -8,6 +8,9 @@ dist-ssr
 dist-showcase
 *.local
 
+# Local-only notes and scratch (not committed)
+.local/
+
 # Test coverage
 coverage
 

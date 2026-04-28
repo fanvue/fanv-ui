@@ -788,6 +788,42 @@
             "exportKey": "effect"
           }
         }
+      },
+      "aiButtonGlow": {
+        "description": "v2 Button: AI Button Glow. Three-layer drop shadow used by the AI variant.",
+        "0": {
+          "type": "custom-shadow",
+          "value": {
+            "shadowType": "dropShadow",
+            "radius": 4,
+            "color": "#49f2643d",
+            "offsetX": -1,
+            "offsetY": 1,
+            "spread": 0
+          }
+        },
+        "1": {
+          "type": "custom-shadow",
+          "value": {
+            "shadowType": "dropShadow",
+            "radius": 12,
+            "color": "#49f26429",
+            "offsetX": -4,
+            "offsetY": 4,
+            "spread": 0
+          }
+        },
+        "2": {
+          "type": "custom-shadow",
+          "value": {
+            "shadowType": "dropShadow",
+            "radius": 24,
+            "color": "#49f2640a",
+            "offsetX": -8,
+            "offsetY": 2,
+            "spread": 0
+          }
+        }
       }
     },
     "blurShadow": {
@@ -1108,6 +1144,21 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "disabled": {
+            "description": "v2 Button: Color/Content/Disabled. Foreground colour for disabled controls.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.450}"
+          },
+          "alwaysWhite": {
+            "description": "v2 Button: Color/Content/Always White. Foreground that does not flip in dark mode.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.white}"
+          },
+          "alwaysBlack": {
+            "description": "v2 Button: Color/Content/Always Black. Foreground that does not flip in dark mode.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.black}"
           }
         },
         "success": {
@@ -1912,6 +1963,136 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "primaryNegativeDefault": {
+            "description": "v2 Button: Color/Buttons/Primary/Negative/Default.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.white}"
+          },
+          "primaryNegativeHover": {
+            "description": "v2 Button: Color/Buttons/Primary/Negative/Hover.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.350}"
+          },
+          "disabledDefault": {
+            "description": "v2 Button: Color/Buttons/Disabled/Default.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.200}"
+          },
+          "disabledNegative": {
+            "description": "v2 Button: Color/Buttons/Disabled/Negative.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.800}"
+          },
+          "secondaryDefault": {
+            "description": "v2 Button: Color/Buttons/Secondary/Default.",
+            "type": "color",
+            "value": "{primitives.light.color.blackalpha.100}"
+          },
+          "secondaryNegativeDefault": {
+            "description": "v2 Button: Color/Buttons/Secondary/Negative/Default.",
+            "type": "color",
+            "value": "{primitives.light.color.whitealpha.200}"
+          },
+          "secondaryHover": {
+            "description": "v2 Button: Color/Buttons/Secondary/Hover.",
+            "type": "color",
+            "value": "{primitives.light.color.blackalpha.200}"
+          },
+          "secondaryNegativeHover": {
+            "description": "v2 Button: Color/Buttons/Secondary/Negative/Hover.",
+            "type": "color",
+            "value": "{primitives.light.color.whitealpha.300}"
+          },
+          "tertiaryHover": {
+            "description": "v2 Button: Color/Buttons/Tertiary/Hover.",
+            "type": "color",
+            "value": "{primitives.light.color.blackalpha.200}"
+          },
+          "tertiaryNegativeHover": {
+            "description": "v2 Button: Color/Buttons/Tertiary/Negative/Hover.",
+            "type": "color",
+            "value": "{primitives.light.color.whitealpha.300}"
+          },
+          "outlineDefault": {
+            "description": "v2 Button: Color/Buttons/Outline/Default.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.black}"
+          },
+          "outlineNegativeDefault": {
+            "description": "v2 Button: Color/Buttons/Outline/Negative/Default.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.white}"
+          },
+          "outlineHover": {
+            "description": "v2 Button: Color/Buttons/Outline/Hover.",
+            "type": "color",
+            "value": "{primitives.light.color.blackalpha.100}"
+          },
+          "outlineNegativeHover": {
+            "description": "v2 Button: Color/Buttons/Outline/Negative/Hover.",
+            "type": "color",
+            "value": "{primitives.light.color.whitealpha.100}"
+          },
+          "errorDefault": {
+            "description": "v2 Button: Color/Buttons/Error/Default.",
+            "type": "color",
+            "value": "{primitives.light.color.red.550}"
+          },
+          "errorHover": {
+            "description": "v2 Button: Color/Buttons/Error/Hover.",
+            "type": "color",
+            "value": "{primitives.light.color.red.650}"
+          },
+          "alwaysWhiteDefault": {
+            "description": "v2 Button: Color/Buttons/Always White/Default.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.white}"
+          },
+          "alwaysWhiteHover": {
+            "description": "v2 Button: Color/Buttons/Always White/Hover.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.350}"
+          },
+          "alwaysBlackDefault": {
+            "description": "v2 Button: Color/Buttons/Always Black/Default.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.black}"
+          },
+          "alwaysBlackHover": {
+            "description": "v2 Button: Color/Buttons/Always Black/Hover.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.600}"
+          },
+          "aiBackgroundGradientDefaultStart": {
+            "description": "v2 Button: Color/Buttons/AI/Background Gradient/Default/Start. Literal hex — no matching primitive in the existing scale.",
+            "type": "color",
+            "value": "#075f1eff"
+          },
+          "aiBackgroundGradientDefaultEnd": {
+            "description": "v2 Button: Color/Buttons/AI/Background Gradient/Default/End. Literal hex — no matching primitive in the existing scale.",
+            "type": "color",
+            "value": "#02210cff"
+          },
+          "aiBackgroundGradientHoverStart": {
+            "description": "v2 Button: Color/Buttons/AI/Background Gradient/Hover/Start. Literal hex — no matching primitive in the existing scale.",
+            "type": "color",
+            "value": "#0b8e29ff"
+          },
+          "aiBackgroundGradientHoverEnd": {
+            "description": "v2 Button: Color/Buttons/AI/Background Gradient/Hover/End. Literal hex — no matching primitive in the existing scale.",
+            "type": "color",
+            "value": "#033f15ff"
+          },
+          "aiStrokeStart": {
+            "description": "v2 Button: Color/Buttons/AI/Stroke/Start.",
+            "type": "color",
+            "value": "{primitives.light.color.green.500}"
+          },
+          "aiStrokeEnd": {
+            "description": "v2 Button: Color/Buttons/AI/Stroke/End.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.900}"
           }
         },
         "icons": {
@@ -4354,6 +4535,11 @@
               }
             }
           },
+          "550": {
+            "description": "Manually added for Color/Buttons/Error/Default. Not yet present in the Figma primitives library.",
+            "type": "color",
+            "value": "#f01932ff"
+          },
           "600": {
             "type": "color",
             "value": "#ce2d2dff",
@@ -4368,6 +4554,11 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "650": {
+            "description": "Manually added for Color/Buttons/Error/Hover. Not yet present in the Figma primitives library.",
+            "type": "color",
+            "value": "#cb102fff"
           },
           "700": {
             "type": "color",
