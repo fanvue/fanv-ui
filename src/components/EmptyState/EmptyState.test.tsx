@@ -46,6 +46,32 @@ describe("EmptyState", () => {
     expect(screen.getByRole("heading", { level: 2, name: "No media yet" })).toBeInTheDocument();
   });
 
+  it("applies the titleSize token class to the heading", () => {
+    const { container } = render(<EmptyState title="No media yet" titleSize="sm" />);
+    const heading = container.querySelector("h2");
+    expect(heading).toHaveClass("typography-bold-heading-sm");
+    expect(heading).not.toHaveClass("typography-bold-heading-lg");
+  });
+
+  it("defaults titleSize to lg (typography-bold-heading-lg)", () => {
+    const { container } = render(<EmptyState title="No media yet" />);
+    expect(container.querySelector("h2")).toHaveClass("typography-bold-heading-lg");
+  });
+
+  it("applies the correct height class for mediaSize", () => {
+    const { container } = render(
+      <EmptyState title="T" media="https://example.com/img.png" mediaSize="sm" />,
+    );
+    const wrapper = container.querySelector("[data-testid='empty-state'] > div");
+    expect(wrapper).toHaveClass("h-[160px]");
+  });
+
+  it("defaults mediaSize to lg", () => {
+    const { container } = render(<EmptyState title="T" media="https://example.com/img.png" />);
+    const wrapper = container.querySelector("[data-testid='empty-state'] > div");
+    expect(wrapper).toHaveClass("h-[280px]");
+  });
+
   it("has no serious axe violations", async () => {
     const { container } = render(
       <EmptyState

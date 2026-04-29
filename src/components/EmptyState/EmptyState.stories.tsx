@@ -18,6 +18,19 @@ const meta = {
       control: "select",
       options: ["default", "centered"],
     },
+    titleSize: {
+      control: "select",
+      options: ["xs", "sm", "md", "lg", "xl"],
+      description: "Size of the title heading — xs through xl, mapping to bold heading tokens.",
+      table: { defaultValue: { summary: "lg" } },
+    },
+    mediaSize: {
+      control: "select",
+      options: ["xs", "sm", "md", "lg", "xl"],
+      description:
+        "Height of the media container — xs: 80px, sm: 160px, md: 200px, lg: 280px, xl: 360px.",
+      table: { defaultValue: { summary: "lg" } },
+    },
   },
 } satisfies Meta<typeof EmptyState>;
 
@@ -45,6 +58,8 @@ const defaultArgs = {
 export const Default: Story = {
   args: {
     variant: "default",
+    titleSize: "lg",
+    mediaSize: "lg",
     ...defaultArgs,
   },
 };
@@ -61,5 +76,29 @@ export const WithSecondaryAction: Story = {
     variant: "default",
     ...defaultArgs,
     secondaryAction: <Button variant="secondary">Learn more</Button>,
+  },
+};
+
+export const SmallTitleSize: Story = {
+  args: {
+    variant: "default",
+    ...defaultArgs,
+    titleSize: "sm",
+  },
+};
+
+export const SmallMedia: Story = {
+  args: {
+    variant: "default",
+    ...defaultArgs,
+    mediaSize: "sm",
+  },
+};
+
+export const ExtraSmallMedia: Story = {
+  args: {
+    variant: "default",
+    ...defaultArgs,
+    mediaSize: "xs",
   },
 };
