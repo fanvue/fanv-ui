@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.13.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.12.1...ui-v2.13.0) (2026-04-29)
+
+
+### Features
+
+* **App:** add search filter to components dropdown ([#451](https://github.com/fanvue/fanv-ui/issues/451)) ([47c19bc](https://github.com/fanvue/fanv-ui/commit/47c19bca53fc849393fc58d093dd74689c53e3e2))
+
 ## [2.12.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.12.0...ui-v2.12.1) (2026-04-28)
 
 
