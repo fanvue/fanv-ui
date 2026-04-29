@@ -377,7 +377,6 @@ function TextFieldShowcase() {
       <h2 className="typography-bold-heading-sm mb-4">Text Field</h2>
       <TextField label="Size 48" placeholder="Placeholder" size="48" autoComplete="off" />
       <TextField label="Size 40" placeholder="Placeholder" size="40" autoComplete="off" />
-      <TextField label="Size 32" placeholder="Placeholder" size="32" autoComplete="off" />
       <TextField
         label="With helper"
         placeholder="Placeholder"
@@ -456,7 +455,6 @@ function PasswordFieldShowcase() {
       <h2 className="typography-bold-heading-sm mb-4">Password Field</h2>
       <PasswordField label="Size 48" placeholder="Enter password" size="48" autoComplete="off" />
       <PasswordField label="Size 40" placeholder="Enter password" size="40" autoComplete="off" />
-      <PasswordField label="Size 32" placeholder="Enter password" size="32" autoComplete="off" />
       <PasswordField
         label="With helper"
         placeholder="Enter password"
@@ -510,7 +508,6 @@ function TextAreaShowcase() {
       <div className="flex max-w-2xl flex-col gap-4">
         <TextArea label="Size 48" placeholder="Enter description..." size="48" />
         <TextArea label="Size 40" placeholder="Enter description..." size="40" />
-        <TextArea label="Size 32" placeholder="Enter description..." size="32" />
         <TextArea
           label="With helper"
           placeholder="Enter description..."
@@ -666,7 +663,6 @@ function SearchFieldShowcase() {
       <h2 className="typography-bold-heading-sm mb-4">Search Field</h2>
       <SearchField label="Size 48" placeholder="Search..." size="48" autoComplete="off" />
       <SearchField label="Size 40" placeholder="Search..." size="40" autoComplete="off" />
-      <SearchField label="Size 32" placeholder="Search..." size="32" autoComplete="off" />
       <SearchField
         label="With helper"
         placeholder="Search..."
