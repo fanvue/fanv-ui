@@ -4,6 +4,23 @@ import { Button } from "../Button/Button";
 
 export type EmptyStateVariant = "default" | "centered";
 
+export type EmptyStateTitleSize =
+  | "typography-bold-heading-xl"
+  | "typography-bold-heading-lg"
+  | "typography-bold-heading-md"
+  | "typography-bold-heading-sm"
+  | "typography-bold-heading-xs";
+
+export type EmptyStateMediaSize = "xs" | "sm" | "md" | "lg" | "xl";
+
+const mediaSizeClass: Record<EmptyStateMediaSize, string> = {
+  xs: "h-[80px]",
+  sm: "h-[160px]",
+  md: "h-[200px]",
+  lg: "h-[280px]",
+  xl: "h-[360px]",
+};
+
 /** Slot that can be plain copy (styled by `EmptyState`) or custom markup. */
 export type EmptyStateSlot = string | React.ReactNode;
 
@@ -29,6 +46,11 @@ export interface EmptyStateProps extends Omit<React.HTMLAttributes<HTMLElement>,
   variant?: EmptyStateVariant;
   /** Main heading. Strings use library heading styles; pass a node for full control. */
   title?: EmptyStateSlot;
+  /**
+   * Typography token applied to the title when it is a string or plain node.
+   * @default "typography-bold-heading-lg"
+   */
+  titleSize?: EmptyStateTitleSize;
   /** Supporting body copy. Strings use library body styles; pass a node for rich text. */
   description?: EmptyStateSlot;
   /**
@@ -36,6 +58,11 @@ export interface EmptyStateProps extends Omit<React.HTMLAttributes<HTMLElement>,
    * A string is treated as an image URL (`<img src={…}>`); pass a node for custom layout.
    */
   media?: EmptyStateSlot;
+  /**
+   * Height of the media container.
+   * @default "lg"
+   */
+  mediaSize?: EmptyStateMediaSize;
   /**
    * Primary call to action.
    * A string renders a brand `Button` with that label; pass a node for links, loading, etc.
@@ -54,8 +81,10 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       className,
       variant = "default",
       title,
+      titleSize = "typography-bold-heading-lg",
       description,
       media,
+      mediaSize = "lg",
       primaryAction,
       secondaryAction,
       ...props
@@ -95,14 +124,11 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       title === null ||
       title === false ||
       title === "" ? null : isNonEmptyString(title) ? (
-        <h2 id={titleId} className="m-0 typography-bold-heading-lg text-content-primary">
+        <h2 id={titleId} className={cn("m-0 text-content-primary", titleSize)}>
           {title}
         </h2>
       ) : (
-        <div
-          id={titleId}
-          className="typography-bold-heading-lg text-content-primary min-w-0 w-full"
-        >
+        <div id={titleId} className={cn("text-content-primary min-w-0 w-full", titleSize)}>
           {title}
         </div>
       );
@@ -150,7 +176,9 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
         {...props}
       >
         {showMedia && (
-          <div className="h-[280px] w-full overflow-hidden rounded-md">{renderedMedia}</div>
+          <div className={cn("w-full overflow-hidden rounded-md", mediaSizeClass[mediaSize])}>
+            {renderedMedia}
+          </div>
         )}
 
         <div

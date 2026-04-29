@@ -18,6 +18,26 @@ const meta = {
       control: "select",
       options: ["default", "centered"],
     },
+    titleSize: {
+      control: "select",
+      options: [
+        "typography-bold-heading-xl",
+        "typography-bold-heading-lg",
+        "typography-bold-heading-md",
+        "typography-bold-heading-sm",
+        "typography-bold-heading-xs",
+      ],
+      description:
+        "Typography token applied to the title. Defaults to `typography-bold-heading-lg`.",
+      table: { defaultValue: { summary: "typography-bold-heading-lg" } },
+    },
+    mediaSize: {
+      control: "select",
+      options: ["xs", "sm", "md", "lg", "xl"],
+      description:
+        "Height of the media container — xs: 80px, sm: 160px, md: 200px, lg: 280px, xl: 360px.",
+      table: { defaultValue: { summary: "lg" } },
+    },
   },
 } satisfies Meta<typeof EmptyState>;
 
@@ -45,6 +65,8 @@ const defaultArgs = {
 export const Default: Story = {
   args: {
     variant: "default",
+    titleSize: "typography-bold-heading-lg",
+    mediaSize: "lg",
     ...defaultArgs,
   },
 };
@@ -61,5 +83,29 @@ export const WithSecondaryAction: Story = {
     variant: "default",
     ...defaultArgs,
     secondaryAction: <Button variant="secondary">Learn more</Button>,
+  },
+};
+
+export const SmallTitleSize: Story = {
+  args: {
+    variant: "default",
+    ...defaultArgs,
+    titleSize: "typography-bold-heading-sm",
+  },
+};
+
+export const SmallMedia: Story = {
+  args: {
+    variant: "default",
+    ...defaultArgs,
+    mediaSize: "sm",
+  },
+};
+
+export const ExtraSmallMedia: Story = {
+  args: {
+    variant: "default",
+    ...defaultArgs,
+    mediaSize: "xs",
   },
 };
