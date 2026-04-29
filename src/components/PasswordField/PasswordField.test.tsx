@@ -56,9 +56,9 @@ describe("PasswordField", () => {
       expect(inputContainer).toBeInTheDocument();
     });
 
-    it("applies size 32 when specified", () => {
-      const { container } = render(<PasswordField size="32" />);
-      const inputContainer = container.querySelector('[class*="h-8"]');
+    it("applies size 40 when specified", () => {
+      const { container } = render(<PasswordField size="40" />);
+      const inputContainer = container.querySelector('[class*="h-10"]');
       expect(inputContainer).toBeInTheDocument();
     });
   });
@@ -144,7 +144,7 @@ describe("PasswordField", () => {
   describe("error state", () => {
     it("applies error state styling", () => {
       const { container } = render(<PasswordField error />);
-      const inputContainer = container.querySelector('div[class*="border-error-content"]');
+      const inputContainer = container.querySelector('div[class*="border-border-error"]');
       expect(inputContainer).toBeInTheDocument();
     });
 
