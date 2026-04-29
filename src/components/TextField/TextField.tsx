@@ -3,7 +3,7 @@ import { CheckOutlineIcon } from "@/index";
 import { cn } from "../../utils/cn";
 
 /** Text field height in pixels. */
-export type TextFieldSize = "48" | "40" | "32";
+export type TextFieldSize = "48" | "40";
 
 export interface TextFieldProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> {
@@ -30,46 +30,48 @@ export interface TextFieldProps
 const CONTAINER_HEIGHT: Record<TextFieldSize, string> = {
   "48": "h-12",
   "40": "h-10",
-  "32": "h-8",
 };
 
 const INPUT_SIZE_CLASSES: Record<TextFieldSize, string> = {
   "48": "py-3 typography-regular-body-lg autofill-body-lg",
   "40": "py-2 typography-regular-body-lg autofill-body-lg",
-  "32": "py-2 typography-regular-body-md autofill-body-md",
 };
 
 const INPUT_PL: Record<TextFieldSize, { default: string; withIcon: string }> = {
-  "48": { default: "pl-4", withIcon: "pl-10" },
+  "48": { default: "pl-4", withIcon: "pl-12" },
   "40": { default: "pl-4", withIcon: "pl-10" },
-  "32": { default: "pl-3", withIcon: "pl-9" },
 };
 
 const INPUT_PR: Record<TextFieldSize, { default: string; withIcon: string }> = {
-  "48": { default: "pr-4", withIcon: "pr-10" },
+  "48": { default: "pr-4", withIcon: "pr-12" },
   "40": { default: "pr-4", withIcon: "pr-10" },
-  "32": { default: "pr-3", withIcon: "pr-9" },
 };
 
 const ICON_INSET: Record<TextFieldSize, string> = {
   "48": "px-4",
   "40": "px-4",
-  "32": "px-3",
+};
+
+const ICON_SIZE: Record<TextFieldSize, string> = {
+  "48": "size-6",
+  "40": "size-4",
 };
 
 function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: boolean) {
   return cn(
-    "relative overflow-hidden rounded-sm border bg-neutral-alphas-50 has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
-    error ? "border-error-content" : "border-transparent",
-    !disabled && !error && "hover:border-neutral-alphas-400",
+    "relative overflow-hidden rounded-sm border bg-surface-inputs has-focus-visible:outline-none motion-safe:transition-colors",
+    disabled
+      ? "border-transparent bg-surface-inputs-off"
+      : error
+        ? "border-border-error"
+        : "border-border-primary hover:border-interaction-focus has-focus-visible:border-border-selected",
     CONTAINER_HEIGHT[size],
-    disabled && "opacity-50",
   );
 }
 
 function getInputClassName(size: TextFieldSize, hasLeftIcon: boolean, hasRightIcon: boolean) {
   return cn(
-    "h-full w-full rounded-sm bg-transparent text-content-primary no-underline placeholder:text-content-secondary focus:outline-none disabled:cursor-not-allowed",
+    "h-full w-full rounded-sm bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed disabled:text-content-disabled",
     INPUT_SIZE_CLASSES[size],
     hasLeftIcon ? INPUT_PL[size].withIcon : INPUT_PL[size].default,
     hasRightIcon ? INPUT_PR[size].withIcon : INPUT_PR[size].default,
@@ -89,8 +91,8 @@ function TextFieldHelperText({
     <p
       id={id}
       className={cn(
-        "typography-regular-body-sm px-2 pt-2 pb-0.5",
-        error ? "text-error-content" : "text-content-secondary",
+        "typography-regular-body-sm",
+        error ? "text-error-content" : "text-content-tertiary",
       )}
     >
       {children}
@@ -147,20 +149,18 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     const inputId = id || generatedId;
     const helperTextId = `${inputId}-helper`;
     const bottomText = error && errorMessage ? errorMessage : helperText;
+    const iconColor = disabled ? "text-content-disabled" : "text-content-secondary";
 
     warnMissingAccessibleName(label, props["aria-label"], props["aria-labelledby"]);
 
     return (
       <div
-        className={cn("flex flex-col", fullWidth && "w-full", className)}
+        className={cn("flex flex-col gap-2", fullWidth && "w-full", className)}
         data-disabled={disabled ? "" : undefined}
         data-error={error ? "" : undefined}
       >
         {label && (
-          <label
-            htmlFor={inputId}
-            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-content-primary"
-          >
+          <label htmlFor={inputId} className="typography-semibold-body-sm text-content-primary">
             {label}
           </label>
         )}
@@ -182,26 +182,37 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           {leftIcon && (
             <div
               className={cn(
-                "pointer-events-none absolute inset-y-0 left-0 flex items-center text-content-secondary",
+                "pointer-events-none absolute inset-y-0 left-0 flex items-center",
+                iconColor,
                 ICON_INSET[size],
               )}
             >
-              <div className="flex size-4 shrink-0 items-center justify-center">{leftIcon}</div>
+              <div className={cn("flex shrink-0 items-center justify-center", ICON_SIZE[size])}>
+                {leftIcon}
+              </div>
             </div>
           )}
 
           {(rightIcon || validated) && (
             <div
               className={cn(
-                "absolute inset-y-0 right-0 flex items-center gap-2 text-content-secondary",
+                "absolute inset-y-0 right-0 flex items-center gap-2",
+                iconColor,
                 ICON_INSET[size],
               )}
             >
               {rightIcon && (
-                <div className="flex size-4 shrink-0 items-center justify-center">{rightIcon}</div>
+                <div className={cn("flex shrink-0 items-center justify-center", ICON_SIZE[size])}>
+                  {rightIcon}
+                </div>
               )}
               {validated && (
-                <div className="pointer-events-none flex size-4 shrink-0 items-center justify-center">
+                <div
+                  className={cn(
+                    "pointer-events-none flex shrink-0 items-center justify-center",
+                    ICON_SIZE[size],
+                  )}
+                >
                   <CheckOutlineIcon className="text-success-content" />
                 </div>
               )}

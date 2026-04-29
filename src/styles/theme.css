@@ -46,6 +46,7 @@
   --color-content-tertiary: var(--primitives-color-gray-600);
   --color-content-on-brand: var(--primitives-color-gray-black);
   --color-content-on-brand-inverted: var(--primitives-color-gray-white);
+  --color-content-disabled: var(--primitives-color-gray-450);
   --color-success-surface: var(--primitives-color-emerald-green-50);
   --color-success-content: var(--primitives-color-emerald-green-700);
   --color-success-secondary: var(--primitives-color-emerald-green-300);
@@ -92,6 +93,7 @@
   --color-border-primary: var(--primitives-color-gray-150);
   --color-border-strong: var(--primitives-color-gray-300);
   --color-border-error: var(--primitives-color-red-450);
+  --color-border-selected: var(--primitives-color-gray-750);
   --color-buttons-primary: var(--primitives-color-gray-black);
   --color-buttons-primary-hover: var(--primitives-color-gray-600);
   --color-buttons-primary-muted: var(--primitives-color-gray-350);
@@ -276,6 +278,7 @@
   --color-content-tertiary: var(--primitives-color-gray-600);
   --color-content-on-brand: var(--primitives-color-gray-black);
   --color-content-on-brand-inverted: var(--primitives-color-gray-white);
+  --color-content-disabled: var(--primitives-color-gray-450);
   --color-success-surface: var(--primitives-color-emerald-green-50);
   --color-success-content: var(--primitives-color-emerald-green-700);
   --color-success-secondary: var(--primitives-color-emerald-green-300);
@@ -322,6 +325,7 @@
   --color-border-primary: var(--primitives-color-gray-150);
   --color-border-strong: var(--primitives-color-gray-300);
   --color-border-error: var(--primitives-color-red-450);
+  --color-border-selected: var(--primitives-color-gray-750);
   --color-buttons-primary: var(--primitives-color-gray-black);
   --color-buttons-primary-hover: var(--primitives-color-gray-600);
   --color-buttons-primary-muted: var(--primitives-color-gray-350);
@@ -355,6 +359,7 @@
   --color-content-tertiary: var(--primitives-color-gray-400);
   --color-content-on-brand: var(--primitives-color-gray-black);
   --color-content-on-brand-inverted: var(--primitives-color-gray-white);
+  --color-content-disabled: var(--primitives-color-gray-600);
   --color-success-surface: var(--primitives-color-emerald-green-900);
   --color-success-content: var(--primitives-color-emerald-green-600);
   --color-success-secondary: var(--primitives-color-emerald-green-700);
@@ -401,6 +406,7 @@
   --color-border-primary: var(--primitives-color-gray-800);
   --color-border-strong: var(--primitives-color-gray-700);
   --color-border-error: var(--primitives-color-red-450);
+  --color-border-selected: var(--primitives-color-gray-400);
   --color-buttons-primary: var(--primitives-color-gray-white);
   --color-buttons-primary-hover: var(--primitives-color-gray-350);
   --color-buttons-primary-muted: var(--primitives-color-gray-450);
