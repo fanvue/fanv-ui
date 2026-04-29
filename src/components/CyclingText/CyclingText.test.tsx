@@ -160,6 +160,10 @@ describe("CyclingText", () => {
   });
 
   describe("accessibility", () => {
+    beforeEach(() => {
+      vi.useRealTimers();
+    });
+
     it("has no accessibility violations", async () => {
       const { container } = render(<CyclingText items={ITEMS} />);
       const results = await axe(container);

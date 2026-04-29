@@ -71,6 +71,7 @@ import {
   Count,
   CrossIcon,
   CrownIcon,
+  CyclingText,
   Dialog,
   DialogBody,
   DialogClose,
@@ -1397,7 +1398,7 @@ function AvatarDemo() {
           <div className="relative h-28 w-56 shrink-0 overflow-visible rounded-lg border border-neutral-300">
             <div className="absolute inset-x-0 top-0 h-1/2 bg-[repeating-linear-gradient(135deg,#fca5a5_0_6px,#fde047_6px_12px)]" />
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[repeating-linear-gradient(-45deg,#93c5fd_0_6px,#86efac_6px_12px)]" />
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
               <Avatar
                 size={64}
                 src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
@@ -1409,7 +1410,7 @@ function AvatarDemo() {
           <div className="relative h-28 w-56 shrink-0 overflow-visible rounded-lg border border-neutral-300">
             <div className="absolute inset-x-0 top-0 h-1/2 bg-[repeating-linear-gradient(135deg,#fca5a5_0_6px,#fde047_6px_12px)]" />
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[repeating-linear-gradient(-45deg,#93c5fd_0_6px,#86efac_6px_12px)]" />
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
               <Avatar size={64} fallback="AB" />
             </div>
           </div>
@@ -1715,9 +1716,9 @@ function BannerDemo() {
 function EmptyStateDemo() {
   const artwork = (
     <div className="relative h-full w-full bg-surface-secondary">
-      <div className="absolute left-3 top-10 size-20 rounded-full bg-surface-primary" />
-      <div className="absolute left-20 top-6 size-36 rounded-full bg-surface-tertiary" />
-      <div className="absolute left-48 top-24 size-24 rounded-full bg-surface-primary" />
+      <div className="absolute top-10 left-3 size-20 rounded-full bg-surface-primary" />
+      <div className="absolute top-6 left-20 size-36 rounded-full bg-surface-tertiary" />
+      <div className="absolute top-24 left-48 size-24 rounded-full bg-surface-primary" />
     </div>
   );
 
@@ -1731,7 +1732,7 @@ function EmptyStateDemo() {
       <h3 className="typography-bold-heading-xs text-content-secondary">
         ReactNode slots (previous pattern)
       </h3>
-      <p className="typography-regular-body-md text-content-secondary max-w-xl">
+      <p className="typography-regular-body-md max-w-xl text-content-secondary">
         Pass elements for <code className="typography-regular-body-md">media</code>,{" "}
         <code className="typography-regular-body-md">title</code>,{" "}
         <code className="typography-regular-body-md">description</code>, and actions—for example
@@ -1765,8 +1766,8 @@ function EmptyStateDemo() {
           secondaryAction={<Button variant="secondary">Learn more</Button>}
         />
       </div>
-      <h3 className="typography-bold-heading-xs text-content-secondary mt-6">String slots</h3>
-      <p className="typography-regular-body-md text-content-secondary max-w-xl">
+      <h3 className="typography-bold-heading-xs mt-6 text-content-secondary">String slots</h3>
+      <p className="typography-regular-body-md max-w-xl text-content-secondary">
         Title, description, media URL, and action labels as strings: typography and buttons are
         applied inside <code className="typography-regular-body-md">EmptyState</code>.
       </p>
@@ -2413,6 +2414,80 @@ function CountDemo() {
       <div className="flex flex-wrap items-center gap-4">
         <Count value={150} max={99} />
         <Count value={1000} max={999} />
+      </div>
+    </div>
+  );
+}
+
+const CYCLING_TEXT_STAGES = [
+  "Thinking",
+  "Reading messages",
+  "Drafting reply",
+  "Connecting the dots",
+  "Almost there",
+];
+
+const CYCLING_TEXT_PLACEHOLDERS = [
+  "Search creators…",
+  "Find a fan…",
+  "Look up a transaction…",
+  "Browse posts…",
+];
+
+function CyclingTextFakePlaceholder() {
+  const [value, setValue] = useState("");
+  const [focused, setFocused] = useState(false);
+  const showPlaceholder = !focused && value.length === 0;
+
+  return (
+    <div className="relative w-80">
+      <input
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className="w-full rounded-md border border-border-default bg-bg-primary px-3 py-2 text-content-primary outline-none"
+      />
+      {showPlaceholder && (
+        <CyclingText
+          items={CYCLING_TEXT_PLACEHOLDERS}
+          className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-content-tertiary"
+        />
+      )}
+    </div>
+  );
+}
+
+function CyclingTextDemo() {
+  return (
+    <div id="cycling-text" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Cycling Text</h2>
+
+      <div className="flex flex-col gap-3">
+        <h3 className="typography-bold-heading-xs text-content-secondary">Standalone</h3>
+        <CyclingText items={CYCLING_TEXT_STAGES} />
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <h3 className="typography-bold-heading-xs text-content-secondary">In a status row</h3>
+        <div className="inline-flex items-center gap-2 text-content-tertiary">
+          <SpinnerIcon className="size-4 animate-spin" />
+          <CyclingText items={CYCLING_TEXT_STAGES} />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <h3 className="typography-bold-heading-xs text-content-secondary">Sized to current</h3>
+        <div className="inline-flex items-center gap-2 text-content-tertiary">
+          <SpinnerIcon className="size-4 animate-spin" />
+          <CyclingText items={CYCLING_TEXT_STAGES} sizing="current" />
+          <SpinnerIcon className="size-4 animate-spin" />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <h3 className="typography-bold-heading-xs text-content-secondary">Fake placeholder</h3>
+        <CyclingTextFakePlaceholder />
       </div>
     </div>
   );
@@ -4300,6 +4375,7 @@ function App() {
     { id: "checkbox", label: "Checkbox" },
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
+    { id: "cycling-text", label: "Cycling Text" },
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
     { id: "divider", label: "Divider" },
@@ -4496,6 +4572,9 @@ function App() {
 
             {/* Count */}
             <CountDemo />
+
+            {/* Cycling Text */}
+            <CyclingTextDemo />
 
             {/* Chip */}
             <ChipDemo />
