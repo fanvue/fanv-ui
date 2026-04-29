@@ -55,7 +55,7 @@ export const InsideAButton: Story = {
 
 export const InsideAStatusRow: Story = {
   render: (args) => (
-    <div className="text-content-tertiary inline-flex items-center gap-2">
+    <div className="inline-flex items-center gap-2 text-content-tertiary">
       <SpinnerIcon className="size-4 animate-spin" />
       <CyclingText {...args} />
     </div>
@@ -99,23 +99,18 @@ export const FakePlaceholder: Story = {
           onChange={(e) => setValue(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className="border-border-default bg-bg-primary text-content-primary w-full rounded-md border px-3 py-2 outline-none"
+          className="w-full rounded-md border border-border-default bg-bg-primary px-3 py-2 text-content-primary outline-none"
         />
         {showPlaceholder && (
           <CyclingText
             {...args}
-            className="text-content-tertiary pointer-events-none absolute inset-y-0 left-3 flex items-center"
+            className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-content-tertiary"
           />
         )}
       </div>
     );
   },
   args: {
-    items: [
-      "Search creators…",
-      "Find a fan…",
-      "Look up a transaction…",
-      "Browse posts…",
-    ],
+    items: ["Search creators…", "Find a fan…", "Look up a transaction…", "Browse posts…"],
   },
 };

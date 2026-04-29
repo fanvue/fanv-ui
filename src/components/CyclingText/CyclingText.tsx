@@ -7,8 +7,7 @@ const DEFAULT_TRANSITION_MS = 380;
 /** How the wrapper should be sized to accommodate variable-length items. */
 export type CyclingTextSizing = "longest" | "current";
 
-export interface CyclingTextProps
-  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
+export interface CyclingTextProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
   /** Strings to cycle through, in order. Cycles back to the first after the last. */
   items: readonly string[];
   /** Time each item is fully visible before the next transition starts. @default 2100 */
@@ -90,6 +89,7 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
       ...rest
     },
     ref,
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: coordinates timers, resize observation, and motion layers
   ) => {
     const reducedMotion = useReducedMotion();
     const docVisible = useDocumentVisible();
@@ -113,9 +113,8 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
     const safeIncomingIndex =
       incomingIndex === null || itemCount === 0 ? null : incomingIndex % itemCount;
 
-    const currentLabel = itemCount === 0 ? "" : items[safeCurrentIndex] ?? "";
-    const incomingLabel =
-      safeIncomingIndex === null ? null : items[safeIncomingIndex] ?? "";
+    const currentLabel = itemCount === 0 ? "" : (items[safeCurrentIndex] ?? "");
+    const incomingLabel = safeIncomingIndex === null ? null : (items[safeIncomingIndex] ?? "");
 
     // For sizing="longest", the sizing label is whichever string is longest by length.
     // For sizing="current", track the visible/incoming item to animate width.
@@ -126,7 +125,7 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
         if (item.length > longest.length) longest = item;
       }
       return longest;
-    }, [items]);
+    }, [items, itemCount]);
 
     const sizingLabel =
       sizing === "longest"
@@ -251,7 +250,7 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
           widthFrameRef.current = null;
         }
       };
-    }, [sizingLabel]);
+    }, []);
 
     if (itemCount === 0) {
       return null;
@@ -275,7 +274,8 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
       ? {}
       : { transitionDuration: `${transitionMs}ms` };
 
-    const wrapperStyle: React.CSSProperties = trackWidth !== null ? { width: `${trackWidth}px` } : {};
+    const wrapperStyle: React.CSSProperties =
+      trackWidth !== null ? { width: `${trackWidth}px` } : {};
 
     return (
       <span
@@ -293,7 +293,7 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
         <span
           ref={sizingLabelRef}
           aria-hidden="true"
-          className="pointer-events-none invisible inline-block whitespace-nowrap select-none"
+          className="pointer-events-none invisible inline-block select-none whitespace-nowrap"
         >
           {sizingLabel}
         </span>
