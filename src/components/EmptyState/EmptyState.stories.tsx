@@ -20,16 +20,9 @@ const meta = {
     },
     titleSize: {
       control: "select",
-      options: [
-        "typography-bold-heading-xl",
-        "typography-bold-heading-lg",
-        "typography-bold-heading-md",
-        "typography-bold-heading-sm",
-        "typography-bold-heading-xs",
-      ],
-      description:
-        "Typography token applied to the title. Defaults to `typography-bold-heading-lg`.",
-      table: { defaultValue: { summary: "typography-bold-heading-lg" } },
+      options: ["xs", "sm", "md", "lg", "xl"],
+      description: "Size of the title heading — xs through xl, mapping to bold heading tokens.",
+      table: { defaultValue: { summary: "lg" } },
     },
     mediaSize: {
       control: "select",
@@ -65,7 +58,7 @@ const defaultArgs = {
 export const Default: Story = {
   args: {
     variant: "default",
-    titleSize: "typography-bold-heading-lg",
+    titleSize: "lg",
     mediaSize: "lg",
     ...defaultArgs,
   },
@@ -90,7 +83,7 @@ export const SmallTitleSize: Story = {
   args: {
     variant: "default",
     ...defaultArgs,
-    titleSize: "typography-bold-heading-sm",
+    titleSize: "sm",
   },
 };
 

@@ -47,15 +47,13 @@ describe("EmptyState", () => {
   });
 
   it("applies the titleSize token class to the heading", () => {
-    const { container } = render(
-      <EmptyState title="No media yet" titleSize="typography-bold-heading-sm" />,
-    );
+    const { container } = render(<EmptyState title="No media yet" titleSize="sm" />);
     const heading = container.querySelector("h2");
     expect(heading).toHaveClass("typography-bold-heading-sm");
     expect(heading).not.toHaveClass("typography-bold-heading-lg");
   });
 
-  it("defaults titleSize to typography-bold-heading-lg", () => {
+  it("defaults titleSize to lg (typography-bold-heading-lg)", () => {
     const { container } = render(<EmptyState title="No media yet" />);
     expect(container.querySelector("h2")).toHaveClass("typography-bold-heading-lg");
   });

@@ -4,12 +4,15 @@ import { Button } from "../Button/Button";
 
 export type EmptyStateVariant = "default" | "centered";
 
-export type EmptyStateTitleSize =
-  | "typography-bold-heading-xl"
-  | "typography-bold-heading-lg"
-  | "typography-bold-heading-md"
-  | "typography-bold-heading-sm"
-  | "typography-bold-heading-xs";
+export type EmptyStateTitleSize = "xs" | "sm" | "md" | "lg" | "xl";
+
+const titleSizeClass: Record<EmptyStateTitleSize, string> = {
+  xs: "typography-bold-heading-xs",
+  sm: "typography-bold-heading-sm",
+  md: "typography-bold-heading-md",
+  lg: "typography-bold-heading-lg",
+  xl: "typography-bold-heading-xl",
+};
 
 export type EmptyStateMediaSize = "xs" | "sm" | "md" | "lg" | "xl";
 
@@ -47,8 +50,8 @@ export interface EmptyStateProps extends Omit<React.HTMLAttributes<HTMLElement>,
   /** Main heading. Strings use library heading styles; pass a node for full control. */
   title?: EmptyStateSlot;
   /**
-   * Typography token applied to the title when it is a string or plain node.
-   * @default "typography-bold-heading-lg"
+   * Size of the title heading — mapped internally to bold heading typography tokens.
+   * @default "lg"
    */
   titleSize?: EmptyStateTitleSize;
   /** Supporting body copy. Strings use library body styles; pass a node for rich text. */
@@ -81,7 +84,7 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       className,
       variant = "default",
       title,
-      titleSize = "typography-bold-heading-lg",
+      titleSize = "lg",
       description,
       media,
       mediaSize = "lg",
@@ -124,11 +127,14 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       title === null ||
       title === false ||
       title === "" ? null : isNonEmptyString(title) ? (
-        <h2 id={titleId} className={cn("m-0 text-content-primary", titleSize)}>
+        <h2 id={titleId} className={cn("m-0 text-content-primary", titleSizeClass[titleSize])}>
           {title}
         </h2>
       ) : (
-        <div id={titleId} className={cn("text-content-primary min-w-0 w-full", titleSize)}>
+        <div
+          id={titleId}
+          className={cn("text-content-primary min-w-0 w-full", titleSizeClass[titleSize])}
+        >
           {title}
         </div>
       );
