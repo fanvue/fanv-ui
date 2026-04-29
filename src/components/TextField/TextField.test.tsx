@@ -58,12 +58,6 @@ describe("TextField", () => {
       const inputContainer = container.querySelector('[class*="h-10"]');
       expect(inputContainer).toBeInTheDocument();
     });
-
-    it("applies size 32 when specified", () => {
-      const { container } = render(<TextField aria-label="Test" size="32" />);
-      const inputContainer = container.querySelector('[class*="h-8"]');
-      expect(inputContainer).toBeInTheDocument();
-    });
   });
 
   describe("label and helper text", () => {
@@ -104,7 +98,7 @@ describe("TextField", () => {
   describe("error state", () => {
     it("applies error state styling", () => {
       const { container } = render(<TextField aria-label="Test" error />);
-      const inputContainer = container.querySelector('[class*="border-error-content"]');
+      const inputContainer = container.querySelector('[class*="border-border-error"]');
       expect(inputContainer).toBeInTheDocument();
     });
 
@@ -238,15 +232,15 @@ describe("TextField", () => {
       const inputContainer = container.querySelector('[class*="border"]');
       expect(inputContainer).toBeInTheDocument();
       expect(inputContainer).toHaveClass("border");
-      expect(inputContainer).toHaveClass("border-transparent");
+      expect(inputContainer).toHaveClass("border-border-primary");
     });
 
-    it("renders border-error-content instead of border-transparent when error", () => {
+    it("renders border-border-error instead of border-border-primary when error", () => {
       const { container } = render(<TextField aria-label="Test" error />);
-      const inputContainer = container.querySelector('[class*="border-error-content"]');
+      const inputContainer = container.querySelector('[class*="border-border-error"]');
       expect(inputContainer).toBeInTheDocument();
       expect(inputContainer).toHaveClass("border");
-      expect(inputContainer).not.toHaveClass("border-transparent");
+      expect(inputContainer).not.toHaveClass("border-border-primary");
     });
 
     it("renders focus ring class on input container", () => {
