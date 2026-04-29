@@ -108,6 +108,11 @@ export type {
 } from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
 export type {
+  CyclingTextProps,
+  CyclingTextSizing,
+} from "./components/CyclingText/CyclingText";
+export { CyclingText } from "./components/CyclingText/CyclingText";
+export type {
   DialogBodyProps,
   DialogCloseProps,
   DialogContentProps,
