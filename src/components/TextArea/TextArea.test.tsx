@@ -172,8 +172,8 @@ describe("TextArea", () => {
       expect(textarea).toHaveClass("py-2");
     });
 
-    it('applies correct classes for size="32"', () => {
-      render(<TextArea label="Test" size="32" />);
+    it('applies correct classes for size="40" (duplicate check)', () => {
+      render(<TextArea label="Test" size="40" />);
       const textarea = screen.getByRole("textbox");
       expect(textarea).toHaveClass("py-2");
     });
@@ -228,11 +228,11 @@ describe("TextArea", () => {
       expect(textarea).toHaveAttribute("style", "max-height: 208px;");
     });
 
-    it("calculates maxHeight correctly for size 32", () => {
-      render(<TextArea label="Test" maxRows={6} size="32" />);
+    it("calculates maxHeight correctly for size 40 (alt rows)", () => {
+      render(<TextArea label="Test" maxRows={6} size="40" />);
       const textarea = screen.getByRole("textbox");
-      // size 32: line-height 20px * 6 rows + padding 8px * 2 = 136px
-      expect(textarea).toHaveAttribute("style", "max-height: 136px;");
+      // size 40: line-height 24px * 6 rows + padding 8px * 2 = 160px
+      expect(textarea).toHaveAttribute("style", "max-height: 160px;");
     });
 
     it("does not apply style when maxRows is not provided", () => {
