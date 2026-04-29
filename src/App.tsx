@@ -4279,6 +4279,7 @@ function CardDemo() {
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
+  const [tocFilter, setTocFilter] = useState("");
 
   React.useEffect(() => {
     document.body.classList.toggle("dark", dark);
@@ -4349,6 +4350,7 @@ function App() {
         behavior: "smooth",
       });
       setTocOpen(false);
+      setTocFilter("");
     }
   };
 
@@ -4361,7 +4363,10 @@ function App() {
             <Button
               variant="secondary"
               size="40"
-              onClick={() => setTocOpen((prev) => !prev)}
+              onClick={() => {
+                setTocOpen((prev) => !prev);
+                setTocFilter("");
+              }}
               aria-label="Toggle table of contents"
               leftIcon={<HomeIcon />}
               rightIcon={
@@ -4376,21 +4381,34 @@ function App() {
               <>
                 <div
                   className="fixed inset-0 z-60"
-                  onClick={() => setTocOpen(false)}
+                  onClick={() => {
+                    setTocOpen(false);
+                    setTocFilter("");
+                  }}
                   aria-hidden="true"
                 />
                 <div className="absolute top-full left-0 z-70 mt-2 max-h-[calc(100vh-100px)] w-64 overflow-y-auto rounded-xs border border-neutral-alphas-200 bg-surface-primary shadow-lg">
                   <div className="p-2">
-                    {sections.map((section) => (
-                      <button
-                        key={section.id}
-                        type="button"
-                        onClick={() => scrollToSection(section.id)}
-                        className="typography-semibold-body-md w-full rounded px-3 py-2 text-left text-content-primary hover:bg-neutral-alphas-100"
-                      >
-                        {section.label}
-                      </button>
-                    ))}
+                    <input
+                      ref={(el) => el?.focus()}
+                      type="text"
+                      value={tocFilter}
+                      onChange={(e) => setTocFilter(e.target.value)}
+                      placeholder="Filter components..."
+                      className="typography-regular-body-md mb-2 w-full rounded-sm border border-neutral-alphas-200 bg-transparent px-3 py-2 text-content-primary placeholder:text-content-secondary focus:outline-none"
+                    />
+                    {sections
+                      .filter((s) => s.label.toLowerCase().includes(tocFilter.toLowerCase()))
+                      .map((section) => (
+                        <button
+                          key={section.id}
+                          type="button"
+                          onClick={() => scrollToSection(section.id)}
+                          className="typography-semibold-body-md w-full rounded px-3 py-2 text-left text-content-primary hover:bg-neutral-alphas-100"
+                        >
+                          {section.label}
+                        </button>
+                      ))}
                   </div>
                 </div>
               </>
