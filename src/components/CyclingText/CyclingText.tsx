@@ -2,7 +2,9 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 
 const DEFAULT_INTERVAL_MS = 2100;
-const DEFAULT_TRANSITION_MS = 380;
+const DEFAULT_TRANSITION_MS = 200;
+
+const SLIDE_OFFSET = "1.15em";
 
 /** How the wrapper should be sized to accommodate variable-length items. */
 export type CyclingTextSizing = "longest" | "current";
@@ -12,7 +14,7 @@ export interface CyclingTextProps extends Omit<React.HTMLAttributes<HTMLSpanElem
   items: readonly string[];
   /** Time each item is fully visible before the next transition starts. @default 2100 */
   intervalMs?: number;
-  /** Slide animation duration. @default 380 */
+  /** Slide and cross-fade duration in milliseconds. @default 200 */
   transitionMs?: number;
   /** Direction the outgoing item slides. @default "up" */
   direction?: "up" | "down";
@@ -256,23 +258,44 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
       return null;
     }
 
-    const outgoingTranslate = direction === "up" ? "-translate-y-[105%]" : "translate-y-[105%]";
-    const incomingStartTranslate =
-      direction === "up" ? "translate-y-[105%]" : "-translate-y-[105%]";
+    const incomingOpacityEase = "cubic-bezier(0.72, 0, 0.92, 1)";
+    const incomingTransformEase = "cubic-bezier(0.42, 0, 0.58, 1)";
+    const outgoingOpacityEase = "cubic-bezier(0.42, 0, 1, 1)";
+    const outgoingTransformEase = "cubic-bezier(0.22, 1, 0.36, 1)";
 
-    // Static Tailwind classes only — duration is applied via inline style so
-    // arbitrary transitionMs values don't have to be pre-emitted by the JIT.
-    const motionClasses = reducedMotion
-      ? ""
-      : "transition-transform ease-[cubic-bezier(0.22,1,0.36,1)]";
+    const outgoingMotionStyle: React.CSSProperties = {
+      opacity: transitioning ? 0 : 1,
+      transform:
+        direction === "up"
+          ? transitioning
+            ? `translateY(-${SLIDE_OFFSET})`
+            : "translateY(0)"
+          : transitioning
+            ? `translateY(${SLIDE_OFFSET})`
+            : "translateY(0)",
+      transitionProperty: "opacity, transform",
+      transitionDuration: transitioning ? `${transitionMs}ms, ${transitionMs}ms` : "0ms, 0ms",
+      transitionTimingFunction: transitioning
+        ? `${outgoingOpacityEase}, ${outgoingTransformEase}`
+        : "linear, linear",
+    };
 
-    const labelStyle: React.CSSProperties = reducedMotion
-      ? {}
-      : { transitionDuration: transitioning ? `${transitionMs}ms` : "0ms" };
-
-    const incomingStyle: React.CSSProperties = reducedMotion
-      ? {}
-      : { transitionDuration: `${transitionMs}ms` };
+    const incomingMotionStyle: React.CSSProperties = {
+      opacity: incomingEntered ? 1 : 0,
+      transform:
+        direction === "up"
+          ? incomingEntered
+            ? "translateY(0)"
+            : `translateY(${SLIDE_OFFSET})`
+          : incomingEntered
+            ? "translateY(0)"
+            : `translateY(-${SLIDE_OFFSET})`,
+      transitionProperty: "opacity, transform",
+      transitionDuration: incomingEntered ? `${transitionMs}ms, ${transitionMs}ms` : "0ms, 0ms",
+      transitionTimingFunction: incomingEntered
+        ? `${incomingOpacityEase}, ${incomingTransformEase}`
+        : "linear, linear",
+    };
 
     const wrapperStyle: React.CSSProperties =
       trackWidth !== null ? { width: `${trackWidth}px` } : {};
@@ -298,32 +321,26 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
           {sizingLabel}
         </span>
 
-        {/* Current (visible) item — slides out when transitioning. */}
+        {/* Current (visible) item — slides up and fades out when transitioning. */}
         <span
           aria-live="polite"
           aria-atomic="true"
           className={cn(
             "absolute inset-0 whitespace-nowrap",
-            motionClasses,
-            transitioning && !reducedMotion ? outgoingTranslate : "translate-y-0",
+            reducedMotion && "translate-y-0 opacity-100",
             labelClassName,
           )}
-          style={labelStyle}
+          style={reducedMotion ? undefined : outgoingMotionStyle}
         >
           {currentLabel}
         </span>
 
-        {/* Incoming item — only mounted during the transition. */}
+        {/* Incoming item — slides up from below and fades in. */}
         {incomingLabel !== null && !reducedMotion && (
           <span
             aria-hidden="true"
-            className={cn(
-              "absolute inset-0 whitespace-nowrap",
-              motionClasses,
-              incomingEntered ? "translate-y-0" : incomingStartTranslate,
-              labelClassName,
-            )}
-            style={incomingStyle}
+            className={cn("absolute inset-0 whitespace-nowrap", labelClassName)}
+            style={incomingMotionStyle}
           >
             {incomingLabel}
           </span>

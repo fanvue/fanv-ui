@@ -94,7 +94,6 @@ describe("CyclingText", () => {
       });
       expect(getIncomingLabel()?.textContent).toBe("Beta");
 
-      // Finish the slide — incoming becomes current.
       act(() => {
         vi.advanceTimersByTime(200);
       });
@@ -105,15 +104,12 @@ describe("CyclingText", () => {
     it("wraps back to the first item after the last", () => {
       render(<CyclingText items={ITEMS} intervalMs={500} transitionMs={100} />);
 
-      // Alpha -> Beta
       act(() => vi.advanceTimersByTime(600));
       expect(getVisibleLabel().textContent).toBe("Beta");
 
-      // Beta -> Gamma
       act(() => vi.advanceTimersByTime(600));
       expect(getVisibleLabel().textContent).toBe("Gamma");
 
-      // Gamma -> Alpha (wrap)
       act(() => vi.advanceTimersByTime(600));
       expect(getVisibleLabel().textContent).toBe("Alpha");
     });

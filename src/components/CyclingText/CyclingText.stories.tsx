@@ -9,6 +9,10 @@ const meta = {
   component: CyclingText,
   parameters: {
     layout: "centered",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=18117-70537&t=aDs0f0yBBCb6keGl-1",
+    },
   },
   tags: ["autodocs"],
   argTypes: {
