@@ -578,6 +578,9 @@ function TextAreaShowcase() {
 function ChatInputShowcase() {
   const [value, setValue] = useState("");
   const [model, setModel] = useState("fanvue-ai");
+  const [chatAttachments, setChatAttachments] = useState<
+    { id: string; src: string; name: string }[]
+  >([]);
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
@@ -639,6 +642,26 @@ function ChatInputShowcase() {
           selectValue={model}
           onSelectChange={setModel}
           name="chat-full"
+          autoComplete="off"
+        />
+        <ChatInput
+          placeholder="Attachments inside input"
+          showFileButton
+          onFileClick={() =>
+            setChatAttachments((prev) => [
+              ...prev,
+              {
+                id: crypto.randomUUID(),
+                src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=128&h=128&fit=crop",
+                name: "Attachment",
+              },
+            ])
+          }
+          attachments={chatAttachments}
+          onAttachmentRemove={(id) =>
+            setChatAttachments((prev) => prev.filter((item) => item.id !== id))
+          }
+          name="chat-attachments"
           autoComplete="off"
         />
         <ChatInput
