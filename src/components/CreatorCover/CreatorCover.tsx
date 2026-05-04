@@ -30,6 +30,10 @@ export interface CreatorCoverProps extends Omit<React.HTMLAttributes<HTMLElement
    * A string renders a full-width white {@link Button} with that label; pass a node for links, loading, etc.
    */
   action?: CreatorCoverSlot;
+  /** When `true`, removes the `rounded-xl` border radius from the container. @default false */
+  square?: boolean;
+  /** When `true`, fades the bottom of the component to transparent and increases bottom padding to 64px. @default false */
+  fadeBottom?: boolean;
 }
 
 /**
@@ -50,7 +54,19 @@ export interface CreatorCoverProps extends Omit<React.HTMLAttributes<HTMLElement
  */
 export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
   (
-    { className, imageSrc, imageAlt = "", backgroundSrc, name, tagline, tag, action, ...props },
+    {
+      className,
+      imageSrc,
+      imageAlt = "",
+      backgroundSrc,
+      name,
+      tagline,
+      tag,
+      action,
+      square = false,
+      fadeBottom = false,
+      ...props
+    },
     ref,
   ) => {
     const headingId = React.useId();
@@ -77,7 +93,8 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
         aria-labelledby={headingId}
         data-testid="creator-cover"
         className={cn(
-          "relative isolate w-full overflow-hidden rounded-xl bg-surface-primary",
+          "relative isolate w-full overflow-hidden bg-white dark:bg-bg-primary",
+          !square && "rounded-xl",
           className,
         )}
         {...props}
@@ -89,9 +106,17 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
             decoding="async"
             className="size-full scale-110 object-cover blur-3xl"
           />
-          <div className="absolute inset-0 bg-linear-to-b from-black/30 to-black/15" />
+          <div className="absolute inset-0 bg-linear-to-b from-white/30 dark:from-bg-primary/30 to-white/15 dark:to-bg-primary/15" />
+          {fadeBottom && (
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-b from-transparent to-white dark:to-bg-primary" />
+          )}
         </div>
-        <div className="flex flex-col items-center gap-4 px-4 pt-17 pb-4">
+        <div
+          className={cn(
+            "mx-auto flex max-w-90 flex-col items-center gap-4 px-4 pt-17",
+            fadeBottom ? "pb-16" : "pb-4",
+          )}
+        >
           <div className="relative">
             <img
               src={imageSrc}

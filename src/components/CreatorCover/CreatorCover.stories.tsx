@@ -28,7 +28,7 @@ const sampleImage =
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=900&fit=crop";
 
 const wrapperDecorator = (Story: () => React.ReactElement) => (
-  <div className="w-98.25">
+  <div className="w-120">
     <Story />
   </div>
 );
@@ -91,4 +91,27 @@ export const CustomActionNode: Story = {
     ),
   },
   decorators: [wrapperDecorator],
+};
+
+export const FadeBottom: Story = {
+  args: {
+    ...defaultArgs,
+    fadeBottom: true,
+    square: true,
+  },
+  parameters: {
+    chromatic: {
+      modes: {
+        light: { theme: "light" },
+        dark: { theme: "dark" },
+      },
+    },
+  },
+  decorators: [
+    (Story: () => React.ReactElement) => (
+      <div className="w-200">
+        <Story />
+      </div>
+    ),
+  ],
 };
