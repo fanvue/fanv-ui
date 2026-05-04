@@ -106,7 +106,7 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
             decoding="async"
             className="size-full scale-110 object-cover blur-3xl"
           />
-          <div className="absolute inset-0 bg-linear-to-b from-white/30 dark:from-bg-primary/30 to-white/15 dark:to-bg-primary/15" />
+          <div className="absolute inset-0 bg-linear-to-b from-white/30 to-white/15 dark:from-bg-primary/30 dark:to-bg-primary/15" />
           {fadeBottom && (
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-b from-transparent to-white dark:to-bg-primary" />
           )}
