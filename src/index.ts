@@ -108,6 +108,11 @@ export type {
 } from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
 export type {
+  CreatorCoverProps,
+  CreatorCoverSlot,
+} from "./components/CreatorCover/CreatorCover";
+export { CreatorCover } from "./components/CreatorCover/CreatorCover";
+export type {
   DialogBodyProps,
   DialogCloseProps,
   DialogContentProps,
