@@ -1,0 +1,136 @@
+import * as React from "react";
+import { cn } from "../../utils/cn";
+import { Avatar, type AvatarProps } from "../Avatar/Avatar";
+
+/** Border-radius preset for the card. */
+export type CreatorCardRounded = "none" | "xs" | "sm" | "md" | "lg" | "xl";
+
+const ROUNDED_CLASSES: Record<CreatorCardRounded, string> = {
+  none: "rounded-none",
+  xs: "rounded-xs",
+  sm: "rounded-sm",
+  md: "rounded-md",
+  lg: "rounded-lg",
+  xl: "rounded-xl",
+};
+
+export interface CreatorCardProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** URL of the background media (image or video poster). */
+  imageSrc: string;
+  /** Alt text for the background image. @default "" */
+  imageAlt?: string;
+  /** Creator display name shown as the heading. */
+  name: string;
+  /** Optional secondary line shown below the name (e.g. role or tagline). */
+  description?: string;
+  /** URL of the avatar image. */
+  avatarSrc?: string;
+  /** Alt text for the avatar image. @default name */
+  avatarAlt?: string;
+  /** Fallback content rendered when the avatar image has not loaded (e.g. initials). */
+  avatarFallback?: React.ReactNode;
+  /** Additional props forwarded to the inner {@link Avatar}. */
+  avatarProps?: Omit<AvatarProps, "src" | "alt" | "fallback" | "size">;
+  /**
+   * Action buttons rendered at the bottom of the card. Pass zero, one, or two
+   * `Button` elements to render variants with no, one, or two CTAs.
+   */
+  actions?: React.ReactNode;
+  /** Border-radius preset for the card corners. @default "lg" */
+  rounded?: CreatorCardRounded;
+}
+
+/**
+ * A portrait media card highlighting a creator with avatar, name, optional
+ * tagline, and up to two stacked action buttons over a background image.
+ *
+ * Pass zero, one, or two {@link Button} elements via `actions` to render the
+ * no-button, single-button, or two-button variants.
+ *
+ * @example
+ * ```tsx
+ * <CreatorCard
+ *   imageSrc="/creator.jpg"
+ *   name="Jane Doe"
+ *   description="MODEL & PODCASTER"
+ *   avatarSrc="/avatar.jpg"
+ *   avatarFallback="JD"
+ *   rounded="lg"
+ *   actions={
+ *     <>
+ *       <Button variant="brand" fullWidth>Join for free for 3 days</Button>
+ *       <Button variant="primary" fullWidth>Follow for Free</Button>
+ *     </>
+ *   }
+ * />
+ * ```
+ */
+export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
+  (
+    {
+      className,
+      imageSrc,
+      imageAlt = "",
+      name,
+      description,
+      avatarSrc,
+      avatarAlt,
+      avatarFallback,
+      avatarProps,
+      actions,
+      rounded = "lg",
+      ...props
+    },
+    ref,
+  ) => {
+    const roundedClass = ROUNDED_CLASSES[rounded];
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "relative isolate flex aspect-290/450 w-72 flex-col justify-end overflow-hidden bg-bg-primary",
+          roundedClass,
+          className,
+        )}
+        {...props}
+      >
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          className="absolute inset-0 size-full object-cover"
+          aria-hidden={imageAlt === "" ? true : undefined}
+        />
+        <div
+          className={cn(
+            "pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-bg-primary via-bg-primary/90 to-transparent",
+            actions ? "h-3/5" : "h-1/3",
+          )}
+          aria-hidden="true"
+        />
+        <div className="relative flex flex-col gap-4 p-4">
+          <div className="flex items-center gap-4">
+            <Avatar
+              size={48}
+              src={avatarSrc}
+              alt={avatarAlt ?? name}
+              fallback={avatarFallback}
+              {...avatarProps}
+            />
+            <div className="min-w-0 flex-1">
+              <p className="typography-bold-heading-sm truncate text-content-primary">{name}</p>
+              {description && (
+                <p className="typography-semibold-body-sm truncate text-content-secondary dark:text-brand-primary-default">
+                  {description}
+                </p>
+              )}
+            </div>
+          </div>
+          {actions && <div className="flex flex-col gap-2">{actions}</div>}
+        </div>
+      </div>
+    );
+  },
+);
+
+CreatorCard.displayName = "CreatorCard";

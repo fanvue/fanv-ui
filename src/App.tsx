@@ -69,6 +69,7 @@ import {
   CompassIcon,
   CopyIcon,
   Count,
+  CreatorCard,
   CrossIcon,
   CrownIcon,
   Dialog,
@@ -4276,6 +4277,81 @@ function CardDemo() {
   );
 }
 
+function CreatorCardDemo() {
+  const imageSrc =
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=580&h=900&fit=crop";
+  const avatarSrc =
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+
+  return (
+    <div id="creator-card" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Creator Card</h2>
+
+      <h3 className="typography-semibold-body-lg">Button variants</h3>
+      <div className="flex flex-wrap items-start gap-6">
+        <CreatorCard
+          imageSrc={imageSrc}
+          name="Jane Doe"
+          description="MODEL & PODCASTER"
+          avatarSrc={avatarSrc}
+          avatarFallback="JD"
+          actions={
+            <>
+              <Button variant="brand" size="32" fullWidth>
+                Join for free for 3 days
+              </Button>
+              <Button variant="primary" size="32" fullWidth>
+                Follow for Free
+              </Button>
+            </>
+          }
+        />
+        <CreatorCard
+          imageSrc={imageSrc}
+          name="Jane Doe"
+          description="MODEL & PODCASTER"
+          avatarSrc={avatarSrc}
+          avatarFallback="JD"
+          actions={
+            <Button variant="brand" size="32" fullWidth>
+              Follow for Free
+            </Button>
+          }
+        />
+        <CreatorCard
+          imageSrc={imageSrc}
+          name="Jane Doe"
+          description="MODEL & PODCASTER"
+          avatarSrc={avatarSrc}
+          avatarFallback="JD"
+        />
+      </div>
+
+      <h3 className="typography-semibold-body-lg mt-4">Rounded sizes</h3>
+      <div className="flex flex-wrap items-start gap-6">
+        {(["none", "xs", "sm", "md", "lg", "xl"] as const).map((rounded) => (
+          <div key={rounded} className="flex flex-col items-center gap-2">
+            <CreatorCard
+              imageSrc={imageSrc}
+              name="Jane Doe"
+              description="MODEL & PODCASTER"
+              avatarSrc={avatarSrc}
+              avatarFallback="JD"
+              rounded={rounded}
+              actions={
+                <Button variant="brand" size="32" fullWidth>
+                  Follow for Free
+                </Button>
+              }
+            />
+            <p className="typography-regular-body-sm text-content-secondary">{rounded}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -4300,6 +4376,7 @@ function App() {
     { id: "checkbox", label: "Checkbox" },
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
+    { id: "creator-card", label: "Creator Card" },
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
     { id: "divider", label: "Divider" },
@@ -4560,6 +4637,9 @@ function App() {
 
             {/* Card */}
             <CardDemo />
+
+            {/* Creator Card */}
+            <CreatorCardDemo />
 
             {/* Toast */}
             <ToastDemo />
