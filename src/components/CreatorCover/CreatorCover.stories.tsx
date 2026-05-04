@@ -97,7 +97,6 @@ export const FadeBottom: Story = {
   args: {
     ...defaultArgs,
     fadeBottom: true,
-    square: true,
   },
   parameters: {
     chromatic: {
