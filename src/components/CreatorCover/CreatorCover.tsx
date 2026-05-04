@@ -56,7 +56,7 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
     const headingId = React.useId();
 
     const renderedTag = isNonEmptyString(tag) ? (
-      <span className="typography-semibold-body-sm inline-flex items-center justify-center whitespace-nowrap rounded-full bg-brand-primary-default px-3 py-2 text-content-primary">
+      <span className="typography-semibold-body-sm inline-flex items-center justify-center whitespace-nowrap rounded-full bg-brand-primary-default px-3 py-2 text-content-on-brand">
         {tag}
       </span>
     ) : (
@@ -77,7 +77,7 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
         aria-labelledby={headingId}
         data-testid="creator-cover"
         className={cn(
-          "relative isolate w-full overflow-hidden rounded-xl bg-surface-primary-inverted",
+          "relative isolate w-full overflow-hidden rounded-xl bg-surface-primary",
           className,
         )}
         {...props}
@@ -91,7 +91,6 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
           />
           <div className="absolute inset-0 bg-linear-to-b from-black/30 to-black/15" />
         </div>
-
         <div className="flex flex-col items-center gap-4 px-4 pt-17 pb-4">
           <div className="relative">
             <img
@@ -106,7 +105,6 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
               </div>
             ) : null}
           </div>
-
           <div className="flex flex-col items-center gap-1 pt-4 text-center">
             <h2 id={headingId} className="typography-bold-heading-md m-0 text-white">
               {name}

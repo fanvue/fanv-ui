@@ -11,6 +11,12 @@ const meta = {
       type: "figma",
       url: "https://www.figma.com/design/Iq9ctjP7rhIKI3PGSbduNL/Fanvue-Exploration?node-id=2379-75729&m=dev",
     },
+    chromatic: {
+      modes: {
+        light: { theme: "light" },
+        dark: { theme: "dark" },
+      },
+    },
   },
   tags: ["autodocs"],
 } satisfies Meta<typeof CreatorCover>;
@@ -22,7 +28,7 @@ const sampleImage =
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=900&fit=crop";
 
 const wrapperDecorator = (Story: () => React.ReactElement) => (
-  <div className="w-[393px]">
+  <div className="w-98.25">
     <Story />
   </div>
 );
