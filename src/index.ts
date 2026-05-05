@@ -114,9 +114,9 @@ export { Count } from "./components/Count/Count";
 export type {
   CreatorTileAspectRatio,
   CreatorTileProps,
-  CreatorTileRadius,
 } from "./components/CreatorTile/CreatorTile";
 export { CreatorTile } from "./components/CreatorTile/CreatorTile";
+export type {
   CyclingTextProps,
   CyclingTextSizing,
 } from "./components/CyclingText/CyclingText";

@@ -16,10 +16,6 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    radius: {
-      control: "select",
-      options: ["none", "xs", "sm", "md", "lg", "xl"],
-    },
     aspectRatio: {
       control: "select",
       options: ["tall", "medium", "short"],
@@ -57,32 +53,6 @@ export const WithoutTagline: Story = {
   ),
 };
 
-export const RadiusScale: Story = {
-  args: {
-    imageSrc: SAMPLE_IMAGE,
-    imageAlt: "Portrait of a creator",
-    name: "JANE DOE",
-  },
-  render: () => (
-    <div className="flex flex-wrap items-start gap-4">
-      {(["none", "xs", "sm", "md", "lg", "xl"] as const).map((radius) => (
-        <div key={radius} className="flex w-[180px] flex-col gap-2">
-          <CreatorTile
-            imageSrc={SAMPLE_IMAGE}
-            imageAlt="Portrait of a creator"
-            name="JANE DOE"
-            tagline={`RADIUS ${radius.toUpperCase()}`}
-            radius={radius}
-          />
-          <p className="typography-regular-body-sm text-content-secondary">
-            radius=&quot;{radius}&quot;
-          </p>
-        </div>
-      ))}
-    </div>
-  ),
-};
-
 export const AspectRatios: Story = {
   args: {
     imageSrc: SAMPLE_IMAGE,
@@ -105,21 +75,6 @@ export const AspectRatios: Story = {
           </p>
         </div>
       ))}
-    </div>
-  ),
-};
-
-export const NoRoundedEdges: Story = {
-  args: {
-    imageSrc: SAMPLE_IMAGE,
-    imageAlt: "Portrait of a creator",
-    name: "JANE DOE",
-    tagline: "SHARP CORNERS",
-    radius: "none",
-  },
-  render: (args) => (
-    <div className="w-[239px]">
-      <CreatorTile {...args} />
     </div>
   ),
 };

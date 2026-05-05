@@ -66,27 +66,6 @@ describe("CreatorTile", () => {
     });
   });
 
-  describe("radius", () => {
-    it("uses lg rounding by default", () => {
-      render(<CreatorTile data-testid="tile" imageSrc={SAMPLE_IMAGE} name="JANE DOE" />);
-      expect(screen.getByTestId("tile")).toHaveClass("rounded-lg");
-    });
-
-    it.each(["xs", "sm", "md", "lg", "xl"] as const)("supports %s rounding", (radius) => {
-      render(
-        <CreatorTile data-testid="tile" imageSrc={SAMPLE_IMAGE} name="JANE DOE" radius={radius} />,
-      );
-      expect(screen.getByTestId("tile")).toHaveClass(`rounded-${radius}`);
-    });
-
-    it("supports no rounded edges via `none`", () => {
-      render(
-        <CreatorTile data-testid="tile" imageSrc={SAMPLE_IMAGE} name="JANE DOE" radius="none" />,
-      );
-      expect(screen.getByTestId("tile")).toHaveClass("rounded-none");
-    });
-  });
-
   describe("aspectRatio", () => {
     it("uses medium (2/3) ratio by default", () => {
       render(<CreatorTile data-testid="tile" imageSrc={SAMPLE_IMAGE} name="JANE DOE" />);

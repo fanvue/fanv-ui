@@ -4377,24 +4377,6 @@ function CreatorTileDemo() {
         />
       </div>
 
-      <h3 className="typography-semibold-body-lg mt-4">Radius scale</h3>
-      <div className="flex flex-wrap items-start gap-4">
-        {(["none", "xs", "sm", "md", "lg", "xl"] as const).map((radius) => (
-          <div key={radius} className="flex w-[180px] flex-col gap-2">
-            <CreatorTile
-              imageSrc={sampleImage}
-              imageAlt="Portrait of a creator"
-              name="JANE DOE"
-              tagline={`RADIUS ${radius.toUpperCase()}`}
-              radius={radius}
-            />
-            <p className="typography-regular-body-sm text-content-secondary">
-              radius=&quot;{radius}&quot;
-            </p>
-          </div>
-        ))}
-      </div>
-
       <h3 className="typography-semibold-body-lg mt-4">Aspect ratio</h3>
       <div className="flex flex-wrap items-start gap-4">
         {(["tall", "medium", "short"] as const).map((aspectRatio) => (

@@ -1,18 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
-/** Corner radius preset for the tile. `none` removes all rounding. */
-export type CreatorTileRadius = "none" | "xs" | "sm" | "md" | "lg" | "xl";
-
-const RADIUS_CLASSES: Record<CreatorTileRadius, string> = {
-  none: "rounded-none",
-  xs: "rounded-xs",
-  sm: "rounded-sm",
-  md: "rounded-md",
-  lg: "rounded-lg",
-  xl: "rounded-xl",
-};
-
 /** Width-to-height ratio preset for the tile. */
 export type CreatorTileAspectRatio = "tall" | "medium" | "short";
 
@@ -31,11 +19,6 @@ export interface CreatorTileProps extends React.HTMLAttributes<HTMLDivElement> {
   name: React.ReactNode;
   /** Short tagline shown under the name in the brand accent color. */
   tagline?: React.ReactNode;
-  /**
-   * Corner radius preset. Pass `none` for sharp corners.
-   * @default "lg"
-   */
-  radius?: CreatorTileRadius;
   /**
    * Width-to-height ratio preset.
    *
@@ -66,19 +49,9 @@ export interface CreatorTileProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export const CreatorTile = React.forwardRef<HTMLDivElement, CreatorTileProps>(
   (
-    {
-      className,
-      imageSrc,
-      imageAlt = "",
-      name,
-      tagline,
-      radius = "lg",
-      aspectRatio = "medium",
-      ...props
-    },
+    { className, imageSrc, imageAlt = "", name, tagline, aspectRatio = "medium", ...props },
     ref,
   ) => {
-    const radiusClass = RADIUS_CLASSES[radius];
     const aspectClass = ASPECT_RATIO_CLASSES[aspectRatio];
 
     return (
@@ -87,7 +60,6 @@ export const CreatorTile = React.forwardRef<HTMLDivElement, CreatorTileProps>(
         className={cn(
           "relative isolate flex w-full flex-col justify-end overflow-hidden",
           aspectClass,
-          radiusClass,
           className,
         )}
         {...props}
@@ -95,13 +67,10 @@ export const CreatorTile = React.forwardRef<HTMLDivElement, CreatorTileProps>(
         <img
           src={imageSrc}
           alt={imageAlt}
-          decoding="async"
+          loading="lazy"
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 -z-10 bg-linear-to-b from-64% from-transparent to-black/40"
-        />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-linear-to-b from-64% from-transparent to-black/40" />
         <div className="flex flex-col gap-1 px-6 pb-6">
           <p className="m-0 font-black text-4xl text-white leading-none tracking-tight">{name}</p>
           {tagline ? (
