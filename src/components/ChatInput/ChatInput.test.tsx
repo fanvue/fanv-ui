@@ -199,6 +199,85 @@ describe("ChatInput", () => {
     });
   });
 
+  describe("attachment previews", () => {
+    it("renders attachment preview slot inside the container", () => {
+      render(
+        <ChatInput
+          placeholder="Test"
+          attachmentPreviews={<div data-testid="attachment-slot">Preview</div>}
+        />,
+      );
+      expect(screen.getByTestId("attachment-slot")).toHaveTextContent("Preview");
+    });
+
+    it("fires remove handler from content inside attachment previews", async () => {
+      const user = userEvent.setup();
+      const handleRemove = vi.fn();
+      render(
+        <ChatInput
+          placeholder="Test"
+          attachmentPreviews={
+            <button type="button" aria-label="Remove attachment" onClick={handleRemove}>
+              Remove
+            </button>
+          }
+        />,
+      );
+      await user.click(screen.getByLabelText("Remove attachment"));
+      expect(handleRemove).toHaveBeenCalledTimes(1);
+    });
+
+    it("renders built-in thumbnails when attachments are provided", () => {
+      const { container } = render(
+        <ChatInput
+          placeholder="Test"
+          attachments={[{ id: "x", src: "https://example.com/a.png", ariaLabel: "One" }]}
+          onAttachmentRemove={() => {}}
+        />,
+      );
+      const img = container.querySelector("img");
+      expect(img).toBeTruthy();
+      expect(img).toHaveAttribute("src", "https://example.com/a.png");
+    });
+
+    it("calls onAttachmentRemove when a built-in remove control is used", async () => {
+      const user = userEvent.setup();
+      const handleRemove = vi.fn();
+      render(
+        <ChatInput
+          placeholder="Test"
+          attachments={[{ id: "x", src: "https://example.com/a.png", ariaLabel: "One" }]}
+          onAttachmentRemove={handleRemove}
+        />,
+      );
+      await user.click(screen.getByLabelText("Remove One"));
+      expect(handleRemove).toHaveBeenCalledWith("x");
+    });
+
+    it("disables built-in remove controls when onAttachmentRemove is omitted", () => {
+      render(
+        <ChatInput
+          placeholder="Test"
+          attachments={[{ id: "x", src: "https://example.com/a.png" }]}
+        />,
+      );
+      expect(screen.getByLabelText("Remove attachment")).toBeDisabled();
+    });
+
+    it("prefers attachmentPreviews over attachments when attachmentPreviews is defined", () => {
+      render(
+        <ChatInput
+          placeholder="Test"
+          attachments={[{ id: "x", src: "https://example.com/a.png" }]}
+          onAttachmentRemove={() => {}}
+          attachmentPreviews={<div data-testid="custom-strip">Custom</div>}
+        />,
+      );
+      expect(screen.getByTestId("custom-strip")).toBeInTheDocument();
+      expect(screen.queryByLabelText("Remove attachment")).not.toBeInTheDocument();
+    });
+  });
+
   describe("inline select", () => {
     it("renders the selected option label", () => {
       render(
@@ -337,6 +416,41 @@ describe("ChatInput", () => {
           placeholder="Type a message..."
           selectOptions={MODEL_OPTIONS}
           selectValue="fanvue-ai"
+        />,
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations (with attachment previews)", async () => {
+      const { container } = render(
+        <ChatInput
+          placeholder="Type a message..."
+          attachmentPreviews={
+            <div
+              role="img"
+              aria-label="Sample attachment"
+              className="size-16 shrink-0 rounded-lg bg-neutral-alphas-100"
+            />
+          }
+        />,
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations (with default attachments)", async () => {
+      const { container } = render(
+        <ChatInput
+          placeholder="Type a message..."
+          attachments={[
+            {
+              id: "a",
+              src: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+              ariaLabel: "Sample",
+            },
+          ]}
+          onAttachmentRemove={() => {}}
         />,
       );
       const results = await axe(container);

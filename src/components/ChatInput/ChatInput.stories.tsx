@@ -103,6 +103,92 @@ export const WithFileButtonAndModelSelector: Story = {
   },
 };
 
+export const WithAttachments: Story = {
+  render: () => {
+    const [attachments, setAttachments] = useState<
+      { id: string; src: string; ariaLabel: string }[]
+    >([
+      {
+        id: "a",
+        src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=128&h=128&fit=crop",
+        ariaLabel: "Attachment preview one",
+      },
+      {
+        id: "b",
+        src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=128&h=128&fit=crop",
+        ariaLabel: "Attachment preview two",
+      },
+    ]);
+
+    return (
+      <ChatInput
+        placeholder="Type a message..."
+        showFileButton
+        onFileClick={() =>
+          setAttachments((prev) => [
+            ...prev,
+            {
+              id: crypto.randomUUID(),
+              src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=128&h=128&fit=crop",
+              ariaLabel: "New attachment",
+            },
+          ])
+        }
+        attachments={attachments}
+        onAttachmentRemove={(id) => setAttachments((prev) => prev.filter((x) => x.id !== id))}
+      />
+    );
+  },
+};
+
+export const WithAttachmentsAndModelSelector: Story = {
+  render: () => {
+    const [model, setModel] = useState("fanvue-ai");
+    const [attachments, setAttachments] = useState<
+      { id: string; src: string; ariaLabel: string }[]
+    >([
+      {
+        id: "a",
+        src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=128&h=128&fit=crop",
+        ariaLabel: "Attachment preview one",
+      },
+    ]);
+
+    return (
+      <ChatInput
+        placeholder="Type a message..."
+        showFileButton
+        onFileClick={() =>
+          setAttachments((prev) => [
+            ...prev,
+            {
+              id: crypto.randomUUID(),
+              src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=128&h=128&fit=crop",
+              ariaLabel: "New attachment",
+            },
+          ])
+        }
+        attachments={attachments}
+        onAttachmentRemove={(id) => setAttachments((prev) => prev.filter((x) => x.id !== id))}
+        selectOptions={SELECT_OPTIONS}
+        selectValue={model}
+        onSelectChange={setModel}
+      />
+    );
+  },
+};
+
+export const WithCustomAttachmentPreviews: Story = {
+  args: {
+    placeholder: "Type a message...",
+    attachmentPreviews: (
+      <div className="typography-regular-body-md shrink-0 rounded-sm border border-dashed border-border-primary px-3 py-2 text-content-secondary">
+        Custom preview slot
+      </div>
+    ),
+  },
+};
+
 export const WithCustomToolbarRight: Story = {
   args: {
     placeholder: "Type a message...",
