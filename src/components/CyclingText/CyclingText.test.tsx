@@ -5,29 +5,11 @@ import { CyclingText } from "./CyclingText";
 
 const ITEMS = ["Alpha", "Beta", "Gamma"];
 
-const installMatchMedia = (matches: boolean) => {
-  Object.defineProperty(window, "matchMedia", {
-    writable: true,
-    configurable: true,
-    value: () =>
-      ({
-        matches,
-        media: "(prefers-reduced-motion: reduce)",
-        onchange: null,
-        addEventListener: () => undefined,
-        removeEventListener: () => undefined,
-        dispatchEvent: () => false,
-        addListener: () => undefined,
-        removeListener: () => undefined,
-      }) as unknown as MediaQueryList,
-  });
-};
-
 const getVisibleLabel = () => {
   const root = screen.getByTestId("cycling-text");
-  const live = root.querySelector('[aria-live="polite"]');
-  if (!live) throw new Error("No visible label found");
-  return live;
+  const layer = root.querySelector('[data-layer="current"]');
+  if (!layer) throw new Error("No visible label found");
+  return layer;
 };
 
 const getSizingLabel = () => {
@@ -39,15 +21,13 @@ const getSizingLabel = () => {
 
 const getIncomingLabel = () => {
   const root = screen.getByTestId("cycling-text");
-  // Two aria-hidden spans during a transition — the second is the incoming layer.
-  const hidden = root.querySelectorAll('[aria-hidden="true"]');
-  return hidden.length > 1 ? hidden[1] : null;
+  const incoming = root.querySelector('[data-layer="incoming"]');
+  return incoming;
 };
 
 describe("CyclingText", () => {
   beforeEach(() => {
     vi.useFakeTimers();
-    installMatchMedia(false);
   });
 
   afterEach(() => {
@@ -55,7 +35,7 @@ describe("CyclingText", () => {
   });
 
   describe("API", () => {
-    it("renders the first item initially in the live layer", () => {
+    it("renders the first item initially in the current layer", () => {
       render(<CyclingText items={ITEMS} />);
       expect(getVisibleLabel().textContent).toBe("Alpha");
     });
@@ -88,7 +68,6 @@ describe("CyclingText", () => {
 
       expect(getVisibleLabel().textContent).toBe("Alpha");
 
-      // Tick: incoming is mounted with the next item; current is still the old one.
       act(() => {
         vi.advanceTimersByTime(1000);
       });
@@ -104,13 +83,16 @@ describe("CyclingText", () => {
     it("wraps back to the first item after the last", () => {
       render(<CyclingText items={ITEMS} intervalMs={500} transitionMs={100} />);
 
-      act(() => vi.advanceTimersByTime(600));
+      act(() => vi.advanceTimersByTime(500));
+      act(() => vi.advanceTimersByTime(100));
       expect(getVisibleLabel().textContent).toBe("Beta");
 
-      act(() => vi.advanceTimersByTime(600));
+      act(() => vi.advanceTimersByTime(500));
+      act(() => vi.advanceTimersByTime(100));
       expect(getVisibleLabel().textContent).toBe("Gamma");
 
-      act(() => vi.advanceTimersByTime(600));
+      act(() => vi.advanceTimersByTime(500));
+      act(() => vi.advanceTimersByTime(100));
       expect(getVisibleLabel().textContent).toBe("Alpha");
     });
 
@@ -133,23 +115,32 @@ describe("CyclingText", () => {
     });
 
     it("cleans up timers on unmount", () => {
-      const clearIntervalSpy = vi.spyOn(globalThis, "clearInterval");
+      const clearTimeoutSpy = vi.spyOn(globalThis, "clearTimeout");
       const { unmount } = render(<CyclingText items={ITEMS} intervalMs={500} />);
       unmount();
-      expect(clearIntervalSpy).toHaveBeenCalled();
-      clearIntervalSpy.mockRestore();
+      expect(clearTimeoutSpy).toHaveBeenCalled();
+      clearTimeoutSpy.mockRestore();
     });
-  });
 
-  describe("reduced motion", () => {
-    it("hard-swaps items with no incoming layer when prefers-reduced-motion is set", () => {
-      installMatchMedia(true);
+    it("completes a transition step without relying on matchMedia", () => {
       render(<CyclingText items={ITEMS} intervalMs={500} transitionMs={200} />);
 
-      act(() => {
-        vi.advanceTimersByTime(500);
-      });
+      act(() => vi.advanceTimersByTime(500));
+      act(() => vi.advanceTimersByTime(200));
+      expect(getVisibleLabel().textContent).toBe("Beta");
+      expect(getIncomingLabel()).toBeNull();
+    });
 
+    it("does not queue a second tick while a long transition is still running", () => {
+      render(<CyclingText items={ITEMS} intervalMs={1000} transitionMs={4000} />);
+
+      act(() => vi.advanceTimersByTime(1000));
+      expect(getIncomingLabel()?.textContent).toBe("Beta");
+
+      act(() => vi.advanceTimersByTime(1000));
+      expect(getIncomingLabel()?.textContent).toBe("Beta");
+
+      act(() => vi.advanceTimersByTime(3000));
       expect(getVisibleLabel().textContent).toBe("Beta");
       expect(getIncomingLabel()).toBeNull();
     });
@@ -166,9 +157,18 @@ describe("CyclingText", () => {
       expect(results).toHaveNoViolations();
     });
 
-    it("marks the sizing layer as aria-hidden and the visible layer as aria-live", () => {
+    it("marks the sizing layer as aria-hidden", () => {
       render(<CyclingText items={ITEMS} />);
       expect(getSizingLabel()).toHaveAttribute("aria-hidden", "true");
+    });
+
+    it("does not set aria-live by default", () => {
+      render(<CyclingText items={ITEMS} />);
+      expect(getVisibleLabel()).not.toHaveAttribute("aria-live");
+    });
+
+    it("sets aria-live polite when announceChanges is true", () => {
+      render(<CyclingText items={ITEMS} announceChanges />);
       expect(getVisibleLabel()).toHaveAttribute("aria-live", "polite");
     });
   });

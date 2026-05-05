@@ -1,10 +1,14 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { useCyclingCycle } from "./useCyclingCycle";
+import { useCyclingTextTrackWidth } from "./useCyclingTextTrackWidth";
+import { usePageVisibility } from "./usePageVisibility";
+import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 const DEFAULT_INTERVAL_MS = 2100;
 const DEFAULT_TRANSITION_MS = 200;
 
-const SLIDE_OFFSET = "1.15em";
+const SLIDE_OFFSET_PX = 18;
 
 /** How the wrapper should be sized to accommodate variable-length items. */
 export type CyclingTextSizing = "longest" | "current";
@@ -12,7 +16,10 @@ export type CyclingTextSizing = "longest" | "current";
 export interface CyclingTextProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
   /** Strings to cycle through, in order. Cycles back to the first after the last. */
   items: readonly string[];
-  /** Time each item is fully visible before the next transition starts. @default 2100 */
+  /**
+   * Milliseconds to wait after the previous transition finishes before starting the next one.
+   * @default 2100
+   */
   intervalMs?: number;
   /** Slide and cross-fade duration in milliseconds. @default 200 */
   transitionMs?: number;
@@ -28,44 +35,17 @@ export interface CyclingTextProps extends Omit<React.HTMLAttributes<HTMLSpanElem
    */
   sizing?: CyclingTextSizing;
   /**
+   * When `true`, updates are exposed to assistive technologies via `aria-live="polite"`.
+   * Leave `false` for decorative or frequently changing copy so screen readers are not interrupted on every cycle.
+   * @default false
+   */
+  announceChanges?: boolean;
+  /**
    * Class applied to each visible label span (current + incoming). Use this for
    * effects that have to sit on the text element itself, e.g. `background-clip: text`.
    */
   labelClassName?: string;
 }
-
-const useReducedMotion = () => {
-  const [reduced, setReduced] = React.useState(false);
-
-  React.useEffect(() => {
-    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
-      return;
-    }
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setReduced(e.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-
-  return reduced;
-};
-
-const useDocumentVisible = () => {
-  const [visible, setVisible] = React.useState(true);
-
-  React.useEffect(() => {
-    if (typeof document === "undefined") {
-      return;
-    }
-    const update = () => setVisible(!document.hidden);
-    update();
-    document.addEventListener("visibilitychange", update);
-    return () => document.removeEventListener("visibilitychange", update);
-  }, []);
-
-  return visible;
-};
 
 /**
  * Cycles through a list of strings with a slide-in/slide-out animation. Lives
@@ -88,217 +68,57 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
       sizing = "longest",
       className,
       labelClassName,
+      announceChanges = false,
       ...rest
     },
     ref,
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: coordinates timers, resize observation, and motion layers
   ) => {
-    const reducedMotion = useReducedMotion();
-    const docVisible = useDocumentVisible();
-
-    const [currentIndex, setCurrentIndex] = React.useState(0);
-    const [incomingIndex, setIncomingIndex] = React.useState<number | null>(null);
-    const [incomingEntered, setIncomingEntered] = React.useState(false);
-    const [transitioning, setTransitioning] = React.useState(false);
-
-    const currentIndexRef = React.useRef(0);
-    const intervalIdRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
-    const swapTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-    const enterFrameRef = React.useRef<ReturnType<typeof requestAnimationFrame> | null>(null);
-    const widthFrameRef = React.useRef<ReturnType<typeof requestAnimationFrame> | null>(null);
-
-    const sizingLabelRef = React.useRef<HTMLSpanElement | null>(null);
-    const [trackWidth, setTrackWidth] = React.useState<number | null>(null);
+    const docVisible = usePageVisibility();
+    const reducedMotion = usePrefersReducedMotion();
+    const { sizingLabelRef, trackWidth } = useCyclingTextTrackWidth();
+    const { cycle, currentLabel, incomingLabel, sizingLabel, onOutgoingTransitionEnd } =
+      useCyclingCycle(items, sizing, intervalMs, paused, docVisible, transitionMs);
 
     const itemCount = items.length;
-    const safeCurrentIndex = itemCount === 0 ? 0 : currentIndex % itemCount;
-    const safeIncomingIndex =
-      incomingIndex === null || itemCount === 0 ? null : incomingIndex % itemCount;
 
-    const currentLabel = itemCount === 0 ? "" : (items[safeCurrentIndex] ?? "");
-    const incomingLabel = safeIncomingIndex === null ? null : (items[safeIncomingIndex] ?? "");
-
-    // For sizing="longest", the sizing label is whichever string is longest by length.
-    // For sizing="current", track the visible/incoming item to animate width.
-    const longestItem = React.useMemo(() => {
-      if (itemCount === 0) return "";
-      let longest = items[0] ?? "";
-      for (const item of items) {
-        if (item.length > longest.length) longest = item;
-      }
-      return longest;
-    }, [items, itemCount]);
-
-    const sizingLabel =
-      sizing === "longest"
-        ? longestItem
-        : incomingLabel && incomingLabel.length > currentLabel.length
-          ? incomingLabel
-          : currentLabel;
-
-    // Reset to a valid index if items shrink underneath us.
-    React.useEffect(() => {
-      if (itemCount === 0) return;
-      if (currentIndexRef.current >= itemCount) {
-        currentIndexRef.current = 0;
-        setCurrentIndex(0);
-        setIncomingIndex(null);
-        setIncomingEntered(false);
-        setTransitioning(false);
-      }
-    }, [itemCount]);
-
-    const clearTimers = React.useCallback(() => {
-      if (intervalIdRef.current !== null) {
-        clearInterval(intervalIdRef.current);
-        intervalIdRef.current = null;
-      }
-      if (swapTimeoutRef.current !== null) {
-        clearTimeout(swapTimeoutRef.current);
-        swapTimeoutRef.current = null;
-      }
-      if (enterFrameRef.current !== null) {
-        cancelAnimationFrame(enterFrameRef.current);
-        enterFrameRef.current = null;
-      }
-    }, []);
-
-    const shouldCycle = !paused && docVisible && itemCount > 1;
-
-    React.useEffect(() => {
-      if (!shouldCycle) {
-        return;
-      }
-
-      intervalIdRef.current = setInterval(() => {
-        const next = (currentIndexRef.current + 1) % itemCount;
-        setIncomingIndex(next);
-        setIncomingEntered(false);
-        setTransitioning(true);
-
-        if (reducedMotion) {
-          // Hard swap — no slide.
-          currentIndexRef.current = next;
-          setCurrentIndex(next);
-          setTransitioning(false);
-          setIncomingIndex(null);
-          setIncomingEntered(false);
-          return;
-        }
-
-        if (enterFrameRef.current !== null) {
-          cancelAnimationFrame(enterFrameRef.current);
-        }
-        enterFrameRef.current = requestAnimationFrame(() => {
-          setIncomingEntered(true);
-          enterFrameRef.current = null;
-        });
-
-        if (swapTimeoutRef.current !== null) {
-          clearTimeout(swapTimeoutRef.current);
-        }
-        swapTimeoutRef.current = setTimeout(() => {
-          currentIndexRef.current = next;
-          setCurrentIndex(next);
-          setTransitioning(false);
-          setIncomingEntered(false);
-          setIncomingIndex(null);
-          swapTimeoutRef.current = null;
-        }, transitionMs);
-      }, intervalMs);
-
-      return clearTimers;
-    }, [shouldCycle, itemCount, intervalMs, transitionMs, reducedMotion, clearTimers]);
-
-    // Cancel any in-flight transition when paused mid-animation.
-    React.useEffect(() => {
-      if (paused) {
-        clearTimers();
-        setIncomingIndex(null);
-        setIncomingEntered(false);
-        setTransitioning(false);
-      }
-    }, [paused, clearTimers]);
-
-    React.useEffect(() => clearTimers, [clearTimers]);
-
-    // Width tracking via ResizeObserver — handles font load + parent resize.
-    React.useEffect(() => {
-      const node = sizingLabelRef.current;
-      if (!node) return;
-
-      const measure = () => {
-        const next = Math.ceil(node.getBoundingClientRect().width);
-        if (!next) return;
-        if (widthFrameRef.current !== null) {
-          cancelAnimationFrame(widthFrameRef.current);
-        }
-        widthFrameRef.current = requestAnimationFrame(() => {
-          setTrackWidth(next);
-          widthFrameRef.current = null;
-        });
+    const outgoingMotionStyle = React.useMemo((): React.CSSProperties => {
+      const durMs = reducedMotion ? 0 : transitionMs;
+      const exiting = cycle.transitioning;
+      const yExit = direction === "up" ? -SLIDE_OFFSET_PX : SLIDE_OFFSET_PX;
+      return {
+        opacity: exiting ? 0 : 1,
+        transform: exiting ? `translate3d(0, ${yExit}px, 0)` : "translate3d(0, 0, 0)",
+        transition:
+          exiting && durMs > 0
+            ? `opacity ${durMs}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${durMs}ms cubic-bezier(0.4, 0, 0.2, 1)`
+            : "none",
       };
+    }, [cycle.transitioning, direction, transitionMs, reducedMotion]);
 
-      measure();
-
-      if (typeof ResizeObserver === "undefined") return;
-      const observer = new ResizeObserver(measure);
-      observer.observe(node);
-
-      return () => {
-        observer.disconnect();
-        if (widthFrameRef.current !== null) {
-          cancelAnimationFrame(widthFrameRef.current);
-          widthFrameRef.current = null;
-        }
+    const incomingMotionStyle = React.useMemo((): React.CSSProperties => {
+      const durMs = reducedMotion ? 0 : transitionMs;
+      const entered = cycle.incomingEntered;
+      const yEnter = direction === "up" ? SLIDE_OFFSET_PX : -SLIDE_OFFSET_PX;
+      return {
+        opacity: entered ? 1 : 0,
+        transform: entered ? "translate3d(0, 0, 0)" : `translate3d(0, ${yEnter}px, 0)`,
+        transition:
+          durMs > 0
+            ? `opacity ${durMs}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${durMs}ms cubic-bezier(0.4, 0, 0.2, 1)`
+            : "none",
       };
-    }, []);
+    }, [cycle.incomingEntered, direction, transitionMs, reducedMotion]);
 
     if (itemCount === 0) {
       return null;
     }
 
-    const incomingOpacityEase = "cubic-bezier(0.72, 0, 0.92, 1)";
-    const incomingTransformEase = "cubic-bezier(0.42, 0, 0.58, 1)";
-    const outgoingOpacityEase = "cubic-bezier(0.42, 0, 1, 1)";
-    const outgoingTransformEase = "cubic-bezier(0.22, 1, 0.36, 1)";
+    const wrapperStyle = {
+      ...(trackWidth !== null ? { width: `${trackWidth}px` } : {}),
+      // paddingTop: SLIDE_OFFSET_PX,
+    } as React.CSSProperties;
 
-    const outgoingMotionStyle: React.CSSProperties = {
-      opacity: transitioning ? 0 : 1,
-      transform:
-        direction === "up"
-          ? transitioning
-            ? `translateY(-${SLIDE_OFFSET})`
-            : "translateY(0)"
-          : transitioning
-            ? `translateY(${SLIDE_OFFSET})`
-            : "translateY(0)",
-      transitionProperty: "opacity, transform",
-      transitionDuration: transitioning ? `${transitionMs}ms, ${transitionMs}ms` : "0ms, 0ms",
-      transitionTimingFunction: transitioning
-        ? `${outgoingOpacityEase}, ${outgoingTransformEase}`
-        : "linear, linear",
-    };
-
-    const incomingMotionStyle: React.CSSProperties = {
-      opacity: incomingEntered ? 1 : 0,
-      transform:
-        direction === "up"
-          ? incomingEntered
-            ? "translateY(0)"
-            : `translateY(${SLIDE_OFFSET})`
-          : incomingEntered
-            ? "translateY(0)"
-            : `translateY(-${SLIDE_OFFSET})`,
-      transitionProperty: "opacity, transform",
-      transitionDuration: incomingEntered ? `${transitionMs}ms, ${transitionMs}ms` : "0ms, 0ms",
-      transitionTimingFunction: incomingEntered
-        ? `${incomingOpacityEase}, ${incomingTransformEase}`
-        : "linear, linear",
-    };
-
-    const wrapperStyle: React.CSSProperties =
-      trackWidth !== null ? { width: `${trackWidth}px` } : {};
+    const showIncoming = incomingLabel !== null && cycle.transitioning;
 
     return (
       <span
@@ -306,45 +126,50 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
         data-testid="cycling-text"
         data-paused={paused ? "true" : undefined}
         className={cn(
-          "relative inline-block overflow-hidden transition-[width] duration-300 ease-out",
+          "relative inline-flex items-center overflow-hidden align-middle leading-[inherit]",
+          "motion-safe:transition-[width] motion-safe:duration-300 motion-safe:ease-out",
           className,
         )}
         style={wrapperStyle}
         {...rest}
       >
-        {/* Sizing layer — invisible, sets natural width of the wrapper. */}
         <span
           ref={sizingLabelRef}
           aria-hidden="true"
-          className="pointer-events-none invisible inline-block select-none whitespace-nowrap"
+          className="pointer-events-none invisible inline-block select-none whitespace-nowrap leading-[inherit]"
         >
           {sizingLabel}
         </span>
 
-        {/* Current (visible) item — slides up and fades out when transitioning. */}
         <span
-          aria-live="polite"
-          aria-atomic="true"
+          data-layer="current"
+          aria-live={announceChanges ? "polite" : undefined}
+          aria-atomic={announceChanges ? true : undefined}
+          data-state={cycle.transitioning ? "exit" : "idle"}
+          onTransitionEnd={onOutgoingTransitionEnd}
           className={cn(
-            "absolute inset-0 whitespace-nowrap",
-            reducedMotion && "translate-y-0 opacity-100",
+            "absolute inset-0 flex items-center whitespace-nowrap leading-[inherit]",
             labelClassName,
           )}
-          style={reducedMotion ? undefined : outgoingMotionStyle}
+          style={outgoingMotionStyle}
         >
           {currentLabel}
         </span>
 
-        {/* Incoming item — slides up from below and fades in. */}
-        {incomingLabel !== null && !reducedMotion && (
+        {showIncoming ? (
           <span
             aria-hidden="true"
-            className={cn("absolute inset-0 whitespace-nowrap", labelClassName)}
+            data-layer="incoming"
+            data-state={cycle.incomingEntered ? "idle" : "enter"}
+            className={cn(
+              "absolute inset-0 flex items-center whitespace-nowrap leading-[inherit]",
+              labelClassName,
+            )}
             style={incomingMotionStyle}
           >
             {incomingLabel}
           </span>
-        )}
+        ) : null}
       </span>
     );
   },

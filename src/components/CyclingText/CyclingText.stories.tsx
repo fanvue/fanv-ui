@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
 import { Button } from "../Button/Button";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
 import { CyclingText } from "./CyclingText";
@@ -21,6 +20,7 @@ const meta = {
     intervalMs: { control: { type: "number", min: 200, step: 100 } },
     transitionMs: { control: { type: "number", min: 0, step: 20 } },
     paused: { control: "boolean" },
+    announceChanges: { control: "boolean" },
   },
 } satisfies Meta<typeof CyclingText>;
 
@@ -91,29 +91,11 @@ export const Paused: Story = {
 };
 
 export const FakePlaceholder: Story = {
-  render: (args) => {
-    const [value, setValue] = useState("");
-    const [focused, setFocused] = useState(false);
-    const showPlaceholder = !focused && value.length === 0;
-
-    return (
-      <div className="relative w-80">
-        <input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          className="w-full rounded-md border border-border-default bg-bg-primary px-3 py-2 text-content-primary outline-none"
-        />
-        {showPlaceholder && (
-          <CyclingText
-            {...args}
-            className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-content-tertiary"
-          />
-        )}
-      </div>
-    );
-  },
+  render: (args) => (
+    <div className="w-80 rounded-md border border-border-default bg-bg-primary px-3 py-2 text-content-tertiary">
+      <CyclingText {...args} />
+    </div>
+  ),
   args: {
     items: ["Search creators…", "Find a fan…", "Look up a transaction…", "Browse posts…"],
   },

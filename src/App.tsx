@@ -2435,25 +2435,9 @@ const CYCLING_TEXT_PLACEHOLDERS = [
 ];
 
 function CyclingTextFakePlaceholder() {
-  const [value, setValue] = useState("");
-  const [focused, setFocused] = useState(false);
-  const showPlaceholder = !focused && value.length === 0;
-
   return (
-    <div className="relative w-80">
-      <input
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        className="w-full rounded-md border border-border-default bg-bg-primary px-3 py-2 text-content-primary outline-none"
-      />
-      {showPlaceholder && (
-        <CyclingText
-          items={CYCLING_TEXT_PLACEHOLDERS}
-          className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-content-tertiary"
-        />
-      )}
+    <div className="w-80 rounded-md border border-border-default bg-bg-primary px-3 py-2 text-content-tertiary">
+      <CyclingText items={CYCLING_TEXT_PLACEHOLDERS} />
     </div>
   );
 }
@@ -2463,29 +2447,29 @@ function CyclingTextDemo() {
     <div id="cycling-text" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-bold-heading-sm mb-4">Cycling Text</h2>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
         <h3 className="typography-bold-heading-xs text-content-secondary">Standalone</h3>
         <CyclingText items={CYCLING_TEXT_STAGES} />
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
         <h3 className="typography-bold-heading-xs text-content-secondary">In a status row</h3>
         <div className="inline-flex items-center gap-2 text-content-tertiary">
-          <SpinnerIcon className="size-4 animate-spin" />
+          <SpinnerIcon className="size-6 animate-spin" />
           <CyclingText items={CYCLING_TEXT_STAGES} />
         </div>
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
         <h3 className="typography-bold-heading-xs text-content-secondary">Sized to current</h3>
         <div className="inline-flex items-center gap-2 text-content-tertiary">
-          <SpinnerIcon className="size-4 animate-spin" />
+          <SpinnerIcon className="size-6 animate-spin" />
           <CyclingText items={CYCLING_TEXT_STAGES} sizing="current" />
-          <SpinnerIcon className="size-4 animate-spin" />
+          <SpinnerIcon className="size-6 animate-spin" />
         </div>
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
         <h3 className="typography-bold-heading-xs text-content-secondary">Fake placeholder</h3>
         <CyclingTextFakePlaceholder />
       </div>
