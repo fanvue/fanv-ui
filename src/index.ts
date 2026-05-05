@@ -92,7 +92,11 @@ export {
   CardHeader,
   CardTitle,
 } from "./components/Card/Card";
-export type { ChatInputProps, ChatInputSelectOption } from "./components/ChatInput/ChatInput";
+export type {
+  ChatInputAttachmentItem,
+  ChatInputProps,
+  ChatInputSelectOption,
+} from "./components/ChatInput/ChatInput";
 export { ChatInput } from "./components/ChatInput/ChatInput";
 export type {
   CheckboxProps,
@@ -113,6 +117,10 @@ export type {
   CreatorTileRadius,
 } from "./components/CreatorTile/CreatorTile";
 export { CreatorTile } from "./components/CreatorTile/CreatorTile";
+  CyclingTextProps,
+  CyclingTextSizing,
+} from "./components/CyclingText/CyclingText";
+export { CyclingText } from "./components/CyclingText/CyclingText";
 export type {
   DialogBodyProps,
   DialogCloseProps,
