@@ -108,6 +108,12 @@ export type {
 } from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
 export type {
+  CreatorTileAspectRatio,
+  CreatorTileProps,
+  CreatorTileRadius,
+} from "./components/CreatorTile/CreatorTile";
+export { CreatorTile } from "./components/CreatorTile/CreatorTile";
+export type {
   DialogBodyProps,
   DialogCloseProps,
   DialogContentProps,

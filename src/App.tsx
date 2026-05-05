@@ -69,6 +69,7 @@ import {
   CompassIcon,
   CopyIcon,
   Count,
+  CreatorTile,
   CrossIcon,
   CrownIcon,
   Dialog,
@@ -4276,6 +4277,63 @@ function CardDemo() {
   );
 }
 
+function CreatorTileDemo() {
+  const sampleImage =
+    "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=480&h=720&fit=crop";
+
+  return (
+    <div id="creator-tile" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Creator Tile</h2>
+
+      <h3 className="typography-semibold-body-lg">Default</h3>
+      <div className="w-[239px]">
+        <CreatorTile
+          imageSrc={sampleImage}
+          imageAlt="Portrait of a creator"
+          name="JANE DOE"
+          tagline="GLOBAL MUSIC ICON"
+        />
+      </div>
+
+      <h3 className="typography-semibold-body-lg mt-4">Radius scale</h3>
+      <div className="flex flex-wrap items-start gap-4">
+        {(["none", "xs", "sm", "md", "lg", "xl"] as const).map((radius) => (
+          <div key={radius} className="flex w-[180px] flex-col gap-2">
+            <CreatorTile
+              imageSrc={sampleImage}
+              imageAlt="Portrait of a creator"
+              name="JANE DOE"
+              tagline={`RADIUS ${radius.toUpperCase()}`}
+              radius={radius}
+            />
+            <p className="typography-regular-body-sm text-content-secondary">
+              radius=&quot;{radius}&quot;
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <h3 className="typography-semibold-body-lg mt-4">Aspect ratio</h3>
+      <div className="flex flex-wrap items-start gap-4">
+        {(["tall", "medium", "short"] as const).map((aspectRatio) => (
+          <div key={aspectRatio} className="flex w-[200px] flex-col gap-2">
+            <CreatorTile
+              imageSrc={sampleImage}
+              imageAlt="Portrait of a creator"
+              name="JANE DOE"
+              tagline={aspectRatio.toUpperCase()}
+              aspectRatio={aspectRatio}
+            />
+            <p className="typography-regular-body-sm text-content-secondary">
+              aspectRatio=&quot;{aspectRatio}&quot;
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -4300,6 +4358,7 @@ function App() {
     { id: "checkbox", label: "Checkbox" },
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
+    { id: "creator-tile", label: "Creator Tile" },
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
     { id: "divider", label: "Divider" },
@@ -4560,6 +4619,9 @@ function App() {
 
             {/* Card */}
             <CardDemo />
+
+            {/* Creator Tile */}
+            <CreatorTileDemo />
 
             {/* Toast */}
             <ToastDemo />
