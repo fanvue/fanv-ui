@@ -105,16 +105,18 @@ export const WithFileButtonAndModelSelector: Story = {
 
 export const WithAttachments: Story = {
   render: () => {
-    const [attachments, setAttachments] = useState<{ id: string; src: string; name: string }[]>([
+    const [attachments, setAttachments] = useState<
+      { id: string; src: string; ariaLabel: string }[]
+    >([
       {
         id: "a",
         src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=128&h=128&fit=crop",
-        name: "Attachment preview one",
+        ariaLabel: "Attachment preview one",
       },
       {
         id: "b",
         src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=128&h=128&fit=crop",
-        name: "Attachment preview two",
+        ariaLabel: "Attachment preview two",
       },
     ]);
 
@@ -128,7 +130,7 @@ export const WithAttachments: Story = {
             {
               id: crypto.randomUUID(),
               src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=128&h=128&fit=crop",
-              name: "New attachment",
+              ariaLabel: "New attachment",
             },
           ])
         }
@@ -142,11 +144,13 @@ export const WithAttachments: Story = {
 export const WithAttachmentsAndModelSelector: Story = {
   render: () => {
     const [model, setModel] = useState("fanvue-ai");
-    const [attachments, setAttachments] = useState<{ id: string; src: string; name: string }[]>([
+    const [attachments, setAttachments] = useState<
+      { id: string; src: string; ariaLabel: string }[]
+    >([
       {
         id: "a",
         src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=128&h=128&fit=crop",
-        name: "Attachment preview one",
+        ariaLabel: "Attachment preview one",
       },
     ]);
 
@@ -160,7 +164,7 @@ export const WithAttachmentsAndModelSelector: Story = {
             {
               id: crypto.randomUUID(),
               src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=128&h=128&fit=crop",
-              name: "New attachment",
+              ariaLabel: "New attachment",
             },
           ])
         }

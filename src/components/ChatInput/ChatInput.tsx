@@ -12,8 +12,8 @@ export interface ChatInputAttachmentItem {
   id: string;
   /** Image URL for the thumbnail. */
   src: string;
-  /** Optional label for the remove control `aria-label`. */
-  name?: string;
+  /** Optional value passed to the remove control `aria-label`. */
+  ariaLabel?: string;
 }
 
 /** A single option for the inline model/dropdown selector. */
@@ -100,12 +100,6 @@ function calculateHeight(rows: number): number {
   return LINE_HEIGHT * rows + TEXTAREA_PY * 2;
 }
 
-function attachmentPreviewNodeHasContent(node: React.ReactNode): boolean {
-  if (node == null || node === false) return false;
-  if (Array.isArray(node)) return node.length > 0 && node.some(Boolean);
-  return true;
-}
-
 interface ChatInputDefaultAttachmentThumbnailsProps {
   attachments: ChatInputAttachmentItem[];
   onAttachmentRemove?: (id: string) => void;
@@ -123,15 +117,15 @@ function ChatInputDefaultAttachmentThumbnails({
       className="relative size-16 shrink-0 overflow-hidden rounded-sm border border-neutral-200 bg-bg-secondary"
     >
       <img src={item.src} alt="" className="size-full object-cover" />
-      <button
-        type="button"
-        aria-label={item.name ? `Remove ${item.name}` : "Remove attachment"}
-        className="absolute top-0.5 right-0.5 flex size-5 items-center justify-center rounded-full bg-neutral-900/60 text-white hover:bg-neutral-900/80"
+      <IconButton
+        variant="tertiary"
+        size="24"
+        aria-label={item.ariaLabel ? `Remove ${item.ariaLabel}` : "Remove attachment"}
+        icon={<CloseIcon className="!size-3" />}
         disabled={disabled || !onAttachmentRemove}
         onClick={() => onAttachmentRemove?.(item.id)}
-      >
-        <CloseIcon className="size-3" />
-      </button>
+        className="absolute top-0.5 right-0.5 size-5 bg-neutral-900/40 p-1 text-white hover:bg-neutral-900/55"
+      />
     </div>
   ));
 }
@@ -283,12 +277,9 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
     const maxHeight = calculateHeight(maxRows);
 
     const useCustomAttachmentPreviews = attachmentPreviews !== undefined;
-    const customAttachmentStrip =
-      useCustomAttachmentPreviews && attachmentPreviewNodeHasContent(attachmentPreviews)
-        ? attachmentPreviews
-        : null;
+    const customAttachmentStrip = useCustomAttachmentPreviews ? attachmentPreviews : null;
     const defaultAttachmentStrip =
-      !useCustomAttachmentPreviews && (attachments?.length ?? 0) > 0 ? (
+      !useCustomAttachmentPreviews && !!attachments?.length ? (
         <ChatInputDefaultAttachmentThumbnails
           attachments={attachments ?? []}
           disabled={disabled}
@@ -316,7 +307,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
       <div
         className={cn(
           "relative flex flex-col gap-6 rounded-lg border border-border-primary bg-surface-primary",
-          "has-focus-visible:border-neutral-alphas-400 has-focus-visible:outline-none",
+          "has-focus-visible:shadow-focus-ring has-focus-visible:outline-none",
           "motion-safe:transition-colors",
           disabled && "opacity-50",
           className,

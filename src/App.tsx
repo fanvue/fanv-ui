@@ -579,7 +579,7 @@ function ChatInputShowcase() {
   const [value, setValue] = useState("");
   const [model, setModel] = useState("fanvue-ai");
   const [chatAttachments, setChatAttachments] = useState<
-    { id: string; src: string; name: string }[]
+    { id: string; src: string; ariaLabel: string }[]
   >([]);
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
@@ -653,7 +653,7 @@ function ChatInputShowcase() {
               {
                 id: crypto.randomUUID(),
                 src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=128&h=128&fit=crop",
-                name: "Attachment",
+                ariaLabel: "Attachment",
               },
             ])
           }

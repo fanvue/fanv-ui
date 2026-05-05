@@ -227,16 +227,11 @@ describe("ChatInput", () => {
       expect(handleRemove).toHaveBeenCalledTimes(1);
     });
 
-    it("does not reserve preview layout when attachmentPreviews is an empty array", () => {
-      render(<ChatInput placeholder="Test" attachmentPreviews={[]} />);
-      expect(screen.getByRole("textbox")).toHaveClass("pt-4");
-    });
-
     it("renders built-in thumbnails when attachments are provided", () => {
       const { container } = render(
         <ChatInput
           placeholder="Test"
-          attachments={[{ id: "x", src: "https://example.com/a.png", name: "One" }]}
+          attachments={[{ id: "x", src: "https://example.com/a.png", ariaLabel: "One" }]}
           onAttachmentRemove={() => {}}
         />,
       );
@@ -251,7 +246,7 @@ describe("ChatInput", () => {
       render(
         <ChatInput
           placeholder="Test"
-          attachments={[{ id: "x", src: "https://example.com/a.png", name: "One" }]}
+          attachments={[{ id: "x", src: "https://example.com/a.png", ariaLabel: "One" }]}
           onAttachmentRemove={handleRemove}
         />,
       );
@@ -452,7 +447,7 @@ describe("ChatInput", () => {
             {
               id: "a",
               src: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-              name: "Sample",
+              ariaLabel: "Sample",
             },
           ]}
           onAttachmentRemove={() => {}}
