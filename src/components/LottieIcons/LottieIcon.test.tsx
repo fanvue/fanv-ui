@@ -7,7 +7,12 @@ import { LottieIcon } from "./LottieIcon";
 
 vi.mock("lottie-web/build/player/lottie_light", () => ({
   default: {
-    loadAnimation: () => ({ destroy: vi.fn(), goToAndPlay: vi.fn(), goToAndStop: vi.fn() }),
+    loadAnimation: () => ({
+      destroy: vi.fn(),
+      goToAndPlay: vi.fn(),
+      goToAndStop: vi.fn(),
+      addEventListener: vi.fn(),
+    }),
   },
 }));
 

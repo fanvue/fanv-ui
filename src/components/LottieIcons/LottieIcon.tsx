@@ -41,6 +41,24 @@ function loadLottie(): Promise<LottieModule> {
   return lottieModulePromise;
 }
 
+// Lottie bakes shape colours into `fill`/`stroke` presentation attributes on
+// the rendered SVG. Rewrite concrete colours to `currentColor` so animated
+// icons follow the design-system convention (theme-driven via CSS `color`).
+// Skip `none`/`transparent` and gradient refs (`url(...)`) so dashed strokes
+// and gradient fills keep their semantics.
+function applyCurrentColor(container: Element) {
+  const svg = container.querySelector("svg");
+  if (!svg) return;
+  const isReplaceable = (v: string | null) =>
+    !!v && v !== "none" && v !== "transparent" && v !== "currentColor" && !v.startsWith("url(");
+  for (const el of svg.querySelectorAll<SVGElement>("[fill]")) {
+    if (isReplaceable(el.getAttribute("fill"))) el.setAttribute("fill", "currentColor");
+  }
+  for (const el of svg.querySelectorAll<SVGElement>("[stroke]")) {
+    if (isReplaceable(el.getAttribute("stroke"))) el.setAttribute("stroke", "currentColor");
+  }
+}
+
 /**
  * Internal renderer for animated Lottie icons. Each public icon (e.g.
  * `HomeLottieIcon`) is a thin wrapper that supplies its own static `Fallback`
@@ -110,6 +128,9 @@ export const LottieIcon = React.forwardRef<HTMLSpanElement, InternalLottieIconPr
             rendererSettings: { progressiveLoad: true },
           });
           animRef.current = anim;
+          anim.addEventListener("DOMLoaded", () => {
+            if (containerRef.current) applyCurrentColor(containerRef.current);
+          });
           setLoaded(true);
           if (playRef.current) anim.goToAndPlay(0, true);
         })

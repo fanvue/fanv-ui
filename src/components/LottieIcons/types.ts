@@ -44,4 +44,5 @@ export interface LottieAnimationItem {
   destroy: () => void;
   goToAndPlay: (frame: number, isFrame?: boolean) => void;
   goToAndStop: (frame: number, isFrame?: boolean) => void;
+  addEventListener: (event: "DOMLoaded", callback: () => void) => void;
 }
