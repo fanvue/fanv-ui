@@ -69,6 +69,7 @@ import {
   CompassIcon,
   CopyIcon,
   Count,
+  CreatorCover,
   CreatorTile,
   CrossIcon,
   CrownIcon,
@@ -1804,6 +1805,45 @@ function EmptyStateDemo() {
           primaryAction="Primary action"
           secondaryAction="Secondary action"
         />
+      </div>
+    </div>
+  );
+}
+
+function CreatorCoverDemo() {
+  const sampleImage =
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=900&fit=crop";
+
+  return (
+    <div id="creator-cover" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Creator Cover</h2>
+      <p className="typography-regular-body-md text-content-secondary max-w-xl">
+        Profile hero with a blurred backdrop, central cover image, status pill, name, tagline, and
+        primary CTA. Pass strings for the simple API or nodes for full control.
+      </p>
+      <div className="flex flex-wrap items-start gap-8">
+        <div className="w-[393px]">
+          <CreatorCover
+            imageSrc={sampleImage}
+            imageAlt="Jane Doe"
+            name="JANE DOE"
+            tagline="GLOBAL POPSTAR"
+            tag="New Joiner"
+            action="Join for free for 7 days"
+          />
+        </div>
+        <div className="w-[393px]">
+          <CreatorCover
+            imageSrc={sampleImage}
+            imageAlt="Jane Doe"
+            name="JANE DOE"
+            action={
+              <Button variant="brand" size="48" fullWidth>
+                Subscribe
+              </Button>
+            }
+          />
+        </div>
       </div>
     </div>
   );
@@ -4422,6 +4462,7 @@ function App() {
     { id: "checkbox", label: "Checkbox" },
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
+    { id: "creator-cover", label: "Creator Cover" },
     { id: "creator-tile", label: "Creator Tile" },
     { id: "cycling-text", label: "Cycling Text" },
     { id: "datepicker", label: "Date Picker" },
@@ -4578,6 +4619,9 @@ function App() {
 
             {/* Empty State */}
             <EmptyStateDemo />
+
+            {/* Creator Cover */}
+            <CreatorCoverDemo />
 
             {/* Button */}
             <ButtonDemo />
