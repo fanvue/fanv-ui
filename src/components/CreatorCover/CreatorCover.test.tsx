@@ -28,6 +28,7 @@ describe("CreatorCover", () => {
       render(<CreatorCover {...baseProps} />);
       const cover = screen.getByAltText("Jane Doe");
       expect(cover).toHaveAttribute("src", baseProps.imageSrc);
+      expect(cover).toHaveAttribute("loading", "lazy");
     });
 
     it("falls back to imageSrc for the blurred background when backgroundSrc is omitted", () => {
@@ -54,7 +55,8 @@ describe("CreatorCover", () => {
 
     it("renders a string tag as a pill", () => {
       render(<CreatorCover {...baseProps} tag="New Joiner" />);
-      const tag = screen.getByText("New Joiner");
+      const tag = screen.getByTestId("pill");
+      expect(tag).toHaveTextContent("New Joiner");
       expect(tag).toHaveClass("bg-brand-primary-default");
       expect(tag).toHaveClass("rounded-full");
     });
