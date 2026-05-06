@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { Button } from "../Button/Button";
+import { Pill } from "../Pill/Pill";
 
 /** Slot that accepts a string (rendered as default styling) or a node for full control. */
 export type CreatorCoverSlot = string | React.ReactNode;
@@ -57,13 +58,7 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
   ) => {
     const headingId = React.useId();
 
-    const renderedTag = isNonEmptyString(tag) ? (
-      <span className="typography-semibold-body-sm inline-flex items-center justify-center whitespace-nowrap rounded-full bg-brand-primary-default px-3 py-2 text-content-on-brand">
-        {tag}
-      </span>
-    ) : (
-      tag
-    );
+    const renderedTag = isNonEmptyString(tag) ? <Pill variant="brand">{tag}</Pill> : tag;
 
     const renderedAction = isNonEmptyString(action) ? (
       <Button variant="white" size="48" fullWidth>
@@ -84,11 +79,11 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
         )}
         {...props}
       >
-        <div aria-hidden="true" className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 -z-10">
           <img
             src={backgroundSrc ?? imageSrc}
             alt=""
-            decoding="async"
+            loading="lazy"
             className="size-full scale-110 object-cover blur-3xl"
           />
           <div className="absolute inset-0 bg-linear-to-b from-white/30 to-white/15 dark:from-bg-primary/30 dark:to-bg-primary/15" />
@@ -99,7 +94,7 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
             <img
               src={imageSrc}
               alt={imageAlt}
-              decoding="async"
+              loading="lazy"
               className="block h-55 w-37.5 rounded-lg object-cover"
             />
             {renderedTag ? (
