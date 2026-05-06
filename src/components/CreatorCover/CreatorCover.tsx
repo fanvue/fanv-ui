@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { Button } from "../Button/Button";
 import { Pill } from "../Pill/Pill";
 
 /** Slot that accepts a string (rendered as default styling) or a node for full control. */
@@ -28,9 +27,8 @@ export interface CreatorCoverProps extends Omit<React.HTMLAttributes<HTMLElement
   tag?: CreatorCoverSlot;
   /**
    * Primary call to action displayed below the title.
-   * A string renders a full-width white {@link Button} with that label; pass a node for links, loading, etc.
    */
-  action?: CreatorCoverSlot;
+  action?: React.ReactNode;
   /** When `true`, fades the bottom of the component to transparent and increases bottom padding to 64px. @default false */
   fadeBottom?: boolean;
 }
@@ -47,7 +45,7 @@ export interface CreatorCoverProps extends Omit<React.HTMLAttributes<HTMLElement
  *   name="JANE DOE"
  *   tagline="GLOBAL POPSTAR"
  *   tag="New Joiner"
- *   action="Join for free for 7 days"
+ *   action={<Button variant="primary" size="48" fullWidth>Join for free for 7 days</Button>}
  * />
  * ```
  */
@@ -59,14 +57,6 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
     const headingId = React.useId();
 
     const renderedTag = isNonEmptyString(tag) ? <Pill variant="brand">{tag}</Pill> : tag;
-
-    const renderedAction = isNonEmptyString(action) ? (
-      <Button variant="white" size="48" fullWidth>
-        {action}
-      </Button>
-    ) : (
-      action
-    );
 
     return (
       <section
@@ -113,7 +103,7 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
               </p>
             ) : null}
           </div>
-          {renderedAction ? <div className="w-full pt-2">{renderedAction}</div> : null}
+          {action ? <div className="w-full pt-2">{action}</div> : null}
         </div>
       </section>
     );

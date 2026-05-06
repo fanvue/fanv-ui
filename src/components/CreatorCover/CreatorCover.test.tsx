@@ -66,16 +66,20 @@ describe("CreatorCover", () => {
       expect(screen.getByTestId("custom-tag")).toBeInTheDocument();
     });
 
-    it("renders a string action as a full-width button", () => {
-      render(<CreatorCover {...baseProps} action="Join for free for 7 days" />);
-      const button = screen.getByRole("button", { name: "Join for free for 7 days" });
-      expect(button).toBeInTheDocument();
-      expect(button).toHaveClass("w-full");
-    });
-
     it("renders a node action as-is", () => {
-      render(<CreatorCover {...baseProps} action={<Button variant="brand">Subscribe</Button>} />);
-      expect(screen.getByRole("button", { name: "Subscribe" })).toBeInTheDocument();
+      render(
+        <CreatorCover
+          {...baseProps}
+          action={
+            <Button variant="primary" fullWidth>
+              Subscribe
+            </Button>
+          }
+        />,
+      );
+      const button = screen.getByRole("button", { name: "Subscribe" });
+      expect(button).toHaveClass("w-full");
+      expect(button).toBeInTheDocument();
     });
 
     it("applies custom className", () => {
@@ -96,7 +100,11 @@ describe("CreatorCover", () => {
           {...baseProps}
           tagline="Global Popstar"
           tag="New Joiner"
-          action="Join for free for 7 days"
+          action={
+            <Button variant="primary" fullWidth>
+              Join for free for 7 days
+            </Button>
+          }
         />,
       );
       expect(await axe(container)).toHaveNoViolations();

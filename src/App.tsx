@@ -1830,7 +1830,11 @@ function CreatorCoverDemo() {
             name="JANE DOE"
             tagline="GLOBAL POPSTAR"
             tag="New Joiner"
-            action="Join for free for 7 days"
+            action={
+              <Button variant="primary" size="48" fullWidth>
+                Join for free for 7 days
+              </Button>
+            }
           />
         </div>
         <div className="w-[393px]">
