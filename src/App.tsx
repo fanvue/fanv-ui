@@ -69,6 +69,7 @@ import {
   CompassIcon,
   CopyIcon,
   Count,
+  CreatorCard,
   CreatorCover,
   CreatorTile,
   CrossIcon,
@@ -1829,7 +1830,11 @@ function CreatorCoverDemo() {
             name="JANE DOE"
             tagline="GLOBAL POPSTAR"
             tag="New Joiner"
-            action="Join for free for 7 days"
+            action={
+              <Button variant="primary" size="48" fullWidth>
+                Join for free for 7 days
+              </Button>
+            }
           />
         </div>
         <div className="w-[393px]">
@@ -4399,6 +4404,58 @@ function CardDemo() {
   );
 }
 
+function CreatorCardDemo() {
+  const imageSrc =
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=580&h=900&fit=crop";
+  const avatarSrc =
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+
+  return (
+    <div id="creator-card" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Creator Card</h2>
+      <h3 className="typography-semibold-body-lg">Button variants</h3>
+      <div className="flex flex-wrap items-start gap-6">
+        <CreatorCard
+          imageSrc={imageSrc}
+          name="Jane Doe"
+          description="MODEL & PODCASTER"
+          avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
+          actions={
+            <>
+              <Button variant="brand" size="32" fullWidth>
+                Join for free for 3 days
+              </Button>
+              <Button variant="primary" size="32" fullWidth>
+                Follow for Free
+              </Button>
+            </>
+          }
+          className="w-72 rounded-md"
+        />
+        <CreatorCard
+          imageSrc={imageSrc}
+          name="Jane Doe"
+          description="MODEL & PODCASTER"
+          avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
+          actions={
+            <Button variant="brand" size="32" fullWidth>
+              Follow for Free
+            </Button>
+          }
+          className="w-72 rounded-md"
+        />
+        <CreatorCard
+          imageSrc={imageSrc}
+          name="Jane Doe"
+          description="MODEL & PODCASTER"
+          avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
+          className="w-72 rounded-md"
+        />
+      </div>
+    </div>
+  );
+}
+
 function CreatorTileDemo() {
   const sampleImage =
     "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=480&h=720&fit=crop";
@@ -4462,6 +4519,7 @@ function App() {
     { id: "checkbox", label: "Checkbox" },
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
+    { id: "creator-card", label: "Creator Card" },
     { id: "creator-cover", label: "Creator Cover" },
     { id: "creator-tile", label: "Creator Tile" },
     { id: "cycling-text", label: "Cycling Text" },
@@ -4731,6 +4789,9 @@ function App() {
 
             {/* Card */}
             <CardDemo />
+
+            {/* Creator Card */}
+            <CreatorCardDemo />
 
             {/* Creator Tile */}
             <CreatorTileDemo />

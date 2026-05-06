@@ -39,7 +39,11 @@ const defaultArgs = {
   name: "JANE DOE",
   tagline: "GLOBAL POPSTAR",
   tag: "New Joiner",
-  action: "Join for free for 7 days",
+  action: (
+    <Button variant="primary" size="48" fullWidth>
+      Join for free for 7 days
+    </Button>
+  ),
 };
 
 export const Default: Story = {
@@ -91,26 +95,4 @@ export const CustomActionNode: Story = {
     ),
   },
   decorators: [wrapperDecorator],
-};
-
-export const FadeBottom: Story = {
-  args: {
-    ...defaultArgs,
-    fadeBottom: true,
-  },
-  parameters: {
-    chromatic: {
-      modes: {
-        light: { theme: "light" },
-        dark: { theme: "dark" },
-      },
-    },
-  },
-  decorators: [
-    (Story: () => React.ReactElement) => (
-      <div className="w-200">
-        <Story />
-      </div>
-    ),
-  ],
 };
