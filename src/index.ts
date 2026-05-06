@@ -114,6 +114,16 @@ export { Count } from "./components/Count/Count";
 export type { CreatorCardProps } from "./components/CreatorCard/CreatorCard";
 export { CreatorCard } from "./components/CreatorCard/CreatorCard";
 export type {
+  CreatorCoverProps,
+  CreatorCoverSlot,
+} from "./components/CreatorCover/CreatorCover";
+export { CreatorCover } from "./components/CreatorCover/CreatorCover";
+export type {
+  CreatorTileAspectRatio,
+  CreatorTileProps,
+} from "./components/CreatorTile/CreatorTile";
+export { CreatorTile } from "./components/CreatorTile/CreatorTile";
+export type {
   CyclingTextProps,
   CyclingTextSizing,
 } from "./components/CyclingText/CyclingText";

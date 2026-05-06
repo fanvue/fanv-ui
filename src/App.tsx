@@ -70,6 +70,8 @@ import {
   CopyIcon,
   Count,
   CreatorCard,
+  CreatorCover,
+  CreatorTile,
   CrossIcon,
   CrownIcon,
   CyclingText,
@@ -1804,6 +1806,45 @@ function EmptyStateDemo() {
           primaryAction="Primary action"
           secondaryAction="Secondary action"
         />
+      </div>
+    </div>
+  );
+}
+
+function CreatorCoverDemo() {
+  const sampleImage =
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=900&fit=crop";
+
+  return (
+    <div id="creator-cover" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Creator Cover</h2>
+      <p className="typography-regular-body-md text-content-secondary max-w-xl">
+        Profile hero with a blurred backdrop, central cover image, status pill, name, tagline, and
+        primary CTA. Pass strings for the simple API or nodes for full control.
+      </p>
+      <div className="flex flex-wrap items-start gap-8">
+        <div className="w-[393px]">
+          <CreatorCover
+            imageSrc={sampleImage}
+            imageAlt="Jane Doe"
+            name="JANE DOE"
+            tagline="GLOBAL POPSTAR"
+            tag="New Joiner"
+            action="Join for free for 7 days"
+          />
+        </div>
+        <div className="w-[393px]">
+          <CreatorCover
+            imageSrc={sampleImage}
+            imageAlt="Jane Doe"
+            name="JANE DOE"
+            action={
+              <Button variant="brand" size="48" fullWidth>
+                Subscribe
+              </Button>
+            }
+          />
+        </div>
       </div>
     </div>
   );
@@ -4409,6 +4450,45 @@ function CreatorCardDemo() {
   );
 }
 
+function CreatorTileDemo() {
+  const sampleImage =
+    "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=480&h=720&fit=crop";
+
+  return (
+    <div id="creator-tile" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Creator Tile</h2>
+
+      <h3 className="typography-semibold-body-lg">Default</h3>
+      <div className="w-[239px]">
+        <CreatorTile
+          imageSrc={sampleImage}
+          imageAlt="Portrait of a creator"
+          name="JANE DOE"
+          tagline="GLOBAL MUSIC ICON"
+        />
+      </div>
+
+      <h3 className="typography-semibold-body-lg mt-4">Aspect ratio</h3>
+      <div className="flex flex-wrap items-start gap-4">
+        {(["tall", "medium", "short"] as const).map((aspectRatio) => (
+          <div key={aspectRatio} className="flex w-[200px] flex-col gap-2">
+            <CreatorTile
+              imageSrc={sampleImage}
+              imageAlt="Portrait of a creator"
+              name="JANE DOE"
+              tagline={aspectRatio.toUpperCase()}
+              aspectRatio={aspectRatio}
+            />
+            <p className="typography-regular-body-sm text-content-secondary">
+              aspectRatio=&quot;{aspectRatio}&quot;
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -4434,6 +4514,8 @@ function App() {
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
     { id: "creator-card", label: "Creator Card" },
+    { id: "creator-cover", label: "Creator Cover" },
+    { id: "creator-tile", label: "Creator Tile" },
     { id: "cycling-text", label: "Cycling Text" },
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
@@ -4590,6 +4672,9 @@ function App() {
             {/* Empty State */}
             <EmptyStateDemo />
 
+            {/* Creator Cover */}
+            <CreatorCoverDemo />
+
             {/* Button */}
             <ButtonDemo />
 
@@ -4701,6 +4786,9 @@ function App() {
 
             {/* Creator Card */}
             <CreatorCardDemo />
+            
+            {/* Creator Tile */}
+            <CreatorTileDemo />
 
             {/* Toast */}
             <ToastDemo />
