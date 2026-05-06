@@ -70,6 +70,7 @@ import {
   CopyIcon,
   Count,
   CreatorCover,
+  CreatorTile,
   CrossIcon,
   CrownIcon,
   CyclingText,
@@ -4398,6 +4399,45 @@ function CardDemo() {
   );
 }
 
+function CreatorTileDemo() {
+  const sampleImage =
+    "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=480&h=720&fit=crop";
+
+  return (
+    <div id="creator-tile" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-xs mb-4">Creator Tile</h2>
+
+      <h3 className="typography-semibold-body-lg">Default</h3>
+      <div className="w-[239px]">
+        <CreatorTile
+          imageSrc={sampleImage}
+          imageAlt="Portrait of a creator"
+          name="JANE DOE"
+          tagline="GLOBAL MUSIC ICON"
+        />
+      </div>
+
+      <h3 className="typography-semibold-body-lg mt-4">Aspect ratio</h3>
+      <div className="flex flex-wrap items-start gap-4">
+        {(["tall", "medium", "short"] as const).map((aspectRatio) => (
+          <div key={aspectRatio} className="flex w-[200px] flex-col gap-2">
+            <CreatorTile
+              imageSrc={sampleImage}
+              imageAlt="Portrait of a creator"
+              name="JANE DOE"
+              tagline={aspectRatio.toUpperCase()}
+              aspectRatio={aspectRatio}
+            />
+            <p className="typography-regular-body-sm text-content-secondary">
+              aspectRatio=&quot;{aspectRatio}&quot;
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [dark, setDark] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -4423,6 +4463,7 @@ function App() {
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
     { id: "creator-cover", label: "Creator Cover" },
+    { id: "creator-tile", label: "Creator Tile" },
     { id: "cycling-text", label: "Cycling Text" },
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
@@ -4690,6 +4731,9 @@ function App() {
 
             {/* Card */}
             <CardDemo />
+
+            {/* Creator Tile */}
+            <CreatorTileDemo />
 
             {/* Toast */}
             <ToastDemo />

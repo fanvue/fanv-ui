@@ -117,6 +117,11 @@ export type {
 } from "./components/CreatorCover/CreatorCover";
 export { CreatorCover } from "./components/CreatorCover/CreatorCover";
 export type {
+  CreatorTileAspectRatio,
+  CreatorTileProps,
+} from "./components/CreatorTile/CreatorTile";
+export { CreatorTile } from "./components/CreatorTile/CreatorTile";
+export type {
   CyclingTextProps,
   CyclingTextSizing,
 } from "./components/CyclingText/CyclingText";
