@@ -49,7 +49,7 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
       <div
         ref={ref}
         className={cn(
-          "relative isolate flex aspect-290/450 w-full max-w-full flex-col justify-end overflow-hidden bg-bg-primary",
+          "relative isolate flex aspect-290/450 max-w-full flex-col justify-end overflow-hidden bg-bg-primary",
           className,
         )}
         {...props}

@@ -4409,7 +4409,6 @@ function CreatorCardDemo() {
   return (
     <div id="creator-card" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-bold-heading-xs mb-4">Creator Card</h2>
-
       <h3 className="typography-semibold-body-lg">Button variants</h3>
       <div className="flex flex-wrap items-start gap-6">
         <CreatorCard
@@ -4427,6 +4426,7 @@ function CreatorCardDemo() {
               </Button>
             </>
           }
+          className="w-72 rounded-md"
         />
         <CreatorCard
           imageSrc={imageSrc}
@@ -4438,12 +4438,14 @@ function CreatorCardDemo() {
               Follow for Free
             </Button>
           }
+          className="w-72 rounded-md"
         />
         <CreatorCard
           imageSrc={imageSrc}
           name="Jane Doe"
           description="MODEL & PODCASTER"
           avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
+          className="w-72 rounded-md"
         />
       </div>
     </div>
@@ -4786,7 +4788,7 @@ function App() {
 
             {/* Creator Card */}
             <CreatorCardDemo />
-            
+
             {/* Creator Tile */}
             <CreatorTileDemo />
 
