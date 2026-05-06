@@ -4375,8 +4375,7 @@ function CreatorCardDemo() {
           imageSrc={imageSrc}
           name="Jane Doe"
           description="MODEL & PODCASTER"
-          avatarSrc={avatarSrc}
-          avatarFallback="JD"
+          avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
           actions={
             <>
               <Button variant="brand" size="32" fullWidth>
@@ -4392,8 +4391,7 @@ function CreatorCardDemo() {
           imageSrc={imageSrc}
           name="Jane Doe"
           description="MODEL & PODCASTER"
-          avatarSrc={avatarSrc}
-          avatarFallback="JD"
+          avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
           actions={
             <Button variant="brand" size="32" fullWidth>
               Follow for Free
@@ -4404,8 +4402,7 @@ function CreatorCardDemo() {
           imageSrc={imageSrc}
           name="Jane Doe"
           description="MODEL & PODCASTER"
-          avatarSrc={avatarSrc}
-          avatarFallback="JD"
+          avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
         />
       </div>
     </div>

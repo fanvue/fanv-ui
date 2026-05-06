@@ -32,7 +32,25 @@ describe("CreatorCard", () => {
     });
 
     it("renders avatar fallback content", async () => {
-      render(<CreatorCard {...baseProps} avatarFallback="JD" />);
+      render(<CreatorCard {...baseProps} avatar={{ fallback: "JD" }} />);
+      expect(await screen.findByText("JD")).toBeInTheDocument();
+    });
+
+    it("forwards avatar props to the inner Avatar", async () => {
+      render(
+        <CreatorCard
+          {...baseProps}
+          avatar={{
+            fallback: "JD",
+            size: 64,
+            className: "custom-avatar",
+            onlineIndicator: true,
+          }}
+        />,
+      );
+      const avatar = screen.getByTestId("avatar");
+      expect(avatar).toHaveClass("custom-avatar");
+      expect(avatar).toHaveClass("size-16");
       expect(await screen.findByText("JD")).toBeInTheDocument();
     });
 
@@ -101,7 +119,7 @@ describe("CreatorCard", () => {
   describe("accessibility", () => {
     it("has no accessibility violations with no buttons", async () => {
       const { container } = render(
-        <CreatorCard {...baseProps} description="MODEL & PODCASTER" avatarFallback="JD" />,
+        <CreatorCard {...baseProps} description="MODEL & PODCASTER" avatar={{ fallback: "JD" }} />,
       );
       expect(await axe(container)).toHaveNoViolations();
     });
@@ -111,7 +129,7 @@ describe("CreatorCard", () => {
         <CreatorCard
           {...baseProps}
           description="MODEL & PODCASTER"
-          avatarFallback="JD"
+          avatar={{ fallback: "JD" }}
           actions={
             <Button variant="brand" fullWidth>
               Follow for Free
@@ -127,7 +145,7 @@ describe("CreatorCard", () => {
         <CreatorCard
           {...baseProps}
           description="MODEL & PODCASTER"
-          avatarFallback="JD"
+          avatar={{ fallback: "JD" }}
           actions={
             <>
               <Button variant="brand" fullWidth>

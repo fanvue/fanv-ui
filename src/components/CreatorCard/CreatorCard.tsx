@@ -11,17 +11,8 @@ export interface CreatorCardProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
   /** Optional secondary line shown below the name (e.g. role or tagline). */
   description?: string;
-  /** URL of the avatar image. */
-  avatarSrc?: string;
-  /** Alt text for the avatar image. @default name */
-  avatarAlt?: string;
-  /** Fallback content rendered when the avatar image has not loaded (e.g. initials). */
-  avatarFallback?: React.ReactNode;
-  /** Additional props forwarded to the inner {@link Avatar}. */
-  avatarProps?: Omit<
-    React.ComponentPropsWithoutRef<typeof Avatar>,
-    "src" | "alt" | "fallback" | "size"
-  >;
+  /** Avatar props forwarded to the inner {@link Avatar}. */
+  avatar?: React.ComponentPropsWithoutRef<typeof Avatar>;
   /**
    * Action buttons rendered at the bottom of the card. Pass zero, one, or two
    * `Button` elements to render variants with no, one, or two CTAs.
@@ -42,8 +33,7 @@ export interface CreatorCardProps extends React.HTMLAttributes<HTMLDivElement> {
  *   imageSrc="/creator.jpg"
  *   name="Jane Doe"
  *   description="MODEL & PODCASTER"
- *   avatarSrc="/avatar.jpg"
- *   avatarFallback="JD"
+ *   avatar={{ src: "/avatar.jpg", alt: "Jane Doe", fallback: "JD" }}
  *   actions={
  *     <>
  *       <Button variant="brand" fullWidth>Join for free for 3 days</Button>
@@ -54,22 +44,7 @@ export interface CreatorCardProps extends React.HTMLAttributes<HTMLDivElement> {
  * ```
  */
 export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
-  (
-    {
-      className,
-      imageSrc,
-      imageAlt = "",
-      name,
-      description,
-      avatarSrc,
-      avatarAlt,
-      avatarFallback,
-      avatarProps,
-      actions,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ className, imageSrc, imageAlt = "", name, description, avatar, actions, ...props }, ref) => {
     return (
       <div
         ref={ref}
@@ -95,10 +70,10 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
           <div className="flex items-center gap-4">
             <Avatar
               size={48}
-              src={avatarSrc}
-              alt={avatarAlt ?? name}
-              fallback={avatarFallback}
-              {...avatarProps}
+              src={avatar?.src}
+              alt={avatar?.alt ?? name}
+              fallback={avatar?.fallback}
+              {...avatar}
             />
             <div className="min-w-0 flex-1">
               <p className="typography-bold-heading-sm truncate text-content-primary">{name}</p>

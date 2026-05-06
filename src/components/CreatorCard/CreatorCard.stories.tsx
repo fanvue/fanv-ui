@@ -22,8 +22,11 @@ const meta = {
     imageSrc: SAMPLE_IMAGE,
     name: "Jane Doe",
     description: "MODEL & PODCASTER",
-    avatarSrc: SAMPLE_AVATAR,
-    avatarFallback: "JD",
+    avatar: {
+      src: SAMPLE_AVATAR,
+      alt: "Jane Doe",
+      fallback: "JD",
+    },
   },
 } satisfies Meta<typeof CreatorCard>;
 
@@ -56,6 +59,23 @@ export const OneButton: Story = {
 };
 
 export const NoButtons: Story = {};
+
+export const AvatarOptions: Story = {
+  args: {
+    avatar: {
+      src: SAMPLE_AVATAR,
+      alt: "Jane Doe",
+      fallback: "JD",
+      onlineIndicator: true,
+      platinumShow: true,
+    },
+    actions: (
+      <Button variant="primary" size="32" fullWidth>
+        Follow for Free
+      </Button>
+    ),
+  },
+};
 
 export const ContainerScaling: Story = {
   args: {
