@@ -4,6 +4,17 @@ import { IconButton } from "../IconButton/IconButton";
 import { AddIcon } from "../Icons/AddIcon";
 import { ArrowUpIcon } from "../Icons/ArrowUpIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
+import { CloseIcon } from "../Icons/CloseIcon";
+
+/** A single image thumbnail in the built-in attachment strip. */
+export interface ChatInputAttachmentItem {
+  /** Stable id passed to {@link ChatInputProps.onAttachmentRemove} and used as React `key`. */
+  id: string;
+  /** Image URL for the thumbnail. */
+  src: string;
+  /** Optional value passed to the remove control `aria-label`. */
+  ariaLabel?: string;
+}
 
 /** A single option for the inline model/dropdown selector. */
 export interface ChatInputSelectOption {
@@ -63,6 +74,21 @@ export interface ChatInputProps
   selectValue?: string;
   /** Callback fired when the user picks a different dropdown option. */
   onSelectChange?: (value: string) => void;
+  /**
+   * Image attachments shown in the built-in thumbnail strip. Ignored when {@link ChatInputProps.attachmentPreviews}
+   * is provided (including `null`).
+   */
+  attachments?: ChatInputAttachmentItem[];
+  /**
+   * Called when the user removes a built-in thumbnail. The remove button is disabled when this is
+   * omitted or the input is {@link ChatInputProps.disabled}.
+   */
+  onAttachmentRemove?: (id: string) => void;
+  /**
+   * Replaces the built-in attachment strip entirely. When set to any value other than `undefined`
+   * (including `null` or `[]`), {@link ChatInputProps.attachments} is ignored.
+   */
+  attachmentPreviews?: React.ReactNode;
   /** Additional className applied to the outermost container. */
   className?: string;
 }
@@ -72,6 +98,36 @@ const TEXTAREA_PY = 12;
 
 function calculateHeight(rows: number): number {
   return LINE_HEIGHT * rows + TEXTAREA_PY * 2;
+}
+
+interface ChatInputDefaultAttachmentThumbnailsProps {
+  attachments: ChatInputAttachmentItem[];
+  onAttachmentRemove?: (id: string) => void;
+  disabled?: boolean;
+}
+
+function ChatInputDefaultAttachmentThumbnails({
+  attachments,
+  onAttachmentRemove,
+  disabled = false,
+}: ChatInputDefaultAttachmentThumbnailsProps) {
+  return attachments.map((item) => (
+    <div
+      key={item.id}
+      className="relative size-16 shrink-0 overflow-hidden rounded-sm border border-neutral-200 bg-bg-secondary"
+    >
+      <img src={item.src} alt="" className="size-full object-cover" />
+      <IconButton
+        variant="tertiary"
+        size="24"
+        aria-label={item.ariaLabel ? `Remove ${item.ariaLabel}` : "Remove attachment"}
+        icon={<CloseIcon className="!size-3" />}
+        disabled={disabled || !onAttachmentRemove}
+        onClick={() => onAttachmentRemove?.(item.id)}
+        className="absolute top-0.5 right-0.5 size-5 bg-neutral-900/40 p-1 text-white hover:bg-neutral-900/55"
+      />
+    </div>
+  ));
 }
 
 /**
@@ -105,6 +161,25 @@ function calculateHeight(rows: number): number {
  *   onSubmit={(text) => send(text)}
  * />
  * ```
+ *
+ * @example
+ * ```tsx
+ * <ChatInput
+ *   showFileButton
+ *   onFileClick={() => openPicker()}
+ *   attachments={files}
+ *   onAttachmentRemove={(id) => setFiles((prev) => prev.filter((f) => f.id !== id))}
+ * />
+ * ```
+ *
+ * @example
+ * ```tsx
+ * <ChatInput
+ *   showFileButton
+ *   onFileClick={() => openPicker()}
+ *   attachmentPreviews={<CustomVideoStrip items={items} />}
+ * />
+ * ```
  */
 export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
   (
@@ -131,6 +206,9 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
       selectOptions,
       selectValue,
       onSelectChange,
+      attachments,
+      onAttachmentRemove,
+      attachmentPreviews,
       style,
       ...textareaProps
     },
@@ -198,6 +276,19 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
     const minHeight = calculateHeight(minRows);
     const maxHeight = calculateHeight(maxRows);
 
+    const useCustomAttachmentPreviews = attachmentPreviews !== undefined;
+    const customAttachmentStrip = useCustomAttachmentPreviews ? attachmentPreviews : null;
+    const defaultAttachmentStrip =
+      !useCustomAttachmentPreviews && !!attachments?.length ? (
+        <ChatInputDefaultAttachmentThumbnails
+          attachments={attachments ?? []}
+          disabled={disabled}
+          onAttachmentRemove={onAttachmentRemove}
+        />
+      ) : null;
+    const resolvedAttachmentStrip = customAttachmentStrip ?? defaultAttachmentStrip;
+    const hasAttachmentStrip = resolvedAttachmentStrip != null;
+
     const selectedOption =
       selectOptions?.find((o) => o.value === selectValue) ?? selectOptions?.[0];
     const resolvedToolbarRight =
@@ -216,36 +307,44 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
       <div
         className={cn(
           "relative flex flex-col gap-6 rounded-lg border border-border-primary bg-surface-primary",
-          "has-focus-visible:border-neutral-alphas-400 has-focus-visible:outline-none",
+          "has-focus-visible:shadow-focus-ring has-focus-visible:outline-none",
           "motion-safe:transition-colors",
           disabled && "opacity-50",
           className,
         )}
       >
-        <textarea
-          {...textareaProps}
-          ref={mergedRef}
-          value={isControlled ? value : internalValue}
-          placeholder={placeholder}
-          maxLength={maxLength}
-          disabled={disabled}
-          aria-label={ariaLabel ?? placeholder}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          rows={minRows}
-          className={cn(
-            "w-full resize-none bg-transparent px-4 pt-4",
-            "typography-regular-body-md text-content-primary",
-            "placeholder:text-content-tertiary",
-            "focus:outline-none disabled:cursor-not-allowed",
-            "overflow-y-auto",
-          )}
-          style={{
-            minHeight: `${minHeight}px`,
-            maxHeight: `${maxHeight}px`,
-            ...style,
-          }}
-        />
+        <div className="flex flex-col">
+          {hasAttachmentStrip ? (
+            <div className="flex gap-2 overflow-x-auto px-4 pt-4 pb-2 [scrollbar-width:thin]">
+              {resolvedAttachmentStrip}
+            </div>
+          ) : null}
+          <textarea
+            {...textareaProps}
+            ref={mergedRef}
+            value={isControlled ? value : internalValue}
+            placeholder={placeholder}
+            maxLength={maxLength}
+            disabled={disabled}
+            aria-label={ariaLabel ?? placeholder}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            rows={minRows}
+            className={cn(
+              "w-full resize-none bg-transparent px-4",
+              hasAttachmentStrip ? "pt-0" : "pt-4",
+              "typography-regular-body-md text-content-primary",
+              "placeholder:text-content-tertiary",
+              "focus:outline-none disabled:cursor-not-allowed",
+              "overflow-y-auto",
+            )}
+            style={{
+              minHeight: `${minHeight}px`,
+              maxHeight: `${maxHeight}px`,
+              ...style,
+            }}
+          />
+        </div>
 
         <div className="flex items-center justify-between gap-2 px-4 pb-4">
           <div className="flex items-center gap-1">
