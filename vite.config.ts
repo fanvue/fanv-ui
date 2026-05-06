@@ -19,6 +19,7 @@ export default defineConfig({
         index: resolve(import.meta.dirname, "src/index.ts"),
         charts: resolve(import.meta.dirname, "src/charts.ts"),
         "date-picker": resolve(import.meta.dirname, "src/date-picker.ts"),
+        "lottie-icons": resolve(import.meta.dirname, "src/lottie-icons.ts"),
       },
     },
     rollupOptions: {
@@ -32,6 +33,7 @@ export default defineConfig({
         /^@radix-ui\//,
         "clsx",
         "tailwind-merge",
+        /^lottie-web($|\/)/,
       ],
       output: [
         {
