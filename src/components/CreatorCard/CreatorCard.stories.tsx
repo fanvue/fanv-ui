@@ -57,6 +57,33 @@ export const OneButton: Story = {
 
 export const NoButtons: Story = {};
 
+export const ContainerScaling: Story = {
+  args: {
+    actions: (
+      <Button variant="primary" size="32" fullWidth>
+        Follow for Free
+      </Button>
+    ),
+  },
+  render: (args) => (
+    <div className="flex flex-wrap items-start gap-6">
+      {[
+        { label: "160px", className: "w-40" },
+        { label: "240px", className: "w-60" },
+        { label: "320px", className: "w-80" },
+        { label: "420px max", className: "w-[420px] max-w-[calc(100vw-2rem)]" },
+      ].map((container) => (
+        <div key={container.label} className="flex flex-col gap-2">
+          <div className={container.className}>
+            <CreatorCard {...args} />
+          </div>
+          <p className="typography-regular-body-sm text-content-secondary">{container.label}</p>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
 export const WithoutDescription: Story = {
   args: {
     description: undefined,
