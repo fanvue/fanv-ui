@@ -1,18 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { Avatar, type AvatarProps } from "../Avatar/Avatar";
-
-/** Border-radius preset for the card. */
-export type CreatorCardRounded = "none" | "xs" | "sm" | "md" | "lg" | "xl";
-
-const ROUNDED_CLASSES: Record<CreatorCardRounded, string> = {
-  none: "rounded-none",
-  xs: "rounded-xs",
-  sm: "rounded-sm",
-  md: "rounded-md",
-  lg: "rounded-lg",
-  xl: "rounded-xl",
-};
+import { Avatar } from "../Avatar/Avatar";
 
 export interface CreatorCardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** URL of the background media (image or video poster). */
@@ -30,14 +18,15 @@ export interface CreatorCardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Fallback content rendered when the avatar image has not loaded (e.g. initials). */
   avatarFallback?: React.ReactNode;
   /** Additional props forwarded to the inner {@link Avatar}. */
-  avatarProps?: Omit<AvatarProps, "src" | "alt" | "fallback" | "size">;
+  avatarProps?: Omit<
+    React.ComponentPropsWithoutRef<typeof Avatar>,
+    "src" | "alt" | "fallback" | "size"
+  >;
   /**
    * Action buttons rendered at the bottom of the card. Pass zero, one, or two
    * `Button` elements to render variants with no, one, or two CTAs.
    */
   actions?: React.ReactNode;
-  /** Border-radius preset for the card corners. @default "lg" */
-  rounded?: CreatorCardRounded;
 }
 
 /**
@@ -55,7 +44,6 @@ export interface CreatorCardProps extends React.HTMLAttributes<HTMLDivElement> {
  *   description="MODEL & PODCASTER"
  *   avatarSrc="/avatar.jpg"
  *   avatarFallback="JD"
- *   rounded="lg"
  *   actions={
  *     <>
  *       <Button variant="brand" fullWidth>Join for free for 3 days</Button>
@@ -78,19 +66,15 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
       avatarFallback,
       avatarProps,
       actions,
-      rounded = "lg",
       ...props
     },
     ref,
   ) => {
-    const roundedClass = ROUNDED_CLASSES[rounded];
-
     return (
       <div
         ref={ref}
         className={cn(
           "relative isolate flex aspect-290/450 w-72 flex-col justify-end overflow-hidden bg-bg-primary",
-          roundedClass,
           className,
         )}
         {...props}
@@ -98,15 +82,14 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
         <img
           src={imageSrc}
           alt={imageAlt}
+          loading="lazy"
           className="absolute inset-0 size-full object-cover"
-          aria-hidden={imageAlt === "" ? true : undefined}
         />
         <div
           className={cn(
             "pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-bg-primary via-bg-primary/90 to-transparent",
             actions ? "h-3/5" : "h-1/3",
           )}
-          aria-hidden="true"
         />
         <div className="relative flex flex-col gap-4 p-4">
           <div className="flex items-center gap-4">

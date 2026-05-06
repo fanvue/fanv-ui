@@ -53,25 +53,6 @@ describe("CreatorCard", () => {
     });
   });
 
-  describe("rounded prop", () => {
-    it.each([
-      ["none", "rounded-none"],
-      ["xs", "rounded-xs"],
-      ["sm", "rounded-sm"],
-      ["md", "rounded-md"],
-      ["lg", "rounded-lg"],
-      ["xl", "rounded-xl"],
-    ] as const)("applies %s rounded class", (rounded, expectedClass) => {
-      render(<CreatorCard {...baseProps} data-testid="card" rounded={rounded} />);
-      expect(screen.getByTestId("card")).toHaveClass(expectedClass);
-    });
-
-    it("defaults to lg rounded", () => {
-      render(<CreatorCard {...baseProps} data-testid="card" />);
-      expect(screen.getByTestId("card")).toHaveClass("rounded-lg");
-    });
-  });
-
   describe("actions", () => {
     it("renders no action buttons when actions is omitted", () => {
       render(<CreatorCard {...baseProps} />);

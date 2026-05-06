@@ -18,19 +18,12 @@ const meta = {
     },
   },
   tags: ["autodocs"],
-  argTypes: {
-    rounded: {
-      control: "select",
-      options: ["none", "xs", "sm", "md", "lg", "xl"],
-    },
-  },
   args: {
     imageSrc: SAMPLE_IMAGE,
     name: "Jane Doe",
     description: "MODEL & PODCASTER",
     avatarSrc: SAMPLE_AVATAR,
     avatarFallback: "JD",
-    rounded: "lg",
   },
 } satisfies Meta<typeof CreatorCard>;
 
@@ -63,26 +56,6 @@ export const OneButton: Story = {
 };
 
 export const NoButtons: Story = {};
-
-export const RoundedSizes: Story = {
-  render: (args) => (
-    <div className="flex flex-wrap items-start gap-6">
-      {(["none", "xs", "sm", "md", "lg", "xl"] as const).map((rounded) => (
-        <div key={rounded} className="flex flex-col items-center gap-2">
-          <CreatorCard {...args} rounded={rounded} />
-          <p className="typography-regular-body-sm text-content-secondary">{rounded}</p>
-        </div>
-      ))}
-    </div>
-  ),
-  args: {
-    actions: (
-      <Button variant="primary" size="32" fullWidth>
-        Follow for Free
-      </Button>
-    ),
-  },
-};
 
 export const WithoutDescription: Story = {
   args: {

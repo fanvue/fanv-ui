@@ -4326,28 +4326,6 @@ function CreatorCardDemo() {
           avatarFallback="JD"
         />
       </div>
-
-      <h3 className="typography-semibold-body-lg mt-4">Rounded sizes</h3>
-      <div className="flex flex-wrap items-start gap-6">
-        {(["none", "xs", "sm", "md", "lg", "xl"] as const).map((rounded) => (
-          <div key={rounded} className="flex flex-col items-center gap-2">
-            <CreatorCard
-              imageSrc={imageSrc}
-              name="Jane Doe"
-              description="MODEL & PODCASTER"
-              avatarSrc={avatarSrc}
-              avatarFallback="JD"
-              rounded={rounded}
-              actions={
-                <Button variant="brand" size="32" fullWidth>
-                  Follow for Free
-                </Button>
-              }
-            />
-            <p className="typography-regular-body-sm text-content-secondary">{rounded}</p>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
