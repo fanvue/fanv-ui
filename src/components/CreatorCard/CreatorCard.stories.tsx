@@ -19,7 +19,7 @@ const meta = {
   },
   tags: ["autodocs"],
   args: {
-    imageSrc: SAMPLE_IMAGE,
+    background: <img src={SAMPLE_IMAGE} alt="" loading="lazy" />,
     name: "Jane Doe",
     description: "MODEL & PODCASTER",
     avatar: {

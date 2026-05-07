@@ -4409,6 +4409,7 @@ function CreatorCardDemo() {
     "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=580&h=900&fit=crop";
   const avatarSrc =
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+  const background = <img src={imageSrc} alt="" loading="lazy" />;
 
   return (
     <div id="creator-card" className="flex scroll-mt-20 flex-col gap-4">
@@ -4416,7 +4417,7 @@ function CreatorCardDemo() {
       <h3 className="typography-semibold-body-lg">Button variants</h3>
       <div className="flex flex-wrap items-start gap-6">
         <CreatorCard
-          imageSrc={imageSrc}
+          background={background}
           name="Jane Doe"
           description="MODEL & PODCASTER"
           avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
@@ -4433,7 +4434,7 @@ function CreatorCardDemo() {
           className="w-72 rounded-md"
         />
         <CreatorCard
-          imageSrc={imageSrc}
+          background={background}
           name="Jane Doe"
           description="MODEL & PODCASTER"
           avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
@@ -4445,7 +4446,7 @@ function CreatorCardDemo() {
           className="w-72 rounded-md"
         />
         <CreatorCard
-          imageSrc={imageSrc}
+          background={background}
           name="Jane Doe"
           description="MODEL & PODCASTER"
           avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
@@ -4681,6 +4682,12 @@ function App() {
             {/* Creator Cover */}
             <CreatorCoverDemo />
 
+            {/* Creator Card */}
+            <CreatorCardDemo />
+
+            {/* Creator Tile */}
+            <CreatorTileDemo />
+
             {/* Button */}
             <ButtonDemo />
 
@@ -4789,12 +4796,6 @@ function App() {
 
             {/* Card */}
             <CardDemo />
-
-            {/* Creator Card */}
-            <CreatorCardDemo />
-
-            {/* Creator Tile */}
-            <CreatorTileDemo />
 
             {/* Toast */}
             <ToastDemo />

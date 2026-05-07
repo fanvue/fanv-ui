@@ -6,7 +6,14 @@ import { Button } from "../Button/Button";
 import { CreatorCard } from "./CreatorCard";
 
 const baseProps = {
-  imageSrc: "https://images.unsplash.com/photo-abc?w=290&h=450&fit=crop",
+  background: (
+    <img
+      src="https://images.unsplash.com/photo-abc?w=290&h=450&fit=crop"
+      alt=""
+      loading="lazy"
+      data-testid="background-image"
+    />
+  ),
   name: "Jane Doe",
 };
 
@@ -18,17 +25,15 @@ describe("CreatorCard", () => {
       expect(screen.getByText("MODEL & PODCASTER")).toBeInTheDocument();
     });
 
-    it("renders the background image with empty alt by default", () => {
+    it("renders the background in a non-interactive full-size layer", () => {
       render(<CreatorCard {...baseProps} data-testid="card" />);
-      const image = screen.getByTestId("card").querySelector("img");
-      expect(image).toHaveAttribute("src", baseProps.imageSrc);
-      expect(image).toHaveAttribute("alt", "");
-    });
-
-    it("uses provided imageAlt when set", () => {
-      render(<CreatorCard {...baseProps} imageAlt="Creator portrait" data-testid="card" />);
-      const image = screen.getByTestId("card").querySelector("img");
-      expect(image).toHaveAttribute("alt", "Creator portrait");
+      const image = screen.getByTestId("background-image");
+      const background = image.parentElement;
+      expect(background).toHaveClass("pointer-events-none", "h-full", "w-full");
+      expect(image).toHaveAttribute(
+        "src",
+        "https://images.unsplash.com/photo-abc?w=290&h=450&fit=crop",
+      );
     });
 
     it("renders avatar fallback content", async () => {
