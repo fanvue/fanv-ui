@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.14.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.14.0...ui-v2.14.1) (2026-05-07)
+
+
+### Bug Fixes
+
+* **ChatInput:** Remove focus outline ([#463](https://github.com/fanvue/fanv-ui/issues/463)) ([9bb1012](https://github.com/fanvue/fanv-ui/commit/9bb1012054e760dc512787abe8164fbd2bc07641))
+
 ## [2.14.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.13.0...ui-v2.14.0) (2026-05-06)
 
 
