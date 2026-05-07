@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.14.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.14.1...ui-v2.14.2) (2026-05-07)
+
+
+### Bug Fixes
+
+* **CreatorCard:** enabling open/close support for CreatorCard background ([#462](https://github.com/fanvue/fanv-ui/issues/462)) ([4fe6b24](https://github.com/fanvue/fanv-ui/commit/4fe6b247443f467e8a2af40801251f6e9ec871a5))
+
 ## [2.14.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.14.0...ui-v2.14.1) (2026-05-07)
 
 
