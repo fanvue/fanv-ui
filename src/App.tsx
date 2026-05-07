@@ -4520,6 +4520,7 @@ function App() {
     { id: "checkbox", label: "Checkbox" },
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
+    { id: "creator-card", label: "Creator Card" },
     { id: "creator-cover", label: "Creator Cover" },
     { id: "creator-card", label: "Creator Card" },
     { id: "creator-tile", label: "Creator Tile" },

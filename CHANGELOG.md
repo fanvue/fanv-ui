@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.14.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.13.0...ui-v2.14.0) (2026-05-06)
+
+
+### Features
+
+* Attached images sit inside input ([#458](https://github.com/fanvue/fanv-ui/issues/458)) ([dee291d](https://github.com/fanvue/fanv-ui/commit/dee291d5f225dc4e34c15ff8956aa944c1411c66))
+* **creator-card:** Adding CreatorCard ([#457](https://github.com/fanvue/fanv-ui/issues/457)) ([690c89c](https://github.com/fanvue/fanv-ui/commit/690c89cbedbbc3ac349e062ee7f03d2d98b25853))
+* **creator-cover:** add CreatorCover component ([#456](https://github.com/fanvue/fanv-ui/issues/456)) ([2afab5b](https://github.com/fanvue/fanv-ui/commit/2afab5bbf45a2f83870631bd436c552fa20ba62c))
+* **creator-tile:** adding CreatorTile component ([#459](https://github.com/fanvue/fanv-ui/issues/459)) ([314d57f](https://github.com/fanvue/fanv-ui/commit/314d57fbb431aa727a4e81bcf92f01d4d328aeeb))
+* **CyclingText:** add component for cycling strings with slide animation ([#454](https://github.com/fanvue/fanv-ui/issues/454)) ([0935285](https://github.com/fanvue/fanv-ui/commit/09352854343fc7afffc96c898cf0260360e4f627))
+
 ## [2.13.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.12.1...ui-v2.13.0) (2026-04-29)
 
 
