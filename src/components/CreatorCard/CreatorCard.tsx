@@ -3,10 +3,8 @@ import { cn } from "../../utils/cn";
 import { Avatar } from "../Avatar/Avatar";
 
 export interface CreatorCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** URL of the background media (image or video poster). */
-  imageSrc: string;
-  /** Alt text for the background image. @default "" */
-  imageAlt?: string;
+  /** Decorative background media rendered behind the creator content. */
+  background: React.ReactNode;
   /** Creator display name shown as the heading. */
   name: string;
   /** Optional secondary line shown below the name (e.g. role or tagline). */
@@ -30,7 +28,7 @@ export interface CreatorCardProps extends React.HTMLAttributes<HTMLDivElement> {
  * @example
  * ```tsx
  * <CreatorCard
- *   imageSrc="/creator.jpg"
+ *   background={<img src="/creator.jpg" alt="" />}
  *   name="Jane Doe"
  *   description="MODEL & PODCASTER"
  *   avatar={{ src: "/avatar.jpg", alt: "Jane Doe", fallback: "JD" }}
@@ -44,7 +42,7 @@ export interface CreatorCardProps extends React.HTMLAttributes<HTMLDivElement> {
  * ```
  */
 export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
-  ({ className, imageSrc, imageAlt = "", name, description, avatar, actions, ...props }, ref) => {
+  ({ className, background, name, description, avatar, actions, ...props }, ref) => {
     return (
       <div
         ref={ref}
@@ -54,12 +52,9 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
         )}
         {...props}
       >
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          loading="lazy"
-          className="absolute inset-0 size-full object-cover"
-        />
+        <div className="pointer-events-none absolute inset-0 h-full w-full select-none *:h-full *:w-full [&>img]:object-cover [&>video]:object-cover">
+          {background}
+        </div>
         <div
           className={cn(
             "pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-bg-primary via-bg-primary/90 to-transparent",
