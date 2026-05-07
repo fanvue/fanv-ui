@@ -307,7 +307,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
       <div
         className={cn(
           "relative flex flex-col gap-6 rounded-lg border border-border-primary bg-surface-primary",
-          "has-focus-visible:shadow-focus-ring has-focus-visible:outline-none",
+          "has-focus-visible:outline-none",
           "motion-safe:transition-colors",
           disabled && "opacity-50",
           className,
