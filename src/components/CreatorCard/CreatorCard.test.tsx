@@ -7,7 +7,12 @@ import { CreatorCard } from "./CreatorCard";
 
 const baseProps = {
   background: (
-    <img src="https://images.unsplash.com/photo-abc?w=290&h=450&fit=crop" alt="" loading="lazy" />
+    <img
+      src="https://images.unsplash.com/photo-abc?w=290&h=450&fit=crop"
+      alt=""
+      loading="lazy"
+      data-testid="background-image"
+    />
   ),
   name: "Jane Doe",
 };
@@ -22,8 +27,8 @@ describe("CreatorCard", () => {
 
     it("renders the background in a non-interactive full-size layer", () => {
       render(<CreatorCard {...baseProps} data-testid="card" />);
-      const background = screen.getByTestId("card").querySelector("[aria-hidden='true']");
-      const image = screen.getByTestId("card").querySelector("img");
+      const image = screen.getByTestId("background-image");
+      const background = image.parentElement;
       expect(background).toHaveClass("pointer-events-none", "h-full", "w-full");
       expect(image).toHaveAttribute(
         "src",

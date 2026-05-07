@@ -4522,7 +4522,6 @@ function App() {
     { id: "count", label: "Count" },
     { id: "creator-card", label: "Creator Card" },
     { id: "creator-cover", label: "Creator Cover" },
-    { id: "creator-card", label: "Creator Card" },
     { id: "creator-tile", label: "Creator Tile" },
     { id: "cycling-text", label: "Cycling Text" },
     { id: "datepicker", label: "Date Picker" },
