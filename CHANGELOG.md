@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.14.3](https://github.com/fanvue/fanv-ui/compare/ui-v2.14.2...ui-v2.14.3) (2026-05-08)
+
+
+### Bug Fixes
+
+* **CreatorTile:** revamping due to new requirements ([#466](https://github.com/fanvue/fanv-ui/issues/466)) ([ec9b6d9](https://github.com/fanvue/fanv-ui/commit/ec9b6d9264be4fac240129ef454ef49520ad5e89))
+
 ## [2.14.2](https://github.com/fanvue/fanv-ui/compare/ui-v2.14.1...ui-v2.14.2) (2026-05-07)
 
 
