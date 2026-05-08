@@ -4459,32 +4459,57 @@ function CreatorCardDemo() {
 
 function CreatorTileDemo() {
   const sampleImage =
-    "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=480&h=720&fit=crop";
+    "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=720&h=400&fit=crop";
+  const sampleAvatar =
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
 
   return (
     <div id="creator-tile" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-bold-heading-xs mb-4">Creator Tile</h2>
 
       <h3 className="typography-semibold-body-lg">Default</h3>
-      <div className="w-[239px]">
+      <div className="w-[361px]">
         <CreatorTile
-          imageSrc={sampleImage}
-          imageAlt="Portrait of a creator"
-          name="JANE DOE"
-          tagline="GLOBAL MUSIC ICON"
+          background={<img src={sampleImage} alt="" loading="lazy" />}
+          avatar={{ src: sampleAvatar, alt: "Aitana Lopez", fallback: "AL" }}
+          name="Aitana Lopez"
+          tagline="@fit_aitana"
+          action={
+            <Button variant="primary" size="32">
+              Follow
+            </Button>
+          }
+          className="rounded-lg"
+        />
+      </div>
+
+      <h3 className="typography-semibold-body-lg mt-4">Without action</h3>
+      <div className="w-[361px]">
+        <CreatorTile
+          background={<img src={sampleImage} alt="" loading="lazy" />}
+          avatar={{ src: sampleAvatar, alt: "Aitana Lopez", fallback: "AL" }}
+          name="Aitana Lopez"
+          tagline="@fit_aitana"
+          className="rounded-lg"
         />
       </div>
 
       <h3 className="typography-semibold-body-lg mt-4">Aspect ratio</h3>
       <div className="flex flex-wrap items-start gap-4">
         {(["tall", "medium", "short"] as const).map((aspectRatio) => (
-          <div key={aspectRatio} className="flex w-[200px] flex-col gap-2">
+          <div key={aspectRatio} className="flex w-[280px] flex-col gap-2">
             <CreatorTile
-              imageSrc={sampleImage}
-              imageAlt="Portrait of a creator"
-              name="JANE DOE"
-              tagline={aspectRatio.toUpperCase()}
+              background={<img src={sampleImage} alt="" loading="lazy" />}
+              avatar={{ src: sampleAvatar, alt: "Aitana Lopez", fallback: "AL" }}
+              name="Aitana Lopez"
+              tagline="@fit_aitana"
+              action={
+                <Button variant="primary" size="32">
+                  Follow
+                </Button>
+              }
               aspectRatio={aspectRatio}
+              className="rounded-lg"
             />
             <p className="typography-regular-body-sm text-content-secondary">
               aspectRatio=&quot;{aspectRatio}&quot;
