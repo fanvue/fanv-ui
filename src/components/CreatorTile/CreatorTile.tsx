@@ -1,29 +1,35 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { Avatar } from "../Avatar/Avatar";
 
 /** Width-to-height ratio preset for the tile. */
 export type CreatorTileAspectRatio = "tall" | "medium" | "short";
 
 const ASPECT_RATIO_CLASSES: Record<CreatorTileAspectRatio, string> = {
-  tall: "aspect-1/2",
-  medium: "aspect-2/3",
-  short: "aspect-4/5",
+  tall: "aspect-5/4",
+  medium: "aspect-3/2",
+  short: "aspect-9/5",
 };
 
 export interface CreatorTileProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Source URL of the creator's image. Rendered as the tile background. */
-  imageSrc: string;
-  /** Alt text for the creator image. Use an empty string for purely decorative imagery. */
-  imageAlt?: string;
-  /** Creator name shown as the prominent overlay heading. */
+  /** Decorative background media rendered behind the creator content. */
+  background: React.ReactNode;
+  /** Creator display name shown as the prominent heading. */
   name: React.ReactNode;
-  /** Short tagline shown under the name in the brand accent color. */
+  /** Optional secondary line shown under the name (e.g. handle or tagline). */
   tagline?: React.ReactNode;
+  /** Avatar props forwarded to the inner {@link Avatar}. */
+  avatar?: React.ComponentPropsWithoutRef<typeof Avatar>;
+  /**
+   * Action element rendered on the right of the profile row (e.g. a `Button`
+   * for following the creator).
+   */
+  action?: React.ReactNode;
   /**
    * Width-to-height ratio preset.
    *
    * - `tall` – 1:2 narrow portrait
-   * - `medium` – 2:3 classic poster (default)
+   * - `medium` – 361:200 landscape banner (default)
    * - `short` – 4:5 closer to square
    *
    * @default "medium"
@@ -32,24 +38,24 @@ export interface CreatorTileProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * A visual highlight tile showcasing a creator with an overlaid name and tagline.
- *
- * The tile renders a full-bleed image with a bottom gradient that ensures the
- * overlaid text remains legible regardless of the underlying photography.
+ * A visual highlight tile showcasing a creator with a full-bleed background
+ * media and an overlaid profile row containing an avatar, name, optional
+ * tagline and an action element.
  *
  * @example
  * ```tsx
  * <CreatorTile
- *   imageSrc="https://example.com/creator.jpg"
- *   imageAlt="Portrait of Jane Doe"
- *   name="JANE DOE"
- *   tagline="GLOBAL MUSIC ICON"
+ *   background={<img src="/creator.jpg" alt="" />}
+ *   avatar={{ src: "/avatar.jpg", alt: "Aitana Lopez", fallback: "AL" }}
+ *   name="Aitana Lopez"
+ *   tagline="@fit_aitana"
+ *   action={<Button variant="primary">Follow</Button>}
  * />
  * ```
  */
 export const CreatorTile = React.forwardRef<HTMLDivElement, CreatorTileProps>(
   (
-    { className, imageSrc, imageAlt = "", name, tagline, aspectRatio = "medium", ...props },
+    { className, background, name, tagline, avatar, action, aspectRatio = "medium", ...props },
     ref,
   ) => {
     const aspectClass = ASPECT_RATIO_CLASSES[aspectRatio];
@@ -64,20 +70,28 @@ export const CreatorTile = React.forwardRef<HTMLDivElement, CreatorTileProps>(
         )}
         {...props}
       >
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          loading="lazy"
-          className="absolute inset-0 -z-10 h-full w-full object-cover"
-        />
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-linear-to-b from-64% from-transparent to-black/40" />
-        <div className="flex flex-col gap-1 px-6 pb-6">
-          <p className="m-0 font-black text-4xl text-white leading-none tracking-tight">{name}</p>
-          {tagline ? (
-            <p className="m-0 font-bold text-[9px] text-brand-primary-default uppercase leading-none">
-              {tagline}
-            </p>
-          ) : null}
+        <div className="pointer-events-none absolute inset-0 select-none *:h-full *:w-full [&>img]:object-cover [&>video]:object-cover">
+          {background}
+        </div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-b-[inherit] bg-linear-to-t from-black/60 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 overflow-hidden rounded-b-[inherit] backdrop-blur-md [-webkit-mask-image:linear-gradient(to_top,black,transparent)] [mask-image:linear-gradient(to_top,black,transparent)]" />
+        <div className="relative flex items-center justify-between gap-4 p-4">
+          <div className="flex min-w-0 items-center gap-2">
+            <Avatar
+              size={40}
+              src={avatar?.src}
+              alt={avatar?.alt ?? (typeof name === "string" ? name : undefined)}
+              fallback={avatar?.fallback}
+              {...avatar}
+            />
+            <div className="flex min-w-0 flex-col">
+              <p className="typography-semibold-body-lg m-0 truncate text-white">{name}</p>
+              {tagline ? (
+                <p className="typography-semibold-body-md m-0 truncate text-white/50">{tagline}</p>
+              ) : null}
+            </div>
+          </div>
+          {action ? <div className="shrink-0">{action}</div> : null}
         </div>
       </div>
     );
