@@ -73,7 +73,8 @@ export const CreatorTile = React.forwardRef<HTMLDivElement, CreatorTileProps>(
         <div className="pointer-events-none absolute inset-0 select-none *:h-full *:w-full [&>img]:object-cover [&>video]:object-cover">
           {background}
         </div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/60 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-b-[inherit] bg-linear-to-t from-black/60 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 overflow-hidden rounded-b-[inherit] backdrop-blur-md [-webkit-mask-image:linear-gradient(to_top,black,transparent)] [mask-image:linear-gradient(to_top,black,transparent)]" />
         <div className="relative flex items-center justify-between gap-4 p-4">
           <div className="flex min-w-0 items-center gap-2">
             <Avatar
