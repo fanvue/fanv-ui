@@ -85,15 +85,15 @@ describe("CreatorTile", () => {
   });
 
   describe("aspectRatio", () => {
-    it("uses medium (361/200) ratio by default", () => {
+    it("uses medium ratio by default", () => {
       render(<CreatorTile {...baseProps} data-testid="tile" />);
-      expect(screen.getByTestId("tile")).toHaveClass("aspect-[361/200]");
+      expect(screen.getByTestId("tile")).toHaveClass("aspect-3/2");
     });
 
     it.each([
-      ["tall", "aspect-1/2"],
-      ["medium", "aspect-[361/200]"],
-      ["short", "aspect-4/5"],
+      ["tall", "aspect-5/4"],
+      ["medium", "aspect-3/2"],
+      ["short", "aspect-9/5"],
     ] as const)("applies %s ratio class", (aspectRatio, expectedClass) => {
       render(<CreatorTile {...baseProps} data-testid="tile" aspectRatio={aspectRatio} />);
       expect(screen.getByTestId("tile")).toHaveClass(expectedClass);
