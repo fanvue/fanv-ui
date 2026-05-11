@@ -18,6 +18,8 @@ export interface ChipProps extends React.HTMLAttributes<HTMLElement> {
   disabled?: boolean;
   /** Whether to show a coloured status dot at the leading edge. @default false */
   leftDot?: boolean;
+  /** Whether the chip uses a dashed border for add/create affordances. @default false */
+  dotted?: boolean;
   /** Icon element displayed before the label. */
   leftIcon?: React.ReactNode;
   /** Icon element displayed after the label. */
@@ -49,6 +51,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
       selected = false,
       disabled = false,
       leftDot = false,
+      dotted = false,
       leftIcon,
       rightIcon,
       notificationLabel,
@@ -78,14 +81,25 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           // Variant colors
           isDark && "bg-neutral-alphas-150 text-content-on-brand-inverted",
           !isDark && selected && "bg-brand-primary-muted text-neutral-alphas-900",
-          !isDark && !selected && "bg-neutral-alphas-50 text-neutral-alphas-900",
+          !isDark && !selected && !dotted && "bg-neutral-alphas-50 text-neutral-alphas-900",
+          !isDark &&
+            !selected &&
+            dotted &&
+            "border border-dashed border-border-primary bg-transparent text-neutral-alphas-900",
           // Interactive
           isInteractive && !disabled && "cursor-pointer",
           isInteractive &&
             !disabled &&
             !isDark &&
             !selected &&
+            !dotted &&
             "hover:bg-brand-primary-muted active:bg-brand-primary-muted",
+          isInteractive &&
+            !disabled &&
+            !isDark &&
+            !selected &&
+            dotted &&
+            "hover:border-neutral-alphas-500 hover:bg-neutral-alphas-50 active:border-neutral-alphas-500 active:bg-neutral-alphas-50",
           // Focus
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled

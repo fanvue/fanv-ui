@@ -119,6 +119,20 @@ describe("Chip", () => {
     });
   });
 
+  describe("dotted", () => {
+    it("applies dashed border when dotted is true", () => {
+      render(<Chip dotted>New folder</Chip>);
+      const chip = screen.getByTestId("chip");
+      expect(chip).toHaveClass("border-dashed");
+    });
+
+    it("does not apply dashed border by default", () => {
+      render(<Chip>Chip</Chip>);
+      const chip = screen.getByTestId("chip");
+      expect(chip).not.toHaveClass("border-dashed");
+    });
+  });
+
   describe("notificationLabel", () => {
     it("renders notification badge with label", () => {
       render(<Chip notificationLabel="99+">Test</Chip>);
