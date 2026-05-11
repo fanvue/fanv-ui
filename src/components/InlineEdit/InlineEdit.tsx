@@ -41,6 +41,9 @@ const SIZE_CLASSES: Record<InlineEditSize, string> = {
  * Enter and blur commit the draft via `onCommit`. Escape reverts to `value`
  * and calls `onCancel`. Empty drafts are rejected and revert to `value`.
  *
+ * The forwarded ref points at the underlying `<input>` and is only populated
+ * while the field is in edit mode — it resolves to `null` in display mode.
+ *
  * @example
  * ```tsx
  * const [name, setName] = useState("New folder");
@@ -177,7 +180,7 @@ export const InlineEdit = React.forwardRef<HTMLInputElement, InlineEditProps>(
             type="button"
             onClick={enterEditMode}
             disabled={disabled}
-            aria-label={`${editLabel}: ${value}`}
+            aria-label={editLabel}
             data-testid="inline-edit-trigger"
             className={cn(
               chipClassName,

@@ -18,7 +18,11 @@ export interface ChipProps extends React.HTMLAttributes<HTMLElement> {
   disabled?: boolean;
   /** Whether to show a coloured status dot at the leading edge. @default false */
   leftDot?: boolean;
-  /** Whether the chip uses a dashed border for add/create affordances. @default false */
+  /**
+   * Whether the chip uses a dashed border for add/create affordances.
+   * Has no effect when `variant="dark"` or `selected` is `true`.
+   * @default false
+   */
   dotted?: boolean;
   /** Icon element displayed before the label. */
   leftIcon?: React.ReactNode;
