@@ -167,7 +167,8 @@
       "rollup": ">=4.59.0",
       "storybook": ">=10.2.10",
       "picomatch": ">=4.0.4",
-      "micromatch>picomatch": "2.3.2"
+      "micromatch>picomatch": "2.3.2",
+      "fast-uri": ">=3.1.2"
     }
   },
   "size-limit": [
