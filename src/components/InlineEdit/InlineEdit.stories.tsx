@@ -29,11 +29,11 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     value: "New folder",
-    onCommit: () => {},
+    onSubmit: () => {},
   },
   render: (args) => {
     const [value, setValue] = useState(args.value);
-    return <InlineEdit {...args} value={value} onCommit={setValue} />;
+    return <InlineEdit {...args} value={value} onSubmit={setValue} />;
   },
 };
 
@@ -41,11 +41,11 @@ export const Size32: Story = {
   args: {
     size: "32",
     value: "Inbox folder",
-    onCommit: () => {},
+    onSubmit: () => {},
   },
   render: (args) => {
     const [value, setValue] = useState(args.value);
-    return <InlineEdit {...args} value={value} onCommit={setValue} />;
+    return <InlineEdit {...args} value={value} onSubmit={setValue} />;
   },
 };
 
@@ -53,11 +53,11 @@ export const Size40: Story = {
   args: {
     size: "40",
     value: "Inbox folder",
-    onCommit: () => {},
+    onSubmit: () => {},
   },
   render: (args) => {
     const [value, setValue] = useState(args.value);
-    return <InlineEdit {...args} value={value} onCommit={setValue} />;
+    return <InlineEdit {...args} value={value} onSubmit={setValue} />;
   },
 };
 
@@ -65,38 +65,38 @@ export const Disabled: Story = {
   args: {
     disabled: true,
     value: "Locked folder",
-    onCommit: () => {},
+    onSubmit: () => {},
   },
 };
 
 export const WithLeftIcon: Story = {
   args: {
     value: "New folder",
-    onCommit: () => {},
+    onSubmit: () => {},
     leftIcon: <PlusIcon className="size-4" />,
   },
   render: (args) => {
     const [value, setValue] = useState(args.value);
-    return <InlineEdit {...args} value={value} onCommit={setValue} />;
+    return <InlineEdit {...args} value={value} onSubmit={setValue} />;
   },
 };
 
 export const WithMaxLength: Story = {
   args: {
     value: "Folder",
-    onCommit: () => {},
+    onSubmit: () => {},
     maxLength: 20,
   },
   render: (args) => {
     const [value, setValue] = useState(args.value);
-    return <InlineEdit {...args} value={value} onCommit={setValue} />;
+    return <InlineEdit {...args} value={value} onSubmit={setValue} />;
   },
 };
 
 export const InAList: Story = {
   args: {
     value: "",
-    onCommit: () => {},
+    onSubmit: () => {},
   },
   render: () => {
     const [folders, setFolders] = useState([
@@ -110,7 +110,7 @@ export const InAList: Story = {
           <InlineEdit
             key={folder.id}
             value={folder.name}
-            onCommit={(next) =>
+            onSubmit={(next) =>
               setFolders((prev) =>
                 prev.map((current) =>
                   current.id === folder.id ? { ...current, name: next } : current,

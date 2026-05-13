@@ -4015,12 +4015,12 @@ function InlineEditDemo() {
       <h2 className="typography-bold-heading-sm mb-4">Inline Edit</h2>
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-3">
-          <InlineEdit value={folderName} onCommit={setFolderName} />
-          <InlineEdit size="32" value={folderName} onCommit={setFolderName} />
-          <InlineEdit value="Locked folder" onCommit={() => {}} disabled />
+          <InlineEdit value={folderName} onSubmit={setFolderName} />
+          <InlineEdit size="32" value={folderName} onSubmit={setFolderName} />
+          <InlineEdit value="Locked folder" onSubmit={() => {}} disabled />
           <InlineEdit
             value={folderName}
-            onCommit={setFolderName}
+            onSubmit={setFolderName}
             leftIcon={<PlusIcon className="size-4" />}
           />
         </div>
@@ -4029,7 +4029,7 @@ function InlineEditDemo() {
             <InlineEdit
               key={index}
               value={name}
-              onCommit={(next) =>
+              onSubmit={(next: string) =>
                 setFolders((prev) => prev.map((current, i) => (i === index ? next : current)))
               }
             />

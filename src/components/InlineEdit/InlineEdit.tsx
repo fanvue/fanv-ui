@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { Chip } from "../Chip/Chip";
 
 /** Height of the inline edit field in pixels. */
 export type InlineEditSize = "32" | "40";
@@ -7,83 +8,92 @@ export type InlineEditSize = "32" | "40";
 export interface InlineEditProps
   extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
-    "value" | "defaultValue" | "size" | "onChange" | "onBlur" | "onKeyDown"
+    "value" | "defaultValue" | "size" | "onSubmit"
   > {
   /** Current value displayed in the chip and used as the starting draft when editing. */
   value: string;
   /** Called with the trimmed draft when the user commits an edit (Enter or blur). */
-  onCommit: (value: string) => void;
+  onSubmit: (value: string) => void;
   /** Called when the user cancels an edit with Escape. */
   onCancel?: () => void;
   /** Height of the field in pixels. @default "40" */
   size?: InlineEditSize;
   /** Whether the field is disabled — prevents entering edit mode. @default false */
   disabled?: boolean;
-  /** Maximum length of the input value when editing. */
-  maxLength?: number;
-  /** Accessible label for the edit affordance. @default "Edit" */
+  /** Accessible label for the edit input. @default "Edit" */
   editLabel?: string;
   /** Icon rendered before the value in display mode. Hidden when editing. */
   leftIcon?: React.ReactNode;
+  /**
+   * Validator for the trimmed draft on commit. Returning `false` reverts to
+   * the previous value without calling `onSubmit`. @default rejects empty drafts
+   */
+  validate?: (draft: string) => boolean;
   /** Additional class name applied to the root element. */
   className?: string;
 }
-
-const SIZE_CLASSES: Record<InlineEditSize, string> = {
-  "32": "h-8",
-  "40": "h-10",
-};
 
 /**
  * A chip-styled inline edit field. Renders as a dashed-border button that
  * swaps to a text input on click, allowing the value to be edited in place.
  *
- * Enter and blur commit the draft via `onCommit`. Escape reverts to `value`
- * and calls `onCancel`. Empty drafts are rejected and revert to `value`.
+ * Enter and blur commit the draft via `onSubmit`. Escape reverts to `value`
+ * and calls `onCancel`. Drafts that fail `validate` are reverted.
  *
  * The forwarded ref points at the underlying `<input>` and is only populated
  * while the field is in edit mode — it resolves to `null` in display mode.
  *
+ * Consumers may pass `onChange`, `onBlur`, and `onKeyDown` to participate in
+ * input events. The component's own handlers run after the consumer's, and
+ * keyboard handling is skipped if the consumer calls `event.preventDefault()`.
+ *
  * @example
  * ```tsx
  * const [name, setName] = useState("New folder");
- * <InlineEdit value={name} onCommit={setName} />
+ * <InlineEdit value={name} onSubmit={setName} />
  * ```
  */
 export const InlineEdit = React.forwardRef<HTMLInputElement, InlineEditProps>(
   (
     {
       value,
-      onCommit,
+      onSubmit,
       onCancel,
       size = "40",
       disabled = false,
-      maxLength,
       editLabel = "Edit",
       leftIcon,
+      validate,
       className,
       placeholder,
+      onChange,
+      onBlur,
+      onKeyDown,
       ...inputProps
     },
     ref,
   ) => {
     const [isEditing, setIsEditing] = React.useState(false);
     const [draft, setDraft] = React.useState(value);
-    const inputRef = React.useRef<HTMLInputElement>(null);
+    const inputRef = React.useRef<HTMLInputElement | null>(null);
 
-    React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
+    const setInputRef = React.useCallback(
+      (node: HTMLInputElement | null) => {
+        inputRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          (ref as React.RefObject<HTMLInputElement | null>).current = node;
+        }
+      },
+      [ref],
+    );
 
     React.useEffect(() => {
       if (!isEditing) {
         setDraft(value);
       }
     }, [value, isEditing]);
-
-    const enterEditMode = () => {
-      if (disabled) return;
-      setDraft(value);
-      setIsEditing(true);
-    };
 
     React.useEffect(() => {
       if (!isEditing) return;
@@ -93,28 +103,45 @@ export const InlineEdit = React.forwardRef<HTMLInputElement, InlineEditProps>(
       input.select();
     }, [isEditing]);
 
-    const exitEditMode = () => {
-      setIsEditing(false);
+    const enterEditMode = () => {
+      if (disabled) return;
+      setDraft(value);
+      setIsEditing(true);
     };
 
     const commit = () => {
       const trimmed = draft.trim();
-      if (trimmed.length === 0 || trimmed === value) {
+      const isValid = validate ? validate(trimmed) : trimmed.length > 0;
+      if (!isValid) {
         setDraft(value);
-        exitEditMode();
+        setIsEditing(false);
         return;
       }
-      onCommit(trimmed);
-      exitEditMode();
+      if (trimmed !== value) {
+        onSubmit(trimmed);
+      }
+      setIsEditing(false);
     };
 
     const cancel = () => {
       setDraft(value);
-      exitEditMode();
+      setIsEditing(false);
       onCancel?.();
     };
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange?.(event);
+      setDraft(event.target.value);
+    };
+
+    const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+      onBlur?.(event);
+      commit();
+    };
+
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      onKeyDown?.(event);
+      if (event.defaultPrevented) return;
       if (event.key === "Enter") {
         event.preventDefault();
         commit();
@@ -125,13 +152,6 @@ export const InlineEdit = React.forwardRef<HTMLInputElement, InlineEditProps>(
     };
 
     const showLeftIcon = Boolean(leftIcon) && !isEditing;
-    const chipClassName = cn(
-      "typography-semibold-body-sm inline-flex items-center rounded-xs border border-dashed border-border-primary bg-transparent px-3 text-content-primary motion-safe:transition-colors motion-safe:duration-150",
-      SIZE_CLASSES[size],
-      disabled && "pointer-events-none opacity-50",
-    );
-    const iconAdornmentClassName = "pl-9";
-
     const sizerText = (isEditing ? draft : value) || placeholder || " ";
 
     return (
@@ -142,56 +162,50 @@ export const InlineEdit = React.forwardRef<HTMLInputElement, InlineEditProps>(
         <span
           aria-hidden="true"
           className={cn(
-            chipClassName,
-            "invisible block whitespace-pre",
-            showLeftIcon && iconAdornmentClassName,
+            "typography-semibold-body-sm invisible block whitespace-pre border border-transparent px-3",
+            size === "32" ? "h-8" : "h-10",
+            showLeftIcon && "pl-9",
           )}
         >
           {sizerText}
         </span>
-        {showLeftIcon && (
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-content-primary"
-          >
-            <span className="flex size-4 shrink-0 items-center justify-center">{leftIcon}</span>
-          </span>
-        )}
         {isEditing ? (
-          <input
-            ref={inputRef}
-            type="text"
-            value={draft}
-            maxLength={maxLength}
-            placeholder={placeholder}
-            onChange={(event) => setDraft(event.target.value)}
-            onKeyDown={handleKeyDown}
-            onBlur={commit}
-            aria-label={editLabel}
-            data-testid="inline-edit-input"
-            className={cn(
-              chipClassName,
-              "absolute inset-0 block h-auto w-full min-w-0 outline-none focus-visible:shadow-focus-ring",
-            )}
-            {...inputProps}
-          />
-        ) : (
-          <button
-            type="button"
-            onClick={enterEditMode}
-            disabled={disabled}
-            aria-label={editLabel}
-            data-testid="inline-edit-trigger"
-            className={cn(
-              chipClassName,
-              "absolute inset-0 h-auto w-full cursor-text whitespace-nowrap focus-visible:shadow-focus-ring focus-visible:outline-none",
-              !disabled &&
-                "hover:border-neutral-alphas-500 hover:bg-neutral-alphas-50 active:border-neutral-alphas-500 active:bg-neutral-alphas-50",
-              showLeftIcon && iconAdornmentClassName,
-            )}
+          <Chip
+            asChild
+            dotted
+            variant="square"
+            size={size}
+            className="absolute inset-0 block h-auto w-full focus-within:shadow-focus-ring"
           >
-            <span className="min-w-0 truncate">{value}</span>
-          </button>
+            <span>
+              <input
+                ref={setInputRef}
+                type="text"
+                value={draft}
+                placeholder={placeholder}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                onBlur={handleBlur}
+                aria-label={editLabel}
+                data-testid="inline-edit-input"
+                className="block h-full w-full bg-transparent px-3 outline-none"
+                {...inputProps}
+              />
+            </span>
+          </Chip>
+        ) : (
+          <Chip
+            dotted
+            variant="square"
+            size={size}
+            disabled={disabled}
+            leftIcon={leftIcon}
+            onClick={enterEditMode}
+            data-testid="inline-edit-trigger"
+            className="absolute inset-0 h-auto w-full cursor-text"
+          >
+            {value}
+          </Chip>
         )}
       </span>
     );
