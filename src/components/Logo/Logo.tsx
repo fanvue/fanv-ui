@@ -54,12 +54,26 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
 export type LogoVariant = "full" | "icon" | "wordmark" | "portrait";
 /** Colour scheme of the logo. */
 export type LogoColor = "fullColour" | "decolour" | "whiteAlways" | "blackAlways";
+/** Height of the logo in pixels. Both icon and wordmark scale proportionally. */
+export type LogoSize = "16" | "20" | "24" | "32" | "40" | "48" | "64";
+
+const sizeClasses: Record<LogoSize, string> = {
+  "16": "h-4",
+  "20": "h-5",
+  "24": "h-6",
+  "32": "h-8",
+  "40": "h-10",
+  "48": "h-12",
+  "64": "h-16",
+};
 
 export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Layout variant of the logo. @default "full" */
   variant?: LogoVariant;
   /** Colour scheme of the logo. @default "fullColour" */
   color?: LogoColor;
+  /** Height of the logo in pixels. @default "32" (or "40" when `variant="icon"`) */
+  size?: LogoSize;
   /**
    * Accessible label for the logo. Required when `type` is `"icon"` and
    * the logo is used inside interactive contexts (links, buttons).
@@ -72,8 +86,6 @@ export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
 const WordmarkSVG = ({ className }: { className?: string }) => {
   return (
     <svg
-      width="128"
-      height="30"
       viewBox="0 0 128 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -99,10 +111,11 @@ const WordmarkSVG = ({ className }: { className?: string }) => {
  * ```
  */
 export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
-  ({ className, variant = "full", color = "fullColour", ...props }, ref) => {
+  ({ className, variant = "full", color = "fullColour", size, ...props }, ref) => {
     const colors = getLogoColors(color, variant);
     const showIcon = variant === "full" || variant === "icon" || variant === "portrait";
     const showWordmark = variant === "full" || variant === "wordmark" || variant === "portrait";
+    const sizeClass = sizeClasses[size ?? (variant === "icon" ? "40" : "32")];
 
     // When aria-label is provided, add role="img" for proper accessibility
     const ariaProps = props["aria-label"] ? { role: "img" as const } : {};
@@ -125,7 +138,7 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
             viewBox="0 0 39 39"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className={cn("shrink-0", variant === "icon" ? "h-10 w-10" : "h-8 w-8")}
+            className={cn("w-auto shrink-0", sizeClass)}
             aria-hidden="true"
             data-testid="logo-icon"
           >
@@ -143,7 +156,7 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
             />
           </svg>
         )}
-        {showWordmark && <WordmarkSVG className={cn(colors.textClass)} />}
+        {showWordmark && <WordmarkSVG className={cn("w-auto", sizeClass, colors.textClass)} />}
       </div>
     );
   },

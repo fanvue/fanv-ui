@@ -21,6 +21,10 @@ const meta = {
       control: "select",
       options: ["fullColour", "decolour", "whiteAlways", "blackAlways"],
     },
+    size: {
+      control: "select",
+      options: ["16", "20", "24", "32", "40", "48", "64"],
+    },
   },
 } satisfies Meta<typeof Logo>;
 
@@ -149,4 +153,18 @@ export const PortraitBlackAlways: Story = {
     variant: "portrait",
     color: "blackAlways",
   },
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <div className="flex flex-col items-start gap-6">
+      <Logo size="16" />
+      <Logo size="20" />
+      <Logo size="24" />
+      <Logo size="32" />
+      <Logo size="40" />
+      <Logo size="48" />
+      <Logo size="64" />
+    </div>
+  ),
 };
