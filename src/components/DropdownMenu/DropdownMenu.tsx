@@ -4,9 +4,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
 
-// Pointer displacement, in CSS pixels, above which a press-and-release on the
-// trigger is treated as a drag (not a tap). Sits below Chromium's 15px scroll
-// slop with headroom for finger jitter.
+// Movement, in CSS px, above which a touch press-and-release counts as a drag.
 const TAP_MOVEMENT_THRESHOLD_PX = 10;
 
 type ActiveTap = {
@@ -16,17 +14,11 @@ type ActiveTap = {
   movedPastThreshold: boolean;
 };
 
-/**
- * Lets {@link DropdownMenuTrigger} read open state and toggle the menu so it
- * can apply a touch-tap movement gate. Radix's `DropdownMenuTrigger` opens on
- * `pointerdown` with no `pointerType` guard, so a scroll-drag that incidentally
- * releases over the trigger on Android Chrome opens the menu and traps the
- * user — see https://github.com/radix-ui/primitives/issues/1912.
- */
-const DropdownMenuOpenContext = React.createContext<{
-  openRef: React.MutableRefObject<boolean>;
-  setOpen: (next: boolean) => void;
-} | null>(null);
+// Lets DropdownMenuTrigger toggle the menu directly so it can gate on touch
+// movement — see radix-ui/primitives#1912.
+const ToggleOpenContext = React.createContext<
+  ((updater: (prev: boolean) => boolean) => void) | null
+>(null);
 
 /** Props for the {@link DropdownMenu} root component. */
 export interface DropdownMenuProps
@@ -46,23 +38,12 @@ export function DropdownMenu({
     onChange: onOpenChange,
   });
 
-  // Mirror to a ref so the trigger's pointerup handler reads the latest open
-  // state even if a parent re-render between pointerdown and pointerup left
-  // the originally captured context value stale.
-  const openRef = React.useRef(open);
-  openRef.current = open;
-
-  const ctxValue = React.useMemo(
-    () => ({ openRef, setOpen: (next: boolean) => setOpen(next) }),
-    [setOpen],
-  );
-
   return (
-    <DropdownMenuOpenContext.Provider value={ctxValue}>
+    <ToggleOpenContext.Provider value={setOpen}>
       <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen} {...props}>
         {children}
       </DropdownMenuPrimitive.Root>
-    </DropdownMenuOpenContext.Provider>
+    </ToggleOpenContext.Provider>
   );
 }
 
@@ -83,11 +64,11 @@ export const DropdownMenuTrigger = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Trigger>,
   DropdownMenuTriggerProps
 >((props, ref) => {
-  const ctx = React.useContext(DropdownMenuOpenContext);
+  const toggleOpen = React.useContext(ToggleOpenContext);
   const tapRef = React.useRef<ActiveTap | null>(null);
 
   // Used outside our DropdownMenu wrapper — fall through to Radix defaults.
-  if (ctx === null) {
+  if (toggleOpen === null) {
     return <DropdownMenuPrimitive.Trigger {...props} ref={ref} />;
   }
 
@@ -98,22 +79,16 @@ export const DropdownMenuTrigger = React.forwardRef<
       onPointerDown={(event) => {
         props.onPointerDown?.(event);
         if (event.pointerType === "mouse" || props.disabled) return;
-        // setPointerCapture ensures pointerup/cancel fire on this element even
-        // if the finger drifts off — without it, drag-off leaves stale tap
-        // state that mis-classifies the next press.
-        try {
-          event.currentTarget.setPointerCapture(event.pointerId);
-        } catch {
-          // Older browsers may reject an unknown pointerId. Safe to ignore.
-        }
+        // Keep pointerup / pointercancel on this element if the finger drifts off.
+        // Optional because jsdom (used in tests) doesn't implement it.
+        event.currentTarget.setPointerCapture?.(event.pointerId);
         tapRef.current = {
           pointerId: event.pointerId,
           x: event.clientX,
           y: event.clientY,
           movedPastThreshold: false,
         };
-        // composeEventHandlers in Radix short-circuits when our handler
-        // preventDefaults, suppressing the open-on-pointerdown path.
+        // preventDefault stops Radix's pointerdown open path via composeEventHandlers.
         event.preventDefault();
       }}
       onPointerMove={(event) => {
@@ -135,7 +110,7 @@ export const DropdownMenuTrigger = React.forwardRef<
         const wasDrag = tap.movedPastThreshold;
         tapRef.current = null;
         if (!wasDrag && !props.disabled) {
-          ctx.setOpen(!ctx.openRef.current);
+          toggleOpen((prev) => !prev);
         }
       }}
       onPointerCancel={(event) => {

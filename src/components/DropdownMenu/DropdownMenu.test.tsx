@@ -389,39 +389,26 @@ describe("DropdownMenu", () => {
       expect(onOpenChange).toHaveBeenCalledWith(true);
     });
 
-    it("captures the pointer so drag-off-then-release classifies as a drag", () => {
+    it("calls setPointerCapture on touch pointerdown so drag-off still hits the trigger", () => {
+      // jsdom doesn't implement setPointerCapture; install it so we can spy.
       const setPointerCapture = vi.fn();
-      const onOpenChange = vi.fn();
-      // Spy on the prototype because jsdom's HTMLElement implementation does
-      // not always expose setPointerCapture by default.
-      const originalSetPointerCapture = HTMLElement.prototype.setPointerCapture as
-        | ((id: number) => void)
-        | undefined;
-      HTMLElement.prototype.setPointerCapture = setPointerCapture as (id: number) => void;
-      try {
-        render(
-          <DropdownMenu onOpenChange={onOpenChange}>
-            <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>Item</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>,
-        );
-        const trigger = screen.getByRole("button");
-        fireEvent.pointerDown(trigger, {
-          pointerType: "touch",
-          pointerId: 5,
-          clientX: 0,
-          clientY: 0,
-        });
-        expect(setPointerCapture).toHaveBeenCalledWith(5);
-      } finally {
-        if (originalSetPointerCapture) {
-          HTMLElement.prototype.setPointerCapture = originalSetPointerCapture;
-        } else {
-          delete (HTMLElement.prototype as { setPointerCapture?: unknown }).setPointerCapture;
-        }
-      }
+      (HTMLElement.prototype as { setPointerCapture: (id: number) => void }).setPointerCapture =
+        setPointerCapture;
+      render(
+        <DropdownMenu>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      fireEvent.pointerDown(screen.getByRole("button"), {
+        pointerType: "touch",
+        pointerId: 5,
+        clientX: 0,
+        clientY: 0,
+      });
+      expect(setPointerCapture).toHaveBeenCalledWith(5);
     });
   });
 });
