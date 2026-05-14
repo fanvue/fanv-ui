@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.16.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.15.1...ui-v2.16.0) (2026-05-14)
+
+
+### Features
+
+* export useSuppressClickAfterDrag and tighten its signature ([#476](https://github.com/fanvue/fanv-ui/issues/476)) ([98a2aaf](https://github.com/fanvue/fanv-ui/commit/98a2aafeba7aa5aff63f7fdab96cc4d663141e17))
+
 ## [2.15.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.15.0...ui-v2.15.1) (2026-05-14)
 
 
