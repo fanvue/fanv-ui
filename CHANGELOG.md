@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.15.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.15.0...ui-v2.15.1) (2026-05-14)
+
+
+### Bug Fixes
+
+* **DropdownMenu:** gate touch tap so scroll-drag does not open the menu ([#473](https://github.com/fanvue/fanv-ui/issues/473)) ([fb49428](https://github.com/fanvue/fanv-ui/commit/fb49428127bc22db702cda5690fb02c0301ede47))
+* **InfoBox,Dialog,Drawer:** suppress click on Android scroll-drag-end ([#474](https://github.com/fanvue/fanv-ui/issues/474)) ([a636ba4](https://github.com/fanvue/fanv-ui/commit/a636ba4b73cd7df1ed5900ebf3a54672b7b5293b))
+
 ## [2.15.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.14.3...ui-v2.15.0) (2026-05-14)
 
 
