@@ -1,22 +1,128 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
+
+// Movement, in CSS px, above which a touch press-and-release counts as a drag.
+const TAP_MOVEMENT_THRESHOLD_PX = 10;
+
+type ActiveTap = {
+  pointerId: number;
+  x: number;
+  y: number;
+  movedPastThreshold: boolean;
+};
+
+// Lets DropdownMenuTrigger toggle the menu directly so it can gate on touch
+// movement — see radix-ui/primitives#1912.
+const ToggleOpenContext = React.createContext<
+  ((updater: (prev: boolean) => boolean) => void) | null
+>(null);
 
 /** Props for the {@link DropdownMenu} root component. */
 export interface DropdownMenuProps
   extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root> {}
 
 /** Root component that manages open/close state for a dropdown menu. */
-export const DropdownMenu = DropdownMenuPrimitive.Root;
+export function DropdownMenu({
+  open: openProp,
+  defaultOpen,
+  onOpenChange,
+  children,
+  ...props
+}: DropdownMenuProps) {
+  const [open = false, setOpen] = useControllableState({
+    prop: openProp,
+    defaultProp: defaultOpen ?? false,
+    onChange: onOpenChange,
+  });
+
+  return (
+    <ToggleOpenContext.Provider value={setOpen}>
+      <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen} {...props}>
+        {children}
+      </DropdownMenuPrimitive.Root>
+    </ToggleOpenContext.Provider>
+  );
+}
 
 /** Props for the {@link DropdownMenuTrigger} component. */
 export type DropdownMenuTriggerProps = React.ComponentPropsWithoutRef<
   typeof DropdownMenuPrimitive.Trigger
 >;
 
-/** The element that toggles the dropdown menu when clicked. */
-export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
+/**
+ * The element that toggles the dropdown menu when clicked.
+ *
+ * On touch devices, the menu only opens if the press-and-release stays within
+ * a small movement threshold. A drag that incidentally ends over the trigger
+ * (common when scrolling a feed on Android Chrome) is ignored. Mouse and
+ * keyboard interactions are unchanged.
+ */
+export const DropdownMenuTrigger = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.Trigger>,
+  DropdownMenuTriggerProps
+>((props, ref) => {
+  const toggleOpen = React.useContext(ToggleOpenContext);
+  const tapRef = React.useRef<ActiveTap | null>(null);
+
+  // Used outside our DropdownMenu wrapper — fall through to Radix defaults.
+  if (toggleOpen === null) {
+    return <DropdownMenuPrimitive.Trigger {...props} ref={ref} />;
+  }
+
+  return (
+    <DropdownMenuPrimitive.Trigger
+      {...props}
+      ref={ref}
+      onPointerDown={(event) => {
+        props.onPointerDown?.(event);
+        if (event.pointerType === "mouse" || props.disabled) return;
+        // Keep pointerup / pointercancel on this element if the finger drifts off.
+        // Optional because jsdom (used in tests) doesn't implement it.
+        event.currentTarget.setPointerCapture?.(event.pointerId);
+        tapRef.current = {
+          pointerId: event.pointerId,
+          x: event.clientX,
+          y: event.clientY,
+          movedPastThreshold: false,
+        };
+        // preventDefault stops Radix's pointerdown open path via composeEventHandlers.
+        event.preventDefault();
+      }}
+      onPointerMove={(event) => {
+        props.onPointerMove?.(event);
+        const tap = tapRef.current;
+        if (tap === null || event.pointerId !== tap.pointerId || tap.movedPastThreshold) {
+          return;
+        }
+        const dx = event.clientX - tap.x;
+        const dy = event.clientY - tap.y;
+        if (Math.hypot(dx, dy) > TAP_MOVEMENT_THRESHOLD_PX) {
+          tap.movedPastThreshold = true;
+        }
+      }}
+      onPointerUp={(event) => {
+        props.onPointerUp?.(event);
+        const tap = tapRef.current;
+        if (tap === null || event.pointerId !== tap.pointerId) return;
+        const wasDrag = tap.movedPastThreshold;
+        tapRef.current = null;
+        if (!wasDrag && !props.disabled) {
+          toggleOpen((prev) => !prev);
+        }
+      }}
+      onPointerCancel={(event) => {
+        props.onPointerCancel?.(event);
+        const tap = tapRef.current;
+        if (tap !== null && event.pointerId === tap.pointerId) {
+          tapRef.current = null;
+        }
+      }}
+    />
+  );
+});
 DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
 
 /** Props for the {@link DropdownMenuContent} component. */
