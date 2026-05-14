@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -280,6 +280,35 @@ describe("Drawer", () => {
         expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
       });
       expect(trigger).toHaveFocus();
+    });
+  });
+
+  // Defends against the Android Chrome synthetic-click that can land on a
+  // click-based Radix trigger at the end of a scroll-drag.
+  describe("touch tap gate", () => {
+    it("does not open on a drag-end synthetic click", () => {
+      renderDrawer();
+      const trigger = screen.getByRole("button", { name: "Open drawer" });
+      fireEvent.pointerDown(trigger, {
+        pointerType: "touch",
+        pointerId: 1,
+        clientX: 0,
+        clientY: 0,
+      });
+      fireEvent.pointerMove(trigger, {
+        pointerType: "touch",
+        pointerId: 1,
+        clientX: 0,
+        clientY: 100,
+      });
+      fireEvent.pointerUp(trigger, {
+        pointerType: "touch",
+        pointerId: 1,
+        clientX: 0,
+        clientY: 100,
+      });
+      fireEvent.click(trigger);
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
   });
 });

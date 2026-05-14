@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
 import { ArrowLeftIcon } from "../Icons/ArrowLeftIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
@@ -21,8 +22,18 @@ export const Dialog = DialogPrimitive.Root;
 /** Props for the {@link DialogTrigger} component. */
 export type DialogTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>;
 
-/** The element that opens the dialog when clicked. */
-export const DialogTrigger = DialogPrimitive.Trigger;
+/**
+ * The element that opens the dialog when clicked.
+ *
+ * On touch / pen, a press-and-release that crosses a small movement threshold
+ * is treated as a drag and the resulting synthetic click is suppressed —
+ * defends against Android Chrome opening the dialog on a scroll-drag-end.
+ */
+export const DialogTrigger = React.forwardRef<
+  React.ComponentRef<typeof DialogPrimitive.Trigger>,
+  DialogTriggerProps
+>((props, ref) => <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
+DialogTrigger.displayName = "DialogTrigger";
 
 /** Convenience alias for Radix `Dialog.Close`. Closes the dialog when clicked. */
 export const DialogClose = DialogPrimitive.Close;

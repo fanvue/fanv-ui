@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
 import { CloseIcon } from "../Icons/CloseIcon";
 
@@ -35,7 +36,9 @@ export interface DrawerProps extends React.ComponentPropsWithoutRef<typeof Dialo
   overlay?: boolean;
 }
 
-const DrawerContext = React.createContext<{ overlay: boolean }>({ overlay: true });
+const DrawerContext = React.createContext<{ overlay: boolean }>({
+  overlay: true,
+});
 
 /**
  * Root component that manages open/close state for a drawer.
@@ -73,8 +76,17 @@ Drawer.displayName = "Drawer";
 /** Props for the {@link DrawerTrigger} component. */
 export type DrawerTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>;
 
-/** The element that opens the drawer when clicked. */
-export const DrawerTrigger = DialogPrimitive.Trigger;
+/**
+ * The element that opens the drawer when clicked.
+ *
+ * On touch / pen, a press-and-release that crosses a small movement threshold
+ * is treated as a drag and the resulting synthetic click is suppressed —
+ * defends against Android Chrome opening the drawer on a scroll-drag-end.
+ */
+export const DrawerTrigger = React.forwardRef<
+  React.ComponentRef<typeof DialogPrimitive.Trigger>,
+  DrawerTriggerProps
+>((props, ref) => <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
 DrawerTrigger.displayName = "DrawerTrigger";
 
 /** Props for the {@link DrawerClose} component. */
@@ -184,7 +196,14 @@ export const DrawerContent = React.forwardRef<
     const overlay = overlayProp ?? ctx.overlay;
     const isHorizontal = position === "left" || position === "right";
     const sizeClass = isHorizontal
-      ? ({ sm: "max-w-sm", md: "max-w-md", lg: "max-w-lg", full: "max-w-full" } as const)[size]
+      ? (
+          {
+            sm: "max-w-sm",
+            md: "max-w-md",
+            lg: "max-w-lg",
+            full: "max-w-full",
+          } as const
+        )[size]
       : (
           {
             sm: "max-h-[24rem]",
@@ -199,7 +218,10 @@ export const DrawerContent = React.forwardRef<
         {overlay && <DrawerOverlay {...overlayProps} />}
         <DialogPrimitive.Content
           ref={ref}
-          style={{ zIndex: "calc(var(--fanvue-ui-portal-z-index, 50) + 1)", ...style }}
+          style={{
+            zIndex: "calc(var(--fanvue-ui-portal-z-index, 50) + 1)",
+            ...style,
+          }}
           className={cn(
             "fixed flex flex-col bg-surface-secondary shadow-lg outline-none backdrop-blur-lg",
             "data-[state=closed]:animate-out data-[state=open]:animate-in",

@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -127,6 +127,54 @@ describe("InfoBox", () => {
       okButton.focus();
       await user.keyboard("{Enter}");
       expect(handleClick).toHaveBeenCalledOnce();
+    });
+  });
+
+  // Defends against the Android Chrome synthetic-click that can land on a
+  // click-based Radix trigger at the end of a scroll-drag.
+  describe("touch tap gate", () => {
+    it("does not open on a drag-end synthetic click", () => {
+      renderInfoBox();
+      const trigger = screen.getByRole("button", { name: "Open" });
+      fireEvent.pointerDown(trigger, {
+        pointerType: "touch",
+        pointerId: 1,
+        clientX: 0,
+        clientY: 0,
+      });
+      fireEvent.pointerMove(trigger, {
+        pointerType: "touch",
+        pointerId: 1,
+        clientX: 0,
+        clientY: 100,
+      });
+      fireEvent.pointerUp(trigger, {
+        pointerType: "touch",
+        pointerId: 1,
+        clientX: 0,
+        clientY: 100,
+      });
+      fireEvent.click(trigger);
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+
+    it("opens on a stationary touch tap", async () => {
+      renderInfoBox();
+      const trigger = screen.getByRole("button", { name: "Open" });
+      fireEvent.pointerDown(trigger, {
+        pointerType: "touch",
+        pointerId: 1,
+        clientX: 5,
+        clientY: 5,
+      });
+      fireEvent.pointerUp(trigger, {
+        pointerType: "touch",
+        pointerId: 1,
+        clientX: 6,
+        clientY: 6,
+      });
+      fireEvent.click(trigger);
+      expect(await screen.findByRole("dialog")).toBeInTheDocument();
     });
   });
 
