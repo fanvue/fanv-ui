@@ -2,6 +2,7 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
+import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { Button } from "../Button/Button";
 
 /** Props for the {@link InfoBox} root component. */
@@ -17,8 +18,18 @@ export const InfoBox = PopoverPrimitive.Root;
 /** Props for the {@link InfoBoxTrigger} component. */
 export type InfoBoxTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>;
 
-/** The element that triggers the info box on click. */
-export const InfoBoxTrigger = PopoverPrimitive.Trigger;
+/**
+ * The element that triggers the info box on click.
+ *
+ * On touch / pen, a press-and-release that crosses a small movement threshold
+ * is treated as a drag and the resulting synthetic click is suppressed —
+ * defends against Android Chrome opening the popover on a scroll-drag-end.
+ */
+export const InfoBoxTrigger = React.forwardRef<
+  React.ComponentRef<typeof PopoverPrimitive.Trigger>,
+  InfoBoxTriggerProps
+>((props, ref) => <PopoverPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
+InfoBoxTrigger.displayName = "InfoBoxTrigger";
 
 /** Action button with a label and click handler. */
 interface InfoBoxButtonAction {
