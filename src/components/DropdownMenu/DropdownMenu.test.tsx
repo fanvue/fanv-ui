@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type * as React from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -33,7 +33,9 @@ describe("DropdownMenu", () => {
 
   describe("API", () => {
     it("does not render content when closed", () => {
-      renderMenu(<DropdownMenuItem>Hidden</DropdownMenuItem>, { defaultOpen: false });
+      renderMenu(<DropdownMenuItem>Hidden</DropdownMenuItem>, {
+        defaultOpen: false,
+      });
       expect(screen.queryByRole("menu")).not.toBeInTheDocument();
     });
 
@@ -140,6 +142,286 @@ describe("DropdownMenu", () => {
         </DropdownMenu>,
       );
       expect(screen.getByRole("menu")).toBeInTheDocument();
+    });
+  });
+
+  // Regression coverage for the Android Chrome scroll-drag bug: Radix opens
+  // DropdownMenu on pointerdown with no pointerType guard, so a drag that
+  // incidentally releases over the trigger opens the menu and traps the
+  // user. The wrapper only toggles the menu on a stationary touch tap.
+  // https://github.com/radix-ui/primitives/issues/1912
+  describe("touch tap gate", () => {
+    it("opens when a touch press releases close to its start (stationary tap)", () => {
+      const onOpenChange = vi.fn();
+      render(
+        <DropdownMenu onOpenChange={onOpenChange}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      const trigger = screen.getByRole("button");
+      fireEvent.pointerDown(trigger, {
+        pointerType: "touch",
+        clientX: 100,
+        clientY: 100,
+      });
+      fireEvent.pointerUp(trigger, {
+        pointerType: "touch",
+        clientX: 102,
+        clientY: 101,
+      });
+      expect(onOpenChange).toHaveBeenCalledWith(true);
+    });
+
+    it("does not open when the touch pointer moves past the threshold (scroll-drag)", () => {
+      const onOpenChange = vi.fn();
+      render(
+        <DropdownMenu onOpenChange={onOpenChange}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      const trigger = screen.getByRole("button");
+      fireEvent.pointerDown(trigger, {
+        pointerType: "touch",
+        clientX: 100,
+        clientY: 100,
+      });
+      fireEvent.pointerMove(trigger, {
+        pointerType: "touch",
+        clientX: 100,
+        clientY: 200,
+      });
+      fireEvent.pointerUp(trigger, {
+        pointerType: "touch",
+        clientX: 100,
+        clientY: 200,
+      });
+      expect(onOpenChange).not.toHaveBeenCalled();
+      expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    });
+
+    it("does not open when the touch interaction is cancelled mid-gesture", () => {
+      const onOpenChange = vi.fn();
+      render(
+        <DropdownMenu onOpenChange={onOpenChange}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      const trigger = screen.getByRole("button");
+      fireEvent.pointerDown(trigger, {
+        pointerType: "touch",
+        clientX: 100,
+        clientY: 100,
+      });
+      fireEvent.pointerCancel(trigger, {
+        pointerType: "touch",
+        clientX: 100,
+        clientY: 100,
+      });
+      fireEvent.pointerUp(trigger, {
+        pointerType: "touch",
+        clientX: 100,
+        clientY: 100,
+      });
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    it("does not toggle a disabled trigger on touch", () => {
+      const onOpenChange = vi.fn();
+      render(
+        <DropdownMenu onOpenChange={onOpenChange}>
+          <DropdownMenuTrigger disabled>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      const trigger = screen.getByRole("button");
+      fireEvent.pointerDown(trigger, {
+        pointerType: "touch",
+        clientX: 100,
+        clientY: 100,
+      });
+      fireEvent.pointerUp(trigger, {
+        pointerType: "touch",
+        clientX: 100,
+        clientY: 100,
+      });
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    it("treats stylus (pen) input the same as touch", () => {
+      const onOpenChange = vi.fn();
+      render(
+        <DropdownMenu onOpenChange={onOpenChange}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      const trigger = screen.getByRole("button");
+      fireEvent.pointerDown(trigger, {
+        pointerType: "pen",
+        clientX: 50,
+        clientY: 50,
+      });
+      fireEvent.pointerMove(trigger, {
+        pointerType: "pen",
+        clientX: 50,
+        clientY: 200,
+      });
+      fireEvent.pointerUp(trigger, {
+        pointerType: "pen",
+        clientX: 50,
+        clientY: 200,
+      });
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    it("forwards consumer pointer handlers", () => {
+      const onPointerDown = vi.fn();
+      const onPointerUp = vi.fn();
+      render(
+        <DropdownMenu>
+          <DropdownMenuTrigger onPointerDown={onPointerDown} onPointerUp={onPointerUp}>
+            trigger
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      const trigger = screen.getByRole("button");
+      fireEvent.pointerDown(trigger, {
+        pointerType: "touch",
+        clientX: 0,
+        clientY: 0,
+      });
+      fireEvent.pointerUp(trigger, {
+        pointerType: "touch",
+        clientX: 0,
+        clientY: 0,
+      });
+      expect(onPointerDown).toHaveBeenCalledTimes(1);
+      expect(onPointerUp).toHaveBeenCalledTimes(1);
+    });
+
+    it("opens via keyboard activation (Enter)", async () => {
+      const user = userEvent.setup();
+      const onOpenChange = vi.fn();
+      render(
+        <DropdownMenu onOpenChange={onOpenChange}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      screen.getByRole("button").focus();
+      await user.keyboard("{Enter}");
+      expect(onOpenChange).toHaveBeenCalledWith(true);
+    });
+
+    it("mouse interactions remain unguarded (opens on pointerdown)", () => {
+      const onOpenChange = vi.fn();
+      render(
+        <DropdownMenu onOpenChange={onOpenChange}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      const trigger = screen.getByRole("button");
+      // Radix opens DropdownMenu on pointerdown for mouse. The gate must not
+      // interfere with this path.
+      fireEvent.pointerDown(trigger, {
+        pointerType: "mouse",
+        clientX: 10,
+        clientY: 10,
+        button: 0,
+      });
+      expect(onOpenChange).toHaveBeenCalledWith(true);
+    });
+
+    it("isolates state across pointerIds (other-finger up does not toggle)", () => {
+      const onOpenChange = vi.fn();
+      render(
+        <DropdownMenu onOpenChange={onOpenChange}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      const trigger = screen.getByRole("button");
+      fireEvent.pointerDown(trigger, {
+        pointerType: "touch",
+        pointerId: 1,
+        clientX: 0,
+        clientY: 0,
+      });
+      // A different pointer releasing on the trigger must not consume the
+      // active tap state — common with two-finger interactions.
+      fireEvent.pointerUp(trigger, {
+        pointerType: "touch",
+        pointerId: 2,
+        clientX: 0,
+        clientY: 0,
+      });
+      expect(onOpenChange).not.toHaveBeenCalled();
+      // The original pointer can still complete a tap and open the menu.
+      fireEvent.pointerUp(trigger, {
+        pointerType: "touch",
+        pointerId: 1,
+        clientX: 1,
+        clientY: 1,
+      });
+      expect(onOpenChange).toHaveBeenCalledWith(true);
+    });
+
+    it("captures the pointer so drag-off-then-release classifies as a drag", () => {
+      const setPointerCapture = vi.fn();
+      const onOpenChange = vi.fn();
+      // Spy on the prototype because jsdom's HTMLElement implementation does
+      // not always expose setPointerCapture by default.
+      const originalSetPointerCapture = HTMLElement.prototype.setPointerCapture as
+        | ((id: number) => void)
+        | undefined;
+      HTMLElement.prototype.setPointerCapture = setPointerCapture as (id: number) => void;
+      try {
+        render(
+          <DropdownMenu onOpenChange={onOpenChange}>
+            <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>Item</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>,
+        );
+        const trigger = screen.getByRole("button");
+        fireEvent.pointerDown(trigger, {
+          pointerType: "touch",
+          pointerId: 5,
+          clientX: 0,
+          clientY: 0,
+        });
+        expect(setPointerCapture).toHaveBeenCalledWith(5);
+      } finally {
+        if (originalSetPointerCapture) {
+          HTMLElement.prototype.setPointerCapture = originalSetPointerCapture;
+        } else {
+          delete (HTMLElement.prototype as { setPointerCapture?: unknown }).setPointerCapture;
+        }
+      }
     });
   });
 });
