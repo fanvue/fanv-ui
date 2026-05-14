@@ -503,7 +503,7 @@ export {
 } from "./components/InfoBox/InfoBox";
 export type { LoaderProps } from "./components/Loader/Loader";
 export { Loader } from "./components/Loader/Loader";
-export type { LogoColor, LogoProps, LogoVariant } from "./components/Logo/Logo";
+export type { LogoColor, LogoProps, LogoSize, LogoVariant } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type {
   MobileStepperPosition,

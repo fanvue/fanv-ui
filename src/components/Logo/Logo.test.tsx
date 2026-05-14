@@ -50,6 +50,27 @@ describe("Logo", () => {
       expect(text).toBeInTheDocument();
     });
 
+    it("applies size class to both icon and wordmark", () => {
+      const { container } = render(<Logo variant="full" size="48" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]');
+      const wordmark = container.querySelector('[data-testid="logo-wordmark"]');
+
+      expect(icon).toHaveClass("h-12");
+      expect(wordmark).toHaveClass("h-12");
+    });
+
+    it("defaults to size 32 for full variant", () => {
+      const { container } = render(<Logo />);
+      const icon = container.querySelector('[data-testid="logo-icon"]');
+      expect(icon).toHaveClass("h-8");
+    });
+
+    it("defaults to size 40 for icon variant", () => {
+      const { container } = render(<Logo variant="icon" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]');
+      expect(icon).toHaveClass("h-10");
+    });
+
     it("renders portrait type with both icon and wordmark in column", () => {
       const { container } = render(<Logo variant="portrait" />);
       const logo = container.querySelector('[data-testid="logo"]');
