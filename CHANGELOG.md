@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.15.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.14.3...ui-v2.15.0) (2026-05-14)
+
+
+### Features
+
+* **InlineEdit:** add component and dotted Chip variant ([#469](https://github.com/fanvue/fanv-ui/issues/469)) ([5ffe2a0](https://github.com/fanvue/fanv-ui/commit/5ffe2a0d5608559bf78485bbc27390cec832af4c))
+* **Logo:** add size prop for proportional resizing ([#471](https://github.com/fanvue/fanv-ui/issues/471)) ([5ad927d](https://github.com/fanvue/fanv-ui/commit/5ad927d6227664e96d7c5115c1b18067ee0db71f))
+
 ## [2.14.3](https://github.com/fanvue/fanv-ui/compare/ui-v2.14.2...ui-v2.14.3) (2026-05-08)
 
 
