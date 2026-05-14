@@ -132,6 +132,7 @@ import {
   InfoBoxTrigger,
   InfoCircleIcon,
   InfoIcon,
+  InlineEdit,
   LinkIcon,
   Loader,
   LocationIcon,
@@ -2609,6 +2610,17 @@ function ChipDemo() {
         </Chip>
       </div>
       <div className="flex flex-wrap items-center gap-3">
+        <Chip variant="square" dotted>
+          New folder
+        </Chip>
+        <Chip variant="square" dotted onClick={() => {}}>
+          New folder
+        </Chip>
+        <Chip variant="square" size="40" dotted onClick={() => {}}>
+          New folder
+        </Chip>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
         <Chip leftDot>Chip</Chip>
         <Chip leftDot selected>
           Chip
@@ -3994,6 +4006,40 @@ function AudioUploadDemo() {
   );
 }
 
+function InlineEditDemo() {
+  const [folderName, setFolderName] = useState("New folder");
+  const [folders, setFolders] = useState(["Inbox", "Drafts", "Sent"]);
+
+  return (
+    <div id="inlineedit" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-bold-heading-sm mb-4">Inline Edit</h2>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <InlineEdit value={folderName} onSubmit={setFolderName} />
+          <InlineEdit size="32" value={folderName} onSubmit={setFolderName} />
+          <InlineEdit value="Locked folder" onSubmit={() => {}} disabled />
+          <InlineEdit
+            value={folderName}
+            onSubmit={setFolderName}
+            leftIcon={<PlusIcon className="size-4" />}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          {folders.map((name, index) => (
+            <InlineEdit
+              key={index}
+              value={name}
+              onSubmit={(next: string) =>
+                setFolders((prev) => prev.map((current, i) => (i === index ? next : current)))
+              }
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function LoaderDemo() {
   return (
     <div id="loader" className="flex scroll-mt-20 flex-col gap-4">
@@ -4558,6 +4604,7 @@ function App() {
     { id: "iconbutton", label: "Icon Button" },
     { id: "icons", label: "Icons" },
     { id: "infobox", label: "InfoBox" },
+    { id: "inlineedit", label: "Inline Edit" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
     { id: "stepper", label: "Stepper" },
@@ -4809,6 +4856,9 @@ function App() {
             {/* Tooltip */}
             <TooltipDemo />
             <InfoBoxDemo />
+
+            {/* Inline Edit */}
+            <InlineEditDemo />
 
             {/* Audio Upload */}
             <AudioUploadDemo />

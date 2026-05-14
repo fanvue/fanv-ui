@@ -37,6 +37,7 @@ const meta = {
     selected: { control: "boolean" },
     disabled: { control: "boolean" },
     leftDot: { control: "boolean" },
+    dotted: { control: "boolean" },
   },
 } satisfies Meta<typeof Chip>;
 
@@ -145,6 +146,33 @@ export const WithDotDark: Story = {
     variant: "dark",
     leftDot: true,
     children: "Chip",
+  },
+};
+
+export const Dotted: Story = {
+  args: {
+    variant: "square",
+    dotted: true,
+    children: "New folder",
+  },
+};
+
+export const DottedInteractive: Story = {
+  args: {
+    variant: "square",
+    dotted: true,
+    children: "New folder",
+    onClick: () => {},
+  },
+};
+
+export const DottedSize40: Story = {
+  args: {
+    variant: "square",
+    size: "40",
+    dotted: true,
+    children: "New folder",
+    onClick: () => {},
   },
 };
 

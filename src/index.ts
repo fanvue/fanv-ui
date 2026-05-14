@@ -501,6 +501,11 @@ export {
   InfoBoxContent,
   InfoBoxTrigger,
 } from "./components/InfoBox/InfoBox";
+export type {
+  InlineEditProps,
+  InlineEditSize,
+} from "./components/InlineEdit/InlineEdit";
+export { InlineEdit } from "./components/InlineEdit/InlineEdit";
 export type { LoaderProps } from "./components/Loader/Loader";
 export { Loader } from "./components/Loader/Loader";
 export type { LogoColor, LogoProps, LogoVariant } from "./components/Logo/Logo";
