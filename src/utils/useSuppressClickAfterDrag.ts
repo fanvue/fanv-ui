@@ -31,13 +31,16 @@ type GatedHandlers = {
  * #2702 (DismissableLayer touch dismiss). For the DropdownMenu pointerdown
  * variant see `components/DropdownMenu/DropdownMenu.tsx`.
  */
-export function useSuppressClickAfterDrag<P extends GatedHandlers>(props: P): P {
+export function useSuppressClickAfterDrag<P extends GatedHandlers = GatedHandlers>(
+  props?: P,
+): P & Required<GatedHandlers> {
   const tapRef = React.useRef<ActiveTap | null>(null);
+  const consumer = props ?? ({} as P);
 
   return {
-    ...props,
+    ...consumer,
     onPointerDown(event) {
-      props.onPointerDown?.(event);
+      consumer.onPointerDown?.(event);
       if (event.pointerType === "mouse") {
         tapRef.current = null;
         return;
@@ -53,7 +56,7 @@ export function useSuppressClickAfterDrag<P extends GatedHandlers>(props: P): P 
       };
     },
     onPointerMove(event) {
-      props.onPointerMove?.(event);
+      consumer.onPointerMove?.(event);
       const tap = tapRef.current;
       if (tap === null || event.pointerId !== tap.pointerId || tap.movedPastThreshold) return;
       const dx = event.clientX - tap.x;
@@ -63,7 +66,7 @@ export function useSuppressClickAfterDrag<P extends GatedHandlers>(props: P): P 
       }
     },
     onPointerCancel(event) {
-      props.onPointerCancel?.(event);
+      consumer.onPointerCancel?.(event);
       const tap = tapRef.current;
       if (tap !== null && event.pointerId === tap.pointerId) {
         tapRef.current = null;
@@ -80,7 +83,7 @@ export function useSuppressClickAfterDrag<P extends GatedHandlers>(props: P): P 
         event.stopPropagation();
         return;
       }
-      props.onClick?.(event);
+      consumer.onClick?.(event);
     },
   };
 }
