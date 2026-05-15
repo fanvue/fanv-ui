@@ -4,7 +4,7 @@ import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { TextField, type TextFieldProps } from "../TextField/TextField";
 
-export type SearchFieldSize = "48" | "40" | "32";
+export type SearchFieldSize = "48" | "40";
 
 export interface SearchFieldProps extends Omit<TextFieldProps, "type" | "leftIcon"> {
   /** Size variant of the search field. @default "48" */

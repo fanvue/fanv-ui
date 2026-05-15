@@ -5,7 +5,7 @@ import { CheckOutlineIcon } from "../Icons/CheckOutlineIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 
 /** Text area height in pixels. */
-export type TextAreaSize = "48" | "40" | "32";
+export type TextAreaSize = "48" | "40";
 
 export interface TextAreaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> {
@@ -38,31 +38,16 @@ export interface TextAreaProps
 const CONTAINER_MIN_HEIGHT: Record<TextAreaSize, string> = {
   "48": "min-h-12",
   "40": "min-h-10",
-  "32": "min-h-8",
 };
 
 const TEXTAREA_SIZE_CLASSES: Record<TextAreaSize, string> = {
   "48": "py-3 typography-regular-body-lg autofill-body-lg",
   "40": "py-2 typography-regular-body-lg autofill-body-lg",
-  "32": "py-2 typography-regular-body-md autofill-body-md",
-};
-
-const PADDING_HORIZONTAL: Record<TextAreaSize, string> = {
-  "48": "px-4",
-  "40": "px-4",
-  "32": "px-3",
-};
-
-const PADDING_RIGHT_WITH_CLEAR: Record<TextAreaSize, string> = {
-  "48": "pr-11",
-  "40": "pr-11",
-  "32": "pr-10",
 };
 
 const CLEAR_BUTTON_RIGHT: Record<TextAreaSize, string> = {
   "48": "right-4 top-3",
   "40": "right-4 top-2",
-  "32": "right-3 top-2",
 };
 
 function getContainerClassName(size: TextAreaSize, error: boolean, disabled?: boolean) {
@@ -86,8 +71,7 @@ function getTextareaClassName(
     resizable ? "resize-y" : "resize-none",
     !hasMinRows && "min-h-[80px]",
     TEXTAREA_SIZE_CLASSES[size],
-    PADDING_HORIZONTAL[size],
-    hasClearButton ? PADDING_RIGHT_WITH_CLEAR[size] : "",
+    hasClearButton ? "px-4 pr-11" : "px-4",
   );
 }
 
@@ -127,9 +111,9 @@ function calculateMaxHeight(size: TextAreaSize, maxRows?: number): string | unde
   if (!maxRows) return undefined;
 
   // Line height is 24px for body-1 (sizes 48 and 40) and 20px for body-2 (size 32)
-  const lineHeight = size === "32" ? 20 : 24;
+  const lineHeight = 24;
   // py-2 = 8px, py-3 = 12px
-  const verticalPadding = size === "32" ? 8 : size === "40" ? 8 : 12;
+  const verticalPadding = size === "40" ? 8 : 12;
 
   return `${lineHeight * maxRows + verticalPadding * 2}px`;
 }

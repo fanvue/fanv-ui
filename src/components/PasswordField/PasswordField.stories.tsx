@@ -16,7 +16,7 @@ const meta: Meta<typeof PasswordField> = {
   argTypes: {
     size: {
       control: "select",
-      options: ["48", "40", "32"],
+      options: ["48", "40"],
     },
     label: {
       control: "text",
@@ -74,14 +74,6 @@ export const Size40: Story = {
   args: {
     size: "40",
     label: "Size 40",
-    placeholder: "Password",
-  },
-};
-
-export const Size32: Story = {
-  args: {
-    size: "32",
-    label: "Size 32",
     placeholder: "Password",
   },
 };
@@ -228,8 +220,8 @@ export const TextOverflow: Story = {
         defaultValue="averylongpasswordthatshoulddefinitelynotoverflowthecontainerboundary"
       />
       <PasswordField
-        label="Size 32"
-        size="32"
+        label="Size 40"
+        size="40"
         defaultValue="averylongpasswordthatshoulddefinitelynotoverflowthecontainerboundary"
       />
     </div>
@@ -242,7 +234,6 @@ export const AllSizeVariants: Story = {
     <div className="flex w-[375px] flex-col gap-4">
       <PasswordField size="48" label="Size 48" placeholder="Password" />
       <PasswordField size="40" label="Size 40" placeholder="Password" />
-      <PasswordField size="32" label="Size 32" placeholder="Password" />
     </div>
   ),
 };

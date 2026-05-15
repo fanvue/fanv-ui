@@ -3,7 +3,7 @@ import { EyeIcon } from "../Icons/EyeIcon";
 import { EyeSlashIcon } from "../Icons/EyeSlashIcon";
 import { TextField, type TextFieldProps } from "../TextField/TextField";
 
-export type PasswordFieldSize = "48" | "40" | "32";
+export type PasswordFieldSize = "48" | "40";
 
 export interface PasswordFieldProps extends Omit<TextFieldProps, "type" | "rightIcon"> {
   /** Size variant of the password field */

@@ -13,14 +13,14 @@ const meta: Meta<typeof TextField> = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=4262-17626&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16633-69732&m=dev",
     },
   },
   tags: ["autodocs"],
   argTypes: {
     size: {
       control: "select",
-      options: ["48", "40", "32"],
+      options: ["48", "40"],
     },
     label: {
       control: "text",
@@ -85,14 +85,6 @@ export const Size40: Story = {
   args: {
     size: "40",
     label: "Size 40",
-    placeholder: "Placeholder Text",
-  },
-};
-
-export const Size32: Story = {
-  args: {
-    size: "32",
-    label: "Size 32",
     placeholder: "Placeholder Text",
   },
 };
@@ -280,8 +272,8 @@ export const TextOverflow: Story = {
         defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
       />
       <TextField
-        label="Size 32"
-        size="32"
+        label="Size 40"
+        size="40"
         defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
       />
     </div>
@@ -294,7 +286,6 @@ export const AllSizeVariants: Story = {
     <div className="flex w-[375px] flex-col gap-4">
       <TextField size="48" label="Size 48" placeholder="Default size" />
       <TextField size="40" label="Size 40" placeholder="Medium size" />
-      <TextField size="32" label="Size 32" placeholder="Compact size" />
     </div>
   ),
 };
