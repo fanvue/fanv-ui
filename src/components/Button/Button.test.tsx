@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import * as React from "react";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
-import { Button } from "./Button";
+import { Button, type ButtonVariant } from "./Button";
 
 describe("Button", () => {
   describe("API", () => {
@@ -181,23 +181,88 @@ describe("Button", () => {
     });
 
     it("has no accessibility violations for all variant types", async () => {
-      const variants = [
+      const variants: ButtonVariant[] = [
         "primary",
         "secondary",
         "tertiary",
+        "outline",
         "link",
         "brand",
         "destructive",
         "white",
+        "alwaysBlack",
+        "ai",
         "tertiaryDestructive",
         "text",
-      ] as const;
+      ];
 
       for (const variant of variants) {
         const { container } = render(<Button variant={variant}>{variant} Button</Button>);
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       }
+    });
+
+    it("has no accessibility violations for negative-aware variants when negative", async () => {
+      const variants: ButtonVariant[] = ["primary", "secondary", "tertiary", "outline"];
+      for (const variant of variants) {
+        const { container } = render(
+          <div className="bg-surface-primary-inverted p-4">
+            <Button variant={variant} negative>
+              {variant} negative
+            </Button>
+          </div>,
+        );
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      }
+    });
+  });
+
+  describe("negative prop", () => {
+    const NEGATIVE_AWARE: ButtonVariant[] = ["primary", "secondary", "tertiary", "outline"];
+
+    it.each(NEGATIVE_AWARE)("changes className for variant %s when negative=true", (variant) => {
+      const { rerender } = render(
+        <Button variant={variant} data-testid="button">
+          Label
+        </Button>,
+      );
+      const defaultClass = screen.getByTestId("button").className;
+      rerender(
+        <Button variant={variant} negative data-testid="button">
+          Label
+        </Button>,
+      );
+      const negativeClass = screen.getByTestId("button").className;
+      expect(negativeClass).not.toBe(defaultClass);
+    });
+
+    const NON_NEGATIVE_AWARE: ButtonVariant[] = [
+      "brand",
+      "destructive",
+      "white",
+      "alwaysBlack",
+      "ai",
+      "link",
+      "tertiaryDestructive",
+      "text",
+    ];
+
+    it.each(NON_NEGATIVE_AWARE)("is a no-op for variant %s", (variant) => {
+      const { rerender } = render(
+        <Button variant={variant} data-testid="button">
+          Label
+        </Button>,
+      );
+      const defaultClass = screen.getByTestId("button").className;
+      rerender(
+        <Button variant={variant} negative data-testid="button">
+          Label
+        </Button>,
+      );
+      const negativeClass = screen.getByTestId("button").className;
+      expect(negativeClass).toBe(defaultClass);
     });
   });
 });
