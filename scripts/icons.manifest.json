@@ -11,6 +11,11 @@
       "hasFilled": true
     },
     {
+      "name": "AICallIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "AIDisclosureIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -166,12 +171,22 @@
       "hasFilled": true
     },
     {
+      "name": "CrossCircleIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "CrownIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },
     {
       "name": "DiamondIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "DiscordIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },
@@ -231,6 +246,11 @@
       "hasFilled": true
     },
     {
+      "name": "FlashIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "FolderIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -282,6 +302,11 @@
     },
     {
       "name": "ImageIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ImageUploadIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },
@@ -466,6 +491,11 @@
       "hasFilled": true
     },
     {
+      "name": "SoundIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
       "name": "StarIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -527,6 +557,11 @@
     },
     {
       "name": "ToolsIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "TranscationArrowIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },
