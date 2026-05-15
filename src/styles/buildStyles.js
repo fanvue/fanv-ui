@@ -154,17 +154,18 @@ const getEffectTokens = (effectTokens) => {
       if ("value" in entry) {
         if (entry.value?.shadowType !== "dropShadow") continue;
         output += `  ${cssName}: ${shadowValue(entry.value)};\n`;
-      } else if (entry["0"] && entry["1"]) {
-        if (
-          entry["0"].value?.shadowType !== "dropShadow" ||
-          entry["1"].value?.shadowType !== "dropShadow"
-        )
-          continue;
-        output += `  ${cssName}: ${shadowValue(entry["0"].value)}, ${shadowValue(entry["1"].value)};\n`;
-      } else if (entry["0"] === null && entry["1"]) {
-        if (entry["1"].value?.shadowType !== "dropShadow") continue;
-        output += `  ${cssName}: ${shadowValue(entry["1"].value)};\n`;
+        continue;
       }
+
+      const layers = Object.keys(entry)
+        .filter((k) => /^\d+$/.test(k))
+        .sort((a, b) => Number(a) - Number(b))
+        .map((k) => entry[k])
+        .filter((layer) => layer && layer.value?.shadowType === "dropShadow")
+        .map((layer) => shadowValue(layer.value));
+
+      if (layers.length === 0) continue;
+      output += `  ${cssName}: ${layers.join(", ")};\n`;
     }
   };
 
