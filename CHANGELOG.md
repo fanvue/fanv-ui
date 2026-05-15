@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.17.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.16.0...ui-v2.17.0) (2026-05-15)
+
+
+### Features
+
+* **Icons:** add AICall, CrossCircle, Discord, Flash, ImageUpload, Sound, TransactionArrow icons ([558b97a](https://github.com/fanvue/fanv-ui/commit/558b97a4484e1388e1d9de1d751b9dee020f3140))
+* **Icons:** add more icons ([#478](https://github.com/fanvue/fanv-ui/issues/478)) ([558b97a](https://github.com/fanvue/fanv-ui/commit/558b97a4484e1388e1d9de1d751b9dee020f3140))
+
 ## [2.16.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.15.1...ui-v2.16.0) (2026-05-14)
 
 
