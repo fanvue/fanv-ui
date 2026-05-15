@@ -278,6 +278,9 @@ function renderContent({
  * Pass `negative` when rendering on a dark surface to opt into the inverted
  * treatment for `primary`, `secondary`, `tertiary`, and `outline` variants.
  *
+ * The `ai` variant ships with the AI sparkle icon baked in (locked at 16px
+ * regardless of button size); pass `leftIcon` to override the default sparkle.
+ *
  * @example
  * ```tsx
  * <Button variant="primary" size="40" leftIcon={<StarIcon />}>
@@ -307,9 +310,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : "button";
     const isDisabled = Boolean(disabled) || loading;
-    // AI variant locks its sparkle icon at 16px regardless of button size, per Figma.
     const iconSizeClass = variant === "ai" ? "[&>svg]:size-4" : ICON_WRAPPER_CLASS[size];
-    // AI variant ships with the AI sparkle as a default left icon; consumer can override.
     const effectiveLeftIcon = leftIcon ?? (variant === "ai" ? <AIIcon filled /> : undefined);
 
     const buttonSpecificProps = !asChild
