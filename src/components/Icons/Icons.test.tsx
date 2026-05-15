@@ -6,6 +6,7 @@ import { AddIcon } from "./AddIcon";
 import { AI2Icon } from "./AI2Icon";
 import { AIDisclosureIcon } from "./AIDisclosureIcon";
 import { AIIcon } from "./AIIcon";
+import { AICallIcon } from "./AiCallIcon";
 import { AlertIcon } from "./AlertIcon";
 import { AppsIcon } from "./AppsIcon";
 import { ArrowDownIcon } from "./ArrowDownIcon";
@@ -40,9 +41,11 @@ import { CodeIcon } from "./CodeIcon";
 import { CoinIcon } from "./CoinIcon";
 import { CompassIcon } from "./CompassIcon";
 import { CopyIcon } from "./CopyIcon";
+import { CrossCircleIcon } from "./CrossCircleIcon";
 import { CrossIcon } from "./CrossIcon";
 import { CrownIcon } from "./CrownIcon";
 import { DiamondIcon } from "./DiamondIcon";
+import { DiscordIcon } from "./DiscordIcon";
 import { DiscountIcon } from "./DiscountIcon";
 import { DonateIcon } from "./DonateIcon";
 import { DoubleTickIcon } from "./DoubleTickIcon";
@@ -60,6 +63,7 @@ import { EyeSlashIcon } from "./EyeSlashIcon";
 import { FacebookIcon } from "./FacebookIcon";
 import { FlagIcon } from "./FlagIcon";
 import { FlameIcon } from "./FlameIcon";
+import { FlashIcon } from "./FlashIcon";
 import { FolderIcon } from "./FolderIcon";
 import { ForwardIcon } from "./ForwardIcon";
 import { GalleryIcon } from "./GalleryIcon";
@@ -73,6 +77,7 @@ import { HelpIcon } from "./HelpIcon";
 import { HomeIcon } from "./HomeIcon";
 import { HourglassIcon } from "./HourglassIcon";
 import { ImageIcon } from "./ImageIcon";
+import { ImageUploadIcon } from "./ImageUploadIcon";
 import { InboxIcon } from "./InboxIcon";
 import { InfoCircleIcon } from "./InfoCircleIcon";
 import { InfoIcon } from "./InfoIcon";
@@ -114,6 +119,7 @@ import { SearchIcon } from "./SearchIcon";
 import { SendIcon } from "./SendIcon";
 import { SettingsIcon } from "./SettingsIcon";
 import { ShareIcon } from "./ShareIcon";
+import { SoundIcon } from "./SoundIcon";
 import { SpinnerIcon } from "./SpinnerIcon";
 import { StarIcon } from "./StarIcon";
 import { StopIcon } from "./StopIcon";
@@ -131,6 +137,7 @@ import { TickCircleIcon } from "./TickCircleIcon";
 import { TickCircleOffIcon } from "./TickCircleOffIcon";
 import { TickIcon } from "./TickIcon";
 import { ToolsIcon } from "./ToolsIcon";
+import { TranscationArrowIcon } from "./TranscationArrowIcon";
 import { TrashBinIcon } from "./TrashBinIcon";
 import { TrashIcon } from "./TrashIcon";
 import { TrophyIcon } from "./TrophyIcon";
@@ -191,6 +198,7 @@ const legacyIcons = [
 
 const propBasedIcons = [
   { name: "AI2Icon", Component: AI2Icon, hasFilled: true },
+  { name: "AICallIcon", Component: AICallIcon, hasFilled: true },
   { name: "AIDisclosureIcon", Component: AIDisclosureIcon, hasFilled: true },
   { name: "AIIcon", Component: AIIcon, hasFilled: true },
   { name: "AddIcon", Component: AddIcon, hasFilled: false },
@@ -223,8 +231,10 @@ const propBasedIcons = [
   { name: "CoinIcon", Component: CoinIcon, hasFilled: true },
   { name: "CompassIcon", Component: CompassIcon, hasFilled: true },
   { name: "CopyIcon", Component: CopyIcon, hasFilled: true },
+  { name: "CrossCircleIcon", Component: CrossCircleIcon, hasFilled: true },
   { name: "CrownIcon", Component: CrownIcon, hasFilled: true },
   { name: "DiamondIcon", Component: DiamondIcon, hasFilled: true },
+  { name: "DiscordIcon", Component: DiscordIcon, hasFilled: true },
   { name: "DiscountIcon", Component: DiscountIcon, hasFilled: true },
   { name: "DonateIcon", Component: DonateIcon, hasFilled: true },
   { name: "DoubleTickIcon", Component: DoubleTickIcon, hasFilled: true },
@@ -236,6 +246,7 @@ const propBasedIcons = [
   { name: "EyeOffIcon", Component: EyeOffIcon, hasFilled: true },
   { name: "FlagIcon", Component: FlagIcon, hasFilled: true },
   { name: "FlameIcon", Component: FlameIcon, hasFilled: true },
+  { name: "FlashIcon", Component: FlashIcon, hasFilled: true },
   { name: "FolderIcon", Component: FolderIcon, hasFilled: true },
   { name: "ForwardIcon", Component: ForwardIcon, hasFilled: true },
   { name: "GameIcon", Component: GameIcon, hasFilled: true },
@@ -247,6 +258,7 @@ const propBasedIcons = [
   { name: "HomeIcon", Component: HomeIcon, hasFilled: true },
   { name: "HourglassIcon", Component: HourglassIcon, hasFilled: true },
   { name: "ImageIcon", Component: ImageIcon, hasFilled: true },
+  { name: "ImageUploadIcon", Component: ImageUploadIcon, hasFilled: true },
   { name: "InboxIcon", Component: InboxIcon, hasFilled: true },
   { name: "InfoIcon", Component: InfoIcon, hasFilled: true },
   { name: "LanguageIcon", Component: LanguageIcon, hasFilled: true },
@@ -283,6 +295,7 @@ const propBasedIcons = [
   { name: "SendIcon", Component: SendIcon, hasFilled: true },
   { name: "SettingsIcon", Component: SettingsIcon, hasFilled: true },
   { name: "ShareIcon", Component: ShareIcon, hasFilled: true },
+  { name: "SoundIcon", Component: SoundIcon, hasFilled: false },
   { name: "StarIcon", Component: StarIcon, hasFilled: true },
   { name: "StopIcon", Component: StopIcon, hasFilled: true },
   { name: "SunIcon", Component: SunIcon, hasFilled: true },
@@ -296,6 +309,7 @@ const propBasedIcons = [
   { name: "TickCircleOffIcon", Component: TickCircleOffIcon, hasFilled: false },
   { name: "TickIcon", Component: TickIcon, hasFilled: false },
   { name: "ToolsIcon", Component: ToolsIcon, hasFilled: true },
+  { name: "TranscationArrowIcon", Component: TranscationArrowIcon, hasFilled: true },
   { name: "TrashIcon", Component: TrashIcon, hasFilled: true },
   { name: "TrophyIcon", Component: TrophyIcon, hasFilled: true },
   { name: "UploadIcon", Component: UploadIcon, hasFilled: true },

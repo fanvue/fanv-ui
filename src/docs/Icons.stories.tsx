@@ -4,6 +4,7 @@ import { AddIcon } from "../components/Icons/AddIcon";
 import { AI2Icon } from "../components/Icons/AI2Icon";
 import { AIDisclosureIcon } from "../components/Icons/AIDisclosureIcon";
 import { AIIcon } from "../components/Icons/AIIcon";
+import { AICallIcon } from "../components/Icons/AiCallIcon";
 import { AlertIcon } from "../components/Icons/AlertIcon";
 import { AppsIcon } from "../components/Icons/AppsIcon";
 import { ArrowDownIcon } from "../components/Icons/ArrowDownIcon";
@@ -38,9 +39,11 @@ import { CodeIcon } from "../components/Icons/CodeIcon";
 import { CoinIcon } from "../components/Icons/CoinIcon";
 import { CompassIcon } from "../components/Icons/CompassIcon";
 import { CopyIcon } from "../components/Icons/CopyIcon";
+import { CrossCircleIcon } from "../components/Icons/CrossCircleIcon";
 import { CrossIcon } from "../components/Icons/CrossIcon";
 import { CrownIcon } from "../components/Icons/CrownIcon";
 import { DiamondIcon } from "../components/Icons/DiamondIcon";
+import { DiscordIcon } from "../components/Icons/DiscordIcon";
 import { DiscountIcon } from "../components/Icons/DiscountIcon";
 import { DonateIcon } from "../components/Icons/DonateIcon";
 import { DoubleTickIcon } from "../components/Icons/DoubleTickIcon";
@@ -58,6 +61,7 @@ import { EyeSlashIcon } from "../components/Icons/EyeSlashIcon";
 import { FacebookIcon } from "../components/Icons/FacebookIcon";
 import { FlagIcon } from "../components/Icons/FlagIcon";
 import { FlameIcon } from "../components/Icons/FlameIcon";
+import { FlashIcon } from "../components/Icons/FlashIcon";
 import { FolderIcon } from "../components/Icons/FolderIcon";
 import { ForwardIcon } from "../components/Icons/ForwardIcon";
 import { GalleryIcon } from "../components/Icons/GalleryIcon";
@@ -71,6 +75,7 @@ import { HelpIcon } from "../components/Icons/HelpIcon";
 import { HomeIcon } from "../components/Icons/HomeIcon";
 import { HourglassIcon } from "../components/Icons/HourglassIcon";
 import { ImageIcon } from "../components/Icons/ImageIcon";
+import { ImageUploadIcon } from "../components/Icons/ImageUploadIcon";
 import { InboxIcon } from "../components/Icons/InboxIcon";
 import { InfoCircleIcon } from "../components/Icons/InfoCircleIcon";
 import { InfoIcon } from "../components/Icons/InfoIcon";
@@ -112,6 +117,7 @@ import { SearchIcon } from "../components/Icons/SearchIcon";
 import { SendIcon } from "../components/Icons/SendIcon";
 import { SettingsIcon } from "../components/Icons/SettingsIcon";
 import { ShareIcon } from "../components/Icons/ShareIcon";
+import { SoundIcon } from "../components/Icons/SoundIcon";
 import { SpinnerIcon } from "../components/Icons/SpinnerIcon";
 import { StarIcon } from "../components/Icons/StarIcon";
 import { StopIcon } from "../components/Icons/StopIcon";
@@ -129,6 +135,7 @@ import { TickCircleIcon } from "../components/Icons/TickCircleIcon";
 import { TickCircleOffIcon } from "../components/Icons/TickCircleOffIcon";
 import { TickIcon } from "../components/Icons/TickIcon";
 import { ToolsIcon } from "../components/Icons/ToolsIcon";
+import { TranscationArrowIcon } from "../components/Icons/TranscationArrowIcon";
 import { TrashBinIcon } from "../components/Icons/TrashBinIcon";
 import { TrashIcon } from "../components/Icons/TrashIcon";
 import { TrophyIcon } from "../components/Icons/TrophyIcon";
@@ -184,6 +191,7 @@ const icons: IconEntry[] = [
     tags: ["ai", "artificial", "intelligence", "sparkle", "alt"],
     propBased: true,
   },
+  { name: "AICallIcon", component: AICallIcon, tags: [], propBased: true },
   { name: "AIDisclosureIcon", component: AIDisclosureIcon, tags: [], propBased: true },
   {
     name: "AIIcon",
@@ -391,6 +399,7 @@ const icons: IconEntry[] = [
     tags: ["copy", "duplicate", "clipboard", "paste"],
     propBased: true,
   },
+  { name: "CrossCircleIcon", component: CrossCircleIcon, tags: [], propBased: true },
   {
     name: "CrossIcon",
     component: CrossIcon,
@@ -409,6 +418,7 @@ const icons: IconEntry[] = [
     tags: ["diamond", "gem", "premium"],
     propBased: true,
   },
+  { name: "DiscordIcon", component: DiscordIcon, tags: [], propBased: true },
   {
     name: "DiscountIcon",
     component: DiscountIcon,
@@ -496,6 +506,7 @@ const icons: IconEntry[] = [
     tags: ["flame", "fire", "hot", "trending", "popular"],
     propBased: true,
   },
+  { name: "FlashIcon", component: FlashIcon, tags: [], propBased: true },
   {
     name: "FolderIcon",
     component: FolderIcon,
@@ -559,6 +570,7 @@ const icons: IconEntry[] = [
     tags: ["image", "photo", "picture", "gallery"],
     propBased: true,
   },
+  { name: "ImageUploadIcon", component: ImageUploadIcon, tags: [], propBased: true },
   { name: "InboxIcon", component: InboxIcon, tags: ["inbox", "mail", "message"], propBased: true },
   {
     name: "InfoCircleIcon",
@@ -765,6 +777,7 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   { name: "ShareIcon", component: ShareIcon, tags: ["share", "social", "send"], propBased: true },
+  { name: "SoundIcon", component: SoundIcon, tags: [], propBased: true },
   {
     name: "SpinnerIcon",
     component: SpinnerIcon,
@@ -837,6 +850,7 @@ const icons: IconEntry[] = [
     tags: ["tools", "wrench", "settings", "fix", "repair"],
     propBased: true,
   },
+  { name: "TranscationArrowIcon", component: TranscationArrowIcon, tags: [], propBased: true },
   {
     name: "TrashBinIcon",
     component: TrashBinIcon,
