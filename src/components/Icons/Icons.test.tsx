@@ -4,9 +4,9 @@ import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { AddIcon } from "./AddIcon";
 import { AI2Icon } from "./AI2Icon";
+import { AICallIcon } from "./AICallIcon";
 import { AIDisclosureIcon } from "./AIDisclosureIcon";
 import { AIIcon } from "./AIIcon";
-import { AICallIcon } from "./AiCallIcon";
 import { AlertIcon } from "./AlertIcon";
 import { AppsIcon } from "./AppsIcon";
 import { ArrowDownIcon } from "./ArrowDownIcon";
@@ -106,6 +106,7 @@ import { PauseIcon } from "./PauseIcon";
 import { PeopleIcon } from "./PeopleIcon";
 import { PhoneIcon } from "./PhoneIcon";
 import { PhoneOffIcon } from "./PhoneOffIcon";
+import { Pin2Icon } from "./Pin2Icon";
 import { PinIcon } from "./PinIcon";
 import { PlayIcon } from "./PlayIcon";
 import { PlusIcon } from "./PlusIcon";
@@ -283,6 +284,7 @@ const propBasedIcons = [
   { name: "PauseIcon", Component: PauseIcon, hasFilled: true },
   { name: "PhoneIcon", Component: PhoneIcon, hasFilled: true },
   { name: "PhoneOffIcon", Component: PhoneOffIcon, hasFilled: true },
+  { name: "Pin2Icon", Component: Pin2Icon, hasFilled: true },
   { name: "PinIcon", Component: PinIcon, hasFilled: true },
   { name: "PlayIcon", Component: PlayIcon, hasFilled: true },
   { name: "PrivacyIcon", Component: PrivacyIcon, hasFilled: true },

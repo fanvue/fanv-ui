@@ -431,6 +431,11 @@
       "hasFilled": true
     },
     {
+      "name": "Pin2Icon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "PinIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
