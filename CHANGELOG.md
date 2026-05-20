@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.18.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.17.0...ui-v2.18.0) (2026-05-20)
+
+
+### Features
+
+* **Icons:** sync latest icons from Figma ([#481](https://github.com/fanvue/fanv-ui/issues/481)) ([373808c](https://github.com/fanvue/fanv-ui/commit/373808c12f018350a06d45a9a27df1f0edc99353))
+
 ## [2.17.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.16.0...ui-v2.17.0) (2026-05-15)
 
 
