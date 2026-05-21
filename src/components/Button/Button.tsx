@@ -81,83 +81,104 @@ const ICON_WRAPPER_CLASS: Record<ButtonSize, string> = {
 };
 
 /** AI variant uses a fixed-angle gradient defined in the Figma design tokens. */
-const AI_GRADIENT_DEFAULT =
-  "bg-[linear-gradient(50deg,var(--color-buttons-ai-background-gradient-default-start)_11.87%,var(--color-buttons-ai-background-gradient-default-end)_112.39%)]";
-const AI_GRADIENT_HOVER =
-  "hover:bg-[linear-gradient(50deg,var(--color-buttons-ai-background-gradient-hover-start)_11.87%,var(--color-buttons-ai-background-gradient-hover-end)_112.39%)]";
+const AI_GRADIENT =
+  "bg-[linear-gradient(50deg,var(--color-buttons-ai-background-gradient-default-start)_11.87%,var(--color-buttons-ai-background-gradient-default-end)_112.39%)] hover:bg-[linear-gradient(50deg,var(--color-buttons-ai-background-gradient-hover-start)_11.87%,var(--color-buttons-ai-background-gradient-hover-end)_112.39%)]";
+
+const DISABLED_FILL = "bg-buttons-disabled-default text-content-disabled";
+const DISABLED_FILL_NEGATIVE = "bg-buttons-disabled-negative text-content-disabled";
+const DISABLED_TRANSPARENT = "bg-transparent text-content-disabled";
 
 /**
- * Variants without a v2 design that should keep the legacy opacity-based
- * disabled treatment instead of the new per-variant disabled tokens.
+ * Class strings for each `ButtonVariant`, indexed by `negative` and `disabled`
+ * state. `negative` and `negativeDisabled` are only honored when the variant
+ * is in `NEGATIVE_AWARE_VARIANTS` — other variants fall back to the default /
+ * disabled entries regardless of the `negative` prop.
  */
-const LEGACY_DISABLED_VARIANTS = new Set<ButtonVariant>(["link", "tertiaryDestructive", "text"]);
+type VariantClasses = {
+  default: string;
+  disabled: string;
+  negative?: string;
+  negativeDisabled?: string;
+};
 
-function getDisabledClasses(variant: ButtonVariant, isNegative: boolean): string {
-  if (LEGACY_DISABLED_VARIANTS.has(variant)) {
-    return cn(getEnabledClasses(variant, false), "opacity-50");
-  }
-  if (variant === "tertiary") {
-    return "bg-transparent text-content-disabled";
-  }
-  if (variant === "outline") {
-    return cn(
-      "border bg-transparent text-content-disabled",
-      isNegative ? "border-buttons-disabled-negative" : "border-buttons-disabled-default",
-    );
-  }
-  return cn(
-    isNegative ? "bg-buttons-disabled-negative" : "bg-buttons-disabled-default",
-    "text-content-disabled",
-  );
-}
-
-function getEnabledClasses(variant: ButtonVariant, isNegative: boolean): string {
-  switch (variant) {
-    case "primary":
-      return isNegative
-        ? "bg-buttons-primary-negative-default text-content-primary hover:bg-buttons-primary-negative-hover active:bg-buttons-primary-negative-hover"
-        : "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-primary-hover hover:text-content-primary-inverted active:bg-buttons-primary-hover active:text-content-primary-inverted";
-    case "secondary":
-      return isNegative
-        ? "bg-buttons-secondary-negative-default text-content-primary-inverted hover:bg-buttons-secondary-negative-hover active:bg-buttons-secondary-negative-hover"
-        : "bg-buttons-secondary-default text-content-primary hover:bg-buttons-secondary-hover active:bg-buttons-secondary-hover";
-    case "tertiary":
-      return isNegative
-        ? "bg-transparent text-content-primary-inverted hover:bg-buttons-tertiary-negative-hover active:bg-buttons-tertiary-negative-hover"
-        : "bg-transparent text-content-primary hover:bg-buttons-tertiary-hover active:bg-buttons-tertiary-hover";
-    case "outline":
-      return isNegative
-        ? "border border-buttons-outline-negative-default bg-transparent text-content-primary-inverted hover:bg-buttons-outline-negative-hover active:bg-buttons-outline-negative-hover"
-        : "border border-buttons-outline-default bg-transparent text-content-primary hover:bg-buttons-outline-hover active:bg-buttons-outline-hover";
-    case "brand":
-      return "bg-buttons-brand text-content-on-brand hover:bg-buttons-brand-hover hover:text-content-on-brand active:bg-buttons-brand-hover active:text-content-on-brand";
-    case "destructive":
-      return "bg-buttons-error-default text-content-always-white hover:bg-buttons-error-hover hover:text-content-always-white active:bg-buttons-error-hover active:text-content-always-white";
-    case "white":
-      return "bg-buttons-always-white-default text-content-always-black hover:bg-buttons-always-white-hover hover:text-content-always-black active:bg-buttons-always-white-hover active:text-content-always-black";
-    case "alwaysBlack":
-      return "bg-buttons-always-black-default text-content-always-white hover:bg-buttons-always-black-hover hover:text-content-always-white active:bg-buttons-always-black-hover active:text-content-always-white";
-    case "ai":
-      return cn(
-        "border border-buttons-ai-stroke-end text-content-always-white shadow-ai-button-glow",
-        AI_GRADIENT_DEFAULT,
-        AI_GRADIENT_HOVER,
-      );
-    case "link":
-      return "bg-transparent text-content-primary underline decoration-solid hover:bg-buttons-tertiary-hover active:bg-buttons-tertiary-hover";
-    case "tertiaryDestructive":
-      return "bg-transparent text-error-content hover:bg-error-surface active:bg-error-surface";
-    case "text":
-      return "bg-transparent text-content-primary hover:underline active:underline";
-  }
-}
+const VARIANT_CLASSES: Record<ButtonVariant, VariantClasses> = {
+  primary: {
+    default:
+      "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-primary-hover hover:text-content-primary-inverted active:bg-buttons-primary-hover active:text-content-primary-inverted",
+    disabled: DISABLED_FILL,
+    negative:
+      "bg-buttons-primary-negative-default text-content-primary hover:bg-buttons-primary-negative-hover active:bg-buttons-primary-negative-hover",
+    negativeDisabled: DISABLED_FILL_NEGATIVE,
+  },
+  secondary: {
+    default:
+      "bg-buttons-secondary-default text-content-primary hover:bg-buttons-secondary-hover active:bg-buttons-secondary-hover",
+    disabled: DISABLED_FILL,
+    negative:
+      "bg-buttons-secondary-negative-default text-content-primary-inverted hover:bg-buttons-secondary-negative-hover active:bg-buttons-secondary-negative-hover",
+    negativeDisabled: DISABLED_FILL_NEGATIVE,
+  },
+  tertiary: {
+    default:
+      "bg-transparent text-content-primary hover:bg-buttons-tertiary-hover active:bg-buttons-tertiary-hover",
+    disabled: DISABLED_TRANSPARENT,
+    negative:
+      "bg-transparent text-content-primary-inverted hover:bg-buttons-tertiary-negative-hover active:bg-buttons-tertiary-negative-hover",
+    negativeDisabled: DISABLED_TRANSPARENT,
+  },
+  outline: {
+    default:
+      "border border-buttons-outline-default bg-transparent text-content-primary hover:bg-buttons-outline-hover active:bg-buttons-outline-hover",
+    disabled: "border border-buttons-disabled-default bg-transparent text-content-disabled",
+    negative:
+      "border border-buttons-outline-negative-default bg-transparent text-content-primary-inverted hover:bg-buttons-outline-negative-hover active:bg-buttons-outline-negative-hover",
+    negativeDisabled:
+      "border border-buttons-disabled-negative bg-transparent text-content-disabled",
+  },
+  brand: {
+    default:
+      "bg-buttons-brand text-content-on-brand hover:bg-buttons-brand-hover hover:text-content-on-brand active:bg-buttons-brand-hover active:text-content-on-brand",
+    disabled: DISABLED_FILL,
+  },
+  destructive: {
+    default:
+      "bg-buttons-error-default text-content-always-white hover:bg-buttons-error-hover hover:text-content-always-white active:bg-buttons-error-hover active:text-content-always-white",
+    disabled: DISABLED_FILL,
+  },
+  white: {
+    default:
+      "bg-buttons-always-white-default text-content-always-black hover:bg-buttons-always-white-hover hover:text-content-always-black active:bg-buttons-always-white-hover active:text-content-always-black",
+    disabled: DISABLED_FILL,
+  },
+  alwaysBlack: {
+    default:
+      "bg-buttons-always-black-default text-content-always-white hover:bg-buttons-always-black-hover hover:text-content-always-white active:bg-buttons-always-black-hover active:text-content-always-white",
+    disabled: DISABLED_FILL,
+  },
+  ai: {
+    default: `border border-buttons-ai-stroke-end text-content-always-white shadow-ai-button-glow ${AI_GRADIENT}`,
+    disabled: DISABLED_FILL,
+  },
+  link: {
+    default:
+      "bg-transparent text-content-primary underline decoration-solid hover:bg-buttons-tertiary-hover active:bg-buttons-tertiary-hover",
+    disabled: "bg-transparent text-content-primary underline decoration-solid opacity-50",
+  },
+  tertiaryDestructive: {
+    default: "bg-transparent text-error-content hover:bg-error-surface active:bg-error-surface",
+    disabled: "bg-transparent text-error-content opacity-50",
+  },
+  text: {
+    default: "bg-transparent text-content-primary hover:underline active:underline",
+    disabled: "bg-transparent text-content-primary opacity-50",
+  },
+};
 
 function getVariantClasses(variant: ButtonVariant, negative: boolean, disabled: boolean): string {
+  const spec = VARIANT_CLASSES[variant];
   const isNegative = NEGATIVE_AWARE_VARIANTS.has(variant) && negative;
-  if (disabled) {
-    return getDisabledClasses(variant, isNegative);
-  }
-  return getEnabledClasses(variant, isNegative);
+  if (disabled) return (isNegative && spec.negativeDisabled) || spec.disabled;
+  return (isNegative && spec.negative) || spec.default;
 }
 
 /** Recursively extract text content from React nodes for accessible labels */
