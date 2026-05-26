@@ -814,5 +814,73 @@ describe("Autocomplete", () => {
       const { container } = renderGrouped({ label: "Product" });
       expect(await axe(container)).toHaveNoViolations();
     });
+
+    describe("group-heading matching", () => {
+      const productPriceGroups = [
+        { id: "demo-product", label: "Demo Product" },
+        { id: "pro-plan", label: "Pro Plan" },
+      ];
+      const productPriceOptions: AutocompleteOption[] = [
+        { value: "price:demo-1", label: "$19.99 (one-off)", groupId: "demo-product" },
+        { value: "price:demo-2", label: "$9.99 / month", groupId: "demo-product" },
+        { value: "price:pro-1", label: "$99.00 / year", groupId: "pro-plan" },
+        { value: "price:pro-2", label: "$29.00 / month", groupId: "pro-plan" },
+      ];
+
+      it("keeps every option under a group whose heading matches the query, even when no item label matches", () => {
+        render(
+          <Autocomplete
+            aria-label="Product"
+            options={productPriceOptions}
+            groups={productPriceGroups}
+            inputValue="demo"
+            defaultOpen
+          />,
+        );
+        expect(screen.getByText("Demo Product")).toBeInTheDocument();
+        expect(screen.getByText("$19.99 (one-off)")).toBeInTheDocument();
+        expect(screen.getByText("$9.99 / month")).toBeInTheDocument();
+        expect(screen.queryByText("Pro Plan")).not.toBeInTheDocument();
+        expect(screen.queryByText("$99.00 / year")).not.toBeInTheDocument();
+      });
+
+      it("falls back to per-option filter when the heading doesn't match", () => {
+        render(
+          <Autocomplete
+            aria-label="Product"
+            options={productPriceOptions}
+            groups={productPriceGroups}
+            inputValue="19.99"
+            defaultOpen
+          />,
+        );
+        expect(screen.getByText("Demo Product")).toBeInTheDocument();
+        expect(screen.getByText("$19.99 (one-off)")).toBeInTheDocument();
+        expect(screen.queryByText("$9.99 / month")).not.toBeInTheDocument();
+        expect(screen.queryByText("Pro Plan")).not.toBeInTheDocument();
+      });
+
+      it("a query that matches one group's heading AND an item in another group keeps both groups visible", () => {
+        render(
+          <Autocomplete
+            aria-label="Product"
+            options={[
+              ...productPriceOptions,
+              { value: "price:legacy", label: "Demo legacy bundle", groupId: "pro-plan" },
+            ]}
+            groups={productPriceGroups}
+            inputValue="demo"
+            defaultOpen
+          />,
+        );
+        expect(screen.getByText("Demo Product")).toBeInTheDocument();
+        expect(screen.getByText("$19.99 (one-off)")).toBeInTheDocument();
+        expect(screen.getByText("$9.99 / month")).toBeInTheDocument();
+        expect(screen.getByText("Pro Plan")).toBeInTheDocument();
+        expect(screen.getByText("Demo legacy bundle")).toBeInTheDocument();
+        expect(screen.queryByText("$99.00 / year")).not.toBeInTheDocument();
+        expect(screen.queryByText("$29.00 / month")).not.toBeInTheDocument();
+      });
+    });
   });
 });

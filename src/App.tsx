@@ -2286,18 +2286,25 @@ function AutocompleteDemo() {
         />
         <Autocomplete
           label="Grouped with pinned"
-          placeholder="Find or add a product\u2026"
+          placeholder="Find a product or price..."
           options={[
             { value: "__new__", label: "+ Create new product", pinned: true },
-            { value: "product:abc", label: "Demo Product", groupId: "recent" },
-            { value: "product:def", label: "Pro Plan", groupId: "recent" },
-            { value: "product:ghi", label: "Starter Plan", groupId: "all" },
-            { value: "product:jkl", label: "Enterprise Suite", groupId: "all" },
+            { value: "price:demo-1", label: "$19.99 (one-off)", groupId: "demo-product" },
+            { value: "price:demo-2", label: "$9.99 / month", groupId: "demo-product" },
+            { value: "price:pro-1", label: "$99.00 / year", groupId: "pro-plan" },
+            { value: "price:pro-2", label: "$29.00 / month", groupId: "pro-plan" },
           ]}
           groups={[
-            { id: "recent", label: "Recent products" },
-            { id: "all", label: "All products" },
+            { id: "demo-product", label: "Demo Product" },
+            { id: "pro-plan", label: "Pro Plan" },
           ]}
+          renderOption={(opt) =>
+            opt.pinned ? (
+              <span>{opt.label}</span>
+            ) : (
+              <span className="pl-4 text-content-secondary">{opt.label}</span>
+            )
+          }
           emptyText="No products match"
         />
       </div>

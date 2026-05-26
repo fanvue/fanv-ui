@@ -369,35 +369,44 @@ export const GroupedWithPinned: Story = {
   },
 };
 
-const INDENTED_OPTIONS: AutocompleteOption[] = [
+const PRODUCT_PRICE_GROUPS: AutocompleteGroup[] = [
+  { id: "demo-product", label: "Demo Product" },
+  { id: "pro-plan", label: "Pro Plan" },
+  { id: "enterprise", label: "Enterprise Suite" },
+];
+
+const PRODUCT_PRICE_OPTIONS: AutocompleteOption[] = [
   { value: "__new__", label: "+ Create new product", pinned: true },
-  { value: "product:abc", label: "Demo Product", groupId: "recent" },
-  { value: "price:p1", label: "Demo Product \u2014 $19.99", groupId: "recent" },
-  { value: "price:p2", label: "Demo Product \u2014 $9.99 / month", groupId: "recent" },
-  { value: "product:def", label: "Pro Plan", groupId: "recent" },
-  { value: "price:p3", label: "Pro Plan \u2014 $99.00 / year", groupId: "recent" },
+  { value: "price:demo-1", label: "$19.99 (one-off)", groupId: "demo-product" },
+  { value: "price:demo-2", label: "$9.99 / month", groupId: "demo-product" },
+  { value: "price:pro-1", label: "$99.00 / year", groupId: "pro-plan" },
+  { value: "price:pro-2", label: "$29.00 / month", groupId: "pro-plan" },
+  { value: "price:ent-1", label: "Custom (contact sales)", groupId: "enterprise" },
 ];
 
 export const GroupedWithIndentedRows: Story = {
+  name: "Grouped With Indented Rows (heading is searchable)",
   args: {
     label: "Product",
-    placeholder: "Find or add a product\u2026",
-    options: INDENTED_OPTIONS,
-    groups: [{ id: "recent", label: "Recent products" }],
+    placeholder: "Find a product or price\u2026",
+    options: PRODUCT_PRICE_OPTIONS,
+    groups: PRODUCT_PRICE_GROUPS,
     emptyText: "No products match",
   },
   render: (args: AutocompleteProps) => (
     <Autocomplete
       {...args}
-      renderOption={(opt) => {
-        if (opt.value.startsWith("price:")) {
-          const price = opt.label?.split(" \u2014 ")[1] ?? opt.label;
-          return <span className="pl-4 text-content-secondary">{price}</span>;
-        }
-        return <span>{opt.label}</span>;
-      }}
+      renderOption={(opt) => <span className="pl-4 text-content-secondary">{opt.label}</span>}
     />
   ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The Stripe-style product picker shape: each product is its own group, prices are the items. Searching the product name (e.g. "Demo" or "Pro") matches the group heading and keeps every price under it visible. Searching a price (e.g. "19.99") matches the individual item and shows it under its parent heading.',
+      },
+    },
+  },
 };
 
 function GroupedFilteredEmptyExample() {

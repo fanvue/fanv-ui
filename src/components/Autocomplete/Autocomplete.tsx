@@ -41,7 +41,14 @@ export interface AutocompleteOption {
 export interface AutocompleteGroup {
   /** Stable identifier referenced by `option.groupId`. */
   id: string;
-  /** Group heading text. Used as the group's accessible name. */
+  /**
+   * Group heading text. Used as the group's accessible name and matched
+   * against the search query: when the query matches a group's `label`,
+   * every option under that group is kept regardless of whether it
+   * individually matches the per-option filter. This supports the common
+   * "heading is the searchable label, items are sub-rows" shape (e.g.
+   * heading = product name, items = prices).
+   */
   label: string;
 }
 

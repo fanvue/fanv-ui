@@ -36,6 +36,13 @@ export interface AutocompleteVisibleSections {
 /**
  * Splits `options` into pinned / ungrouped / per-group buckets, applies the
  * provided filter to non-pinned options only, and drops empty groups.
+ *
+ * Group-heading matching: when the query matches a group's `label`
+ * (case-insensitive substring, same as the default option filter), every
+ * option under that group is kept regardless of whether it individually
+ * matches the per-option `filter`. This supports the common "group heading
+ * is the searchable label, items are sub-rows" shape (e.g. group =
+ * product name, items = prices). Pinned options always bypass filtering.
  */
 export function getVisibleSections(
   options: AutocompleteOption[],
@@ -48,12 +55,20 @@ export function getVisibleSections(
   const byGroup = new Map<string, AutocompleteOption[]>();
   const knownGroupIds = new Set(groups?.map((g) => g.id));
 
+  const lowerQuery = query.toLowerCase();
+  const groupMatchedByHeading = new Set<string>(
+    query
+      ? (groups ?? []).filter((g) => g.label.toLowerCase().includes(lowerQuery)).map((g) => g.id)
+      : [],
+  );
+
   for (const option of options) {
     if (option.pinned) {
       pinned.push(option);
       continue;
     }
-    if (query && !filter(option, query)) continue;
+    const inMatchedGroup = !!option.groupId && groupMatchedByHeading.has(option.groupId);
+    if (query && !inMatchedGroup && !filter(option, query)) continue;
     if (option.groupId && knownGroupIds.has(option.groupId)) {
       const bucket = byGroup.get(option.groupId) ?? [];
       bucket.push(option);
