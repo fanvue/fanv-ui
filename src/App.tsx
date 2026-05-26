@@ -100,8 +100,11 @@ import {
   DrawerTrigger,
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuHeader,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   EditIcon,
@@ -2442,7 +2445,7 @@ function DropdownMenuDemo() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
-              <DropdownMenuLabel>Account</DropdownMenuLabel>
+              <DropdownMenuLabel position="top">Account</DropdownMenuLabel>
               <DropdownMenuItem leadingIcon={<UserIcon className="size-4" />}>
                 Profile
               </DropdownMenuItem>
@@ -2457,7 +2460,91 @@ function DropdownMenuDemo() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+        <DropdownMenuHeaderDemo />
+        <DropdownMenuRadioDemo />
+        <DropdownMenuSize32Demo />
       </div>
+    </div>
+  );
+}
+
+function DropdownMenuHeaderDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="typography-semibold-body-sm text-content-secondary">With header</span>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenuTrigger asChild>
+          <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
+            Sort by
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-72">
+          <DropdownMenuHeader title="Sort by" onClose={() => setOpen(false)} />
+          <DropdownMenuItem>Newest first</DropdownMenuItem>
+          <DropdownMenuItem>Oldest first</DropdownMenuItem>
+          <DropdownMenuItem>Most popular</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
+
+function DropdownMenuRadioDemo() {
+  const [sort, setSort] = useState("newest");
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="typography-semibold-body-sm text-content-secondary">Radio group</span>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
+            Sort: {sort}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-72">
+          <DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
+            <DropdownMenuRadioItem value="newest" helper="Most recent first">
+              Newest
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="oldest" helper="Oldest first">
+              Oldest
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="popular" helper="By engagement">
+              Most popular
+            </DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
+
+function DropdownMenuSize32Demo() {
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="typography-semibold-body-sm text-content-secondary">Size 32</span>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="secondary" size="32" rightIcon={<ChevronDownIcon />}>
+            Compact
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          <DropdownMenuItem size="32" leadingIcon={<EditIcon className="size-4" />}>
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem size="32" selected>
+            Selected
+          </DropdownMenuItem>
+          <DropdownMenuItem size="32" disabled>
+            Disabled
+          </DropdownMenuItem>
+          <DropdownMenuItem size="32" destructive leadingIcon={<TrashBinIcon className="size-4" />}>
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }
