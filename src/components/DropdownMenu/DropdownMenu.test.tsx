@@ -1,14 +1,17 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import type * as React from "react";
+import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
+  DropdownMenuHeader,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./DropdownMenu";
@@ -461,27 +464,47 @@ describe("DropdownMenuItem", () => {
       expect(onSelect).not.toHaveBeenCalled();
     });
 
-    it("renders sm size by default", () => {
+    it("renders size 40 by default", () => {
       renderMenu(<DropdownMenuItem data-testid="item">Item</DropdownMenuItem>);
-      expect(screen.getByTestId("item")).toHaveClass("min-h-[34px]");
+      expect(screen.getByTestId("item")).toHaveClass("min-h-10");
     });
 
-    it("renders md size", () => {
+    it("renders size 32", () => {
+      renderMenu(
+        <DropdownMenuItem size="32" data-testid="item">
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByTestId("item")).toHaveClass("min-h-8");
+    });
+
+    it("maps deprecated size sm to 32", () => {
+      renderMenu(
+        <DropdownMenuItem size="sm" data-testid="item">
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByTestId("item")).toHaveClass("min-h-8");
+    });
+
+    it("maps deprecated size md to 40", () => {
       renderMenu(
         <DropdownMenuItem size="md" data-testid="item">
           Item
         </DropdownMenuItem>,
       );
-      expect(screen.getByTestId("item")).toHaveClass("min-h-[40px]");
+      expect(screen.getByTestId("item")).toHaveClass("min-h-10");
     });
 
-    it("renders selected state", () => {
+    it("renders selected state with v2 filled treatment", () => {
       renderMenu(
         <DropdownMenuItem selected data-testid="item">
           Item
         </DropdownMenuItem>,
       );
-      expect(screen.getByTestId("item")).toHaveClass("bg-success-surface");
+      const item = screen.getByTestId("item");
+      expect(item).toHaveClass("bg-buttons-primary");
+      expect(item).toHaveClass("text-content-primary-inverted");
     });
 
     it("renders leading and trailing icons", () => {
@@ -529,6 +552,224 @@ describe("DropdownMenuItem", () => {
         </DropdownMenuItem>,
       );
       expect(screen.getByRole("menuitem")).toHaveClass("text-error-content");
+    });
+  });
+});
+
+describe("DropdownMenuHeader", () => {
+  describe("accessibility", () => {
+    it("default header has no a11y violations", async () => {
+      const { container } = renderMenu(
+        <>
+          <DropdownMenuHeader title="Sort by" onClose={() => {}} />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("search header has no a11y violations", async () => {
+      const { container } = renderMenu(
+        <>
+          <DropdownMenuHeader
+            type="search"
+            searchProps={{ placeholder: "Find\u2026" }}
+            onClose={() => {}}
+          />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  describe("API", () => {
+    it("renders the title when type is default", () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader title="Sort by" />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      expect(screen.getByText("Sort by")).toBeInTheDocument();
+    });
+
+    it("prefers children over title when both are provided", () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader title="Title">Custom</DropdownMenuHeader>
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      expect(screen.getByText("Custom")).toBeInTheDocument();
+      expect(screen.queryByText("Title")).not.toBeInTheDocument();
+    });
+
+    it("renders a search input when type is search", () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader
+            type="search"
+            searchProps={{ placeholder: "Find people", "aria-label": "Find" }}
+          />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      const input = screen.getByRole("searchbox", { name: "Find" });
+      expect(input).toHaveAttribute("placeholder", "Find people");
+    });
+
+    it("fires onChange when the search input value changes", async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+      renderMenu(
+        <>
+          <DropdownMenuHeader type="search" searchProps={{ onChange }} />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      const input = screen.getByRole("searchbox");
+      await user.type(input, "ab");
+      expect(onChange).toHaveBeenCalledWith("a");
+      expect(onChange).toHaveBeenLastCalledWith("ab");
+    });
+
+    it("keeps focus on the search input while typing characters", async () => {
+      const user = userEvent.setup();
+      const SearchDemo = () => {
+        const [query, setQuery] = React.useState("");
+        const items = ["Apple", "Apricot", "Banana"].filter((name) =>
+          name.toLowerCase().includes(query.toLowerCase()),
+        );
+        return (
+          <DropdownMenu defaultOpen>
+            <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuHeader
+                type="search"
+                searchProps={{ value: query, onChange: setQuery }}
+              />
+              {items.map((name) => (
+                <DropdownMenuItem key={name}>{name}</DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      };
+      render(<SearchDemo />);
+      const input = screen.getByRole("searchbox");
+      input.focus();
+      await user.keyboard("ap");
+      expect(input).toHaveValue("ap");
+      expect(document.activeElement).toBe(input);
+    });
+
+    it("fires onClose when the close button is activated", async () => {
+      const user = userEvent.setup();
+      const onClose = vi.fn();
+      renderMenu(
+        <>
+          <DropdownMenuHeader title="Sort" onClose={onClose} closeLabel="Close" />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      await user.click(screen.getByRole("button", { name: "Close" }));
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it("dismisses an uncontrolled menu when the close button is activated", async () => {
+      const user = userEvent.setup();
+      render(
+        <DropdownMenu defaultOpen>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuHeader title="Sort" closeLabel="Close" />
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      expect(screen.getByRole("menu")).toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "Close" }));
+      expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    });
+
+    it("hides the close button when showClose is false", () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader title="Sort" showClose={false} />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      expect(screen.queryByRole("button", { name: /close/i })).not.toBeInTheDocument();
+    });
+  });
+});
+
+describe("DropdownMenuRadioItem", () => {
+  describe("accessibility", () => {
+    it("has no a11y violations", async () => {
+      const { container } = renderMenu(
+        <DropdownMenuRadioGroup value="one">
+          <DropdownMenuRadioItem value="one" helper="Helper text">
+            Option one
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="two">Option two</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  describe("API", () => {
+    it("renders the helper text when provided", () => {
+      renderMenu(
+        <DropdownMenuRadioGroup value="one">
+          <DropdownMenuRadioItem value="one" helper="Most recent first">
+            Newest
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      expect(screen.getByText("Most recent first")).toBeInTheDocument();
+    });
+
+    it("marks the active value as checked", () => {
+      renderMenu(
+        <DropdownMenuRadioGroup value="two">
+          <DropdownMenuRadioItem value="one">One</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="two">Two</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      const items = screen.getAllByRole("menuitemradio");
+      expect(items[0]).toHaveAttribute("data-state", "unchecked");
+      expect(items[1]).toHaveAttribute("data-state", "checked");
+    });
+
+    it("calls onValueChange when an item is selected", async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      renderMenu(
+        <DropdownMenuRadioGroup value="one" onValueChange={onValueChange}>
+          <DropdownMenuRadioItem value="one">One</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="two">Two</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      await user.click(screen.getByRole("menuitemradio", { name: /Two/ }));
+      expect(onValueChange).toHaveBeenCalledWith("two");
+    });
+
+    it("does not fire selection when disabled", async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      renderMenu(
+        <DropdownMenuRadioGroup value="one" onValueChange={onValueChange}>
+          <DropdownMenuRadioItem value="one">One</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="two" disabled>
+            Two
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      await user.click(screen.getByRole("menuitemradio", { name: /Two/ }));
+      expect(onValueChange).not.toHaveBeenCalled();
     });
   });
 });
