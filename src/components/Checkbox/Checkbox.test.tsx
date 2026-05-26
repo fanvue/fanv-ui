@@ -61,6 +61,19 @@ describe("Checkbox", () => {
       await user.click(checkbox);
       expect(handleChange).not.toHaveBeenCalled();
     });
+
+    it("renders 20px box by default", () => {
+      const { container } = render(<Checkbox aria-label="Default size" />);
+      const checkbox = container.querySelector('[data-testid="checkbox"]');
+      expect(checkbox).toHaveClass("size-5");
+    });
+
+    it("renders 16px box when size is '16'", () => {
+      const { container } = render(<Checkbox size="16" aria-label="Compact size" />);
+      const checkbox = container.querySelector('[data-testid="checkbox"]');
+      expect(checkbox).toHaveClass("size-4");
+      expect(checkbox).not.toHaveClass("size-5");
+    });
   });
 
   describe("accessibility", () => {

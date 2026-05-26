@@ -1,9 +1,19 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { ArrowDownIcon } from "../Icons/ArrowDownIcon";
+import { ArrowUpIcon } from "../Icons/ArrowUpIcon";
 import { Select, SelectContent, SelectItem } from "../Select/Select";
 
-/** Row density for body cells — `md` (60px min height) or `lg` (80px). */
-export type TableSize = "md" | "lg";
+/**
+ * Row density for body cells.
+ *
+ * - `"md"` (default) → 64px Figma `V2 Table Cell` Small.
+ * - `"lg"` → 80px Figma `V2 Table Cell` Large.
+ *
+ * `"default"` is the v2 numeric-token equivalent of `"md"` and is preferred
+ * for new code.
+ */
+export type TableSize = "md" | "lg" | "default";
 
 export interface TableCardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Row density applied to {@link TableCell} descendants. @default "md" */
@@ -17,14 +27,15 @@ function useTableSize(): TableSize {
 }
 
 /**
- * Surface wrapper for data tables: rounded container, spacing, and size
- * context for {@link TableCell} descendants. Compose with {@link TableScrollArea},
- * {@link Table}, {@link TableHeader}, {@link TableBody}, {@link TableRow},
+ * Surface wrapper for data tables: rounded 24px container with a strong
+ * outer border, inner spacing, and size context for {@link TableCell}
+ * descendants. Compose with {@link TableScrollArea}, {@link Table},
+ * {@link TableHeader}, {@link TableBody}, {@link TableRow},
  * {@link TableHead}, and {@link TableCell}.
  *
  * @example
  * ```tsx
- * <TableCard size="md">
+ * <TableCard>
  *   <TableScrollArea>
  *     <Table>
  *       <TableHeader>
@@ -49,7 +60,7 @@ export const TableCard = React.forwardRef<HTMLDivElement, TableCardProps>(
         <div
           ref={ref}
           className={cn(
-            "isolate flex flex-col gap-4 overflow-hidden rounded-md bg-bg-primary pb-4",
+            "isolate flex flex-col gap-2 overflow-hidden rounded-3xl border border-border-strong px-3 py-1",
             className,
           )}
           {...props}
@@ -70,10 +81,7 @@ export const TableToolbar = React.forwardRef<HTMLDivElement, TableToolbarProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "flex flex-wrap items-center gap-4 rounded-t-md bg-bg-primary px-6",
-          className,
-        )}
+        className={cn("flex flex-wrap items-center gap-4 px-4 py-3", className)}
         {...props}
       />
     );
@@ -82,25 +90,25 @@ export const TableToolbar = React.forwardRef<HTMLDivElement, TableToolbarProps>(
 TableToolbar.displayName = "TableToolbar";
 
 export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Rounds the top of the table block to match {@link TableCard}. Set `false` when {@link TableToolbar} is above this scroll area. @default true */
+  /**
+   * No longer needed in v2 — {@link TableCard} handles corner rounding via
+   * its own `overflow-hidden rounded-3xl`. Accepted for back-compat.
+   *
+   * @deprecated v2 ignores this prop; safe to remove.
+   */
   roundTop?: boolean;
 }
 
 /**
- * Horizontal scroll container for wide tables. Uses an inner scrollport so the
- * table respects the card radius (plain `overflow-x-auto` on the table
- * wrapper often loses rounded corners with `border-collapse`).
+ * Horizontal scroll container for wide tables. The inner scrollport keeps
+ * `border-collapse` styles intact when the table wraps.
  */
 export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaProps>(
-  ({ className, roundTop = true, children, ...props }, ref) => {
+  ({ className, children, roundTop: _roundTop, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={cn(
-          "relative w-full min-w-0 overflow-hidden",
-          roundTop && "rounded-t-md",
-          className,
-        )}
+        className={cn("relative w-full min-w-0 overflow-hidden", className)}
         {...props}
       >
         <div className="overflow-x-auto">{children}</div>
@@ -135,25 +143,22 @@ export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionE
 
 export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   ({ className, ...props }, ref) => {
-    return (
-      <thead
-        ref={ref}
-        className={cn(
-          "[&_tr:first-child_th:first-child]:rounded-tl-md [&_tr:first-child_th:last-child]:rounded-tr-md",
-          className,
-        )}
-        {...props}
-      />
-    );
+    return <thead ref={ref} className={cn(className)} {...props} />;
   },
 );
 TableHeader.displayName = "TableHeader";
 
 export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionElement> {}
 
+/**
+ * `<tbody>` wrapper. Removes the bottom border on cells in the final row to
+ * match the Figma `V2 Table Final Row` treatment.
+ */
 export const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ className, ...props }, ref) => {
-    return <tbody ref={ref} className={cn(className)} {...props} />;
+    return (
+      <tbody ref={ref} className={cn("[&_tr:last-child_td]:border-b-0", className)} {...props} />
+    );
   },
 );
 TableBody.displayName = "TableBody";
@@ -181,7 +186,7 @@ export type TableHeadIntent = "default" | "checkbox" | "sort" | "leading";
 
 const HEAD_INTENT_CLASSES: Record<TableHeadIntent, string> = {
   default: "text-left",
-  checkbox: "w-8 min-w-8 max-w-8 text-center",
+  checkbox: "w-12 min-w-12 max-w-12 text-center",
   sort: "text-right",
   leading: "min-w-0 w-2/5 text-left",
 };
@@ -191,6 +196,10 @@ export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElem
   intent?: TableHeadIntent;
 }
 
+/**
+ * Header cell. v2: transparent background, 48px min height, tertiary text,
+ * `border-border-primary` bottom rule.
+ */
 export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ({ className, intent = "default", scope = "col", ...props }, ref) => {
     return (
@@ -198,7 +207,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         ref={ref}
         scope={scope}
         className={cn(
-          "typography-semibold-body-sm box-border h-8 min-h-8 bg-surface-secondary px-2 py-2 align-middle text-content-primary",
+          "typography-semibold-body-sm box-border min-h-12 border-b border-border-primary px-4 py-3 align-middle text-content-tertiary",
           HEAD_INTENT_CLASSES[intent],
           className,
         )}
@@ -210,17 +219,18 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
 TableHead.displayName = "TableHead";
 
 const CELL_MIN_HEIGHT: Record<TableSize, string> = {
-  md: "min-h-[60px]",
-  lg: "min-h-[80px]",
+  md: "h-16 min-h-16",
+  default: "h-16 min-h-16",
+  lg: "h-20 min-h-20",
 };
 
 /** Bottom border and padding preset for body cells (Figma table cell component). */
 export type TableCellVariant = "default" | "chip" | "pillProgress";
 
 const CELL_VARIANT_CLASSES: Record<TableCellVariant, string> = {
-  default: "border-border-primary border-b px-2 py-2",
-  chip: "border-border-primary border-b px-2 py-2",
-  pillProgress: "border-border-primary border-b px-4 py-2",
+  default: "border-b border-border-primary px-4 py-3",
+  chip: "border-b border-border-primary px-4 py-3",
+  pillProgress: "border-b border-border-primary px-4 py-3",
 };
 
 /** Layout / typography preset for {@link TableCell} (orthogonal to {@link TableCellVariant}). */
@@ -228,24 +238,30 @@ export type TableCellIntent = "default" | "checkbox" | "stacked" | "multiline" |
 
 const CELL_INTENT_CLASSES: Record<TableCellIntent, string> = {
   default: "",
-  checkbox: "text-center",
+  checkbox: "w-12 min-w-12 max-w-12 text-center",
   stacked: "align-top",
   multiline: "max-w-[240px]",
   sideLabel: "",
 };
 
 export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
-  /** `pillProgress` uses wider horizontal padding; row dividers match the default weight for visibility. @default "default" */
+  /** Padding preset for the cell. v2 uses identical padding across variants; values are kept for back-compat. @default "default" */
   cellVariant?: TableCellVariant;
   /** Alignment and typography preset for common cell types. @default "default" */
   intent?: TableCellIntent;
 }
 
+/**
+ * Body cell. v2: `h-16` (or `h-20` when the parent {@link TableCard} uses
+ * `size="lg"`), `px-4 py-3` padding, body-sm typography, and a single
+ * `border-border-primary` rule that is zeroed by {@link TableBody} for the
+ * final row.
+ */
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, cellVariant = "default", intent = "default", ...props }, ref) => {
     const size = useTableSize();
     const typo =
-      intent === "sideLabel" ? "typography-semibold-body-md" : "typography-regular-body-md";
+      intent === "sideLabel" ? "typography-semibold-body-sm" : "typography-regular-body-sm";
     return (
       <td
         ref={ref}
@@ -267,14 +283,59 @@ TableCell.displayName = "TableCell";
 export interface TableCellGroupProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * Horizontal group for icons, chips, and metadata inside a {@link TableCell} (Figma `gap-[10px]`).
+ * Horizontal group for icons, chips, and metadata inside a {@link TableCell}
+ * (Figma `gap-[4px]`).
  */
 export const TableCellGroup = React.forwardRef<HTMLDivElement, TableCellGroupProps>(
   ({ className, ...props }, ref) => {
-    return <div ref={ref} className={cn("flex items-center gap-2.5", className)} {...props} />;
+    return <div ref={ref} className={cn("flex items-center gap-1", className)} {...props} />;
   },
 );
 TableCellGroup.displayName = "TableCellGroup";
+
+export interface TableCellContentProps {
+  /** Primary line (semibold body-sm). */
+  primary: React.ReactNode;
+  /** Optional secondary line (regular body-sm, secondary color). */
+  secondary?: React.ReactNode;
+  /** Inline node rendered next to the primary line (icon, chip). */
+  primaryAdornment?: React.ReactNode;
+  /** Inline node rendered next to the secondary line. */
+  secondaryAdornment?: React.ReactNode;
+  /** Class for the outer wrapper. */
+  className?: string;
+}
+
+/**
+ * Two-line content slot matching Figma `V2 Table Content` — primary line
+ * (semibold) over an optional secondary line (regular, muted) with a 2px
+ * gap. Use inside {@link TableCell} for the common stacked-text pattern.
+ */
+export function TableCellContent({
+  primary,
+  secondary,
+  primaryAdornment,
+  secondaryAdornment,
+  className,
+}: TableCellContentProps) {
+  return (
+    <div className={cn("flex flex-col gap-0.5", className)}>
+      <div className="flex items-center gap-1">
+        <span className="typography-semibold-body-sm text-content-primary">{primary}</span>
+        {primaryAdornment}
+      </div>
+      {(secondary != null || secondaryAdornment != null) && (
+        <div className="flex items-center gap-1">
+          {secondary != null && (
+            <span className="typography-regular-body-sm text-content-secondary">{secondary}</span>
+          )}
+          {secondaryAdornment}
+        </div>
+      )}
+    </div>
+  );
+}
+TableCellContent.displayName = "TableCellContent";
 
 export interface TableMediaThumbnailProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
@@ -282,22 +343,19 @@ export interface TableMediaThumbnailProps
   src: string;
   /** Alt text for the image. @default "" */
   alt?: string;
-  /** Applies the table’s blurred-media treatment. @default false */
+  /** Applies the table's blurred-media treatment. @default false */
   blurred?: boolean;
   /** `center` uses the fixed media column width from the lg spec. @default "start" */
   align?: "start" | "center";
 }
 
 /**
- * Rounded thumbnail sized from {@link TableCard} `size` (`md` vs `lg`).
+ * Square 48px thumbnail used inside {@link TableCell} for media columns
+ * (Figma `V2 Media Thumbnail Item`).
  */
 export const TableMediaThumbnail = React.forwardRef<HTMLDivElement, TableMediaThumbnailProps>(
   ({ className, src, alt = "", blurred, align = "start", ...props }, ref) => {
-    const tableSize = useTableSize();
-    const frame =
-      tableSize === "lg"
-        ? "h-[62px] w-11 overflow-hidden rounded-xs bg-neutral-alphas-200"
-        : "h-10 w-[29px] overflow-hidden rounded-xs bg-neutral-alphas-200";
+    const frame = "size-12 overflow-hidden rounded-sm bg-neutral-alphas-200";
     return (
       <div
         ref={ref}
@@ -383,28 +441,48 @@ export const TablePillProgressLayout = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn("flex min-w-[120px] flex-col items-center gap-3", className)}
+      className={cn("flex min-w-[120px] flex-col items-start gap-2", className)}
       {...props}
     />
   );
 });
 TablePillProgressLayout.displayName = "TablePillProgressLayout";
 
+/** Current sort direction of a {@link TableSortLabel}. `null` means unsorted. */
+export type TableSortDirection = "asc" | "desc" | null;
+
 export interface TableSortLabelProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
+  /**
+   * Visual indicator of the column's sort state. When set to `"asc"` or
+   * `"desc"`, a 1px underline accent appears beneath the label and a small
+   * directional arrow is shown next to it. @default null
+   */
+  direction?: TableSortDirection;
 }
 
 /**
- * Sortable column label with caption typography and a sort affordance.
+ * Sortable column label. v2 expresses the sort state with a 1px underline
+ * beneath the label plus a directional arrow when sorted.
  */
 export const TableSortLabel = React.forwardRef<HTMLSpanElement, TableSortLabelProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, direction = null, ...props }, ref) => {
+    const Icon = direction === "desc" ? ArrowDownIcon : ArrowUpIcon;
     return (
-      <span ref={ref} className={cn("inline-flex items-center gap-2.5", className)} {...props}>
-        <span className="typography-semibold-body-sm">{children}</span>
-        <span className="text-content-secondary" aria-hidden>
-          ↕
+      <span
+        ref={ref}
+        className={cn("inline-flex items-center gap-1 text-content-primary", className)}
+        {...props}
+      >
+        <span
+          className={cn(
+            "typography-semibold-body-sm",
+            direction != null && "border-b border-content-primary pb-px",
+          )}
+        >
+          {children}
         </span>
+        {direction != null && <Icon className="size-4 shrink-0" aria-hidden />}
       </span>
     );
   },
@@ -419,15 +497,13 @@ export interface TableStackedTextProps {
 }
 
 /**
- * Two-line primary + secondary text block for “cell + info” patterns.
+ * Two-line primary + secondary text block for "cell + info" patterns.
+ *
+ * @deprecated Prefer {@link TableCellContent} which supports adornments and
+ * matches the Figma `V2 Table Content` slot.
  */
 export function TableStackedText({ title, subtitle }: TableStackedTextProps) {
-  return (
-    <div className="flex flex-col gap-1">
-      <span className="typography-semibold-body-md">{title}</span>
-      <span className="typography-regular-body-sm text-content-secondary">{subtitle}</span>
-    </div>
-  );
+  return <TableCellContent primary={title} secondary={subtitle} />;
 }
 
 TableStackedText.displayName = "TableStackedText";
@@ -466,7 +542,8 @@ export interface TableRowsPerPageSelectProps {
 }
 
 /**
- * Rows-per-page {@link Select} styled for {@link TablePagination} (Figma field).
+ * Rows-per-page {@link Select} styled for {@link TablePagination}. v2 uses a
+ * subtle pill trigger with the table's secondary-surface background.
  */
 export function TableRowsPerPageSelect(props: TableRowsPerPageSelectProps) {
   const { id, "aria-label": ariaLabel = "Rows per page" } = props;
@@ -475,7 +552,7 @@ export function TableRowsPerPageSelect(props: TableRowsPerPageSelectProps) {
       defaultValue="10"
       size="32"
       aria-label={ariaLabel}
-      className="w-[154px] [&_button]:rounded-xs [&_button]:border-transparent [&_button]:bg-transparent"
+      className="w-[154px] [&_button]:rounded-sm [&_button]:border-transparent [&_button]:bg-surface-inputs"
       id={id}
     >
       <SelectContent>

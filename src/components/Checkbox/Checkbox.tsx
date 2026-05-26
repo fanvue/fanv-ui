@@ -4,12 +4,35 @@ import { cn } from "../../utils/cn";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { MinusIcon } from "../Icons/MinusIcon";
 
-/** Size variant controlling label and helper text typography. */
-export type CheckboxSize = "default" | "small";
+/**
+ * Size variant for the checkbox.
+ *
+ * - `"20"` (default) — 20px box, body-lg label.
+ * - `"16"` — 16px box, body-md label, used in compact contexts like data tables.
+ * - `"default"` and `"small"` are legacy aliases retained for back-compat
+ *   (`"default"` → `"20"`, `"small"` → `"20"` with smaller label typography).
+ */
+export type CheckboxSize =
+  | "20"
+  | "16"
+  /** @deprecated Use `"20"` instead. */
+  | "default"
+  /** @deprecated Use `"20"` (the smaller-typography variant remains via `"small"`). */
+  | "small";
+
+const BOX_SIZE_CLASS: Record<"20" | "16", string> = {
+  "20": "size-5",
+  "16": "size-4",
+};
+
+const INDICATOR_SIZE_CLASS: Record<"20" | "16", string> = {
+  "20": "size-3",
+  "16": "size-2.5",
+};
 
 export interface CheckboxProps
   extends Omit<React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>, "asChild"> {
-  /** Size variant that controls label and helper text typography. @default "default" */
+  /** Size variant. @default "20" */
   size?: CheckboxSize;
   /** Label text displayed next to the checkbox. */
   label?: string;
@@ -32,10 +55,12 @@ export interface CheckboxProps
  * ```
  */
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ className, size = "default", label, helperText, disabled, name, ...props }, ref) => {
+  ({ className, size = "20", label, helperText, disabled, name, ...props }, ref) => {
     const id = React.useId();
     const helperTextId = helperText ? `${id}-helper` : undefined;
     const hasLabel = Boolean(label || helperText);
+    const boxSize: "20" | "16" = size === "16" ? "16" : "20";
+    const useSmallLabelTypography = size === "small";
 
     if (
       process.env.NODE_ENV !== "production" &&
@@ -64,7 +89,8 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     const checkboxElement = (
       <span
         className={cn(
-          "relative inline-flex size-5 shrink-0",
+          "relative inline-flex shrink-0",
+          BOX_SIZE_CLASS[boxSize],
           // Alignment when used with label
           label && (helperText ? "mt-1" : "mt-0.5"),
         )}
@@ -89,7 +115,8 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           onCheckedChange={handleCheckedChange}
           className={cn(
             // Base styles
-            "flex size-5 items-center justify-center rounded border-2",
+            "flex items-center justify-center rounded border-2",
+            BOX_SIZE_CLASS[boxSize],
             "transition-[border-color,background-color,color,box-shadow] duration-150",
             // Default state
             "border-content-primary bg-transparent text-transparent",
@@ -111,7 +138,8 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <CheckboxPrimitive.Indicator
             forceMount
             className={cn(
-              "flex size-3 items-center justify-center text-content-primary-inverted",
+              "flex items-center justify-center text-content-primary-inverted",
+              INDICATOR_SIZE_CLASS[boxSize],
               "data-[state=unchecked]:invisible",
             )}
           >
@@ -141,7 +169,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
               className={cn(
                 "cursor-pointer select-none text-content-primary",
                 "group-has-disabled:cursor-not-allowed group-has-disabled:text-content-tertiary",
-                size === "small" ? "typography-semibold-body-md" : "typography-semibold-body-lg",
+                useSmallLabelTypography
+                  ? "typography-semibold-body-md"
+                  : "typography-semibold-body-lg",
               )}
             >
               {label}
@@ -154,7 +184,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             className={cn(
               "ml-7 text-content-secondary",
               "in-[.is-disabled]:cursor-not-allowed in-[.is-disabled]:text-content-tertiary",
-              size === "small" ? "typography-regular-body-sm" : "typography-regular-body-md",
+              useSmallLabelTypography ? "typography-regular-body-sm" : "typography-regular-body-md",
             )}
           >
             {helperText}

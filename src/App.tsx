@@ -205,6 +205,7 @@ import {
   TableBody,
   TableCard,
   TableCell,
+  TableCellContent,
   TableCellGroup,
   TableHead,
   TableHeader,
@@ -216,6 +217,7 @@ import {
   TableRow,
   TableRowsPerPageSelect,
   TableScrollArea,
+  TableSortLabel,
   TableStackedText,
   TableStatusDot,
   TableToolbar,
@@ -2144,7 +2146,12 @@ function CheckboxDemo() {
     <div id="checkbox" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-bold-heading-sm mb-4">Checkbox</h2>
       <div className="flex flex-col gap-4">
-        <Checkbox label="Default checkbox" />
+        <Checkbox label="Default checkbox (20px)" />
+        <Checkbox
+          label="Compact checkbox (16px)"
+          size="16"
+          helperText="Used in dense surfaces like data tables"
+        />
         <Checkbox label="Small text size" size="small" helperText="Label and helper are smaller" />
         <Checkbox label="Checked checkbox" checked />
         <Checkbox label="Indeterminate checkbox" checked="indeterminate" />
@@ -3177,10 +3184,12 @@ function TableDemo() {
       <h2 className="typography-h3 mb-4">Table</h2>
       <div className="flex max-w-4xl flex-col gap-12">
         <div>
-          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">Table — md</h3>
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">
+            Table — default (v2)
+          </h3>
           <TableCard>
             <TableToolbar>
-              <span className="typography-regular-body-md text-foreground-default">2 selected</span>
+              <span className="typography-regular-body-sm text-content-primary">2 selected</span>
               <div className="flex flex-wrap gap-1">
                 <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
                   Assign to creators
@@ -3199,7 +3208,7 @@ function TableDemo() {
                 <TableHeader>
                   <TableRow>
                     <TableHead intent="checkbox">
-                      <Checkbox aria-label="Select all rows" />
+                      <Checkbox size="16" aria-label="Select all rows" />
                     </TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead>Title</TableHead>
@@ -3213,7 +3222,7 @@ function TableDemo() {
                     (date) => (
                       <TableRow key={date}>
                         <TableCell intent="checkbox">
-                          <Checkbox aria-label={`Select row ${date}`} />
+                          <Checkbox size="16" aria-label={`Select row ${date}`} />
                         </TableCell>
                         <TableCell>{date}</TableCell>
                         <TableCell intent="multiline">
@@ -3273,7 +3282,7 @@ function TableDemo() {
                 <TableHeader>
                   <TableRow>
                     <TableHead intent="checkbox">
-                      <Checkbox aria-label="Select all" />
+                      <Checkbox size="16" aria-label="Select all" />
                     </TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Media</TableHead>
@@ -3283,7 +3292,7 @@ function TableDemo() {
                 <TableBody>
                   <TableRow>
                     <TableCell intent="checkbox">
-                      <Checkbox aria-label="Select row" />
+                      <Checkbox size="16" aria-label="Select row" />
                     </TableCell>
                     <TableCell>Sample row</TableCell>
                     <TableCell>
@@ -3326,7 +3335,7 @@ function TableDemo() {
                   <TableRow>
                     <TableCell intent="sideLabel">Checkbox</TableCell>
                     <TableCell>
-                      <Checkbox aria-label="Demo row select" />
+                      <Checkbox size="16" aria-label="Demo row select" />
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -3336,7 +3345,19 @@ function TableDemo() {
                   <TableRow>
                     <TableCell intent="sideLabel">Cell + info</TableCell>
                     <TableCell intent="stacked">
+                      <TableCellContent primary="Cell" secondary="Secondary line" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Cell + info (legacy)</TableCell>
+                    <TableCell intent="stacked">
                       <TableStackedText title="Cell" subtitle="Secondary line" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Sortable header</TableCell>
+                    <TableCell>
+                      <TableSortLabel direction="asc">Title</TableSortLabel>
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -3381,7 +3402,7 @@ function TableDemo() {
                   <TableRow>
                     <TableCell intent="sideLabel">Avatar</TableCell>
                     <TableCell>
-                      <Avatar src={TABLE_DEMO_MEDIA} alt="" fallback="U" size={40} />
+                      <Avatar src={TABLE_DEMO_MEDIA} alt="" fallback="U" size={24} />
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -3438,7 +3459,7 @@ function TableDemo() {
           <h3 className="typography-semibold-body-lg mb-3 text-content-primary">
             Pagination — desktop
           </h3>
-          <div className="max-w-[628px] rounded-md bg-bg-primary py-4">
+          <div className="max-w-[628px] rounded-3xl border border-border-strong">
             <TablePagination
               leadingSlot={<TableRowsPerPageSelect id="app-table-pag-desk" />}
               paginationSlot={
@@ -3460,7 +3481,7 @@ function TableDemo() {
           </h3>
           <TablePagination
             layout="mobile"
-            className="max-w-sm rounded-md bg-bg-primary py-4"
+            className="max-w-sm rounded-3xl border border-border-strong"
             leadingSlot={<TableRowsPerPageSelect id="app-table-pag-mob" />}
             paginationSlot={
               <Pagination

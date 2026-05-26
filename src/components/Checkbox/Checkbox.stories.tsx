@@ -16,7 +16,7 @@ const meta = {
   argTypes: {
     size: {
       control: "select",
-      options: ["default", "small"],
+      options: ["20", "16", "default", "small"],
     },
     checked: {
       control: "select",
@@ -110,6 +110,15 @@ export const WithLabelAndLongHelperText: Story = {
   args: {
     label: "Subscribe to newsletter",
     helperText: "Get weekly updates about new features and releases",
+  },
+};
+
+export const Compact16: Story = {
+  name: "Compact (16px)",
+  args: {
+    size: "16",
+    label: "Compact checkbox",
+    helperText: "16px box, used in dense surfaces like data tables",
   },
 };
 
