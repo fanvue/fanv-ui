@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import type * as React from "react";
+import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import {
@@ -632,6 +632,36 @@ describe("DropdownMenuHeader", () => {
       await user.type(input, "ab");
       expect(onChange).toHaveBeenCalledWith("a");
       expect(onChange).toHaveBeenLastCalledWith("ab");
+    });
+
+    it("keeps focus on the search input while typing characters", async () => {
+      const user = userEvent.setup();
+      const SearchDemo = () => {
+        const [query, setQuery] = React.useState("");
+        const items = ["Apple", "Apricot", "Banana"].filter((name) =>
+          name.toLowerCase().includes(query.toLowerCase()),
+        );
+        return (
+          <DropdownMenu defaultOpen>
+            <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuHeader
+                type="search"
+                searchProps={{ value: query, onChange: setQuery }}
+              />
+              {items.map((name) => (
+                <DropdownMenuItem key={name}>{name}</DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      };
+      render(<SearchDemo />);
+      const input = screen.getByRole("searchbox");
+      input.focus();
+      await user.keyboard("ap");
+      expect(input).toHaveValue("ap");
+      expect(document.activeElement).toBe(input);
     });
 
     it("fires onClose when the close button is activated", async () => {

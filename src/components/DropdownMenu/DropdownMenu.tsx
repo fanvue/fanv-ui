@@ -10,6 +10,19 @@ import { SearchIcon } from "../Icons/SearchIcon";
 // Movement, in CSS px, above which a touch press-and-release counts as a drag.
 const TAP_MOVEMENT_THRESHOLD_PX = 10;
 
+// Keys that the menu must keep handling even when focus is inside a child
+// input — arrows move the highlight into the list, Tab leaves the menu, and
+// Enter / Escape close it.
+const NAVIGATION_KEYS = new Set([
+  "ArrowDown",
+  "ArrowUp",
+  "ArrowLeft",
+  "ArrowRight",
+  "Escape",
+  "Tab",
+  "Enter",
+]);
+
 type ActiveTap = {
   pointerId: number;
   x: number;
@@ -496,6 +509,19 @@ function SearchInput({
         placeholder={placeholder}
         aria-label={ariaLabel}
         onChange={(event) => onChange?.(event.target.value)}
+        // Radix DropdownMenu listens for keystrokes on Content for its
+        // typeahead (typing letters jumps focus to a matching item). That
+        // listener steals focus from the input after the first letter, so we
+        // stop character keys from bubbling. Navigation keys (arrows / Tab /
+        // Escape / Enter) are still allowed through so the user can leave the
+        // input for the list or close the menu. Pointer events are stopped so
+        // clicking back into the input doesn't fight the menu's focus
+        // management either.
+        onKeyDown={(event) => {
+          if (!NAVIGATION_KEYS.has(event.key)) event.stopPropagation();
+        }}
+        onPointerDown={(event) => event.stopPropagation()}
+        onMouseDown={(event) => event.stopPropagation()}
       />
     </label>
   );
