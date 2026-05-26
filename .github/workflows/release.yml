@@ -106,6 +106,7 @@ jobs:
         run: pnpm build
 
       - name: Publish to npm
+        id: publish_npm
         if: ${{ steps.check.outputs.need_npm == 'true' }}
         env:
           VERSION: ${{ steps.pkg.outputs.version }}
@@ -134,6 +135,7 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
 
       - name: Publish to GitHub Packages
+        id: publish_gh
         if: ${{ !cancelled() && steps.build.outcome == 'success' && steps.check.outputs.need_gh == 'true' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -150,18 +152,40 @@ jobs:
           fi
 
       - name: Notify Slack
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ !cancelled() && (steps.publish_npm.outcome == 'success' || steps.publish_gh.outcome == 'success') }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          VERSION: ${{ steps.release.outputs.version }}
-          TAG_NAME: ${{ steps.release.outputs.tag_name }}
+          VERSION: ${{ steps.pkg.outputs.version }}
+          TAG_NAME: ${{ steps.release.outputs.tag_name || format('ui-v{0}', steps.pkg.outputs.version) }}
           RELEASE_BODY: ${{ steps.release.outputs.body }}
           REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+          REPO: ${{ github.repository }}
+          NPM_RESULT: ${{ steps.publish_npm.outcome }}
+          GH_RESULT: ${{ steps.publish_gh.outcome }}
+          IS_RECOVERY: ${{ steps.release.outputs.release_created != 'true' }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Recovery runs don't have release-please outputs; fall back to the GitHub Release body.
+          if [ -z "$RELEASE_BODY" ]; then
+            RELEASE_BODY=$(gh release view "$TAG_NAME" --repo "$REPO" --json body --jq .body 2>/dev/null || echo "Republished ${VERSION}")
+          fi
           # Truncate to 2500 chars to stay within Slack limits
           if [ ${#RELEASE_BODY} -gt 2500 ]; then
             RELEASE_BODY="${RELEASE_BODY:0:2500}..."
           fi
+
+          if [ "$IS_RECOVERY" = "true" ]; then
+            HEADER_TEXT="@fanvue/ui v${VERSION} republished"
+          else
+            HEADER_TEXT="@fanvue/ui v${VERSION} released"
+          fi
+
+          case "${NPM_RESULT}_${GH_RESULT}" in
+            success_success) PUBLISHED_TO="npm, GitHub Packages" ;;
+            success_*)       PUBLISHED_TO="npm" ;;
+            *_success)       PUBLISHED_TO="GitHub Packages" ;;
+          esac
+
           # Escape special JSON characters
           RELEASE_BODY=$(echo "$RELEASE_BODY" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
           curl -X POST "$SLACK_WEBHOOK_URL" \
@@ -174,9 +198,18 @@ jobs:
                 "type": "header",
                 "text": {
                   "type": "plain_text",
-                  "text": "@fanvue/ui v${VERSION} released",
+                  "text": "${HEADER_TEXT}",
                   "emoji": true
                 }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "Published to: ${PUBLISHED_TO}"
+                  }
+                ]
               },
               {
                 "type": "section",
