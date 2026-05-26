@@ -2284,6 +2284,22 @@ function AutocompleteDemo() {
           options={AUTOCOMPLETE_OPTIONS}
           emptyText="No results"
         />
+        <Autocomplete
+          label="Grouped with pinned"
+          placeholder="Find or add a product\u2026"
+          options={[
+            { value: "__new__", label: "+ Create new product", pinned: true },
+            { value: "product:abc", label: "Demo Product", groupId: "recent" },
+            { value: "product:def", label: "Pro Plan", groupId: "recent" },
+            { value: "product:ghi", label: "Starter Plan", groupId: "all" },
+            { value: "product:jkl", label: "Enterprise Suite", groupId: "all" },
+          ]}
+          groups={[
+            { id: "recent", label: "Recent products" },
+            { id: "all", label: "All products" },
+          ]}
+          emptyText="No products match"
+        />
       </div>
     </div>
   );

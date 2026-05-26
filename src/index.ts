@@ -27,6 +27,7 @@ export type {
 } from "./components/AudioUpload/useAudioRecorder";
 export { useAudioRecorder } from "./components/AudioUpload/useAudioRecorder";
 export type {
+  AutocompleteGroup,
   AutocompleteOption,
   AutocompleteProps,
   AutocompleteSize,
