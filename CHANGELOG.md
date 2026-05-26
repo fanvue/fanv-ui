@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.19.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.18.0...ui-v2.19.0) (2026-05-26)
+
+
+### Features
+
+* **DropdownMenu:** evolve to v2 design with header and radio item (ENG-10966) ([#483](https://github.com/fanvue/fanv-ui/issues/483)) ([b26f4b5](https://github.com/fanvue/fanv-ui/commit/b26f4b5ecfa1e41772668c693bcbd801f080a5b2))
+* **Table:** evolve to v2 design (ENG-10971) ([#484](https://github.com/fanvue/fanv-ui/issues/484)) ([618184a](https://github.com/fanvue/fanv-ui/commit/618184ab893df37e71d00d01c0ef2d328ed46793))
+
 ## [2.18.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.17.0...ui-v2.18.0) (2026-05-20)
 
 
