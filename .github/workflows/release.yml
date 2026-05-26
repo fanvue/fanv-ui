@@ -12,10 +12,15 @@ permissions:
   id-token: write
   packages: write
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,12 +35,61 @@ jobs:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
+      - name: Read package version
+        id: pkg
+        if: ${{ steps.release.outputs.release_created || github.event_name == 'workflow_dispatch' }}
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Check which registries need this version
+        id: check
+        if: ${{ steps.pkg.outputs.version }}
+        env:
+          VERSION: ${{ steps.pkg.outputs.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          npm_status=$(curl -sS -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/@fanvue/ui/$VERSION")
+          case "$npm_status" in
+            200) need_npm=false ;;
+            404) need_npm=true ;;
+            *)   echo "::error::Unexpected npmjs.org status for $VERSION: $npm_status"; exit 1 ;;
+          esac
+
+          # GH Packages has no documented per-version GET; use the org REST API.
+          gh_body=$(mktemp)
+          gh_status=$(curl -sS -o "$gh_body" -w "%{http_code}" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/orgs/fanvue/packages/npm/ui/versions?per_page=100")
+          case "$gh_status" in
+            200)
+              if jq -e --arg v "$VERSION" 'any(.name == $v)' "$gh_body" > /dev/null; then
+                need_gh=false
+              else
+                need_gh=true
+              fi
+              ;;
+            404) need_gh=true ;;
+            *)   echo "::error::Unexpected GitHub Packages status: $gh_status"; cat "$gh_body"; exit 1 ;;
+          esac
+
+          echo "npmjs.org $VERSION -> HTTP $npm_status (need_npm=$need_npm)"
+          echo "GitHub Packages $VERSION -> HTTP $gh_status (need_gh=$need_gh)"
+          {
+            echo "need_npm=$need_npm"
+            echo "need_gh=$need_gh"
+            if [[ "$need_npm" == "true" || "$need_gh" == "true" ]]; then
+              echo "should_build=true"
+            fi
+          } >> "$GITHUB_OUTPUT"
+
       - name: Setup pnpm
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.check.outputs.should_build == 'true' }}
         uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.check.outputs.should_build == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
@@ -43,48 +97,57 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.check.outputs.should_build == 'true' }}
         run: pnpm install --frozen-lockfile
 
       - name: Build library
-        if: ${{ steps.release.outputs.release_created }}
+        id: build
+        if: ${{ steps.check.outputs.should_build == 'true' }}
         run: pnpm build
 
       - name: Publish to npm
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.check.outputs.need_npm == 'true' }}
+        env:
+          VERSION: ${{ steps.pkg.outputs.version }}
         run: |
-          VERSION="${{ steps.release.outputs.version }}"
+          flags=(--access public --provenance)
           if [[ "$VERSION" == *"-"* ]]; then
-            echo "Publishing prerelease version $VERSION with tag alpha"
-            npm publish --access public --tag alpha --provenance
+            flags+=(--tag alpha)
+            echo "Publishing prerelease $VERSION with tag alpha"
           else
-            echo "Publishing stable version $VERSION"
-            npm publish --access public --provenance
+            echo "Publishing stable $VERSION"
           fi
+          # Retry to recover from transient Sigstore/Rekor errors (e.g. TLOG_CREATE_ENTRY_ERROR).
+          # Each attempt requests a fresh Fulcio cert so retries do not collide on the Rekor log.
+          for attempt in 1 2 3; do
+            if npm publish "${flags[@]}"; then exit 0; fi
+            echo "::warning::npm publish attempt $attempt failed; retrying in 10s"
+            sleep 10
+          done
+          exit 1
 
       - name: Setup Node.js for GitHub Packages
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ !cancelled() && steps.build.outcome == 'success' && steps.check.outputs.need_gh == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
           registry-url: "https://npm.pkg.github.com"
 
       - name: Publish to GitHub Packages
-        if: ${{ steps.release.outputs.release_created }}
-        continue-on-error: true
+        if: ${{ !cancelled() && steps.build.outcome == 'success' && steps.check.outputs.need_gh == 'true' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.pkg.outputs.version }}
         run: |
           # Override project .npmrc scoped registry to target GitHub Packages
           npm config set @fanvue:registry https://npm.pkg.github.com --location=project
-          VERSION="${{ steps.release.outputs.version }}"
           if [[ "$VERSION" == *"-"* ]]; then
-            echo "Publishing prerelease version $VERSION to GitHub Packages with tag alpha"
+            echo "Publishing prerelease $VERSION to GitHub Packages with tag alpha"
             npm publish --registry https://npm.pkg.github.com --tag alpha
           else
-            echo "Publishing stable version $VERSION to GitHub Packages"
+            echo "Publishing stable $VERSION to GitHub Packages"
             npm publish --registry https://npm.pkg.github.com
           fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Notify Slack
         if: ${{ steps.release.outputs.release_created }}
