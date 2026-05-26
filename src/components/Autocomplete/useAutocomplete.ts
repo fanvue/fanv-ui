@@ -84,24 +84,23 @@ export function useAutocomplete(props: AutocompleteProps) {
     searchText.length > 0 &&
     !options.some((o) => (o.label ?? o.value).toLowerCase() === searchText.toLowerCase());
 
-  const optionsWithCreate = React.useMemo(() => {
-    if (!showCreate) return options;
-    const createOption: AutocompleteOption = {
+  const createOption: AutocompleteOption | null = React.useMemo(() => {
+    if (!showCreate) return null;
+    return {
       value: `${CREATE_PREFIX}${searchText}`,
       label: creatableLabel ? creatableLabel(searchText) : searchText,
     };
-    return [...options, createOption];
-  }, [options, showCreate, searchText, creatableLabel]);
+  }, [showCreate, searchText, creatableLabel]);
 
   const visibleSections: AutocompleteVisibleSections = React.useMemo(
-    () => getVisibleSections(optionsWithCreate, groups, filter, searchText),
-    [optionsWithCreate, groups, filter, searchText],
+    () => getVisibleSections(options, groups, filter, searchText),
+    [options, groups, filter, searchText],
   );
 
-  const visibleOptions = React.useMemo(
-    () => flattenVisibleSections(visibleSections),
-    [visibleSections],
-  );
+  const visibleOptions = React.useMemo(() => {
+    const flat = flattenVisibleSections(visibleSections);
+    return createOption ? [...flat, createOption] : flat;
+  }, [visibleSections, createOption]);
 
   const prevOptionsLengthRef = React.useRef(visibleOptions.length);
   const prevSearchTextRef = React.useRef(searchText);
@@ -328,6 +327,7 @@ export function useAutocomplete(props: AutocompleteProps) {
     searchText,
     visibleOptions,
     visibleSections,
+    createOption,
     activeIndex,
     activeDescendantId,
     hasClearableValue,

@@ -454,6 +454,57 @@ describe("Autocomplete", () => {
       const listbox = screen.getByRole("listbox");
       expect(within(listbox).queryByText(/Create/)).not.toBeInTheDocument();
     });
+
+    it("shows create option even when creatableLabel does not contain the raw query", async () => {
+      const user = userEvent.setup();
+      renderAutocomplete({
+        creatable: true,
+        creatableLabel: () => "Add new item",
+      });
+      const input = screen.getByRole("combobox");
+      await user.type(input, "zzz");
+
+      const listbox = screen.getByRole("listbox");
+      expect(within(listbox).getByText("Add new item")).toBeInTheDocument();
+    });
+
+    it("shows create option even when a custom filterFn rejects everything", async () => {
+      const user = userEvent.setup();
+      renderAutocomplete({
+        creatable: true,
+        creatableLabel: (v) => `Create "${v}"`,
+        filterFn: () => false,
+      });
+      const input = screen.getByRole("combobox");
+      await user.type(input, "mango");
+
+      const listbox = screen.getByRole("listbox");
+      expect(within(listbox).getByText(/Create "mango"/)).toBeInTheDocument();
+    });
+
+    it("renders the create option after grouped sections", async () => {
+      const user = userEvent.setup();
+      render(
+        <Autocomplete
+          aria-label="Product"
+          options={[
+            { value: "p1", label: "Price one", groupId: "demo" },
+            { value: "p2", label: "Price two", groupId: "demo" },
+          ]}
+          groups={[{ id: "demo", label: "Demo Product" }]}
+          creatable
+          creatableLabel={(v) => `Create "${v}"`}
+        />,
+      );
+      const input = screen.getByRole("combobox");
+      await user.type(input, "demo");
+
+      const listbox = screen.getByRole("listbox");
+      const optionTexts = within(listbox)
+        .getAllByRole("option")
+        .map((el) => el.textContent);
+      expect(optionTexts).toEqual(["Price one", "Price two", 'Create "demo"']);
+    });
   });
 
   describe("controlled input value", () => {

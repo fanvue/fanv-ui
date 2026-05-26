@@ -11,6 +11,13 @@ interface AutocompleteDropdownContentProps {
   emptyText?: string;
   visibleOptions: AutocompleteOption[];
   visibleSections: AutocompleteVisibleSections;
+  /**
+   * Synthetic "Create new …" row, when `creatable` is on and the search
+   * doesn't already match an existing option. Rendered as a trailing row,
+   * always shown regardless of filter, and indexed last in
+   * `visibleOptions` so keyboard navigation works.
+   */
+  createOption?: AutocompleteOption | null;
   listboxId: string;
   activeIndex: number;
   isMulti: boolean;
@@ -39,6 +46,7 @@ export function AutocompleteDropdownContent({
   emptyText,
   visibleOptions,
   visibleSections,
+  createOption,
   listboxId,
   activeIndex,
   isMulti,
@@ -66,7 +74,8 @@ export function AutocompleteDropdownContent({
   const { pinned, ungrouped, groups } = visibleSections;
   const hasTopBlock = pinned.length > 0 || ungrouped.length > 0;
   const hasGroups = groups.length > 0;
-  const nonPinnedVisibleCount = ungrouped.length + groups.reduce((n, g) => n + g.options.length, 0);
+  const nonPinnedVisibleCount =
+    ungrouped.length + groups.reduce((n, g) => n + g.options.length, 0) + (createOption ? 1 : 0);
 
   if (visibleOptions.length === 0) {
     return (
@@ -130,6 +139,7 @@ export function AutocompleteDropdownContent({
           </div>
         );
       })}
+      {createOption && renderOptionRow(createOption)}
       {emptyAfterPinned && (
         <div className="typography-regular-body-md block px-3 py-4 text-center text-content-secondary">
           {emptyText}

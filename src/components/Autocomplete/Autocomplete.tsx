@@ -343,6 +343,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
                 emptyText={emptyText}
                 visibleOptions={ac.visibleOptions}
                 visibleSections={ac.visibleSections}
+                createOption={ac.createOption}
                 listboxId={ac.listboxId}
                 activeIndex={ac.activeIndex}
                 isMulti={ac.isMulti}
