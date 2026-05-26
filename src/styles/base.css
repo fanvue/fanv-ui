@@ -131,8 +131,10 @@
 
 :root {
   --color-special-bottom-nav-highlight: var(--primitives-color-green-500);
+  --color-content-disabled: var(--primitives-color-gray-450);
 }
 
 .dark {
   --color-special-bottom-nav-highlight: var(--primitives-color-gray-white);
+  --color-content-disabled: var(--primitives-color-gray-450);
 }

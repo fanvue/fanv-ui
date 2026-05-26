@@ -319,7 +319,6 @@ export const AllStatesV2: Story = {
               Favourited
             </DropdownMenuItem>
             <DropdownMenuItem disabled>Pending review</DropdownMenuItem>
-            <DropdownMenuSeparator />
             <DropdownMenuLabel>Preferences</DropdownMenuLabel>
             <DropdownMenuRadioGroup value={selectedRadio} onValueChange={setSelectedRadio}>
               <DropdownMenuRadioItem value="one" helper="Show me less">

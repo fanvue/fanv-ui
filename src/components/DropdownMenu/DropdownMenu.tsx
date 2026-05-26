@@ -184,7 +184,7 @@ export const DropdownMenuContent = React.forwardRef<
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
         className={cn(
-          "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-xs border border-neutral-alphas-200 bg-bg-primary p-2 text-content-primary shadow-lg",
+          "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-sm border border-neutral-alphas-200 bg-surface-primary p-1 text-content-primary shadow-lg",
           "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
           "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
           "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
@@ -456,8 +456,19 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
     };
 
     return (
-      <div ref={ref} className={cn("flex flex-col gap-1 pt-1 pl-3 pr-1", className)} {...props}>
-        <div className="flex items-center gap-2">
+      <div
+        ref={ref}
+        className={cn(
+          "flex flex-col px-1 pt-1 mb-1",
+          // Search needs an 8px gap between the input and the divider; the
+          // default (title) variant uses 4px because the title baseline sits
+          // closer to the divider naturally.
+          type === "search" ? "gap-2" : "gap-1",
+          className,
+        )}
+        {...props}
+      >
+        <div className="flex items-center gap-4 pl-2">
           {type === "default" ? (
             <div className={cn("min-w-0 flex-1 truncate text-content-primary", titleTypography)}>
               {children ?? title}
