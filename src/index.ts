@@ -630,6 +630,7 @@ export { SwitchToggle } from "./components/SwitchToggle/SwitchToggle";
 export type {
   TableBodyProps,
   TableCardProps,
+  TableCellContentProps,
   TableCellGroupProps,
   TableCellIntent,
   TableCellProps,
@@ -647,6 +648,7 @@ export type {
   TableRowsPerPageSelectProps,
   TableScrollAreaProps,
   TableSize,
+  TableSortDirection,
   TableSortLabelProps,
   TableStackedTextProps,
   TableStatusDotProps,
@@ -657,6 +659,7 @@ export {
   TableBody,
   TableCard,
   TableCell,
+  TableCellContent,
   TableCellGroup,
   TableFooter,
   TableHead,

@@ -202,6 +202,7 @@ import {
   TableBody,
   TableCard,
   TableCell,
+  TableCellContent,
   TableCellGroup,
   TableHead,
   TableHeader,
@@ -213,6 +214,7 @@ import {
   TableRow,
   TableRowsPerPageSelect,
   TableScrollArea,
+  TableSortLabel,
   TableStackedText,
   TableStatusDot,
   TableToolbar,
@@ -3046,10 +3048,12 @@ function TableDemo() {
       <h2 className="typography-h3 mb-4">Table</h2>
       <div className="flex max-w-4xl flex-col gap-12">
         <div>
-          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">Table — md</h3>
+          <h3 className="typography-semibold-body-lg mb-3 text-content-primary">
+            Table — default (v2)
+          </h3>
           <TableCard>
             <TableToolbar>
-              <span className="typography-regular-body-md text-foreground-default">2 selected</span>
+              <span className="typography-regular-body-sm text-content-primary">2 selected</span>
               <div className="flex flex-wrap gap-1">
                 <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
                   Assign to creators
@@ -3205,7 +3209,19 @@ function TableDemo() {
                   <TableRow>
                     <TableCell intent="sideLabel">Cell + info</TableCell>
                     <TableCell intent="stacked">
+                      <TableCellContent primary="Cell" secondary="Secondary line" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Cell + info (legacy)</TableCell>
+                    <TableCell intent="stacked">
                       <TableStackedText title="Cell" subtitle="Secondary line" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell intent="sideLabel">Sortable header</TableCell>
+                    <TableCell>
+                      <TableSortLabel direction="asc">Title</TableSortLabel>
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -3307,7 +3323,7 @@ function TableDemo() {
           <h3 className="typography-semibold-body-lg mb-3 text-content-primary">
             Pagination — desktop
           </h3>
-          <div className="max-w-[628px] rounded-md bg-bg-primary py-4">
+          <div className="max-w-[628px] rounded-3xl border border-border-strong">
             <TablePagination
               leadingSlot={<TableRowsPerPageSelect id="app-table-pag-desk" />}
               paginationSlot={
@@ -3329,7 +3345,7 @@ function TableDemo() {
           </h3>
           <TablePagination
             layout="mobile"
-            className="max-w-sm rounded-md bg-bg-primary py-4"
+            className="max-w-sm rounded-3xl border border-border-strong"
             leadingSlot={<TableRowsPerPageSelect id="app-table-pag-mob" />}
             paginationSlot={
               <Pagination
