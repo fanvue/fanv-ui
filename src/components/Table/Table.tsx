@@ -89,14 +89,22 @@ export const TableToolbar = React.forwardRef<HTMLDivElement, TableToolbarProps>(
 );
 TableToolbar.displayName = "TableToolbar";
 
-export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * No longer needed in v2 — {@link TableCard} handles corner rounding via
+   * its own `overflow-hidden rounded-3xl`. Accepted for back-compat.
+   *
+   * @deprecated v2 ignores this prop; safe to remove.
+   */
+  roundTop?: boolean;
+}
 
 /**
  * Horizontal scroll container for wide tables. The inner scrollport keeps
  * `border-collapse` styles intact when the table wraps.
  */
 export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, roundTop: _roundTop, ...props }, ref) => {
     return (
       <div
         ref={ref}
