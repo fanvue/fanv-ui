@@ -2462,6 +2462,7 @@ function DropdownMenuDemo() {
         </div>
 
         <DropdownMenuHeaderDemo />
+        <DropdownMenuSearchHeaderDemo />
         <DropdownMenuRadioDemo />
         <DropdownMenuSize32Demo />
       </div>
@@ -2470,21 +2471,64 @@ function DropdownMenuDemo() {
 }
 
 function DropdownMenuHeaderDemo() {
-  const [open, setOpen] = useState(false);
   return (
     <div className="flex flex-col gap-2">
       <span className="typography-semibold-body-sm text-content-secondary">With header</span>
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
             Sort by
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-72">
-          <DropdownMenuHeader title="Sort by" onClose={() => setOpen(false)} />
+          <DropdownMenuHeader title="Sort by" />
           <DropdownMenuItem>Newest first</DropdownMenuItem>
           <DropdownMenuItem>Oldest first</DropdownMenuItem>
           <DropdownMenuItem>Most popular</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
+
+function DropdownMenuSearchHeaderDemo() {
+  const [query, setQuery] = useState("");
+  const items = [
+    "Alice Carter",
+    "Benjamin Lee",
+    "Camila Rivera",
+    "Daniel Park",
+    "Elena Sokolov",
+    "Felix Thompson",
+  ];
+  const filtered = items.filter((name) => name.toLowerCase().includes(query.toLowerCase()));
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="typography-semibold-body-sm text-content-secondary">With search header</span>
+      <DropdownMenu onOpenChange={(open) => !open && setQuery("")}>
+        <DropdownMenuTrigger asChild>
+          <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
+            Pick a person
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-80">
+          <DropdownMenuHeader
+            type="search"
+            searchProps={{
+              value: query,
+              onChange: setQuery,
+              placeholder: "Search people\u2026",
+            }}
+          />
+          {filtered.length === 0 ? (
+            <DropdownMenuLabel position="top">No results</DropdownMenuLabel>
+          ) : (
+            filtered.map((name) => (
+              <DropdownMenuItem key={name} onSelect={(event) => event.preventDefault()}>
+                {name}
+              </DropdownMenuItem>
+            ))
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

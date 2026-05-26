@@ -647,6 +647,22 @@ describe("DropdownMenuHeader", () => {
       expect(onClose).toHaveBeenCalledTimes(1);
     });
 
+    it("dismisses an uncontrolled menu when the close button is activated", async () => {
+      const user = userEvent.setup();
+      render(
+        <DropdownMenu defaultOpen>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuHeader title="Sort" closeLabel="Close" />
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      expect(screen.getByRole("menu")).toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "Close" }));
+      expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    });
+
     it("hides the close button when showClose is false", () => {
       renderMenu(
         <>

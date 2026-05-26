@@ -432,6 +432,15 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
   ) => {
     const titleTypography =
       size === "32" ? "typography-semibold-body-md" : "typography-semibold-body-lg";
+    const toggleOpen = React.useContext(ToggleOpenContext);
+
+    const handleClose = () => {
+      onClose?.();
+      // Also dismiss the Radix menu when used in uncontrolled mode — otherwise
+      // the close button would look broken to consumers that don't wire up
+      // `open` / `onOpenChange` themselves.
+      toggleOpen?.(() => false);
+    };
 
     return (
       <div ref={ref} className={cn("flex flex-col gap-1 pt-1 pl-3 pr-1", className)} {...props}>
@@ -448,7 +457,7 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
               variant="tertiary"
               size="32"
               icon={<CloseIcon />}
-              onClick={onClose}
+              onClick={handleClose}
               aria-label={closeLabel}
             />
           )}
