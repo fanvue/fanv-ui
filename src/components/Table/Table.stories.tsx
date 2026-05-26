@@ -5,6 +5,7 @@ import { Badge } from "../Badge/Badge";
 import { Button } from "../Button/Button";
 import { Checkbox } from "../Checkbox/Checkbox";
 import { Chip } from "../Chip/Chip";
+import { IconButton } from "../IconButton/IconButton";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { MoreVerticalIcon } from "../Icons/MoreVerticalIcon";
@@ -146,8 +147,10 @@ export const Default: Story = {
                     </Button>
                   </TableCell>
                   <TableCell intent="checkbox">
-                    <MoreVerticalIcon
-                      className="size-4 text-content-primary"
+                    <IconButton
+                      variant="tertiary"
+                      size="32"
+                      icon={<MoreVerticalIcon />}
                       aria-label="Row actions"
                     />
                   </TableCell>
@@ -194,7 +197,7 @@ export const WithToolbar: Story = {
             <TableHeader>
               <TableRow>
                 <TableHead intent="checkbox">
-                  <Checkbox aria-label="Select all rows" />
+                  <Checkbox size="16" aria-label="Select all rows" />
                 </TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Title</TableHead>
@@ -208,7 +211,7 @@ export const WithToolbar: Story = {
                 (date) => (
                   <TableRow key={date}>
                     <TableCell intent="checkbox">
-                      <Checkbox aria-label={`Select row ${date}`} />
+                      <Checkbox size="16" aria-label={`Select row ${date}`} />
                     </TableCell>
                     <TableCell>{date}</TableCell>
                     <TableCell intent="multiline">
@@ -322,7 +325,7 @@ export const LargeRows: Story = {
             <TableHeader>
               <TableRow>
                 <TableHead intent="checkbox">
-                  <Checkbox aria-label="Select all" />
+                  <Checkbox size="16" aria-label="Select all" />
                 </TableHead>
                 <TableHead>Title</TableHead>
                 <TableHead>Media</TableHead>
@@ -332,7 +335,7 @@ export const LargeRows: Story = {
             <TableBody>
               <TableRow>
                 <TableCell intent="checkbox">
-                  <Checkbox aria-label="Select row" />
+                  <Checkbox size="16" aria-label="Select row" />
                 </TableCell>
                 <TableCell>
                   <TableCellContent primary="Sample label" secondary="Created today" />
@@ -397,7 +400,7 @@ export const CellVariants: Story = {
                 <TableRow>
                   <TableCell intent="sideLabel">Checkbox</TableCell>
                   <TableCell>
-                    <Checkbox aria-label="Row select" />
+                    <Checkbox size="16" aria-label="Row select" />
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -455,7 +458,7 @@ export const CellVariants: Story = {
                 <TableRow>
                   <TableCell intent="sideLabel">Avatar</TableCell>
                   <TableCell>
-                    <Avatar src={TABLE_MEDIA_SRC} alt="" fallback="U" size={40} />
+                    <Avatar src={TABLE_MEDIA_SRC} alt="" fallback="U" size={24} />
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -537,7 +540,7 @@ export const AllStatesV2: Story = {
             <TableHeader>
               <TableRow>
                 <TableHead intent="checkbox">
-                  <Checkbox aria-label="Select all rows" />
+                  <Checkbox size="16" aria-label="Select all rows" />
                 </TableHead>
                 <TableHead>
                   <TableSortLabel direction="asc">Product</TableSortLabel>
@@ -563,14 +566,14 @@ export const AllStatesV2: Story = {
               ].map((row, idx) => (
                 <TableRow key={row.status}>
                   <TableCell intent="checkbox">
-                    <Checkbox aria-label={`Select ${row.status}`} />
+                    <Checkbox size="16" aria-label={`Select ${row.status}`} />
                   </TableCell>
                   <TableCell intent="stacked">
                     <TableCellContent primary="Product Name" secondary="SKU-00321" />
                   </TableCell>
                   <TableCell>
                     <TableCellGroup>
-                      <Avatar src={TABLE_MEDIA_SRC} alt="" fallback={`U${idx}`} size={32} />
+                      <Avatar src={TABLE_MEDIA_SRC} alt="" fallback={`U${idx}`} size={24} />
                       <span>@jane_doe</span>
                     </TableCellGroup>
                   </TableCell>
@@ -599,8 +602,10 @@ export const AllStatesV2: Story = {
                     </Button>
                   </TableCell>
                   <TableCell intent="checkbox">
-                    <MoreVerticalIcon
-                      className="size-4 text-content-primary"
+                    <IconButton
+                      variant="tertiary"
+                      size="32"
+                      icon={<MoreVerticalIcon />}
                       aria-label="Row actions"
                     />
                   </TableCell>

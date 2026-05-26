@@ -2143,7 +2143,12 @@ function CheckboxDemo() {
     <div id="checkbox" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-bold-heading-sm mb-4">Checkbox</h2>
       <div className="flex flex-col gap-4">
-        <Checkbox label="Default checkbox" />
+        <Checkbox label="Default checkbox (20px)" />
+        <Checkbox
+          label="Compact checkbox (16px)"
+          size="16"
+          helperText="Used in dense surfaces like data tables"
+        />
         <Checkbox label="Small text size" size="small" helperText="Label and helper are smaller" />
         <Checkbox label="Checked checkbox" checked />
         <Checkbox label="Indeterminate checkbox" checked="indeterminate" />
@@ -3072,7 +3077,7 @@ function TableDemo() {
                 <TableHeader>
                   <TableRow>
                     <TableHead intent="checkbox">
-                      <Checkbox aria-label="Select all rows" />
+                      <Checkbox size="16" aria-label="Select all rows" />
                     </TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead>Title</TableHead>
@@ -3086,7 +3091,7 @@ function TableDemo() {
                     (date) => (
                       <TableRow key={date}>
                         <TableCell intent="checkbox">
-                          <Checkbox aria-label={`Select row ${date}`} />
+                          <Checkbox size="16" aria-label={`Select row ${date}`} />
                         </TableCell>
                         <TableCell>{date}</TableCell>
                         <TableCell intent="multiline">
@@ -3146,7 +3151,7 @@ function TableDemo() {
                 <TableHeader>
                   <TableRow>
                     <TableHead intent="checkbox">
-                      <Checkbox aria-label="Select all" />
+                      <Checkbox size="16" aria-label="Select all" />
                     </TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Media</TableHead>
@@ -3156,7 +3161,7 @@ function TableDemo() {
                 <TableBody>
                   <TableRow>
                     <TableCell intent="checkbox">
-                      <Checkbox aria-label="Select row" />
+                      <Checkbox size="16" aria-label="Select row" />
                     </TableCell>
                     <TableCell>Sample row</TableCell>
                     <TableCell>
@@ -3199,7 +3204,7 @@ function TableDemo() {
                   <TableRow>
                     <TableCell intent="sideLabel">Checkbox</TableCell>
                     <TableCell>
-                      <Checkbox aria-label="Demo row select" />
+                      <Checkbox size="16" aria-label="Demo row select" />
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -3266,7 +3271,7 @@ function TableDemo() {
                   <TableRow>
                     <TableCell intent="sideLabel">Avatar</TableCell>
                     <TableCell>
-                      <Avatar src={TABLE_DEMO_MEDIA} alt="" fallback="U" size={40} />
+                      <Avatar src={TABLE_DEMO_MEDIA} alt="" fallback="U" size={24} />
                     </TableCell>
                   </TableRow>
                   <TableRow>
