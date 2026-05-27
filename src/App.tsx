@@ -2284,6 +2284,29 @@ function AutocompleteDemo() {
           options={AUTOCOMPLETE_OPTIONS}
           emptyText="No results"
         />
+        <Autocomplete
+          label="Grouped with pinned"
+          placeholder="Find a product or price..."
+          options={[
+            { value: "__new__", label: "+ Create new product", pinned: true },
+            { value: "price:demo-1", label: "$19.99 (one-off)", groupId: "demo-product" },
+            { value: "price:demo-2", label: "$9.99 / month", groupId: "demo-product" },
+            { value: "price:pro-1", label: "$99.00 / year", groupId: "pro-plan" },
+            { value: "price:pro-2", label: "$29.00 / month", groupId: "pro-plan" },
+          ]}
+          groups={[
+            { id: "demo-product", label: "Demo Product" },
+            { id: "pro-plan", label: "Pro Plan" },
+          ]}
+          renderOption={(opt) =>
+            opt.pinned ? (
+              <span>{opt.label}</span>
+            ) : (
+              <span className="pl-4 text-content-secondary">{opt.label}</span>
+            )
+          }
+          emptyText="No products match"
+        />
       </div>
     </div>
   );

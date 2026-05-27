@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
 import { HomeIcon } from "../Icons/HomeIcon";
-import { Autocomplete, type AutocompleteOption, type AutocompleteProps } from "./Autocomplete";
+import {
+  Autocomplete,
+  type AutocompleteGroup,
+  type AutocompleteOption,
+  type AutocompleteProps,
+} from "./Autocomplete";
 
 const COUNTRIES: AutocompleteOption[] = [
   { value: "us", label: "United States" },
@@ -324,4 +329,128 @@ export const TruncatedNarrow: Story = {
     defaultValue: "png",
     emptyText: "No results",
   },
+};
+
+const PRODUCT_GROUPS: AutocompleteGroup[] = [
+  { id: "recent", label: "Recent products" },
+  { id: "all", label: "All products" },
+];
+
+const PRODUCT_OPTIONS: AutocompleteOption[] = [
+  { value: "product:abc", label: "Demo Product", groupId: "recent" },
+  { value: "product:def", label: "Pro Plan", groupId: "recent" },
+  { value: "product:ghi", label: "Starter Plan", groupId: "all" },
+  { value: "product:jkl", label: "Enterprise Suite", groupId: "all" },
+  { value: "product:mno", label: "Team Workspace", groupId: "all" },
+];
+
+export const Grouped: Story = {
+  args: {
+    label: "Product",
+    placeholder: "Find a product\u2026",
+    options: PRODUCT_OPTIONS,
+    groups: PRODUCT_GROUPS,
+    emptyText: "No products match",
+  },
+};
+
+const PRODUCT_OPTIONS_WITH_PINNED: AutocompleteOption[] = [
+  { value: "__new__", label: "+ Create new product", pinned: true },
+  ...PRODUCT_OPTIONS,
+];
+
+export const GroupedWithPinned: Story = {
+  args: {
+    label: "Product",
+    placeholder: "Find or add a product\u2026",
+    options: PRODUCT_OPTIONS_WITH_PINNED,
+    groups: PRODUCT_GROUPS,
+    emptyText: "No products match",
+  },
+};
+
+const PRODUCT_PRICE_GROUPS: AutocompleteGroup[] = [
+  { id: "demo-product", label: "Demo Product" },
+  { id: "pro-plan", label: "Pro Plan" },
+  { id: "enterprise", label: "Enterprise Suite" },
+];
+
+const PRODUCT_PRICE_OPTIONS: AutocompleteOption[] = [
+  { value: "__new__", label: "+ Create new product", pinned: true },
+  { value: "price:demo-1", label: "$19.99 (one-off)", groupId: "demo-product" },
+  { value: "price:demo-2", label: "$9.99 / month", groupId: "demo-product" },
+  { value: "price:pro-1", label: "$99.00 / year", groupId: "pro-plan" },
+  { value: "price:pro-2", label: "$29.00 / month", groupId: "pro-plan" },
+  { value: "price:ent-1", label: "Custom (contact sales)", groupId: "enterprise" },
+];
+
+export const GroupedWithIndentedRows: Story = {
+  name: "Grouped With Indented Rows (heading is searchable)",
+  args: {
+    label: "Product",
+    placeholder: "Find a product or price\u2026",
+    options: PRODUCT_PRICE_OPTIONS,
+    groups: PRODUCT_PRICE_GROUPS,
+    emptyText: "No products match",
+  },
+  render: (args: AutocompleteProps) => (
+    <Autocomplete
+      {...args}
+      renderOption={(opt) => <span className="pl-4 text-content-secondary">{opt.label}</span>}
+    />
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The Stripe-style product picker shape: each product is its own group, prices are the items. Searching the product name (e.g. "Demo" or "Pro") matches the group heading and keeps every price under it visible. Searching a price (e.g. "19.99") matches the individual item and shows it under its parent heading.',
+      },
+    },
+  },
+};
+
+function GroupedFilteredEmptyExample() {
+  const [inputValue, setInputValue] = React.useState("xyz");
+  return (
+    <div className="flex flex-col gap-2">
+      <Autocomplete
+        label="Product"
+        placeholder="Find a product\u2026"
+        options={PRODUCT_OPTIONS_WITH_PINNED}
+        groups={PRODUCT_GROUPS}
+        inputValue={inputValue}
+        onInputChange={setInputValue}
+        emptyText="No products match"
+        defaultOpen
+      />
+      <p className="typography-regular-body-sm text-content-secondary">
+        Edit the input above to see groups collapse. The pinned row always stays visible.
+      </p>
+    </div>
+  );
+}
+
+export const GroupedFilteredEmpty: Story = {
+  render: () => <GroupedFilteredEmptyExample />,
+};
+
+export const CustomGroupHeading: Story = {
+  args: {
+    label: "Product",
+    placeholder: "Find a product\u2026",
+    options: PRODUCT_OPTIONS,
+    groups: PRODUCT_GROUPS,
+    emptyText: "No products match",
+  },
+  render: (args: AutocompleteProps) => (
+    <Autocomplete
+      {...args}
+      renderGroupHeading={(group) => (
+        <span className="typography-semibold-body-md flex items-center gap-2 px-3 pt-2 pb-1 text-content-primary">
+          <HomeIcon className="size-4 text-content-secondary" />
+          {group.label}
+        </span>
+      )}
+    />
+  ),
 };
