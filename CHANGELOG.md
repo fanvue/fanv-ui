@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.20.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.19.0...ui-v2.20.0) (2026-05-27)
+
+
+### Features
+
+* **Autocomplete:** add native grouping and pinned options (ENG-10991) ([#488](https://github.com/fanvue/fanv-ui/issues/488)) ([e495a44](https://github.com/fanvue/fanv-ui/commit/e495a44b5ed4f411f73ada7e77bc3e88e02675cc))
+
 ## [2.19.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.18.0...ui-v2.19.0) (2026-05-26)
 
 
