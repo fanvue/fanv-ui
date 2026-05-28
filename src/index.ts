@@ -227,6 +227,8 @@ export type {
 export { IconButton } from "./components/IconButton/IconButton";
 export type { AddIconProps } from "./components/Icons/AddIcon";
 export { AddIcon } from "./components/Icons/AddIcon";
+export type { AffiliatesIconProps } from "./components/Icons/AffiliatesIcon";
+export { AffiliatesIcon } from "./components/Icons/AffiliatesIcon";
 export type { AI2IconProps } from "./components/Icons/AI2Icon";
 export { AI2Icon } from "./components/Icons/AI2Icon";
 export type { AICallIconProps } from "./components/Icons/AICallIcon";

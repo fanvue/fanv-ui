@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { type ComponentType, useEffect, useRef, useState } from "react";
 import { AddIcon } from "../components/Icons/AddIcon";
+import { AffiliatesIcon } from "../components/Icons/AffiliatesIcon";
 import { AI2Icon } from "../components/Icons/AI2Icon";
 import { AICallIcon } from "../components/Icons/AICallIcon";
 import { AIDisclosureIcon } from "../components/Icons/AIDisclosureIcon";
@@ -201,6 +202,7 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   { name: "AddIcon", component: AddIcon, tags: ["add", "plus", "create", "new"], propBased: true },
+  { name: "AffiliatesIcon", component: AffiliatesIcon, tags: [], propBased: true },
   {
     name: "AlertIcon",
     component: AlertIcon,
