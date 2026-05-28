@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.20.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.20.0...ui-v2.20.1) (2026-05-28)
+
+
+### Bug Fixes
+
+* **Divider:** use border-primary token instead of neutral-alphas-200 (ENG-11024) ([#491](https://github.com/fanvue/fanv-ui/issues/491)) ([a67343d](https://github.com/fanvue/fanv-ui/commit/a67343d4a9c9faf0a90bd7a88fd375e864e42311))
+
 ## [2.20.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.19.0...ui-v2.20.0) (2026-05-27)
 
 
