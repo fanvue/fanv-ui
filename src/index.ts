@@ -13,6 +13,8 @@ export type { AccordionItemProps } from "./components/Accordion/AccordionItem";
 export { AccordionItem } from "./components/Accordion/AccordionItem";
 export type { AccordionTriggerProps } from "./components/Accordion/AccordionTrigger";
 export { AccordionTrigger } from "./components/Accordion/AccordionTrigger";
+export type { AgentPanelFlairProps } from "./components/AgentPanelFlair/AgentPanelFlair";
+export { AgentPanelFlair } from "./components/AgentPanelFlair/AgentPanelFlair";
 export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
 export type {

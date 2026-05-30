@@ -120,6 +120,43 @@
   animation: accordion-collapse 200ms ease-out;
 }
 
+/*
+ * Creator Agent panel flair: a green aurora anchored to the top-right corner
+ * that gently drifts. Used by the AgentPanelFlair component. The motion is a
+ * subtle transform so no `@property` registration is required, and it is
+ * disabled under prefers-reduced-motion.
+ */
+@keyframes fv-aurora {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  45% {
+    transform: translate3d(-3%, 2%, 0) scale(1.1);
+  }
+  72% {
+    transform: translate3d(2%, -2%, 0) scale(1.07);
+  }
+}
+
+@utility agent-panel-flair-aurora {
+  background-image: radial-gradient(
+    ellipse 125% 95% at 100% -5%,
+    rgba(73, 242, 100, 0.64) 0%,
+    rgba(73, 242, 100, 0.33) 30%,
+    rgba(73, 242, 100, 0.115) 52%,
+    transparent 72%
+  );
+  animation: fv-aurora 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agent-panel-flair-aurora {
+    animation: none;
+  }
+}
+
 /* Static tokens not in Figma — manually maintained for now */
 @utility typography-medium-caption-xs {
   font-size: 0.625rem;
