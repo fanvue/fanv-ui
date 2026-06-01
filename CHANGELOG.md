@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.0.0...ui-v3.0.1) (2026-06-01)
+
+
+### Bug Fixes
+
+* **chip,pill,badge:** align colours with Figma source ([#501](https://github.com/fanvue/fanv-ui/issues/501)) ([051cb96](https://github.com/fanvue/fanv-ui/commit/051cb96d7de56e56ab429ebfeceb572d6f81f509))
+
 ## [3.0.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.21.0...ui-v3.0.0) (2026-06-01)
 
 
