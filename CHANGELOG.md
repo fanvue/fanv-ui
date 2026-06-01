@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.0.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.21.0...ui-v3.0.0) (2026-06-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* The design token set has been restructured to mirror the Figma source of truth. CSS variable names, Tailwind utility classes, and typography classes are renamed. Most renames preserve their value, but Figma also re-valued several primitives and a few semantic styles, so there are intentional visual changes (catalogued in the migration guide under "Value changes").
+
+### Features
+
+* align design tokens with Figma source (v3) ([#496](https://github.com/fanvue/fanv-ui/issues/496)) ([1713c97](https://github.com/fanvue/fanv-ui/commit/1713c975b26185950ee7f9c9ed6886c9b174e2f7))
+
+
+### Bug Fixes
+
+* **deps:** bump vitest family to 4.1.8 to clear critical audit advisories ([#499](https://github.com/fanvue/fanv-ui/issues/499)) ([d1bccb8](https://github.com/fanvue/fanv-ui/commit/d1bccb846ac24c5df63c14ddc0484c2ab9701d18))
+
 ## [2.21.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.20.1...ui-v2.21.0) (2026-06-01)
 
 
