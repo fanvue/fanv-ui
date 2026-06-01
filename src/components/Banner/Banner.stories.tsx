@@ -39,7 +39,7 @@ const sampleImg = (
 
 function NewBadge() {
   return (
-    <Badge variant="success" leftDot className="typography-semibold-badge">
+    <Badge variant="success" leftDot className="typography-badge-badgecaps">
       new
     </Badge>
   );
@@ -51,7 +51,7 @@ function StatusChip({ children }: { children: ReactNode }) {
       variant="default"
       leftDot={false}
       leftIcon={<WarningTriangleIcon className="size-2.5" />}
-      className="typography-semibold-badge"
+      className="typography-badge-badgecaps"
     >
       {children}
     </Badge>
@@ -153,7 +153,7 @@ export const WhatsNewHorizontal: Story = {
     variant: "whatsNew",
     layout: "horizontal",
     media: (
-      <div className="typography-regular-body-sm flex size-full items-center justify-center bg-surface-tertiary text-content-secondary">
+      <div className="typography-description-12px-regular flex size-full items-center justify-center bg-surface-tertiary text-content-secondary">
         Art
       </div>
     ),
@@ -169,7 +169,7 @@ export const WhatsNewVertical: Story = {
     variant: "whatsNew",
     layout: "vertical",
     media: (
-      <div className="typography-regular-body-sm flex size-full min-h-[100px] items-center justify-center bg-surface-tertiary text-content-secondary">
+      <div className="typography-description-12px-regular flex size-full min-h-[100px] items-center justify-center bg-surface-tertiary text-content-secondary">
         Art
       </div>
     ),
@@ -185,7 +185,7 @@ export const WhatsNewCompact: Story = {
     variant: "whatsNew",
     layout: "compact",
     media: (
-      <div className="typography-regular-body-sm flex size-full items-center justify-center bg-surface-tertiary text-content-secondary">
+      <div className="typography-description-12px-regular flex size-full items-center justify-center bg-surface-tertiary text-content-secondary">
         Art
       </div>
     ),

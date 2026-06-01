@@ -1,0 +1,356 @@
+# Design Token Migration Guide (v3.0)
+
+This release realigns the entire token set with the Figma design source of truth. The bulk of the change is a mechanical rename: CSS variable names, Tailwind utility classes, and typography classes change, but most resolve to the same value they did in v2.
+
+> **This is not a pure rename.** Alongside the renames, Figma realigned several primitive values and a few semantic styles, so there **are** intentional visual changes. They are catalogued in [Value changes](#value-changes-not-just-renames) — read that section before assuming a screenshot diff should be empty.
+
+## TL;DR
+
+- **Most renames are 1:1** against the same primitive reference and produce no visual change.
+- **Some values genuinely changed** (status palettes, two heading line-heights, the disabled-opacity token). See [Value changes](#value-changes-not-just-renames) — these need visual QA, not just a find-and-replace.
+- **Colour tokens are consumed as Tailwind utilities too** (`bg-*`, `text-*`, `ring-offset-*`, `from-*`, …), so the codemod must rewrite utility classes, not only `--color-*` variables. The [codemod](#codemod) does both.
+- **Three areas have structural renames** that require attention: typography class naming, spacing scale naming, semantic colour grouping.
+- **Several CSS variable names stay identical** despite their token-tree path changing (e.g. `--color-buttons-primary-hover` is unchanged) — these need no action.
+- **One token has no replacement**: `typography-bold-display` (64px headline). Replace with `typography-header-heading-xl` (48px) or a custom size.
+
+## Why the rename
+
+The v2 token set diverged from the Figma source over time. v3 mirrors the Figma structure exactly so that:
+
+- Designers and engineers reference the same names
+- New component states (negative variants, AI-styled buttons, message bubbles, calendar inputs, etc.) can be added without further restructuring
+- Code Connect mappings stay stable across future Figma updates
+
+---
+
+## 1. Colour tokens
+
+### Semantic group renames
+
+`bg.*` is the largest path-rename. The CSS variable prefix changes from `--color-bg-*` to `--color-background-*`, and `overlay` becomes a nested object.
+
+| Old CSS variable | New CSS variable | Note |
+|---|---|---|
+| `--color-bg-primary` | `--color-background-primary` | |
+| `--color-bg-overlay` | `--color-background-overlay-default` | New siblings: `-heavy`, `-gradient-start`, `-gradient-end` |
+| `--color-bg-gradient-start` | `--color-background-gradient-start` | |
+| `--color-bg-gradient-end` | `--color-background-gradient-end` | |
+| `--color-surface-inputs` | `--color-inputs-inputs-primary` | `surface.*` no longer owns input chrome |
+| `--color-surface-inputs-off` | `--color-inputs-inputs-off` | |
+| `--color-link-default` | `--color-buttons-link-primary-default` | Links are now a button variant |
+| `--color-link-hover` | `--color-buttons-link-primary-hover` | |
+| `--color-content-on-brand` | `--color-content-always-black` | Same value (`gray.black`), name reflects that it is theme-stable |
+| `--color-content-on-brand-inverted` | `--color-content-always-white` | Same value (`gray.white`) |
+
+### Button group restructure
+
+`buttons.primary` and `buttons.brand` are now nested objects with explicit `default` / `hover` / `muted` states. **The hover and muted CSS variables retain their exact previous names** because of how the build script kebab-cases nested paths — only the base token changes.
+
+| Old CSS variable | New CSS variable | Action |
+|---|---|---|
+| `--color-buttons-primary` | `--color-buttons-primary-default` | **Rename required** |
+| `--color-buttons-primary-hover` | `--color-buttons-primary-hover` | No action — variable name unchanged |
+| `--color-buttons-primary-muted` | `--color-buttons-primary-muted` | No action — variable name unchanged |
+| `--color-buttons-brand` | `--color-buttons-brand-default` | **Rename required** |
+| `--color-buttons-brand-hover` | `--color-buttons-brand-hover` | No action |
+| `--color-buttons-brand-muted` | `--color-buttons-brand-muted` | No action |
+
+### New colour groups (additive)
+
+These groups are net-new. Existing v2 consumers do not need to update anything to keep working, but the new tokens are recommended for the listed use cases.
+
+| Group | Tokens (selected) | Purpose |
+|---|---|---|
+| `buttons.link.brand.*` | `default`, `hover` | Brand-coloured link styling |
+| `buttons.primary.negative.*` | `default`, `hover`, `muted` | Dark-surface variant of primary button |
+| `buttons.secondary.*` / `tertiary.*` / `outline.*` | `default`, `hover`, `negative.default`, `negative.hover` | Full button-variant tree |
+| `buttons.error.*` | `default`, `hover` | Destructive action button |
+| `buttons.disabled.*` | `default`, `negative` | Unified disabled treatment |
+| `buttons.alwaysWhite.*` / `alwaysBlack.*` | `default`, `hover` | Theme-stable button surfaces |
+| `buttons.chip.*` | `default`, `hover`, `active`, `disabled`, `dotted.default`, `dotted.hover`, `dotted.hover-stroke` | Chip / filter pill states |
+| `buttons.switch.*` | `hover`, `active` | Switch / toggle interaction |
+| `buttons.navigation.*` | `base`, `highlight` | Sidebar navigation states |
+| `buttons.ai.*` | `background-gradient.default.start/end`, `background-gradient.hover.start/end`, `stroke.start/end` | AI-styled CTA gradients |
+| `buttons.overlay.*` | `default`, `hover` | Buttons rendered on media overlays |
+| `inputs.calendar.*` | `default`, `disabled`, `range`, `selected`, `today` | Calendar / date picker states |
+| `inputs.slider.*` | `active`, `inactive` | Slider track / fill |
+| `inputs.inputs-elevated` | single token | Elevated input chrome (e.g. floating fields) |
+| `interaction.hover` | single token | Generic hover wash |
+| `border.background` / `border.selected` | single tokens | Background-coloured borders and selected-state borders |
+| `icons.always-white` / `always-black` / `disabled` | single tokens | Icon colour parity with `content.*` always-tokens |
+| `messages.*` | `status.active/inactive`, `pinned-content`, `waveform.*` (incl. listening + negative), `background.sender/receiver/sender-stroke/receiver2`, `reply.background/accent`, `read` | Messaging UI surface |
+| `tab.*` | `active`, `inactive-hover` | Tab controls |
+| `modal.*` | `stroke`, `background`, `padding.desktop/mobile`, `radius` | Modal chrome (note: includes layout tokens, see Spacing section) |
+| `alerts.info-prompt.*` | `background.{neutral,success,error,info,warning}`, `content.*`, `icon.*` | Inline info prompts |
+| `alerts.critical-banner.*` | `background`, `content`, `icons` | Critical banners |
+| `alerts.toast.icon.*` | `info`, `success`, `error`, `warning` | Toast icon colours |
+| `badges-pills.beta.*` | `background.start`, `background.end` | Beta badge gradient |
+| `progress-bar.*` | `brand.{active,inactive}`, `mono.{active,inactive}` | Progress bar fills |
+| `*.negative.*` | for each of `success`, `warning`, `error`, `info`: `surface`, `content`, `secondary` | Dark-surface status colours |
+| `content.disabled` | single token | Disabled text colour (was previously a per-component override) |
+| `surface.green-gray` / `nsfw` | single tokens | Specialised surface treatments |
+| `background.secondary` / `ai-agent` | single tokens | Secondary page background and AI-agent surface |
+
+---
+
+## 2. Typography
+
+The biggest naming change. The v2 convention was `weight.size` (`typography-regular-body-md`); v3 is `category.{weight|size}` where category encodes the role and size in pixels for body styles.
+
+### Heading styles
+
+Font sizes and weights are unchanged, but **two line-heights were realigned** (see [Value changes](#value-changes-not-just-renames)).
+
+| Old class | New class | Size | Line-height |
+|---|---|---|---|
+| `typography-bold-heading-xs` | `typography-header-heading-xs` | 20px | 24px (unchanged) |
+| `typography-bold-heading-sm` | `typography-header-heading-sm` | 24px | **32px → 26.4px** |
+| `typography-bold-heading-md` | `typography-header-heading-md` | 32px | **35.2px → 32px** |
+| `typography-bold-heading-lg` | `typography-header-heading-lg` | 40px | 44px (unchanged) |
+| `typography-bold-heading-xl` | `typography-header-heading-xl` | 48px | 52.8px (unchanged) |
+| `typography-bold-display` | **Removed** — closest match is `typography-header-heading-xl` (48px) or define a project-specific 64px style | 64px | — |
+
+### Body styles
+
+The body scale switches from T-shirt sizes to literal pixel-sized categories. The pixel sizes are unchanged.
+
+| Old class | New class | Size |
+|---|---|---|
+| `typography-regular-body-lg` | `typography-body-default-16px-regular` | 16px |
+| `typography-regular-body-md` | `typography-body-small-14px-regular` | 14px |
+| `typography-regular-body-sm` | `typography-description-12px-regular` | 12px |
+| `typography-semibold-body-lg` | `typography-body-default-16px-semibold` | 16px |
+| `typography-semibold-body-md` | `typography-body-small-14px-semibold` | 14px |
+| `typography-semibold-body-sm` | `typography-description-12px-semibold` | 12px |
+
+Note: the old `body-md` (14px) was the most-used default. In v3 the default body weight lives at `typography-body-default-16px-*` (16px). Confirm that consumers using `body-md` actually want 14px (→ `body-small-14px`) and not the new 16px default.
+
+### Link styles
+
+| Old class | New class | Size |
+|---|---|---|
+| `typography-semibold-link-lg` | `typography-links-link-lg` | 16px |
+| `typography-semibold-link-md` | `typography-links-link-md` | 14px |
+| `typography-semibold-link-xs` | `typography-links-link-xs` | 12px |
+
+### Badge styles
+
+`typography-semibold-badge` was **uppercase** (`text-transform: uppercase`). Its drop-in replacement is `typography-badge-badgecaps`, which keeps the uppercasing. `typography-badge-badge` is a separate, new **non-uppercase** variant — do not map to it, or eyebrow/badge text will lose its capitalisation.
+
+| Old class | New class | Size |
+|---|---|---|
+| `typography-semibold-badge` | `typography-badge-badgecaps` | 9px, uppercase |
+| — | `typography-badge-badge` (new) | 9px, non-uppercase variant |
+
+---
+
+## 3. Spacing
+
+All six v2 spacing tokens move under a `global` sub-tree, and the scale gains a `3xs` step plus semantic grouping tokens for layout.
+
+| Old CSS variable | New CSS variable | Value |
+|---|---|---|
+| `--spacing-2xs` | `--spacing-global-2xs` | 4px |
+| `--spacing-xs` | `--spacing-global-xs` | 8px |
+| `--spacing-sm` | `--spacing-global-sm` | 12px |
+| `--spacing-md` | `--spacing-global-md` | 16px |
+| `--spacing-lg` | `--spacing-global-lg` | 24px |
+| `--spacing-xl` | `--spacing-global-xl` | 32px |
+| — | `--spacing-global-3xs` (new) | 2px |
+
+### Semantic spacing groups (new)
+
+Use these for component-internal spacing instead of picking a global step manually:
+
+| Token | Resolves to | Use for |
+|---|---|---|
+| `--spacing-horizontal-group-chip-chip` | global xs (8px) | Gap between adjacent chips |
+| `--spacing-horizontal-group-button-button` | global xs (8px) | Gap between adjacent buttons |
+| `--spacing-horizontal-group-input-input` | global lg (24px) | Gap between adjacent inputs in a row |
+| `--spacing-horizontal-group-button-icon-button-icon` | global 2xs (4px) | Gap between icon and label inside an icon-button |
+| `--spacing-horizontal-group-icon-text` | global xs (8px) | Gap between leading icon and text |
+| `--spacing-vertical-section-input-input` | 48px | Vertical gap between input rows in a section |
+| `--spacing-vertical-section-group-group` | 24px | Vertical gap between groups in a section |
+| `--spacing-vertical-group-input-input` | global lg (24px) | Vertical gap between inputs in a group |
+| `--spacing-vertical-group-chip-chip` | global xs (8px) | Vertical gap between chip rows |
+| `--spacing-vertical-group-button-button` | global xs (8px) | Vertical gap between buttons in a stack |
+| `--spacing-vertical-group-check-check` | global xs (8px) | Vertical gap between checkboxes |
+| `--spacing-vertical-layout-section-section` | 40px | Vertical gap between layout sections |
+
+### Tailwind class impact
+
+The spacing tokens live in `:root` (not `@theme`) specifically so they do **not** override Tailwind v4's built-in numeric spacing scale. So padding/margin/gap utilities use the numeric scale (`p-4`, `gap-6`, `mt-2`) and are unaffected by this rename — there is no `p-md`/`gap-lg` utility bound to these tokens. The only thing to update is **direct variable references** in CSS or arbitrary values: `var(--spacing-md)` → `var(--spacing-global-md)` (and `p-[var(--spacing-md)]` → `p-[var(--spacing-global-md)]`).
+
+---
+
+## 4. Radius
+
+Two new steps added at the small end. Existing values are unchanged.
+
+| Token | Tailwind class | Value | Status |
+|---|---|---|---|
+| `--radius-3xs` | `rounded-3xs` | 2px | **New** |
+| `--radius-2xs` | `rounded-2xs` | 4px | **New** |
+| `--radius-xs` | `rounded-xs` | 8px | unchanged |
+| `--radius-sm` | `rounded-sm` | 12px | unchanged |
+| `--radius-md` | `rounded-md` | 16px | unchanged |
+| `--radius-lg` | `rounded-lg` | 24px | unchanged |
+| `--radius-xl` | `rounded-xl` | 32px | unchanged |
+| `--radius-2xl` | `rounded-2xl` | 40px | unchanged |
+| `--radius-full` | `rounded-full` | 9999px | unchanged |
+
+---
+
+## 5. Effects
+
+Existing shadow tokens (`--shadow-sm`, `--shadow-md`, `--shadow-lg`, `--shadow-xl`, `--shadow-2xl`, `--shadow-blur-menu`, `--shadow-blur-floating`) are unchanged.
+
+`--shadow-focus-ring` keeps the same name but is now **mode-aware**: violet on light backgrounds, white in dark mode (it reads a new `--fv-focus-ring-color` variable that `.dark` overrides). This keeps the focus ring high-contrast on both themes — a white ring is invisible on light surfaces, a violet ring is low-contrast on dark ones. No consumer action is required; the `shadow-focus-ring` utility is unchanged.
+
+### New effects
+
+| Token | Purpose |
+|---|---|
+| `--shadow-ai-button-glow` | Three-layer green glow for AI-styled CTAs (paired with `buttons.ai.*` colour tokens) |
+
+---
+
+## 6. Opacity (new)
+
+v3 introduces a top-level opacity token for disabled states. Previously, components hard-coded `opacity: 0.4` (or similar) inline.
+
+| Token | Value |
+|---|---|
+| `--opacity-disabled` | `0.6` |
+
+Migrate inline `opacity:` values for disabled states to this token where possible. **Note the value is `0.6`, not `0.4`** — several v2 call-sites used `opacity-40`/`opacity: 0.4`, so adopting the token is a deliberate visual change, not a no-op. Confirm the heavier dimming is intended before swapping.
+
+---
+
+## 7. Primitives
+
+| Token | Value | Status |
+|---|---|---|
+| `--primitives-color-green-1000` | `#010e06` | **New** |
+
+Radius and spacing primitive values are unchanged. **Several status/brand colour primitives were re-valued** — see [Value changes](#value-changes-not-just-renames).
+
+---
+
+## Value changes (not just renames)
+
+These are **intentional value changes** in the v3 Figma source (plus one Figma bug we worked around). Unlike the renames above, they alter rendered output, so the "screenshot diff should be empty" assumption does **not** hold for components that use them. QA these specifically.
+
+### Status / brand primitives re-valued
+
+| Primitive | v2 | v3 |
+|---|---|---|
+| `--primitives-color-green-600` | `#1cc848` | `#0ec833` |
+| `--primitives-color-red-500` | `#e33d3d` | `#f01932` |
+| `--primitives-color-amber-500` | `#f59e0b` | `#ffac1f` |
+| `--primitives-color-blue-500` | `#3f9cff` | `#0d71fd` |
+
+Any surface using success / error / warning / info / brand-green colours shifts hue/brightness. `green-500` and the gray/purple/pink ramps are unchanged.
+
+### Heading line-heights
+
+`typography-header-heading-sm` (32px → 26.4px) and `-md` (35.2px → 32px) tightened. Font size and weight are unchanged. Affects headings rendered with those two classes.
+
+### Dark-mode input surface
+
+`--color-inputs-inputs-primary` (the renamed `surface-inputs`) is identical to v2 in light mode, but its **dark** value moved from `gray-750` (`#3c3c3c`) to `gray-900` (`#262626`) — input fields sit slightly darker in dark mode.
+
+### Disabled opacity
+
+`--opacity-disabled` is `0.6`; migrating `opacity-40` call-sites to it dims more than before. See [Opacity](#6-opacity-new).
+
+### Known Figma regression — `neutral-alphas-150` (dark)
+
+The v3 export sets `neutral-alphas-150` (dark) to `#ffffffcc` (white 80%), where v2 used a dark surface (`#232323cc`). The rest of the dark `neutral-alphas` ramp is white-based, so this looks like an unintended normalisation in Figma — but the build emits the Figma value verbatim (Figma is the single source of truth; tokens are not patched in code). With this value the dark Chip/Badge render light-on-light. **Action for design:** correct the `neutral-alphas-150` dark variable in Figma and re-export — that is the only place to fix it.
+
+---
+
+## 8. Migration steps
+
+For consumers upgrading from `@fanvue/ui` v2 to v3:
+
+1. **Update the package.** `pnpm add @fanvue/ui@^3`.
+2. **Run the [codemod](#codemod).** It rewrites colour, typography and spacing tokens in **both** their CSS-variable form (`--color-bg-primary`) and their Tailwind-utility form (`bg-bg-primary`, `ring-offset-bg-primary`, `text-link-default`, …), driven by [token-migration-map-v3.json](./token-migration-map-v3.json).
+3. **Audit `typography-bold-display`.** No drop-in replacement exists. Either downgrade to `typography-header-heading-xl` (48px) or define a project-local 64px style.
+4. **Update spacing references.** `var(--spacing-{2xs,xs,sm,md,lg,xl})` → `var(--spacing-global-*)`. Tailwind numeric spacing utilities (`p-4`, `gap-6`) do **not** change — only direct variable references do.
+5. **Audit `body-md` usage.** v2's most-used body size (14px) is now `body-small-14px`. If you intended 16px, switch to `body-default-16px` — the default scale has shifted.
+6. **Review [Value changes](#value-changes-not-just-renames).** Some tokens changed value, not just name. QA components that use status colours, the two affected heading styles, dark-mode inputs, and disabled states.
+7. **Regenerate any local theme overrides.** If you maintain a downstream `theme.css` that mirrors `@fanvue/ui` variables, run your build against the new token set.
+8. **Detect leftovers.** After the codemod, grep your repo for any remaining old token name (both `--color-`/`--spacing-` and utility forms) — the codemod prints any it could not rewrite. A removed token produces **no CSS** (empty value), so a missed rename fails silently rather than erroring.
+9. **Visual diff before and after.** The diff should be empty **except** for the components listed in [Value changes](#value-changes-not-just-renames). Any other non-empty diff indicates a missed rename — refer back to the mapping table.
+
+## 9. Codemod [#codemod]
+
+Save [token-migration-map-v3.json](./token-migration-map-v3.json) next to this script and run `node codemod.mjs` from your repo root (test on a branch first). It is dependency-free (Node ≥ 20) and handles the two pitfalls a plain `sed` misses:
+
+- **Utility classes, not just variables.** Colour tokens are consumed as `bg-*`, `text-*`, `border-*`, `ring-*`, `ring-offset-*`, `from-*`, `to-*`, etc. — not only as `--color-*`. The script rewrites both.
+- **Boundary anchoring.** Replacements are anchored so `--spacing-md` does not corrupt `--spacing-md-custom`, and `buttons-primary` does not corrupt `buttons-primary-hover`.
+
+```js
+// codemod.mjs — node codemod.mjs [rootDir]
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+
+const map = JSON.parse(readFileSync("./token-migration-map-v3.json", "utf-8"));
+const root = process.argv[2] ?? "src";
+const EXTS = /\.(tsx?|jsx?|css|s[ac]ss|less|mdx?|html|vue|svelte|astro)$/;
+// Tailwind prefixes through which colour tokens are referenced as utilities.
+const PREFIXES = ["bg","text","border","ring","ring-offset","from","to","via","fill",
+  "stroke","divide","outline","decoration","accent","caret","placeholder","shadow"];
+
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+// Anchored, global replace: match only when not surrounded by [\w-].
+const repl = (text, from, to) =>
+  text.replace(new RegExp(`(?<![\\w-])${esc(from)}(?![\\w-])`, "g"), to);
+
+// Build the full old -> new list (CSS-var + utility forms).
+const rules = [];
+for (const [from, to] of Object.entries(map.colors)) {
+  rules.push([from, to]); // --color-… form
+  const a = from.replace(/^--color-/, ""), b = to.replace(/^--color-/, "");
+  for (const p of PREFIXES) rules.push([`${p}-${a}`, `${p}-${b}`]);
+}
+for (const [from, to] of Object.entries(map.spacing)) rules.push([from, to]);
+for (const [from, to] of Object.entries(map.typography)) {
+  if (to === null) continue; // removed — needs manual review
+  rules.push([from, to]);
+}
+// Longest source first so specific names win over their prefixes.
+rules.sort((x, y) => y[0].length - x[0].length);
+
+const walk = (dir) => readdirSync(dir).flatMap((name) => {
+  if (name === "node_modules" || name === "dist" || name === ".git") return [];
+  const full = join(dir, name);
+  return statSync(full).isDirectory() ? walk(full) : EXTS.test(full) ? [full] : [];
+});
+
+let changed = 0;
+for (const file of walk(root)) {
+  const before = readFileSync(file, "utf-8");
+  let after = before;
+  for (const [from, to] of rules) after = repl(after, from, to);
+  if (after !== before) { writeFileSync(file, after); changed++; }
+}
+
+// Report any old token still present (e.g. typography-bold-display, or a form the
+// codemod did not anticipate) so misses fail loudly instead of silently.
+const leftover = walk(root).flatMap((file) => {
+  const text = readFileSync(file, "utf-8");
+  return [...Object.keys(map.colors), ...Object.keys(map.spacing), ...Object.keys(map.typography)]
+    .filter((name) => new RegExp(`(?<![\\w-])${esc(name.replace(/^--color-/, ""))}(?![\\w-])`).test(text))
+    .map((name) => `${file}: ${name}`);
+});
+console.log(`Rewrote ${changed} file(s).`);
+if (leftover.length) console.warn(`\nReview these remaining references:\n${leftover.join("\n")}`);
+```
+
+`typography-bold-display` has no automatic replacement (mapped to `null`) — the script skips it and lists it under "remaining references" for manual review.
+
+## 10. Reporting issues
+
+If you find a v2 token that is not covered by this guide, please open an issue on the repository — every v2 token should map to either a new v3 token or be explicitly listed as removed.

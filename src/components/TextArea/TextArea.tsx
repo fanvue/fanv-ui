@@ -42,9 +42,9 @@ const CONTAINER_MIN_HEIGHT: Record<TextAreaSize, string> = {
 };
 
 const TEXTAREA_SIZE_CLASSES: Record<TextAreaSize, string> = {
-  "48": "py-3 typography-regular-body-lg autofill-body-lg",
-  "40": "py-2 typography-regular-body-lg autofill-body-lg",
-  "32": "py-2 typography-regular-body-md autofill-body-md",
+  "48": "py-3 typography-body-default-16px-regular autofill-body-lg",
+  "40": "py-2 typography-body-default-16px-regular autofill-body-lg",
+  "32": "py-2 typography-body-small-14px-regular autofill-body-md",
 };
 
 const PADDING_HORIZONTAL: Record<TextAreaSize, string> = {
@@ -104,7 +104,7 @@ function TextAreaHelperText({
     <p
       id={id}
       className={cn(
-        "typography-regular-body-sm px-2 pt-1 pb-0.5",
+        "typography-description-12px-regular px-2 pt-1 pb-0.5",
         error ? "text-error-content" : "text-content-secondary",
       )}
     >
@@ -251,7 +251,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-content-primary"
+            className="typography-description-12px-semibold px-1 pt-1 pb-2 text-content-primary"
           >
             {label}
           </label>

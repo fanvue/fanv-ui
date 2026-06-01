@@ -48,7 +48,7 @@ export const TablePagination = React.forwardRef<HTMLDivElement, TablePaginationP
             ) : null}
             <div
               className={cn(
-                "typography-regular-body-sm min-w-0 flex-1 text-content-secondary",
+                "typography-description-12px-regular min-w-0 flex-1 text-content-secondary",
                 leadingSlot == null && "text-left",
                 leadingSlot != null && "text-right",
               )}
@@ -73,7 +73,7 @@ export const TablePagination = React.forwardRef<HTMLDivElement, TablePaginationP
         {paginationSlot != null ? (
           <div className="flex shrink-0 items-center justify-center">{paginationSlot}</div>
         ) : null}
-        <div className="typography-regular-body-sm min-w-0 flex-1 text-right text-content-secondary">
+        <div className="typography-description-12px-regular min-w-0 flex-1 text-right text-content-secondary">
           {summary}
         </div>
       </div>

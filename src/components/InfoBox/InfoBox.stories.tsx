@@ -60,7 +60,7 @@ export const WithPill: Story = {
       <InfoBoxContent
         heading="Title"
         pill={
-          <span className="typography-semibold-body-sm rounded-full bg-buttons-primary px-3 py-1 text-content-primary-inverted">
+          <span className="typography-description-12px-semibold rounded-full bg-buttons-primary-default px-3 py-1 text-content-primary-inverted">
             Example
           </span>
         }
@@ -102,7 +102,7 @@ export const Full: Story = {
         icon={<InfoCircleIcon className="size-5 text-content-primary-inverted" />}
         heading="Title"
         pill={
-          <span className="typography-semibold-body-sm rounded-full bg-buttons-primary px-3 py-1 text-content-primary-inverted">
+          <span className="typography-description-12px-semibold rounded-full bg-buttons-primary-default px-3 py-1 text-content-primary-inverted">
             Example
           </span>
         }

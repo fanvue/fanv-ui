@@ -207,7 +207,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         ref={ref}
         scope={scope}
         className={cn(
-          "typography-semibold-body-sm box-border min-h-12 border-b border-border-primary px-4 py-3 align-middle text-content-tertiary",
+          "typography-description-12px-semibold box-border min-h-12 border-b border-border-primary px-4 py-3 align-middle text-content-tertiary",
           HEAD_INTENT_CLASSES[intent],
           className,
         )}
@@ -261,7 +261,9 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, cellVariant = "default", intent = "default", ...props }, ref) => {
     const size = useTableSize();
     const typo =
-      intent === "sideLabel" ? "typography-semibold-body-sm" : "typography-regular-body-sm";
+      intent === "sideLabel"
+        ? "typography-description-12px-semibold"
+        : "typography-description-12px-regular";
     return (
       <td
         ref={ref}
@@ -321,13 +323,15 @@ export function TableCellContent({
   return (
     <div className={cn("flex flex-col gap-0.5", className)}>
       <div className="flex items-center gap-1">
-        <span className="typography-semibold-body-sm text-content-primary">{primary}</span>
+        <span className="typography-description-12px-semibold text-content-primary">{primary}</span>
         {primaryAdornment}
       </div>
       {(secondary != null || secondaryAdornment != null) && (
         <div className="flex items-center gap-1">
           {secondary != null && (
-            <span className="typography-regular-body-sm text-content-secondary">{secondary}</span>
+            <span className="typography-description-12px-regular text-content-secondary">
+              {secondary}
+            </span>
           )}
           {secondaryAdornment}
         </div>
@@ -419,7 +423,7 @@ export const TableProgressTrack = React.forwardRef<HTMLDivElement, TableProgress
         {...props}
       >
         <div
-          className="absolute top-0 left-0 h-1 rounded-full bg-buttons-primary"
+          className="absolute top-0 left-0 h-1 rounded-full bg-buttons-primary-default"
           style={{ width: `${width}%` }}
           aria-hidden
         />
@@ -476,7 +480,7 @@ export const TableSortLabel = React.forwardRef<HTMLSpanElement, TableSortLabelPr
       >
         <span
           className={cn(
-            "typography-semibold-body-sm",
+            "typography-description-12px-semibold",
             direction != null && "border-b border-content-primary pb-px",
           )}
         >
@@ -552,7 +556,7 @@ export function TableRowsPerPageSelect(props: TableRowsPerPageSelectProps) {
       defaultValue="10"
       size="32"
       aria-label={ariaLabel}
-      className="w-[154px] [&_button]:rounded-sm [&_button]:border-transparent [&_button]:bg-surface-inputs"
+      className="w-[154px] [&_button]:rounded-sm [&_button]:border-transparent [&_button]:bg-inputs-inputs-primary"
       id={id}
     >
       <SelectContent>

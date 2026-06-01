@@ -104,16 +104,16 @@ export const SimpleDefault: Story = {
           <DialogTitle>Your funds are on the way!</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <p className="typography-regular-body-lg text-content-secondary">Remember:</p>
+          <p className="typography-body-default-16px-regular text-content-secondary">Remember:</p>
           <ul className="mt-3 space-y-2">
-            <li className="typography-regular-body-lg flex items-start gap-2 text-content-secondary">
+            <li className="typography-body-default-16px-regular flex items-start gap-2 text-content-secondary">
               <CheckIcon className="mt-0.5 size-5 shrink-0 text-content-primary" />
               <span>
                 It could take up to{" "}
                 <strong className="text-content-primary">10 working days</strong>
               </span>
             </li>
-            <li className="typography-regular-body-lg flex items-start gap-2 text-content-secondary">
+            <li className="typography-body-default-16px-regular flex items-start gap-2 text-content-secondary">
               <CheckIcon className="mt-0.5 size-5 shrink-0 text-content-primary" />
               <span>Your provider could charge you a fee</span>
             </li>
@@ -168,7 +168,7 @@ export const Confirmation: Story = {
         <DialogBody>
           <div className="flex items-center gap-3">
             <div className="size-10 shrink-0 rounded-full bg-neutral-alphas-100" />
-            <p className="typography-regular-body-lg text-content-secondary">
+            <p className="typography-body-default-16px-regular text-content-secondary">
               This media will be permanently deleted.
             </p>
           </div>
@@ -196,20 +196,20 @@ export const Referrals: Story = {
           <DialogTitle>Referrals</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <p className="typography-bold-heading-xs text-content-primary">
+          <p className="typography-header-heading-xs text-content-primary">
             increase your earnings with referrals
           </p>
           <ul className="mt-4 space-y-2">
-            <li className="typography-regular-body-lg flex items-start gap-2 text-content-secondary">
+            <li className="typography-body-default-16px-regular flex items-start gap-2 text-content-secondary">
               <CheckIcon className="mt-0.5 size-5 shrink-0 text-content-primary" />
               You get 5% earnings of every creator you refer
             </li>
-            <li className="typography-regular-body-lg flex items-start gap-2 text-content-secondary">
+            <li className="typography-body-default-16px-regular flex items-start gap-2 text-content-secondary">
               <CheckIcon className="mt-0.5 size-5 shrink-0 text-content-primary" />
               They get 90% for the first 7 days
             </li>
           </ul>
-          <p className="typography-regular-body-sm mt-4 text-content-tertiary">
+          <p className="typography-description-12px-regular mt-4 text-content-tertiary">
             Simply copy the link, and share it with a future creator. They enter the code during
             sign up and that&apos;s it.
           </p>
@@ -235,21 +235,21 @@ export const WithDescription: Story = {
           <DialogTitle>Account Health</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <p className="typography-bold-heading-sm text-content-primary">What are warnings?</p>
+          <p className="typography-header-heading-sm text-content-primary">What are warnings?</p>
           <ul className="mt-3 list-disc space-y-2 pl-5">
-            <li className="typography-regular-body-lg text-content-secondary">
+            <li className="typography-body-default-16px-regular text-content-secondary">
               A warning means an incident on your account broke our guidelines. This may involve one
               or several uploads.
             </li>
-            <li className="typography-regular-body-lg text-content-secondary">
+            <li className="typography-body-default-16px-regular text-content-secondary">
               Warnings can add up. Severe or repeated cases may lead to a ban.
             </li>
           </ul>
-          <p className="typography-regular-body-lg mt-3 text-content-secondary">
+          <p className="typography-body-default-16px-regular mt-3 text-content-secondary">
             Need clarity?{" "}
             <a
               href="https://example.com/support"
-              className="typography-semibold-link-lg text-content-primary underline"
+              className="typography-links-link-lg text-content-primary underline"
             >
               Contact Support.
             </a>
@@ -285,8 +285,10 @@ export const LargeDialog: Story = {
                 key={role}
                 className="flex items-center justify-between rounded-sm border border-neutral-alphas-200 p-4"
               >
-                <span className="typography-semibold-body-lg text-content-primary">{role}</span>
-                <span className="typography-regular-body-md text-content-secondary">
+                <span className="typography-body-default-16px-semibold text-content-primary">
+                  {role}
+                </span>
+                <span className="typography-body-small-14px-regular text-content-secondary">
                   Permissions
                 </span>
               </div>
@@ -314,9 +316,11 @@ export const WithInputContent: Story = {
       </DialogTrigger>
       <DialogContent aria-label="Warnings" aria-describedby={undefined}>
         <DialogBody>
-          <p className="typography-bold-heading-sm text-content-primary">What are warnings?</p>
-          <p className="typography-semibold-body-lg mt-1 text-content-primary">Dialog title here</p>
-          <p className="typography-regular-body-lg mt-2 text-content-secondary">
+          <p className="typography-header-heading-sm text-content-primary">What are warnings?</p>
+          <p className="typography-body-default-16px-semibold mt-1 text-content-primary">
+            Dialog title here
+          </p>
+          <p className="typography-body-default-16px-regular mt-2 text-content-secondary">
             Dialog body text goes here. Describe the content or provide information to the user.
           </p>
           <div className="mt-4">
@@ -338,16 +342,16 @@ export const NoHeader: Story = {
       </DialogTrigger>
       <DialogContent size="sm" aria-label="Sell 5 PTV pieces" aria-describedby={undefined}>
         <DialogBody>
-          <p className="typography-bold-heading-sm text-content-primary">Sell 5 PTV pieces</p>
-          <p className="typography-regular-body-lg mt-2 text-content-secondary">
+          <p className="typography-header-heading-sm text-content-primary">Sell 5 PTV pieces</p>
+          <p className="typography-body-default-16px-regular mt-2 text-content-secondary">
             You can try either:
           </p>
           <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li className="typography-regular-body-lg text-content-secondary">
+            <li className="typography-body-default-16px-regular text-content-secondary">
               <strong className="text-content-primary">Creating a $100 post</strong>, so your
               subscribers can buy it.
             </li>
-            <li className="typography-regular-body-lg text-content-secondary">
+            <li className="typography-body-default-16px-regular text-content-secondary">
               <strong className="text-content-primary">Offer directly to a fan.</strong> Go to a
               chat with a Fan &gt; add image from vault &gt; set price &gt; send message
             </li>
@@ -378,7 +382,10 @@ export const ScrollableContent: Story = {
         </DialogHeader>
         <DialogBody>
           {Array.from({ length: 20 }, (_, i) => `paragraph-${i + 1}`).map((id) => (
-            <p key={id} className="typography-regular-body-lg mb-4 text-content-secondary">
+            <p
+              key={id}
+              className="typography-body-default-16px-regular mb-4 text-content-secondary"
+            >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
               exercitation ullamco laboris.
@@ -412,7 +419,7 @@ export const SingleAction: Story = {
           <div className="flex justify-center">
             <Avatar size={88} fallback="JD" />
           </div>
-          <p className="typography-regular-body-lg mt-4 text-content-secondary">
+          <p className="typography-body-default-16px-regular mt-4 text-content-secondary">
             Your avatar is being generated. This can take a few minutes. You can close this and
             we&apos;ll let you know when it&apos;s done.
           </p>
@@ -447,7 +454,7 @@ export const MobileSheet: Story = {
           <DialogTitle>Dialog Title</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <p className="typography-regular-body-lg text-content-secondary">
+          <p className="typography-body-default-16px-regular text-content-secondary">
             On mobile viewports, the dialog slides up from the bottom with only top border radius,
             behaving like a bottom sheet.
           </p>
@@ -476,7 +483,7 @@ export const RemoveMembers: Story = {
           <DialogTitle>Are you sure?</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <p className="typography-regular-body-lg text-content-secondary">
+          <p className="typography-body-default-16px-regular text-content-secondary">
             The following members will be removed from your team.
           </p>
           <div className="mt-3 flex gap-2">

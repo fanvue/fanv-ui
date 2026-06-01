@@ -71,7 +71,7 @@ describe("TextField", () => {
       const { container } = render(<TextField aria-label="Test" placeholder="No label" />);
       const input = screen.getByPlaceholderText("No label");
       expect(input).toBeInTheDocument();
-      const textLabel = container.querySelector("label.typography-semibold-body-sm");
+      const textLabel = container.querySelector("label.typography-description-12px-semibold");
       expect(textLabel).toBeNull();
     });
 

@@ -4,24 +4,24 @@ import { Count, type CountSize } from "../Count/Count";
 
 const iconButtonVariants = {
   primary:
-    "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-primary-hover not-disabled:active:bg-buttons-primary-hover disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-primary-hover not-disabled:active:bg-buttons-primary-hover disabled:opacity-50 focus-visible:shadow-focus-ring",
   secondary:
     "bg-neutral-alphas-50 text-icons-primary hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
   tertiary:
     "bg-transparent text-content-primary hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
   brand:
-    "bg-content-on-brand text-brand-primary-default hover:bg-brand-primary-default hover:text-content-on-brand not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-on-brand disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-content-always-black text-brand-primary-default hover:bg-brand-primary-default hover:text-content-always-black not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-always-black disabled:opacity-50 focus-visible:shadow-focus-ring",
   contrast:
-    "bg-transparent text-content-on-brand-inverted hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-transparent text-content-always-white hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
   messaging:
-    "bg-content-on-brand text-brand-primary-default hover:bg-brand-primary-default hover:text-content-on-brand not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-on-brand disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-content-always-black text-brand-primary-default hover:bg-brand-primary-default hover:text-content-always-black not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-always-black disabled:opacity-50 focus-visible:shadow-focus-ring",
   navTray:
     "bg-transparent text-content-primary hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
   tertiaryDestructive:
     "bg-transparent text-error-content hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50 focus-visible:shadow-focus-ring",
-  stop: "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-brand hover:text-content-on-brand not-disabled:active:bg-buttons-brand not-disabled:active:text-content-on-brand disabled:opacity-50 focus-visible:shadow-focus-ring",
+  stop: "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black disabled:opacity-50 focus-visible:shadow-focus-ring",
   microphone:
-    "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-brand hover:text-content-on-brand not-disabled:active:bg-buttons-brand not-disabled:active:text-content-on-brand disabled:opacity-50 focus-visible:shadow-focus-ring",
+    "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black disabled:opacity-50 focus-visible:shadow-focus-ring",
 };
 
 const iconSizeVariants = {

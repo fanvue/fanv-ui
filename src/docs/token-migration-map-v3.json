@@ -1,0 +1,43 @@
+{
+  "$comment": "v2 -> v3 token renames, machine-readable. Apply each replacement to BOTH the CSS-variable form and the Tailwind utility form (the codemod.mjs in DesignTokenMigrationV3.mdx does this). 'colors' and 'spacing' keys are CSS variables; 'colors' are also consumed as utilities (bg-/text-/border-/ring-/ring-offset-/from-/to-/via-/fill-/stroke-/divide-/outline-/decoration-/accent-/caret-/placeholder-/shadow-). 'typography' keys are utility class names. A null value means the token was removed with no drop-in replacement and needs manual review. Identity (no-op) renames are intentionally omitted. Narrative, value changes, and the additive-token list live in DesignTokenMigrationV3.mdx.",
+  "colors": {
+    "--color-bg-primary": "--color-background-primary",
+    "--color-bg-overlay": "--color-background-overlay-default",
+    "--color-bg-gradient-start": "--color-background-gradient-start",
+    "--color-bg-gradient-end": "--color-background-gradient-end",
+    "--color-surface-inputs-off": "--color-inputs-inputs-off",
+    "--color-surface-inputs": "--color-inputs-inputs-primary",
+    "--color-link-default": "--color-buttons-link-primary-default",
+    "--color-link-hover": "--color-buttons-link-primary-hover",
+    "--color-content-on-brand-inverted": "--color-content-always-white",
+    "--color-content-on-brand": "--color-content-always-black",
+    "--color-buttons-primary": "--color-buttons-primary-default",
+    "--color-buttons-brand": "--color-buttons-brand-default"
+  },
+  "typography": {
+    "typography-bold-heading-xs": "typography-header-heading-xs",
+    "typography-bold-heading-sm": "typography-header-heading-sm",
+    "typography-bold-heading-md": "typography-header-heading-md",
+    "typography-bold-heading-lg": "typography-header-heading-lg",
+    "typography-bold-heading-xl": "typography-header-heading-xl",
+    "typography-bold-display": null,
+    "typography-regular-body-lg": "typography-body-default-16px-regular",
+    "typography-regular-body-md": "typography-body-small-14px-regular",
+    "typography-regular-body-sm": "typography-description-12px-regular",
+    "typography-semibold-body-lg": "typography-body-default-16px-semibold",
+    "typography-semibold-body-md": "typography-body-small-14px-semibold",
+    "typography-semibold-body-sm": "typography-description-12px-semibold",
+    "typography-semibold-link-lg": "typography-links-link-lg",
+    "typography-semibold-link-md": "typography-links-link-md",
+    "typography-semibold-link-xs": "typography-links-link-xs",
+    "typography-semibold-badge": "typography-badge-badgecaps"
+  },
+  "spacing": {
+    "--spacing-2xs": "--spacing-global-2xs",
+    "--spacing-xs": "--spacing-global-xs",
+    "--spacing-sm": "--spacing-global-sm",
+    "--spacing-md": "--spacing-global-md",
+    "--spacing-lg": "--spacing-global-lg",
+    "--spacing-xl": "--spacing-global-xl"
+  }
+}

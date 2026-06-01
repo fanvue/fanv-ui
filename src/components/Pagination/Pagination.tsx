@@ -126,7 +126,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
                   className={cn(
                     "flex size-4 cursor-pointer items-center justify-center rounded-full text-xs focus-visible:shadow-focus-ring focus-visible:outline-none motion-safe:transition-colors motion-safe:duration-150",
                     page === currentPage
-                      ? "bg-buttons-primary text-content-primary-inverted"
+                      ? "bg-buttons-primary-default text-content-primary-inverted"
                       : "bg-neutral-alphas-50 text-content-primary hover:bg-neutral-alphas-100 active:bg-neutral-alphas-100",
                   )}
                 >

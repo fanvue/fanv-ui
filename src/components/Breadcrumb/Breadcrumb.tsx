@@ -91,7 +91,7 @@ export const BreadcrumbLink = React.forwardRef<HTMLAnchorElement, BreadcrumbLink
       <Comp
         ref={ref}
         className={cn(
-          "typography-regular-body-sm rounded-[2px] text-content-secondary underline-offset-2 transition-colors hover:text-content-primary hover:underline focus-visible:shadow-focus-ring focus-visible:outline-none",
+          "typography-description-12px-regular rounded-[2px] text-content-secondary underline-offset-2 transition-colors hover:text-content-primary hover:underline focus-visible:shadow-focus-ring focus-visible:outline-none",
           className,
         )}
         {...props}
@@ -112,7 +112,7 @@ export const BreadcrumbPage = React.forwardRef<HTMLSpanElement, BreadcrumbPagePr
     <span
       ref={ref}
       aria-current="page"
-      className={cn("typography-semibold-body-sm text-content-primary", className)}
+      className={cn("typography-description-12px-semibold text-content-primary", className)}
       {...props}
     />
   ),

@@ -86,7 +86,9 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
               className={cn(
                 "cursor-pointer select-none text-content-primary",
                 disabled && "cursor-not-allowed text-content-tertiary",
-                size === "default" ? "typography-semibold-body-lg" : "typography-semibold-body-md",
+                size === "default"
+                  ? "typography-body-default-16px-semibold"
+                  : "typography-body-small-14px-semibold",
               )}
             >
               {label}
@@ -114,7 +116,9 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
             className={cn(
               "text-content-secondary",
               disabled && "text-content-tertiary",
-              size === "default" ? "typography-regular-body-md" : "typography-regular-body-sm",
+              size === "default"
+                ? "typography-body-small-14px-regular"
+                : "typography-description-12px-regular",
             )}
           >
             {helperText}

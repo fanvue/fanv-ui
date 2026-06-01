@@ -34,7 +34,7 @@ interface AutocompleteDropdownContentProps {
 
 function DefaultGroupHeading({ children }: { children: React.ReactNode }) {
   return (
-    <span className="typography-semibold-body-sm block px-3 pt-2 pb-1 text-content-secondary uppercase tracking-wide">
+    <span className="typography-description-12px-semibold block px-3 pt-2 pb-1 text-content-secondary uppercase tracking-wide">
       {children}
     </span>
   );
@@ -63,7 +63,7 @@ export function AutocompleteDropdownContent({
       <div role="status" className="flex items-center justify-center py-4">
         <SpinnerIcon className="size-5 animate-spin text-content-secondary" />
         {loadingText && (
-          <span className="typography-regular-body-md ml-2 text-content-secondary">
+          <span className="typography-body-small-14px-regular ml-2 text-content-secondary">
             {loadingText}
           </span>
         )}
@@ -79,7 +79,7 @@ export function AutocompleteDropdownContent({
 
   if (visibleOptions.length === 0) {
     return (
-      <div className="typography-regular-body-md block px-3 py-4 text-center text-content-secondary">
+      <div className="typography-body-small-14px-regular block px-3 py-4 text-center text-content-secondary">
         {emptyText}
       </div>
     );
@@ -141,7 +141,7 @@ export function AutocompleteDropdownContent({
       })}
       {createOption && renderOptionRow(createOption)}
       {emptyAfterPinned && (
-        <div className="typography-regular-body-md block px-3 py-4 text-center text-content-secondary">
+        <div className="typography-body-small-14px-regular block px-3 py-4 text-center text-content-secondary">
           {emptyText}
         </div>
       )}

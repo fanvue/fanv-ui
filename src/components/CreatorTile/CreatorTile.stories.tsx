@@ -80,7 +80,7 @@ export const AspectRatios: Story = {
       {(["tall", "medium", "short"] as const).map((aspectRatio) => (
         <div key={aspectRatio} className="flex w-[280px] flex-col gap-2">
           <CreatorTile {...args} aspectRatio={aspectRatio} className="rounded-lg" />
-          <p className="typography-regular-body-sm text-content-secondary">
+          <p className="typography-description-12px-regular text-content-secondary">
             aspectRatio=&quot;{aspectRatio}&quot;
           </p>
         </div>

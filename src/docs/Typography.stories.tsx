@@ -33,7 +33,7 @@ const weightLabels: Record<number, string> = {
 const regularTokens: TypographyToken[] = [
   {
     name: "Body Lg",
-    className: "typography-regular-body-lg",
+    className: "typography-body-default-16px-regular",
     size: "16px",
     weight: 400,
     lineHeight: "24px",
@@ -41,7 +41,7 @@ const regularTokens: TypographyToken[] = [
   },
   {
     name: "Body Md",
-    className: "typography-regular-body-md",
+    className: "typography-body-small-14px-regular",
     size: "14px",
     weight: 400,
     lineHeight: "18px",
@@ -49,7 +49,7 @@ const regularTokens: TypographyToken[] = [
   },
   {
     name: "Body Sm",
-    className: "typography-regular-body-sm",
+    className: "typography-description-12px-regular",
     size: "12px",
     weight: 400,
     lineHeight: "16px",
@@ -60,7 +60,7 @@ const regularTokens: TypographyToken[] = [
 const semiboldTokens: TypographyToken[] = [
   {
     name: "Body Lg",
-    className: "typography-semibold-body-lg",
+    className: "typography-body-default-16px-semibold",
     size: "16px",
     weight: 600,
     lineHeight: "24px",
@@ -68,7 +68,7 @@ const semiboldTokens: TypographyToken[] = [
   },
   {
     name: "Body Md",
-    className: "typography-semibold-body-md",
+    className: "typography-body-small-14px-semibold",
     size: "14px",
     weight: 600,
     lineHeight: "18px",
@@ -76,7 +76,7 @@ const semiboldTokens: TypographyToken[] = [
   },
   {
     name: "Body Sm",
-    className: "typography-semibold-body-sm",
+    className: "typography-description-12px-semibold",
     size: "12px",
     weight: 600,
     lineHeight: "16px",
@@ -84,7 +84,7 @@ const semiboldTokens: TypographyToken[] = [
   },
   {
     name: "Link Lg",
-    className: "typography-semibold-link-lg",
+    className: "typography-links-link-lg",
     size: "16px",
     weight: 600,
     lineHeight: "22px",
@@ -93,7 +93,7 @@ const semiboldTokens: TypographyToken[] = [
   },
   {
     name: "Link Md",
-    className: "typography-semibold-link-md",
+    className: "typography-links-link-md",
     size: "14px",
     weight: 600,
     lineHeight: "18px",
@@ -102,7 +102,7 @@ const semiboldTokens: TypographyToken[] = [
   },
   {
     name: "Link Xs",
-    className: "typography-semibold-link-xs",
+    className: "typography-links-link-xs",
     size: "12px",
     weight: 600,
     lineHeight: "16px",
@@ -111,7 +111,7 @@ const semiboldTokens: TypographyToken[] = [
   },
   {
     name: "Badge",
-    className: "typography-semibold-badge",
+    className: "typography-badge-badgecaps",
     size: "9px",
     weight: 600,
     lineHeight: "10.8px",
@@ -123,16 +123,8 @@ const semiboldTokens: TypographyToken[] = [
 
 const boldTokens: TypographyToken[] = [
   {
-    name: "Display",
-    className: "typography-bold-display",
-    size: "64px",
-    weight: 700,
-    lineHeight: "64px",
-    sample: "Display",
-  },
-  {
     name: "Heading Xl",
-    className: "typography-bold-heading-xl",
+    className: "typography-header-heading-xl",
     size: "48px",
     weight: 700,
     lineHeight: "52.8px",
@@ -140,7 +132,7 @@ const boldTokens: TypographyToken[] = [
   },
   {
     name: "Heading Lg",
-    className: "typography-bold-heading-lg",
+    className: "typography-header-heading-lg",
     size: "40px",
     weight: 700,
     lineHeight: "44px",
@@ -148,7 +140,7 @@ const boldTokens: TypographyToken[] = [
   },
   {
     name: "Heading Md",
-    className: "typography-bold-heading-md",
+    className: "typography-header-heading-md",
     size: "32px",
     weight: 700,
     lineHeight: "35.2px",
@@ -156,7 +148,7 @@ const boldTokens: TypographyToken[] = [
   },
   {
     name: "Heading Sm",
-    className: "typography-bold-heading-sm",
+    className: "typography-header-heading-sm",
     size: "24px",
     weight: 700,
     lineHeight: "32px",
@@ -164,7 +156,7 @@ const boldTokens: TypographyToken[] = [
   },
   {
     name: "Heading Xs",
-    className: "typography-bold-heading-xs",
+    className: "typography-header-heading-xs",
     size: "20px",
     weight: 700,
     lineHeight: "24px",
@@ -278,11 +270,11 @@ export const Scale: Story = {
             fontFamily: "monospace",
             color: "var(--color-content-tertiary)",
             padding: "8px 12px",
-            backgroundColor: "var(--color-surface-inputs)",
+            backgroundColor: "var(--color-inputs-inputs-primary)",
             borderRadius: 6,
           }}
         >
-          {'<p className="typography-semibold-body-lg">...</p>'}
+          {'<p className="typography-body-default-16px-semibold">...</p>'}
         </code>
       </div>
 

@@ -176,10 +176,10 @@ export const AllStates: Story = {
   render: () => (
     <div className="flex flex-col gap-8">
       <div>
-        <p className="typography-semibold-body-md mb-4 text-content-tertiary">Active</p>
+        <p className="typography-body-small-14px-semibold mb-4 text-content-tertiary">Active</p>
         <div className="flex gap-10">
           <div className="flex flex-col items-center gap-2">
-            <p className="typography-regular-body-sm text-content-tertiary">Default</p>
+            <p className="typography-description-12px-regular text-content-tertiary">Default</p>
             <Tabs defaultValue="t">
               <TabsList>
                 <TabsTrigger value="t">Tab</TabsTrigger>
@@ -187,7 +187,7 @@ export const AllStates: Story = {
             </Tabs>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <p className="typography-regular-body-sm text-content-tertiary">Disabled</p>
+            <p className="typography-description-12px-regular text-content-tertiary">Disabled</p>
             <Tabs defaultValue="t">
               <TabsList>
                 <TabsTrigger value="t" disabled>
@@ -199,10 +199,10 @@ export const AllStates: Story = {
         </div>
       </div>
       <div>
-        <p className="typography-semibold-body-md mb-4 text-content-tertiary">Inactive</p>
+        <p className="typography-body-small-14px-semibold mb-4 text-content-tertiary">Inactive</p>
         <div className="flex gap-10">
           <div className="flex flex-col items-center gap-2">
-            <p className="typography-regular-body-sm text-content-tertiary">Default</p>
+            <p className="typography-description-12px-regular text-content-tertiary">Default</p>
             <Tabs defaultValue="other">
               <TabsList>
                 <TabsTrigger value="t">Tab</TabsTrigger>
@@ -210,7 +210,7 @@ export const AllStates: Story = {
             </Tabs>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <p className="typography-regular-body-sm text-content-tertiary">Disabled</p>
+            <p className="typography-description-12px-regular text-content-tertiary">Disabled</p>
             <Tabs defaultValue="other">
               <TabsList>
                 <TabsTrigger value="t" disabled>

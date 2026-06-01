@@ -162,7 +162,7 @@ export const InlineEdit = React.forwardRef<HTMLInputElement, InlineEditProps>(
         <span
           aria-hidden="true"
           className={cn(
-            "typography-semibold-body-sm invisible block whitespace-pre border border-transparent px-3",
+            "typography-description-12px-semibold invisible block whitespace-pre border border-transparent px-3",
             size === "32" ? "h-8" : "h-10",
             showLeftIcon && "pl-9",
           )}

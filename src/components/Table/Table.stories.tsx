@@ -178,7 +178,9 @@ export const WithToolbar: Story = {
     return (
       <TableCard className="max-w-4xl">
         <TableToolbar>
-          <span className="typography-regular-body-sm text-content-primary">2 selected</span>
+          <span className="typography-description-12px-regular text-content-primary">
+            2 selected
+          </span>
           <div className="flex flex-wrap gap-1">
             <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
               Assign to creators
@@ -217,7 +219,7 @@ export const WithToolbar: Story = {
                     <TableCell intent="multiline">
                       <TableLineClamp>
                         Placeholder description text for this row.{" "}
-                        <button type="button" className="typography-semibold-body-sm">
+                        <button type="button" className="typography-description-12px-semibold">
                           Read more
                         </button>
                       </TableLineClamp>
@@ -368,7 +370,7 @@ export const CellVariants: Story = {
   render: () => (
     <div className="flex max-w-3xl flex-col gap-10">
       <div>
-        <p className="typography-semibold-body-md mb-3 text-content-primary">Header</p>
+        <p className="typography-body-small-14px-semibold mb-3 text-content-primary">Header</p>
         <TableCard>
           <TableScrollArea>
             <Table>
@@ -386,7 +388,7 @@ export const CellVariants: Story = {
       </div>
 
       <div>
-        <p className="typography-semibold-body-md mb-3 text-content-primary">Body cells</p>
+        <p className="typography-body-small-14px-semibold mb-3 text-content-primary">Body cells</p>
         <TableCard>
           <TableScrollArea>
             <Table>
@@ -521,7 +523,9 @@ export const AllStatesV2: Story = {
     return (
       <TableCard className="max-w-5xl">
         <TableToolbar>
-          <span className="typography-regular-body-sm text-content-primary">2 selected</span>
+          <span className="typography-description-12px-regular text-content-primary">
+            2 selected
+          </span>
           <div className="flex flex-wrap gap-1">
             <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
               Assign

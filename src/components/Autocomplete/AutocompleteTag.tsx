@@ -19,7 +19,7 @@ export function AutocompleteTag({
   }
 
   return (
-    <span className="typography-regular-body-sm inline-flex max-w-full items-center gap-1 rounded-xs bg-neutral-alphas-200 px-2 py-0.5 text-content-primary">
+    <span className="typography-description-12px-regular inline-flex max-w-full items-center gap-1 rounded-xs bg-neutral-alphas-200 px-2 py-0.5 text-content-primary">
       <span className="truncate">{getLabel(option)}</span>
       <button
         type="button"

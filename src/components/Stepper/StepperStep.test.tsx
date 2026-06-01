@@ -42,7 +42,9 @@ describe("StepperStep", () => {
       );
       const step = screen.getByTestId("step");
       expect(step.children).toHaveLength(1);
-      expect(container.querySelector("span.typography-regular-body-md")).not.toBeInTheDocument();
+      expect(
+        container.querySelector("span.typography-body-small-14px-regular"),
+      ).not.toBeInTheDocument();
     });
 
     it("forwards ref", () => {

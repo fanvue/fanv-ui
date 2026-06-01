@@ -258,11 +258,15 @@ const semanticGroups: ColorGroup[] = [
         variable: "--color-surface-tertiary",
         tailwind: "surface-tertiary",
       },
-      { name: "Inputs", variable: "--color-surface-inputs", tailwind: "surface-inputs" },
+      {
+        name: "Inputs",
+        variable: "--color-inputs-inputs-primary",
+        tailwind: "inputs-inputs-primary",
+      },
       {
         name: "Inputs Off",
-        variable: "--color-surface-inputs-off",
-        tailwind: "surface-inputs-off",
+        variable: "--color-inputs-inputs-off",
+        tailwind: "inputs-inputs-off",
       },
       {
         name: "Primary Inverted",
@@ -285,8 +289,12 @@ const semanticGroups: ColorGroup[] = [
     title: "Background",
     description: "Page-level background colors.",
     tokens: [
-      { name: "Primary", variable: "--color-bg-primary", tailwind: "bg-primary" },
-      { name: "Overlay", variable: "--color-bg-overlay", tailwind: "bg-overlay" },
+      { name: "Primary", variable: "--color-background-primary", tailwind: "background-primary" },
+      {
+        name: "Overlay",
+        variable: "--color-background-overlay-default",
+        tailwind: "background-overlay-default",
+      },
     ],
   },
   {
@@ -371,8 +379,16 @@ const semanticGroups: ColorGroup[] = [
     title: "Link",
     description: "Anchor and interactive link colors.",
     tokens: [
-      { name: "Default", variable: "--color-link-default", tailwind: "link-default" },
-      { name: "Hover", variable: "--color-link-hover", tailwind: "link-hover" },
+      {
+        name: "Default",
+        variable: "--color-buttons-link-primary-default",
+        tailwind: "buttons-link-primary-default",
+      },
+      {
+        name: "Hover",
+        variable: "--color-buttons-link-primary-hover",
+        tailwind: "buttons-link-primary-hover",
+      },
     ],
   },
   {
@@ -447,7 +463,11 @@ const semanticGroups: ColorGroup[] = [
     title: "Buttons",
     description: "Button-specific color tokens.",
     tokens: [
-      { name: "Primary", variable: "--color-buttons-primary", tailwind: "buttons-primary" },
+      {
+        name: "Primary",
+        variable: "--color-buttons-primary-default",
+        tailwind: "buttons-primary-default",
+      },
       {
         name: "Primary Hover",
         variable: "--color-buttons-primary-hover",
@@ -458,7 +478,11 @@ const semanticGroups: ColorGroup[] = [
         variable: "--color-buttons-primary-muted",
         tailwind: "buttons-primary-muted",
       },
-      { name: "Brand", variable: "--color-buttons-brand", tailwind: "buttons-brand" },
+      {
+        name: "Brand",
+        variable: "--color-buttons-brand-default",
+        tailwind: "buttons-brand-default",
+      },
       {
         name: "Brand Hover",
         variable: "--color-buttons-brand-hover",
@@ -619,7 +643,7 @@ export const Primitives: Story = {
           color: "var(--color-content-tertiary)",
           margin: "0 0 40px",
           padding: "8px 12px",
-          backgroundColor: "var(--color-surface-inputs)",
+          backgroundColor: "var(--color-inputs-inputs-primary)",
           borderRadius: 6,
           display: "inline-block",
         }}
@@ -666,7 +690,7 @@ export const Semantic: Story = {
           color: "var(--color-content-tertiary)",
           margin: "0 0 40px",
           padding: "8px 12px",
-          backgroundColor: "var(--color-surface-inputs)",
+          backgroundColor: "var(--color-inputs-inputs-primary)",
           borderRadius: 6,
           display: "inline-block",
         }}

@@ -85,7 +85,9 @@ export const CustomSeparator: Story = {
   render: () => (
     <Breadcrumb>
       <BreadcrumbList
-        separator={<span className="typography-regular-body-sm text-content-secondary">/</span>}
+        separator={
+          <span className="typography-description-12px-regular text-content-secondary">/</span>
+        }
       >
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>

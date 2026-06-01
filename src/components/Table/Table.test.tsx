@@ -147,8 +147,8 @@ describe("Table", () => {
 
     it("renders TableCellContent primary + secondary lines", () => {
       render(<TableCellContent primary="Product Name" secondary="SKU-00321" />);
-      expect(screen.getByText("Product Name")).toHaveClass("typography-semibold-body-sm");
-      expect(screen.getByText("SKU-00321")).toHaveClass("typography-regular-body-sm");
+      expect(screen.getByText("Product Name")).toHaveClass("typography-description-12px-semibold");
+      expect(screen.getByText("SKU-00321")).toHaveClass("typography-description-12px-regular");
     });
   });
 

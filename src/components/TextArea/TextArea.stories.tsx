@@ -258,7 +258,7 @@ export const ControlledExample: Story = {
           errorMessage={error ? "Description must be at least 10 characters" : undefined}
           helperText={!error ? `${value.length} characters` : undefined}
         />
-        <div className="typography-regular-body-sm text-content-secondary">
+        <div className="typography-description-12px-regular text-content-secondary">
           Current value: {value || "(empty)"}
         </div>
       </div>

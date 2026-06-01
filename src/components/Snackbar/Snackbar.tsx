@@ -113,10 +113,14 @@ function VipEarnContent({
       <div className="flex min-w-0 flex-1 flex-col gap-4">
         <div className="flex flex-col">
           {title && (
-            <p className="typography-semibold-body-lg text-content-primary leading-6">{title}</p>
+            <p className="typography-body-default-16px-semibold text-content-primary leading-6">
+              {title}
+            </p>
           )}
           {description && (
-            <p className="typography-regular-body-md text-content-secondary">{description}</p>
+            <p className="typography-body-small-14px-regular text-content-secondary">
+              {description}
+            </p>
           )}
         </div>
         {showActions && primary && <div className="self-start">{primary}</div>}
@@ -157,9 +161,9 @@ function WelcomeContent({
   return (
     <>
       <div className="flex flex-col items-center gap-2 px-8 text-center text-content-primary">
-        {title && <p className="typography-bold-heading-xs text-content-primary">{title}</p>}
+        {title && <p className="typography-header-heading-xs text-content-primary">{title}</p>}
         {description && (
-          <p className="typography-regular-body-md text-content-secondary">{description}</p>
+          <p className="typography-body-small-14px-regular text-content-secondary">{description}</p>
         )}
       </div>
       {showActions && (primary || secondary) && (
@@ -203,7 +207,7 @@ function DefaultContent({
 
   return (
     <>
-      <div className="typography-regular-body-lg flex min-w-0 flex-1 items-center self-stretch text-content-primary">
+      <div className="typography-body-default-16px-regular flex min-w-0 flex-1 items-center self-stretch text-content-primary">
         {children}
       </div>
       {showActions && (primary || secondary) && (
@@ -269,7 +273,7 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
             "border border-neutral-alphas-50 bg-surface-primary p-4 backdrop-blur-md",
           variant === "default" && "flex-wrap items-start",
           variant === "vipEarn" && "items-start",
-          variant === "welcome" && "relative flex-col items-center bg-bg-primary py-6",
+          variant === "welcome" && "relative flex-col items-center bg-background-primary py-6",
           className,
         )}
         {...props}

@@ -40,10 +40,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  "48": "h-12 px-4 py-3 typography-semibold-body-lg",
-  "40": "h-10 px-4 py-2 typography-semibold-body-lg",
-  "32": "h-8 px-3 py-2 typography-semibold-body-md",
-  "24": "h-6 px-2 py-1 typography-semibold-body-md",
+  "48": "h-12 px-4 py-3 typography-body-default-16px-semibold",
+  "40": "h-10 px-4 py-2 typography-body-default-16px-semibold",
+  "32": "h-8 px-3 py-2 typography-body-small-14px-semibold",
+  "24": "h-6 px-2 py-1 typography-body-small-14px-semibold",
 };
 
 const ICON_SIZE_CLASS: Record<ButtonSize, string> = {
@@ -63,18 +63,18 @@ const ICON_WRAPPER_CLASS: Record<ButtonSize, string> = {
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-primary-hover hover:text-content-primary-inverted active:bg-buttons-primary-hover active:text-content-primary-inverted",
+    "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-primary-hover hover:text-content-primary-inverted active:bg-buttons-primary-hover active:text-content-primary-inverted",
   secondary:
     "border-content-primary border bg-transparent text-content-primary hover:bg-brand-primary-muted active:bg-brand-primary-muted",
   tertiary:
     "bg-transparent text-content-primary hover:bg-brand-primary-muted active:bg-brand-primary-muted",
   link: "bg-transparent text-content-primary underline decoration-solid hover:bg-brand-primary-muted active:bg-brand-primary-muted",
   brand:
-    "bg-buttons-brand text-content-on-brand hover:bg-buttons-brand-hover hover:text-content-on-brand active:bg-buttons-brand-hover active:text-content-on-brand",
+    "bg-buttons-brand-default text-content-always-black hover:bg-buttons-brand-hover hover:text-content-always-black active:bg-buttons-brand-hover active:text-content-always-black",
   destructive:
-    "bg-error-content text-content-on-brand-inverted hover:bg-brand-primary-muted hover:text-content-primary active:bg-brand-primary-muted active:text-content-primary",
+    "bg-error-content text-content-always-white hover:bg-brand-primary-muted hover:text-content-primary active:bg-brand-primary-muted active:text-content-primary",
   white:
-    "bg-content-on-brand-inverted text-content-on-brand hover:bg-brand-primary-muted hover:text-content-primary active:bg-brand-primary-muted active:text-content-primary",
+    "bg-content-always-white text-content-always-black hover:bg-brand-primary-muted hover:text-content-primary active:bg-brand-primary-muted active:text-content-primary",
   tertiaryDestructive:
     "bg-transparent text-error-content hover:bg-error-surface active:bg-error-surface",
   text: "bg-transparent text-content-primary hover:underline active:underline",
@@ -178,7 +178,7 @@ function renderContent({
       {(price || discount) && (
         <div>
           {discount && (
-            <span className="typography-regular-body-lg line-through" aria-hidden="true">
+            <span className="typography-body-default-16px-regular line-through" aria-hidden="true">
               {discount}
             </span>
           )}
