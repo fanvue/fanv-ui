@@ -3,6 +3,7 @@ import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { AddIcon } from "./AddIcon";
+import { AffiliatesIcon } from "./AffiliatesIcon";
 import { AI2Icon } from "./AI2Icon";
 import { AICallIcon } from "./AICallIcon";
 import { AIDisclosureIcon } from "./AIDisclosureIcon";
@@ -203,6 +204,7 @@ const propBasedIcons = [
   { name: "AIDisclosureIcon", Component: AIDisclosureIcon, hasFilled: true },
   { name: "AIIcon", Component: AIIcon, hasFilled: true },
   { name: "AddIcon", Component: AddIcon, hasFilled: false },
+  { name: "AffiliatesIcon", Component: AffiliatesIcon, hasFilled: true },
   { name: "AlertIcon", Component: AlertIcon, hasFilled: true },
   { name: "AppsIcon", Component: AppsIcon, hasFilled: true },
   { name: "ArrowDownIcon", Component: ArrowDownIcon, hasFilled: false },
