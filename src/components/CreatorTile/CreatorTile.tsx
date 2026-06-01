@@ -85,9 +85,13 @@ export const CreatorTile = React.forwardRef<HTMLDivElement, CreatorTileProps>(
               {...avatar}
             />
             <div className="flex min-w-0 flex-col">
-              <p className="typography-semibold-body-lg m-0 truncate text-white">{name}</p>
+              <p className="typography-body-default-16px-semibold m-0 truncate text-white">
+                {name}
+              </p>
               {tagline ? (
-                <p className="typography-semibold-body-md m-0 truncate text-white/50">{tagline}</p>
+                <p className="typography-body-small-14px-semibold m-0 truncate text-white/50">
+                  {tagline}
+                </p>
               ) : null}
             </div>
           </div>

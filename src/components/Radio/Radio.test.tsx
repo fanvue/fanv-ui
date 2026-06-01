@@ -50,7 +50,7 @@ describe("Radio", () => {
         </RadioGroup>,
       );
       const label = screen.getByText("Test");
-      expect(label).toHaveClass("typography-semibold-body-lg");
+      expect(label).toHaveClass("typography-body-default-16px-semibold");
     });
 
     it("applies small size when specified", () => {
@@ -60,7 +60,7 @@ describe("Radio", () => {
         </RadioGroup>,
       );
       const label = screen.getByText("Test");
-      expect(label).toHaveClass("typography-semibold-body-md");
+      expect(label).toHaveClass("typography-body-small-14px-semibold");
     });
   });
 

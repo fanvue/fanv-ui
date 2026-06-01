@@ -9,10 +9,10 @@ const pillVariants = {
     blue: "bg-info-surface text-info-content",
     gold: "bg-warning-surface text-warning-content",
     pinkLight: "bg-brand-secondary-muted text-content-primary",
-    base: "bg-buttons-primary text-content-primary-inverted",
-    brand: "bg-brand-primary-default text-content-on-brand",
-    brandLight: "bg-brand-primary-muted text-content-on-brand",
-    beta: "bg-brand-secondary-default text-content-on-brand",
+    base: "bg-buttons-primary-default text-content-primary-inverted",
+    brand: "bg-brand-primary-default text-content-always-black",
+    brandLight: "bg-brand-primary-muted text-content-always-black",
+    beta: "bg-brand-secondary-default text-content-always-black",
     error: "bg-error-content text-error-surface",
   },
 } as const;
@@ -73,7 +73,7 @@ export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
           // Base styles
           "inline-flex min-w-0 items-center justify-center gap-2 rounded-full px-3 py-1",
           // Typography
-          "typography-semibold-body-sm",
+          "typography-description-12px-semibold",
           // Variant styles
           pillVariants.variant[variant],
           // Interactive

@@ -102,8 +102,10 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         )}
 
         <div className="flex min-w-0 flex-col gap-2">
-          {title && <div className="typography-semibold-body-md text-content-primary">{title}</div>}
-          <div className="typography-regular-body-md text-content-primary">{children}</div>
+          {title && (
+            <div className="typography-body-small-14px-semibold text-content-primary">{title}</div>
+          )}
+          <div className="typography-body-small-14px-regular text-content-primary">{children}</div>
         </div>
 
         {closable && (

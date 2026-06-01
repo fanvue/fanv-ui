@@ -36,23 +36,40 @@ const flattenTokens = (obj, path = []) => {
 
 const semanticVarName = (parts) => `--color-${parts.map(toKebab).join("-")}`;
 
-const resolveRef = (value) => {
+// Number of leading segments in a token reference before the token name:
+// namespace.mode.collection.<name...> e.g. {semantic.dark.color.background.primary}.
+const REF_PREFIX_SEGMENTS = 3;
+
+// Resolve a token reference (e.g. "{primitives.light.radius.rounded-xl}") to the CSS
+// var() that buildStyles emits. The CSS namespace is derived from the *referenced
+// collection*, not the referring token's $type — Figma exports some dimension tokens
+// (e.g. modal padding/radius) with type:"color" while pointing at spacing/radius values.
+const refToVar = (inner) => {
+  // Figma exports half-steps with a European decimal ("0,5") but the primitive key is
+  // "05". Normalise any "<digit>,<digit>" segment so the reference resolves.
+  const parts = inner.replace(/(\d),(\d)/g, "$1$2").split(".");
+  if (parts.length <= REF_PREFIX_SEGMENTS) {
+    throw new Error(`token reference too shallow: {${inner}}`);
+  }
+  const [namespace, , collection] = parts;
+  const name = parts.slice(REF_PREFIX_SEGMENTS).map(toKebab).join("-");
+
+  if (namespace === "primitives") {
+    if (collection === "color") return `var(--primitives-color-${name})`;
+    if (collection === "spacing") return `var(--primitives-spacing-${name})`;
+    if (collection === "radius") return `var(--radius-${name.replace(/^rounded-?/, "")})`;
+  } else if (namespace === "semantic") {
+    if (collection === "color") return `var(--color-${name})`;
+    if (collection === "spacing") return `var(--spacing-${name})`;
+    if (collection === "opacity") return `var(--opacity-${name})`;
+  }
+  throw new Error(`unresolvable token reference: {${inner}}`);
+};
+
+const resolveValue = (value) => {
+  if (typeof value === "number") return `${value}px`;
   if (typeof value !== "string" || !value.startsWith("{")) return value;
-  const inner = value.slice(1, -1);
-
-  if (inner.startsWith("primitives.")) {
-    const parts = inner.split(".");
-    const cssVar = `--primitives-color-${parts.slice(3).map(toKebab).join("-")}`;
-    return `var(${cssVar})`;
-  }
-
-  if (inner.startsWith("semantic.")) {
-    const parts = inner.split(".");
-    const semanticParts = parts.slice(3);
-    return `var(${semanticVarName(semanticParts)})`;
-  }
-
-  throw new Error(`resolveRef: unresolvable token reference: ${value}`);
+  return refToVar(value.slice(1, -1));
 };
 
 const getColorSections = (rawTokens) => {
@@ -67,12 +84,12 @@ const getColorSections = (rawTokens) => {
 
   for (const { path, value } of semanticLightTokens) {
     const cssVar = semanticVarName(path);
-    const resolved = resolveRef(value);
+    const resolved = resolveValue(value);
     themeVars += `  ${cssVar}: ${resolved};\n`;
     lightVars += `  ${cssVar}: ${resolved};\n`;
 
     const darkRaw = darkMap.get(path.join("."));
-    const darkResolved = darkRaw !== undefined ? resolveRef(darkRaw) : resolved;
+    const darkResolved = darkRaw !== undefined ? resolveValue(darkRaw) : resolved;
     darkVars += `  ${cssVar}: ${darkResolved};\n`;
   }
 
@@ -114,7 +131,7 @@ const getTypographyClasses = (typographyTokens) => {
   return output;
 };
 
-const RADIUS_ORDER = ["xs", "sm", "md", "lg", "xl", "2xl", "full"];
+const RADIUS_ORDER = ["3xs", "2xs", "xs", "sm", "md", "lg", "xl", "2xl", "full"];
 
 const getRadiusVars = (radiusTokens) => {
   const entries = Object.entries(radiusTokens)
@@ -133,10 +150,32 @@ const getRadiusVars = (radiusTokens) => {
 };
 
 const getSpacingVars = (spacingTokens) => {
+  const flat = flattenTokens(spacingTokens);
   let output = "";
-  for (const [name, entry] of Object.entries(spacingTokens)) {
+  for (const { path, value } of flat) {
+    const kebabPath = path.map(toKebab).join("-");
+    output += `  --spacing-${kebabPath}: ${resolveValue(value)};\n`;
+  }
+  return output;
+};
+
+const getPrimitiveSpacingVars = (primSpacingTokens) => {
+  let output = "";
+  for (const [name, entry] of Object.entries(primSpacingTokens)) {
     if (SKIP_KEYS.has(name)) continue;
-    output += `  --spacing-${toKebab(name)}: ${entry.value}px;\n`;
+    output += `  --primitives-spacing-${toKebab(name)}: ${entry.value}px;\n`;
+  }
+  return output;
+};
+
+const getOpacityVars = (opacityTokens) => {
+  if (!opacityTokens) return "";
+  let output = "";
+  for (const [name, entry] of Object.entries(opacityTokens)) {
+    if (SKIP_KEYS.has(name)) continue;
+    // Figma stores opacity as 0–100; CSS needs 0–1.
+    const value = typeof entry.value === "number" ? entry.value / 100 : entry.value;
+    output += `  --opacity-${toKebab(name)}: ${value};\n`;
   }
   return output;
 };
@@ -149,89 +188,167 @@ const getEffectTokens = (effectTokens) => {
   const processShadowGroup = (group, prefix) => {
     for (const [name, entry] of Object.entries(group)) {
       if (SKIP_KEYS.has(name)) continue;
-      const cssName = `--shadow-${prefix}${toKebab(name)}`;
       if (entry === null || typeof entry !== "object") continue;
+      const cssName = `--shadow-${prefix}${toKebab(name)}`;
+
+      // Single shadow: { value: {...} }.
       if ("value" in entry) {
         if (entry.value?.shadowType !== "dropShadow") continue;
         output += `  ${cssName}: ${shadowValue(entry.value)};\n`;
-      } else if (entry["0"] && entry["1"]) {
-        if (
-          entry["0"].value?.shadowType !== "dropShadow" ||
-          entry["1"].value?.shadowType !== "dropShadow"
-        )
-          continue;
-        output += `  ${cssName}: ${shadowValue(entry["0"].value)}, ${shadowValue(entry["1"].value)};\n`;
-      } else if (entry["0"] === null && entry["1"]) {
-        if (entry["1"].value?.shadowType !== "dropShadow") continue;
-        output += `  ${cssName}: ${shadowValue(entry["1"].value)};\n`;
+        continue;
       }
+
+      // Multi-layer shadow: numeric keys "0","1","2",… each a dropShadow layer
+      // (a layer may be null). Emit every dropShadow layer, not just the first two.
+      const layers = Object.keys(entry)
+        .filter((k) => /^\d+$/.test(k))
+        .sort((a, b) => Number(a) - Number(b))
+        .map((k) => entry[k])
+        .filter((layer) => layer?.value?.shadowType === "dropShadow")
+        .map((layer) => shadowValue(layer.value));
+      if (layers.length) output += `  ${cssName}: ${layers.join(", ")};\n`;
     }
   };
 
   if (effectTokens.shadow) processShadowGroup(effectTokens.shadow, "");
   if (effectTokens.blurShadow) processShadowGroup(effectTokens.blurShadow, "blur-");
+  if (effectTokens.aiButtonGlow)
+    processShadowGroup({ aiButtonGlow: effectTokens.aiButtonGlow }, "");
 
-  output += `  --shadow-focus-ring: 0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-interaction-focus);\n`;
+  // Focus ring colour is mode-aware via --fv-focus-ring-color (set in :root and .dark):
+  // violet on light backgrounds, white on dark ones, so the ring stays visible either way.
+  output += `  --shadow-focus-ring: 0 0 0 2px var(--color-background-primary), 0 0 0 4px var(--fv-focus-ring-color);\n`;
 
   return output;
+};
+
+// The build emits a single primitive colour set (from primitives.light.color) and the
+// .dark block reuses it via the same --primitives-color-* vars. That is only sound while
+// light and dark primitives share values. Assert it, so a future divergent dark primitive
+// fails the build loudly instead of silently rendering the wrong colour in dark mode.
+const assertPrimitiveParity = (rawTokens) => {
+  const light = new Map(
+    flattenTokens(rawTokens.primitives.light.color).map((t) => [t.path.join("."), t.value]),
+  );
+  const dark = new Map(
+    flattenTokens(rawTokens.primitives.dark.color).map((t) => [t.path.join("."), t.value]),
+  );
+  // Only primitives actually referenced by a dark semantic token matter: those resolve to
+  // the shared (light) --primitives-color-* var, so a divergent dark value would be lost.
+  // Divergent-but-unreferenced primitives are harmless and intentionally ignored.
+  const diverged = new Set();
+  for (const { value } of flattenTokens(rawTokens.semantic.dark.color)) {
+    if (typeof value !== "string" || !value.startsWith("{primitives.dark.color.")) continue;
+    const key = value.slice(1, -1).split(".").slice(REF_PREFIX_SEGMENTS).join(".");
+    if (light.has(key) && dark.has(key) && light.get(key) !== dark.get(key)) diverged.add(key);
+  }
+  if (diverged.size) {
+    throw new Error(
+      `dark semantic tokens reference primitives whose dark value differs from light ` +
+        `(${diverged.size}): ${[...diverged].join(", ")}. ` +
+        `Make refToVar mode-aware and emit dark primitives inside the .dark block.`,
+    );
+  }
+};
+
+// Guard against dangling references: every var(--x) used in the output must also be
+// defined in the output. Catches mis-namespaced tokens (e.g. a colour token pointing at a
+// spacing value) that would otherwise resolve to nothing at runtime.
+const assertNoDanglingVars = (css) => {
+  const defined = new Set([...css.matchAll(/^\s*(--[\w-]+)\s*:/gm)].map((m) => m[1]));
+  const missing = new Set(
+    [...css.matchAll(/var\((--[\w-]+)/g)].map((m) => m[1]).filter((name) => !defined.has(name)),
+  );
+  if (missing.size) {
+    throw new Error(`theme.css references undefined variables: ${[...missing].join(", ")}`);
+  }
 };
 
 /* Hand-written styles (base layer, utilities, keyframes, autofill overrides)
  * live in base.css and are imported into the generated theme.css. */
 
-const rawTokens = JSON.parse(fs.readFileSync(tokensPath, "utf-8"));
+const buildThemeCss = (rawTokens) => {
+  const { themeVars, lightVars, darkVars, primitivesVars } = getColorSections(rawTokens);
+  const effectVars = getEffectTokens(rawTokens.effect);
+  const radiusVars = getRadiusVars(rawTokens.primitives.light.radius);
+  const primitiveSpacingVars = getPrimitiveSpacingVars(rawTokens.primitives.light.spacing);
+  const spacingVars = getSpacingVars(rawTokens.semantic.light.spacing);
+  const opacityVars = getOpacityVars(rawTokens.semantic.light.opacity);
+  const typographyClasses = getTypographyClasses(rawTokens.typography);
 
-const { themeVars, lightVars, darkVars, primitivesVars } = getColorSections(rawTokens);
-const effectVars = getEffectTokens(rawTokens.effect);
-const radiusVars = getRadiusVars(rawTokens.primitives.light.radius);
-const spacingVars = getSpacingVars(rawTokens.semantic.light.spacing);
-const typographyClasses = getTypographyClasses(rawTokens.typography);
+  const output = [
+    `/* AUTO-GENERATED — do not edit. Run \`node src/styles/buildStyles.js\` to regenerate. */`,
+    ``,
+    `@import "./base.css";`,
+    ``,
+    `@variant dark (&:where(.dark, .dark *));`,
+    `@custom-variant infloww (&:is([data-infloww] *));`,
+    ``,
+    `@theme {`,
+    `  --breakpoint-*: initial;`,
+    `  --breakpoint-sm: 850px;`,
+    `  --breakpoint-md: 1024px;`,
+    `  --breakpoint-inflowwmd: 1223px;`,
+    `  --breakpoint-lg: 1280px;`,
+    `}`,
+    ``,
+    `@theme {`,
+    effectVars.trimEnd(),
+    radiusVars.trimEnd(),
+    ``,
+    themeVars.trimEnd(),
+    `}`,
+    ``,
+    `:root {`,
+    `  /* Stacking layer for portal-rendered overlays (Select, Tooltip).`,
+    `     Override to sit above high-z containers such as MUI Dialog:`,
+    `     :root { --fanvue-ui-portal-z-index: 1400; } */`,
+    `  --fanvue-ui-portal-z-index: 50;`,
+    ``,
+    `  /* Spacing tokens live in :root (not @theme) to avoid overriding`,
+    `     Tailwind v4's default --spacing-* scale used by p-*, m-*, gap-*, etc. */`,
+    primitiveSpacingVars.trimEnd(),
+    spacingVars.trimEnd(),
+    ``,
+    opacityVars.trimEnd(),
+    ``,
+    primitivesVars.trimEnd(),
+    ``,
+    `  /* Light-mode semantic tokens must also live in :root because @theme`,
+    `     cannot resolve var() references to :root primitives at build time. */`,
+    lightVars.trimEnd(),
+    ``,
+    `  /* Focus-ring colour, consumed by --shadow-focus-ring. Violet on light`,
+    `     backgrounds; overridden to white in .dark so the ring stays visible. */`,
+    `  --fv-focus-ring-color: var(--color-interaction-focus);`,
+    `}`,
+    ``,
+    `.dark {`,
+    darkVars.trimEnd(),
+    `  --fv-focus-ring-color: var(--color-content-always-white);`,
+    `}`,
+    typographyClasses,
+  ].join("\n");
 
-const output = [
-  `/* AUTO-GENERATED — do not edit. Run \`node src/styles/buildStyles.js\` to regenerate. */`,
-  ``,
-  `@import "./base.css";`,
-  ``,
-  `@variant dark (&:where(.dark, .dark *));`,
-  `@custom-variant infloww (&:is([data-infloww] *));`,
-  ``,
-  `@theme {`,
-  `  --breakpoint-*: initial;`,
-  `  --breakpoint-sm: 850px;`,
-  `  --breakpoint-md: 1024px;`,
-  `  --breakpoint-inflowwmd: 1223px;`,
-  `  --breakpoint-lg: 1280px;`,
-  `}`,
-  ``,
-  `@theme {`,
-  effectVars.trimEnd(),
-  radiusVars.trimEnd(),
-  ``,
-  themeVars.trimEnd(),
-  `}`,
-  ``,
-  `:root {`,
-  `  /* Stacking layer for portal-rendered overlays (Select, Tooltip).`,
-  `     Override to sit above high-z containers such as MUI Dialog:`,
-  `     :root { --fanvue-ui-portal-z-index: 1400; } */`,
-  `  --fanvue-ui-portal-z-index: 50;`,
-  ``,
-  `  /* Spacing tokens live in :root (not @theme) to avoid overriding`,
-  `     Tailwind v4's default --spacing-* scale used by p-*, m-*, gap-*, etc. */`,
-  spacingVars.trimEnd(),
-  ``,
-  primitivesVars.trimEnd(),
-  ``,
-  `  /* Light-mode semantic tokens must also live in :root because @theme`,
-  `     cannot resolve var() references to :root primitives at build time. */`,
-  lightVars.trimEnd(),
-  `}`,
-  ``,
-  `.dark {`,
-  darkVars.trimEnd(),
-  `}`,
-  typographyClasses,
-].join("\n");
+  assertPrimitiveParity(rawTokens);
+  assertNoDanglingVars(output);
 
-fs.writeFileSync(outputPath, output, "utf-8");
-console.log(`✓ theme.css written to ${outputPath}`);
+  return output;
+};
+
+// Pure helpers are exported for unit testing; the file write only runs when this module
+// is executed directly (node src/styles/buildStyles.js), not when imported.
+export {
+  refToVar,
+  resolveValue,
+  getEffectTokens,
+  assertPrimitiveParity,
+  assertNoDanglingVars,
+  buildThemeCss,
+};
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const rawTokens = JSON.parse(fs.readFileSync(tokensPath, "utf-8"));
+  fs.writeFileSync(outputPath, buildThemeCss(rawTokens), "utf-8");
+  console.log(`✓ theme.css written to ${outputPath}`);
+}

@@ -34,9 +34,9 @@ const INDICATOR_STATE: Record<StepperStepState, string> = {
 };
 
 const NUMBER_TYPOGRAPHY: Record<StepperStepSize, string> = {
-  sm: "typography-semibold-body-sm",
-  md: "typography-semibold-body-md",
-  lg: "typography-semibold-body-lg",
+  sm: "typography-description-12px-semibold",
+  md: "typography-body-small-14px-semibold",
+  lg: "typography-body-default-16px-semibold",
 };
 
 const NUMBER_COLOR: Record<StepperStepState, string> = {
@@ -52,15 +52,15 @@ const CONTAINER_GAP: Record<StepperStepSize, string> = {
 };
 
 const TITLE_TYPOGRAPHY: Record<StepperStepSize, string> = {
-  sm: "typography-regular-body-sm",
-  md: "typography-regular-body-md",
-  lg: "typography-regular-body-lg",
+  sm: "typography-description-12px-regular",
+  md: "typography-body-small-14px-regular",
+  lg: "typography-body-default-16px-regular",
 };
 
 const DESCRIPTION_TYPOGRAPHY: Record<StepperStepSize, string> = {
-  sm: "typography-regular-body-sm",
-  md: "typography-regular-body-sm",
-  lg: "typography-regular-body-md",
+  sm: "typography-description-12px-regular",
+  md: "typography-description-12px-regular",
+  lg: "typography-body-small-14px-regular",
 };
 
 const LABEL_COLOR: Record<StepperStepState, string> = {

@@ -177,18 +177,18 @@ function BannerGuideBody({
         <Badge
           variant={GUIDE_BADGE_VARIANT[appStoreVariant]}
           leftDot={false}
-          className="typography-semibold-badge self-start"
+          className="typography-badge-badgecaps self-start"
         >
           {eyebrow}
         </Badge>
       )}
       {title !== undefined && title !== null && title !== false && (
-        <p id={labelledBy} className="typography-semibold-body-lg text-content-primary">
+        <p id={labelledBy} className="typography-body-default-16px-semibold text-content-primary">
           {title}
         </p>
       )}
       {description !== undefined && description !== null && description !== false && (
-        <p className="typography-regular-body-md text-content-secondary">{description}</p>
+        <p className="typography-body-small-14px-regular text-content-secondary">{description}</p>
       )}
       {textAction}
     </>
@@ -210,8 +210,8 @@ function BannerFeatureBody({
 }: FeatureBodyProps) {
   const titleClass =
     layout === "vertical"
-      ? "typography-semibold-body-lg text-content-primary"
-      : "typography-semibold-body-lg text-[18px] leading-6 text-content-primary";
+      ? "typography-body-default-16px-semibold text-content-primary"
+      : "typography-body-default-16px-semibold text-[18px] leading-6 text-content-primary";
   const mediaWrap =
     layout === "compact"
       ? "size-20 shrink-0 overflow-hidden rounded-sm"
@@ -236,7 +236,7 @@ function BannerFeatureBody({
           </div>
         )}
         {description !== undefined && description !== null && description !== false && (
-          <p className="typography-regular-body-md text-content-secondary">{description}</p>
+          <p className="typography-body-small-14px-regular text-content-secondary">{description}</p>
         )}
         {textAction}
       </div>
@@ -278,16 +278,20 @@ function BannerSubtleBody({
           )}
           <div className="flex flex-col gap-1">
             {title !== undefined && title !== null && title !== false && (
-              <div id={labelledBy} className="typography-bold-heading-xs text-content-primary">
+              <div id={labelledBy} className="typography-header-heading-xs text-content-primary">
                 {title}
               </div>
             )}
             <div className="flex flex-col gap-2">
               {description !== undefined && description !== null && description !== false && (
-                <p className="typography-regular-body-md text-content-primary">{description}</p>
+                <p className="typography-body-small-14px-regular text-content-primary">
+                  {description}
+                </p>
               )}
               {secondaryLine !== undefined && secondaryLine !== null && secondaryLine !== false && (
-                <p className="typography-regular-body-sm text-content-primary">{secondaryLine}</p>
+                <p className="typography-description-12px-regular text-content-primary">
+                  {secondaryLine}
+                </p>
               )}
             </div>
           </div>
@@ -326,11 +330,13 @@ function BannerInverseBody({
   dismissSlot,
 }: InverseBodyProps) {
   const mediaSizeDefault = "size-12 shrink-0 overflow-hidden rounded-xl";
-  const titleClassInverse = "typography-bold-heading-xs text-content-primary-inverted";
+  const titleClassInverse = "typography-header-heading-xs text-content-primary-inverted";
   const textColumn = (
     <div className="flex min-w-0 flex-1 flex-col gap-1">
       {eyebrow !== undefined && eyebrow !== null && eyebrow !== false && (
-        <p className="typography-semibold-body-sm text-content-primary-inverted">{eyebrow}</p>
+        <p className="typography-description-12px-semibold text-content-primary-inverted">
+          {eyebrow}
+        </p>
       )}
       {title !== undefined && title !== null && title !== false && (
         <div id={labelledBy} className={titleClassInverse}>
@@ -338,7 +344,9 @@ function BannerInverseBody({
         </div>
       )}
       {description !== undefined && description !== null && description !== false && (
-        <p className="typography-regular-body-md text-content-primary-inverted">{description}</p>
+        <p className="typography-body-small-14px-regular text-content-primary-inverted">
+          {description}
+        </p>
       )}
     </div>
   );

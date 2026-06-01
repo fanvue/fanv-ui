@@ -97,7 +97,9 @@ export const ContainerScaling: Story = {
           <div className={container.className}>
             <CreatorCard {...args} />
           </div>
-          <p className="typography-regular-body-sm text-content-secondary">{container.label}</p>
+          <p className="typography-description-12px-regular text-content-secondary">
+            {container.label}
+          </p>
         </div>
       ))}
     </div>

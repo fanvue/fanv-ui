@@ -99,7 +99,7 @@ export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
     return (
       <h3
         ref={ref}
-        className={cn("typography-semibold-body-lg text-content-primary", className)}
+        className={cn("typography-body-default-16px-semibold text-content-primary", className)}
         {...props}
       >
         {children}
@@ -115,7 +115,7 @@ export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescri
     return (
       <p
         ref={ref}
-        className={cn("typography-regular-body-sm text-content-secondary", className)}
+        className={cn("typography-description-12px-regular text-content-secondary", className)}
         {...props}
       >
         {children}

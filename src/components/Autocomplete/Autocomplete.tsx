@@ -133,9 +133,9 @@ const CONTAINER_HEIGHT: Record<AutocompleteSize, string> = {
 };
 
 const INPUT_SIZE_CLASSES: Record<AutocompleteSize, string> = {
-  "48": "typography-regular-body-lg",
-  "40": "typography-regular-body-lg",
-  "32": "typography-regular-body-md",
+  "48": "typography-body-default-16px-regular",
+  "40": "typography-body-default-16px-regular",
+  "32": "typography-body-small-14px-regular",
 };
 
 const PADDING_CLASSES: Record<AutocompleteSize, string> = {
@@ -223,7 +223,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
         {label && (
           <label
             htmlFor={ac.inputId}
-            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-content-primary"
+            className="typography-description-12px-semibold px-1 pt-1 pb-2 text-content-primary"
           >
             {label}
           </label>
@@ -322,7 +322,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
             onCloseAutoFocus={(e) => e.preventDefault()}
             style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)" }}
             className={cn(
-              "w-max min-w-(--radix-popper-anchor-width) max-w-(--radix-popover-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-bg-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+              "w-max min-w-(--radix-popper-anchor-width) max-w-(--radix-popover-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-background-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
               "data-[state=closed]:animate-out data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
               "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -362,7 +362,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
           <p
             id={ac.helperTextId}
             className={cn(
-              "typography-regular-body-sm px-2 pt-1 pb-0.5",
+              "typography-description-12px-regular px-2 pt-1 pb-0.5",
               error ? "text-error-content" : "text-content-secondary",
             )}
           >

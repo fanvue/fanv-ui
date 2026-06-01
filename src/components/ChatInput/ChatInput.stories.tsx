@@ -182,7 +182,7 @@ export const WithCustomAttachmentPreviews: Story = {
   args: {
     placeholder: "Type a message...",
     attachmentPreviews: (
-      <div className="typography-regular-body-md shrink-0 rounded-sm border border-dashed border-border-primary px-3 py-2 text-content-secondary">
+      <div className="typography-body-small-14px-regular shrink-0 rounded-sm border border-dashed border-border-primary px-3 py-2 text-content-secondary">
         Custom preview slot
       </div>
     ),
@@ -193,7 +193,7 @@ export const WithCustomToolbarRight: Story = {
   args: {
     placeholder: "Type a message...",
     toolbarRight: (
-      <span className="typography-regular-body-md px-2 text-content-secondary">Custom</span>
+      <span className="typography-body-small-14px-regular px-2 text-content-secondary">Custom</span>
     ),
   },
 };
@@ -222,14 +222,14 @@ export const Controlled: Story = {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2 rounded-lg border border-neutral-alphas-200 p-4">
           {messages.length === 0 && (
-            <p className="typography-regular-body-md text-content-secondary">
+            <p className="typography-body-small-14px-regular text-content-secondary">
               No messages yet. Try sending one!
             </p>
           )}
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className="typography-regular-body-md rounded-lg bg-neutral-alphas-50 px-3 py-2"
+              className="typography-body-small-14px-regular rounded-lg bg-neutral-alphas-50 px-3 py-2"
             >
               {msg.text}
             </div>
@@ -269,7 +269,7 @@ export const FullFeature: Story = {
           onSelectChange={setModel}
         />
         {fileHint ? (
-          <output className="typography-regular-body-sm px-1 text-content-secondary">
+          <output className="typography-description-12px-regular px-1 text-content-secondary">
             {fileHint}
           </output>
         ) : null}

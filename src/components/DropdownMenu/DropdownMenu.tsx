@@ -234,7 +234,7 @@ export const DropdownMenuLabel = React.forwardRef<
   <DropdownMenuPrimitive.Label
     ref={ref}
     className={cn(
-      "typography-regular-body-sm flex items-center px-3 text-content-secondary",
+      "typography-description-12px-regular flex items-center px-3 text-content-secondary",
       position === "top" ? "py-2" : "pb-2 pt-4",
       className,
     )}
@@ -266,13 +266,13 @@ const SIZE_NORMALIZED: Record<DropdownMenuItemSize, "40" | "32"> = {
 };
 
 const ITEM_SIZE_CLASSES: Record<"40" | "32", string> = {
-  "40": "min-h-10 py-2 typography-regular-body-lg",
-  "32": "min-h-8 py-[7px] typography-regular-body-md",
+  "40": "min-h-10 py-2 typography-body-default-16px-regular",
+  "32": "min-h-8 py-[7px] typography-body-small-14px-regular",
 };
 
 const ITEM_SELECTED_TYPOGRAPHY: Record<"40" | "32", string> = {
-  "40": "typography-semibold-body-lg",
-  "32": "typography-semibold-body-md",
+  "40": "typography-body-default-16px-semibold",
+  "32": "typography-body-small-14px-semibold",
 };
 
 export interface DropdownMenuItemProps
@@ -330,8 +330,8 @@ export const DropdownMenuItem = React.forwardRef<
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
       destructive && "text-error-content",
       selected && [
-        "bg-buttons-primary text-content-primary-inverted",
-        "data-[highlighted]:bg-buttons-primary",
+        "bg-buttons-primary-default text-content-primary-inverted",
+        "data-[highlighted]:bg-buttons-primary-default",
         ITEM_SELECTED_TYPOGRAPHY[normalizedSize],
       ],
       className,
@@ -444,7 +444,9 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
     ref,
   ) => {
     const titleTypography =
-      size === "32" ? "typography-semibold-body-md" : "typography-semibold-body-lg";
+      size === "32"
+        ? "typography-body-small-14px-semibold"
+        : "typography-body-default-16px-semibold";
     const toggleOpen = React.useContext(ToggleOpenContext);
 
     const handleClose = () => {
@@ -512,7 +514,7 @@ function SearchInput({
       <input
         type="search"
         className={cn(
-          "typography-regular-body-lg min-w-0 flex-1 bg-transparent outline-none",
+          "typography-body-default-16px-regular min-w-0 flex-1 bg-transparent outline-none",
           "placeholder:text-content-tertiary",
         )}
         value={value}
@@ -583,8 +585,8 @@ export const DropdownMenuRadioItem = React.forwardRef<
         "group flex w-full cursor-pointer items-start gap-3 rounded-xs px-4 py-2 outline-none",
         "data-[highlighted]:bg-neutral-alphas-50",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
-        "data-[state=checked]:bg-buttons-primary data-[state=checked]:text-content-primary-inverted",
-        "data-[state=checked]:data-[highlighted]:bg-buttons-primary",
+        "data-[state=checked]:bg-buttons-primary-default data-[state=checked]:text-content-primary-inverted",
+        "data-[state=checked]:data-[highlighted]:bg-buttons-primary-default",
         className,
       )}
       {...props}
@@ -602,11 +604,11 @@ export const DropdownMenuRadioItem = React.forwardRef<
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       <span className="flex min-w-0 flex-1 flex-col gap-1">
-        <span className="typography-semibold-body-lg truncate">{children}</span>
+        <span className="typography-body-default-16px-semibold truncate">{children}</span>
         {helper && (
           <span
             className={cn(
-              "typography-regular-body-sm text-content-secondary",
+              "typography-description-12px-regular text-content-secondary",
               "group-data-[state=checked]:text-content-primary-inverted",
               "group-data-[disabled]:text-content-disabled",
             )}

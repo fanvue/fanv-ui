@@ -503,7 +503,7 @@ describe("DropdownMenuItem", () => {
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass("bg-buttons-primary");
+      expect(item).toHaveClass("bg-buttons-primary-default");
       expect(item).toHaveClass("text-content-primary-inverted");
     });
 

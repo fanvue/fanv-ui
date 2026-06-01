@@ -133,12 +133,12 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
           </div>
           <div className="flex flex-1 flex-col items-start">
             {title && (
-              <ToastPrimitive.Title className="typography-semibold-body-md">
+              <ToastPrimitive.Title className="typography-body-small-14px-semibold">
                 {title}
               </ToastPrimitive.Title>
             )}
             {description && (
-              <ToastPrimitive.Description className="typography-regular-body-md mt-1 opacity-90">
+              <ToastPrimitive.Description className="typography-body-small-14px-regular mt-1 opacity-90">
                 {description}
               </ToastPrimitive.Description>
             )}

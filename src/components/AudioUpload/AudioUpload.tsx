@@ -241,7 +241,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
         >
           <div className="flex flex-1 flex-col items-center gap-2">
             <div
-              className="flex size-[72px] items-center justify-center rounded-full bg-buttons-primary"
+              className="flex size-[72px] items-center justify-center rounded-full bg-buttons-primary-default"
               aria-hidden="true"
             >
               <MicrophoneIcon className="size-5 text-content-primary-inverted" />
@@ -250,7 +250,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
             <p
               role="timer"
               aria-label="Recording time"
-              className="typography-regular-body-lg text-content-primary"
+              className="typography-body-default-16px-regular text-content-primary"
             >
               {formattedElapsed} / {formatAudioTime(maxRecordingDuration * 1000)}
             </p>
@@ -268,7 +268,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
             ref={stopButtonRef}
             type="button"
             onClick={handleStopClick}
-            className="mt-1 flex size-11 items-center justify-center rounded-full bg-error-content text-content-on-brand-inverted transition-colors hover:bg-error-content/80 focus:shadow-focus-ring focus-visible:outline-none"
+            className="mt-1 flex size-11 items-center justify-center rounded-full bg-error-content text-content-always-white transition-colors hover:bg-error-content/80 focus:shadow-focus-ring focus-visible:outline-none"
             aria-label={stopButtonAriaLabel}
           >
             <StopIcon className="size-5" />
@@ -314,13 +314,13 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
         >
           <UploadCloudIcon className="size-5 text-content-primary" />
 
-          <span className="typography-semibold-body-lg text-center text-content-primary">
+          <span className="typography-body-default-16px-semibold text-center text-content-primary">
             {uploadTitle}
           </span>
 
           <span
             id={descriptionId}
-            className="typography-regular-body-md text-center text-content-primary"
+            className="typography-body-small-14px-regular text-center text-content-primary"
           >
             {uploadDescription}
           </span>
@@ -328,7 +328,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
 
         {allowRecording && isRecordingSupported && (
           <>
-            <p className="typography-regular-body-md text-center text-content-primary">
+            <p className="typography-body-small-14px-regular text-center text-content-primary">
               {separatorText}
             </p>
 

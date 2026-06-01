@@ -62,7 +62,7 @@ export interface InfoBoxContentProps
 }
 
 const ACTION_CLASSES: Record<"brand" | "tertiary", string> = {
-  brand: "hover:bg-brand-primary-default/80 hover:text-content-on-brand",
+  brand: "hover:bg-brand-primary-default/80 hover:text-content-always-black",
   tertiary:
     "text-content-primary-inverted hover:text-content-primary-inverted hover:bg-content-primary-inverted/10",
 };
@@ -116,7 +116,7 @@ export const InfoBoxContent = React.forwardRef<
           collisionPadding={collisionPadding}
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
           className={cn(
-            "typography-regular-body-md max-w-[280px] overflow-hidden rounded-md border border-white/20 bg-surface-primary-inverted p-4 text-content-primary-inverted shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",
+            "typography-body-small-14px-regular max-w-[280px] overflow-hidden rounded-md border border-white/20 bg-surface-primary-inverted p-4 text-content-primary-inverted shadow-[0px_2px_4px_0px_rgba(17,24,39,0.08)]",
             className,
           )}
           align="center"
@@ -136,7 +136,7 @@ export const InfoBoxContent = React.forwardRef<
                 {heading && (
                   <p
                     id={headingId}
-                    className="typography-semibold-body-lg min-w-0 flex-1 text-content-primary-inverted"
+                    className="typography-body-default-16px-semibold min-w-0 flex-1 text-content-primary-inverted"
                   >
                     {heading}
                   </p>
@@ -145,7 +145,7 @@ export const InfoBoxContent = React.forwardRef<
               </div>
             )}
             {children && (
-              <div className="typography-regular-body-md text-content-primary-inverted">
+              <div className="typography-body-small-14px-regular text-content-primary-inverted">
                 {children}
               </div>
             )}

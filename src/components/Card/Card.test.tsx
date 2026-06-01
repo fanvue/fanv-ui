@@ -137,7 +137,7 @@ describe("Card", () => {
 
     it("applies typography classes", () => {
       render(<CardTitle>Title</CardTitle>);
-      expect(screen.getByText("Title")).toHaveClass("typography-semibold-body-lg");
+      expect(screen.getByText("Title")).toHaveClass("typography-body-default-16px-semibold");
     });
 
     it("forwards ref correctly", () => {
@@ -161,7 +161,7 @@ describe("Card", () => {
 
     it("applies typography classes", () => {
       render(<CardDescription>Description</CardDescription>);
-      expect(screen.getByText("Description")).toHaveClass("typography-regular-body-sm");
+      expect(screen.getByText("Description")).toHaveClass("typography-description-12px-regular");
     });
 
     it("applies secondary text color", () => {

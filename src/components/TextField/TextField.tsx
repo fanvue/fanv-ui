@@ -34,9 +34,9 @@ const CONTAINER_HEIGHT: Record<TextFieldSize, string> = {
 };
 
 const INPUT_SIZE_CLASSES: Record<TextFieldSize, string> = {
-  "48": "py-3 typography-regular-body-lg autofill-body-lg",
-  "40": "py-2 typography-regular-body-lg autofill-body-lg",
-  "32": "py-2 typography-regular-body-md autofill-body-md",
+  "48": "py-3 typography-body-default-16px-regular autofill-body-lg",
+  "40": "py-2 typography-body-default-16px-regular autofill-body-lg",
+  "32": "py-2 typography-body-small-14px-regular autofill-body-md",
 };
 
 const INPUT_PL: Record<TextFieldSize, { default: string; withIcon: string }> = {
@@ -89,7 +89,7 @@ function TextFieldHelperText({
     <p
       id={id}
       className={cn(
-        "typography-regular-body-sm px-2 pt-2 pb-0.5",
+        "typography-description-12px-regular px-2 pt-2 pb-0.5",
         error ? "text-error-content" : "text-content-secondary",
       )}
     >
@@ -159,7 +159,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-content-primary"
+            className="typography-description-12px-semibold px-1 pt-1 pb-2 text-content-primary"
           >
             {label}
           </label>

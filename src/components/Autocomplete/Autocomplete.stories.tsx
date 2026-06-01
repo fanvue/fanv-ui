@@ -248,7 +248,7 @@ function ControlledExample() {
         clearAriaLabel="Clear selection"
         emptyText="No results"
       />
-      <p className="typography-regular-body-sm text-content-secondary">
+      <p className="typography-description-12px-regular text-content-secondary">
         Selected: {value ?? "none"}
       </p>
     </div>
@@ -423,7 +423,7 @@ function GroupedFilteredEmptyExample() {
         emptyText="No products match"
         defaultOpen
       />
-      <p className="typography-regular-body-sm text-content-secondary">
+      <p className="typography-description-12px-regular text-content-secondary">
         Edit the input above to see groups collapse. The pinned row always stays visible.
       </p>
     </div>
@@ -446,7 +446,7 @@ export const CustomGroupHeading: Story = {
     <Autocomplete
       {...args}
       renderGroupHeading={(group) => (
-        <span className="typography-semibold-body-md flex items-center gap-2 px-3 pt-2 pb-1 text-content-primary">
+        <span className="typography-body-small-14px-semibold flex items-center gap-2 px-3 pt-2 pb-1 text-content-primary">
           <HomeIcon className="size-4 text-content-secondary" />
           {group.label}
         </span>

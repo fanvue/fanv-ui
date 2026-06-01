@@ -47,7 +47,7 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
       <div
         ref={ref}
         className={cn(
-          "relative isolate flex aspect-290/450 max-w-full flex-col justify-end overflow-hidden bg-bg-primary",
+          "relative isolate flex aspect-290/450 max-w-full flex-col justify-end overflow-hidden bg-background-primary",
           className,
         )}
         {...props}
@@ -57,7 +57,7 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
         </div>
         <div
           className={cn(
-            "pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-bg-primary via-bg-primary/90 to-transparent",
+            "pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-background-primary via-background-primary/90 to-transparent",
             actions ? "h-3/5" : "h-1/3",
           )}
         />
@@ -71,9 +71,9 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
               {...avatar}
             />
             <div className="min-w-0 flex-1">
-              <p className="typography-bold-heading-sm truncate text-content-primary">{name}</p>
+              <p className="typography-header-heading-sm truncate text-content-primary">{name}</p>
               {description && (
-                <p className="typography-semibold-body-sm truncate text-content-secondary dark:text-brand-primary-default">
+                <p className="typography-description-12px-semibold truncate text-content-secondary dark:text-brand-primary-default">
                   {description}
                 </p>
               )}

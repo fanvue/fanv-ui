@@ -37,7 +37,7 @@ export function AutocompleteOptionItem({
       aria-disabled={option.disabled || undefined}
       data-option-index={index}
       className={cn(
-        "typography-regular-body-lg relative flex w-full cursor-pointer select-none items-center gap-2 rounded-xs py-2 pr-2 pl-3 text-content-primary outline-none",
+        "typography-body-default-16px-regular relative flex w-full cursor-pointer select-none items-center gap-2 rounded-xs py-2 pr-2 pl-3 text-content-primary outline-none",
         isActive && "bg-neutral-alphas-100",
         option.disabled && "pointer-events-none opacity-50",
         isCreate && "italic",
