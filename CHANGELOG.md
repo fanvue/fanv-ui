@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.20.1...ui-v2.21.0) (2026-06-01)
+
+
+### Features
+
+* **icons:** add AffiliatesIcon ([#494](https://github.com/fanvue/fanv-ui/issues/494)) ([82d9034](https://github.com/fanvue/fanv-ui/commit/82d9034c7813aff204178b0b34fbd366d9e8a585))
+
 ## [2.20.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.20.0...ui-v2.20.1) (2026-05-28)
 
 
