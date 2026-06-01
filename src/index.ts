@@ -635,6 +635,8 @@ export type {
   SwitchFieldProps,
 } from "./components/SwitchField/SwitchField";
 export { SwitchField } from "./components/SwitchField/SwitchField";
+export type { SwitchToCreatorDialogProps } from "./components/SwitchToCreatorDialog/SwitchToCreatorDialog";
+export { SwitchToCreatorDialog } from "./components/SwitchToCreatorDialog/SwitchToCreatorDialog";
 export type {
   SwitchToggleOption,
   SwitchToggleProps,
