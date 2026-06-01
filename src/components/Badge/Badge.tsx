@@ -104,7 +104,10 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {...props}
       >
         {leftIcon && (
-          <span className="flex size-3" aria-hidden="true">
+          <span
+            className="flex shrink-0 items-center justify-center [&>svg]:size-3"
+            aria-hidden="true"
+          >
             {leftIcon}
           </span>
         )}
@@ -120,7 +123,10 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           <span className="min-w-0 truncate">{children}</span>
         )}
         {rightIcon && (
-          <span className="flex size-3" aria-hidden="true">
+          <span
+            className="flex shrink-0 items-center justify-center [&>svg]:size-3"
+            aria-hidden="true"
+          >
             {rightIcon}
           </span>
         )}
