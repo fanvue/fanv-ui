@@ -83,13 +83,13 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           size === "32" && "h-8 py-1",
           size === "40" && "h-10 py-2.5",
           // Variant colors
-          isDark && "bg-neutral-alphas-150 text-content-always-white",
-          !isDark && selected && "bg-brand-primary-muted text-neutral-alphas-900",
-          !isDark && !selected && !dotted && "bg-neutral-alphas-50 text-neutral-alphas-900",
+          isDark && "bg-neutral-alphas-600 text-content-always-white",
+          !isDark && selected && "bg-brand-primary-muted text-content-primary",
+          !isDark && !selected && !dotted && "bg-neutral-alphas-50 text-content-primary",
           !isDark &&
             !selected &&
             dotted &&
-            "border border-dashed border-border-primary bg-transparent text-neutral-alphas-900",
+            "border border-buttons-chip-dotted-default border-dashed bg-transparent text-content-primary",
           // Interactive
           isInteractive && !disabled && "cursor-pointer",
           isInteractive &&
@@ -103,7 +103,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
             !isDark &&
             !selected &&
             dotted &&
-            "hover:border-neutral-alphas-500 hover:bg-neutral-alphas-50 active:border-neutral-alphas-500 active:bg-neutral-alphas-50",
+            "hover:border-buttons-chip-dotted-hover-stroke hover:bg-neutral-alphas-50 active:border-buttons-chip-dotted-hover-stroke active:bg-neutral-alphas-50",
           // Focus
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled
