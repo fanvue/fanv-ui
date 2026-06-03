@@ -72,6 +72,8 @@ export interface ChatInputProps
   selectOptions?: ChatInputSelectOption[];
   /** Currently selected value for the built-in dropdown. Should match one of `selectOptions[].value`. */
   selectValue?: string;
+  /** When `true`, disables only the built-in dropdown selector. @default false */
+  selectDisabled?: boolean;
   /** Callback fired when the user picks a different dropdown option. */
   onSelectChange?: (value: string) => void;
   /**
@@ -205,6 +207,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
       toolbarRight,
       selectOptions,
       selectValue,
+      selectDisabled = false,
       onSelectChange,
       attachments,
       onAttachmentRemove,
@@ -298,7 +301,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
           options={selectOptions}
           value={selectValue}
           onChange={onSelectChange}
-          disabled={disabled}
+          disabled={disabled || selectDisabled}
           selectedOption={selectedOption}
         />
       ) : null);
