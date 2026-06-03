@@ -635,6 +635,25 @@ function ChatInputShowcase() {
           autoComplete="off"
         />
         <ChatInput
+          placeholder="Selector disabled"
+          selectOptions={[
+            {
+              value: "fanvue-ai",
+              label: "Fanvue AI",
+              icon: <AIIcon className="size-4" />,
+            },
+            {
+              value: "example",
+              label: "Example",
+              icon: <BulbIcon className="size-4" />,
+            },
+          ]}
+          selectValue="fanvue-ai"
+          selectDisabled
+          name="chat-select-disabled"
+          autoComplete="off"
+        />
+        <ChatInput
           placeholder="File + selector"
           showFileButton
           selectOptions={[

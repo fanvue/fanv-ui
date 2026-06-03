@@ -5,7 +5,11 @@ import { BulbIcon } from "../Icons/BulbIcon";
 import { ChatInput } from "./ChatInput";
 
 const SELECT_OPTIONS = [
-  { value: "fanvue-ai", label: "Fanvue AI", icon: <AIIcon className="size-4" /> },
+  {
+    value: "fanvue-ai",
+    label: "Fanvue AI",
+    icon: <AIIcon className="size-4" />,
+  },
   { value: "example", label: "Example", icon: <BulbIcon className="size-4" /> },
 ];
 
@@ -19,6 +23,7 @@ const meta = {
   argTypes: {
     placeholder: { control: "text" },
     disabled: { control: "boolean" },
+    selectDisabled: { control: "boolean" },
     loading: { control: "boolean" },
     showFileButton: { control: "boolean" },
     minRows: { control: "number" },
@@ -84,6 +89,15 @@ export const WithModelSelector: Story = {
         onSelectChange={setModel}
       />
     );
+  },
+};
+
+export const WithDisabledModelSelector: Story = {
+  args: {
+    placeholder: "Type a message...",
+    selectOptions: SELECT_OPTIONS,
+    selectValue: "fanvue-ai",
+    selectDisabled: true,
   },
 };
 
