@@ -53,14 +53,23 @@ const oldForms: string[] = [
 
 const files = ROOTS.flatMap(walk);
 
+const findHits = (token: string): string[] => {
+  const pattern = anchored(token);
+
+  return files.flatMap((file) =>
+    readFileSync(file, "utf-8")
+      .split("\n")
+      .flatMap((line, index) => (pattern.test(line) ? [`${file}:${index + 1}`] : [])),
+  );
+};
+
 describe("design-token migration leftovers", () => {
   it("scans a non-empty set of source files", () => {
     expect(files.length).toBeGreaterThan(0);
   });
 
   it.each(oldForms)("no source file still references %s", (token) => {
-    const pattern = anchored(token);
-    const hits = files.filter((file) => pattern.test(readFileSync(file, "utf-8")));
+    const hits = findHits(token);
     expect(hits, `${token} still used in: ${hits.join(", ")}`).toHaveLength(0);
   });
 });
