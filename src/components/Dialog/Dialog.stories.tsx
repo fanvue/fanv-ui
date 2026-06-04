@@ -518,9 +518,9 @@ export const RemoveMembers: Story = {
           <DialogTitle>Are you sure?</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <p className="typography-body-default-16px-regular text-content-secondary">
+          <DialogDescription>
             The following members will be removed from your team.
-          </p>
+          </DialogDescription>
           <div className="mt-3 flex gap-2">
             <Chip leftIcon={<Avatar size={24} fallback="TC" alt="Talented Chatter" />}>
               Talented Chatter
