@@ -471,6 +471,41 @@ export const MobileSheet: Story = {
   play: openDialog,
 };
 
+export const WithoutPortal: Story = {
+  name: "Without Portal",
+  render: () => (
+    <div className="relative h-80 overflow-hidden rounded-lg border border-border-primary p-6">
+      <p className="typography-regular-body-md mb-4 text-content-secondary">
+        Dialog renders inside this box instead of portaling to document.body.
+      </p>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Open Inline Dialog</Button>
+        </DialogTrigger>
+        <DialogContent portal={false} size="sm">
+          <DialogHeader>
+            <DialogTitle>Inline dialog</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <DialogDescription>
+              Use portal=false when the dialog must stay in a specific DOM subtree.
+            </DialogDescription>
+          </DialogBody>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="secondary">Close</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: /open inline dialog/i }));
+  },
+};
+
 export const RemoveMembers: Story = {
   name: "Remove Members",
   render: () => (
