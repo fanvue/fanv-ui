@@ -475,9 +475,9 @@ export const WithoutPortal: Story = {
   name: "Without Portal",
   render: () => (
     <div className="relative h-80 overflow-hidden rounded-lg border border-border-primary p-6">
-      <DialogDescription>
+      <p className="typography-body-small-14px-regular mb-4 text-content-secondary">
         Dialog renders inside this box instead of portaling to document.body.
-      </DialogDescription>
+      </p>
       <Dialog>
         <DialogTrigger asChild>
           <Button>Open Inline Dialog</Button>
