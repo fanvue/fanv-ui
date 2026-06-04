@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.0.1...ui-v3.1.0) (2026-06-03)
+
+
+### Features
+
+* **ChatInput:** Allow the select to be disabled ([#503](https://github.com/fanvue/fanv-ui/issues/503)) ([6533e01](https://github.com/fanvue/fanv-ui/commit/6533e01406c63760440a069418fce867d011c7a2))
+
 ## [3.0.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.0.0...ui-v3.0.1) (2026-06-01)
 
 
