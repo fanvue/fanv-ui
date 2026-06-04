@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.1.0...ui-v3.2.0) (2026-06-04)
+
+
+### Features
+
+* **Dialog:** allow dialog to render as child ([#505](https://github.com/fanvue/fanv-ui/issues/505)) ([e607630](https://github.com/fanvue/fanv-ui/commit/e6076304f192c818150ed55029fe1706ffda04b4))
+
 ## [3.1.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.0.1...ui-v3.1.0) (2026-06-03)
 
 
