@@ -158,7 +158,7 @@ export const DialogContent = React.forwardRef<
           }}
           className={cn(
             "fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
-            "inset-x-4 bottom-0 max-h-[85vh] w-auto rounded-t-xl p-4 pt-3",
+            "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-xl p-4 pt-3",
             "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
             "data-[state=open]:slide-in-from-bottom-full",

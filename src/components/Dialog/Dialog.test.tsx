@@ -152,6 +152,8 @@ describe("Dialog", () => {
       const dialog = screen.getByRole("dialog");
       expect(dialog).toHaveClass("rounded-t-xl");
       expect(dialog).toHaveClass("sm:rounded-xl");
+      expect(dialog).toHaveClass("inset-x-0");
+      expect(dialog).toHaveClass("w-full");
       expect(dialog).toHaveClass("border-modal-stroke");
       expect(dialog).toHaveClass("bg-modal-background");
       expect(dialog).toHaveClass("shadow-blur-menu");
