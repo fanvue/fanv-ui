@@ -2050,7 +2050,7 @@ function ButtonDemo() {
           Join now
         </Button>
         <div className="rounded-xs bg-surface-primary-inverted p-3">
-          <Button variant="white" rightIcon={<CrownIcon />} discount="$X.XX" price="$X.XX/ month">
+          <Button variant="brand" rightIcon={<CrownIcon />} discount="$X.XX" price="$X.XX/ month">
             Join now
           </Button>
         </div>

@@ -281,7 +281,7 @@ export const WithPrice: Story = {
 
 export const JoinNowWithPrice: Story = {
   args: {
-    variant: "white",
+    variant: "brand",
     size: "48",
     children: "Join now",
     rightIcon: <CrownIcon />,
