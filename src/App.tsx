@@ -4365,6 +4365,7 @@ function DialogDemo() {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
+              <DialogTitle className="sr-only">Search dialog</DialogTitle>
               <SearchField size="32" placeholder="Search..." fullWidth />
             </DialogHeader>
             <DialogBody>

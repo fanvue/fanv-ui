@@ -164,6 +164,7 @@ export const AllStatesV2: Story = {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
+                <DialogTitle className="sr-only">Search dialog</DialogTitle>
                 <SearchField size="32" placeholder="Search..." fullWidth />
               </DialogHeader>
               <DialogBody>
