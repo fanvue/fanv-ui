@@ -40,7 +40,7 @@ const defaultArgs = {
   tagline: "GLOBAL POPSTAR",
   tag: "New Joiner",
   action: (
-    <Button variant="primary" size="48" fullWidth>
+    <Button variant="brand" size="48" fullWidth>
       Join for free for 7 days
     </Button>
   ),

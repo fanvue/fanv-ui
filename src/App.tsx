@@ -1853,7 +1853,7 @@ function CreatorCoverDemo() {
             tagline="GLOBAL POPSTAR"
             tag="New Joiner"
             action={
-              <Button variant="primary" size="48" fullWidth>
+              <Button variant="brand" size="48" fullWidth>
                 Join for free for 7 days
               </Button>
             }
@@ -2043,10 +2043,10 @@ function ButtonDemo() {
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
-        <Button variant="primary" price="$9.99/month">
+        <Button variant="brand" price="$9.99/month">
           Subscribe
         </Button>
-        <Button fullWidth variant="primary" discount="$X.XX" price="$X.XX/ month">
+        <Button fullWidth variant="brand" discount="$X.XX" price="$X.XX/ month">
           Join now
         </Button>
         <div className="rounded-xs bg-surface-primary-inverted p-3">

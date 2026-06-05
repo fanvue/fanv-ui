@@ -266,7 +266,7 @@ export const AsLink: Story = {
 
 export const WithPrice: Story = {
   args: {
-    variant: "primary",
+    variant: "brand",
     size: "48",
     children: "Subscribe",
     price: "$9.99/month",
@@ -298,7 +298,7 @@ export const JoinNowWithPrice: Story = {
 
 export const WithDiscountAndPrice: Story = {
   args: {
-    variant: "primary",
+    variant: "brand",
     size: "48",
     children: "Subscribe",
     discount: "$19.99/month",

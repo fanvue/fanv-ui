@@ -53,6 +53,28 @@ describe("Button", () => {
       expect(spinner).toBeInTheDocument();
     });
 
+    it("keeps base variant styles while loading", () => {
+      render(
+        <Button variant="brand" loading>
+          Loading
+        </Button>,
+      );
+      const button = screen.getByRole("button", { name: "Loading" });
+      expect(button).toBeDisabled();
+      expect(button).toHaveClass("bg-buttons-brand-default", "text-content-always-black");
+      expect(button).not.toHaveClass("bg-buttons-disabled-default");
+    });
+
+    it("applies disabled styles when disabled", () => {
+      render(
+        <Button variant="brand" disabled>
+          Disabled
+        </Button>,
+      );
+      const button = screen.getByRole("button", { name: "Disabled" });
+      expect(button).toHaveClass("bg-buttons-disabled-default", "text-content-disabled");
+    });
+
     it("hides icons when loading is true", () => {
       render(
         <Button
@@ -75,6 +97,41 @@ describe("Button", () => {
       );
       const hiddenElements = container.querySelectorAll('[aria-hidden="true"]');
       expect(hiddenElements.length).toBeGreaterThanOrEqual(2);
+    });
+
+    it("reduces left padding when a left icon is present", () => {
+      render(
+        <Button size="48" leftIcon={<span>icon</span>}>
+          Add
+        </Button>,
+      );
+      expect(screen.getByRole("button", { name: "Add" })).toHaveClass("pl-5");
+    });
+
+    it("reduces right padding when a right icon is present", () => {
+      render(
+        <Button size="48" rightIcon={<span>icon</span>}>
+          Continue
+        </Button>,
+      );
+      expect(screen.getByRole("button", { name: "Continue" })).toHaveClass("pr-5");
+    });
+
+    it("reduces both side paddings when both icons are present", () => {
+      render(
+        <Button size="48" leftIcon={<span>left</span>} rightIcon={<span>right</span>}>
+          Action
+        </Button>,
+      );
+      expect(screen.getByRole("button", { name: "Action" })).toHaveClass("pl-5", "pr-5");
+    });
+
+    it("uses the AI stroke tokens for the AI border", () => {
+      render(<Button variant="ai">Generate</Button>);
+      const button = screen.getByRole("button", { name: "Generate" });
+      expect(button).toHaveClass("border-transparent");
+      expect(button.className).toContain("var(--color-buttons-ai-stroke-start)");
+      expect(button.className).toContain("var(--color-buttons-ai-stroke-end)");
     });
 
     it("renders discount with strikethrough and price next to button when provided", () => {

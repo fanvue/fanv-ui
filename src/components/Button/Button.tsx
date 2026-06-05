@@ -65,6 +65,13 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
   "24": "h-6 px-2 py-1 typography-body-small-14px-semibold",
 };
 
+const ICON_SIDE_PADDING_CLASSES: Record<ButtonSize, { left: string; right: string }> = {
+  "48": { left: "pl-5", right: "pr-5" },
+  "40": { left: "pl-3", right: "pr-3" },
+  "32": { left: "pl-2", right: "pr-2" },
+  "24": { left: "pl-1", right: "pr-1" },
+};
+
 const ICON_SIZE_CLASS: Record<ButtonSize, string> = {
   "48": "size-5",
   "40": "size-5",
@@ -82,7 +89,7 @@ const ICON_WRAPPER_CLASS: Record<ButtonSize, string> = {
 
 /** AI variant uses a fixed-angle gradient defined in the Figma design tokens. */
 const AI_GRADIENT =
-  "bg-[linear-gradient(50deg,var(--color-buttons-ai-background-gradient-default-start)_11.87%,var(--color-buttons-ai-background-gradient-default-end)_112.39%)] hover:bg-[linear-gradient(50deg,var(--color-buttons-ai-background-gradient-hover-start)_11.87%,var(--color-buttons-ai-background-gradient-hover-end)_112.39%)]";
+  "bg-[linear-gradient(50deg,var(--color-buttons-ai-background-gradient-default-start)_11.87%,var(--color-buttons-ai-background-gradient-default-end)_112.39%)_padding-box,linear-gradient(50deg,var(--color-buttons-ai-stroke-start)_11.87%,var(--color-buttons-ai-stroke-end)_112.39%)_border-box] hover:bg-[linear-gradient(50deg,var(--color-buttons-ai-background-gradient-hover-start)_11.87%,var(--color-buttons-ai-background-gradient-hover-end)_112.39%)_padding-box,linear-gradient(50deg,var(--color-buttons-ai-stroke-start)_11.87%,var(--color-buttons-ai-stroke-end)_112.39%)_border-box]";
 
 const DISABLED_FILL = "bg-buttons-disabled-default text-content-disabled";
 const DISABLED_FILL_NEGATIVE = "bg-buttons-disabled-negative text-content-disabled";
@@ -156,7 +163,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, VariantClasses> = {
     disabled: DISABLED_FILL,
   },
   ai: {
-    default: `border border-buttons-ai-stroke-end text-content-always-white shadow-ai-button-glow ${AI_GRADIENT}`,
+    default: `border border-transparent text-content-always-white shadow-ai-button-glow ${AI_GRADIENT}`,
     disabled: DISABLED_FILL,
   },
   link: {
@@ -179,6 +186,15 @@ function getVariantClasses(variant: ButtonVariant, negative: boolean, disabled: 
   const isNegative = NEGATIVE_AWARE_VARIANTS.has(variant) && negative;
   if (disabled) return (isNegative && spec.negativeDisabled) || spec.disabled;
   return (isNegative && spec.negative) || spec.default;
+}
+
+function getIconPaddingClasses(
+  size: ButtonSize,
+  hasLeftIcon: boolean,
+  hasRightIcon: boolean,
+): string | undefined {
+  const padding = ICON_SIDE_PADDING_CLASSES[size];
+  return cn(hasLeftIcon && padding.left, hasRightIcon && padding.right);
 }
 
 /** Recursively extract text content from React nodes for accessible labels */
@@ -305,7 +321,7 @@ function renderContent({
  * @example
  * ```tsx
  * <Button variant="primary" size="40" leftIcon={<StarIcon />}>
- *   Subscribe
+ *   Continue
  * </Button>
  * ```
  */
@@ -330,17 +346,23 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     const Comp = asChild ? Slot : "button";
-    const isDisabled = Boolean(disabled) || loading;
+    const isDisabled = Boolean(disabled);
+    const isInteractionDisabled = isDisabled || loading;
     const iconSizeClass = variant === "ai" ? "[&>svg]:size-4" : ICON_WRAPPER_CLASS[size];
     const effectiveLeftIcon = leftIcon ?? (variant === "ai" ? <AIIcon filled /> : undefined);
+    const iconPaddingClasses = getIconPaddingClasses(
+      size,
+      Boolean(effectiveLeftIcon),
+      Boolean(rightIcon),
+    );
 
     const buttonSpecificProps = !asChild
       ? {
           type: "button" as const,
           "data-testid": "button",
-          disabled: isDisabled,
+          disabled: isInteractionDisabled,
         }
-      : isDisabled
+      : isInteractionDisabled
         ? { "aria-disabled": true }
         : {};
 
@@ -367,10 +389,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           "inline-flex min-w-0 cursor-pointer items-center gap-2 whitespace-nowrap rounded-full transition-colors",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
-          isDisabled && "pointer-events-none cursor-not-allowed",
+          isInteractionDisabled && "pointer-events-none cursor-not-allowed",
           `${price ? "justify-between" : "justify-center"}`,
           fullWidth && "w-full",
           SIZE_CLASSES[size],
+          iconPaddingClasses,
           getVariantClasses(variant, negative, isDisabled),
           className,
         )}
