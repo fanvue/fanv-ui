@@ -475,7 +475,7 @@ export const WithInputContent: Story = {
         <Button>Open Dialog</Button>
       </DialogTrigger>
       <DialogContent aria-label="Warnings" aria-describedby={undefined}>
-        <DialogBody>
+        <DialogBody className="py-0">
           <p className="typography-header-heading-sm text-content-primary">What are warnings?</p>
           <p className="typography-body-default-16px-semibold mt-1 text-content-primary">
             Dialog title here
@@ -483,7 +483,7 @@ export const WithInputContent: Story = {
           <p className="typography-body-default-16px-regular mt-2 text-content-secondary">
             Dialog body text goes here. Describe the content or provide information to the user.
           </p>
-          <div className="mt-4">
+          <div className="mt-4 px-1 pb-1">
             <TextField label="Label" placeholder="You can choose field variant." fullWidth />
           </div>
         </DialogBody>
