@@ -89,7 +89,7 @@ const ICON_WRAPPER_CLASS: Record<ButtonSize, string> = {
 
 /** AI variant uses a fixed-angle gradient defined in the Figma design tokens. */
 const AI_GRADIENT =
-  "bg-[linear-gradient(50deg,var(--color-buttons-ai-background-gradient-default-start)_11.87%,var(--color-buttons-ai-background-gradient-default-end)_112.39%)_padding-box,linear-gradient(50deg,var(--color-buttons-ai-stroke-start)_11.87%,var(--color-buttons-ai-stroke-end)_112.39%)_border-box] hover:bg-[linear-gradient(50deg,var(--color-buttons-ai-background-gradient-hover-start)_11.87%,var(--color-buttons-ai-background-gradient-hover-end)_112.39%)_padding-box,linear-gradient(50deg,var(--color-buttons-ai-stroke-start)_11.87%,var(--color-buttons-ai-stroke-end)_112.39%)_border-box]";
+  "[background-clip:padding-box,border-box] [background-image:linear-gradient(50deg,var(--color-buttons-ai-background-gradient-default-start)_11.87%,var(--color-buttons-ai-background-gradient-default-end)_112.39%),linear-gradient(50deg,var(--color-buttons-ai-stroke-start)_11.87%,var(--color-buttons-ai-stroke-end)_112.39%)] [background-origin:border-box] hover:[background-image:linear-gradient(50deg,var(--color-buttons-ai-background-gradient-hover-start)_11.87%,var(--color-buttons-ai-background-gradient-hover-end)_112.39%),linear-gradient(50deg,var(--color-buttons-ai-stroke-start)_11.87%,var(--color-buttons-ai-stroke-end)_112.39%)]";
 
 const DISABLED_FILL = "bg-buttons-disabled-default text-content-disabled";
 const DISABLED_FILL_NEGATIVE = "bg-buttons-disabled-negative text-content-disabled";
