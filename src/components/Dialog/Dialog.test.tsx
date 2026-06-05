@@ -167,8 +167,39 @@ describe("Dialog", () => {
     it("suppresses overlay when overlay={false}", () => {
       const { baseElement } = renderDialog({ overlay: false });
       expect(screen.getByRole("dialog")).toBeInTheDocument();
-      // The overlay element should not be rendered
-      expect(baseElement.querySelector(".bg-bg-overlay")).not.toBeInTheDocument();
+      expect(baseElement.querySelector(".bg-background-overlay-default")).not.toBeInTheDocument();
+    });
+
+    it("renders inline when portal is false", () => {
+      render(
+        <div data-testid="dialog-host">
+          <Dialog defaultOpen>
+            <DialogContent portal={false}>
+              <DialogHeader>
+                <DialogTitle>Inline Dialog</DialogTitle>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        </div>,
+      );
+      const host = screen.getByTestId("dialog-host");
+      expect(host).toContainElement(screen.getByRole("dialog"));
+    });
+
+    it("portals to document body by default", () => {
+      render(
+        <div data-testid="dialog-host">
+          <Dialog defaultOpen>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Portaled Dialog</DialogTitle>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        </div>,
+      );
+      const host = screen.getByTestId("dialog-host");
+      expect(host).not.toContainElement(screen.getByRole("dialog"));
     });
 
     it("shows back button automatically when onBack is provided", () => {

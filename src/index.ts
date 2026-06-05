@@ -27,6 +27,7 @@ export type {
 } from "./components/AudioUpload/useAudioRecorder";
 export { useAudioRecorder } from "./components/AudioUpload/useAudioRecorder";
 export type {
+  AutocompleteGroup,
   AutocompleteOption,
   AutocompleteProps,
   AutocompleteSize,
@@ -185,10 +186,18 @@ export {
 export type {
   DropdownMenuContentProps,
   DropdownMenuGroupProps,
+  DropdownMenuHeaderProps,
+  DropdownMenuHeaderSearchProps,
+  DropdownMenuHeaderSize,
+  DropdownMenuHeaderType,
   DropdownMenuItemProps,
   DropdownMenuItemSize,
+  DropdownMenuLabelPosition,
   DropdownMenuLabelProps,
   DropdownMenuProps,
+  DropdownMenuRadioGroupProps,
+  DropdownMenuRadioItemProps,
+  DropdownMenuRadioItemSize,
   DropdownMenuSeparatorProps,
   DropdownMenuTriggerProps,
 } from "./components/DropdownMenu/DropdownMenu";
@@ -196,8 +205,11 @@ export {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
+  DropdownMenuHeader,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./components/DropdownMenu/DropdownMenu";
@@ -215,14 +227,16 @@ export type {
 export { IconButton } from "./components/IconButton/IconButton";
 export type { AddIconProps } from "./components/Icons/AddIcon";
 export { AddIcon } from "./components/Icons/AddIcon";
+export type { AffiliatesIconProps } from "./components/Icons/AffiliatesIcon";
+export { AffiliatesIcon } from "./components/Icons/AffiliatesIcon";
 export type { AI2IconProps } from "./components/Icons/AI2Icon";
 export { AI2Icon } from "./components/Icons/AI2Icon";
+export type { AICallIconProps } from "./components/Icons/AICallIcon";
+export { AICallIcon } from "./components/Icons/AICallIcon";
 export type { AIDisclosureIconProps } from "./components/Icons/AIDisclosureIcon";
 export { AIDisclosureIcon } from "./components/Icons/AIDisclosureIcon";
 export type { AIIconProps } from "./components/Icons/AIIcon";
 export { AIIcon } from "./components/Icons/AIIcon";
-export type { AICallIconProps } from "./components/Icons/AiCallIcon";
-export { AICallIcon } from "./components/Icons/AiCallIcon";
 export type { AlertIconProps } from "./components/Icons/AlertIcon";
 export { AlertIcon } from "./components/Icons/AlertIcon";
 export type { AppsIconProps } from "./components/Icons/AppsIcon";
@@ -403,6 +417,8 @@ export type { PhoneIconProps } from "./components/Icons/PhoneIcon";
 export { PhoneIcon } from "./components/Icons/PhoneIcon";
 export type { PhoneOffIconProps } from "./components/Icons/PhoneOffIcon";
 export { PhoneOffIcon } from "./components/Icons/PhoneOffIcon";
+export type { Pin2IconProps } from "./components/Icons/Pin2Icon";
+export { Pin2Icon } from "./components/Icons/Pin2Icon";
 export type { PinIconProps } from "./components/Icons/PinIcon";
 export { PinIcon } from "./components/Icons/PinIcon";
 export type { PlayIconProps } from "./components/Icons/PlayIcon";
@@ -628,6 +644,7 @@ export { SwitchToggle } from "./components/SwitchToggle/SwitchToggle";
 export type {
   TableBodyProps,
   TableCardProps,
+  TableCellContentProps,
   TableCellGroupProps,
   TableCellIntent,
   TableCellProps,
@@ -645,6 +662,7 @@ export type {
   TableRowsPerPageSelectProps,
   TableScrollAreaProps,
   TableSize,
+  TableSortDirection,
   TableSortLabelProps,
   TableStackedTextProps,
   TableStatusDotProps,
@@ -655,6 +673,7 @@ export {
   TableBody,
   TableCard,
   TableCell,
+  TableCellContent,
   TableCellGroup,
   TableFooter,
   TableHead,

@@ -112,7 +112,7 @@ export const DrawerOverlay = React.forwardRef<
     ref={ref}
     style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
     className={cn(
-      "fixed inset-0 bg-bg-overlay",
+      "fixed inset-0 bg-background-overlay-default",
       "data-[state=closed]:animate-out data-[state=open]:animate-in",
       "data-[state=closed]:fade-out-0 data-[state=closed]:duration-150 data-[state=closed]:ease-in",
       "data-[state=open]:fade-in-0 data-[state=open]:duration-200 data-[state=open]:ease-out",
@@ -295,7 +295,7 @@ export const DrawerTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn("typography-semibold-body-lg truncate text-content-primary", className)}
+    className={cn("typography-body-default-16px-semibold truncate text-content-primary", className)}
     {...props}
   />
 ));
@@ -312,7 +312,7 @@ export const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("typography-regular-body-md text-content-secondary", className)}
+    className={cn("typography-body-small-14px-regular text-content-secondary", className)}
     {...props}
   />
 ));

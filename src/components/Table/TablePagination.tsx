@@ -16,13 +16,18 @@ export interface TablePaginationProps extends React.HTMLAttributes<HTMLDivElemen
 }
 
 /**
- * Footer bar for data tables: rows-per-page control, page navigation, and range
- * summary. Pair `paginationSlot` with {@link Pagination} for numbered controls.
+ * Footer bar for data tables: rows-per-page control, page navigation, and
+ * range summary. Pair `paginationSlot` with {@link Pagination} for numbered
+ * controls.
+ *
+ * v2 sits flush inside {@link TableCard} (`px-3` matches the card's inner
+ * gutter); the chip styling now lives on the {@link TableRowsPerPageSelect}
+ * trigger itself.
  *
  * @example
  * ```tsx
  * <TablePagination
- *   leadingSlot={<Select size="32" aria-label="Rows per page">…</Select>}
+ *   leadingSlot={<TableRowsPerPageSelect />}
  *   paginationSlot={<Pagination totalPages={5} currentPage={2} onPageChange={setPage} />}
  *   summary="20–30 of 100 rows"
  * />
@@ -34,18 +39,16 @@ export const TablePagination = React.forwardRef<HTMLDivElement, TablePaginationP
       return (
         <div
           ref={ref}
-          className={cn("flex w-full max-w-full flex-col gap-3 px-4", className)}
+          className={cn("flex w-full max-w-full flex-col gap-4 px-3 py-3", className)}
           {...props}
         >
-          <div className="flex w-full items-center gap-2.5">
+          <div className="flex w-full items-center gap-2">
             {leadingSlot != null ? (
-              <div className="flex min-w-0 shrink-0 items-center rounded-xs bg-surface-secondary">
-                {leadingSlot}
-              </div>
+              <div className="flex min-w-0 shrink-0 items-center">{leadingSlot}</div>
             ) : null}
             <div
               className={cn(
-                "typography-regular-body-md min-w-0 flex-1 text-content-secondary",
+                "typography-description-12px-regular min-w-0 flex-1 text-content-secondary",
                 leadingSlot == null && "text-left",
                 leadingSlot != null && "text-right",
               )}
@@ -63,18 +66,14 @@ export const TablePagination = React.forwardRef<HTMLDivElement, TablePaginationP
     return (
       <div
         ref={ref}
-        className={cn("flex w-full flex-wrap items-center gap-3 px-4", className)}
+        className={cn("flex w-full flex-wrap items-center gap-3 px-3 py-3", className)}
         {...props}
       >
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col items-start justify-center">
-          {leadingSlot != null ? (
-            <div className="inline-flex min-w-0 rounded-xs bg-surface-secondary">{leadingSlot}</div>
-          ) : null}
-        </div>
+        <div className="flex min-h-0 min-w-0 flex-1 items-center">{leadingSlot}</div>
         {paginationSlot != null ? (
           <div className="flex shrink-0 items-center justify-center">{paginationSlot}</div>
         ) : null}
-        <div className="typography-regular-body-md min-w-0 flex-1 text-right text-content-secondary">
+        <div className="typography-description-12px-regular min-w-0 flex-1 text-right text-content-secondary">
           {summary}
         </div>
       </div>

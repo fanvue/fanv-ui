@@ -76,20 +76,20 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         ref={ref}
         data-testid="chip"
         className={cn(
-          "typography-semibold-body-sm relative inline-flex min-w-0 items-center justify-center whitespace-nowrap motion-safe:transition-colors motion-safe:duration-150",
+          "typography-description-12px-semibold relative inline-flex min-w-0 items-center justify-center whitespace-nowrap motion-safe:transition-colors motion-safe:duration-150",
           // Shape
           variant === "square" ? "rounded-xs" : "rounded-full",
           // Size
           size === "32" && "h-8 py-1",
           size === "40" && "h-10 py-2.5",
           // Variant colors
-          isDark && "bg-neutral-alphas-150 text-content-on-brand-inverted",
-          !isDark && selected && "bg-brand-primary-muted text-neutral-alphas-900",
-          !isDark && !selected && !dotted && "bg-neutral-alphas-50 text-neutral-alphas-900",
+          isDark && "bg-neutral-alphas-600 text-content-always-white",
+          !isDark && selected && "bg-brand-primary-muted text-content-primary",
+          !isDark && !selected && !dotted && "bg-neutral-alphas-50 text-content-primary",
           !isDark &&
             !selected &&
             dotted &&
-            "border border-dashed border-border-primary bg-transparent text-neutral-alphas-900",
+            "border border-buttons-chip-dotted-default border-dashed bg-transparent text-content-primary",
           // Interactive
           isInteractive && !disabled && "cursor-pointer",
           isInteractive &&
@@ -103,7 +103,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
             !isDark &&
             !selected &&
             dotted &&
-            "hover:border-neutral-alphas-500 hover:bg-neutral-alphas-50 active:border-neutral-alphas-500 active:bg-neutral-alphas-50",
+            "hover:border-buttons-chip-dotted-hover-stroke hover:bg-neutral-alphas-50 active:border-buttons-chip-dotted-hover-stroke active:bg-neutral-alphas-50",
           // Focus
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled
@@ -145,7 +145,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
               )}
             </span>
             {notificationLabel && (
-              <span className="typography-semibold-body-sm absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-content-primary px-1 text-content-primary-inverted">
+              <span className="typography-description-12px-semibold absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-content-primary px-1 text-content-primary-inverted">
                 {notificationLabel}
               </span>
             )}

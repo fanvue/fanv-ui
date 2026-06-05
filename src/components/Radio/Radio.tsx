@@ -40,7 +40,7 @@ export const Radio = React.forwardRef<
         data-testid="radio"
         aria-describedby={helperText ? helperTextId : undefined}
         className={cn(
-          "relative h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-full border border-content-primary bg-transparent transition-colors hover:bg-brand-primary-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary not-disabled:active:bg-brand-primary-muted disabled:cursor-not-allowed disabled:border-neutral-alphas-600 disabled:bg-transparent data-[state=checked]:border-content-primary data-[state=checked]:bg-transparent",
+          "relative h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-full border border-content-primary bg-transparent transition-colors hover:bg-brand-primary-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary not-disabled:active:bg-brand-primary-muted disabled:cursor-not-allowed disabled:border-neutral-alphas-600 disabled:bg-transparent data-[state=checked]:border-content-primary data-[state=checked]:bg-transparent",
           helperText && "mt-1 self-start",
         )}
         {...props}
@@ -56,7 +56,9 @@ export const Radio = React.forwardRef<
               htmlFor={inputId}
               className={cn(
                 "cursor-pointer select-none text-content-primary group-has-disabled:cursor-not-allowed group-has-disabled:text-content-tertiary",
-                size === "small" ? "typography-semibold-body-md" : "typography-semibold-body-lg",
+                size === "small"
+                  ? "typography-body-small-14px-semibold"
+                  : "typography-body-default-16px-semibold",
               )}
             >
               {label}
@@ -67,7 +69,9 @@ export const Radio = React.forwardRef<
               id={helperTextId}
               className={cn(
                 "text-content-secondary group-has-disabled:cursor-not-allowed group-has-disabled:text-content-tertiary",
-                size === "small" ? "typography-semibold-body-md" : "typography-regular-body-sm",
+                size === "small"
+                  ? "typography-body-small-14px-semibold"
+                  : "typography-description-12px-regular",
               )}
             >
               {helperText}

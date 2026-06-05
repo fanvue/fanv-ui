@@ -43,7 +43,7 @@
  * Add more as needed when new input components use different typography.
  */
 
-/* typography-regular-body-lg: used by TextField/TextArea size 48 and 40 */
+/* typography-body-default-16px-regular: used by TextField/TextArea size 48 and 40 */
 @utility autofill-body-lg {
   &:-webkit-autofill,
   &:autofill {
@@ -55,7 +55,7 @@
   }
 }
 
-/* typography-regular-body-md: used by TextField/TextArea size 32 */
+/* typography-body-small-14px-regular: used by TextField/TextArea size 32 */
 @utility autofill-body-md {
   &:-webkit-autofill,
   &:autofill {
@@ -131,8 +131,10 @@
 
 :root {
   --color-special-bottom-nav-highlight: var(--primitives-color-green-500);
+  --color-content-disabled: var(--primitives-color-gray-450);
 }
 
 .dark {
   --color-special-bottom-nav-highlight: var(--primitives-color-gray-white);
+  --color-content-disabled: var(--primitives-color-gray-450);
 }

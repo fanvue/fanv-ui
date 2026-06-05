@@ -25,7 +25,7 @@ describe("TablePagination", () => {
 
     it("applies horizontal inset padding by default", () => {
       const { container } = render(<TablePagination summary="Summary" />);
-      expect(container.firstChild).toHaveClass("px-4");
+      expect(container.firstChild).toHaveClass("px-3");
     });
   });
 

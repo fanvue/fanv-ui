@@ -585,14 +585,14 @@ export const AllStylesV2: Story = {
   render: () => (
     <div className="flex flex-col gap-6">
       <div>
-        <h3 className="typography-bold-heading-xs mb-3">Default surface</h3>
+        <h3 className="typography-header-heading-xs mb-3">Default surface</h3>
         <div className="flex flex-col gap-2">
           {NEGATIVE_AWARE_VARIANTS_LIST.map((v) => renderMatrixRow(v, false))}
           {STANDALONE_VARIANTS_LIST.map((v) => renderMatrixRow(v, false))}
         </div>
       </div>
       <div className="rounded-md bg-surface-primary-inverted p-4">
-        <h3 className="typography-bold-heading-xs mb-3 text-content-primary-inverted">
+        <h3 className="typography-header-heading-xs mb-3 text-content-primary-inverted">
           Negative on dark surface
         </h3>
         <div className="flex flex-col gap-2">

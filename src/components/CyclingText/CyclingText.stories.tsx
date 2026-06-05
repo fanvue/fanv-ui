@@ -92,7 +92,7 @@ export const Paused: Story = {
 
 export const FakePlaceholder: Story = {
   render: (args) => (
-    <div className="w-80 rounded-md border border-border-default bg-bg-primary px-3 py-2 text-content-tertiary">
+    <div className="w-80 rounded-md border border-border-default bg-background-primary px-3 py-2 text-content-tertiary">
       <CyclingText {...args} />
     </div>
   ),

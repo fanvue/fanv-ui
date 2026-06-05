@@ -1,12 +1,20 @@
 import * as React from "react";
 import type { AutocompleteOption, AutocompleteProps } from "./Autocomplete";
-import { CREATE_PREFIX, defaultFilter, getLabel } from "./constants";
+import {
+  type AutocompleteVisibleSections,
+  CREATE_PREFIX,
+  defaultFilter,
+  flattenVisibleSections,
+  getLabel,
+  getVisibleSections,
+} from "./constants";
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Combobox hook managing interconnected controlled/uncontrolled state
 export function useAutocomplete(props: AutocompleteProps) {
   const {
     id,
     options,
+    groups,
     disabled = false,
     filterFn,
     creatable = false,
@@ -71,24 +79,28 @@ export function useAutocomplete(props: AutocompleteProps) {
   // --- filtering ---
   const filter = filterFn ?? defaultFilter;
 
-  const filteredOptions = React.useMemo(() => {
-    if (!searchText) return options;
-    return options.filter((o) => filter(o, searchText));
-  }, [options, searchText, filter]);
-
   const showCreate =
     creatable &&
     searchText.length > 0 &&
     !options.some((o) => (o.label ?? o.value).toLowerCase() === searchText.toLowerCase());
 
-  const visibleOptions = React.useMemo(() => {
-    if (!showCreate) return filteredOptions;
-    const createOption: AutocompleteOption = {
+  const createOption: AutocompleteOption | null = React.useMemo(() => {
+    if (!showCreate) return null;
+    return {
       value: `${CREATE_PREFIX}${searchText}`,
       label: creatableLabel ? creatableLabel(searchText) : searchText,
     };
-    return [...filteredOptions, createOption];
-  }, [filteredOptions, showCreate, searchText, creatableLabel]);
+  }, [showCreate, searchText, creatableLabel]);
+
+  const visibleSections: AutocompleteVisibleSections = React.useMemo(
+    () => getVisibleSections(options, groups, filter, searchText),
+    [options, groups, filter, searchText],
+  );
+
+  const visibleOptions = React.useMemo(() => {
+    const flat = flattenVisibleSections(visibleSections);
+    return createOption ? [...flat, createOption] : flat;
+  }, [visibleSections, createOption]);
 
   const prevOptionsLengthRef = React.useRef(visibleOptions.length);
   const prevSearchTextRef = React.useRef(searchText);
@@ -314,6 +326,8 @@ export function useAutocomplete(props: AutocompleteProps) {
     selectedMultiOptions,
     searchText,
     visibleOptions,
+    visibleSections,
+    createOption,
     activeIndex,
     activeDescendantId,
     hasClearableValue,

@@ -59,10 +59,10 @@ const NEGATIVE_AWARE_VARIANTS = new Set<ButtonVariant>([
 ]);
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  "48": "h-12 px-6 py-3 typography-semibold-body-lg",
-  "40": "h-10 px-4 py-2 typography-semibold-body-lg",
-  "32": "h-8 px-3 py-[7px] typography-semibold-body-md",
-  "24": "h-6 px-2 py-1 typography-semibold-body-md",
+  "48": "h-12 px-6 py-3 typography-body-default-16px-semibold",
+  "40": "h-10 px-4 py-2 typography-body-default-16px-semibold",
+  "32": "h-8 px-3 py-[7px] typography-body-small-14px-semibold",
+  "24": "h-6 px-2 py-1 typography-body-small-14px-semibold",
 };
 
 const ICON_SIZE_CLASS: Record<ButtonSize, string> = {
@@ -104,7 +104,7 @@ type VariantClasses = {
 const VARIANT_CLASSES: Record<ButtonVariant, VariantClasses> = {
   primary: {
     default:
-      "bg-buttons-primary text-content-primary-inverted hover:bg-buttons-primary-hover hover:text-content-primary-inverted active:bg-buttons-primary-hover active:text-content-primary-inverted",
+      "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-primary-hover hover:text-content-primary-inverted active:bg-buttons-primary-hover active:text-content-primary-inverted",
     disabled: DISABLED_FILL,
     negative:
       "bg-buttons-primary-negative-default text-content-primary hover:bg-buttons-primary-negative-hover active:bg-buttons-primary-negative-hover",
@@ -137,7 +137,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, VariantClasses> = {
   },
   brand: {
     default:
-      "bg-buttons-brand text-content-on-brand hover:bg-buttons-brand-hover hover:text-content-on-brand active:bg-buttons-brand-hover active:text-content-on-brand",
+      "bg-buttons-brand-default text-content-always-black hover:bg-buttons-brand-hover hover:text-content-always-black active:bg-buttons-brand-hover active:text-content-always-black",
     disabled: DISABLED_FILL,
   },
   destructive: {
@@ -277,7 +277,7 @@ function renderContent({
       {(price || discount) && (
         <div>
           {discount && (
-            <span className="typography-regular-body-lg line-through" aria-hidden="true">
+            <span className="typography-body-default-16px-regular line-through" aria-hidden="true">
               {discount}
             </span>
           )}

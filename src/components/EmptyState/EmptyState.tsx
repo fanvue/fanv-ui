@@ -7,11 +7,11 @@ export type EmptyStateVariant = "default" | "centered";
 export type EmptyStateTitleSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 const titleSizeClass: Record<EmptyStateTitleSize, string> = {
-  xs: "typography-bold-heading-xs",
-  sm: "typography-bold-heading-sm",
-  md: "typography-bold-heading-md",
-  lg: "typography-bold-heading-lg",
-  xl: "typography-bold-heading-xl",
+  xs: "typography-header-heading-xs",
+  sm: "typography-header-heading-sm",
+  md: "typography-header-heading-md",
+  lg: "typography-header-heading-lg",
+  xl: "typography-header-heading-xl",
 };
 
 export type EmptyStateMediaSize = "xs" | "sm" | "md" | "lg" | "xl";
@@ -144,9 +144,11 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       description === null ||
       description === false ||
       description === "" ? null : isNonEmptyString(description) ? (
-        <p className="m-0 typography-regular-body-lg text-content-secondary">{description}</p>
+        <p className="m-0 typography-body-default-16px-regular text-content-secondary">
+          {description}
+        </p>
       ) : (
-        <div className="typography-regular-body-lg text-content-secondary min-w-0 w-full">
+        <div className="typography-body-default-16px-regular text-content-secondary min-w-0 w-full">
           {description}
         </div>
       );

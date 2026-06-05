@@ -82,7 +82,9 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
           ) : (
             <>
               <div className="flex items-center gap-1.5">
-                <span className="typography-semibold-body-md text-content-primary">{title}</span>
+                <span className="typography-body-small-14px-semibold text-content-primary">
+                  {title}
+                </span>
                 {tooltip && (
                   <TooltipProvider>
                     <Tooltip>
@@ -101,13 +103,13 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
               </div>
               {subtitle && (
                 <div className="flex items-center gap-2">
-                  <span className="typography-bold-heading-sm text-content-primary">
+                  <span className="typography-header-heading-sm text-content-primary">
                     {subtitle}
                   </span>
                   {trendChip && (
                     <span
                       className={cn(
-                        "typography-semibold-body-sm rounded-full px-2 py-0.5",
+                        "typography-description-12px-semibold rounded-full px-2 py-0.5",
                         TREND_CLASSES[trendChip.trend],
                       )}
                     >
@@ -117,7 +119,9 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                 </div>
               )}
               {dateInfo && (
-                <span className="typography-regular-body-sm text-content-tertiary">{dateInfo}</span>
+                <span className="typography-description-12px-regular text-content-tertiary">
+                  {dateInfo}
+                </span>
               )}
             </>
           )}

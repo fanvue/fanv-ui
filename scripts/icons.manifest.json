@@ -6,6 +6,11 @@
       "hasFilled": false
     },
     {
+      "name": "AffiliatesIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "AI2Icon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -427,6 +432,11 @@
     },
     {
       "name": "PhoneOffIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "Pin2Icon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },

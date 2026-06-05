@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { type ComponentType, useEffect, useRef, useState } from "react";
 import { AddIcon } from "../components/Icons/AddIcon";
+import { AffiliatesIcon } from "../components/Icons/AffiliatesIcon";
 import { AI2Icon } from "../components/Icons/AI2Icon";
+import { AICallIcon } from "../components/Icons/AICallIcon";
 import { AIDisclosureIcon } from "../components/Icons/AIDisclosureIcon";
 import { AIIcon } from "../components/Icons/AIIcon";
-import { AICallIcon } from "../components/Icons/AiCallIcon";
 import { AlertIcon } from "../components/Icons/AlertIcon";
 import { AppsIcon } from "../components/Icons/AppsIcon";
 import { ArrowDownIcon } from "../components/Icons/ArrowDownIcon";
@@ -104,6 +105,7 @@ import { PauseIcon } from "../components/Icons/PauseIcon";
 import { PeopleIcon } from "../components/Icons/PeopleIcon";
 import { PhoneIcon } from "../components/Icons/PhoneIcon";
 import { PhoneOffIcon } from "../components/Icons/PhoneOffIcon";
+import { Pin2Icon } from "../components/Icons/Pin2Icon";
 import { PinIcon } from "../components/Icons/PinIcon";
 import { PlayIcon } from "../components/Icons/PlayIcon";
 import { PlusIcon } from "../components/Icons/PlusIcon";
@@ -200,6 +202,7 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   { name: "AddIcon", component: AddIcon, tags: ["add", "plus", "create", "new"], propBased: true },
+  { name: "AffiliatesIcon", component: AffiliatesIcon, tags: [], propBased: true },
   {
     name: "AlertIcon",
     component: AlertIcon,
@@ -714,6 +717,7 @@ const icons: IconEntry[] = [
     tags: ["phone", "off", "end", "call"],
     propBased: true,
   },
+  { name: "Pin2Icon", component: Pin2Icon, tags: [], propBased: true },
   { name: "PinIcon", component: PinIcon, tags: ["pin", "bookmark", "save"], propBased: true },
   {
     name: "PlayIcon",
@@ -1163,7 +1167,7 @@ function IconGallery() {
             fontSize: 14,
             borderRadius: 6,
             border: "1px solid var(--color-neutral-alphas-200)",
-            backgroundColor: "var(--color-surface-inputs)",
+            backgroundColor: "var(--color-inputs-inputs-primary)",
             color: "var(--color-content-primary)",
             outline: "none",
           }}

@@ -38,9 +38,9 @@ const TRIGGER_GAP: Record<SelectSize, string> = {
 };
 
 const TRIGGER_TYPOGRAPHY: Record<SelectSize, string> = {
-  "48": "typography-regular-body-lg",
-  "40": "typography-regular-body-lg",
-  "32": "typography-regular-body-md",
+  "48": "typography-body-default-16px-regular",
+  "40": "typography-body-default-16px-regular",
+  "32": "typography-body-small-14px-regular",
 };
 
 export interface SelectProps extends Omit<SelectPrimitive.SelectProps, "dir"> {
@@ -125,7 +125,7 @@ export const Select = React.forwardRef<
           {label && (
             <label
               htmlFor={triggerId}
-              className="typography-semibold-body-sm px-1 pt-1 pb-2 text-content-primary"
+              className="typography-description-12px-semibold px-1 pt-1 pb-2 text-content-primary"
             >
               {label}
             </label>
@@ -178,7 +178,7 @@ export const Select = React.forwardRef<
             <p
               id={helperTextId}
               className={cn(
-                "typography-regular-body-sm px-2 pt-1 pb-0.5",
+                "typography-description-12px-regular px-2 pt-1 pb-0.5",
                 error ? "text-error-content" : "text-content-secondary",
               )}
             >
@@ -224,7 +224,7 @@ export const SelectContent = React.forwardRef<
         collisionPadding={collisionPadding}
         style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
         className={cn(
-          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-bg-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-background-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
           "data-[state=closed]:animate-out data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -256,7 +256,7 @@ export const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "typography-regular-body-lg relative flex w-full cursor-pointer select-none items-center gap-2 rounded-xs py-2 pr-2 pl-3 text-content-primary outline-none",
+      "typography-body-default-16px-regular relative flex w-full cursor-pointer select-none items-center gap-2 rounded-xs py-2 pr-2 pl-3 text-content-primary outline-none",
       "focus:bg-neutral-alphas-100 data-disabled:pointer-events-none data-disabled:opacity-50",
       className,
     )}
@@ -292,7 +292,10 @@ export const SelectLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Label
     ref={ref}
-    className={cn("typography-semibold-body-sm px-3 py-1.5 text-content-secondary", className)}
+    className={cn(
+      "typography-description-12px-semibold px-3 py-1.5 text-content-secondary",
+      className,
+    )}
     {...props}
   />
 ));

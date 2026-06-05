@@ -26,13 +26,13 @@ describe("Alert", () => {
     it("applies semibold font to title", () => {
       render(<Alert title="Bold Title">Body text</Alert>);
       const title = screen.getByText("Bold Title");
-      expect(title).toHaveClass("typography-semibold-body-md");
+      expect(title).toHaveClass("typography-body-small-14px-semibold");
     });
 
     it("applies normal font to body", () => {
       render(<Alert title="Title">Body text</Alert>);
       const body = screen.getByText("Body text");
-      expect(body).toHaveClass("typography-regular-body-md");
+      expect(body).toHaveClass("typography-body-small-14px-regular");
     });
   });
 

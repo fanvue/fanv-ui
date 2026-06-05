@@ -330,6 +330,27 @@ describe("ChatInput", () => {
       expect(handleChange).toHaveBeenCalledWith("example");
     });
 
+    it("disables the inline select when selectDisabled is true", async () => {
+      const user = userEvent.setup();
+      render(
+        <ChatInput
+          placeholder="Test"
+          selectOptions={MODEL_OPTIONS}
+          selectValue="fanvue-ai"
+          selectDisabled
+        />,
+      );
+      const textarea = screen.getByRole("textbox");
+      const select = screen.getByRole("combobox", { name: "Select model" });
+
+      expect(screen.getByText("Fanvue AI")).toBeInTheDocument();
+      expect(textarea).not.toBeDisabled();
+      expect(select).toBeDisabled();
+
+      await user.click(select);
+      expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+    });
+
     it("closes dropdown after selecting an option", async () => {
       const user = userEvent.setup();
       render(

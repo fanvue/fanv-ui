@@ -146,7 +146,7 @@ export const MobileStepper = React.forwardRef<HTMLElement, MobileStepperProps>(
           {variant === "text" && (
             <output
               aria-live="polite"
-              className="typography-regular-body-sm truncate text-content-secondary"
+              className="typography-description-12px-regular truncate text-content-secondary"
             >
               {formatText(clampedStep + 1, safeSteps)}
             </output>

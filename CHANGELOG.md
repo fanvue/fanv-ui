@@ -1,5 +1,78 @@
 # Changelog
 
+## [3.2.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.1.0...ui-v3.2.0) (2026-06-04)
+
+
+### Features
+
+* **Dialog:** allow dialog to render as child ([#505](https://github.com/fanvue/fanv-ui/issues/505)) ([e607630](https://github.com/fanvue/fanv-ui/commit/e6076304f192c818150ed55029fe1706ffda04b4))
+
+## [3.1.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.0.1...ui-v3.1.0) (2026-06-03)
+
+
+### Features
+
+* **ChatInput:** Allow the select to be disabled ([#503](https://github.com/fanvue/fanv-ui/issues/503)) ([6533e01](https://github.com/fanvue/fanv-ui/commit/6533e01406c63760440a069418fce867d011c7a2))
+
+## [3.0.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.0.0...ui-v3.0.1) (2026-06-01)
+
+
+### Bug Fixes
+
+* **chip,pill,badge:** align colours with Figma source ([#501](https://github.com/fanvue/fanv-ui/issues/501)) ([051cb96](https://github.com/fanvue/fanv-ui/commit/051cb96d7de56e56ab429ebfeceb572d6f81f509))
+
+## [3.0.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.21.0...ui-v3.0.0) (2026-06-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* The design token set has been restructured to mirror the Figma source of truth. CSS variable names, Tailwind utility classes, and typography classes are renamed. Most renames preserve their value, but Figma also re-valued several primitives and a few semantic styles, so there are intentional visual changes (catalogued in the migration guide under "Value changes").
+
+### Features
+
+* align design tokens with Figma source (v3) ([#496](https://github.com/fanvue/fanv-ui/issues/496)) ([1713c97](https://github.com/fanvue/fanv-ui/commit/1713c975b26185950ee7f9c9ed6886c9b174e2f7))
+
+
+### Bug Fixes
+
+* **deps:** bump vitest family to 4.1.8 to clear critical audit advisories ([#499](https://github.com/fanvue/fanv-ui/issues/499)) ([d1bccb8](https://github.com/fanvue/fanv-ui/commit/d1bccb846ac24c5df63c14ddc0484c2ab9701d18))
+
+## [2.21.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.20.1...ui-v2.21.0) (2026-06-01)
+
+
+### Features
+
+* **icons:** add AffiliatesIcon ([#494](https://github.com/fanvue/fanv-ui/issues/494)) ([82d9034](https://github.com/fanvue/fanv-ui/commit/82d9034c7813aff204178b0b34fbd366d9e8a585))
+
+## [2.20.1](https://github.com/fanvue/fanv-ui/compare/ui-v2.20.0...ui-v2.20.1) (2026-05-28)
+
+
+### Bug Fixes
+
+* **Divider:** use border-primary token instead of neutral-alphas-200 (ENG-11024) ([#491](https://github.com/fanvue/fanv-ui/issues/491)) ([a67343d](https://github.com/fanvue/fanv-ui/commit/a67343d4a9c9faf0a90bd7a88fd375e864e42311))
+
+## [2.20.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.19.0...ui-v2.20.0) (2026-05-27)
+
+
+### Features
+
+* **Autocomplete:** add native grouping and pinned options (ENG-10991) ([#488](https://github.com/fanvue/fanv-ui/issues/488)) ([e495a44](https://github.com/fanvue/fanv-ui/commit/e495a44b5ed4f411f73ada7e77bc3e88e02675cc))
+
+## [2.19.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.18.0...ui-v2.19.0) (2026-05-26)
+
+
+### Features
+
+* **DropdownMenu:** evolve to v2 design with header and radio item (ENG-10966) ([#483](https://github.com/fanvue/fanv-ui/issues/483)) ([b26f4b5](https://github.com/fanvue/fanv-ui/commit/b26f4b5ecfa1e41772668c693bcbd801f080a5b2))
+* **Table:** evolve to v2 design (ENG-10971) ([#484](https://github.com/fanvue/fanv-ui/issues/484)) ([618184a](https://github.com/fanvue/fanv-ui/commit/618184ab893df37e71d00d01c0ef2d328ed46793))
+
+## [2.18.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.17.0...ui-v2.18.0) (2026-05-20)
+
+
+### Features
+
+* **Icons:** sync latest icons from Figma ([#481](https://github.com/fanvue/fanv-ui/issues/481)) ([373808c](https://github.com/fanvue/fanv-ui/commit/373808c12f018350a06d45a9a27df1f0edc99353))
+
 ## [2.17.0](https://github.com/fanvue/fanv-ui/compare/ui-v2.16.0...ui-v2.17.0) (2026-05-15)
 
 

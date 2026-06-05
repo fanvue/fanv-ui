@@ -4,32 +4,32 @@ import { cn } from "../../utils/cn";
 
 const badgeVariants = {
   variant: {
-    default: "bg-neutral-alphas-50 text-content-secondary",
-    dark: "bg-neutral-alphas-150 text-content-on-brand-inverted",
-    success: "bg-neutral-alphas-50 text-content-secondary",
-    warning: "bg-neutral-alphas-50 text-content-secondary",
-    error: "bg-neutral-alphas-50 text-content-secondary",
-    special: "bg-neutral-alphas-50 text-content-secondary",
-    info: "bg-neutral-alphas-50 text-content-secondary",
-    online: "bg-bg-primary text-brand-primary-default",
-    brand: "bg-brand-primary-default text-content-on-brand",
-    pink: "bg-brand-secondary-default text-content-on-brand",
-    brandLight: "bg-brand-primary-muted text-content-on-brand",
-    pinkLight: "bg-brand-secondary-muted text-content-on-brand",
+    default: "bg-neutral-alphas-50 text-content-primary",
+    dark: "bg-neutral-alphas-600 text-content-always-white",
+    success: "bg-neutral-alphas-50 text-content-primary",
+    warning: "bg-neutral-alphas-50 text-content-primary",
+    error: "bg-neutral-alphas-50 text-content-primary",
+    special: "bg-neutral-alphas-50 text-content-primary",
+    info: "bg-neutral-alphas-50 text-content-primary",
+    online: "bg-background-primary text-brand-primary-default",
+    brand: "bg-brand-primary-default text-content-always-black",
+    pink: "bg-brand-secondary-default text-content-always-black",
+    brandLight: "bg-brand-primary-muted text-content-primary",
+    pinkLight: "bg-brand-secondary-muted text-content-primary",
   },
   dotColor: {
-    default: "bg-content-on-brand",
-    dark: "bg-content-primary-inverted",
+    default: "bg-content-primary",
+    dark: "bg-content-always-white",
     success: "bg-success-content",
     warning: "bg-warning-content",
     error: "bg-error-content",
     special: "bg-special-default",
     info: "bg-info-content",
     online: "bg-brand-primary-default",
-    brand: "bg-content-on-brand",
-    pink: "bg-content-on-brand",
-    brandLight: "bg-content-on-brand",
-    pinkLight: "bg-content-on-brand",
+    brand: "bg-content-always-black",
+    pink: "bg-content-always-black",
+    brandLight: "bg-content-always-black",
+    pinkLight: "bg-content-always-black",
   },
 } as const;
 
@@ -92,7 +92,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         data-testid="badge"
         className={cn(
           // Base styles
-          "typography-semibold-body-sm inline-flex h-5 min-w-0 items-center gap-2 rounded-full px-2",
+          "typography-description-12px-semibold inline-flex h-5 min-w-0 items-center gap-2 rounded-full px-2",
           // Variant styles
           badgeVariants.variant[variant],
           // Interactive
@@ -104,7 +104,10 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {...props}
       >
         {leftIcon && (
-          <span className="flex size-3" aria-hidden="true">
+          <span
+            className="flex shrink-0 items-center justify-center [&>svg]:size-3"
+            aria-hidden="true"
+          >
             {leftIcon}
           </span>
         )}
@@ -120,7 +123,10 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           <span className="min-w-0 truncate">{children}</span>
         )}
         {rightIcon && (
-          <span className="flex size-3" aria-hidden="true">
+          <span
+            className="flex shrink-0 items-center justify-center [&>svg]:size-3"
+            aria-hidden="true"
+          >
             {rightIcon}
           </span>
         )}

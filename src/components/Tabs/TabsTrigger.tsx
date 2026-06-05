@@ -15,7 +15,7 @@ export const TabsTrigger = React.forwardRef<
     className={cn(
       "inline-flex min-w-0 items-center justify-center",
       "rounded-xs",
-      "typography-semibold-body-lg cursor-pointer text-content-primary",
+      "typography-body-default-16px-semibold cursor-pointer text-content-primary",
       "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
       "data-[orientation=horizontal]:px-4 data-[orientation=horizontal]:py-3",
       "data-[orientation=vertical]:justify-start data-[orientation=vertical]:px-4 data-[orientation=vertical]:py-3",
@@ -26,7 +26,7 @@ export const TabsTrigger = React.forwardRef<
       "data-disabled:pointer-events-none",
       "data-disabled:data-[state=active]:text-content-tertiary",
       "data-disabled:data-[state=inactive]:text-neutral-alphas-300",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary",
       className,
     )}
     {...props}

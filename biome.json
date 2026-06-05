@@ -130,6 +130,7 @@
       "includes": [
         "**/Icons/AIIcon.tsx",
         "**/Icons/AI2Icon.tsx",
+        "**/Icons/AICallIcon.tsx",
         "**/Icons/AIDisclosureIcon.tsx",
         "**/Icons/UserAIIcon.tsx"
       ],

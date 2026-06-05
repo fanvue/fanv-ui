@@ -72,6 +72,8 @@ export interface ChatInputProps
   selectOptions?: ChatInputSelectOption[];
   /** Currently selected value for the built-in dropdown. Should match one of `selectOptions[].value`. */
   selectValue?: string;
+  /** When `true`, disables only the built-in dropdown selector. @default false */
+  selectDisabled?: boolean;
   /** Callback fired when the user picks a different dropdown option. */
   onSelectChange?: (value: string) => void;
   /**
@@ -114,7 +116,7 @@ function ChatInputDefaultAttachmentThumbnails({
   return attachments.map((item) => (
     <div
       key={item.id}
-      className="relative size-16 shrink-0 overflow-hidden rounded-sm border border-neutral-200 bg-bg-secondary"
+      className="relative size-16 shrink-0 overflow-hidden rounded-sm border border-neutral-200 bg-background-secondary"
     >
       <img src={item.src} alt="" className="size-full object-cover" />
       <IconButton
@@ -205,6 +207,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
       toolbarRight,
       selectOptions,
       selectValue,
+      selectDisabled = false,
       onSelectChange,
       attachments,
       onAttachmentRemove,
@@ -298,7 +301,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
           options={selectOptions}
           value={selectValue}
           onChange={onSelectChange}
-          disabled={disabled}
+          disabled={disabled || selectDisabled}
           selectedOption={selectedOption}
         />
       ) : null);
@@ -333,7 +336,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
             className={cn(
               "w-full resize-none bg-transparent px-4",
               hasAttachmentStrip ? "pt-0" : "pt-4",
-              "typography-regular-body-md text-content-primary",
+              "typography-body-small-14px-regular text-content-primary",
               "placeholder:text-content-tertiary",
               "focus:outline-none disabled:cursor-not-allowed",
               "overflow-y-auto",
@@ -424,7 +427,7 @@ function InlineSelect({ options, value, onChange, disabled, selectedOption }: In
         disabled={disabled}
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "typography-semibold-body-sm text-content-primary",
+          "typography-description-12px-semibold text-content-primary",
           "flex items-center gap-1 rounded-md px-2 py-2",
           "hover:bg-neutral-alphas-50 focus-visible:shadow-focus-ring focus-visible:outline-none",
           "disabled:cursor-not-allowed disabled:opacity-50",
@@ -455,7 +458,7 @@ function InlineSelect({ options, value, onChange, disabled, selectedOption }: In
               tabIndex={0}
               aria-selected={option.value === value}
               className={cn(
-                "typography-regular-body-md flex cursor-pointer items-center gap-2 rounded-xs px-3 py-1.5",
+                "typography-body-small-14px-regular flex cursor-pointer items-center gap-2 rounded-xs px-3 py-1.5",
                 "text-content-primary hover:bg-neutral-alphas-50",
                 "focus-visible:shadow-focus-ring focus-visible:outline-none",
                 option.value === value && "bg-neutral-alphas-50",

@@ -12,9 +12,44 @@ import { useAutocomplete } from "./useAutocomplete";
 export type AutocompleteSize = "48" | "40" | "32";
 
 export interface AutocompleteOption {
+  /** Unique value identifying the option. Returned via `onChange`. */
   value: string;
+  /** Visible label. Falls back to `value` when omitted. */
   label?: string;
+  /** When `true`, the option renders but cannot be selected. @default false */
   disabled?: boolean;
+  /**
+   * ID of the group this option belongs to. Must match an entry in the
+   * component's `groups` prop. Options without a `groupId` render in an
+   * implicit "ungrouped" bucket above the first declared group.
+   */
+  groupId?: string;
+  /**
+   * Pinned options bypass the search filter and stay visible at the top of
+   * the list regardless of the current query. Useful for "+ Create new"
+   * affordances. Pinned options ignore `groupId` and render before any
+   * grouped or ungrouped content. @default false
+   */
+  pinned?: boolean;
+}
+
+/**
+ * Describes a single group rendered above its matching options.
+ * Indentation of nested rows (e.g. price under product) is not built in —
+ * consumers control it via `renderOption` styling.
+ */
+export interface AutocompleteGroup {
+  /** Stable identifier referenced by `option.groupId`. */
+  id: string;
+  /**
+   * Group heading text. Used as the group's accessible name and matched
+   * against the search query: when the query matches a group's `label`,
+   * every option under that group is kept regardless of whether it
+   * individually matches the per-option filter. This supports the common
+   * "heading is the searchable label, items are sub-rows" shape (e.g.
+   * heading = product name, items = prices).
+   */
+  label: string;
 }
 
 interface AutocompleteBaseProps {
@@ -58,6 +93,21 @@ interface AutocompleteBaseProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+  /**
+   * Ordered list of groups. When provided, options whose `groupId` matches
+   * an entry render under the corresponding heading. Groups with no visible
+   * (post-filter) options collapse silently. Pinned options render above
+   * everything; ungrouped options render between pinned and the first group.
+   * Only one level of grouping is supported.
+   */
+  groups?: AutocompleteGroup[];
+  /**
+   * Custom renderer for group headings. The returned node is wrapped by the
+   * component in an element carrying the `id` referenced by the surrounding
+   * `role="group"` wrapper's `aria-labelledby`, so consumers only need to
+   * return visual content.
+   */
+  renderGroupHeading?: (group: AutocompleteGroup) => React.ReactNode;
 }
 
 interface AutocompleteSingleProps extends AutocompleteBaseProps {
@@ -83,9 +133,9 @@ const CONTAINER_HEIGHT: Record<AutocompleteSize, string> = {
 };
 
 const INPUT_SIZE_CLASSES: Record<AutocompleteSize, string> = {
-  "48": "typography-regular-body-lg",
-  "40": "typography-regular-body-lg",
-  "32": "typography-regular-body-md",
+  "48": "typography-body-default-16px-regular",
+  "40": "typography-body-default-16px-regular",
+  "32": "typography-body-small-14px-regular",
 };
 
 const PADDING_CLASSES: Record<AutocompleteSize, string> = {
@@ -104,6 +154,31 @@ function warnMissingAccessibleName(label?: string, ariaLabel?: string, ariaLabel
   }
 }
 
+/**
+ * A combobox input with single- or multi-select, optional async loading, and
+ * native support for grouped + pinned options.
+ *
+ * - Pass `groups` plus an `options` array whose entries reference each group
+ *   via `groupId` to render hierarchical lists with proper `role="group"` +
+ *   `aria-labelledby` semantics. Options without a `groupId` render above
+ *   the first group; options marked `pinned` render above everything and
+ *   bypass the search filter.
+ * - Indentation of nested rows (e.g. price under product) is controlled by
+ *   the consumer via `renderOption` styling — there is no built-in indent.
+ *
+ * @example
+ * ```tsx
+ * <Autocomplete
+ *   aria-label="Choose a product"
+ *   options={[
+ *     { value: "__new__", label: "+ Create new product", pinned: true },
+ *     { value: "product:abc", label: "Demo Product", groupId: "recent" },
+ *   ]}
+ *   groups={[{ id: "recent", label: "Recent products" }]}
+ *   onChange={handleSelect}
+ * />
+ * ```
+ */
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Conditional JSX branches in the render template
 export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps>((props, ref) => {
   const {
@@ -126,6 +201,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
     emptyText = "No results",
     renderOption,
     renderTag,
+    renderGroupHeading,
   } = props;
 
   const ac = useAutocomplete(props);
@@ -147,7 +223,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
         {label && (
           <label
             htmlFor={ac.inputId}
-            className="typography-semibold-body-sm px-1 pt-1 pb-2 text-content-primary"
+            className="typography-description-12px-semibold px-1 pt-1 pb-2 text-content-primary"
           >
             {label}
           </label>
@@ -246,7 +322,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
             onCloseAutoFocus={(e) => e.preventDefault()}
             style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)" }}
             className={cn(
-              "w-max min-w-(--radix-popper-anchor-width) max-w-(--radix-popover-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-bg-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+              "w-max min-w-(--radix-popper-anchor-width) max-w-(--radix-popover-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-background-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
               "data-[state=closed]:animate-out data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
               "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -266,6 +342,8 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
                 loadingText={loadingText}
                 emptyText={emptyText}
                 visibleOptions={ac.visibleOptions}
+                visibleSections={ac.visibleSections}
+                createOption={ac.createOption}
                 listboxId={ac.listboxId}
                 activeIndex={ac.activeIndex}
                 isMulti={ac.isMulti}
@@ -274,6 +352,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
                 onSelect={ac.handleSelect}
                 onMouseEnter={ac.setActiveIndex}
                 renderOption={renderOption}
+                renderGroupHeading={renderGroupHeading}
               />
             </div>
           </Popover.Content>
@@ -283,7 +362,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
           <p
             id={ac.helperTextId}
             className={cn(
-              "typography-regular-body-sm px-2 pt-1 pb-0.5",
+              "typography-description-12px-regular px-2 pt-1 pb-0.5",
               error ? "text-error-content" : "text-content-secondary",
             )}
           >

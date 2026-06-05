@@ -46,7 +46,7 @@ export interface DialogOverlayProps
 
 /**
  * Semi-transparent backdrop rendered behind the dialog content.
- * Rendered inside a portal automatically by {@link DialogContent}.
+ * Rendered by {@link DialogContent}; portaled to `document.body` when {@link DialogContent} `portal` is true.
  */
 export const DialogOverlay = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Overlay>,
@@ -55,7 +55,7 @@ export const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 fixed inset-0 bg-bg-overlay data-[state=closed]:animate-out data-[state=open]:animate-in",
+      "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 fixed inset-0 bg-background-overlay-default data-[state=closed]:animate-out data-[state=open]:animate-in",
       className,
     )}
     style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
@@ -77,6 +77,12 @@ export interface DialogContentProps
   size?: "sm" | "md" | "lg";
   /** When true, renders overlay automatically. @default true */
   overlay?: boolean;
+  /**
+   * When true, teleports overlay and panel to `document.body`.
+   * When false, renders inline in the React tree (useful inside theme providers or scoped containers).
+   * @default true
+   */
+  portal?: boolean;
 }
 
 const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
@@ -86,7 +92,10 @@ const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
 };
 
 /**
- * The dialog panel rendered inside a portal. Includes the overlay by default.
+ * The dialog panel. Includes the overlay by default and portals to `document.body` by default.
+ *
+ * Set `portal={false}` to keep overlay and content in the DOM subtree of the parent `Dialog`.
+ * `fixed` positioning still applies; ancestors with `transform` or `overflow` may affect layout.
  *
  * On mobile viewports (<640px), the dialog slides up from the bottom as a sheet
  * with top-only border radius. On larger viewports it renders centered with
@@ -116,48 +125,58 @@ const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
 export const DialogContent = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(({ className, children, size = "md", overlay = true, style, onOpenAutoFocus, ...props }, ref) => (
-  <DialogPrimitive.Portal>
-    {overlay && <DialogOverlay />}
-    <DialogPrimitive.Content
-      ref={ref}
-      style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
-      onOpenAutoFocus={(e) => {
-        if (onOpenAutoFocus) {
-          onOpenAutoFocus(e);
-          return;
-        }
-        e.preventDefault();
-        (e.currentTarget as HTMLElement).focus();
-      }}
-      className={cn(
-        // Base
-        "fixed flex flex-col overflow-hidden bg-bg-primary shadow-lg focus:outline-none dark:bg-surface-primary",
-        // Mobile: bottom sheet
-        "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-lg",
-        // Animation (shared)
-        "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
-        "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
-        // Mobile: slide up from bottom
-        "data-[state=open]:slide-in-from-bottom-full",
-        "data-[state=closed]:slide-out-to-bottom-full",
-        // Desktop: centered dialog
-        "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[85vh] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
-        // Desktop: scale in/out (cancel mobile slide)
-        "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
-        "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
-        // Duration
-        "duration-200",
-        // Size
-        SIZE_CLASSES[size],
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </DialogPrimitive.Content>
-  </DialogPrimitive.Portal>
-));
+>(
+  (
+    {
+      className,
+      children,
+      size = "md",
+      overlay = true,
+      portal = true,
+      style,
+      onOpenAutoFocus,
+      ...props
+    },
+    ref,
+  ) => {
+    const content = (
+      <>
+        {overlay && <DialogOverlay />}
+        <DialogPrimitive.Content
+          ref={ref}
+          style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
+          onOpenAutoFocus={(e) => {
+            if (onOpenAutoFocus) {
+              onOpenAutoFocus(e);
+              return;
+            }
+            e.preventDefault();
+            (e.currentTarget as HTMLElement).focus();
+          }}
+          className={cn(
+            "fixed flex flex-col overflow-hidden bg-background-primary shadow-lg focus:outline-none dark:bg-surface-primary",
+            "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-lg",
+            "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
+            "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
+            "data-[state=open]:slide-in-from-bottom-full",
+            "data-[state=closed]:slide-out-to-bottom-full",
+            "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[85vh] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
+            "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
+            "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
+            "duration-200",
+            SIZE_CLASSES[size],
+            className,
+          )}
+          {...props}
+        >
+          {children}
+        </DialogPrimitive.Content>
+      </>
+    );
+
+    return portal ? <DialogPrimitive.Portal>{content}</DialogPrimitive.Portal> : content;
+  },
+);
 DialogContent.displayName = "DialogContent";
 
 export interface DialogHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -245,7 +264,7 @@ export const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn("typography-bold-heading-xs truncate text-content-primary", className)}
+    className={cn("typography-header-heading-xs truncate text-content-primary", className)}
     {...props}
   />
 ));
@@ -263,7 +282,7 @@ export const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("typography-regular-body-lg text-content-secondary", className)}
+    className={cn("typography-body-default-16px-regular text-content-secondary", className)}
     {...props}
   />
 ));
