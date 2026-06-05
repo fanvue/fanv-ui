@@ -4261,87 +4261,83 @@ function LoaderDemo() {
 
 function DialogDemo() {
   const [basicOpen, setBasicOpen] = useState(false);
-  const [smOpen, setSmOpen] = useState(false);
-  const [lgOpen, setLgOpen] = useState(false);
+  const [destructiveOpen, setDestructiveOpen] = useState(false);
+  const [upsellOpen, setUpsellOpen] = useState(false);
   const [backOpen, setBackOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [scrollOpen, setScrollOpen] = useState(false);
 
   return (
     <div id="dialog" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-header-heading-xs mb-4">Dialog</h2>
+      <h2 className="typography-header-heading-xs mb-4">Dialog v2</h2>
 
-      {/* Basic */}
-      <h3 className="typography-body-default-16px-semibold">Basic</h3>
+      <h3 className="typography-body-default-16px-semibold">Modal states</h3>
       <div className="flex flex-wrap gap-3">
         <Dialog open={basicOpen} onOpenChange={setBasicOpen}>
           <DialogTrigger asChild>
-            <Button>Open Dialog</Button>
+            <Button>Primary + secondary</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Dialog Title</DialogTitle>
+              <DialogTitle>Title goes here</DialogTitle>
             </DialogHeader>
             <DialogBody>
               <DialogDescription>
-                Dialog body text goes here. Describe the content or provide information to the user.
+                Dialog content can hold text, forms, lists, or any custom component.
+              </DialogDescription>
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">CTA</Button>
+              </DialogClose>
+              <Button>CTA</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={destructiveOpen} onOpenChange={setDestructiveOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Destructive</Button>
+          </DialogTrigger>
+          <DialogContent size="sm">
+            <DialogHeader>
+              <DialogTitle>Remove member?</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>
+                This will remove the selected member from your team.
               </DialogDescription>
             </DialogBody>
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="secondary">Cancel</Button>
               </DialogClose>
-              <Button>Accept</Button>
+              <Button variant="destructive">Remove</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </div>
 
-      {/* Sizes */}
-      <h3 className="typography-body-default-16px-semibold mt-4">Sizes</h3>
-      <div className="flex flex-wrap gap-3">
-        <Dialog open={smOpen} onOpenChange={setSmOpen}>
+        <Dialog open={upsellOpen} onOpenChange={setUpsellOpen}>
           <DialogTrigger asChild>
-            <Button variant="secondary">Small (400px)</Button>
+            <Button variant="secondary">Upsell</Button>
           </DialogTrigger>
           <DialogContent size="sm">
             <DialogHeader>
-              <DialogTitle>Small Dialog</DialogTitle>
+              <DialogTitle>Upgrade plan</DialogTitle>
             </DialogHeader>
             <DialogBody>
-              <DialogDescription>A compact confirmation dialog.</DialogDescription>
+              <DialogDescription>
+                Unlock additional team seats and advanced controls.
+              </DialogDescription>
             </DialogBody>
             <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="secondary">Cancel</Button>
-              </DialogClose>
-              <Button>Confirm</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={lgOpen} onOpenChange={setLgOpen}>
-          <DialogTrigger asChild>
-            <Button variant="secondary">Large (600px)</Button>
-          </DialogTrigger>
-          <DialogContent size="lg">
-            <DialogHeader>
-              <DialogTitle>Large Dialog</DialogTitle>
-            </DialogHeader>
-            <DialogBody>
-              <DialogDescription>A wider dialog for complex content.</DialogDescription>
-            </DialogBody>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="secondary">Cancel</Button>
-              </DialogClose>
-              <Button>Save</Button>
+              <Button variant="brand">Upgrade</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
 
-      {/* With Back Button */}
-      <h3 className="typography-body-default-16px-semibold mt-4">With Back Button</h3>
+      <h3 className="typography-body-default-16px-semibold mt-4">Header states</h3>
       <div className="flex flex-wrap gap-3">
         <Dialog open={backOpen} onOpenChange={setBackOpen}>
           <DialogTrigger asChild>
@@ -4362,14 +4358,29 @@ function DialogDemo() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Search Header</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <SearchField size="32" placeholder="Search..." fullWidth />
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>
+                Search-specific headers compose the existing SearchField component.
+              </DialogDescription>
+            </DialogBody>
+          </DialogContent>
+        </Dialog>
       </div>
 
-      {/* Scrollable */}
-      <h3 className="typography-body-default-16px-semibold mt-4">Scrollable</h3>
+      <h3 className="typography-body-default-16px-semibold mt-4">Sheet and scroll</h3>
       <div className="flex flex-wrap gap-3">
         <Dialog open={scrollOpen} onOpenChange={setScrollOpen}>
           <DialogTrigger asChild>
-            <Button variant="secondary">Scrollable</Button>
+            <Button variant="secondary">Scrollable Sheet</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>

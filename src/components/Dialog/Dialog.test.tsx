@@ -147,6 +147,26 @@ describe("Dialog", () => {
       expect(screen.getByRole("dialog").className).toContain("sm:max-w-[600px]");
     });
 
+    it("applies v2 surface treatment", () => {
+      renderDialog();
+      const dialog = screen.getByRole("dialog");
+      expect(dialog).toHaveClass("rounded-t-xl");
+      expect(dialog).toHaveClass("sm:rounded-xl");
+      expect(dialog).toHaveClass("border-border-primary");
+      expect(dialog).toHaveClass("shadow-blur-menu");
+      expect(dialog).toHaveClass("backdrop-blur-[4px]");
+    });
+
+    it("renders the mobile sheet handle by default", () => {
+      renderDialog();
+      expect(document.querySelector(".bg-icons-tertiary")).toBeInTheDocument();
+    });
+
+    it("hides the mobile sheet handle when showMobileHandle is false", () => {
+      renderDialog({ showMobileHandle: false });
+      expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
+    });
+
     it("supports controlled open state", async () => {
       const onOpenChange = vi.fn();
       const user = userEvent.setup();

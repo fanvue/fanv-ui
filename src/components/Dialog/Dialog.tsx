@@ -83,6 +83,8 @@ export interface DialogContentProps
    * @default true
    */
   portal?: boolean;
+  /** Show the v2 mobile sheet pull handle. @default true */
+  showMobileHandle?: boolean;
 }
 
 const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
@@ -133,6 +135,7 @@ export const DialogContent = React.forwardRef<
       size = "md",
       overlay = true,
       portal = true,
+      showMobileHandle = true,
       style,
       onOpenAutoFocus,
       ...props
@@ -154,13 +157,13 @@ export const DialogContent = React.forwardRef<
             (e.currentTarget as HTMLElement).focus();
           }}
           className={cn(
-            "fixed flex flex-col overflow-hidden bg-background-primary shadow-lg focus:outline-none dark:bg-surface-primary",
-            "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-lg",
+            "fixed flex flex-col overflow-hidden border border-border-primary bg-background-primary shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
+            "inset-x-4 bottom-0 max-h-[85vh] w-auto rounded-t-xl p-4 pt-3",
             "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
             "data-[state=open]:slide-in-from-bottom-full",
             "data-[state=closed]:slide-out-to-bottom-full",
-            "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[85vh] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
+            "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[85vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-xl sm:p-6",
             "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
             "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
             "duration-200",
@@ -169,6 +172,12 @@ export const DialogContent = React.forwardRef<
           )}
           {...props}
         >
+          {showMobileHandle && (
+            <div
+              aria-hidden="true"
+              className="mb-3 h-1 w-8 shrink-0 self-center rounded-full bg-icons-tertiary sm:hidden"
+            />
+          )}
           {children}
         </DialogPrimitive.Content>
       </>
@@ -226,14 +235,14 @@ export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn("flex h-16 shrink-0 items-center gap-2 px-6 py-4", className)}
+        className={cn("flex shrink-0 items-center justify-end gap-4 overflow-hidden", className)}
         {...props}
       >
         {shouldShowBack && (
           <IconButton
-            variant="tertiary"
+            variant="secondary"
             size="32"
-            icon={<ArrowLeftIcon />}
+            icon={<ArrowLeftIcon size={16} />}
             onClick={onBack}
             disabled={!onBack}
             aria-label={backLabel}
@@ -242,7 +251,12 @@ export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
         <div className="min-w-0 flex-1">{children}</div>
         {showClose && (
           <DialogPrimitive.Close asChild>
-            <IconButton variant="tertiary" size="32" icon={<CloseIcon />} aria-label={closeLabel} />
+            <IconButton
+              variant="secondary"
+              size="32"
+              icon={<CloseIcon size={16} />}
+              aria-label={closeLabel}
+            />
           </DialogPrimitive.Close>
         )}
       </div>
@@ -264,7 +278,7 @@ export const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn("typography-header-heading-xs truncate text-content-primary", className)}
+    className={cn("typography-header-heading-xs text-content-primary", className)}
     {...props}
   />
 ));
@@ -296,7 +310,7 @@ export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex-1 overflow-y-auto px-6 py-4", className)} {...props} />
+    <div ref={ref} className={cn("flex-1 overflow-y-auto py-4 sm:py-6", className)} {...props} />
   ),
 );
 DialogBody.displayName = "DialogBody";
@@ -311,11 +325,7 @@ export const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(
-        "flex shrink-0 items-center gap-3 px-6 pt-3 pb-6",
-        "[&>*]:min-w-0 [&>*]:flex-1",
-        className,
-      )}
+      className={cn("flex shrink-0 items-center gap-2", "[&>*]:min-w-0 [&>*]:flex-1", className)}
       {...props}
     />
   ),
