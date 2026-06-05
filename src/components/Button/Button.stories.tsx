@@ -251,7 +251,7 @@ export const IconOnly: Story = {
     size: "48",
     leftIcon: <PlusIcon />,
     children: "",
-    className: "px-3",
+    className: "w-12 px-0 justify-center",
   },
 };
 
