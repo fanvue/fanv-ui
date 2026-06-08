@@ -5,6 +5,7 @@ import { Button } from "../Button/Button";
 import { Chip } from "../Chip/Chip";
 import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
 import { CheckIcon } from "../Icons/CheckIcon";
+import { SearchField } from "../SearchField/SearchField";
 import { TextArea } from "../TextArea/TextArea";
 import { TextField } from "../TextField/TextField";
 import {
@@ -19,6 +20,9 @@ import {
   DialogTrigger,
 } from "./Dialog";
 
+const V2_FIGMA_URL =
+  "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=17004-106869&p=f&m=dev";
+
 const meta = {
   title: "Components/Dialog",
   component: DialogContent,
@@ -26,7 +30,7 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=1467-1293",
+      url: V2_FIGMA_URL,
     },
   },
   tags: ["autodocs"],
@@ -63,6 +67,162 @@ export const Default: Story = {
     </Dialog>
   ),
   play: openDialog,
+};
+
+export const AllStatesV2: Story = {
+  name: "All states (v2)",
+  parameters: { design: { type: "figma", url: V2_FIGMA_URL } },
+  render: () => (
+    <div className="flex max-w-3xl flex-col gap-4">
+      <div>
+        <p className="typography-body-default-16px-semibold mb-2 text-content-primary">
+          Modal states
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">Desktop with CTAs</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Title goes here</DialogTitle>
+              </DialogHeader>
+              <DialogBody>
+                <DialogDescription>
+                  Dialog content can hold text, forms, lists, or any custom component.
+                </DialogDescription>
+              </DialogBody>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="secondary">CTA</Button>
+                </DialogClose>
+                <Button>CTA</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">No CTAs</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Title goes here</DialogTitle>
+              </DialogHeader>
+              <DialogBody>
+                <DialogDescription>
+                  Use this pattern when the body contains its own self-contained action flow.
+                </DialogDescription>
+              </DialogBody>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">Destructive</Button>
+            </DialogTrigger>
+            <DialogContent size="sm">
+              <DialogHeader>
+                <DialogTitle>Remove member?</DialogTitle>
+              </DialogHeader>
+              <DialogBody>
+                <DialogDescription>
+                  This will remove the selected member from your team.
+                </DialogDescription>
+              </DialogBody>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="secondary">Cancel</Button>
+                </DialogClose>
+                <Button variant="destructive">Remove</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">Upsell</Button>
+            </DialogTrigger>
+            <DialogContent size="sm">
+              <DialogHeader>
+                <DialogTitle>Upgrade plan</DialogTitle>
+              </DialogHeader>
+              <DialogBody>
+                <DialogDescription>
+                  Unlock additional team seats and advanced controls.
+                </DialogDescription>
+              </DialogBody>
+              <DialogFooter>
+                <Button variant="brand">Upgrade</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">Search header</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle className="sr-only">Search dialog</DialogTitle>
+                <SearchField size="32" placeholder="Search..." fullWidth />
+              </DialogHeader>
+              <DialogBody>
+                <DialogDescription>
+                  Search-specific headers can compose the existing SearchField component.
+                </DialogDescription>
+              </DialogBody>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
+
+      <div>
+        <p className="typography-body-default-16px-semibold mb-2 text-content-primary">
+          Sheet states
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">Mobile sheet</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Title goes here</DialogTitle>
+              </DialogHeader>
+              <DialogBody>
+                <DialogDescription>
+                  On mobile viewports, Dialog uses the v2 sheet treatment with a pull handle.
+                </DialogDescription>
+              </DialogBody>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="secondary">CTA</Button>
+                </DialogClose>
+                <Button>CTA</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">No pull handle</Button>
+            </DialogTrigger>
+            <DialogContent showMobileHandle={false}>
+              <DialogHeader>
+                <DialogTitle>Title goes here</DialogTitle>
+              </DialogHeader>
+              <DialogBody>
+                <DialogDescription>
+                  The mobile handle can be hidden for highly custom shell treatments.
+                </DialogDescription>
+              </DialogBody>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 export const WithTrigger: Story = {
@@ -315,7 +475,7 @@ export const WithInputContent: Story = {
         <Button>Open Dialog</Button>
       </DialogTrigger>
       <DialogContent aria-label="Warnings" aria-describedby={undefined}>
-        <DialogBody>
+        <DialogBody className="py-0">
           <p className="typography-header-heading-sm text-content-primary">What are warnings?</p>
           <p className="typography-body-default-16px-semibold mt-1 text-content-primary">
             Dialog title here
@@ -323,7 +483,7 @@ export const WithInputContent: Story = {
           <p className="typography-body-default-16px-regular mt-2 text-content-secondary">
             Dialog body text goes here. Describe the content or provide information to the user.
           </p>
-          <div className="mt-4">
+          <div className="mt-4 px-1 pb-1">
             <TextField label="Label" placeholder="You can choose field variant." fullWidth />
           </div>
         </DialogBody>
