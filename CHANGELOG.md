@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.2.0...ui-v3.3.0) (2026-06-08)
+
+
+### Features
+
+* **Dialog:** upgrade dialog to v2 (ENG-11207) ([#507](https://github.com/fanvue/fanv-ui/issues/507)) ([f3d227b](https://github.com/fanvue/fanv-ui/commit/f3d227b6c5b18bb004b1c81106335fb1328c3001))
+
 ## [3.2.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.1.0...ui-v3.2.0) (2026-06-04)
 
 
