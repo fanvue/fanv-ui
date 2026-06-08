@@ -1853,7 +1853,7 @@ function CreatorCoverDemo() {
             tagline="GLOBAL POPSTAR"
             tag="New Joiner"
             action={
-              <Button variant="primary" size="48" fullWidth>
+              <Button variant="brand" size="48" fullWidth>
                 Join for free for 7 days
               </Button>
             }
@@ -1884,14 +1884,38 @@ function ButtonDemo() {
         <Button variant="primary">Label</Button>
         <Button variant="secondary">Label</Button>
         <Button variant="tertiary">Label</Button>
+        <Button variant="outline">Label</Button>
         <Button variant="brand">Label</Button>
-        <Button variant="link">Label</Button>
         <Button variant="destructive">Label</Button>
+        <Button variant="ai">Label</Button>
         <div className="rounded-xs bg-surface-primary-inverted p-3">
           <Button variant="white">Label</Button>
         </div>
+        <Button variant="alwaysBlack">Label</Button>
+        <Button variant="link">Label</Button>
         <Button variant="tertiaryDestructive">Label</Button>
         <Button variant="text">Label</Button>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4 rounded-xs bg-surface-primary-inverted p-4">
+        <Button variant="primary" negative>
+          Label
+        </Button>
+        <Button variant="secondary" negative>
+          Label
+        </Button>
+        <Button variant="tertiary" negative>
+          Label
+        </Button>
+        <Button variant="outline" negative>
+          Label
+        </Button>
+        <Button variant="primary" negative disabled>
+          Label
+        </Button>
+        <Button variant="outline" negative disabled>
+          Label
+        </Button>
       </div>
 
       <div className="flex flex-wrap items-end gap-4">
@@ -1915,13 +1939,16 @@ function ButtonDemo() {
             <Button variant="tertiary" size={size}>
               Label
             </Button>
+            <Button variant="outline" size={size}>
+              Label
+            </Button>
             <Button variant="brand" size={size}>
               Label
             </Button>
-            <Button variant="link" size={size}>
+            <Button variant="destructive" size={size}>
               Label
             </Button>
-            <Button variant="destructive" size={size}>
+            <Button variant="ai" size={size}>
               Label
             </Button>
             <div className="rounded-xs bg-surface-primary-inverted p-2">
@@ -1929,6 +1956,12 @@ function ButtonDemo() {
                 Label
               </Button>
             </div>
+            <Button variant="alwaysBlack" size={size}>
+              Label
+            </Button>
+            <Button variant="link" size={size}>
+              Label
+            </Button>
             <Button variant="tertiaryDestructive" size={size}>
               Label
             </Button>
@@ -2010,14 +2043,14 @@ function ButtonDemo() {
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
-        <Button variant="primary" price="$9.99/month">
+        <Button variant="brand" price="$9.99/month">
           Subscribe
         </Button>
-        <Button fullWidth variant="primary" discount="$X.XX" price="$X.XX/ month">
+        <Button fullWidth variant="brand" discount="$X.XX" price="$X.XX/ month">
           Join now
         </Button>
         <div className="rounded-xs bg-surface-primary-inverted p-3">
-          <Button variant="white" rightIcon={<CrownIcon />} discount="$X.XX" price="$X.XX/ month">
+          <Button variant="brand" rightIcon={<CrownIcon />} discount="$X.XX" price="$X.XX/ month">
             Join now
           </Button>
         </div>

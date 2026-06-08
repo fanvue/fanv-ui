@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import type { ReactNode } from "react";
 import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
 import { CrownIcon } from "../Icons/CrownIcon";
 import { PlusIcon } from "../Icons/PlusIcon";
 import { Pill } from "../Pill/Pill";
-import { Button } from "./Button";
+import { Button, type ButtonVariant } from "./Button";
 
 const meta = {
   title: "Components/Button",
@@ -12,7 +13,7 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=87-4100&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16650-1558&m=dev",
     },
   },
   tags: ["autodocs"],
@@ -23,10 +24,13 @@ const meta = {
         "primary",
         "secondary",
         "tertiary",
+        "outline",
         "link",
         "brand",
         "destructive",
         "white",
+        "alwaysBlack",
+        "ai",
         "tertiaryDestructive",
         "text",
       ],
@@ -35,6 +39,7 @@ const meta = {
       control: "select",
       options: ["48", "40", "32", "24"],
     },
+    negative: { control: "boolean" },
     loading: { control: "boolean" },
     disabled: { control: "boolean" },
     discount: { control: "text" },
@@ -64,6 +69,30 @@ export const Secondary: Story = {
 export const Tertiary: Story = {
   args: {
     variant: "tertiary",
+    size: "48",
+    children: "Label",
+  },
+};
+
+export const Outline: Story = {
+  args: {
+    variant: "outline",
+    size: "48",
+    children: "Label",
+  },
+};
+
+export const AI: Story = {
+  args: {
+    variant: "ai",
+    size: "48",
+    children: "Label",
+  },
+};
+
+export const AlwaysBlack: Story = {
+  args: {
+    variant: "alwaysBlack",
     size: "48",
     children: "Label",
   },
@@ -222,7 +251,7 @@ export const IconOnly: Story = {
     size: "48",
     leftIcon: <PlusIcon />,
     children: "",
-    className: "px-3",
+    className: "w-12 px-0 justify-center",
   },
 };
 
@@ -237,7 +266,7 @@ export const AsLink: Story = {
 
 export const WithPrice: Story = {
   args: {
-    variant: "primary",
+    variant: "brand",
     size: "48",
     children: "Subscribe",
     price: "$9.99/month",
@@ -252,7 +281,7 @@ export const WithPrice: Story = {
 
 export const JoinNowWithPrice: Story = {
   args: {
-    variant: "white",
+    variant: "brand",
     size: "48",
     children: "Join now",
     rightIcon: <CrownIcon />,
@@ -269,7 +298,7 @@ export const JoinNowWithPrice: Story = {
 
 export const WithDiscountAndPrice: Story = {
   args: {
-    variant: "primary",
+    variant: "brand",
     size: "48",
     children: "Subscribe",
     discount: "$19.99/month",
@@ -479,6 +508,96 @@ export const AllStatesMatrix: Story = {
         <Button variant="tertiary" size="48" loading>
           Label
         </Button>
+      </div>
+    </div>
+  ),
+};
+
+const darkSurface = (children: ReactNode) => (
+  <div className="rounded-md bg-surface-primary-inverted p-4">{children}</div>
+);
+
+export const PrimaryNegative: Story = {
+  args: { variant: "primary", size: "48", negative: true, children: "Label" },
+  parameters: { backgrounds: { default: "dark" } },
+  render: (args) => darkSurface(<Button {...args} />),
+};
+
+export const SecondaryNegative: Story = {
+  args: { variant: "secondary", size: "48", negative: true, children: "Label" },
+  parameters: { backgrounds: { default: "dark" } },
+  render: (args) => darkSurface(<Button {...args} />),
+};
+
+export const TertiaryNegative: Story = {
+  args: { variant: "tertiary", size: "48", negative: true, children: "Label" },
+  parameters: { backgrounds: { default: "dark" } },
+  render: (args) => darkSurface(<Button {...args} />),
+};
+
+export const OutlineNegative: Story = {
+  args: { variant: "outline", size: "48", negative: true, children: "Label" },
+  parameters: { backgrounds: { default: "dark" } },
+  render: (args) => darkSurface(<Button {...args} />),
+};
+
+const NEGATIVE_AWARE_VARIANTS_LIST: ButtonVariant[] = [
+  "primary",
+  "secondary",
+  "tertiary",
+  "outline",
+];
+
+const STANDALONE_VARIANTS_LIST: ButtonVariant[] = [
+  "brand",
+  "destructive",
+  "ai",
+  "white",
+  "alwaysBlack",
+];
+
+const renderMatrixRow = (variant: ButtonVariant, negative: boolean) => (
+  <div key={`${variant}-${negative}`} className="flex items-center gap-3">
+    <span className="w-32 text-xs">{`${variant}${negative ? " (negative)" : ""}`}</span>
+    <Button variant={variant} size="48" negative={negative}>
+      Label
+    </Button>
+    <Button variant={variant} size="48" negative={negative} disabled>
+      Label
+    </Button>
+    <Button variant={variant} size="40" negative={negative}>
+      Label
+    </Button>
+    <Button variant={variant} size="32" negative={negative}>
+      Label
+    </Button>
+  </div>
+);
+
+export const AllStylesV2: Story = {
+  parameters: {
+    layout: "padded",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16650-1558&m=dev",
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-6">
+      <div>
+        <h3 className="typography-header-heading-xs mb-3">Default surface</h3>
+        <div className="flex flex-col gap-2">
+          {NEGATIVE_AWARE_VARIANTS_LIST.map((v) => renderMatrixRow(v, false))}
+          {STANDALONE_VARIANTS_LIST.map((v) => renderMatrixRow(v, false))}
+        </div>
+      </div>
+      <div className="rounded-md bg-surface-primary-inverted p-4">
+        <h3 className="typography-header-heading-xs mb-3 text-content-primary-inverted">
+          Negative on dark surface
+        </h3>
+        <div className="flex flex-col gap-2">
+          {NEGATIVE_AWARE_VARIANTS_LIST.map((v) => renderMatrixRow(v, true))}
+        </div>
       </div>
     </div>
   ),

@@ -71,7 +71,7 @@ describe("CreatorCover", () => {
         <CreatorCover
           {...baseProps}
           action={
-            <Button variant="primary" fullWidth>
+            <Button variant="brand" fullWidth>
               Subscribe
             </Button>
           }
@@ -101,7 +101,7 @@ describe("CreatorCover", () => {
           tagline="Global Popstar"
           tag="New Joiner"
           action={
-            <Button variant="primary" fullWidth>
+            <Button variant="brand" fullWidth>
               Join for free for 7 days
             </Button>
           }

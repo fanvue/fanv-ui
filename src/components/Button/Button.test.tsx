@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import * as React from "react";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
-import { Button } from "./Button";
+import { Button, type ButtonVariant } from "./Button";
 
 describe("Button", () => {
   describe("API", () => {
@@ -53,6 +53,28 @@ describe("Button", () => {
       expect(spinner).toBeInTheDocument();
     });
 
+    it("keeps base variant styles while loading", () => {
+      render(
+        <Button variant="brand" loading>
+          Loading
+        </Button>,
+      );
+      const button = screen.getByRole("button", { name: "Loading" });
+      expect(button).toBeDisabled();
+      expect(button).toHaveClass("bg-buttons-brand-default", "text-content-always-black");
+      expect(button).not.toHaveClass("bg-buttons-disabled-default");
+    });
+
+    it("applies disabled styles when disabled", () => {
+      render(
+        <Button variant="brand" disabled>
+          Disabled
+        </Button>,
+      );
+      const button = screen.getByRole("button", { name: "Disabled" });
+      expect(button).toHaveClass("bg-buttons-disabled-default", "text-content-disabled");
+    });
+
     it("hides icons when loading is true", () => {
       render(
         <Button
@@ -75,6 +97,41 @@ describe("Button", () => {
       );
       const hiddenElements = container.querySelectorAll('[aria-hidden="true"]');
       expect(hiddenElements.length).toBeGreaterThanOrEqual(2);
+    });
+
+    it("reduces left padding when a left icon is present", () => {
+      render(
+        <Button size="48" leftIcon={<span>icon</span>}>
+          Add
+        </Button>,
+      );
+      expect(screen.getByRole("button", { name: "Add" })).toHaveClass("pl-5");
+    });
+
+    it("reduces right padding when a right icon is present", () => {
+      render(
+        <Button size="48" rightIcon={<span>icon</span>}>
+          Continue
+        </Button>,
+      );
+      expect(screen.getByRole("button", { name: "Continue" })).toHaveClass("pr-5");
+    });
+
+    it("reduces both side paddings when both icons are present", () => {
+      render(
+        <Button size="48" leftIcon={<span>left</span>} rightIcon={<span>right</span>}>
+          Action
+        </Button>,
+      );
+      expect(screen.getByRole("button", { name: "Action" })).toHaveClass("pl-5", "pr-5");
+    });
+
+    it("uses the AI stroke tokens for the AI border", () => {
+      render(<Button variant="ai">Generate</Button>);
+      const button = screen.getByRole("button", { name: "Generate" });
+      expect(button).toHaveClass("border-transparent");
+      expect(button.className).toContain("var(--color-buttons-ai-stroke-start)");
+      expect(button.className).toContain("var(--color-buttons-ai-stroke-end)");
     });
 
     it("renders discount with strikethrough and price next to button when provided", () => {
@@ -181,23 +238,88 @@ describe("Button", () => {
     });
 
     it("has no accessibility violations for all variant types", async () => {
-      const variants = [
+      const variants: ButtonVariant[] = [
         "primary",
         "secondary",
         "tertiary",
+        "outline",
         "link",
         "brand",
         "destructive",
         "white",
+        "alwaysBlack",
+        "ai",
         "tertiaryDestructive",
         "text",
-      ] as const;
+      ];
 
       for (const variant of variants) {
         const { container } = render(<Button variant={variant}>{variant} Button</Button>);
         const results = await axe(container);
         expect(results).toHaveNoViolations();
       }
+    });
+
+    it("has no accessibility violations for negative-aware variants when negative", async () => {
+      const variants: ButtonVariant[] = ["primary", "secondary", "tertiary", "outline"];
+      for (const variant of variants) {
+        const { container } = render(
+          <div className="bg-surface-primary-inverted p-4">
+            <Button variant={variant} negative>
+              {variant} negative
+            </Button>
+          </div>,
+        );
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+      }
+    });
+  });
+
+  describe("negative prop", () => {
+    const NEGATIVE_AWARE: ButtonVariant[] = ["primary", "secondary", "tertiary", "outline"];
+
+    it.each(NEGATIVE_AWARE)("changes className for variant %s when negative=true", (variant) => {
+      const { rerender } = render(
+        <Button variant={variant} data-testid="button">
+          Label
+        </Button>,
+      );
+      const defaultClass = screen.getByTestId("button").className;
+      rerender(
+        <Button variant={variant} negative data-testid="button">
+          Label
+        </Button>,
+      );
+      const negativeClass = screen.getByTestId("button").className;
+      expect(negativeClass).not.toBe(defaultClass);
+    });
+
+    const NON_NEGATIVE_AWARE: ButtonVariant[] = [
+      "brand",
+      "destructive",
+      "white",
+      "alwaysBlack",
+      "ai",
+      "link",
+      "tertiaryDestructive",
+      "text",
+    ];
+
+    it.each(NON_NEGATIVE_AWARE)("is a no-op for variant %s", (variant) => {
+      const { rerender } = render(
+        <Button variant={variant} data-testid="button">
+          Label
+        </Button>,
+      );
+      const defaultClass = screen.getByTestId("button").className;
+      rerender(
+        <Button variant={variant} negative data-testid="button">
+          Label
+        </Button>,
+      );
+      const negativeClass = screen.getByTestId("button").className;
+      expect(negativeClass).toBe(defaultClass);
     });
   });
 });

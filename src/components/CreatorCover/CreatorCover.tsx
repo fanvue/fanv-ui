@@ -45,7 +45,7 @@ export interface CreatorCoverProps extends Omit<React.HTMLAttributes<HTMLElement
  *   name="JANE DOE"
  *   tagline="GLOBAL POPSTAR"
  *   tag="New Joiner"
- *   action={<Button variant="primary" size="48" fullWidth>Join for free for 7 days</Button>}
+ *   action={<Button variant="brand" size="48" fullWidth>Join for free for 7 days</Button>}
  * />
  * ```
  */
