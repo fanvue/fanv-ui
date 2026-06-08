@@ -238,6 +238,7 @@ export function useCyclingCycle(
 
   return {
     cycle,
+    currentIndex: safeCurrentIndex,
     currentLabel,
     incomingLabel,
     sizingLabel,
