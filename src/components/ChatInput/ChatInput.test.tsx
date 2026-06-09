@@ -314,6 +314,33 @@ describe("ChatInput", () => {
       expect(screen.getByRole("option", { name: "Example" })).toBeInTheDocument();
     });
 
+    it("applies the hover background to the select trigger while open", async () => {
+      const user = userEvent.setup();
+      render(
+        <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
+      );
+      const trigger = screen.getByRole("combobox", { name: "Select model" });
+      await user.click(trigger);
+      expect(trigger).toHaveClass("bg-neutral-alphas-50");
+    });
+
+    it("shows a check icon only on the selected option", async () => {
+      const user = userEvent.setup();
+      render(
+        <ChatInput
+          placeholder="Test"
+          selectOptions={[
+            { value: "opus", label: "Opus 4.8" },
+            { value: "sonnet", label: "Sonnet 4.6" },
+          ]}
+          selectValue="opus"
+        />,
+      );
+      await user.click(screen.getByRole("combobox", { name: "Select model" }));
+      expect(screen.getByRole("option", { name: "Opus 4.8" }).querySelector("svg")).toBeTruthy();
+      expect(screen.getByRole("option", { name: "Sonnet 4.6" }).querySelector("svg")).toBeNull();
+    });
+
     it("calls onSelectChange when an option is clicked", async () => {
       const user = userEvent.setup();
       const handleChange = vi.fn();

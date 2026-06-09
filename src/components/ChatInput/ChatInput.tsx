@@ -3,6 +3,7 @@ import { cn } from "../../utils/cn";
 import { IconButton } from "../IconButton/IconButton";
 import { AddIcon } from "../Icons/AddIcon";
 import { ArrowUpIcon } from "../Icons/ArrowUpIcon";
+import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 
@@ -432,6 +433,7 @@ function InlineSelect({ options, value, onChange, disabled, selectedOption }: In
           "hover:bg-neutral-alphas-50 focus-visible:shadow-focus-ring focus-visible:outline-none",
           "disabled:cursor-not-allowed disabled:opacity-50",
           "motion-safe:transition-colors",
+          open && "bg-neutral-alphas-50",
         )}
       >
         {selectedOption?.icon && (
@@ -447,8 +449,8 @@ function InlineSelect({ options, value, onChange, disabled, selectedOption }: In
         <div
           role="listbox"
           className={cn(
-            "absolute right-0 bottom-full z-10 mb-1 min-w-[140px]",
-            "overflow-hidden rounded-xs border border-border-primary bg-surface-primary p-1 shadow-lg",
+            "absolute right-0 bottom-full z-10 mb-1 min-w-[180px]",
+            "overflow-hidden rounded-xs border border-border-primary bg-surface-primary p-1.5 shadow-lg",
           )}
         >
           {options.map((option) => (
@@ -458,10 +460,9 @@ function InlineSelect({ options, value, onChange, disabled, selectedOption }: In
               tabIndex={0}
               aria-selected={option.value === value}
               className={cn(
-                "typography-body-small-14px-regular flex cursor-pointer items-center gap-2 rounded-xs px-3 py-1.5",
+                "typography-body-small-14px-regular flex cursor-pointer items-center gap-2 rounded-xs py-2.5 pr-2 pl-3",
                 "text-content-primary hover:bg-neutral-alphas-50",
                 "focus-visible:shadow-focus-ring focus-visible:outline-none",
-                option.value === value && "bg-neutral-alphas-50",
               )}
               onClick={() => {
                 onChange?.(option.value);
@@ -478,7 +479,12 @@ function InlineSelect({ options, value, onChange, disabled, selectedOption }: In
               {option.icon && (
                 <span className="flex shrink-0 items-center [&>svg]:size-4">{option.icon}</span>
               )}
-              {option.label}
+              <span className="min-w-0 flex-1 truncate">{option.label}</span>
+              {option.value === value && (
+                <span className="ml-auto flex size-4 shrink-0 items-center justify-center">
+                  <CheckIcon className="size-4 text-content-primary" aria-hidden="true" />
+                </span>
+              )}
             </div>
           ))}
         </div>
