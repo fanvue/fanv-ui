@@ -45,6 +45,13 @@ export interface CyclingTextProps extends Omit<React.HTMLAttributes<HTMLSpanElem
    * effects that have to sit on the text element itself, e.g. `background-clip: text`.
    */
   labelClassName?: string;
+  /**
+   * Called with the index of the settled, fully-visible item — once on mount and
+   * again whenever it changes (after each transition completes). Lets a parent
+   * stay in lockstep with what is on screen (e.g. to act on the item the user is
+   * currently looking at) without running a second, drifting timer of its own.
+   */
+  onActiveIndexChange?: (index: number) => void;
 }
 
 /**
@@ -69,6 +76,7 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
       className,
       labelClassName,
       announceChanges = false,
+      onActiveIndexChange,
       ...rest
     },
     ref,
@@ -76,10 +84,27 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
     const docVisible = usePageVisibility();
     const reducedMotion = usePrefersReducedMotion();
     const { sizingLabelRef, trackWidth } = useCyclingTextTrackWidth();
-    const { cycle, currentLabel, incomingLabel, sizingLabel, onOutgoingTransitionEnd } =
-      useCyclingCycle(items, sizing, intervalMs, paused, docVisible, transitionMs);
+    const {
+      cycle,
+      currentIndex,
+      currentLabel,
+      incomingLabel,
+      sizingLabel,
+      onOutgoingTransitionEnd,
+    } = useCyclingCycle(items, sizing, intervalMs, paused, docVisible, transitionMs);
 
     const itemCount = items.length;
+
+    // Notify the parent of the settled active index without re-subscribing when
+    // an inline callback identity changes each render — the latest is always
+    // read from the ref.
+    const onActiveIndexChangeRef = React.useRef(onActiveIndexChange);
+    React.useEffect(() => {
+      onActiveIndexChangeRef.current = onActiveIndexChange;
+    }, [onActiveIndexChange]);
+    React.useEffect(() => {
+      onActiveIndexChangeRef.current?.(currentIndex);
+    }, [currentIndex]);
 
     const outgoingMotionStyle = React.useMemo((): React.CSSProperties => {
       const durMs = reducedMotion ? 0 : transitionMs;

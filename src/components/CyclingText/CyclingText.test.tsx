@@ -146,6 +146,60 @@ describe("CyclingText", () => {
     });
   });
 
+  describe("onActiveIndexChange", () => {
+    it("reports the initial index on mount", () => {
+      const onActiveIndexChange = vi.fn();
+      render(<CyclingText items={ITEMS} onActiveIndexChange={onActiveIndexChange} />);
+      expect(onActiveIndexChange).toHaveBeenCalledWith(0);
+    });
+
+    it("reports each settled index as the visible item changes, wrapping around", () => {
+      const onActiveIndexChange = vi.fn();
+      render(
+        <CyclingText
+          items={ITEMS}
+          intervalMs={500}
+          transitionMs={100}
+          onActiveIndexChange={onActiveIndexChange}
+        />,
+      );
+
+      expect(onActiveIndexChange).toHaveBeenLastCalledWith(0);
+
+      act(() => vi.advanceTimersByTime(500));
+      act(() => vi.advanceTimersByTime(100));
+      expect(getVisibleLabel().textContent).toBe("Beta");
+      expect(onActiveIndexChange).toHaveBeenLastCalledWith(1);
+
+      act(() => vi.advanceTimersByTime(500));
+      act(() => vi.advanceTimersByTime(100));
+      expect(onActiveIndexChange).toHaveBeenLastCalledWith(2);
+
+      act(() => vi.advanceTimersByTime(500));
+      act(() => vi.advanceTimersByTime(100));
+      expect(onActiveIndexChange).toHaveBeenLastCalledWith(0);
+    });
+
+    it("does not report the next index until the transition settles", () => {
+      const onActiveIndexChange = vi.fn();
+      render(
+        <CyclingText
+          items={ITEMS}
+          intervalMs={500}
+          transitionMs={1000}
+          onActiveIndexChange={onActiveIndexChange}
+        />,
+      );
+      onActiveIndexChange.mockClear();
+
+      act(() => vi.advanceTimersByTime(500));
+      expect(onActiveIndexChange).not.toHaveBeenCalled();
+
+      act(() => vi.advanceTimersByTime(1000));
+      expect(onActiveIndexChange).toHaveBeenCalledWith(1);
+    });
+  });
+
   describe("accessibility", () => {
     beforeEach(() => {
       vi.useRealTimers();
