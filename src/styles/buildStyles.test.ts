@@ -54,8 +54,7 @@ describe("getEffectTokens", () => {
   });
 
   it("drives the focus ring through the mode-aware colour var", () => {
-    expect(css).toContain("--shadow-focus-ring: 0 0 0 2px var(--color-background-primary)");
-    expect(css).toContain("var(--fv-focus-ring-color)");
+    expect(css).toContain("--shadow-focus-ring: inset 0 0 0 2px var(--fv-focus-ring-color)");
   });
 });
 
