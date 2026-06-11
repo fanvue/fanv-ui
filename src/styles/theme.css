@@ -20,7 +20,7 @@
   --shadow-blur-menu: 0px 6px 12px 0px #0000001a;
   --shadow-blur-floating: 0px 12px 40px 2px #00000026;
   --shadow-ai-button-glow: -1px 1px 4px 0px #49f2643d, -4px 4px 12px 0px #49f26429, -8px 2px 24px 0px #49f2640a;
-  --shadow-focus-ring: 0 0 0 2px var(--color-background-primary), 0 0 0 4px var(--fv-focus-ring-color);
+  --shadow-focus-ring: inset 0 0 0 2px var(--fv-focus-ring-color);
   --radius-3xs: 2px;
   --radius-2xs: 4px;
   --radius-xs: 8px;

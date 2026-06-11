@@ -217,7 +217,9 @@ const getEffectTokens = (effectTokens) => {
 
   // Focus ring colour is mode-aware via --fv-focus-ring-color (set in :root and .dark):
   // violet on light backgrounds, white on dark ones, so the ring stays visible either way.
-  output += `  --shadow-focus-ring: 0 0 0 2px var(--color-background-primary), 0 0 0 4px var(--fv-focus-ring-color);\n`;
+  // Inset (not outward) so the indicator paints inside the element's box and can never be
+  // clipped by an ancestor with overflow:hidden/auto (ENG-11352).
+  output += `  --shadow-focus-ring: inset 0 0 0 2px var(--fv-focus-ring-color);\n`;
 
   return output;
 };

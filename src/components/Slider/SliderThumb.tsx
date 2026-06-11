@@ -47,7 +47,7 @@ export function SliderThumb({
         "transition-shadow duration-150",
         "hover:ring-2 hover:ring-brand-primary-default",
         "not-data-disabled:active:ring-2 not-data-disabled:active:ring-brand-primary-default",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interaction-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary",
+        "focus-visible:shadow-focus-ring focus-visible:outline-none",
         "data-disabled:cursor-not-allowed",
       )}
     >
