@@ -4395,7 +4395,7 @@ function DialogDemo() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="sr-only">Search dialog</DialogTitle>
-              <SearchField size="32" placeholder="Search..." fullWidth />
+              <SearchField size="40" placeholder="Search..." fullWidth />
             </DialogHeader>
             <DialogBody>
               <DialogDescription>

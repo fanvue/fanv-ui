@@ -160,7 +160,10 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         data-error={error ? "" : undefined}
       >
         {label && (
-          <label htmlFor={inputId} className="typography-description-12px-semibold text-content-primary">
+          <label
+            htmlFor={inputId}
+            className="typography-description-12px-semibold text-content-primary"
+          >
             {label}
           </label>
         )}

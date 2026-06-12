@@ -1213,11 +1213,6 @@
                 "exportKey": "variables"
               }
             }
-          },
-          "disabled": {
-            "description": "Disabled input text and icon color",
-            "type": "color",
-            "value": "{primitives.light.color.gray.450}"
           }
         },
         "success": {
@@ -4859,11 +4854,6 @@
                 "exportKey": "variables"
               }
             }
-          },
-          "disabled": {
-            "description": "Disabled input text and icon color",
-            "type": "color",
-            "value": "{primitives.dark.color.gray.600}"
           }
         },
         "success": {
