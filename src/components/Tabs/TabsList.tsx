@@ -94,7 +94,15 @@ export const TabsList = React.forwardRef<
     const resizeObserver = new ResizeObserver(updateIndicator);
     resizeObserver.observe(list);
 
+    let cancelled = false;
+    if (document.fonts?.status !== "loaded") {
+      document.fonts?.ready.then(() => {
+        if (!cancelled) updateIndicator();
+      });
+    }
+
     return () => {
+      cancelled = true;
       mutationObserver.disconnect();
       resizeObserver.disconnect();
     };
