@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.4.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.3.0...ui-v3.4.0) (2026-06-12)
+
+
+### Features
+
+* **ChatInput:** Show the selected element with a tick, not highlight ([#510](https://github.com/fanvue/fanv-ui/issues/510)) ([6cf96aa](https://github.com/fanvue/fanv-ui/commit/6cf96aa821253ee327e2677d475dba9d90ebbf3a))
+* **CyclingText:** Expose activeIndex callback ([#509](https://github.com/fanvue/fanv-ui/issues/509)) ([c294f52](https://github.com/fanvue/fanv-ui/commit/c294f5209a38c3883c3a74d21d194cef0ac0ff15))
+
+
+### Bug Fixes
+
+* **Tabs:** re-measure active indicator after fonts load (ENG-11401) ([#513](https://github.com/fanvue/fanv-ui/issues/513)) ([f43c267](https://github.com/fanvue/fanv-ui/commit/f43c26748bf7df8727322a75ee5690c16a449cc5))
+* **theme:** inset focus ring so it isn't clipped by overflow containers (ENG-11352) ([#512](https://github.com/fanvue/fanv-ui/issues/512)) ([8152c13](https://github.com/fanvue/fanv-ui/commit/8152c1328e7105c5219cb789ece35f85ec2d297e))
+
 ## [3.3.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.2.0...ui-v3.3.0) (2026-06-08)
 
 
