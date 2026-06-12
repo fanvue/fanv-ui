@@ -7,13 +7,14 @@ import { Select, SelectContent, SelectItem } from "../Select/Select";
 /**
  * Row density for body cells.
  *
- * - `"md"` (default) → 64px Figma `V2 Table Cell` Small.
- * - `"lg"` → 80px Figma `V2 Table Cell` Large.
+ * - `"md"` (default) → 64px Figma `V2 Table Cell` Default.
+ * - `"condensed"` → 48px Figma `V2 Table Cell` Condensed.
+ * - `"lg"` → 80px rows; no longer in Figma, kept for back-compat.
  *
  * `"default"` is the v2 numeric-token equivalent of `"md"` and is preferred
  * for new code.
  */
-export type TableSize = "md" | "lg" | "default";
+export type TableSize = "md" | "lg" | "condensed" | "default";
 
 export interface TableCardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Row density applied to {@link TableCell} descendants. @default "md" */
@@ -97,6 +98,11 @@ export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElemen
    * @deprecated v2 ignores this prop; safe to remove.
    */
   roundTop?: boolean;
+  /**
+   * Shows a slim horizontal scrollbar beneath the table when the content
+   * overflows (Figma `V2 Scroll Bar`). @default false
+   */
+  showScrollbar?: boolean;
 }
 
 /**
@@ -104,14 +110,22 @@ export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElemen
  * `border-collapse` styles intact when the table wraps.
  */
 export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaProps>(
-  ({ className, children, roundTop: _roundTop, ...props }, ref) => {
+  ({ className, children, roundTop: _roundTop, showScrollbar = false, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn("relative w-full min-w-0 overflow-hidden", className)}
         {...props}
       >
-        <div className="overflow-x-auto">{children}</div>
+        <div
+          className={cn(
+            "overflow-x-auto",
+            showScrollbar &&
+              "pb-3 [scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]",
+          )}
+        >
+          {children}
+        </div>
       </div>
     );
   },
@@ -198,16 +212,21 @@ export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElem
 
 /**
  * Header cell. v2: transparent background, 48px min height, tertiary text,
- * `border-border-primary` bottom rule.
+ * `border-border-primary` bottom rule. Uses 16px semibold type, or 14px when
+ * the parent {@link TableCard} is `size="condensed"`.
  */
 export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ({ className, intent = "default", scope = "col", ...props }, ref) => {
+    const size = useTableSize();
     return (
       <th
         ref={ref}
         scope={scope}
         className={cn(
-          "typography-description-12px-semibold box-border min-h-12 border-b border-border-primary px-4 py-3 align-middle text-content-tertiary",
+          size === "condensed"
+            ? "typography-body-small-14px-semibold"
+            : "typography-body-default-16px-semibold",
+          "box-border h-12 min-h-12 border-b border-border-primary px-4 py-3 align-middle text-content-tertiary",
           HEAD_INTENT_CLASSES[intent],
           className,
         )}
@@ -221,6 +240,7 @@ TableHead.displayName = "TableHead";
 const CELL_MIN_HEIGHT: Record<TableSize, string> = {
   md: "h-16 min-h-16",
   default: "h-16 min-h-16",
+  condensed: "h-12 min-h-12 py-1",
   lg: "h-20 min-h-20",
 };
 
@@ -262,8 +282,8 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
     const size = useTableSize();
     const typo =
       intent === "sideLabel"
-        ? "typography-description-12px-semibold"
-        : "typography-description-12px-regular";
+        ? "typography-body-small-14px-semibold"
+        : "typography-body-small-14px-regular";
     return (
       <td
         ref={ref}
@@ -323,13 +343,13 @@ export function TableCellContent({
   return (
     <div className={cn("flex flex-col gap-0.5", className)}>
       <div className="flex items-center gap-1">
-        <span className="typography-description-12px-semibold text-content-primary">{primary}</span>
+        <span className="typography-body-small-14px-semibold text-content-primary">{primary}</span>
         {primaryAdornment}
       </div>
       {(secondary != null || secondaryAdornment != null) && (
         <div className="flex items-center gap-1">
           {secondary != null && (
-            <span className="typography-description-12px-regular text-content-secondary">
+            <span className="typography-body-small-14px-regular text-content-secondary">
               {secondary}
             </span>
           )}
@@ -341,6 +361,9 @@ export function TableCellContent({
 }
 TableCellContent.displayName = "TableCellContent";
 
+/** Pixel size of the square {@link TableMediaThumbnail}. */
+export type TableMediaThumbnailSize = "48" | "32";
+
 export interface TableMediaThumbnailProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   /** Image URL. */
@@ -351,15 +374,21 @@ export interface TableMediaThumbnailProps
   blurred?: boolean;
   /** `center` uses the fixed media column width from the lg spec. @default "start" */
   align?: "start" | "center";
+  /** Pixel size of the square thumbnail; `"32"` matches the current Figma `V2 Media Thumbnail Item`. @default "48" */
+  size?: TableMediaThumbnailSize;
 }
 
 /**
- * Square 48px thumbnail used inside {@link TableCell} for media columns
+ * Square thumbnail used inside {@link TableCell} for media columns
  * (Figma `V2 Media Thumbnail Item`).
  */
 export const TableMediaThumbnail = React.forwardRef<HTMLDivElement, TableMediaThumbnailProps>(
-  ({ className, src, alt = "", blurred, align = "start", ...props }, ref) => {
-    const frame = "size-12 overflow-hidden rounded-sm bg-neutral-alphas-200";
+  ({ className, src, alt = "", blurred, align = "start", size = "48", ...props }, ref) => {
+    const frame = cn(
+      "overflow-hidden bg-neutral-alphas-200",
+      size === "48" && "size-12 rounded-sm",
+      size === "32" && "size-8 rounded-xs",
+    );
     return (
       <div
         ref={ref}
@@ -478,12 +507,7 @@ export const TableSortLabel = React.forwardRef<HTMLSpanElement, TableSortLabelPr
         className={cn("inline-flex items-center gap-1 text-content-primary", className)}
         {...props}
       >
-        <span
-          className={cn(
-            "typography-description-12px-semibold",
-            direction != null && "border-b border-content-primary pb-px",
-          )}
-        >
+        <span className={cn(direction != null && "border-b border-content-primary pb-px")}>
           {children}
         </span>
         {direction != null && <Icon className="size-4 shrink-0" aria-hidden />}

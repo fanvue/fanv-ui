@@ -14,6 +14,7 @@ const pillVariants = {
     brandLight: "bg-brand-primary-muted text-content-primary",
     beta: "bg-brand-secondary-default text-content-always-black",
     error: "bg-error-content text-error-surface",
+    red: "bg-error-surface text-error-content",
   },
 } as const;
 
@@ -28,7 +29,8 @@ export type PillVariant =
   | "brand"
   | "brandLight"
   | "beta"
-  | "error";
+  | "error"
+  | "red";
 
 export interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Colour variant of the pill. @default "green" */

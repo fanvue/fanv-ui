@@ -655,6 +655,7 @@ export type {
   TableHeadProps,
   TableLineClampProps,
   TableMediaThumbnailProps,
+  TableMediaThumbnailSize,
   TablePillProgressLayoutProps,
   TableProgressTrackProps,
   TableProps,

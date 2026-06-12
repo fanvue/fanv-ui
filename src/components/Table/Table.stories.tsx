@@ -64,7 +64,7 @@ type ProductRow = {
   created: string;
   price: string;
   purchases: string;
-  status: { label: "Active" | "Inactive" | "Warning"; variant: "green" | "error" | "gold" };
+  status: { label: "Active" | "Inactive" | "Warning"; variant: "green" | "red" | "gold" };
 };
 
 const PRODUCT_ROWS: ProductRow[] = [
@@ -87,7 +87,7 @@ const PRODUCT_ROWS: ProductRow[] = [
     created: "16 May, 01:15 AM",
     price: "$5.99 / month",
     purchases: "$156.25",
-    status: { label: "Inactive", variant: "error" },
+    status: { label: "Inactive", variant: "red" },
   },
   {
     name: "Product Name",
@@ -98,77 +98,70 @@ const PRODUCT_ROWS: ProductRow[] = [
   },
 ];
 
+function ProductTable({ showScrollbar = false }: { showScrollbar?: boolean }) {
+  return (
+    <TableCard size="condensed" className="max-w-[1050px]">
+      <TableScrollArea showScrollbar={showScrollbar}>
+        <Table className={showScrollbar ? "min-w-[1026px]" : undefined}>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Product</TableHead>
+              <TableHead>Thumbnail</TableHead>
+              <TableHead>Created</TableHead>
+              <TableHead>Price</TableHead>
+              <TableHead>Purchases</TableHead>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {PRODUCT_ROWS.map((row, index) => (
+              <TableRow key={`${row.name}-${index}`}>
+                <TableCell intent="sideLabel">{row.name}</TableCell>
+                <TableCell>
+                  <TableCellGroup>
+                    <TableMediaThumbnail size="32" src={TABLE_MEDIA_SRC} alt="" />
+                    <ChevronDownIcon className="size-4 shrink-0 text-content-primary" aria-hidden />
+                  </TableCellGroup>
+                </TableCell>
+                <TableCell>{row.created}</TableCell>
+                <TableCell>{row.price}</TableCell>
+                <TableCell>{row.purchases}</TableCell>
+                <TableCell>
+                  <Pill variant={row.status.variant}>{row.status.label}</Pill>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+    </TableCard>
+  );
+}
+
 export const Default: Story = {
   name: "Default",
-  render: function DefaultStory() {
-    const [page, setPage] = React.useState(2);
-    return (
-      <TableCard className="max-w-4xl">
-        <TableScrollArea>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Product</TableHead>
-                <TableHead>Thumbnail</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Purchases</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>
-                  <span className="sr-only">Actions</span>
-                </TableHead>
-                <TableHead intent="checkbox">
-                  <span className="sr-only">More</span>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {PRODUCT_ROWS.map((row, index) => (
-                <TableRow key={`${row.name}-${index}`}>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>
-                    <TableCellGroup>
-                      <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" />
-                      <ChevronDownIcon
-                        className="size-4 shrink-0 text-content-primary"
-                        aria-hidden
-                      />
-                    </TableCellGroup>
-                  </TableCell>
-                  <TableCell>{row.created}</TableCell>
-                  <TableCell>{row.price}</TableCell>
-                  <TableCell>{row.purchases}</TableCell>
-                  <TableCell>
-                    <Pill variant={row.status.variant}>{row.status.label}</Pill>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="secondary" size="32">
-                      Copy
-                    </Button>
-                  </TableCell>
-                  <TableCell intent="checkbox">
-                    <IconButton
-                      variant="tertiary"
-                      size="32"
-                      icon={<MoreVerticalIcon />}
-                      aria-label="Row actions"
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableScrollArea>
-        <TablePagination
-          leadingSlot={<TableRowsPerPageSelect />}
-          paginationSlot={
-            <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
-          }
-          summary="20–30 of 100 rows"
-        />
-      </TableCard>
-    );
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=19745-19567",
+    },
   },
+  render: () => <ProductTable />,
+};
+
+export const WithScrollIndicator: Story = {
+  name: "With scroll indicator",
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=19745-19567",
+    },
+  },
+  render: () => (
+    <div className="max-w-2xl">
+      <ProductTable showScrollbar />
+    </div>
+  ),
 };
 
 export const WithToolbar: Story = {
@@ -566,7 +559,7 @@ export const AllStatesV2: Story = {
               {[
                 { status: "Active" as const, variant: "green" as const, progress: 80 },
                 { status: "Warning" as const, variant: "gold" as const, progress: 40 },
-                { status: "Inactive" as const, variant: "error" as const, progress: 10 },
+                { status: "Inactive" as const, variant: "red" as const, progress: 10 },
               ].map((row, idx) => (
                 <TableRow key={row.status}>
                   <TableCell intent="checkbox">

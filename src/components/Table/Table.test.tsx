@@ -9,6 +9,7 @@ import {
   TableCellContent,
   TableHead,
   TableHeader,
+  TableMediaThumbnail,
   TableRow,
   TableScrollArea,
   TableSortLabel,
@@ -72,6 +73,60 @@ describe("Table", () => {
       const cell = container.querySelector("td");
       expect(cell).toHaveClass("h-20");
       expect(cell).toHaveClass("min-h-20");
+    });
+
+    it("renders body cells at 48px when TableCard size is condensed", () => {
+      const { container } = render(
+        <TableCard size="condensed">
+          <TableScrollArea>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Value</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      const cell = container.querySelector("td");
+      expect(cell).toHaveClass("h-12");
+      expect(cell).toHaveClass("min-h-12");
+    });
+
+    it("uses 14px header typography when TableCard size is condensed", () => {
+      const { container } = render(
+        <TableCard size="condensed">
+          <TableScrollArea>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Column</TableHead>
+                </TableRow>
+              </TableHeader>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      const th = container.querySelector("th");
+      expect(th).toHaveClass("typography-body-small-14px-semibold");
+    });
+
+    it("styles the scrollport scrollbar when showScrollbar is set", () => {
+      const { container } = render(
+        <TableScrollArea showScrollbar>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>Value</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableScrollArea>,
+      );
+      const scrollport = container.querySelector(".overflow-x-auto");
+      expect(scrollport).toHaveClass("[scrollbar-width:thin]");
+      expect(scrollport).toHaveClass("pb-3");
     });
 
     it("uses a transparent, tertiary-text header in v2 (no surface fill)", () => {
@@ -147,8 +202,17 @@ describe("Table", () => {
 
     it("renders TableCellContent primary + secondary lines", () => {
       render(<TableCellContent primary="Product Name" secondary="SKU-00321" />);
-      expect(screen.getByText("Product Name")).toHaveClass("typography-description-12px-semibold");
-      expect(screen.getByText("SKU-00321")).toHaveClass("typography-description-12px-regular");
+      expect(screen.getByText("Product Name")).toHaveClass("typography-body-small-14px-semibold");
+      expect(screen.getByText("SKU-00321")).toHaveClass("typography-body-small-14px-regular");
+    });
+
+    it("renders TableMediaThumbnail at 32px with the small radius", () => {
+      const { container } = render(
+        <TableMediaThumbnail size="32" src="https://example.com/image.jpg" alt="" />,
+      );
+      const frame = container.querySelector(".size-8");
+      expect(frame).not.toBeNull();
+      expect(frame).toHaveClass("rounded-xs");
     });
   });
 
