@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.4.0...ui-v3.5.0) (2026-06-12)
+
+
+### Features
+
+* **Table:** add condensed size, scroll indicator, and 14px typography from updated Figma spec ([#514](https://github.com/fanvue/fanv-ui/issues/514)) ([c2fc6dd](https://github.com/fanvue/fanv-ui/commit/c2fc6ddad9b75dbee1c30c8351603c5355cb56a9))
+
 ## [3.4.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.3.0...ui-v3.4.0) (2026-06-12)
 
 
