@@ -2176,6 +2176,7 @@ function PillDemo() {
         <Pill variant="brandLight">Brand light</Pill>
         <Pill variant="beta">Beta</Pill>
         <Pill variant="error">Error</Pill>
+        <Pill variant="red">Red</Pill>
       </div>
 
       <div className="flex flex-wrap gap-4">
@@ -3263,6 +3264,55 @@ function TableDemo() {
     <div id="table" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-h3 mb-4">Table</h2>
       <div className="flex max-w-4xl flex-col gap-12">
+        <div>
+          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
+            Table — condensed
+          </h3>
+          <TableCard size="condensed">
+            <TableScrollArea showScrollbar>
+              <Table className="min-w-[820px]">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Product</TableHead>
+                    <TableHead>Thumbnail</TableHead>
+                    <TableHead>Created</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Purchases</TableHead>
+                    <TableHead>Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {[
+                    { purchases: "$0.00", status: "Active", variant: "green" as const },
+                    { purchases: "$0.00", status: "Active", variant: "green" as const },
+                    { purchases: "$156.25", status: "Inactive", variant: "red" as const },
+                    { purchases: "$0.00", status: "Warning", variant: "gold" as const },
+                  ].map((row, index) => (
+                    <TableRow key={`condensed-${row.status}-${index}`}>
+                      <TableCell intent="sideLabel">Product Name</TableCell>
+                      <TableCell>
+                        <TableCellGroup>
+                          <TableMediaThumbnail size="32" src={TABLE_DEMO_MEDIA} alt="" />
+                          <ChevronDownIcon
+                            className="size-4 shrink-0 text-content-primary"
+                            aria-hidden
+                          />
+                        </TableCellGroup>
+                      </TableCell>
+                      <TableCell>16 May, 01:15 AM</TableCell>
+                      <TableCell>$5.99 / month</TableCell>
+                      <TableCell>{row.purchases}</TableCell>
+                      <TableCell>
+                        <Pill variant={row.variant}>{row.status}</Pill>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableScrollArea>
+          </TableCard>
+        </div>
+
         <div>
           <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
             Table — default (v2)

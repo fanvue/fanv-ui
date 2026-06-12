@@ -28,6 +28,7 @@ const meta = {
         "brandLight",
         "beta",
         "error",
+        "red",
       ],
     },
   },
@@ -104,6 +105,13 @@ export const Error: Story = {
   args: {
     variant: "error",
     children: "Error",
+  },
+};
+
+export const Red: Story = {
+  args: {
+    variant: "red",
+    children: "Inactive",
   },
 };
 
