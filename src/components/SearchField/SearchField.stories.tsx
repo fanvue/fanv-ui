@@ -16,7 +16,7 @@ const meta = {
   argTypes: {
     size: {
       control: "select",
-      options: ["48", "40", "32"],
+      options: ["48", "40"],
     },
   },
 } satisfies Meta<typeof SearchField>;
@@ -68,13 +68,6 @@ export const Size40: Story = {
   },
 };
 
-export const Size32: Story = {
-  args: {
-    size: "32",
-    placeholder: "Size 32",
-  },
-};
-
 export const Disabled: Story = {
   args: {
     label: "Search",
@@ -113,7 +106,7 @@ export const TextOverflow: Story = {
       <SearchField
         label="With label"
         placeholder="Search..."
-        size="32"
+        size="40"
         defaultValue="https://www.example.com/very/long/url/that/should/not/overflow/the/container/boundary"
       />
     </div>
