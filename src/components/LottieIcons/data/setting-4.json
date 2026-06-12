@@ -1,0 +1,1077 @@
+{
+  "v": "5.5.9",
+  "fr": 29.9700012207031,
+  "ip": 0,
+  "op": 60.0000024438501,
+  "w": 25,
+  "h": 25,
+  "nm": "Comp 2",
+  "ddd": 0,
+  "assets": [],
+  "layers": [
+    {
+      "ddd": 0,
+      "ind": 13,
+      "ty": 4,
+      "nm": "Layer 13 Outlines",
+      "sr": 1,
+      "ks": {
+        "o": {
+          "a": 0,
+          "k": 100,
+          "ix": 11
+        },
+        "r": {
+          "a": 0,
+          "k": 0,
+          "ix": 10
+        },
+        "p": {
+          "a": 0,
+          "k": [12.646, 12.622, 0],
+          "ix": 2
+        },
+        "a": {
+          "a": 0,
+          "k": [10.75, 12.75, 0],
+          "ix": 1
+        },
+        "s": {
+          "a": 0,
+          "k": [83.541, 83.541, 100],
+          "ix": 6
+        }
+      },
+      "ao": 0,
+      "ef": [
+        {
+          "ty": 5,
+          "nm": "Elastic: Position - Transform",
+          "np": 5,
+          "mn": "Pseudo/MDS Elastic Controller",
+          "ix": 1,
+          "en": 1,
+          "ef": [
+            {
+              "ty": 0,
+              "nm": "Amplitude",
+              "mn": "Pseudo/MDS Elastic Controller-0001",
+              "ix": 1,
+              "v": {
+                "a": 0,
+                "k": 20,
+                "ix": 1
+              }
+            },
+            {
+              "ty": 0,
+              "nm": "Frequency",
+              "mn": "Pseudo/MDS Elastic Controller-0002",
+              "ix": 2,
+              "v": {
+                "a": 0,
+                "k": 40,
+                "ix": 2
+              }
+            },
+            {
+              "ty": 0,
+              "nm": "Decay",
+              "mn": "Pseudo/MDS Elastic Controller-0003",
+              "ix": 3,
+              "v": {
+                "a": 0,
+                "k": 60,
+                "ix": 3
+              }
+            }
+          ]
+        },
+        {
+          "ty": 5,
+          "nm": "Elastic: Position - Transform 2",
+          "np": 5,
+          "mn": "Pseudo/MDS Elastic Controller",
+          "ix": 2,
+          "en": 1,
+          "ef": [
+            {
+              "ty": 0,
+              "nm": "Amplitude",
+              "mn": "Pseudo/MDS Elastic Controller-0001",
+              "ix": 1,
+              "v": {
+                "a": 0,
+                "k": 20,
+                "ix": 1
+              }
+            },
+            {
+              "ty": 0,
+              "nm": "Frequency",
+              "mn": "Pseudo/MDS Elastic Controller-0002",
+              "ix": 2,
+              "v": {
+                "a": 0,
+                "k": 40,
+                "ix": 2
+              }
+            },
+            {
+              "ty": 0,
+              "nm": "Decay",
+              "mn": "Pseudo/MDS Elastic Controller-0003",
+              "ix": 3,
+              "v": {
+                "a": 0,
+                "k": 60,
+                "ix": 3
+              }
+            }
+          ]
+        },
+        {
+          "ty": 5,
+          "nm": "Elastic: Position - Transform 3",
+          "np": 5,
+          "mn": "Pseudo/MDS Elastic Controller",
+          "ix": 3,
+          "en": 1,
+          "ef": [
+            {
+              "ty": 0,
+              "nm": "Amplitude",
+              "mn": "Pseudo/MDS Elastic Controller-0001",
+              "ix": 1,
+              "v": {
+                "a": 0,
+                "k": 20,
+                "ix": 1
+              }
+            },
+            {
+              "ty": 0,
+              "nm": "Frequency",
+              "mn": "Pseudo/MDS Elastic Controller-0002",
+              "ix": 2,
+              "v": {
+                "a": 0,
+                "k": 40,
+                "ix": 2
+              }
+            },
+            {
+              "ty": 0,
+              "nm": "Decay",
+              "mn": "Pseudo/MDS Elastic Controller-0003",
+              "ix": 3,
+              "v": {
+                "a": 0,
+                "k": 60,
+                "ix": 3
+              }
+            }
+          ]
+        }
+      ],
+      "shapes": [
+        {
+          "ty": "gr",
+          "it": [
+            {
+              "ty": "gr",
+              "it": [
+                {
+                  "ind": 0,
+                  "ty": "sh",
+                  "ix": 1,
+                  "ks": {
+                    "a": 0,
+                    "k": {
+                      "i": [[-1.933, 0], [0, 1.933], [1.933, 0], [0, -1.933]],
+                      "o": [[1.933, 0], [0, -1.933], [-1.933, 0], [0, 1.933]],
+                      "v": [[0, 3.5], [3.5, 0], [0, -3.5], [-3.5, 0]],
+                      "c": true
+                    },
+                    "ix": 2
+                  },
+                  "nm": "Path 1",
+                  "mn": "ADBE Vector Shape - Group",
+                  "hd": false
+                },
+                {
+                  "ty": "st",
+                  "c": {
+                    "a": 0,
+                    "k": [1, 1, 1, 1],
+                    "ix": 3
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 4
+                  },
+                  "w": {
+                    "a": 0,
+                    "k": 1.5,
+                    "ix": 5
+                  },
+                  "lc": 2,
+                  "lj": 2,
+                  "bm": 0,
+                  "nm": "Stroke 1",
+                  "mn": "ADBE Vector Graphic - Stroke",
+                  "hd": false
+                },
+                {
+                  "ty": "tr",
+                  "p": {
+                    "a": 1,
+                    "k": [
+                      {
+                        "i": {
+                          "x": 0.667,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.43,
+                          "y": 0
+                        },
+                        "t": 10,
+                        "s": [12.75, 18.25],
+                        "to": [-1.095, 0],
+                        "ti": [0, 0]
+                      },
+                      {
+                        "i": {
+                          "x": 0.833,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.167,
+                          "y": 0
+                        },
+                        "t": 21.206,
+                        "s": [6.181, 18.25],
+                        "to": [0, 0],
+                        "ti": [-1.095, 0]
+                      },
+                      {
+                        "t": 32.4137513202391,
+                        "s": [12.75, 18.25]
+                      }
+                    ],
+                    "ix": 2,
+                    "x": "var $bm_rt;\nvar amp, freq, decay, n, n, t, t, v;\ntry {\n    amp = $bm_div(effect('Elastic: Position - Transform 2')(1), 200);\n    freq = $bm_div(effect('Elastic: Position - Transform 2')(2), 30);\n    decay = $bm_div(effect('Elastic: Position - Transform 2')(3), 10);\n    $bm_rt = n = 0;\n    if (numKeys > 0) {\n        $bm_rt = n = nearestKey(time).index;\n        if (key(n).time > time) {\n            n--;\n        }\n    }\n    if (n == 0) {\n        $bm_rt = t = 0;\n    } else {\n        $bm_rt = t = $bm_sub(time, key(n).time);\n    }\n    if (n > 0) {\n        v = velocityAtTime($bm_sub(key(n).time, $bm_div(thisComp.frameDuration, 10)));\n        $bm_rt = $bm_sum(value, $bm_div($bm_mul($bm_mul(v, amp), Math.sin($bm_mul($bm_mul($bm_mul(freq, t), 2), Math.PI))), Math.exp($bm_mul(decay, t))));\n    } else {\n        $bm_rt = value;\n    }\n} catch (e$$4) {\n    $bm_rt = value = value;\n}"
+                  },
+                  "a": {
+                    "a": 0,
+                    "k": [0, 0],
+                    "ix": 1
+                  },
+                  "s": {
+                    "a": 0,
+                    "k": [100, 100],
+                    "ix": 3
+                  },
+                  "r": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 6
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 7
+                  },
+                  "sk": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 4
+                  },
+                  "sa": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 5
+                  },
+                  "nm": "Transform"
+                }
+              ],
+              "nm": "Group 1",
+              "np": 2,
+              "cix": 2,
+              "bm": 0,
+              "ix": 1,
+              "mn": "ADBE Vector Group",
+              "hd": false
+            },
+            {
+              "ty": "gr",
+              "it": [
+                {
+                  "ind": 0,
+                  "ty": "sh",
+                  "ix": 1,
+                  "ks": {
+                    "a": 1,
+                    "k": [
+                      {
+                        "i": {
+                          "x": 0.667,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.43,
+                          "y": 0
+                        },
+                        "t": 10,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[6.75, 18.25], [0.75, 18.25]],
+                            "c": false
+                          }
+                        ]
+                      },
+                      {
+                        "i": {
+                          "x": 0.833,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.167,
+                          "y": 0
+                        },
+                        "t": 21.206,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[2.599, 18.241], [0.75, 18.25]],
+                            "c": false
+                          }
+                        ]
+                      },
+                      {
+                        "t": 32.4137513202391,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[6.75, 18.25], [0.75, 18.25]],
+                            "c": false
+                          }
+                        ]
+                      }
+                    ],
+                    "ix": 2
+                  },
+                  "nm": "Path 1",
+                  "mn": "ADBE Vector Shape - Group",
+                  "hd": false
+                },
+                {
+                  "ty": "st",
+                  "c": {
+                    "a": 0,
+                    "k": [1, 1, 1, 1],
+                    "ix": 3
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 4
+                  },
+                  "w": {
+                    "a": 0,
+                    "k": 1.5,
+                    "ix": 5
+                  },
+                  "lc": 2,
+                  "lj": 2,
+                  "bm": 0,
+                  "nm": "Stroke 1",
+                  "mn": "ADBE Vector Graphic - Stroke",
+                  "hd": false
+                },
+                {
+                  "ty": "tr",
+                  "p": {
+                    "a": 0,
+                    "k": [0, 0],
+                    "ix": 2
+                  },
+                  "a": {
+                    "a": 0,
+                    "k": [0, 0],
+                    "ix": 1
+                  },
+                  "s": {
+                    "a": 0,
+                    "k": [100, 100],
+                    "ix": 3
+                  },
+                  "r": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 6
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 7
+                  },
+                  "sk": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 4
+                  },
+                  "sa": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 5
+                  },
+                  "nm": "Transform"
+                }
+              ],
+              "nm": "Group 2",
+              "np": 2,
+              "cix": 2,
+              "bm": 0,
+              "ix": 2,
+              "mn": "ADBE Vector Group",
+              "hd": false
+            },
+            {
+              "ty": "gr",
+              "it": [
+                {
+                  "ind": 0,
+                  "ty": "sh",
+                  "ix": 1,
+                  "ks": {
+                    "a": 1,
+                    "k": [
+                      {
+                        "i": {
+                          "x": 0.667,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.43,
+                          "y": 0
+                        },
+                        "t": 10,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[20.75, 18.25], [16.75, 18.25]],
+                            "c": false
+                          }
+                        ]
+                      },
+                      {
+                        "i": {
+                          "x": 0.833,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.167,
+                          "y": 0
+                        },
+                        "t": 21.206,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[20.75, 18.25], [9.953, 18.241]],
+                            "c": false
+                          }
+                        ]
+                      },
+                      {
+                        "t": 32.4137513202391,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[20.75, 18.25], [16.75, 18.25]],
+                            "c": false
+                          }
+                        ]
+                      }
+                    ],
+                    "ix": 2
+                  },
+                  "nm": "Path 1",
+                  "mn": "ADBE Vector Shape - Group",
+                  "hd": false
+                },
+                {
+                  "ty": "st",
+                  "c": {
+                    "a": 0,
+                    "k": [1, 1, 1, 1],
+                    "ix": 3
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 4
+                  },
+                  "w": {
+                    "a": 0,
+                    "k": 1.5,
+                    "ix": 5
+                  },
+                  "lc": 2,
+                  "lj": 2,
+                  "bm": 0,
+                  "nm": "Stroke 1",
+                  "mn": "ADBE Vector Graphic - Stroke",
+                  "hd": false
+                },
+                {
+                  "ty": "tr",
+                  "p": {
+                    "a": 0,
+                    "k": [0, 0],
+                    "ix": 2
+                  },
+                  "a": {
+                    "a": 0,
+                    "k": [0, 0],
+                    "ix": 1
+                  },
+                  "s": {
+                    "a": 0,
+                    "k": [100, 100],
+                    "ix": 3
+                  },
+                  "r": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 6
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 7
+                  },
+                  "sk": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 4
+                  },
+                  "sa": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 5
+                  },
+                  "nm": "Transform"
+                }
+              ],
+              "nm": "Group 3",
+              "np": 2,
+              "cix": 2,
+              "bm": 0,
+              "ix": 3,
+              "mn": "ADBE Vector Group",
+              "hd": false
+            },
+            {
+              "ty": "gr",
+              "it": [
+                {
+                  "ind": 0,
+                  "ty": "sh",
+                  "ix": 1,
+                  "ks": {
+                    "a": 0,
+                    "k": {
+                      "i": [[-1.933, 0], [0, 1.933], [1.933, 0], [0, -1.933]],
+                      "o": [[1.933, 0], [0, -1.933], [-1.933, 0], [0, 1.933]],
+                      "v": [[0, 3.5], [3.5, 0], [0, -3.5], [-3.5, 0]],
+                      "c": true
+                    },
+                    "ix": 2
+                  },
+                  "nm": "Path 1",
+                  "mn": "ADBE Vector Shape - Group",
+                  "hd": false
+                },
+                {
+                  "ty": "st",
+                  "c": {
+                    "a": 0,
+                    "k": [1, 1, 1, 1],
+                    "ix": 3
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 4
+                  },
+                  "w": {
+                    "a": 0,
+                    "k": 1.5,
+                    "ix": 5
+                  },
+                  "lc": 2,
+                  "lj": 2,
+                  "bm": 0,
+                  "nm": "Stroke 1",
+                  "mn": "ADBE Vector Graphic - Stroke",
+                  "hd": false
+                },
+                {
+                  "ty": "tr",
+                  "p": {
+                    "a": 1,
+                    "k": [
+                      {
+                        "i": {
+                          "x": 0.667,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.43,
+                          "y": 0
+                        },
+                        "t": 9,
+                        "s": [8.75, 7.25],
+                        "to": [1.179, 0],
+                        "ti": [0, 0]
+                      },
+                      {
+                        "i": {
+                          "x": 0.57,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.167,
+                          "y": 0
+                        },
+                        "t": 20.208,
+                        "s": [15.821, 7.25],
+                        "to": [0, 0],
+                        "ti": [1.179, 0]
+                      },
+                      {
+                        "t": 31.4137512795083,
+                        "s": [8.75, 7.25]
+                      }
+                    ],
+                    "ix": 2,
+                    "x": "var $bm_rt;\nvar amp, freq, decay, n, n, t, t, v;\ntry {\n    amp = $bm_div(effect('Elastic: Position - Transform')(1), 200);\n    freq = $bm_div(effect('Elastic: Position - Transform')(2), 30);\n    decay = $bm_div(effect('Elastic: Position - Transform')(3), 10);\n    $bm_rt = n = 0;\n    if (numKeys > 0) {\n        $bm_rt = n = nearestKey(time).index;\n        if (key(n).time > time) {\n            n--;\n        }\n    }\n    if (n == 0) {\n        $bm_rt = t = 0;\n    } else {\n        $bm_rt = t = $bm_sub(time, key(n).time);\n    }\n    if (n > 0) {\n        v = velocityAtTime($bm_sub(key(n).time, $bm_div(thisComp.frameDuration, 10)));\n        $bm_rt = $bm_sum(value, $bm_div($bm_mul($bm_mul(v, amp), Math.sin($bm_mul($bm_mul($bm_mul(freq, t), 2), Math.PI))), Math.exp($bm_mul(decay, t))));\n    } else {\n        $bm_rt = value;\n    }\n} catch (e$$4) {\n    $bm_rt = value = value;\n}"
+                  },
+                  "a": {
+                    "a": 0,
+                    "k": [0, 0],
+                    "ix": 1
+                  },
+                  "s": {
+                    "a": 0,
+                    "k": [100, 100],
+                    "ix": 3
+                  },
+                  "r": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 6
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 7
+                  },
+                  "sk": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 4
+                  },
+                  "sa": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 5
+                  },
+                  "nm": "Transform"
+                }
+              ],
+              "nm": "Group 4",
+              "np": 2,
+              "cix": 2,
+              "bm": 0,
+              "ix": 4,
+              "mn": "ADBE Vector Group",
+              "hd": false
+            },
+            {
+              "ty": "gr",
+              "it": [
+                {
+                  "ind": 0,
+                  "ty": "sh",
+                  "ix": 1,
+                  "ks": {
+                    "a": 1,
+                    "k": [
+                      {
+                        "i": {
+                          "x": 0.667,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.43,
+                          "y": 0
+                        },
+                        "t": 9,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[4.75, 7.25], [0.75, 7.25]],
+                            "c": false
+                          }
+                        ]
+                      },
+                      {
+                        "i": {
+                          "x": 0.57,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.167,
+                          "y": 0
+                        },
+                        "t": 20.208,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[12.277, 7.235], [0.75, 7.25]],
+                            "c": false
+                          }
+                        ]
+                      },
+                      {
+                        "t": 31.4137512795083,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[4.75, 7.25], [0.75, 7.25]],
+                            "c": false
+                          }
+                        ]
+                      }
+                    ],
+                    "ix": 2
+                  },
+                  "nm": "Path 1",
+                  "mn": "ADBE Vector Shape - Group",
+                  "hd": false
+                },
+                {
+                  "ty": "st",
+                  "c": {
+                    "a": 0,
+                    "k": [1, 1, 1, 1],
+                    "ix": 3
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 4
+                  },
+                  "w": {
+                    "a": 0,
+                    "k": 1.5,
+                    "ix": 5
+                  },
+                  "lc": 2,
+                  "lj": 2,
+                  "bm": 0,
+                  "nm": "Stroke 1",
+                  "mn": "ADBE Vector Graphic - Stroke",
+                  "hd": false
+                },
+                {
+                  "ty": "tr",
+                  "p": {
+                    "a": 0,
+                    "k": [0, 0],
+                    "ix": 2
+                  },
+                  "a": {
+                    "a": 0,
+                    "k": [0, 0],
+                    "ix": 1
+                  },
+                  "s": {
+                    "a": 0,
+                    "k": [100, 100],
+                    "ix": 3
+                  },
+                  "r": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 6
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 7
+                  },
+                  "sk": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 4
+                  },
+                  "sa": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 5
+                  },
+                  "nm": "Transform"
+                }
+              ],
+              "nm": "Group 5",
+              "np": 2,
+              "cix": 2,
+              "bm": 0,
+              "ix": 5,
+              "mn": "ADBE Vector Group",
+              "hd": false
+            },
+            {
+              "ty": "gr",
+              "it": [
+                {
+                  "ind": 0,
+                  "ty": "sh",
+                  "ix": 1,
+                  "ks": {
+                    "a": 1,
+                    "k": [
+                      {
+                        "i": {
+                          "x": 0.667,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.43,
+                          "y": 0
+                        },
+                        "t": 9,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[20.75, 7.25], [14.75, 7.25]],
+                            "c": false
+                          }
+                        ]
+                      },
+                      {
+                        "i": {
+                          "x": 0.57,
+                          "y": 1
+                        },
+                        "o": {
+                          "x": 0.167,
+                          "y": 0
+                        },
+                        "t": 20.208,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[20.75, 7.25], [19.403, 7.235]],
+                            "c": false
+                          }
+                        ]
+                      },
+                      {
+                        "t": 31.4137512795083,
+                        "s": [
+                          {
+                            "i": [[0, 0], [0, 0]],
+                            "o": [[0, 0], [0, 0]],
+                            "v": [[20.75, 7.25], [14.75, 7.25]],
+                            "c": false
+                          }
+                        ]
+                      }
+                    ],
+                    "ix": 2
+                  },
+                  "nm": "Path 1",
+                  "mn": "ADBE Vector Shape - Group",
+                  "hd": false
+                },
+                {
+                  "ty": "st",
+                  "c": {
+                    "a": 0,
+                    "k": [1, 1, 1, 1],
+                    "ix": 3
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 4
+                  },
+                  "w": {
+                    "a": 0,
+                    "k": 1.5,
+                    "ix": 5
+                  },
+                  "lc": 2,
+                  "lj": 2,
+                  "bm": 0,
+                  "nm": "Stroke 1",
+                  "mn": "ADBE Vector Graphic - Stroke",
+                  "hd": false
+                },
+                {
+                  "ty": "tr",
+                  "p": {
+                    "a": 0,
+                    "k": [0, 0],
+                    "ix": 2
+                  },
+                  "a": {
+                    "a": 0,
+                    "k": [0, 0],
+                    "ix": 1
+                  },
+                  "s": {
+                    "a": 0,
+                    "k": [100, 100],
+                    "ix": 3
+                  },
+                  "r": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 6
+                  },
+                  "o": {
+                    "a": 0,
+                    "k": 100,
+                    "ix": 7
+                  },
+                  "sk": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 4
+                  },
+                  "sa": {
+                    "a": 0,
+                    "k": 0,
+                    "ix": 5
+                  },
+                  "nm": "Transform"
+                }
+              ],
+              "nm": "Group 6",
+              "np": 2,
+              "cix": 2,
+              "bm": 0,
+              "ix": 6,
+              "mn": "ADBE Vector Group",
+              "hd": false
+            },
+            {
+              "ty": "tr",
+              "p": {
+                "a": 1,
+                "k": [
+                  {
+                    "i": {
+                      "x": 0.57,
+                      "y": 1
+                    },
+                    "o": {
+                      "x": 0.43,
+                      "y": 0
+                    },
+                    "t": 6,
+                    "s": [10.75, 12.75],
+                    "to": [0.531, 0],
+                    "ti": [0, 0]
+                  },
+                  {
+                    "i": {
+                      "x": 0.833,
+                      "y": 0.833
+                    },
+                    "o": {
+                      "x": 0.43,
+                      "y": 0
+                    },
+                    "t": 14.25,
+                    "s": [13.938, 12.75],
+                    "to": [0, 0],
+                    "ti": [0.531, 0]
+                  },
+                  {
+                    "t": 21.0000008553475,
+                    "s": [10.75, 12.75]
+                  }
+                ],
+                "ix": 2,
+                "x": "var $bm_rt;\nvar amp, freq, decay, n, n, t, t, v;\ntry {\n    amp = $bm_div(effect('Elastic: Position - Transform 3')(1), 200);\n    freq = $bm_div(effect('Elastic: Position - Transform 3')(2), 30);\n    decay = $bm_div(effect('Elastic: Position - Transform 3')(3), 10);\n    $bm_rt = n = 0;\n    if (numKeys > 0) {\n        $bm_rt = n = nearestKey(time).index;\n        if (key(n).time > time) {\n            n--;\n        }\n    }\n    if (n == 0) {\n        $bm_rt = t = 0;\n    } else {\n        $bm_rt = t = $bm_sub(time, key(n).time);\n    }\n    if (n > 0) {\n        v = velocityAtTime($bm_sub(key(n).time, $bm_div(thisComp.frameDuration, 10)));\n        $bm_rt = $bm_sum(value, $bm_div($bm_mul($bm_mul(v, amp), Math.sin($bm_mul($bm_mul($bm_mul(freq, t), 2), Math.PI))), Math.exp($bm_mul(decay, t))));\n    } else {\n        $bm_rt = value;\n    }\n} catch (e$$4) {\n    $bm_rt = value = value;\n}"
+              },
+              "a": {
+                "a": 0,
+                "k": [10.75, 12.75],
+                "ix": 1
+              },
+              "s": {
+                "a": 0,
+                "k": [100, 100],
+                "ix": 3
+              },
+              "r": {
+                "a": 0,
+                "k": 0,
+                "ix": 6
+              },
+              "o": {
+                "a": 0,
+                "k": 100,
+                "ix": 7
+              },
+              "sk": {
+                "a": 0,
+                "k": 0,
+                "ix": 4
+              },
+              "sa": {
+                "a": 0,
+                "k": 0,
+                "ix": 5
+              },
+              "nm": "Transform"
+            }
+          ],
+          "nm": "Group 8",
+          "np": 6,
+          "cix": 2,
+          "bm": 0,
+          "ix": 1,
+          "mn": "ADBE Vector Group",
+          "hd": false
+        }
+      ],
+      "ip": 0,
+      "op": 60.0000024438501,
+      "st": 0,
+      "bm": 0
+    }
+  ],
+  "markers": []
+}
