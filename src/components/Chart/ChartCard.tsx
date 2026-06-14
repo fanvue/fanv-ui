@@ -102,14 +102,14 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                 )}
               </div>
               {subtitle && (
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="typography-header-heading-sm text-content-primary">
                     {subtitle}
                   </span>
                   {trendChip && (
                     <span
                       className={cn(
-                        "typography-description-12px-semibold rounded-full px-2 py-0.5",
+                        "typography-description-12px-semibold whitespace-nowrap rounded-full px-2 py-0.5",
                         TREND_CLASSES[trendChip.trend],
                       )}
                     >

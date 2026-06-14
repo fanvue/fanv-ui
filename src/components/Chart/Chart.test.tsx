@@ -250,6 +250,22 @@ describe("Chart", () => {
     });
   });
 
+  describe("ChartCard", () => {
+    it("renders trendChip label in full without truncation", () => {
+      render(
+        <ChartCard
+          title="This month"
+          subtitle="$2,358.99"
+          trendChip={{ label: "$455.68 vs Mar", trend: "positive" }}
+          dateInfo="April 2026"
+        >
+          <div>chart</div>
+        </ChartCard>,
+      );
+      expect(screen.getByText("$455.68 vs Mar")).toBeInTheDocument();
+    });
+  });
+
   describe("accessibility", () => {
     it("ChartContainer has no accessibility violations", async () => {
       const { container } = render(
