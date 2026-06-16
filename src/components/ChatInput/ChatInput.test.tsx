@@ -314,6 +314,31 @@ describe("ChatInput", () => {
       expect(screen.getByRole("option", { name: "Example" })).toBeInTheDocument();
     });
 
+    it("renders option descriptions in the dropdown", async () => {
+      const user = userEvent.setup();
+      render(
+        <ChatInput
+          placeholder="Test"
+          selectOptions={[
+            {
+              value: "opus",
+              label: "Opus 4.8",
+              description: "Most capable for ambitious work",
+            },
+            {
+              value: "sonnet",
+              label: "Sonnet 4.6",
+              description: "Most efficient for everyday tasks",
+            },
+          ]}
+          selectValue="opus"
+        />,
+      );
+      await user.click(screen.getByRole("combobox", { name: "Select model" }));
+      expect(screen.getByText("Most capable for ambitious work")).toBeInTheDocument();
+      expect(screen.getByText("Most efficient for everyday tasks")).toBeInTheDocument();
+    });
+
     it("applies the hover background to the select trigger while open", async () => {
       const user = userEvent.setup();
       render(

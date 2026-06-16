@@ -23,6 +23,8 @@ export interface ChatInputSelectOption {
   value: string;
   /** Display label. */
   label: string;
+  /** Optional secondary text shown below the label in the dropdown menu. */
+  description?: string;
   /** Optional icon rendered to the left of the label. */
   icon?: React.ReactNode;
 }
@@ -249,7 +251,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
 
     React.useEffect(() => {
       adjustHeight();
-    }, [resolvedValue, adjustHeight]);
+    }, [adjustHeight]);
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       if (!isControlled) {
@@ -360,7 +362,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
                 aria-label={fileButtonAriaLabel}
                 onClick={onFileClick}
                 disabled={disabled}
-                className="sm:border sm:border-border-primary max-sm:-ml-2"
+                className="max-sm:-ml-2 sm:border sm:border-border-primary"
               />
             )}
           </div>
@@ -374,7 +376,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
               aria-label={submitAriaLabel}
               onClick={handleSubmit}
               disabled={!canSubmit}
-              className="disabled:bg-surface-secondary disabled:opacity-100 disabled:text-icons-primary"
+              className="disabled:bg-surface-secondary disabled:text-icons-primary disabled:opacity-100"
             />
           </div>
         </div>
@@ -479,7 +481,14 @@ function InlineSelect({ options, value, onChange, disabled, selectedOption }: In
               {option.icon && (
                 <span className="flex shrink-0 items-center [&>svg]:size-4">{option.icon}</span>
               )}
-              <span className="min-w-0 flex-1 truncate">{option.label}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate">{option.label}</span>
+                {option.description && (
+                  <span className="typography-description-12px-regular block truncate text-content-secondary">
+                    {option.description}
+                  </span>
+                )}
+              </span>
               {option.value === value && (
                 <span className="ml-auto flex size-4 shrink-0 items-center justify-center">
                   <CheckIcon className="size-4 text-content-primary" aria-hidden="true" />

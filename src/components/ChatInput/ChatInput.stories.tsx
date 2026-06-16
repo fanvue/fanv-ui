@@ -8,9 +8,15 @@ const SELECT_OPTIONS = [
   {
     value: "fanvue-ai",
     label: "Fanvue AI",
+    description: "Most capable for ambitious work",
     icon: <AIIcon className="size-4" />,
   },
-  { value: "example", label: "Example", icon: <BulbIcon className="size-4" /> },
+  {
+    value: "example",
+    label: "Example",
+    description: "Fastest for quick answers",
+    icon: <BulbIcon className="size-4" />,
+  },
 ];
 
 const meta = {
