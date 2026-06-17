@@ -153,7 +153,7 @@
     "svgo": "4.0.1",
     "tailwindcss": "4.1.18",
     "typescript": "5.9.3",
-    "vite": "7.3.2",
+    "vite": "7.3.5",
     "vite-plugin-dts": "4.5.4",
     "vitest": "4.1.8",
     "vitest-axe": "1.0.0-pre.3"
@@ -167,9 +167,12 @@
       "brace-expansion": ">=5.0.5",
       "yaml": ">=2.8.3",
       "postcss": ">=8.5.10",
-      "tmp": ">=0.2.6",
+      "tmp": ">=0.2.7",
       "ws": ">=8.20.1",
-      "qs": ">=6.15.2"
+      "qs": ">=6.15.2",
+      "esbuild": ">=0.28.1",
+      "js-yaml": ">=4.2.0",
+      "@babel/core": ">=7.29.6"
     }
   },
   "size-limit": [
