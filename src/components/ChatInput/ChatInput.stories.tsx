@@ -7,13 +7,16 @@ import { ChatInput } from "./ChatInput";
 const SELECT_OPTIONS = [
   {
     value: "fanvue-ai",
+    // Short label on the collapsed trigger; longer title inside the menu/sheet.
     label: "Fanvue AI",
+    menuLabel: "Fanvue AI",
     description: "Most capable for ambitious work",
     icon: <AIIcon className="size-4" />,
   },
   {
     value: "example",
     label: "Example",
+    menuLabel: "Example model",
     description: "Fastest for quick answers",
     icon: <BulbIcon className="size-4" />,
   },
@@ -93,6 +96,33 @@ export const WithModelSelector: Story = {
         selectOptions={SELECT_OPTIONS}
         selectValue={model}
         onSelectChange={setModel}
+        selectMenuTitle="Switch AI Model"
+      />
+    );
+  },
+};
+
+/**
+ * With `selectVariant="sheet"` the selector opens as a bottom sheet (Drawer
+ * `sheet` variant) titled by `selectMenuTitle`, instead of the dropdown. The
+ * consumer chooses the variant from its own breakpoint, e.g.
+ * `selectVariant={isDesktop ? "menu" : "sheet"}`.
+ */
+export const WithModelSelectorSheet: Story = {
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+  },
+  render: () => {
+    const [model, setModel] = useState("fanvue-ai");
+
+    return (
+      <ChatInput
+        placeholder="Type a message..."
+        selectOptions={SELECT_OPTIONS}
+        selectValue={model}
+        onSelectChange={setModel}
+        selectVariant="sheet"
+        selectMenuTitle="Switch AI Model"
       />
     );
   },

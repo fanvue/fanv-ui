@@ -520,6 +520,24 @@ describe("DropdownMenuItem", () => {
       expect(screen.getByTestId("trail")).toBeInTheDocument();
     });
 
+    it("renders a two-line layout with top-aligned icons when description is set", () => {
+      renderMenu(
+        <DropdownMenuItem description="Fast and versatile" data-testid="item">
+          Claude Sonnet 4.6
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByTestId("item");
+      expect(item).toHaveClass("items-start");
+      expect(item).not.toHaveClass("items-center");
+      expect(screen.getByText("Claude Sonnet 4.6")).toBeInTheDocument();
+      expect(screen.getByText("Fast and versatile")).toBeInTheDocument();
+    });
+
+    it("keeps the single-line layout when no description is set", () => {
+      renderMenu(<DropdownMenuItem data-testid="item">Claude Sonnet 4.6</DropdownMenuItem>);
+      expect(screen.getByTestId("item")).toHaveClass("items-center");
+    });
+
     it("fires onSelect on click", async () => {
       const user = userEvent.setup();
       const onSelect = vi.fn();
