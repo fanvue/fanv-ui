@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.6.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.5.0...ui-v3.6.0) (2026-06-22)
+
+
+### Features
+
+* **ChatInput:** add optional description to select options ([#519](https://github.com/fanvue/fanv-ui/issues/519)) ([1e978e2](https://github.com/fanvue/fanv-ui/commit/1e978e2d2f44e9c206255e1655dd5503fd0af234))
+* **Logo:** add agencies sub-brand variant ([#522](https://github.com/fanvue/fanv-ui/issues/522)) ([ec992a4](https://github.com/fanvue/fanv-ui/commit/ec992a4e6db7136ba2743076c24c563aee6458bf))
+
+
+### Bug Fixes
+
+* **ci:** mint release-please token from GitHub App ([#521](https://github.com/fanvue/fanv-ui/issues/521)) ([6a24e08](https://github.com/fanvue/fanv-ui/commit/6a24e0822d90cfbe04b5651ff6f831f82ecdbb4a))
+* **ci:** use RELEASE_PLEASE_PRIVATE_KEY token for release auth ([#523](https://github.com/fanvue/fanv-ui/issues/523)) ([19066b8](https://github.com/fanvue/fanv-ui/commit/19066b88d94ca4526988e50555e3aae3b64018f4))
+* **deps:** resolve 6 pnpm audit vulnerabilities ([#520](https://github.com/fanvue/fanv-ui/issues/520)) ([35432f6](https://github.com/fanvue/fanv-ui/commit/35432f6264edc6adac50feea8f118fc0e579b9ef))
+
 ## [3.5.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.4.0...ui-v3.5.0) (2026-06-12)
 
 
