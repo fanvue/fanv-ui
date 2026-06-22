@@ -27,18 +27,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Generate GitHub App token
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.FANVUE_ENGINEERING_GITHUB_APP_ID }}
-          private-key: ${{ secrets.FANVUE_ENGINEERING_GITHUB_APP_PRIVATE_KEY }}
-
       - name: Create Release PR or Publish
         id: release
         uses: googleapis/release-please-action@v4
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ secrets.RELEASE_PLEASE_PRIVATE_KEY }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
