@@ -21,6 +21,10 @@ const meta = {
       control: "select",
       options: ["fullColour", "decolour", "whiteAlways", "blackAlways"],
     },
+    version: {
+      control: "select",
+      options: ["default", "agencies"],
+    },
     size: {
       control: "select",
       options: ["16", "20", "24", "32", "40", "48", "64"],
@@ -151,6 +155,49 @@ export const PortraitWhiteAlways: Story = {
 export const PortraitBlackAlways: Story = {
   args: {
     variant: "portrait",
+    color: "blackAlways",
+  },
+};
+
+export const Agencies: Story = {
+  args: {
+    variant: "full",
+    version: "agencies",
+    color: "fullColour",
+  },
+};
+
+export const AgenciesIcon: Story = {
+  args: {
+    variant: "icon",
+    version: "agencies",
+    color: "fullColour",
+  },
+};
+
+export const AgenciesDecolour: Story = {
+  args: {
+    variant: "full",
+    version: "agencies",
+    color: "decolour",
+  },
+};
+
+export const AgenciesWhiteAlways: Story = {
+  args: {
+    variant: "full",
+    version: "agencies",
+    color: "whiteAlways",
+  },
+  parameters: {
+    backgrounds: { default: "dark" },
+  },
+};
+
+export const AgenciesBlackAlways: Story = {
+  args: {
+    variant: "full",
+    version: "agencies",
     color: "blackAlways",
   },
 };

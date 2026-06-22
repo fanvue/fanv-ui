@@ -71,6 +71,46 @@ describe("Logo", () => {
       expect(icon).toHaveClass("h-10");
     });
 
+    it("renders agencies version with icon, wordmark and AGENCIES label", () => {
+      const { container } = render(<Logo version="agencies" />);
+      const logo = container.querySelector('[data-testid="logo"]');
+      const icon = logo?.querySelector('[data-testid="logo-icon"]');
+      const wordmark = logo?.querySelector('[data-testid="logo-wordmark"]');
+
+      expect(icon).toBeInTheDocument();
+      expect(wordmark).toBeInTheDocument();
+      expect(logo).toHaveTextContent("AGENCIES");
+    });
+
+    it("renders agencies icon-only with no wordmark or label", () => {
+      const { container } = render(<Logo variant="icon" version="agencies" />);
+      const logo = container.querySelector('[data-testid="logo"]');
+      expect(logo?.querySelector('[data-testid="logo-icon"]')).toBeInTheDocument();
+      expect(logo?.querySelector('[data-testid="logo-wordmark"]')).not.toBeInTheDocument();
+      expect(logo).not.toHaveTextContent("AGENCIES");
+    });
+
+    it("uses the flat monochrome icon for agencies decolour", () => {
+      const { container } = render(<Logo version="agencies" color="decolour" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]');
+      expect(icon?.tagName.toLowerCase()).toBe("svg");
+      expect(icon?.querySelector("path")?.getAttribute("class")).toContain("fill-[#151515]");
+    });
+
+    it("namespaces glossy icon ids so two logos on a page don't collide", () => {
+      const { container } = render(
+        <>
+          <Logo version="agencies" />
+          <Logo version="agencies" />
+        </>,
+      );
+      const ids = Array.from(container.querySelectorAll('[data-testid="logo-icon"]')).map(
+        (icon) => icon.querySelector("linearGradient")?.id,
+      );
+      expect(ids[0]).toBeTruthy();
+      expect(ids[0]).not.toBe(ids[1]);
+    });
+
     it("renders portrait type with both icon and wordmark in column", () => {
       const { container } = render(<Logo variant="portrait" />);
       const logo = container.querySelector('[data-testid="logo"]');
@@ -116,6 +156,12 @@ describe("Logo", () => {
 
     it("has no accessibility violations with icon-only variant and aria-label", async () => {
       const { container } = render(<Logo variant="icon" aria-label="Fanvue home" />);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations for agencies version", async () => {
+      const { container } = render(<Logo version="agencies" />);
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
