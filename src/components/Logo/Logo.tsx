@@ -1,12 +1,13 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { AGENCIES_ICON_SVG } from "./agenciesIcon";
 
 const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
   if (color === "fullColour") {
     return {
       icon: "var(--color-brand-primary-default)",
       iconInner: "var(--primitives-color-gray-black)",
-      textClass: "", // Uses parent's text-content-primary
+      textClass: "",
     };
   }
 
@@ -14,7 +15,7 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
     return {
       iconClass: "fill-[#151515] dark:fill-[#ffffff]",
       iconInnerClass: "fill-[#ffffff] dark:fill-[#151515]",
-      textClass: "", // Uses parent's text-content-primary
+      textClass: "",
     };
   }
 
@@ -46,7 +47,7 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
   return {
     icon: "var(--color-brand-primary-default)",
     iconInner: "var(--primitives-color-gray-black)",
-    textClass: "", // Default to adaptive color
+    textClass: "",
   };
 };
 
@@ -54,6 +55,8 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
 export type LogoVariant = "full" | "icon" | "wordmark" | "portrait";
 /** Colour scheme of the logo. */
 export type LogoColor = "fullColour" | "decolour" | "whiteAlways" | "blackAlways";
+/** Sub-brand version of the logo. */
+export type LogoVersion = "default" | "agencies";
 /** Height of the logo in pixels. Both icon and wordmark scale proportionally. */
 export type LogoSize = "16" | "20" | "24" | "32" | "40" | "48" | "64";
 
@@ -72,16 +75,84 @@ export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: LogoVariant;
   /** Colour scheme of the logo. @default "fullColour" */
   color?: LogoColor;
+  /** Sub-brand version of the logo. @default "default" */
+  version?: LogoVersion;
   /** Height of the logo in pixels. @default "32" (or "40" when `variant="icon"`) */
   size?: LogoSize;
   /**
-   * Accessible label for the logo. Required when `type` is `"icon"` and
+   * Accessible label for the logo. Required when `variant` is `"icon"` and
    * the logo is used inside interactive contexts (links, buttons).
    *
    * @example "Fanvue home"
    */
   "aria-label"?: string;
 }
+
+const ICON_BG_PATH =
+  "M0 11.2339C0 5.02957 5.02957 0 11.2339 0H27.7661C33.9704 0 39 5.02957 39 11.2339V27.7661C39 33.9704 33.9704 39 27.7661 39H11.2339C5.02957 39 0 33.9704 0 27.7661V11.2339Z";
+const ICON_F_PATH =
+  "M12.277 30.5825C11.4418 30.5825 11.0355 29.8659 11.2059 29.1153C11.4275 28.0916 12.5838 25.0548 11.7145 23.6899C10.4361 21.6938 7.25562 21.9838 6.5397 20.9602C6.02371 20.2089 6.48355 19.478 7.19738 19.0493C8.79967 18.0257 11.902 18.3157 14.9191 16.3025C16.5895 15.2106 18.1237 12.9927 18.993 11.662C20.2203 9.78527 20.7487 9.39287 23.3226 9.39287H32.3376C33.7574 9.39287 34.202 11.8036 31.8852 12.0686C31.2886 12.1368 29.6977 12.3757 27.4306 12.6487C25.2658 12.9216 20.4589 13.5728 22.351 16.6608C23.7658 18.2816 26.7488 18.0769 27.4306 19.0493C27.9238 19.7225 27.4875 20.4384 26.9505 20.7824C25.3311 21.8061 21.8737 21.6938 18.8566 23.6899C16.8111 25.0548 15.1478 28.0916 14.4659 29.1153C13.9716 29.8659 13.1293 30.5825 12.294 30.5825H12.277Z";
+
+/** The flat brand icon (rounded square + "F" knockout), coloured per scheme. */
+const FlatIconSVG = ({
+  className,
+  color,
+  variant,
+}: {
+  className?: string;
+  color: LogoColor;
+  variant: LogoVariant;
+}) => {
+  const colors = getLogoColors(color, variant);
+  return (
+    <svg
+      viewBox="0 0 39 39"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+      data-testid="logo-icon"
+    >
+      <path
+        d={ICON_BG_PATH}
+        {...(color === "decolour" ? { className: colors.iconClass } : { fill: colors.icon })}
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d={ICON_F_PATH}
+        {...(color === "decolour"
+          ? { className: colors.iconInnerClass }
+          : { fill: colors.iconInner })}
+      />
+    </svg>
+  );
+};
+
+/**
+ * The glossy "Fanvue Agencies" gradient icon. Injected as markup so its gradients and
+ * blend-mode gloss render intact; `isolate` keeps the blend from reaching the page, and
+ * ids are namespaced per instance so multiple logos on a page don't collide.
+ */
+const AgenciesIconSVG = ({ className }: { className?: string }) => {
+  const ns = React.useId().replace(/:/g, "");
+  const html = React.useMemo(
+    () =>
+      AGENCIES_ICON_SVG.replace(/id="([a-z]+)"/g, `id="$1${ns}"`)
+        .replace(/url\(#([a-z]+)\)/g, `url(#$1${ns})`)
+        .replace(/href="#([a-z]+)"/g, `href="#$1${ns}"`),
+    [ns],
+  );
+  return (
+    <span
+      className={cn("inline-block aspect-square isolate", className)}
+      aria-hidden="true"
+      data-testid="logo-icon"
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: static asset, ids namespaced per instance
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+};
 
 const WordmarkSVG = ({ className }: { className?: string }) => {
   return (
@@ -102,23 +173,31 @@ const WordmarkSVG = ({ className }: { className?: string }) => {
 };
 
 /**
- * The Fanvue brand logo. Supports full (icon + wordmark), icon-only, wordmark-only,
- * and portrait (stacked) layouts with multiple colour schemes.
+ * The Fanvue brand logo. Supports full (icon + wordmark), icon-only, wordmark-only, and
+ * portrait (stacked) layouts with multiple colour schemes. `version="agencies"` renders the
+ * sub-brand lockup: a glossy purple icon and an "AGENCIES" label beneath the wordmark.
  *
  * @example
  * ```tsx
- * <Logo type="full" color="fullColour" />
+ * <Logo variant="full" color="fullColour" />
+ * <Logo variant="full" version="agencies" />
  * ```
  */
 export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
-  ({ className, variant = "full", color = "fullColour", size, ...props }, ref) => {
+  (
+    { className, variant = "full", color = "fullColour", version = "default", size, ...props },
+    ref,
+  ) => {
     const colors = getLogoColors(color, variant);
+    const isAgencies = version === "agencies";
     const showIcon = variant === "full" || variant === "icon" || variant === "portrait";
     const showWordmark = variant === "full" || variant === "wordmark" || variant === "portrait";
-    const sizeClass = sizeClasses[size ?? (variant === "icon" ? "40" : "32")];
+    const resolvedSize = size ?? (variant === "icon" ? "40" : "32");
+    const sizeClass = sizeClasses[resolvedSize];
 
-    // When aria-label is provided, add role="img" for proper accessibility
     const ariaProps = props["aria-label"] ? { role: "img" as const } : {};
+    // The glossy icon only has a purple treatment; decolour falls back to the flat mono icon.
+    const useGlossyIcon = isAgencies && color !== "decolour";
 
     return (
       <div
@@ -133,30 +212,41 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
         {...ariaProps}
         {...props}
       >
-        {showIcon && (
-          <svg
-            viewBox="0 0 39 39"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className={cn("w-auto shrink-0", sizeClass)}
-            aria-hidden="true"
-            data-testid="logo-icon"
-          >
-            <path
-              d="M0 11.2339C0 5.02957 5.02957 0 11.2339 0H27.7661C33.9704 0 39 5.02957 39 11.2339V27.7661C39 33.9704 33.9704 39 27.7661 39H11.2339C5.02957 39 0 33.9704 0 27.7661V11.2339Z"
-              {...(color === "decolour" ? { className: colors.iconClass } : { fill: colors.icon })}
+        {showIcon &&
+          (useGlossyIcon ? (
+            <AgenciesIconSVG className={cn("w-auto shrink-0", sizeClass)} />
+          ) : (
+            <FlatIconSVG
+              className={cn("w-auto shrink-0", sizeClass)}
+              color={color}
+              variant={variant}
             />
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M12.277 30.5825C11.4418 30.5825 11.0355 29.8659 11.2059 29.1153C11.4275 28.0916 12.5838 25.0548 11.7145 23.6899C10.4361 21.6938 7.25562 21.9838 6.5397 20.9602C6.02371 20.2089 6.48355 19.478 7.19738 19.0493C8.79967 18.0257 11.902 18.3157 14.9191 16.3025C16.5895 15.2106 18.1237 12.9927 18.993 11.662C20.2203 9.78527 20.7487 9.39287 23.3226 9.39287H32.3376C33.7574 9.39287 34.202 11.8036 31.8852 12.0686C31.2886 12.1368 29.6977 12.3757 27.4306 12.6487C25.2658 12.9216 20.4589 13.5728 22.351 16.6608C23.7658 18.2816 26.7488 18.0769 27.4306 19.0493C27.9238 19.7225 27.4875 20.4384 26.9505 20.7824C25.3311 21.8061 21.8737 21.6938 18.8566 23.6899C16.8111 25.0548 15.1478 28.0916 14.4659 29.1153C13.9716 29.8659 13.1293 30.5825 12.294 30.5825H12.277Z"
-              {...(color === "decolour"
-                ? { className: colors.iconInnerClass }
-                : { fill: colors.iconInner })}
-            />
-          </svg>
-        )}
-        {showWordmark && <WordmarkSVG className={cn("w-auto", sizeClass, colors.textClass)} />}
+          ))}
+        {showWordmark &&
+          (isAgencies ? (
+            // Sizing the column's font-size to the icon height lets the AGENCIES label
+            // size in `em`, so it scales with `size` alongside the wordmark.
+            <div
+              className="inline-flex flex-col items-end justify-center"
+              style={{ fontSize: `${resolvedSize}px` }}
+            >
+              <WordmarkSVG className={cn("w-auto", sizeClass, colors.textClass)} />
+              <span
+                className="font-bold uppercase leading-none"
+                style={{
+                  color:
+                    color === "decolour" ? "currentColor" : "var(--primitives-color-purple-300)",
+                  fontSize: "0.25em",
+                  letterSpacing: "0.05em",
+                  marginTop: "0.06em",
+                }}
+              >
+                AGENCIES
+              </span>
+            </div>
+          ) : (
+            <WordmarkSVG className={cn("w-auto", sizeClass, colors.textClass)} />
+          ))}
       </div>
     );
   },
