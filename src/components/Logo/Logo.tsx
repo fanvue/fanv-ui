@@ -173,6 +173,42 @@ const WordmarkSVG = ({ className }: { className?: string }) => {
 };
 
 /**
+ * The "Fanvue Agencies" lockup: the wordmark with a right-aligned AGENCIES sub-label.
+ * Anchoring the column's font-size to the icon height (1em) sizes the wordmark (0.75em)
+ * and label (0.25em) in `em`, so both scale with `size`. `padTop` adds the 0.125em that
+ * centres the 0.75em wordmark against the full-height icon in the horizontal lockup.
+ */
+const AgenciesWordmark = ({
+  size,
+  color,
+  textClass,
+  padTop,
+}: {
+  size: LogoSize;
+  color: LogoColor;
+  textClass: string;
+  padTop: boolean;
+}) => (
+  <div
+    className={cn("inline-flex flex-col items-end", padTop && "pt-[0.125em]")}
+    style={{ fontSize: `${size}px` }}
+  >
+    <WordmarkSVG className={cn("h-[0.75em] w-auto", textClass)} />
+    <span
+      className="font-bold uppercase leading-none"
+      style={{
+        color: color === "decolour" ? "currentColor" : "var(--primitives-color-purple-300)",
+        fontSize: "0.25em",
+        letterSpacing: "0.05em",
+        marginTop: "0.06em",
+      }}
+    >
+      AGENCIES
+    </span>
+  </div>
+);
+
+/**
  * The Fanvue brand logo. Supports full (icon + wordmark), icon-only, wordmark-only, and
  * portrait (stacked) layouts with multiple colour schemes. `version="agencies"` renders the
  * sub-brand lockup: a glossy purple icon and an "AGENCIES" label beneath the wordmark.
@@ -190,6 +226,7 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
   ) => {
     const colors = getLogoColors(color, variant);
     const isAgencies = version === "agencies";
+    const isAgenciesFull = isAgencies && variant === "full";
     const showIcon = variant === "full" || variant === "icon" || variant === "portrait";
     const showWordmark = variant === "full" || variant === "wordmark" || variant === "portrait";
     const resolvedSize = size ?? (variant === "icon" ? "40" : "32");
@@ -204,7 +241,10 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
         ref={ref}
         data-testid="logo"
         className={cn(
-          "inline-flex items-center text-content-primary",
+          "inline-flex text-content-primary",
+          // Agencies full lockup aligns the icon and wordmark by their centres while the
+          // AGENCIES label hangs below; every other case centres the row.
+          isAgenciesFull ? "items-start" : "items-center",
           variant === "portrait" ? "flex-col gap-2" : "flex-row",
           variant === "full" && "gap-2",
           className,
@@ -224,26 +264,12 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
           ))}
         {showWordmark &&
           (isAgencies ? (
-            // Sizing the column's font-size to the icon height lets the AGENCIES label
-            // size in `em`, so it scales with `size` alongside the wordmark.
-            <div
-              className="inline-flex flex-col items-end justify-center"
-              style={{ fontSize: `${resolvedSize}px` }}
-            >
-              <WordmarkSVG className={cn("w-auto", sizeClass, colors.textClass)} />
-              <span
-                className="font-bold uppercase leading-none"
-                style={{
-                  color:
-                    color === "decolour" ? "currentColor" : "var(--primitives-color-purple-300)",
-                  fontSize: "0.25em",
-                  letterSpacing: "0.05em",
-                  marginTop: "0.06em",
-                }}
-              >
-                AGENCIES
-              </span>
-            </div>
+            <AgenciesWordmark
+              size={resolvedSize}
+              color={color}
+              textClass={colors.textClass}
+              padTop={isAgenciesFull}
+            />
           ) : (
             <WordmarkSVG className={cn("w-auto", sizeClass, colors.textClass)} />
           ))}
