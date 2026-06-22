@@ -12,6 +12,23 @@ export type DrawerPosition = "left" | "right" | "top" | "bottom";
 export type DrawerSize = "sm" | "md" | "lg" | "full";
 
 /**
+ * Visual treatment of the drawer panel.
+ *
+ * - `"panel"` (default) — the standard edge-anchored surface.
+ * - `"sheet"` — a bottom-sheet treatment matching the modal surface: large
+ *   top-only radius (32px), modal background/stroke, and menu blur+shadow.
+ *   Intended for `position="bottom"`.
+ */
+export type DrawerVariant = "panel" | "sheet";
+
+/**
+ * Shared surface classes for the `"sheet"` variant. Mirrors the mobile sheet
+ * treatment used by {@link Dialog} so bottom sheets are visually consistent.
+ */
+const SHEET_CLASSES =
+  "rounded-t-xl border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px]";
+
+/**
  * Props for the {@link Drawer} root component.
  *
  * Inherits `open`, `onOpenChange`, and `defaultOpen` from Radix Dialog.Root.
@@ -156,6 +173,11 @@ export interface DrawerContentProps
    */
   size?: DrawerSize;
   /**
+   * Visual treatment of the panel. Use `"sheet"` (with `position="bottom"`) for
+   * a bottom sheet with the modal surface treatment. @default "panel"
+   */
+  variant?: DrawerVariant;
+  /**
    * Whether to render the default {@link DrawerOverlay} behind the content.
    * Set to `false` to provide your own overlay or omit it entirely.
    *
@@ -184,6 +206,7 @@ export const DrawerContent = React.forwardRef<
       className,
       position = "right",
       size = "sm",
+      variant = "panel",
       overlay: overlayProp,
       overlayProps,
       style,
@@ -229,6 +252,7 @@ export const DrawerContent = React.forwardRef<
             "data-[state=open]:duration-200 data-[state=open]:ease-out",
             SLIDE_CLASSES[position],
             sizeClass,
+            variant === "sheet" && SHEET_CLASSES,
             className,
           )}
           {...props}
@@ -255,15 +279,15 @@ export interface DrawerHeaderProps extends React.HTMLAttributes<HTMLDivElement> 
  */
 export const DrawerHeader = React.forwardRef<HTMLDivElement, DrawerHeaderProps>(
   ({ className, showClose = true, closeLabel = "Close drawer", children, ...props }, ref) => (
-    <div ref={ref} className={cn("flex items-start gap-2 p-4", className)} {...props}>
+    <div ref={ref} className={cn("flex items-center gap-2 p-4", className)} {...props}>
       <div className="flex min-w-0 flex-1 flex-col gap-1.5">{children}</div>
       {showClose && (
         <DialogPrimitive.Close asChild>
           <IconButton
             icon={<CloseIcon />}
             aria-label={closeLabel}
-            variant="tertiary"
-            size="24"
+            variant="secondary"
+            size="32"
             className="shrink-0"
           />
         </DialogPrimitive.Close>

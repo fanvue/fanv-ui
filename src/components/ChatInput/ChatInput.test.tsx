@@ -293,38 +293,87 @@ describe("ChatInput", () => {
       expect(screen.getByTestId("fanvue-ai-icon")).toBeInTheDocument();
     });
 
-    it("renders per-option icons in the dropdown", async () => {
+    it("renders per-option icons in the menu", async () => {
       const user = userEvent.setup();
       render(
         <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
       );
-      await user.click(screen.getByRole("combobox", { name: "Select model" }));
-      const listbox = screen.getByRole("listbox");
-      expect(within(listbox).getByTestId("fanvue-ai-icon")).toBeInTheDocument();
-      expect(within(listbox).getByTestId("example-icon")).toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "Select model" }));
+      const menu = screen.getByRole("menu");
+      expect(within(menu).getByTestId("fanvue-ai-icon")).toBeInTheDocument();
+      expect(within(menu).getByTestId("example-icon")).toBeInTheDocument();
     });
 
-    it("opens dropdown on click and shows all options", async () => {
+    it("opens the menu on click and shows all options", async () => {
       const user = userEvent.setup();
       render(
         <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
       );
-      await user.click(screen.getByRole("combobox", { name: "Select model" }));
-      expect(screen.getByRole("option", { name: "Fanvue AI" })).toBeInTheDocument();
-      expect(screen.getByRole("option", { name: "Example" })).toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "Select model" }));
+      expect(screen.getByRole("menuitem", { name: "Fanvue AI" })).toBeInTheDocument();
+      expect(screen.getByRole("menuitem", { name: "Example" })).toBeInTheDocument();
     });
 
-    it("applies the hover background to the select trigger while open", async () => {
+    it("renders option descriptions in the menu", async () => {
+      const user = userEvent.setup();
+      render(
+        <ChatInput
+          placeholder="Test"
+          selectOptions={[
+            {
+              value: "opus",
+              label: "Opus 4.8",
+              description: "Most capable for ambitious work",
+            },
+            {
+              value: "sonnet",
+              label: "Sonnet 4.6",
+              description: "Most efficient for everyday tasks",
+            },
+          ]}
+          selectValue="opus"
+        />,
+      );
+      await user.click(screen.getByRole("button", { name: "Select model" }));
+      expect(screen.getByText("Most capable for ambitious work")).toBeInTheDocument();
+      expect(screen.getByText("Most efficient for everyday tasks")).toBeInTheDocument();
+    });
+
+    it("shows the short label on the trigger but the menu label on the option", async () => {
+      const user = userEvent.setup();
+      render(
+        <ChatInput
+          placeholder="Test"
+          selectOptions={[
+            {
+              value: "sonnet",
+              label: "Sonnet 4.6",
+              menuLabel: "Claude Sonnet 4.6",
+              description: "Fast and versatile",
+            },
+            { value: "opus", label: "Opus 4.8", menuLabel: "Claude Opus 4.8" },
+          ]}
+          selectValue="sonnet"
+        />,
+      );
+      const trigger = screen.getByRole("button", { name: "Select model" });
+      expect(trigger).toHaveTextContent("Sonnet 4.6");
+      await user.click(trigger);
+      expect(screen.getByRole("menuitem", { name: /Claude Sonnet 4\.6/ })).toBeInTheDocument();
+      expect(screen.getByRole("menuitem", { name: /Claude Opus 4\.8/ })).toBeInTheDocument();
+    });
+
+    it("applies the active background to the trigger while open", async () => {
       const user = userEvent.setup();
       render(
         <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
       );
-      const trigger = screen.getByRole("combobox", { name: "Select model" });
+      const trigger = screen.getByRole("button", { name: "Select model" });
       await user.click(trigger);
       expect(trigger).toHaveClass("bg-neutral-alphas-50");
     });
 
-    it("shows a check icon only on the selected option", async () => {
+    it("shows a tick icon only on the selected option", async () => {
       const user = userEvent.setup();
       render(
         <ChatInput
@@ -336,9 +385,9 @@ describe("ChatInput", () => {
           selectValue="opus"
         />,
       );
-      await user.click(screen.getByRole("combobox", { name: "Select model" }));
-      expect(screen.getByRole("option", { name: "Opus 4.8" }).querySelector("svg")).toBeTruthy();
-      expect(screen.getByRole("option", { name: "Sonnet 4.6" }).querySelector("svg")).toBeNull();
+      await user.click(screen.getByRole("button", { name: "Select model" }));
+      expect(screen.getByRole("menuitem", { name: "Opus 4.8" }).querySelector("svg")).toBeTruthy();
+      expect(screen.getByRole("menuitem", { name: "Sonnet 4.6" }).querySelector("svg")).toBeNull();
     });
 
     it("calls onSelectChange when an option is clicked", async () => {
@@ -352,8 +401,8 @@ describe("ChatInput", () => {
           onSelectChange={handleChange}
         />,
       );
-      await user.click(screen.getByRole("combobox", { name: "Select model" }));
-      await user.click(screen.getByRole("option", { name: "Example" }));
+      await user.click(screen.getByRole("button", { name: "Select model" }));
+      await user.click(screen.getByRole("menuitem", { name: "Example" }));
       expect(handleChange).toHaveBeenCalledWith("example");
     });
 
@@ -368,36 +417,36 @@ describe("ChatInput", () => {
         />,
       );
       const textarea = screen.getByRole("textbox");
-      const select = screen.getByRole("combobox", { name: "Select model" });
+      const select = screen.getByRole("button", { name: "Select model" });
 
       expect(screen.getByText("Fanvue AI")).toBeInTheDocument();
       expect(textarea).not.toBeDisabled();
       expect(select).toBeDisabled();
 
       await user.click(select);
-      expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+      expect(screen.queryByRole("menu")).not.toBeInTheDocument();
     });
 
-    it("closes dropdown after selecting an option", async () => {
+    it("closes the menu after selecting an option", async () => {
       const user = userEvent.setup();
       render(
         <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
       );
-      await user.click(screen.getByRole("combobox", { name: "Select model" }));
-      expect(screen.getByRole("listbox")).toBeInTheDocument();
-      await user.click(screen.getByRole("option", { name: "Example" }));
-      expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "Select model" }));
+      expect(screen.getByRole("menu")).toBeInTheDocument();
+      await user.click(screen.getByRole("menuitem", { name: "Example" }));
+      expect(screen.queryByRole("menu")).not.toBeInTheDocument();
     });
 
-    it("closes dropdown on Escape key", async () => {
+    it("closes the menu on Escape key", async () => {
       const user = userEvent.setup();
       render(
         <ChatInput placeholder="Test" selectOptions={MODEL_OPTIONS} selectValue="fanvue-ai" />,
       );
-      await user.click(screen.getByRole("combobox", { name: "Select model" }));
-      expect(screen.getByRole("listbox")).toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "Select model" }));
+      expect(screen.getByRole("menu")).toBeInTheDocument();
       await user.keyboard("{Escape}");
-      expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+      expect(screen.queryByRole("menu")).not.toBeInTheDocument();
     });
 
     it("is not rendered when toolbarRight is provided", () => {
@@ -410,7 +459,58 @@ describe("ChatInput", () => {
         />,
       );
       expect(screen.getByTestId("custom-toolbar")).toBeInTheDocument();
-      expect(screen.queryByRole("combobox", { name: "Select model" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Select model" })).not.toBeInTheDocument();
+    });
+
+    describe("bottom sheet variant", () => {
+      it("opens a titled bottom sheet when selectVariant is 'sheet'", async () => {
+        const user = userEvent.setup();
+        render(
+          <ChatInput
+            placeholder="Test"
+            selectOptions={MODEL_OPTIONS}
+            selectValue="fanvue-ai"
+            selectVariant="sheet"
+            selectMenuTitle="Switch AI Model"
+          />,
+        );
+        await user.click(screen.getByRole("button", { name: "Select model" }));
+        const dialog = screen.getByRole("dialog");
+        expect(within(dialog).getByText("Switch AI Model")).toBeInTheDocument();
+        expect(within(dialog).getByRole("option", { name: "Fanvue AI" })).toBeInTheDocument();
+      });
+
+      it("does not render a menu in the sheet variant", async () => {
+        const user = userEvent.setup();
+        render(
+          <ChatInput
+            placeholder="Test"
+            selectOptions={MODEL_OPTIONS}
+            selectValue="fanvue-ai"
+            selectVariant="sheet"
+          />,
+        );
+        await user.click(screen.getByRole("button", { name: "Select model" }));
+        expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+      });
+
+      it("calls onSelectChange from the bottom sheet", async () => {
+        const user = userEvent.setup();
+        const handleChange = vi.fn();
+        render(
+          <ChatInput
+            placeholder="Test"
+            selectOptions={MODEL_OPTIONS}
+            selectValue="fanvue-ai"
+            selectVariant="sheet"
+            onSelectChange={handleChange}
+          />,
+        );
+        await user.click(screen.getByRole("button", { name: "Select model" }));
+        await user.click(screen.getByRole("option", { name: "Example" }));
+        expect(handleChange).toHaveBeenCalledWith("example");
+      });
     });
   });
 

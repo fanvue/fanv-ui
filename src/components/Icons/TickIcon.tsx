@@ -4,7 +4,9 @@ import type { BaseIconProps, IconVariants } from "./types";
 
 const VARIANTS: IconVariants = {
   16: {
-    outlined: [{ d: "m3.333 8 3.334 3.333L13 5" }],
+    // `sw` must be set so BaseIcon strokes the checkmark; without it the path
+    // is filled into a solid wedge instead of a tick.
+    outlined: [{ d: "m3.333 8 3.334 3.333L13 5", sw: 1.333 }],
   },
   24: {
     outlined: [{ d: "m5 12 5 5 9.5-9.5", sw: 1.5 }],

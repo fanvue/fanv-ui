@@ -105,6 +105,14 @@ describe("Drawer", () => {
         expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
       });
     });
+
+    it("renders the header close button as a large secondary icon button", async () => {
+      const user = userEvent.setup();
+      renderDrawer();
+      await user.click(screen.getByRole("button", { name: "Open drawer" }));
+      const closeButton = screen.getByRole("button", { name: "Close drawer" });
+      expect(closeButton).toHaveClass("size-8", "bg-neutral-alphas-50");
+    });
   });
 
   describe("controlled mode", () => {

@@ -1,11 +1,18 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "../Drawer/Drawer";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../DropdownMenu/DropdownMenu";
 import { IconButton } from "../IconButton/IconButton";
 import { AddIcon } from "../Icons/AddIcon";
 import { ArrowUpIcon } from "../Icons/ArrowUpIcon";
-import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
+import { TickIcon } from "../Icons/TickIcon";
 
 /** A single image thumbnail in the built-in attachment strip. */
 export interface ChatInputAttachmentItem {
@@ -21,8 +28,15 @@ export interface ChatInputAttachmentItem {
 export interface ChatInputSelectOption {
   /** Unique value for this option. */
   value: string;
-  /** Display label. */
+  /** Short label shown on the collapsed trigger button (e.g. "Sonnet 4.6"). */
   label: string;
+  /**
+   * Optional longer title shown on the option's row inside the open menu/sheet
+   * (e.g. "Claude Sonnet 4.6"). Falls back to {@link label} when omitted.
+   */
+  menuLabel?: string;
+  /** Optional secondary text shown below the label in the dropdown menu. */
+  description?: string;
   /** Optional icon rendered to the left of the label. */
   icon?: React.ReactNode;
 }
@@ -71,6 +85,21 @@ export interface ChatInputProps
    * Ignored when `toolbarRight` is provided.
    */
   selectOptions?: ChatInputSelectOption[];
+  /**
+   * How the built-in selector presents its options:
+   * - `"menu"` (default) — a dropdown anchored to the trigger, for pointer/desktop.
+   * - `"sheet"` — a bottom sheet, for mobile/touch viewports.
+   *
+   * The viewport decision belongs to the consumer (it owns the breakpoint
+   * source of truth), so pass e.g. `selectVariant={isDesktop ? "menu" : "sheet"}`.
+   * @default "menu"
+   */
+  selectVariant?: "menu" | "sheet";
+  /**
+   * Title shown at the top of the `"sheet"` variant of the built-in selector
+   * (e.g. "Switch AI Model"). @default "Select an option"
+   */
+  selectMenuTitle?: string;
   /** Currently selected value for the built-in dropdown. Should match one of `selectOptions[].value`. */
   selectValue?: string;
   /** When `true`, disables only the built-in dropdown selector. @default false */
@@ -207,6 +236,8 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
       submitIcon,
       toolbarRight,
       selectOptions,
+      selectVariant = "menu",
+      selectMenuTitle,
       selectValue,
       selectDisabled = false,
       onSelectChange,
@@ -249,7 +280,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
 
     React.useEffect(() => {
       adjustHeight();
-    }, [resolvedValue, adjustHeight]);
+    }, [adjustHeight]);
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       if (!isControlled) {
@@ -304,6 +335,8 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
           onChange={onSelectChange}
           disabled={disabled || selectDisabled}
           selectedOption={selectedOption}
+          variant={selectVariant}
+          menuTitle={selectMenuTitle}
         />
       ) : null);
 
@@ -360,7 +393,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
                 aria-label={fileButtonAriaLabel}
                 onClick={onFileClick}
                 disabled={disabled}
-                className="sm:border sm:border-border-primary max-sm:-ml-2"
+                className="max-sm:-ml-2 sm:border sm:border-border-primary"
               />
             )}
           </div>
@@ -374,7 +407,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
               aria-label={submitAriaLabel}
               onClick={handleSubmit}
               disabled={!canSubmit}
-              className="disabled:bg-surface-secondary disabled:opacity-100 disabled:text-icons-primary"
+              className="disabled:bg-surface-secondary disabled:text-icons-primary disabled:opacity-100"
             />
           </div>
         </div>
@@ -391,104 +424,181 @@ interface InlineSelectProps {
   onChange?: (value: string) => void;
   disabled?: boolean;
   selectedOption?: ChatInputSelectOption;
+  /** Presentation: anchored dropdown (`"menu"`) or bottom sheet (`"sheet"`). */
+  variant: "menu" | "sheet";
+  /** Title for the bottom-sheet header. */
+  menuTitle?: string;
 }
 
-function InlineSelect({ options, value, onChange, disabled, selectedOption }: InlineSelectProps) {
+interface SelectTriggerButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Whether the menu/sheet is open (drives chevron rotation + active background). */
+  open: boolean;
+  selectedOption?: ChatInputSelectOption;
+  /** Label shown when no option is selected. */
+  fallbackLabel?: string;
+}
+
+/**
+ * The collapsed pill trigger (icon + short label + chevron). Shared by the
+ * desktop menu and mobile sheet; spreads Radix-injected trigger props via
+ * `asChild`.
+ */
+const SelectTriggerButton = React.forwardRef<HTMLButtonElement, SelectTriggerButtonProps>(
+  ({ open, selectedOption, fallbackLabel, className, ...props }, ref) => (
+    <button
+      ref={ref}
+      type="button"
+      aria-label="Select model"
+      className={cn(
+        "typography-description-12px-semibold text-content-primary",
+        "flex items-center gap-1 rounded-md px-2 py-2",
+        "hover:bg-neutral-alphas-50 focus-visible:shadow-focus-ring focus-visible:outline-none",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        "motion-safe:transition-colors",
+        open && "bg-neutral-alphas-50",
+        className,
+      )}
+      {...props}
+    >
+      {selectedOption?.icon && (
+        <span className="flex shrink-0 items-center [&>svg]:size-4">{selectedOption.icon}</span>
+      )}
+      {selectedOption?.label ?? fallbackLabel ?? "Select"}
+      <ChevronDownIcon
+        className={cn("size-4 motion-safe:transition-transform", open && "rotate-180")}
+      />
+    </button>
+  ),
+);
+SelectTriggerButton.displayName = "SelectTriggerButton";
+
+/** The green tick shown on the selected option (matches DropDown V2). */
+function SelectedTick() {
+  return <TickIcon size={16} className="text-success-negative-content" aria-hidden="true" />;
+}
+
+/**
+ * Inline model/option selector for the ChatInput toolbar. Renders the
+ * design-system dropdown (DropDown V2) on desktop and a bottom sheet on mobile.
+ */
+function InlineSelect({
+  options,
+  value,
+  onChange,
+  disabled,
+  selectedOption,
+  variant,
+  menuTitle,
+}: InlineSelectProps) {
   const [open, setOpen] = React.useState(false);
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const fallbackLabel = options[0]?.label;
 
-  React.useEffect(() => {
-    if (!open) return;
-    const handleClick = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [open]);
+  // Never allow the menu/sheet to open while disabled, regardless of how the
+  // open request originates (click, keyboard, programmatic).
+  const handleOpenChange = (next: boolean) => {
+    if (disabled && next) return;
+    setOpen(next);
+  };
 
-  React.useEffect(() => {
-    if (!open) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
-  }, [open]);
+  const trigger = (
+    <SelectTriggerButton
+      open={open}
+      selectedOption={selectedOption}
+      fallbackLabel={fallbackLabel}
+      disabled={disabled}
+    />
+  );
+
+  if (variant === "sheet") {
+    return (
+      <Drawer open={open} onOpenChange={handleOpenChange}>
+        <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+        <DrawerContent position="bottom" variant="sheet">
+          <DrawerHeader>
+            <DrawerTitle className="typography-header-heading-xs">
+              {menuTitle ?? "Select an option"}
+            </DrawerTitle>
+          </DrawerHeader>
+          {/* Mirrors DropdownMenuItem's two-line layout, which can't be reused
+              here because it requires a DropdownMenu (Radix Menu) context. */}
+          <div className="flex flex-col gap-1 overflow-y-auto px-4 pb-4" role="listbox">
+            {options.map((option) => {
+              const isSelected = option.value === value;
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="option"
+                  aria-selected={isSelected}
+                  onClick={() => {
+                    onChange?.(option.value);
+                    setOpen(false);
+                  }}
+                  className={cn(
+                    "flex w-full items-start gap-2 rounded-sm px-3 py-2 text-left outline-none",
+                    "focus-visible:shadow-focus-ring",
+                    isSelected
+                      ? "typography-body-default-16px-semibold bg-buttons-primary-default text-content-primary-inverted"
+                      : "typography-body-default-16px-regular text-content-primary hover:bg-neutral-alphas-50",
+                  )}
+                >
+                  {option.icon && (
+                    <span className="flex shrink-0 items-center pt-1 [&>svg]:size-4">
+                      {option.icon}
+                    </span>
+                  )}
+                  <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                    <span className="truncate">{option.menuLabel ?? option.label}</span>
+                    {option.description && (
+                      <span
+                        className={cn(
+                          "typography-body-small-14px-regular truncate",
+                          isSelected ? "text-content-primary-inverted" : "text-content-secondary",
+                        )}
+                      >
+                        {option.description}
+                      </span>
+                    )}
+                  </span>
+                  {isSelected && (
+                    <span className="flex shrink-0 items-center pt-1">
+                      <SelectedTick />
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
 
   return (
-    <div ref={containerRef} className="relative">
-      <button
-        type="button"
-        role="combobox"
-        aria-expanded={open}
-        aria-haspopup="listbox"
-        aria-label="Select model"
-        disabled={disabled}
-        onClick={() => setOpen((prev) => !prev)}
-        className={cn(
-          "typography-description-12px-semibold text-content-primary",
-          "flex items-center gap-1 rounded-md px-2 py-2",
-          "hover:bg-neutral-alphas-50 focus-visible:shadow-focus-ring focus-visible:outline-none",
-          "disabled:cursor-not-allowed disabled:opacity-50",
-          "motion-safe:transition-colors",
-          open && "bg-neutral-alphas-50",
-        )}
-      >
-        {selectedOption?.icon && (
-          <span className="flex shrink-0 items-center [&>svg]:size-4">{selectedOption.icon}</span>
-        )}
-        {selectedOption?.label ?? options[0]?.label ?? "Select"}
-        <ChevronDownIcon
-          className={cn("size-4 motion-safe:transition-transform", open && "rotate-180")}
-        />
-      </button>
-
-      {open && (
-        <div
-          role="listbox"
-          className={cn(
-            "absolute right-0 bottom-full z-10 mb-1 min-w-[180px]",
-            "overflow-hidden rounded-xs border border-border-primary bg-surface-primary p-1.5 shadow-lg",
-          )}
-        >
-          {options.map((option) => (
-            <div
+    <DropdownMenu open={open} onOpenChange={handleOpenChange}>
+      <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
+      <DropdownMenuContent side="top" align="end" className="min-w-[244px]">
+        {options.map((option) => {
+          const isSelected = option.value === value;
+          return (
+            <DropdownMenuItem
               key={option.value}
-              role="option"
-              tabIndex={0}
-              aria-selected={option.value === value}
-              className={cn(
-                "typography-body-small-14px-regular flex cursor-pointer items-center gap-2 rounded-xs py-2.5 pr-2 pl-3",
-                "text-content-primary hover:bg-neutral-alphas-50",
-                "focus-visible:shadow-focus-ring focus-visible:outline-none",
-              )}
-              onClick={() => {
-                onChange?.(option.value);
-                setOpen(false);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  onChange?.(option.value);
-                  setOpen(false);
-                }
-              }}
+              size="40"
+              selected={isSelected}
+              description={option.description}
+              leadingIcon={
+                option.icon ? (
+                  <span className="flex size-4 items-center [&>svg]:size-4">{option.icon}</span>
+                ) : undefined
+              }
+              trailingIcon={isSelected ? <SelectedTick /> : undefined}
+              onSelect={() => onChange?.(option.value)}
             >
-              {option.icon && (
-                <span className="flex shrink-0 items-center [&>svg]:size-4">{option.icon}</span>
-              )}
-              <span className="min-w-0 flex-1 truncate">{option.label}</span>
-              {option.value === value && (
-                <span className="ml-auto flex size-4 shrink-0 items-center justify-center">
-                  <CheckIcon className="size-4 text-content-primary" aria-hidden="true" />
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+              {option.menuLabel ?? option.label}
+            </DropdownMenuItem>
+          );
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

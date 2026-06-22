@@ -171,6 +171,7 @@ export type {
   DrawerSize,
   DrawerTitleProps,
   DrawerTriggerProps,
+  DrawerVariant,
 } from "./components/Drawer/Drawer";
 export {
   Drawer,

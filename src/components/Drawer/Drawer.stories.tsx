@@ -155,6 +155,26 @@ export const Bottom: Story = {
   ),
 };
 
+export const BottomSheet: Story = {
+  args: { position: "bottom", variant: "sheet" },
+  play: openDrawer,
+  render: (args) => (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button>Open Bottom Sheet</Button>
+      </DrawerTrigger>
+      <DrawerContent {...args}>
+        <DrawerHeader>
+          <DrawerTitle className="typography-header-heading-xs">Switch AI Model</DrawerTitle>
+        </DrawerHeader>
+        <div className="p-4 pt-0">
+          <p>The sheet variant uses the modal surface and a large top radius.</p>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  ),
+};
+
 export const WithoutOverlay: Story = {
   args: { overlay: false },
   play: openDrawer,

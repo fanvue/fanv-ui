@@ -285,6 +285,12 @@ export interface DropdownMenuItemProps
   leadingIcon?: React.ReactNode;
   /** Icon (or other node) rendered after the label. */
   trailingIcon?: React.ReactNode;
+  /**
+   * Optional secondary text rendered on a second line below the label. When
+   * provided, the row switches to a two-line layout and the leading/trailing
+   * icons align to the title line (top) rather than the row's vertical centre.
+   */
+  description?: React.ReactNode;
   /** Marks the item as the current selection in a single-select menu. @default false */
   selected?: boolean;
 }
@@ -314,6 +320,7 @@ export const DropdownMenuItem = React.forwardRef<
       destructive,
       leadingIcon,
       trailingIcon,
+      description,
       selected,
       className,
       children,
@@ -323,8 +330,10 @@ export const DropdownMenuItem = React.forwardRef<
     ref,
   ) => {
     const normalizedSize = SIZE_NORMALIZED[size];
+    const hasDescription = description != null;
     const itemClassName = cn(
-      "flex w-full cursor-pointer items-center gap-2 rounded-xs px-3 outline-none",
+      "flex w-full cursor-pointer gap-2 rounded-xs px-3 outline-none",
+      hasDescription ? "items-start" : "items-center",
       ITEM_SIZE_CLASSES[normalizedSize],
       "data-[highlighted]:bg-neutral-alphas-50",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
@@ -345,11 +354,39 @@ export const DropdownMenuItem = React.forwardRef<
       );
     }
 
+    // In the two-line (description) layout, icons sit on the title's line.
+    // 24px title line-height vs 16px icon → 4px (pt-1) centres the icon on it.
+    const iconAlignClassName = hasDescription ? "flex shrink-0 items-center pt-1" : null;
+
     return (
       <DropdownMenuPrimitive.Item ref={ref} className={itemClassName} {...props}>
-        {leadingIcon}
-        <span className="min-w-0 flex-1 truncate">{children}</span>
-        {trailingIcon}
+        {leadingIcon != null &&
+          (hasDescription ? (
+            <span className={iconAlignClassName!}>{leadingIcon}</span>
+          ) : (
+            leadingIcon
+          ))}
+        {hasDescription ? (
+          <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+            <span className="truncate">{children}</span>
+            <span
+              className={cn(
+                "typography-body-small-14px-regular truncate",
+                selected ? "text-content-primary-inverted" : "text-content-secondary",
+              )}
+            >
+              {description}
+            </span>
+          </span>
+        ) : (
+          <span className="min-w-0 flex-1 truncate">{children}</span>
+        )}
+        {trailingIcon != null &&
+          (hasDescription ? (
+            <span className={iconAlignClassName!}>{trailingIcon}</span>
+          ) : (
+            trailingIcon
+          ))}
       </DropdownMenuPrimitive.Item>
     );
   },
