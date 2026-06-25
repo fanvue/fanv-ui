@@ -18,7 +18,7 @@ export interface ChartCardProps extends Omit<React.HTMLAttributes<HTMLDivElement
   tooltipAriaLabel?: string;
   /** Date range or period label shown below the subtitle. */
   dateInfo?: React.ReactNode;
-  /** Trend indicator chip config. */
+  /** Trend indicator chip config. Only rendered when {@link subtitle} is also provided. */
   trendChip?: {
     /** Display label (e.g. "12.5%"). */
     label: React.ReactNode;
@@ -102,14 +102,14 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                 )}
               </div>
               {subtitle && (
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="typography-header-heading-sm text-content-primary">
                     {subtitle}
                   </span>
                   {trendChip && (
                     <span
                       className={cn(
-                        "typography-description-12px-semibold rounded-full px-2 py-0.5",
+                        "typography-description-12px-semibold whitespace-nowrap rounded-full px-2 py-0.5",
                         TREND_CLASSES[trendChip.trend],
                       )}
                     >
