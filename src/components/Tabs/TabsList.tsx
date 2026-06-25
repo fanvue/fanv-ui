@@ -70,11 +70,15 @@ export const TabsList = React.forwardRef<
     indicator.style.opacity = "1";
 
     if (isVertical) {
+      indicator.style.background =
+        "linear-gradient(180deg, transparent 0%, var(--color-content-primary) 50%, transparent 100%)";
       indicator.style.inset = `0 0 auto auto`;
       indicator.style.width = "4px";
       indicator.style.height = `${activeTab.offsetHeight}px`;
       indicator.style.transform = `translateY(${activeTab.offsetTop}px)`;
     } else {
+      indicator.style.background =
+        "linear-gradient(90deg, transparent 0%, var(--color-content-primary) 50%, transparent 100%)";
       const textSpan = activeTab.querySelector("span");
       const textWidth = textSpan ? textSpan.offsetWidth : activeTab.offsetWidth;
       const tabCenter = activeTab.offsetLeft + activeTab.offsetWidth / 2;
@@ -137,7 +141,7 @@ export const TabsList = React.forwardRef<
       <span
         ref={indicatorRef}
         aria-hidden
-        className="pointer-events-none absolute rounded-full bg-content-primary motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
+        className="pointer-events-none absolute rounded-full motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
         style={{ opacity: 0 }}
       />
     </TabsPrimitive.List>
