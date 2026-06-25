@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.7.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.6.0...ui-v3.7.0) (2026-06-25)
+
+
+### Features
+
+* **Chip:** align with V2 design spec and add all-variants story ([#526](https://github.com/fanvue/fanv-ui/issues/526)) ([2f00ed9](https://github.com/fanvue/fanv-ui/commit/2f00ed918a3627666a6fcf312502e6a037a34447))
+* **tabs:** migrate to V2 tabs design [ENG-10611] ([#525](https://github.com/fanvue/fanv-ui/issues/525)) ([38dc3d7](https://github.com/fanvue/fanv-ui/commit/38dc3d7253b13e12034c9c83b764da6f0a25a682))
+
+
+### Bug Fixes
+
+* **ChartCard:** prevent trendChip label truncation on mobile ([#517](https://github.com/fanvue/fanv-ui/issues/517)) ([073ac5d](https://github.com/fanvue/fanv-ui/commit/073ac5d3e9e050f0f9bfb9a718011d5bdd330307))
+* **ChartCard:** prevent trendChip label truncation on mobile [ENG-10098] ([073ac5d](https://github.com/fanvue/fanv-ui/commit/073ac5d3e9e050f0f9bfb9a718011d5bdd330307))
+* **chip:** remove active state to fix iOS touch persistence [ENG-7752] ([#518](https://github.com/fanvue/fanv-ui/issues/518)) ([4656ed1](https://github.com/fanvue/fanv-ui/commit/4656ed15cca91b837bdb5842affb681a985d3ec6))
+* **tabs:** align active indicator and border with V2 Figma ([#528](https://github.com/fanvue/fanv-ui/issues/528)) ([2b91dd8](https://github.com/fanvue/fanv-ui/commit/2b91dd873a9f35593ada21ddb00afb3d2d76fc20))
+
 ## [3.6.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.5.0...ui-v3.6.0) (2026-06-22)
 
 
