@@ -13,7 +13,14 @@ const alignLeftClasses: Record<Breakpoint | "always", string> = {
   xl: "[&>[role=tab]]:xl:flex-initial",
 };
 
-function getLayoutClass(fullWidth: boolean, alignLeft?: boolean | Breakpoint): string {
+function getLayoutClass(
+  variant: "fill" | "hug" | undefined,
+  fullWidth: boolean,
+  alignLeft?: boolean | Breakpoint,
+): string {
+  if (variant === "hug") return "inline-flex";
+  if (variant === "fill") return "flex w-full [&>[role=tab]]:flex-1";
+
   if (!fullWidth) return "inline-flex";
 
   const base = "flex w-full [&>[role=tab]]:flex-1";
@@ -33,13 +40,15 @@ export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.
    * - `"md"` (breakpoint): spread on mobile, left-aligned at breakpoint and up
    */
   alignLeft?: boolean | Breakpoint;
+  /** Explicit layout variant. `"hug"` sizes the list to its content; `"fill"` stretches it full-width with equal-width tabs. Takes precedence over `fullWidth`/`alignLeft`. */
+  variant?: "fill" | "hug";
 };
 
 /** Container for {@link TabsTrigger} elements. Renders a sliding active-tab indicator that animates between tabs. */
 export const TabsList = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.List>,
   TabsListProps
->(({ className, children, fullWidth = true, alignLeft, ...props }, ref) => {
+>(({ className, children, fullWidth = true, alignLeft, variant, ...props }, ref) => {
   const innerRef = React.useRef<HTMLDivElement>(null);
   const indicatorRef = React.useRef<HTMLSpanElement>(null);
 
@@ -61,15 +70,23 @@ export const TabsList = React.forwardRef<
     indicator.style.opacity = "1";
 
     if (isVertical) {
+      indicator.style.background =
+        "linear-gradient(180deg, transparent 0%, var(--color-content-primary) 50%, transparent 100%)";
       indicator.style.inset = `0 0 auto auto`;
       indicator.style.width = "4px";
       indicator.style.height = `${activeTab.offsetHeight}px`;
       indicator.style.transform = `translateY(${activeTab.offsetTop}px)`;
     } else {
-      indicator.style.inset = `auto auto 0 0`;
-      indicator.style.height = "4px";
-      indicator.style.width = `${activeTab.offsetWidth}px`;
-      indicator.style.transform = `translateX(${activeTab.offsetLeft}px)`;
+      indicator.style.background =
+        "linear-gradient(90deg, transparent 0%, var(--color-content-primary) 50%, transparent 100%)";
+      const textSpan = activeTab.querySelector("span");
+      const textWidth = textSpan ? textSpan.offsetWidth : activeTab.offsetWidth;
+      const tabCenter = activeTab.offsetLeft + activeTab.offsetWidth / 2;
+      const indicatorLeft = tabCenter - textWidth / 2;
+      indicator.style.inset = "auto auto 0 0";
+      indicator.style.height = "2px";
+      indicator.style.width = `${textWidth}px`;
+      indicator.style.transform = `translateX(${indicatorLeft}px)`;
     }
   }, []);
 
@@ -113,7 +130,7 @@ export const TabsList = React.forwardRef<
       ref={innerRef}
       className={cn(
         "relative",
-        getLayoutClass(fullWidth, alignLeft),
+        getLayoutClass(variant, fullWidth, alignLeft),
         "data-[orientation=horizontal]:items-center data-[orientation=horizontal]:shadow-[inset_0_-1px_0_0_var(--color-neutral-alphas-200)]",
         "data-[orientation=vertical]:flex-col data-[orientation=vertical]:shadow-[inset_-1px_0_0_0_var(--color-neutral-alphas-200)]",
         className,
@@ -124,7 +141,7 @@ export const TabsList = React.forwardRef<
       <span
         ref={indicatorRef}
         aria-hidden
-        className="pointer-events-none absolute rounded-full bg-brand-primary-default motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
+        className="pointer-events-none absolute rounded-full motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
         style={{ opacity: 0 }}
       />
     </TabsPrimitive.List>

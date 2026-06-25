@@ -3731,6 +3731,36 @@ function TabsDemo() {
             <p className="pt-4 text-neutral-400 text-sm">Align left (responsive)</p>
           </TabsContent>
         </Tabs>
+        <div className="flex w-full flex-col gap-2">
+          <p className="typography-body-small-14px-semibold text-content-tertiary">Hug</p>
+          <Tabs defaultValue="tab1">
+            <TabsList variant="hug">
+              <TabsTrigger value="tab1">Photos</TabsTrigger>
+              <TabsTrigger value="tab2">Videos</TabsTrigger>
+              <TabsTrigger value="tab3">Posts</TabsTrigger>
+            </TabsList>
+            <TabsContent value="tab1">
+              <p className="pt-4 text-neutral-alphas-400 text-sm">
+                List sizes to content — does not stretch
+              </p>
+            </TabsContent>
+          </Tabs>
+        </div>
+        <div className="flex w-full flex-col gap-2">
+          <p className="typography-body-small-14px-semibold text-content-tertiary">Fill</p>
+          <Tabs defaultValue="tab1">
+            <TabsList variant="fill">
+              <TabsTrigger value="tab1">Photos</TabsTrigger>
+              <TabsTrigger value="tab2">Videos</TabsTrigger>
+              <TabsTrigger value="tab3">Posts</TabsTrigger>
+            </TabsList>
+            <TabsContent value="tab1">
+              <p className="pt-4 text-neutral-alphas-400 text-sm">
+                Tabs stretch to fill full container width
+              </p>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   );
