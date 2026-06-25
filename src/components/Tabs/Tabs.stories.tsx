@@ -11,7 +11,7 @@ const meta = {
     layout: "padded",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=87-4098&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16804-89710",
     },
   },
   tags: ["autodocs"],
@@ -86,6 +86,50 @@ export const Inline: Story = {
   render: () => (
     <Tabs defaultValue="tab1">
       <TabsList fullWidth={false}>
+        <TabsTrigger value="tab1">Photos</TabsTrigger>
+        <TabsTrigger value="tab2">Videos</TabsTrigger>
+        <TabsTrigger value="tab3">Posts</TabsTrigger>
+      </TabsList>
+      <TabsContent value="tab1">
+        <p className="pt-4 text-content-tertiary text-sm">Photos content</p>
+      </TabsContent>
+      <TabsContent value="tab2">
+        <p className="pt-4 text-content-tertiary text-sm">Videos content</p>
+      </TabsContent>
+      <TabsContent value="tab3">
+        <p className="pt-4 text-content-tertiary text-sm">Posts content</p>
+      </TabsContent>
+    </Tabs>
+  ),
+};
+
+export const HugStyle: Story = {
+  name: "Hug Style (stack-left)",
+  render: () => (
+    <Tabs defaultValue="tab1">
+      <TabsList variant="hug">
+        <TabsTrigger value="tab1">Photos</TabsTrigger>
+        <TabsTrigger value="tab2">Videos</TabsTrigger>
+        <TabsTrigger value="tab3">Posts</TabsTrigger>
+      </TabsList>
+      <TabsContent value="tab1">
+        <p className="pt-4 text-content-tertiary text-sm">Photos content</p>
+      </TabsContent>
+      <TabsContent value="tab2">
+        <p className="pt-4 text-content-tertiary text-sm">Videos content</p>
+      </TabsContent>
+      <TabsContent value="tab3">
+        <p className="pt-4 text-content-tertiary text-sm">Posts content</p>
+      </TabsContent>
+    </Tabs>
+  ),
+};
+
+export const FillStyle: Story = {
+  name: "Fill Style (stretch full-width)",
+  render: () => (
+    <Tabs defaultValue="tab1">
+      <TabsList variant="fill">
         <TabsTrigger value="tab1">Photos</TabsTrigger>
         <TabsTrigger value="tab2">Videos</TabsTrigger>
         <TabsTrigger value="tab3">Posts</TabsTrigger>

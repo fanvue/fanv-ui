@@ -132,6 +132,32 @@ describe("Tabs", () => {
       expect(tablist).not.toHaveClass("w-full");
     });
 
+    it("renders hug layout when variant is hug", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList variant="hug">
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      const tablist = screen.getByRole("tablist");
+      expect(tablist).toHaveClass("inline-flex");
+      expect(tablist).not.toHaveClass("w-full");
+    });
+
+    it("renders fill layout when variant is fill", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList variant="fill">
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      const tablist = screen.getByRole("tablist");
+      expect(tablist).toHaveClass("w-full");
+      expect(tablist).not.toHaveClass("inline-flex");
+    });
+
     it("forwards ref to TabsContent", () => {
       const ref = React.createRef<HTMLDivElement>();
       render(
