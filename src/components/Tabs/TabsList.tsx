@@ -71,20 +71,20 @@ export const TabsList = React.forwardRef<
 
     if (isVertical) {
       indicator.style.background =
-        "linear-gradient(180deg, transparent 0%, var(--color-content-primary) 50%, transparent 100%)";
-      indicator.style.inset = `0 0 auto auto`;
-      indicator.style.width = "4px";
+        "linear-gradient(180deg, var(--color-buttons-tertiary-default) 0%, var(--color-tab-active) 50%, var(--color-buttons-tertiary-default) 100%)";
+      indicator.style.inset = `0 -1px auto auto`;
+      indicator.style.width = "1px";
       indicator.style.height = `${activeTab.offsetHeight}px`;
       indicator.style.transform = `translateY(${activeTab.offsetTop}px)`;
     } else {
       indicator.style.background =
-        "linear-gradient(90deg, transparent 0%, var(--color-content-primary) 50%, transparent 100%)";
+        "linear-gradient(90deg, var(--color-buttons-tertiary-default) 0%, var(--color-tab-active) 50%, var(--color-buttons-tertiary-default) 100%)";
       const textSpan = activeTab.querySelector("span");
-      const textWidth = textSpan ? textSpan.offsetWidth : activeTab.offsetWidth;
+      const textWidth = (textSpan ?? activeTab).getBoundingClientRect().width;
       const tabCenter = activeTab.offsetLeft + activeTab.offsetWidth / 2;
       const indicatorLeft = tabCenter - textWidth / 2;
       indicator.style.inset = "auto auto 0 0";
-      indicator.style.height = "2px";
+      indicator.style.height = "1px";
       indicator.style.width = `${textWidth}px`;
       indicator.style.transform = `translateX(${indicatorLeft}px)`;
     }
@@ -131,8 +131,8 @@ export const TabsList = React.forwardRef<
       className={cn(
         "relative",
         getLayoutClass(variant, fullWidth, alignLeft),
-        "data-[orientation=horizontal]:items-center data-[orientation=horizontal]:shadow-[inset_0_-1px_0_0_var(--color-neutral-alphas-200)]",
-        "data-[orientation=vertical]:flex-col data-[orientation=vertical]:shadow-[inset_-1px_0_0_0_var(--color-neutral-alphas-200)]",
+        "data-[orientation=horizontal]:items-center data-[orientation=horizontal]:shadow-[inset_0_-1px_0_0_var(--color-border-primary)]",
+        "data-[orientation=vertical]:flex-col data-[orientation=vertical]:shadow-[inset_-1px_0_0_0_var(--color-border-primary)]",
         className,
       )}
       {...props}
@@ -141,7 +141,7 @@ export const TabsList = React.forwardRef<
       <span
         ref={indicatorRef}
         aria-hidden
-        className="pointer-events-none absolute rounded-full motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
+        className="pointer-events-none absolute z-10 rounded-full motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
         style={{ opacity: 0 }}
       />
     </TabsPrimitive.List>
