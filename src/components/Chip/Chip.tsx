@@ -20,7 +20,8 @@ export interface ChipProps extends React.HTMLAttributes<HTMLElement> {
   leftDot?: boolean;
   /**
    * Whether the chip uses a dashed border for add/create affordances.
-   * Has no effect when `variant="dark"` or `selected` is `true`.
+   * When `selected`, it becomes a subtle filled state with a solid border.
+   * Has no effect when `variant="dark"`.
    * @default false
    */
   dotted?: boolean;
@@ -71,25 +72,68 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
     const Comp = asChild ? Slot : isInteractive ? "button" : "span";
     const isDark = variant === "dark";
 
+    // The dashed border is drawn as an SVG so the dash length matches the design
+    // spec (8/8 for the 40px square, 6/6 otherwise). CSS `border-dashed` only
+    // renders browser-default dash lengths, which are too short. The stroke colour
+    // is driven by `currentColor`, and `group-hover`/`group-active` react to the
+    // chip's interactive states. Rendered only in the default (non-`asChild`) path.
+    const showDottedBorder = !isDark && dotted && !selected && !asChild;
+    const dottedBorder = showDottedBorder ? (
+      <svg
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-0 size-full overflow-visible",
+          disabled ? "text-buttons-chip-disabled" : "text-buttons-chip-dotted-default",
+          isInteractive &&
+            !disabled &&
+            "group-hover:text-buttons-chip-dotted-hover-stroke group-active:text-buttons-chip-dotted-hover-stroke",
+        )}
+      >
+        <rect
+          x="0.5"
+          y="0.5"
+          rx={variant === "square" ? 7.5 : size === "40" ? 19.5 : 15.5}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1"
+          strokeDasharray={variant === "square" && size === "40" ? "8 8" : "6 6"}
+          style={{ width: "calc(100% - 1px)", height: "calc(100% - 1px)" }}
+        />
+      </svg>
+    ) : null;
+
     return (
       <Comp
         ref={ref}
         data-testid="chip"
         className={cn(
-          "typography-description-12px-semibold relative inline-flex min-w-0 items-center justify-center whitespace-nowrap motion-safe:transition-colors motion-safe:duration-150",
+          "relative inline-flex min-w-0 items-center justify-center whitespace-nowrap motion-safe:transition-colors motion-safe:duration-150",
           // Shape
           variant === "square" ? "rounded-xs" : "rounded-full",
-          // Size
-          size === "32" && "h-8 py-1",
-          size === "40" && "h-10 py-2.5",
+          // Size (32px uses 12px text, 40px uses 14px text per the design spec)
+          size === "32" && "typography-description-12px-semibold h-8 py-1",
+          size === "40" && "typography-body-small-14px-semibold h-10 py-2.5",
           // Variant colors
           isDark && "bg-neutral-alphas-600 text-content-always-white",
-          !isDark && selected && "bg-brand-primary-muted text-content-primary",
-          !isDark && !selected && !dotted && "bg-neutral-alphas-50 text-content-primary",
+          !isDark && selected && !dotted && "bg-buttons-chip-active text-content-primary-inverted",
+          // Active + dotted is a subtle filled state with a solid (non-dashed) border.
           !isDark &&
+            selected &&
+            dotted &&
+            "border border-border-primary border-solid bg-inputs-inputs-primary text-content-primary",
+          !isDark && !selected && !dotted && "bg-buttons-chip-default text-content-primary",
+          // Dotted (non-selected): the dashed border is drawn via SVG (`dottedBorder`).
+          // `group` lets that SVG react to hover/active. `asChild` keeps a CSS dashed
+          // border fallback since the SVG is only rendered in the default path.
+          !isDark && !selected && dotted && "bg-transparent text-content-primary",
+          !isDark && !selected && dotted && !asChild && "group",
+          asChild &&
+            !isDark &&
             !selected &&
             dotted &&
-            "border border-buttons-chip-dotted-default border-dashed bg-transparent text-content-primary",
+            (disabled
+              ? "border border-buttons-chip-disabled border-dashed"
+              : "border border-buttons-chip-dotted-default border-dashed"),
           // Interactive
           isInteractive && !disabled && "cursor-pointer",
           isInteractive &&
@@ -97,18 +141,21 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
             !isDark &&
             !selected &&
             !dotted &&
-            "hover:bg-brand-primary-muted active:bg-brand-primary-muted",
+            "hover:bg-buttons-chip-hover active:bg-buttons-chip-hover",
           isInteractive &&
             !disabled &&
             !isDark &&
             !selected &&
             dotted &&
-            "hover:border-buttons-chip-dotted-hover-stroke hover:bg-neutral-alphas-50 active:border-buttons-chip-dotted-hover-stroke active:bg-neutral-alphas-50",
+            "hover:bg-neutral-alphas-50 active:bg-neutral-alphas-50",
           // Focus
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           // Disabled
           disabled && isDark && "pointer-events-none opacity-50",
-          disabled && !isDark && "pointer-events-none text-neutral-alphas-400",
+          disabled && !isDark && "pointer-events-none text-content-disabled",
+          // Solid (non-dotted) disabled chips get a muted fill; dotted ones stay
+          // transparent with their dashed border (drawn via SVG).
+          disabled && !isDark && !dotted && "bg-buttons-chip-disabled",
           className,
         )}
         {...(isInteractive && {
@@ -125,6 +172,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           <Slottable>{children}</Slottable>
         ) : (
           <>
+            {dottedBorder}
             <span className="flex min-w-0 items-center gap-0.5 overflow-hidden px-3">
               {leftDot && (
                 <span className="size-2 shrink-0 rounded-full bg-current" aria-hidden="true" />

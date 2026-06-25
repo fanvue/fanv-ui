@@ -120,16 +120,28 @@ describe("Chip", () => {
   });
 
   describe("dotted", () => {
-    it("applies dashed border when dotted is true", () => {
+    it("renders a dashed svg border when dotted is true", () => {
       render(<Chip dotted>New folder</Chip>);
-      const chip = screen.getByTestId("chip");
-      expect(chip).toHaveClass("border-dashed");
+      const rect = screen.getByTestId("chip").querySelector("rect");
+      expect(rect).not.toBeNull();
+      expect(rect).toHaveAttribute("stroke-dasharray", "6 6");
     });
 
-    it("does not apply dashed border by default", () => {
+    it("uses an 8/8 dash pattern for the 40px square chip", () => {
+      render(
+        <Chip dotted variant="square" size="40">
+          New folder
+        </Chip>,
+      );
+      const rect = screen.getByTestId("chip").querySelector("rect");
+      expect(rect).toHaveAttribute("stroke-dasharray", "8 8");
+    });
+
+    it("does not render a dashed border by default", () => {
       render(<Chip>Chip</Chip>);
       const chip = screen.getByTestId("chip");
       expect(chip).not.toHaveClass("border-dashed");
+      expect(chip.querySelector("rect")).toBeNull();
     });
   });
 
