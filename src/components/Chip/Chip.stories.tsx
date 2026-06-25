@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { CheckCircleIcon } from "../Icons/CheckCircleIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CrossIcon } from "../Icons/CrossIcon";
-import { Chip } from "./Chip";
+import { Chip, type ChipProps, type ChipSize } from "./Chip";
 
 /** Placeholder example for logo stories — consumers provide their own `<img>/NextImage` */
 const PaymentLogo = ({ label, color }: { label: string; color: string }) => (
@@ -43,6 +43,74 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const STATE_COLUMNS = ["Default", "Active", "Disabled"] as const;
+type StateColumn = (typeof STATE_COLUMNS)[number];
+
+const MATRIX_ROWS: { label: string; size: ChipSize; dotted: boolean }[] = [
+  { label: "40px", size: "40", dotted: false },
+  { label: "32px", size: "32", dotted: false },
+  { label: "40px · dotted", size: "40", dotted: true },
+  { label: "32px · dotted", size: "32", dotted: true },
+];
+
+/** Maps a column to the props that produce that state. Default and Active render
+ * interactive chips so the live hover state can be previewed by hovering them. */
+const stateProps = (state: StateColumn): Partial<ChipProps> => {
+  switch (state) {
+    case "Active":
+      return { selected: true, onClick: () => {} };
+    case "Disabled":
+      return { disabled: true };
+    default:
+      return { onClick: () => {} };
+  }
+};
+
+const VariantMatrix = ({ variant }: { variant: "rounded" | "square" }) => (
+  <div className="flex flex-col gap-3">
+    <h3 className="typography-body-small-14px-semibold text-content-primary capitalize">
+      {variant}
+    </h3>
+    <div className="grid grid-cols-[auto_repeat(3,minmax(0,1fr))] items-center gap-x-6 gap-y-4">
+      <span />
+      {STATE_COLUMNS.map((state) => (
+        <span key={state} className="typography-description-12px-semibold text-content-tertiary">
+          {state}
+        </span>
+      ))}
+      {MATRIX_ROWS.map((row) => (
+        <Fragment key={row.label}>
+          <span className="typography-description-12px-semibold whitespace-nowrap text-content-tertiary">
+            {row.label}
+          </span>
+          {STATE_COLUMNS.map((state) => (
+            <span key={state} className="flex">
+              <Chip variant={variant} size={row.size} dotted={row.dotted} {...stateProps(state)}>
+                Chip
+              </Chip>
+            </span>
+          ))}
+        </Fragment>
+      ))}
+    </div>
+  </div>
+);
+
+/**
+ * Every variant from the Figma library in one view: both shapes (Rounded, Square),
+ * both sizes (40px, 32px), solid and dotted, across each state. The Default and Active
+ * chips are interactive — hover over one to preview its hover state.
+ */
+export const AllVariants: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-col gap-8">
+      <VariantMatrix variant="rounded" />
+      <VariantMatrix variant="square" />
+    </div>
+  ),
+};
 
 export const Rounded: Story = {
   args: {
@@ -173,6 +241,25 @@ export const DottedSize40: Story = {
     dotted: true,
     children: "New folder",
     onClick: () => {},
+  },
+};
+
+export const DottedSelected: Story = {
+  args: {
+    variant: "square",
+    dotted: true,
+    selected: true,
+    children: "New folder",
+    onClick: () => {},
+  },
+};
+
+export const DottedDisabled: Story = {
+  args: {
+    variant: "square",
+    dotted: true,
+    disabled: true,
+    children: "New folder",
   },
 };
 
