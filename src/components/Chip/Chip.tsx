@@ -141,7 +141,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
             !isDark &&
             !selected &&
             !dotted &&
-            "hover:bg-buttons-chip-hover active:bg-buttons-chip-hover",
+            "hover:bg-buttons-chip-hover",
           isInteractive &&
             !disabled &&
             !isDark &&
