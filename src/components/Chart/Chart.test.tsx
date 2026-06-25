@@ -250,6 +250,25 @@ describe("Chart", () => {
     });
   });
 
+  describe("ChartCard", () => {
+    it("applies flex-wrap and whitespace-nowrap to prevent trendChip truncation", () => {
+      render(
+        <ChartCard
+          title="This month"
+          subtitle="$2,358.99"
+          trendChip={{ label: "$455.68 vs Mar", trend: "positive" }}
+          dateInfo="April 2026"
+        >
+          <div>chart</div>
+        </ChartCard>,
+      );
+      const chip = screen.getByText("$455.68 vs Mar");
+      expect(chip).toBeInTheDocument();
+      expect(chip).toHaveClass("whitespace-nowrap");
+      expect(chip.parentElement).toHaveClass("flex-wrap");
+    });
+  });
+
   describe("accessibility", () => {
     it("ChartContainer has no accessibility violations", async () => {
       const { container } = render(
