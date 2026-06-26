@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.2](https://github.com/fanvue/fanv-ui/compare/ui-v3.7.1...ui-v3.7.2) (2026-06-26)
+
+
+### Bug Fixes
+
+* **accordion:** isolate content in a contained layer to fix mobile expand/collapse ([#534](https://github.com/fanvue/fanv-ui/issues/534)) ([4f8269f](https://github.com/fanvue/fanv-ui/commit/4f8269fa3d54241d8bc0c32036e0b26406561085))
+
 ## [3.7.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.7.0...ui-v3.7.1) (2026-06-26)
 
 
