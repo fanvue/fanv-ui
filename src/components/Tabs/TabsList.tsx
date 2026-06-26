@@ -129,7 +129,10 @@ export const TabsList = React.forwardRef<
     <TabsPrimitive.List
       ref={innerRef}
       className={cn(
-        "relative",
+        // `isolate` scopes the active indicator's `z-10` to a local stacking
+        // context. Without it, `relative` alone creates no stacking context, so
+        // the indicator escapes and paints above page chrome (e.g. the header).
+        "relative isolate",
         getLayoutClass(variant, fullWidth, alignLeft),
         "data-[orientation=horizontal]:items-center data-[orientation=horizontal]:shadow-[inset_0_-1px_0_0_var(--color-border-primary)]",
         "data-[orientation=vertical]:flex-col data-[orientation=vertical]:shadow-[inset_-1px_0_0_0_var(--color-border-primary)]",
