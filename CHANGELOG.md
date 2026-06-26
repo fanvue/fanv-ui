@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.7.0...ui-v3.7.1) (2026-06-26)
+
+
+### Bug Fixes
+
+* **tabs:** scope active-indicator z-index to a local stacking context ([#532](https://github.com/fanvue/fanv-ui/issues/532)) ([f50fe41](https://github.com/fanvue/fanv-ui/commit/f50fe41fc22172a9f24fa10eb40ec6d446796975)), closes [#530](https://github.com/fanvue/fanv-ui/issues/530)
+
 ## [3.7.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.6.0...ui-v3.7.0) (2026-06-25)
 
 
