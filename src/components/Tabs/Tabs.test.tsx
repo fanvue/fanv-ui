@@ -53,6 +53,18 @@ describe("Tabs", () => {
       expect(screen.getByRole("tablist")).toHaveClass("custom-list");
     });
 
+    it("isolates the active-indicator z-index in a local stacking context", () => {
+      // `isolate` keeps the indicator's z-10 from escaping above page chrome.
+      render(
+        <Tabs defaultValue="t">
+          <TabsList>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tablist")).toHaveClass("isolate");
+    });
+
     it("applies custom className to TabsTrigger", () => {
       render(
         <Tabs defaultValue="t">
