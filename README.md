@@ -114,6 +114,7 @@ pnpm storybook
 | ------------------------ | ------------------------------------ |
 | **Development**          |                                      |
 | `pnpm dev`               | Start Vite dev server                |
+| `pnpm dev:watch`         | Rebuild `dist/` on change (live-reload into apps) |
 | `pnpm build`             | Build the library for production     |
 | `pnpm preview`           | Preview production build             |
 | **Testing**              |                                      |
@@ -136,6 +137,15 @@ pnpm storybook
 | `pnpm size-limit` | Check bundle size |
 | **Publishing** | |
 | `pnpm publish:dry-run` | Build and dry-run npm publish |
+
+### Live-reloading into pandora/eden
+
+To iterate on a component and see it live in eden (`local.fanvue.com`) without publishing:
+
+- **Easiest:** from the pandora repo root, run `pnpm dev:local-ui`. It runs this library's watch build automatically and points eden at this checkout's `dist/`. See pandora's README ("Live-reloading `@fanvue/ui`") — the pandora wiring ships in a companion PR.
+- **Manual:** run `pnpm dev:watch` here, and start eden with `USE_LOCAL_FANVUE_UI=1` (or `pnpm --filter @pandora/eden start:local-ui`).
+
+Requires this repo checked out beside `pandora` (or `FANVUE_UI_PATH` set in pandora). Component markup and Tailwind classes hot-reload; design **tokens** in `theme.css` are loaded by eden from the installed package, so local `theme.css` edits aren't reflected — test those via a published (pre)release.
 
 ## Figma + Storybook Integration
 
