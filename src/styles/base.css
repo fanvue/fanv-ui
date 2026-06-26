@@ -94,6 +94,22 @@
   }
 }
 
+/*
+ * Animate `height` between 0 and the panel's measured height
+ * (`--radix-accordion-content-height`, which Radix sets from a getBoundingClientRect
+ * in a useLayoutEffect). This is the canonical Radix/Collapsible pattern and keeps the
+ * closed state truly hidden: the paired `AccordionContent` adds no `display` override,
+ * so a closed panel keeps Radix's `hidden` attribute and `[hidden] { display: none }`
+ * removes its footprint entirely.
+ *
+ * Perf note (ENG-7598 — mobile jank): `height` is layout-animated and is NOT composited
+ * (only `transform`/`opacity` run off the main thread). To keep the animation smooth and
+ * stop the padded content reflowing/repainting every frame, `AccordionContent` wraps the
+ * content in an isolated `contain: layout paint` layer — the parent's height animation then
+ * only re-clips that cached layer. We deliberately do NOT animate `grid-template-rows`
+ * (also layout-bound, and `display: grid` defeats the `[hidden] { display: none }` closed
+ * state) and do NOT add `will-change` (a no-op hint for layout properties that wastes memory).
+ */
 @keyframes accordion-expand {
   from {
     height: 0;
