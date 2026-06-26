@@ -168,6 +168,28 @@ describe("Accordion", () => {
       expect(screen.getByRole("region")).toHaveClass("custom-content");
     });
 
+    it("renders the panel as a single overflow-clipped block (no display override)", async () => {
+      const user = userEvent.setup();
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Trigger</AccordionTrigger>
+            <AccordionContent>Content</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      await user.click(screen.getByRole("button"));
+      const region = screen.getByRole("region");
+      // The panel animates `height` and clips with `overflow-hidden`. It must NOT set a
+      // `display` (e.g. `grid`): that defeats Radix's `[hidden] { display: none }` closed
+      // state and leaves a residual padded strip + animation desync on mobile (ENG-7598).
+      expect(region).toHaveClass("overflow-hidden");
+      expect(region).not.toHaveClass("grid");
+      // Content is wrapped in an isolated `contain: layout paint` layer so the height
+      // animation re-clips a cached layer instead of reflowing the padded content.
+      expect(region.firstElementChild).toHaveClass("[contain:layout_paint]");
+    });
+
     it("forwards ref to AccordionItem", () => {
       const ref = React.createRef<HTMLDivElement>();
       render(
