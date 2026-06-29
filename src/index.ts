@@ -349,6 +349,8 @@ export type { GameIconProps } from "./components/Icons/GameIcon";
 export { GameIcon } from "./components/Icons/GameIcon";
 export type { GenderIconProps } from "./components/Icons/GenderIcon";
 export { GenderIcon } from "./components/Icons/GenderIcon";
+export type { GifIconProps } from "./components/Icons/GifIcon";
+export { GifIcon } from "./components/Icons/GifIcon";
 export type { GiftIconProps } from "./components/Icons/GiftIcon";
 export { GiftIcon } from "./components/Icons/GiftIcon";
 export { GoogleIcon } from "./components/Icons/GoogleIcon";
