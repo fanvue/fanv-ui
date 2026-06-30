@@ -49,31 +49,6 @@ describe("UserHandleTypography", () => {
     });
   });
 
-  describe("deprecated props", () => {
-    it("ignores deprecated props without forwarding them to the DOM", () => {
-      render(
-        <UserHandleTypography
-          data-testid="handle"
-          color="red"
-          variant="body1"
-          component="div"
-          fontSize="20px"
-          pl={2}
-        >
-          fit_aitana
-        </UserHandleTypography>,
-      );
-      const el = screen.getByTestId("handle");
-      // The deprecated props are no-ops: still a span, none leak as attributes.
-      expect(el.tagName).toBe("SPAN");
-      expect(el).not.toHaveAttribute("color");
-      expect(el).not.toHaveAttribute("variant");
-      expect(el).not.toHaveAttribute("fontSize");
-      expect(el).not.toHaveAttribute("pl");
-      expect(screen.getByText("@fit_aitana")).toBeInTheDocument();
-    });
-  });
-
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(<UserHandleTypography>fit_aitana</UserHandleTypography>);

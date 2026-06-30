@@ -11,15 +11,20 @@ const variantClassMap: Record<string, string> = {
   captionRegular: "typography-description-12px-regular",
 };
 
-export type UserDisplayNameContainerProps = {
+/** Typography scale options for {@link UserDisplayNameContainer}. */
+export type UserDisplayNameVariant =
+  | "body2SemiBold"
+  | "body1SemiBold"
+  | "subtitle1"
+  | "heading4"
+  | "captionRegular";
+
+export interface UserDisplayNameContainerProps extends React.HTMLAttributes<HTMLElement> {
   /** Render an ambassador badge after the name. */
   ambassador?: boolean;
   /** Accessible label for the ambassador badge. @default "Ambassador" */
   ambassadorLabel?: string;
-  "aria-label"?: string;
-  children?: React.ReactNode;
-  className?: string;
-  color?: string;
+  color?: "white";
   component?: "span" | "h1" | "h2" | "h3" | "p" | "div";
   maxWidth?: string | number;
   mt?: number;
@@ -28,14 +33,13 @@ export type UserDisplayNameContainerProps = {
   onlineLabel?: string;
   pt?: number;
   showOnlineStatus?: boolean;
-  style?: React.CSSProperties;
   textAlign?: "left" | "center" | "right";
-  variant?: string;
+  variant?: UserDisplayNameVariant;
   /** Render a verified badge after the name (ignored when `ambassador` is set). */
   verified?: boolean;
   /** Accessible label for the verified badge. @default "Verified" */
   verifiedLabel?: string;
-};
+}
 
 /**
  * Renders a user's display name with the design-system typography scale, with
@@ -81,6 +85,13 @@ export const UserDisplayNameContainer = React.forwardRef<
     const typographyClass =
       variantClassMap[variant ?? "body2SemiBold"] ?? "typography-body-small-14px-semibold";
 
+    // `ambassador` takes precedence over `verified` when both are set.
+    const badge = ambassador
+      ? { label: ambassadorLabel, tint: "text-icons-brand-green" }
+      : verified
+        ? { label: verifiedLabel, tint: "text-content-primary" }
+        : null;
+
     return (
       <Component
         ref={ref}
@@ -101,24 +112,14 @@ export const UserDisplayNameContainer = React.forwardRef<
         {...props}
       >
         {children}
-        {ambassador ? (
+        {badge && (
           <span
             role="img"
-            aria-label={ambassadorLabel}
-            className="relative -top-[25%] ml-2 inline-flex h-full translate-y-[25%] items-center text-icons-brand-green"
+            aria-label={badge.label}
+            className={`relative -top-[25%] ml-2 inline-flex h-full translate-y-[25%] items-center ${badge.tint}`}
           >
             <VerifiedIcon className="size-4" />
           </span>
-        ) : (
-          verified && (
-            <span
-              role="img"
-              aria-label={verifiedLabel}
-              className="relative -top-[25%] ml-2 inline-flex h-full translate-y-[25%] items-center text-content-primary"
-            >
-              <VerifiedIcon className="size-4" />
-            </span>
-          )
         )}
         {showOnlineStatus && <ProfileOnlineStatus label={onlineLabel} />}
       </Component>

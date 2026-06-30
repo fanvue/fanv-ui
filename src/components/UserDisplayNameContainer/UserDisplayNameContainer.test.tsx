@@ -63,6 +63,7 @@ describe("UserDisplayNameContainer", () => {
 
     it("falls back to the default class for an unknown variant", () => {
       render(
+        // @ts-expect-error - exercising the runtime fallback for an out-of-type variant
         <UserDisplayNameContainer data-testid="name" variant="nope">
           Aitana
         </UserDisplayNameContainer>,

@@ -3,18 +3,7 @@ import { cn } from "../../utils/cn";
 
 const HANDLE_SYMBOL = "@";
 
-export interface UserHandleTypographyProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /** @deprecated Use className instead */
-  color?: string;
-  /** @deprecated Use className instead */
-  variant?: string;
-  /** @deprecated No longer needed */
-  component?: string;
-  /** @deprecated Use className instead */
-  fontSize?: string;
-  /** @deprecated Use className instead */
-  pl?: number;
-}
+export interface UserHandleTypographyProps extends React.HTMLAttributes<HTMLSpanElement> {}
 
 /**
  * Renders a user handle prefixed with the `@` symbol as muted, truncated
@@ -26,19 +15,7 @@ export interface UserHandleTypographyProps extends React.HTMLAttributes<HTMLSpan
  * ```
  */
 export const UserHandleTypography = React.forwardRef<HTMLSpanElement, UserHandleTypographyProps>(
-  (
-    {
-      children,
-      className,
-      color: _color,
-      variant: _variant,
-      component: _component,
-      fontSize: _fontSize,
-      pl: _pl,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ children, className, ...props }, ref) => {
     return (
       <span
         ref={ref}
