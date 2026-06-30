@@ -24,16 +24,25 @@ export interface UserDisplayNameContainerProps extends React.HTMLAttributes<HTML
   ambassador?: boolean;
   /** Accessible label for the ambassador badge. @default "Ambassador" */
   ambassadorLabel?: string;
+  /** Text colour override for rendering on dark surfaces. */
   color?: "white";
+  /** HTML element used for the root wrapper. @default "span" */
   component?: "span" | "h1" | "h2" | "h3" | "p" | "div";
+  /** Maximum width of the root wrapper. */
   maxWidth?: string | number;
+  /** Top margin as a spacing multiplier, where `1` equals 8px. */
   mt?: number;
+  /** Truncate the display name on a single line. @default true */
   noWrap?: boolean;
   /** Accessible label for the online-status indicator. @default "Online" */
   onlineLabel?: string;
+  /** Top padding as a spacing multiplier, where `1` equals 8px. */
   pt?: number;
+  /** Render the inline online-status indicator after the name. @default false */
   showOnlineStatus?: boolean;
+  /** Horizontal text alignment for the root wrapper. @default "left" */
   textAlign?: "left" | "center" | "right";
+  /** Typography style for the display name. @default "body2SemiBold" */
   variant?: UserDisplayNameVariant;
   /** Render a verified badge after the name (ignored when `ambassador` is set). */
   verified?: boolean;

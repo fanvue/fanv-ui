@@ -738,7 +738,10 @@ export {
   TooltipProvider,
   TooltipTrigger,
 } from "./components/Tooltip/Tooltip";
-export type { UserDisplayNameContainerProps } from "./components/UserDisplayNameContainer/UserDisplayNameContainer";
+export type {
+  UserDisplayNameContainerProps,
+  UserDisplayNameVariant,
+} from "./components/UserDisplayNameContainer/UserDisplayNameContainer";
 export { UserDisplayNameContainer } from "./components/UserDisplayNameContainer/UserDisplayNameContainer";
 export type { UserHandleTypographyProps } from "./components/UserHandleTypography/UserHandleTypography";
 export { UserHandleTypography } from "./components/UserHandleTypography/UserHandleTypography";
