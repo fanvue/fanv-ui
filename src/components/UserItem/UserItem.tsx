@@ -1,4 +1,5 @@
 import * as React from "react";
+import { cn } from "../../utils/cn";
 import { getInitials } from "../../utils/getInitials";
 import { Avatar } from "../Avatar/Avatar";
 import { BellOffIcon } from "../Icons/BellOffIcon";
@@ -58,6 +59,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
       showOnlineStatus,
       showHandle = true,
       showAvatar = true,
+      className,
       ...props
     },
     ref,
@@ -65,7 +67,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
     return (
       <div
         ref={ref}
-        className="relative flex w-full items-center justify-start px-2 py-1"
+        className={cn("relative flex w-full items-center justify-start px-2 py-1", className)}
         {...props}
       >
         {isMuted && (

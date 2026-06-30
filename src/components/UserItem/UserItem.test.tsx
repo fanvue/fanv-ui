@@ -52,7 +52,7 @@ describe("UserItem", () => {
     it("applies custom className and spreads HTML attributes", () => {
       render(<UserItem user={baseUser} data-testid="item" className="custom" data-custom="x" />);
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass("custom");
+      expect(item).toHaveClass("relative", "flex", "w-full", "px-2", "py-1", "custom");
       expect(item).toHaveAttribute("data-custom", "x");
     });
 
