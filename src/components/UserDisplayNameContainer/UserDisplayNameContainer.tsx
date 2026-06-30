@@ -95,8 +95,11 @@ export const UserDisplayNameContainer = React.forwardRef<
       variantClassMap[variant ?? "body2SemiBold"] ?? "typography-body-small-14px-semibold";
 
     // `ambassador` takes precedence over `verified` when both are set.
+    // The ambassador tint uses `text-success-content` (not `text-icons-brand-green`)
+    // so the green darkens in light mode and lightens in dark mode, matching
+    // {@link ProfileOnlineStatus}; `text-icons-brand-green` is fixed across modes.
     const badge = ambassador
-      ? { label: ambassadorLabel, tint: "text-icons-brand-green" }
+      ? { label: ambassadorLabel, tint: "text-success-content" }
       : verified
         ? { label: verifiedLabel, tint: "text-content-primary" }
         : null;
