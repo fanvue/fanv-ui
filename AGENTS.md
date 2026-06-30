@@ -601,9 +601,7 @@ return <button ref={ref} className={className} {...props}>{children}</button>;
 
 ## Cursor Cloud specific instructions
 
-When running as a Cursor Cloud Agent, the environment is provisioned from `.cursor/environment.json` (Node 24, pnpm 9.15.4, Playwright Chromium + system deps, and a persistent Storybook server on `http://localhost:6006`). It is snapshot-based: `agentCanUpdateSnapshot` is enabled so the heavy one-time setup (Playwright browser + system deps) is baked into a reusable machine snapshot, and the bootstrap (`bash .cursor/setup.sh`) runs each boot as an idempotent dependency refresh (and as a self-heal path if the snapshot is ever unavailable).
-
-Node version: the VM ships an older `node` earlier on `PATH` (e.g. `/exec-daemon/node`, Node 22) that can shadow the `.nvmrc`-pinned Node 24. `.cursor/setup.sh` neutralises this by setting nvm's default to Node 24, symlinking it into a high-priority bin dir, and prepending it to `PATH` in `~/.bashrc`. If you ever see `node -v` print the wrong version in an ad-hoc shell, re-source: `source ~/.bashrc`.
+When running as a Cursor Cloud Agent, the environment is provisioned from `.cursor/environment.json`. It builds from a `FROM node:24` base image (`.cursor/Dockerfile`) so Node 24 is the only `node` on the system `PATH` — deterministic across interactive shells, non-interactive command shells, and git hooks (this avoids the VM-default node shadowing that nvm/PATH tricks could not reliably fix). pnpm 9.15.4 is provided via corepack, Playwright Chromium + system deps are installed by the `install` step, and a persistent Storybook server runs on `http://localhost:6006`. `agentCanUpdateSnapshot` bakes the heavy browser/deps install into a reusable snapshot; `install` re-runs each boot as an idempotent dependency refresh.
 
 **Per-task checks** (run the ones relevant to your change):
 
