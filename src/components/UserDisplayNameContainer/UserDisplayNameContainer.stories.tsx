@@ -73,6 +73,62 @@ export const Truncated: Story = {
   args: { children: "Aitana Lopez de la Vega Hernández Rodríguez del Castillo" },
 };
 
+const LONG_NAME = "Aitana Lopez de la Vega Hernández Rodríguez del Castillo";
+
+/**
+ * The name truncates with an ellipsis while the verified/ambassador badge and
+ * online-status indicator stay fully visible on the same line — nothing wraps
+ * or gets clipped.
+ */
+export const TruncatedWithIconsAndStatus: Story = {
+  name: "Truncated with icons + online status",
+  render: () => (
+    <div className="flex w-72 flex-col gap-4">
+      <div className="flex flex-col gap-1">
+        <UserDisplayNameContainer verified showOnlineStatus>
+          {LONG_NAME}
+        </UserDisplayNameContainer>
+        <span className="typography-description-12px-regular text-content-secondary">
+          verified + online
+        </span>
+      </div>
+      <div className="flex flex-col gap-1">
+        <UserDisplayNameContainer ambassador showOnlineStatus>
+          {LONG_NAME}
+        </UserDisplayNameContainer>
+        <span className="typography-description-12px-regular text-content-secondary">
+          ambassador + online
+        </span>
+      </div>
+      <div className="flex flex-col gap-1">
+        <UserDisplayNameContainer verified>{LONG_NAME}</UserDisplayNameContainer>
+        <span className="typography-description-12px-regular text-content-secondary">
+          verified only
+        </span>
+      </div>
+      <div className="flex flex-col gap-1">
+        <UserDisplayNameContainer showOnlineStatus>{LONG_NAME}</UserDisplayNameContainer>
+        <span className="typography-description-12px-regular text-content-secondary">
+          online only
+        </span>
+      </div>
+    </div>
+  ),
+};
+
+/** The same content at an even narrower width still keeps the icons pinned. */
+export const TruncatedNarrow: Story = {
+  name: "Truncated (narrow container)",
+  render: () => (
+    <div className="flex w-40 flex-col gap-1">
+      <UserDisplayNameContainer ambassador showOnlineStatus>
+        {LONG_NAME}
+      </UserDisplayNameContainer>
+      <span className="typography-description-12px-regular text-content-secondary">w-40</span>
+    </div>
+  ),
+};
+
 export const Wrapping: Story = {
   args: {
     noWrap: false,

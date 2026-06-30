@@ -96,9 +96,7 @@ export const UserDisplayNameContainer = React.forwardRef<
       <Component
         ref={ref}
         className={cn(
-          "inline-block max-w-full",
-          typographyClass,
-          noWrap && "truncate",
+          "inline-flex max-w-full items-center",
           color === "white" && "text-white",
           className,
         )}
@@ -111,17 +109,18 @@ export const UserDisplayNameContainer = React.forwardRef<
         }}
         {...props}
       >
-        {children}
+        {/* Only the name shrinks/truncates; badges and status stay visible on the same line. */}
+        <span className={cn("min-w-0", typographyClass, noWrap && "truncate")}>{children}</span>
         {badge && (
           <span
             role="img"
             aria-label={badge.label}
-            className={`relative -top-[25%] ml-2 inline-flex h-full translate-y-[25%] items-center ${badge.tint}`}
+            className={cn("ml-2 inline-flex shrink-0 items-center", badge.tint)}
           >
             <VerifiedIcon className="size-4" />
           </span>
         )}
-        {showOnlineStatus && <ProfileOnlineStatus label={onlineLabel} />}
+        {showOnlineStatus && <ProfileOnlineStatus label={onlineLabel} className="shrink-0" />}
       </Component>
     );
   },

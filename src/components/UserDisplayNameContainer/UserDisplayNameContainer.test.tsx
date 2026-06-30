@@ -11,21 +11,20 @@ describe("UserDisplayNameContainer", () => {
       expect(screen.getByText("Aitana Lopez")).toBeInTheDocument();
     });
 
-    it("renders a span with the default typography and truncation by default", () => {
+    it("renders a span whose name truncates with the default typography by default", () => {
       render(<UserDisplayNameContainer data-testid="name">Aitana</UserDisplayNameContainer>);
       const el = screen.getByTestId("name");
       expect(el.tagName).toBe("SPAN");
-      expect(el).toHaveClass("inline-block", "max-w-full", "truncate");
-      expect(el).toHaveClass("typography-body-small-14px-semibold");
+      expect(el).toHaveClass("inline-flex", "max-w-full", "items-center");
+      // Truncation and typography live on the inner name span so trailing
+      // badges/status stay visible while only the name is clipped.
+      const name = screen.getByText("Aitana");
+      expect(name).toHaveClass("truncate", "min-w-0", "typography-body-small-14px-semibold");
     });
 
-    it("does not truncate when noWrap is false", () => {
-      render(
-        <UserDisplayNameContainer data-testid="name" noWrap={false}>
-          Aitana
-        </UserDisplayNameContainer>,
-      );
-      expect(screen.getByTestId("name")).not.toHaveClass("truncate");
+    it("does not truncate the name when noWrap is false", () => {
+      render(<UserDisplayNameContainer noWrap={false}>Aitana</UserDisplayNameContainer>);
+      expect(screen.getByText("Aitana")).not.toHaveClass("truncate");
     });
 
     it("applies custom className and spreads attributes", () => {
@@ -53,22 +52,16 @@ describe("UserDisplayNameContainer", () => {
       ["heading4", "typography-header-heading-xs"],
       ["captionRegular", "typography-description-12px-regular"],
     ] as const)("maps %s to its typography class", (variant, expectedClass) => {
-      render(
-        <UserDisplayNameContainer data-testid="name" variant={variant}>
-          Aitana
-        </UserDisplayNameContainer>,
-      );
-      expect(screen.getByTestId("name")).toHaveClass(expectedClass);
+      render(<UserDisplayNameContainer variant={variant}>Aitana</UserDisplayNameContainer>);
+      expect(screen.getByText("Aitana")).toHaveClass(expectedClass);
     });
 
     it("falls back to the default class for an unknown variant", () => {
       render(
         // @ts-expect-error - exercising the runtime fallback for an out-of-type variant
-        <UserDisplayNameContainer data-testid="name" variant="nope">
-          Aitana
-        </UserDisplayNameContainer>,
+        <UserDisplayNameContainer variant="nope">Aitana</UserDisplayNameContainer>,
       );
-      expect(screen.getByTestId("name")).toHaveClass("typography-body-small-14px-semibold");
+      expect(screen.getByText("Aitana")).toHaveClass("typography-body-small-14px-semibold");
     });
   });
 
