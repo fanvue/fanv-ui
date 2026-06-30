@@ -601,7 +601,7 @@ return <button ref={ref} className={className} {...props}>{children}</button>;
 
 ## Cursor Cloud specific instructions
 
-When running as a Cursor Cloud Agent, the environment is provisioned from `.cursor/environment.json` (Node 24, pnpm 9.15.4, Playwright Chromium + system deps, and a persistent Storybook server on `http://localhost:6006`).
+When running as a Cursor Cloud Agent, the environment is provisioned from `.cursor/environment.json` (Node 24, pnpm 9.15.4, Playwright Chromium + system deps, and a persistent Storybook server on `http://localhost:6006`). It is snapshot-based: `agentCanUpdateSnapshot` is enabled so the heavy one-time setup (Playwright browser + system deps) is baked into a reusable machine snapshot, and the `install` script then runs each boot as an idempotent dependency refresh (and as a self-heal path if the snapshot is ever unavailable).
 
 Gotcha: the VM ships a pre-installed `node` earlier on `PATH` (e.g. `/exec-daemon/node`, Node 22) that shadows the `.nvmrc`-pinned Node 24 even after `nvm use` reports success — `node -v` may still print v22. If a command misbehaves on the wrong Node, prepend the nvm bin to `PATH` for the session: `export PATH="$HOME/.nvm/versions/node/v24.13.0/bin:$PATH"`.
 
