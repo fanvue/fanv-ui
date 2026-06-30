@@ -171,10 +171,12 @@ import {
   ProgressBar,
   Radio,
   RadioGroup,
+  RatingSummary,
   RepeatIcon,
   Reply2Icon,
   ReplyIcon,
   ReverseIcon,
+  ReviewCard,
   SearchField,
   SearchIcon,
   Select,
@@ -3784,6 +3786,58 @@ function PaginationDemo() {
   );
 }
 
+function RatingSummaryDemo() {
+  return (
+    <div id="ratingsummary" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Rating Summary</h2>
+      <div className="flex max-w-md flex-col gap-8">
+        <RatingSummary
+          distribution={[
+            { rating: 5, count: 300 },
+            { rating: 4, count: 20 },
+            { rating: 3, count: 20 },
+            { rating: 2, count: 10 },
+            { rating: 1, count: 0 },
+          ]}
+        />
+        <RatingSummary
+          averageRating={4.3}
+          distribution={[
+            { rating: 5, count: 18420 },
+            { rating: 4, count: 7310 },
+            { rating: 3, count: 1290 },
+            { rating: 2, count: 540 },
+            { rating: 1, count: 880 },
+          ]}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ReviewCardDemo() {
+  const body =
+    "Easily plan and organize your content with this app. Streamline your scheduling and management tasks to focus on what you do best — creating.";
+  return (
+    <div id="reviewcard" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Review Card</h2>
+      <div className="flex max-w-md flex-col gap-6">
+        <ReviewCard rating={5} author="@jane_doe" title="A great app to start!">
+          {body}
+        </ReviewCard>
+        <Divider />
+        <ReviewCard rating={4} author="@sam_smith" title="Really useful">
+          {body}
+        </ReviewCard>
+        <Divider />
+        <ReviewCard rating={3} author="@alex_p" title="Does the job">
+          {body}
+        </ReviewCard>
+      </div>
+    </div>
+  );
+}
+
 function ProgressBarDemo() {
   return (
     <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
@@ -5189,6 +5243,12 @@ function App() {
 
             {/* ProgressBar */}
             <ProgressBarDemo />
+
+            {/* Rating Summary */}
+            <RatingSummaryDemo />
+
+            {/* Review Card */}
+            <ReviewCardDemo />
 
             {/* Stepper */}
             <StepperDemo />
