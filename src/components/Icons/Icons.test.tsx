@@ -154,6 +154,7 @@ import { UserIcon } from "./UserIcon";
 import { UserMenuIcon } from "./UserMenuIcon";
 import { UsersIcon } from "./UsersIcon";
 import { VaultIcon } from "./VaultIcon";
+import { VerifiedIcon } from "./VerifiedIcon";
 import { VideoIcon } from "./VideoIcon";
 import { VipBadgeIcon } from "./VipBadgeIcon";
 import { WalletIcon } from "./WalletIcon";
@@ -192,6 +193,7 @@ const legacyIcons = [
   { name: "TwitterIcon", Component: TwitterIcon },
   { name: "UploadCloudIcon", Component: UploadCloudIcon },
   { name: "UserCircleIcon", Component: UserCircleIcon },
+  { name: "VerifiedIcon", Component: VerifiedIcon },
   { name: "VipBadgeIcon", Component: VipBadgeIcon },
   { name: "WarningTriangleIcon", Component: WarningTriangleIcon },
   { name: "WifiOnIcon", Component: WifiOnIcon },
