@@ -599,6 +599,31 @@ return <button ref={ref} className={className} {...props}>{children}</button>;
 
 **Full documentation**: `pnpm storybook` → "Documentation > Figma Integration"
 
+## Cursor Cloud specific instructions
+
+When running as a Cursor Cloud Agent, the environment is provisioned from `.cursor/environment.json` (Node 24, pnpm 9.15.4, Playwright Chromium + system deps, and a persistent Storybook server on `http://localhost:6006`).
+
+**Per-task checks** (run the ones relevant to your change):
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test                       # unit + Storybook browser tests (Chromium)
+pnpm test:e2e --project=chromium
+pnpm build
+```
+
+**Visual verification is required for any component or style change.** This is a UI library, so a change is not done until you have visual proof:
+
+1. Make sure Storybook is up on `http://localhost:6006` (the `storybook` terminal keeps it running; otherwise `pnpm storybook --no-open -p 6006`).
+2. Open the affected story — URL form `http://localhost:6006/?path=/story/components-<componentname>--<variant>` — and capture a screenshot of each changed variant.
+3. For interactive states (hover, open, focus, etc.), drive the story with Playwright and screenshot the resulting state.
+4. Attach the screenshots to the PR as the proof-of-change. Cloud agents surface attached images/videos on the PR.
+
+Note: `playwright.config.ts` only captures screenshots `on-failure`, so for passing visual checks take explicit screenshots rather than relying on failure artifacts.
+
+**Commits and PRs use Conventional Commits** (enforced by commitlint). Both commit messages and PR titles must follow `<type>(<scope>): <summary>` where `type` is one of `feat`, `fix`, `chore`, `refactor`, `docs`, `ci`, `test`, `perf`, `build`, `style`, and `scope` is the component name (e.g. `Autocomplete`), `deps`, or omitted. Reference the Linear ticket in parentheses at the end of the summary, e.g. `feat(Badge): add subtle variant (ENG-1234)`.
+
 ## Resources
 
 - [Figma Design Library](https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library)
