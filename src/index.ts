@@ -510,6 +510,7 @@ export type { UsersIconProps } from "./components/Icons/UsersIcon";
 export { UsersIcon } from "./components/Icons/UsersIcon";
 export type { VaultIconProps } from "./components/Icons/VaultIcon";
 export { VaultIcon } from "./components/Icons/VaultIcon";
+export type { VerifiedIconProps } from "./components/Icons/VerifiedIcon";
 export { VerifiedIcon } from "./components/Icons/VerifiedIcon";
 export type { VideoIconProps } from "./components/Icons/VideoIcon";
 export { VideoIcon } from "./components/Icons/VideoIcon";

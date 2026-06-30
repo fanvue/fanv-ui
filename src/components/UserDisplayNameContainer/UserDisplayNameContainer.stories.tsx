@@ -146,16 +146,6 @@ export const CustomLabels: Story = {
   },
 };
 
-export const OnWhiteText: Story = {
-  name: 'color="white" (on dark surface)',
-  args: { color: "white", verified: true },
-  render: (args) => (
-    <div className="w-72 rounded-lg bg-surface-primary-inverted p-4">
-      <UserDisplayNameContainer {...args} />
-    </div>
-  ),
-};
-
 export const Variants: Story = {
   render: () => (
     <div className="flex w-72 flex-col gap-3">
