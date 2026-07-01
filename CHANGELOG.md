@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.8.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.7.2...ui-v3.8.0) (2026-07-01)
+
+
+### Features
+
+* add RatingSummary and ReviewCard review components ([#539](https://github.com/fanvue/fanv-ui/issues/539)) ([419891b](https://github.com/fanvue/fanv-ui/commit/419891beb86500ef55afc2fc90868da82dc0aa9a))
+* **Breadcrumb:** migrate to V2 with size prop and slash separator (ENG-10623) ([#541](https://github.com/fanvue/fanv-ui/issues/541)) ([0d33b92](https://github.com/fanvue/fanv-ui/commit/0d33b92eb9622614f1418569a7735c3d30c7d494))
+* **icons:** add GifIcon ([#536](https://github.com/fanvue/fanv-ui/issues/536)) ([ecb52ca](https://github.com/fanvue/fanv-ui/commit/ecb52ca17aa21439b39105e769cb54608ef4950e))
+* **icons:** add UserItem, UserDisplayNameContainer, ProfileOnlineStatus, and VerifiedIcon ([#537](https://github.com/fanvue/fanv-ui/issues/537)) ([74dff20](https://github.com/fanvue/fanv-ui/commit/74dff20df73c9eba529dffadfd48fbc7f7d6115d))
+* **Pagination:** migrate page items to V2 Page Item styling (ENG-10646) ([#543](https://github.com/fanvue/fanv-ui/issues/543)) ([cf287b3](https://github.com/fanvue/fanv-ui/commit/cf287b33450d01ac82952ceefa2577d416354aed))
+* **Toast:** align with V2 dark surface, semantic icon tokens and controls (ENG-10636) ([#542](https://github.com/fanvue/fanv-ui/issues/542)) ([2772fa7](https://github.com/fanvue/fanv-ui/commit/2772fa7043e36db3f59eeae51bbc880760a6f907))
+
 ## [3.7.2](https://github.com/fanvue/fanv-ui/compare/ui-v3.7.1...ui-v3.7.2) (2026-06-26)
 
 
