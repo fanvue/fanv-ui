@@ -741,8 +741,8 @@ export {
 } from "./components/Tooltip/Tooltip";
 export type { UserDisplayNameProps } from "./components/UserDisplayName/UserDisplayName";
 export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
-export type { UserHandleTypographyProps } from "./components/UserHandleTypography/UserHandleTypography";
-export { UserHandleTypography } from "./components/UserHandleTypography/UserHandleTypography";
+export type { UserHandleProps } from "./components/UserHandle/UserHandle";
+export { UserHandle } from "./components/UserHandle/UserHandle";
 export type { UserItemProps, UserItemUser } from "./components/UserItem/UserItem";
 export { UserItem } from "./components/UserItem/UserItem";
 export { cn } from "./utils/cn";

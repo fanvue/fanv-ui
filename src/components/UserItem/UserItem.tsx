@@ -4,7 +4,7 @@ import { getInitials } from "../../utils/getInitials";
 import { Avatar } from "../Avatar/Avatar";
 import { BellOffIcon } from "../Icons/BellOffIcon";
 import { UserDisplayName } from "../UserDisplayName/UserDisplayName";
-import { UserHandleTypography } from "../UserHandleTypography/UserHandleTypography";
+import { UserHandle } from "../UserHandle/UserHandle";
 
 const AVATAR_SIZES = [16, 24, 32, 40, 48, 64, 88, 148] as const;
 type AvatarSizeToken = (typeof AVATAR_SIZES)[number];
@@ -88,7 +88,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
           <UserDisplayName className="typography-body-small-14px-semibold">
             {user.nickname || user.displayName}
           </UserDisplayName>
-          {showHandle && <UserHandleTypography>{user.handle}</UserHandleTypography>}
+          {showHandle && <UserHandle>{user.handle}</UserHandle>}
         </div>
       </div>
     );

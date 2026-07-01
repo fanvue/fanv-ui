@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { UserHandleTypography } from "./UserHandleTypography";
+import { UserHandle } from "./UserHandle";
 
 const meta = {
-  title: "Components/UserHandleTypography",
-  component: UserHandleTypography,
+  title: "Components/UserHandle",
+  component: UserHandle,
   parameters: {
     layout: "centered",
   },
@@ -16,10 +16,10 @@ const meta = {
   },
   render: (args) => (
     <div className="w-72">
-      <UserHandleTypography {...args} />
+      <UserHandle {...args} />
     </div>
   ),
-} satisfies Meta<typeof UserHandleTypography>;
+} satisfies Meta<typeof UserHandle>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

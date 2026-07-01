@@ -2,17 +2,17 @@ import { render, screen } from "@testing-library/react";
 import * as React from "react";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
-import { UserHandleTypography } from "./UserHandleTypography";
+import { UserHandle } from "./UserHandle";
 
-describe("UserHandleTypography", () => {
+describe("UserHandle", () => {
   describe("API", () => {
     it("prefixes the handle with an @ symbol", () => {
-      render(<UserHandleTypography>fit_aitana</UserHandleTypography>);
+      render(<UserHandle>fit_aitana</UserHandle>);
       expect(screen.getByText("@fit_aitana")).toBeInTheDocument();
     });
 
     it("applies the muted, truncated secondary typography", () => {
-      render(<UserHandleTypography data-testid="handle">fit_aitana</UserHandleTypography>);
+      render(<UserHandle data-testid="handle">fit_aitana</UserHandle>);
       const el = screen.getByTestId("handle");
       expect(el.tagName).toBe("SPAN");
       expect(el).toHaveClass(
@@ -26,32 +26,32 @@ describe("UserHandleTypography", () => {
 
     it("applies custom className", () => {
       render(
-        <UserHandleTypography data-testid="handle" className="custom">
+        <UserHandle data-testid="handle" className="custom">
           fit_aitana
-        </UserHandleTypography>,
+        </UserHandle>,
       );
       expect(screen.getByTestId("handle")).toHaveClass("custom");
     });
 
     it("spreads additional HTML attributes", () => {
       render(
-        <UserHandleTypography data-testid="handle" data-custom="x">
+        <UserHandle data-testid="handle" data-custom="x">
           fit_aitana
-        </UserHandleTypography>,
+        </UserHandle>,
       );
       expect(screen.getByTestId("handle")).toHaveAttribute("data-custom", "x");
     });
 
     it("forwards ref to the root element", () => {
       const ref = React.createRef<HTMLSpanElement>();
-      render(<UserHandleTypography ref={ref}>fit_aitana</UserHandleTypography>);
+      render(<UserHandle ref={ref}>fit_aitana</UserHandle>);
       expect(ref.current).toBeInstanceOf(HTMLSpanElement);
     });
   });
 
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
-      const { container } = render(<UserHandleTypography>fit_aitana</UserHandleTypography>);
+      const { container } = render(<UserHandle>fit_aitana</UserHandle>);
       expect(await axe(container)).toHaveNoViolations();
     });
   });
