@@ -1665,6 +1665,12 @@ function AlertDemo() {
         <Alert variant="error" icon={<ErrorCircleIcon />} title="Something went wrong" closable>
           This alert shows title, icon, and closable all together.
         </Alert>
+        <Alert variant="neutral" title="Heads up">
+          This is a general notice with no specific sentiment.
+        </Alert>
+        <Alert variant="neutral" title="Heads up" linkText="Learn more" linkHref="#" closable>
+          A neutral alert with an inline link and a close button.
+        </Alert>
       </div>
     </div>
   );

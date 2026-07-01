@@ -77,6 +77,55 @@ describe("Alert", () => {
     });
   });
 
+  describe("neutral variant", () => {
+    it("renders a default icon for the neutral variant", () => {
+      render(<Alert variant="neutral">Neutral</Alert>);
+      const alert = screen.getByRole("alert");
+      expect(alert.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("applies the neutral background token", () => {
+      render(<Alert variant="neutral">Neutral</Alert>);
+      const alert = screen.getByRole("alert");
+      expect(alert).toHaveClass("bg-alerts-info-prompt-background-neutral");
+    });
+  });
+
+  describe("inline link", () => {
+    it("renders an anchor when linkHref is provided", () => {
+      render(
+        <Alert linkText="Learn more" linkHref="/details">
+          Alert with link
+        </Alert>,
+      );
+      const link = screen.getByRole("link", { name: /learn more/i });
+      expect(link).toHaveAttribute("href", "/details");
+    });
+
+    it("renders a button when only linkText is provided", () => {
+      render(<Alert linkText="Take action">Alert with action</Alert>);
+      expect(screen.getByRole("button", { name: /take action/i })).toBeInTheDocument();
+      expect(screen.queryByRole("link")).not.toBeInTheDocument();
+    });
+
+    it("does not render a link when linkText is absent", () => {
+      render(<Alert linkHref="/details">No link text</Alert>);
+      expect(screen.queryByRole("link")).not.toBeInTheDocument();
+    });
+
+    it("calls onLinkClick when the link is activated", async () => {
+      const user = userEvent.setup();
+      const onLinkClick = vi.fn();
+      render(
+        <Alert linkText="Take action" onLinkClick={onLinkClick}>
+          Alert with action
+        </Alert>,
+      );
+      await user.click(screen.getByRole("button", { name: /take action/i }));
+      expect(onLinkClick).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe("closable behavior", () => {
     it("calls onClose when close button is clicked", async () => {
       const user = userEvent.setup();
@@ -127,6 +176,16 @@ describe("Alert", () => {
       const { container } = render(
         <Alert icon={<span>Icon</span>} closable>
           Alert with all features
+        </Alert>,
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations for the neutral variant with a link", async () => {
+      const { container } = render(
+        <Alert variant="neutral" title="Heads up" linkText="Learn more" linkHref="/details">
+          Neutral alert with a link
         </Alert>,
       );
       const results = await axe(container);
