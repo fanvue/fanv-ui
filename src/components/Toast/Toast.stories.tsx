@@ -8,7 +8,7 @@ const meta: Meta<typeof Toast> = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=12676-31063&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=17949-11949&m=dev",
     },
   },
   tags: ["autodocs"],

@@ -3,7 +3,6 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
-import { IconButton } from "../IconButton/IconButton";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { ErrorIcon } from "../Icons/ErrorIcon";
 import { InfoIcon } from "../Icons/InfoIcon";
@@ -66,13 +65,13 @@ ToastViewport.displayName = "ToastViewport";
 const VariantIcon = ({ variant }: { variant: ToastVariant }) => {
   switch (variant) {
     case "info":
-      return <InfoIcon className="size-5 text-info-content" />;
+      return <InfoIcon size={16} filled className="text-alerts-toast-icon-info" />;
     case "warning":
-      return <WarningIcon className="size-5 text-warning-content" />;
+      return <WarningIcon size={16} filled className="text-alerts-toast-icon-warning" />;
     case "success":
-      return <SuccessIcon className="size-5 text-success-content" />;
+      return <SuccessIcon className="size-4 text-alerts-toast-icon-success" />;
     case "error":
-      return <ErrorIcon className="size-5 text-error-content" />;
+      return <ErrorIcon className="size-4 text-alerts-toast-icon-error" />;
   }
 };
 
@@ -112,45 +111,36 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
         ref={ref}
         data-testid="toast"
         className={cn(
-          // Base styles
-          "group pointer-events-auto relative flex w-full flex-col items-start gap-3 overflow-hidden rounded-xs border-none bg-surface-primary-inverted p-4 text-content-primary-inverted shadow-lg transition-all",
-          // Dark mode
-          "dark:border-opacity-100",
-          // Animation
+          "group pointer-events-auto relative flex w-full items-start gap-6 overflow-hidden rounded-md border-none bg-surface-primary-inverted py-3 pr-3 pl-4 text-content-primary-inverted shadow-md transition-all",
           "data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-(--radix-toast-swipe-end-x) data-[swipe=move]:translate-x-(--radix-toast-swipe-move-x) data-[state=closed]:animate-out data-[state=open]:animate-in data-[swipe=end]:animate-out data-[swipe=move]:transition-none",
-          // Manual CSS overrides
           className,
         )}
         {...props}
       >
-        <div className="flex w-full items-center gap-3">
-          <div className="self-start">
+        <div className="flex min-w-0 flex-1 items-start gap-3 py-1 pr-1">
+          <div className="flex shrink-0 items-center pt-px">
             {variant === "messageToast" ? (
               avatarSrc && <Avatar src={avatarSrc} alt={avatarAlt} fallback={avatarFallback} />
             ) : (
               <VariantIcon variant={variant} />
             )}
           </div>
-          <div className="flex flex-1 flex-col items-start">
-            {title && (
-              <ToastPrimitive.Title className="typography-body-small-14px-semibold">
-                {title}
-              </ToastPrimitive.Title>
-            )}
-            {description && (
-              <ToastPrimitive.Description className="typography-body-small-14px-regular mt-1 opacity-90">
-                {description}
-              </ToastPrimitive.Description>
-            )}
-            {children}
+          <div className="flex min-w-0 flex-1 flex-col items-start gap-4">
+            <div className="flex w-full flex-col items-start gap-1">
+              {title && (
+                <ToastPrimitive.Title className="typography-body-small-14px-semibold">
+                  {title}
+                </ToastPrimitive.Title>
+              )}
+              {description && (
+                <ToastPrimitive.Description className="typography-body-small-14px-regular">
+                  {description}
+                </ToastPrimitive.Description>
+              )}
+              {children}
+            </div>
             {onActionClick && (
-              <Button
-                variant="secondary"
-                // These styles are basically inverted from the selected theme
-                className="mt-4 border-content-primary-inverted text-content-primary-inverted"
-                size="32"
-                onClick={onActionClick}
-              >
+              <Button variant="outline" negative size="32" onClick={onActionClick}>
                 {actionLabel ?? "Action"}
               </Button>
             )}
@@ -158,14 +148,13 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
         </div>
         {showClose && (
           <ToastPrimitive.Close asChild>
-            <IconButton
-              icon={<CloseIcon />}
+            <button
+              type="button"
               aria-label={closeLabel}
-              // same as the button above
-              className="absolute top-2 right-2 text-content-primary-inverted"
-              variant="tertiary"
-              size="24"
-            />
+              className="flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-xs bg-buttons-secondary-negative-default text-content-primary-inverted transition-colors hover:bg-buttons-secondary-negative-hover focus-visible:shadow-focus-ring focus-visible:outline-none"
+            >
+              <CloseIcon size={16} aria-hidden="true" />
+            </button>
           </ToastPrimitive.Close>
         )}
       </ToastPrimitive.Root>
