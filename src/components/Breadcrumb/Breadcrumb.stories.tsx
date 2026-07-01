@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { ChevronRightIcon } from "../Icons/ChevronRightIcon";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,7 +15,7 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=14962-1155047",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=17799-38008",
     },
   },
   tags: ["autodocs"],
@@ -80,15 +81,68 @@ export const FourItems: Story = {
   ),
 };
 
+export const Size12px: Story = {
+  name: "Size 12px",
+  render: () => (
+    <Breadcrumb>
+      <BreadcrumbList size="12px">
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/section">Section</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbPage>Current Page</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  ),
+};
+
+export const Size14px: Story = {
+  name: "Size 14px",
+  render: () => (
+    <Breadcrumb>
+      <BreadcrumbList size="14px">
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/section">Section</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbPage>Current Page</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  ),
+};
+
+export const Size16px: Story = {
+  name: "Size 16px",
+  render: () => (
+    <Breadcrumb>
+      <BreadcrumbList size="16px">
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/section">Section</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbPage>Current Page</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  ),
+};
+
 export const CustomSeparator: Story = {
   name: "Custom separator",
   render: () => (
     <Breadcrumb>
-      <BreadcrumbList
-        separator={
-          <span className="typography-description-12px-regular text-content-secondary">/</span>
-        }
-      >
+      <BreadcrumbList separator={<ChevronRightIcon className="size-4" />}>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
