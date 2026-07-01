@@ -154,11 +154,49 @@ describe("Radio", () => {
     });
   });
 
+  describe("layout and avatar", () => {
+    it("keeps the label associated with the radio in trailing layout", () => {
+      render(
+        <RadioGroup>
+          <Radio id="trailing-radio" layout="trailing" label="Trailing" value="test" />
+        </RadioGroup>,
+      );
+      const label = screen.getByText("Trailing");
+      expect(label).toHaveAttribute("for", "trailing-radio");
+      expect(screen.getByRole("radio")).toHaveAttribute("id", "trailing-radio");
+    });
+
+    it("renders the avatar slot content", () => {
+      render(
+        <RadioGroup>
+          <Radio label="Jane Doe" value="jane" avatar={<span data-testid="avatar-slot" />} />
+        </RadioGroup>,
+      );
+      expect(screen.getByTestId("avatar-slot")).toBeInTheDocument();
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(
         <RadioGroup>
           <Radio label="Accessible Radio" value="test" />
+        </RadioGroup>,
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations in trailing layout with an avatar", async () => {
+      const { container } = render(
+        <RadioGroup>
+          <Radio
+            layout="trailing"
+            label="Jane Doe"
+            helperText="@jane_doe"
+            value="jane"
+            avatar={<span aria-hidden="true" />}
+          />
         </RadioGroup>,
       );
       const results = await axe(container);
