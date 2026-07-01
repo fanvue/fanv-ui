@@ -28,6 +28,29 @@ describe("Link", () => {
       expect(screen.getByRole("button", { name: /Action/i })).toBeInTheDocument();
     });
 
+    it("renders icons around the slotted child when asChild is true", () => {
+      render(
+        <Link asChild leftIcon={<svg data-testid="left" />} rightIcon={<svg data-testid="right" />}>
+          <a href="/pricing">Pricing</a>
+        </Link>,
+      );
+      const link = screen.getByRole("link", { name: /Pricing/i });
+      expect(link).toContainElement(screen.getByTestId("left"));
+      expect(link).toContainElement(screen.getByTestId("right"));
+    });
+
+    it("strips the child href for a disabled asChild link", () => {
+      render(
+        <Link asChild disabled>
+          <a href="/pricing">Pricing</a>
+        </Link>,
+      );
+      const link = screen.getByText("Pricing").closest("a");
+      expect(link).not.toHaveAttribute("href");
+      expect(link).toHaveAttribute("aria-disabled", "true");
+      expect(link).toHaveAttribute("tabindex", "-1");
+    });
+
     it("removes href and marks aria-disabled when disabled", () => {
       render(
         <Link href="/pricing" disabled>

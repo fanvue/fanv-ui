@@ -1,4 +1,4 @@
-import { Slot } from "@radix-ui/react-slot";
+import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
@@ -61,6 +61,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       asChild = false,
       children,
       href,
+      onClick,
       ...props
     },
     ref,
@@ -74,10 +75,34 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
 
     const disabledProps = disabled ? { "aria-disabled": true, tabIndex: -1 } : {};
 
+    // Radix Slot lets the child's own props win when merging, so a disabled
+    // `asChild` link would keep the child's navigable href. Strip it from the
+    // child (anchors only) and block default navigation to honor `disabled`.
+    const slotChild =
+      disabled && React.isValidElement<{ href?: string }>(children) && children.type === "a"
+        ? React.cloneElement(children, { href: undefined })
+        : children;
+
+    const handleClick = disabled
+      ? (event: React.MouseEvent<HTMLAnchorElement>) => event.preventDefault()
+      : onClick;
+
+    const leftIconNode = leftIcon && (
+      <span className={ICON_WRAPPER} aria-hidden="true">
+        {leftIcon}
+      </span>
+    );
+    const rightIconNode = rightIcon && (
+      <span className={ICON_WRAPPER} aria-hidden="true">
+        {rightIcon}
+      </span>
+    );
+
     return (
       <Comp
         ref={ref}
         href={disabled ? undefined : href}
+        onClick={handleClick}
         className={cn(
           "inline-flex items-center gap-2 rounded-2xs transition-colors",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
@@ -91,23 +116,13 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
         {...disabledProps}
         {...props}
       >
+        {leftIconNode}
         {asChild ? (
-          children
+          <Slottable>{slotChild}</Slottable>
         ) : (
-          <>
-            {leftIcon && (
-              <span className={ICON_WRAPPER} aria-hidden="true">
-                {leftIcon}
-              </span>
-            )}
-            <span className={textClasses}>{children}</span>
-            {rightIcon && (
-              <span className={ICON_WRAPPER} aria-hidden="true">
-                {rightIcon}
-              </span>
-            )}
-          </>
+          <span className={textClasses}>{children}</span>
         )}
+        {rightIconNode}
       </Comp>
     );
   },

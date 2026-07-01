@@ -70,6 +70,24 @@ export const RightIcon: Story = {
   },
 };
 
+export const AsChildWithIcon: Story = {
+  name: "asChild (composed) with icon",
+  args: { children: undefined },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`asChild` composes onto a router link (or plain `<a>`) while still rendering `leftIcon` / `rightIcon` around the label.",
+      },
+    },
+  },
+  render: () => (
+    <Link asChild variant="brand" rightIcon={<ArrowUpRightIcon />}>
+      <a href="/plans">See our plans</a>
+    </Link>
+  ),
+};
+
 export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-col gap-6">
