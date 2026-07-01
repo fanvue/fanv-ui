@@ -115,6 +115,7 @@ import {
   EyeIcon,
   EyeSlashIcon,
   FacebookIcon,
+  FanFollowerCount,
   FlagIcon,
   FlameIcon,
   FolderIcon,
@@ -2714,6 +2715,24 @@ function CountDemo() {
   );
 }
 
+function FanFollowerCountDemo() {
+  return (
+    <div id="fan-follower-count" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Fan &amp; Follower Count</h2>
+      <div className="flex flex-wrap items-center gap-8">
+        <FanFollowerCount fans={1200} subs={3000} />
+        <FanFollowerCount fans={1250000} subs={48900} />
+        <FanFollowerCount fans={42} subs={7} />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-8">
+        <FanFollowerCount fans={1200} showSubs={false} />
+        <FanFollowerCount subs={3000} showFans={false} />
+      </div>
+    </div>
+  );
+}
+
 const CYCLING_TEXT_STAGES = [
   "Thinking",
   "Reading messages",
@@ -4977,6 +4996,7 @@ function App() {
     { id: "checkbox", label: "Checkbox" },
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
+    { id: "fan-follower-count", label: "Fan & Follower Count" },
     { id: "creator-card", label: "Creator Card" },
     { id: "creator-cover", label: "Creator Cover" },
     { id: "creator-tile", label: "Creator Tile" },
@@ -5187,6 +5207,9 @@ function App() {
 
             {/* Count */}
             <CountDemo />
+
+            {/* Fan & Follower Count */}
+            <FanFollowerCountDemo />
 
             {/* Cycling Text */}
             <CyclingTextDemo />
