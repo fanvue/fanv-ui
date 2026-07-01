@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { UserDisplayName } from "./UserDisplayName";
 
-const VARIANTS = ["body2SemiBold", "body1SemiBold", "heading4"] as const;
-
 const meta = {
   title: "Components/UserDisplayName",
   component: UserDisplayName,
@@ -15,7 +13,6 @@ const meta = {
     verified: { control: "boolean" },
     showOnlineStatus: { control: "boolean" },
     noWrap: { control: "boolean" },
-    variant: { control: "select", options: VARIANTS },
     component: {
       control: "select",
       options: ["span", "h1", "h2", "h3", "p", "div"],
@@ -139,29 +136,18 @@ export const CustomLabels: Story = {
   },
 };
 
-export const Variants: Story = {
-  render: () => (
-    <div className="flex w-72 flex-col gap-3">
-      {VARIANTS.map((variant) => (
-        <div key={variant} className="flex flex-col gap-1">
-          <UserDisplayName variant={variant} verified>
-            Aitana Lopez
-          </UserDisplayName>
-          <span className="typography-description-12px-regular text-content-secondary">
-            variant=&quot;{variant}&quot;
-          </span>
-        </div>
-      ))}
-    </div>
-  ),
-};
-
 export const SemanticElements: Story = {
   name: "Polymorphic element",
   render: () => (
     <div className="flex w-72 flex-col gap-3">
       {(["h1", "h2", "h3", "p", "div"] as const).map((component) => (
-        <UserDisplayName key={component} component={component} variant="body1SemiBold">
+        <UserDisplayName
+          key={component}
+          component={component}
+          className="typography-body-default-16px-semibold"
+          verified
+          showOnlineStatus
+        >
           Rendered as &lt;{component}&gt;
         </UserDisplayName>
       ))}

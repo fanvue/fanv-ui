@@ -133,7 +133,7 @@ export const States: Story = {
 export const WithBadgedName: Story = {
   render: (args) => (
     <div className="flex w-72 flex-col gap-1">
-      <UserDisplayName ambassador variant="body1SemiBold">
+      <UserDisplayName ambassador className="typography-body-default-16px-semibold">
         Aitana Lopez
       </UserDisplayName>
       <UserItem {...args} />

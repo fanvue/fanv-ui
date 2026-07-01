@@ -11,13 +11,19 @@ describe("UserDisplayName", () => {
       expect(screen.getByText("Aitana Lopez")).toBeInTheDocument();
     });
 
-    it("renders a span whose name truncates with the default typography by default", () => {
+    it("renders a span whose name truncates, with the default typography on the root", () => {
       render(<UserDisplayName data-testid="name">Aitana</UserDisplayName>);
       const el = screen.getByTestId("name");
       expect(el.tagName).toBe("SPAN");
-      expect(el).toHaveClass("inline-flex", "max-w-full", "items-center");
+      expect(el).toHaveClass(
+        "inline-flex",
+        "max-w-full",
+        "items-center",
+        "typography-body-small-14px-semibold",
+      );
       const name = screen.getByText("Aitana");
-      expect(name).toHaveClass("truncate", "min-w-0", "typography-body-small-14px-semibold");
+      expect(name).toHaveClass("truncate", "min-w-0");
+      expect(name).not.toHaveClass("typography-body-small-14px-semibold");
     });
 
     it("does not truncate the name when noWrap is false", () => {
@@ -43,22 +49,16 @@ describe("UserDisplayName", () => {
     });
   });
 
-  describe("variant", () => {
-    it.each([
-      ["body2SemiBold", "typography-body-small-14px-semibold"],
-      ["body1SemiBold", "typography-body-default-16px-semibold"],
-      ["heading4", "typography-header-heading-xs"],
-    ] as const)("maps %s to its typography class", (variant, expectedClass) => {
-      render(<UserDisplayName variant={variant}>Aitana</UserDisplayName>);
-      expect(screen.getByText("Aitana")).toHaveClass(expectedClass);
-    });
-
-    it("falls back to the default class for an unknown variant", () => {
+  describe("typography override", () => {
+    it("lets a typography className replace the default scale on the root", () => {
       render(
-        // @ts-expect-error - exercising the runtime fallback for an out-of-type variant
-        <UserDisplayName variant="nope">Aitana</UserDisplayName>,
+        <UserDisplayName data-testid="name" className="typography-header-heading-xs">
+          Aitana
+        </UserDisplayName>,
       );
-      expect(screen.getByText("Aitana")).toHaveClass("typography-body-small-14px-semibold");
+      const el = screen.getByTestId("name");
+      expect(el).toHaveClass("typography-header-heading-xs");
+      expect(el).not.toHaveClass("typography-body-small-14px-semibold");
     });
   });
 
