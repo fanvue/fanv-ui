@@ -10,6 +10,8 @@ const pillVariants = {
     gold: "bg-warning-surface text-warning-content",
     pinkLight: "bg-brand-secondary-muted text-content-primary",
     base: "bg-surface-primary-inverted text-content-primary-inverted",
+    contrast: "bg-buttons-primary-default text-content-primary-inverted",
+    negative: "bg-buttons-secondary-negative-default text-content-primary-inverted",
     brand: "bg-brand-primary-default text-content-always-black",
     brandLight: "bg-brand-primary-muted text-content-primary",
     beta: "bg-brand-secondary-default text-content-always-black",
@@ -26,6 +28,8 @@ export type PillVariant =
   | "gold"
   | "pinkLight"
   | "base"
+  | "contrast"
+  | "negative"
   | "brand"
   | "brandLight"
   | "beta"

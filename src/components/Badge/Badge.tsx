@@ -11,6 +11,12 @@ const badgeVariants = {
     error: "bg-neutral-alphas-50 text-content-primary",
     special: "bg-neutral-alphas-50 text-content-primary",
     info: "bg-neutral-alphas-50 text-content-primary",
+    successColour: "bg-success-surface text-content-primary",
+    warningColour: "bg-warning-surface text-content-primary",
+    errorColour: "bg-error-surface text-content-primary",
+    infoColour: "bg-info-surface text-content-primary",
+    aiGenerated: "bg-buttons-always-white-default text-content-always-black",
+    negative: "bg-buttons-secondary-negative-default text-content-primary-inverted",
     online: "bg-background-primary text-brand-primary-default",
     brand: "bg-brand-primary-default text-content-always-black",
     pink: "bg-brand-secondary-default text-content-always-black",
@@ -25,6 +31,12 @@ const badgeVariants = {
     error: "bg-error-content",
     special: "bg-special-default",
     info: "bg-info-content",
+    successColour: "bg-success-content",
+    warningColour: "bg-warning-content",
+    errorColour: "bg-error-content",
+    infoColour: "bg-info-content",
+    aiGenerated: "bg-content-always-black",
+    negative: "bg-icons-primary-inverted",
     online: "bg-brand-primary-default",
     brand: "bg-content-always-black",
     pink: "bg-content-always-black",
@@ -42,6 +54,12 @@ export type BadgeVariant =
   | "error"
   | "special"
   | "info"
+  | "successColour"
+  | "warningColour"
+  | "errorColour"
+  | "infoColour"
+  | "aiGenerated"
+  | "negative"
   | "online"
   | "brand"
   | "pink"
