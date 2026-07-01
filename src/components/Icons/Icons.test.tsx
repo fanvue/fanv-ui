@@ -154,6 +154,7 @@ import { UserIcon } from "./UserIcon";
 import { UserMenuIcon } from "./UserMenuIcon";
 import { UsersIcon } from "./UsersIcon";
 import { VaultIcon } from "./VaultIcon";
+import { VerifiedIcon } from "./VerifiedIcon";
 import { VideoIcon } from "./VideoIcon";
 import { VipBadgeIcon } from "./VipBadgeIcon";
 import { WalletIcon } from "./WalletIcon";
@@ -324,6 +325,7 @@ const propBasedIcons = [
   { name: "UserMenuIcon", Component: UserMenuIcon, hasFilled: true },
   { name: "UsersIcon", Component: UsersIcon, hasFilled: true },
   { name: "VaultIcon", Component: VaultIcon, hasFilled: true },
+  { name: "VerifiedIcon", Component: VerifiedIcon, hasFilled: true, defaultsFilled: true },
   { name: "VideoIcon", Component: VideoIcon, hasFilled: true },
   { name: "WalletIcon", Component: WalletIcon, hasFilled: true },
   { name: "WarningIcon", Component: WarningIcon, hasFilled: true },
@@ -381,7 +383,7 @@ describe("Icons", () => {
     });
   }
 
-  for (const { name, Component, hasFilled } of propBasedIcons) {
+  for (const { name, Component, hasFilled, defaultsFilled } of propBasedIcons) {
     describe(`${name} (prop-based)`, () => {
       it("renders each size with a matching viewBox", () => {
         for (const size of [16, 24, 32] as const) {
@@ -394,7 +396,9 @@ describe("Icons", () => {
       if (hasFilled) {
         it("renders different geometry for filled vs outlined in at least one size", () => {
           const diffs = ([16, 24, 32] as const).map((size) => {
-            const { container: outlined } = render(<Component size={size} />);
+            const { container: outlined } = render(
+              defaultsFilled ? <Component size={size} filled={false} /> : <Component size={size} />,
+            );
             const { container: filled } = render(<Component size={size} filled />);
             const o = outlined.querySelector("svg")?.innerHTML ?? "";
             const f = filled.querySelector("svg")?.innerHTML ?? "";

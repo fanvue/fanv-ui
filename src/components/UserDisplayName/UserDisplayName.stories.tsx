@@ -1,0 +1,165 @@
+import type { Meta, StoryObj } from "@storybook/react";
+import { UserDisplayName } from "./UserDisplayName";
+
+const meta = {
+  title: "Components/UserDisplayName",
+  component: UserDisplayName,
+  parameters: {
+    layout: "centered",
+  },
+  tags: ["autodocs"],
+  argTypes: {
+    ambassador: { control: "boolean" },
+    verified: { control: "boolean" },
+    showOnlineStatus: { control: "boolean" },
+    noWrap: { control: "boolean" },
+    component: {
+      control: "select",
+      options: ["span", "h1", "h2", "h3", "p", "div"],
+    },
+    children: { control: "text" },
+  },
+  args: {
+    children: "Aitana Lopez",
+    className: "typography-body-small-14px-semibold",
+  },
+  render: (args) => (
+    <div className="w-72">
+      <UserDisplayName {...args} />
+    </div>
+  ),
+} satisfies Meta<typeof UserDisplayName>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
+
+export const Ambassador: Story = {
+  args: { ambassador: true },
+};
+
+export const Verified: Story = {
+  args: { verified: true },
+};
+
+export const OnlineStatus: Story = {
+  args: { showOnlineStatus: true },
+};
+
+export const AmbassadorWithOnlineStatus: Story = {
+  args: { ambassador: true, showOnlineStatus: true },
+};
+
+export const VerifiedWithOnlineStatus: Story = {
+  args: { verified: true, showOnlineStatus: true },
+};
+
+/** When both are set, the ambassador badge takes precedence over verified. */
+export const AmbassadorTakesPrecedence: Story = {
+  args: { ambassador: true, verified: true },
+};
+
+export const Truncated: Story = {
+  args: { children: "Aitana Lopez de la Vega Hernández Rodríguez del Castillo" },
+};
+
+const LONG_NAME = "Aitana Lopez de la Vega Hernández Rodríguez del Castillo";
+
+/**
+ * The name truncates with an ellipsis while the verified/ambassador badge and
+ * online-status indicator stay fully visible on the same line — nothing wraps
+ * or gets clipped.
+ */
+export const TruncatedWithIconsAndStatus: Story = {
+  name: "Truncated with icons + online status",
+  render: () => (
+    <div className="flex w-72 flex-col gap-4">
+      <div className="flex flex-col gap-1">
+        <UserDisplayName className="typography-body-small-14px-semibold" verified showOnlineStatus>
+          {LONG_NAME}
+        </UserDisplayName>
+        <span className="typography-description-12px-regular text-content-secondary">
+          verified + online
+        </span>
+      </div>
+      <div className="flex flex-col gap-1">
+        <UserDisplayName
+          className="typography-body-small-14px-semibold"
+          ambassador
+          showOnlineStatus
+        >
+          {LONG_NAME}
+        </UserDisplayName>
+        <span className="typography-description-12px-regular text-content-secondary">
+          ambassador + online
+        </span>
+      </div>
+      <div className="flex flex-col gap-1">
+        <UserDisplayName className="typography-body-small-14px-semibold" verified>
+          {LONG_NAME}
+        </UserDisplayName>
+        <span className="typography-description-12px-regular text-content-secondary">
+          verified only
+        </span>
+      </div>
+      <div className="flex flex-col gap-1">
+        <UserDisplayName className="typography-body-small-14px-semibold" showOnlineStatus>
+          {LONG_NAME}
+        </UserDisplayName>
+        <span className="typography-description-12px-regular text-content-secondary">
+          online only
+        </span>
+      </div>
+    </div>
+  ),
+};
+
+/** The same content at an even narrower width still keeps the icons pinned. */
+export const TruncatedNarrow: Story = {
+  name: "Truncated (narrow container)",
+  render: () => (
+    <div className="flex w-40 flex-col gap-1">
+      <UserDisplayName className="typography-body-small-14px-semibold" ambassador showOnlineStatus>
+        {LONG_NAME}
+      </UserDisplayName>
+      <span className="typography-description-12px-regular text-content-secondary">w-40</span>
+    </div>
+  ),
+};
+
+export const Wrapping: Story = {
+  args: {
+    noWrap: false,
+    children: "Aitana Lopez de la Vega Hernández Rodríguez del Castillo",
+  },
+};
+
+export const CustomLabels: Story = {
+  name: "Custom badge labels",
+  args: {
+    ambassador: true,
+    showOnlineStatus: true,
+    ambassadorLabel: "Fanvue Ambassador",
+    onlineLabel: "Active now",
+  },
+};
+
+export const SemanticElements: Story = {
+  name: "Polymorphic element",
+  render: () => (
+    <div className="flex w-72 flex-col gap-3">
+      {(["h1", "h2", "h3", "p", "div"] as const).map((component) => (
+        <UserDisplayName
+          key={component}
+          component={component}
+          className="typography-body-default-16px-semibold"
+          verified
+          showOnlineStatus
+        >
+          Rendered as &lt;{component}&gt;
+        </UserDisplayName>
+      ))}
+    </div>
+  ),
+};

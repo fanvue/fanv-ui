@@ -511,6 +511,8 @@ export type { UsersIconProps } from "./components/Icons/UsersIcon";
 export { UsersIcon } from "./components/Icons/UsersIcon";
 export type { VaultIconProps } from "./components/Icons/VaultIcon";
 export { VaultIcon } from "./components/Icons/VaultIcon";
+export type { VerifiedIconProps } from "./components/Icons/VerifiedIcon";
+export { VerifiedIcon } from "./components/Icons/VerifiedIcon";
 export type { VideoIconProps } from "./components/Icons/VideoIcon";
 export { VideoIcon } from "./components/Icons/VideoIcon";
 export { VipBadgeIcon } from "./components/Icons/VipBadgeIcon";
@@ -574,6 +576,8 @@ export type {
 export { PasswordField } from "./components/PasswordField/PasswordField";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
+export type { ProfileOnlineStatusProps } from "./components/ProfileOnlineStatus/ProfileOnlineStatus";
+export { ProfileOnlineStatus } from "./components/ProfileOnlineStatus/ProfileOnlineStatus";
 export type {
   ProgressBarProps,
   ProgressBarSize,
@@ -740,6 +744,13 @@ export {
   TooltipProvider,
   TooltipTrigger,
 } from "./components/Tooltip/Tooltip";
+export type { UserDisplayNameProps } from "./components/UserDisplayName/UserDisplayName";
+export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
+export type { UserHandleProps } from "./components/UserHandle/UserHandle";
+export { UserHandle } from "./components/UserHandle/UserHandle";
+export type { UserItemProps, UserItemUser } from "./components/UserItem/UserItem";
+export { UserItem } from "./components/UserItem/UserItem";
 export { cn } from "./utils/cn";
+export { getInitials } from "./utils/getInitials";
 export type { OmitDistributed } from "./utils/types";
 export { useSuppressClickAfterDrag } from "./utils/useSuppressClickAfterDrag";
