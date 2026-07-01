@@ -169,6 +169,7 @@ import {
   PlayIcon,
   PlusIcon,
   PrivacyIcon,
+  ProfileStatus,
   ProgressBar,
   Radio,
   RadioGroup,
@@ -3868,6 +3869,26 @@ function ReviewCardDemo() {
   );
 }
 
+function ProfileStatusDemo() {
+  return (
+    <div id="profile-status" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Profile Status</h2>
+      <div className="flex flex-wrap items-center gap-8">
+        <div className="flex items-center gap-3">
+          <ProfileStatus active size="sm" />
+          <ProfileStatus active size="md" />
+          <span className="typography-description-12px-regular">Active</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <ProfileStatus active={false} size="sm" />
+          <ProfileStatus active={false} size="md" />
+          <span className="typography-description-12px-regular">Inactive</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ProgressBarDemo() {
   return (
     <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
@@ -5029,6 +5050,7 @@ function App() {
     { id: "pagination", label: "Pagination" },
     { id: "passwordfield", label: "Password Field" },
     { id: "pill", label: "Pill" },
+    { id: "profile-status", label: "Profile Status" },
     { id: "progressbar", label: "Progress Bar" },
     { id: "radio", label: "Radio" },
     { id: "searchfield", label: "Search Field" },
@@ -5263,6 +5285,9 @@ function App() {
 
             {/* Pagination */}
             <PaginationDemo />
+
+            {/* Profile Status */}
+            <ProfileStatusDemo />
 
             {/* ProgressBar */}
             <ProgressBarDemo />
