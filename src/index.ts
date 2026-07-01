@@ -546,6 +546,8 @@ export type {
   InlineEditSize,
 } from "./components/InlineEdit/InlineEdit";
 export { InlineEdit } from "./components/InlineEdit/InlineEdit";
+export type { LinkProps, LinkSize, LinkVariant } from "./components/Link/Link";
+export { Link } from "./components/Link/Link";
 export type { LoaderProps } from "./components/Loader/Loader";
 export { Loader } from "./components/Loader/Loader";
 export type {
