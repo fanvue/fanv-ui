@@ -11,16 +11,12 @@ describe("UserDisplayName", () => {
       expect(screen.getByText("Aitana Lopez")).toBeInTheDocument();
     });
 
-    it("renders a span whose name truncates, with the default typography on the root", () => {
+    it("renders a truncating name span and applies no typography of its own", () => {
       render(<UserDisplayName data-testid="name">Aitana</UserDisplayName>);
       const el = screen.getByTestId("name");
       expect(el.tagName).toBe("SPAN");
-      expect(el).toHaveClass(
-        "inline-flex",
-        "max-w-full",
-        "items-center",
-        "typography-body-small-14px-semibold",
-      );
+      expect(el).toHaveClass("inline-flex", "max-w-full", "items-center");
+      expect(el).not.toHaveClass("typography-body-small-14px-semibold");
       const name = screen.getByText("Aitana");
       expect(name).toHaveClass("truncate", "min-w-0");
       expect(name).not.toHaveClass("typography-body-small-14px-semibold");
@@ -49,8 +45,8 @@ describe("UserDisplayName", () => {
     });
   });
 
-  describe("typography override", () => {
-    it("lets a typography className replace the default scale on the root", () => {
+  describe("typography", () => {
+    it("applies the typography scale from className to the root", () => {
       render(
         <UserDisplayName data-testid="name" className="typography-header-heading-xs">
           Aitana

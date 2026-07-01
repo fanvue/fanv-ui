@@ -21,6 +21,7 @@ const meta = {
   },
   args: {
     children: "Aitana Lopez",
+    className: "typography-body-small-14px-semibold",
   },
   render: (args) => (
     <div className="w-72">
@@ -75,7 +76,7 @@ export const TruncatedWithIconsAndStatus: Story = {
   render: () => (
     <div className="flex w-72 flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <UserDisplayName verified showOnlineStatus>
+        <UserDisplayName className="typography-body-small-14px-semibold" verified showOnlineStatus>
           {LONG_NAME}
         </UserDisplayName>
         <span className="typography-description-12px-regular text-content-secondary">
@@ -83,7 +84,11 @@ export const TruncatedWithIconsAndStatus: Story = {
         </span>
       </div>
       <div className="flex flex-col gap-1">
-        <UserDisplayName ambassador showOnlineStatus>
+        <UserDisplayName
+          className="typography-body-small-14px-semibold"
+          ambassador
+          showOnlineStatus
+        >
           {LONG_NAME}
         </UserDisplayName>
         <span className="typography-description-12px-regular text-content-secondary">
@@ -91,13 +96,17 @@ export const TruncatedWithIconsAndStatus: Story = {
         </span>
       </div>
       <div className="flex flex-col gap-1">
-        <UserDisplayName verified>{LONG_NAME}</UserDisplayName>
+        <UserDisplayName className="typography-body-small-14px-semibold" verified>
+          {LONG_NAME}
+        </UserDisplayName>
         <span className="typography-description-12px-regular text-content-secondary">
           verified only
         </span>
       </div>
       <div className="flex flex-col gap-1">
-        <UserDisplayName showOnlineStatus>{LONG_NAME}</UserDisplayName>
+        <UserDisplayName className="typography-body-small-14px-semibold" showOnlineStatus>
+          {LONG_NAME}
+        </UserDisplayName>
         <span className="typography-description-12px-regular text-content-secondary">
           online only
         </span>
@@ -111,7 +120,7 @@ export const TruncatedNarrow: Story = {
   name: "Truncated (narrow container)",
   render: () => (
     <div className="flex w-40 flex-col gap-1">
-      <UserDisplayName ambassador showOnlineStatus>
+      <UserDisplayName className="typography-body-small-14px-semibold" ambassador showOnlineStatus>
         {LONG_NAME}
       </UserDisplayName>
       <span className="typography-description-12px-regular text-content-secondary">w-40</span>

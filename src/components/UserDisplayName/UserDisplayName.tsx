@@ -23,16 +23,13 @@ export interface UserDisplayNameProps extends React.HTMLAttributes<HTMLElement> 
 }
 
 /**
- * Renders a user's display name with the design-system typography scale, with
- * optional ambassador/verified badges and an online-status indicator.
+ * Renders a user's display name with optional ambassador/verified badges and an
+ * online-status indicator. Only the name shrinks and truncates; trailing badges
+ * and the online-status indicator stay visible on the same line.
  *
- * Defaults render a truncated `<span>` using the `body2SemiBold`
- * (`typography-body-small-14px-semibold`) typography scale. Only the name
- * shrinks and truncates; trailing badges and the online-status indicator stay
- * visible on the same line.
- *
- * Typography lives on the root element and the name inherits it, so a
- * `typography-*` utility passed via `className` overrides the default scale.
+ * Typography is not baked in: pass a `typography-*` utility via `className` on
+ * the root and the name inherits it. Use `typography-body-small-14px-semibold`
+ * for the standard display-name scale.
  *
  * When both `ambassador` and `verified` are set, the ambassador badge takes
  * precedence. Its tint uses `text-success-content` (not `text-icons-brand-green`)
@@ -41,8 +38,7 @@ export interface UserDisplayNameProps extends React.HTMLAttributes<HTMLElement> 
  *
  * @example
  * ```tsx
- * <UserDisplayName>Jane Doe</UserDisplayName>
- * <UserDisplayName className="typography-header-heading-xs">Jane Doe</UserDisplayName>
+ * <UserDisplayName className="typography-body-small-14px-semibold">Jane Doe</UserDisplayName>
  * ```
  */
 export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProps>(
@@ -73,10 +69,7 @@ export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProp
     return (
       <Component
         ref={ref}
-        className={cn(
-          "inline-flex max-w-full items-center typography-body-small-14px-semibold",
-          className,
-        )}
+        className={cn("inline-flex max-w-full items-center", className)}
         {...props}
       >
         <span className={cn("min-w-0", noWrap && "truncate")}>{children}</span>

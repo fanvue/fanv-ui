@@ -85,7 +85,9 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
           />
         )}
         <div className="flex-1 overflow-hidden pl-2">
-          <UserDisplayName>{user.nickname || user.displayName}</UserDisplayName>
+          <UserDisplayName className="typography-body-small-14px-semibold">
+            {user.nickname || user.displayName}
+          </UserDisplayName>
           {showHandle && <UserHandleTypography>{user.handle}</UserHandleTypography>}
         </div>
       </div>
