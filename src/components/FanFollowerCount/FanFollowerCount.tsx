@@ -55,7 +55,7 @@ export const FanFollowerCount = React.forwardRef<HTMLDivElement, FanFollowerCoun
       <div ref={ref} className={cn("inline-flex items-center gap-3", className)} {...props}>
         {showFans && (
           <span className="inline-flex items-center gap-2">
-            <HeartIcon size={16} className="text-icons-tertiary" />
+            <HeartIcon size={16} filled className="text-icons-tertiary" />
             <span className="typography-body-small-14px-semibold inline-flex items-center gap-1 text-content-primary">
               <span>{formatCount(fans)}</span>
               <span>{fansLabel}</span>
@@ -64,7 +64,7 @@ export const FanFollowerCount = React.forwardRef<HTMLDivElement, FanFollowerCoun
         )}
         {showSubs && (
           <span className="inline-flex items-center gap-2">
-            <DiamondIcon size={16} className="text-icons-tertiary" />
+            <DiamondIcon size={16} filled className="text-icons-tertiary" />
             <span className="typography-body-small-14px-semibold inline-flex items-center gap-1 text-content-primary">
               <span>{formatCount(subs)}</span>
               <span>{subsLabel}</span>
