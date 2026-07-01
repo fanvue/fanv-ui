@@ -17,7 +17,7 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["info", "success", "warning", "error"],
+      options: ["info", "success", "warning", "error", "neutral"],
     },
     title: { control: "text" },
     closable: { control: "boolean" },
@@ -53,6 +53,98 @@ export const Error: Story = {
   args: {
     variant: "error",
     children: "An error occurred while processing your request.",
+  },
+};
+
+export const Neutral: Story = {
+  args: {
+    variant: "neutral",
+    children: "This is a general notice with no specific sentiment.",
+  },
+};
+
+export const NeutralWithTitle: Story = {
+  args: {
+    variant: "neutral",
+    title: "Heads up",
+    children: "This is the body text for a neutral in-app alert, longer text for the reference.",
+  },
+};
+
+export const NeutralClosable: Story = {
+  render: (args) => {
+    const [visible, setVisible] = useState(true);
+    return visible ? (
+      <Alert {...args} variant="neutral" closable onClose={() => setVisible(false)}>
+        This is a closable neutral alert.
+      </Alert>
+    ) : (
+      <div className="text-gray-500 text-sm">
+        Alert dismissed!{" "}
+        <button
+          type="button"
+          onClick={() => setVisible(true)}
+          className="cursor-pointer text-content-secondary underline"
+        >
+          Show again
+        </button>
+      </div>
+    );
+  },
+};
+
+export const WithLink: Story = {
+  args: {
+    variant: "info",
+    title: "Alert title",
+    children: "This is the body text for an info in-app alert with a link to more detail.",
+    action: <a href="#learn-more">Learn more</a>,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The `action` slot is composable: pass any element and it receives the variant-appropriate link styling via Radix `Slot`. For a Next.js app, pass a router-aware link instead of a plain anchor, e.g. `action={<Link href="/changelog">See what\'s new</Link>}` where `Link` is imported from `next/link`.',
+      },
+    },
+  },
+};
+
+export const NeutralWithLink: Story = {
+  args: {
+    variant: "neutral",
+    title: "Heads up",
+    children: "A general notice with an inline link to related detail.",
+    action: <a href="#view-details">View details</a>,
+  },
+};
+
+export const WithLinkClosable: Story = {
+  render: (args) => {
+    const [visible, setVisible] = useState(true);
+    return visible ? (
+      <Alert
+        {...args}
+        variant="warning"
+        title="Subscription expiring"
+        closable
+        action={<a href="#renew-now">Renew now</a>}
+        onClose={() => setVisible(false)}
+      >
+        Your subscription will expire in 3 days.
+      </Alert>
+    ) : (
+      <div className="text-gray-500 text-sm">
+        Alert dismissed!{" "}
+        <button
+          type="button"
+          onClick={() => setVisible(true)}
+          className="cursor-pointer text-warning-content underline"
+        >
+          Show again
+        </button>
+      </div>
+    );
   },
 };
 
