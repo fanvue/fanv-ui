@@ -1,13 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { UserDisplayNameContainer } from "./UserDisplayNameContainer";
 
-const VARIANTS = [
-  "body2SemiBold",
-  "body1SemiBold",
-  "subtitle1",
-  "heading4",
-  "captionRegular",
-] as const;
+const VARIANTS = ["body2SemiBold", "body1SemiBold", "heading4"] as const;
 
 const meta = {
   title: "Components/UserDisplayNameContainer",
@@ -26,7 +20,6 @@ const meta = {
       control: "select",
       options: ["span", "h1", "h2", "h3", "p", "div"],
     },
-    textAlign: { control: "inline-radio", options: ["left", "center", "right"] },
     children: { control: "text" },
   },
   args: {
@@ -168,7 +161,7 @@ export const SemanticElements: Story = {
   render: () => (
     <div className="flex w-72 flex-col gap-3">
       {(["h1", "h2", "h3", "p", "div"] as const).map((component) => (
-        <UserDisplayNameContainer key={component} component={component} variant="subtitle1">
+        <UserDisplayNameContainer key={component} component={component} variant="body1SemiBold">
           Rendered as &lt;{component}&gt;
         </UserDisplayNameContainer>
       ))}

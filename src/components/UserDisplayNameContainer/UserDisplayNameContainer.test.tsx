@@ -16,8 +16,6 @@ describe("UserDisplayNameContainer", () => {
       const el = screen.getByTestId("name");
       expect(el.tagName).toBe("SPAN");
       expect(el).toHaveClass("inline-flex", "max-w-full", "items-center");
-      // Truncation and typography live on the inner name span so trailing
-      // badges/status stay visible while only the name is clipped.
       const name = screen.getByText("Aitana");
       expect(name).toHaveClass("truncate", "min-w-0", "typography-body-small-14px-semibold");
     });
@@ -50,7 +48,6 @@ describe("UserDisplayNameContainer", () => {
       ["body2SemiBold", "typography-body-small-14px-semibold"],
       ["body1SemiBold", "typography-body-default-16px-semibold"],
       ["heading4", "typography-header-heading-xs"],
-      ["captionRegular", "typography-description-12px-regular"],
     ] as const)("maps %s to its typography class", (variant, expectedClass) => {
       render(<UserDisplayNameContainer variant={variant}>Aitana</UserDisplayNameContainer>);
       expect(screen.getByText("Aitana")).toHaveClass(expectedClass);
@@ -73,38 +70,6 @@ describe("UserDisplayNameContainer", () => {
         </UserDisplayNameContainer>,
       );
       expect(screen.getByTestId("name").tagName).toBe(component.toUpperCase());
-    });
-  });
-
-  describe("style props", () => {
-    it("applies color=white as a text-white class", () => {
-      render(
-        <UserDisplayNameContainer data-testid="name" color="white">
-          Aitana
-        </UserDisplayNameContainer>,
-      );
-      expect(screen.getByTestId("name")).toHaveClass("text-white");
-    });
-
-    it("converts mt/pt to 8px-scaled spacing and applies maxWidth/textAlign", () => {
-      render(
-        <UserDisplayNameContainer
-          data-testid="name"
-          mt={2}
-          pt={1}
-          maxWidth={120}
-          textAlign="center"
-        >
-          Aitana
-        </UserDisplayNameContainer>,
-      );
-      const el = screen.getByTestId("name");
-      expect(el).toHaveStyle({
-        marginTop: "16px",
-        paddingTop: "8px",
-        maxWidth: "120px",
-        textAlign: "center",
-      });
     });
   });
 
