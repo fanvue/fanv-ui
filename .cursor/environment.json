@@ -1,0 +1,14 @@
+{
+  "$schema": "https://www.cursor.com/schemas/environment.schema.json",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "agentCanUpdateSnapshot": true,
+  "install": "corepack enable && pnpm install --frozen-lockfile && pnpm exec playwright install --with-deps chromium",
+  "terminals": [
+    {
+      "name": "storybook",
+      "command": "pnpm storybook --no-open -p 6006"
+    }
+  ]
+}
