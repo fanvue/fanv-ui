@@ -91,7 +91,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
         className={cn(
           "inline-flex items-center pb-4",
           variant === "default" && "gap-3",
-          variant === "dots" && "gap-4",
+          variant === "dots" && "gap-3",
           className,
         )}
         {...props}
@@ -111,7 +111,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
               typeof page === "string" ? (
                 <span
                   key={page}
-                  className="flex size-4 items-center justify-center text-content-secondary text-xs"
+                  className="typography-description-12px-regular flex min-w-6 items-center justify-center p-1 text-content-primary"
                   aria-hidden="true"
                 >
                   &hellip;
@@ -124,10 +124,10 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
                   aria-current={page === currentPage ? "page" : undefined}
                   onClick={() => onPageChange?.(page)}
                   className={cn(
-                    "flex size-4 cursor-pointer items-center justify-center rounded-full text-xs focus-visible:shadow-focus-ring focus-visible:outline-none motion-safe:transition-colors motion-safe:duration-150",
+                    "typography-description-12px-regular flex min-w-6 cursor-pointer items-center justify-center rounded-2xs p-1 focus-visible:shadow-focus-ring focus-visible:outline-none motion-safe:transition-colors motion-safe:duration-150",
                     page === currentPage
-                      ? "bg-buttons-primary-default text-content-primary-inverted"
-                      : "bg-neutral-alphas-50 text-content-primary hover:bg-neutral-alphas-100 active:bg-neutral-alphas-100",
+                      ? "bg-surface-primary-inverted text-content-primary-inverted"
+                      : "text-content-primary hover:bg-buttons-secondary-default active:bg-buttons-secondary-hover",
                   )}
                 >
                   {page}
@@ -146,14 +146,14 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
                 aria-label={getPageLabel(page)}
                 aria-current={page === currentPage ? "page" : undefined}
                 onClick={() => onPageChange?.(page)}
-                className="flex size-6 cursor-pointer items-center justify-center rounded-full focus-visible:shadow-focus-ring focus-visible:outline-none"
+                className="group flex size-6 cursor-pointer items-center justify-center rounded-2xs focus-visible:shadow-focus-ring focus-visible:outline-none"
               >
                 <span
                   className={cn(
-                    "block rounded-full motion-safe:transition-all motion-safe:duration-150",
+                    "block size-2 rounded-2xs motion-safe:transition-colors motion-safe:duration-150",
                     page === currentPage
-                      ? "size-2 bg-neutral-alphas-400"
-                      : "size-1.5 bg-neutral-alphas-200 hover:bg-neutral-alphas-300 active:bg-neutral-alphas-300",
+                      ? "bg-surface-primary-inverted"
+                      : "bg-buttons-secondary-default group-hover:bg-buttons-secondary-hover group-active:bg-buttons-secondary-hover",
                   )}
                 />
               </button>
