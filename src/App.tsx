@@ -1668,7 +1668,12 @@ function AlertDemo() {
         <Alert variant="neutral" title="Heads up">
           This is a general notice with no specific sentiment.
         </Alert>
-        <Alert variant="neutral" title="Heads up" linkText="Learn more" linkHref="#" closable>
+        <Alert
+          variant="neutral"
+          title="Heads up"
+          action={<a href="#learn-more">Learn more</a>}
+          closable
+        >
           A neutral alert with an inline link and a close button.
         </Alert>
       </div>

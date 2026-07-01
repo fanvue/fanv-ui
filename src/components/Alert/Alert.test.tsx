@@ -8,8 +8,7 @@ describe("Alert", () => {
   describe("API", () => {
     it("applies custom className", () => {
       render(<Alert className="custom-class">Custom alert</Alert>);
-      const alert = screen.getByRole("alert");
-      expect(alert).toHaveClass("custom-class");
+      expect(screen.getByTestId("alert")).toHaveClass("custom-class");
     });
 
     it("renders title when provided", () => {
@@ -39,26 +38,22 @@ describe("Alert", () => {
   describe("default icons", () => {
     it("renders a default icon for the info variant", () => {
       render(<Alert variant="info">Info</Alert>);
-      const alert = screen.getByRole("alert");
-      expect(alert.querySelector("svg")).toBeInTheDocument();
+      expect(screen.getByTestId("alert").querySelector("svg")).toBeInTheDocument();
     });
 
     it("renders a default icon for the success variant", () => {
       render(<Alert variant="success">Success</Alert>);
-      const alert = screen.getByRole("alert");
-      expect(alert.querySelector("svg")).toBeInTheDocument();
+      expect(screen.getByTestId("alert").querySelector("svg")).toBeInTheDocument();
     });
 
     it("renders a default icon for the warning variant", () => {
       render(<Alert variant="warning">Warning</Alert>);
-      const alert = screen.getByRole("alert");
-      expect(alert.querySelector("svg")).toBeInTheDocument();
+      expect(screen.getByTestId("alert").querySelector("svg")).toBeInTheDocument();
     });
 
     it("renders a default icon for the error variant", () => {
       render(<Alert variant="error">Error</Alert>);
-      const alert = screen.getByRole("alert");
-      expect(alert.querySelector("svg")).toBeInTheDocument();
+      expect(screen.getByTestId("alert").querySelector("svg")).toBeInTheDocument();
     });
 
     it("hides the icon when icon={null}", () => {
@@ -67,8 +62,7 @@ describe("Alert", () => {
           No icon
         </Alert>,
       );
-      const alert = screen.getByRole("alert");
-      expect(alert.querySelector("svg")).not.toBeInTheDocument();
+      expect(screen.getByTestId("alert").querySelector("svg")).not.toBeInTheDocument();
     });
 
     it("renders a custom icon when provided", () => {
@@ -80,49 +74,37 @@ describe("Alert", () => {
   describe("neutral variant", () => {
     it("renders a default icon for the neutral variant", () => {
       render(<Alert variant="neutral">Neutral</Alert>);
-      const alert = screen.getByRole("alert");
-      expect(alert.querySelector("svg")).toBeInTheDocument();
+      expect(screen.getByTestId("alert").querySelector("svg")).toBeInTheDocument();
     });
 
     it("applies the neutral background token", () => {
       render(<Alert variant="neutral">Neutral</Alert>);
-      const alert = screen.getByRole("alert");
-      expect(alert).toHaveClass("bg-alerts-info-prompt-background-neutral");
+      expect(screen.getByTestId("alert")).toHaveClass("bg-alerts-info-prompt-background-neutral");
     });
   });
 
-  describe("inline link", () => {
-    it("renders an anchor when linkHref is provided", () => {
-      render(
-        <Alert linkText="Learn more" linkHref="/details">
-          Alert with link
-        </Alert>,
-      );
+  describe("action slot", () => {
+    it("renders the passed element", () => {
+      render(<Alert action={<a href="/details">Learn more</a>}>Alert with an action</Alert>);
       const link = screen.getByRole("link", { name: /learn more/i });
       expect(link).toHaveAttribute("href", "/details");
     });
 
-    it("renders a button when only linkText is provided", () => {
-      render(<Alert linkText="Take action">Alert with action</Alert>);
-      expect(screen.getByRole("button", { name: /take action/i })).toBeInTheDocument();
+    it("applies the variant link styling to the passed element", () => {
+      render(<Alert action={<a href="/details">Learn more</a>}>Alert with an action</Alert>);
+      const link = screen.getByRole("link", { name: /learn more/i });
+      expect(link).toHaveClass("underline");
+    });
+
+    it("does not render an action when none is passed", () => {
+      render(<Alert>No action</Alert>);
       expect(screen.queryByRole("link")).not.toBeInTheDocument();
     });
 
-    it("does not render a link when linkText is absent", () => {
-      render(<Alert linkHref="/details">No link text</Alert>);
-      expect(screen.queryByRole("link")).not.toBeInTheDocument();
-    });
-
-    it("calls onLinkClick when the link is activated", async () => {
-      const user = userEvent.setup();
-      const onLinkClick = vi.fn();
-      render(
-        <Alert linkText="Take action" onLinkClick={onLinkClick}>
-          Alert with action
-        </Alert>,
-      );
-      await user.click(screen.getByRole("button", { name: /take action/i }));
-      expect(onLinkClick).toHaveBeenCalledTimes(1);
+    it("renders the action outside the alert live region", () => {
+      render(<Alert action={<a href="/details">Learn more</a>}>Alert with an action</Alert>);
+      const liveRegion = screen.getByRole("alert");
+      expect(liveRegion.querySelector("a")).not.toBeInTheDocument();
     });
   });
 
@@ -163,6 +145,16 @@ describe("Alert", () => {
       const closeButton = screen.getByRole("button", { name: /close alert/i });
       expect(closeButton).toHaveClass("cursor-pointer");
     });
+
+    it("renders the close button outside the alert live region", () => {
+      render(
+        <Alert closable onClose={vi.fn()}>
+          Closable alert
+        </Alert>,
+      );
+      const liveRegion = screen.getByRole("alert");
+      expect(liveRegion.querySelector("button")).not.toBeInTheDocument();
+    });
   });
 
   describe("accessibility", () => {
@@ -182,10 +174,10 @@ describe("Alert", () => {
       expect(results).toHaveNoViolations();
     });
 
-    it("has no accessibility violations for the neutral variant with a link", async () => {
+    it("has no accessibility violations for the neutral variant with an action", async () => {
       const { container } = render(
-        <Alert variant="neutral" title="Heads up" linkText="Learn more" linkHref="/details">
-          Neutral alert with a link
+        <Alert variant="neutral" title="Heads up" action={<a href="/details">Learn more</a>}>
+          Neutral alert with an action
         </Alert>,
       );
       const results = await axe(container);

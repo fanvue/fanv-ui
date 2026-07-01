@@ -1,3 +1,4 @@
+import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { Button } from "../Button/Button";
@@ -31,12 +32,13 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   onClose?: () => void;
   /** Accessible label for the close button. @default "Close alert" */
   closeLabel?: string;
-  /** Inline link/CTA text shown beneath the description. When set, a styled link is rendered. */
-  linkText?: string;
-  /** Destination for the inline link. Renders an anchor when provided, otherwise a button. */
-  linkHref?: string;
-  /** Click handler for the inline link. */
-  onLinkClick?: React.MouseEventHandler<HTMLElement>;
+  /**
+   * Composable action slot rendered beneath the description, outside the
+   * `role="alert"` live region. Pass your own element (an `<a>`, a `next/link`
+   * `<Link>`, or a `<Button>`) and it receives the variant-appropriate link
+   * styling via the Radix `Slot` pattern while remaining a real link/button.
+   */
+  action?: React.ReactNode;
 }
 
 const CLOSE_BUTTON_CLASSES: Record<AlertVariant, string> = {
@@ -64,10 +66,14 @@ const LINK_CLASSES: Record<AlertVariant, string> = {
  *
  * Supports `info`, `success`, `warning`, `error`, and `neutral` variants with a
  * default icon per variant, optional title, description, dismiss button, and an
- * optional inline link.
+ * optional composable `action` slot.
  *
  * Each variant renders a default icon automatically. Pass a custom `icon` to
  * override, or `icon={null}` to hide the icon entirely.
+ *
+ * Only the title and description live inside the `role="alert"` live region.
+ * The icon, `action`, and close button are rendered outside it so interactive
+ * controls are announced and navigated consistently by screen readers.
  *
  * @example
  * ```tsx
@@ -78,8 +84,17 @@ const LINK_CLASSES: Record<AlertVariant, string> = {
  *
  * @example
  * ```tsx
- * <Alert variant="neutral" title="Heads up" linkText="Learn more" linkHref="/docs">
+ * <Alert variant="neutral" title="Heads up" action={<a href="/docs">Learn more</a>}>
  *   A general notice with no specific sentiment.
+ * </Alert>
+ * ```
+ *
+ * @example
+ * ```tsx
+ * import Link from "next/link";
+ *
+ * <Alert variant="info" title="Update available" action={<Link href="/changelog">See what's new</Link>}>
+ *   A new version is ready to install.
  * </Alert>
  * ```
  */
@@ -93,9 +108,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
       closable = false,
       onClose,
       closeLabel = "Close alert",
-      linkText,
-      linkHref,
-      onLinkClick,
+      action,
       children,
       ...props
     },
@@ -106,7 +119,6 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     return (
       <div
         ref={ref}
-        role="alert"
         data-testid="alert"
         className={cn(
           "grid gap-x-3 rounded-xs p-4 text-sm leading-[18px]",
@@ -132,34 +144,26 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         )}
 
         <div className="flex min-w-0 flex-col gap-2">
-          {title && (
-            <div className="typography-body-small-14px-semibold text-content-primary">{title}</div>
+          <div role="alert" className="flex flex-col gap-2">
+            {title && (
+              <div className="typography-body-small-14px-semibold text-content-primary">
+                {title}
+              </div>
+            )}
+            <div className="typography-body-small-14px-regular text-content-primary">
+              {children}
+            </div>
+          </div>
+          {action && (
+            <Slot
+              className={cn(
+                "typography-body-small-14px-semibold w-fit cursor-pointer underline underline-offset-2",
+                LINK_CLASSES[variant],
+              )}
+            >
+              {action}
+            </Slot>
           )}
-          <div className="typography-body-small-14px-regular text-content-primary">{children}</div>
-          {linkText &&
-            (linkHref ? (
-              <a
-                href={linkHref}
-                onClick={onLinkClick}
-                className={cn(
-                  "typography-body-small-14px-semibold w-fit cursor-pointer underline underline-offset-2",
-                  LINK_CLASSES[variant],
-                )}
-              >
-                {linkText}
-              </a>
-            ) : (
-              <button
-                type="button"
-                onClick={onLinkClick}
-                className={cn(
-                  "typography-body-small-14px-semibold w-fit cursor-pointer underline underline-offset-2",
-                  LINK_CLASSES[variant],
-                )}
-              >
-                {linkText}
-              </button>
-            ))}
         </div>
 
         {closable && (

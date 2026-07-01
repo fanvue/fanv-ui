@@ -21,8 +21,6 @@ const meta = {
     },
     title: { control: "text" },
     closable: { control: "boolean" },
-    linkText: { control: "text" },
-    linkHref: { control: "text" },
   },
 } satisfies Meta<typeof Alert>;
 
@@ -100,8 +98,15 @@ export const WithLink: Story = {
     variant: "info",
     title: "Alert title",
     children: "This is the body text for an info in-app alert with a link to more detail.",
-    linkText: "Learn more",
-    linkHref: "#",
+    action: <a href="#learn-more">Learn more</a>,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The `action` slot is composable: pass any element and it receives the variant-appropriate link styling via Radix `Slot`. For a Next.js app, pass a router-aware link instead of a plain anchor, e.g. `action={<Link href="/changelog">See what\'s new</Link>}` where `Link` is imported from `next/link`.',
+      },
+    },
   },
 };
 
@@ -110,8 +115,7 @@ export const NeutralWithLink: Story = {
     variant: "neutral",
     title: "Heads up",
     children: "A general notice with an inline link to related detail.",
-    linkText: "View details",
-    linkHref: "#",
+    action: <a href="#view-details">View details</a>,
   },
 };
 
@@ -124,8 +128,7 @@ export const WithLinkClosable: Story = {
         variant="warning"
         title="Subscription expiring"
         closable
-        linkText="Renew now"
-        linkHref="#"
+        action={<a href="#renew-now">Renew now</a>}
         onClose={() => setVisible(false)}
       >
         Your subscription will expire in 3 days.
