@@ -25,7 +25,7 @@ export const CustomLabel: Story = {
   args: { label: "Active now" },
 };
 
-/** Composed inline after a display name, mirroring its use in `UserDisplayNameContainer`. */
+/** Composed inline after a display name, mirroring its use in `UserDisplayName`. */
 export const InlineWithText: Story = {
   render: (args) => (
     <span className="typography-body-small-14px-semibold inline-flex items-center">

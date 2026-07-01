@@ -9,10 +9,10 @@ const variantClassMap: Record<string, string> = {
   heading4: "typography-header-heading-xs",
 };
 
-/** Typography scale options for {@link UserDisplayNameContainer}. */
+/** Typography scale options for {@link UserDisplayName}. */
 export type UserDisplayNameVariant = "body2SemiBold" | "body1SemiBold" | "heading4";
 
-export interface UserDisplayNameContainerProps extends React.HTMLAttributes<HTMLElement> {
+export interface UserDisplayNameProps extends React.HTMLAttributes<HTMLElement> {
   /** Render an ambassador badge after the name. */
   ambassador?: boolean;
   /** Accessible label for the ambassador badge. @default "Ambassador" */
@@ -48,13 +48,10 @@ export interface UserDisplayNameContainerProps extends React.HTMLAttributes<HTML
  *
  * @example
  * ```tsx
- * <UserDisplayNameContainer>Jane Doe</UserDisplayNameContainer>
+ * <UserDisplayName>Jane Doe</UserDisplayName>
  * ```
  */
-export const UserDisplayNameContainer = React.forwardRef<
-  HTMLElement,
-  UserDisplayNameContainerProps
->(
+export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProps>(
   (
     {
       ambassador,
@@ -105,4 +102,4 @@ export const UserDisplayNameContainer = React.forwardRef<
   },
 );
 
-UserDisplayNameContainer.displayName = "UserDisplayNameContainer";
+UserDisplayName.displayName = "UserDisplayName";

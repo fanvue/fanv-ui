@@ -2,17 +2,17 @@ import { render, screen } from "@testing-library/react";
 import * as React from "react";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
-import { UserDisplayNameContainer } from "./UserDisplayNameContainer";
+import { UserDisplayName } from "./UserDisplayName";
 
-describe("UserDisplayNameContainer", () => {
+describe("UserDisplayName", () => {
   describe("API", () => {
     it("renders its children", () => {
-      render(<UserDisplayNameContainer>Aitana Lopez</UserDisplayNameContainer>);
+      render(<UserDisplayName>Aitana Lopez</UserDisplayName>);
       expect(screen.getByText("Aitana Lopez")).toBeInTheDocument();
     });
 
     it("renders a span whose name truncates with the default typography by default", () => {
-      render(<UserDisplayNameContainer data-testid="name">Aitana</UserDisplayNameContainer>);
+      render(<UserDisplayName data-testid="name">Aitana</UserDisplayName>);
       const el = screen.getByTestId("name");
       expect(el.tagName).toBe("SPAN");
       expect(el).toHaveClass("inline-flex", "max-w-full", "items-center");
@@ -21,15 +21,15 @@ describe("UserDisplayNameContainer", () => {
     });
 
     it("does not truncate the name when noWrap is false", () => {
-      render(<UserDisplayNameContainer noWrap={false}>Aitana</UserDisplayNameContainer>);
+      render(<UserDisplayName noWrap={false}>Aitana</UserDisplayName>);
       expect(screen.getByText("Aitana")).not.toHaveClass("truncate");
     });
 
     it("applies custom className and spreads attributes", () => {
       render(
-        <UserDisplayNameContainer data-testid="name" className="custom" data-custom="x">
+        <UserDisplayName data-testid="name" className="custom" data-custom="x">
           Aitana
-        </UserDisplayNameContainer>,
+        </UserDisplayName>,
       );
       const el = screen.getByTestId("name");
       expect(el).toHaveClass("custom");
@@ -38,7 +38,7 @@ describe("UserDisplayNameContainer", () => {
 
     it("forwards ref to the rendered element", () => {
       const ref = React.createRef<HTMLElement>();
-      render(<UserDisplayNameContainer ref={ref}>Aitana</UserDisplayNameContainer>);
+      render(<UserDisplayName ref={ref}>Aitana</UserDisplayName>);
       expect(ref.current).toBeInstanceOf(HTMLSpanElement);
     });
   });
@@ -49,14 +49,14 @@ describe("UserDisplayNameContainer", () => {
       ["body1SemiBold", "typography-body-default-16px-semibold"],
       ["heading4", "typography-header-heading-xs"],
     ] as const)("maps %s to its typography class", (variant, expectedClass) => {
-      render(<UserDisplayNameContainer variant={variant}>Aitana</UserDisplayNameContainer>);
+      render(<UserDisplayName variant={variant}>Aitana</UserDisplayName>);
       expect(screen.getByText("Aitana")).toHaveClass(expectedClass);
     });
 
     it("falls back to the default class for an unknown variant", () => {
       render(
         // @ts-expect-error - exercising the runtime fallback for an out-of-type variant
-        <UserDisplayNameContainer variant="nope">Aitana</UserDisplayNameContainer>,
+        <UserDisplayName variant="nope">Aitana</UserDisplayName>,
       );
       expect(screen.getByText("Aitana")).toHaveClass("typography-body-small-14px-semibold");
     });
@@ -65,9 +65,9 @@ describe("UserDisplayNameContainer", () => {
   describe("polymorphism", () => {
     it.each(["h1", "h2", "h3", "p", "div"] as const)("renders as <%s>", (component) => {
       render(
-        <UserDisplayNameContainer data-testid="name" component={component}>
+        <UserDisplayName data-testid="name" component={component}>
           Aitana
-        </UserDisplayNameContainer>,
+        </UserDisplayName>,
       );
       expect(screen.getByTestId("name").tagName).toBe(component.toUpperCase());
     });
@@ -75,20 +75,20 @@ describe("UserDisplayNameContainer", () => {
 
   describe("badges", () => {
     it("renders an ambassador badge with an accessible label", () => {
-      render(<UserDisplayNameContainer ambassador>Aitana</UserDisplayNameContainer>);
+      render(<UserDisplayName ambassador>Aitana</UserDisplayName>);
       expect(screen.getByRole("img", { name: "Ambassador" })).toBeInTheDocument();
     });
 
     it("renders a verified badge with an accessible label", () => {
-      render(<UserDisplayNameContainer verified>Aitana</UserDisplayNameContainer>);
+      render(<UserDisplayName verified>Aitana</UserDisplayName>);
       expect(screen.getByRole("img", { name: "Verified" })).toBeInTheDocument();
     });
 
     it("prefers the ambassador badge over verified when both are set", () => {
       render(
-        <UserDisplayNameContainer ambassador verified>
+        <UserDisplayName ambassador verified>
           Aitana
-        </UserDisplayNameContainer>,
+        </UserDisplayName>,
       );
       expect(screen.getByRole("img", { name: "Ambassador" })).toBeInTheDocument();
       expect(screen.queryByRole("img", { name: "Verified" })).not.toBeInTheDocument();
@@ -96,36 +96,36 @@ describe("UserDisplayNameContainer", () => {
 
     it("supports custom badge labels", () => {
       render(
-        <UserDisplayNameContainer ambassador ambassadorLabel="Fanvue Ambassador">
+        <UserDisplayName ambassador ambassadorLabel="Fanvue Ambassador">
           Aitana
-        </UserDisplayNameContainer>,
+        </UserDisplayName>,
       );
       expect(screen.getByRole("img", { name: "Fanvue Ambassador" })).toBeInTheDocument();
     });
 
     it("renders no badge by default", () => {
-      render(<UserDisplayNameContainer>Aitana</UserDisplayNameContainer>);
+      render(<UserDisplayName>Aitana</UserDisplayName>);
       expect(screen.queryByRole("img")).not.toBeInTheDocument();
     });
   });
 
   describe("online status", () => {
     it("renders the online status with its default label", () => {
-      render(<UserDisplayNameContainer showOnlineStatus>Aitana</UserDisplayNameContainer>);
+      render(<UserDisplayName showOnlineStatus>Aitana</UserDisplayName>);
       expect(screen.getByText("Online")).toBeInTheDocument();
     });
 
     it("supports a custom online label", () => {
       render(
-        <UserDisplayNameContainer showOnlineStatus onlineLabel="Active now">
+        <UserDisplayName showOnlineStatus onlineLabel="Active now">
           Aitana
-        </UserDisplayNameContainer>,
+        </UserDisplayName>,
       );
       expect(screen.getByText("Active now")).toBeInTheDocument();
     });
 
     it("is hidden by default", () => {
-      render(<UserDisplayNameContainer>Aitana</UserDisplayNameContainer>);
+      render(<UserDisplayName>Aitana</UserDisplayName>);
       expect(screen.queryByText("Online")).not.toBeInTheDocument();
     });
   });
@@ -133,9 +133,9 @@ describe("UserDisplayNameContainer", () => {
   describe("accessibility", () => {
     it("has no accessibility violations with badges and online status", async () => {
       const { container } = render(
-        <UserDisplayNameContainer ambassador showOnlineStatus>
+        <UserDisplayName ambassador showOnlineStatus>
           Aitana Lopez
-        </UserDisplayNameContainer>,
+        </UserDisplayName>,
       );
       expect(await axe(container)).toHaveNoViolations();
     });

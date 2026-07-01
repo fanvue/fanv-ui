@@ -3,7 +3,7 @@ import { cn } from "../../utils/cn";
 import { getInitials } from "../../utils/getInitials";
 import { Avatar } from "../Avatar/Avatar";
 import { BellOffIcon } from "../Icons/BellOffIcon";
-import { UserDisplayNameContainer } from "../UserDisplayNameContainer/UserDisplayNameContainer";
+import { UserDisplayName } from "../UserDisplayName/UserDisplayName";
 import { UserHandleTypography } from "../UserHandleTypography/UserHandleTypography";
 
 const AVATAR_SIZES = [16, 24, 32, 40, 48, 64, 88, 148] as const;
@@ -85,7 +85,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
           />
         )}
         <div className="flex-1 overflow-hidden pl-2">
-          <UserDisplayNameContainer>{user.nickname || user.displayName}</UserDisplayNameContainer>
+          <UserDisplayName>{user.nickname || user.displayName}</UserDisplayName>
           {showHandle && <UserHandleTypography>{user.handle}</UserHandleTypography>}
         </div>
       </div>

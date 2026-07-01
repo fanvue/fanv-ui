@@ -9,7 +9,7 @@ export interface ProfileOnlineStatusProps extends React.HTMLAttributes<HTMLSpanE
 
 /**
  * Inline online-status indicator: a pulsing dot followed by a label. Used by
- * {@link UserDisplayNameContainer} when `showOnlineStatus` is set.
+ * {@link UserDisplayName} when `showOnlineStatus` is set.
  */
 export const ProfileOnlineStatus = React.forwardRef<HTMLSpanElement, ProfileOnlineStatusProps>(
   ({ className, label = "Online", ...props }, ref) => (

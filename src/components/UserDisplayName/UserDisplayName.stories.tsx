@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { UserDisplayNameContainer } from "./UserDisplayNameContainer";
+import { UserDisplayName } from "./UserDisplayName";
 
 const VARIANTS = ["body2SemiBold", "body1SemiBold", "heading4"] as const;
 
 const meta = {
-  title: "Components/UserDisplayNameContainer",
-  component: UserDisplayNameContainer,
+  title: "Components/UserDisplayName",
+  component: UserDisplayName,
   parameters: {
     layout: "centered",
   },
@@ -27,10 +27,10 @@ const meta = {
   },
   render: (args) => (
     <div className="w-72">
-      <UserDisplayNameContainer {...args} />
+      <UserDisplayName {...args} />
     </div>
   ),
-} satisfies Meta<typeof UserDisplayNameContainer>;
+} satisfies Meta<typeof UserDisplayName>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -78,29 +78,29 @@ export const TruncatedWithIconsAndStatus: Story = {
   render: () => (
     <div className="flex w-72 flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <UserDisplayNameContainer verified showOnlineStatus>
+        <UserDisplayName verified showOnlineStatus>
           {LONG_NAME}
-        </UserDisplayNameContainer>
+        </UserDisplayName>
         <span className="typography-description-12px-regular text-content-secondary">
           verified + online
         </span>
       </div>
       <div className="flex flex-col gap-1">
-        <UserDisplayNameContainer ambassador showOnlineStatus>
+        <UserDisplayName ambassador showOnlineStatus>
           {LONG_NAME}
-        </UserDisplayNameContainer>
+        </UserDisplayName>
         <span className="typography-description-12px-regular text-content-secondary">
           ambassador + online
         </span>
       </div>
       <div className="flex flex-col gap-1">
-        <UserDisplayNameContainer verified>{LONG_NAME}</UserDisplayNameContainer>
+        <UserDisplayName verified>{LONG_NAME}</UserDisplayName>
         <span className="typography-description-12px-regular text-content-secondary">
           verified only
         </span>
       </div>
       <div className="flex flex-col gap-1">
-        <UserDisplayNameContainer showOnlineStatus>{LONG_NAME}</UserDisplayNameContainer>
+        <UserDisplayName showOnlineStatus>{LONG_NAME}</UserDisplayName>
         <span className="typography-description-12px-regular text-content-secondary">
           online only
         </span>
@@ -114,9 +114,9 @@ export const TruncatedNarrow: Story = {
   name: "Truncated (narrow container)",
   render: () => (
     <div className="flex w-40 flex-col gap-1">
-      <UserDisplayNameContainer ambassador showOnlineStatus>
+      <UserDisplayName ambassador showOnlineStatus>
         {LONG_NAME}
-      </UserDisplayNameContainer>
+      </UserDisplayName>
       <span className="typography-description-12px-regular text-content-secondary">w-40</span>
     </div>
   ),
@@ -144,9 +144,9 @@ export const Variants: Story = {
     <div className="flex w-72 flex-col gap-3">
       {VARIANTS.map((variant) => (
         <div key={variant} className="flex flex-col gap-1">
-          <UserDisplayNameContainer variant={variant} verified>
+          <UserDisplayName variant={variant} verified>
             Aitana Lopez
-          </UserDisplayNameContainer>
+          </UserDisplayName>
           <span className="typography-description-12px-regular text-content-secondary">
             variant=&quot;{variant}&quot;
           </span>
@@ -161,9 +161,9 @@ export const SemanticElements: Story = {
   render: () => (
     <div className="flex w-72 flex-col gap-3">
       {(["h1", "h2", "h3", "p", "div"] as const).map((component) => (
-        <UserDisplayNameContainer key={component} component={component} variant="body1SemiBold">
+        <UserDisplayName key={component} component={component} variant="body1SemiBold">
           Rendered as &lt;{component}&gt;
-        </UserDisplayNameContainer>
+        </UserDisplayName>
       ))}
     </div>
   ),

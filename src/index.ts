@@ -740,10 +740,10 @@ export {
   TooltipTrigger,
 } from "./components/Tooltip/Tooltip";
 export type {
-  UserDisplayNameContainerProps,
+  UserDisplayNameProps,
   UserDisplayNameVariant,
-} from "./components/UserDisplayNameContainer/UserDisplayNameContainer";
-export { UserDisplayNameContainer } from "./components/UserDisplayNameContainer/UserDisplayNameContainer";
+} from "./components/UserDisplayName/UserDisplayName";
+export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
 export type { UserHandleTypographyProps } from "./components/UserHandleTypography/UserHandleTypography";
 export { UserHandleTypography } from "./components/UserHandleTypography/UserHandleTypography";
 export type { UserItemProps, UserItemUser } from "./components/UserItem/UserItem";

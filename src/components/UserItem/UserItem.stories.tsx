@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { UserDisplayNameContainer } from "../UserDisplayNameContainer/UserDisplayNameContainer";
+import { UserDisplayName } from "../UserDisplayName/UserDisplayName";
 import { UserItem } from "./UserItem";
 
 const SAMPLE_AVATAR =
@@ -126,16 +126,16 @@ export const States: Story = {
 
 /**
  * `UserItem` renders the plain display name. To show an ambassador/verified badge
- * (e.g. in a profile header), compose {@link UserDisplayNameContainer} — the same
+ * (e.g. in a profile header), compose {@link UserDisplayName} — the same
  * building block `UserItem` uses for its name line — above the row. See the
- * dedicated `UserDisplayNameContainer` stories for the full badge API.
+ * dedicated `UserDisplayName` stories for the full badge API.
  */
 export const WithBadgedName: Story = {
   render: (args) => (
     <div className="flex w-72 flex-col gap-1">
-      <UserDisplayNameContainer ambassador variant="body1SemiBold">
+      <UserDisplayName ambassador variant="body1SemiBold">
         Aitana Lopez
-      </UserDisplayNameContainer>
+      </UserDisplayName>
       <UserItem {...args} />
     </div>
   ),
