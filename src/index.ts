@@ -583,6 +583,10 @@ export type { RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";
+export type { RatingCount, RatingSummaryProps } from "./components/RatingSummary/RatingSummary";
+export { RatingSummary } from "./components/RatingSummary/RatingSummary";
+export type { ReviewCardProps } from "./components/ReviewCard/ReviewCard";
+export { ReviewCard } from "./components/ReviewCard/ReviewCard";
 export type {
   SearchFieldProps,
   SearchFieldSize,
