@@ -65,6 +65,7 @@ export type {
   BreadcrumbPageProps,
   BreadcrumbProps,
   BreadcrumbSeparatorProps,
+  BreadcrumbSize,
 } from "./components/Breadcrumb/Breadcrumb";
 export {
   Breadcrumb,

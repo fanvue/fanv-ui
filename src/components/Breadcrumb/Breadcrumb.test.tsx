@@ -133,6 +133,49 @@ describe("Breadcrumb", () => {
       );
       expect(screen.getByTestId("custom-sep")).toBeInTheDocument();
     });
+
+    it("renders a slash glyph as the default separator", () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      );
+      const separator = document.querySelector('li[aria-hidden="true"]');
+      expect(separator).toHaveTextContent("/");
+    });
+
+    it("applies size typography to links and the current page", () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbList size="16px">
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Current Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>,
+      );
+      expect(screen.getByRole("link", { name: "Home" })).toHaveClass(
+        "typography-body-default-16px-regular",
+      );
+      expect(screen.getByText("Current Page")).toHaveClass("typography-body-default-16px-semibold");
+    });
+
+    it("defaults to the 12px size typography", () => {
+      render(<BasicBreadcrumb />);
+      expect(screen.getByRole("link", { name: "Home" })).toHaveClass(
+        "typography-description-12px-regular",
+      );
+    });
   });
 
   describe("accessibility", () => {
