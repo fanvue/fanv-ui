@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import * as React from "react";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { UserItem } from "./UserItem";
 
@@ -8,6 +8,18 @@ const baseUser = {
   displayName: "Jane Doe",
   handle: "jane_doe",
 };
+
+const mockImageLoad = () => {
+  vi.spyOn(globalThis, "Image").mockImplementation(function Image() {
+    const image = document.createElement("img");
+    queueMicrotask(() => image.dispatchEvent(new Event("load")));
+    return image;
+  } as unknown as typeof Image);
+};
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("UserItem", () => {
   describe("API", () => {
@@ -39,14 +51,12 @@ describe("UserItem", () => {
       expect(screen.queryByTestId("avatar")).not.toBeInTheDocument();
     });
 
-    it("forwards the avatar src and alt from the user", () => {
+    it("forwards the avatar src and alt from the user", async () => {
+      mockImageLoad();
       render(<UserItem user={{ ...baseUser, avatarUri: { url: "/jane.jpg" } }} />);
-      const image = document.querySelector("img");
-      // Radix renders the image lazily, but the alt is taken from displayName.
       expect(screen.getByTestId("avatar")).toBeInTheDocument();
-      if (image) {
-        expect(image).toHaveAttribute("alt", "Jane Doe");
-      }
+      const image = await screen.findByRole("img", { name: "Jane Doe" });
+      expect(image).toHaveAttribute("src", "/jane.jpg");
     });
 
     it("applies custom className and spreads HTML attributes", () => {
