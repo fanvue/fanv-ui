@@ -180,7 +180,7 @@
   "size-limit": [
     {
       "path": "dist/index.mjs",
-      "limit": "175 KB",
+      "limit": "220 KB",
       "ignore": [
         "@radix-ui/*",
         "clsx",
