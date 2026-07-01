@@ -581,6 +581,11 @@ export { Pill } from "./components/Pill/Pill";
 export type { ProfileOnlineStatusProps } from "./components/ProfileOnlineStatus/ProfileOnlineStatus";
 export { ProfileOnlineStatus } from "./components/ProfileOnlineStatus/ProfileOnlineStatus";
 export type {
+  ProfileStatusProps,
+  ProfileStatusSize,
+} from "./components/ProfileStatus/ProfileStatus";
+export { ProfileStatus } from "./components/ProfileStatus/ProfileStatus";
+export type {
   ProgressBarProps,
   ProgressBarSize,
   ProgressBarVariant,
