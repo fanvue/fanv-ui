@@ -221,6 +221,8 @@ export type {
   EmptyStateVariant,
 } from "./components/EmptyState/EmptyState";
 export { EmptyState } from "./components/EmptyState/EmptyState";
+export type { FanFollowerCountProps } from "./components/FanFollowerCount/FanFollowerCount";
+export { FanFollowerCount } from "./components/FanFollowerCount/FanFollowerCount";
 export type {
   IconButtonProps,
   IconButtonSize,
