@@ -30,7 +30,7 @@ export const InlineWithText: Story = {
   render: (args) => (
     <span className="typography-body-small-14px-semibold inline-flex items-center">
       Aitana Lopez
-      <ProfileOnlineStatus {...args} />
+      <ProfileOnlineStatus {...args} className="ml-2" />
     </span>
   ),
 };

@@ -82,7 +82,7 @@ export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProp
             <VerifiedIcon size={16} />
           </span>
         )}
-        {showOnlineStatus && <ProfileOnlineStatus label={onlineLabel} className="shrink-0" />}
+        {showOnlineStatus && <ProfileOnlineStatus label={onlineLabel} className="shrink-0 ml-2" />}
       </Component>
     );
   },

@@ -16,7 +16,7 @@ export const ProfileOnlineStatus = React.forwardRef<HTMLSpanElement, ProfileOnli
     <span
       ref={ref}
       className={cn(
-        "typography-description-12px-regular ml-2 inline-flex items-center gap-1 text-success-content",
+        "typography-description-12px-regular inline-flex items-center gap-1 text-success-content",
         className,
       )}
       {...props}
