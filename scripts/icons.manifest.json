@@ -276,6 +276,11 @@
       "hasFilled": true
     },
     {
+      "name": "GifIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "GiftIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true

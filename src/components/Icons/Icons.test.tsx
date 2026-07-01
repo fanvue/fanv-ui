@@ -70,6 +70,7 @@ import { ForwardIcon } from "./ForwardIcon";
 import { GalleryIcon } from "./GalleryIcon";
 import { GameIcon } from "./GameIcon";
 import { GenderIcon } from "./GenderIcon";
+import { GifIcon } from "./GifIcon";
 import { GiftIcon } from "./GiftIcon";
 import { GoogleIcon } from "./GoogleIcon";
 import { HealthIcon } from "./HealthIcon";
@@ -255,6 +256,7 @@ const propBasedIcons = [
   { name: "ForwardIcon", Component: ForwardIcon, hasFilled: true },
   { name: "GameIcon", Component: GameIcon, hasFilled: true },
   { name: "GenderIcon", Component: GenderIcon, hasFilled: true },
+  { name: "GifIcon", Component: GifIcon, hasFilled: true },
   { name: "GiftIcon", Component: GiftIcon, hasFilled: true },
   { name: "HealthIcon", Component: HealthIcon, hasFilled: true },
   { name: "HeartIcon", Component: HeartIcon, hasFilled: true },

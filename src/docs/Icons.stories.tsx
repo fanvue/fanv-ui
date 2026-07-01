@@ -68,6 +68,7 @@ import { ForwardIcon } from "../components/Icons/ForwardIcon";
 import { GalleryIcon } from "../components/Icons/GalleryIcon";
 import { GameIcon } from "../components/Icons/GameIcon";
 import { GenderIcon } from "../components/Icons/GenderIcon";
+import { GifIcon } from "../components/Icons/GifIcon";
 import { GiftIcon } from "../components/Icons/GiftIcon";
 import { GoogleIcon } from "../components/Icons/GoogleIcon";
 import { HealthIcon } from "../components/Icons/HealthIcon";
@@ -535,6 +536,7 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   { name: "GenderIcon", component: GenderIcon, tags: ["gender", "identity"], propBased: true },
+  { name: "GifIcon", component: GifIcon, tags: [], propBased: true },
   { name: "GiftIcon", component: GiftIcon, tags: ["gift", "present", "reward"], propBased: true },
   {
     name: "GoogleIcon",
