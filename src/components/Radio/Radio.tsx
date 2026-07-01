@@ -58,7 +58,7 @@ export const Radio = React.forwardRef<
         aria-describedby={helperText ? helperTextId : undefined}
         className={cn(
           "relative h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-full border border-content-primary bg-transparent transition-colors hover:bg-brand-primary-muted focus-visible:shadow-focus-ring focus-visible:outline-none not-disabled:active:bg-brand-primary-muted disabled:cursor-not-allowed disabled:border-neutral-alphas-600 disabled:bg-transparent data-[state=checked]:border-content-primary data-[state=checked]:bg-transparent",
-          hasContent && (avatar ? "mt-2" : "mt-1"),
+          hasContent && (avatar ? "mt-2" : size === "small" ? "mt-px" : "mt-1"),
         )}
         {...props}
       >
