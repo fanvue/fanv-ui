@@ -6,11 +6,11 @@ const badgeVariants = {
   variant: {
     default: "bg-neutral-alphas-50 text-content-primary",
     dark: "bg-neutral-alphas-600 text-content-always-white",
-    success: "bg-neutral-alphas-50 text-content-primary",
-    warning: "bg-neutral-alphas-50 text-content-primary",
-    error: "bg-neutral-alphas-50 text-content-primary",
+    success: "bg-success-surface text-success-content",
+    warning: "bg-warning-surface text-warning-content",
+    error: "bg-error-surface text-error-content",
     special: "bg-neutral-alphas-50 text-content-primary",
-    info: "bg-neutral-alphas-50 text-content-primary",
+    info: "bg-info-surface text-info-content",
     successColour: "bg-success-surface text-content-primary",
     warningColour: "bg-warning-surface text-content-primary",
     errorColour: "bg-error-surface text-content-primary",
@@ -110,7 +110,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         data-testid="badge"
         className={cn(
           // Base styles
-          "typography-description-12px-semibold inline-flex h-5 min-w-0 items-center gap-2 rounded-full px-2",
+          "typography-description-12px-semibold inline-flex h-6 min-w-0 items-center gap-2 rounded-full px-2",
           // Variant styles
           badgeVariants.variant[variant],
           // Interactive

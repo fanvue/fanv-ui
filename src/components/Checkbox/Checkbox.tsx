@@ -115,7 +115,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           onCheckedChange={handleCheckedChange}
           className={cn(
             // Base styles
-            "flex items-center justify-center rounded border-2",
+            "flex items-center justify-center rounded border",
             BOX_SIZE_CLASS[boxSize],
             "transition-[border-color,background-color,color,box-shadow] duration-150",
             // Default state

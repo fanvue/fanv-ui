@@ -26,7 +26,7 @@ const iconButtonVariants = {
 
 const iconSizeVariants = {
   24: "[&>svg]:size-4",
-  32: "[&>svg]:size-5",
+  32: "[&>svg]:size-4",
   40: "[&>svg]:size-6",
   52: "[&>svg]:size-7",
   72: "[&>svg]:size-8",

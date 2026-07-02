@@ -59,8 +59,8 @@ const ICON_INSET: Record<TextFieldSize, string> = {
 
 function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: boolean) {
   return cn(
-    "relative overflow-hidden rounded-sm border bg-neutral-alphas-50 has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
-    error ? "border-error-content" : "border-transparent",
+    "relative overflow-hidden rounded-sm border bg-inputs-inputs-primary has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
+    error ? "border-error-content" : "border-border-primary",
     !disabled && !error && "hover:border-neutral-alphas-400",
     CONTAINER_HEIGHT[size],
     disabled && "opacity-50",
@@ -69,7 +69,7 @@ function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: b
 
 function getInputClassName(size: TextFieldSize, hasLeftIcon: boolean, hasRightIcon: boolean) {
   return cn(
-    "h-full w-full rounded-sm bg-transparent text-content-primary no-underline placeholder:text-content-secondary focus:outline-none disabled:cursor-not-allowed",
+    "h-full w-full rounded-sm bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
     INPUT_SIZE_CLASSES[size],
     hasLeftIcon ? INPUT_PL[size].withIcon : INPUT_PL[size].default,
     hasRightIcon ? INPUT_PR[size].withIcon : INPUT_PR[size].default,
@@ -159,7 +159,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="typography-description-12px-semibold px-1 pt-1 pb-2 text-content-primary"
+            className="typography-description-12px-semibold pb-2 text-content-primary"
           >
             {label}
           </label>

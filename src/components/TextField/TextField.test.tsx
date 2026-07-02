@@ -238,15 +238,15 @@ describe("TextField", () => {
       const inputContainer = container.querySelector('[class*="border"]');
       expect(inputContainer).toBeInTheDocument();
       expect(inputContainer).toHaveClass("border");
-      expect(inputContainer).toHaveClass("border-transparent");
+      expect(inputContainer).toHaveClass("border-border-primary");
     });
 
-    it("renders border-error-content instead of border-transparent when error", () => {
+    it("renders border-error-content instead of border-border-primary when error", () => {
       const { container } = render(<TextField aria-label="Test" error />);
       const inputContainer = container.querySelector('[class*="border-error-content"]');
       expect(inputContainer).toBeInTheDocument();
       expect(inputContainer).toHaveClass("border");
-      expect(inputContainer).not.toHaveClass("border-transparent");
+      expect(inputContainer).not.toHaveClass("border-border-primary");
     });
 
     it("renders focus ring class on input container", () => {
