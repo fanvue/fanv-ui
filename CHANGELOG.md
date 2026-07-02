@@ -1,5 +1,22 @@
 # Changelog
 
+## [3.9.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.8.0...ui-v3.9.0) (2026-07-02)
+
+
+### Features
+
+* **Alert:** add neutral variant and inline link (ENG-10648) ([#545](https://github.com/fanvue/fanv-ui/issues/545)) ([8719387](https://github.com/fanvue/fanv-ui/commit/871938727ab4b87157b2e7333804a78d4001e8e4))
+* **FanFollowerCount:** add V2 fan & follower count component (ENG-11791) ([#546](https://github.com/fanvue/fanv-ui/issues/546)) ([51a3e17](https://github.com/fanvue/fanv-ui/commit/51a3e1713e5981b318c78f4c5084349245da643c))
+* **Link:** add V2 Link component (ENG-11789) ([#548](https://github.com/fanvue/fanv-ui/issues/548)) ([6348545](https://github.com/fanvue/fanv-ui/commit/6348545b39e9d1a7ee8a6ea6c7e973bc589b938a))
+* migrate Badge & Pill to V2 semantic variants (ENG-10640) ([#550](https://github.com/fanvue/fanv-ui/issues/550)) ([88e6c35](https://github.com/fanvue/fanv-ui/commit/88e6c35dfd306f5f5f6f4611f1b726a98313db6f))
+* **ProfileStatus:** add V2 active/inactive presence indicator (ENG-11790) ([#547](https://github.com/fanvue/fanv-ui/issues/547)) ([36ef7f0](https://github.com/fanvue/fanv-ui/commit/36ef7f0f26bcf9a23c357348d6d59e85bf32fe85))
+* **Radio:** add trailing layout and avatar slot (ENG-10634) ([#551](https://github.com/fanvue/fanv-ui/issues/551)) ([05f6919](https://github.com/fanvue/fanv-ui/commit/05f6919228484e2430f236533edcf87d7d49f3db))
+
+
+### Bug Fixes
+
+* **components:** align V2 inputs, badges, dialogs with CRM reskin Figma spec ([#552](https://github.com/fanvue/fanv-ui/issues/552)) ([a0a05d0](https://github.com/fanvue/fanv-ui/commit/a0a05d03baa872dbfe514d00e85b23bc1b15d7bb))
+
 ## [3.8.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.7.2...ui-v3.8.0) (2026-07-01)
 
 
