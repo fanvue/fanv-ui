@@ -137,6 +137,7 @@ import {
   InfoCircleIcon,
   InfoIcon,
   InlineEdit,
+  Link,
   LinkIcon,
   Loader,
   LocationIcon,
@@ -2125,6 +2126,35 @@ function BadgeDemo() {
       </div>
       <div className="flex flex-wrap gap-4 rounded-xs bg-surface-primary-inverted p-4">
         <Badge variant="negative">Negative</Badge>
+      </div>
+    </div>
+  );
+}
+
+function LinkDemo() {
+  return (
+    <div id="link" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Link</h2>
+      <div className="flex flex-col gap-6">
+        {(["16", "14"] as const).map((size) => (
+          <div key={size} className="flex flex-wrap items-center gap-6">
+            <Link href="#" variant="primary" size={size}>
+              Primary {size}px
+            </Link>
+            <Link href="#" variant="brand" size={size}>
+              Brand {size}px
+            </Link>
+            <Link href="#" variant="primary" size={size} leftIcon={<WalletIcon />}>
+              Left icon
+            </Link>
+            <Link href="#" variant="brand" size={size} rightIcon={<ArrowUpRightIcon />}>
+              Right icon
+            </Link>
+            <Link href="#" variant="primary" size={size} disabled>
+              Disabled
+            </Link>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -5060,6 +5090,7 @@ function App() {
     { id: "icons", label: "Icons" },
     { id: "infobox", label: "InfoBox" },
     { id: "inlineedit", label: "Inline Edit" },
+    { id: "link", label: "Link" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
     { id: "stepper", label: "Stepper" },
@@ -5221,6 +5252,9 @@ function App() {
 
             {/* Badge */}
             <BadgeDemo />
+
+            {/* Link */}
+            <LinkDemo />
 
             {/* Icon Button */}
             <IconButtonDemo />
