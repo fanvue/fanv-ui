@@ -49,6 +49,8 @@ export const Radio = React.forwardRef<
     const inputId = id || generatedId;
     const helperTextId = `${inputId}-helper`;
     const hasContent = Boolean(label || helperText || avatar);
+    // Avatar + helper text reads better centered as a group; otherwise align to the first line.
+    const centerWithAvatar = Boolean(avatar && helperText);
 
     const button = (
       <RadioGroupPrimitive.Item
@@ -58,7 +60,9 @@ export const Radio = React.forwardRef<
         aria-describedby={helperText ? helperTextId : undefined}
         className={cn(
           "relative h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-full border border-content-primary bg-transparent transition-colors hover:bg-brand-primary-muted focus-visible:shadow-focus-ring focus-visible:outline-none not-disabled:active:bg-brand-primary-muted disabled:cursor-not-allowed disabled:border-neutral-alphas-600 disabled:bg-transparent data-[state=checked]:border-content-primary data-[state=checked]:bg-transparent",
-          hasContent && (avatar ? "mt-2" : size === "small" ? "mt-px" : "mt-1"),
+          hasContent &&
+            !centerWithAvatar &&
+            (avatar ? "mt-2" : size === "small" ? "mt-px" : "mt-1"),
         )}
         {...props}
       >
@@ -69,14 +73,19 @@ export const Radio = React.forwardRef<
     );
 
     const content = hasContent && (
-      <div className="flex min-w-0 flex-1 items-start gap-3">
+      <div
+        className={cn(
+          "flex min-w-0 flex-1 gap-3",
+          centerWithAvatar ? "items-center" : "items-start",
+        )}
+      >
         {avatar && (
           <span className="shrink-0 group-has-disabled:opacity-60" aria-hidden="true">
             {avatar}
           </span>
         )}
         {(label || helperText) && (
-          <div className={cn("flex flex-col gap-0.5", avatar && "pt-1")}>
+          <div className={cn("flex flex-col gap-0.5", avatar && !centerWithAvatar && "pt-1")}>
             {label && (
               <label
                 htmlFor={inputId}
@@ -109,7 +118,15 @@ export const Radio = React.forwardRef<
     );
 
     return (
-      <div className={cn("group flex w-full items-start gap-3", className)}>
+      <div
+        className={cn(
+          "group gap-3",
+          // Full width only for trailing (button to far end); leading keeps intrinsic width for inline groups.
+          layout === "trailing" ? "flex w-full" : "inline-flex",
+          centerWithAvatar ? "items-center" : "items-start",
+          className,
+        )}
+      >
         {layout === "leading" && button}
         {content}
         {layout === "trailing" && button}

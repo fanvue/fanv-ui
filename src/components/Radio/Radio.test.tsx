@@ -174,6 +174,20 @@ describe("Radio", () => {
       );
       expect(screen.getByTestId("avatar-slot")).toBeInTheDocument();
     });
+
+    it("uses intrinsic width for leading and full width for trailing", () => {
+      const { container } = render(
+        <RadioGroup>
+          <Radio className="leading-row" label="Lead" value="lead" />
+          <Radio className="trailing-row" layout="trailing" label="Trail" value="trail" />
+        </RadioGroup>,
+      );
+      const leading = container.querySelector(".leading-row");
+      const trailing = container.querySelector(".trailing-row");
+      expect(leading).toHaveClass("inline-flex");
+      expect(leading).not.toHaveClass("w-full");
+      expect(trailing).toHaveClass("w-full");
+    });
   });
 
   describe("accessibility", () => {
