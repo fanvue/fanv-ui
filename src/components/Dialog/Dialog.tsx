@@ -83,8 +83,17 @@ export interface DialogContentProps
    * @default true
    */
   portal?: boolean;
-  /** Show the v2 mobile sheet pull handle. @default true */
+  /** Show the v2 mobile sheet pull handle. Only rendered when `mobilePresentation` is `"sheet"`. @default true */
   showMobileHandle?: boolean;
+  /**
+   * How the dialog presents below the `sm` breakpoint.
+   * - `"sheet"` — bottom sheet pinned to the viewport bottom edge (default)
+   * - `"card"` — centered floating card per the v2-modal confirmation spec:
+   *   16px side margins, 24px padding, 32px radius on all corners, no pull handle
+   *
+   * @default "sheet"
+   */
+  mobilePresentation?: "sheet" | "card";
 }
 
 const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
@@ -100,8 +109,9 @@ const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
  * `fixed` positioning still applies; ancestors with `transform` or `overflow` may affect layout.
  *
  * On mobile viewports (<640px), the dialog slides up from the bottom as a sheet
- * with top-only border radius. On larger viewports it renders centered with
- * full border radius.
+ * with top-only border radius by default; pass `mobilePresentation="card"` to
+ * render a centered floating card instead (used for small confirmation dialogs).
+ * On larger viewports it renders centered with full border radius.
  *
  * @example
  * ```tsx
@@ -136,6 +146,7 @@ export const DialogContent = React.forwardRef<
       overlay = true,
       portal = true,
       showMobileHandle = true,
+      mobilePresentation = "sheet",
       style,
       onOpenAutoFocus,
       ...props
@@ -158,21 +169,31 @@ export const DialogContent = React.forwardRef<
           }}
           className={cn(
             "fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
-            "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-xl p-4 pt-3",
             "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
-            "data-[state=open]:slide-in-from-bottom-full",
-            "data-[state=closed]:slide-out-to-bottom-full",
-            "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[85vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-xl sm:p-6",
-            "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
-            "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
+            mobilePresentation === "card"
+              ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
+                cn(
+                  "inset-x-4 top-1/2 max-h-[85vh] -translate-y-1/2 rounded-xl p-6",
+                  "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
+                  "sm:inset-x-auto",
+                )
+              : // Bottom sheet pinned to the viewport bottom edge
+                cn(
+                  "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-xl p-4 pt-3",
+                  "data-[state=open]:slide-in-from-bottom-full",
+                  "data-[state=closed]:slide-out-to-bottom-full",
+                  "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
+                  "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
+                ),
+            "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[85vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
             "duration-200",
             SIZE_CLASSES[size],
             className,
           )}
           {...props}
         >
-          {showMobileHandle && (
+          {showMobileHandle && mobilePresentation === "sheet" && (
             <div
               aria-hidden="true"
               className="mb-3 h-1 w-8 shrink-0 self-center rounded-full bg-icons-tertiary sm:hidden"
@@ -310,7 +331,7 @@ export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex-1 overflow-y-auto py-4 sm:py-6", className)} {...props} />
+    <div ref={ref} className={cn("flex-1 overflow-y-auto py-4", className)} {...props} />
   ),
 );
 DialogBody.displayName = "DialogBody";

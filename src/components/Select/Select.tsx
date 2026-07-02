@@ -125,7 +125,7 @@ export const Select = React.forwardRef<
           {label && (
             <label
               htmlFor={triggerId}
-              className="typography-description-12px-semibold px-1 pt-1 pb-2 text-content-primary"
+              className="typography-description-12px-semibold pb-2 text-content-primary"
             >
               {label}
             </label>
@@ -140,12 +140,12 @@ export const Select = React.forwardRef<
               aria-describedby={bottomText ? helperTextId : undefined}
               aria-invalid={error || undefined}
               className={cn(
-                "flex w-full cursor-pointer items-center justify-between rounded-sm border bg-neutral-alphas-50 outline-none motion-safe:transition-colors focus-visible:shadow-focus-ring",
+                "flex w-full cursor-pointer items-center justify-between rounded-sm border bg-inputs-inputs-primary outline-none motion-safe:transition-colors focus-visible:shadow-focus-ring",
                 TRIGGER_HEIGHT[size],
                 TRIGGER_PADDING_X[size],
                 TRIGGER_GAP[size],
                 TRIGGER_TYPOGRAPHY[size],
-                error ? "border-error-content" : "border-transparent",
+                error ? "border-error-content" : "border-border-primary",
                 !disabled &&
                   !error &&
                   "hover:border-neutral-alphas-400 data-[state=open]:border-neutral-alphas-400",
@@ -161,7 +161,7 @@ export const Select = React.forwardRef<
                     {leftIcon}
                   </span>
                 )}
-                <span className="min-w-0 flex-1 truncate text-left text-content-primary [&>[data-placeholder]]:text-content-secondary [&>[data-placeholder]]:opacity-40">
+                <span className="min-w-0 flex-1 truncate text-left text-content-primary [&>[data-placeholder]]:text-content-tertiary">
                   <SelectPrimitive.Value placeholder={placeholder} />
                 </span>
               </div>

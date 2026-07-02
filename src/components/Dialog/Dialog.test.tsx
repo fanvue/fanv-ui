@@ -151,7 +151,7 @@ describe("Dialog", () => {
       renderDialog();
       const dialog = screen.getByRole("dialog");
       expect(dialog).toHaveClass("rounded-t-xl");
-      expect(dialog).toHaveClass("sm:rounded-xl");
+      expect(dialog).toHaveClass("sm:rounded-lg");
       expect(dialog).toHaveClass("inset-x-0");
       expect(dialog).toHaveClass("w-full");
       expect(dialog).toHaveClass("border-modal-stroke");
@@ -167,6 +167,17 @@ describe("Dialog", () => {
 
     it("hides the mobile sheet handle when showMobileHandle is false", () => {
       renderDialog({ showMobileHandle: false });
+      expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
+    });
+
+    it("renders as a floating card on mobile when mobilePresentation is card", () => {
+      renderDialog({ mobilePresentation: "card" });
+      const dialog = screen.getByRole("dialog");
+      expect(dialog).toHaveClass("inset-x-4");
+      expect(dialog).toHaveClass("rounded-xl");
+      expect(dialog).toHaveClass("p-6");
+      expect(dialog).not.toHaveClass("bottom-0");
+      expect(dialog).not.toHaveClass("rounded-t-xl");
       expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
     });
 

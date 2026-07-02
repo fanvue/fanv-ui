@@ -77,7 +77,7 @@ export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
         data-testid="pill"
         className={cn(
           // Base styles
-          "inline-flex min-w-0 items-center justify-center gap-2 rounded-full px-3 py-1",
+          "inline-flex min-w-0 items-center justify-center gap-2 rounded-full px-2 py-1",
           // Typography
           "typography-description-12px-semibold",
           // Variant styles
