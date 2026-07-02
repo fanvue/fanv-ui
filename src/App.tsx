@@ -2114,6 +2114,18 @@ function BadgeDemo() {
           Right icon
         </Badge>
       </div>
+      <div className="flex flex-wrap gap-4">
+        <Badge variant="successColour">Success</Badge>
+        <Badge variant="warningColour">Warning</Badge>
+        <Badge variant="errorColour">Error</Badge>
+        <Badge variant="infoColour">Info</Badge>
+        <Badge variant="aiGenerated" leftDot={false} leftIcon={<AIIcon className="size-3" />}>
+          AI Generated
+        </Badge>
+      </div>
+      <div className="flex flex-wrap gap-4 rounded-xs bg-surface-primary-inverted p-4">
+        <Badge variant="negative">Negative</Badge>
+      </div>
     </div>
   );
 }
@@ -2196,6 +2208,11 @@ function PillDemo() {
         <Pill variant="beta">Beta</Pill>
         <Pill variant="error">Error</Pill>
         <Pill variant="red">Red</Pill>
+      </div>
+
+      <div className="flex flex-wrap gap-4 rounded-xs bg-surface-primary-inverted p-4">
+        <Pill variant="contrast">Contrast</Pill>
+        <Pill variant="negative">Negative</Pill>
       </div>
 
       <div className="flex flex-wrap gap-4">

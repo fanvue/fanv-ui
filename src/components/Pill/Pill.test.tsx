@@ -23,6 +23,20 @@ describe("Pill", () => {
     });
   });
 
+  describe("V2 variants", () => {
+    it("applies the dark-surface treatment for the contrast variant", () => {
+      render(<Pill variant="contrast">Contrast</Pill>);
+      expect(screen.getByTestId("pill")).toHaveClass("bg-buttons-primary-default");
+    });
+
+    it("applies the inverted treatment for the negative variant", () => {
+      render(<Pill variant="negative">Negative</Pill>);
+      const pill = screen.getByTestId("pill");
+      expect(pill).toHaveClass("bg-buttons-secondary-negative-default");
+      expect(pill).toHaveClass("text-content-primary-inverted");
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(<Pill>Accessible Pill</Pill>);

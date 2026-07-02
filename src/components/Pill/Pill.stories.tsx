@@ -24,6 +24,8 @@ const meta = {
         "gold",
         "pinkLight",
         "base",
+        "contrast",
+        "negative",
         "brand",
         "brandLight",
         "beta",
@@ -77,6 +79,34 @@ export const Base: Story = {
     variant: "base",
     children: "Example",
   },
+};
+
+export const Contrast: Story = {
+  args: {
+    variant: "contrast",
+    children: "Contrast",
+  },
+  decorators: [
+    (Story) => (
+      <div className="rounded-xs bg-surface-primary-inverted p-4">
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export const Negative: Story = {
+  args: {
+    variant: "negative",
+    children: "Negative",
+  },
+  decorators: [
+    (Story) => (
+      <div className="rounded-xs bg-surface-primary-inverted p-4">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export const Brand: Story = {

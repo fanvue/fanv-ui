@@ -59,6 +59,23 @@ describe("Badge", () => {
     });
   });
 
+  describe("V2 variants", () => {
+    it("applies a filled surface for colour-emphasis variants", () => {
+      render(<Badge variant="successColour">Active</Badge>);
+      expect(screen.getByTestId("badge")).toHaveClass("bg-success-surface");
+    });
+
+    it("inverts the text colour for the negative variant", () => {
+      render(<Badge variant="negative">On dark</Badge>);
+      expect(screen.getByTestId("badge")).toHaveClass("text-content-primary-inverted");
+    });
+
+    it("uses the always-white surface for the aiGenerated variant", () => {
+      render(<Badge variant="aiGenerated">AI Generated</Badge>);
+      expect(screen.getByTestId("badge")).toHaveClass("bg-buttons-always-white-default");
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(<Badge>Accessible Badge</Badge>);

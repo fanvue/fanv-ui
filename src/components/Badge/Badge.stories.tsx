@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { AIIcon } from "../Icons/AIIcon";
 import { ArrowUpRightIcon } from "../Icons/ArrowUpRightIcon";
 import { CheckCircleIcon } from "../Icons/CheckCircleIcon";
 import { Badge } from "./Badge";
@@ -25,6 +26,12 @@ const meta = {
         "error",
         "special",
         "info",
+        "successColour",
+        "warningColour",
+        "errorColour",
+        "infoColour",
+        "aiGenerated",
+        "negative",
         "online",
         "brand",
         "pink",
@@ -86,6 +93,57 @@ export const Info: Story = {
     variant: "info",
     children: "Info",
   },
+};
+
+export const SuccessColour: Story = {
+  args: {
+    variant: "successColour",
+    children: "Success",
+  },
+};
+
+export const WarningColour: Story = {
+  args: {
+    variant: "warningColour",
+    children: "Warning",
+  },
+};
+
+export const ErrorColour: Story = {
+  args: {
+    variant: "errorColour",
+    children: "Error",
+  },
+};
+
+export const InfoColour: Story = {
+  args: {
+    variant: "infoColour",
+    children: "Info",
+  },
+};
+
+export const AIGenerated: Story = {
+  args: {
+    variant: "aiGenerated",
+    leftDot: false,
+    leftIcon: <AIIcon className="size-3" />,
+    children: "AI Generated",
+  },
+};
+
+export const Negative: Story = {
+  args: {
+    variant: "negative",
+    children: "Negative",
+  },
+  decorators: [
+    (Story) => (
+      <div className="rounded-xs bg-surface-primary-inverted p-4">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export const Online: Story = {
