@@ -1,9 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { Avatar } from "../Avatar/Avatar";
+import { CrownIcon } from "../Icons/CrownIcon";
 import { Accordion } from "./Accordion";
 import { AccordionContent } from "./AccordionContent";
 import { AccordionItem } from "./AccordionItem";
 import { AccordionTrigger } from "./AccordionTrigger";
+
+const avatarSrc = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop";
 
 const meta = {
   title: "Components/Accordion",
@@ -12,7 +16,7 @@ const meta = {
     layout: "padded",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt?node-id=627-1468",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=17976-15947",
     },
   },
   tags: ["autodocs"],
@@ -135,6 +139,100 @@ export const DefaultExpanded: Story = {
       <AccordionItem value="item-3">
         <AccordionTrigger>Section 3</AccordionTrigger>
         <AccordionContent>Content for section 3.</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+};
+
+export const WithDescription: Story = {
+  name: "Header with Description",
+  render: () => (
+    <Accordion type="single" collapsible defaultValue="item-1" className="max-w-md">
+      <AccordionItem value="item-1">
+        <AccordionTrigger description="A short summary of what this section covers.">
+          Billing & payments
+        </AccordionTrigger>
+        <AccordionContent>Manage your payment methods and view past invoices.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger description="Control who can see your profile and activity.">
+          Privacy
+        </AccordionTrigger>
+        <AccordionContent>Adjust your visibility and data-sharing preferences.</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+};
+
+export const WithLeadingIcon: Story = {
+  name: "Header with Leading Icon",
+  render: () => (
+    <Accordion type="single" collapsible defaultValue="item-1" className="max-w-md">
+      <AccordionItem value="item-1">
+        <AccordionTrigger leadingIcon={<CrownIcon />} description="Perks for premium members.">
+          Membership benefits
+        </AccordionTrigger>
+        <AccordionContent>Exclusive content, early access, and priority support.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger leadingIcon={<CrownIcon />}>Rewards</AccordionTrigger>
+        <AccordionContent>Earn points every time you engage.</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+};
+
+export const WithAvatar: Story = {
+  name: "Header with Avatar",
+  render: () => (
+    <Accordion type="single" collapsible defaultValue="item-1" className="max-w-md">
+      <AccordionItem value="item-1">
+        <AccordionTrigger
+          avatar={<Avatar size={24} src={avatarSrc} alt="Jane Doe" fallback="JD" />}
+          description="@jane_doe"
+        >
+          Jane Doe
+        </AccordionTrigger>
+        <AccordionContent>View this creator's recent posts and details.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger avatar={<Avatar size={24} fallback="AB" />} description="@alex_b">
+          Alex Brown
+        </AccordionTrigger>
+        <AccordionContent>View this creator's recent posts and details.</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+};
+
+export const HeaderVariants: Story = {
+  name: "Header Variants (Matrix)",
+  render: () => (
+    <Accordion type="multiple" defaultValue={["desc", "icon", "avatar"]} className="max-w-md">
+      <AccordionItem value="title">
+        <AccordionTrigger>Title only</AccordionTrigger>
+        <AccordionContent>The default header with just a title.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="desc">
+        <AccordionTrigger description="With a secondary description line.">
+          Title + description
+        </AccordionTrigger>
+        <AccordionContent>Adds context under the title.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="icon">
+        <AccordionTrigger leadingIcon={<CrownIcon />} description="With a leading icon.">
+          Title + icon
+        </AccordionTrigger>
+        <AccordionContent>A leading icon identifies the section type.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="avatar">
+        <AccordionTrigger
+          avatar={<Avatar size={24} src={avatarSrc} alt="Jane Doe" fallback="JD" />}
+          description="@jane_doe"
+        >
+          Title + avatar
+        </AccordionTrigger>
+        <AccordionContent>An avatar identifies a person or account.</AccordionContent>
       </AccordionItem>
     </Accordion>
   ),

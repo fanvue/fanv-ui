@@ -1527,6 +1527,31 @@ function AccordionDemo() {
             </AccordionItem>
           </Accordion>
         </div>
+        <div className="w-80">
+          <p className="typography-description-12px-regular mb-2 text-content-tertiary">
+            V2 Header Variants
+          </p>
+          <Accordion type="multiple" defaultValue={["avatar"]}>
+            <AccordionItem value="desc">
+              <AccordionTrigger description="With a secondary description line.">
+                Title + description
+              </AccordionTrigger>
+              <AccordionContent>Adds context under the title.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="icon">
+              <AccordionTrigger leadingIcon={<CrownIcon />} description="With a leading icon.">
+                Title + icon
+              </AccordionTrigger>
+              <AccordionContent>A leading icon identifies the section type.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="avatar">
+              <AccordionTrigger avatar={<Avatar size={24} fallback="JD" />} description="@jane_doe">
+                Jane Doe
+              </AccordionTrigger>
+              <AccordionContent>An avatar identifies a person or account.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
       </div>
     </div>
   );
