@@ -595,7 +595,7 @@ export type {
   ProgressBarVariant,
 } from "./components/ProgressBar/ProgressBar";
 export { ProgressBar } from "./components/ProgressBar/ProgressBar";
-export type { RadioProps } from "./components/Radio/Radio";
+export type { RadioLayout, RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";

@@ -2307,6 +2307,37 @@ function RadioDemo() {
         <Radio label="Option 2" value="y" />
         <Radio label="Option 3" value="z" />
       </RadioGroup>
+
+      <RadioGroup defaultValue="jane" aria-label="People" className="flex w-80 flex-col gap-2">
+        <Radio
+          layout="trailing"
+          label="Jane Doe"
+          helperText="@jane_doe"
+          value="jane"
+          avatar={
+            <Avatar
+              size={32}
+              src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
+              alt="Jane Doe"
+              fallback="JD"
+              onlineIndicator
+            />
+          }
+        />
+        <Radio
+          layout="trailing"
+          label="Sam Rivers"
+          helperText="@sam_rivers"
+          value="sam"
+          avatar={<Avatar size={32} fallback="SR" />}
+        />
+        <Radio
+          label="Leading with avatar"
+          helperText="Radio placed before the avatar"
+          value="leading-avatar"
+          avatar={<Avatar size={32} fallback="LA" />}
+        />
+      </RadioGroup>
     </div>
   );
 }
