@@ -3,15 +3,22 @@ import { cn } from "@/utils/cn";
 
 /** Track height — `"default"` (12px) or `"small"` (6px). */
 export type ProgressBarSize = "default" | "small";
-/** Colour mode — `"default"` uses red/yellow/green by value, `"generic"` always uses brand green, `"neutral"` uses a theme-aware inverse colour. */
-export type ProgressBarVariant = "default" | "generic" | "neutral";
+/**
+ * Colour mode.
+ * - `"brand"` — V2 brand (green) fill on a tinted track.
+ * - `"mono"` — V2 monochrome fill on a tinted track (theme-aware).
+ * - `"default"` — legacy value-coded red/yellow/green.
+ * - `"generic"` — legacy solid brand green on a neutral track.
+ * - `"neutral"` — legacy theme-aware inverse colour on a neutral track.
+ */
+export type ProgressBarVariant = "brand" | "mono" | "default" | "generic" | "neutral";
 
 export interface ProgressBarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   /** Current progress value, clamped to 0–100. */
   value: number;
   /** Track height — `"default"` (12px) or `"small"` (6px). @default "default" */
   size?: ProgressBarSize;
-  /** Colour mode — `"default"` is colour-coded by value, `"generic"` always uses brand green, `"neutral"` uses a theme-aware inverse colour. @default "default" */
+  /** Colour mode. Prefer `"brand"` or `"mono"` (V2); `"default"`/`"generic"`/`"neutral"` are legacy. @default "default" */
   variant?: ProgressBarVariant;
   /** Title content shown at the top-left of the bar. */
   title?: React.ReactNode;
@@ -56,12 +63,37 @@ function getDefaultTextColor(value: number): string {
 function resolveColors(
   variant: ProgressBarVariant,
   value: number,
-): { barColor: string; textColor: string } {
+): { barColor: string; textColor: string; trackColor: string } {
+  const neutralTrack = "bg-neutral-alphas-50";
+  if (variant === "brand")
+    return {
+      barColor: "bg-progress-bar-brand-active",
+      textColor: "text-brand-primary-default",
+      trackColor: "bg-progress-bar-brand-inactive",
+    };
+  if (variant === "mono")
+    return {
+      barColor: "bg-progress-bar-mono-active",
+      textColor: "text-content-primary",
+      trackColor: "bg-progress-bar-mono-inactive",
+    };
   if (variant === "neutral")
-    return { barColor: "bg-content-tertiary", textColor: "text-content-tertiary" };
+    return {
+      barColor: "bg-content-tertiary",
+      textColor: "text-content-tertiary",
+      trackColor: neutralTrack,
+    };
   if (variant === "generic")
-    return { barColor: "bg-brand-primary-default", textColor: "text-brand-primary-default" };
-  return { barColor: getDefaultBarColor(value), textColor: getDefaultTextColor(value) };
+    return {
+      barColor: "bg-brand-primary-default",
+      textColor: "text-brand-primary-default",
+      trackColor: neutralTrack,
+    };
+  return {
+    barColor: getDefaultBarColor(value),
+    textColor: getDefaultTextColor(value),
+    trackColor: neutralTrack,
+  };
 }
 
 /**
@@ -95,7 +127,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
   ) => {
     const clampedValue = Math.min(100, Math.max(0, value));
     const isSmall = size === "small";
-    const { barColor, textColor } = resolveColors(variant, clampedValue);
+    const { barColor, textColor, trackColor } = resolveColors(variant, clampedValue);
 
     const showHeader = title != null || showCompletion || stepsLabel != null;
     const showFooter = leftIcon != null || helperLeft != null || helperRight != null;
@@ -132,7 +164,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuetext={ariaValueText}
-          className={cn("relative w-full rounded-full bg-neutral-alphas-50", TRACK_HEIGHT[size])}
+          className={cn("relative w-full rounded-full", trackColor, TRACK_HEIGHT[size])}
         >
           <div
             className={cn(
