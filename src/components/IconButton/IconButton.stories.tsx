@@ -131,7 +131,7 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=87-4400",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16800-8275",
     },
   },
   tags: ["autodocs"],
@@ -142,6 +142,10 @@ const meta = {
         "primary",
         "secondary",
         "tertiary",
+        "outline",
+        "error",
+        "white",
+        "black",
         "brand",
         "contrast",
         "messaging",
@@ -153,8 +157,9 @@ const meta = {
     },
     size: {
       control: "select",
-      options: ["24", "32", "40", "52", "72"],
+      options: ["24", "32", "40", "48", "52", "72"],
     },
+    negative: { control: "boolean" },
     disabled: { control: "boolean" },
     counterValue: { control: "number" },
   },
@@ -162,6 +167,98 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const v2Variants = [
+  "primary",
+  "secondary",
+  "tertiary",
+  "outline",
+  "error",
+  "white",
+  "black",
+] as const;
+const v2Sizes = ["24", "32", "40", "48"] as const;
+
+export const Outline: Story = {
+  args: { variant: "outline", size: "40", icon: <SettingsIcon />, "aria-label": "Settings" },
+};
+
+export const ErrorVariant: Story = {
+  args: { variant: "error", size: "40", icon: <TrashBinIcon />, "aria-label": "Delete" },
+};
+
+export const White: Story = {
+  args: { variant: "white", size: "40", icon: <HomeIcon />, "aria-label": "Home" },
+  parameters: { backgrounds: { default: "dark" } },
+};
+
+export const Black: Story = {
+  args: { variant: "black", size: "40", icon: <HomeIcon />, "aria-label": "Home" },
+};
+
+export const Primary48: Story = {
+  args: { variant: "primary", size: "48", icon: <HomeIcon />, "aria-label": "Home" },
+};
+
+export const NegativePrimary: Story = {
+  args: {
+    variant: "primary",
+    size: "40",
+    icon: <HomeIcon />,
+    negative: true,
+    "aria-label": "Home",
+  },
+  parameters: { backgrounds: { default: "dark" } },
+};
+
+export const V2Matrix: Story = {
+  args: { icon: <HomeIcon />, "aria-label": "Home" },
+  parameters: { layout: "fullscreen" },
+  render: () => (
+    <div className="flex flex-col gap-6 p-6">
+      {v2Variants.map((variant) => (
+        <div key={variant} className="flex items-center gap-4">
+          <span className="w-20 font-mono text-content-secondary text-xs">{variant}</span>
+          {v2Sizes.map((size) => (
+            <IconButton
+              key={size}
+              variant={variant}
+              size={size}
+              icon={<HomeIcon />}
+              aria-label={`${variant} ${size}`}
+            />
+          ))}
+          <IconButton
+            variant={variant}
+            size="40"
+            icon={<HomeIcon />}
+            aria-label={`${variant} disabled`}
+            disabled
+          />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const V2Negative: Story = {
+  args: { icon: <HomeIcon />, "aria-label": "Home" },
+  parameters: { layout: "fullscreen", backgrounds: { default: "dark" } },
+  render: () => (
+    <div className="flex items-center gap-4 bg-neutral-900 p-6">
+      {(["primary", "secondary", "tertiary", "outline"] as const).map((variant) => (
+        <IconButton
+          key={variant}
+          variant={variant}
+          size="40"
+          negative
+          icon={<HomeIcon />}
+          aria-label={`${variant} negative`}
+        />
+      ))}
+    </div>
+  ),
+};
 
 // Primary variants
 export const Primary24: Story = {

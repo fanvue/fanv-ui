@@ -2169,6 +2169,22 @@ function IconButtonDemo() {
           <IconButton variant="primary" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="secondary" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="tertiary" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="outline" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="error" icon={<CrossIcon />} aria-label="Close" />
+          <IconButton variant="black" icon={<HomeIcon />} aria-label="Home" />
+        </div>
+
+        <div className="rounded-xs bg-surface-primary-inverted p-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <IconButton variant="primary" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="secondary" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="tertiary" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="outline" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="white" icon={<HomeIcon />} aria-label="Home" />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4">
           <IconButton variant="brand" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} aria-label="Close" />
           <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
@@ -2185,6 +2201,7 @@ function IconButtonDemo() {
           <IconButton variant="primary" icon={<HomeIcon />} size="24" aria-label="Home" />
           <IconButton variant="primary" icon={<HomeIcon />} size="32" aria-label="Home" />
           <IconButton variant="primary" icon={<HomeIcon />} size="40" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="48" aria-label="Home" />
           <IconButton variant="primary" icon={<HomeIcon />} size="52" aria-label="Home" />
           <IconButton variant="primary" icon={<HomeIcon />} size="72" aria-label="Home" />
         </div>

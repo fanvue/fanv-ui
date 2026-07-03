@@ -31,6 +31,28 @@ describe("IconButton", () => {
     });
   });
 
+  describe("V2 variants", () => {
+    it("renders V2 variants as a square (rounded-sm)", () => {
+      render(<IconButton icon={<HomeIcon />} variant="primary" aria-label="Home" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass("rounded-sm");
+    });
+
+    it("keeps legacy variants circular (rounded-full)", () => {
+      render(<IconButton icon={<HomeIcon />} variant="microphone" aria-label="Mic" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass("rounded-full");
+    });
+
+    it("applies the negative treatment on negative-aware variants", () => {
+      render(<IconButton icon={<HomeIcon />} variant="primary" negative aria-label="Home" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass("bg-buttons-primary-negative-default");
+    });
+
+    it("ignores negative on variants that are not negative-aware", () => {
+      render(<IconButton icon={<HomeIcon />} variant="error" negative aria-label="Delete" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass("bg-buttons-error-default");
+    });
+  });
+
   describe("counter badge", () => {
     it("shows counter badge when counterShow is true for Tertiary style", () => {
       const { container } = render(
