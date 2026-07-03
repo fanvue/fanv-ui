@@ -146,5 +146,6 @@
   "WifiOffIcon": ["wifi", "off", "disconnected"],
   "WifiOnIcon": ["wifi", "on", "connected", "internet"],
   "WrenchIcon": ["wrench", "tool", "settings", "fix"],
-  "TwitterIcon": ["x", "twitter", "social", "login"]
+  "TwitterIcon": ["x", "twitter", "social", "login"],
+  "CogIcon": ["cog", "gear", "settings", "config", "preferences"]
 }
