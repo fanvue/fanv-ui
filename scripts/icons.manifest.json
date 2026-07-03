@@ -161,6 +161,11 @@
       "hasFilled": true
     },
     {
+      "name": "CogIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "CoinIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true

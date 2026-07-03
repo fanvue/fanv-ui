@@ -298,6 +298,8 @@ export type { CloseIconProps } from "./components/Icons/CloseIcon";
 export { CloseIcon } from "./components/Icons/CloseIcon";
 export type { CodeIconProps } from "./components/Icons/CodeIcon";
 export { CodeIcon } from "./components/Icons/CodeIcon";
+export type { CogIconProps } from "./components/Icons/CogIcon";
+export { CogIcon } from "./components/Icons/CogIcon";
 export type { CoinIconProps } from "./components/Icons/CoinIcon";
 export { CoinIcon } from "./components/Icons/CoinIcon";
 export type { CompassIconProps } from "./components/Icons/CompassIcon";
