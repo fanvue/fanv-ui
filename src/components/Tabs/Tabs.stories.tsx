@@ -276,3 +276,26 @@ export const AllStates: Story = {
     </div>
   ),
 };
+
+export const AsLinks: Story = {
+  name: "As Navigation Links (asChild)",
+  render: () => (
+    // Navigation tabs: each trigger renders as a real anchor via `asChild`, so
+    // it behaves like a link (right-click, open-in-new-tab, router prefetch)
+    // while still getting tab styling and the active indicator. Swap the `<a>`
+    // for your framework's link component (e.g. next/link).
+    <Tabs value="tab1">
+      <TabsList alignLeft aria-label="Sections">
+        <TabsTrigger value="tab1" asChild>
+          <a href="#photos">Photos</a>
+        </TabsTrigger>
+        <TabsTrigger value="tab2" asChild>
+          <a href="#videos">Videos</a>
+        </TabsTrigger>
+        <TabsTrigger value="tab3" asChild>
+          <a href="#posts">Posts</a>
+        </TabsTrigger>
+      </TabsList>
+    </Tabs>
+  ),
+};
