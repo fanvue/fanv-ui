@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.10.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.9.0...ui-v3.10.0) (2026-07-05)
+
+
+### Features
+
+* **icons:** add CogIcon from Figma Settings 2 iconography ([#557](https://github.com/fanvue/fanv-ui/issues/557)) ([652f05e](https://github.com/fanvue/fanv-ui/commit/652f05e494bf0df0855143227e589e27704b33fc))
+
+
+### Bug Fixes
+
+* **Tabs:** keep asChild tab a single interactive control ([#559](https://github.com/fanvue/fanv-ui/issues/559)) ([65c20f3](https://github.com/fanvue/fanv-ui/commit/65c20f381504dbb00f6165ddb43a4ef0e7f915ed))
+
 ## [3.9.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.8.0...ui-v3.9.0) (2026-07-02)
 
 
