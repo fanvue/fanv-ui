@@ -78,6 +78,30 @@ describe("Tabs", () => {
       expect(screen.getByRole("tab")).toHaveClass("custom-trigger");
     });
 
+    it("renders the tab as its child element when asChild (e.g. a link)", () => {
+      render(
+        <Tabs value="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1" asChild>
+              <a href="/tab1">Tab 1</a>
+            </TabsTrigger>
+            <TabsTrigger value="tab2" asChild>
+              <a href="/tab2">Tab 2</a>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      // The anchor itself is the tab: it carries role="tab" and keeps its href,
+      // so it stays a single interactive control (no nested button/link).
+      const tab = screen.getByRole("tab", { name: "Tab 1" });
+      expect(tab.tagName).toBe("A");
+      expect(tab).toHaveAttribute("href", "/tab1");
+      expect(tab).toHaveClass("cursor-pointer");
+      // The label is still wrapped in the truncate span (inside the anchor) so
+      // long labels ellipsise and TabsList can measure the indicator width.
+      expect(tab.querySelector("span.truncate")).not.toBeNull();
+    });
+
     it("applies custom className to TabsContent", () => {
       render(
         <Tabs defaultValue="t">
@@ -189,6 +213,31 @@ describe("Tabs", () => {
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = renderTabs();
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations for asChild link tabs", async () => {
+      // `asChild` must make the link itself the tab (role="tab"), not wrap it in
+      // a span — otherwise the link nests inside the tab and axe flags
+      // `nested-interactive`. Both panels are mounted so each tab's
+      // `aria-controls` resolves.
+      const { container } = render(
+        <Tabs value="tab1">
+          <TabsList aria-label="Sections">
+            <TabsTrigger value="tab1" asChild>
+              <a href="/tab1">Tab 1</a>
+            </TabsTrigger>
+            <TabsTrigger value="tab2" asChild>
+              <a href="/tab2">Tab 2</a>
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Panel 1</TabsContent>
+          <TabsContent value="tab2" forceMount>
+            Panel 2
+          </TabsContent>
+        </Tabs>,
+      );
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
