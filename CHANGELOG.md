@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.11.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.10.0...ui-v3.11.0) (2026-07-06)
+
+
+### Features
+
+* **DatePicker:** migrate to V2 calendar tokens ([#560](https://github.com/fanvue/fanv-ui/issues/560)) ([3172f21](https://github.com/fanvue/fanv-ui/commit/3172f21344752fee1c8a96ef2a0b7af6165ff287))
+* **DatePicker:** migrate to V2 semantic calendar tokens ([3172f21](https://github.com/fanvue/fanv-ui/commit/3172f21344752fee1c8a96ef2a0b7af6165ff287))
+* **SegmentedControl:** add V2 segmented control component (ENG-12057) ([#556](https://github.com/fanvue/fanv-ui/issues/556)) ([e2284e7](https://github.com/fanvue/fanv-ui/commit/e2284e7d69bccc74761f291798257c14f0e4e1aa))
+
 ## [3.10.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.9.0...ui-v3.10.0) (2026-07-05)
 
 
