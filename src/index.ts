@@ -611,6 +611,13 @@ export type {
 } from "./components/SearchField/SearchField";
 export { SearchField } from "./components/SearchField/SearchField";
 export type {
+  SegmentedControlOption,
+  SegmentedControlProps,
+  SegmentedControlSize,
+  SegmentedControlVariant,
+} from "./components/SegmentedControl/SegmentedControl";
+export { SegmentedControl } from "./components/SegmentedControl/SegmentedControl";
+export type {
   SelectContentProps,
   SelectGroupProps,
   SelectItemProps,
