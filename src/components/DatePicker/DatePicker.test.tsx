@@ -45,8 +45,8 @@ describe("DatePicker", () => {
 
     it("renders two months when variant is double", () => {
       render(<DatePicker defaultMonth={DEFAULT_MONTH} variant="double" />);
-      expect(screen.getByText("Feb 2026")).toBeInTheDocument();
-      expect(screen.getByText("Mar 2026")).toBeInTheDocument();
+      expect(screen.getByText("February 2026")).toBeInTheDocument();
+      expect(screen.getByText("March 2026")).toBeInTheDocument();
     });
 
     it("forwards ref to outer container", () => {

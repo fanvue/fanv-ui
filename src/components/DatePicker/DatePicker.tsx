@@ -43,16 +43,17 @@ export interface DatePickerOwnProps {
 }
 
 function Day({ day, modifiers, className, ...divProps }: DayProps) {
-  const { range_start, range_end } = modifiers;
+  const { range_start, range_end, range_middle } = modifiers;
   const isSingleDayRange = range_start && range_end;
+  const inRange = (range_start || range_end || range_middle) && !isSingleDayRange;
 
   return (
     <div
       className={cn(
         className,
-        (range_start || range_end) && !isSingleDayRange && "from-50% from-transparent to-50%",
-        range_start && !isSingleDayRange && "bg-linear-to-r to-brand-primary-muted",
-        range_end && !isSingleDayRange && "bg-linear-to-l to-brand-primary-muted",
+        inRange && "bg-inputs-calendar-range",
+        inRange && range_start && "rounded-l-sm",
+        inRange && range_end && "rounded-r-sm",
       )}
       {...divProps}
     />
@@ -66,22 +67,27 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
     if (modifiers.focused) ref.current?.focus();
   }, [modifiers.focused]);
 
+  const isSelected = modifiers.selected && !modifiers.range_middle;
+
   return (
     <button
       ref={ref}
       type="button"
       className={cn(
-        "relative z-10 inline-flex size-10 cursor-pointer items-center justify-center rounded-xs",
-        "typography-body-small-14px-regular",
-        "transition-colors hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted",
-        "focus-visible:outline-2 focus-visible:outline-brand-secondary-default focus-visible:outline-offset-[-2px]",
-        "disabled:cursor-not-allowed disabled:opacity-50",
-        modifiers.today && !modifiers.selected && "border border-brand-primary-default",
-        modifiers.selected && !modifiers.range_middle
-          ? "bg-brand-primary-default text-content-always-black hover:bg-brand-primary-default"
-          : "text-content-primary",
-        modifiers.range_middle && "rounded-none bg-transparent",
-        modifiers.outside && "pointer-events-none opacity-50",
+        "relative z-10 inline-flex size-10 cursor-pointer items-center justify-center rounded-sm text-content-primary",
+        "transition-colors hover:bg-inputs-calendar-range not-disabled:active:bg-inputs-calendar-range",
+        "focus-visible:shadow-focus-ring focus-visible:outline-none",
+        "disabled:cursor-not-allowed",
+        isSelected ? "typography-body-small-14px-semibold" : "typography-body-small-14px-regular",
+        modifiers.today &&
+          !isSelected &&
+          "bg-inputs-calendar-today text-content-always-white hover:bg-inputs-calendar-today",
+        isSelected &&
+          "bg-inputs-calendar-selected text-content-primary-inverted hover:bg-inputs-calendar-selected",
+        modifiers.range_middle && "bg-transparent hover:bg-transparent",
+        modifiers.disabled &&
+          "bg-inputs-calendar-disabled text-content-disabled hover:bg-inputs-calendar-disabled",
+        modifiers.outside && "pointer-events-none text-content-disabled",
       )}
       {...buttonProps}
     />
@@ -103,7 +109,7 @@ export type DatePickerProps = DatePickerOwnProps &
  * ```tsx
  * <DatePicker
  *   mode="range"
- *   type="double"
+ *   variant="double"
  *   selected={range}
  *   onSelect={setRange}
  *   onApply={save}
@@ -178,7 +184,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       <div
         ref={ref}
         className={cn(
-          "inline-flex flex-col rounded-md border border-neutral-alphas-200 bg-background-primary shadow-blur-menu backdrop-blur-sm",
+          "inline-flex flex-col rounded-xl border border-modal-stroke bg-modal-background p-6 shadow-blur-menu backdrop-blur-sm",
           className,
         )}
       >
@@ -187,30 +193,26 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
           numberOfMonths={numberOfMonths}
           formatters={{
             formatCaption: (date: Date) =>
-              date.toLocaleDateString("en-US", { month: "short", year: "numeric" }),
+              date.toLocaleDateString("en-US", { month: "long", year: "numeric" }),
             ...formatters,
           }}
           classNames={{
             root: "w-full",
-            months: "relative flex",
+            months: cn("relative flex", isMulti && "gap-6"),
             month: "flex flex-1 flex-col",
-            month_caption: cn("flex items-center py-4", isMulti ? "justify-center px-2" : "px-5"),
-            caption_label: "typography-body-default-16px-semibold text-content-primary",
-            nav: cn(
-              "absolute top-4 z-20 flex",
-              isMulti ? "pointer-events-none inset-x-3 justify-between" : "right-3 gap-1",
-            ),
+            month_caption: "mb-4 flex h-8 items-center justify-center",
+            caption_label: "typography-body-default-16px-regular text-content-primary",
+            nav: "absolute inset-x-0 top-0 z-20 flex justify-between",
             button_previous:
-              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-content-primary transition-colors hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary-default disabled:cursor-not-allowed disabled:opacity-50", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
+              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full bg-buttons-secondary-default text-content-primary transition-colors hover:bg-buttons-secondary-hover focus-visible:shadow-focus-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-buttons-disabled-default disabled:text-content-disabled [&>svg]:size-4",
             button_next:
-              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-content-primary transition-colors hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary-default disabled:cursor-not-allowed disabled:opacity-50", // !TODO https://linear.app/fanvue/issue/ENG-7301/swap-out-typography-tailwind-utility-classes
-            month_grid: cn("mb-4", isMulti ? "mx-2" : "mx-4"),
+              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full bg-buttons-secondary-default text-content-primary transition-colors hover:bg-buttons-secondary-hover focus-visible:shadow-focus-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-buttons-disabled-default disabled:text-content-disabled [&>svg]:size-4",
+            month_grid: "w-full",
             weekdays: "flex",
             weekday:
               "flex h-[30px] w-10 flex-1 items-center justify-center typography-body-small-14px-regular text-content-secondary",
-            week: "flex overflow-hidden rounded-xs",
+            week: "flex",
             day: "relative flex w-10 flex-1 items-center justify-center",
-            range_middle: "bg-brand-primary-muted",
             hidden: "hidden",
           }}
           components={{
@@ -231,8 +233,8 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         />
 
         {showFooter && (
-          <div className="flex gap-4 px-5 pb-4">
-            <Button variant="secondary" size="40" className="flex-1" onClick={onCancel}>
+          <div className="flex gap-2 pt-6">
+            <Button variant="outline" size="40" className="flex-1" onClick={onCancel}>
               {cancelLabel}
             </Button>
             <Button variant="primary" size="40" className="flex-1" onClick={onApply}>
