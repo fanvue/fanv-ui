@@ -12,7 +12,7 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=4663-5621&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=17004-106984&m=dev",
     },
   },
   tags: ["autodocs"],
