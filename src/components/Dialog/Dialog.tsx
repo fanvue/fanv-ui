@@ -269,7 +269,7 @@ export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
             aria-label={backLabel}
           />
         )}
-        <div className="min-w-0 flex-1">{children}</div>
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5">{children}</div>
         {showClose && (
           <DialogPrimitive.Close asChild>
             <IconButton
