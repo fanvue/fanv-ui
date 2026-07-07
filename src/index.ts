@@ -572,6 +572,8 @@ export type {
   OnlineBlinkingIconSize,
 } from "./components/OnlineBlinkingIcon/OnlineBlinkingIcon";
 export { OnlineBlinkingIcon } from "./components/OnlineBlinkingIcon/OnlineBlinkingIcon";
+export type { PageSelectorProps } from "./components/PageSelector/PageSelector";
+export { PageSelector } from "./components/PageSelector/PageSelector";
 export type {
   PaginationProps,
   PaginationVariant,
@@ -601,7 +603,10 @@ export type { RadioLayout, RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
 export { RadioGroup } from "./components/RadioGroup/RadioGroup";
-export type { RatingCount, RatingSummaryProps } from "./components/RatingSummary/RatingSummary";
+export type {
+  RatingCount,
+  RatingSummaryProps,
+} from "./components/RatingSummary/RatingSummary";
 export { RatingSummary } from "./components/RatingSummary/RatingSummary";
 export type { ReviewCardProps } from "./components/ReviewCard/ReviewCard";
 export { ReviewCard } from "./components/ReviewCard/ReviewCard";
@@ -768,7 +773,10 @@ export type { UserDisplayNameProps } from "./components/UserDisplayName/UserDisp
 export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
 export type { UserHandleProps } from "./components/UserHandle/UserHandle";
 export { UserHandle } from "./components/UserHandle/UserHandle";
-export type { UserItemProps, UserItemUser } from "./components/UserItem/UserItem";
+export type {
+  UserItemProps,
+  UserItemUser,
+} from "./components/UserItem/UserItem";
 export { UserItem } from "./components/UserItem/UserItem";
 export { cn } from "./utils/cn";
 export { getInitials } from "./utils/getInitials";

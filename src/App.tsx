@@ -159,6 +159,7 @@ import {
   MoreVerticalIcon,
   NewMessageIcon,
   OpenIcon,
+  PageSelector,
   Pagination,
   PasswordField,
   PauseIcon,
@@ -1816,7 +1817,8 @@ function EmptyStateDemo() {
           description={
             <span className="text-content-tertiary">
               Title and description as custom nodes (e.g. i18n with line breaks or{" "}
-              <code className="typography-body-small-14px-regular">Trans</code>).
+              <code className="typography-body-small-14px-regular">Trans</code>
+              ).
             </span>
           }
           primaryAction={
@@ -2436,10 +2438,26 @@ function AutocompleteDemo() {
           placeholder="Find a product or price..."
           options={[
             { value: "__new__", label: "+ Create new product", pinned: true },
-            { value: "price:demo-1", label: "$19.99 (one-off)", groupId: "demo-product" },
-            { value: "price:demo-2", label: "$9.99 / month", groupId: "demo-product" },
-            { value: "price:pro-1", label: "$99.00 / year", groupId: "pro-plan" },
-            { value: "price:pro-2", label: "$29.00 / month", groupId: "pro-plan" },
+            {
+              value: "price:demo-1",
+              label: "$19.99 (one-off)",
+              groupId: "demo-product",
+            },
+            {
+              value: "price:demo-2",
+              label: "$9.99 / month",
+              groupId: "demo-product",
+            },
+            {
+              value: "price:pro-1",
+              label: "$99.00 / year",
+              groupId: "pro-plan",
+            },
+            {
+              value: "price:pro-2",
+              label: "$29.00 / month",
+              groupId: "pro-plan",
+            },
           ]}
           groups={[
             { id: "demo-product", label: "Demo Product" },
@@ -3398,10 +3416,26 @@ function TableDemo() {
                 </TableHeader>
                 <TableBody>
                   {[
-                    { purchases: "$0.00", status: "Active", variant: "green" as const },
-                    { purchases: "$0.00", status: "Active", variant: "green" as const },
-                    { purchases: "$156.25", status: "Inactive", variant: "red" as const },
-                    { purchases: "$0.00", status: "Warning", variant: "gold" as const },
+                    {
+                      purchases: "$0.00",
+                      status: "Active",
+                      variant: "green" as const,
+                    },
+                    {
+                      purchases: "$0.00",
+                      status: "Active",
+                      variant: "green" as const,
+                    },
+                    {
+                      purchases: "$156.25",
+                      status: "Inactive",
+                      variant: "red" as const,
+                    },
+                    {
+                      purchases: "$0.00",
+                      status: "Warning",
+                      variant: "gold" as const,
+                    },
                   ].map((row, index) => (
                     <TableRow key={`condensed-${row.status}-${index}`}>
                       <TableCell intent="sideLabel">Product Name</TableCell>
@@ -3891,6 +3925,28 @@ function PaginationDemo() {
     <div id="pagination" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Pagination</h2>
       <PaginationShowcase />
+    </div>
+  );
+}
+
+function PageSelectorShowcase() {
+  const [page, setPage] = useState(1);
+  const [loopPage, setLoopPage] = useState(1);
+
+  return (
+    <div className="flex flex-col items-start gap-6">
+      <PageSelector totalPages={3} currentPage={page} onPageChange={setPage} />
+      <PageSelector loop totalPages={3} currentPage={loopPage} onPageChange={setLoopPage} />
+      <PageSelector totalPages={3} currentPage={2} disabled />
+    </div>
+  );
+}
+
+function PageSelectorDemo() {
+  return (
+    <div id="pageselector" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Page Selector</h2>
+      <PageSelectorShowcase />
     </div>
   );
 }
@@ -5061,7 +5117,11 @@ function CreatorTileDemo() {
           <div key={aspectRatio} className="flex w-[280px] flex-col gap-2">
             <CreatorTile
               background={<img src={sampleImage} alt="" loading="lazy" />}
-              avatar={{ src: sampleAvatar, alt: "Aitana Lopez", fallback: "AL" }}
+              avatar={{
+                src: sampleAvatar,
+                alt: "Aitana Lopez",
+                fallback: "AL",
+              }}
               name="Aitana Lopez"
               tagline="@fit_aitana"
               action={
@@ -5367,6 +5427,7 @@ function App() {
 
             {/* Pagination */}
             <PaginationDemo />
+            <PageSelectorDemo />
 
             {/* Profile Status */}
             <ProfileStatusDemo />
