@@ -212,7 +212,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             weekday:
               "flex h-[30px] w-10 flex-1 items-center justify-center typography-body-small-14px-regular text-content-secondary",
             week: "flex",
-            day: "relative flex w-10 flex-1 items-center justify-center",
+            day: "relative flex flex-1 items-center justify-center p-0.5",
             hidden: "hidden",
           }}
           components={{
