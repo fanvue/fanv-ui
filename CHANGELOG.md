@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.12.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.11.0...ui-v3.12.0) (2026-07-07)
+
+
+### Features
+
+* **PageSelector:** add V2 page selector component ([#563](https://github.com/fanvue/fanv-ui/issues/563)) ([6ec16e1](https://github.com/fanvue/fanv-ui/commit/6ec16e100fc5fae8ef72d3cb46818ead9e71af0a))
+
+
+### Bug Fixes
+
+* **DatePicker:** separate consecutive disabled date backgrounds ([#562](https://github.com/fanvue/fanv-ui/issues/562)) ([bba5717](https://github.com/fanvue/fanv-ui/commit/bba5717bee1ce46a044ead8c1d6cb1e601cf35da))
+
 ## [3.11.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.10.0...ui-v3.11.0) (2026-07-06)
 
 
