@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.12.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.12.0...ui-v3.12.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* **dialog:** add vertical gap between DialogTitle and DialogDescription ([df92b42](https://github.com/fanvue/fanv-ui/commit/df92b4296c5e2d9194e32833be91f3e0027b2ba6))
+* **dialog:** add vertical gap between title and description (ENG-12175) ([#565](https://github.com/fanvue/fanv-ui/issues/565)) ([df92b42](https://github.com/fanvue/fanv-ui/commit/df92b4296c5e2d9194e32833be91f3e0027b2ba6))
+
 ## [3.12.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.11.0...ui-v3.12.0) (2026-07-07)
 
 
