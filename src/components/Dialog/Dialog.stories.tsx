@@ -69,6 +69,29 @@ export const Default: Story = {
   play: openDialog,
 };
 
+export const WithHeaderDescription: Story = {
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Assign creator</DialogTitle>
+          <DialogDescription>Choose a creator to assign to this account.</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="secondary">Cancel</Button>
+          </DialogClose>
+          <Button>Assign</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: openDialog,
+};
+
 export const AllStatesV2: Story = {
   name: "All states (v2)",
   parameters: { design: { type: "figma", url: V2_FIGMA_URL } },
