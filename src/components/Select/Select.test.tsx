@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import * as React from "react";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { HomeIcon } from "../Icons/HomeIcon";
 import { Select, SelectContent, SelectItem } from "./Select";
@@ -172,6 +172,78 @@ describe("Select", () => {
       renderSelect();
       const trigger = screen.getByRole("combobox");
       expect(trigger).not.toHaveAttribute("aria-describedby");
+    });
+  });
+
+  describe("SelectItem (v2 menu item)", () => {
+    beforeAll(() => {
+      Element.prototype.scrollIntoView = vi.fn();
+      Element.prototype.hasPointerCapture = vi.fn(() => false);
+      Element.prototype.releasePointerCapture = vi.fn();
+      Element.prototype.setPointerCapture = vi.fn();
+    });
+
+    function renderOpen(item: React.ReactNode, size?: React.ComponentProps<typeof Select>["size"]) {
+      return render(
+        <Select aria-label="Test" defaultOpen size={size}>
+          <SelectContent>{item}</SelectContent>
+        </Select>,
+      );
+    }
+
+    it("renders a leading icon inside the option", () => {
+      renderOpen(
+        <SelectItem value="a" leadingIcon={<HomeIcon data-testid="lead" />}>
+          Option A
+        </SelectItem>,
+      );
+      expect(screen.getByTestId("lead")).toBeInTheDocument();
+    });
+
+    it("renders the avatar in place of the leading icon", () => {
+      renderOpen(
+        <SelectItem
+          value="a"
+          avatar={<span data-testid="avatar">A</span>}
+          leadingIcon={<HomeIcon data-testid="lead" />}
+        >
+          Option A
+        </SelectItem>,
+      );
+      expect(screen.getByTestId("avatar")).toBeInTheDocument();
+      expect(screen.queryByTestId("lead")).not.toBeInTheDocument();
+    });
+
+    it("renders a description under the label", () => {
+      renderOpen(
+        <SelectItem value="a" description="Secondary line">
+          Option A
+        </SelectItem>,
+      );
+      expect(screen.getByText("Secondary line")).toBeInTheDocument();
+    });
+
+    it("derives a 32px row from the size-32 trigger", () => {
+      renderOpen(<SelectItem value="a">Option A</SelectItem>, "32");
+      expect(screen.getByRole("option", { name: "Option A" })).toHaveClass("min-h-8");
+    });
+
+    it("keeps 40px rows for the larger trigger sizes", () => {
+      renderOpen(<SelectItem value="a">Option A</SelectItem>, "48");
+      expect(screen.getByRole("option", { name: "Option A" })).toHaveClass("min-h-10");
+    });
+
+    it("has no accessibility violations for a feature row", async () => {
+      const { container } = renderOpen(
+        <SelectItem
+          value="jane"
+          avatar={<span aria-hidden="true">JD</span>}
+          description="Product designer"
+        >
+          Jane Doe
+        </SelectItem>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
     });
   });
 });

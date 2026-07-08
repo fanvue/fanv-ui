@@ -634,6 +634,7 @@ export type {
   SelectContentProps,
   SelectGroupProps,
   SelectItemProps,
+  SelectItemSize,
   SelectLabelProps,
   SelectProps,
   SelectSeparatorProps,
