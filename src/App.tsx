@@ -2662,7 +2662,43 @@ function DropdownMenuDemo() {
         <DropdownMenuSearchHeaderDemo />
         <DropdownMenuRadioDemo />
         <DropdownMenuSize32Demo />
+        <DropdownMenuFeatureItemDemo />
       </div>
+    </div>
+  );
+}
+
+function DropdownMenuFeatureItemDemo() {
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="typography-description-12px-semibold text-content-secondary">
+        Feature items (avatar + count)
+      </span>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
+            Switch account
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-80">
+          <DropdownMenuItem
+            avatar={<Avatar size={24} fallback="JD" />}
+            trailingIcon={<ChevronRightIcon className="size-4" />}
+          >
+            Jane Doe
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            avatar={<Avatar size={24} fallback="AS" />}
+            description="Product designer"
+            count="12"
+          >
+            Alex Smith
+          </DropdownMenuItem>
+          <DropdownMenuItem leadingIcon={<StarIcon className="size-4" />} count="99+">
+            Favourites
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }

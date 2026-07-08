@@ -275,16 +275,29 @@ const ITEM_SELECTED_TYPOGRAPHY: Record<"40" | "32", string> = {
   "32": "typography-body-small-14px-semibold",
 };
 
+const ITEM_COUNT_TYPOGRAPHY: Record<"40" | "32", string> = {
+  "40": "typography-body-default-16px-regular",
+  "32": "typography-body-small-14px-regular",
+};
+
 export interface DropdownMenuItemProps
   extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> {
   /** Height of the menu item row. @default "40" */
   size?: DropdownMenuItemSize;
   /** Applies the destructive (error) treatment. Use for irreversible actions. @default false */
   destructive?: boolean;
-  /** Icon (or other node) rendered before the label. */
+  /** Icon (or other node) rendered before the label. Ignored when {@link DropdownMenuItemProps.avatar} is set. */
   leadingIcon?: React.ReactNode;
+  /**
+   * Leading avatar rendered in place of {@link DropdownMenuItemProps.leadingIcon},
+   * for rows that represent a person or account. Pass an `Avatar` sized to `24`.
+   * Takes precedence over `leadingIcon`.
+   */
+  avatar?: React.ReactNode;
   /** Icon (or other node) rendered after the label. */
   trailingIcon?: React.ReactNode;
+  /** Trailing count or number (e.g. an unread total) rendered before {@link DropdownMenuItemProps.trailingIcon}. */
+  count?: React.ReactNode;
   /**
    * Optional secondary text rendered on a second line below the label. When
    * provided, the row switches to a two-line layout and the leading/trailing
@@ -304,6 +317,11 @@ export interface DropdownMenuItemProps
  * <DropdownMenuItem destructive>Delete</DropdownMenuItem>
  * <DropdownMenuItem leadingIcon={<EditIcon />}>Edit</DropdownMenuItem>
  *
+ * // Feature-rich row with an avatar and a trailing count
+ * <DropdownMenuItem avatar={<Avatar size={24} src={src} />} count="12">
+ *   Jane Doe
+ * </DropdownMenuItem>
+ *
  * // As a link
  * <DropdownMenuItem asChild>
  *   <a href="/settings">Settings</a>
@@ -319,7 +337,9 @@ export const DropdownMenuItem = React.forwardRef<
       size = "40",
       destructive,
       leadingIcon,
+      avatar,
       trailingIcon,
+      count,
       description,
       selected,
       className,
@@ -332,7 +352,7 @@ export const DropdownMenuItem = React.forwardRef<
     const normalizedSize = SIZE_NORMALIZED[size];
     const hasDescription = description != null;
     const itemClassName = cn(
-      "flex w-full cursor-pointer gap-2 rounded-xs px-3 outline-none",
+      "group flex w-full cursor-pointer gap-2 rounded-xs px-3 outline-none",
       hasDescription ? "items-start" : "items-center",
       ITEM_SIZE_CLASSES[normalizedSize],
       "data-[highlighted]:bg-neutral-alphas-50",
@@ -358,14 +378,35 @@ export const DropdownMenuItem = React.forwardRef<
     // 24px title line-height vs 16px icon → 4px (pt-1) centres the icon on it.
     const iconAlignClassName = hasDescription ? "flex shrink-0 items-center pt-1" : null;
 
+    const countNode = count != null && (
+      <span
+        className={cn(
+          "shrink-0 tabular-nums",
+          ITEM_COUNT_TYPOGRAPHY[normalizedSize],
+          destructive
+            ? "text-error-content"
+            : selected
+              ? "text-content-primary-inverted"
+              : "text-content-tertiary",
+          "group-data-[disabled]:text-content-disabled",
+        )}
+      >
+        {count}
+      </span>
+    );
+
     return (
       <DropdownMenuPrimitive.Item ref={ref} className={itemClassName} {...props}>
-        {leadingIcon != null &&
+        {avatar != null ? (
+          <span className="shrink-0">{avatar}</span>
+        ) : (
+          leadingIcon != null &&
           (hasDescription ? (
             <span className={iconAlignClassName!}>{leadingIcon}</span>
           ) : (
             leadingIcon
-          ))}
+          ))
+        )}
         {hasDescription ? (
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">
             <span className="truncate">{children}</span>
@@ -381,6 +422,7 @@ export const DropdownMenuItem = React.forwardRef<
         ) : (
           <span className="min-w-0 flex-1 truncate">{children}</span>
         )}
+        {countNode}
         {trailingIcon != null &&
           (hasDescription ? (
             <span className={iconAlignClassName!}>{trailingIcon}</span>
