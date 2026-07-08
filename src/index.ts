@@ -223,6 +223,8 @@ export type {
 export { EmptyState } from "./components/EmptyState/EmptyState";
 export type { FanFollowerCountProps } from "./components/FanFollowerCount/FanFollowerCount";
 export { FanFollowerCount } from "./components/FanFollowerCount/FanFollowerCount";
+export type { FloatingActionButtonProps } from "./components/FloatingActionButton/FloatingActionButton";
+export { FloatingActionButton } from "./components/FloatingActionButton/FloatingActionButton";
 export type {
   IconButtonProps,
   IconButtonSize,
