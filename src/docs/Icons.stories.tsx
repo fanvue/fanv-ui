@@ -71,6 +71,7 @@ import { GenderIcon } from "../components/Icons/GenderIcon";
 import { GifIcon } from "../components/Icons/GifIcon";
 import { GiftIcon } from "../components/Icons/GiftIcon";
 import { GoogleIcon } from "../components/Icons/GoogleIcon";
+import { GridViewIcon } from "../components/Icons/GridViewIcon";
 import { HealthIcon } from "../components/Icons/HealthIcon";
 import { HeartIcon } from "../components/Icons/HeartIcon";
 import { HelpIcon } from "../components/Icons/HelpIcon";
@@ -83,6 +84,7 @@ import { InfoCircleIcon } from "../components/Icons/InfoCircleIcon";
 import { InfoIcon } from "../components/Icons/InfoIcon";
 import { LanguageIcon } from "../components/Icons/LanguageIcon";
 import { LinkIcon } from "../components/Icons/LinkIcon";
+import { ListViewIcon } from "../components/Icons/ListViewIcon";
 import { LocationIcon } from "../components/Icons/LocationIcon";
 import { LockerIcon } from "../components/Icons/LockerIcon";
 import { LockerOffIcon } from "../components/Icons/LockerOffIcon";
@@ -545,6 +547,12 @@ const icons: IconEntry[] = [
     propBased: false,
   },
   {
+    name: "GridViewIcon",
+    component: GridViewIcon,
+    tags: ["grid", "view", "layout", "gallery"],
+    propBased: true,
+  },
+  {
     name: "HealthIcon",
     component: HealthIcon,
     tags: ["health", "medical", "heart", "pulse"],
@@ -591,6 +599,12 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   { name: "LinkIcon", component: LinkIcon, tags: ["link", "chain", "url"], propBased: true },
+  {
+    name: "ListViewIcon",
+    component: ListViewIcon,
+    tags: ["list", "view", "layout", "row"],
+    propBased: true,
+  },
   {
     name: "LocationIcon",
     component: LocationIcon,
