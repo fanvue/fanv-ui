@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.13.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.12.1...ui-v3.13.0) (2026-07-08)
+
+
+### Features
+
+* **Accordion:** add description, leading icon and avatar header slots (ENG-10637) ([#553](https://github.com/fanvue/fanv-ui/issues/553)) ([713bb9e](https://github.com/fanvue/fanv-ui/commit/713bb9e182094e4ef8c2b391bb4583bf45bc160a))
+* **DropdownMenu:** add avatar and count slots for Feature Menu Item (ENG-10612) ([#569](https://github.com/fanvue/fanv-ui/issues/569)) ([f73a9f5](https://github.com/fanvue/fanv-ui/commit/f73a9f5d8fac7dd2756756e07706274cf1a4f2c7))
+* **GifIcon:** replace artwork with new GIF badge design ([#570](https://github.com/fanvue/fanv-ui/issues/570)) ([3fde8fe](https://github.com/fanvue/fanv-ui/commit/3fde8feecabd550510864aac1a5c9e22447fd3be))
+* **ProgressBar:** add V2 brand/mono variants and stepped progress (ENG-10627) ([#554](https://github.com/fanvue/fanv-ui/issues/554)) ([772fe7b](https://github.com/fanvue/fanv-ui/commit/772fe7bb7fc631c1fed006f2352d418ee35f5bac))
+* **TextField:** add V2 side label type and align TextArea treatment (ENG-10613) ([#568](https://github.com/fanvue/fanv-ui/issues/568)) ([9ba7b77](https://github.com/fanvue/fanv-ui/commit/9ba7b773e583a6dcc4ef86c8ff16709bdfe81be7))
+
 ## [3.12.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.12.0...ui-v3.12.1) (2026-07-07)
 
 
