@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.14.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.13.0...ui-v3.14.0) (2026-07-08)
+
+
+### Features
+
+* add AudioPlayer, FloatingActionButton, view-switcher icons and icon-only SegmentedControl (ENG-12212) ([#573](https://github.com/fanvue/fanv-ui/issues/573)) ([5f58ec3](https://github.com/fanvue/fanv-ui/commit/5f58ec3097535f602da089b27b0fb11d97709e8a))
+* **Dialog:** expose overlay customization on DialogContent ([#574](https://github.com/fanvue/fanv-ui/issues/574)) ([8e46048](https://github.com/fanvue/fanv-ui/commit/8e460484778136e618d94c2d0c1434d4ea8de377))
+
 ## [3.13.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.12.1...ui-v3.13.0) (2026-07-08)
 
 
