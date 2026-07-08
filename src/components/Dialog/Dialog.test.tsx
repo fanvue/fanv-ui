@@ -204,6 +204,14 @@ describe("Dialog", () => {
       expect(baseElement.querySelector(".bg-background-overlay-default")).not.toBeInTheDocument();
     });
 
+    it("forwards overlayProps to the overlay", () => {
+      const { baseElement } = renderDialog({
+        overlayProps: { className: "backdrop-blur-xl" },
+      });
+      const overlay = baseElement.querySelector(".bg-background-overlay-default");
+      expect(overlay).toHaveClass("backdrop-blur-xl");
+    });
+
     it("renders inline when portal is false", () => {
       render(
         <div data-testid="dialog-host">
