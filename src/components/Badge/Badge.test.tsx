@@ -60,6 +60,15 @@ describe("Badge", () => {
   });
 
   describe("V2 variants", () => {
+    it("uses a neutral surface and colours only the pip for semantic variants", () => {
+      const { container } = render(<Badge variant="success">Active</Badge>);
+      const badge = screen.getByTestId("badge");
+      expect(badge).toHaveClass("bg-buttons-secondary-default");
+      expect(badge).toHaveClass("text-content-primary");
+      const dot = container.querySelector('[aria-hidden="true"].rounded-full');
+      expect(dot).toHaveClass("bg-success-content");
+    });
+
     it("applies a filled surface for colour-emphasis variants", () => {
       render(<Badge variant="successColour">Active</Badge>);
       expect(screen.getByTestId("badge")).toHaveClass("bg-success-surface");
@@ -73,6 +82,20 @@ describe("Badge", () => {
     it("uses the always-white surface for the aiGenerated variant", () => {
       render(<Badge variant="aiGenerated">AI Generated</Badge>);
       expect(screen.getByTestId("badge")).toHaveClass("bg-buttons-always-white-default");
+    });
+
+    it("uses a brand pip on a translucent surface for the alwaysWhite variant", () => {
+      const { container } = render(<Badge variant="alwaysWhite">On brand</Badge>);
+      const badge = screen.getByTestId("badge");
+      expect(badge).toHaveClass("bg-buttons-secondary-negative-default");
+      expect(badge).toHaveClass("text-content-always-white");
+      const dot = container.querySelector('[aria-hidden="true"].rounded-full');
+      expect(dot).toHaveClass("bg-brand-primary-default");
+    });
+
+    it("applies the badge caps typography", () => {
+      render(<Badge>Caps</Badge>);
+      expect(screen.getByTestId("badge")).toHaveClass("typography-badge-badgecaps");
     });
   });
 

@@ -1730,7 +1730,7 @@ function BannerDemo() {
           variant="Subtle"
           media={sampleThumb}
           leadBadge={
-            <Badge variant="success" leftDot className="typography-badge-badgecaps">
+            <Badge variant="success" leftDot>
               new
             </Badge>
           }
@@ -2122,12 +2122,13 @@ function BadgeDemo() {
         <Badge variant="warningColour">Warning</Badge>
         <Badge variant="errorColour">Error</Badge>
         <Badge variant="infoColour">Info</Badge>
-        <Badge variant="aiGenerated" leftDot={false} leftIcon={<AIIcon className="size-3" />}>
+        <Badge variant="aiGenerated" leftDot={false} leftIcon={<AIIcon className="size-2.5" />}>
           AI Generated
         </Badge>
       </div>
       <div className="flex flex-wrap gap-4 rounded-xs bg-surface-primary-inverted p-4">
         <Badge variant="negative">Negative</Badge>
+        <Badge variant="alwaysWhite">Always White</Badge>
       </div>
     </div>
   );
