@@ -1,6 +1,6 @@
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
-import { cn } from "../../utils/cn";
+import { cn } from "@/utils/cn.ts";
 
 const badgeVariants = {
   variant: {
@@ -141,7 +141,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {asChild ? (
           <Slottable>{children}</Slottable>
         ) : (
-          <span className="min-w-0 truncate">{children}</span>
+          <span className="min-w-0 truncate [text-box:trim-both_cap_alphabetic]">{children}</span>
         )}
         {rightIcon && (
           <span
