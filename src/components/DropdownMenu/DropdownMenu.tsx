@@ -351,10 +351,14 @@ export const DropdownMenuItem = React.forwardRef<
   ) => {
     const normalizedSize = SIZE_NORMALIZED[size];
     const hasDescription = description != null;
+    const hasAvatar = avatar != null;
     const itemClassName = cn(
       "group flex w-full cursor-pointer gap-2 rounded-xs px-3 outline-none",
       hasDescription ? "items-start" : "items-center",
       ITEM_SIZE_CLASSES[normalizedSize],
+      // A 24px avatar would push the compact 32px row past its height with the
+      // default padding; tighten it so the avatar variant keeps the 32px contract.
+      hasAvatar && !hasDescription && normalizedSize === "32" && "py-1",
       "data-[highlighted]:bg-neutral-alphas-50",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
       destructive && "text-error-content",

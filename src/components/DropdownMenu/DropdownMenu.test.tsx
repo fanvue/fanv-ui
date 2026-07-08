@@ -546,6 +546,17 @@ describe("DropdownMenuItem", () => {
       expect(screen.queryByTestId("lead")).not.toBeInTheDocument();
     });
 
+    it("tightens padding so a 24px avatar keeps the 32px row height", () => {
+      renderMenu(
+        <DropdownMenuItem size="32" avatar={<span data-testid="avatar">A</span>} data-testid="item">
+          Jane Doe
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByTestId("item");
+      expect(item).toHaveClass("min-h-8", "py-1");
+      expect(item).not.toHaveClass("py-[7px]");
+    });
+
     it("renders the trailing count", () => {
       renderMenu(<DropdownMenuItem count="12">Messages</DropdownMenuItem>);
       expect(screen.getByText("12")).toBeInTheDocument();
