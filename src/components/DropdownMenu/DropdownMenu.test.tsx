@@ -32,6 +32,19 @@ describe("DropdownMenu", () => {
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
+
+    it("feature item (avatar + count + description) has no a11y violations", async () => {
+      const { container } = renderMenu(
+        <DropdownMenuItem
+          avatar={<span aria-hidden="true">A</span>}
+          count="12"
+          description="Product designer"
+        >
+          Alex Smith
+        </DropdownMenuItem>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
   });
 
   describe("API", () => {
@@ -518,6 +531,35 @@ describe("DropdownMenuItem", () => {
       );
       expect(screen.getByTestId("lead")).toBeInTheDocument();
       expect(screen.getByTestId("trail")).toBeInTheDocument();
+    });
+
+    it("renders the avatar in place of the leading icon", () => {
+      renderMenu(
+        <DropdownMenuItem
+          avatar={<span data-testid="avatar">A</span>}
+          leadingIcon={<span data-testid="lead">L</span>}
+        >
+          Jane Doe
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByTestId("avatar")).toBeInTheDocument();
+      expect(screen.queryByTestId("lead")).not.toBeInTheDocument();
+    });
+
+    it("tightens padding so a 24px avatar keeps the 32px row height", () => {
+      renderMenu(
+        <DropdownMenuItem size="32" avatar={<span data-testid="avatar">A</span>} data-testid="item">
+          Jane Doe
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByTestId("item");
+      expect(item).toHaveClass("min-h-8", "py-1");
+      expect(item).not.toHaveClass("py-[7px]");
+    });
+
+    it("renders the trailing count", () => {
+      renderMenu(<DropdownMenuItem count="12">Messages</DropdownMenuItem>);
+      expect(screen.getByText("12")).toBeInTheDocument();
     });
 
     it("renders a two-line layout with top-aligned icons when description is set", () => {

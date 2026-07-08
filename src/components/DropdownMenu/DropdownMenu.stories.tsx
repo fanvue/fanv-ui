@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
 import { userEvent, within } from "storybook/test";
+import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
+import { ChevronRightIcon } from "../Icons/ChevronRightIcon";
 import { EditIcon } from "../Icons/EditIcon";
 import { StarIcon } from "../Icons/StarIcon";
 import { TrashBinIcon } from "../Icons/TrashBinIcon";
@@ -296,6 +298,71 @@ export const SizeMatrix: Story = {
         </DropdownMenuItem>
         <DropdownMenuItem size="32" destructive>
           Error
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
+};
+
+export const FeatureItems: Story = {
+  play: openMenu,
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>Open Menu</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-80">
+        <DropdownMenuItem
+          avatar={<Avatar size={24} fallback="JD" />}
+          trailingIcon={<ChevronRightIcon />}
+        >
+          Jane Doe
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          avatar={<Avatar size={24} fallback="AS" />}
+          description="Product designer"
+          count="12"
+        >
+          Alex Smith
+        </DropdownMenuItem>
+        <DropdownMenuItem leadingIcon={<StarIcon />} count="99+">
+          Favourites
+        </DropdownMenuItem>
+        <DropdownMenuItem leadingIcon={<EditIcon />} description="Update your details">
+          Edit profile
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
+};
+
+export const FeatureItemStates: Story = {
+  play: openMenu,
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>Open Menu</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-80">
+        <DropdownMenuLabel position="top">Size 40</DropdownMenuLabel>
+        <DropdownMenuItem avatar={<Avatar size={24} fallback="JD" />} count="3">
+          Default
+        </DropdownMenuItem>
+        <DropdownMenuItem avatar={<Avatar size={24} fallback="JD" />} count="3" selected>
+          Selected
+        </DropdownMenuItem>
+        <DropdownMenuItem avatar={<Avatar size={24} fallback="JD" />} count="3" disabled>
+          Disabled
+        </DropdownMenuItem>
+        <DropdownMenuItem leadingIcon={<TrashBinIcon />} count="3" destructive>
+          Error
+        </DropdownMenuItem>
+        <DropdownMenuLabel>Size 32</DropdownMenuLabel>
+        <DropdownMenuItem size="32" avatar={<Avatar size={24} fallback="JD" />} count="3">
+          Default
+        </DropdownMenuItem>
+        <DropdownMenuItem size="32" leadingIcon={<StarIcon />} count="3" selected>
+          Selected
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
