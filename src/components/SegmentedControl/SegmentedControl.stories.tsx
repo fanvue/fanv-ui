@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { AppsIcon } from "../Icons/AppsIcon";
+import { QueueIcon } from "../Icons/QueueIcon";
 import type { SegmentedControlSize, SegmentedControlVariant } from "./SegmentedControl";
 import { SegmentedControl } from "./SegmentedControl";
 
@@ -22,6 +24,10 @@ const meta = {
     variant: {
       control: "inline-radio",
       options: ["hug", "fill"],
+    },
+    appearance: {
+      control: "inline-radio",
+      options: ["pill", "plain"],
     },
     disabled: {
       control: "boolean",
@@ -123,6 +129,29 @@ export const Sizes: Story = {
       ))}
     </div>
   ),
+};
+
+// NOTE: uses AppsIcon/QueueIcon as visual stand-ins for the Figma "iconsax-grids" /
+// "iconsax-row-vertical" glyphs. Swap for the real GridViewIcon/ListViewIcon once
+// added (replace this `iconOnlyOptions` array and its two imports above).
+const iconOnlyOptions = [
+  { label: "List view", value: "list", icon: <QueueIcon size={16} aria-hidden="true" /> },
+  { label: "Grid view", value: "grid", icon: <AppsIcon size={16} aria-hidden="true" /> },
+];
+
+/** Icon-only toggle (e.g. the Vault list/grid view switch) using `appearance="plain"`. */
+export const IconOnly: Story = {
+  args: {
+    appearance: "plain",
+    options: iconOnlyOptions,
+    "aria-label": "View",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/LB9q4XzCNlbOaeW3xN6tQo/Creator---Content---Creation?node-id=4506-17416",
+    },
+  },
 };
 
 /** Every combination in the Figma variant sheet: hug/fill × 32/40/48px × 2/3 options. */

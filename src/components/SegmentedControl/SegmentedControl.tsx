@@ -11,12 +11,29 @@ export type SegmentedControlSize = "32" | "40" | "48";
  */
 export type SegmentedControlVariant = "hug" | "fill";
 
+/**
+ * Visual style of the control.
+ * - `"pill"`: the container has a muted background and the selected segment shows a filled pill (default).
+ * - `"plain"`: no container or selected-pill background; segments are bare content and selection is
+ *   communicated by color alone. Designed for icon-only toggles (e.g. a list/grid view switch).
+ */
+export type SegmentedControlAppearance = "pill" | "plain";
+
 /** Describes one selectable segment. */
 export interface SegmentedControlOption {
-  /** Display label for the segment. */
+  /**
+   * Display label for the segment. When `icon` is provided, the segment renders icon-only and
+   * this value is used as its accessible name (applied as `aria-label`) instead of visible text.
+   */
   label: string;
   /** Value identifier returned via `onChange`. */
   value: string;
+  /**
+   * Icon to render instead of the visible label. When set, the segment renders icon-only and
+   * `label` becomes required as its accessible name — it is applied as `aria-label` and no
+   * visible text is rendered.
+   */
+  icon?: React.ReactNode;
 }
 
 export interface SegmentedControlProps
@@ -25,6 +42,8 @@ export interface SegmentedControlProps
   size?: SegmentedControlSize;
   /** Segment layout. @default "hug" */
   variant?: SegmentedControlVariant;
+  /** Visual style of the control. @default "pill" */
+  appearance?: SegmentedControlAppearance;
   /** The selectable segments. Designed for two or three mutually exclusive options. */
   options: SegmentedControlOption[];
   /** Currently selected value (controlled). */
@@ -54,6 +73,50 @@ function warnMissingAccessibleName(ariaLabel?: string, ariaLabelledBy?: string) 
   }
 }
 
+function warnMissingOptionAccessibleName(options: SegmentedControlOption[]) {
+  if (process.env.NODE_ENV !== "production") {
+    for (const option of options) {
+      if (option.icon && !option.label?.trim()) {
+        console.warn(
+          `SegmentedControl: icon-only segment "${option.value}" is missing a non-empty \`label\` to use as its accessible name.`,
+        );
+      }
+    }
+  }
+}
+
+function getSegmentClassName({
+  appearance,
+  size,
+  variant,
+  isSelected,
+  disabled,
+}: {
+  appearance: SegmentedControlAppearance;
+  size: SegmentedControlSize;
+  variant: SegmentedControlVariant;
+  isSelected: boolean;
+  disabled: boolean;
+}) {
+  return cn(
+    "relative inline-flex min-w-0 cursor-pointer items-center justify-center rounded-full",
+    "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
+    "focus-visible:shadow-focus-ring focus-visible:outline-none",
+    variant === "fill" ? "flex-1" : "shrink-0",
+    appearance === "plain"
+      ? isSelected
+        ? "text-icons-primary"
+        : "text-icons-tertiary hover:text-icons-primary"
+      : cn(
+          sizeClasses[size],
+          isSelected
+            ? "bg-buttons-primary-default text-content-primary-inverted shadow-sm"
+            : "text-content-primary hover:bg-buttons-switch-hover",
+        ),
+    disabled && "pointer-events-none",
+  );
+}
+
 /**
  * A compact selector for choosing between two or three mutually exclusive
  * options where the choice affects the content immediately below it. Use
@@ -75,6 +138,20 @@ function warnMissingAccessibleName(ariaLabel?: string, ariaLabelledBy?: string) 
  *   aria-label="Amount type"
  * />
  * ```
+ *
+ * @example Icon-only segments (e.g. a list/grid view toggle)
+ * ```tsx
+ * <SegmentedControl
+ *   appearance="plain"
+ *   options={[
+ *     { label: "List view", value: "list", icon: <ListViewIcon size={16} /> },
+ *     { label: "Grid view", value: "grid", icon: <GridViewIcon size={16} /> },
+ *   ]}
+ *   value={view}
+ *   onChange={setView}
+ *   aria-label="View"
+ * />
+ * ```
  */
 export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>(
   (
@@ -82,6 +159,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
       className,
       size = "32",
       variant = "hug",
+      appearance = "pill",
       options,
       value: controlledValue,
       defaultValue,
@@ -92,6 +170,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
     ref,
   ) => {
     warnMissingAccessibleName(props["aria-label"], props["aria-labelledby"]);
+    warnMissingOptionAccessibleName(options);
 
     // Tracks selection for uncontrolled usage; ignored when `value` prop is provided
     const [internalValue, setInternalValue] = React.useState(defaultValue ?? options[0]?.value);
@@ -127,8 +206,9 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
         ref={ref}
         role="radiogroup"
         className={cn(
-          "relative items-center rounded-full bg-surface-tertiary p-1",
+          "relative items-center rounded-full",
           variant === "fill" ? "flex w-full" : "inline-flex",
+          appearance === "plain" ? "gap-2" : "bg-surface-tertiary p-1",
           disabled && "cursor-not-allowed opacity-50",
           className,
         )}
@@ -148,21 +228,18 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
               aria-checked={isSelected}
               tabIndex={isSelected || (!anySelected && index === 0) ? 0 : -1}
               disabled={disabled}
+              aria-label={option.icon ? option.label : undefined}
               onClick={() => handleSelect(option.value)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className={cn(
-                "relative inline-flex min-w-0 cursor-pointer items-center justify-center rounded-full",
-                "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
-                "focus-visible:shadow-focus-ring focus-visible:outline-none",
-                variant === "fill" ? "flex-1" : "shrink-0",
-                sizeClasses[size],
-                isSelected
-                  ? "bg-buttons-primary-default text-content-primary-inverted shadow-sm"
-                  : "text-content-primary hover:bg-buttons-switch-hover",
-                disabled && "pointer-events-none",
-              )}
+              className={getSegmentClassName({ appearance, size, variant, isSelected, disabled })}
             >
-              <span className="min-w-0 truncate">{option.label}</span>
+              {option.icon ? (
+                <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
+                  {option.icon}
+                </span>
+              ) : (
+                <span className="min-w-0 truncate">{option.label}</span>
+              )}
             </button>
           );
         })}
