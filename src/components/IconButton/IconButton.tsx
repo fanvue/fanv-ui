@@ -5,14 +5,13 @@ import { Count, type CountSize } from "../Count/Count";
 /**
  * Visual style variant of the icon button.
  *
- * V2 types: `primary`, `secondary`, `tertiary`, `outline`, `error`, `white`,
- * `black`. `primary`, `secondary`, `tertiary` and `outline` honour the
- * {@link IconButtonProps.negative} prop. Their shape is size-driven — squared at
- * the `24` size, circular otherwise.
+ * `primary`, `secondary`, `tertiary`, `outline`, `error`, `white` and `black`
+ * use the shared button colour tokens and a size-driven shape (squared at the
+ * `24` size, circular otherwise). Of these, `primary`, `secondary`, `tertiary`
+ * and `outline` also honour the {@link IconButtonProps.negative} prop.
  *
- * Legacy types (circular at all sizes, retained for backward compatibility):
- * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
- * `microphone`.
+ * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop` and
+ * `microphone` are bespoke variants that stay circular at every size.
  */
 export type IconButtonVariant =
   | "primary"
@@ -61,11 +60,11 @@ const countSizeMap: Record<IconButtonSize, CountSize> = {
 };
 
 /**
- * V2 type-system variants. Their shape is size-driven (see {@link IconButton}):
- * the `24` size is squared (`rounded-xs`), every larger size stays circular.
- * Legacy variants remain circular at all sizes.
+ * Variants whose corner radius is size-driven (see {@link IconButton}): the `24`
+ * size is squared (`rounded-xs`), every larger size stays circular. All other
+ * variants are circular at every size.
  */
-const V2_VARIANTS = new Set<IconButtonVariant>([
+const SIZE_DRIVEN_SHAPE_VARIANTS = new Set<IconButtonVariant>([
   "primary",
   "secondary",
   "tertiary",
@@ -87,6 +86,7 @@ const DISABLED_FILL = "disabled:bg-buttons-disabled-default disabled:text-conten
 const DISABLED_FILL_NEGATIVE =
   "disabled:bg-buttons-disabled-negative disabled:text-content-disabled";
 const DISABLED_TRANSPARENT = "disabled:text-content-disabled";
+const DISABLED_OPACITY = "disabled:opacity-50";
 
 type VariantClasses = {
   default: string;
@@ -96,12 +96,12 @@ type VariantClasses = {
 };
 
 /**
- * V2 icon button styling, mirroring the shared button colour tokens. The
- * disabled treatment is expressed with the CSS `disabled:` variant (not the
- * `disabled` prop) so an ancestor `<fieldset disabled>` is styled too; hover is
- * guarded with `not-disabled:` so it never fights the disabled state.
+ * Icon button styling for every variant. The disabled treatment is expressed
+ * with the CSS `disabled:` variant (not the `disabled` prop) so an ancestor
+ * `<fieldset disabled>` is styled too; hover is guarded with `not-disabled:` so
+ * it never fights the disabled state.
  */
-const V2_VARIANT_CLASSES: Record<string, VariantClasses> = {
+const VARIANT_CLASSES: Record<IconButtonVariant, VariantClasses> = {
   primary: {
     default:
       "bg-buttons-primary-default text-content-primary-inverted not-disabled:hover:bg-buttons-primary-hover not-disabled:active:bg-buttons-primary-hover",
@@ -149,34 +149,49 @@ const V2_VARIANT_CLASSES: Record<string, VariantClasses> = {
       "bg-buttons-always-black-default text-content-always-white not-disabled:hover:bg-buttons-always-black-hover not-disabled:active:bg-buttons-always-black-hover",
     disabled: DISABLED_FILL,
   },
-};
-
-/** Legacy (pre-V2) icon button styling, kept for backward compatibility. */
-const LEGACY_VARIANT_CLASSES: Record<string, string> = {
-  brand:
-    "bg-content-always-black text-brand-primary-default hover:bg-brand-primary-default hover:text-content-always-black not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-always-black disabled:opacity-50",
-  contrast:
-    "bg-transparent text-content-always-white hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50",
-  messaging:
-    "bg-content-always-black text-brand-primary-default hover:bg-brand-primary-default hover:text-content-always-black not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-always-black disabled:opacity-50",
-  navTray:
-    "bg-transparent text-content-primary hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50",
-  tertiaryDestructive:
-    "bg-transparent text-error-content hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted disabled:opacity-50",
-  stop: "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black disabled:opacity-50",
-  microphone:
-    "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black disabled:opacity-50",
+  brand: {
+    default:
+      "bg-content-always-black text-brand-primary-default hover:bg-brand-primary-default hover:text-content-always-black not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-always-black",
+    disabled: DISABLED_OPACITY,
+  },
+  contrast: {
+    default:
+      "bg-transparent text-content-always-white hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted",
+    disabled: DISABLED_OPACITY,
+  },
+  messaging: {
+    default:
+      "bg-content-always-black text-brand-primary-default hover:bg-brand-primary-default hover:text-content-always-black not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-always-black",
+    disabled: DISABLED_OPACITY,
+  },
+  navTray: {
+    default:
+      "bg-transparent text-content-primary hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted",
+    disabled: DISABLED_OPACITY,
+  },
+  tertiaryDestructive: {
+    default:
+      "bg-transparent text-error-content hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted",
+    disabled: DISABLED_OPACITY,
+  },
+  stop: {
+    default:
+      "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black",
+    disabled: DISABLED_OPACITY,
+  },
+  microphone: {
+    default:
+      "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black",
+    disabled: DISABLED_OPACITY,
+  },
 };
 
 function getVariantClasses(variant: IconButtonVariant, negative: boolean): string {
-  const v2 = V2_VARIANT_CLASSES[variant];
-  if (v2) {
-    const isNegative = NEGATIVE_AWARE_VARIANTS.has(variant) && negative;
-    const base = (isNegative && v2.negative) || v2.default;
-    const disabledClasses = (isNegative && v2.negativeDisabled) || v2.disabled;
-    return cn(base, disabledClasses);
-  }
-  return LEGACY_VARIANT_CLASSES[variant] ?? "";
+  const classes = VARIANT_CLASSES[variant];
+  const isNegative = NEGATIVE_AWARE_VARIANTS.has(variant) && negative;
+  const base = (isNegative && classes.negative) || classes.default;
+  const disabledClasses = (isNegative && classes.negativeDisabled) || classes.disabled;
+  return cn(base, disabledClasses);
 }
 
 export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -200,8 +215,10 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * icon alone (e.g. close, send). Always pair with an `aria-label` for
  * accessibility.
  *
- * Shape follows the V2 spec: the `24` size is squared (`rounded-xs`), every
- * larger size is circular. Legacy variants stay circular at all sizes.
+ * Shape is size-driven for the standard variants: the `24` size is squared
+ * (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
+ * `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
+ * `microphone`) stay circular at all sizes.
  *
  * @example
  * ```tsx
@@ -240,7 +257,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           "relative inline-flex shrink-0 items-center justify-center focus-visible:outline-none",
           "cursor-pointer transition-all duration-150 ease-in-out disabled:cursor-default",
           "focus-visible:shadow-focus-ring",
-          V2_VARIANTS.has(variant) && size === "24" ? "rounded-xs" : "rounded-full",
+          SIZE_DRIVEN_SHAPE_VARIANTS.has(variant) && size === "24" ? "rounded-xs" : "rounded-full",
           sizeVariants[size],
           getVariantClasses(variant, negative),
           className,

@@ -31,22 +31,22 @@ describe("IconButton", () => {
     });
   });
 
-  describe("V2 variants", () => {
-    it("squares the 24 size (rounded-xs) for V2 variants", () => {
+  describe("variant styling", () => {
+    it("squares the 24 size (rounded-xs) for size-driven-shape variants", () => {
       render(<IconButton icon={<HomeIcon />} variant="primary" size="24" aria-label="Home" />);
       const button = screen.getByTestId("icon-button");
       expect(button).toHaveClass("rounded-xs");
       expect(button).not.toHaveClass("rounded-full");
     });
 
-    it("keeps larger V2 sizes circular (rounded-full)", () => {
+    it("keeps larger sizes circular (rounded-full)", () => {
       render(<IconButton icon={<HomeIcon />} variant="primary" size="40" aria-label="Home" />);
       const button = screen.getByTestId("icon-button");
       expect(button).toHaveClass("rounded-full");
       expect(button).not.toHaveClass("rounded-xs");
     });
 
-    it("keeps legacy variants circular at every size", () => {
+    it("keeps bespoke variants circular at every size", () => {
       render(<IconButton icon={<HomeIcon />} variant="microphone" size="24" aria-label="Mic" />);
       expect(screen.getByTestId("icon-button")).toHaveClass("rounded-full");
     });
