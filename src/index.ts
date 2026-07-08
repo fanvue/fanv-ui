@@ -15,6 +15,8 @@ export type { AccordionTriggerProps } from "./components/Accordion/AccordionTrig
 export { AccordionTrigger } from "./components/Accordion/AccordionTrigger";
 export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
+export type { AudioPlayerProps, AudioPlayerSize } from "./components/AudioPlayer/AudioPlayer";
+export { AudioPlayer } from "./components/AudioPlayer/AudioPlayer";
 export type {
   AudioFileRejection,
   AudioUploadProps,
