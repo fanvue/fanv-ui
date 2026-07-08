@@ -67,7 +67,7 @@ const AvatarRoot = React.forwardRef<
 
     return (
       <AvatarContext.Provider value={{ size, NSFWShow }}>
-        <div className="relative inline-flex">
+        <span className="relative inline-flex">
           <AvatarPrimitive.Root
             ref={ref}
             data-testid="avatar"
@@ -88,7 +88,7 @@ const AvatarRoot = React.forwardRef<
             {children}
           </AvatarPrimitive.Root>
           {platinumShow && (
-            <div
+            <span
               className="pointer-events-none absolute inset-0 rounded-full"
               style={{
                 background: `linear-gradient(143deg, #504F54 0%, #B1B1B1 20.3154%, #13181C 37.3727%, #C6C6C8 58.8154%, #FFFFFF 69.3154%, #0C0F14 81.3154%, #696A6E 100%)`,
@@ -112,7 +112,7 @@ const AvatarRoot = React.forwardRef<
               aria-hidden="true"
             />
           )}
-        </div>
+        </span>
       </AvatarContext.Provider>
     );
   },

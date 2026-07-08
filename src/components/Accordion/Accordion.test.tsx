@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { Avatar } from "../Avatar/Avatar";
 import { Accordion } from "./Accordion";
 import { AccordionContent } from "./AccordionContent";
 import { AccordionItem } from "./AccordionItem";
@@ -267,6 +268,19 @@ describe("Accordion", () => {
         </Accordion>,
       );
       expect(screen.getByTestId("avatar-slot").closest("[aria-hidden='true']")).toBeInTheDocument();
+    });
+
+    it("renders a real Avatar without nesting a div inside the trigger button", () => {
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger avatar={<Avatar size={24} fallback="JD" />}>Title</AccordionTrigger>
+            <AccordionContent>Content</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      const trigger = screen.getByRole("button", { name: /Title/i });
+      expect(trigger.querySelector("div")).toBeNull();
     });
   });
 
