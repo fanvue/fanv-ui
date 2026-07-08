@@ -167,6 +167,30 @@ describe("TextField", () => {
     });
   });
 
+  describe("side labels", () => {
+    it("renders a left (prefix) side label", () => {
+      render(<TextField aria-label="Price" leftLabel="$" />);
+      expect(screen.getByText("$")).toBeInTheDocument();
+    });
+
+    it("renders a right (suffix) side label", () => {
+      render(<TextField aria-label="Amount" rightLabel="USD" />);
+      expect(screen.getByText("USD")).toBeInTheDocument();
+    });
+
+    it("renders both side labels alongside the input", () => {
+      render(<TextField aria-label="Rate" leftLabel="$" rightLabel="/ mo" />);
+      expect(screen.getByText("$")).toBeInTheDocument();
+      expect(screen.getByText("/ mo")).toBeInTheDocument();
+      expect(screen.getByRole("textbox")).toBeInTheDocument();
+    });
+
+    it("has no accessibility violations with side labels", async () => {
+      const { container } = render(<TextField label="Price" leftLabel="$" rightLabel="USD" />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
   describe("user interaction", () => {
     it("allows typing in the input", async () => {
       const user = userEvent.setup();

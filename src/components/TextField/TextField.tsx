@@ -23,6 +23,10 @@ export interface TextFieldProps
   leftIcon?: React.ReactNode;
   /** Icon element displayed at the right side of the input. */
   rightIcon?: React.ReactNode;
+  /** Fixed, non-editable label pinned inside the left edge of the field — for a prefix such as a currency symbol or country code. */
+  leftLabel?: React.ReactNode;
+  /** Fixed, non-editable label pinned inside the right edge of the field — for a unit or suffix such as a currency code or domain. */
+  rightLabel?: React.ReactNode;
   /** Whether the text field stretches to fill its container width. @default false */
   fullWidth?: boolean;
 }
@@ -33,33 +37,35 @@ const CONTAINER_HEIGHT: Record<TextFieldSize, string> = {
   "32": "h-8",
 };
 
-const INPUT_SIZE_CLASSES: Record<TextFieldSize, string> = {
-  "48": "py-3 typography-body-default-16px-regular autofill-body-lg",
-  "40": "py-2 typography-body-default-16px-regular autofill-body-lg",
-  "32": "py-2 typography-body-small-14px-regular autofill-body-md",
-};
-
-const INPUT_PL: Record<TextFieldSize, { default: string; withIcon: string }> = {
-  "48": { default: "pl-4", withIcon: "pl-10" },
-  "40": { default: "pl-4", withIcon: "pl-10" },
-  "32": { default: "pl-3", withIcon: "pl-9" },
-};
-
-const INPUT_PR: Record<TextFieldSize, { default: string; withIcon: string }> = {
-  "48": { default: "pr-4", withIcon: "pr-10" },
-  "40": { default: "pr-4", withIcon: "pr-10" },
-  "32": { default: "pr-3", withIcon: "pr-9" },
-};
-
-const ICON_INSET: Record<TextFieldSize, string> = {
+const CONTAINER_PADDING_X: Record<TextFieldSize, string> = {
   "48": "px-4",
   "40": "px-4",
   "32": "px-3",
 };
 
+const CONTAINER_GAP: Record<TextFieldSize, string> = {
+  "48": "gap-2.5",
+  "40": "gap-2.5",
+  "32": "gap-2",
+};
+
+const INPUT_TYPOGRAPHY: Record<TextFieldSize, string> = {
+  "48": "typography-body-default-16px-regular autofill-body-lg",
+  "40": "typography-body-default-16px-regular autofill-body-lg",
+  "32": "typography-body-small-14px-regular autofill-body-md",
+};
+
+const SIDE_LABEL_TYPOGRAPHY: Record<TextFieldSize, string> = {
+  "48": "typography-body-default-16px-regular",
+  "40": "typography-body-default-16px-regular",
+  "32": "typography-body-small-14px-regular",
+};
+
 function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: boolean) {
   return cn(
-    "relative overflow-hidden rounded-sm border bg-inputs-inputs-primary has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
+    "relative flex items-center overflow-hidden rounded-sm border bg-inputs-inputs-primary has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
+    CONTAINER_PADDING_X[size],
+    CONTAINER_GAP[size],
     error ? "border-error-content" : "border-border-primary",
     !disabled && !error && "hover:border-neutral-alphas-400",
     CONTAINER_HEIGHT[size],
@@ -67,12 +73,57 @@ function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: b
   );
 }
 
-function getInputClassName(size: TextFieldSize, hasLeftIcon: boolean, hasRightIcon: boolean) {
-  return cn(
-    "h-full w-full rounded-sm bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
-    INPUT_SIZE_CLASSES[size],
-    hasLeftIcon ? INPUT_PL[size].withIcon : INPUT_PL[size].default,
-    hasRightIcon ? INPUT_PR[size].withIcon : INPUT_PR[size].default,
+function LeadingIcon({ children }: { children?: React.ReactNode }) {
+  if (!children) return null;
+  return (
+    <span className="pointer-events-none flex size-4 shrink-0 items-center justify-center text-content-secondary">
+      {children}
+    </span>
+  );
+}
+
+function SideLabel({
+  size,
+  align,
+  children,
+}: {
+  size: TextFieldSize;
+  align: "left" | "right";
+  children?: React.ReactNode;
+}) {
+  if (!children) return null;
+  return (
+    <span
+      className={cn(
+        "shrink-0 select-none whitespace-nowrap text-content-tertiary",
+        align === "right" && "text-right",
+        SIDE_LABEL_TYPOGRAPHY[size],
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
+function TrailingAdornment({
+  rightIcon,
+  validated,
+}: {
+  rightIcon?: React.ReactNode;
+  validated: boolean;
+}) {
+  if (!rightIcon && !validated) return null;
+  return (
+    <span className="flex shrink-0 items-center gap-2 text-content-secondary">
+      {rightIcon && (
+        <span className="flex size-4 shrink-0 items-center justify-center">{rightIcon}</span>
+      )}
+      {validated && (
+        <span className="pointer-events-none flex size-4 shrink-0 items-center justify-center">
+          <CheckOutlineIcon className="text-success-content" />
+        </span>
+      )}
+    </span>
   );
 }
 
@@ -109,10 +160,11 @@ function warnMissingAccessibleName(label?: string, ariaLabel?: string, ariaLabel
 }
 
 /**
- * A text input field with optional label, helper/error text, and icon slots.
+ * A text input field with optional label, helper/error text, icon slots, and side labels.
  *
- * Provide at least one of `label`, `aria-label`, or `aria-labelledby` for
- * accessibility — a console warning is emitted in development if none are set.
+ * Use `leftLabel` / `rightLabel` for fixed unit or prefix affordances (currency symbol,
+ * country code, domain suffix). Provide at least one of `label`, `aria-label`, or
+ * `aria-labelledby` for accessibility — a console warning is emitted in development if none are set.
  *
  * @example
  * ```tsx
@@ -122,6 +174,11 @@ function warnMissingAccessibleName(label?: string, ariaLabel?: string, ariaLabel
  *   error={!!emailError}
  *   errorMessage={emailError}
  * />
+ * ```
+ *
+ * @example
+ * ```tsx
+ * <TextField label="Price" leftLabel="$" rightLabel="USD" placeholder="0.00" />
  * ```
  */
 export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
@@ -135,6 +192,8 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       validated = false,
       leftIcon,
       rightIcon,
+      leftLabel,
+      rightLabel,
       className,
       id,
       disabled,
@@ -166,6 +225,11 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         )}
 
         <div className={getContainerClassName(size, error, disabled)}>
+          <LeadingIcon>{leftIcon}</LeadingIcon>
+          <SideLabel size={size} align="left">
+            {leftLabel}
+          </SideLabel>
+
           <input
             ref={ref}
             id={inputId}
@@ -173,40 +237,17 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             aria-describedby={bottomText ? helperTextId : undefined}
             aria-invalid={error || undefined}
             className={cn(
-              getInputClassName(size, !!leftIcon, !!(rightIcon || validated)),
+              "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
+              INPUT_TYPOGRAPHY[size],
               "[&[type='search']::-webkit-search-cancel-button]:hidden [&[type='search']::-webkit-search-cancel-button]:appearance-none",
             )}
             {...props}
           />
 
-          {leftIcon && (
-            <div
-              className={cn(
-                "pointer-events-none absolute inset-y-0 left-0 flex items-center text-content-secondary",
-                ICON_INSET[size],
-              )}
-            >
-              <div className="flex size-4 shrink-0 items-center justify-center">{leftIcon}</div>
-            </div>
-          )}
-
-          {(rightIcon || validated) && (
-            <div
-              className={cn(
-                "absolute inset-y-0 right-0 flex items-center gap-2 text-content-secondary",
-                ICON_INSET[size],
-              )}
-            >
-              {rightIcon && (
-                <div className="flex size-4 shrink-0 items-center justify-center">{rightIcon}</div>
-              )}
-              {validated && (
-                <div className="pointer-events-none flex size-4 shrink-0 items-center justify-center">
-                  <CheckOutlineIcon className="text-success-content" />
-                </div>
-              )}
-            </div>
-          )}
+          <SideLabel size={size} align="right">
+            {rightLabel}
+          </SideLabel>
+          <TrailingAdornment rightIcon={rightIcon} validated={validated} />
         </div>
 
         {bottomText && (

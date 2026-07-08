@@ -13,7 +13,7 @@ const meta: Meta<typeof TextField> = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=4262-17626&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16633-67897",
     },
   },
   tags: ["autodocs"],
@@ -45,6 +45,12 @@ const meta: Meta<typeof TextField> = {
     },
     fullWidth: {
       control: "boolean",
+    },
+    leftLabel: {
+      control: "text",
+    },
+    rightLabel: {
+      control: "text",
     },
   },
   decorators: [
@@ -129,6 +135,56 @@ export const WithBothIcons: Story = {
     leftIcon: <HomeIcon />,
     rightIcon: <InfoCircleIcon />,
   },
+};
+
+export const SideLabelPrefix: Story = {
+  name: "Side Label (prefix)",
+  args: {
+    label: "Price",
+    leftLabel: "$",
+    placeholder: "0.00",
+  },
+};
+
+export const SideLabelSuffix: Story = {
+  name: "Side Label (suffix)",
+  args: {
+    label: "Amount",
+    rightLabel: "USD",
+    placeholder: "0.00",
+  },
+};
+
+export const SideLabelBoth: Story = {
+  name: "Side Label (prefix + suffix)",
+  args: {
+    label: "Rate",
+    leftLabel: "$",
+    rightLabel: "/ month",
+    placeholder: "0.00",
+    defaultValue: "9.99",
+  },
+};
+
+export const SideLabelWithIcon: Story = {
+  name: "Side Label with icon",
+  args: {
+    label: "Website",
+    leftIcon: <HomeIcon />,
+    rightLabel: ".fanvue.com",
+    placeholder: "your-handle",
+  },
+};
+
+export const SideLabelSizes: Story = {
+  name: "Side Label (all sizes)",
+  render: () => (
+    <div className="flex w-[375px] flex-col gap-4">
+      <TextField size="48" label="Size 48" leftLabel="$" rightLabel="USD" placeholder="0.00" />
+      <TextField size="40" label="Size 40" leftLabel="$" rightLabel="USD" placeholder="0.00" />
+      <TextField size="32" label="Size 32" leftLabel="$" rightLabel="USD" placeholder="0.00" />
+    </div>
+  ),
 };
 
 export const Validated: Story = {

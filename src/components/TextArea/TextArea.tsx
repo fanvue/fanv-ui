@@ -67,8 +67,8 @@ const CLEAR_BUTTON_RIGHT: Record<TextAreaSize, string> = {
 
 function getContainerClassName(size: TextAreaSize, error: boolean, disabled?: boolean) {
   return cn(
-    "relative rounded-sm border bg-neutral-alphas-50 has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
-    error ? "border-error-content" : "border-transparent",
+    "relative rounded-sm border bg-inputs-inputs-primary has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
+    error ? "border-error-content" : "border-border-primary",
     !disabled && !error && "hover:border-neutral-alphas-400",
     CONTAINER_MIN_HEIGHT[size],
     disabled && "opacity-50",
@@ -82,7 +82,7 @@ function getTextareaClassName(
   resizable: boolean,
 ) {
   return cn(
-    "h-full w-full bg-transparent text-content-primary no-underline placeholder:text-content-secondary focus:outline-none disabled:cursor-not-allowed",
+    "h-full w-full bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
     resizable ? "resize-y" : "resize-none",
     !hasMinRows && "min-h-[80px]",
     TEXTAREA_SIZE_CLASSES[size],
@@ -251,7 +251,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="typography-description-12px-semibold px-1 pt-1 pb-2 text-content-primary"
+            className="typography-description-12px-semibold pb-2 text-content-primary"
           >
             {label}
           </label>
