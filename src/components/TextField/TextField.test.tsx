@@ -167,6 +167,63 @@ describe("TextField", () => {
     });
   });
 
+  describe("side labels", () => {
+    it("renders a left (prefix) side label", () => {
+      render(<TextField aria-label="Price" leftLabel="$" />);
+      expect(screen.getByText("$")).toBeInTheDocument();
+    });
+
+    it("renders a right (suffix) side label", () => {
+      render(<TextField aria-label="Amount" rightLabel="USD" />);
+      expect(screen.getByText("USD")).toBeInTheDocument();
+    });
+
+    it("renders both side labels alongside the input", () => {
+      render(<TextField aria-label="Rate" leftLabel="$" rightLabel="/ mo" />);
+      expect(screen.getByText("$")).toBeInTheDocument();
+      expect(screen.getByText("/ mo")).toBeInTheDocument();
+      expect(screen.getByRole("textbox")).toBeInTheDocument();
+    });
+
+    it("has no accessibility violations with side labels", async () => {
+      const { container } = render(<TextField label="Price" leftLabel="$" rightLabel="USD" />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("associates side labels with the input via aria-describedby", () => {
+      render(<TextField id="rate" aria-label="Rate" leftLabel="$" rightLabel="USD" />);
+      const input = screen.getByRole("textbox");
+      const describedBy = input.getAttribute("aria-describedby") ?? "";
+      expect(describedBy).toContain("rate-left-label");
+      expect(describedBy).toContain("rate-right-label");
+      expect(screen.getByText("$")).toHaveAttribute("id", "rate-left-label");
+      expect(screen.getByText("USD")).toHaveAttribute("id", "rate-right-label");
+    });
+
+    it("appends the helper text id after the side labels", () => {
+      render(<TextField id="rate" aria-label="Rate" leftLabel="$" helperText="Monthly amount" />);
+      expect(screen.getByRole("textbox")).toHaveAttribute(
+        "aria-describedby",
+        "rate-left-label rate-helper",
+      );
+    });
+
+    it("focuses the input when clicking a leading adornment or side label", async () => {
+      const user = userEvent.setup();
+      render(
+        <TextField aria-label="Price" leftIcon={<HomeIcon />} leftLabel="$" rightLabel="USD" />,
+      );
+      const input = screen.getByRole("textbox");
+
+      await user.click(screen.getByText("$"));
+      expect(input).toHaveFocus();
+
+      input.blur();
+      await user.click(screen.getByText("USD"));
+      expect(input).toHaveFocus();
+    });
+  });
+
   describe("user interaction", () => {
     it("allows typing in the input", async () => {
       const user = userEvent.setup();

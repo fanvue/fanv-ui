@@ -437,6 +437,20 @@ function TextFieldShowcase() {
         placeholder="Placeholder"
         autoComplete="off"
       />
+      <TextField label="Side label (prefix)" leftLabel="$" placeholder="0.00" autoComplete="off" />
+      <TextField
+        label="Side label (suffix)"
+        rightLabel="USD"
+        placeholder="0.00"
+        autoComplete="off"
+      />
+      <TextField
+        label="Side label (both)"
+        leftLabel="$"
+        rightLabel="/ month"
+        defaultValue="9.99"
+        autoComplete="off"
+      />
       <TextField
         label="Error"
         placeholder="Placeholder"
