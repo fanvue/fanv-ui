@@ -189,6 +189,39 @@ describe("TextField", () => {
       const { container } = render(<TextField label="Price" leftLabel="$" rightLabel="USD" />);
       expect(await axe(container)).toHaveNoViolations();
     });
+
+    it("associates side labels with the input via aria-describedby", () => {
+      render(<TextField id="rate" aria-label="Rate" leftLabel="$" rightLabel="USD" />);
+      const input = screen.getByRole("textbox");
+      const describedBy = input.getAttribute("aria-describedby") ?? "";
+      expect(describedBy).toContain("rate-left-label");
+      expect(describedBy).toContain("rate-right-label");
+      expect(screen.getByText("$")).toHaveAttribute("id", "rate-left-label");
+      expect(screen.getByText("USD")).toHaveAttribute("id", "rate-right-label");
+    });
+
+    it("appends the helper text id after the side labels", () => {
+      render(<TextField id="rate" aria-label="Rate" leftLabel="$" helperText="Monthly amount" />);
+      expect(screen.getByRole("textbox")).toHaveAttribute(
+        "aria-describedby",
+        "rate-left-label rate-helper",
+      );
+    });
+
+    it("focuses the input when clicking a leading adornment or side label", async () => {
+      const user = userEvent.setup();
+      render(
+        <TextField aria-label="Price" leftIcon={<HomeIcon />} leftLabel="$" rightLabel="USD" />,
+      );
+      const input = screen.getByRole("textbox");
+
+      await user.click(screen.getByText("$"));
+      expect(input).toHaveFocus();
+
+      input.blur();
+      await user.click(screen.getByText("USD"));
+      expect(input).toHaveFocus();
+    });
   });
 
   describe("user interaction", () => {

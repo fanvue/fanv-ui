@@ -83,10 +83,12 @@ function LeadingIcon({ children }: { children?: React.ReactNode }) {
 }
 
 function SideLabel({
+  id,
   size,
   align,
   children,
 }: {
+  id?: string;
   size: TextFieldSize;
   align: "left" | "right";
   children?: React.ReactNode;
@@ -94,6 +96,7 @@ function SideLabel({
   if (!children) return null;
   return (
     <span
+      id={id}
       className={cn(
         "shrink-0 select-none whitespace-nowrap text-content-tertiary",
         align === "right" && "text-right",
@@ -116,7 +119,9 @@ function TrailingAdornment({
   return (
     <span className="flex shrink-0 items-center gap-2 text-content-secondary">
       {rightIcon && (
-        <span className="flex size-4 shrink-0 items-center justify-center">{rightIcon}</span>
+        <span data-tf-interactive="" className="flex size-4 shrink-0 items-center justify-center">
+          {rightIcon}
+        </span>
       )}
       {validated && (
         <span className="pointer-events-none flex size-4 shrink-0 items-center justify-center">
@@ -205,7 +210,39 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     const generatedId = React.useId();
     const inputId = id || generatedId;
     const helperTextId = `${inputId}-helper`;
+    const leftLabelId = `${inputId}-left-label`;
+    const rightLabelId = `${inputId}-right-label`;
     const bottomText = error && errorMessage ? errorMessage : helperText;
+
+    const describedBy =
+      [
+        leftLabel != null ? leftLabelId : null,
+        rightLabel != null ? rightLabelId : null,
+        bottomText ? helperTextId : null,
+      ]
+        .filter(Boolean)
+        .join(" ") || undefined;
+
+    const innerRef = React.useRef<HTMLInputElement>(null);
+    const setRefs = React.useCallback(
+      (node: HTMLInputElement | null) => {
+        innerRef.current = node;
+        if (typeof ref === "function") ref(node);
+        else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = node;
+      },
+      [ref],
+    );
+
+    // Keep clicks on the non-interactive adornments (icons, side labels, padding)
+    // focusing the input, matching the old absolute/pointer-events-none layout.
+    const handleContainerMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+      if (disabled) return;
+      const target = event.target as HTMLElement;
+      if (target === innerRef.current) return;
+      if (target.closest("[data-tf-interactive]")) return;
+      event.preventDefault();
+      innerRef.current?.focus();
+    };
 
     warnMissingAccessibleName(label, props["aria-label"], props["aria-labelledby"]);
 
@@ -224,17 +261,21 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           </label>
         )}
 
-        <div className={getContainerClassName(size, error, disabled)}>
+        {/* biome-ignore lint/a11y/noStaticElementInteractions: focus bridge delegates pointer clicks on adornments to the input */}
+        <div
+          className={getContainerClassName(size, error, disabled)}
+          onMouseDown={handleContainerMouseDown}
+        >
           <LeadingIcon>{leftIcon}</LeadingIcon>
-          <SideLabel size={size} align="left">
+          <SideLabel id={leftLabelId} size={size} align="left">
             {leftLabel}
           </SideLabel>
 
           <input
-            ref={ref}
+            ref={setRefs}
             id={inputId}
             disabled={disabled}
-            aria-describedby={bottomText ? helperTextId : undefined}
+            aria-describedby={describedBy}
             aria-invalid={error || undefined}
             className={cn(
               "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
@@ -244,7 +285,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             {...props}
           />
 
-          <SideLabel size={size} align="right">
+          <SideLabel id={rightLabelId} size={size} align="right">
             {rightLabel}
           </SideLabel>
           <TrailingAdornment rightIcon={rightIcon} validated={validated} />
