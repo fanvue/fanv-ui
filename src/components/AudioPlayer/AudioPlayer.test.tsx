@@ -46,7 +46,7 @@ describe("AudioPlayer", () => {
       render(<AudioPlayer src="https://example.com/clip.mp3" duration={5} />);
       expect(screen.getByText("0:05")).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "Play" })).toBeInTheDocument();
-      expect(screen.queryByText("/ 0:05")).not.toBeInTheDocument();
+      expect(screen.queryByText("/0:05")).not.toBeInTheDocument();
     });
 
     it("shows a placeholder when no duration is known yet", () => {
@@ -141,7 +141,7 @@ describe("AudioPlayer", () => {
       fireEvent.timeUpdate(audio);
 
       expect(screen.getByText("0:02")).toBeInTheDocument();
-      expect(screen.getByText("/ 0:05")).toBeInTheDocument();
+      expect(screen.getByText("/0:05")).toBeInTheDocument();
       expect(screen.getByRole("slider")).toHaveAttribute("aria-valuenow", "2");
     });
 

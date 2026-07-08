@@ -348,9 +348,9 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
           aria-label={playing ? "Pause" : "Play"}
           className={cn(
             "flex size-8 shrink-0 items-center justify-center rounded-full",
-            "bg-buttons-overlay-default text-icons-primary backdrop-blur-[40px]",
+            "bg-buttons-secondary-default text-icons-primary backdrop-blur-[40px]",
             "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
-            "hover:bg-buttons-overlay-hover",
+            "hover:bg-buttons-secondary-hover",
             "focus-visible:shadow-focus-ring focus-visible:outline-none",
           )}
         >
@@ -385,11 +385,11 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
             ))}
           </div>
 
-          <span className="typography-body-small-14px-semibold shrink-0 whitespace-nowrap">
+          <span className="typography-body-small-14px-semibold flex shrink-0 items-center gap-0.5 whitespace-nowrap">
             {hasStarted ? (
               <>
                 <span className="text-content-primary">{formatTime(currentTime)}</span>
-                <span className="text-content-secondary"> / {formatTime(displayDuration)}</span>
+                <span className="text-content-secondary">/{formatTime(displayDuration)}</span>
               </>
             ) : (
               <span className="text-content-primary">{formatTime(displayDuration)}</span>
