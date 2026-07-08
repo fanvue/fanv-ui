@@ -9,14 +9,14 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=1624-9666",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=18411-91424",
     },
   },
   tags: ["autodocs"],
   argTypes: {
     value: { control: { type: "range", min: 0, max: 100 } },
     size: { control: "select", options: ["default", "small"] },
-    variant: { control: "select", options: ["default", "generic", "neutral"] },
+    variant: { control: "select", options: ["brand", "mono", "default", "generic", "neutral"] },
     showCompletion: { control: "boolean" },
     title: { control: "text" },
     stepsLabel: { control: "text" },
@@ -34,6 +34,36 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     value: 60,
+  },
+};
+
+export const Brand: Story = {
+  args: {
+    value: 60,
+    variant: "brand",
+  },
+};
+
+export const Mono: Story = {
+  args: {
+    value: 60,
+    variant: "mono",
+  },
+};
+
+export const BrandSmall: Story = {
+  args: {
+    value: 60,
+    size: "small",
+    variant: "brand",
+  },
+};
+
+export const MonoSmall: Story = {
+  args: {
+    value: 60,
+    size: "small",
+    variant: "mono",
   },
 };
 

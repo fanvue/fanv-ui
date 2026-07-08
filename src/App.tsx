@@ -173,6 +173,7 @@ import {
   PrivacyIcon,
   ProfileStatus,
   ProgressBar,
+  ProgressBarSteps,
   Radio,
   RadioGroup,
   RatingSummary,
@@ -4028,6 +4029,17 @@ function ProgressBarDemo() {
     <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Progress Bar</h2>
       <div className="flex max-w-md flex-col gap-6">
+        {/* V2 Brand / Mono */}
+        <ProgressBar value={60} variant="brand" />
+        <ProgressBar value={60} variant="mono" />
+        <ProgressBar value={60} size="small" variant="brand" />
+        <ProgressBar value={60} size="small" variant="mono" />
+
+        {/* V2 stepped progress */}
+        <ProgressBarSteps steps={4} value={1} variant="brand" />
+        <ProgressBarSteps steps={4} value={2} variant="mono" />
+        <ProgressBarSteps steps={6} value={3} size="small" variant="brand" />
+
         {/* Default variant — color-coded by value */}
         <ProgressBar value={20} />
         <ProgressBar value={60} />

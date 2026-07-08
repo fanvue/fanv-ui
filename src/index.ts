@@ -599,6 +599,14 @@ export type {
   ProgressBarVariant,
 } from "./components/ProgressBar/ProgressBar";
 export { ProgressBar } from "./components/ProgressBar/ProgressBar";
+export type {
+  ProgressBarItemProps,
+  ProgressBarItemSize,
+  ProgressBarItemVariant,
+} from "./components/ProgressBar/ProgressBarItem";
+export { ProgressBarItem } from "./components/ProgressBar/ProgressBarItem";
+export type { ProgressBarStepsProps } from "./components/ProgressBar/ProgressBarSteps";
+export { ProgressBarSteps } from "./components/ProgressBar/ProgressBarSteps";
 export type { RadioLayout, RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
