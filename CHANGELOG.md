@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.14.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.14.0...ui-v3.14.1) (2026-07-08)
+
+
+### Bug Fixes
+
+* **Dialog:** dynamic viewport height + safe-area padding (ENG-12221) ([#576](https://github.com/fanvue/fanv-ui/issues/576)) ([0fe2835](https://github.com/fanvue/fanv-ui/commit/0fe28356e1125d5d4a2e407859e3ecf41d0514be))
+* **Dialog:** use dynamic viewport height with legacy vh fallback ([0fe2835](https://github.com/fanvue/fanv-ui/commit/0fe28356e1125d5d4a2e407859e3ecf41d0514be))
+
 ## [3.14.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.13.0...ui-v3.14.0) (2026-07-08)
 
 
