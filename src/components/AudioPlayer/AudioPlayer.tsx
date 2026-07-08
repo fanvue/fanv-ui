@@ -32,7 +32,13 @@ export interface AudioPlayerProps
    * media's own metadata has loaded (and as a fallback if it never does).
    */
   duration?: number;
-  /** Whether playback is active (controlled). */
+  /**
+   * Whether playback is active (controlled). Note: once `onEnded` fires, the
+   * browser has already stopped native playback. To loop or replay under
+   * controlled usage, toggle this prop `false` then `true` (rather than
+   * leaving it `true`) — the sync effect only calls `play()` again when this
+   * value actually changes.
+   */
   playing?: boolean;
   /** Initial playback state (uncontrolled). @default false */
   defaultPlaying?: boolean;
@@ -173,11 +179,32 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
     const displayDuration = mediaDuration ?? duration;
     const hasStarted = playing || currentTime > 0;
 
-    // Reset transient playback state when the source changes.
-    // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally re-runs only when `src` changes
+    // Latest-value refs so the src-change effect below can react to a src swap
+    // without re-running whenever `playing`/`isControlled`/`onPause` change.
+    const playingRef = React.useRef(playing);
+    playingRef.current = playing;
+    const isControlledRef = React.useRef(isControlled);
+    isControlledRef.current = isControlled;
+    const onPauseRef = React.useRef(onPause);
+    onPauseRef.current = onPause;
+
+    // Reset transient playback state when the source changes. Skips the
+    // initial mount (there's nothing to reset yet) and, if playback was
+    // active, stops it — the browser silently drops playback on a source
+    // swap, so the UI (and any controlled parent) must be told via onPause.
+    const isFirstSrcRenderRef = React.useRef(true);
     React.useEffect(() => {
+      if (isFirstSrcRenderRef.current) {
+        isFirstSrcRenderRef.current = false;
+        return;
+      }
       setCurrentTime(0);
       setMediaDuration(undefined);
+      setPeaks(generateFallbackPeaks(src, RAW_PEAK_COUNT));
+      if (playingRef.current) {
+        if (!isControlledRef.current) setInternalPlaying(false);
+        onPauseRef.current?.();
+      }
     }, [src]);
 
     // Decode the audio to derive real waveform amplitudes, falling back to a
@@ -228,6 +255,7 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
       if (playing) {
         audio.play().catch(() => {
           if (!isControlled) setInternalPlaying(false);
+          onPauseRef.current?.();
         });
       } else {
         audio.pause();
@@ -365,7 +393,7 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
             aria-label="Seek"
             aria-orientation="horizontal"
             aria-valuemin={0}
-            aria-valuemax={displayDuration ?? 0}
+            aria-valuemax={displayDuration}
             aria-valuenow={Math.round(currentTime)}
             aria-valuetext={
               displayDuration !== undefined

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
@@ -15,7 +15,7 @@ function setMediaProperty(
   property: "duration" | "currentTime",
   value: number,
 ) {
-  Object.defineProperty(element, property, { value, configurable: true });
+  Object.defineProperty(element, property, { value, configurable: true, writable: true });
 }
 
 beforeEach(() => {
@@ -61,6 +61,11 @@ describe("AudioPlayer", () => {
       expect(slider).toHaveAttribute("aria-valuemax", "5");
       expect(slider).toHaveAttribute("aria-valuenow", "0");
       expect(slider).toHaveAttribute("aria-valuetext", "0:00 of 0:05");
+    });
+
+    it("omits aria-valuemax until a duration is known", () => {
+      render(<AudioPlayer src="https://example.com/clip.mp3" />);
+      expect(screen.getByRole("slider")).not.toHaveAttribute("aria-valuemax");
     });
 
     it("applies custom className to the root element", () => {
@@ -130,6 +135,58 @@ describe("AudioPlayer", () => {
     it("honors defaultPlaying for uncontrolled usage", () => {
       render(<AudioPlayer src="https://example.com/clip.mp3" duration={5} defaultPlaying />);
       expect(screen.getByRole("button", { name: "Pause" })).toBeInTheDocument();
+    });
+
+    it("stops playback and calls onPause when the src changes mid-playback (uncontrolled)", async () => {
+      const user = userEvent.setup();
+      const onPause = vi.fn();
+      const { rerender } = render(
+        <AudioPlayer src="https://example.com/clip-a.mp3" duration={5} onPause={onPause} />,
+      );
+
+      await user.click(screen.getByRole("button", { name: "Play" }));
+      expect(screen.getByRole("button", { name: "Pause" })).toBeInTheDocument();
+
+      rerender(<AudioPlayer src="https://example.com/clip-b.mp3" duration={5} onPause={onPause} />);
+
+      expect(screen.getByRole("button", { name: "Play" })).toBeInTheDocument();
+      expect(onPause).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not reset or call onPause on the initial mount even when defaultPlaying is true", () => {
+      const onPause = vi.fn();
+      render(
+        <AudioPlayer
+          src="https://example.com/clip.mp3"
+          duration={5}
+          defaultPlaying
+          onPause={onPause}
+        />,
+      );
+      expect(onPause).not.toHaveBeenCalled();
+      expect(screen.getByRole("button", { name: "Pause" })).toBeInTheDocument();
+    });
+
+    it("fires onPause and reverts to Play when play() rejects (uncontrolled)", async () => {
+      const user = userEvent.setup();
+      const onPause = vi.fn();
+      HTMLMediaElement.prototype.play = vi.fn().mockRejectedValue(new Error("NotAllowedError"));
+      render(<AudioPlayer src="https://example.com/clip.mp3" duration={5} onPause={onPause} />);
+
+      await user.click(screen.getByRole("button", { name: "Play" }));
+
+      await waitFor(() => expect(onPause).toHaveBeenCalledTimes(1));
+      expect(screen.getByRole("button", { name: "Play" })).toBeInTheDocument();
+    });
+
+    it("fires onPause when play() rejects even in controlled mode", async () => {
+      const onPause = vi.fn();
+      HTMLMediaElement.prototype.play = vi.fn().mockRejectedValue(new Error("NotAllowedError"));
+      render(
+        <AudioPlayer src="https://example.com/clip.mp3" duration={5} playing onPause={onPause} />,
+      );
+
+      await waitFor(() => expect(onPause).toHaveBeenCalledTimes(1));
     });
   });
 
