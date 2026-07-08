@@ -177,19 +177,20 @@ export const DialogContent = React.forwardRef<
             mobilePresentation === "card"
               ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
                 cn(
-                  "inset-x-4 top-1/2 max-h-[85vh] -translate-y-1/2 rounded-xl p-6",
+                  "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
                   "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
                   "sm:inset-x-auto",
                 )
               : // Bottom sheet pinned to the viewport bottom edge
                 cn(
-                  "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-xl p-4 pt-3",
+                  "dialog-max-h-dynamic inset-x-0 bottom-0 w-full rounded-t-xl p-4 pt-3",
+                  "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
                   "data-[state=open]:slide-in-from-bottom-full",
                   "data-[state=closed]:slide-out-to-bottom-full",
                   "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
                   "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
                 ),
-            "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[85vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
+            "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
             "duration-200",
             SIZE_CLASSES[size],
             className,
