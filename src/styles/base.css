@@ -136,6 +136,21 @@
   animation: accordion-collapse 200ms ease-out;
 }
 
+/*
+ * `dvh` reflects the browser chrome actually on screen (e.g. iOS in-app browsers
+ * like Instagram, which report a `vh` taller than what's visible once chrome +
+ * home-indicator inset are subtracted). `dvh` support is what's missing on older
+ * engines, not `vh`, so the fallback must be declared second: an unsupported unit
+ * makes only that declaration invalid, and the browser keeps the prior valid one.
+ * This has to stay a single CSS rule with two declarations — two separate Tailwind
+ * utility classes (`max-h-[85vh] max-h-[85dvh]`) share one `tailwind-merge` conflict
+ * group, so `cn()`/`twMerge` would drop the `vh` one and destroy the fallback.
+ */
+@utility dialog-max-h-dynamic {
+  max-height: 85vh;
+  max-height: 85dvh;
+}
+
 /* Static tokens not in Figma — manually maintained for now */
 @utility typography-medium-caption-xs {
   font-size: 0.625rem;

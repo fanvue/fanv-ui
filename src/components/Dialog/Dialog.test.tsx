@@ -181,6 +181,41 @@ describe("Dialog", () => {
       expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
     });
 
+    // ENG-12221: iOS in-app browsers (e.g. Instagram) report a `vh` taller than
+    // the actually-visible viewport, so a static `max-h-[85vh]` squishes/clips
+    // dialog content. `dialog-max-h-dynamic` (base.css) declares `max-height`
+    // twice in one rule — `85vh` then `85dvh` — so unsupported-unit browsers keep
+    // the `vh` fallback while modern browsers use the accurate `dvh` value.
+    it("uses the dynamic-viewport-height utility on all mobile presentations", () => {
+      const { rerender } = renderDialog();
+      expect(screen.getByRole("dialog")).toHaveClass("dialog-max-h-dynamic");
+
+      rerender(
+        <Dialog defaultOpen>
+          <DialogContent mobilePresentation="card">
+            <DialogHeader>
+              <DialogTitle>Card</DialogTitle>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>,
+      );
+      expect(screen.getByRole("dialog")).toHaveClass("dialog-max-h-dynamic");
+    });
+
+    it("pads the bottom sheet for the safe-area inset", () => {
+      renderDialog();
+      expect(screen.getByRole("dialog")).toHaveClass(
+        "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
+      );
+    });
+
+    it("does not pad the floating card for the safe-area inset", () => {
+      renderDialog({ mobilePresentation: "card" });
+      expect(screen.getByRole("dialog")).not.toHaveClass(
+        "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
+      );
+    });
+
     it("supports controlled open state", async () => {
       const onOpenChange = vi.fn();
       const user = userEvent.setup();
