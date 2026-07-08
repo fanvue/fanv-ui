@@ -104,9 +104,12 @@ function getSegmentClassName({
     "focus-visible:shadow-focus-ring focus-visible:outline-none",
     variant === "fill" ? "flex-1" : "shrink-0",
     appearance === "plain"
-      ? isSelected
-        ? "text-icons-primary"
-        : "text-icons-tertiary hover:text-icons-primary"
+      ? cn(
+          // Padding + negative margin enlarge the hit target without changing the
+          // visual footprint, which must stay glyph-only to match the design.
+          "-m-1 p-1",
+          isSelected ? "text-icons-primary" : "text-icons-tertiary hover:text-icons-primary",
+        )
       : cn(
           sizeClasses[size],
           isSelected
