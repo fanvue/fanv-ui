@@ -15,6 +15,8 @@ export type { AccordionTriggerProps } from "./components/Accordion/AccordionTrig
 export { AccordionTrigger } from "./components/Accordion/AccordionTrigger";
 export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
+export type { AudioPlayerProps, AudioPlayerSize } from "./components/AudioPlayer/AudioPlayer";
+export { AudioPlayer } from "./components/AudioPlayer/AudioPlayer";
 export type {
   AudioFileRejection,
   AudioUploadProps,
@@ -223,6 +225,8 @@ export type {
 export { EmptyState } from "./components/EmptyState/EmptyState";
 export type { FanFollowerCountProps } from "./components/FanFollowerCount/FanFollowerCount";
 export { FanFollowerCount } from "./components/FanFollowerCount/FanFollowerCount";
+export type { FloatingActionButtonProps } from "./components/FloatingActionButton/FloatingActionButton";
+export { FloatingActionButton } from "./components/FloatingActionButton/FloatingActionButton";
 export type {
   IconButtonProps,
   IconButtonSize,
@@ -359,6 +363,8 @@ export { GifIcon } from "./components/Icons/GifIcon";
 export type { GiftIconProps } from "./components/Icons/GiftIcon";
 export { GiftIcon } from "./components/Icons/GiftIcon";
 export { GoogleIcon } from "./components/Icons/GoogleIcon";
+export type { GridViewIconProps } from "./components/Icons/GridViewIcon";
+export { GridViewIcon } from "./components/Icons/GridViewIcon";
 export type { HealthIconProps } from "./components/Icons/HealthIcon";
 export { HealthIcon } from "./components/Icons/HealthIcon";
 export type { HeartIconProps } from "./components/Icons/HeartIcon";
@@ -382,6 +388,8 @@ export type { LanguageIconProps } from "./components/Icons/LanguageIcon";
 export { LanguageIcon } from "./components/Icons/LanguageIcon";
 export type { LinkIconProps } from "./components/Icons/LinkIcon";
 export { LinkIcon } from "./components/Icons/LinkIcon";
+export type { ListViewIconProps } from "./components/Icons/ListViewIcon";
+export { ListViewIcon } from "./components/Icons/ListViewIcon";
 export type { LocationIconProps } from "./components/Icons/LocationIcon";
 export { LocationIcon } from "./components/Icons/LocationIcon";
 export type { LockerIconProps } from "./components/Icons/LockerIcon";
@@ -624,6 +632,7 @@ export type {
 } from "./components/SearchField/SearchField";
 export { SearchField } from "./components/SearchField/SearchField";
 export type {
+  SegmentedControlAppearance,
   SegmentedControlOption,
   SegmentedControlProps,
   SegmentedControlSize,

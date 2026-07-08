@@ -291,6 +291,11 @@
       "hasFilled": true
     },
     {
+      "name": "GridViewIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
       "name": "HealthIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -342,6 +347,11 @@
     },
     {
       "name": "LinkIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ListViewIcon",
       "sizes": [16, 24, 32],
       "hasFilled": false
     },
