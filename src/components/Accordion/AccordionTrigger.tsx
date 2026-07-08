@@ -7,15 +7,21 @@ import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 export type AccordionTriggerProps = React.ComponentPropsWithoutRef<
   typeof AccordionPrimitive.Trigger
 > & {
-  /** Custom icon element. Defaults to `ChevronDownIcon`. Pass `null` to suppress the icon entirely. */
+  /** Trailing indicator icon. Defaults to `ChevronDownIcon` (rotates when open). Pass `null` to suppress it. */
   icon?: React.ReactNode | null;
+  /** Secondary line rendered under the title, for extra context. */
+  description?: React.ReactNode;
+  /** Leading icon shown before the title (sized to 16px). */
+  leadingIcon?: React.ReactNode;
+  /** Leading avatar shown before the title, for headers representing a person or account. Pass an `Avatar` sized to `24`. */
+  avatar?: React.ReactNode;
 };
 
 /** An interactive button that toggles the visibility of its associated {@link AccordionContent} panel. */
 export const AccordionTrigger = React.forwardRef<
   React.ComponentRef<typeof AccordionPrimitive.Trigger>,
   AccordionTriggerProps
->(({ className, children, icon, ...props }, ref) => {
+>(({ className, children, icon, description, leadingIcon, avatar, ...props }, ref) => {
   const showIcon = icon !== null;
   const iconElement =
     icon === undefined ? (
@@ -41,7 +47,30 @@ export const AccordionTrigger = React.forwardRef<
         )}
         {...props}
       >
-        <span className="min-w-0 flex-1 truncate text-left">{children}</span>
+        <span className="flex min-w-0 flex-1 items-center gap-3">
+          {avatar && (
+            <span className="flex shrink-0 items-center" aria-hidden="true">
+              {avatar}
+            </span>
+          )}
+          <span className="flex min-w-0 flex-1 items-start gap-2 text-left">
+            {leadingIcon && (
+              <span className="flex shrink-0 items-center pt-px [&>svg]:size-4" aria-hidden="true">
+                {leadingIcon}
+              </span>
+            )}
+            <span className="flex min-w-0 flex-1 flex-col gap-1">
+              <span className="truncate typography-body-small-14px-semibold text-content-primary">
+                {children}
+              </span>
+              {description && (
+                <span className="typography-description-12px-regular text-content-secondary">
+                  {description}
+                </span>
+              )}
+            </span>
+          </span>
+        </span>
         {showIcon && (
           <span className="shrink-0 motion-safe:transition-transform motion-safe:duration-200 [[data-state=open]>&]:rotate-180">
             {iconElement}
