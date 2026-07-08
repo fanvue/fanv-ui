@@ -260,6 +260,32 @@ export const V2Negative: Story = {
   ),
 };
 
+export const FieldsetDisabled: Story = {
+  args: { icon: <HomeIcon />, "aria-label": "Home" },
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          "V2 variants pick up the disabled treatment via a CSS `disabled:` fallback, so buttons inside a `<fieldset disabled>` are dimmed even without the `disabled` prop.",
+      },
+    },
+  },
+  render: () => (
+    <fieldset disabled className="flex items-center gap-4 border-0 p-6">
+      {(["primary", "secondary", "tertiary", "outline", "error"] as const).map((variant) => (
+        <IconButton
+          key={variant}
+          variant={variant}
+          size="40"
+          icon={<HomeIcon />}
+          aria-label={`${variant} in disabled fieldset`}
+        />
+      ))}
+    </fieldset>
+  ),
+};
+
 // Primary variants
 export const Primary24: Story = {
   args: {

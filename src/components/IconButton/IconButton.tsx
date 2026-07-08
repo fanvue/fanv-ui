@@ -5,12 +5,13 @@ import { Count, type CountSize } from "../Count/Count";
 /**
  * Visual style variant of the icon button.
  *
- * V2 types (square): `primary`, `secondary`, `tertiary`, `outline`, `error`,
- * `white`, `black`. `primary`, `secondary`, `tertiary` and `outline` honour the
- * {@link IconButtonProps.negative} prop.
+ * V2 types: `primary`, `secondary`, `tertiary`, `outline`, `error`, `white`,
+ * `black`. `primary`, `secondary`, `tertiary` and `outline` honour the
+ * {@link IconButtonProps.negative} prop. Their shape is size-driven — squared at
+ * the `24` size, circular otherwise.
  *
- * Legacy types (circular, retained for backward compatibility): `brand`,
- * `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
+ * Legacy types (circular at all sizes, retained for backward compatibility):
+ * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
  * `microphone`.
  */
 export type IconButtonVariant =
@@ -35,7 +36,7 @@ export type IconButtonSize = "24" | "32" | "40" | "48" | "52" | "72";
 const iconSizeVariants: Record<IconButtonSize, string> = {
   24: "[&>svg]:size-4",
   32: "[&>svg]:size-4",
-  40: "[&>svg]:size-6",
+  40: "[&>svg]:size-4",
   48: "[&>svg]:size-6",
   52: "[&>svg]:size-7",
   72: "[&>svg]:size-8",
@@ -59,8 +60,12 @@ const countSizeMap: Record<IconButtonSize, CountSize> = {
   72: "32",
 };
 
-/** V2 variants render as a square (rounded-sm); legacy variants stay circular. */
-const SQUARE_VARIANTS = new Set<IconButtonVariant>([
+/**
+ * V2 type-system variants. Their shape is size-driven (see {@link IconButton}):
+ * the `24` size is squared (`rounded-xs`), every larger size stays circular.
+ * Legacy variants remain circular at all sizes.
+ */
+const V2_VARIANTS = new Set<IconButtonVariant>([
   "primary",
   "secondary",
   "tertiary",
@@ -78,9 +83,10 @@ const NEGATIVE_AWARE_VARIANTS = new Set<IconButtonVariant>([
   "outline",
 ]);
 
-const DISABLED_FILL = "bg-buttons-disabled-default text-content-disabled";
-const DISABLED_FILL_NEGATIVE = "bg-buttons-disabled-negative text-content-disabled";
-const DISABLED_TRANSPARENT = "bg-transparent text-content-disabled";
+const DISABLED_FILL = "disabled:bg-buttons-disabled-default disabled:text-content-disabled";
+const DISABLED_FILL_NEGATIVE =
+  "disabled:bg-buttons-disabled-negative disabled:text-content-disabled";
+const DISABLED_TRANSPARENT = "disabled:text-content-disabled";
 
 type VariantClasses = {
   default: string;
@@ -89,54 +95,58 @@ type VariantClasses = {
   negativeDisabled?: string;
 };
 
-/** V2 icon button styling, mirroring the shared button colour tokens. */
+/**
+ * V2 icon button styling, mirroring the shared button colour tokens. The
+ * disabled treatment is expressed with the CSS `disabled:` variant (not the
+ * `disabled` prop) so an ancestor `<fieldset disabled>` is styled too; hover is
+ * guarded with `not-disabled:` so it never fights the disabled state.
+ */
 const V2_VARIANT_CLASSES: Record<string, VariantClasses> = {
   primary: {
     default:
-      "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-primary-hover not-disabled:active:bg-buttons-primary-hover",
+      "bg-buttons-primary-default text-content-primary-inverted not-disabled:hover:bg-buttons-primary-hover not-disabled:active:bg-buttons-primary-hover",
     disabled: DISABLED_FILL,
     negative:
-      "bg-buttons-primary-negative-default text-content-primary hover:bg-buttons-primary-negative-hover not-disabled:active:bg-buttons-primary-negative-hover",
+      "bg-buttons-primary-negative-default text-content-primary not-disabled:hover:bg-buttons-primary-negative-hover not-disabled:active:bg-buttons-primary-negative-hover",
     negativeDisabled: DISABLED_FILL_NEGATIVE,
   },
   secondary: {
     default:
-      "bg-buttons-secondary-default text-content-primary hover:bg-buttons-secondary-hover not-disabled:active:bg-buttons-secondary-hover",
+      "bg-buttons-secondary-default text-content-primary not-disabled:hover:bg-buttons-secondary-hover not-disabled:active:bg-buttons-secondary-hover",
     disabled: DISABLED_FILL,
     negative:
-      "bg-buttons-secondary-negative-default text-content-primary-inverted hover:bg-buttons-secondary-negative-hover not-disabled:active:bg-buttons-secondary-negative-hover",
+      "bg-buttons-secondary-negative-default text-content-primary-inverted not-disabled:hover:bg-buttons-secondary-negative-hover not-disabled:active:bg-buttons-secondary-negative-hover",
     negativeDisabled: DISABLED_FILL_NEGATIVE,
   },
   tertiary: {
     default:
-      "bg-transparent text-content-primary hover:bg-buttons-tertiary-hover not-disabled:active:bg-buttons-tertiary-hover",
+      "bg-transparent text-content-primary not-disabled:hover:bg-buttons-tertiary-hover not-disabled:active:bg-buttons-tertiary-hover",
     disabled: DISABLED_TRANSPARENT,
     negative:
-      "bg-transparent text-content-primary-inverted hover:bg-buttons-tertiary-negative-hover not-disabled:active:bg-buttons-tertiary-negative-hover",
+      "bg-transparent text-content-primary-inverted not-disabled:hover:bg-buttons-tertiary-negative-hover not-disabled:active:bg-buttons-tertiary-negative-hover",
     negativeDisabled: DISABLED_TRANSPARENT,
   },
   outline: {
     default:
-      "border border-buttons-outline-default bg-transparent text-content-primary hover:bg-buttons-outline-hover not-disabled:active:bg-buttons-outline-hover",
-    disabled: "border border-buttons-disabled-default bg-transparent text-content-disabled",
+      "border border-buttons-outline-default bg-transparent text-content-primary not-disabled:hover:bg-buttons-outline-hover not-disabled:active:bg-buttons-outline-hover",
+    disabled: "disabled:border-buttons-disabled-default disabled:text-content-disabled",
     negative:
-      "border border-buttons-outline-negative-default bg-transparent text-content-primary-inverted hover:bg-buttons-outline-negative-hover not-disabled:active:bg-buttons-outline-negative-hover",
-    negativeDisabled:
-      "border border-buttons-disabled-negative bg-transparent text-content-disabled",
+      "border border-buttons-outline-negative-default bg-transparent text-content-primary-inverted not-disabled:hover:bg-buttons-outline-negative-hover not-disabled:active:bg-buttons-outline-negative-hover",
+    negativeDisabled: "disabled:border-buttons-disabled-negative disabled:text-content-disabled",
   },
   error: {
     default:
-      "bg-buttons-error-default text-content-always-white hover:bg-buttons-error-hover not-disabled:active:bg-buttons-error-hover",
+      "bg-buttons-error-default text-content-always-white not-disabled:hover:bg-buttons-error-hover not-disabled:active:bg-buttons-error-hover",
     disabled: DISABLED_FILL,
   },
   white: {
     default:
-      "bg-buttons-always-white-default text-content-always-black hover:bg-buttons-always-white-hover not-disabled:active:bg-buttons-always-white-hover",
+      "bg-buttons-always-white-default text-content-always-black not-disabled:hover:bg-buttons-always-white-hover not-disabled:active:bg-buttons-always-white-hover",
     disabled: DISABLED_FILL,
   },
   black: {
     default:
-      "bg-buttons-always-black-default text-content-always-white hover:bg-buttons-always-black-hover not-disabled:active:bg-buttons-always-black-hover",
+      "bg-buttons-always-black-default text-content-always-white not-disabled:hover:bg-buttons-always-black-hover not-disabled:active:bg-buttons-always-black-hover",
     disabled: DISABLED_FILL,
   },
 };
@@ -158,16 +168,13 @@ const LEGACY_VARIANT_CLASSES: Record<string, string> = {
     "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black disabled:opacity-50",
 };
 
-function getVariantClasses(
-  variant: IconButtonVariant,
-  negative: boolean,
-  disabled: boolean,
-): string {
+function getVariantClasses(variant: IconButtonVariant, negative: boolean): string {
   const v2 = V2_VARIANT_CLASSES[variant];
   if (v2) {
     const isNegative = NEGATIVE_AWARE_VARIANTS.has(variant) && negative;
-    if (disabled) return (isNegative && v2.negativeDisabled) || v2.disabled;
-    return (isNegative && v2.negative) || v2.default;
+    const base = (isNegative && v2.negative) || v2.default;
+    const disabledClasses = (isNegative && v2.negativeDisabled) || v2.disabled;
+    return cn(base, disabledClasses);
   }
   return LEGACY_VARIANT_CLASSES[variant] ?? "";
 }
@@ -189,9 +196,12 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 }
 
 /**
- * A square button containing only an icon (legacy variants remain circular).
- * Use when an action can be represented by an icon alone (e.g. close, send).
- * Always pair with an `aria-label` for accessibility.
+ * A button containing only an icon. Use when an action can be represented by an
+ * icon alone (e.g. close, send). Always pair with an `aria-label` for
+ * accessibility.
+ *
+ * Shape follows the V2 spec: the `24` size is squared (`rounded-xs`), every
+ * larger size is circular. Legacy variants stay circular at all sizes.
  *
  * @example
  * ```tsx
@@ -230,9 +240,9 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           "relative inline-flex shrink-0 items-center justify-center focus-visible:outline-none",
           "cursor-pointer transition-all duration-150 ease-in-out disabled:cursor-default",
           "focus-visible:shadow-focus-ring",
-          SQUARE_VARIANTS.has(variant) ? "rounded-sm" : "rounded-full",
+          V2_VARIANTS.has(variant) && size === "24" ? "rounded-xs" : "rounded-full",
           sizeVariants[size],
-          getVariantClasses(variant, negative, disabled),
+          getVariantClasses(variant, negative),
           className,
         )}
         {...props}
