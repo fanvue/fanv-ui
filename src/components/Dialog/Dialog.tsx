@@ -94,6 +94,8 @@ export interface DialogContentProps
    * @default "sheet"
    */
   mobilePresentation?: "sheet" | "card";
+  /** Props forwarded to the default {@link DialogOverlay} when `overlay` is `true`. */
+  overlayProps?: DialogOverlayProps;
 }
 
 const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
@@ -147,6 +149,7 @@ export const DialogContent = React.forwardRef<
       portal = true,
       showMobileHandle = true,
       mobilePresentation = "sheet",
+      overlayProps,
       style,
       onOpenAutoFocus,
       ...props
@@ -155,7 +158,7 @@ export const DialogContent = React.forwardRef<
   ) => {
     const content = (
       <>
-        {overlay && <DialogOverlay />}
+        {overlay && <DialogOverlay {...overlayProps} />}
         <DialogPrimitive.Content
           ref={ref}
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}

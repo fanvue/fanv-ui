@@ -689,6 +689,29 @@ export const WithoutPortal: Story = {
   },
 };
 
+export const CustomOverlay: Story = {
+  name: "Custom Overlay (backdrop blur)",
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent overlayProps={{ className: "backdrop-blur-xl" }}>
+        <DialogHeader>
+          <DialogTitle>Custom overlay</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <DialogDescription>
+            `overlayProps` forwards to the default overlay, letting consumers apply a custom
+            backdrop treatment (e.g. the v2 Modal backdrop blur) without replacing it.
+          </DialogDescription>
+        </DialogBody>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: openDialog,
+};
+
 export const RemoveMembers: Story = {
   name: "Remove Members",
   render: () => (
