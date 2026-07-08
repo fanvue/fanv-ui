@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { AppsIcon } from "../Icons/AppsIcon";
-import { QueueIcon } from "../Icons/QueueIcon";
+import { GridViewIcon } from "../Icons/GridViewIcon";
+import { ListViewIcon } from "../Icons/ListViewIcon";
 import type { SegmentedControlSize, SegmentedControlVariant } from "./SegmentedControl";
 import { SegmentedControl } from "./SegmentedControl";
 
@@ -131,12 +131,9 @@ export const Sizes: Story = {
   ),
 };
 
-// NOTE: uses AppsIcon/QueueIcon as visual stand-ins for the Figma "iconsax-grids" /
-// "iconsax-row-vertical" glyphs. Swap for the real GridViewIcon/ListViewIcon once
-// added (replace this `iconOnlyOptions` array and its two imports above).
 const iconOnlyOptions = [
-  { label: "List view", value: "list", icon: <QueueIcon size={16} aria-hidden="true" /> },
-  { label: "Grid view", value: "grid", icon: <AppsIcon size={16} aria-hidden="true" /> },
+  { label: "List view", value: "list", icon: <ListViewIcon size={16} aria-hidden="true" /> },
+  { label: "Grid view", value: "grid", icon: <GridViewIcon size={16} aria-hidden="true" /> },
 ];
 
 /** Icon-only toggle (e.g. the Vault list/grid view switch) using `appearance="plain"`. */

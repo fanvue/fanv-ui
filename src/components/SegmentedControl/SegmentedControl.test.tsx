@@ -3,8 +3,8 @@ import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
-import { AppsIcon } from "../Icons/AppsIcon";
-import { QueueIcon } from "../Icons/QueueIcon";
+import { GridViewIcon } from "../Icons/GridViewIcon";
+import { ListViewIcon } from "../Icons/ListViewIcon";
 import { SegmentedControl } from "./SegmentedControl";
 
 const twoOptions = [
@@ -19,8 +19,8 @@ const threeOptions = [
 ];
 
 const iconOptions = [
-  { label: "List view", value: "list", icon: <QueueIcon size={16} aria-hidden="true" /> },
-  { label: "Grid view", value: "grid", icon: <AppsIcon size={16} aria-hidden="true" /> },
+  { label: "List view", value: "list", icon: <ListViewIcon size={16} aria-hidden="true" /> },
+  { label: "Grid view", value: "grid", icon: <GridViewIcon size={16} aria-hidden="true" /> },
 ];
 
 describe("SegmentedControl", () => {
@@ -340,7 +340,9 @@ describe("SegmentedControl", () => {
       render(
         <SegmentedControl
           appearance="plain"
-          options={[{ label: "", value: "list", icon: <QueueIcon size={16} aria-hidden="true" /> }]}
+          options={[
+            { label: "", value: "list", icon: <ListViewIcon size={16} aria-hidden="true" /> },
+          ]}
           aria-label="View"
         />,
       );
