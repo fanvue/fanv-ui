@@ -27,6 +27,12 @@ export interface TextFieldProps
   leftLabel?: React.ReactNode;
   /** Fixed, non-editable label pinned inside the right edge of the field — for a unit or suffix such as a currency code or domain. */
   rightLabel?: React.ReactNode;
+  /**
+   * Trailing interactive element pinned to the right edge — typically a `Chip`
+   * or `Button` (the "with button" field type). Reduces the right padding so the
+   * control sits flush, and clicks on it do not steal focus from the input.
+   */
+  action?: React.ReactNode;
   /** Whether the text field stretches to fill its container width. @default false */
   fullWidth?: boolean;
 }
@@ -41,6 +47,12 @@ const CONTAINER_PADDING_X: Record<TextFieldSize, string> = {
   "48": "px-4",
   "40": "px-4",
   "32": "px-3",
+};
+
+const CONTAINER_PADDING_X_WITH_ACTION: Record<TextFieldSize, string> = {
+  "48": "pl-4 pr-2",
+  "40": "pl-4 pr-2",
+  "32": "pl-3 pr-2",
 };
 
 const CONTAINER_GAP: Record<TextFieldSize, string> = {
@@ -61,10 +73,15 @@ const SIDE_LABEL_TYPOGRAPHY: Record<TextFieldSize, string> = {
   "32": "typography-body-small-14px-regular",
 };
 
-function getContainerClassName(size: TextFieldSize, error: boolean, disabled?: boolean) {
+function getContainerClassName(
+  size: TextFieldSize,
+  error: boolean,
+  disabled?: boolean,
+  hasAction?: boolean,
+) {
   return cn(
     "relative flex items-center overflow-hidden rounded-sm border bg-inputs-inputs-primary has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
-    CONTAINER_PADDING_X[size],
+    hasAction ? CONTAINER_PADDING_X_WITH_ACTION[size] : CONTAINER_PADDING_X[size],
     CONTAINER_GAP[size],
     error ? "border-error-content" : "border-border-primary",
     !disabled && !error && "hover:border-neutral-alphas-400",
@@ -145,8 +162,8 @@ function TextFieldHelperText({
     <p
       id={id}
       className={cn(
-        "typography-description-12px-regular px-2 pt-2 pb-0.5",
-        error ? "text-error-content" : "text-content-secondary",
+        "typography-description-12px-regular pt-2",
+        error ? "text-error-content" : "text-content-tertiary",
       )}
     >
       {children}
@@ -185,6 +202,15 @@ function warnMissingAccessibleName(label?: string, ariaLabel?: string, ariaLabel
  * ```tsx
  * <TextField label="Price" leftLabel="$" rightLabel="USD" placeholder="0.00" />
  * ```
+ *
+ * @example
+ * ```tsx
+ * <TextField
+ *   label="Promo code"
+ *   placeholder="Enter code"
+ *   action={<Chip size="32" onClick={apply}>Apply</Chip>}
+ * />
+ * ```
  */
 export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
   (
@@ -199,6 +225,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       rightIcon,
       leftLabel,
       rightLabel,
+      action,
       className,
       id,
       disabled,
@@ -263,7 +290,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
 
         {/* biome-ignore lint/a11y/noStaticElementInteractions: focus bridge delegates pointer clicks on adornments to the input */}
         <div
-          className={getContainerClassName(size, error, disabled)}
+          className={getContainerClassName(size, error, disabled, action != null)}
           onMouseDown={handleContainerMouseDown}
         >
           <LeadingIcon>{leftIcon}</LeadingIcon>
@@ -289,6 +316,11 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             {rightLabel}
           </SideLabel>
           <TrailingAdornment rightIcon={rightIcon} validated={validated} />
+          {action != null && (
+            <span data-tf-interactive="" className="flex shrink-0 items-center">
+              {action}
+            </span>
+          )}
         </div>
 
         {bottomText && (

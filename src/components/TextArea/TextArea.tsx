@@ -104,8 +104,8 @@ function TextAreaHelperText({
     <p
       id={id}
       className={cn(
-        "typography-description-12px-regular px-2 pt-1 pb-0.5",
-        error ? "text-error-content" : "text-content-secondary",
+        "typography-description-12px-regular pt-2",
+        error ? "text-error-content" : "text-content-tertiary",
       )}
     >
       {children}

@@ -592,6 +592,8 @@ export type {
   PasswordFieldSize,
 } from "./components/PasswordField/PasswordField";
 export { PasswordField } from "./components/PasswordField/PasswordField";
+export type { PhoneFieldProps, PhoneFieldSize } from "./components/PhoneField/PhoneField";
+export { PhoneField } from "./components/PhoneField/PhoneField";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
 export type { ProfileOnlineStatusProps } from "./components/ProfileOnlineStatus/ProfileOnlineStatus";
