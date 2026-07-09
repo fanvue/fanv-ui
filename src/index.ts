@@ -541,7 +541,6 @@ export type { WifiOffIconProps } from "./components/Icons/WifiOffIcon";
 export { WifiOffIcon } from "./components/Icons/WifiOffIcon";
 export { WifiOnIcon } from "./components/Icons/WifiOnIcon";
 export { WrenchIcon } from "./components/Icons/WrenchIcon";
-
 export type {
   InfoBoxAction,
   InfoBoxContentProps,
@@ -786,6 +785,11 @@ export {
   TooltipProvider,
   TooltipTrigger,
 } from "./components/Tooltip/Tooltip";
+export type {
+  UploadButtonProps,
+  UploadButtonStatus,
+} from "./components/UploadButton/UploadButton";
+export { UploadButton } from "./components/UploadButton/UploadButton";
 export type { UserDisplayNameProps } from "./components/UserDisplayName/UserDisplayName";
 export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
 export type { UserHandleProps } from "./components/UserHandle/UserHandle";
