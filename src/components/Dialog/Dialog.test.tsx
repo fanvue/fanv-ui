@@ -104,6 +104,13 @@ describe("Dialog", () => {
       expect(screen.queryByRole("button", { name: "Close" })).not.toBeInTheDocument();
     });
 
+    it("top-aligns header buttons so the close button tracks the title's first line", () => {
+      renderDialog();
+      const header = screen.getByRole("button", { name: "Close" }).parentElement;
+      expect(header).toHaveClass("items-start");
+      expect(header).not.toHaveClass("items-center");
+    });
+
     it("applies custom className to content", () => {
       renderDialog({ className: "custom-dialog" });
       expect(document.querySelector(".custom-dialog")).toBeInTheDocument();
