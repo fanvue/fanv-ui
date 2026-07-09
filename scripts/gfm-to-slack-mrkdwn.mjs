@@ -19,10 +19,7 @@ export function gfmToSlackMrkdwn(markdown) {
 
   const converted = lines.map((rawLine) => {
     // [text](url) -> <url|text>
-    let line = rawLine.replace(
-      /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
-      "<$2|$1>",
-    );
+    let line = rawLine.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, "<$2|$1>");
     // **bold** -> *bold*
     line = line.replace(/\*\*([^*]+)\*\*/g, "*$1*");
 
@@ -60,8 +57,7 @@ export function truncate(text, limit = SLACK_TEXT_LIMIT) {
 }
 
 // Run as a CLI only when invoked directly, so tests can import the functions.
-const invokedDirectly =
-  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+const invokedDirectly = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 
 if (invokedDirectly) {
   const mrkdwn = truncate(gfmToSlackMrkdwn(process.env.RELEASE_BODY ?? ""));
