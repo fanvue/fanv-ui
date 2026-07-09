@@ -147,6 +147,7 @@ import {
   Logo,
   LogoutIcon,
   LoveIcon,
+  MediaStatusIndicator,
   MegaphoneIcon,
   MenuCloseIcon,
   MenuIcon,
@@ -925,6 +926,24 @@ function ToastDemo() {
         onOpenChange={(open: boolean) => !open && hideToast("messageToast")}
       />
       <ToastViewport />
+    </div>
+  );
+}
+
+function MediaStatusIndicatorDemo() {
+  return (
+    <div id="mediastatusindicator" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Media Status Indicator</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <MediaStatusIndicator status="default" />
+        <MediaStatusIndicator status="removed" />
+        <MediaStatusIndicator status="sensitive" />
+      </div>
+      <div className="relative size-40 overflow-hidden rounded-lg bg-neutral-800">
+        <div className="absolute top-2 right-2">
+          <MediaStatusIndicator status="sensitive" />
+        </div>
+      </div>
     </div>
   );
 }
@@ -5290,6 +5309,7 @@ function App() {
     { id: "link", label: "Link" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
+    { id: "mediastatusindicator", label: "Media Status Indicator" },
     { id: "stepper", label: "Stepper" },
     { id: "mobilestepper", label: "Mobile Stepper" },
     { id: "pagination", label: "Pagination" },
@@ -5413,6 +5433,9 @@ function App() {
           <section className="space-y-8">
             {/* Logo */}
             <LogoDemo />
+
+            {/* Media Status Indicator */}
+            <MediaStatusIndicatorDemo />
 
             {/* Icons */}
             <IconsDemo />
