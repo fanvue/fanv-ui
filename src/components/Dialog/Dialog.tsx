@@ -260,7 +260,10 @@ export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn("flex shrink-0 items-center justify-end gap-4", className)}
+        // items-start (not items-center) so the back/close buttons align to the
+        // title's first line; otherwise they float to the vertical center of a
+        // multi-line title + description column.
+        className={cn("flex shrink-0 items-start justify-end gap-4", className)}
         {...props}
       >
         {shouldShowBack && (
