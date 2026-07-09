@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.15.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.14.1...ui-v3.15.0) (2026-07-09)
+
+
+### Features
+
+* **IconButton:** migrate to V2 type system (ENG-11780) ([#555](https://github.com/fanvue/fanv-ui/issues/555)) ([d41d247](https://github.com/fanvue/fanv-ui/commit/d41d247c26790185aa3d1ae78ba7a5b410d37d11))
+
+
+### Bug Fixes
+
+* **Dialog:** top-align header buttons so close button tracks the title ([#583](https://github.com/fanvue/fanv-ui/issues/583)) ([b8837ca](https://github.com/fanvue/fanv-ui/commit/b8837cab45e6ef685ab1fadeeb843a57c2840e6a))
+
 ## [3.14.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.14.0...ui-v3.14.1) (2026-07-08)
 
 
