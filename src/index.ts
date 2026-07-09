@@ -107,6 +107,13 @@ export type {
 } from "./components/ChatInput/ChatInput";
 export { ChatInput } from "./components/ChatInput/ChatInput";
 export type {
+  ChatMessageProps,
+  ChatMessageStatus,
+  ChatMessageUser,
+  ChatMessageVariant,
+} from "./components/ChatMessage/ChatMessage";
+export { ChatMessage } from "./components/ChatMessage/ChatMessage";
+export type {
   CheckboxProps,
   CheckboxSize,
 } from "./components/Checkbox/Checkbox";
