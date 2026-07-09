@@ -12,7 +12,7 @@ import {
 } from "./charts";
 import { simpleLineConfig, simpleLineData } from "./components/Chart/chartStoryFixtures";
 import { DatePicker } from "./date-picker";
-import type { UploadButtonStatus } from "./index";
+import type { AudioRecordButtonStatus } from "./index";
 import {
   Accordion,
   AccordionContent,
@@ -27,6 +27,7 @@ import {
   ArrowRightIcon,
   ArrowUpIcon,
   ArrowUpRightIcon,
+  AudioRecordButton,
   AudioUpload,
   Autocomplete,
   Avatar,
@@ -255,7 +256,6 @@ import {
   TrashBinIcon,
   TrophyIcon,
   TwitterIcon,
-  UploadButton,
   UploadIcon,
   UserCircleIcon,
   UserIcon,
@@ -2285,37 +2285,33 @@ function IconButtonDemo() {
   );
 }
 
-function UploadButtonDemo() {
-  const [status, setStatus] = useState<UploadButtonStatus>("idle");
-
-  const simulateUpload = () => {
-    setStatus("uploading");
-    setTimeout(() => setStatus("idle"), 1500);
-  };
+function AudioRecordButtonDemo() {
+  const [status, setStatus] = useState<AudioRecordButtonStatus>("idle");
 
   return (
-    <div id="uploadbutton" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-header-heading-sm mb-4">Upload Button</h2>
+    <div id="audiorecordbutton" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Audio Record Button</h2>
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-4">
-          <UploadButton status="idle" aria-label="Upload file" />
-          <UploadButton status="uploading" aria-label="Uploading file" />
-          <UploadButton status="error" aria-label="Upload failed, try again" />
+          <AudioRecordButton status="idle" />
+          <AudioRecordButton status="recording" />
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <UploadButton size="24" aria-label="Upload file" />
-          <UploadButton size="32" aria-label="Upload file" />
-          <UploadButton size="40" aria-label="Upload file" />
-          <UploadButton size="48" aria-label="Upload file" />
-          <UploadButton size="52" aria-label="Upload file" />
-          <UploadButton size="72" aria-label="Upload file" />
+          <AudioRecordButton size="32" />
+          <AudioRecordButton size="40" />
+          <AudioRecordButton size="48" />
+          <AudioRecordButton size="52" />
+          <AudioRecordButton size="72" />
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <UploadButton status={status} onClick={simulateUpload} aria-label="Upload file" />
+          <AudioRecordButton
+            status={status}
+            onClick={() => setStatus((s) => (s === "idle" ? "recording" : "idle"))}
+          />
           <span className="typography-body-2-regular text-content-secondary">
-            Click to simulate an upload
+            Click to toggle recording
           </span>
         </div>
       </div>
@@ -5324,7 +5320,7 @@ function App() {
     { id: "dropdownmenu", label: "Dropdown menu" },
     { id: "drawer", label: "Drawer" },
     { id: "iconbutton", label: "Icon Button" },
-    { id: "uploadbutton", label: "Upload Button" },
+    { id: "audiorecordbutton", label: "Audio Record Button" },
     { id: "icons", label: "Icons" },
     { id: "infobox", label: "InfoBox" },
     { id: "inlineedit", label: "Inline Edit" },
@@ -5497,8 +5493,8 @@ function App() {
             {/* Icon Button */}
             <IconButtonDemo />
 
-            {/* Upload Button */}
-            <UploadButtonDemo />
+            {/* Audio Record Button */}
+            <AudioRecordButtonDemo />
 
             {/* Pill */}
             <PillDemo />

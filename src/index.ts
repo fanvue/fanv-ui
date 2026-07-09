@@ -18,6 +18,11 @@ export { Alert } from "./components/Alert/Alert";
 export type { AudioPlayerProps, AudioPlayerSize } from "./components/AudioPlayer/AudioPlayer";
 export { AudioPlayer } from "./components/AudioPlayer/AudioPlayer";
 export type {
+  AudioRecordButtonProps,
+  AudioRecordButtonStatus,
+} from "./components/AudioRecordButton/AudioRecordButton";
+export { AudioRecordButton } from "./components/AudioRecordButton/AudioRecordButton";
+export type {
   AudioFileRejection,
   AudioUploadProps,
 } from "./components/AudioUpload/AudioUpload";
@@ -785,11 +790,6 @@ export {
   TooltipProvider,
   TooltipTrigger,
 } from "./components/Tooltip/Tooltip";
-export type {
-  UploadButtonProps,
-  UploadButtonStatus,
-} from "./components/UploadButton/UploadButton";
-export { UploadButton } from "./components/UploadButton/UploadButton";
 export type { UserDisplayNameProps } from "./components/UserDisplayName/UserDisplayName";
 export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
 export type { UserHandleProps } from "./components/UserHandle/UserHandle";

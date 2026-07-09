@@ -1,8 +1,8 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { AudioRecordButton } from "../AudioRecordButton/AudioRecordButton";
 import { Button } from "../Button/Button";
 import { MicrophoneIcon } from "../Icons/MicrophoneIcon";
-import { StopIcon } from "../Icons/StopIcon";
 import { UploadCloudIcon } from "../Icons/UploadCloudIcon";
 import { AudioWaveform } from "./AudioWaveform";
 import { type AudioValidationError, formatAudioTime, validateAudioFile } from "./audioUtils";
@@ -264,15 +264,14 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
             />
           </div>
 
-          <button
+          <AudioRecordButton
             ref={stopButtonRef}
-            type="button"
+            status="recording"
+            size="40"
             onClick={handleStopClick}
-            className="mt-1 flex size-11 items-center justify-center rounded-full bg-error-content text-content-always-white transition-colors hover:bg-error-content/80 focus:shadow-focus-ring focus-visible:outline-none"
             aria-label={stopButtonAriaLabel}
-          >
-            <StopIcon className="size-5" />
-          </button>
+            className="mt-1"
+          />
         </div>
       );
     }
