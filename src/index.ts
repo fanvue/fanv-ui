@@ -541,7 +541,6 @@ export type { WifiOffIconProps } from "./components/Icons/WifiOffIcon";
 export { WifiOffIcon } from "./components/Icons/WifiOffIcon";
 export { WifiOnIcon } from "./components/Icons/WifiOnIcon";
 export { WrenchIcon } from "./components/Icons/WrenchIcon";
-
 export type {
   InfoBoxAction,
   InfoBoxContentProps,
@@ -680,6 +679,12 @@ export type {
   StepperStepState,
 } from "./components/Stepper/StepperStep";
 export { StepperStep } from "./components/Stepper/StepperStep";
+export type {
+  SubscribeButtonProps,
+  SubscribeButtonSize,
+  SubscribeButtonVariant,
+} from "./components/SubscribeButton/SubscribeButton";
+export { SubscribeButton } from "./components/SubscribeButton/SubscribeButton";
 export type { SwitchProps, SwitchSize } from "./components/Switch/Switch";
 export { Switch } from "./components/Switch/Switch";
 export type {
