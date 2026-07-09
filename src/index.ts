@@ -541,7 +541,6 @@ export type { WifiOffIconProps } from "./components/Icons/WifiOffIcon";
 export { WifiOffIcon } from "./components/Icons/WifiOffIcon";
 export { WifiOnIcon } from "./components/Icons/WifiOnIcon";
 export { WrenchIcon } from "./components/Icons/WrenchIcon";
-
 export type {
   InfoBoxAction,
   InfoBoxContentProps,
@@ -795,6 +794,12 @@ export type {
   UserItemUser,
 } from "./components/UserItem/UserItem";
 export { UserItem } from "./components/UserItem/UserItem";
+export type {
+  VoiceNoteProps,
+  VoiceNoteSize,
+  VoiceNoteVariant,
+} from "./components/VoiceNote/VoiceNote";
+export { VoiceNote } from "./components/VoiceNote/VoiceNote";
 export { cn } from "./utils/cn";
 export { getInitials } from "./utils/getInitials";
 export type { OmitDistributed } from "./utils/types";
