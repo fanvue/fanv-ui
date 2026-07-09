@@ -149,25 +149,6 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
         .filter(Boolean)
         .join(" ") || undefined;
 
-    const innerRef = React.useRef<HTMLInputElement>(null);
-    const setRefs = React.useCallback(
-      (node: HTMLInputElement | null) => {
-        innerRef.current = node;
-        if (typeof ref === "function") ref(node);
-        else if (ref) (ref as React.RefObject<HTMLInputElement | null>).current = node;
-      },
-      [ref],
-    );
-
-    const handleContainerMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-      if (disabled) return;
-      const target = event.target as HTMLElement;
-      if (target === innerRef.current) return;
-      if (target.closest("[data-pf-interactive]")) return;
-      event.preventDefault();
-      innerRef.current?.focus();
-    };
-
     warnMissingAccessibleName(label, props["aria-label"], props["aria-labelledby"]);
 
     return (
@@ -185,14 +166,9 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
           </label>
         )}
 
-        {/* biome-ignore lint/a11y/noStaticElementInteractions: focus bridge delegates pointer clicks on the padding to the input */}
-        <div
-          className={getContainerClassName(size, error, disabled)}
-          onMouseDown={handleContainerMouseDown}
-        >
+        <div className={getContainerClassName(size, error, disabled)}>
           <button
             type="button"
-            data-pf-interactive=""
             onClick={onCountrySelect}
             disabled={disabled}
             aria-label={countryButtonLabel}
@@ -219,7 +195,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
           )}
 
           <input
-            ref={setRefs}
+            ref={ref}
             id={inputId}
             type={type}
             inputMode="tel"
