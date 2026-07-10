@@ -140,7 +140,7 @@ export const Select = React.forwardRef<
               aria-describedby={bottomText ? helperTextId : undefined}
               aria-invalid={error || undefined}
               className={cn(
-                "flex w-full cursor-pointer items-center justify-between rounded-sm border bg-inputs-inputs-primary outline-none motion-safe:transition-colors focus-visible:shadow-focus-ring",
+                "flex w-full cursor-pointer items-center justify-between rounded-sm border bg-inputs-inputs-primary outline-none focus-visible:shadow-focus-ring motion-safe:transition-colors",
                 TRIGGER_HEIGHT[size],
                 TRIGGER_PADDING_X[size],
                 TRIGGER_GAP[size],
@@ -272,6 +272,15 @@ export interface SelectItemProps
 }
 
 /**
+ * Whether a `ReactNode` will actually render. Excludes `null`/`undefined` and
+ * booleans so short-circuit props (e.g. `description={cond && "…"}`) don't flip
+ * the item into a two-line/avatar layout when they resolve to `false`.
+ */
+function isRenderableNode(node: React.ReactNode): boolean {
+  return node !== null && node !== undefined && typeof node !== "boolean";
+}
+
+/**
  * An individual option inside {@link SelectContent}, following the V2 Menu Item spec.
  *
  * Supports a leading icon or avatar, an optional two-line layout via `description`,
@@ -291,8 +300,9 @@ export const SelectItem = React.forwardRef<
 >(({ className, children, size, leadingIcon, avatar, description, ...props }, ref) => {
   const { size: triggerSize } = React.useContext(SelectContext);
   const itemSize: SelectItemSize = size ?? (triggerSize === "32" ? "32" : "40");
-  const hasDescription = description != null;
-  const hasAvatar = avatar != null;
+  const hasDescription = isRenderableNode(description);
+  const hasAvatar = isRenderableNode(avatar);
+  const hasLeadingIcon = isRenderableNode(leadingIcon);
 
   return (
     <SelectPrimitive.Item
@@ -302,7 +312,7 @@ export const SelectItem = React.forwardRef<
         hasDescription ? "items-start" : "items-center",
         ITEM_SIZE_CLASSES[itemSize],
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",
-        "data-highlighted:bg-neutral-alphas-50 focus:bg-neutral-alphas-50",
+        "focus:bg-neutral-alphas-50 data-highlighted:bg-neutral-alphas-50",
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}
@@ -311,7 +321,7 @@ export const SelectItem = React.forwardRef<
       {hasAvatar ? (
         <span className="shrink-0">{avatar}</span>
       ) : (
-        leadingIcon != null &&
+        hasLeadingIcon &&
         (hasDescription ? (
           <span className="flex shrink-0 items-center pt-0.5 [&>svg]:size-4">{leadingIcon}</span>
         ) : (
@@ -325,7 +335,10 @@ export const SelectItem = React.forwardRef<
             <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
           </span>
           <span
-            className={cn("truncate text-content-secondary", ITEM_DESCRIPTION_TYPOGRAPHY[itemSize])}
+            className={cn(
+              "truncate text-content-secondary group-data-[disabled]:text-content-disabled",
+              ITEM_DESCRIPTION_TYPOGRAPHY[itemSize],
+            )}
           >
             {description}
           </span>
@@ -342,7 +355,7 @@ export const SelectItem = React.forwardRef<
           hasDescription && "self-start",
         )}
       >
-        <CheckIcon className="size-4 text-content-primary" />
+        <CheckIcon className="size-4 text-content-primary group-data-[disabled]:text-content-disabled" />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   );

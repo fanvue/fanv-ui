@@ -223,6 +223,39 @@ describe("Select", () => {
       expect(screen.getByText("Secondary line")).toBeInTheDocument();
     });
 
+    it("treats a false avatar as absent and keeps the leading icon", () => {
+      renderOpen(
+        <SelectItem value="a" avatar={false} leadingIcon={<HomeIcon data-testid="lead" />}>
+          Option A
+        </SelectItem>,
+      );
+      expect(screen.getByTestId("lead")).toBeInTheDocument();
+    });
+
+    it("treats a false description as absent (stays single-line)", () => {
+      renderOpen(
+        <SelectItem value="a" description={false}>
+          Option A
+        </SelectItem>,
+      );
+      expect(screen.getByRole("option", { name: "Option A" })).toHaveClass("items-center");
+    });
+
+    it("propagates the disabled state to the description and check indicator", () => {
+      render(
+        <Select aria-label="Test" defaultOpen defaultValue="a">
+          <SelectContent>
+            <SelectItem value="a" disabled description="Secondary line">
+              Option A
+            </SelectItem>
+          </SelectContent>
+        </Select>,
+      );
+      expect(screen.getByText("Secondary line")).toHaveClass(
+        "group-data-[disabled]:text-content-disabled",
+      );
+    });
+
     it("derives a 32px row from the size-32 trigger", () => {
       renderOpen(<SelectItem value="a">Option A</SelectItem>, "32");
       expect(screen.getByRole("option", { name: "Option A" })).toHaveClass("min-h-8");
