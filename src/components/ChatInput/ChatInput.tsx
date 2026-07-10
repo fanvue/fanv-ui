@@ -538,7 +538,10 @@ function InlineSelect({
                     "flex w-full items-start gap-2 rounded-sm px-3 py-2 text-left outline-none",
                     "focus-visible:shadow-focus-ring",
                     "typography-body-default-16px-regular text-content-primary hover:bg-neutral-alphas-50",
-                    isSelected && ["bg-interaction-hover", "hover:bg-interaction-hover"],
+                    // bg-interaction-hover aliases to the same token as the
+                    // plain hover background above, so it can't distinguish
+                    // the selected option from a hovered-but-unselected one.
+                    isSelected && ["bg-neutral-alphas-100", "hover:bg-neutral-alphas-200"],
                   )}
                 >
                   {option.icon && (

@@ -357,7 +357,11 @@ export const DropdownMenuItem = React.forwardRef<
       "data-[highlighted]:bg-neutral-alphas-50",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
       destructive && "text-error-content",
-      selected && ["bg-interaction-hover", "data-[highlighted]:bg-interaction-hover"],
+      // bg-interaction-hover aliases to the same token as the plain hover
+      // background above, so a selected row would be indistinguishable from a
+      // hovered-but-unselected one. Use the next step up the neutral-alphas
+      // ramp instead (still a subtle overlay, not the heavy filled style).
+      selected && ["bg-neutral-alphas-100", "data-[highlighted]:bg-neutral-alphas-200"],
       className,
     );
 
@@ -650,8 +654,11 @@ export const DropdownMenuRadioItem = React.forwardRef<
         "group flex w-full cursor-pointer items-start gap-3 rounded-xs px-4 py-2 outline-none",
         "data-[highlighted]:bg-neutral-alphas-50",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
-        "data-[state=checked]:bg-interaction-hover",
-        "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
+        // See DropdownMenuItem above: bg-interaction-hover aliases to the same
+        // token as the plain hover background, so it can't distinguish the
+        // checked state from an unchecked-but-hovered row.
+        "data-[state=checked]:bg-neutral-alphas-100",
+        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-200",
         className,
       )}
       {...props}

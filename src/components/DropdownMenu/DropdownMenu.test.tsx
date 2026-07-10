@@ -516,21 +516,22 @@ describe("DropdownMenuItem", () => {
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass("bg-interaction-hover");
+      expect(item).toHaveClass("bg-neutral-alphas-100");
       expect(item).not.toHaveClass("text-content-primary-inverted");
     });
 
-    it("keeps the selected highlight when the item is also keyboard/mouse-highlighted", () => {
-      // Regression guard: data-[highlighted]:bg-neutral-alphas-50 and the selected
-      // background must not both end up in the class list, or the higher-specificity
-      // highlighted rule silently wins the cascade and selected becomes invisible on hover.
+    it("keeps a distinct selected highlight when the item is also keyboard/mouse-highlighted", () => {
+      // Regression guard: bg-interaction-hover aliases to the same token as the
+      // plain hover background (data-[highlighted]:bg-neutral-alphas-50), so a
+      // selected+highlighted row must use a darker step of the neutral-alphas
+      // ramp or it becomes visually indistinguishable from an unselected hover.
       renderMenu(
         <DropdownMenuItem selected data-testid="item">
           Item
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item.className).toContain("data-[highlighted]:bg-interaction-hover");
+      expect(item.className).toContain("data-[highlighted]:bg-neutral-alphas-200");
       expect(item.className).not.toContain("data-[highlighted]:bg-neutral-alphas-50");
     });
 
@@ -818,10 +819,11 @@ describe("DropdownMenuRadioItem", () => {
       expect(items[1]).toHaveAttribute("data-state", "checked");
     });
 
-    it("keeps the checked highlight when the item is also keyboard/mouse-highlighted", () => {
-      // Regression guard: the checked background must win over the plain
-      // data-[highlighted] hover rule via a higher-specificity compound selector,
-      // or checked becomes visually indistinguishable from unchecked on hover.
+    it("keeps a distinct checked highlight when the item is also keyboard/mouse-highlighted", () => {
+      // Regression guard: bg-interaction-hover aliases to the same token as the
+      // plain hover background, so checked must use a darker neutral-alphas step
+      // (via a higher-specificity compound selector) or it becomes visually
+      // indistinguishable from unchecked on hover.
       renderMenu(
         <DropdownMenuRadioGroup value="two">
           <DropdownMenuRadioItem value="one">One</DropdownMenuRadioItem>
@@ -830,7 +832,7 @@ describe("DropdownMenuRadioItem", () => {
       );
       const checkedItem = screen.getByRole("menuitemradio", { name: /Two/ });
       expect(checkedItem.className).toContain(
-        "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
+        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-200",
       );
     });
 
