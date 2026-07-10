@@ -303,7 +303,7 @@ export interface DropdownMenuItemProps
    * Takes precedence over `leadingIcon`.
    */
   avatar?: React.ReactNode;
-  /** Icon (or other node) rendered after the label. */
+  /** Icon (or other node) rendered after the label. Suppressed when {@link DropdownMenuItemProps.selected} is true, since the selected check indicator renders in the same slot. */
   trailingIcon?: React.ReactNode;
   /** Trailing count or number (e.g. an unread total) rendered before {@link DropdownMenuItemProps.trailingIcon}. */
   count?: React.ReactNode;
@@ -404,6 +404,15 @@ export const DropdownMenuItem = React.forwardRef<
       </span>
     );
 
+    // The check indicator takes the trailing slot when selected — rendering it
+    // alongside a caller-supplied trailingIcon would show two icons at once.
+    const trailingNode = selected ? (
+      <SelectedCheckIndicator hasDescription={hasDescription} />
+    ) : (
+      trailingIcon != null &&
+      (hasDescription ? <span className={iconAlignClassName!}>{trailingIcon}</span> : trailingIcon)
+    );
+
     return (
       <DropdownMenuPrimitive.Item ref={ref} className={itemClassName} {...props}>
         {avatar != null ? (
@@ -427,13 +436,7 @@ export const DropdownMenuItem = React.forwardRef<
           <span className="min-w-0 flex-1 truncate">{children}</span>
         )}
         {countNode}
-        {trailingIcon != null &&
-          (hasDescription ? (
-            <span className={iconAlignClassName!}>{trailingIcon}</span>
-          ) : (
-            trailingIcon
-          ))}
-        {selected && <SelectedCheckIndicator hasDescription={hasDescription} />}
+        {trailingNode}
       </DropdownMenuPrimitive.Item>
     );
   },

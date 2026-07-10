@@ -552,6 +552,25 @@ describe("DropdownMenuItem", () => {
       expect(screen.getByTestId("unselected-item").querySelector("svg")).not.toBeInTheDocument();
     });
 
+    it("suppresses a caller-supplied trailingIcon in favour of the check indicator when selected", () => {
+      // Regression guard: a caller may already pass its own trailing icon
+      // (e.g. a checkmark) to signal selection. Rendering both that icon and
+      // the built-in SelectedCheckIndicator would show two icons in the same
+      // slot, so the check indicator takes precedence.
+      renderMenu(
+        <DropdownMenuItem
+          selected
+          trailingIcon={<span data-testid="caller-trailing-icon">T</span>}
+          data-testid="item"
+        >
+          Item
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByTestId("item");
+      expect(screen.queryByTestId("caller-trailing-icon")).not.toBeInTheDocument();
+      expect(item.querySelectorAll("svg")).toHaveLength(1);
+    });
+
     it("renders leading and trailing icons", () => {
       renderMenu(
         <DropdownMenuItem

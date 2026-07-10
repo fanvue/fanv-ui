@@ -4586,7 +4586,7 @@
           "100": {
             "description": "",
             "type": "color",
-            "value": "{primitives.dark.color.whitealpha.100}",
+            "value": "#ffffff26",
             "extensions": {
               "org.lukasoppermann.figmaDesignTokens": {
                 "mode": "Dark",
