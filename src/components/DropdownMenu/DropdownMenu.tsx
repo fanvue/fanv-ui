@@ -227,9 +227,12 @@ export const DropdownMenuContent = React.forwardRef<
     if (variant === "sheet") {
       return (
         <DrawerContent
+          ref={ref}
           position="bottom"
           variant="sheet"
           className={cn("flex flex-col gap-1 p-1", className)}
+          style={style}
+          {...props}
         >
           {children}
         </DrawerContent>
@@ -451,6 +454,10 @@ export const DropdownMenuItem = React.forwardRef<
       "data-[highlighted]:bg-neutral-alphas-50",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
       "disabled:cursor-not-allowed disabled:text-content-disabled",
+      // Sheet-variant asChild items are marked disabled via aria-disabled
+      // (see below), not the native disabled attribute or Radix's
+      // data-disabled — neither selector above matches them.
+      "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
       destructive && "text-error-content",
       // bg-interaction-hover aliases to the same token as the plain hover
       // background above, so a selected row would be indistinguishable from a
@@ -535,6 +542,7 @@ export const DropdownMenuItem = React.forwardRef<
       return (
         <Comp
           ref={ref as React.Ref<HTMLButtonElement>}
+          {...(props as React.ComponentPropsWithoutRef<"button">)}
           {...sheetSpecificProps}
           role="option"
           aria-selected={selected}

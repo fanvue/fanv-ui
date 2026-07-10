@@ -1094,4 +1094,80 @@ describe("DropdownMenu sheet variant", () => {
     expect(onSelect).not.toHaveBeenCalled();
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
+
+  it("forwards passthrough HTML props (id, data-*, aria-*, style, onKeyDown) on a sheet item", async () => {
+    // Regression guard: the sheet-variant branch only wired up a handful of
+    // explicit props, silently dropping everything else a consumer passes.
+    const user = userEvent.setup();
+    const onKeyDown = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem
+            id="item-1"
+            data-testid="item"
+            aria-keyshortcuts="Ctrl+1"
+            style={{ color: "red" }}
+            onKeyDown={onKeyDown}
+          >
+            Item 1
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const item = screen.getByTestId("item");
+    expect(item).toHaveAttribute("id", "item-1");
+    expect(item).toHaveAttribute("aria-keyshortcuts", "Ctrl+1");
+    expect(item).toHaveStyle({ color: "rgb(255, 0, 0)" });
+    item.focus();
+    await user.keyboard("{Enter}");
+    expect(onKeyDown).toHaveBeenCalled();
+  });
+
+  it("forwards ref, style, and passthrough HTML props on a sheet content panel", async () => {
+    // Regression guard: the sheet-variant DropdownMenuContent branch dropped
+    // ref, style, and {...props} entirely, only passing className through.
+    const user = userEvent.setup();
+    const ref = React.createRef<HTMLDivElement>();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent
+          ref={ref}
+          data-testid="content"
+          style={{ color: "red" }}
+          id="content-1"
+        >
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const content = screen.getByTestId("content");
+    expect(content).toHaveAttribute("id", "content-1");
+    expect(content).toHaveStyle({ color: "rgb(255, 0, 0)" });
+    expect(ref.current).toBe(content);
+  });
+
+  it("visually marks a disabled asChild item via aria-disabled styling", async () => {
+    // Regression guard: disabled asChild items in the sheet variant have no
+    // data-disabled or native disabled attribute for the CSS to key off, so
+    // they rendered with no visual disabled treatment at all.
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild disabled>
+            <a href="/settings">Settings</a>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const link = screen.getByRole("option", { name: "Settings" });
+    expect(link).toHaveClass("aria-disabled:text-content-disabled");
+  });
 });
