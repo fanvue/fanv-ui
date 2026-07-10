@@ -520,6 +520,20 @@ describe("DropdownMenuItem", () => {
       expect(item).not.toHaveClass("text-content-primary-inverted");
     });
 
+    it("keeps the selected highlight when the item is also keyboard/mouse-highlighted", () => {
+      // Regression guard: data-[highlighted]:bg-neutral-alphas-50 and the selected
+      // background must not both end up in the class list, or the higher-specificity
+      // highlighted rule silently wins the cascade and selected becomes invisible on hover.
+      renderMenu(
+        <DropdownMenuItem selected data-testid="item">
+          Item
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByTestId("item");
+      expect(item.className).toContain("data-[highlighted]:bg-interaction-hover");
+      expect(item.className).not.toContain("data-[highlighted]:bg-neutral-alphas-50");
+    });
+
     it("renders leading and trailing icons", () => {
       renderMenu(
         <DropdownMenuItem
@@ -802,6 +816,22 @@ describe("DropdownMenuRadioItem", () => {
       const items = screen.getAllByRole("menuitemradio");
       expect(items[0]).toHaveAttribute("data-state", "unchecked");
       expect(items[1]).toHaveAttribute("data-state", "checked");
+    });
+
+    it("keeps the checked highlight when the item is also keyboard/mouse-highlighted", () => {
+      // Regression guard: the checked background must win over the plain
+      // data-[highlighted] hover rule via a higher-specificity compound selector,
+      // or checked becomes visually indistinguishable from unchecked on hover.
+      renderMenu(
+        <DropdownMenuRadioGroup value="two">
+          <DropdownMenuRadioItem value="one">One</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="two">Two</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      const checkedItem = screen.getByRole("menuitemradio", { name: /Two/ });
+      expect(checkedItem.className).toContain(
+        "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
+      );
     });
 
     it("calls onValueChange when an item is selected", async () => {

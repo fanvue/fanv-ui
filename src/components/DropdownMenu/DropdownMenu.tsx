@@ -357,7 +357,7 @@ export const DropdownMenuItem = React.forwardRef<
       "data-[highlighted]:bg-neutral-alphas-50",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
       destructive && "text-error-content",
-      selected && "bg-interaction-hover",
+      selected && ["bg-interaction-hover", "data-[highlighted]:bg-interaction-hover"],
       className,
     );
 
@@ -651,6 +651,7 @@ export const DropdownMenuRadioItem = React.forwardRef<
         "data-[highlighted]:bg-neutral-alphas-50",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
         "data-[state=checked]:bg-interaction-hover",
+        "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
         className,
       )}
       {...props}
