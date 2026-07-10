@@ -24,9 +24,21 @@ describe("VoiceNote", () => {
       expect(ref.current).toBeInstanceOf(HTMLDivElement);
     });
 
-    it("renders one bar per waveform value", () => {
+    it("fits the bar count to the measured track width", () => {
+      const rectSpy = vi.spyOn(Element.prototype, "getBoundingClientRect").mockReturnValue({
+        width: 100,
+        height: 48,
+        top: 0,
+        left: 0,
+        right: 100,
+        bottom: 48,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      } as DOMRect);
       render(<VoiceNote waveform={[0.2, 0.5, 1, 0.4]} time="0:05" />);
-      expect(screen.getByTestId("voice-note-waveform").childElementCount).toBe(4);
+      expect(screen.getByTestId("voice-note-waveform").childElementCount).toBe(13);
+      rectSpy.mockRestore();
     });
 
     it("shows the timestamp only when enabled and provided", () => {

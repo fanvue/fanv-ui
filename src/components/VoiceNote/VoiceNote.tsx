@@ -2,6 +2,7 @@ import * as React from "react";
 import { formatTime, resamplePeaks } from "@/utils/audioWaveform";
 import { cn } from "@/utils/cn";
 import { useAudioPlayback } from "@/utils/useAudioPlayback";
+import { useFittedBarCount } from "@/utils/useFittedBarCount";
 import { useWaveformPeaks } from "@/utils/useWaveformPeaks";
 import { useWaveformSeek } from "@/utils/useWaveformSeek";
 import { IconButton, type IconButtonSize } from "../IconButton/IconButton";
@@ -37,8 +38,12 @@ const CONTROL_SIZE: Record<VoiceNoteSize, IconButtonSize> = {
   small: "32",
 };
 
-/** Bars rendered when playing decoded audio (decoded peaks are resampled to this count). */
-const PLAYER_BAR_COUNT = 56;
+/** Rendered width of a single waveform bar, in pixels (`w-1`). */
+const BAR_WIDTH_PX = 4;
+/** Gap between waveform bars, in pixels (`gap-1`). */
+const BAR_GAP_PX = 4;
+/** Bar count before the track is measured (SSR, jsdom, or zero-width layout). */
+const DEFAULT_BAR_COUNT = 40;
 
 function activeBarClass(negative: boolean): string {
   return negative
@@ -110,7 +115,12 @@ function WaveformMeta({ time, fileName, textColor }: WaveformMetaProps) {
         <span className={cn("typography-body-small-14px-regular shrink-0", textColor)}>{time}</span>
       )}
       {fileName && (
-        <span className={cn("typography-body-small-14px-regular shrink-0 truncate", textColor)}>
+        <span
+          className={cn(
+            "typography-body-small-14px-regular min-w-0 max-w-[50%] truncate",
+            textColor,
+          )}
+        >
           {fileName}
         </span>
       )}
@@ -232,6 +242,11 @@ export const VoiceNote = React.forwardRef<HTMLDivElement, VoiceNoteProps>(
     const isControlled = playing !== undefined;
 
     const trackRef = React.useRef<HTMLDivElement>(null);
+    const fittedBarCount = useFittedBarCount(trackRef, {
+      barWidthPx: BAR_WIDTH_PX,
+      gapPx: BAR_GAP_PX,
+      fallback: DEFAULT_BAR_COUNT,
+    });
     const seekProps = useWaveformSeek({
       trackRef,
       displayDuration: playback.displayDuration,
@@ -252,7 +267,7 @@ export const VoiceNote = React.forwardRef<HTMLDivElement, VoiceNoteProps>(
       onPlayPause?.(next);
     };
 
-    const bars = isPlayer ? resamplePeaks(decodedPeaks, PLAYER_BAR_COUNT) : waveform;
+    const bars = resamplePeaks(isPlayer ? decodedPeaks : waveform, fittedBarCount);
     const progressValue = isPlayer ? playback.progress : progress;
     const textColor = negative ? "text-content-primary-inverted" : "text-content-primary";
 

@@ -7,6 +7,7 @@ import {
   resamplePeaks,
 } from "../../utils/audioWaveform";
 import { cn } from "../../utils/cn";
+import { useFittedBarCount } from "../../utils/useFittedBarCount";
 import { PauseIcon } from "../Icons/PauseIcon";
 import { PlayIcon } from "../Icons/PlayIcon";
 
@@ -97,7 +98,11 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
 
     const [currentTime, setCurrentTime] = React.useState(0);
     const [mediaDuration, setMediaDuration] = React.useState<number | undefined>(undefined);
-    const [barCount, setBarCount] = React.useState(DEFAULT_BAR_COUNT);
+    const barCount = useFittedBarCount(trackRef, {
+      barWidthPx: BAR_WIDTH_PX,
+      gapPx: BAR_GAP_PX,
+      fallback: DEFAULT_BAR_COUNT,
+    });
     const [peaks, setPeaks] = React.useState<number[]>(() =>
       generateFallbackPeaks(src, RAW_PEAK_COUNT),
     );
@@ -153,27 +158,6 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
         abortController.abort();
       };
     }, [src]);
-
-    // Measure the track to decide how many bars fit; falls back to DEFAULT_BAR_COUNT
-    // when layout is unavailable (SSR, jsdom).
-    React.useEffect(() => {
-      const track = trackRef.current;
-      if (!track) return;
-
-      const updateFromWidth = (width: number) => {
-        if (width <= 0) return;
-        setBarCount(Math.max(1, Math.floor((width + BAR_GAP_PX) / (BAR_WIDTH_PX + BAR_GAP_PX))));
-      };
-
-      updateFromWidth(track.getBoundingClientRect().width);
-
-      const observer = new ResizeObserver((entries) => {
-        const entry = entries[0];
-        if (entry) updateFromWidth(entry.contentRect.width);
-      });
-      observer.observe(track);
-      return () => observer.disconnect();
-    }, []);
 
     // Sync the controlled/uncontrolled `playing` state to the media element.
     React.useEffect(() => {

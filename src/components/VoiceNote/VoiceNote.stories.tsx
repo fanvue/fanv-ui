@@ -55,6 +55,10 @@ export const WithFileName: Story = {
   args: { fileName: "audio_name.mp4" },
 };
 
+export const WithLongFileName: Story = {
+  args: { fileName: "a_really_long_voice_message_file_name_that_should_truncate.mp4" },
+};
+
 export const WithRemove: Story = {
   args: { showRemove: true },
 };
