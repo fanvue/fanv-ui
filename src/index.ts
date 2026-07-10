@@ -577,6 +577,11 @@ export type {
 } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type {
+  MediaStatusIndicatorProps,
+  MediaStatusIndicatorStatus,
+} from "./components/MediaStatusIndicator/MediaStatusIndicator";
+export { MediaStatusIndicator } from "./components/MediaStatusIndicator/MediaStatusIndicator";
+export type {
   MobileStepperPosition,
   MobileStepperProps,
   MobileStepperVariant,
