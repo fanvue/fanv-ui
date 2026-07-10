@@ -1,4 +1,5 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import { Slot } from "@radix-ui/react-slot";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import * as React from "react";
 import { cn } from "../../utils/cn";
@@ -520,17 +521,29 @@ export const DropdownMenuItem = React.forwardRef<
 
     // The sheet variant renders inside a Drawer (Dialog), not a Radix menu, so
     // DropdownMenuPrimitive.Item (which requires menu context) can't be used —
-    // render a plain option row with equivalent selection semantics instead.
-    if (variant === "sheet" && !asChild) {
+    // render a plain option element with equivalent selection semantics instead.
+    // asChild goes through the same Slot primitive Radix's own Item uses
+    // internally, so a custom element (e.g. a link) gets the option
+    // role/handlers merged onto it without needing menu context.
+    if (variant === "sheet") {
+      const Comp = asChild ? Slot : "button";
+      const sheetSpecificProps = !asChild
+        ? { type: "button" as const, disabled }
+        : disabled
+          ? { "aria-disabled": true }
+          : {};
       return (
-        <button
+        <Comp
           ref={ref as React.Ref<HTMLButtonElement>}
-          type="button"
+          {...sheetSpecificProps}
           role="option"
           aria-selected={selected}
-          disabled={disabled}
           className={itemClassName}
-          onClick={(event) => {
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+            // A native <button disabled> already blocks its click event, but
+            // asChild's element (e.g. a link) has no such enforcement — guard
+            // explicitly so aria-disabled actually stops selection.
+            if (disabled) return;
             let defaultPrevented = false;
             onSelect?.({
               preventDefault: () => {
@@ -542,8 +555,8 @@ export const DropdownMenuItem = React.forwardRef<
             if (!defaultPrevented) toggleOpen?.(() => false);
           }}
         >
-          {itemChildren}
-        </button>
+          {asChild ? children : itemChildren}
+        </Comp>
       );
     }
 

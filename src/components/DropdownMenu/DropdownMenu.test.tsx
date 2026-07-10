@@ -1004,4 +1004,51 @@ describe("DropdownMenu sheet variant", () => {
     await user.click(screen.getByText("trigger"));
     expect(screen.getByText("Group title")).toBeInTheDocument();
   });
+
+  it("renders asChild via Slot instead of Radix's menu-context Item, without crashing", async () => {
+    // Regression guard: DropdownMenuItem previously fell through to
+    // DropdownMenuPrimitive.Item asChild whenever asChild was true, even in
+    // the sheet variant, which never mounts a Radix menu Root/Content
+    // ancestor — that primitive throws without menu context.
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild onSelect={onSelect} selected>
+            <a href="/settings">Settings</a>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const link = screen.getByRole("option", { name: "Settings" });
+    expect(link.tagName).toBe("A");
+    expect(link).toHaveAttribute("aria-selected", "true");
+    await user.click(link);
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("blocks selection on a disabled asChild item despite no native disabled semantics", async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild onSelect={onSelect} disabled>
+            <a href="/settings">Settings</a>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const link = screen.getByRole("option", { name: "Settings" });
+    expect(link).toHaveAttribute("aria-disabled", "true");
+    await user.click(link);
+    expect(onSelect).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
 });
