@@ -535,6 +535,23 @@ describe("DropdownMenuItem", () => {
       expect(item.className).not.toContain("data-[highlighted]:bg-neutral-alphas-50");
     });
 
+    it("renders a check indicator on the selected item, not just a background change", () => {
+      // Regression guard: a background-only signal for "selected" isn't
+      // guaranteed to read as distinct from the hover background in every
+      // theme/contrast combination — pair it with an explicit indicator, same
+      // as SelectItem and DropdownMenuRadioItem already do.
+      renderMenu(
+        <>
+          <DropdownMenuItem selected data-testid="selected-item">
+            Selected
+          </DropdownMenuItem>
+          <DropdownMenuItem data-testid="unselected-item">Unselected</DropdownMenuItem>
+        </>,
+      );
+      expect(screen.getByTestId("selected-item").querySelector("svg")).toBeInTheDocument();
+      expect(screen.getByTestId("unselected-item").querySelector("svg")).not.toBeInTheDocument();
+    });
+
     it("renders leading and trailing icons", () => {
       renderMenu(
         <DropdownMenuItem

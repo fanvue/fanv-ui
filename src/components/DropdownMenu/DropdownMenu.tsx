@@ -4,6 +4,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
 import { IconButton } from "../IconButton/IconButton";
+import { CheckIcon } from "../Icons/CheckIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 
@@ -275,6 +276,19 @@ const ITEM_COUNT_TYPOGRAPHY: Record<"40" | "32", string> = {
   "32": "typography-body-small-14px-regular",
 };
 
+// Background alone can't reliably tell "selected" apart from a
+// hovered-but-unselected row across every theme/contrast combination (see the
+// neutral-alphas fix on itemClassName below) — pair it with an explicit
+// indicator, matching SelectItem's check indicator for the same V2 Menu Item
+// spec.
+function SelectedCheckIndicator({ hasDescription }: { hasDescription: boolean }) {
+  return (
+    <CheckIcon
+      className={cn("size-4 shrink-0 text-content-primary", hasDescription && "self-start")}
+    />
+  );
+}
+
 export interface DropdownMenuItemProps
   extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> {
   /** Height of the menu item row. @default "40" */
@@ -419,6 +433,7 @@ export const DropdownMenuItem = React.forwardRef<
           ) : (
             trailingIcon
           ))}
+        {selected && <SelectedCheckIndicator hasDescription={hasDescription} />}
       </DropdownMenuPrimitive.Item>
     );
   },
