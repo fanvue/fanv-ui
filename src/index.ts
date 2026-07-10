@@ -327,6 +327,8 @@ export { CrossCircleIcon } from "./components/Icons/CrossCircleIcon";
 export { CrossIcon } from "./components/Icons/CrossIcon";
 export type { CrownIconProps } from "./components/Icons/CrownIcon";
 export { CrownIcon } from "./components/Icons/CrownIcon";
+export type { DenseGridViewIconProps } from "./components/Icons/DenseGridViewIcon";
+export { DenseGridViewIcon } from "./components/Icons/DenseGridViewIcon";
 export type { DiamondIconProps } from "./components/Icons/DiamondIcon";
 export { DiamondIcon } from "./components/Icons/DiamondIcon";
 export type { DiscordIconProps } from "./components/Icons/DiscordIcon";
@@ -553,6 +555,7 @@ export type { WifiOffIconProps } from "./components/Icons/WifiOffIcon";
 export { WifiOffIcon } from "./components/Icons/WifiOffIcon";
 export { WifiOnIcon } from "./components/Icons/WifiOnIcon";
 export { WrenchIcon } from "./components/Icons/WrenchIcon";
+
 export type {
   InfoBoxAction,
   InfoBoxContentProps,

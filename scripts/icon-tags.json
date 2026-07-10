@@ -52,6 +52,7 @@
   "CopyIcon": ["copy", "duplicate", "clipboard", "paste"],
   "CrossIcon": ["cross", "x", "close", "cancel", "remove"],
   "CrownIcon": ["crown", "premium", "vip", "special"],
+  "DenseGridViewIcon": ["grid", "dense", "compact", "view", "layout", "gallery"],
   "DiamondIcon": ["diamond", "gem", "premium"],
   "DiscountIcon": ["discount", "sale", "percent"],
   "DonateIcon": ["donate", "gift", "give"],

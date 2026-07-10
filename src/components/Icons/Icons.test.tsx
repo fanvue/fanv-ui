@@ -39,12 +39,14 @@ import { ChevronUpIcon } from "./ChevronUpIcon";
 import { ClockIcon } from "./ClockIcon";
 import { CloseIcon } from "./CloseIcon";
 import { CodeIcon } from "./CodeIcon";
+import { CogIcon } from "./CogIcon";
 import { CoinIcon } from "./CoinIcon";
 import { CompassIcon } from "./CompassIcon";
 import { CopyIcon } from "./CopyIcon";
 import { CrossCircleIcon } from "./CrossCircleIcon";
 import { CrossIcon } from "./CrossIcon";
 import { CrownIcon } from "./CrownIcon";
+import { DenseGridViewIcon } from "./DenseGridViewIcon";
 import { DiamondIcon } from "./DiamondIcon";
 import { DiscordIcon } from "./DiscordIcon";
 import { DiscountIcon } from "./DiscountIcon";
@@ -235,11 +237,13 @@ const propBasedIcons = [
   { name: "ClockIcon", Component: ClockIcon, hasFilled: true },
   { name: "CloseIcon", Component: CloseIcon, hasFilled: false },
   { name: "CodeIcon", Component: CodeIcon, hasFilled: true },
+  { name: "CogIcon", Component: CogIcon, hasFilled: true },
   { name: "CoinIcon", Component: CoinIcon, hasFilled: true },
   { name: "CompassIcon", Component: CompassIcon, hasFilled: true },
   { name: "CopyIcon", Component: CopyIcon, hasFilled: true },
   { name: "CrossCircleIcon", Component: CrossCircleIcon, hasFilled: true },
   { name: "CrownIcon", Component: CrownIcon, hasFilled: true },
+  { name: "DenseGridViewIcon", Component: DenseGridViewIcon, hasFilled: false },
   { name: "DiamondIcon", Component: DiamondIcon, hasFilled: true },
   { name: "DiscordIcon", Component: DiscordIcon, hasFilled: true },
   { name: "DiscountIcon", Component: DiscountIcon, hasFilled: true },
