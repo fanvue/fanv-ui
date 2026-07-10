@@ -1,16 +1,13 @@
 import * as React from "react";
-import { cn } from "../../utils/cn";
+import { cn } from "@/utils/cn";
 import { Avatar } from "../Avatar/Avatar";
 import { DoubleTickIcon } from "../Icons/DoubleTickIcon";
 import { TrashIcon } from "../Icons/TrashIcon";
 
-/** Who sent the message. */
 export type ChatMessageUser = "sender" | "receiver";
 
-/** The kind of content the message carries. */
 export type ChatMessageVariant = "text" | "typing" | "audio" | "deleted";
 
-/** Delivery status shown alongside sender messages. */
 export type ChatMessageStatus = "delivered" | "read";
 
 export interface ChatMessageProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -73,7 +70,6 @@ const bubbleColors: Record<ChatMessageUser, string> = {
   receiver: "bg-messages-background-receiver border-messages-background-receiver-2",
 };
 
-/** The timestamp and, for sender messages, the delivery tick. */
 function ChatMessageMeta({
   time,
   showTick,
@@ -111,7 +107,6 @@ function ChatMessageMeta({
   );
 }
 
-/** Three dots hinting that the other party is composing a message. */
 function TypingIndicator({ label }: { label: string }) {
   const dot = "size-2 shrink-0 rounded-full motion-safe:animate-bounce";
   return (
@@ -124,7 +119,6 @@ function TypingIndicator({ label }: { label: string }) {
   );
 }
 
-/** A static bar-graph waveform for voice messages. */
 function Waveform({ bars }: { bars: number[] }) {
   return (
     <span className="flex min-w-0 flex-1 items-center gap-1 overflow-hidden" aria-hidden>
@@ -144,7 +138,6 @@ function Waveform({ bars }: { bars: number[] }) {
   );
 }
 
-/** Bare play triangle glyph (the enclosing circle comes from the button). */
 function PlayGlyph() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="size-6">
@@ -153,7 +146,6 @@ function PlayGlyph() {
   );
 }
 
-/** Bare pause glyph. */
 function PauseGlyph() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="size-6">
