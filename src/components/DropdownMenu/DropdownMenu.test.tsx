@@ -1126,6 +1126,51 @@ describe("DropdownMenu sheet variant", () => {
     expect(onKeyDown).toHaveBeenCalled();
   });
 
+  it("composes a consumer onClick with the internal select-and-close handler on a sheet item", async () => {
+    // Regression guard: an explicit onClick after {...props} in the sheet
+    // branch silently overwrote a consumer-supplied onClick instead of
+    // composing with it.
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onClick={onClick} onSelect={onSelect}>
+            Item 1
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("skips the internal select-and-close handler when a consumer onClick calls preventDefault", async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn((event: React.MouseEvent) => event.preventDefault());
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onClick={onClick} onSelect={onSelect}>
+            Item 1
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onSelect).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
   it("forwards ref, style, and passthrough HTML props on a sheet content panel", async () => {
     // Regression guard: the sheet-variant DropdownMenuContent branch dropped
     // ref, style, and {...props} entirely, only passing className through.

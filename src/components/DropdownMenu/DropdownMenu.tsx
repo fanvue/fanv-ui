@@ -534,6 +534,12 @@ export const DropdownMenuItem = React.forwardRef<
     // role/handlers merged onto it without needing menu context.
     if (variant === "sheet") {
       const Comp = asChild ? Slot : "button";
+      // Pull the consumer's onClick out of the passthrough spread so the
+      // handler below can compose with it instead of the spread order
+      // silently overwriting it (an explicit onClick after {...props} always
+      // wins over the spread's).
+      const { onClick: consumerOnClick, ...restProps } =
+        props as React.ComponentPropsWithoutRef<"button">;
       const sheetSpecificProps = !asChild
         ? { type: "button" as const, disabled }
         : disabled
@@ -542,7 +548,7 @@ export const DropdownMenuItem = React.forwardRef<
       return (
         <Comp
           ref={ref as React.Ref<HTMLButtonElement>}
-          {...(props as React.ComponentPropsWithoutRef<"button">)}
+          {...restProps}
           {...sheetSpecificProps}
           role="option"
           aria-selected={selected}
@@ -556,6 +562,8 @@ export const DropdownMenuItem = React.forwardRef<
               event.preventDefault();
               return;
             }
+            consumerOnClick?.(event);
+            if (event.defaultPrevented) return;
             // Pass the real native event through, not a fake partial shape —
             // handlers that call any Event API beyond preventDefault (e.g.
             // stopPropagation, composedPath) need it to actually exist. It's
