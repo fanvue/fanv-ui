@@ -1031,6 +1031,49 @@ describe("DropdownMenu sheet variant", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
+  it("passes a real Event to onSelect, not a fake partial shape", async () => {
+    // Regression guard: a hand-built object cast to Event only had
+    // preventDefault/currentTarget/target — any handler calling another
+    // Event API method (stopPropagation, composedPath, etc.) would throw.
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={onSelect}>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    const receivedEvent = onSelect.mock.calls[0]?.[0];
+    expect(receivedEvent).toBeInstanceOf(Event);
+    expect(() => (receivedEvent as Event).stopPropagation()).not.toThrow();
+  });
+
+  it("prevents the default action of a disabled asChild item's click (e.g. link navigation)", async () => {
+    // Regression guard: the disabled guard used to return early without
+    // calling preventDefault, so a disabled asChild link still navigated.
+    // fireEvent's return value is false when preventDefault was called by any
+    // listener during dispatch — the same signal the browser uses to decide
+    // whether to run the click's default action.
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild disabled>
+            <a href="/settings">Settings</a>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const notCancelled = fireEvent.click(screen.getByRole("option", { name: "Settings" }));
+    expect(notCancelled).toBe(false);
+  });
+
   it("blocks selection on a disabled asChild item despite no native disabled semantics", async () => {
     const user = userEvent.setup();
     const onSelect = vi.fn();

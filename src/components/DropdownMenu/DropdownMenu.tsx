@@ -542,17 +542,19 @@ export const DropdownMenuItem = React.forwardRef<
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
             // A native <button disabled> already blocks its click event, but
             // asChild's element (e.g. a link) has no such enforcement — guard
-            // explicitly so aria-disabled actually stops selection.
-            if (disabled) return;
-            let defaultPrevented = false;
-            onSelect?.({
-              preventDefault: () => {
-                defaultPrevented = true;
-              },
-              currentTarget: event.currentTarget,
-              target: event.target,
-            } as unknown as Event);
-            if (!defaultPrevented) toggleOpen?.(() => false);
+            // explicitly, and prevent the click's default action (e.g. anchor
+            // navigation) since aria-disabled alone doesn't stop it.
+            if (disabled) {
+              event.preventDefault();
+              return;
+            }
+            // Pass the real native event through, not a fake partial shape —
+            // handlers that call any Event API beyond preventDefault (e.g.
+            // stopPropagation, composedPath) need it to actually exist. It's
+            // still live (currentTarget/target are valid) since we're inside
+            // the same synchronous click handler that produced it.
+            onSelect?.(event.nativeEvent);
+            if (!event.nativeEvent.defaultPrevented) toggleOpen?.(() => false);
           }}
         >
           {asChild ? children : itemChildren}
