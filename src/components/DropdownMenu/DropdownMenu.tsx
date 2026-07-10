@@ -270,11 +270,6 @@ const ITEM_SIZE_CLASSES: Record<"40" | "32", string> = {
   "32": "min-h-8 py-[7px] typography-body-small-14px-regular",
 };
 
-const ITEM_SELECTED_TYPOGRAPHY: Record<"40" | "32", string> = {
-  "40": "typography-body-default-16px-semibold",
-  "32": "typography-body-small-14px-semibold",
-};
-
 const ITEM_COUNT_TYPOGRAPHY: Record<"40" | "32", string> = {
   "40": "typography-body-default-16px-regular",
   "32": "typography-body-small-14px-regular",
@@ -362,11 +357,7 @@ export const DropdownMenuItem = React.forwardRef<
       "data-[highlighted]:bg-neutral-alphas-50",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
       destructive && "text-error-content",
-      selected && [
-        "bg-buttons-primary-default text-content-primary-inverted",
-        "data-[highlighted]:bg-buttons-primary-default",
-        ITEM_SELECTED_TYPOGRAPHY[normalizedSize],
-      ],
+      selected && "bg-interaction-hover",
       className,
     );
 
@@ -387,11 +378,7 @@ export const DropdownMenuItem = React.forwardRef<
         className={cn(
           "shrink-0 tabular-nums",
           ITEM_COUNT_TYPOGRAPHY[normalizedSize],
-          destructive
-            ? "text-error-content"
-            : selected
-              ? "text-content-primary-inverted"
-              : "text-content-tertiary",
+          destructive ? "text-error-content" : "text-content-tertiary",
           "group-data-[disabled]:text-content-disabled",
         )}
       >
@@ -414,12 +401,7 @@ export const DropdownMenuItem = React.forwardRef<
         {hasDescription ? (
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">
             <span className="truncate">{children}</span>
-            <span
-              className={cn(
-                "typography-body-small-14px-regular truncate",
-                selected ? "text-content-primary-inverted" : "text-content-secondary",
-              )}
-            >
+            <span className="typography-body-small-14px-regular truncate text-content-secondary">
               {description}
             </span>
           </span>
@@ -668,8 +650,7 @@ export const DropdownMenuRadioItem = React.forwardRef<
         "group flex w-full cursor-pointer items-start gap-3 rounded-xs px-4 py-2 outline-none",
         "data-[highlighted]:bg-neutral-alphas-50",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
-        "data-[state=checked]:bg-buttons-primary-default data-[state=checked]:text-content-primary-inverted",
-        "data-[state=checked]:data-[highlighted]:bg-buttons-primary-default",
+        "data-[state=checked]:bg-interaction-hover",
         className,
       )}
       {...props}
@@ -678,12 +659,11 @@ export const DropdownMenuRadioItem = React.forwardRef<
         className={cn(
           "mt-1 flex size-4 shrink-0 items-center justify-center rounded-full border border-icons-primary",
           "group-data-[disabled]:border-content-disabled",
-          "group-data-[state=checked]:border-icons-primary-inverted",
         )}
         aria-hidden="true"
       >
         <DropdownMenuPrimitive.ItemIndicator asChild>
-          <span className="size-2 rounded-full bg-content-primary-inverted" />
+          <span className="size-2 rounded-full bg-content-primary" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       <span className="flex min-w-0 flex-1 flex-col gap-1">
@@ -692,7 +672,6 @@ export const DropdownMenuRadioItem = React.forwardRef<
           <span
             className={cn(
               "typography-description-12px-regular text-content-secondary",
-              "group-data-[state=checked]:text-content-primary-inverted",
               "group-data-[disabled]:text-content-disabled",
             )}
           >

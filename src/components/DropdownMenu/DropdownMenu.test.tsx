@@ -509,15 +509,15 @@ describe("DropdownMenuItem", () => {
       expect(screen.getByTestId("item")).toHaveClass("min-h-10");
     });
 
-    it("renders selected state with v2 filled treatment", () => {
+    it("renders selected state with the subtle highlight treatment", () => {
       renderMenu(
         <DropdownMenuItem selected data-testid="item">
           Item
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass("bg-buttons-primary-default");
-      expect(item).toHaveClass("text-content-primary-inverted");
+      expect(item).toHaveClass("bg-interaction-hover");
+      expect(item).not.toHaveClass("text-content-primary-inverted");
     });
 
     it("renders leading and trailing icons", () => {
