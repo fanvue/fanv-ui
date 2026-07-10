@@ -651,6 +651,11 @@
       "hasFilled": true
     },
     {
+      "name": "VerifiedIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "VideoIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
