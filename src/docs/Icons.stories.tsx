@@ -950,7 +950,7 @@ const icons: IconEntry[] = [
     tags: ["vault", "safe", "secure", "storage"],
     propBased: true,
   },
-  { name: "VerifiedIcon", component: VerifiedIcon, tags: [], propBased: false },
+  { name: "VerifiedIcon", component: VerifiedIcon, tags: [], propBased: true },
   {
     name: "VideoIcon",
     component: VideoIcon,
