@@ -109,6 +109,7 @@
   "PlayIcon": ["play", "media", "start", "video"],
   "PlusIcon": ["plus", "add", "create", "new", "increase"],
   "PrivacyIcon": ["privacy", "shield", "secure"],
+  "ReceiveMoneyIcon": ["receive", "money", "hand", "dollar", "earnings"],
   "RepeatIcon": ["repeat", "loop", "refresh"],
   "Reply2Icon": ["reply", "respond", "arrow"],
   "ReplyIcon": ["reply", "respond", "arrow"],

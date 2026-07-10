@@ -456,6 +456,8 @@ export type { PrivacyIconProps } from "./components/Icons/PrivacyIcon";
 export { PrivacyIcon } from "./components/Icons/PrivacyIcon";
 export type { QueueIconProps } from "./components/Icons/QueueIcon";
 export { QueueIcon } from "./components/Icons/QueueIcon";
+export type { ReceiveMoneyIconProps } from "./components/Icons/ReceiveMoneyIcon";
+export { ReceiveMoneyIcon } from "./components/Icons/ReceiveMoneyIcon";
 export type { RepeatIconProps } from "./components/Icons/RepeatIcon";
 export { RepeatIcon } from "./components/Icons/RepeatIcon";
 export type { Reply2IconProps } from "./components/Icons/Reply2Icon";

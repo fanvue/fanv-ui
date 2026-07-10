@@ -114,6 +114,7 @@ import { PlayIcon } from "../components/Icons/PlayIcon";
 import { PlusIcon } from "../components/Icons/PlusIcon";
 import { PrivacyIcon } from "../components/Icons/PrivacyIcon";
 import { QueueIcon } from "../components/Icons/QueueIcon";
+import { ReceiveMoneyIcon } from "../components/Icons/ReceiveMoneyIcon";
 import { RepeatIcon } from "../components/Icons/RepeatIcon";
 import { Reply2Icon } from "../components/Icons/Reply2Icon";
 import { ReplyIcon } from "../components/Icons/ReplyIcon";
@@ -757,6 +758,12 @@ const icons: IconEntry[] = [
     name: "QueueIcon",
     component: QueueIcon,
     tags: ["queue", "list", "stack", "order"],
+    propBased: true,
+  },
+  {
+    name: "ReceiveMoneyIcon",
+    component: ReceiveMoneyIcon,
+    tags: ["receive", "money", "hand", "dollar", "earnings"],
     propBased: true,
   },
   {
