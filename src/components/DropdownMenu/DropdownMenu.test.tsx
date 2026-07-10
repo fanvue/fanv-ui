@@ -901,3 +901,107 @@ describe("DropdownMenuRadioItem", () => {
     });
   });
 });
+
+describe("DropdownMenu sheet variant", () => {
+  it("opens a bottom drawer instead of a Radix menu", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: "Item 1" })).toBeInTheDocument();
+  });
+
+  it("selects an item, calls onSelect, and closes the sheet", async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={onSelect}>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("does not close the sheet or fire selection when the item is disabled", async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={onSelect} disabled>
+            Item 1
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    expect(onSelect).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("marks the selected item via aria-selected", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem selected>Item 1</DropdownMenuItem>
+          <DropdownMenuItem selected={false}>Item 2</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    expect(screen.getByRole("option", { name: "Item 1" })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("option", { name: "Item 2" })).toHaveAttribute(
+      "aria-selected",
+      "false",
+    );
+  });
+
+  it("renders a native <hr> separator without requiring Radix menu context", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+          <DropdownMenuSeparator data-testid="separator" />
+          <DropdownMenuItem>Item 2</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    expect(screen.getByTestId("separator").tagName).toBe("HR");
+  });
+
+  it("renders a plain title (not a Radix label) without requiring menu context", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Group title</DropdownMenuLabel>
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    expect(screen.getByText("Group title")).toBeInTheDocument();
+  });
+});

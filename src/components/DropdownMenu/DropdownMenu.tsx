@@ -3,6 +3,7 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
+import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer/Drawer";
 import { IconButton } from "../IconButton/IconButton";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
@@ -37,15 +38,31 @@ const ToggleOpenContext = React.createContext<
   ((updater: (prev: boolean) => boolean) => void) | null
 >(null);
 
+/**
+ * How a {@link DropdownMenu} presents its content.
+ * - `"menu"` (default) — a Radix-positioned panel anchored to the trigger.
+ * - `"sheet"` — a bottom drawer (via {@link Drawer}), for mobile/touch viewports.
+ *
+ * The viewport decision belongs to the consumer (it owns the breakpoint
+ * source of truth), so pass e.g. `variant={isDesktop ? "menu" : "sheet"}`.
+ */
+export type DropdownMenuVariant = "menu" | "sheet";
+
+const DropdownMenuVariantContext = React.createContext<DropdownMenuVariant>("menu");
+
 /** Props for the {@link DropdownMenu} root component. */
 export interface DropdownMenuProps
-  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root> {}
+  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root> {
+  /** How the menu presents its content. @default "menu" */
+  variant?: DropdownMenuVariant;
+}
 
 /** Root component that manages open/close state for a dropdown menu. */
 export function DropdownMenu({
   open: openProp,
   defaultOpen,
   onOpenChange,
+  variant = "menu",
   children,
   ...props
 }: DropdownMenuProps) {
@@ -55,12 +72,26 @@ export function DropdownMenu({
     onChange: onOpenChange,
   });
 
+  if (variant === "sheet") {
+    return (
+      <DropdownMenuVariantContext.Provider value="sheet">
+        <ToggleOpenContext.Provider value={setOpen}>
+          <Drawer open={open} onOpenChange={setOpen}>
+            {children}
+          </Drawer>
+        </ToggleOpenContext.Provider>
+      </DropdownMenuVariantContext.Provider>
+    );
+  }
+
   return (
-    <ToggleOpenContext.Provider value={setOpen}>
-      <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen} {...props}>
-        {children}
-      </DropdownMenuPrimitive.Root>
-    </ToggleOpenContext.Provider>
+    <DropdownMenuVariantContext.Provider value="menu">
+      <ToggleOpenContext.Provider value={setOpen}>
+        <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen} {...props}>
+          {children}
+        </DropdownMenuPrimitive.Root>
+      </ToggleOpenContext.Provider>
+    </DropdownMenuVariantContext.Provider>
   );
 }
 
@@ -81,8 +112,15 @@ export const DropdownMenuTrigger = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Trigger>,
   DropdownMenuTriggerProps
 >((props, ref) => {
+  const variant = React.useContext(DropdownMenuVariantContext);
   const toggleOpen = React.useContext(ToggleOpenContext);
   const tapRef = React.useRef<ActiveTap | null>(null);
+
+  // The sheet variant opens a Drawer (Dialog), which already suppresses
+  // scroll-drag-end synthetic clicks itself — no need for the touch-tap gating below.
+  if (variant === "sheet") {
+    return <DrawerTrigger {...props} ref={ref} />;
+  }
 
   // Used outside our DropdownMenu wrapper — fall through to Radix defaults.
   if (toggleOpen === null) {
@@ -174,33 +212,55 @@ export const DropdownMenuContent = React.forwardRef<
       className,
       style,
       sideOffset = 4,
+      // Radix defaults `avoidCollisions` to true, so passing `collisionPadding`
+      // is enough to keep the menu flipping/shifting to stay on screen — no
+      // hand-rolled reposition logic needed.
       collisionPadding = FLOATING_CONTENT_COLLISION_PADDING,
+      children,
       ...props
     },
     ref,
-  ) => (
-    <DropdownMenuPrimitive.Portal>
-      <DropdownMenuPrimitive.Content
-        ref={ref}
-        sideOffset={sideOffset}
-        collisionPadding={collisionPadding}
-        className={cn(
-          "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-sm border border-neutral-alphas-200 bg-surface-primary p-1 text-content-primary shadow-lg",
-          "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-          "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
-          "data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2",
-          className,
-        )}
-        style={{
-          zIndex: "var(--fanvue-ui-portal-z-index, 50)",
-          maxHeight: "var(--radix-dropdown-menu-content-available-height)",
-          ...style,
-        }}
-        {...props}
-      />
-    </DropdownMenuPrimitive.Portal>
-  ),
+  ) => {
+    const variant = React.useContext(DropdownMenuVariantContext);
+
+    if (variant === "sheet") {
+      return (
+        <DrawerContent
+          position="bottom"
+          variant="sheet"
+          className={cn("flex flex-col gap-1 p-1", className)}
+        >
+          {children}
+        </DrawerContent>
+      );
+    }
+
+    return (
+      <DropdownMenuPrimitive.Portal>
+        <DropdownMenuPrimitive.Content
+          ref={ref}
+          sideOffset={sideOffset}
+          collisionPadding={collisionPadding}
+          className={cn(
+            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-sm border border-neutral-alphas-200 bg-surface-primary p-1 text-content-primary shadow-lg",
+            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
+            "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+            "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
+            "data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2",
+            className,
+          )}
+          style={{
+            zIndex: "var(--fanvue-ui-portal-z-index, 50)",
+            maxHeight: "var(--radix-dropdown-menu-content-available-height)",
+            ...style,
+          }}
+          {...props}
+        >
+          {children}
+        </DropdownMenuPrimitive.Content>
+      </DropdownMenuPrimitive.Portal>
+    );
+  },
 );
 DropdownMenuContent.displayName = "DropdownMenuContent";
 
@@ -209,7 +269,11 @@ export type DropdownMenuGroupProps = React.ComponentPropsWithoutRef<
   typeof DropdownMenuPrimitive.Group
 >;
 
-/** Groups related menu items. Accepts an optional `DropdownMenuLabel`. */
+/**
+ * Groups related menu items. Accepts an optional `DropdownMenuLabel`.
+ *
+ * Requires Radix menu context — not supported inside a `variant="sheet"` menu.
+ */
 export const DropdownMenuGroup = DropdownMenuPrimitive.Group;
 DropdownMenuGroup.displayName = "DropdownMenuGroup";
 
@@ -231,17 +295,22 @@ export interface DropdownMenuLabelProps
 export const DropdownMenuLabel = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Label>,
   DropdownMenuLabelProps
->(({ className, position = "default", ...props }, ref) => (
-  <DropdownMenuPrimitive.Label
-    ref={ref}
-    className={cn(
-      "typography-description-12px-regular flex items-center px-3 text-content-secondary",
-      position === "top" ? "py-2" : "pb-2 pt-4",
-      className,
-    )}
-    {...props}
-  />
-));
+>(({ className, position = "default", ...props }, ref) => {
+  const variant = React.useContext(DropdownMenuVariantContext);
+  const labelClassName = cn(
+    "typography-description-12px-regular flex items-center px-3 text-content-secondary",
+    position === "top" ? "py-2" : "pb-2 pt-4",
+    className,
+  );
+
+  // DropdownMenuPrimitive.Label requires Radix menu context, unavailable when
+  // the sheet variant renders inside a Drawer (Dialog) instead.
+  if (variant === "sheet") {
+    return <div ref={ref} className={labelClassName} {...props} />;
+  }
+
+  return <DropdownMenuPrimitive.Label ref={ref} className={labelClassName} {...props} />;
+});
 DropdownMenuLabel.displayName = "DropdownMenuLabel";
 
 /**
@@ -360,10 +429,14 @@ export const DropdownMenuItem = React.forwardRef<
       className,
       children,
       asChild,
+      onSelect,
+      disabled,
       ...props
     },
     ref,
   ) => {
+    const variant = React.useContext(DropdownMenuVariantContext);
+    const toggleOpen = React.useContext(ToggleOpenContext);
     const normalizedSize = SIZE_NORMALIZED[size];
     const hasDescription = description != null;
     const hasAvatar = avatar != null;
@@ -376,6 +449,7 @@ export const DropdownMenuItem = React.forwardRef<
       hasAvatar && !hasDescription && normalizedSize === "32" && "py-1",
       "data-[highlighted]:bg-neutral-alphas-50",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
+      "disabled:cursor-not-allowed disabled:text-content-disabled",
       destructive && "text-error-content",
       // bg-interaction-hover aliases to the same token as the plain hover
       // background above, so a selected row would be indistinguishable from a
@@ -384,14 +458,6 @@ export const DropdownMenuItem = React.forwardRef<
       selected && ["bg-neutral-alphas-100", "data-[highlighted]:bg-neutral-alphas-200"],
       className,
     );
-
-    if (asChild) {
-      return (
-        <DropdownMenuPrimitive.Item ref={ref} asChild className={itemClassName} {...props}>
-          {children}
-        </DropdownMenuPrimitive.Item>
-      );
-    }
 
     // In the two-line (description) layout, icons sit on the title's line.
     // 24px title line-height vs 16px icon → 4px (pt-1) centres the icon on it.
@@ -425,8 +491,8 @@ export const DropdownMenuItem = React.forwardRef<
         selected && <SelectedCheckIndicator hasDescription={hasDescription} />
       );
 
-    return (
-      <DropdownMenuPrimitive.Item ref={ref} className={itemClassName} {...props}>
+    const itemChildren = (
+      <>
         {avatar != null ? (
           <span className="shrink-0">{avatar}</span>
         ) : (
@@ -449,6 +515,62 @@ export const DropdownMenuItem = React.forwardRef<
         )}
         {countNode}
         {trailingNode}
+      </>
+    );
+
+    // The sheet variant renders inside a Drawer (Dialog), not a Radix menu, so
+    // DropdownMenuPrimitive.Item (which requires menu context) can't be used —
+    // render a plain option row with equivalent selection semantics instead.
+    if (variant === "sheet" && !asChild) {
+      return (
+        <button
+          ref={ref as React.Ref<HTMLButtonElement>}
+          type="button"
+          role="option"
+          aria-selected={selected}
+          disabled={disabled}
+          className={itemClassName}
+          onClick={(event) => {
+            let defaultPrevented = false;
+            onSelect?.({
+              preventDefault: () => {
+                defaultPrevented = true;
+              },
+              currentTarget: event.currentTarget,
+              target: event.target,
+            } as unknown as Event);
+            if (!defaultPrevented) toggleOpen?.(() => false);
+          }}
+        >
+          {itemChildren}
+        </button>
+      );
+    }
+
+    if (asChild) {
+      return (
+        <DropdownMenuPrimitive.Item
+          ref={ref}
+          asChild
+          className={itemClassName}
+          disabled={disabled}
+          onSelect={onSelect}
+          {...props}
+        >
+          {children}
+        </DropdownMenuPrimitive.Item>
+      );
+    }
+
+    return (
+      <DropdownMenuPrimitive.Item
+        ref={ref}
+        className={itemClassName}
+        disabled={disabled}
+        onSelect={onSelect}
+        {...props}
+      >
+        {itemChildren}
       </DropdownMenuPrimitive.Item>
     );
   },
@@ -463,13 +585,19 @@ export interface DropdownMenuSeparatorProps
 export const DropdownMenuSeparator = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Separator>,
   DropdownMenuSeparatorProps
->(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator
-    ref={ref}
-    className={cn("my-1 h-px bg-neutral-alphas-200", className)}
-    {...props}
-  />
-));
+>(({ className, ...props }, ref) => {
+  const variant = React.useContext(DropdownMenuVariantContext);
+  const separatorClassName = cn("my-1 h-px bg-neutral-alphas-200", className);
+
+  // DropdownMenuPrimitive.Separator requires Radix menu context, unavailable
+  // when the sheet variant renders inside a Drawer (Dialog) instead. <hr> is a
+  // native separator, so it needs no ARIA role.
+  if (variant === "sheet") {
+    return <hr ref={ref as React.Ref<HTMLHRElement>} className={separatorClassName} {...props} />;
+  }
+
+  return <DropdownMenuPrimitive.Separator ref={ref} className={separatorClassName} {...props} />;
+});
 DropdownMenuSeparator.displayName = "DropdownMenuSeparator";
 
 /** Header type. `"default"` shows a title; `"search"` shows a search input. */
@@ -654,6 +782,8 @@ export interface DropdownMenuRadioGroupProps
  *   <DropdownMenuRadioItem value="oldest">Oldest first</DropdownMenuRadioItem>
  * </DropdownMenuRadioGroup>
  * ```
+ *
+ * Requires Radix menu context — not supported inside a `variant="sheet"` menu.
  */
 export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
