@@ -37,12 +37,14 @@ import { ChevronUpIcon } from "../components/Icons/ChevronUpIcon";
 import { ClockIcon } from "../components/Icons/ClockIcon";
 import { CloseIcon } from "../components/Icons/CloseIcon";
 import { CodeIcon } from "../components/Icons/CodeIcon";
+import { CogIcon } from "../components/Icons/CogIcon";
 import { CoinIcon } from "../components/Icons/CoinIcon";
 import { CompassIcon } from "../components/Icons/CompassIcon";
 import { CopyIcon } from "../components/Icons/CopyIcon";
 import { CrossCircleIcon } from "../components/Icons/CrossCircleIcon";
 import { CrossIcon } from "../components/Icons/CrossIcon";
 import { CrownIcon } from "../components/Icons/CrownIcon";
+import { DenseGridViewIcon } from "../components/Icons/DenseGridViewIcon";
 import { DiamondIcon } from "../components/Icons/DiamondIcon";
 import { DiscordIcon } from "../components/Icons/DiscordIcon";
 import { DiscountIcon } from "../components/Icons/DiscountIcon";
@@ -155,6 +157,7 @@ import { UserIcon } from "../components/Icons/UserIcon";
 import { UserMenuIcon } from "../components/Icons/UserMenuIcon";
 import { UsersIcon } from "../components/Icons/UsersIcon";
 import { VaultIcon } from "../components/Icons/VaultIcon";
+import { VerifiedIcon } from "../components/Icons/VerifiedIcon";
 import { VideoIcon } from "../components/Icons/VideoIcon";
 import { VipBadgeIcon } from "../components/Icons/VipBadgeIcon";
 import { WalletIcon } from "../components/Icons/WalletIcon";
@@ -388,6 +391,12 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   {
+    name: "CogIcon",
+    component: CogIcon,
+    tags: ["cog", "gear", "settings", "config", "preferences"],
+    propBased: true,
+  },
+  {
     name: "CoinIcon",
     component: CoinIcon,
     tags: ["coin", "money", "currency", "star"],
@@ -416,6 +425,12 @@ const icons: IconEntry[] = [
     name: "CrownIcon",
     component: CrownIcon,
     tags: ["crown", "premium", "vip", "special"],
+    propBased: true,
+  },
+  {
+    name: "DenseGridViewIcon",
+    component: DenseGridViewIcon,
+    tags: ["grid", "dense", "compact", "view", "layout", "gallery"],
     propBased: true,
   },
   {
@@ -935,6 +950,7 @@ const icons: IconEntry[] = [
     tags: ["vault", "safe", "secure", "storage"],
     propBased: true,
   },
+  { name: "VerifiedIcon", component: VerifiedIcon, tags: [], propBased: false },
   {
     name: "VideoIcon",
     component: VideoIcon,
@@ -1183,7 +1199,7 @@ function IconGallery() {
             fontSize: 14,
             borderRadius: 6,
             border: "1px solid var(--color-neutral-alphas-200)",
-            backgroundColor: "var(--color-inputs-inputs-primary)",
+            backgroundColor: "var(--color-surface-inputs)",
             color: "var(--color-content-primary)",
             outline: "none",
           }}

@@ -191,6 +191,11 @@
       "hasFilled": true
     },
     {
+      "name": "DenseGridViewIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
       "name": "DiamondIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
