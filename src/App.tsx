@@ -4687,6 +4687,7 @@ function VoiceNoteDemo() {
         <VoiceNote size="small" progress={0.4} playing time="0:02" />
         <VoiceNote fileName="audio_name.mp4" time="0:05" />
         <VoiceNote showRemove time="0:05" onRemove={() => console.log("remove")} />
+        <VoiceNote src="https://example.com/voice-note.mp3" duration={24} />
         <VoiceNote
           playing={playing}
           progress={playing ? 0.6 : undefined}

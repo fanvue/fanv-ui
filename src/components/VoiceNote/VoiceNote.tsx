@@ -1,5 +1,9 @@
 import * as React from "react";
+import { formatTime, resamplePeaks } from "@/utils/audioWaveform";
 import { cn } from "@/utils/cn";
+import { useAudioPlayback } from "@/utils/useAudioPlayback";
+import { useWaveformPeaks } from "@/utils/useWaveformPeaks";
+import { useWaveformSeek } from "@/utils/useWaveformSeek";
 import { IconButton, type IconButtonSize } from "../IconButton/IconButton";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { PauseIcon } from "../Icons/PauseIcon";
@@ -13,7 +17,7 @@ export type VoiceNoteSize = "default" | "small";
 
 /**
  * Default waveform amplitudes (0–1), taken from the Figma reference so the
- * resting state renders 1:1 when no `waveform` data is supplied.
+ * resting state renders 1:1 when no `waveform` data (or `src`) is supplied.
  */
 const DEFAULT_WAVEFORM = [
   0.15, 0.46, 0.85, 0.23, 1, 0.85, 0.62, 0.62, 0.62, 0.85, 0.85, 0.62, 0.62, 1, 1, 0.62, 0.62, 0.62,
@@ -33,6 +37,9 @@ const CONTROL_SIZE: Record<VoiceNoteSize, IconButtonSize> = {
   small: "32",
 };
 
+/** Bars rendered when playing decoded audio (decoded peaks are resampled to this count). */
+const PLAYER_BAR_COUNT = 56;
+
 function activeBarClass(negative: boolean): string {
   return negative
     ? "bg-messages-waveform-listening-negative-active"
@@ -51,9 +58,78 @@ function restingBarClass(negative: boolean): string {
     : "bg-messages-waveform-default";
 }
 
+interface WaveformBarsProps {
+  bars: number[];
+  variant: VoiceNoteVariant;
+  size: VoiceNoteSize;
+  negative: boolean;
+  progress: number | undefined;
+}
+
+function WaveformBars({ bars, variant, size, negative, progress }: WaveformBarsProps) {
+  const hasProgress = progress !== undefined;
+  const activeCount = hasProgress ? Math.round(progress * bars.length) : 0;
+  const maxBarHeight = MAX_BAR_HEIGHT[size];
+
+  return (
+    <>
+      {bars.map((amplitude, index) => {
+        const height =
+          variant === "flat"
+            ? MIN_BAR_HEIGHT
+            : Math.max(MIN_BAR_HEIGHT, Math.round(amplitude * maxBarHeight));
+        const colorClass = !hasProgress
+          ? restingBarClass(negative)
+          : index < activeCount
+            ? activeBarClass(negative)
+            : inactiveBarClass(negative);
+
+        return (
+          <span
+            // biome-ignore lint/suspicious/noArrayIndexKey: bars are a fixed positional sequence
+            key={index}
+            className={cn("w-1 shrink-0 rounded-[2px]", colorClass)}
+            style={{ height }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
+interface WaveformMetaProps {
+  time: string | undefined;
+  fileName: string | undefined;
+  textColor: string;
+}
+
+function WaveformMeta({ time, fileName, textColor }: WaveformMetaProps) {
+  return (
+    <>
+      {time && (
+        <span className={cn("typography-body-small-14px-regular shrink-0", textColor)}>{time}</span>
+      )}
+      {fileName && (
+        <span className={cn("typography-body-small-14px-regular shrink-0 truncate", textColor)}>
+          {fileName}
+        </span>
+      )}
+    </>
+  );
+}
+
 export interface VoiceNoteProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onPlay" | "onPause"> {
-  /** Amplitude values (0–1), one per bar. Falls back to a built-in pattern. */
+  /**
+   * URL of the audio to play. When set, the component manages a real `<audio>`
+   * element: it decodes the waveform, plays/pauses, tracks live progress and is
+   * seekable — `waveform`/`progress` are derived automatically. Leave unset for
+   * a presentational, fully-controlled voice note.
+   */
+  src?: string;
+  /** Fallback total duration (seconds), used until the media's metadata loads. */
+  duration?: number;
+  /** Amplitude values (0–1), one per bar. Ignored when `src` is set. Falls back to a built-in pattern. */
   waveform?: number[];
   /** Visual style; `flat` renders a simplified dotted preview. @default "default" */
   variant?: VoiceNoteVariant;
@@ -62,8 +138,9 @@ export interface VoiceNoteProps
   /** Dark-surface treatment for use on message bubbles. @default false */
   negative?: boolean;
   /**
-   * Playback progress (0–1). When set, the waveform splits into played/unplayed
-   * bars (the "Listening" state). Leave undefined for the resting waveform.
+   * Playback progress (0–1) for the presentational mode. When set, the waveform
+   * splits into played/unplayed bars (the "Listening" state). Ignored when `src`
+   * is set (progress comes from the media element).
    */
   progress?: number;
   /** Whether audio is playing (controlled) — toggles the play/pause icon. */
@@ -72,7 +149,9 @@ export interface VoiceNoteProps
   defaultPlaying?: boolean;
   /** Called with the next playing state when the play/pause control is pressed. */
   onPlayPause?: (playing: boolean) => void;
-  /** Timestamp or duration label, e.g. "0:05". */
+  /** Called when audio playback reaches the end (only in `src` mode). */
+  onEnded?: () => void;
+  /** Timestamp or duration label, e.g. "0:05". Ignored when `src` is set (derived from the media). */
   time?: string;
   /** File name shown when the audio is an uploaded file rather than a voice note. */
   fileName?: string;
@@ -96,13 +175,15 @@ export interface VoiceNoteProps
  * A voice-note audio player: a play/pause control, an amplitude waveform, and a
  * timestamp — for voice messages and audio attachments in a conversation.
  *
- * Presentational and controlled: supply `playing`/`progress` and handle
- * `onPlayPause` to wire it to real audio (for media-thumbnail playback use
- * {@link AudioPlayer} instead). `flat` renders a compact dotted preview and
+ * Two modes: pass `src` for a self-contained player that decodes the waveform,
+ * plays real audio, tracks live progress and is seekable; or omit `src` and
+ * drive it with `playing`/`progress` + `onPlayPause` for a presentational,
+ * fully-controlled voice note. `flat` renders a compact dotted preview and
  * `negative` adapts it to dark message bubbles.
  *
  * @example
  * ```tsx
+ * <VoiceNote src="https://example.com/note.mp3" duration={5} />
  * <VoiceNote time="0:05" progress={0.4} playing onPlayPause={toggle} />
  * ```
  */
@@ -110,6 +191,8 @@ export const VoiceNote = React.forwardRef<HTMLDivElement, VoiceNoteProps>(
   (
     {
       className,
+      src,
+      duration,
       waveform = DEFAULT_WAVEFORM,
       variant = "default",
       size = "default",
@@ -118,6 +201,7 @@ export const VoiceNote = React.forwardRef<HTMLDivElement, VoiceNoteProps>(
       playing,
       defaultPlaying = false,
       onPlayPause,
+      onEnded,
       time,
       fileName,
       showControls = true,
@@ -131,20 +215,51 @@ export const VoiceNote = React.forwardRef<HTMLDivElement, VoiceNoteProps>(
     },
     ref,
   ) => {
-    const isControlled = playing !== undefined;
+    const isPlayer = src !== undefined;
+
+    const playback = useAudioPlayback({
+      src,
+      duration,
+      playing,
+      defaultPlaying,
+      onEnded,
+      onPlay: React.useCallback(() => onPlayPause?.(true), [onPlayPause]),
+      onPause: React.useCallback(() => onPlayPause?.(false), [onPlayPause]),
+    });
+    const decodedPeaks = useWaveformPeaks(src);
+
     const [internalPlaying, setInternalPlaying] = React.useState(defaultPlaying);
-    const isPlaying = isControlled ? playing : internalPlaying;
+    const isControlled = playing !== undefined;
+
+    const trackRef = React.useRef<HTMLDivElement>(null);
+    const seekProps = useWaveformSeek({
+      trackRef,
+      displayDuration: playback.displayDuration,
+      currentTime: playback.currentTime,
+      seekTo: playback.seekTo,
+      setSeeking: playback.setSeeking,
+    });
+
+    const isPlaying = isPlayer ? playback.isPlaying : (playing ?? internalPlaying);
 
     const handlePlayPause = () => {
+      if (isPlayer) {
+        playback.toggle();
+        return;
+      }
       const next = !isPlaying;
       if (!isControlled) setInternalPlaying(next);
       onPlayPause?.(next);
     };
 
-    const hasProgress = progress !== undefined;
-    const activeCount = hasProgress ? Math.round(progress * waveform.length) : 0;
-    const maxBarHeight = MAX_BAR_HEIGHT[size];
+    const bars = isPlayer ? resamplePeaks(decodedPeaks, PLAYER_BAR_COUNT) : waveform;
+    const progressValue = isPlayer ? playback.progress : progress;
     const textColor = negative ? "text-content-primary-inverted" : "text-content-primary";
+
+    const playerTime = playback.hasStarted ? playback.currentTime : playback.displayDuration;
+    const displayTime = isPlayer ? formatTime(playerTime) : time;
+    const controlLabel = playButtonLabel ?? (isPlaying ? "Pause" : "Play");
+    const trackAria = isPlayer ? seekProps : ({ "aria-hidden": true } as const);
 
     return (
       // biome-ignore lint/a11y/useSemanticElements: <fieldset> would break the public HTMLDivElement ref/props API
@@ -161,49 +276,35 @@ export const VoiceNote = React.forwardRef<HTMLDivElement, VoiceNoteProps>(
             size={CONTROL_SIZE[size]}
             negative={negative}
             icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
-            aria-label={playButtonLabel ?? (isPlaying ? "Pause" : "Play")}
+            aria-label={controlLabel}
             onClick={handlePlayPause}
           />
         )}
 
         <div
+          ref={trackRef}
           data-testid="voice-note-waveform"
-          className="flex h-full min-w-0 flex-1 items-center gap-1 overflow-hidden"
-          aria-hidden="true"
+          className={cn(
+            "flex h-full min-w-0 flex-1 items-center gap-1 overflow-hidden",
+            isPlayer &&
+              "cursor-pointer touch-none select-none focus-visible:shadow-focus-ring focus-visible:outline-none",
+          )}
+          {...trackAria}
         >
-          {waveform.map((amplitude, index) => {
-            const height =
-              variant === "flat"
-                ? MIN_BAR_HEIGHT
-                : Math.max(MIN_BAR_HEIGHT, Math.round(amplitude * maxBarHeight));
-            const colorClass = hasProgress
-              ? index < activeCount
-                ? activeBarClass(negative)
-                : inactiveBarClass(negative)
-              : restingBarClass(negative);
-
-            return (
-              <span
-                // biome-ignore lint/suspicious/noArrayIndexKey: bars are a fixed positional sequence
-                key={index}
-                className={cn("w-1 shrink-0 rounded-[2px]", colorClass)}
-                style={{ height }}
-              />
-            );
-          })}
+          <WaveformBars
+            bars={bars}
+            variant={variant}
+            size={size}
+            negative={negative}
+            progress={progressValue}
+          />
         </div>
 
-        {showTimestamp && time && (
-          <span className={cn("typography-body-small-14px-regular shrink-0", textColor)}>
-            {time}
-          </span>
-        )}
-
-        {fileName && (
-          <span className={cn("typography-body-small-14px-regular shrink-0 truncate", textColor)}>
-            {fileName}
-          </span>
-        )}
+        <WaveformMeta
+          time={showTimestamp ? displayTime : undefined}
+          fileName={fileName}
+          textColor={textColor}
+        />
 
         {showRemove && (
           <IconButton
@@ -213,6 +314,19 @@ export const VoiceNote = React.forwardRef<HTMLDivElement, VoiceNoteProps>(
             icon={<CloseIcon />}
             aria-label={removeButtonLabel}
             onClick={onRemove}
+          />
+        )}
+
+        {isPlayer && (
+          // biome-ignore lint/a11y/useMediaCaption: a UI voice note / short recording, not narrated content needing captions
+          <audio
+            ref={playback.audioRef}
+            src={src}
+            preload="metadata"
+            className="hidden"
+            onLoadedMetadata={playback.audioHandlers.onLoadedMetadata}
+            onTimeUpdate={playback.audioHandlers.onTimeUpdate}
+            onEnded={playback.audioHandlers.onEnded}
           />
         )}
       </div>

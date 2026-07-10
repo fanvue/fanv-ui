@@ -35,6 +35,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const Player: Story = {
+  args: { src: "https://example.com/voice-note.mp3", duration: 24, time: undefined },
+};
+
 export const Listening: Story = {
   args: { progress: 0.4, playing: true, time: "0:02" },
 };
