@@ -303,7 +303,13 @@ export interface DropdownMenuItemProps
    * Takes precedence over `leadingIcon`.
    */
   avatar?: React.ReactNode;
-  /** Icon (or other node) rendered after the label. Suppressed when {@link DropdownMenuItemProps.selected} is true, since the selected check indicator renders in the same slot. */
+  /**
+   * Icon (or other node) rendered after the label. When
+   * {@link DropdownMenuItemProps.selected} is true and no `trailingIcon` is
+   * given, the built-in selected check indicator renders in this slot
+   * instead — pass a `trailingIcon` to use a custom selected indicator (e.g.
+   * a themed tick) rather than the default one.
+   */
   trailingIcon?: React.ReactNode;
   /** Trailing count or number (e.g. an unread total) rendered before {@link DropdownMenuItemProps.trailingIcon}. */
   count?: React.ReactNode;
@@ -404,14 +410,20 @@ export const DropdownMenuItem = React.forwardRef<
       </span>
     );
 
-    // The check indicator takes the trailing slot when selected — rendering it
-    // alongside a caller-supplied trailingIcon would show two icons at once.
-    const trailingNode = selected ? (
-      <SelectedCheckIndicator hasDescription={hasDescription} />
-    ) : (
-      trailingIcon != null &&
-      (hasDescription ? <span className={iconAlignClassName!}>{trailingIcon}</span> : trailingIcon)
-    );
+    // A caller-supplied trailingIcon always wins the trailing slot — some
+    // consumers pass their own selected indicator (e.g. a themed tick) and
+    // rely on it being shown as-is rather than replaced. Only fall back to
+    // the built-in check indicator when selected and no trailingIcon is given.
+    const trailingNode =
+      trailingIcon != null ? (
+        hasDescription ? (
+          <span className={iconAlignClassName!}>{trailingIcon}</span>
+        ) : (
+          trailingIcon
+        )
+      ) : (
+        selected && <SelectedCheckIndicator hasDescription={hasDescription} />
+      );
 
     return (
       <DropdownMenuPrimitive.Item ref={ref} className={itemClassName} {...props}>
