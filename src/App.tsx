@@ -203,6 +203,7 @@ import {
   Stepper,
   StepperStep,
   StopIcon,
+  SubscribeButton,
   SuccessIcon,
   SunIcon,
   Support2Icon,
@@ -2218,6 +2219,39 @@ function LinkDemo() {
             </Link>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function SubscribeButtonDemo() {
+  return (
+    <div id="subscribebutton" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Subscribe Button</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <SubscribeButton variant="primary" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="secondary" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="tertiary" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="outline" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="brand" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="primary" price="$9.99/mo" />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4 rounded-xs bg-surface-primary-inverted p-4">
+        <SubscribeButton variant="primary" negative price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="secondary" negative price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="tertiary" negative price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="outline" negative price="$9.99/mo" discount="$19.99" />
+      </div>
+
+      <div className="flex flex-wrap items-end gap-4">
+        <SubscribeButton size="48" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton size="40" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton size="32" price="$9.99/mo" discount="$19.99" />
+      </div>
+
+      <div className="w-80">
+        <SubscribeButton variant="brand" fullWidth price="$9.99/mo" discount="$19.99" />
       </div>
     </div>
   );
@@ -5286,6 +5320,7 @@ function App() {
     { id: "badge", label: "Badge" },
     { id: "bottom-navigation", label: "Bottom Navigation" },
     { id: "button", label: "Button" },
+    { id: "subscribebutton", label: "Subscribe Button" },
     { id: "card", label: "Card" },
     { id: "charts", label: "Charts" },
     { id: "checkbox", label: "Checkbox" },
@@ -5469,6 +5504,9 @@ function App() {
 
             {/* Button */}
             <ButtonDemo />
+
+            {/* Subscribe Button */}
+            <SubscribeButtonDemo />
 
             {/* Badge */}
             <BadgeDemo />
