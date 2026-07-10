@@ -509,15 +509,66 @@ describe("DropdownMenuItem", () => {
       expect(screen.getByTestId("item")).toHaveClass("min-h-10");
     });
 
-    it("renders selected state with v2 filled treatment", () => {
+    it("renders selected state with the subtle highlight treatment", () => {
       renderMenu(
         <DropdownMenuItem selected data-testid="item">
           Item
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass("bg-buttons-primary-default");
-      expect(item).toHaveClass("text-content-primary-inverted");
+      expect(item).toHaveClass("bg-neutral-alphas-100");
+      expect(item).not.toHaveClass("text-content-primary-inverted");
+    });
+
+    it("keeps a distinct selected highlight when the item is also keyboard/mouse-highlighted", () => {
+      // Regression guard: bg-interaction-hover aliases to the same token as the
+      // plain hover background (data-[highlighted]:bg-neutral-alphas-50), so a
+      // selected+highlighted row must use a darker step of the neutral-alphas
+      // ramp or it becomes visually indistinguishable from an unselected hover.
+      renderMenu(
+        <DropdownMenuItem selected data-testid="item">
+          Item
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByTestId("item");
+      expect(item.className).toContain("data-[highlighted]:bg-neutral-alphas-200");
+      expect(item.className).not.toContain("data-[highlighted]:bg-neutral-alphas-50");
+    });
+
+    it("renders a check indicator on the selected item, not just a background change", () => {
+      // Regression guard: a background-only signal for "selected" isn't
+      // guaranteed to read as distinct from the hover background in every
+      // theme/contrast combination — pair it with an explicit indicator, same
+      // as SelectItem and DropdownMenuRadioItem already do.
+      renderMenu(
+        <>
+          <DropdownMenuItem selected data-testid="selected-item">
+            Selected
+          </DropdownMenuItem>
+          <DropdownMenuItem data-testid="unselected-item">Unselected</DropdownMenuItem>
+        </>,
+      );
+      expect(screen.getByTestId("selected-item").querySelector("svg")).toBeInTheDocument();
+      expect(screen.getByTestId("unselected-item").querySelector("svg")).not.toBeInTheDocument();
+    });
+
+    it("renders a caller-supplied trailingIcon instead of the built-in check indicator when selected", () => {
+      // Regression guard: a caller may pass its own trailing icon to signal
+      // selection (e.g. ChatInput's themed tick). That custom icon must win
+      // the trailing slot rather than being silently replaced by the
+      // built-in SelectedCheckIndicator.
+      renderMenu(
+        <DropdownMenuItem
+          selected
+          trailingIcon={<span data-testid="caller-trailing-icon">T</span>}
+          data-testid="item"
+        >
+          Item
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByTestId("item");
+      expect(screen.getByTestId("caller-trailing-icon")).toBeInTheDocument();
+      expect(item.querySelectorAll("svg")).toHaveLength(0);
     });
 
     it("renders leading and trailing icons", () => {
@@ -802,6 +853,23 @@ describe("DropdownMenuRadioItem", () => {
       const items = screen.getAllByRole("menuitemradio");
       expect(items[0]).toHaveAttribute("data-state", "unchecked");
       expect(items[1]).toHaveAttribute("data-state", "checked");
+    });
+
+    it("keeps a distinct checked highlight when the item is also keyboard/mouse-highlighted", () => {
+      // Regression guard: bg-interaction-hover aliases to the same token as the
+      // plain hover background, so checked must use a darker neutral-alphas step
+      // (via a higher-specificity compound selector) or it becomes visually
+      // indistinguishable from unchecked on hover.
+      renderMenu(
+        <DropdownMenuRadioGroup value="two">
+          <DropdownMenuRadioItem value="one">One</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="two">Two</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      const checkedItem = screen.getByRole("menuitemradio", { name: /Two/ });
+      expect(checkedItem.className).toContain(
+        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-200",
+      );
     });
 
     it("calls onValueChange when an item is selected", async () => {
