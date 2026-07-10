@@ -58,6 +58,31 @@ describe("PhoneField", () => {
       const input = screen.getByRole("textbox");
       expect(input.getAttribute("aria-describedby")).toContain("phone-dial-code");
     });
+
+    it("focuses the input when clicking the dial code or the field padding", async () => {
+      const user = userEvent.setup();
+      const { container } = render(<PhoneField aria-label="Phone" dialCode="+39" />);
+      const input = screen.getByRole("textbox");
+
+      await user.click(screen.getByText("+39"));
+      expect(input).toHaveFocus();
+
+      input.blur();
+      const fieldContainer = container.querySelector('[class*="rounded-sm"]') as HTMLElement;
+      await user.click(fieldContainer);
+      expect(input).toHaveFocus();
+    });
+
+    it("does not steal focus from the country button when clicked", async () => {
+      const user = userEvent.setup();
+      const onCountrySelect = vi.fn();
+      render(<PhoneField aria-label="Phone" onCountrySelect={onCountrySelect} />);
+      const input = screen.getByRole("textbox");
+
+      await user.click(screen.getByRole("button", { name: "Select country" }));
+      expect(onCountrySelect).toHaveBeenCalledTimes(1);
+      expect(input).not.toHaveFocus();
+    });
   });
 
   describe("states", () => {
