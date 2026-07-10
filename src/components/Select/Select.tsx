@@ -140,7 +140,7 @@ export const Select = React.forwardRef<
               aria-describedby={bottomText ? helperTextId : undefined}
               aria-invalid={error || undefined}
               className={cn(
-                "flex w-full cursor-pointer items-center justify-between rounded-sm border bg-inputs-inputs-primary outline-none motion-safe:transition-colors focus-visible:shadow-focus-ring",
+                "flex w-full cursor-pointer items-center justify-between rounded-sm border bg-inputs-inputs-primary outline-none focus-visible:shadow-focus-ring motion-safe:transition-colors",
                 TRIGGER_HEIGHT[size],
                 TRIGGER_PADDING_X[size],
                 TRIGGER_GAP[size],
@@ -243,31 +243,123 @@ export const SelectContent = React.forwardRef<
 
 SelectContent.displayName = "SelectContent";
 
+/** Dropdown row height in pixels, matching the V2 Menu Item spec. */
+export type SelectItemSize = "40" | "32";
+
+const ITEM_SIZE_CLASSES: Record<SelectItemSize, string> = {
+  "40": "min-h-10 py-2 typography-body-default-16px-regular",
+  "32": "min-h-8 py-[7px] typography-body-small-14px-regular",
+};
+
+const ITEM_DESCRIPTION_TYPOGRAPHY: Record<SelectItemSize, string> = {
+  "40": "typography-body-small-14px-regular",
+  "32": "typography-description-12px-regular",
+};
+
 export interface SelectItemProps
-  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {}
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {
+  /** Row height. Defaults to the parent {@link Select} size (`48`/`40` → `40`, `32` → `32`). */
+  size?: SelectItemSize;
+  /** Icon (or other node) rendered before the label. Ignored when {@link SelectItemProps.avatar} is set. */
+  leadingIcon?: React.ReactNode;
+  /**
+   * Leading avatar rendered in place of {@link SelectItemProps.leadingIcon}, for rows
+   * representing a person or account. Pass an `Avatar` sized to `24`. Takes precedence over `leadingIcon`.
+   */
+  avatar?: React.ReactNode;
+  /** Optional secondary text rendered on a second line below the label. */
+  description?: React.ReactNode;
+}
 
 /**
- * An individual option inside {@link SelectContent}.
+ * Whether a `ReactNode` will actually render. Excludes `null`/`undefined` and
+ * booleans so short-circuit props (e.g. `description={cond && "…"}`) don't flip
+ * the item into a two-line/avatar layout when they resolve to `false`.
+ */
+function isRenderableNode(node: React.ReactNode): boolean {
+  return node !== null && node !== undefined && typeof node !== "boolean";
+}
+
+/**
+ * An individual option inside {@link SelectContent}, following the V2 Menu Item spec.
+ *
+ * Supports a leading icon or avatar, an optional two-line layout via `description`,
+ * and the standard hover / selected / disabled states. The selected row is marked
+ * with a trailing check indicator.
+ *
+ * @example
+ * ```tsx
+ * <SelectItem value="jane" avatar={<Avatar size={24} fallback="JD" />} description="Product designer">
+ *   Jane Doe
+ * </SelectItem>
+ * ```
  */
 export const SelectItem = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Item>,
   SelectItemProps
->(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Item
-    ref={ref}
-    className={cn(
-      "typography-body-default-16px-regular relative flex w-full cursor-pointer select-none items-center gap-2 rounded-xs py-2 pr-2 pl-3 text-content-primary outline-none",
-      "focus:bg-neutral-alphas-100 data-disabled:pointer-events-none data-disabled:opacity-50",
-      className,
-    )}
-    {...props}
-  >
-    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-    <SelectPrimitive.ItemIndicator className="ml-auto flex size-4 shrink-0 items-center justify-center">
-      <CheckIcon className="size-4 text-content-primary" />
-    </SelectPrimitive.ItemIndicator>
-  </SelectPrimitive.Item>
-));
+>(({ className, children, size, leadingIcon, avatar, description, ...props }, ref) => {
+  const { size: triggerSize } = React.useContext(SelectContext);
+  const itemSize: SelectItemSize = size ?? (triggerSize === "32" ? "32" : "40");
+  const hasDescription = isRenderableNode(description);
+  const hasAvatar = isRenderableNode(avatar);
+  const hasLeadingIcon = isRenderableNode(leadingIcon);
+
+  return (
+    <SelectPrimitive.Item
+      ref={ref}
+      className={cn(
+        "group relative flex w-full cursor-pointer select-none gap-2 rounded-xs px-3 text-content-primary outline-none",
+        hasDescription ? "items-start" : "items-center",
+        ITEM_SIZE_CLASSES[itemSize],
+        hasAvatar && !hasDescription && itemSize === "32" && "py-1",
+        "focus:bg-neutral-alphas-50 data-highlighted:bg-neutral-alphas-50",
+        "data-disabled:pointer-events-none data-disabled:text-content-disabled",
+        className,
+      )}
+      {...props}
+    >
+      {hasAvatar ? (
+        <span className="shrink-0">{avatar}</span>
+      ) : (
+        hasLeadingIcon &&
+        (hasDescription ? (
+          <span className="flex shrink-0 items-center pt-0.5 [&>svg]:size-4">{leadingIcon}</span>
+        ) : (
+          <span className="flex shrink-0 items-center [&>svg]:size-4">{leadingIcon}</span>
+        ))
+      )}
+
+      {hasDescription ? (
+        <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <span className="truncate">
+            <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+          </span>
+          <span
+            className={cn(
+              "truncate text-content-secondary group-data-[disabled]:text-content-disabled",
+              ITEM_DESCRIPTION_TYPOGRAPHY[itemSize],
+            )}
+          >
+            {description}
+          </span>
+        </span>
+      ) : (
+        <span className="min-w-0 flex-1 truncate">
+          <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+        </span>
+      )}
+
+      <SelectPrimitive.ItemIndicator
+        className={cn(
+          "ml-auto flex size-4 shrink-0 items-center justify-center",
+          hasDescription && "self-start",
+        )}
+      >
+        <CheckIcon className="size-4 text-content-primary group-data-[disabled]:text-content-disabled" />
+      </SelectPrimitive.ItemIndicator>
+    </SelectPrimitive.Item>
+  );
+});
 
 SelectItem.displayName = "SelectItem";
 

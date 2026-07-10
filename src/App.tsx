@@ -2639,6 +2639,34 @@ function SelectDemo() {
             <SelectItem value="c">Option C</SelectItem>
           </SelectContent>
         </Select>
+        <Select label="Rows with leading icons" placeholder="Select a place">
+          <SelectContent>
+            <SelectItem value="home" leadingIcon={<HomeIcon />}>
+              Home
+            </SelectItem>
+            <SelectItem value="favourite" leadingIcon={<StarIcon />}>
+              Favourite
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <Select label="Feature rows (avatar + description)" placeholder="Select a person">
+          <SelectContent>
+            <SelectItem
+              value="jane"
+              avatar={<Avatar size={24} fallback="JD" />}
+              description="Product designer"
+            >
+              Jane Doe
+            </SelectItem>
+            <SelectItem
+              value="alex"
+              avatar={<Avatar size={24} fallback="AS" />}
+              description="Engineer"
+            >
+              Alex Smith
+            </SelectItem>
+          </SelectContent>
+        </Select>
         <Select
           label="Error"
           placeholder="Select an option"

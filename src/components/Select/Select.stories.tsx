@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { Avatar } from "../Avatar/Avatar";
 import { HomeIcon } from "../Icons/HomeIcon";
+import { StarIcon } from "../Icons/StarIcon";
 import {
   Select,
   SelectContent,
@@ -261,6 +263,73 @@ export const WithGroupsAndSeparator: Story = {
           <SelectItem value="de">Germany</SelectItem>
           <SelectItem value="fr">France</SelectItem>
         </SelectGroup>
+      </SelectContent>
+    </Select>
+  ),
+};
+
+export const WithItemIcons: Story = {
+  name: "Rows with leading icons",
+  decorators: [
+    (Story) => (
+      <div style={{ width: "375px", height: "260px" }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    label: "Saved place",
+    placeholder: "Select a place",
+    defaultOpen: true,
+  },
+  render: (args) => (
+    <Select {...args}>
+      <SelectContent>
+        <SelectItem value="home" leadingIcon={<HomeIcon />}>
+          Home
+        </SelectItem>
+        <SelectItem value="favourite" leadingIcon={<StarIcon />}>
+          Favourite
+        </SelectItem>
+        <SelectItem value="disabled" leadingIcon={<StarIcon />} disabled>
+          Unavailable
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  ),
+};
+
+export const FeatureRows: Story = {
+  name: "Feature rows (avatar + description)",
+  decorators: [
+    (Story) => (
+      <div style={{ width: "375px", height: "300px" }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    label: "Assignee",
+    placeholder: "Select a person",
+    defaultValue: "jane",
+    defaultOpen: true,
+  },
+  render: (args) => (
+    <Select {...args}>
+      <SelectContent>
+        <SelectItem
+          value="jane"
+          avatar={<Avatar size={24} fallback="JD" />}
+          description="Product designer"
+        >
+          Jane Doe
+        </SelectItem>
+        <SelectItem value="alex" avatar={<Avatar size={24} fallback="AS" />} description="Engineer">
+          Alex Smith
+        </SelectItem>
+        <SelectItem value="sam" avatar={<Avatar size={24} fallback="SB" />} description="Marketing">
+          Sam Brown
+        </SelectItem>
       </SelectContent>
     </Select>
   ),
