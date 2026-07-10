@@ -637,7 +637,7 @@
 
 .dark {
   --color-neutral-alphas-50: var(--primitives-color-whitealpha-100);
-  --color-neutral-alphas-100: var(--primitives-color-whitealpha-100);
+  --color-neutral-alphas-100: #ffffff26;
   --color-neutral-alphas-150: #ffffffcc;
   --color-neutral-alphas-200: var(--primitives-color-whitealpha-200);
   --color-neutral-alphas-300: var(--primitives-color-whitealpha-300);
