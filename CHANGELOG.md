@@ -1,5 +1,23 @@
 # Changelog
 
+## [3.16.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.15.0...ui-v3.16.0) (2026-07-11)
+
+
+### Features
+
+* **AudioRecordButton:** add audio record button and consume it in AudioUpload (ENG-10630) ([#582](https://github.com/fanvue/fanv-ui/issues/582)) ([c8a34a8](https://github.com/fanvue/fanv-ui/commit/c8a34a8c3603b465735c2f09aa3b26c1911d0f6e))
+* **ChatMessage:** add ChatMessage component ([#578](https://github.com/fanvue/fanv-ui/issues/578)) ([bc3097f](https://github.com/fanvue/fanv-ui/commit/bc3097f9f8d3571cba0581c9d8d0ead0856efaaa))
+* **Icons:** add DenseGridViewIcon for the vault 3-state view toggle (ENG-12374) ([#591](https://github.com/fanvue/fanv-ui/issues/591)) ([2f35559](https://github.com/fanvue/fanv-ui/commit/2f355599e34fb1de049b1f6f8f665707699febd4))
+* **MediaStatusIndicator:** add V2 media status indicator (ENG-11798) ([#581](https://github.com/fanvue/fanv-ui/issues/581)) ([1919acb](https://github.com/fanvue/fanv-ui/commit/1919acb6c8f148ae2ffc379ddfe490c67fb9e782))
+* **Select:** align dropdown rows to V2 Menu Item spec (ENG-11781) ([#572](https://github.com/fanvue/fanv-ui/issues/572)) ([5094cd3](https://github.com/fanvue/fanv-ui/commit/5094cd383a2f78ee527de0be01bc99b82d379e3f))
+* **SubscribeButton:** add dedicated V2 subscribe button (ENG-11784) ([#580](https://github.com/fanvue/fanv-ui/issues/580)) ([fdf8b9f](https://github.com/fanvue/fanv-ui/commit/fdf8b9f238eef1ad6e681ae22c52176cab805861))
+
+
+### Bug Fixes
+
+* **DropdownMenu:** add sheet variant for mobile drawer + confirm flip reposition (ENG-12331) ([#592](https://github.com/fanvue/fanv-ui/issues/592)) ([37070ae](https://github.com/fanvue/fanv-ui/commit/37070ae6113607e89d4e4af96cb291232b156441))
+* **DropdownMenu:** replace heavy filled selected state with subtle highlight (ENG-12329) ([#590](https://github.com/fanvue/fanv-ui/issues/590)) ([4cc72f2](https://github.com/fanvue/fanv-ui/commit/4cc72f28abdf2e6bd84451d8fd1d0f49ef47a1d0))
+
 ## [3.15.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.14.1...ui-v3.15.0) (2026-07-09)
 
 
