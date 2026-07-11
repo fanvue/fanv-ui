@@ -1215,4 +1215,73 @@ describe("DropdownMenu sheet variant", () => {
     const link = screen.getByRole("option", { name: "Settings" });
     expect(link).toHaveClass("aria-disabled:text-content-disabled");
   });
+
+  it("renders a radio group without crashing on Radix's menu-context requirement", async () => {
+    // Regression guard: DropdownMenuRadioItem always rendered
+    // DropdownMenuPrimitive.RadioItem, which throws without a Radix menu
+    // Root/Content ancestor — never mounted in the sheet variant.
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuRadioGroup defaultValue="newest">
+            <DropdownMenuRadioItem value="newest">Newest first</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="oldest">Oldest first</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    expect(screen.getByRole("radio", { name: "Newest first" })).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    expect(screen.getByRole("radio", { name: "Oldest first" })).toHaveAttribute(
+      "aria-checked",
+      "false",
+    );
+  });
+
+  it("selects a radio item, updates the checked state, and closes the sheet", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuRadioGroup value="newest" onValueChange={onValueChange}>
+            <DropdownMenuRadioItem value="newest">Newest first</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="oldest">Oldest first</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("radio", { name: "Oldest first" }));
+    expect(onValueChange).toHaveBeenCalledWith("oldest");
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("blocks selection on a disabled radio item", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuRadioGroup value="newest" onValueChange={onValueChange}>
+            <DropdownMenuRadioItem value="newest">Newest first</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="oldest" disabled>
+              Oldest first
+            </DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("radio", { name: "Oldest first" }));
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
 });

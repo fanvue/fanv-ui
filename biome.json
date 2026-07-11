@@ -152,6 +152,16 @@
           }
         }
       }
+    },
+    {
+      "includes": ["**/DropdownMenu/DropdownMenu.tsx"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useSemanticElements": "off"
+          }
+        }
+      }
     }
   ]
 }

@@ -802,6 +802,14 @@ function SearchInput({
 export interface DropdownMenuRadioGroupProps
   extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioGroup> {}
 
+// DropdownMenuPrimitive.RadioGroup requires Radix menu context, unavailable
+// when the sheet variant renders inside a Drawer (Dialog) instead — carries
+// the same value/onValueChange pairing down to DropdownMenuRadioItem there.
+const RadioGroupContext = React.createContext<{
+  value?: string;
+  onValueChange: (value: string) => void;
+} | null>(null);
+
 /**
  * Groups {@link DropdownMenuRadioItem} children so they behave as a
  * single-select set. Controlled via `value`/`onValueChange`.
@@ -813,10 +821,45 @@ export interface DropdownMenuRadioGroupProps
  *   <DropdownMenuRadioItem value="oldest">Oldest first</DropdownMenuRadioItem>
  * </DropdownMenuRadioGroup>
  * ```
- *
- * Requires Radix menu context — not supported inside a `variant="sheet"` menu.
  */
-export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
+export const DropdownMenuRadioGroup = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.RadioGroup>,
+  DropdownMenuRadioGroupProps
+>(({ value, defaultValue, onValueChange, children, ...props }, ref) => {
+  const variant = React.useContext(DropdownMenuVariantContext);
+  const [currentValue, setCurrentValue] = useControllableState({
+    prop: value,
+    // Radix's RadioGroupProps unions the string-only RadioGroup `defaultValue`
+    // with the native div attribute's broader type — narrow it back, and fall
+    // to "" (no option selected) since useControllableState requires a real
+    // default rather than undefined.
+    defaultProp: (defaultValue as string | undefined) ?? "",
+    onChange: onValueChange,
+  });
+
+  if (variant === "sheet") {
+    return (
+      <RadioGroupContext.Provider value={{ value: currentValue, onValueChange: setCurrentValue }}>
+        <div ref={ref as React.Ref<HTMLDivElement>} role="radiogroup" {...props}>
+          {children}
+        </div>
+      </RadioGroupContext.Provider>
+    );
+  }
+
+  return (
+    <DropdownMenuPrimitive.RadioGroup
+      ref={ref}
+      value={value}
+      defaultValue={defaultValue}
+      onValueChange={onValueChange}
+      {...props}
+    >
+      {children}
+    </DropdownMenuPrimitive.RadioGroup>
+  );
+});
+DropdownMenuRadioGroup.displayName = "DropdownMenuRadioGroup";
 
 /** Height preset for a {@link DropdownMenuRadioItem}. */
 export type DropdownMenuRadioItemSize = "40";
@@ -829,6 +872,53 @@ export interface DropdownMenuRadioItemProps
   size?: DropdownMenuRadioItemSize;
 }
 
+const radioItemClassName = (className?: string) =>
+  cn(
+    "group flex w-full cursor-pointer items-start gap-3 rounded-xs px-4 py-2 outline-none",
+    "data-[highlighted]:bg-neutral-alphas-50",
+    "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
+    "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
+    // See DropdownMenuItem above: bg-interaction-hover aliases to the same
+    // token as the plain hover background, so it can't distinguish the
+    // checked state from an unchecked-but-hovered row.
+    "data-[state=checked]:bg-neutral-alphas-100",
+    "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-200",
+    "aria-checked:bg-neutral-alphas-100",
+    className,
+  );
+
+function RadioIndicator({ checked }: { checked: boolean }) {
+  return (
+    <span
+      className={cn(
+        "mt-1 flex size-4 shrink-0 items-center justify-center rounded-full border border-icons-primary",
+        "group-data-[disabled]:border-content-disabled",
+      )}
+      aria-hidden="true"
+    >
+      {checked && <span className="size-2 rounded-full bg-content-primary" />}
+    </span>
+  );
+}
+
+function RadioItemBody({ children, helper }: { children: React.ReactNode; helper?: string }) {
+  return (
+    <span className="flex min-w-0 flex-1 flex-col gap-1">
+      <span className="typography-body-default-16px-semibold truncate">{children}</span>
+      {helper && (
+        <span
+          className={cn(
+            "typography-description-12px-regular text-content-secondary",
+            "group-data-[disabled]:text-content-disabled",
+          )}
+        >
+          {helper}
+        </span>
+      )}
+    </span>
+  );
+}
+
 /**
  * A single radio-style choice within a {@link DropdownMenuRadioGroup}. Shows
  * a circular indicator that fills when selected, plus an optional helper line
@@ -837,21 +927,57 @@ export interface DropdownMenuRadioItemProps
 export const DropdownMenuRadioItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.RadioItem>,
   DropdownMenuRadioItemProps
->(({ className, children, helper, size: _size = "40", ...props }, ref) => {
+>(({ className, children, helper, size: _size = "40", disabled, onSelect, ...props }, ref) => {
+  const variant = React.useContext(DropdownMenuVariantContext);
+  const toggleOpen = React.useContext(ToggleOpenContext);
+  const radioGroup = React.useContext(RadioGroupContext);
+
+  // DropdownMenuPrimitive.RadioItem requires Radix menu context, unavailable
+  // when the sheet variant renders inside a Drawer (Dialog) instead — render
+  // a plain option element wired to RadioGroupContext, matching the sheet
+  // fallback DropdownMenuItem already uses.
+  if (variant === "sheet") {
+    const {
+      value,
+      onClick: consumerOnClick,
+      ...restProps
+    } = props as React.ComponentPropsWithoutRef<"button"> & {
+      value: string;
+    };
+    const checked = radioGroup?.value === value;
+    return (
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
+        type="button"
+        {...restProps}
+        disabled={disabled}
+        role="radio"
+        aria-checked={checked}
+        className={radioItemClassName(className)}
+        onClick={(event) => {
+          if (disabled) {
+            event.preventDefault();
+            return;
+          }
+          consumerOnClick?.(event);
+          if (event.defaultPrevented) return;
+          radioGroup?.onValueChange(value);
+          onSelect?.(event.nativeEvent);
+          if (!event.nativeEvent.defaultPrevented) toggleOpen?.(() => false);
+        }}
+      >
+        <RadioIndicator checked={checked} />
+        <RadioItemBody helper={helper}>{children}</RadioItemBody>
+      </button>
+    );
+  }
+
   return (
     <DropdownMenuPrimitive.RadioItem
       ref={ref}
-      className={cn(
-        "group flex w-full cursor-pointer items-start gap-3 rounded-xs px-4 py-2 outline-none",
-        "data-[highlighted]:bg-neutral-alphas-50",
-        "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
-        // See DropdownMenuItem above: bg-interaction-hover aliases to the same
-        // token as the plain hover background, so it can't distinguish the
-        // checked state from an unchecked-but-hovered row.
-        "data-[state=checked]:bg-neutral-alphas-100",
-        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-200",
-        className,
-      )}
+      className={radioItemClassName(className)}
+      disabled={disabled}
+      onSelect={onSelect}
       {...props}
     >
       <span
@@ -865,19 +991,7 @@ export const DropdownMenuRadioItem = React.forwardRef<
           <span className="size-2 rounded-full bg-content-primary" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
-      <span className="flex min-w-0 flex-1 flex-col gap-1">
-        <span className="typography-body-default-16px-semibold truncate">{children}</span>
-        {helper && (
-          <span
-            className={cn(
-              "typography-description-12px-regular text-content-secondary",
-              "group-data-[disabled]:text-content-disabled",
-            )}
-          >
-            {helper}
-          </span>
-        )}
-      </span>
+      <RadioItemBody helper={helper}>{children}</RadioItemBody>
     </DropdownMenuPrimitive.RadioItem>
   );
 });
