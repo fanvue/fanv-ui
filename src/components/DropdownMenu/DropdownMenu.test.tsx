@@ -901,3 +901,318 @@ describe("DropdownMenuRadioItem", () => {
     });
   });
 });
+
+describe("DropdownMenu sheet variant", () => {
+  it("opens a bottom drawer instead of a Radix menu", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: "Item 1" })).toBeInTheDocument();
+  });
+
+  it("selects an item, calls onSelect, and closes the sheet", async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={onSelect}>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("does not close the sheet or fire selection when the item is disabled", async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={onSelect} disabled>
+            Item 1
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    expect(onSelect).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("marks the selected item via aria-selected", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem selected>Item 1</DropdownMenuItem>
+          <DropdownMenuItem selected={false}>Item 2</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    expect(screen.getByRole("option", { name: "Item 1" })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("option", { name: "Item 2" })).toHaveAttribute(
+      "aria-selected",
+      "false",
+    );
+  });
+
+  it("renders a native <hr> separator without requiring Radix menu context", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+          <DropdownMenuSeparator data-testid="separator" />
+          <DropdownMenuItem>Item 2</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    expect(screen.getByTestId("separator").tagName).toBe("HR");
+  });
+
+  it("renders a plain title (not a Radix label) without requiring menu context", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Group title</DropdownMenuLabel>
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    expect(screen.getByText("Group title")).toBeInTheDocument();
+  });
+
+  it("renders asChild via Slot instead of Radix's menu-context Item, without crashing", async () => {
+    // Regression guard: DropdownMenuItem previously fell through to
+    // DropdownMenuPrimitive.Item asChild whenever asChild was true, even in
+    // the sheet variant, which never mounts a Radix menu Root/Content
+    // ancestor — that primitive throws without menu context.
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild onSelect={onSelect} selected>
+            <a href="/settings">Settings</a>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const link = screen.getByRole("option", { name: "Settings" });
+    expect(link.tagName).toBe("A");
+    expect(link).toHaveAttribute("aria-selected", "true");
+    await user.click(link);
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("passes a real Event to onSelect, not a fake partial shape", async () => {
+    // Regression guard: a hand-built object cast to Event only had
+    // preventDefault/currentTarget/target — any handler calling another
+    // Event API method (stopPropagation, composedPath, etc.) would throw.
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={onSelect}>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    const receivedEvent = onSelect.mock.calls[0]?.[0];
+    expect(receivedEvent).toBeInstanceOf(Event);
+    expect(() => (receivedEvent as Event).stopPropagation()).not.toThrow();
+  });
+
+  it("prevents the default action of a disabled asChild item's click (e.g. link navigation)", async () => {
+    // Regression guard: the disabled guard used to return early without
+    // calling preventDefault, so a disabled asChild link still navigated.
+    // fireEvent's return value is false when preventDefault was called by any
+    // listener during dispatch — the same signal the browser uses to decide
+    // whether to run the click's default action.
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild disabled>
+            <a href="/settings">Settings</a>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const notCancelled = fireEvent.click(screen.getByRole("option", { name: "Settings" }));
+    expect(notCancelled).toBe(false);
+  });
+
+  it("blocks selection on a disabled asChild item despite no native disabled semantics", async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild onSelect={onSelect} disabled>
+            <a href="/settings">Settings</a>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const link = screen.getByRole("option", { name: "Settings" });
+    expect(link).toHaveAttribute("aria-disabled", "true");
+    await user.click(link);
+    expect(onSelect).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("forwards passthrough HTML props (id, data-*, aria-*, style, onKeyDown) on a sheet item", async () => {
+    // Regression guard: the sheet-variant branch only wired up a handful of
+    // explicit props, silently dropping everything else a consumer passes.
+    const user = userEvent.setup();
+    const onKeyDown = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem
+            id="item-1"
+            data-testid="item"
+            aria-keyshortcuts="Ctrl+1"
+            style={{ color: "red" }}
+            onKeyDown={onKeyDown}
+          >
+            Item 1
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const item = screen.getByTestId("item");
+    expect(item).toHaveAttribute("id", "item-1");
+    expect(item).toHaveAttribute("aria-keyshortcuts", "Ctrl+1");
+    expect(item).toHaveStyle({ color: "rgb(255, 0, 0)" });
+    item.focus();
+    await user.keyboard("{Enter}");
+    expect(onKeyDown).toHaveBeenCalled();
+  });
+
+  it("composes a consumer onClick with the internal select-and-close handler on a sheet item", async () => {
+    // Regression guard: an explicit onClick after {...props} in the sheet
+    // branch silently overwrote a consumer-supplied onClick instead of
+    // composing with it.
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onClick={onClick} onSelect={onSelect}>
+            Item 1
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("skips the internal select-and-close handler when a consumer onClick calls preventDefault", async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn((event: React.MouseEvent) => event.preventDefault());
+    const onSelect = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onClick={onClick} onSelect={onSelect}>
+            Item 1
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onSelect).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("forwards ref, style, and passthrough HTML props on a sheet content panel", async () => {
+    // Regression guard: the sheet-variant DropdownMenuContent branch dropped
+    // ref, style, and {...props} entirely, only passing className through.
+    const user = userEvent.setup();
+    const ref = React.createRef<HTMLDivElement>();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent
+          ref={ref}
+          data-testid="content"
+          style={{ color: "red" }}
+          id="content-1"
+        >
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const content = screen.getByTestId("content");
+    expect(content).toHaveAttribute("id", "content-1");
+    expect(content).toHaveStyle({ color: "rgb(255, 0, 0)" });
+    expect(ref.current).toBe(content);
+  });
+
+  it("visually marks a disabled asChild item via aria-disabled styling", async () => {
+    // Regression guard: disabled asChild items in the sheet variant have no
+    // data-disabled or native disabled attribute for the CSS to key off, so
+    // they rendered with no visual disabled treatment at all.
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild disabled>
+            <a href="/settings">Settings</a>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    const link = screen.getByRole("option", { name: "Settings" });
+    expect(link).toHaveClass("aria-disabled:text-content-disabled");
+  });
+});
