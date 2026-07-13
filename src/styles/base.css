@@ -13,6 +13,15 @@
     scrollbar-gutter: stable;
   }
 
+  /*
+   * Neutralise the browser's autofill highlight with the inset box-shadow
+   * hack. The shadow colour must match the input container background
+   * (TextField/TextArea render a transparent <input> inside a
+   * bg-inputs-inputs-primary wrapper) — a translucent tint here paints a
+   * visibly lighter band inside the field in dark mode. Note this rule
+   * cannot be overridden by unlayered !important declarations downstream:
+   * for !important the cascade reverses, so @layer base wins.
+   */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -26,8 +35,8 @@
   textarea:autofill:hover,
   textarea:autofill:focus {
     -webkit-text-fill-color: var(--color-content-primary);
-    -webkit-box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
-    box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
+    -webkit-box-shadow: inset 0 0 0 1000px var(--color-inputs-inputs-primary) !important;
+    box-shadow: inset 0 0 0 1000px var(--color-inputs-inputs-primary) !important;
     background-clip: padding-box !important;
     transition: background-color 9999s ease-in-out 0s;
   }
