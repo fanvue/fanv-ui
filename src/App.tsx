@@ -264,6 +264,7 @@ import {
   UsersIcon,
   VideoIcon,
   VipBadgeIcon,
+  VoiceNote,
   WalletIcon,
   WarningIcon,
   WarningTriangleIcon,
@@ -4790,6 +4791,34 @@ function AudioUploadDemo() {
   );
 }
 
+function VoiceNoteDemo() {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <div id="voicenote" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Voice Note</h2>
+      <div className="flex max-w-[420px] flex-col gap-4">
+        <VoiceNote variant="flat" time="0:05" />
+        <VoiceNote time="0:05" />
+        <VoiceNote progress={0.4} playing time="0:02" />
+        <VoiceNote size="small" progress={0.4} playing time="0:02" />
+        <VoiceNote fileName="audio_name.mp4" time="0:05" />
+        <VoiceNote showRemove time="0:05" onRemove={() => console.log("remove")} />
+        <VoiceNote src="https://example.com/voice-note.mp3" duration={24} />
+        <VoiceNote
+          playing={playing}
+          progress={playing ? 0.6 : undefined}
+          time={playing ? "0:03" : "0:05"}
+          onPlayPause={setPlaying}
+        />
+      </div>
+      <div className="max-w-[420px] rounded-md bg-surface-primary-inverted p-4">
+        <VoiceNote negative progress={0.4} playing time="0:02" />
+      </div>
+    </div>
+  );
+}
+
 function InlineEditDemo() {
   const [folderName, setFolderName] = useState("New folder");
   const [folders, setFolders] = useState(["Inbox", "Drafts", "Sent"]);
@@ -5380,6 +5409,7 @@ function App() {
     { id: "banner", label: "Banner" },
     { id: "autocomplete", label: "Autocomplete" },
     { id: "audioupload", label: "Audio Upload" },
+    { id: "voicenote", label: "Voice Note" },
     { id: "avatar", label: "Avatar" },
     { id: "badge", label: "Badge" },
     { id: "bottom-navigation", label: "Bottom Navigation" },
@@ -5691,6 +5721,9 @@ function App() {
 
             {/* Audio Upload */}
             <AudioUploadDemo />
+
+            {/* Voice Note */}
+            <VoiceNoteDemo />
 
             {/* Loader */}
             <LoaderDemo />
