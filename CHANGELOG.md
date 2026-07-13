@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.17.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.16.0...ui-v3.17.0) (2026-07-13)
+
+
+### Features
+
+* **VoiceNote:** add voice-note waveform player with optional real-audio mode (ENG-10632) ([#586](https://github.com/fanvue/fanv-ui/issues/586)) ([dbba31e](https://github.com/fanvue/fanv-ui/commit/dbba31eebea38a628021e755b1f396be3c141914))
+
+
+### Bug Fixes
+
+* paint autofilled inputs with the input container background ([#594](https://github.com/fanvue/fanv-ui/issues/594)) ([d5b977d](https://github.com/fanvue/fanv-ui/commit/d5b977d8dcefea5735fa368a81a17236d03026b5))
+
 ## [3.16.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.15.0...ui-v3.16.0) (2026-07-11)
 
 
