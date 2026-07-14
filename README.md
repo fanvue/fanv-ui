@@ -10,7 +10,7 @@ React component library built with Tailwind CSS for the Fanvue ecosystem.
 [![bundle size](https://img.shields.io/bundlephobia/minzip/@fanvue/ui)](https://bundlephobia.com/package/@fanvue/ui)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
-[![Storybook](https://img.shields.io/badge/Storybook-ff4785.svg?logo=storybook&logoColor=white)](https://697a1b6dd4dad73ee9c0e5f5-qhmsdilfrq.chromatic.com/)
+[![Storybook](https://img.shields.io/badge/Storybook-ff4785.svg?logo=storybook&logoColor=white)](https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/)
 [![Showcase](https://img.shields.io/badge/Showcase-GitHub%20Pages-brightgreen.svg?logo=github)](https://fanvue.github.io/fanv-ui/)
 [![GitHub](https://img.shields.io/github/stars/fanvue/fanv-ui?style=social)](https://github.com/fanvue/fanv-ui)
 
