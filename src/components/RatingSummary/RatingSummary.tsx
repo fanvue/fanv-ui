@@ -65,6 +65,11 @@ function getWeightedAverage(distribution: RatingCount[]): number {
  * followed by a per-rating histogram. Bar lengths are scaled relative to the
  * most-reviewed rating, so the busiest rating always fills the track.
  *
+ * The histogram is one shared grid (with subgrid rows) rather than per-row
+ * flex: the label column is sized by the widest label across all rows, so a
+ * width difference between labels (e.g. "1 review" vs "3 reviews") never
+ * changes a row's track length — every bar's right edge stays aligned.
+ *
  * The brand star is decorative; the header and each histogram row expose
  * `role="img"` with an accessible label (override via `formatAverageLabel` /
  * `formatRatingLabel`) so the single-star-plus-number reads clearly.
@@ -129,11 +134,14 @@ export const RatingSummary = React.forwardRef<HTMLDivElement, RatingSummaryProps
           </span>
         </div>
 
-        <ul className="m-0 flex list-none flex-col gap-4 p-0" aria-label="Rating breakdown">
+        <ul
+          className="m-0 grid list-none grid-cols-[1fr_auto] gap-4 p-0"
+          aria-label="Rating breakdown"
+        >
           {rows.map(({ rating, count }) => (
-            <li key={rating}>
+            <li key={rating} className="col-span-2 grid grid-cols-subgrid">
               <div
-                className="flex items-center gap-4"
+                className="col-span-2 grid grid-cols-subgrid items-center"
                 role="img"
                 aria-label={
                   formatRatingLabel
@@ -141,13 +149,13 @@ export const RatingSummary = React.forwardRef<HTMLDivElement, RatingSummaryProps
                     : `${rating} ${rating === 1 ? "star" : "stars"}, ${formatCount(count)}`
                 }
               >
-                <div className="relative h-4 flex-1 overflow-hidden rounded-full bg-neutral-alphas-50">
+                <div className="relative h-4 overflow-hidden rounded-full bg-neutral-alphas-50">
                   <div
                     className="absolute inset-y-0 left-0 rounded-full bg-brand-primary-default transition-[width] duration-300 ease-in-out"
                     style={{ width: maxCount === 0 ? "0%" : `${(count / maxCount) * 100}%` }}
                   />
                 </div>
-                <span className="flex shrink-0 items-center gap-1.5">
+                <span className="flex items-center gap-1.5">
                   <span className="typography-body-small-14px-semibold text-content-primary">
                     {rating}
                   </span>

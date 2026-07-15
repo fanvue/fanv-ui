@@ -73,6 +73,23 @@ export const LargeVolume: Story = {
   },
 };
 
+/**
+ * Rows mixing singular ("1 review") and plural ("6 reviews") labels: the
+ * differing label widths must not change the track lengths — every bar's
+ * right edge stays aligned.
+ */
+export const MixedPlurality: Story = {
+  args: {
+    distribution: [
+      { rating: 5, count: 6 },
+      { rating: 4, count: 1 },
+      { rating: 3, count: 3 },
+      { rating: 2, count: 0 },
+      { rating: 1, count: 0 },
+    ],
+  },
+};
+
 export const SingleReview: Story = {
   args: {
     distribution: [
