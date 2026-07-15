@@ -21,7 +21,7 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=87-4102&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16965-92740&m=dev",
     },
   },
   tags: ["autodocs"],
@@ -40,7 +40,7 @@ const meta = {
     dotted: { control: "boolean" },
     notificationVariant: {
       control: "select",
-      options: ["default", "alert", "brand", "pink", "info", "success", "warning"],
+      options: ["default", "contrast", "brand", "alert", "pink", "info", "success", "warning"],
     },
   },
 } satisfies Meta<typeof Chip>;

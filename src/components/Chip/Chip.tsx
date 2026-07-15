@@ -202,15 +202,20 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
                 </span>
               )}
             </span>
-            <Count
-              variant={notificationVariant}
-              size="24"
-              className="absolute -top-1 -right-1"
-              value={notificationCount ?? 0}
-              max={notificationMax}
-            >
-              {notificationCount == null ? notificationLabel : undefined}
-            </Count>
+            {(notificationCount != null || notificationLabel) && (
+              <Count
+                variant={notificationVariant}
+                size="24"
+                className={cn(
+                  "absolute top-[-4px]",
+                  size === "40" ? "right-[-4px]" : "right-[-9px]",
+                )}
+                value={notificationCount ?? 0}
+                max={notificationMax}
+              >
+                {notificationCount == null ? notificationLabel : undefined}
+              </Count>
+            )}
           </>
         )}
       </Comp>

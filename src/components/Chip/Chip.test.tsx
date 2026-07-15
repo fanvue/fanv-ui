@@ -177,10 +177,33 @@ describe("Chip", () => {
       expect(badge).toHaveClass("text-content-always-black");
     });
 
-    it("uses Count size 24 (16px height)", () => {
+    it("uses Count size 24 (V2 notification geometry)", () => {
       render(<Chip notificationCount={3}>Test</Chip>);
       const badge = screen.getByText("3");
-      expect(badge).toHaveClass("h-4");
+      expect(badge).toHaveClass("min-h-5");
+      expect(badge).toHaveClass("rounded-md");
+    });
+
+    it("offsets the badge for size 32 chips", () => {
+      render(
+        <Chip size="32" notificationCount={3}>
+          Test
+        </Chip>,
+      );
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("top-[-4px]");
+      expect(badge).toHaveClass("right-[-9px]");
+    });
+
+    it("offsets the badge for size 40 chips", () => {
+      render(
+        <Chip size="40" notificationCount={3}>
+          Test
+        </Chip>,
+      );
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("top-[-4px]");
+      expect(badge).toHaveClass("right-[-4px]");
     });
 
     it("applies custom notificationVariant", () => {
