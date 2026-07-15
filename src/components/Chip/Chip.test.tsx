@@ -145,15 +145,45 @@ describe("Chip", () => {
     });
   });
 
-  describe("notificationLabel", () => {
+  describe("notification badge", () => {
     it("renders notification badge with label", () => {
       render(<Chip notificationLabel="99+">Test</Chip>);
       expect(screen.getByText("99+")).toBeInTheDocument();
     });
 
-    it("does not render badge when notificationLabel is not provided", () => {
+    it("renders notification badge with notificationCount", () => {
+      render(<Chip notificationCount={5}>Test</Chip>);
+      expect(screen.getByText("5")).toBeInTheDocument();
+    });
+
+    it("renders overflow format when notificationCount exceeds notificationMax", () => {
+      render(
+        <Chip notificationCount={12} notificationMax={9}>
+          Test
+        </Chip>,
+      );
+      expect(screen.getByText("9+")).toBeInTheDocument();
+    });
+
+    it("does not render badge when no notification props are provided", () => {
       render(<Chip>Test</Chip>);
       expect(screen.getByTestId("chip")).toHaveTextContent("Test");
+    });
+
+    it("uses brand variant by default", () => {
+      render(<Chip notificationCount={3}>Test</Chip>);
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("bg-brand-primary-default");
+    });
+
+    it("applies custom notificationVariant", () => {
+      render(
+        <Chip notificationCount={3} notificationVariant="alert">
+          Test
+        </Chip>,
+      );
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("bg-error-content");
     });
   });
 
