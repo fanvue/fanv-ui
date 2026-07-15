@@ -174,6 +174,13 @@ describe("Chip", () => {
       render(<Chip notificationCount={3}>Test</Chip>);
       const badge = screen.getByText("3");
       expect(badge).toHaveClass("bg-brand-primary-default");
+      expect(badge).toHaveClass("text-content-always-black");
+    });
+
+    it("uses Count size 24 (16px height)", () => {
+      render(<Chip notificationCount={3}>Test</Chip>);
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("h-4");
     });
 
     it("applies custom notificationVariant", () => {
