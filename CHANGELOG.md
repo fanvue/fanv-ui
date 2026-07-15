@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.18.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.17.0...ui-v3.18.0) (2026-07-15)
+
+
+### Features
+
+* **Inputs:** add PhoneField and TextField action slot, align input hint styling to V2 board ([#585](https://github.com/fanvue/fanv-ui/issues/585)) ([8416138](https://github.com/fanvue/fanv-ui/commit/84161388fda41528ee6976d5af9de201a3544343))
+* **ReceiveMoneyIcon:** add ReceiveMoneyIcon to iconography ([#588](https://github.com/fanvue/fanv-ui/issues/588)) ([e955a2c](https://github.com/fanvue/fanv-ui/commit/e955a2c90a30c54188a128e4a4288e2802c95dc9))
+
+
+### Bug Fixes
+
+* **RatingSummary:** equalize histogram track widths across rows ([#595](https://github.com/fanvue/fanv-ui/issues/595)) ([3270602](https://github.com/fanvue/fanv-ui/commit/32706028631e9a8fe48573341b93f60ba543bbb5))
+
 ## [3.17.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.16.0...ui-v3.17.0) (2026-07-13)
 
 
