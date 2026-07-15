@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { Chip } from "../Chip/Chip";
 import { ErrorCircleIcon } from "../Icons/ErrorCircleIcon";
 import { EyeIcon } from "../Icons/EyeIcon";
 import { HomeIcon } from "../Icons/HomeIcon";
@@ -183,6 +184,41 @@ export const SideLabelSizes: Story = {
       <TextField size="48" label="Size 48" leftLabel="$" rightLabel="USD" placeholder="0.00" />
       <TextField size="40" label="Size 40" leftLabel="$" rightLabel="USD" placeholder="0.00" />
       <TextField size="32" label="Size 32" leftLabel="$" rightLabel="USD" placeholder="0.00" />
+    </div>
+  ),
+};
+
+export const WithButton: Story = {
+  name: "With button",
+  args: {
+    label: "Promo code",
+    placeholder: "Enter code",
+    action: <Chip size="32">Apply</Chip>,
+  },
+};
+
+export const WithButtonSizes: Story = {
+  name: "With button (all sizes)",
+  render: () => (
+    <div className="flex w-[375px] flex-col gap-4">
+      <TextField
+        size="48"
+        label="Size 48"
+        placeholder="Enter code"
+        action={<Chip size="32">Apply</Chip>}
+      />
+      <TextField
+        size="40"
+        label="Size 40"
+        placeholder="Enter code"
+        action={<Chip size="32">Apply</Chip>}
+      />
+      <TextField
+        size="32"
+        label="Size 32"
+        placeholder="Enter code"
+        action={<Chip size="32">Apply</Chip>}
+      />
     </div>
   ),
 };

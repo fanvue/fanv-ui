@@ -224,6 +224,41 @@ describe("TextField", () => {
     });
   });
 
+  describe("action", () => {
+    it("renders a trailing action element", () => {
+      render(
+        <TextField
+          aria-label="Promo"
+          action={
+            <button type="button" onClick={() => {}}>
+              Apply
+            </button>
+          }
+        />,
+      );
+      expect(screen.getByRole("button", { name: "Apply" })).toBeInTheDocument();
+    });
+
+    it("triggers the action click without stealing input focus", async () => {
+      const user = userEvent.setup();
+      const onAction = vi.fn();
+      render(
+        <TextField
+          aria-label="Promo"
+          action={
+            <button type="button" onClick={onAction}>
+              Apply
+            </button>
+          }
+        />,
+      );
+      const input = screen.getByRole("textbox");
+      await user.click(screen.getByRole("button", { name: "Apply" }));
+      expect(onAction).toHaveBeenCalledTimes(1);
+      expect(input).not.toHaveFocus();
+    });
+  });
+
   describe("user interaction", () => {
     it("allows typing in the input", async () => {
       const user = userEvent.setup();
