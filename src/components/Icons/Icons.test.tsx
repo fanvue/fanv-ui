@@ -118,6 +118,7 @@ import { PlayIcon } from "./PlayIcon";
 import { PlusIcon } from "./PlusIcon";
 import { PrivacyIcon } from "./PrivacyIcon";
 import { QueueIcon } from "./QueueIcon";
+import { ReceiveMoneyIcon } from "./ReceiveMoneyIcon";
 import { RepeatIcon } from "./RepeatIcon";
 import { Reply2Icon } from "./Reply2Icon";
 import { ReplyIcon } from "./ReplyIcon";
@@ -302,6 +303,7 @@ const propBasedIcons = [
   { name: "PlayIcon", Component: PlayIcon, hasFilled: true },
   { name: "PrivacyIcon", Component: PrivacyIcon, hasFilled: true },
   { name: "QueueIcon", Component: QueueIcon, hasFilled: false },
+  { name: "ReceiveMoneyIcon", Component: ReceiveMoneyIcon, hasFilled: false },
   { name: "RepeatIcon", Component: RepeatIcon, hasFilled: false },
   { name: "Reply2Icon", Component: Reply2Icon, hasFilled: true },
   { name: "ReplyIcon", Component: ReplyIcon, hasFilled: true },

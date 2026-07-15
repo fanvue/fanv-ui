@@ -486,6 +486,11 @@
       "hasFilled": false
     },
     {
+      "name": "ReceiveMoneyIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
       "name": "RepeatIcon",
       "sizes": [16, 24, 32],
       "hasFilled": false
