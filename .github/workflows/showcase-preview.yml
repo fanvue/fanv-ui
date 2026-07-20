@@ -40,12 +40,37 @@ jobs:
           VITE_BASE: /fanv-ui/pr-${{ github.event.number }}/
 
       - name: Deploy preview
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist-showcase
-          destination_dir: pr-${{ github.event.number }}
-          keep_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PREVIEW_DIR: pr-${{ github.event.number }}
+        run: |
+          set -euo pipefail
+          remote="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          worktree="$(mktemp -d)"
+
+          for attempt in 1 2 3; do
+            rm -rf "$worktree"
+            git clone --depth=1 --single-branch --branch gh-pages "$remote" "$worktree"
+
+            rm -rf "${worktree:?}/${PREVIEW_DIR}"
+            mkdir -p "${worktree}/${PREVIEW_DIR}"
+            cp -r dist-showcase/. "${worktree}/${PREVIEW_DIR}/"
+
+            (
+              cd "$worktree"
+              git config user.name "github-actions[bot]"
+              git config user.email "github-actions[bot]@users.noreply.github.com"
+              git add --all
+              git commit -m "deploy: preview for PR #${{ github.event.number }} (${GITHUB_SHA})" --allow-empty
+              git push origin gh-pages
+            ) && exit 0
+
+            echo "::warning::gh-pages push attempt ${attempt} failed (likely a concurrent preview push); retrying"
+            sleep $((attempt * 5))
+          done
+
+          echo "::error::Failed to push showcase preview to gh-pages after 3 attempts"
+          exit 1
 
   comment:
     name: Comment on PR
