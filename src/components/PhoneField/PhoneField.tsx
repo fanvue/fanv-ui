@@ -55,7 +55,7 @@ const PREFIX_TYPOGRAPHY: Record<PhoneFieldSize, string> = {
 
 function getContainerClassName(size: PhoneFieldSize, error: boolean, disabled?: boolean) {
   return cn(
-    "relative flex items-center gap-2 overflow-hidden rounded-sm border bg-inputs-inputs-primary has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
+    "relative flex items-center gap-2 overflow-hidden rounded-sm border bg-inputs-inputs-primary after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
     CONTAINER_PADDING_X[size],
     CONTAINER_HEIGHT[size],
     error ? "border-error-content" : "border-border-primary",

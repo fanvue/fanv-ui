@@ -234,7 +234,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
           {/* biome-ignore lint/a11y/useKeyWithClickEvents: Keyboard interaction is handled by the inner combobox input */}
           <div
             className={cn(
-              "flex flex-wrap items-center overflow-hidden rounded-sm border bg-neutral-alphas-100 has-focus-visible:shadow-focus-ring has-focus-visible:outline-none motion-safe:transition-colors",
+              "relative flex flex-wrap items-center overflow-hidden rounded-sm border bg-neutral-alphas-100 after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
               error ? "border-error-content" : "border-transparent",
               !disabled && !error && "hover:border-neutral-alphas-400",
               ac.isOpen && !error && !disabled && "border-neutral-alphas-400",

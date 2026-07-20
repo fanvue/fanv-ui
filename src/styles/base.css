@@ -21,6 +21,13 @@
    * visibly lighter band inside the field in dark mode. Note this rule
    * cannot be overridden by unlayered !important declarations downstream:
    * for !important the cascade reverses, so @layer base wins.
+   *
+   * Side effect: this opaque shadow paints ABOVE any inset box-shadow on an
+   * ancestor (a child's background/shadow always paints over the parent's
+   * inset shadow), so field containers must not draw their focus ring as a
+   * plain inset shadow on themselves — it gets erased behind the autofilled
+   * input. TextField/TextArea/PhoneField/Autocomplete render the ring in an
+   * ::after overlay instead.
    */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
