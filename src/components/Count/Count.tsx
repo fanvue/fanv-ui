@@ -18,7 +18,7 @@ export type CountVariant =
   | "success"
   | "warning";
 
-/** Size of the count badge. `"24"` matches V2 Notification Count geometry (~20px / caption 12). */
+/** Size of the count badge, aligned with button and icon-button sizes. */
 export type CountSize = "16" | "24" | "32";
 
 function getDisplayValue(value: number, max: number): string {
@@ -117,11 +117,11 @@ export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
         ref={ref}
         data-testid="count"
         className={cn(
-          "typography-description-12px-semibold inline-flex shrink-0 items-center justify-center tabular-nums leading-none",
-          size === "16" && "h-3 min-w-3 rounded-full px-0.5 text-[8px]",
-          // V2 Notification Count: caption 12, min-w 20, px 4 / py 2, rounded-md
-          size === "24" && "min-h-5 min-w-5 rounded-md px-1 py-0.5",
-          size === "32" && "h-5 min-w-5 rounded-full px-1.5",
+          "typography-description-12px-semibold inline-flex shrink-0 items-center justify-center rounded-full tabular-nums leading-none",
+          size === "16" && "h-3 min-w-3 px-0.5 text-[8px]",
+          // Kept at 16px so nav / IconButton badges don't grow; Chip nests this size.
+          size === "24" && "h-4 min-w-4 px-1 text-[10px]",
+          size === "32" && "h-5 min-w-5 px-1.5 text-[12px]",
           colors,
           className,
         )}

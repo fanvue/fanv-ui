@@ -183,7 +183,13 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         ) : (
           <>
             {dottedBorder}
-            <span className="flex min-w-0 items-center gap-0.5 overflow-hidden px-3">
+            <span
+              className={cn(
+                "flex min-w-0 items-center gap-0.5 overflow-hidden px-3",
+                // Keep label clear of the corner badge (esp. wide values like "99+").
+                (notificationCount != null || notificationLabel) && "pr-5",
+              )}
+            >
               {leftDot && (
                 <span className="size-2 shrink-0 rounded-full bg-current" aria-hidden="true" />
               )}

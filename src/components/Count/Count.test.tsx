@@ -103,12 +103,11 @@ describe("Count", () => {
       expect(badge).toHaveClass("text-content-always-black");
     });
 
-    it("uses V2 notification geometry for size 24", () => {
+    it("keeps size 24 at 16px height", () => {
       render(<Count value={5} size="24" />);
       const badge = screen.getByText("5");
-      expect(badge).toHaveClass("min-h-5");
-      expect(badge).toHaveClass("min-w-5");
-      expect(badge).toHaveClass("rounded-md");
+      expect(badge).toHaveClass("h-4");
+      expect(badge).toHaveClass("min-w-4");
     });
   });
 

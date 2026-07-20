@@ -177,11 +177,16 @@ describe("Chip", () => {
       expect(badge).toHaveClass("text-content-always-black");
     });
 
-    it("uses Count size 24 (V2 notification geometry)", () => {
+    it("uses Count size 24 (16px badge)", () => {
       render(<Chip notificationCount={3}>Test</Chip>);
       const badge = screen.getByText("3");
-      expect(badge).toHaveClass("min-h-5");
-      expect(badge).toHaveClass("rounded-md");
+      expect(badge).toHaveClass("h-4");
+    });
+
+    it("adds end padding so the label clears the badge", () => {
+      const { container } = render(<Chip notificationCount={99}>Chip</Chip>);
+      const inner = container.querySelector('[data-testid="chip"] > span');
+      expect(inner).toHaveClass("pr-5");
     });
 
     it("offsets the badge for size 32 chips", () => {
