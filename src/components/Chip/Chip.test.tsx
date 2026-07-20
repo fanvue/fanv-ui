@@ -187,13 +187,14 @@ describe("Chip", () => {
       expect(badge).toHaveClass("py-0.5");
     });
 
-    it("adds end padding so the label clears the badge", () => {
+    it("does not change chip padding when a badge is present", () => {
       const { container } = render(<Chip notificationCount={99}>Chip</Chip>);
       const inner = container.querySelector('[data-testid="chip"] > span');
-      expect(inner).toHaveClass("pr-6");
+      expect(inner).toHaveClass("px-3");
+      expect(inner).not.toHaveClass("pr-6");
     });
 
-    it("offsets the badge for size 32 chips", () => {
+    it("anchors the badge leading edge for size 32 chips", () => {
       render(
         <Chip size="32" notificationCount={3}>
           Test
@@ -201,10 +202,10 @@ describe("Chip", () => {
       );
       const badge = screen.getByText("3");
       expect(badge).toHaveClass("top-[-4px]");
-      expect(badge).toHaveClass("right-[-9px]");
+      expect(badge).toHaveClass("left-[calc(100%_-_11px)]");
     });
 
-    it("offsets the badge for size 40 chips", () => {
+    it("anchors the badge leading edge for size 40 chips", () => {
       render(
         <Chip size="40" notificationCount={3}>
           Test
@@ -212,7 +213,7 @@ describe("Chip", () => {
       );
       const badge = screen.getByText("3");
       expect(badge).toHaveClass("top-[-4px]");
-      expect(badge).toHaveClass("right-[-4px]");
+      expect(badge).toHaveClass("left-[calc(100%_-_16px)]");
     });
 
     it("applies custom notificationVariant", () => {
