@@ -87,4 +87,43 @@ describe("Count", () => {
       expect(screen.getByText("999+")).toBeInTheDocument();
     });
   });
+
+  describe("V2 variants", () => {
+    it("applies brand styles", () => {
+      render(<Count value={5} variant="brand" size="24" />);
+      const badge = screen.getByText("5");
+      expect(badge).toHaveClass("bg-brand-primary-default");
+      expect(badge).toHaveClass("text-content-always-black");
+    });
+
+    it("applies contrast styles", () => {
+      render(<Count value={5} variant="contrast" size="24" />);
+      const badge = screen.getByText("5");
+      expect(badge).toHaveClass("bg-content-always-white");
+      expect(badge).toHaveClass("text-content-always-black");
+    });
+
+    it("keeps size 24 at 16px height", () => {
+      render(<Count value={5} size="24" />);
+      const badge = screen.getByText("5");
+      expect(badge).toHaveClass("h-4");
+      expect(badge).toHaveClass("min-w-4");
+    });
+  });
+
+  describe("showAmount", () => {
+    it("renders an unread dot when showAmount is false", () => {
+      render(<Count value={3} variant="brand" showAmount={false} />);
+      const dot = screen.getByTestId("count");
+      expect(dot).toHaveClass("size-2");
+      expect(dot).toHaveClass("rounded-full");
+      expect(dot).toHaveClass("bg-brand-primary-default");
+      expect(dot).toBeEmptyDOMElement();
+    });
+
+    it("still hides when value is 0 and showAmount is false", () => {
+      const { container } = render(<Count value={0} showAmount={false} />);
+      expect(container.firstChild).toBeNull();
+    });
+  });
 });

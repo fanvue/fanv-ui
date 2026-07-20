@@ -21,7 +21,7 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=87-4102&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16965-92740&m=dev",
     },
   },
   tags: ["autodocs"],
@@ -38,6 +38,10 @@ const meta = {
     disabled: { control: "boolean" },
     leftDot: { control: "boolean" },
     dotted: { control: "boolean" },
+    notificationVariant: {
+      control: "select",
+      options: ["default", "contrast", "brand", "alert", "pink", "info", "success", "warning"],
+    },
   },
 } satisfies Meta<typeof Chip>;
 
@@ -288,6 +292,37 @@ export const WithBothIcons: Story = {
 
 export const WithNotification: Story = {
   args: {
+    notificationCount: 3,
+    children: "Chip",
+  },
+};
+
+export const WithNotificationOverflow: Story = {
+  args: {
+    notificationCount: 12,
+    notificationMax: 9,
+    children: "Chip",
+  },
+};
+
+export const WithNotificationDefault: Story = {
+  args: {
+    notificationCount: 5,
+    notificationVariant: "default",
+    children: "Chip",
+  },
+};
+
+export const WithNotificationAlert: Story = {
+  args: {
+    notificationCount: 2,
+    notificationVariant: "alert",
+    children: "Chip",
+  },
+};
+
+export const WithNotificationLabel: Story = {
+  args: {
     notificationLabel: "99+",
     children: "Chip",
   },
@@ -297,7 +332,7 @@ export const FullExample: Story = {
   args: {
     leftDot: true,
     rightIcon: <CrossIcon className="size-5" />,
-    notificationLabel: "3",
+    notificationCount: 3,
     selected: true,
     children: "Filter",
     onClick: () => {},
@@ -378,7 +413,9 @@ export const Truncated: Story = {
         Long chip with icons
       </Chip>
       <Chip leftDot>Truncated chip with dot indicator</Chip>
-      <Chip notificationLabel="99+">Truncated with notification</Chip>
+      <Chip notificationCount={99} notificationMax={9}>
+        Truncated with notification
+      </Chip>
     </div>
   ),
 };

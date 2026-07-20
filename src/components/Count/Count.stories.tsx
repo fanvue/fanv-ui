@@ -9,20 +9,26 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=1810-5202&m=dev",
+      // V2 Notification Count — Fanvue Library (instance node used by V2 Chips)
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=17898-11698&m=dev",
     },
   },
   tags: ["autodocs"],
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "alert", "brand", "pink", "info", "success", "warning"],
+      options: ["default", "contrast", "brand", "alert", "pink", "info", "success", "warning"],
     },
+    showAmount: { control: "boolean" },
     value: {
       control: { type: "number", min: 0, max: 999 },
     },
     max: {
       control: { type: "number", min: 1, max: 999 },
+    },
+    size: {
+      control: "select",
+      options: ["16", "24", "32"],
     },
   },
 } satisfies Meta<typeof Count>;
@@ -36,17 +42,40 @@ export const Default: Story = {
   },
 };
 
-export const Alert: Story = {
-  args: {
-    variant: "alert",
-    value: 5,
-  },
-};
-
 export const Brand: Story = {
   args: {
     variant: "brand",
     value: 12,
+  },
+};
+
+export const Contrast: Story = {
+  args: {
+    variant: "contrast",
+    value: 3,
+  },
+  decorators: [
+    (Story) => (
+      <div className="rounded-md bg-neutral-alphas-600 p-6">
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export const DotBrand: Story = {
+  name: "Show Amount False (Dot)",
+  args: {
+    variant: "brand",
+    value: 1,
+    showAmount: false,
+  },
+};
+
+export const Alert: Story = {
+  args: {
+    variant: "alert",
+    value: 5,
   },
 };
 
@@ -103,6 +132,28 @@ export const OnButton: Story = {
       Messages
       <Count value={24} variant="alert" className="absolute -top-2 -right-2" />
     </Button>
+  ),
+};
+
+export const V2Types: Story = {
+  name: "V2 Types × Show Amount",
+  render: () => (
+    <div className="flex flex-col gap-6">
+      <div className="flex items-center gap-4">
+        <Count value={5} variant="default" />
+        <Count value={12} variant="brand" />
+        <div className="rounded-md bg-neutral-alphas-600 p-3">
+          <Count value={3} variant="contrast" />
+        </div>
+      </div>
+      <div className="flex items-center gap-4">
+        <Count value={1} variant="default" showAmount={false} />
+        <Count value={1} variant="brand" showAmount={false} />
+        <div className="rounded-md bg-neutral-alphas-600 p-3">
+          <Count value={1} variant="contrast" showAmount={false} />
+        </div>
+      </div>
+    </div>
   ),
 };
 

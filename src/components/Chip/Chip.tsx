@@ -1,6 +1,7 @@
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { Count, type CountVariant } from "../Count/Count";
 
 /** Visual variant of the chip. */
 export type ChipVariant = "rounded" | "square" | "dark";
@@ -31,6 +32,12 @@ export interface ChipProps extends React.HTMLAttributes<HTMLElement> {
   rightIcon?: React.ReactNode;
   /** Notification badge content (e.g. `"99+"`). Passed as a string for i18n support. */
   notificationLabel?: string;
+  /** Numeric value for the notification badge. Uses the `Count` component for overflow formatting. Takes precedence over `notificationLabel` when both are provided. */
+  notificationCount?: number;
+  /** Maximum value before the badge shows overflow (e.g. `"9+"`). Only applies when `notificationCount` is set. @default 99 */
+  notificationMax?: number;
+  /** Colour variant of the notification badge. @default "brand" */
+  notificationVariant?: CountVariant;
   /** Click handler — when provided, the chip renders as a `<button>` for accessibility. */
   onClick?: React.MouseEventHandler<HTMLElement>;
   /** Merge props onto a child element instead of rendering a wrapper. @default false */
@@ -60,6 +67,9 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
       leftIcon,
       rightIcon,
       notificationLabel,
+      notificationCount,
+      notificationMax,
+      notificationVariant = "brand",
       onClick,
       asChild = false,
       children,
@@ -192,10 +202,22 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
                 </span>
               )}
             </span>
-            {notificationLabel && (
-              <span className="typography-description-12px-semibold absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-content-primary px-1 text-content-primary-inverted">
-                {notificationLabel}
-              </span>
+            {(notificationCount != null || notificationLabel) && (
+              <Count
+                variant={notificationVariant}
+                size="32"
+                className={cn(
+                  // V2 Notification Count: 20px high/min-width, caption 12,
+                  // 4px horizontal and 2px vertical padding, rounded-md.
+                  "absolute top-[-4px] rounded-md px-1 py-0.5",
+                  // Anchor the leading edge so wider values grow away from the label.
+                  size === "40" ? "left-[calc(100%_-_16px)]" : "left-[calc(100%_-_11px)]",
+                )}
+                value={notificationCount ?? 0}
+                max={notificationMax}
+              >
+                {notificationCount == null ? notificationLabel : undefined}
+              </Count>
             )}
           </>
         )}

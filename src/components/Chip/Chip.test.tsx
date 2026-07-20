@@ -145,15 +145,85 @@ describe("Chip", () => {
     });
   });
 
-  describe("notificationLabel", () => {
+  describe("notification badge", () => {
     it("renders notification badge with label", () => {
       render(<Chip notificationLabel="99+">Test</Chip>);
       expect(screen.getByText("99+")).toBeInTheDocument();
     });
 
-    it("does not render badge when notificationLabel is not provided", () => {
+    it("renders notification badge with notificationCount", () => {
+      render(<Chip notificationCount={5}>Test</Chip>);
+      expect(screen.getByText("5")).toBeInTheDocument();
+    });
+
+    it("renders overflow format when notificationCount exceeds notificationMax", () => {
+      render(
+        <Chip notificationCount={12} notificationMax={9}>
+          Test
+        </Chip>,
+      );
+      expect(screen.getByText("9+")).toBeInTheDocument();
+    });
+
+    it("does not render badge when no notification props are provided", () => {
       render(<Chip>Test</Chip>);
       expect(screen.getByTestId("chip")).toHaveTextContent("Test");
+    });
+
+    it("uses brand variant by default", () => {
+      render(<Chip notificationCount={3}>Test</Chip>);
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("bg-brand-primary-default");
+      expect(badge).toHaveClass("text-content-always-black");
+    });
+
+    it("uses Figma V2 notification geometry without changing shared Count sizes", () => {
+      render(<Chip notificationCount={3}>Test</Chip>);
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("h-5");
+      expect(badge).toHaveClass("min-w-5");
+      expect(badge).toHaveClass("rounded-md");
+      expect(badge).toHaveClass("px-1");
+      expect(badge).toHaveClass("py-0.5");
+    });
+
+    it("does not change chip padding when a badge is present", () => {
+      const { container } = render(<Chip notificationCount={99}>Chip</Chip>);
+      const inner = container.querySelector('[data-testid="chip"] > span');
+      expect(inner).toHaveClass("px-3");
+      expect(inner).not.toHaveClass("pr-6");
+    });
+
+    it("anchors the badge leading edge for size 32 chips", () => {
+      render(
+        <Chip size="32" notificationCount={3}>
+          Test
+        </Chip>,
+      );
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("top-[-4px]");
+      expect(badge).toHaveClass("left-[calc(100%_-_11px)]");
+    });
+
+    it("anchors the badge leading edge for size 40 chips", () => {
+      render(
+        <Chip size="40" notificationCount={3}>
+          Test
+        </Chip>,
+      );
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("top-[-4px]");
+      expect(badge).toHaveClass("left-[calc(100%_-_16px)]");
+    });
+
+    it("applies custom notificationVariant", () => {
+      render(
+        <Chip notificationCount={3} notificationVariant="alert">
+          Test
+        </Chip>,
+      );
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("bg-error-content");
     });
   });
 
