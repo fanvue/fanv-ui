@@ -186,8 +186,9 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
             <span
               className={cn(
                 "flex min-w-0 items-center gap-0.5 overflow-hidden px-3",
-                // Keep label clear of the corner badge (esp. wide values like "99+").
-                (notificationCount != null || notificationLabel) && "pr-5",
+                // Figma overlays the badge, but reserving its width prevents wide
+                // values such as "99+" from covering short labels.
+                (notificationCount != null || notificationLabel) && "pr-6",
               )}
             >
               {leftDot && (
@@ -211,9 +212,11 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
             {(notificationCount != null || notificationLabel) && (
               <Count
                 variant={notificationVariant}
-                size="24"
+                size="32"
                 className={cn(
-                  "absolute top-[-4px]",
+                  // V2 Notification Count: 20px high/min-width, caption 12,
+                  // 4px horizontal and 2px vertical padding, rounded-md.
+                  "absolute top-[-4px] rounded-md px-1 py-0.5",
                   size === "40" ? "right-[-4px]" : "right-[-9px]",
                 )}
                 value={notificationCount ?? 0}

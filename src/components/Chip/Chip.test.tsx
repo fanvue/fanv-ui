@@ -177,16 +177,20 @@ describe("Chip", () => {
       expect(badge).toHaveClass("text-content-always-black");
     });
 
-    it("uses Count size 24 (16px badge)", () => {
+    it("uses Figma V2 notification geometry without changing shared Count sizes", () => {
       render(<Chip notificationCount={3}>Test</Chip>);
       const badge = screen.getByText("3");
-      expect(badge).toHaveClass("h-4");
+      expect(badge).toHaveClass("h-5");
+      expect(badge).toHaveClass("min-w-5");
+      expect(badge).toHaveClass("rounded-md");
+      expect(badge).toHaveClass("px-1");
+      expect(badge).toHaveClass("py-0.5");
     });
 
     it("adds end padding so the label clears the badge", () => {
       const { container } = render(<Chip notificationCount={99}>Chip</Chip>);
       const inner = container.querySelector('[data-testid="chip"] > span');
-      expect(inner).toHaveClass("pr-5");
+      expect(inner).toHaveClass("pr-6");
     });
 
     it("offsets the badge for size 32 chips", () => {
