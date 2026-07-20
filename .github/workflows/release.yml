@@ -169,10 +169,6 @@ jobs:
           if [ -z "$RELEASE_BODY" ]; then
             RELEASE_BODY=$(gh release view "$TAG_NAME" --repo "$REPO" --json body --jq .body 2>/dev/null || echo "Republished ${VERSION}")
           fi
-          # Truncate to 2500 chars to stay within Slack limits
-          if [ ${#RELEASE_BODY} -gt 2500 ]; then
-            RELEASE_BODY="${RELEASE_BODY:0:2500}..."
-          fi
 
           if [ "$IS_RECOVERY" = "true" ]; then
             HEADER_TEXT="@fanvue/ui v${VERSION} republished"
@@ -186,8 +182,8 @@ jobs:
             *_success)       PUBLISHED_TO="GitHub Packages" ;;
           esac
 
-          # Escape special JSON characters
-          RELEASE_BODY=$(echo "$RELEASE_BODY" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
+          # Convert GitHub markdown to Slack mrkdwn, truncate, and JSON-encode for the payload
+          RELEASE_BODY=$(RELEASE_BODY="$RELEASE_BODY" node scripts/gfm-to-slack-mrkdwn.mjs)
           curl -X POST "$SLACK_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             --fail-with-body \

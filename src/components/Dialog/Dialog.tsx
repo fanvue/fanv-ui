@@ -94,6 +94,8 @@ export interface DialogContentProps
    * @default "sheet"
    */
   mobilePresentation?: "sheet" | "card";
+  /** Props forwarded to the default {@link DialogOverlay} when `overlay` is `true`. */
+  overlayProps?: DialogOverlayProps;
 }
 
 const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
@@ -147,6 +149,7 @@ export const DialogContent = React.forwardRef<
       portal = true,
       showMobileHandle = true,
       mobilePresentation = "sheet",
+      overlayProps,
       style,
       onOpenAutoFocus,
       ...props
@@ -155,7 +158,7 @@ export const DialogContent = React.forwardRef<
   ) => {
     const content = (
       <>
-        {overlay && <DialogOverlay />}
+        {overlay && <DialogOverlay {...overlayProps} />}
         <DialogPrimitive.Content
           ref={ref}
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
@@ -174,19 +177,20 @@ export const DialogContent = React.forwardRef<
             mobilePresentation === "card"
               ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
                 cn(
-                  "inset-x-4 top-1/2 max-h-[85vh] -translate-y-1/2 rounded-xl p-6",
+                  "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
                   "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
                   "sm:inset-x-auto",
                 )
               : // Bottom sheet pinned to the viewport bottom edge
                 cn(
-                  "inset-x-0 bottom-0 max-h-[85vh] w-full rounded-t-xl p-4 pt-3",
+                  "dialog-max-h-dynamic inset-x-0 bottom-0 w-full rounded-t-xl p-4 pt-3",
+                  "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
                   "data-[state=open]:slide-in-from-bottom-full",
                   "data-[state=closed]:slide-out-to-bottom-full",
                   "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
                   "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
                 ),
-            "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:max-h-[85vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
+            "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
             "duration-200",
             SIZE_CLASSES[size],
             className,
@@ -256,7 +260,10 @@ export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn("flex shrink-0 items-center justify-end gap-4", className)}
+        // items-start (not items-center) so the back/close buttons align to the
+        // title's first line; otherwise they float to the vertical center of a
+        // multi-line title + description column.
+        className={cn("flex shrink-0 items-start justify-end gap-4", className)}
         {...props}
       >
         {shouldShowBack && (

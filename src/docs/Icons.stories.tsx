@@ -37,12 +37,14 @@ import { ChevronUpIcon } from "../components/Icons/ChevronUpIcon";
 import { ClockIcon } from "../components/Icons/ClockIcon";
 import { CloseIcon } from "../components/Icons/CloseIcon";
 import { CodeIcon } from "../components/Icons/CodeIcon";
+import { CogIcon } from "../components/Icons/CogIcon";
 import { CoinIcon } from "../components/Icons/CoinIcon";
 import { CompassIcon } from "../components/Icons/CompassIcon";
 import { CopyIcon } from "../components/Icons/CopyIcon";
 import { CrossCircleIcon } from "../components/Icons/CrossCircleIcon";
 import { CrossIcon } from "../components/Icons/CrossIcon";
 import { CrownIcon } from "../components/Icons/CrownIcon";
+import { DenseGridViewIcon } from "../components/Icons/DenseGridViewIcon";
 import { DiamondIcon } from "../components/Icons/DiamondIcon";
 import { DiscordIcon } from "../components/Icons/DiscordIcon";
 import { DiscountIcon } from "../components/Icons/DiscountIcon";
@@ -71,6 +73,7 @@ import { GenderIcon } from "../components/Icons/GenderIcon";
 import { GifIcon } from "../components/Icons/GifIcon";
 import { GiftIcon } from "../components/Icons/GiftIcon";
 import { GoogleIcon } from "../components/Icons/GoogleIcon";
+import { GridViewIcon } from "../components/Icons/GridViewIcon";
 import { HealthIcon } from "../components/Icons/HealthIcon";
 import { HeartIcon } from "../components/Icons/HeartIcon";
 import { HelpIcon } from "../components/Icons/HelpIcon";
@@ -83,6 +86,7 @@ import { InfoCircleIcon } from "../components/Icons/InfoCircleIcon";
 import { InfoIcon } from "../components/Icons/InfoIcon";
 import { LanguageIcon } from "../components/Icons/LanguageIcon";
 import { LinkIcon } from "../components/Icons/LinkIcon";
+import { ListViewIcon } from "../components/Icons/ListViewIcon";
 import { LocationIcon } from "../components/Icons/LocationIcon";
 import { LockerIcon } from "../components/Icons/LockerIcon";
 import { LockerOffIcon } from "../components/Icons/LockerOffIcon";
@@ -112,6 +116,7 @@ import { PlayIcon } from "../components/Icons/PlayIcon";
 import { PlusIcon } from "../components/Icons/PlusIcon";
 import { PrivacyIcon } from "../components/Icons/PrivacyIcon";
 import { QueueIcon } from "../components/Icons/QueueIcon";
+import { ReceiveMoneyIcon } from "../components/Icons/ReceiveMoneyIcon";
 import { RepeatIcon } from "../components/Icons/RepeatIcon";
 import { Reply2Icon } from "../components/Icons/Reply2Icon";
 import { ReplyIcon } from "../components/Icons/ReplyIcon";
@@ -153,6 +158,7 @@ import { UserIcon } from "../components/Icons/UserIcon";
 import { UserMenuIcon } from "../components/Icons/UserMenuIcon";
 import { UsersIcon } from "../components/Icons/UsersIcon";
 import { VaultIcon } from "../components/Icons/VaultIcon";
+import { VerifiedIcon } from "../components/Icons/VerifiedIcon";
 import { VideoIcon } from "../components/Icons/VideoIcon";
 import { VipBadgeIcon } from "../components/Icons/VipBadgeIcon";
 import { WalletIcon } from "../components/Icons/WalletIcon";
@@ -386,6 +392,12 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   {
+    name: "CogIcon",
+    component: CogIcon,
+    tags: ["cog", "gear", "settings", "config", "preferences"],
+    propBased: true,
+  },
+  {
     name: "CoinIcon",
     component: CoinIcon,
     tags: ["coin", "money", "currency", "star"],
@@ -414,6 +426,12 @@ const icons: IconEntry[] = [
     name: "CrownIcon",
     component: CrownIcon,
     tags: ["crown", "premium", "vip", "special"],
+    propBased: true,
+  },
+  {
+    name: "DenseGridViewIcon",
+    component: DenseGridViewIcon,
+    tags: ["grid", "dense", "compact", "view", "layout", "gallery"],
     propBased: true,
   },
   {
@@ -545,6 +563,12 @@ const icons: IconEntry[] = [
     propBased: false,
   },
   {
+    name: "GridViewIcon",
+    component: GridViewIcon,
+    tags: ["grid", "view", "layout", "gallery"],
+    propBased: true,
+  },
+  {
     name: "HealthIcon",
     component: HealthIcon,
     tags: ["health", "medical", "heart", "pulse"],
@@ -591,6 +615,12 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   { name: "LinkIcon", component: LinkIcon, tags: ["link", "chain", "url"], propBased: true },
+  {
+    name: "ListViewIcon",
+    component: ListViewIcon,
+    tags: ["list", "view", "layout", "row"],
+    propBased: true,
+  },
   {
     name: "LocationIcon",
     component: LocationIcon,
@@ -743,6 +773,12 @@ const icons: IconEntry[] = [
     name: "QueueIcon",
     component: QueueIcon,
     tags: ["queue", "list", "stack", "order"],
+    propBased: true,
+  },
+  {
+    name: "ReceiveMoneyIcon",
+    component: ReceiveMoneyIcon,
+    tags: ["receive", "money", "hand", "dollar", "earnings"],
     propBased: true,
   },
   {
@@ -921,6 +957,7 @@ const icons: IconEntry[] = [
     tags: ["vault", "safe", "secure", "storage"],
     propBased: true,
   },
+  { name: "VerifiedIcon", component: VerifiedIcon, tags: [], propBased: true },
   {
     name: "VideoIcon",
     component: VideoIcon,

@@ -191,6 +191,11 @@
       "hasFilled": true
     },
     {
+      "name": "DenseGridViewIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
       "name": "DiamondIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -291,6 +296,11 @@
       "hasFilled": true
     },
     {
+      "name": "GridViewIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
       "name": "HealthIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -342,6 +352,11 @@
     },
     {
       "name": "LinkIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ListViewIcon",
       "sizes": [16, 24, 32],
       "hasFilled": false
     },
@@ -467,6 +482,11 @@
     },
     {
       "name": "QueueIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "ReceiveMoneyIcon",
       "sizes": [16, 24, 32],
       "hasFilled": false
     },
@@ -632,6 +652,11 @@
     },
     {
       "name": "VaultIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "VerifiedIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },

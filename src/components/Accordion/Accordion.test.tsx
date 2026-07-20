@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { Avatar } from "../Avatar/Avatar";
 import { Accordion } from "./Accordion";
 import { AccordionContent } from "./AccordionContent";
 import { AccordionItem } from "./AccordionItem";
@@ -232,9 +233,79 @@ describe("Accordion", () => {
     });
   });
 
+  describe("V2 header variants", () => {
+    it("renders a description under the title", () => {
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger description="Optional description text">Title</AccordionTrigger>
+            <AccordionContent>Content</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      expect(screen.getByText("Optional description text")).toBeInTheDocument();
+    });
+
+    it("renders a leading icon hidden from assistive tech", () => {
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger leadingIcon={<svg data-testid="lead-icon" />}>Title</AccordionTrigger>
+            <AccordionContent>Content</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      expect(screen.getByTestId("lead-icon").closest("[aria-hidden='true']")).toBeInTheDocument();
+    });
+
+    it("renders an avatar hidden from assistive tech", () => {
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger avatar={<span data-testid="avatar-slot" />}>Title</AccordionTrigger>
+            <AccordionContent>Content</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      expect(screen.getByTestId("avatar-slot").closest("[aria-hidden='true']")).toBeInTheDocument();
+    });
+
+    it("renders a real Avatar without nesting a div inside the trigger button", () => {
+      render(
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger avatar={<Avatar size={24} fallback="JD" />}>Title</AccordionTrigger>
+            <AccordionContent>Content</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
+      const trigger = screen.getByRole("button", { name: /Title/i });
+      expect(trigger.querySelector("div")).toBeNull();
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = renderAccordion();
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with avatar, leading icon, and description", async () => {
+      const { container } = render(
+        <Accordion type="single" collapsible defaultValue="item-1">
+          <AccordionItem value="item-1">
+            <AccordionTrigger
+              avatar={<span aria-hidden="true" />}
+              leadingIcon={<svg aria-hidden="true" />}
+              description="Optional description text"
+            >
+              Jane Doe
+            </AccordionTrigger>
+            <AccordionContent>Content</AccordionContent>
+          </AccordionItem>
+        </Accordion>,
+      );
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });

@@ -12,6 +12,7 @@ import {
 } from "./charts";
 import { simpleLineConfig, simpleLineData } from "./components/Chart/chartStoryFixtures";
 import { DatePicker } from "./date-picker";
+import type { AudioRecordButtonStatus } from "./index";
 import {
   Accordion,
   AccordionContent,
@@ -26,6 +27,7 @@ import {
   ArrowRightIcon,
   ArrowUpIcon,
   ArrowUpRightIcon,
+  AudioRecordButton,
   AudioUpload,
   Autocomplete,
   Avatar,
@@ -122,6 +124,7 @@ import {
   ForwardIcon,
   GalleryIcon,
   GenderIcon,
+  GifIcon,
   GiftIcon,
   GoogleIcon,
   HeartIcon,
@@ -146,6 +149,7 @@ import {
   Logo,
   LogoutIcon,
   LoveIcon,
+  MediaStatusIndicator,
   MegaphoneIcon,
   MenuCloseIcon,
   MenuIcon,
@@ -173,6 +177,7 @@ import {
   PrivacyIcon,
   ProfileStatus,
   ProgressBar,
+  ProgressBarSteps,
   Radio,
   RadioGroup,
   RatingSummary,
@@ -200,6 +205,7 @@ import {
   Stepper,
   StepperStep,
   StopIcon,
+  SubscribeButton,
   SuccessIcon,
   SunIcon,
   Support2Icon,
@@ -258,6 +264,7 @@ import {
   UsersIcon,
   VideoIcon,
   VipBadgeIcon,
+  VoiceNote,
   WalletIcon,
   WarningIcon,
   WarningTriangleIcon,
@@ -433,6 +440,20 @@ function TextFieldShowcase() {
         leftIcon={<HomeIcon />}
         rightIcon={<InfoCircleIcon />}
         placeholder="Placeholder"
+        autoComplete="off"
+      />
+      <TextField label="Side label (prefix)" leftLabel="$" placeholder="0.00" autoComplete="off" />
+      <TextField
+        label="Side label (suffix)"
+        rightLabel="USD"
+        placeholder="0.00"
+        autoComplete="off"
+      />
+      <TextField
+        label="Side label (both)"
+        leftLabel="$"
+        rightLabel="/ month"
+        defaultValue="9.99"
         autoComplete="off"
       />
       <TextField
@@ -913,6 +934,24 @@ function ToastDemo() {
   );
 }
 
+function MediaStatusIndicatorDemo() {
+  return (
+    <div id="mediastatusindicator" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Media Status Indicator</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <MediaStatusIndicator status="default" />
+        <MediaStatusIndicator status="removed" />
+        <MediaStatusIndicator status="sensitive" />
+      </div>
+      <div className="relative size-40 overflow-hidden rounded-lg bg-neutral-800">
+        <div className="absolute top-2 right-2">
+          <MediaStatusIndicator status="sensitive" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function LogoDemo() {
   return (
     <div id="logo" className="flex scroll-mt-20 flex-col gap-4">
@@ -998,6 +1037,7 @@ function IconsDemo() {
     ["Gallery", GalleryIcon],
     ["Gender", GenderIcon],
     ["Google", GoogleIcon],
+    ["Gif", GifIcon],
     ["Gift", GiftIcon],
     ["Help", HelpIcon],
     ["Home", HomeIcon],
@@ -1525,6 +1565,31 @@ function AccordionDemo() {
             <AccordionItem value="item-2" disabled>
               <AccordionTrigger>Disabled</AccordionTrigger>
               <AccordionContent>You should not see this.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+        <div className="w-80">
+          <p className="typography-description-12px-regular mb-2 text-content-tertiary">
+            V2 Header Variants
+          </p>
+          <Accordion type="multiple" defaultValue={["avatar"]}>
+            <AccordionItem value="desc">
+              <AccordionTrigger description="With a secondary description line.">
+                Title + description
+              </AccordionTrigger>
+              <AccordionContent>Adds context under the title.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="icon">
+              <AccordionTrigger leadingIcon={<CrownIcon />} description="With a leading icon.">
+                Title + icon
+              </AccordionTrigger>
+              <AccordionContent>A leading icon identifies the section type.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="avatar">
+              <AccordionTrigger avatar={<Avatar size={24} fallback="JD" />} description="@jane_doe">
+                Jane Doe
+              </AccordionTrigger>
+              <AccordionContent>An avatar identifies a person or account.</AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
@@ -2163,6 +2228,39 @@ function LinkDemo() {
   );
 }
 
+function SubscribeButtonDemo() {
+  return (
+    <div id="subscribebutton" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Subscribe Button</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <SubscribeButton variant="primary" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="secondary" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="tertiary" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="outline" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="brand" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="primary" price="$9.99/mo" />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4 rounded-xs bg-surface-primary-inverted p-4">
+        <SubscribeButton variant="primary" negative price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="secondary" negative price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="tertiary" negative price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="outline" negative price="$9.99/mo" discount="$19.99" />
+      </div>
+
+      <div className="flex flex-wrap items-end gap-4">
+        <SubscribeButton size="48" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton size="40" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton size="32" price="$9.99/mo" discount="$19.99" />
+      </div>
+
+      <div className="w-80">
+        <SubscribeButton variant="brand" fullWidth price="$9.99/mo" discount="$19.99" />
+      </div>
+    </div>
+  );
+}
+
 function IconButtonDemo() {
   return (
     <div id="iconbutton" className="flex scroll-mt-20 flex-col gap-4">
@@ -2172,6 +2270,22 @@ function IconButtonDemo() {
           <IconButton variant="primary" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="secondary" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="tertiary" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="outline" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="error" icon={<CrossIcon />} aria-label="Close" />
+          <IconButton variant="black" icon={<HomeIcon />} aria-label="Home" />
+        </div>
+
+        <div className="rounded-xs bg-surface-primary-inverted p-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <IconButton variant="primary" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="secondary" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="tertiary" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="outline" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="white" icon={<HomeIcon />} aria-label="Home" />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4">
           <IconButton variant="brand" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} aria-label="Close" />
           <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
@@ -2188,6 +2302,7 @@ function IconButtonDemo() {
           <IconButton variant="primary" icon={<HomeIcon />} size="24" aria-label="Home" />
           <IconButton variant="primary" icon={<HomeIcon />} size="32" aria-label="Home" />
           <IconButton variant="primary" icon={<HomeIcon />} size="40" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="48" aria-label="Home" />
           <IconButton variant="primary" icon={<HomeIcon />} size="52" aria-label="Home" />
           <IconButton variant="primary" icon={<HomeIcon />} size="72" aria-label="Home" />
         </div>
@@ -2219,6 +2334,40 @@ function IconButtonDemo() {
             size="52"
             aria-label="Microphone"
           />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AudioRecordButtonDemo() {
+  const [status, setStatus] = useState<AudioRecordButtonStatus>("idle");
+
+  return (
+    <div id="audiorecordbutton" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Audio Record Button</h2>
+      <div className="space-y-6">
+        <div className="flex flex-wrap items-center gap-4">
+          <AudioRecordButton status="idle" />
+          <AudioRecordButton status="recording" />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4">
+          <AudioRecordButton size="32" />
+          <AudioRecordButton size="40" />
+          <AudioRecordButton size="48" />
+          <AudioRecordButton size="52" />
+          <AudioRecordButton size="72" />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4">
+          <AudioRecordButton
+            status={status}
+            onClick={() => setStatus((s) => (s === "idle" ? "recording" : "idle"))}
+          />
+          <span className="typography-body-2-regular text-content-secondary">
+            Click to toggle recording
+          </span>
         </div>
       </div>
     </div>
@@ -2528,6 +2677,34 @@ function SelectDemo() {
             <SelectItem value="c">Option C</SelectItem>
           </SelectContent>
         </Select>
+        <Select label="Rows with leading icons" placeholder="Select a place">
+          <SelectContent>
+            <SelectItem value="home" leadingIcon={<HomeIcon />}>
+              Home
+            </SelectItem>
+            <SelectItem value="favourite" leadingIcon={<StarIcon />}>
+              Favourite
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <Select label="Feature rows (avatar + description)" placeholder="Select a person">
+          <SelectContent>
+            <SelectItem
+              value="jane"
+              avatar={<Avatar size={24} fallback="JD" />}
+              description="Product designer"
+            >
+              Jane Doe
+            </SelectItem>
+            <SelectItem
+              value="alex"
+              avatar={<Avatar size={24} fallback="AS" />}
+              description="Engineer"
+            >
+              Alex Smith
+            </SelectItem>
+          </SelectContent>
+        </Select>
         <Select
           label="Error"
           placeholder="Select an option"
@@ -2663,7 +2840,43 @@ function DropdownMenuDemo() {
         <DropdownMenuSearchHeaderDemo />
         <DropdownMenuRadioDemo />
         <DropdownMenuSize32Demo />
+        <DropdownMenuFeatureItemDemo />
       </div>
+    </div>
+  );
+}
+
+function DropdownMenuFeatureItemDemo() {
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="typography-description-12px-semibold text-content-secondary">
+        Feature items (avatar + count)
+      </span>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
+            Switch account
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-80">
+          <DropdownMenuItem
+            avatar={<Avatar size={24} fallback="JD" />}
+            trailingIcon={<ChevronRightIcon className="size-4" />}
+          >
+            Jane Doe
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            avatar={<Avatar size={24} fallback="AS" />}
+            description="Product designer"
+            count="12"
+          >
+            Alex Smith
+          </DropdownMenuItem>
+          <DropdownMenuItem leadingIcon={<StarIcon className="size-4" />} count="99+">
+            Favourites
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }
@@ -4029,6 +4242,17 @@ function ProgressBarDemo() {
     <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Progress Bar</h2>
       <div className="flex max-w-md flex-col gap-6">
+        {/* V2 Brand / Mono */}
+        <ProgressBar value={60} variant="brand" />
+        <ProgressBar value={60} variant="mono" />
+        <ProgressBar value={60} size="small" variant="brand" />
+        <ProgressBar value={60} size="small" variant="mono" />
+
+        {/* V2 stepped progress */}
+        <ProgressBarSteps steps={4} value={1} variant="brand" />
+        <ProgressBarSteps steps={4} value={2} variant="mono" />
+        <ProgressBarSteps steps={6} value={3} size="small" variant="brand" />
+
         {/* Default variant — color-coded by value */}
         <ProgressBar value={20} />
         <ProgressBar value={60} />
@@ -4564,6 +4788,34 @@ function AudioUploadDemo() {
         uploadDescription="Audio files only, up to 10MB each (max 7 files)"
       />
       <AudioUpload className="w-80" maxRecordingDuration={10} />
+    </div>
+  );
+}
+
+function VoiceNoteDemo() {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <div id="voicenote" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Voice Note</h2>
+      <div className="flex max-w-[420px] flex-col gap-4">
+        <VoiceNote variant="flat" time="0:05" />
+        <VoiceNote time="0:05" />
+        <VoiceNote progress={0.4} playing time="0:02" />
+        <VoiceNote size="small" progress={0.4} playing time="0:02" />
+        <VoiceNote fileName="audio_name.mp4" time="0:05" />
+        <VoiceNote showRemove time="0:05" onRemove={() => console.log("remove")} />
+        <VoiceNote src="https://example.com/voice-note.mp3" duration={24} />
+        <VoiceNote
+          playing={playing}
+          progress={playing ? 0.6 : undefined}
+          time={playing ? "0:03" : "0:05"}
+          onPlayPause={setPlaying}
+        />
+      </div>
+      <div className="max-w-[420px] rounded-md bg-surface-primary-inverted p-4">
+        <VoiceNote negative progress={0.4} playing time="0:02" />
+      </div>
     </div>
   );
 }
@@ -5158,10 +5410,12 @@ function App() {
     { id: "banner", label: "Banner" },
     { id: "autocomplete", label: "Autocomplete" },
     { id: "audioupload", label: "Audio Upload" },
+    { id: "voicenote", label: "Voice Note" },
     { id: "avatar", label: "Avatar" },
     { id: "badge", label: "Badge" },
     { id: "bottom-navigation", label: "Bottom Navigation" },
     { id: "button", label: "Button" },
+    { id: "subscribebutton", label: "Subscribe Button" },
     { id: "card", label: "Card" },
     { id: "charts", label: "Charts" },
     { id: "checkbox", label: "Checkbox" },
@@ -5179,12 +5433,14 @@ function App() {
     { id: "dropdownmenu", label: "Dropdown menu" },
     { id: "drawer", label: "Drawer" },
     { id: "iconbutton", label: "Icon Button" },
+    { id: "audiorecordbutton", label: "Audio Record Button" },
     { id: "icons", label: "Icons" },
     { id: "infobox", label: "InfoBox" },
     { id: "inlineedit", label: "Inline Edit" },
     { id: "link", label: "Link" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
+    { id: "mediastatusindicator", label: "Media Status Indicator" },
     { id: "stepper", label: "Stepper" },
     { id: "mobilestepper", label: "Mobile Stepper" },
     { id: "pagination", label: "Pagination" },
@@ -5309,6 +5565,9 @@ function App() {
             {/* Logo */}
             <LogoDemo />
 
+            {/* Media Status Indicator */}
+            <MediaStatusIndicatorDemo />
+
             {/* Icons */}
             <IconsDemo />
 
@@ -5342,6 +5601,9 @@ function App() {
             {/* Button */}
             <ButtonDemo />
 
+            {/* Subscribe Button */}
+            <SubscribeButtonDemo />
+
             {/* Badge */}
             <BadgeDemo />
 
@@ -5350,6 +5612,9 @@ function App() {
 
             {/* Icon Button */}
             <IconButtonDemo />
+
+            {/* Audio Record Button */}
+            <AudioRecordButtonDemo />
 
             {/* Pill */}
             <PillDemo />
@@ -5457,6 +5722,9 @@ function App() {
 
             {/* Audio Upload */}
             <AudioUploadDemo />
+
+            {/* Voice Note */}
+            <VoiceNoteDemo />
 
             {/* Loader */}
             <LoaderDemo />

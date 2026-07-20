@@ -537,9 +537,11 @@ function InlineSelect({
                   className={cn(
                     "flex w-full items-start gap-2 rounded-sm px-3 py-2 text-left outline-none",
                     "focus-visible:shadow-focus-ring",
-                    isSelected
-                      ? "typography-body-default-16px-semibold bg-buttons-primary-default text-content-primary-inverted"
-                      : "typography-body-default-16px-regular text-content-primary hover:bg-neutral-alphas-50",
+                    "typography-body-default-16px-regular text-content-primary hover:bg-neutral-alphas-50",
+                    // bg-interaction-hover aliases to the same token as the
+                    // plain hover background above, so it can't distinguish
+                    // the selected option from a hovered-but-unselected one.
+                    isSelected && ["bg-neutral-alphas-100", "hover:bg-neutral-alphas-200"],
                   )}
                 >
                   {option.icon && (
@@ -550,12 +552,7 @@ function InlineSelect({
                   <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                     <span className="truncate">{option.menuLabel ?? option.label}</span>
                     {option.description && (
-                      <span
-                        className={cn(
-                          "typography-body-small-14px-regular truncate",
-                          isSelected ? "text-content-primary-inverted" : "text-content-secondary",
-                        )}
-                      >
+                      <span className="typography-body-small-14px-regular truncate text-content-secondary">
                         {option.description}
                       </span>
                     )}

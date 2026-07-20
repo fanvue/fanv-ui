@@ -15,6 +15,13 @@ export type { AccordionTriggerProps } from "./components/Accordion/AccordionTrig
 export { AccordionTrigger } from "./components/Accordion/AccordionTrigger";
 export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
+export type { AudioPlayerProps, AudioPlayerSize } from "./components/AudioPlayer/AudioPlayer";
+export { AudioPlayer } from "./components/AudioPlayer/AudioPlayer";
+export type {
+  AudioRecordButtonProps,
+  AudioRecordButtonStatus,
+} from "./components/AudioRecordButton/AudioRecordButton";
+export { AudioRecordButton } from "./components/AudioRecordButton/AudioRecordButton";
 export type {
   AudioFileRejection,
   AudioUploadProps,
@@ -104,6 +111,13 @@ export type {
   ChatInputSelectOption,
 } from "./components/ChatInput/ChatInput";
 export { ChatInput } from "./components/ChatInput/ChatInput";
+export type {
+  ChatMessageProps,
+  ChatMessageStatus,
+  ChatMessageUser,
+  ChatMessageVariant,
+} from "./components/ChatMessage/ChatMessage";
+export { ChatMessage } from "./components/ChatMessage/ChatMessage";
 export type {
   CheckboxProps,
   CheckboxSize,
@@ -223,6 +237,8 @@ export type {
 export { EmptyState } from "./components/EmptyState/EmptyState";
 export type { FanFollowerCountProps } from "./components/FanFollowerCount/FanFollowerCount";
 export { FanFollowerCount } from "./components/FanFollowerCount/FanFollowerCount";
+export type { FloatingActionButtonProps } from "./components/FloatingActionButton/FloatingActionButton";
+export { FloatingActionButton } from "./components/FloatingActionButton/FloatingActionButton";
 export type {
   IconButtonProps,
   IconButtonSize,
@@ -311,6 +327,8 @@ export { CrossCircleIcon } from "./components/Icons/CrossCircleIcon";
 export { CrossIcon } from "./components/Icons/CrossIcon";
 export type { CrownIconProps } from "./components/Icons/CrownIcon";
 export { CrownIcon } from "./components/Icons/CrownIcon";
+export type { DenseGridViewIconProps } from "./components/Icons/DenseGridViewIcon";
+export { DenseGridViewIcon } from "./components/Icons/DenseGridViewIcon";
 export type { DiamondIconProps } from "./components/Icons/DiamondIcon";
 export { DiamondIcon } from "./components/Icons/DiamondIcon";
 export type { DiscordIconProps } from "./components/Icons/DiscordIcon";
@@ -359,6 +377,8 @@ export { GifIcon } from "./components/Icons/GifIcon";
 export type { GiftIconProps } from "./components/Icons/GiftIcon";
 export { GiftIcon } from "./components/Icons/GiftIcon";
 export { GoogleIcon } from "./components/Icons/GoogleIcon";
+export type { GridViewIconProps } from "./components/Icons/GridViewIcon";
+export { GridViewIcon } from "./components/Icons/GridViewIcon";
 export type { HealthIconProps } from "./components/Icons/HealthIcon";
 export { HealthIcon } from "./components/Icons/HealthIcon";
 export type { HeartIconProps } from "./components/Icons/HeartIcon";
@@ -382,6 +402,8 @@ export type { LanguageIconProps } from "./components/Icons/LanguageIcon";
 export { LanguageIcon } from "./components/Icons/LanguageIcon";
 export type { LinkIconProps } from "./components/Icons/LinkIcon";
 export { LinkIcon } from "./components/Icons/LinkIcon";
+export type { ListViewIconProps } from "./components/Icons/ListViewIcon";
+export { ListViewIcon } from "./components/Icons/ListViewIcon";
 export type { LocationIconProps } from "./components/Icons/LocationIcon";
 export { LocationIcon } from "./components/Icons/LocationIcon";
 export type { LockerIconProps } from "./components/Icons/LockerIcon";
@@ -436,6 +458,8 @@ export type { PrivacyIconProps } from "./components/Icons/PrivacyIcon";
 export { PrivacyIcon } from "./components/Icons/PrivacyIcon";
 export type { QueueIconProps } from "./components/Icons/QueueIcon";
 export { QueueIcon } from "./components/Icons/QueueIcon";
+export type { ReceiveMoneyIconProps } from "./components/Icons/ReceiveMoneyIcon";
+export { ReceiveMoneyIcon } from "./components/Icons/ReceiveMoneyIcon";
 export type { RepeatIconProps } from "./components/Icons/RepeatIcon";
 export { RepeatIcon } from "./components/Icons/RepeatIcon";
 export type { Reply2IconProps } from "./components/Icons/Reply2Icon";
@@ -533,7 +557,6 @@ export type { WifiOffIconProps } from "./components/Icons/WifiOffIcon";
 export { WifiOffIcon } from "./components/Icons/WifiOffIcon";
 export { WifiOnIcon } from "./components/Icons/WifiOnIcon";
 export { WrenchIcon } from "./components/Icons/WrenchIcon";
-
 export type {
   InfoBoxAction,
   InfoBoxContentProps,
@@ -562,6 +585,11 @@ export type {
 } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
 export type {
+  MediaStatusIndicatorProps,
+  MediaStatusIndicatorStatus,
+} from "./components/MediaStatusIndicator/MediaStatusIndicator";
+export { MediaStatusIndicator } from "./components/MediaStatusIndicator/MediaStatusIndicator";
+export type {
   MobileStepperPosition,
   MobileStepperProps,
   MobileStepperVariant,
@@ -584,6 +612,8 @@ export type {
   PasswordFieldSize,
 } from "./components/PasswordField/PasswordField";
 export { PasswordField } from "./components/PasswordField/PasswordField";
+export type { PhoneFieldProps, PhoneFieldSize } from "./components/PhoneField/PhoneField";
+export { PhoneField } from "./components/PhoneField/PhoneField";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
 export type { ProfileOnlineStatusProps } from "./components/ProfileOnlineStatus/ProfileOnlineStatus";
@@ -599,6 +629,14 @@ export type {
   ProgressBarVariant,
 } from "./components/ProgressBar/ProgressBar";
 export { ProgressBar } from "./components/ProgressBar/ProgressBar";
+export type {
+  ProgressBarItemProps,
+  ProgressBarItemSize,
+  ProgressBarItemVariant,
+} from "./components/ProgressBar/ProgressBarItem";
+export { ProgressBarItem } from "./components/ProgressBar/ProgressBarItem";
+export type { ProgressBarStepsProps } from "./components/ProgressBar/ProgressBarSteps";
+export { ProgressBarSteps } from "./components/ProgressBar/ProgressBarSteps";
 export type { RadioLayout, RadioProps } from "./components/Radio/Radio";
 export { Radio } from "./components/Radio/Radio";
 export type { RadioGroupProps } from "./components/RadioGroup/RadioGroup";
@@ -616,6 +654,7 @@ export type {
 } from "./components/SearchField/SearchField";
 export { SearchField } from "./components/SearchField/SearchField";
 export type {
+  SegmentedControlAppearance,
   SegmentedControlOption,
   SegmentedControlProps,
   SegmentedControlSize,
@@ -626,6 +665,7 @@ export type {
   SelectContentProps,
   SelectGroupProps,
   SelectItemProps,
+  SelectItemSize,
   SelectLabelProps,
   SelectProps,
   SelectSeparatorProps,
@@ -663,6 +703,12 @@ export type {
   StepperStepState,
 } from "./components/Stepper/StepperStep";
 export { StepperStep } from "./components/Stepper/StepperStep";
+export type {
+  SubscribeButtonProps,
+  SubscribeButtonSize,
+  SubscribeButtonVariant,
+} from "./components/SubscribeButton/SubscribeButton";
+export { SubscribeButton } from "./components/SubscribeButton/SubscribeButton";
 export type { SwitchProps, SwitchSize } from "./components/Switch/Switch";
 export { Switch } from "./components/Switch/Switch";
 export type {
@@ -778,6 +824,12 @@ export type {
   UserItemUser,
 } from "./components/UserItem/UserItem";
 export { UserItem } from "./components/UserItem/UserItem";
+export type {
+  VoiceNoteProps,
+  VoiceNoteSize,
+  VoiceNoteVariant,
+} from "./components/VoiceNote/VoiceNote";
+export { VoiceNote } from "./components/VoiceNote/VoiceNote";
 export { cn } from "./utils/cn";
 export { getInitials } from "./utils/getInitials";
 export type { OmitDistributed } from "./utils/types";

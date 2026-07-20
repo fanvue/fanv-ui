@@ -13,6 +13,15 @@
     scrollbar-gutter: stable;
   }
 
+  /*
+   * Neutralise the browser's autofill highlight with the inset box-shadow
+   * hack. The shadow colour must match the input container background
+   * (TextField/TextArea render a transparent <input> inside a
+   * bg-inputs-inputs-primary wrapper) — a translucent tint here paints a
+   * visibly lighter band inside the field in dark mode. Note this rule
+   * cannot be overridden by unlayered !important declarations downstream:
+   * for !important the cascade reverses, so @layer base wins.
+   */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -26,8 +35,8 @@
   textarea:autofill:hover,
   textarea:autofill:focus {
     -webkit-text-fill-color: var(--color-content-primary);
-    -webkit-box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
-    box-shadow: inset 0 0 0 1000px var(--color-neutral-alphas-50) !important;
+    -webkit-box-shadow: inset 0 0 0 1000px var(--color-inputs-inputs-primary) !important;
+    box-shadow: inset 0 0 0 1000px var(--color-inputs-inputs-primary) !important;
     background-clip: padding-box !important;
     transition: background-color 9999s ease-in-out 0s;
   }
@@ -134,6 +143,21 @@
 
 @utility animate-accordion-collapse {
   animation: accordion-collapse 200ms ease-out;
+}
+
+/*
+ * `dvh` reflects the browser chrome actually on screen (e.g. iOS in-app browsers
+ * like Instagram, which report a `vh` taller than what's visible once chrome +
+ * home-indicator inset are subtracted). `dvh` support is what's missing on older
+ * engines, not `vh`, so the fallback must be declared second: an unsupported unit
+ * makes only that declaration invalid, and the browser keeps the prior valid one.
+ * This has to stay a single CSS rule with two declarations — two separate Tailwind
+ * utility classes (`max-h-[85vh] max-h-[85dvh]`) share one `tailwind-merge` conflict
+ * group, so `cn()`/`twMerge` would drop the `vh` one and destroy the fallback.
+ */
+@utility dialog-max-h-dynamic {
+  max-height: 85vh;
+  max-height: 85dvh;
 }
 
 /* Static tokens not in Figma — manually maintained for now */

@@ -1,5 +1,87 @@
 # Changelog
 
+## [3.18.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.17.0...ui-v3.18.0) (2026-07-15)
+
+
+### Features
+
+* **Inputs:** add PhoneField and TextField action slot, align input hint styling to V2 board ([#585](https://github.com/fanvue/fanv-ui/issues/585)) ([8416138](https://github.com/fanvue/fanv-ui/commit/84161388fda41528ee6976d5af9de201a3544343))
+* **ReceiveMoneyIcon:** add ReceiveMoneyIcon to iconography ([#588](https://github.com/fanvue/fanv-ui/issues/588)) ([e955a2c](https://github.com/fanvue/fanv-ui/commit/e955a2c90a30c54188a128e4a4288e2802c95dc9))
+
+
+### Bug Fixes
+
+* **RatingSummary:** equalize histogram track widths across rows ([#595](https://github.com/fanvue/fanv-ui/issues/595)) ([3270602](https://github.com/fanvue/fanv-ui/commit/32706028631e9a8fe48573341b93f60ba543bbb5))
+
+## [3.17.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.16.0...ui-v3.17.0) (2026-07-13)
+
+
+### Features
+
+* **VoiceNote:** add voice-note waveform player with optional real-audio mode (ENG-10632) ([#586](https://github.com/fanvue/fanv-ui/issues/586)) ([dbba31e](https://github.com/fanvue/fanv-ui/commit/dbba31eebea38a628021e755b1f396be3c141914))
+
+
+### Bug Fixes
+
+* paint autofilled inputs with the input container background ([#594](https://github.com/fanvue/fanv-ui/issues/594)) ([d5b977d](https://github.com/fanvue/fanv-ui/commit/d5b977d8dcefea5735fa368a81a17236d03026b5))
+
+## [3.16.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.15.0...ui-v3.16.0) (2026-07-11)
+
+
+### Features
+
+* **AudioRecordButton:** add audio record button and consume it in AudioUpload (ENG-10630) ([#582](https://github.com/fanvue/fanv-ui/issues/582)) ([c8a34a8](https://github.com/fanvue/fanv-ui/commit/c8a34a8c3603b465735c2f09aa3b26c1911d0f6e))
+* **ChatMessage:** add ChatMessage component ([#578](https://github.com/fanvue/fanv-ui/issues/578)) ([bc3097f](https://github.com/fanvue/fanv-ui/commit/bc3097f9f8d3571cba0581c9d8d0ead0856efaaa))
+* **Icons:** add DenseGridViewIcon for the vault 3-state view toggle (ENG-12374) ([#591](https://github.com/fanvue/fanv-ui/issues/591)) ([2f35559](https://github.com/fanvue/fanv-ui/commit/2f355599e34fb1de049b1f6f8f665707699febd4))
+* **MediaStatusIndicator:** add V2 media status indicator (ENG-11798) ([#581](https://github.com/fanvue/fanv-ui/issues/581)) ([1919acb](https://github.com/fanvue/fanv-ui/commit/1919acb6c8f148ae2ffc379ddfe490c67fb9e782))
+* **Select:** align dropdown rows to V2 Menu Item spec (ENG-11781) ([#572](https://github.com/fanvue/fanv-ui/issues/572)) ([5094cd3](https://github.com/fanvue/fanv-ui/commit/5094cd383a2f78ee527de0be01bc99b82d379e3f))
+* **SubscribeButton:** add dedicated V2 subscribe button (ENG-11784) ([#580](https://github.com/fanvue/fanv-ui/issues/580)) ([fdf8b9f](https://github.com/fanvue/fanv-ui/commit/fdf8b9f238eef1ad6e681ae22c52176cab805861))
+
+
+### Bug Fixes
+
+* **DropdownMenu:** add sheet variant for mobile drawer + confirm flip reposition (ENG-12331) ([#592](https://github.com/fanvue/fanv-ui/issues/592)) ([37070ae](https://github.com/fanvue/fanv-ui/commit/37070ae6113607e89d4e4af96cb291232b156441))
+* **DropdownMenu:** replace heavy filled selected state with subtle highlight (ENG-12329) ([#590](https://github.com/fanvue/fanv-ui/issues/590)) ([4cc72f2](https://github.com/fanvue/fanv-ui/commit/4cc72f28abdf2e6bd84451d8fd1d0f49ef47a1d0))
+
+## [3.15.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.14.1...ui-v3.15.0) (2026-07-09)
+
+
+### Features
+
+* **IconButton:** migrate to V2 type system (ENG-11780) ([#555](https://github.com/fanvue/fanv-ui/issues/555)) ([d41d247](https://github.com/fanvue/fanv-ui/commit/d41d247c26790185aa3d1ae78ba7a5b410d37d11))
+
+
+### Bug Fixes
+
+* **Dialog:** top-align header buttons so close button tracks the title ([#583](https://github.com/fanvue/fanv-ui/issues/583)) ([b8837ca](https://github.com/fanvue/fanv-ui/commit/b8837cab45e6ef685ab1fadeeb843a57c2840e6a))
+
+## [3.14.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.14.0...ui-v3.14.1) (2026-07-08)
+
+
+### Bug Fixes
+
+* **Dialog:** dynamic viewport height + safe-area padding (ENG-12221) ([#576](https://github.com/fanvue/fanv-ui/issues/576)) ([0fe2835](https://github.com/fanvue/fanv-ui/commit/0fe28356e1125d5d4a2e407859e3ecf41d0514be))
+* **Dialog:** use dynamic viewport height with legacy vh fallback ([0fe2835](https://github.com/fanvue/fanv-ui/commit/0fe28356e1125d5d4a2e407859e3ecf41d0514be))
+
+## [3.14.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.13.0...ui-v3.14.0) (2026-07-08)
+
+
+### Features
+
+* add AudioPlayer, FloatingActionButton, view-switcher icons and icon-only SegmentedControl (ENG-12212) ([#573](https://github.com/fanvue/fanv-ui/issues/573)) ([5f58ec3](https://github.com/fanvue/fanv-ui/commit/5f58ec3097535f602da089b27b0fb11d97709e8a))
+* **Dialog:** expose overlay customization on DialogContent ([#574](https://github.com/fanvue/fanv-ui/issues/574)) ([8e46048](https://github.com/fanvue/fanv-ui/commit/8e460484778136e618d94c2d0c1434d4ea8de377))
+
+## [3.13.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.12.1...ui-v3.13.0) (2026-07-08)
+
+
+### Features
+
+* **Accordion:** add description, leading icon and avatar header slots (ENG-10637) ([#553](https://github.com/fanvue/fanv-ui/issues/553)) ([713bb9e](https://github.com/fanvue/fanv-ui/commit/713bb9e182094e4ef8c2b391bb4583bf45bc160a))
+* **DropdownMenu:** add avatar and count slots for Feature Menu Item (ENG-10612) ([#569](https://github.com/fanvue/fanv-ui/issues/569)) ([f73a9f5](https://github.com/fanvue/fanv-ui/commit/f73a9f5d8fac7dd2756756e07706274cf1a4f2c7))
+* **GifIcon:** replace artwork with new GIF badge design ([#570](https://github.com/fanvue/fanv-ui/issues/570)) ([3fde8fe](https://github.com/fanvue/fanv-ui/commit/3fde8feecabd550510864aac1a5c9e22447fd3be))
+* **ProgressBar:** add V2 brand/mono variants and stepped progress (ENG-10627) ([#554](https://github.com/fanvue/fanv-ui/issues/554)) ([772fe7b](https://github.com/fanvue/fanv-ui/commit/772fe7bb7fc631c1fed006f2352d418ee35f5bac))
+* **TextField:** add V2 side label type and align TextArea treatment (ENG-10613) ([#568](https://github.com/fanvue/fanv-ui/issues/568)) ([9ba7b77](https://github.com/fanvue/fanv-ui/commit/9ba7b773e583a6dcc4ef86c8ff16709bdfe81be7))
+
 ## [3.12.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.12.0...ui-v3.12.1) (2026-07-07)
 
 

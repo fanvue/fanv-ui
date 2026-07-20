@@ -654,6 +654,57 @@ export const MobileSheet: Story = {
   play: openDialog,
 };
 
+export const MobileSheetTallContent: Story = {
+  name: "Mobile Sheet — Tall Content (ENG-12221)",
+  tags: ["!autodocs"],
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+    chromatic: {
+      modes: {
+        "light-mobile": { theme: "light", viewport: 375 },
+      },
+    },
+  },
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Dialog Title</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <p className="typography-body-default-16px-regular mb-3 text-content-secondary">
+            Regression coverage for ENG-12221: on iOS in-app browsers (e.g. Instagram),{" "}
+            <code>vh</code> reports taller than the actually-visible viewport, squishing/clipping
+            sheet content. The sheet is capped by the <code>dialog-max-h-dynamic</code> utility (
+            <code>85dvh</code> with an <code>85vh</code> fallback), stays scrollable, and its bottom
+            padding grows for the safe-area / home-indicator inset instead of clipping the footer
+            buttons.
+          </p>
+          {Array.from({ length: 12 }, (_, i) => `paragraph-${i + 1}`).map((id) => (
+            <p
+              key={id}
+              className="typography-body-default-16px-regular mb-4 text-content-secondary"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua.
+            </p>
+          ))}
+        </DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="secondary">Cancel</Button>
+          </DialogClose>
+          <Button>Accept</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: openDialog,
+};
+
 export const WithoutPortal: Story = {
   name: "Without Portal",
   render: () => (
@@ -687,6 +738,29 @@ export const WithoutPortal: Story = {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: /open inline dialog/i }));
   },
+};
+
+export const CustomOverlay: Story = {
+  name: "Custom Overlay (backdrop blur)",
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent overlayProps={{ className: "backdrop-blur-xl" }}>
+        <DialogHeader>
+          <DialogTitle>Custom overlay</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <DialogDescription>
+            `overlayProps` forwards to the default overlay, letting consumers apply a custom
+            backdrop treatment (e.g. the v2 Modal backdrop blur) without replacing it.
+          </DialogDescription>
+        </DialogBody>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: openDialog,
 };
 
 export const RemoveMembers: Story = {

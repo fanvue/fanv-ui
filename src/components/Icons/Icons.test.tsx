@@ -39,12 +39,14 @@ import { ChevronUpIcon } from "./ChevronUpIcon";
 import { ClockIcon } from "./ClockIcon";
 import { CloseIcon } from "./CloseIcon";
 import { CodeIcon } from "./CodeIcon";
+import { CogIcon } from "./CogIcon";
 import { CoinIcon } from "./CoinIcon";
 import { CompassIcon } from "./CompassIcon";
 import { CopyIcon } from "./CopyIcon";
 import { CrossCircleIcon } from "./CrossCircleIcon";
 import { CrossIcon } from "./CrossIcon";
 import { CrownIcon } from "./CrownIcon";
+import { DenseGridViewIcon } from "./DenseGridViewIcon";
 import { DiamondIcon } from "./DiamondIcon";
 import { DiscordIcon } from "./DiscordIcon";
 import { DiscountIcon } from "./DiscountIcon";
@@ -73,6 +75,7 @@ import { GenderIcon } from "./GenderIcon";
 import { GifIcon } from "./GifIcon";
 import { GiftIcon } from "./GiftIcon";
 import { GoogleIcon } from "./GoogleIcon";
+import { GridViewIcon } from "./GridViewIcon";
 import { HealthIcon } from "./HealthIcon";
 import { HeartIcon } from "./HeartIcon";
 import { HelpIcon } from "./HelpIcon";
@@ -85,6 +88,7 @@ import { InfoCircleIcon } from "./InfoCircleIcon";
 import { InfoIcon } from "./InfoIcon";
 import { LanguageIcon } from "./LanguageIcon";
 import { LinkIcon } from "./LinkIcon";
+import { ListViewIcon } from "./ListViewIcon";
 import { LocationIcon } from "./LocationIcon";
 import { LockerIcon } from "./LockerIcon";
 import { LockerOffIcon } from "./LockerOffIcon";
@@ -114,6 +118,7 @@ import { PlayIcon } from "./PlayIcon";
 import { PlusIcon } from "./PlusIcon";
 import { PrivacyIcon } from "./PrivacyIcon";
 import { QueueIcon } from "./QueueIcon";
+import { ReceiveMoneyIcon } from "./ReceiveMoneyIcon";
 import { RepeatIcon } from "./RepeatIcon";
 import { Reply2Icon } from "./Reply2Icon";
 import { ReplyIcon } from "./ReplyIcon";
@@ -233,11 +238,13 @@ const propBasedIcons = [
   { name: "ClockIcon", Component: ClockIcon, hasFilled: true },
   { name: "CloseIcon", Component: CloseIcon, hasFilled: false },
   { name: "CodeIcon", Component: CodeIcon, hasFilled: true },
+  { name: "CogIcon", Component: CogIcon, hasFilled: true },
   { name: "CoinIcon", Component: CoinIcon, hasFilled: true },
   { name: "CompassIcon", Component: CompassIcon, hasFilled: true },
   { name: "CopyIcon", Component: CopyIcon, hasFilled: true },
   { name: "CrossCircleIcon", Component: CrossCircleIcon, hasFilled: true },
   { name: "CrownIcon", Component: CrownIcon, hasFilled: true },
+  { name: "DenseGridViewIcon", Component: DenseGridViewIcon, hasFilled: false },
   { name: "DiamondIcon", Component: DiamondIcon, hasFilled: true },
   { name: "DiscordIcon", Component: DiscordIcon, hasFilled: true },
   { name: "DiscountIcon", Component: DiscountIcon, hasFilled: true },
@@ -258,6 +265,7 @@ const propBasedIcons = [
   { name: "GenderIcon", Component: GenderIcon, hasFilled: true },
   { name: "GifIcon", Component: GifIcon, hasFilled: true },
   { name: "GiftIcon", Component: GiftIcon, hasFilled: true },
+  { name: "GridViewIcon", Component: GridViewIcon, hasFilled: false },
   { name: "HealthIcon", Component: HealthIcon, hasFilled: true },
   { name: "HeartIcon", Component: HeartIcon, hasFilled: true },
   { name: "HelpIcon", Component: HelpIcon, hasFilled: true },
@@ -269,6 +277,7 @@ const propBasedIcons = [
   { name: "InfoIcon", Component: InfoIcon, hasFilled: true },
   { name: "LanguageIcon", Component: LanguageIcon, hasFilled: true },
   { name: "LinkIcon", Component: LinkIcon, hasFilled: false },
+  { name: "ListViewIcon", Component: ListViewIcon, hasFilled: false },
   { name: "LocationIcon", Component: LocationIcon, hasFilled: true },
   { name: "LockerIcon", Component: LockerIcon, hasFilled: true },
   { name: "LockerOffIcon", Component: LockerOffIcon, hasFilled: true },
@@ -294,6 +303,7 @@ const propBasedIcons = [
   { name: "PlayIcon", Component: PlayIcon, hasFilled: true },
   { name: "PrivacyIcon", Component: PrivacyIcon, hasFilled: true },
   { name: "QueueIcon", Component: QueueIcon, hasFilled: false },
+  { name: "ReceiveMoneyIcon", Component: ReceiveMoneyIcon, hasFilled: false },
   { name: "RepeatIcon", Component: RepeatIcon, hasFilled: false },
   { name: "Reply2Icon", Component: Reply2Icon, hasFilled: true },
   { name: "ReplyIcon", Component: ReplyIcon, hasFilled: true },

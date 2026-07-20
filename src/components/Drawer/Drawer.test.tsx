@@ -111,7 +111,7 @@ describe("Drawer", () => {
       renderDrawer();
       await user.click(screen.getByRole("button", { name: "Open drawer" }));
       const closeButton = screen.getByRole("button", { name: "Close drawer" });
-      expect(closeButton).toHaveClass("size-8", "bg-neutral-alphas-50");
+      expect(closeButton).toHaveClass("size-8", "bg-buttons-secondary-default");
     });
   });
 

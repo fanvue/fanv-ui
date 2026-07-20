@@ -104,6 +104,13 @@ describe("Dialog", () => {
       expect(screen.queryByRole("button", { name: "Close" })).not.toBeInTheDocument();
     });
 
+    it("top-aligns header buttons so the close button tracks the title's first line", () => {
+      renderDialog();
+      const header = screen.getByRole("button", { name: "Close" }).parentElement;
+      expect(header).toHaveClass("items-start");
+      expect(header).not.toHaveClass("items-center");
+    });
+
     it("applies custom className to content", () => {
       renderDialog({ className: "custom-dialog" });
       expect(document.querySelector(".custom-dialog")).toBeInTheDocument();
@@ -181,6 +188,41 @@ describe("Dialog", () => {
       expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
     });
 
+    // ENG-12221: iOS in-app browsers (e.g. Instagram) report a `vh` taller than
+    // the actually-visible viewport, so a static `max-h-[85vh]` squishes/clips
+    // dialog content. `dialog-max-h-dynamic` (base.css) declares `max-height`
+    // twice in one rule — `85vh` then `85dvh` — so unsupported-unit browsers keep
+    // the `vh` fallback while modern browsers use the accurate `dvh` value.
+    it("uses the dynamic-viewport-height utility on all mobile presentations", () => {
+      const { rerender } = renderDialog();
+      expect(screen.getByRole("dialog")).toHaveClass("dialog-max-h-dynamic");
+
+      rerender(
+        <Dialog defaultOpen>
+          <DialogContent mobilePresentation="card">
+            <DialogHeader>
+              <DialogTitle>Card</DialogTitle>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>,
+      );
+      expect(screen.getByRole("dialog")).toHaveClass("dialog-max-h-dynamic");
+    });
+
+    it("pads the bottom sheet for the safe-area inset", () => {
+      renderDialog();
+      expect(screen.getByRole("dialog")).toHaveClass(
+        "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
+      );
+    });
+
+    it("does not pad the floating card for the safe-area inset", () => {
+      renderDialog({ mobilePresentation: "card" });
+      expect(screen.getByRole("dialog")).not.toHaveClass(
+        "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
+      );
+    });
+
     it("supports controlled open state", async () => {
       const onOpenChange = vi.fn();
       const user = userEvent.setup();
@@ -202,6 +244,14 @@ describe("Dialog", () => {
       const { baseElement } = renderDialog({ overlay: false });
       expect(screen.getByRole("dialog")).toBeInTheDocument();
       expect(baseElement.querySelector(".bg-background-overlay-default")).not.toBeInTheDocument();
+    });
+
+    it("forwards overlayProps to the overlay", () => {
+      const { baseElement } = renderDialog({
+        overlayProps: { className: "backdrop-blur-xl" },
+      });
+      const overlay = baseElement.querySelector(".bg-background-overlay-default");
+      expect(overlay).toHaveClass("backdrop-blur-xl");
     });
 
     it("renders inline when portal is false", () => {
