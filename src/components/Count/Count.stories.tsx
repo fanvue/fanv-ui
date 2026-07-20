@@ -46,7 +46,6 @@ export const Brand: Story = {
   args: {
     variant: "brand",
     value: 12,
-    size: "24",
   },
 };
 
@@ -54,7 +53,6 @@ export const Contrast: Story = {
   args: {
     variant: "contrast",
     value: 3,
-    size: "24",
   },
   decorators: [
     (Story) => (
@@ -113,7 +111,6 @@ export const MaxValue: Story = {
   args: {
     value: 150,
     max: 99,
-    size: "24",
   },
 };
 
@@ -126,7 +123,6 @@ export const ZeroValue: Story = {
 export const CustomContent: Story = {
   args: {
     children: "NEW",
-    size: "24",
   },
 };
 
@@ -134,7 +130,7 @@ export const OnButton: Story = {
   render: () => (
     <Button variant="tertiary" size="40" className="relative">
       Messages
-      <Count value={24} variant="alert" size="24" className="absolute -top-2 -right-2" />
+      <Count value={24} variant="alert" className="absolute -top-2 -right-2" />
     </Button>
   ),
 };
@@ -144,10 +140,10 @@ export const V2Types: Story = {
   render: () => (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-4">
-        <Count value={5} variant="default" size="24" />
-        <Count value={12} variant="brand" size="24" />
+        <Count value={5} variant="default" />
+        <Count value={12} variant="brand" />
         <div className="rounded-md bg-neutral-alphas-600 p-3">
-          <Count value={3} variant="contrast" size="24" />
+          <Count value={3} variant="contrast" />
         </div>
       </div>
       <div className="flex items-center gap-4">
@@ -163,15 +159,14 @@ export const V2Types: Story = {
 
 export const MultipleVariants: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-4">
-      <Count value={5} variant="default" size="24" />
-      <Count value={3} variant="contrast" size="24" />
-      <Count value={12} variant="brand" size="24" />
-      <Count value={3} variant="alert" size="24" />
-      <Count value={8} variant="pink" size="24" />
-      <Count value={3} variant="info" size="24" />
-      <Count value={7} variant="success" size="24" />
-      <Count value={99} variant="warning" size="24" />
+    <div className="flex items-center gap-4">
+      <Count value={5} variant="default" />
+      <Count value={3} variant="alert" />
+      <Count value={12} variant="brand" />
+      <Count value={8} variant="pink" />
+      <Count value={3} variant="info" />
+      <Count value={7} variant="success" />
+      <Count value={99} variant="warning" />
     </div>
   ),
 };
