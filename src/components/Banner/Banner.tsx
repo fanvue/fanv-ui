@@ -177,7 +177,7 @@ function BannerGuideBody({
         <Badge
           variant={GUIDE_BADGE_VARIANT[appStoreVariant]}
           leftDot={false}
-          className="typography-badge-badgecaps self-start"
+          className="self-start"
         >
           {eyebrow}
         </Badge>

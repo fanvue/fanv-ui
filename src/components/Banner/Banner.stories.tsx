@@ -39,7 +39,7 @@ const sampleImg = (
 
 function NewBadge() {
   return (
-    <Badge variant="success" leftDot className="typography-badge-badgecaps">
+    <Badge variant="success" leftDot>
       new
     </Badge>
   );
@@ -51,7 +51,6 @@ function StatusChip({ children }: { children: ReactNode }) {
       variant="default"
       leftDot={false}
       leftIcon={<WarningTriangleIcon className="size-2.5" />}
-      className="typography-badge-badgecaps"
     >
       {children}
     </Badge>

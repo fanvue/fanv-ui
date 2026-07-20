@@ -1,22 +1,23 @@
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
-import { cn } from "../../utils/cn";
+import { cn } from "@/utils/cn.ts";
 
 const badgeVariants = {
   variant: {
-    default: "bg-neutral-alphas-50 text-content-primary",
+    default: "bg-buttons-secondary-default text-content-primary",
     dark: "bg-neutral-alphas-600 text-content-always-white",
-    success: "bg-success-surface text-success-content",
-    warning: "bg-warning-surface text-warning-content",
-    error: "bg-error-surface text-error-content",
-    special: "bg-neutral-alphas-50 text-content-primary",
-    info: "bg-info-surface text-info-content",
+    success: "bg-buttons-secondary-default text-content-primary",
+    warning: "bg-buttons-secondary-default text-content-primary",
+    error: "bg-buttons-secondary-default text-content-primary",
+    special: "bg-buttons-secondary-default text-content-primary",
+    info: "bg-buttons-secondary-default text-content-primary",
     successColour: "bg-success-surface text-content-primary",
     warningColour: "bg-warning-surface text-content-primary",
     errorColour: "bg-error-surface text-content-primary",
     infoColour: "bg-info-surface text-content-primary",
     aiGenerated: "bg-buttons-always-white-default text-content-always-black",
     negative: "bg-buttons-secondary-negative-default text-content-primary-inverted",
+    alwaysWhite: "bg-buttons-secondary-negative-default text-content-always-white",
     online: "bg-background-primary text-brand-primary-default",
     brand: "bg-brand-primary-default text-content-always-black",
     pink: "bg-brand-secondary-default text-content-always-black",
@@ -24,7 +25,7 @@ const badgeVariants = {
     pinkLight: "bg-brand-secondary-muted text-content-primary",
   },
   dotColor: {
-    default: "bg-content-primary",
+    default: "bg-icons-primary",
     dark: "bg-content-always-white",
     success: "bg-success-content",
     warning: "bg-warning-content",
@@ -37,6 +38,7 @@ const badgeVariants = {
     infoColour: "bg-info-content",
     aiGenerated: "bg-content-always-black",
     negative: "bg-icons-primary-inverted",
+    alwaysWhite: "bg-brand-primary-default",
     online: "bg-brand-primary-default",
     brand: "bg-content-always-black",
     pink: "bg-content-always-black",
@@ -60,6 +62,7 @@ export type BadgeVariant =
   | "infoColour"
   | "aiGenerated"
   | "negative"
+  | "alwaysWhite"
   | "online"
   | "brand"
   | "pink"
@@ -110,7 +113,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         data-testid="badge"
         className={cn(
           // Base styles
-          "typography-description-12px-semibold inline-flex h-6 min-w-0 items-center gap-2 rounded-full px-2",
+          "typography-badge-badgecaps inline-flex h-5 min-w-0 items-center gap-1 rounded-full px-2",
           // Variant styles
           badgeVariants.variant[variant],
           // Interactive
@@ -123,7 +126,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       >
         {leftIcon && (
           <span
-            className="flex shrink-0 items-center justify-center [&>svg]:size-3"
+            className="flex shrink-0 items-center justify-center [&>svg]:size-2.5"
             aria-hidden="true"
           >
             {leftIcon}
@@ -138,11 +141,11 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {asChild ? (
           <Slottable>{children}</Slottable>
         ) : (
-          <span className="min-w-0 truncate">{children}</span>
+          <span className="min-w-0 truncate [text-box:trim-both_cap_alphabetic]">{children}</span>
         )}
         {rightIcon && (
           <span
-            className="flex shrink-0 items-center justify-center [&>svg]:size-3"
+            className="flex shrink-0 items-center justify-center [&>svg]:size-2.5"
             aria-hidden="true"
           >
             {rightIcon}
