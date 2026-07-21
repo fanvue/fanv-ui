@@ -15,7 +15,10 @@ export type { AccordionTriggerProps } from "./components/Accordion/AccordionTrig
 export { AccordionTrigger } from "./components/Accordion/AccordionTrigger";
 export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
-export type { AudioPlayerProps, AudioPlayerSize } from "./components/AudioPlayer/AudioPlayer";
+export type {
+  AudioPlayerProps,
+  AudioPlayerSize,
+} from "./components/AudioPlayer/AudioPlayer";
 export { AudioPlayer } from "./components/AudioPlayer/AudioPlayer";
 export type {
   AudioRecordButtonProps,
@@ -94,12 +97,19 @@ export type {
 } from "./components/ButtonIconGroup/ButtonIconGroup";
 export { ButtonIconGroup } from "./components/ButtonIconGroup/ButtonIconGroup";
 export type {
+  ButtonStackDirection,
+  ButtonStackProps,
+} from "./components/ButtonStack/ButtonStack";
+export { ButtonStack } from "./components/ButtonStack/ButtonStack";
+export type {
   CardContentProps,
   CardDescriptionProps,
   CardFooterProps,
   CardHeaderProps,
+  CardHierarchy,
   CardProps,
   CardTitleProps,
+  CardType,
   CardVariant,
 } from "./components/Card/Card";
 export {
@@ -617,7 +627,10 @@ export type {
   PasswordFieldSize,
 } from "./components/PasswordField/PasswordField";
 export { PasswordField } from "./components/PasswordField/PasswordField";
-export type { PhoneFieldProps, PhoneFieldSize } from "./components/PhoneField/PhoneField";
+export type {
+  PhoneFieldProps,
+  PhoneFieldSize,
+} from "./components/PhoneField/PhoneField";
 export { PhoneField } from "./components/PhoneField/PhoneField";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
