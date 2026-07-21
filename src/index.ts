@@ -89,6 +89,11 @@ export type {
 } from "./components/Button/Button";
 export { Button } from "./components/Button/Button";
 export type {
+  ButtonIconGroupOrientation,
+  ButtonIconGroupProps,
+} from "./components/ButtonIconGroup/ButtonIconGroup";
+export { ButtonIconGroup } from "./components/ButtonIconGroup/ButtonIconGroup";
+export type {
   CardContentProps,
   CardDescriptionProps,
   CardFooterProps,
