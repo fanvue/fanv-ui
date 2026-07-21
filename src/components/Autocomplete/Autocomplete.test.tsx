@@ -88,6 +88,21 @@ describe("Autocomplete", () => {
     });
   });
 
+  describe("focus ring", () => {
+    it("renders the focus ring via the after overlay so autofill cannot paint over it", () => {
+      const { container } = renderAutocomplete();
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "after:pointer-events-none",
+        "after:absolute",
+        "after:inset-0",
+        "after:rounded-[inherit]",
+        "has-focus-visible:after:shadow-focus-ring",
+      );
+      expect(fieldContainer).not.toHaveClass("has-focus-visible:shadow-focus-ring");
+    });
+  });
+
   describe("error state", () => {
     it("applies error border on container", () => {
       const { container } = renderAutocomplete({ error: true });
