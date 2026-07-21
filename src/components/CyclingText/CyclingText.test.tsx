@@ -56,6 +56,11 @@ describe("CyclingText", () => {
       expect(getVisibleLabel()).toHaveClass("shimmer");
     });
 
+    it("applies labelClassName to the sizing layer so measured width matches the labels", () => {
+      render(<CyclingText items={ITEMS} labelClassName="font-bold pr-4" />);
+      expect(getSizingLabel()).toHaveClass("font-bold", "pr-4");
+    });
+
     it("uses the longest item to size the wrapper by default", () => {
       render(<CyclingText items={["Hi", "Hello there", "Yo"]} />);
       expect(getSizingLabel().textContent).toBe("Hello there");

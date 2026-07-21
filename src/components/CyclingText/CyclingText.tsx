@@ -161,7 +161,10 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
         <span
           ref={sizingLabelRef}
           aria-hidden="true"
-          className="pointer-events-none invisible inline-block select-none whitespace-nowrap leading-[inherit]"
+          className={cn(
+            "pointer-events-none invisible inline-block select-none whitespace-nowrap leading-[inherit]",
+            labelClassName,
+          )}
         >
           {sizingLabel}
         </span>
