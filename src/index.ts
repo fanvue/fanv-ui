@@ -151,6 +151,11 @@ export type {
 } from "./components/CreatorTile/CreatorTile";
 export { CreatorTile } from "./components/CreatorTile/CreatorTile";
 export type {
+  CriticalBannerLayout,
+  CriticalBannerProps,
+} from "./components/CriticalBanner/CriticalBanner";
+export { CriticalBanner } from "./components/CriticalBanner/CriticalBanner";
+export type {
   CyclingTextProps,
   CyclingTextSizing,
 } from "./components/CyclingText/CyclingText";
