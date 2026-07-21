@@ -348,6 +348,21 @@ describe("TextField", () => {
     });
   });
 
+  describe("focus ring", () => {
+    it("renders the focus ring via the after overlay so autofill cannot paint over it", () => {
+      const { container } = render(<TextField aria-label="Test" />);
+      const inputContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(inputContainer).toHaveClass(
+        "after:pointer-events-none",
+        "after:absolute",
+        "after:inset-0",
+        "after:rounded-[inherit]",
+        "has-focus-visible:after:shadow-focus-ring",
+      );
+      expect(inputContainer).not.toHaveClass("has-focus-visible:shadow-focus-ring");
+    });
+  });
+
   describe("accessibility", () => {
     let consoleWarnSpy: ReturnType<typeof vi.spyOn>;
 
