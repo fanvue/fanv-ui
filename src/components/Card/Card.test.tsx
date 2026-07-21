@@ -28,11 +28,49 @@ describe("Card", () => {
       expect(ref.current).toBeInstanceOf(HTMLDivElement);
     });
 
-    it("renders outlined variant by default", () => {
+    it("renders the primary hierarchy by default", () => {
       render(<Card data-testid="card">Content</Card>);
+      const el = screen.getByTestId("card");
+      expect(el).toHaveClass("bg-surface-primary");
+      expect(el).toHaveClass("border-border-primary");
+      expect(el).toHaveClass("rounded-lg");
+      expect(el).not.toHaveClass("shadow-sm");
+    });
+
+    it("renders the secondary hierarchy", () => {
+      render(
+        <Card data-testid="card" hierarchy="secondary">
+          Content
+        </Card>,
+      );
+      const el = screen.getByTestId("card");
+      expect(el).toHaveClass("bg-surface-secondary");
+      expect(el).toHaveClass("border-border-strong");
+      expect(el).toHaveClass("rounded-md");
+      expect(el).toHaveClass("shadow-sm");
+    });
+
+    it("applies the interactive hover treatment when interactive", () => {
+      render(
+        <Card data-testid="card" interactive>
+          Content
+        </Card>,
+      );
+      const el = screen.getByTestId("card");
+      expect(el).toHaveClass("cursor-pointer");
+      expect(el).toHaveClass("hover:after:opacity-5");
+    });
+
+    it("keeps the legacy variant styling when variant is set", () => {
+      render(
+        <Card data-testid="card" variant="outlined">
+          Content
+        </Card>,
+      );
       const el = screen.getByTestId("card");
       expect(el).toHaveClass("border");
       expect(el).toHaveClass("shadow-sm");
+      expect(el).toHaveClass("rounded-md");
     });
 
     it("renders elevated variant", () => {
@@ -135,9 +173,20 @@ describe("Card", () => {
       expect(el.tagName).toBe("H3");
     });
 
-    it("applies typography classes", () => {
+    it("applies the primary heading typography by default", () => {
       render(<CardTitle>Title</CardTitle>);
-      expect(screen.getByText("Title")).toHaveClass("typography-body-default-16px-semibold");
+      expect(screen.getByText("Title")).toHaveClass("typography-header-heading-xs");
+    });
+
+    it("uses the smaller type scale within a secondary card", () => {
+      render(
+        <Card hierarchy="secondary">
+          <CardHeader>
+            <CardTitle>Title</CardTitle>
+          </CardHeader>
+        </Card>,
+      );
+      expect(screen.getByText("Title")).toHaveClass("typography-body-small-14px-regular");
     });
 
     it("forwards ref correctly", () => {
@@ -182,9 +231,30 @@ describe("Card", () => {
       expect(screen.getByText("Content body")).toBeInTheDocument();
     });
 
-    it("applies vertical padding", () => {
+    it("applies vertical padding for the default type", () => {
       render(<CardContent data-testid="content">Content</CardContent>);
-      expect(screen.getByTestId("content")).toHaveClass("py-4");
+      expect(screen.getByTestId("content")).toHaveClass("py-6");
+    });
+
+    it("applies only top padding for the header-only type", () => {
+      render(
+        <Card type="header-only">
+          <CardContent data-testid="content">Content</CardContent>
+        </Card>,
+      );
+      expect(screen.getByTestId("content")).toHaveClass("pt-6");
+      expect(screen.getByTestId("content")).not.toHaveClass("py-6");
+    });
+
+    it("removes built-in padding for the container type", () => {
+      render(
+        <Card type="container">
+          <CardContent data-testid="content">Content</CardContent>
+        </Card>,
+      );
+      const el = screen.getByTestId("content");
+      expect(el).not.toHaveClass("py-6");
+      expect(el).not.toHaveClass("pt-6");
     });
 
     it("forwards ref correctly", () => {
@@ -214,7 +284,7 @@ describe("Card", () => {
       const footer = screen.getByTestId("footer");
       expect(footer).toHaveClass("flex");
       expect(footer).toHaveClass("items-center");
-      expect(footer).toHaveClass("gap-3");
+      expect(footer).toHaveClass("gap-2");
     });
 
     it("forwards ref correctly", () => {
@@ -315,6 +385,18 @@ describe("Card", () => {
     it("has no accessibility violations with ghost variant", async () => {
       const { container } = render(
         <Card variant="ghost">
+          <CardContent>Content</CardContent>
+        </Card>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with the secondary hierarchy", async () => {
+      const { container } = render(
+        <Card hierarchy="secondary" interactive>
+          <CardHeader>
+            <CardTitle>Title</CardTitle>
+          </CardHeader>
           <CardContent>Content</CardContent>
         </Card>,
       );

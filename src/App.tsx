@@ -5184,8 +5184,49 @@ function CardDemo() {
     <div id="card" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-xs mb-4">Card</h2>
 
-      {/* All variants */}
-      <h3 className="typography-body-default-16px-semibold">Variants</h3>
+      <h3 className="typography-body-default-16px-semibold">Hierarchy × Type</h3>
+      <div className="flex flex-wrap items-start gap-6">
+        {(["primary", "secondary"] as const).map((hierarchy) =>
+          (["default", "header-only", "container"] as const).map((type) => (
+            <Card key={`${hierarchy}-${type}`} hierarchy={hierarchy} type={type} className="w-64">
+              {type !== "container" && (
+                <CardHeader action={<HomeIcon className="size-5" />}>
+                  <CardTitle>Title goes here</CardTitle>
+                </CardHeader>
+              )}
+              <CardContent>
+                <p className="typography-body-small-14px-regular text-content-tertiary">
+                  {hierarchy} / {type}
+                </p>
+              </CardContent>
+              {type === "default" && (
+                <CardFooter>
+                  <Button variant="secondary" size="32" fullWidth>
+                    CTA
+                  </Button>
+                  <Button variant="primary" size="32" fullWidth>
+                    CTA
+                  </Button>
+                </CardFooter>
+              )}
+            </Card>
+          )),
+        )}
+      </div>
+
+      <h3 className="typography-body-default-16px-semibold mt-4">Interactive</h3>
+      <Card hierarchy="primary" type="header-only" interactive className="max-w-sm">
+        <CardHeader action={<SettingsIcon className="size-5" />}>
+          <CardTitle>Title goes here</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="typography-body-small-14px-regular text-content-tertiary">
+            Hover to see the interactive treatment
+          </p>
+        </CardContent>
+      </Card>
+
+      <h3 className="typography-body-default-16px-semibold mt-4">Legacy variants (deprecated)</h3>
       <div className="flex flex-wrap items-start gap-6">
         {(["outlined", "elevated", "filled", "ghost"] as const).map((variant) => (
           <Card key={variant} variant={variant} className="w-64">
@@ -5198,38 +5239,10 @@ function CardDemo() {
                 Content goes here
               </p>
             </CardContent>
-            <CardFooter>
-              <Button variant="secondary" size="40">
-                Label
-              </Button>
-              <Button variant="primary" size="40">
-                Label
-              </Button>
-            </CardFooter>
           </Card>
         ))}
       </div>
 
-      {/* Header only */}
-      <h3 className="typography-body-default-16px-semibold mt-4">Header only</h3>
-      <Card className="max-w-sm">
-        <CardHeader action={<SettingsIcon className="size-5" />}>
-          <CardTitle>Settings</CardTitle>
-          <CardDescription>Manage your account preferences</CardDescription>
-        </CardHeader>
-      </Card>
-
-      {/* Content only */}
-      <h3 className="typography-body-default-16px-semibold mt-4">Content only</h3>
-      <Card className="max-w-sm">
-        <CardContent>
-          <p className="typography-body-small-14px-regular text-content-primary">
-            A simple card with just content and no header or footer.
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* No padding (media card) */}
       <h3 className="typography-body-default-16px-semibold mt-4">No padding</h3>
       <Card className="max-w-sm" noPadding>
         <div className="h-40 w-full rounded-t-md bg-neutral-alphas-200" />
