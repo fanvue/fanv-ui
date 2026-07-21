@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.19.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.18.0...ui-v3.19.0) (2026-07-20)
+
+
+### Features
+
+* **Badge:** update to V2 design ([#567](https://github.com/fanvue/fanv-ui/issues/567)) ([637eb3c](https://github.com/fanvue/fanv-ui/commit/637eb3cc9a31b85cf216342ae2a5837d1dd264b1))
+* **Count:** align Chip + Count with V2 Notification Count (DES-789) ([#598](https://github.com/fanvue/fanv-ui/issues/598)) ([ad3932a](https://github.com/fanvue/fanv-ui/commit/ad3932a1b821680b12080e2045b0861c4520d2c0))
+
 ## [3.18.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.17.0...ui-v3.18.0) (2026-07-15)
 
 
