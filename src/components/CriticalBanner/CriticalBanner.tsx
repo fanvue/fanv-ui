@@ -23,8 +23,12 @@ export interface CriticalBannerProps extends Omit<React.HTMLAttributes<HTMLDivEl
   icon?: React.ReactNode;
   /** Label for the built-in white call-to-action button. Ignored when `action` is set. */
   ctaLabel?: React.ReactNode;
-  /** Props forwarded to the built-in call-to-action button (e.g. `onClick`, `asChild`). */
-  ctaProps?: Omit<ButtonProps, "variant" | "size" | "children">;
+  /**
+   * Props forwarded to the built-in call-to-action button (e.g. `onClick`).
+   * `asChild` is intentionally excluded — the built-in CTA renders `ctaLabel`
+   * as text; for a link or fully custom element use the `action` prop instead.
+   */
+  ctaProps?: Omit<ButtonProps, "variant" | "size" | "children" | "asChild">;
   /** Custom action node rendered in place of the built-in call-to-action button. */
   action?: React.ReactNode;
 }
@@ -36,13 +40,17 @@ function CriticalBannerCta({
   ctaLabel: React.ReactNode;
   ctaProps?: CriticalBannerProps["ctaProps"];
 }) {
+  // Only tint the label red for enabled states; when disabled, let Button keep
+  // its own `text-content-disabled` treatment instead of overriding it.
+  const isDisabled = ctaProps?.disabled ?? false;
   return (
     <Button
       variant="white"
       size="40"
       {...ctaProps}
       className={cn(
-        "text-alerts-critical-banner-background hover:text-alerts-critical-banner-background active:text-alerts-critical-banner-background",
+        !isDisabled &&
+          "text-alerts-critical-banner-background hover:text-alerts-critical-banner-background active:text-alerts-critical-banner-background",
         ctaProps?.className,
       )}
     >
@@ -90,7 +98,6 @@ export const CriticalBanner = React.forwardRef<HTMLDivElement, CriticalBannerPro
     },
     ref,
   ) => {
-    const hasTitle = title !== undefined && title !== null && title !== false;
     const isUnder = layout === "under";
 
     const cta =
@@ -107,7 +114,7 @@ export const CriticalBanner = React.forwardRef<HTMLDivElement, CriticalBannerPro
 
     const textColumn = (
       <div className="flex min-w-0 flex-col gap-1 break-words pt-1 text-alerts-critical-banner-content">
-        {hasTitle && <div className="typography-header-heading-xs">{title}</div>}
+        {title && <div className="typography-header-heading-xs">{title}</div>}
         <div className="typography-body-default-16px-regular">{children}</div>
       </div>
     );

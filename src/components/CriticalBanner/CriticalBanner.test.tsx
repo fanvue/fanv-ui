@@ -27,6 +27,17 @@ describe("CriticalBanner", () => {
       expect(onClick).toHaveBeenCalledTimes(1);
     });
 
+    it("keeps the Button disabled treatment when the CTA is disabled", () => {
+      render(
+        <CriticalBanner title="Blocked" ctaLabel="Fix it" ctaProps={{ disabled: true }}>
+          Body copy
+        </CriticalBanner>,
+      );
+      const cta = screen.getByRole("button", { name: "Fix it" });
+      expect(cta).toBeDisabled();
+      expect(cta).not.toHaveClass("text-alerts-critical-banner-background");
+    });
+
     it("renders a custom action instead of the built-in CTA", () => {
       render(
         <CriticalBanner title="Blocked" ctaLabel="Ignored" action={<a href="/help">Get help</a>}>
