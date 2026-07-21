@@ -10,10 +10,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "./charts";
-import {
-  simpleLineConfig,
-  simpleLineData,
-} from "./components/Chart/chartStoryFixtures";
+import { simpleLineConfig, simpleLineData } from "./components/Chart/chartStoryFixtures";
 import { DatePicker } from "./date-picker";
 import type { AudioRecordButtonStatus } from "./index";
 import {
@@ -280,16 +277,12 @@ import {
 import "./showcase.css";
 
 function DatePickerShowcase() {
-  const [singleDate, setSingleDate] = useState<Date | undefined>(
-    new Date(2026, 1, 15),
-  );
+  const [singleDate, setSingleDate] = useState<Date | undefined>(new Date(2026, 1, 15));
   const [singleRange, setSingleRange] = useState<DateRange | undefined>({
     from: new Date(2026, 1, 9),
     to: new Date(2026, 1, 19),
   });
-  const [doubleDate, setDoubleDate] = useState<Date | undefined>(
-    new Date(2026, 1, 15),
-  );
+  const [doubleDate, setDoubleDate] = useState<Date | undefined>(new Date(2026, 1, 15));
   const [doubleRange, setDoubleRange] = useState<DateRange | undefined>({
     from: new Date(2026, 1, 9),
     to: new Date(2026, 2, 4),
@@ -332,33 +325,10 @@ function SliderShowcase() {
 
   return (
     <div className="flex max-w-md flex-col gap-6">
-      <Slider
-        defaultValue={[50]}
-        label="Label"
-        minLabel="Min Value"
-        maxLabel="Max Value"
-      />
-      <Slider
-        defaultValue={[40]}
-        label="Volume"
-        labelPosition="top"
-        minLabel="0"
-        maxLabel="100"
-      />
-      <Slider
-        defaultValue={[40]}
-        label="Volume"
-        labelPosition="left"
-        minLabel="0"
-        maxLabel="100"
-      />
-      <Slider
-        defaultValue={[25]}
-        label="Brightness"
-        showTooltip
-        minLabel="0%"
-        maxLabel="100%"
-      />
+      <Slider defaultValue={[50]} label="Label" minLabel="Min Value" maxLabel="Max Value" />
+      <Slider defaultValue={[40]} label="Volume" labelPosition="top" minLabel="0" maxLabel="100" />
+      <Slider defaultValue={[40]} label="Volume" labelPosition="left" minLabel="0" maxLabel="100" />
+      <Slider defaultValue={[25]} label="Brightness" showTooltip minLabel="0%" maxLabel="100%" />
       <Slider
         defaultValue={[50]}
         label="Price"
@@ -368,26 +338,10 @@ function SliderShowcase() {
         step={10}
         formatTooltip={(value: number) => `$${value}`}
       />
-      <Slider
-        defaultValue={[20, 80]}
-        label="Price Range"
-        minLabel="$0"
-        maxLabel="$1000"
-      />
+      <Slider defaultValue={[20, 80]} label="Price Range" minLabel="$0" maxLabel="$1000" />
       <Slider defaultValue={[50]} aria-label="No labels slider" />
-      <Slider
-        defaultValue={[30]}
-        aria-label="Intensity"
-        minLabel="Low"
-        maxLabel="High"
-      />
-      <Slider
-        defaultValue={[50]}
-        label="Disabled Slider"
-        minLabel="Min"
-        maxLabel="Max"
-        disabled
-      />
+      <Slider defaultValue={[30]} aria-label="Intensity" minLabel="Low" maxLabel="High" />
+      <Slider defaultValue={[50]} label="Disabled Slider" minLabel="Min" maxLabel="Max" disabled />
       <Slider
         defaultValue={[50]}
         label="Rating"
@@ -419,16 +373,8 @@ function PaginationShowcase() {
 
   return (
     <div className="flex flex-col gap-6">
-      <Pagination
-        totalPages={5}
-        currentPage={defaultPage}
-        onPageChange={setDefaultPage}
-      />
-      <Pagination
-        totalPages={20}
-        currentPage={manyPage}
-        onPageChange={setManyPage}
-      />
+      <Pagination totalPages={5} currentPage={defaultPage} onPageChange={setDefaultPage} />
+      <Pagination totalPages={20} currentPage={manyPage} onPageChange={setManyPage} />
       <Pagination totalPages={1} currentPage={1} />
       <Pagination
         variant="dots"
@@ -454,35 +400,16 @@ function TextFieldShowcase() {
   return (
     <div id="textfield" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Text Field</h2>
-      <TextField
-        label="Size 48"
-        placeholder="Placeholder"
-        size="48"
-        autoComplete="off"
-      />
-      <TextField
-        label="Size 40"
-        placeholder="Placeholder"
-        size="40"
-        autoComplete="off"
-      />
-      <TextField
-        label="Size 32"
-        placeholder="Placeholder"
-        size="32"
-        autoComplete="off"
-      />
+      <TextField label="Size 48" placeholder="Placeholder" size="48" autoComplete="off" />
+      <TextField label="Size 40" placeholder="Placeholder" size="40" autoComplete="off" />
+      <TextField label="Size 32" placeholder="Placeholder" size="32" autoComplete="off" />
       <TextField
         label="With helper"
         placeholder="Placeholder"
         helperText="Helper text below"
         autoComplete="off"
       />
-      <TextField
-        placeholder="No label"
-        aria-label="Search"
-        autoComplete="off"
-      />
+      <TextField placeholder="No label" aria-label="Search" autoComplete="off" />
       <TextField
         label="Validated"
         placeholder="Placeholder"
@@ -517,12 +444,7 @@ function TextFieldShowcase() {
         placeholder="Placeholder"
         autoComplete="off"
       />
-      <TextField
-        label="Side label (prefix)"
-        leftLabel="$"
-        placeholder="0.00"
-        autoComplete="off"
-      />
+      <TextField label="Side label (prefix)" leftLabel="$" placeholder="0.00" autoComplete="off" />
       <TextField
         label="Side label (suffix)"
         rightLabel="USD"
@@ -543,18 +465,8 @@ function TextFieldShowcase() {
         errorMessage="Error message"
         autoComplete="off"
       />
-      <TextField
-        label="Error + helper"
-        error
-        helperText="Required field"
-        autoComplete="off"
-      />
-      <TextField
-        label="Disabled"
-        placeholder="Placeholder"
-        disabled
-        autoComplete="off"
-      />
+      <TextField label="Error + helper" error helperText="Required field" autoComplete="off" />
+      <TextField label="Disabled" placeholder="Placeholder" disabled autoComplete="off" />
       <TextField
         label="Disabled with value"
         defaultValue="Cannot edit"
@@ -581,24 +493,9 @@ function PasswordFieldShowcase() {
   return (
     <div id="passwordfield" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Password Field</h2>
-      <PasswordField
-        label="Size 48"
-        placeholder="Enter password"
-        size="48"
-        autoComplete="off"
-      />
-      <PasswordField
-        label="Size 40"
-        placeholder="Enter password"
-        size="40"
-        autoComplete="off"
-      />
-      <PasswordField
-        label="Size 32"
-        placeholder="Enter password"
-        size="32"
-        autoComplete="off"
-      />
+      <PasswordField label="Size 48" placeholder="Enter password" size="48" autoComplete="off" />
+      <PasswordField label="Size 40" placeholder="Enter password" size="40" autoComplete="off" />
+      <PasswordField label="Size 32" placeholder="Enter password" size="32" autoComplete="off" />
       <PasswordField
         label="With helper"
         placeholder="Enter password"
@@ -621,18 +518,8 @@ function PasswordFieldShowcase() {
         errorMessage="Password is required"
         autoComplete="off"
       />
-      <PasswordField
-        label="Error + helper"
-        error
-        helperText="Required field"
-        autoComplete="off"
-      />
-      <PasswordField
-        label="Disabled"
-        placeholder="Enter password"
-        disabled
-        autoComplete="off"
-      />
+      <PasswordField label="Error + helper" error helperText="Required field" autoComplete="off" />
+      <PasswordField label="Disabled" placeholder="Enter password" disabled autoComplete="off" />
       <PasswordField
         label="Disabled with value"
         defaultValue="secretpassword"
@@ -660,21 +547,9 @@ function TextAreaShowcase() {
     <div id="textarea" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Text Area</h2>
       <div className="flex max-w-2xl flex-col gap-4">
-        <TextArea
-          label="Size 48"
-          placeholder="Enter description..."
-          size="48"
-        />
-        <TextArea
-          label="Size 40"
-          placeholder="Enter description..."
-          size="40"
-        />
-        <TextArea
-          label="Size 32"
-          placeholder="Enter description..."
-          size="32"
-        />
+        <TextArea label="Size 48" placeholder="Enter description..." size="48" />
+        <TextArea label="Size 40" placeholder="Enter description..." size="40" />
+        <TextArea label="Size 32" placeholder="Enter description..." size="32" />
         <TextArea
           label="With helper"
           placeholder="Enter description..."
@@ -719,11 +594,7 @@ function TextAreaShowcase() {
           errorMessage="Description is required"
         />
         <TextArea label="Error + helper" error helperText="Required field" />
-        <TextArea
-          label="Disabled"
-          placeholder="Enter description..."
-          disabled
-        />
+        <TextArea label="Disabled" placeholder="Enter description..." disabled />
         <TextArea
           label="Disabled with value"
           defaultValue="This textarea is disabled and cannot be edited"
@@ -757,11 +628,7 @@ function ChatInputShowcase() {
     <div id="chatinput" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Chat Input</h2>
       <div className="flex max-w-2xl flex-col gap-4">
-        <ChatInput
-          placeholder="Type a message..."
-          name="chat-default"
-          autoComplete="off"
-        />
+        <ChatInput placeholder="Type a message..." name="chat-default" autoComplete="off" />
         <ChatInput
           placeholder="Min and max rows"
           minRows={3}
@@ -769,18 +636,8 @@ function ChatInputShowcase() {
           name="chat-rows"
           autoComplete="off"
         />
-        <ChatInput
-          placeholder="Disabled"
-          disabled
-          value="Cannot edit"
-          onChange={() => {}}
-        />
-        <ChatInput
-          placeholder="Loading"
-          loading
-          value="Sending…"
-          onChange={() => {}}
-        />
+        <ChatInput placeholder="Disabled" disabled value="Cannot edit" onChange={() => {}} />
+        <ChatInput placeholder="Loading" loading value="Sending…" onChange={() => {}} />
         <ChatInput
           placeholder="With file attach"
           showFileButton
@@ -892,24 +749,9 @@ function SearchFieldShowcase() {
   return (
     <div id="searchfield" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Search Field</h2>
-      <SearchField
-        label="Size 48"
-        placeholder="Search..."
-        size="48"
-        autoComplete="off"
-      />
-      <SearchField
-        label="Size 40"
-        placeholder="Search..."
-        size="40"
-        autoComplete="off"
-      />
-      <SearchField
-        label="Size 32"
-        placeholder="Search..."
-        size="32"
-        autoComplete="off"
-      />
+      <SearchField label="Size 48" placeholder="Search..." size="48" autoComplete="off" />
+      <SearchField label="Size 40" placeholder="Search..." size="40" autoComplete="off" />
+      <SearchField label="Size 32" placeholder="Search..." size="32" autoComplete="off" />
       <SearchField
         label="With helper"
         placeholder="Search..."
@@ -932,12 +774,7 @@ function SearchFieldShowcase() {
         errorMessage="No results found"
         autoComplete="off"
       />
-      <SearchField
-        label="Disabled"
-        placeholder="Search..."
-        disabled
-        autoComplete="off"
-      />
+      <SearchField label="Disabled" placeholder="Search..." disabled autoComplete="off" />
       <SearchField
         label="Disabled with value"
         defaultValue="Cannot edit"
@@ -998,62 +835,30 @@ function ToastDemo() {
           <Button variant="primary" size="40" onClick={() => showToast("info")}>
             Show Info Toast
           </Button>
-          <Button
-            variant="primary"
-            size="40"
-            onClick={() => showToast("warning")}
-          >
+          <Button variant="primary" size="40" onClick={() => showToast("warning")}>
             Show Warning Toast
           </Button>
-          <Button
-            variant="primary"
-            size="40"
-            onClick={() => showToast("success")}
-          >
+          <Button variant="primary" size="40" onClick={() => showToast("success")}>
             Show Success Toast
           </Button>
-          <Button
-            variant="primary"
-            size="40"
-            onClick={() => showToast("error")}
-          >
+          <Button variant="primary" size="40" onClick={() => showToast("error")}>
             Show Error Toast
           </Button>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Button
-            variant="secondary"
-            size="40"
-            onClick={() => showToast("withAction")}
-          >
+          <Button variant="secondary" size="40" onClick={() => showToast("withAction")}>
             With Action Button
           </Button>
-          <Button
-            variant="secondary"
-            size="40"
-            onClick={() => showToast("noClose")}
-          >
+          <Button variant="secondary" size="40" onClick={() => showToast("noClose")}>
             No Close Button
           </Button>
-          <Button
-            variant="secondary"
-            size="40"
-            onClick={() => showToast("titleOnly")}
-          >
+          <Button variant="secondary" size="40" onClick={() => showToast("titleOnly")}>
             Title Only
           </Button>
-          <Button
-            variant="secondary"
-            size="40"
-            onClick={() => showToast("longContent")}
-          >
+          <Button variant="secondary" size="40" onClick={() => showToast("longContent")}>
             Long Content
           </Button>
-          <Button
-            variant="secondary"
-            size="40"
-            onClick={() => showToast("messageToast")}
-          >
+          <Button variant="secondary" size="40" onClick={() => showToast("messageToast")}>
             Message Toast
           </Button>
         </div>
@@ -1134,9 +939,7 @@ function ToastDemo() {
 function MediaStatusIndicatorDemo() {
   return (
     <div id="mediastatusindicator" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-header-heading-sm mb-4">
-        Media Status Indicator
-      </h2>
+      <h2 className="typography-header-heading-sm mb-4">Media Status Indicator</h2>
       <div className="flex flex-wrap items-center gap-4">
         <MediaStatusIndicator status="default" />
         <MediaStatusIndicator status="removed" />
@@ -1320,9 +1123,7 @@ function IconsDemo() {
           {allIcons.map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <Icon className="size-6" />
-              <span className="text-[10px] text-content-secondary leading-tight">
-                {name}
-              </span>
+              <span className="text-[10px] text-content-secondary leading-tight">{name}</span>
             </div>
           ))}
         </div>
@@ -1370,25 +1171,19 @@ function IconsDemo() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h3 className="typography-body-2-semibold">
-            Prop-based API (size + filled)
-          </h3>
+          <h3 className="typography-body-2-semibold">Prop-based API (size + filled)</h3>
           <div className="flex flex-wrap items-center gap-8">
             <div className="flex flex-col items-center gap-2">
               <HeartIcon size={16} />
               <HeartIcon size={24} />
               <HeartIcon size={32} />
-              <span className="text-[10px] text-content-secondary">
-                size 16/24/32 outlined
-              </span>
+              <span className="text-[10px] text-content-secondary">size 16/24/32 outlined</span>
             </div>
             <div className="flex flex-col items-center gap-2">
               <HeartIcon size={16} filled />
               <HeartIcon size={24} filled />
               <HeartIcon size={32} filled />
-              <span className="text-[10px] text-content-secondary">
-                size 16/24/32 filled
-              </span>
+              <span className="text-[10px] text-content-secondary">size 16/24/32 filled</span>
             </div>
             <div className="flex flex-col items-center gap-2">
               <BellIcon size={24} />
@@ -1482,8 +1277,7 @@ function TypographyDemo() {
     {
       name: "Body Lg",
       className: "typography-body-default-16px-regular",
-      sample:
-        "Body text at the standard reading size for paragraphs and content.",
+      sample: "Body text at the standard reading size for paragraphs and content.",
     },
     {
       name: "Body Md",
@@ -1501,8 +1295,8 @@ function TypographyDemo() {
     <div id="typography" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Typography</h2>
       <p className="mb-6 text-content-secondary">
-        All typography is set in <strong>Inter</strong>. Styles are available as
-        utility classes generated from Figma tokens.
+        All typography is set in <strong>Inter</strong>. Styles are available as utility classes
+        generated from Figma tokens.
       </p>
 
       <div className="space-y-8">
@@ -1518,9 +1312,7 @@ function TypographyDemo() {
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-content-secondary">
-                    {token.className}
-                  </code>
+                  <code className="text-[11px] text-content-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -1540,9 +1332,7 @@ function TypographyDemo() {
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-content-secondary">
-                    {token.className}
-                  </code>
+                  <code className="text-[11px] text-content-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -1562,9 +1352,7 @@ function TypographyDemo() {
               >
                 <div className="w-48 shrink-0">
                   <div className="font-semibold text-sm">{token.name}</div>
-                  <code className="text-[11px] text-content-secondary">
-                    {token.className}
-                  </code>
+                  <code className="text-[11px] text-content-secondary">{token.className}</code>
                 </div>
                 <div className={token.className}>{token.sample}</div>
               </div>
@@ -1701,8 +1489,8 @@ function AvatarDemo() {
 
       <div className="flex flex-col gap-2">
         <p className="typography-description-12px-regular text-body-200">
-          Half overlap on split background (image and text fallback): corners
-          outside the circle should not show an opaque square.
+          Half overlap on split background (image and text fallback): corners outside the circle
+          should not show an opaque square.
         </p>
         <div className="flex flex-wrap items-end gap-8">
           <div className="relative h-28 w-56 shrink-0 overflow-visible rounded-lg border border-neutral-300">
@@ -1742,28 +1530,20 @@ function AccordionDemo() {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Section 1</AccordionTrigger>
-              <AccordionContent>
-                Content for the first section.
-              </AccordionContent>
+              <AccordionContent>Content for the first section.</AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>Section 2</AccordionTrigger>
-              <AccordionContent>
-                Content for the second section.
-              </AccordionContent>
+              <AccordionContent>Content for the second section.</AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger>Section 3</AccordionTrigger>
-              <AccordionContent>
-                Content for the third section.
-              </AccordionContent>
+              <AccordionContent>Content for the third section.</AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
         <div className="w-80">
-          <p className="typography-description-12px-regular mb-2 text-content-tertiary">
-            Multiple
-          </p>
+          <p className="typography-description-12px-regular mb-2 text-content-tertiary">Multiple</p>
           <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
             <AccordionItem value="item-1">
               <AccordionTrigger>Open 1</AccordionTrigger>
@@ -1802,26 +1582,16 @@ function AccordionDemo() {
               <AccordionContent>Adds context under the title.</AccordionContent>
             </AccordionItem>
             <AccordionItem value="icon">
-              <AccordionTrigger
-                leadingIcon={<CrownIcon />}
-                description="With a leading icon."
-              >
+              <AccordionTrigger leadingIcon={<CrownIcon />} description="With a leading icon.">
                 Title + icon
               </AccordionTrigger>
-              <AccordionContent>
-                A leading icon identifies the section type.
-              </AccordionContent>
+              <AccordionContent>A leading icon identifies the section type.</AccordionContent>
             </AccordionItem>
             <AccordionItem value="avatar">
-              <AccordionTrigger
-                avatar={<Avatar size={24} fallback="JD" />}
-                description="@jane_doe"
-              >
+              <AccordionTrigger avatar={<Avatar size={24} fallback="JD" />} description="@jane_doe">
                 Jane Doe
               </AccordionTrigger>
-              <AccordionContent>
-                An avatar identifies a person or account.
-              </AccordionContent>
+              <AccordionContent>An avatar identifies a person or account.</AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
@@ -1922,9 +1692,7 @@ function DrawerDemo() {
           <DrawerContent position="right" overlay={false}>
             <DrawerHeader>
               <DrawerTitle>No Overlay</DrawerTitle>
-              <DrawerDescription>
-                No backdrop behind this drawer.
-              </DrawerDescription>
+              <DrawerDescription>No backdrop behind this drawer.</DrawerDescription>
             </DrawerHeader>
             <div className="flex-1 p-4">
               <p>Content area.</p>
@@ -1947,8 +1715,8 @@ function AlertDemo() {
       <h2 className="typography-header-heading-sm mb-4">Alert</h2>
       <div className="max-w-2xl space-y-4">
         <Alert variant="info" icon={<InfoCircleIcon />}>
-          This is an informational alert with enough text to wrap across
-          multiple lines so the icon stays aligned to the top of the message.
+          This is an informational alert with enough text to wrap across multiple lines so the icon
+          stays aligned to the top of the message.
         </Alert>
         <Alert variant="success" icon={<CheckCircleIcon />}>
           Your changes have been saved successfully.
@@ -1962,19 +1730,10 @@ function AlertDemo() {
         <Alert variant="info" icon={<InfoCircleIcon />} closable>
           This is a closable info alert.
         </Alert>
-        <Alert
-          variant="info"
-          icon={<InfoCircleIcon />}
-          title="Informational title"
-        >
+        <Alert variant="info" icon={<InfoCircleIcon />} title="Informational title">
           This alert has a title and a description body.
         </Alert>
-        <Alert
-          variant="error"
-          icon={<ErrorCircleIcon />}
-          title="Something went wrong"
-          closable
-        >
+        <Alert variant="error" icon={<ErrorCircleIcon />} title="Something went wrong" closable>
           This alert shows title, icon, and closable all together.
         </Alert>
         <Alert variant="neutral" title="Heads up">
@@ -2110,29 +1869,21 @@ function EmptyStateDemo() {
         ReactNode slots (previous pattern)
       </h3>
       <p className="typography-body-small-14px-regular max-w-xl text-content-secondary">
-        Pass elements for{" "}
-        <code className="typography-body-small-14px-regular">media</code>,{" "}
+        Pass elements for <code className="typography-body-small-14px-regular">media</code>,{" "}
         <code className="typography-body-small-14px-regular">title</code>,{" "}
-        <code className="typography-body-small-14px-regular">description</code>,
-        and actions—for example custom layout around an image and explicit{" "}
-        <code className="typography-body-small-14px-regular">Button</code>{" "}
-        components (including{" "}
-        <code className="typography-body-small-14px-regular">asChild</code>{" "}
-        links).
+        <code className="typography-body-small-14px-regular">description</code>, and actions—for
+        example custom layout around an image and explicit{" "}
+        <code className="typography-body-small-14px-regular">Button</code> components (including{" "}
+        <code className="typography-body-small-14px-regular">asChild</code> links).
       </p>
       <div className="flex flex-wrap items-start gap-8">
         <EmptyState
           variant="default"
           media={artwork}
-          title={
-            <span className="whitespace-pre-line">
-              {"Empty Vault\nFull Potential!"}
-            </span>
-          }
+          title={<span className="whitespace-pre-line">{"Empty Vault\nFull Potential!"}</span>}
           description={
             <span className="text-content-tertiary">
-              Title and description as custom nodes (e.g. i18n with line breaks
-              or{" "}
+              Title and description as custom nodes (e.g. i18n with line breaks or{" "}
               <code className="typography-body-small-14px-regular">Trans</code>
               ).
             </span>
@@ -2152,13 +1903,10 @@ function EmptyStateDemo() {
           secondaryAction={<Button variant="secondary">Learn more</Button>}
         />
       </div>
-      <h3 className="typography-header-heading-xs mt-6 text-content-secondary">
-        String slots
-      </h3>
+      <h3 className="typography-header-heading-xs mt-6 text-content-secondary">String slots</h3>
       <p className="typography-body-small-14px-regular max-w-xl text-content-secondary">
-        Title, description, media URL, and action labels as strings: typography
-        and buttons are applied inside{" "}
-        <code className="typography-body-small-14px-regular">EmptyState</code>.
+        Title, description, media URL, and action labels as strings: typography and buttons are
+        applied inside <code className="typography-body-small-14px-regular">EmptyState</code>.
       </p>
       <div className="flex flex-wrap items-start gap-8">
         <EmptyState
@@ -2182,9 +1930,8 @@ function CreatorCoverDemo() {
     <div id="creator-cover" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Creator Cover</h2>
       <p className="typography-body-small-14px-regular text-content-secondary max-w-xl">
-        Profile hero with a blurred backdrop, central cover image, status pill,
-        name, tagline, and primary CTA. Pass strings for the simple API or nodes
-        for full control.
+        Profile hero with a blurred backdrop, central cover image, status pill, name, tagline, and
+        primary CTA. Pass strings for the simple API or nodes for full control.
       </p>
       <div className="flex flex-wrap items-start gap-8">
         <div className="w-[393px]">
@@ -2379,11 +2126,7 @@ function ButtonDemo() {
         <Button variant="primary" rightIcon={<HomeIcon />}>
           Label
         </Button>
-        <Button
-          variant="brand"
-          leftIcon={<HomeIcon />}
-          rightIcon={<HomeIcon />}
-        >
+        <Button variant="brand" leftIcon={<HomeIcon />} rightIcon={<HomeIcon />}>
           Label
         </Button>
       </div>
@@ -2396,12 +2139,7 @@ function ButtonDemo() {
           Join now
         </Button>
         <div className="rounded-xs bg-surface-primary-inverted p-3">
-          <Button
-            variant="brand"
-            rightIcon={<CrownIcon />}
-            discount="$X.XX"
-            price="$X.XX/ month"
-          >
+          <Button variant="brand" rightIcon={<CrownIcon />} discount="$X.XX" price="$X.XX/ month">
             Join now
           </Button>
         </div>
@@ -2470,11 +2208,7 @@ function BadgeDemo() {
         <Badge variant="info" leftDot={false} leftIcon={<InfoCircleIcon />}>
           Left icon
         </Badge>
-        <Badge
-          variant="success"
-          leftDot={false}
-          rightIcon={<ArrowUpRightIcon />}
-        >
+        <Badge variant="success" leftDot={false} rightIcon={<ArrowUpRightIcon />}>
           Right icon
         </Badge>
       </div>
@@ -2483,11 +2217,7 @@ function BadgeDemo() {
         <Badge variant="warningColour">Warning</Badge>
         <Badge variant="errorColour">Error</Badge>
         <Badge variant="infoColour">Info</Badge>
-        <Badge
-          variant="aiGenerated"
-          leftDot={false}
-          leftIcon={<AIIcon className="size-2.5" />}
-        >
+        <Badge variant="aiGenerated" leftDot={false} leftIcon={<AIIcon className="size-2.5" />}>
           AI Generated
         </Badge>
       </div>
@@ -2512,20 +2242,10 @@ function LinkDemo() {
             <Link href="#" variant="brand" size={size}>
               Brand {size}px
             </Link>
-            <Link
-              href="#"
-              variant="primary"
-              size={size}
-              leftIcon={<WalletIcon />}
-            >
+            <Link href="#" variant="primary" size={size} leftIcon={<WalletIcon />}>
               Left icon
             </Link>
-            <Link
-              href="#"
-              variant="brand"
-              size={size}
-              rightIcon={<ArrowUpRightIcon />}
-            >
+            <Link href="#" variant="brand" size={size} rightIcon={<ArrowUpRightIcon />}>
               Right icon
             </Link>
             <Link href="#" variant="primary" size={size} disabled>
@@ -2544,46 +2264,18 @@ function SubscribeButtonDemo() {
       <h2 className="typography-header-heading-sm mb-4">Subscribe Button</h2>
       <div className="flex flex-wrap items-center gap-4">
         <SubscribeButton variant="primary" price="$9.99/mo" discount="$19.99" />
-        <SubscribeButton
-          variant="secondary"
-          price="$9.99/mo"
-          discount="$19.99"
-        />
-        <SubscribeButton
-          variant="tertiary"
-          price="$9.99/mo"
-          discount="$19.99"
-        />
+        <SubscribeButton variant="secondary" price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="tertiary" price="$9.99/mo" discount="$19.99" />
         <SubscribeButton variant="outline" price="$9.99/mo" discount="$19.99" />
         <SubscribeButton variant="brand" price="$9.99/mo" discount="$19.99" />
         <SubscribeButton variant="primary" price="$9.99/mo" />
       </div>
 
       <div className="flex flex-wrap items-center gap-4 rounded-xs bg-surface-primary-inverted p-4">
-        <SubscribeButton
-          variant="primary"
-          negative
-          price="$9.99/mo"
-          discount="$19.99"
-        />
-        <SubscribeButton
-          variant="secondary"
-          negative
-          price="$9.99/mo"
-          discount="$19.99"
-        />
-        <SubscribeButton
-          variant="tertiary"
-          negative
-          price="$9.99/mo"
-          discount="$19.99"
-        />
-        <SubscribeButton
-          variant="outline"
-          negative
-          price="$9.99/mo"
-          discount="$19.99"
-        />
+        <SubscribeButton variant="primary" negative price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="secondary" negative price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="tertiary" negative price="$9.99/mo" discount="$19.99" />
+        <SubscribeButton variant="outline" negative price="$9.99/mo" discount="$19.99" />
       </div>
 
       <div className="flex flex-wrap items-end gap-4">
@@ -2593,12 +2285,7 @@ function SubscribeButtonDemo() {
       </div>
 
       <div className="w-80">
-        <SubscribeButton
-          variant="brand"
-          fullWidth
-          price="$9.99/mo"
-          discount="$19.99"
-        />
+        <SubscribeButton variant="brand" fullWidth price="$9.99/mo" discount="$19.99" />
       </div>
     </div>
   );
@@ -2611,16 +2298,8 @@ function IconButtonDemo() {
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-4">
           <IconButton variant="primary" icon={<HomeIcon />} aria-label="Home" />
-          <IconButton
-            variant="secondary"
-            icon={<HomeIcon />}
-            aria-label="Home"
-          />
-          <IconButton
-            variant="tertiary"
-            icon={<HomeIcon />}
-            aria-label="Home"
-          />
+          <IconButton variant="secondary" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="tertiary" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="outline" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="error" icon={<CrossIcon />} aria-label="Close" />
           <IconButton variant="black" icon={<HomeIcon />} aria-label="Home" />
@@ -2628,123 +2307,41 @@ function IconButtonDemo() {
 
         <div className="rounded-xs bg-surface-primary-inverted p-4">
           <div className="flex flex-wrap items-center gap-4">
-            <IconButton
-              variant="primary"
-              negative
-              icon={<HomeIcon />}
-              aria-label="Home"
-            />
-            <IconButton
-              variant="secondary"
-              negative
-              icon={<HomeIcon />}
-              aria-label="Home"
-            />
-            <IconButton
-              variant="tertiary"
-              negative
-              icon={<HomeIcon />}
-              aria-label="Home"
-            />
-            <IconButton
-              variant="outline"
-              negative
-              icon={<HomeIcon />}
-              aria-label="Home"
-            />
+            <IconButton variant="primary" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="secondary" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="tertiary" negative icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="outline" negative icon={<HomeIcon />} aria-label="Home" />
             <IconButton variant="white" icon={<HomeIcon />} aria-label="Home" />
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
           <IconButton variant="brand" icon={<HomeIcon />} aria-label="Home" />
-          <IconButton
-            variant="tertiaryDestructive"
-            icon={<CrossIcon />}
-            aria-label="Close"
-          />
+          <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} aria-label="Close" />
           <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
         </div>
 
         <div className="rounded-xs bg-surface-primary-inverted p-4">
           <div className="flex flex-wrap items-center gap-4">
-            <IconButton
-              variant="contrast"
-              icon={<HomeIcon />}
-              aria-label="Home"
-            />
-            <IconButton
-              variant="messaging"
-              icon={<PlusIcon />}
-              aria-label="Add"
-            />
+            <IconButton variant="contrast" icon={<HomeIcon />} aria-label="Home" />
+            <IconButton variant="messaging" icon={<PlusIcon />} aria-label="Add" />
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <IconButton
-            variant="primary"
-            icon={<HomeIcon />}
-            size="24"
-            aria-label="Home"
-          />
-          <IconButton
-            variant="primary"
-            icon={<HomeIcon />}
-            size="32"
-            aria-label="Home"
-          />
-          <IconButton
-            variant="primary"
-            icon={<HomeIcon />}
-            size="40"
-            aria-label="Home"
-          />
-          <IconButton
-            variant="primary"
-            icon={<HomeIcon />}
-            size="48"
-            aria-label="Home"
-          />
-          <IconButton
-            variant="primary"
-            icon={<HomeIcon />}
-            size="52"
-            aria-label="Home"
-          />
-          <IconButton
-            variant="primary"
-            icon={<HomeIcon />}
-            size="72"
-            aria-label="Home"
-          />
+          <IconButton variant="primary" icon={<HomeIcon />} size="24" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="32" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="40" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="48" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="52" aria-label="Home" />
+          <IconButton variant="primary" icon={<HomeIcon />} size="72" aria-label="Home" />
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <IconButton
-            variant="primary"
-            icon={<HomeIcon />}
-            disabled
-            aria-label="Home"
-          />
-          <IconButton
-            variant="secondary"
-            icon={<HomeIcon />}
-            disabled
-            aria-label="Home"
-          />
-          <IconButton
-            variant="tertiary"
-            icon={<HomeIcon />}
-            disabled
-            aria-label="Home"
-          />
-          <IconButton
-            variant="brand"
-            icon={<HomeIcon />}
-            disabled
-            aria-label="Home"
-          />
+          <IconButton variant="primary" icon={<HomeIcon />} disabled aria-label="Home" />
+          <IconButton variant="secondary" icon={<HomeIcon />} disabled aria-label="Home" />
+          <IconButton variant="tertiary" icon={<HomeIcon />} disabled aria-label="Home" />
+          <IconButton variant="brand" icon={<HomeIcon />} disabled aria-label="Home" />
           <IconButton
             variant="tertiaryDestructive"
             icon={<CrossIcon />}
@@ -2754,33 +2351,13 @@ function IconButtonDemo() {
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <IconButton
-            variant="tertiary"
-            icon={<HomeIcon />}
-            counterValue={5}
-            aria-label="Home"
-          />
-          <IconButton
-            variant="tertiary"
-            icon={<HomeIcon />}
-            counterValue={12}
-            aria-label="Home"
-          />
-          <IconButton
-            variant="navTray"
-            icon={<HomeIcon />}
-            counterValue={99}
-            aria-label="Home"
-          />
+          <IconButton variant="tertiary" icon={<HomeIcon />} counterValue={5} aria-label="Home" />
+          <IconButton variant="tertiary" icon={<HomeIcon />} counterValue={12} aria-label="Home" />
+          <IconButton variant="navTray" icon={<HomeIcon />} counterValue={99} aria-label="Home" />
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <IconButton
-            variant="stop"
-            icon={<StopIcon />}
-            size="52"
-            aria-label="Stop"
-          />
+          <IconButton variant="stop" icon={<StopIcon />} size="52" aria-label="Stop" />
           <IconButton
             variant="microphone"
             icon={<MicrophoneIcon />}
@@ -2799,90 +2376,32 @@ function ButtonIconGroupDemo() {
       <h2 className="typography-header-heading-sm mb-4">Button Icon Group</h2>
       <div className="space-y-6">
         <ButtonIconGroup aria-label="Post actions">
-          <IconButton
-            variant="tertiary"
-            size="48"
-            icon={<HeartIcon />}
-            aria-label="Like"
-          />
-          <IconButton
-            variant="tertiary"
-            size="48"
-            icon={<ReplyIcon />}
-            aria-label="Reply"
-          />
-          <IconButton
-            variant="tertiary"
-            size="48"
-            icon={<ShareIcon />}
-            aria-label="Share"
-          />
+          <IconButton variant="tertiary" size="48" icon={<HeartIcon />} aria-label="Like" />
+          <IconButton variant="tertiary" size="48" icon={<ReplyIcon />} aria-label="Reply" />
+          <IconButton variant="tertiary" size="48" icon={<ShareIcon />} aria-label="Share" />
         </ButtonIconGroup>
 
         <ButtonIconGroup aria-label="Media controls">
-          <IconButton
-            variant="tertiary"
-            size="48"
-            icon={<PlayIcon />}
-            aria-label="Play"
-          />
-          <IconButton
-            variant="tertiary"
-            size="48"
-            icon={<PauseIcon />}
-            aria-label="Pause"
-          />
+          <IconButton variant="tertiary" size="48" icon={<PlayIcon />} aria-label="Play" />
+          <IconButton variant="tertiary" size="48" icon={<PauseIcon />} aria-label="Pause" />
           <IconButton
             variant="tertiary"
             size="48"
             icon={<ForwardIcon />}
             aria-label="Skip forward"
           />
-          <IconButton
-            variant="tertiary"
-            size="48"
-            icon={<RepeatIcon />}
-            aria-label="Repeat"
-          />
+          <IconButton variant="tertiary" size="48" icon={<RepeatIcon />} aria-label="Repeat" />
         </ButtonIconGroup>
 
         <ButtonIconGroup aria-label="Editing tools">
-          <IconButton
-            variant="secondary"
-            size="40"
-            icon={<EditIcon />}
-            aria-label="Edit"
-          />
-          <IconButton
-            variant="secondary"
-            size="40"
-            icon={<CopyIcon />}
-            aria-label="Copy"
-          />
-          <IconButton
-            variant="secondary"
-            size="40"
-            icon={<TrashBinIcon />}
-            aria-label="Delete"
-          />
+          <IconButton variant="secondary" size="40" icon={<EditIcon />} aria-label="Edit" />
+          <IconButton variant="secondary" size="40" icon={<CopyIcon />} aria-label="Copy" />
+          <IconButton variant="secondary" size="40" icon={<TrashBinIcon />} aria-label="Delete" />
         </ButtonIconGroup>
 
-        <ButtonIconGroup
-          orientation="vertical"
-          aria-label="Media controls vertical"
-        >
-          <IconButton
-            variant="tertiary"
-            size="48"
-            icon={<PlayIcon />}
-            aria-label="Play"
-          />
-          <IconButton
-            variant="tertiary"
-            size="48"
-            icon={<PauseIcon />}
-            aria-label="Pause"
-          />
+        <ButtonIconGroup orientation="vertical" aria-label="Media controls vertical">
+          <IconButton variant="tertiary" size="48" icon={<PlayIcon />} aria-label="Play" />
+          <IconButton variant="tertiary" size="48" icon={<PauseIcon />} aria-label="Pause" />
           <IconButton
             variant="tertiary"
             size="48"
@@ -2918,9 +2437,7 @@ function AudioRecordButtonDemo() {
         <div className="flex flex-wrap items-center gap-4">
           <AudioRecordButton
             status={status}
-            onClick={() =>
-              setStatus((s) => (s === "idle" ? "recording" : "idle"))
-            }
+            onClick={() => setStatus((s) => (s === "idle" ? "recording" : "idle"))}
           />
           <span className="typography-body-2-regular text-content-secondary">
             Click to toggle recording
@@ -2958,10 +2475,7 @@ function PillDemo() {
         <Pill variant="brand" leftIcon={<CheckCircleIcon className="size-3" />}>
           Left icon
         </Pill>
-        <Pill
-          variant="blue"
-          rightIcon={<ArrowUpRightIcon className="size-3" />}
-        >
+        <Pill variant="blue" rightIcon={<ArrowUpRightIcon className="size-3" />}>
           Right icon
         </Pill>
       </div>
@@ -2980,24 +2494,13 @@ function CheckboxDemo() {
           size="16"
           helperText="Used in dense surfaces like data tables"
         />
-        <Checkbox
-          label="Small text size"
-          size="small"
-          helperText="Label and helper are smaller"
-        />
+        <Checkbox label="Small text size" size="small" helperText="Label and helper are smaller" />
         <Checkbox label="Checked checkbox" checked />
         <Checkbox label="Indeterminate checkbox" checked="indeterminate" />
         <Checkbox label="Disabled checkbox" disabled />
         <Checkbox label="Disabled checked" disabled checked />
-        <Checkbox
-          label="Disabled indeterminate"
-          disabled
-          checked="indeterminate"
-        />
-        <Checkbox
-          label="With helper text"
-          helperText="This field is required"
-        />
+        <Checkbox label="Disabled indeterminate" disabled checked="indeterminate" />
+        <Checkbox label="With helper text" helperText="This field is required" />
         <Checkbox aria-label="Standalone checkbox" />
       </div>
     </div>
@@ -3008,29 +2511,13 @@ function RadioDemo() {
   return (
     <div id="radio" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Radio</h2>
-      <RadioGroup
-        defaultValue="option1"
-        aria-label="Options"
-        className="flex flex-col gap-4"
-      >
-        <Radio
-          label="Option 1"
-          value="option1"
-          helperText="This is the first option"
-        />
-        <Radio
-          label="Option 2"
-          value="option2"
-          helperText="This is the second option"
-        />
+      <RadioGroup defaultValue="option1" aria-label="Options" className="flex flex-col gap-4">
+        <Radio label="Option 1" value="option1" helperText="This is the first option" />
+        <Radio label="Option 2" value="option2" helperText="This is the second option" />
         <Radio label="Option 3" value="option3" />
       </RadioGroup>
 
-      <RadioGroup
-        defaultValue="a"
-        aria-label="Small options"
-        className="flex flex-col gap-4"
-      >
+      <RadioGroup defaultValue="a" aria-label="Small options" className="flex flex-col gap-4">
         <Radio size="small" label="Option A" value="a" />
         <Radio size="small" label="Option B" value="b" />
         <Radio size="small" label="Option C" value="c" />
@@ -3047,11 +2534,7 @@ function RadioDemo() {
         <Radio label="Option 3" value="z" />
       </RadioGroup>
 
-      <RadioGroup
-        defaultValue="jane"
-        aria-label="People"
-        className="flex w-80 flex-col gap-2"
-      >
+      <RadioGroup defaultValue="jane" aria-label="People" className="flex w-80 flex-col gap-2">
         <Radio
           layout="trailing"
           label="Jane Doe"
@@ -3261,11 +2744,7 @@ function SelectDemo() {
             <SelectItem value="b">Option B</SelectItem>
           </SelectContent>
         </Select>
-        <Select
-          label="Left icon"
-          placeholder="Select an option"
-          leftIcon={<HomeIcon />}
-        >
+        <Select label="Left icon" placeholder="Select an option" leftIcon={<HomeIcon />}>
           <SelectContent>
             <SelectItem value="a">Option A</SelectItem>
             <SelectItem value="b">Option B</SelectItem>
@@ -3282,10 +2761,7 @@ function SelectDemo() {
             </SelectItem>
           </SelectContent>
         </Select>
-        <Select
-          label="Feature rows (avatar + description)"
-          placeholder="Select a person"
-        >
+        <Select label="Feature rows (avatar + description)" placeholder="Select a person">
           <SelectContent>
             <SelectItem
               value="jane"
@@ -3356,8 +2832,8 @@ function DropdownMenuDemo() {
     <div id="dropdownmenu" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Dropdown menu</h2>
       <p className="typography-body-small-14px-regular max-w-xl text-content-secondary">
-        Panel width follows label length (at least as wide as the trigger).
-        Short items stay narrow; long labels expand the menu.
+        Panel width follows label length (at least as wide as the trigger). Short items stay narrow;
+        long labels expand the menu.
       </p>
       <div className="flex flex-wrap items-start gap-8">
         <div className="flex flex-col gap-2">
@@ -3381,10 +2857,7 @@ function DropdownMenuDemo() {
                 Copy
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                destructive
-                leadingIcon={<TrashBinIcon className="size-4" />}
-              >
+              <DropdownMenuItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -3397,11 +2870,7 @@ function DropdownMenuDemo() {
           </span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="secondary"
-                size="40"
-                rightIcon={<ChevronDownIcon />}
-              >
+              <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
                 Actions
               </Button>
             </DropdownMenuTrigger>
@@ -3429,9 +2898,7 @@ function DropdownMenuDemo() {
               <DropdownMenuItem leadingIcon={<UserIcon className="size-4" />}>
                 Profile
               </DropdownMenuItem>
-              <DropdownMenuItem
-                leadingIcon={<SettingsIcon className="size-4" />}
-              >
+              <DropdownMenuItem leadingIcon={<SettingsIcon className="size-4" />}>
                 Settings
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -3479,10 +2946,7 @@ function DropdownMenuFeatureItemDemo() {
           >
             Alex Smith
           </DropdownMenuItem>
-          <DropdownMenuItem
-            leadingIcon={<StarIcon className="size-4" />}
-            count="99+"
-          >
+          <DropdownMenuItem leadingIcon={<StarIcon className="size-4" />} count="99+">
             Favourites
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -3524,9 +2988,7 @@ function DropdownMenuSearchHeaderDemo() {
     "Elena Sokolov",
     "Felix Thompson",
   ];
-  const filtered = items.filter((name) =>
-    name.toLowerCase().includes(query.toLowerCase()),
-  );
+  const filtered = items.filter((name) => name.toLowerCase().includes(query.toLowerCase()));
   return (
     <div className="flex flex-col gap-2">
       <span className="typography-description-12px-semibold text-content-secondary">
@@ -3551,10 +3013,7 @@ function DropdownMenuSearchHeaderDemo() {
             <DropdownMenuLabel position="top">No results</DropdownMenuLabel>
           ) : (
             filtered.map((name) => (
-              <DropdownMenuItem
-                key={name}
-                onSelect={(event) => event.preventDefault()}
-              >
+              <DropdownMenuItem key={name} onSelect={(event) => event.preventDefault()}>
                 {name}
               </DropdownMenuItem>
             ))
@@ -3599,9 +3058,7 @@ function DropdownMenuRadioDemo() {
 function DropdownMenuSize32Demo() {
   return (
     <div className="flex flex-col gap-2">
-      <span className="typography-description-12px-semibold text-content-secondary">
-        Size 32
-      </span>
+      <span className="typography-description-12px-semibold text-content-secondary">Size 32</span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="32" rightIcon={<ChevronDownIcon />}>
@@ -3609,10 +3066,7 @@ function DropdownMenuSize32Demo() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <DropdownMenuItem
-            size="32"
-            leadingIcon={<EditIcon className="size-4" />}
-          >
+          <DropdownMenuItem size="32" leadingIcon={<EditIcon className="size-4" />}>
             Edit
           </DropdownMenuItem>
           <DropdownMenuItem size="32" selected>
@@ -3621,11 +3075,7 @@ function DropdownMenuSize32Demo() {
           <DropdownMenuItem size="32" disabled>
             Disabled
           </DropdownMenuItem>
-          <DropdownMenuItem
-            size="32"
-            destructive
-            leadingIcon={<TrashBinIcon className="size-4" />}
-          >
+          <DropdownMenuItem size="32" destructive leadingIcon={<TrashBinIcon className="size-4" />}>
             Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -3664,9 +3114,7 @@ function CountDemo() {
 function FanFollowerCountDemo() {
   return (
     <div id="fan-follower-count" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-header-heading-sm mb-4">
-        Fan &amp; Follower Count
-      </h2>
+      <h2 className="typography-header-heading-sm mb-4">Fan &amp; Follower Count</h2>
       <div className="flex flex-wrap items-center gap-8">
         <FanFollowerCount fans={1200} subs={3000} />
         <FanFollowerCount fans={1250000} subs={48900} />
@@ -3710,16 +3158,12 @@ function CyclingTextDemo() {
       <h2 className="typography-header-heading-sm mb-4">Cycling Text</h2>
 
       <div className="flex flex-col gap-2">
-        <h3 className="typography-header-heading-xs text-content-secondary">
-          Standalone
-        </h3>
+        <h3 className="typography-header-heading-xs text-content-secondary">Standalone</h3>
         <CyclingText items={CYCLING_TEXT_STAGES} />
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="typography-header-heading-xs text-content-secondary">
-          In a status row
-        </h3>
+        <h3 className="typography-header-heading-xs text-content-secondary">In a status row</h3>
         <div className="inline-flex items-center gap-2 text-content-tertiary">
           <SpinnerIcon className="size-6 animate-spin" />
           <CyclingText items={CYCLING_TEXT_STAGES} />
@@ -3727,9 +3171,7 @@ function CyclingTextDemo() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="typography-header-heading-xs text-content-secondary">
-          Sized to current
-        </h3>
+        <h3 className="typography-header-heading-xs text-content-secondary">Sized to current</h3>
         <div className="inline-flex items-center gap-2 text-content-tertiary">
           <SpinnerIcon className="size-6 animate-spin" />
           <CyclingText items={CYCLING_TEXT_STAGES} sizing="current" />
@@ -3738,9 +3180,7 @@ function CyclingTextDemo() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="typography-header-heading-xs text-content-secondary">
-          Fake placeholder
-        </h3>
+        <h3 className="typography-header-heading-xs text-content-secondary">Fake placeholder</h3>
         <CyclingTextFakePlaceholder />
       </div>
     </div>
@@ -4006,8 +3446,8 @@ function SnackbarDemo() {
         />
         <Snackbar primaryLabel="Accept" secondaryLabel="Dismiss">
           <span className="typography-body-small-14px-semibold">
-            <span>@user.with.username</span> changed their subscription price to{" "}
-            <span>$43.99</span> per month
+            <span>@user.with.username</span> changed their subscription price to <span>$43.99</span>{" "}
+            per month
           </span>
         </Snackbar>
         <Snackbar
@@ -4034,12 +3474,7 @@ function SwitchDemo() {
         <Switch aria-label="Toggle disabled" disabled />
         <Switch aria-label="Toggle disabled checked" disabled defaultChecked />
         <Switch aria-label="Toggle small disabled" size="small" disabled />
-        <Switch
-          aria-label="Toggle small disabled checked"
-          size="small"
-          disabled
-          defaultChecked
-        />
+        <Switch aria-label="Toggle small disabled checked" size="small" disabled defaultChecked />
       </div>
     </div>
   );
@@ -4052,15 +3487,8 @@ function SwitchFieldDemo() {
       <div className="flex max-w-2xl flex-col gap-4">
         <SwitchField label="Notifications" />
         <SwitchField label="Notifications" defaultChecked />
-        <SwitchField
-          label="Notifications"
-          helperText="Receive push notifications"
-        />
-        <SwitchField
-          label="Notifications"
-          helperText="Receive push notifications"
-          defaultChecked
-        />
+        <SwitchField label="Notifications" helperText="Receive push notifications" />
+        <SwitchField label="Notifications" helperText="Receive push notifications" defaultChecked />
         <SwitchField label="Notifications" infoText="Info text" />
         <SwitchField
           label="Notifications"
@@ -4080,11 +3508,7 @@ function SwitchFieldDemo() {
           helperText="Receive push notifications"
           defaultChecked
         />
-        <SwitchField
-          label="Notifications"
-          orientation="left"
-          infoText="Info text"
-        />
+        <SwitchField label="Notifications" orientation="left" infoText="Info text" />
         <SwitchField
           label="Notifications"
           orientation="left"
@@ -4093,18 +3517,9 @@ function SwitchFieldDemo() {
         />
         <SwitchField label="Small switch" size="small" />
         <SwitchField label="Small switch" size="small" defaultChecked />
-        <SwitchField
-          label="Small switch"
-          size="small"
-          helperText="A smaller variant"
-        />
+        <SwitchField label="Small switch" size="small" helperText="A smaller variant" />
         <SwitchField label="Small switch" size="small" orientation="left" />
-        <SwitchField
-          label="Small switch"
-          size="small"
-          orientation="left"
-          defaultChecked
-        />
+        <SwitchField label="Small switch" size="small" orientation="left" defaultChecked />
         <SwitchField
           label="Small switch"
           size="small"
@@ -4113,19 +3528,10 @@ function SwitchFieldDemo() {
         />
         <SwitchField label="Disabled" disabled />
         <SwitchField label="Disabled checked" disabled defaultChecked />
-        <SwitchField
-          label="Disabled"
-          disabled
-          helperText="This option is not available"
-        />
+        <SwitchField label="Disabled" disabled helperText="This option is not available" />
         <SwitchField label="Disabled" disabled orientation="left" />
         <SwitchField label="Disabled" disabled size="small" />
-        <SwitchField
-          label="Disabled"
-          disabled
-          size="small"
-          helperText="Not available"
-        />
+        <SwitchField label="Disabled" disabled size="small" helperText="Not available" />
       </div>
     </div>
   );
@@ -4323,11 +3729,7 @@ function TableDemo() {
                       <TableCell intent="sideLabel">Product Name</TableCell>
                       <TableCell>
                         <TableCellGroup>
-                          <TableMediaThumbnail
-                            size="32"
-                            src={TABLE_DEMO_MEDIA}
-                            alt=""
-                          />
+                          <TableMediaThumbnail size="32" src={TABLE_DEMO_MEDIA} alt="" />
                           <ChevronDownIcon
                             className="size-4 shrink-0 text-content-primary"
                             aria-hidden
@@ -4358,11 +3760,7 @@ function TableDemo() {
                 2 selected
               </span>
               <div className="flex flex-wrap gap-1">
-                <Button
-                  variant="tertiary"
-                  size="32"
-                  leftIcon={<UsersIcon className="size-3.5" />}
-                >
+                <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
                   Assign to creators
                 </Button>
                 <Button
@@ -4389,55 +3787,44 @@ function TableDemo() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {[
-                    "Feb 18, 2025, 4:19 PM",
-                    "Feb 17, 2025, 2:00 PM",
-                    "Feb 16, 2025, 9:30 AM",
-                  ].map((date) => (
-                    <TableRow key={date}>
-                      <TableCell intent="checkbox">
-                        <Checkbox size="16" aria-label={`Select row ${date}`} />
-                      </TableCell>
-                      <TableCell>{date}</TableCell>
-                      <TableCell intent="multiline">
-                        <TableLineClamp>
-                          Placeholder description.{" "}
-                          <button
-                            type="button"
-                            className="typography-body-small-14px-semibold"
-                          >
-                            Read more
-                          </button>
-                        </TableLineClamp>
-                      </TableCell>
-                      <TableCell>
-                        <TableCellGroup>
-                          <TableMediaThumbnail src={TABLE_DEMO_MEDIA} alt="" />
-                          <span>5</span>
-                          <ChevronDownIcon
-                            className="size-5 shrink-0"
-                            aria-hidden
-                          />
-                        </TableCellGroup>
-                      </TableCell>
-                      <TableCell>
-                        <TableCellGroup>
-                          <span
-                            className="inline-block size-5 shrink-0 rounded bg-gradient-to-br from-pink-500 via-purple-500 to-orange-400"
-                            aria-hidden
-                          />
-                          <span>5</span>
-                          <ChevronDownIcon
-                            className="size-5 shrink-0"
-                            aria-hidden
-                          />
-                        </TableCellGroup>
-                      </TableCell>
-                      <TableCell>
-                        <TableStatusDot aria-hidden />
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {["Feb 18, 2025, 4:19 PM", "Feb 17, 2025, 2:00 PM", "Feb 16, 2025, 9:30 AM"].map(
+                    (date) => (
+                      <TableRow key={date}>
+                        <TableCell intent="checkbox">
+                          <Checkbox size="16" aria-label={`Select row ${date}`} />
+                        </TableCell>
+                        <TableCell>{date}</TableCell>
+                        <TableCell intent="multiline">
+                          <TableLineClamp>
+                            Placeholder description.{" "}
+                            <button type="button" className="typography-body-small-14px-semibold">
+                              Read more
+                            </button>
+                          </TableLineClamp>
+                        </TableCell>
+                        <TableCell>
+                          <TableCellGroup>
+                            <TableMediaThumbnail src={TABLE_DEMO_MEDIA} alt="" />
+                            <span>5</span>
+                            <ChevronDownIcon className="size-5 shrink-0" aria-hidden />
+                          </TableCellGroup>
+                        </TableCell>
+                        <TableCell>
+                          <TableCellGroup>
+                            <span
+                              className="inline-block size-5 shrink-0 rounded bg-gradient-to-br from-pink-500 via-purple-500 to-orange-400"
+                              aria-hidden
+                            />
+                            <span>5</span>
+                            <ChevronDownIcon className="size-5 shrink-0" aria-hidden />
+                          </TableCellGroup>
+                        </TableCell>
+                        <TableCell>
+                          <TableStatusDot aria-hidden />
+                        </TableCell>
+                      </TableRow>
+                    ),
+                  )}
                 </TableBody>
               </Table>
             </TableScrollArea>
@@ -4480,11 +3867,7 @@ function TableDemo() {
                     </TableCell>
                     <TableCell>Sample row</TableCell>
                     <TableCell>
-                      <TableMediaThumbnail
-                        src={TABLE_DEMO_MEDIA}
-                        alt=""
-                        align="center"
-                      />
+                      <TableMediaThumbnail src={TABLE_DEMO_MEDIA} alt="" align="center" />
                     </TableCell>
                     <TableCell>
                       <Badge variant="info">Badge</Badge>
@@ -4535,21 +3918,13 @@ function TableDemo() {
                   <TableRow>
                     <TableCell intent="sideLabel">Cell + info</TableCell>
                     <TableCell intent="stacked">
-                      <TableCellContent
-                        primary="Cell"
-                        secondary="Secondary line"
-                      />
+                      <TableCellContent primary="Cell" secondary="Secondary line" />
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell intent="sideLabel">
-                      Cell + info (legacy)
-                    </TableCell>
+                    <TableCell intent="sideLabel">Cell + info (legacy)</TableCell>
                     <TableCell intent="stacked">
-                      <TableStackedText
-                        title="Cell"
-                        subtitle="Secondary line"
-                      />
+                      <TableStackedText title="Cell" subtitle="Secondary line" />
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -4569,10 +3944,7 @@ function TableDemo() {
                     <TableCell cellVariant="chip">
                       <TableCellGroup>
                         <Chip>Chip</Chip>
-                        <ChevronDownIcon
-                          className="size-5 shrink-0"
-                          aria-hidden
-                        />
+                        <ChevronDownIcon className="size-5 shrink-0" aria-hidden />
                       </TableCellGroup>
                     </TableCell>
                   </TableRow>
@@ -4587,10 +3959,7 @@ function TableDemo() {
                     <TableCell>
                       <TableCellGroup>
                         <Badge variant="info">Badge</Badge>
-                        <ChevronDownIcon
-                          className="size-5 shrink-0"
-                          aria-hidden
-                        />
+                        <ChevronDownIcon className="size-5 shrink-0" aria-hidden />
                       </TableCellGroup>
                     </TableCell>
                   </TableRow>
@@ -4606,12 +3975,7 @@ function TableDemo() {
                   <TableRow>
                     <TableCell intent="sideLabel">Avatar</TableCell>
                     <TableCell>
-                      <Avatar
-                        src={TABLE_DEMO_MEDIA}
-                        alt=""
-                        fallback="U"
-                        size={24}
-                      />
+                      <Avatar src={TABLE_DEMO_MEDIA} alt="" fallback="U" size={24} />
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -4623,11 +3987,7 @@ function TableDemo() {
                   <TableRow>
                     <TableCell intent="sideLabel">Media blurred</TableCell>
                     <TableCell>
-                      <TableMediaThumbnail
-                        src={TABLE_DEMO_MEDIA}
-                        alt=""
-                        blurred
-                      />
+                      <TableMediaThumbnail src={TABLE_DEMO_MEDIA} alt="" blurred />
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -4724,19 +4084,13 @@ function TabsDemo() {
             <TabsTrigger value="tab3">Posts</TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">
-            <p className="pt-4 text-neutral-alphas-400 text-sm">
-              Photos content
-            </p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Photos content</p>
           </TabsContent>
           <TabsContent value="tab2">
-            <p className="pt-4 text-neutral-alphas-400 text-sm">
-              Videos content
-            </p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Videos content</p>
           </TabsContent>
           <TabsContent value="tab3">
-            <p className="pt-4 text-neutral-alphas-400 text-sm">
-              Posts content
-            </p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Posts content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="tab1">
@@ -4748,14 +4102,10 @@ function TabsDemo() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">
-            <p className="pt-4 text-neutral-alphas-400 text-sm">
-              Active tab content
-            </p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Active tab content</p>
           </TabsContent>
           <TabsContent value="tab2">
-            <p className="pt-4 text-neutral-alphas-400 text-sm">
-              Normal tab content
-            </p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Normal tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="t">
@@ -4763,9 +4113,7 @@ function TabsDemo() {
             <TabsTrigger value="t">Tab</TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-alphas-400 text-sm">
-              Single tab content
-            </p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Single tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="t">
@@ -4775,9 +4123,7 @@ function TabsDemo() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-alphas-400 text-sm">
-              Disabled tab content
-            </p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Disabled tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="other">
@@ -4785,9 +4131,7 @@ function TabsDemo() {
             <TabsTrigger value="t">Tab</TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-alphas-400 text-sm">
-              Inactive tab content
-            </p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Inactive tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="other">
@@ -4797,9 +4141,7 @@ function TabsDemo() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="t">
-            <p className="pt-4 text-neutral-alphas-400 text-sm">
-              Disabled inactive tab content
-            </p>
+            <p className="pt-4 text-neutral-alphas-400 text-sm">Disabled inactive tab content</p>
           </TabsContent>
         </Tabs>
         <Tabs defaultValue="tab1">
@@ -4819,15 +4161,11 @@ function TabsDemo() {
             <TabsTrigger value="tab3">Builder</TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">
-            <p className="pt-4 text-neutral-400 text-sm">
-              Align left (responsive)
-            </p>
+            <p className="pt-4 text-neutral-400 text-sm">Align left (responsive)</p>
           </TabsContent>
         </Tabs>
         <div className="flex w-full flex-col gap-2">
-          <p className="typography-body-small-14px-semibold text-content-tertiary">
-            Hug
-          </p>
+          <p className="typography-body-small-14px-semibold text-content-tertiary">Hug</p>
           <Tabs defaultValue="tab1">
             <TabsList variant="hug">
               <TabsTrigger value="tab1">Photos</TabsTrigger>
@@ -4842,9 +4180,7 @@ function TabsDemo() {
           </Tabs>
         </div>
         <div className="flex w-full flex-col gap-2">
-          <p className="typography-body-small-14px-semibold text-content-tertiary">
-            Fill
-          </p>
+          <p className="typography-body-small-14px-semibold text-content-tertiary">Fill</p>
           <Tabs defaultValue="tab1">
             <TabsList variant="fill">
               <TabsTrigger value="tab1">Photos</TabsTrigger>
@@ -4888,12 +4224,7 @@ function PageSelectorShowcase() {
   return (
     <div className="flex flex-col items-start gap-6">
       <PageSelector totalPages={3} currentPage={page} onPageChange={setPage} />
-      <PageSelector
-        loop
-        totalPages={3}
-        currentPage={loopPage}
-        onPageChange={setLoopPage}
-      />
+      <PageSelector loop totalPages={3} currentPage={loopPage} onPageChange={setLoopPage} />
       <PageSelector totalPages={3} currentPage={2} disabled />
     </div>
   );
@@ -5043,25 +4374,11 @@ function ProgressBarDemo() {
         <ProgressBar value={100} stepsLabel="8/8 steps" />
 
         {/* Title + showCompletion + stepsLabel (full header) */}
-        <ProgressBar
-          value={37}
-          title="Verification"
-          showCompletion
-          stepsLabel="3/8 steps"
-        />
-        <ProgressBar
-          value={100}
-          title="Verification"
-          showCompletion
-          stepsLabel="8/8 steps"
-        />
+        <ProgressBar value={37} title="Verification" showCompletion stepsLabel="3/8 steps" />
+        <ProgressBar value={100} title="Verification" showCompletion stepsLabel="8/8 steps" />
 
         {/* With helperLeft / helperRight */}
-        <ProgressBar
-          value={50}
-          helperLeft="50% complete"
-          helperRight="5 of 10"
-        />
+        <ProgressBar value={50} helperLeft="50% complete" helperRight="5 of 10" />
         <ProgressBar value={80} helperRight="Almost there!" />
 
         {/* With leftIcon */}
@@ -5157,9 +4474,7 @@ function StepperDemo() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="typography-description-12px-semibold text-content-secondary">
-            5 steps
-          </p>
+          <p className="typography-description-12px-semibold text-content-secondary">5 steps</p>
           <Stepper
             activeStep={2}
             steps={[
@@ -5173,9 +4488,7 @@ function StepperDemo() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="typography-description-12px-semibold text-content-secondary">
-            Sizes
-          </p>
+          <p className="typography-description-12px-semibold text-content-secondary">Sizes</p>
           <div className="flex flex-col gap-6">
             <Stepper
               activeStep={1}
@@ -5212,18 +4525,8 @@ function StepperDemo() {
             StepperStep standalone
           </p>
           <div className="flex items-start gap-6">
-            <StepperStep
-              state="completed"
-              stepNumber={1}
-              title="Completed"
-              description="Done"
-            />
-            <StepperStep
-              state="active"
-              stepNumber={2}
-              title="Active"
-              description="In progress"
-            />
+            <StepperStep state="completed" stepNumber={1} title="Completed" description="Done" />
+            <StepperStep state="active" stepNumber={2} title="Active" description="In progress" />
             <StepperStep
               state="upcoming"
               stepNumber={3}
@@ -5360,9 +4663,7 @@ function TooltipDemo() {
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      This tooltip is{" "}
-                      <span className="font-semibold">controlled</span> via
-                      state.
+                      This tooltip is <span className="font-semibold">controlled</span> via state.
                     </TooltipContent>
                   </Tooltip>
                   <Button
@@ -5421,15 +4722,9 @@ function TooltipDemo() {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <IconButton
-                  variant="tertiary"
-                  icon={<InfoCircleIcon />}
-                  aria-label="Info"
-                />
+                <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
               </TooltipTrigger>
-              <TooltipContent>
-                More information about this feature
-              </TooltipContent>
+              <TooltipContent>More information about this feature</TooltipContent>
             </Tooltip>
           </div>
           <div className="flex flex-wrap items-center gap-4">
@@ -5439,9 +4734,7 @@ function TooltipDemo() {
                   top-start
                 </Button>
               </TooltipTrigger>
-              <TooltipContent placement="top-start">
-                placement="top-start"
-              </TooltipContent>
+              <TooltipContent placement="top-start">placement="top-start"</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -5449,9 +4742,7 @@ function TooltipDemo() {
                   top-end
                 </Button>
               </TooltipTrigger>
-              <TooltipContent placement="top-end">
-                placement="top-end"
-              </TooltipContent>
+              <TooltipContent placement="top-end">placement="top-end"</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -5459,9 +4750,7 @@ function TooltipDemo() {
                   bottom-start
                 </Button>
               </TooltipTrigger>
-              <TooltipContent placement="bottom-start">
-                placement="bottom-start"
-              </TooltipContent>
+              <TooltipContent placement="bottom-start">placement="bottom-start"</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -5469,9 +4758,7 @@ function TooltipDemo() {
                   bottom-end
                 </Button>
               </TooltipTrigger>
-              <TooltipContent placement="bottom-end">
-                placement="bottom-end"
-              </TooltipContent>
+              <TooltipContent placement="bottom-end">placement="bottom-end"</TooltipContent>
             </Tooltip>
           </div>
         </div>
@@ -5522,17 +4809,12 @@ function InfoBoxDemo() {
               onClick: () => console.log("Dismiss"),
             }}
           >
-            Info text with a longer description that wraps across multiple
-            lines.
+            Info text with a longer description that wraps across multiple lines.
           </InfoBoxContent>
         </InfoBox>
         <InfoBox>
           <InfoBoxTrigger asChild>
-            <IconButton
-              variant="tertiary"
-              icon={<InfoCircleIcon />}
-              aria-label="Info"
-            />
+            <IconButton variant="tertiary" icon={<InfoCircleIcon />} aria-label="Info" />
           </InfoBoxTrigger>
           <InfoBoxContent
             icon={<InfoCircleIcon className="text-content-primary-inverted" />}
@@ -5558,9 +4840,7 @@ function AudioUploadDemo() {
       <AudioUpload
         className="w-80"
         onFilesAccepted={(files) => console.log("Accepted:", files)}
-        onRecordingComplete={(blob, duration) =>
-          console.log("Recording:", blob, duration)
-        }
+        onRecordingComplete={(blob, duration) => console.log("Recording:", blob, duration)}
       />
       <AudioUpload
         className="w-80"
@@ -5598,11 +4878,7 @@ function VoiceNoteDemo() {
         <VoiceNote progress={0.4} playing time="0:02" />
         <VoiceNote size="small" progress={0.4} playing time="0:02" />
         <VoiceNote fileName="audio_name.mp4" time="0:05" />
-        <VoiceNote
-          showRemove
-          time="0:05"
-          onRemove={() => console.log("remove")}
-        />
+        <VoiceNote showRemove time="0:05" onRemove={() => console.log("remove")} />
         <VoiceNote src="https://example.com/voice-note.mp3" duration={24} />
         <VoiceNote
           playing={playing}
@@ -5642,9 +4918,7 @@ function InlineEditDemo() {
               key={index}
               value={name}
               onSubmit={(next: string) =>
-                setFolders((prev) =>
-                  prev.map((current, i) => (i === index ? next : current)),
-                )
+                setFolders((prev) => prev.map((current, i) => (i === index ? next : current)))
               }
             />
           ))}
@@ -5692,8 +4966,7 @@ function DialogDemo() {
             </DialogHeader>
             <DialogBody>
               <DialogDescription>
-                Dialog content can hold text, forms, lists, or any custom
-                component.
+                Dialog content can hold text, forms, lists, or any custom component.
               </DialogDescription>
             </DialogBody>
             <DialogFooter>
@@ -5747,9 +5020,7 @@ function DialogDemo() {
         </Dialog>
       </div>
 
-      <h3 className="typography-body-default-16px-semibold mt-4">
-        Header states
-      </h3>
+      <h3 className="typography-body-default-16px-semibold mt-4">Header states</h3>
       <div className="flex flex-wrap gap-3">
         <Dialog open={backOpen} onOpenChange={setBackOpen}>
           <DialogTrigger asChild>
@@ -5760,9 +5031,7 @@ function DialogDemo() {
               <DialogTitle>Step 2</DialogTitle>
             </DialogHeader>
             <DialogBody>
-              <DialogDescription>
-                This dialog has a back button in the header.
-              </DialogDescription>
+              <DialogDescription>This dialog has a back button in the header.</DialogDescription>
             </DialogBody>
             <DialogFooter>
               <DialogClose asChild>
@@ -5784,17 +5053,14 @@ function DialogDemo() {
             </DialogHeader>
             <DialogBody>
               <DialogDescription>
-                Search-specific headers compose the existing SearchField
-                component.
+                Search-specific headers compose the existing SearchField component.
               </DialogDescription>
             </DialogBody>
           </DialogContent>
         </Dialog>
       </div>
 
-      <h3 className="typography-body-default-16px-semibold mt-4">
-        Sheet and scroll
-      </h3>
+      <h3 className="typography-body-default-16px-semibold mt-4">Sheet and scroll</h3>
       <div className="flex flex-wrap gap-3">
         <Dialog open={scrollOpen} onOpenChange={setScrollOpen}>
           <DialogTrigger asChild>
@@ -5805,18 +5071,15 @@ function DialogDemo() {
               <DialogTitle>Terms and Conditions</DialogTitle>
             </DialogHeader>
             <DialogBody>
-              {Array.from({ length: 15 }, (_, i) => `paragraph-${i + 1}`).map(
-                (id) => (
-                  <p
-                    key={id}
-                    className="typography-body-default-16px-regular mb-4 text-content-secondary"
-                  >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                  </p>
-                ),
-              )}
+              {Array.from({ length: 15 }, (_, i) => `paragraph-${i + 1}`).map((id) => (
+                <p
+                  key={id}
+                  className="typography-body-default-16px-regular mb-4 text-content-secondary"
+                >
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
+                </p>
+              ))}
             </DialogBody>
             <DialogFooter>
               <DialogClose asChild>
@@ -5843,11 +5106,7 @@ function BottomNavigationDemo() {
           aria-label="Demo navigation"
           className="absolute"
         >
-          <BottomNavigationAction
-            value="home"
-            icon={<HomeIcon />}
-            label="Home"
-          />
+          <BottomNavigationAction value="home" icon={<HomeIcon />} label="Home" />
           <BottomNavigationAction
             value="notifications"
             icon={<BellIcon />}
@@ -5862,11 +5121,7 @@ function BottomNavigationDemo() {
               />
             }
           />
-          <BottomNavigationAction
-            value="create"
-            icon={<AddIcon />}
-            label="Create"
-          />
+          <BottomNavigationAction value="create" icon={<AddIcon />} label="Create" />
           <BottomNavigationAction
             value="messages"
             icon={<MessageIcon />}
@@ -5917,9 +5172,7 @@ function BreadcrumbDemo() {
                 <BreadcrumbLink href="/section">Section</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/section/subsection">
-                  Subsection
-                </BreadcrumbLink>
+                <BreadcrumbLink href="/section/subsection">Subsection</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbItem>
                 <BreadcrumbPage>Current Page</BreadcrumbPage>
@@ -5941,17 +5194,13 @@ function SkeletonDemo() {
       <h3 className="typography-body-default-16px-semibold">Variants</h3>
       <div className="flex flex-col gap-4">
         <div>
-          <p className="typography-description-12px-regular mb-1 text-content-tertiary">
-            text
-          </p>
+          <p className="typography-description-12px-regular mb-1 text-content-tertiary">text</p>
           <Skeleton variant="text" width={240} />
           <Skeleton variant="text" width="80%" />
           <Skeleton variant="text" width="60%" />
         </div>
         <div>
-          <p className="typography-description-12px-regular mb-1 text-content-tertiary">
-            circular
-          </p>
+          <p className="typography-description-12px-regular mb-1 text-content-tertiary">circular</p>
           <div className="flex gap-3">
             <Skeleton variant="circular" width={24} height={24} />
             <Skeleton variant="circular" width={40} height={40} />
@@ -5965,9 +5214,7 @@ function SkeletonDemo() {
           <Skeleton variant="rectangular" width="100%" height={120} />
         </div>
         <div>
-          <p className="typography-description-12px-regular mb-1 text-content-tertiary">
-            rounded
-          </p>
+          <p className="typography-description-12px-regular mb-1 text-content-tertiary">rounded</p>
           <Skeleton variant="rounded" width="100%" height={120} />
         </div>
       </div>
@@ -5979,49 +5226,26 @@ function SkeletonDemo() {
           <p className="typography-description-12px-regular mb-1 text-content-tertiary">
             pulse (default)
           </p>
-          <Skeleton
-            variant="rectangular"
-            width="100%"
-            height={60}
-            animation="pulse"
-          />
+          <Skeleton variant="rectangular" width="100%" height={60} animation="pulse" />
         </div>
         <div>
-          <p className="typography-description-12px-regular mb-1 text-content-tertiary">
-            wave
-          </p>
-          <Skeleton
-            variant="rectangular"
-            width="100%"
-            height={60}
-            animation="wave"
-          />
+          <p className="typography-description-12px-regular mb-1 text-content-tertiary">wave</p>
+          <Skeleton variant="rectangular" width="100%" height={60} animation="wave" />
         </div>
         <div>
-          <p className="typography-description-12px-regular mb-1 text-content-tertiary">
-            disabled
-          </p>
-          <Skeleton
-            variant="rectangular"
-            width="100%"
-            height={60}
-            animation={false}
-          />
+          <p className="typography-description-12px-regular mb-1 text-content-tertiary">disabled</p>
+          <Skeleton variant="rectangular" width="100%" height={60} animation={false} />
         </div>
       </div>
 
       {/* Wrapping children */}
-      <h3 className="typography-body-default-16px-semibold mt-4">
-        Wrapping children
-      </h3>
+      <h3 className="typography-body-default-16px-semibold mt-4">Wrapping children</h3>
       <Skeleton variant="rounded">
         <div className="h-24 w-64">Content shape preserved</div>
       </Skeleton>
 
       {/* Composition: Avatar + Text */}
-      <h3 className="typography-body-default-16px-semibold mt-4">
-        Composition patterns
-      </h3>
+      <h3 className="typography-body-default-16px-semibold mt-4">Composition patterns</h3>
       <div className="flex flex-col gap-6">
         <div className="flex items-center gap-3">
           <Skeleton variant="circular" width={48} height={48} />
@@ -6045,19 +5269,9 @@ function SkeletonDemo() {
 
         {/* Composition: Card with wave */}
         <div className="w-72 space-y-3 rounded-xs border border-neutral-alphas-200 p-0 pb-3">
-          <Skeleton
-            variant="rectangular"
-            width="100%"
-            height={160}
-            animation="wave"
-          />
+          <Skeleton variant="rectangular" width="100%" height={160} animation="wave" />
           <div className="flex items-center gap-3 px-3">
-            <Skeleton
-              variant="circular"
-              width={40}
-              height={40}
-              animation="wave"
-            />
+            <Skeleton variant="circular" width={40} height={40} animation="wave" />
             <div className="flex-1 space-y-1">
               <Skeleton variant="text" width="70%" animation="wave" />
               <Skeleton variant="text" width="50%" animation="wave" />
@@ -6074,18 +5288,11 @@ function CardDemo() {
     <div id="card" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-xs mb-4">Card</h2>
 
-      <h3 className="typography-body-default-16px-semibold">
-        Hierarchy × Type
-      </h3>
+      <h3 className="typography-body-default-16px-semibold">Hierarchy × Type</h3>
       <div className="flex flex-wrap items-start gap-6">
         {(["primary", "secondary"] as const).map((hierarchy) =>
           (["default", "header-only", "container"] as const).map((type) => (
-            <Card
-              key={`${hierarchy}-${type}`}
-              hierarchy={hierarchy}
-              type={type}
-              className="w-64"
-            >
+            <Card key={`${hierarchy}-${type}`} hierarchy={hierarchy} type={type} className="w-64">
               {type !== "container" && (
                 <CardHeader>
                   <CardTitle>Title goes here</CardTitle>
@@ -6111,15 +5318,8 @@ function CardDemo() {
         )}
       </div>
 
-      <h3 className="typography-body-default-16px-semibold mt-4">
-        Interactive
-      </h3>
-      <Card
-        hierarchy="primary"
-        type="header-only"
-        interactive
-        className="max-w-sm"
-      >
+      <h3 className="typography-body-default-16px-semibold mt-4">Interactive</h3>
+      <Card hierarchy="primary" type="header-only" interactive className="max-w-sm">
         <CardHeader>
           <CardTitle>Title goes here</CardTitle>
         </CardHeader>
@@ -6130,25 +5330,21 @@ function CardDemo() {
         </CardContent>
       </Card>
 
-      <h3 className="typography-body-default-16px-semibold mt-4">
-        Legacy variants (deprecated)
-      </h3>
+      <h3 className="typography-body-default-16px-semibold mt-4">Legacy variants (deprecated)</h3>
       <div className="flex flex-wrap items-start gap-6">
-        {(["outlined", "elevated", "filled", "ghost"] as const).map(
-          (variant) => (
-            <Card key={variant} variant={variant} className="w-64">
-              <CardHeader>
-                <CardTitle>Card title</CardTitle>
-                <CardDescription>Card description text</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="typography-body-small-14px-regular text-content-tertiary">
-                  Content goes here
-                </p>
-              </CardContent>
-            </Card>
-          ),
-        )}
+        {(["outlined", "elevated", "filled", "ghost"] as const).map((variant) => (
+          <Card key={variant} variant={variant} className="w-64">
+            <CardHeader>
+              <CardTitle>Card title</CardTitle>
+              <CardDescription>Card description text</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="typography-body-small-14px-regular text-content-tertiary">
+                Content goes here
+              </p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       <h3 className="typography-body-default-16px-semibold mt-4">No padding</h3>
@@ -6244,9 +5440,7 @@ function CreatorTileDemo() {
         />
       </div>
 
-      <h3 className="typography-body-default-16px-semibold mt-4">
-        Without action
-      </h3>
+      <h3 className="typography-body-default-16px-semibold mt-4">Without action</h3>
       <div className="w-[361px]">
         <CreatorTile
           background={<img src={sampleImage} alt="" loading="lazy" />}
@@ -6257,9 +5451,7 @@ function CreatorTileDemo() {
         />
       </div>
 
-      <h3 className="typography-body-default-16px-semibold mt-4">
-        Aspect ratio
-      </h3>
+      <h3 className="typography-body-default-16px-semibold mt-4">Aspect ratio</h3>
       <div className="flex flex-wrap items-start gap-4">
         {(["tall", "medium", "short"] as const).map((aspectRatio) => (
           <div key={aspectRatio} className="flex w-[280px] flex-col gap-2">
@@ -6425,9 +5617,7 @@ function App() {
                       className="typography-body-small-14px-regular mb-2 w-full rounded-sm border border-neutral-alphas-200 bg-transparent px-3 py-2 text-content-primary placeholder:text-content-secondary focus:outline-none"
                     />
                     {sections
-                      .filter((s) =>
-                        s.label.toLowerCase().includes(tocFilter.toLowerCase()),
-                      )
+                      .filter((s) => s.label.toLowerCase().includes(tocFilter.toLowerCase()))
                       .map((section) => (
                         <button
                           key={section.id}
@@ -6444,9 +5634,7 @@ function App() {
             )}
           </div>
           <div className="flex items-center gap-3">
-            <span className="typography-body-small-14px-semibold">
-              {dark ? "Dark" : "Light"}
-            </span>
+            <span className="typography-body-small-14px-semibold">{dark ? "Dark" : "Light"}</span>
             <button
               type="button"
               onClick={() => setDark((d) => !d)}
@@ -6689,17 +5877,13 @@ const chartBarData = [
 ];
 
 function ChartsDemo() {
-  const [visible, setVisible] = React.useState(
-    new Set(["subscription", "message", "tip"]),
-  );
+  const [visible, setVisible] = React.useState(new Set(["subscription", "message", "tip"]));
 
   return (
     <div id="charts" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-xs mb-4">Charts</h2>
 
-      <h3 className="typography-body-default-16px-semibold">
-        ChartCard + Line
-      </h3>
+      <h3 className="typography-body-default-16px-semibold">ChartCard + Line</h3>
       <ChartCard
         title="Total Earnings"
         subtitle="$4,523"
@@ -6709,12 +5893,7 @@ function ChartsDemo() {
         <ChartContainer config={simpleLineConfig} className="h-48 w-full">
           <LineChart accessibilityLayer data={simpleLineData}>
             <CartesianGrid vertical={false} strokeDasharray="5 3" />
-            <XAxis
-              dataKey="day"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
+            <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
             <ChartTooltip content={<ChartTooltipContent />} />
             <Line
               type="monotone"
@@ -6727,18 +5906,14 @@ function ChartsDemo() {
         </ChartContainer>
       </ChartCard>
 
-      <h3 className="typography-body-default-16px-semibold">
-        ChartCard Loading
-      </h3>
+      <h3 className="typography-body-default-16px-semibold">ChartCard Loading</h3>
       <ChartCard title="Revenue" loading>
         <ChartLoadingOverlay loading>
           <div className="h-48 w-full" />
         </ChartLoadingOverlay>
       </ChartCard>
 
-      <h3 className="typography-body-default-16px-semibold">
-        Toggleable Multi-Series
-      </h3>
+      <h3 className="typography-body-default-16px-semibold">Toggleable Multi-Series</h3>
       <ChartSeriesToggle
         items={[
           {
@@ -6763,12 +5938,7 @@ function ChartsDemo() {
       <ChartContainer config={chartMultiConfig} className="h-48 w-full">
         <LineChart accessibilityLayer data={chartMultiData}>
           <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="day"
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-          />
+          <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
           <ChartTooltip content={<ChartTooltipContent />} />
           {[...visible].map((key) => (
             <Line
@@ -6787,18 +5957,9 @@ function ChartsDemo() {
       <ChartContainer config={chartBarConfig} className="h-48 w-full">
         <BarChart accessibilityLayer data={chartBarData}>
           <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="type"
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-          />
+          <XAxis dataKey="type" tickLine={false} axisLine={false} tickMargin={8} />
           <ChartTooltip content={<ChartTooltipContent />} />
-          <Bar
-            dataKey="revenue"
-            fill="var(--color-revenue)"
-            radius={[999, 999, 0, 0]}
-          />
+          <Bar dataKey="revenue" fill="var(--color-revenue)" radius={[999, 999, 0, 0]} />
         </BarChart>
       </ChartContainer>
     </div>
