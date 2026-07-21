@@ -44,6 +44,19 @@ describe("ButtonIconGroup", () => {
       expect(screen.getByRole("toolbar", { name: "Media controls" })).toBeInTheDocument();
     });
 
+    it("does not set aria-orientation on the default group role", () => {
+      render(renderGroup({ orientation: "vertical" }));
+      expect(screen.getByTestId("button-icon-group")).not.toHaveAttribute("aria-orientation");
+    });
+
+    it("mirrors orientation onto orientation-aware roles", () => {
+      render(renderGroup({ role: "toolbar", orientation: "vertical" }));
+      expect(screen.getByRole("toolbar", { name: "Media controls" })).toHaveAttribute(
+        "aria-orientation",
+        "vertical",
+      );
+    });
+
     it("renders the composed icon buttons", () => {
       render(renderGroup());
       expect(screen.getAllByTestId("icon-button")).toHaveLength(2);
