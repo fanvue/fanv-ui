@@ -1,0 +1,14 @@
+services:
+  web:
+    image: node:24.13.0-bookworm
+    working_dir: /workspace
+    network_mode: host
+    environment:
+      IS_ALLOY: ${IS_ALLOY:-false}
+    volumes:
+      - .:/workspace
+    command: >
+      bash -lc "corepack enable &&
+      corepack prepare pnpm@9.15.4 --activate &&
+      pnpm install --frozen-lockfile &&
+      pnpm exec vite --host 0.0.0.0 --port 5173 --strictPort"
