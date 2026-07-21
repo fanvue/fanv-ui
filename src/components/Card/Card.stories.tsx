@@ -4,12 +4,10 @@ import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { ExpandIcon } from "../Icons/ExpandIcon";
-import { HomeIcon } from "../Icons/HomeIcon";
 import { LoveIcon } from "../Icons/LoveIcon";
 import { MessageIcon } from "../Icons/MessageIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { PinIcon } from "../Icons/PinIcon";
-import { SettingsIcon } from "../Icons/SettingsIcon";
 import { StarIcon } from "../Icons/StarIcon";
 import { Skeleton } from "../Skeleton/Skeleton";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./Card";
@@ -21,14 +19,23 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=14900-1019794&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=18392-77540",
     },
   },
   tags: ["autodocs"],
   argTypes: {
+    hierarchy: {
+      control: "select",
+      options: ["primary", "secondary"],
+    },
+    type: {
+      control: "select",
+      options: ["default", "header-only", "container"],
+    },
+    interactive: { control: "boolean" },
     variant: {
       control: "select",
-      options: ["outlined", "elevated", "filled", "ghost"],
+      options: [undefined, "outlined", "elevated", "filled", "ghost"],
     },
     fullWidth: { control: "boolean" },
     noPadding: { control: "boolean" },
@@ -38,11 +45,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Outlined: Story = {
+export const Primary: Story = {
   render: (args) => (
     <Card {...args} className="max-w-sm">
-      <CardHeader action={<HomeIcon className="size-5" />}>
-        <CardTitle>Card title</CardTitle>
+      <CardHeader>
+        <CardTitle>Title goes here</CardTitle>
         <CardDescription>Card description text</CardDescription>
       </CardHeader>
       <CardContent>
@@ -51,26 +58,26 @@ export const Outlined: Story = {
         </p>
       </CardContent>
       <CardFooter>
-        <Button variant="secondary" size="40">
-          Label
+        <Button variant="secondary" size="40" fullWidth>
+          CTA
         </Button>
-        <Button variant="primary" size="40">
-          Label
+        <Button variant="primary" size="40" fullWidth>
+          CTA
         </Button>
       </CardFooter>
     </Card>
   ),
   args: {
-    variant: "outlined",
+    hierarchy: "primary",
+    type: "default",
   },
 };
 
-export const Elevated: Story = {
+export const Secondary: Story = {
   render: (args) => (
     <Card {...args} className="max-w-sm">
-      <CardHeader action={<HomeIcon className="size-5" />}>
-        <CardTitle>Card title</CardTitle>
-        <CardDescription>Card description text</CardDescription>
+      <CardHeader>
+        <CardTitle>Title goes here</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="typography-body-small-14px-regular text-content-tertiary">
@@ -78,80 +85,116 @@ export const Elevated: Story = {
         </p>
       </CardContent>
       <CardFooter>
-        <Button variant="secondary" size="40">
-          Label
+        <Button variant="secondary" size="32" fullWidth>
+          CTA
         </Button>
-        <Button variant="primary" size="40">
-          Label
+        <Button variant="primary" size="32" fullWidth>
+          CTA
         </Button>
       </CardFooter>
     </Card>
   ),
   args: {
-    variant: "elevated",
+    hierarchy: "secondary",
+    type: "default",
   },
 };
 
-export const Filled: Story = {
+export const HeaderOnly: Story = {
   render: (args) => (
     <Card {...args} className="max-w-sm">
-      <CardHeader action={<HomeIcon className="size-5" />}>
-        <CardTitle>Card title</CardTitle>
-        <CardDescription>Card description text</CardDescription>
+      <CardHeader>
+        <CardTitle>Title goes here</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="typography-body-small-14px-regular text-content-tertiary">
           Content goes here
         </p>
       </CardContent>
-      <CardFooter>
-        <Button variant="secondary" size="40">
-          Label
-        </Button>
-        <Button variant="primary" size="40">
-          Label
-        </Button>
-      </CardFooter>
     </Card>
   ),
   args: {
-    variant: "filled",
+    hierarchy: "primary",
+    type: "header-only",
   },
 };
 
-export const Ghost: Story = {
+export const Container: Story = {
   render: (args) => (
     <Card {...args} className="max-w-sm">
-      <CardHeader action={<HomeIcon className="size-5" />}>
-        <CardTitle>Card title</CardTitle>
-        <CardDescription>Card description text</CardDescription>
+      <CardContent>
+        <p className="typography-body-small-14px-regular text-content-primary">
+          A bare card shell with no prescribed header structure.
+        </p>
+      </CardContent>
+    </Card>
+  ),
+  args: {
+    hierarchy: "primary",
+    type: "container",
+  },
+};
+
+export const Interactive: Story = {
+  render: (args) => (
+    <Card {...args} className="max-w-sm">
+      <CardHeader>
+        <CardTitle>Title goes here</CardTitle>
+        <CardDescription>Hover to see the interactive treatment</CardDescription>
       </CardHeader>
       <CardContent>
         <p className="typography-body-small-14px-regular text-content-tertiary">
           Content goes here
         </p>
       </CardContent>
-      <CardFooter>
-        <Button variant="secondary" size="40">
-          Label
-        </Button>
-        <Button variant="primary" size="40">
-          Label
-        </Button>
-      </CardFooter>
     </Card>
   ),
   args: {
-    variant: "ghost",
+    hierarchy: "primary",
+    type: "header-only",
+    interactive: true,
   },
 };
 
-export const AllVariants: Story = {
+export const Hierarchies: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-start gap-6">
+      {(["primary", "secondary"] as const).map((hierarchy) =>
+        (["default", "header-only", "container"] as const).map((type) => (
+          <Card key={`${hierarchy}-${type}`} hierarchy={hierarchy} type={type} className="w-64">
+            {type !== "container" && (
+              <CardHeader>
+                <CardTitle>Title goes here</CardTitle>
+              </CardHeader>
+            )}
+            <CardContent>
+              <p className="typography-body-small-14px-regular text-content-tertiary">
+                {hierarchy} / {type}
+              </p>
+            </CardContent>
+            {type === "default" && (
+              <CardFooter>
+                <Button variant="secondary" size="32" fullWidth>
+                  CTA
+                </Button>
+                <Button variant="primary" size="32" fullWidth>
+                  CTA
+                </Button>
+              </CardFooter>
+            )}
+          </Card>
+        )),
+      )}
+    </div>
+  ),
+};
+
+export const LegacyVariants: Story = {
   render: () => (
     <div className="flex flex-wrap items-start gap-6">
       {(["outlined", "elevated", "filled", "ghost"] as const).map((variant) => (
         <Card key={variant} variant={variant} className="w-64">
-          <CardHeader action={<HomeIcon className="size-5" />}>
+          <CardHeader>
             <CardTitle>Card title</CardTitle>
             <CardDescription>Card description text</CardDescription>
           </CardHeader>
@@ -171,29 +214,6 @@ export const AllVariants: Story = {
         </Card>
       ))}
     </div>
-  ),
-};
-
-export const HeaderOnly: Story = {
-  render: () => (
-    <Card className="max-w-sm">
-      <CardHeader action={<SettingsIcon className="size-5" />}>
-        <CardTitle>Settings</CardTitle>
-        <CardDescription>Manage your account preferences</CardDescription>
-      </CardHeader>
-    </Card>
-  ),
-};
-
-export const ContentOnly: Story = {
-  render: () => (
-    <Card className="max-w-sm">
-      <CardContent>
-        <p className="typography-body-small-14px-regular text-content-primary">
-          A simple card with just content and no header or footer.
-        </p>
-      </CardContent>
-    </Card>
   ),
 };
 

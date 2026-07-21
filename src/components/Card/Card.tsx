@@ -1,11 +1,41 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
-/** Visual style variant of the card. */
+/** Visual hierarchy of the card. Primary is for prominent, content-carrying cards; secondary for supporting cards within denser layouts. */
+export type CardHierarchy = "primary" | "secondary";
+
+/** Structural type of the card. `default` has header, content and footer; `header-only` drops the footer; `container` is a bare surface. */
+export type CardType = "default" | "header-only" | "container";
+
+/**
+ * Legacy visual style variant.
+ * @deprecated Use {@link CardHierarchy} via the `hierarchy` prop instead. Retained for backwards compatibility.
+ */
 export type CardVariant = "outlined" | "elevated" | "filled" | "ghost";
 
+interface CardContextValue {
+  hierarchy: CardHierarchy;
+  type: CardType;
+}
+
+const CardContext = React.createContext<CardContextValue>({
+  hierarchy: "primary",
+  type: "default",
+});
+
+const useCardContext = () => React.useContext(CardContext);
+
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Visual style variant of the card. @default "outlined" */
+  /** Visual hierarchy of the card. @default "primary" */
+  hierarchy?: CardHierarchy;
+  /** Structural type of the card. @default "default" */
+  type?: CardType;
+  /** When `true`, applies the hover treatment for clickable cards. @default false */
+  interactive?: boolean;
+  /**
+   * Legacy visual style variant.
+   * @deprecated Use `hierarchy` instead. When set, the card keeps its legacy V1 appearance for backwards compatibility.
+   */
   variant?: CardVariant;
   /** When `true`, the card will take the full width of its container. @default true */
   fullWidth?: boolean;
@@ -26,21 +56,32 @@ export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const VARIANT_CLASSES: Record<CardVariant, string> = {
+const LEGACY_VARIANT_CLASSES: Record<CardVariant, string> = {
   outlined: "border border-neutral-alphas-200 bg-surface-primary shadow-sm",
   elevated: "border border-neutral-alphas-200 bg-surface-primary shadow-md",
   filled: "bg-surface-secondary",
   ghost: "bg-transparent",
 };
 
+const HIERARCHY_CLASSES: Record<CardHierarchy, string> = {
+  primary: "rounded-lg border border-border-primary bg-surface-primary",
+  secondary: "rounded-md border border-border-strong bg-surface-secondary shadow-sm",
+};
+
+const INTERACTIVE_CLASSES =
+  "isolate cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:bg-content-primary after:opacity-0 after:transition-opacity after:content-[''] hover:after:opacity-5";
+
 /**
- * A composable card component with multiple visual variants. Use with
+ * A composable card component built on the V2 design system. Compose it with
  * {@link CardHeader}, {@link CardTitle}, {@link CardDescription},
  * {@link CardContent}, and {@link CardFooter} for structured layouts.
  *
+ * The `hierarchy` prop drives the surface treatment (Primary vs Secondary) and
+ * the `type` prop drives the internal spacing (Default / Header Only / Container).
+ *
  * @example
  * ```tsx
- * <Card variant="outlined">
+ * <Card hierarchy="primary">
  *   <CardHeader action={<HomeIcon className="size-5" />}>
  *     <CardTitle>Card title</CardTitle>
  *     <CardDescription>Card description text</CardDescription>
@@ -55,23 +96,52 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
  */
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   (
-    { className, variant = "outlined", fullWidth = true, noPadding = false, children, ...props },
+    {
+      className,
+      hierarchy = "primary",
+      type = "default",
+      interactive = false,
+      variant,
+      fullWidth = true,
+      noPadding = false,
+      children,
+      ...props
+    },
     ref,
   ) => {
+    const isLegacy = variant !== undefined;
+    const padding = noPadding
+      ? undefined
+      : isLegacy
+        ? "p-4"
+        : hierarchy === "secondary"
+          ? "p-4"
+          : "p-6";
+
+    const contextValue = React.useMemo<CardContextValue>(
+      () => ({ hierarchy, type }),
+      [hierarchy, type],
+    );
+
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "flex flex-col overflow-hidden rounded-md",
-          !noPadding && "p-4",
-          fullWidth && "w-full",
-          VARIANT_CLASSES[variant],
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </div>
+      <CardContext.Provider value={contextValue}>
+        <div
+          ref={ref}
+          className={cn(
+            "relative flex flex-col overflow-hidden",
+            isLegacy
+              ? cn("rounded-md", LEGACY_VARIANT_CLASSES[variant])
+              : HIERARCHY_CLASSES[hierarchy],
+            padding,
+            fullWidth && "w-full",
+            interactive && INTERACTIVE_CLASSES,
+            className,
+          )}
+          {...props}
+        >
+          {children}
+        </div>
+      </CardContext.Provider>
     );
   },
 );
@@ -84,7 +154,7 @@ Card.displayName = "Card";
 export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, action, children, ...props }, ref) => {
     return (
-      <div ref={ref} className={cn("flex items-start gap-3", className)} {...props}>
+      <div ref={ref} className={cn("flex min-h-8 items-center gap-2", className)} {...props}>
         <div className="min-w-0 flex-1">{children}</div>
         {action && <div className="shrink-0">{action}</div>}
       </div>
@@ -93,13 +163,20 @@ export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
 );
 CardHeader.displayName = "CardHeader";
 
-/** Title element rendered inside a {@link CardHeader}. */
+/** Title element rendered inside a {@link CardHeader}. Adapts its type scale to the card `hierarchy`. */
 export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
   ({ className, children, ...props }, ref) => {
+    const { hierarchy } = useCardContext();
     return (
       <h3
         ref={ref}
-        className={cn("typography-body-default-16px-semibold text-content-primary", className)}
+        className={cn(
+          hierarchy === "secondary"
+            ? "typography-body-small-14px-regular"
+            : "typography-header-heading-xs",
+          "text-content-primary",
+          className,
+        )}
         {...props}
       >
         {children}
@@ -125,11 +202,17 @@ export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescri
 );
 CardDescription.displayName = "CardDescription";
 
-/** Flexible content area of a {@link Card}. Adds vertical padding between header and footer. */
+/**
+ * Flexible content area of a {@link Card}. Its vertical padding follows the card
+ * `type`: `default` pads top and bottom, `header-only` pads only the top, and
+ * `container` removes the built-in padding entirely.
+ */
 export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
   ({ className, children, ...props }, ref) => {
+    const { type } = useCardContext();
+    const padding = type === "container" ? undefined : type === "header-only" ? "pt-6" : "py-6";
     return (
-      <div ref={ref} className={cn("flex-1 py-4", className)} {...props}>
+      <div ref={ref} className={cn("flex-1", padding, className)} {...props}>
         {children}
       </div>
     );
@@ -141,7 +224,7 @@ CardContent.displayName = "CardContent";
 export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
   ({ className, children, ...props }, ref) => {
     return (
-      <div ref={ref} className={cn("flex items-center gap-3", className)} {...props}>
+      <div ref={ref} className={cn("flex w-full items-center gap-2", className)} {...props}>
         {children}
       </div>
     );

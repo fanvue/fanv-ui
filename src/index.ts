@@ -93,8 +93,10 @@ export type {
   CardDescriptionProps,
   CardFooterProps,
   CardHeaderProps,
+  CardHierarchy,
   CardProps,
   CardTitleProps,
+  CardType,
   CardVariant,
 } from "./components/Card/Card";
 export {
