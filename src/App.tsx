@@ -74,6 +74,7 @@ import {
   CreatorCard,
   CreatorCover,
   CreatorTile,
+  CriticalBanner,
   CrossIcon,
   CrownIcon,
   CyclingText,
@@ -1842,6 +1843,35 @@ function BannerDemo() {
             </Button>
           }
         />
+      </div>
+    </div>
+  );
+}
+
+function CriticalBannerDemo() {
+  return (
+    <div id="critical-banner" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Critical Banner</h2>
+      <div className="flex max-w-4xl flex-col gap-6">
+        <CriticalBanner
+          layout="trailing"
+          title="Your account has been suspended"
+          ctaLabel="Contact support"
+        >
+          We detected activity that violates our terms of service. Contact support to resolve this
+          before you can continue.
+        </CriticalBanner>
+        <CriticalBanner
+          layout="under"
+          title="We couldn't process your payment"
+          ctaLabel="Update payment method"
+        >
+          Your subscription payment was declined. Update your payment method now to avoid losing
+          access to your account and its content.
+        </CriticalBanner>
+        <CriticalBanner layout="trailing">
+          This is the body text for a critical in-app alert, shown without a title.
+        </CriticalBanner>
       </div>
     </div>
   );
@@ -5408,6 +5438,7 @@ function App() {
     { id: "accordion", label: "Accordion" },
     { id: "alert", label: "Alert" },
     { id: "banner", label: "Banner" },
+    { id: "critical-banner", label: "Critical Banner" },
     { id: "autocomplete", label: "Autocomplete" },
     { id: "audioupload", label: "Audio Upload" },
     { id: "voicenote", label: "Voice Note" },
@@ -5585,6 +5616,9 @@ function App() {
 
             {/* Banner */}
             <BannerDemo />
+
+            {/* Critical Banner */}
+            <CriticalBannerDemo />
 
             {/* Empty State */}
             <EmptyStateDemo />
