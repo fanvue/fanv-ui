@@ -46,6 +46,7 @@ import {
   BreadcrumbPage,
   BulbIcon,
   Button,
+  ButtonStack,
   CalendarIcon,
   CameraIcon,
   Card,
@@ -2150,6 +2151,34 @@ function ButtonDemo() {
         <Button variant="brand" asChild>
           <a href="#link">Link as Brand</a>
         </Button>
+      </div>
+    </div>
+  );
+}
+
+function ButtonStackDemo() {
+  return (
+    <div id="buttonstack" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Button Stack</h2>
+      <div className="flex flex-col gap-6">
+        <div className="w-80 max-w-full">
+          <p className="typography-body-small-14px-regular mb-2 text-content-secondary">
+            Horizontal (equal width)
+          </p>
+          <ButtonStack direction="horizontal">
+            <Button variant="outline">Cancel</Button>
+            <Button variant="primary">Confirm</Button>
+          </ButtonStack>
+        </div>
+        <div className="w-80 max-w-full">
+          <p className="typography-body-small-14px-regular mb-2 text-content-secondary">
+            Vertical (full width)
+          </p>
+          <ButtonStack direction="vertical">
+            <Button variant="primary">Confirm</Button>
+            <Button variant="outline">Cancel</Button>
+          </ButtonStack>
+        </div>
       </div>
     </div>
   );
@@ -5428,6 +5457,7 @@ function App() {
     { id: "badge", label: "Badge" },
     { id: "bottom-navigation", label: "Bottom Navigation" },
     { id: "button", label: "Button" },
+    { id: "buttonstack", label: "Button Stack" },
     { id: "subscribebutton", label: "Subscribe Button" },
     { id: "card", label: "Card" },
     { id: "charts", label: "Charts" },
@@ -5613,6 +5643,9 @@ function App() {
 
             {/* Button */}
             <ButtonDemo />
+
+            {/* Button Stack */}
+            <ButtonStackDemo />
 
             {/* Subscribe Button */}
             <SubscribeButtonDemo />
