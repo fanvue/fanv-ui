@@ -5190,7 +5190,7 @@ function CardDemo() {
           (["default", "header-only", "container"] as const).map((type) => (
             <Card key={`${hierarchy}-${type}`} hierarchy={hierarchy} type={type} className="w-64">
               {type !== "container" && (
-                <CardHeader action={<HomeIcon className="size-5" />}>
+                <CardHeader>
                   <CardTitle>Title goes here</CardTitle>
                 </CardHeader>
               )}
@@ -5216,7 +5216,7 @@ function CardDemo() {
 
       <h3 className="typography-body-default-16px-semibold mt-4">Interactive</h3>
       <Card hierarchy="primary" type="header-only" interactive className="max-w-sm">
-        <CardHeader action={<SettingsIcon className="size-5" />}>
+        <CardHeader>
           <CardTitle>Title goes here</CardTitle>
         </CardHeader>
         <CardContent>
@@ -5230,7 +5230,7 @@ function CardDemo() {
       <div className="flex flex-wrap items-start gap-6">
         {(["outlined", "elevated", "filled", "ghost"] as const).map((variant) => (
           <Card key={variant} variant={variant} className="w-64">
-            <CardHeader action={<HomeIcon className="size-5" />}>
+            <CardHeader>
               <CardTitle>Card title</CardTitle>
               <CardDescription>Card description text</CardDescription>
             </CardHeader>

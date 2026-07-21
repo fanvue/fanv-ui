@@ -4,12 +4,10 @@ import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { ExpandIcon } from "../Icons/ExpandIcon";
-import { HomeIcon } from "../Icons/HomeIcon";
 import { LoveIcon } from "../Icons/LoveIcon";
 import { MessageIcon } from "../Icons/MessageIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { PinIcon } from "../Icons/PinIcon";
-import { SettingsIcon } from "../Icons/SettingsIcon";
 import { StarIcon } from "../Icons/StarIcon";
 import { Skeleton } from "../Skeleton/Skeleton";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./Card";
@@ -50,7 +48,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   render: (args) => (
     <Card {...args} className="max-w-sm">
-      <CardHeader action={<HomeIcon className="size-5" />}>
+      <CardHeader>
         <CardTitle>Title goes here</CardTitle>
         <CardDescription>Card description text</CardDescription>
       </CardHeader>
@@ -105,7 +103,7 @@ export const Secondary: Story = {
 export const HeaderOnly: Story = {
   render: (args) => (
     <Card {...args} className="max-w-sm">
-      <CardHeader action={<SettingsIcon className="size-5" />}>
+      <CardHeader>
         <CardTitle>Title goes here</CardTitle>
       </CardHeader>
       <CardContent>
@@ -140,7 +138,7 @@ export const Container: Story = {
 export const Interactive: Story = {
   render: (args) => (
     <Card {...args} className="max-w-sm">
-      <CardHeader action={<HomeIcon className="size-5" />}>
+      <CardHeader>
         <CardTitle>Title goes here</CardTitle>
         <CardDescription>Hover to see the interactive treatment</CardDescription>
       </CardHeader>
@@ -165,7 +163,7 @@ export const Hierarchies: Story = {
         (["default", "header-only", "container"] as const).map((type) => (
           <Card key={`${hierarchy}-${type}`} hierarchy={hierarchy} type={type} className="w-64">
             {type !== "container" && (
-              <CardHeader action={<HomeIcon className="size-5" />}>
+              <CardHeader>
                 <CardTitle>Title goes here</CardTitle>
               </CardHeader>
             )}
@@ -196,7 +194,7 @@ export const LegacyVariants: Story = {
     <div className="flex flex-wrap items-start gap-6">
       {(["outlined", "elevated", "filled", "ghost"] as const).map((variant) => (
         <Card key={variant} variant={variant} className="w-64">
-          <CardHeader action={<HomeIcon className="size-5" />}>
+          <CardHeader>
             <CardTitle>Card title</CardTitle>
             <CardDescription>Card description text</CardDescription>
           </CardHeader>
