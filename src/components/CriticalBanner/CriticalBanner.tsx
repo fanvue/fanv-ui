@@ -12,7 +12,7 @@ import { WarningIcon } from "../Icons/WarningIcon";
  */
 export type CriticalBannerLayout = "trailing" | "under";
 
-export interface CriticalBannerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CriticalBannerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   /** Body copy describing the blocking situation. */
   children: React.ReactNode;
   /** Placement of the call-to-action relative to the message. @default "trailing" */
