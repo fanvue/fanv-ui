@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.19.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.19.0...ui-v3.19.1) (2026-07-21)
+
+
+### Bug Fixes
+
+* **CyclingText:** Apply label classes to sizing input as well ([#589](https://github.com/fanvue/fanv-ui/issues/589)) ([8b238cd](https://github.com/fanvue/fanv-ui/commit/8b238cdadd09ce2db5bd9cea144c5035c9444108))
+* **forms:** keep focus ring visible on autofilled inputs ([#600](https://github.com/fanvue/fanv-ui/issues/600)) ([355e3da](https://github.com/fanvue/fanv-ui/commit/355e3da06e11d42c51a6a64d7953db1f58c1a23c))
+
 ## [3.19.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.18.0...ui-v3.19.0) (2026-07-20)
 
 
