@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.20.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.19.1...ui-v3.20.0) (2026-07-23)
+
+
+### Features
+
+* **ButtonStack:** build V2 button stack (ENG-11787) ([#605](https://github.com/fanvue/fanv-ui/issues/605)) ([70ea337](https://github.com/fanvue/fanv-ui/commit/70ea337bb64dc3c39a8508e1004f2d2df4e1a98c))
+* **Card:** migrate to V2 hierarchy and type (ENG-10629) ([#602](https://github.com/fanvue/fanv-ui/issues/602)) ([999358d](https://github.com/fanvue/fanv-ui/commit/999358ddf86ba8ce0761d0672365e61579f027db))
+* **CriticalBanner:** build V2 critical banner (ENG-10622) ([#606](https://github.com/fanvue/fanv-ui/issues/606)) ([15274aa](https://github.com/fanvue/fanv-ui/commit/15274aaaf666a7119145c1c2bf41208938cf1ee3))
+
+
+### Bug Fixes
+
+* **deps:** resolve critical/high security audit findings ([160a9aa](https://github.com/fanvue/fanv-ui/commit/160a9aaa2b48a3070fa657319405266c09020d6f))
+* **deps:** resolve critical/high security audit findings (vitest, svgo, fast-uri) ([#609](https://github.com/fanvue/fanv-ui/issues/609)) ([160a9aa](https://github.com/fanvue/fanv-ui/commit/160a9aaa2b48a3070fa657319405266c09020d6f))
+
 ## [3.19.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.19.0...ui-v3.19.1) (2026-07-21)
 
 
