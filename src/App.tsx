@@ -46,6 +46,7 @@ import {
   BreadcrumbPage,
   BulbIcon,
   Button,
+  ButtonIconGroup,
   ButtonStack,
   CalendarIcon,
   CameraIcon,
@@ -2394,6 +2395,50 @@ function IconButtonDemo() {
             aria-label="Microphone"
           />
         </div>
+      </div>
+    </div>
+  );
+}
+
+function ButtonIconGroupDemo() {
+  return (
+    <div id="buttonicongroup" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Button Icon Group</h2>
+      <div className="space-y-6">
+        <ButtonIconGroup aria-label="Post actions">
+          <IconButton variant="tertiary" size="48" icon={<HeartIcon />} aria-label="Like" />
+          <IconButton variant="tertiary" size="48" icon={<ReplyIcon />} aria-label="Reply" />
+          <IconButton variant="tertiary" size="48" icon={<ShareIcon />} aria-label="Share" />
+        </ButtonIconGroup>
+
+        <ButtonIconGroup aria-label="Media controls">
+          <IconButton variant="tertiary" size="48" icon={<PlayIcon />} aria-label="Play" />
+          <IconButton variant="tertiary" size="48" icon={<PauseIcon />} aria-label="Pause" />
+          <IconButton
+            variant="tertiary"
+            size="48"
+            icon={<ForwardIcon />}
+            aria-label="Skip forward"
+          />
+          <IconButton variant="tertiary" size="48" icon={<RepeatIcon />} aria-label="Repeat" />
+        </ButtonIconGroup>
+
+        <ButtonIconGroup aria-label="Editing tools">
+          <IconButton variant="secondary" size="40" icon={<EditIcon />} aria-label="Edit" />
+          <IconButton variant="secondary" size="40" icon={<CopyIcon />} aria-label="Copy" />
+          <IconButton variant="secondary" size="40" icon={<TrashBinIcon />} aria-label="Delete" />
+        </ButtonIconGroup>
+
+        <ButtonIconGroup orientation="vertical" aria-label="Media controls vertical">
+          <IconButton variant="tertiary" size="48" icon={<PlayIcon />} aria-label="Play" />
+          <IconButton variant="tertiary" size="48" icon={<PauseIcon />} aria-label="Pause" />
+          <IconButton
+            variant="tertiary"
+            size="48"
+            icon={<ForwardIcon />}
+            aria-label="Skip forward"
+          />
+        </ButtonIconGroup>
       </div>
     </div>
   );
@@ -5692,6 +5737,9 @@ function App() {
 
             {/* Icon Button */}
             <IconButtonDemo />
+
+            {/* Button Icon Group */}
+            <ButtonIconGroupDemo />
 
             {/* Audio Record Button */}
             <AudioRecordButtonDemo />
