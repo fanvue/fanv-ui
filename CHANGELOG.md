@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.21.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.20.0...ui-v3.21.0) (2026-07-24)
+
+
+### Features
+
+* **GifIcon:** update SVG paths for outlined and filled variants for thicker stroke ([#608](https://github.com/fanvue/fanv-ui/issues/608)) ([de2e0da](https://github.com/fanvue/fanv-ui/commit/de2e0da4c8ae0e84c139eebff29ee82eeb8656b9))
+
 ## [3.20.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.19.1...ui-v3.20.0) (2026-07-23)
 
 
