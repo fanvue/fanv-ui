@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.21.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.21.0...ui-v3.21.1) (2026-07-27)
+
+
+### Bug Fixes
+
+* **ChartSeriesToggle:** size chips to their labels instead of stretching (DES-802) ([#613](https://github.com/fanvue/fanv-ui/issues/613)) ([fbd10a1](https://github.com/fanvue/fanv-ui/commit/fbd10a1258d5ee371a3edd65b1e9d2eafc0ef506))
+
 ## [3.21.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.20.0...ui-v3.21.0) (2026-07-27)
 
 
