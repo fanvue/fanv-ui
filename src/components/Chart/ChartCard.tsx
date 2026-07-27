@@ -3,7 +3,7 @@ import { cn } from "../../utils/cn";
 import { Card, type CardHierarchy } from "../Card/Card";
 import { IconButton } from "../IconButton/IconButton";
 import { ArrowUpRightIcon } from "../Icons/ArrowUpRightIcon";
-import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
+import { InfoIcon } from "../Icons/InfoIcon";
 import { Skeleton } from "../Skeleton/Skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Tooltip/Tooltip";
 
@@ -119,7 +119,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                           size="32"
                           aria-label={tooltipAriaLabel}
                           className="text-icons-primary hover:text-content-primary focus-visible:text-content-primary active:text-content-primary"
-                          icon={<InfoCircleIcon />}
+                          icon={<InfoIcon size={16} />}
                         />
                       </TooltipTrigger>
                       <TooltipContent>{tooltip}</TooltipContent>

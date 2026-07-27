@@ -315,6 +315,14 @@ describe("Chart", () => {
       expect(container.querySelector(".mt-auto")).not.toBeNull();
     });
 
+    it("renders the outlined info glyph rather than the filled disc", () => {
+      render(<ChartCard title="Revenue" tooltip="Total revenue." />);
+      const svg = screen.getByRole("button", { name: "More info" }).querySelector("svg");
+      expect(svg).toHaveAttribute("viewBox", "0 0 16 16");
+      expect(svg?.querySelector("path[stroke='currentColor']")).not.toBeNull();
+      expect(svg?.querySelector("g.opacity-100")).not.toBeNull();
+    });
+
     it("renders a 32px circular tooltip trigger with interactive states", () => {
       render(<ChartCard title="Revenue" tooltip="Total revenue." />);
       const trigger = screen.getByRole("button", { name: "More info" });
