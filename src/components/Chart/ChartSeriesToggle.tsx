@@ -23,9 +23,9 @@ export interface ChartSeriesToggleProps extends React.HTMLAttributes<HTMLDivElem
 }
 
 /**
- * Renders a grid of toggleable {@link Chip}s that control which series are
- * visible on a multi-series chart. Each toggle shows a series colour dot and a
- * label, and exposes its state through `aria-pressed`.
+ * Renders a wrapping row of toggleable {@link Chip}s that control which series
+ * are visible on a multi-series chart. Each chip sizes to its label, shows a
+ * series colour dot, and exposes its state through `aria-pressed`.
  *
  * @example
  * ```tsx
@@ -55,12 +55,11 @@ export const ChartSeriesToggle = React.forwardRef<HTMLDivElement, ChartSeriesTog
     };
 
     return (
-      <div ref={ref} className={cn("grid grid-cols-2 gap-2 sm:grid-cols-3", className)} {...props}>
+      <div ref={ref} className={cn("flex flex-wrap gap-2", className)} {...props}>
         {items.map((item) => (
           <Chip
             key={item.key}
             size="32"
-            className="justify-start"
             selected={value.has(item.key)}
             onClick={() => toggle(item.key)}
             leftIcon={

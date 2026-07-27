@@ -328,6 +328,16 @@ describe("Chart", () => {
       );
     });
 
+    it("lays chips out in a wrapping row so each sizes to its label", () => {
+      const { container } = render(
+        <ChartSeriesToggle items={TOGGLE_ITEMS} value={new Set(["a"])} onValueChange={() => {}} />,
+      );
+      const wrapper = container.firstElementChild;
+      expect(wrapper).toHaveClass("flex", "flex-wrap", "gap-2");
+      expect(wrapper?.className).not.toMatch(/\bgrid\b/);
+      expect(screen.getByRole("button", { name: "Series A" })).not.toHaveClass("justify-start");
+    });
+
     it("uses the V2 chip tokens for selected and unselected series", () => {
       render(
         <ChartSeriesToggle items={TOGGLE_ITEMS} value={new Set(["a"])} onValueChange={() => {}} />,
