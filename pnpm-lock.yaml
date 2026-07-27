@@ -10,9 +10,9 @@ overrides:
   minimatch: '>=10.2.3'
   ajv: '>=8.18.0'
   fast-uri: '>=3.1.4'
-  brace-expansion: '>=5.0.7'
+  brace-expansion: '>=5.0.8'
   yaml: '>=2.8.3'
-  postcss: '>=8.5.10'
+  postcss: '>=8.5.18'
   tmp: '>=0.2.7'
   ws: '>=8.20.1'
   qs: '>=6.15.2'
@@ -151,7 +151,7 @@ importers:
         version: 4.1.10(@vitest/browser@4.1.10)(vitest@4.1.10)
       autoprefixer:
         specifier: 10.4.23
-        version: 10.4.23(postcss@8.5.14)
+        version: 10.4.23(postcss@8.5.20)
       axe-core:
         specifier: 4.11.1
         version: 4.11.1
@@ -171,8 +171,8 @@ importers:
         specifier: ^1.58.1
         version: 1.58.1
       postcss:
-        specifier: '>=8.5.10'
-        version: 8.5.14
+        specifier: '>=8.5.18'
+        version: 8.5.20
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -2185,7 +2185,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
-      postcss: '>=8.5.10'
+      postcss: '>=8.5.18'
 
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
@@ -2215,9 +2215,9 @@ packages:
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
 
-  brace-expansion@5.0.7:
-    resolution: {integrity: sha512-7oFy703dxfY3/NLxC1fh2SUCQ0H9rmAY+5EpDVfXjUTTs+HEwR2nYaqLv+GWcTsumwxPfiz6CzCNkwXwBUwqCA==}
-    engines: {node: 18 || 20 || >=22}
+  brace-expansion@5.0.8:
+    resolution: {integrity: sha512-JZyDyq3D4AUifKTPOB7DELf6XsB3WdPuNxCtob1vFXPsSXhdAiHBWJ/tJ8HAc9aH84BK+5JFZLNkJKx3G9kzQg==}
+    engines: {node: 20 || >=22}
 
   braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
@@ -3413,8 +3413,8 @@ packages:
     resolution: {integrity: sha512-tacvGzUY5o2D8CBh2rrwxyNojUsZNU2zjNTzKQrkgGJQTbGAfArVWXSKMBokBeeg6C7OLRGUEyoFlYbfeWQIqw==}
     engines: {node: '>=20.17'}
 
-  nanoid@3.3.11:
-    resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
+  nanoid@3.3.16:
+    resolution: {integrity: sha512-bzlKTyNJ7+LdGIIwy8ijFpIqEQIvafahV7eYykJ8Cvh42EdJeODoJ6gUJXpQJvej1BddH8OqTXZNE/KfbWAu8Q==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -3568,8 +3568,8 @@ packages:
   postcss-value-parser@4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
 
-  postcss@8.5.14:
-    resolution: {integrity: sha512-SoSL4+OSEtR99LHFZQiJLkT59C5B1amGO1NzTwj7TT1qCUgUO6hxOvzkOYxD+vMrXBM3XJIKzokoERdqQq/Zmg==}
+  postcss@8.5.20:
+    resolution: {integrity: sha512-lW616l85ucIQL+FocMmL7pQFPqBmwejrCMg+iPxyImlrANNJG9NHq/RkyCZopDhd8C3LA03PHRJDjkbGu8vvug==}
     engines: {node: ^10 || ^12 || >=14}
 
   prettier@3.8.1:
@@ -5952,7 +5952,7 @@ snapshots:
       '@alloc/quick-lru': 5.2.0
       '@tailwindcss/node': 4.1.18
       '@tailwindcss/oxide': 4.1.18
-      postcss: 8.5.14
+      postcss: 8.5.20
       tailwindcss: 4.1.18
 
   '@testing-library/dom@10.4.0':
@@ -6335,13 +6335,13 @@ snapshots:
       estree-walker: 3.0.3
       js-tokens: 10.0.0
 
-  autoprefixer@10.4.23(postcss@8.5.14):
+  autoprefixer@10.4.23(postcss@8.5.20):
     dependencies:
       browserslist: 4.28.1
       caniuse-lite: 1.0.30001766
       fraction.js: 5.3.4
       picocolors: 1.1.1
-      postcss: 8.5.14
+      postcss: 8.5.20
       postcss-value-parser: 4.2.0
 
   available-typed-arrays@1.0.7:
@@ -6364,7 +6364,7 @@ snapshots:
 
   boolbase@1.0.0: {}
 
-  brace-expansion@5.0.7:
+  brace-expansion@5.0.8:
     dependencies:
       balanced-match: 4.0.3
 
@@ -7627,7 +7627,7 @@ snapshots:
 
   minimatch@10.2.4:
     dependencies:
-      brace-expansion: 5.0.7
+      brace-expansion: 5.0.8
 
   minimist@1.2.8: {}
 
@@ -7648,7 +7648,7 @@ snapshots:
 
   nano-spawn@2.0.0: {}
 
-  nanoid@3.3.11: {}
+  nanoid@3.3.16: {}
 
   nanoid@5.1.6: {}
 
@@ -7803,9 +7803,9 @@ snapshots:
 
   postcss-value-parser@4.2.0: {}
 
-  postcss@8.5.14:
+  postcss@8.5.20:
     dependencies:
-      nanoid: 3.3.11
+      nanoid: 3.3.16
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
@@ -8464,7 +8464,7 @@ snapshots:
       esbuild: 0.28.1
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
-      postcss: 8.5.14
+      postcss: 8.5.20
       rollup: 4.59.0
       tinyglobby: 0.2.15
     optionalDependencies:
