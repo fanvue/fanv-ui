@@ -133,7 +133,44 @@ The selected state inverts rather than lightens — that is the single biggest d
 
 None. If you were targeting the old classes in tests or overrides, note that each toggle now also carries `data-testid="chip"` and `data-selected` (when selected) from `Chip`.
 
-## 5. Not in this release
+## 5. `ChartCard` matches the V2 Insight Card (3.22.0)
+
+3.21.0 moved `ChartCard` off the legacy `variant="outlined"` surface and onto `Card`'s own `hierarchy="primary"`. That was the wrong target. The design system has a dedicated **V2 Insight Card** component, and its tokens differ from `Card`'s primary hierarchy. `ChartCard` now implements the Insight Card spec directly.
+
+Every token below already existed in `theme.css` — `ChartCard` was pointing at the wrong ones. No token was added or changed.
+
+| | 3.21.0 | 3.22.0 (V2 Insight Card) |
+| --- | --- | --- |
+| Fill | `bg-surface-primary` `#fafafa` | `bg-background-primary` `#ffffff` |
+| Border | `border-border-primary` `#f0f0f0` | `border-border-strong` `#d4d4d4` |
+| Radius | `rounded-lg` (24px) | `rounded-sm` (12px) |
+| Title | 14px semibold, `content-primary` | 14px **regular**, `content-secondary` |
+| Title → icon gap | `gap-1.5` (6px) | `gap-1` (4px) |
+| Info icon colour | `content-tertiary` | `icons-primary` |
+| Trend | filled pill, `bg-success-surface` / `bg-error-surface`, 12px semibold | **coloured text + directional arrow**, 14px regular, `success-content` / `error-content` |
+| Subtitle row | `items-center` | `items-end` |
+
+> **Note on the radius.** `--radius-*` is declared in `@theme`, so this project's `rounded-*` scale is not Tailwind's default: `rounded-sm` is 12px, `rounded-md` 16px, `rounded-lg` 24px. The 3.21.0 release notes described this as an 8px radius; it was 24px.
+
+### `trendChip` renders differently
+
+The prop shape is unchanged — `{ label, trend }` still works, so no code change is needed:
+
+```tsx
+<ChartCard title="ARPU" subtitle="$135.84" trendChip={{ label: "1.3% vs prev", trend: "negative" }} />
+```
+
+It is no longer a chip. `positive` renders an up-right arrow in `success-content`; `negative` renders the same glyph rotated to point down-right, in `error-content`. The prop keeps its name for backwards compatibility. Pass the full label including any suffix (e.g. `"1.3% vs prev"`), since there is no longer a pill to keep short.
+
+### `hierarchy` still works
+
+`primary` is the Insight Card surface above. `secondary` continues to use `Card`'s secondary hierarchy, unchanged.
+
+### Known divergence
+
+`Card`'s own `HIERARCHY_CLASSES.primary` still renders `#fafafa` / `border-primary` / 24px, which does not match the V2 Insight Card. That is deliberate here — reconciling `Card` affects every consumer in the library and is tracked separately. `ChartCard` overrides the three properties it needs via `className`, so `Card` is untouched.
+
+## 6. Not in this release
 
 - **Chart colour ramp.** DES-802 also asks for a brown-led palette instead of green, and `--color-special-chart-green` is absent from `theme.css`. That is tracked separately. No `--color-special-chart-*` token was added, removed, or changed here.
 - **A rebuilt chart surface.** DES-802 also asks for the graphs themselves to be rebuilt on a new higher-level chart kit. That is an additive surface rather than a fix to the existing one, so it is scoped as its own release and gated on the colour ramp above. The Recharts-based primitives (`ChartContainer`, `ChartTooltip`, `ChartLegend`, `useChart`, …) are unchanged and stay supported.
