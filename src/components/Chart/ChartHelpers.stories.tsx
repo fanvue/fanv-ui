@@ -165,6 +165,31 @@ export const SeriesTogglePartialSelection: Story = {
   render: () => <SeriesTogglePartialInteractive />,
 };
 
+function SeriesToggleManyInteractive() {
+  const [visible, setVisible] = useState(new Set(["total"]));
+  return (
+    <div className="w-full max-w-3xl">
+      <ChartSeriesToggle
+        items={[
+          { key: "total", label: "Total", color: "var(--color-special-chart-purple)" },
+          { key: "subs", label: "Subs", color: "var(--color-special-chart-sky)" },
+          { key: "messages", label: "Messages", color: "var(--color-special-chart-orange)" },
+          { key: "posts", label: "Posts", color: "var(--color-special-chart-magenta)" },
+          { key: "tips", label: "Tips", color: "var(--color-special-chart-teal)" },
+          { key: "referrals", label: "Referrals", color: "var(--color-special-chart-pink)" },
+          { key: "other", label: "Other", color: "var(--color-special-chart-gray)" },
+        ]}
+        value={visible}
+        onValueChange={setVisible}
+      />
+    </div>
+  );
+}
+
+export const SeriesToggleManySeries: Story = {
+  render: () => <SeriesToggleManyInteractive />,
+};
+
 export const PieLegendDefault: Story = {
   render: () => (
     <div className="w-full max-w-lg">

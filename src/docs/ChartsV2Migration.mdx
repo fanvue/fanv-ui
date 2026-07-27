@@ -125,7 +125,9 @@ The selected state inverts rather than lightens — that is the single biggest d
 
 - `value: Set<string>` / `onValueChange: (value: Set<string>) => void`. The handler still receives a **new** `Set`; the one you passed in is never mutated.
 - `aria-pressed` on each toggle, now supplied by `Chip`'s interactive path.
-- The `grid grid-cols-2 gap-2 sm:grid-cols-3` wrapper and its `className` passthrough. `justify-start` is applied to each chip so labels stay left-aligned in their grid cell instead of centring.
+- The `className` passthrough on the wrapper.
+
+> **Changed again in 3.21.1.** 3.21.0 kept the original `grid grid-cols-2 sm:grid-cols-3` wrapper. Grid items are blockified and stretch to fill their column, so each chip rendered as a full-cell-width pill. That went unnoticed under V1 because unselected chips were transparent — the stretched box was invisible. With the V2 fill it is not. The wrapper is now `flex flex-wrap gap-2`, so chips size to their labels and wrap. If you passed a `className` that assumed grid semantics (column counts, `col-span-*`), it no longer applies.
 
 ### Action required
 
