@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { Bar, BarChart } from "recharts";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { ChartCard } from "./ChartCard";
 import { ChartCenterLabel } from "./ChartCenterLabel";
@@ -251,6 +252,44 @@ describe("Chart", () => {
   });
 
   describe("ChartCard", () => {
+    it("renders the V2 primary card surface by default", () => {
+      const { container } = render(<ChartCard title="Revenue" />);
+      const card = container.firstElementChild;
+      expect(card).toHaveClass("rounded-lg", "border-border-primary", "bg-surface-primary");
+      expect(card).not.toHaveClass("shadow-sm");
+    });
+
+    it("applies the secondary surface when hierarchy is secondary", () => {
+      const { container } = render(<ChartCard title="Revenue" hierarchy="secondary" />);
+      expect(container.firstElementChild).toHaveClass(
+        "border-border-strong",
+        "bg-surface-secondary",
+      );
+    });
+
+    it("omits the children wrapper when no children are provided", () => {
+      const { container } = render(<ChartCard title="Revenue" subtitle="$1,234" />);
+      expect(container.querySelector(".mt-auto")).toBeNull();
+    });
+
+    it("renders the children wrapper when children are provided", () => {
+      const { container } = render(
+        <ChartCard title="Revenue" subtitle="$1,234">
+          <div>chart</div>
+        </ChartCard>,
+      );
+      expect(container.querySelector(".mt-auto")).not.toBeNull();
+    });
+
+    it("renders a 32px circular tooltip trigger with interactive states", () => {
+      render(<ChartCard title="Revenue" tooltip="Total revenue." />);
+      const trigger = screen.getByRole("button", { name: "More info" });
+      expect(trigger).toHaveClass("size-8", "rounded-full");
+      expect(trigger).toHaveClass("not-disabled:hover:bg-buttons-tertiary-hover");
+      expect(trigger).toHaveClass("not-disabled:active:bg-buttons-tertiary-hover");
+      expect(trigger).toHaveClass("focus-visible:shadow-focus-ring");
+    });
+
     it("applies flex-wrap and whitespace-nowrap to prevent trendChip truncation", () => {
       render(
         <ChartCard
@@ -266,6 +305,91 @@ describe("Chart", () => {
       expect(chip).toBeInTheDocument();
       expect(chip).toHaveClass("whitespace-nowrap");
       expect(chip.parentElement).toHaveClass("flex-wrap");
+    });
+  });
+
+  describe("ChartSeriesToggle", () => {
+    const TOGGLE_ITEMS = [
+      { key: "a", label: "Series A", color: "rgb(40, 186, 142)" },
+      { key: "b", label: "Series B", color: "rgb(79, 178, 249)" },
+    ];
+
+    it("renders each series as a chip button reflecting selection via aria-pressed", () => {
+      render(
+        <ChartSeriesToggle items={TOGGLE_ITEMS} value={new Set(["a"])} onValueChange={() => {}} />,
+      );
+      expect(screen.getByRole("button", { name: "Series A" })).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      );
+      expect(screen.getByRole("button", { name: "Series B" })).toHaveAttribute(
+        "aria-pressed",
+        "false",
+      );
+    });
+
+    it("uses the V2 chip tokens for selected and unselected series", () => {
+      render(
+        <ChartSeriesToggle items={TOGGLE_ITEMS} value={new Set(["a"])} onValueChange={() => {}} />,
+      );
+      expect(screen.getByRole("button", { name: "Series A" })).toHaveClass(
+        "bg-buttons-chip-active",
+      );
+      expect(screen.getByRole("button", { name: "Series B" })).toHaveClass(
+        "bg-buttons-chip-default",
+        "hover:bg-buttons-chip-hover",
+      );
+    });
+
+    it("renders a colour dot per series", () => {
+      render(
+        <ChartSeriesToggle
+          items={TOGGLE_ITEMS}
+          value={new Set(["a", "b"])}
+          onValueChange={() => {}}
+        />,
+      );
+      const dot = screen
+        .getByRole("button", { name: "Series A" })
+        .querySelector<HTMLElement>(".size-2");
+      expect(dot).not.toBeNull();
+      expect(dot).toHaveStyle({ backgroundColor: "rgb(40, 186, 142)" });
+    });
+
+    it("adds a key to the Set when toggling an unselected series on", async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      render(
+        <ChartSeriesToggle
+          items={TOGGLE_ITEMS}
+          value={new Set(["a"])}
+          onValueChange={onValueChange}
+        />,
+      );
+      await user.click(screen.getByRole("button", { name: "Series B" }));
+      expect(onValueChange).toHaveBeenCalledWith(new Set(["a", "b"]));
+    });
+
+    it("removes a key from the Set when toggling a selected series off", async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      render(
+        <ChartSeriesToggle
+          items={TOGGLE_ITEMS}
+          value={new Set(["a", "b"])}
+          onValueChange={onValueChange}
+        />,
+      );
+      await user.click(screen.getByRole("button", { name: "Series A" }));
+      expect(onValueChange).toHaveBeenCalledWith(new Set(["b"]));
+    });
+
+    it("does not mutate the Set it was given", async () => {
+      const user = userEvent.setup();
+      const value = new Set(["a"]);
+      render(<ChartSeriesToggle items={TOGGLE_ITEMS} value={value} onValueChange={() => {}} />);
+      await user.click(screen.getByRole("button", { name: "Series B" }));
+      expect(value).toEqual(new Set(["a"]));
     });
   });
 

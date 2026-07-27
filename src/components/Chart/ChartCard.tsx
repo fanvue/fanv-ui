@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { Card } from "../Card/Card";
+import { Card, type CardHierarchy } from "../Card/Card";
 import { IconButton } from "../IconButton/IconButton";
 import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
 import { Skeleton } from "../Skeleton/Skeleton";
@@ -8,6 +8,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Too
 
 /** Props for {@link ChartCard}. */
 export interface ChartCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+  /** Surface treatment of the underlying {@link Card}. @default "primary" */
+  hierarchy?: CardHierarchy;
   /** Card title text. Pass translated string for i18n. */
   title: React.ReactNode;
   /** Large subtitle value (e.g. formatted price or count). */
@@ -41,6 +43,9 @@ const TREND_CLASSES: Record<"positive" | "negative", string> = {
  * optional trend chip, date range label, info tooltip, and a loading
  * skeleton state.
  *
+ * The surface treatment comes from the underlying {@link Card} and is driven by
+ * the `hierarchy` prop.
+ *
  * @example
  * ```tsx
  * <ChartCard
@@ -58,6 +63,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
   (
     {
       className,
+      hierarchy = "primary",
       title,
       subtitle,
       tooltip,
@@ -71,7 +77,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
     ref,
   ) => {
     return (
-      <Card ref={ref} variant="outlined" noPadding className={className} {...props}>
+      <Card ref={ref} hierarchy={hierarchy} noPadding className={className} {...props}>
         <div className="flex flex-col gap-2 p-4">
           {loading ? (
             <>
@@ -91,9 +97,10 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                       <TooltipTrigger asChild>
                         <IconButton
                           variant="tertiary"
-                          size="24"
+                          size="32"
                           aria-label={tooltipAriaLabel}
-                          icon={<InfoCircleIcon className="size-4 text-content-tertiary" />}
+                          className="text-content-tertiary hover:text-content-primary focus-visible:text-content-primary active:text-content-primary"
+                          icon={<InfoCircleIcon />}
                         />
                       </TooltipTrigger>
                       <TooltipContent>{tooltip}</TooltipContent>
@@ -125,7 +132,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
               )}
             </>
           )}
-          <div className="mt-auto">{children}</div>
+          {children && <div className="mt-auto">{children}</div>}
         </div>
       </Card>
     );
