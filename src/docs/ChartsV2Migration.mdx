@@ -1,0 +1,137 @@
+# Charts V2 Migration (3.21.0)
+
+`@fanvue/ui/charts` shipped `ChartCard` and `ChartSeriesToggle` on V1 surfaces and V1 chips. Release 3.21.0 moves both onto the V2 design system. There are **no API removals or renames** — every existing call site keeps compiling. The changes are visual, so read [What changes visually](#what-changes-visually) before you take a screenshot diff.
+
+## TL;DR
+
+- `ChartCard` now renders the **V2 primary card surface** instead of the legacy `variant="outlined"` surface. This affects every consumer with no code change on your side.
+- New optional `hierarchy` prop on `ChartCard` (`"primary" | "secondary"`, default `"primary"`) if you want the denser secondary surface.
+- `ChartCard` vertical padding is now symmetric when you pass no `children`.
+- The `ChartCard` info-tooltip trigger grows from 24px squared to **32px circular** with working hover / active / focus-visible states.
+- `ChartSeriesToggle` is now composed on the V2 `Chip`. The `value` / `onValueChange` `Set` contract and `aria-pressed` semantics are unchanged.
+- The chart colour ramp is **not** part of this release. `--color-special-chart-*` is untouched.
+
+---
+
+## 1. `ChartCard` surface: V1 → V2
+
+### Before
+
+```tsx
+<Card variant="outlined" noPadding>
+```
+
+`variant` is `@deprecated` on `CardProps`, and passing it at all puts `Card` into its legacy branch (`isLegacy = variant !== undefined`). That applied `rounded-md border-neutral-alphas-200 bg-surface-primary shadow-sm` and skipped the V2 hierarchy classes entirely, so every `ChartCard` consumer was pinned to the V1 look.
+
+### After
+
+```tsx
+<Card hierarchy={hierarchy} noPadding>
+```
+
+| | V1 (before) | V2 primary (now) |
+| --- | --- | --- |
+| Radius | `rounded-md` (6px) | `rounded-lg` (8px) |
+| Border | `border-neutral-alphas-200` | `border-border-primary` |
+| Background | `bg-surface-primary` | `bg-surface-primary` (unchanged) |
+| Shadow | `shadow-sm` | none |
+
+### Action required
+
+None to keep compiling. **Do re-QA any screen that renders `ChartCard`** — corner radius, border colour, and the dropped shadow are all visible. If a card sits inside another card or a dense panel and the primary surface is too heavy, opt into the secondary treatment:
+
+```tsx
+<ChartCard hierarchy="secondary" title="Avg. Spend" subtitle="$18.40" />
+```
+
+`CardHierarchy` is re-exported from `@fanvue/ui/charts` so you do not need a second import from the root entrypoint.
+
+## 2. Symmetric vertical padding on childless cards
+
+The card body is `flex flex-col gap-2 p-4`, and the children wrapper used to render unconditionally:
+
+```tsx
+<div className="mt-auto">{children}</div>
+```
+
+With `children` null — the shape metric tiles take when there is no error and no sub-value — the empty `div` still participated in `gap-2`, so the card measured 16px top and 16px + 8px bottom. The wrapper is now conditional:
+
+```tsx
+{children && <div className="mt-auto">{children}</div>}
+```
+
+### Action required
+
+None. Childless `ChartCard`s get 8px shorter. If you were compensating with a negative bottom margin or a `pb-*` override via `className`, remove it.
+
+## 3. Info-tooltip trigger
+
+| | Before | After |
+| --- | --- | --- |
+| Size | `IconButton size="24"` | `IconButton size="32"` |
+| Shape | squared (`rounded-xs`) | circular (`rounded-full`) |
+| Icon colour | pinned `text-content-tertiary` on the icon | `text-content-tertiary`, → `text-content-primary` on hover / active / focus-visible |
+| Hit target | 24×24 | 32×32 |
+
+Per the size-driven shape rule documented on `IconButtonVariant`, `24` is the only size that renders squared; every larger size is circular. The icon colour moved from the SVG onto the button so `currentColor` follows the button's interactive states instead of staying fixed.
+
+### Action required
+
+None, unless you were relying on the header row height. The header row grows from 24px to 32px on cards that pass `tooltip`.
+
+## 4. `ChartSeriesToggle` chips: V1 → V2
+
+The component used to hand-roll its pills:
+
+```tsx
+// before
+"rounded-full border px-3 py-1.5 typography-description-12px-regular"
+isActive ? "border-neutral-alphas-200 bg-surface-primary"
+         : "border-transparent bg-transparent opacity-50"
+```
+
+None of the `buttons-chip-*` tokens were involved. It is now composed on `Chip`:
+
+```tsx
+// after
+<Chip
+  size="32"
+  className="justify-start"
+  selected={value.has(item.key)}
+  onClick={() => toggle(item.key)}
+  leftIcon={<span className="size-2 rounded-full" style={{ backgroundColor: item.color }} />}
+>
+  {item.label}
+</Chip>
+```
+
+No new `Chip` API was needed. The per-series colour dot goes through `leftIcon` rather than `leftDot`, because `leftDot`'s dot is `bg-current` and cannot carry a per-series colour.
+
+### What changes visually
+
+| | Before | After |
+| --- | --- | --- |
+| Selected | white/`surface-primary` fill, 1px neutral border | `bg-buttons-chip-active` fill, `text-content-primary-inverted`, no border |
+| Unselected | transparent, `opacity-50` | `bg-buttons-chip-default`, full-opacity text |
+| Hover | opacity back to 100% | `bg-buttons-chip-hover` (unselected only) |
+| Focus | browser default outline | `shadow-focus-ring` |
+| Height | ~28px (`py-1.5`) | 32px (`Chip` `size="32"`) |
+| Type | `typography-description-12px-regular` | `typography-description-12px-semibold` |
+| Dot → label gap | 8px | 2px, matching `Chip`'s built-in `leftDot` spacing |
+
+The selected state inverts rather than lightens — that is the single biggest difference, and it is the V2 chip spec.
+
+### What does not change
+
+- `value: Set<string>` / `onValueChange: (value: Set<string>) => void`. The handler still receives a **new** `Set`; the one you passed in is never mutated.
+- `aria-pressed` on each toggle, now supplied by `Chip`'s interactive path.
+- The `grid grid-cols-2 gap-2 sm:grid-cols-3` wrapper and its `className` passthrough. `justify-start` is applied to each chip so labels stay left-aligned in their grid cell instead of centring.
+
+### Action required
+
+None. If you were targeting the old classes in tests or overrides, note that each toggle now also carries `data-testid="chip"` and `data-selected` (when selected) from `Chip`.
+
+## 5. Not in this release
+
+- **Chart colour ramp.** DES-802 also asks for a brown-led palette instead of green, and `--color-special-chart-green` is absent from `theme.css`. That is tracked separately. No `--color-special-chart-*` token was added, removed, or changed here.
+- **A rebuilt chart surface.** DES-802 also asks for the graphs themselves to be rebuilt on a new higher-level chart kit. That is an additive surface rather than a fix to the existing one, so it is scoped as its own release and gated on the colour ramp above. The Recharts-based primitives (`ChartContainer`, `ChartTooltip`, `ChartLegend`, `useChart`, …) are unchanged and stay supported.

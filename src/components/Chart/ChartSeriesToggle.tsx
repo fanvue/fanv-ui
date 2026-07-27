@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { Chip } from "../Chip/Chip";
 
 /** A single toggleable series in a {@link ChartSeriesToggle}. */
 export interface ChartSeriesToggleItem {
@@ -22,8 +23,9 @@ export interface ChartSeriesToggleProps extends React.HTMLAttributes<HTMLDivElem
 }
 
 /**
- * Renders a grid of toggleable chips that control which series are visible
- * on a multi-series chart. Each toggle shows a color indicator dot and a label.
+ * Renders a grid of toggleable {@link Chip}s that control which series are
+ * visible on a multi-series chart. Each toggle shows a series colour dot and a
+ * label, and exposes its state through `aria-pressed`.
  *
  * @example
  * ```tsx
@@ -54,29 +56,20 @@ export const ChartSeriesToggle = React.forwardRef<HTMLDivElement, ChartSeriesTog
 
     return (
       <div ref={ref} className={cn("grid grid-cols-2 gap-2 sm:grid-cols-3", className)} {...props}>
-        {items.map((item) => {
-          const isActive = value.has(item.key);
-          return (
-            <button
-              key={item.key}
-              type="button"
-              aria-pressed={isActive}
-              className={cn(
-                "typography-description-12px-regular flex items-center gap-2 rounded-full border px-3 py-1.5 text-content-primary transition-opacity hover:opacity-100",
-                isActive
-                  ? "border-neutral-alphas-200 bg-surface-primary"
-                  : "border-transparent bg-transparent opacity-50",
-              )}
-              onClick={() => toggle(item.key)}
-            >
-              <span
-                className="size-2 shrink-0 rounded-full"
-                style={{ backgroundColor: item.color }}
-              />
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
+        {items.map((item) => (
+          <Chip
+            key={item.key}
+            size="32"
+            className="justify-start"
+            selected={value.has(item.key)}
+            onClick={() => toggle(item.key)}
+            leftIcon={
+              <span className="size-2 rounded-full" style={{ backgroundColor: item.color }} />
+            }
+          >
+            {item.label}
+          </Chip>
+        ))}
       </div>
     );
   },

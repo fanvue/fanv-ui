@@ -56,6 +56,49 @@ export const CardWithTooltip: Story = {
   ),
 };
 
+export const CardHierarchies: Story = {
+  render: () => (
+    <div className="flex w-full max-w-lg flex-col gap-4">
+      <ChartCard
+        hierarchy="primary"
+        title="Primary surface"
+        subtitle="$4,523"
+        dateInfo="Mar 1 - Mar 14"
+      >
+        <SimpleLineChart config={simpleLineConfig} />
+      </ChartCard>
+      <ChartCard
+        hierarchy="secondary"
+        title="Secondary surface"
+        subtitle="$4,523"
+        dateInfo="Mar 1 - Mar 14"
+      >
+        <SimpleLineChart config={simpleLineConfig} />
+      </ChartCard>
+    </div>
+  ),
+};
+
+export const CardMetricTilesWithoutChildren: Story = {
+  render: () => (
+    <div className="grid w-full max-w-3xl gap-4 sm:grid-cols-3">
+      <ChartCard
+        title="Total Earnings"
+        subtitle="$4,523"
+        trendChip={{ label: "12.5%", trend: "positive" }}
+        dateInfo="Mar 1 - Mar 14"
+      />
+      <ChartCard
+        title="Subscribers"
+        subtitle="1,284"
+        trendChip={{ label: "3.1%", trend: "negative" }}
+        dateInfo="Mar 1 - Mar 14"
+      />
+      <ChartCard title="Avg. Spend" subtitle="$18.40" dateInfo="Mar 1 - Mar 14" />
+    </div>
+  ),
+};
+
 export const LoadingOverlay: Story = {
   render: () => (
     <div className="w-full max-w-lg">
@@ -97,6 +140,29 @@ function SeriesToggleInteractive() {
 
 export const SeriesToggle: Story = {
   render: () => <SeriesToggleInteractive />,
+};
+
+function SeriesTogglePartialInteractive() {
+  const [visible, setVisible] = useState(new Set(["photos", "messages"]));
+  return (
+    <div className="w-full max-w-lg">
+      <ChartSeriesToggle
+        items={[
+          { key: "photos", label: "Photos", color: "var(--color-special-chart-teal)" },
+          { key: "videos", label: "Videos", color: "var(--color-special-chart-sky)" },
+          { key: "messages", label: "Messages", color: "var(--color-special-chart-orange)" },
+          { key: "tips", label: "Tips", color: "var(--color-special-chart-gray)" },
+          { key: "subs", label: "Subscriptions", color: "var(--color-special-chart-pink)" },
+        ]}
+        value={visible}
+        onValueChange={setVisible}
+      />
+    </div>
+  );
+}
+
+export const SeriesTogglePartialSelection: Story = {
+  render: () => <SeriesTogglePartialInteractive />,
 };
 
 export const PieLegendDefault: Story = {

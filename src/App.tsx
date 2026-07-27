@@ -5899,6 +5899,31 @@ function ChartsDemo() {
         </ChartLoadingOverlay>
       </ChartCard>
 
+      <h3 className="typography-body-default-16px-semibold">
+        ChartCard Metric Tiles (no children)
+      </h3>
+      <div className="grid gap-4 sm:grid-cols-3">
+        <ChartCard
+          title="Total Earnings"
+          subtitle="$4,523"
+          tooltip="Total earnings for the selected period."
+          trendChip={{ label: "12.5%", trend: "positive" }}
+          dateInfo="Mar 1 – Mar 14"
+        />
+        <ChartCard
+          title="Subscribers"
+          subtitle="1,284"
+          trendChip={{ label: "3.1%", trend: "negative" }}
+          dateInfo="Mar 1 – Mar 14"
+        />
+        <ChartCard
+          hierarchy="secondary"
+          title="Avg. Spend"
+          subtitle="$18.40"
+          dateInfo="Mar 1 – Mar 14"
+        />
+      </div>
+
       <h3 className="typography-body-default-16px-semibold">Toggleable Multi-Series</h3>
       <ChartSeriesToggle
         items={[
