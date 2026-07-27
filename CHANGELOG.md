@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.21.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.20.0...ui-v3.21.0) (2026-07-27)
+
+
+### Features
+
+* **Chart:** move ChartCard and ChartSeriesToggle to V2 (DES-802) ([#611](https://github.com/fanvue/fanv-ui/issues/611)) ([e63f5d3](https://github.com/fanvue/fanv-ui/commit/e63f5d36efa6463daf8b75949c432edb93fbcff1))
+* **GifIcon:** update SVG paths for outlined and filled variants for thicker stroke ([#608](https://github.com/fanvue/fanv-ui/issues/608)) ([de2e0da](https://github.com/fanvue/fanv-ui/commit/de2e0da4c8ae0e84c139eebff29ee82eeb8656b9))
+
 ## [3.20.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.19.1...ui-v3.20.0) (2026-07-23)
 
 
