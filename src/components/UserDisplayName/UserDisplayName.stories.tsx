@@ -9,6 +9,7 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
+    aiDisclosure: { control: "boolean" },
     ambassador: { control: "boolean" },
     verified: { control: "boolean" },
     showOnlineStatus: { control: "boolean" },
@@ -60,8 +61,41 @@ export const AmbassadorTakesPrecedence: Story = {
   args: { ambassador: true, verified: true },
 };
 
+export const AiDisclosure: Story = {
+  name: "AI disclosure",
+  args: { aiDisclosure: true },
+};
+
+/**
+ * AI disclosure describes how an account is operated rather than ranking it, so
+ * it renders alongside whichever status badge is shown instead of replacing it.
+ */
+export const AiDisclosureWithStatusBadges: Story = {
+  name: "AI disclosure + status badges",
+  render: () => (
+    <div className="flex w-72 flex-col gap-4">
+      <UserDisplayName className="typography-body-small-14px-semibold" aiDisclosure verified>
+        Jane Doe
+      </UserDisplayName>
+      <UserDisplayName className="typography-body-small-14px-semibold" aiDisclosure ambassador>
+        Jane Doe
+      </UserDisplayName>
+      <UserDisplayName
+        className="typography-body-small-14px-semibold"
+        aiDisclosure
+        verified
+        showOnlineStatus
+      >
+        Jane Doe
+      </UserDisplayName>
+    </div>
+  ),
+};
+
 export const Truncated: Story = {
-  args: { children: "Aitana Lopez de la Vega Hernández Rodríguez del Castillo" },
+  args: {
+    children: "Aitana Lopez de la Vega Hernández Rodríguez del Castillo",
+  },
 };
 
 const LONG_NAME = "Aitana Lopez de la Vega Hernández Rodríguez del Castillo";

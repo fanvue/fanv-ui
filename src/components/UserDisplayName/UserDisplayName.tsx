@@ -1,9 +1,14 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { AIDisclosureIcon } from "../Icons/AIDisclosureIcon";
 import { VerifiedIcon } from "../Icons/VerifiedIcon";
 import { ProfileOnlineStatus } from "../ProfileOnlineStatus/ProfileOnlineStatus";
 
 export interface UserDisplayNameProps extends React.HTMLAttributes<HTMLElement> {
+  /** Render an AI-disclosure badge after the name, alongside any status badge. */
+  aiDisclosure?: boolean;
+  /** Accessible label for the AI-disclosure badge. @default "AI creator" */
+  aiDisclosureLabel?: string;
   /** Render an ambassador badge after the name. */
   ambassador?: boolean;
   /** Accessible label for the ambassador badge. @default "Ambassador" */
@@ -32,9 +37,19 @@ export interface UserDisplayNameProps extends React.HTMLAttributes<HTMLElement> 
  * for the standard display-name scale.
  *
  * When both `ambassador` and `verified` are set, the ambassador badge takes
- * precedence. Its tint uses `text-success-content` (not `text-icons-brand-green`)
- * so the green darkens in light mode and lightens in dark mode, matching
- * {@link ProfileOnlineStatus}; `text-icons-brand-green` is fixed across modes.
+ * precedence. `aiDisclosure` is independent of both and renders after whichever
+ * status badge is shown, since it discloses how the account is operated rather
+ * than ranking it.
+ *
+ * The verified and AI-disclosure badges inherit the name's colour, so setting a
+ * colour on the root tints them with it. That keeps them legible on surfaces
+ * that fix their own text colour — over a cover image, for example, where a
+ * theme-dependent tint would turn black against white text in light mode.
+ *
+ * The ambassador tint is deliberately not inherited: it uses `text-success-content`
+ * (not `text-icons-brand-green`) so the green darkens in light mode and lightens
+ * in dark mode, matching {@link ProfileOnlineStatus}; `text-icons-brand-green` is
+ * fixed across modes.
  *
  * @example
  * ```tsx
@@ -44,6 +59,8 @@ export interface UserDisplayNameProps extends React.HTMLAttributes<HTMLElement> 
 export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProps>(
   (
     {
+      aiDisclosure,
+      aiDisclosureLabel = "AI creator",
       ambassador,
       ambassadorLabel = "Ambassador",
       children,
@@ -63,7 +80,7 @@ export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProp
     const badge = ambassador
       ? { label: ambassadorLabel, tint: "text-success-content" }
       : verified
-        ? { label: verifiedLabel, tint: "text-content-primary" }
+        ? { label: verifiedLabel, tint: "text-current" }
         : null;
 
     return (
@@ -80,6 +97,15 @@ export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProp
             className={cn("ml-2 inline-flex shrink-0 items-center", badge.tint)}
           >
             <VerifiedIcon size={16} />
+          </span>
+        )}
+        {aiDisclosure && (
+          <span
+            role="img"
+            aria-label={aiDisclosureLabel}
+            className="ml-2 inline-flex shrink-0 items-center text-current"
+          >
+            <AIDisclosureIcon size={16} />
           </span>
         )}
         {showOnlineStatus && <ProfileOnlineStatus label={onlineLabel} className="shrink-0 ml-2" />}

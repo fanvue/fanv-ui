@@ -38,11 +38,19 @@ export interface UserItemProps extends React.HTMLAttributes<HTMLDivElement> {
   showHandle?: boolean;
   /** Enable the avatar online indicator (combined with `isOnline`). */
   showOnlineStatus?: boolean;
+  /** Render an AI-disclosure badge after the display name. @default false */
+  aiDisclosure?: boolean;
+  /** Accessible label for the AI-disclosure badge. @default "AI creator" */
+  aiDisclosureLabel?: string;
+  /** Render a verified badge after the display name. @default false */
+  verified?: boolean;
+  /** Accessible label for the verified badge. @default "Verified" */
+  verifiedLabel?: string;
 }
 
 /**
  * A compact user row showing an avatar, display name (or nickname) and handle,
- * with optional online and muted indicators.
+ * with optional verified and AI-disclosure badges and online and muted indicators.
  *
  * @example
  * ```tsx
@@ -59,6 +67,10 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
       showOnlineStatus,
       showHandle = true,
       showAvatar = true,
+      aiDisclosure = false,
+      aiDisclosureLabel,
+      verified = false,
+      verifiedLabel,
       className,
       ...props
     },
@@ -85,7 +97,13 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
           />
         )}
         <div className="flex-1 overflow-hidden pl-2">
-          <UserDisplayName className="typography-body-small-14px-semibold">
+          <UserDisplayName
+            aiDisclosure={aiDisclosure}
+            aiDisclosureLabel={aiDisclosureLabel}
+            verified={verified}
+            verifiedLabel={verifiedLabel}
+            className="typography-body-small-14px-semibold"
+          >
             {user.nickname || user.displayName}
           </UserDisplayName>
           {showHandle && <UserHandle>{user.handle}</UserHandle>}

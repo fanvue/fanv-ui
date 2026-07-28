@@ -22,11 +22,13 @@ const meta = {
       control: "select",
       options: [16, 24, 32, 40, 48, 64, 88, 148],
     },
+    aiDisclosure: { control: "boolean" },
     isMuted: { control: "boolean" },
     isOnline: { control: "boolean" },
     showAvatar: { control: "boolean" },
     showHandle: { control: "boolean" },
     showOnlineStatus: { control: "boolean" },
+    verified: { control: "boolean" },
   },
   args: {
     user: sampleUser,
@@ -35,6 +37,8 @@ const meta = {
     showAvatar: true,
     showHandle: true,
     showOnlineStatus: false,
+    aiDisclosure: false,
+    verified: false,
   },
   render: (args) => (
     <div className="w-72">
@@ -70,6 +74,20 @@ export const FallbackInitials: Story = {
 
 export const Muted: Story = {
   args: { isMuted: true },
+};
+
+export const Verified: Story = {
+  args: { verified: true },
+};
+
+export const AiDisclosure: Story = {
+  name: "AI disclosure",
+  args: { aiDisclosure: true },
+};
+
+export const VerifiedAiCreator: Story = {
+  name: "Verified AI creator",
+  args: { verified: true, aiDisclosure: true },
 };
 
 export const OnlineIndicator: Story = {
