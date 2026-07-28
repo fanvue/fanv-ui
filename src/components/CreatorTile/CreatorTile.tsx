@@ -3,12 +3,13 @@ import { cn } from "../../utils/cn";
 import { Avatar } from "../Avatar/Avatar";
 
 /** Width-to-height ratio preset for the tile. */
-export type CreatorTileAspectRatio = "tall" | "medium" | "short";
+export type CreatorTileAspectRatio = "tall" | "medium" | "short" | "wide";
 
 const ASPECT_RATIO_CLASSES: Record<CreatorTileAspectRatio, string> = {
   tall: "aspect-5/4",
   medium: "aspect-3/2",
   short: "aspect-9/5",
+  wide: "aspect-5/2",
 };
 
 export interface CreatorTileProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -28,9 +29,10 @@ export interface CreatorTileProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Width-to-height ratio preset.
    *
-   * - `tall` – 1:2 narrow portrait
-   * - `medium` – 361:200 landscape banner (default)
-   * - `short` – 4:5 closer to square
+   * - `tall` – 5:4, closest to square
+   * - `medium` – 3:2 landscape
+   * - `short` – 9:5 landscape
+   * - `wide` – 5:2, a slim banner
    *
    * @default "medium"
    */

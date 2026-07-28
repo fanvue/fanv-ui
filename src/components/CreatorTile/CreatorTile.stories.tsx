@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "../Button/Button";
+import { UserDisplayName } from "../UserDisplayName/UserDisplayName";
 import { CreatorTile } from "./CreatorTile";
 
 const SAMPLE_BACKGROUND =
@@ -21,7 +22,7 @@ const meta = {
   argTypes: {
     aspectRatio: {
       control: "select",
-      options: ["tall", "medium", "short"],
+      options: ["tall", "medium", "short", "wide"],
     },
   },
   args: {
@@ -74,10 +75,38 @@ export const WithoutAction: Story = {
   ),
 };
 
+/**
+ * The `wide` ratio is a slim banner. Compose {@link UserDisplayName} into `name`
+ * when the creator needs verified or AI-disclosure badges beside it.
+ */
+export const Wide: Story = {
+  args: { aspectRatio: "wide" },
+  render: (args) => (
+    <div className="w-100">
+      <CreatorTile
+        {...args}
+        className="rounded-lg"
+        name={
+          <UserDisplayName verified aiDisclosure className="text-white">
+            Jane Doe
+          </UserDisplayName>
+        }
+        tagline="@jane_doe"
+        avatar={{ src: SAMPLE_AVATAR, alt: "Jane Doe", fallback: "JD" }}
+        action={
+          <Button variant="white" size="32" className="rounded-full">
+            View Profile
+          </Button>
+        }
+      />
+    </div>
+  ),
+};
+
 export const AspectRatios: Story = {
   render: (args) => (
     <div className="flex flex-wrap items-start gap-4">
-      {(["tall", "medium", "short"] as const).map((aspectRatio) => (
+      {(["tall", "medium", "short", "wide"] as const).map((aspectRatio) => (
         <div key={aspectRatio} className="flex w-[280px] flex-col gap-2">
           <CreatorTile {...args} aspectRatio={aspectRatio} className="rounded-lg" />
           <p className="typography-description-12px-regular text-content-secondary">
