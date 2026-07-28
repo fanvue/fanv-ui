@@ -131,6 +131,20 @@ describe("UserItem", () => {
       expect(screen.getByRole("img", { name: "Verified" })).toBeInTheDocument();
       expect(screen.getByRole("img", { name: "AI creator" })).toBeInTheDocument();
     });
+
+    it("forwards custom badge labels to the display name", () => {
+      render(
+        <UserItem
+          user={baseUser}
+          verified
+          verifiedLabel="Cuenta verificada"
+          aiDisclosure
+          aiDisclosureLabel="Creador con IA"
+        />,
+      );
+      expect(screen.getByRole("img", { name: "Cuenta verificada" })).toBeInTheDocument();
+      expect(screen.getByRole("img", { name: "Creador con IA" })).toBeInTheDocument();
+    });
   });
 
   describe("accessibility", () => {
