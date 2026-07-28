@@ -103,6 +103,40 @@ describe("UserDisplayName", () => {
       render(<UserDisplayName>Aitana</UserDisplayName>);
       expect(screen.queryByRole("img")).not.toBeInTheDocument();
     });
+
+    it("renders an AI-disclosure badge with an accessible label", () => {
+      render(<UserDisplayName aiDisclosure>Aitana</UserDisplayName>);
+      expect(screen.getByRole("img", { name: "AI creator" })).toBeInTheDocument();
+    });
+
+    it("supports a custom AI-disclosure label", () => {
+      render(
+        <UserDisplayName aiDisclosure aiDisclosureLabel="Operated with AI">
+          Aitana
+        </UserDisplayName>,
+      );
+      expect(screen.getByRole("img", { name: "Operated with AI" })).toBeInTheDocument();
+    });
+
+    it("renders the AI-disclosure badge alongside a status badge rather than replacing it", () => {
+      render(
+        <UserDisplayName aiDisclosure verified>
+          Aitana
+        </UserDisplayName>,
+      );
+      expect(screen.getByRole("img", { name: "Verified" })).toBeInTheDocument();
+      expect(screen.getByRole("img", { name: "AI creator" })).toBeInTheDocument();
+    });
+
+    it("renders the AI-disclosure badge alongside the ambassador badge", () => {
+      render(
+        <UserDisplayName aiDisclosure ambassador>
+          Aitana
+        </UserDisplayName>,
+      );
+      expect(screen.getByRole("img", { name: "Ambassador" })).toBeInTheDocument();
+      expect(screen.getByRole("img", { name: "AI creator" })).toBeInTheDocument();
+    });
   });
 
   describe("online status", () => {
@@ -130,6 +164,15 @@ describe("UserDisplayName", () => {
     it("has no accessibility violations with badges and online status", async () => {
       const { container } = render(
         <UserDisplayName ambassador showOnlineStatus>
+          Aitana Lopez
+        </UserDisplayName>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with the AI-disclosure badge", async () => {
+      const { container } = render(
+        <UserDisplayName aiDisclosure verified showOnlineStatus>
           Aitana Lopez
         </UserDisplayName>,
       );

@@ -1,9 +1,14 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { AIDisclosureIcon } from "../Icons/AIDisclosureIcon";
 import { VerifiedIcon } from "../Icons/VerifiedIcon";
 import { ProfileOnlineStatus } from "../ProfileOnlineStatus/ProfileOnlineStatus";
 
 export interface UserDisplayNameProps extends React.HTMLAttributes<HTMLElement> {
+  /** Render an AI-disclosure badge after the name, alongside any status badge. */
+  aiDisclosure?: boolean;
+  /** Accessible label for the AI-disclosure badge. @default "AI creator" */
+  aiDisclosureLabel?: string;
   /** Render an ambassador badge after the name. */
   ambassador?: boolean;
   /** Accessible label for the ambassador badge. @default "Ambassador" */
@@ -32,7 +37,11 @@ export interface UserDisplayNameProps extends React.HTMLAttributes<HTMLElement> 
  * for the standard display-name scale.
  *
  * When both `ambassador` and `verified` are set, the ambassador badge takes
- * precedence. Its tint uses `text-success-content` (not `text-icons-brand-green`)
+ * precedence. `aiDisclosure` is independent of both and renders after whichever
+ * status badge is shown, since it discloses how the account is operated rather
+ * than ranking it.
+ *
+ * The ambassador tint uses `text-success-content` (not `text-icons-brand-green`)
  * so the green darkens in light mode and lightens in dark mode, matching
  * {@link ProfileOnlineStatus}; `text-icons-brand-green` is fixed across modes.
  *
@@ -44,6 +53,8 @@ export interface UserDisplayNameProps extends React.HTMLAttributes<HTMLElement> 
 export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProps>(
   (
     {
+      aiDisclosure,
+      aiDisclosureLabel = "AI creator",
       ambassador,
       ambassadorLabel = "Ambassador",
       children,
@@ -80,6 +91,15 @@ export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProp
             className={cn("ml-2 inline-flex shrink-0 items-center", badge.tint)}
           >
             <VerifiedIcon size={16} />
+          </span>
+        )}
+        {aiDisclosure && (
+          <span
+            role="img"
+            aria-label={aiDisclosureLabel}
+            className="ml-2 inline-flex shrink-0 items-center text-content-primary"
+          >
+            <AIDisclosureIcon size={16} />
           </span>
         )}
         {showOnlineStatus && <ProfileOnlineStatus label={onlineLabel} className="shrink-0 ml-2" />}
