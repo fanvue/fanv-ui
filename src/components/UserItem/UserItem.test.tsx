@@ -119,10 +119,31 @@ describe("UserItem", () => {
     });
   });
 
+  describe("badges", () => {
+    it("renders no badges by default", () => {
+      render(<UserItem user={baseUser} />);
+      expect(screen.queryByRole("img", { name: "Verified" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("img", { name: "AI creator" })).not.toBeInTheDocument();
+    });
+
+    it("forwards verified and AI disclosure to the display name", () => {
+      render(<UserItem user={baseUser} verified aiDisclosure />);
+      expect(screen.getByRole("img", { name: "Verified" })).toBeInTheDocument();
+      expect(screen.getByRole("img", { name: "AI creator" })).toBeInTheDocument();
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(
         <UserItem user={{ ...baseUser, nickname: "JD" }} isMuted isOnline showOnlineStatus />,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with badges", async () => {
+      const { container } = render(
+        <UserItem user={baseUser} verified aiDisclosure showAvatar={false} />,
       );
       expect(await axe(container)).toHaveNoViolations();
     });
