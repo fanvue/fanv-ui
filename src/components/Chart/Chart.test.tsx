@@ -252,11 +252,45 @@ describe("Chart", () => {
   });
 
   describe("ChartCard", () => {
-    it("renders the V2 primary card surface by default", () => {
+    it("renders the V2 Insight Card surface by default", () => {
       const { container } = render(<ChartCard title="Revenue" />);
       const card = container.firstElementChild;
-      expect(card).toHaveClass("rounded-lg", "border-border-primary", "bg-surface-primary");
+      expect(card).toHaveClass("rounded-sm", "border-border-strong", "bg-background-primary");
+      expect(card).not.toHaveClass("rounded-lg", "border-border-primary", "bg-surface-primary");
       expect(card).not.toHaveClass("shadow-sm");
+    });
+
+    it("renders the title in the secondary content colour at regular weight", () => {
+      render(<ChartCard title="Revenue" />);
+      const title = screen.getByText("Revenue");
+      expect(title).toHaveClass("typography-body-small-14px-regular", "text-content-secondary");
+    });
+
+    it("renders the trend as coloured text with a directional arrow, not a filled chip", () => {
+      const { container } = render(
+        <ChartCard
+          title="ARPU"
+          subtitle="$135.84"
+          trendChip={{ label: "1.3% vs prev", trend: "negative" }}
+        />,
+      );
+      const label = screen.getByText("1.3% vs prev");
+      const trend = label.parentElement;
+      expect(trend).toHaveClass("text-error-content");
+      expect(trend).not.toHaveClass("bg-error-surface", "rounded-full");
+      expect(container.querySelector("svg.rotate-90")).not.toBeNull();
+    });
+
+    it("points the trend arrow up and green for a positive trend", () => {
+      const { container } = render(
+        <ChartCard
+          title="New Fans"
+          subtitle="1,389"
+          trendChip={{ label: "13.1% vs prev", trend: "positive" }}
+        />,
+      );
+      expect(screen.getByText("13.1% vs prev").parentElement).toHaveClass("text-success-content");
+      expect(container.querySelector("svg.rotate-90")).toBeNull();
     });
 
     it("applies the secondary surface when hierarchy is secondary", () => {
@@ -281,6 +315,14 @@ describe("Chart", () => {
       expect(container.querySelector(".mt-auto")).not.toBeNull();
     });
 
+    it("renders the outlined info glyph rather than the filled disc", () => {
+      render(<ChartCard title="Revenue" tooltip="Total revenue." />);
+      const svg = screen.getByRole("button", { name: "More info" }).querySelector("svg");
+      expect(svg).toHaveAttribute("viewBox", "0 0 16 16");
+      expect(svg?.querySelector("path[stroke='currentColor']")).not.toBeNull();
+      expect(svg?.querySelector("g.opacity-100")).not.toBeNull();
+    });
+
     it("renders a 32px circular tooltip trigger with interactive states", () => {
       render(<ChartCard title="Revenue" tooltip="Total revenue." />);
       const trigger = screen.getByRole("button", { name: "More info" });
@@ -301,10 +343,10 @@ describe("Chart", () => {
           <div>chart</div>
         </ChartCard>,
       );
-      const chip = screen.getByText("$455.68 vs Mar");
-      expect(chip).toBeInTheDocument();
-      expect(chip).toHaveClass("whitespace-nowrap");
-      expect(chip.parentElement).toHaveClass("flex-wrap");
+      const label = screen.getByText("$455.68 vs Mar");
+      expect(label).toBeInTheDocument();
+      expect(label).toHaveClass("whitespace-nowrap");
+      expect(label.closest(".flex-wrap")).not.toBeNull();
     });
   });
 

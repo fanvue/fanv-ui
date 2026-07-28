@@ -22,7 +22,7 @@ export const CardDefault: Story = {
       <ChartCard
         title="Total Earnings"
         subtitle="$4,523"
-        trendChip={{ label: "12.5%", trend: "positive" }}
+        trendChip={{ label: "12.5% vs prev", trend: "positive" }}
         dateInfo="Mar 1 - Mar 14"
       >
         <SimpleLineChart config={simpleLineConfig} />
@@ -85,13 +85,13 @@ export const CardMetricTilesWithoutChildren: Story = {
       <ChartCard
         title="Total Earnings"
         subtitle="$4,523"
-        trendChip={{ label: "12.5%", trend: "positive" }}
+        trendChip={{ label: "12.5% vs prev", trend: "positive" }}
         dateInfo="Mar 1 - Mar 14"
       />
       <ChartCard
         title="Subscribers"
         subtitle="1,284"
-        trendChip={{ label: "3.1%", trend: "negative" }}
+        trendChip={{ label: "3.1% vs prev", trend: "negative" }}
         dateInfo="Mar 1 - Mar 14"
       />
       <ChartCard title="Avg. Spend" subtitle="$18.40" dateInfo="Mar 1 - Mar 14" />

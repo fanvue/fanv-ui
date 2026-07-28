@@ -5873,7 +5873,7 @@ function ChartsDemo() {
       <ChartCard
         title="Total Earnings"
         subtitle="$4,523"
-        trendChip={{ label: "12.5%", trend: "positive" }}
+        trendChip={{ label: "12.5% vs prev", trend: "positive" }}
         dateInfo="Mar 1 – Mar 14"
       >
         <ChartContainer config={simpleLineConfig} className="h-48 w-full">
@@ -5907,13 +5907,13 @@ function ChartsDemo() {
           title="Total Earnings"
           subtitle="$4,523"
           tooltip="Total earnings for the selected period."
-          trendChip={{ label: "12.5%", trend: "positive" }}
+          trendChip={{ label: "12.5% vs prev", trend: "positive" }}
           dateInfo="Mar 1 – Mar 14"
         />
         <ChartCard
           title="Subscribers"
           subtitle="1,284"
-          trendChip={{ label: "3.1%", trend: "negative" }}
+          trendChip={{ label: "3.1% vs prev", trend: "negative" }}
           dateInfo="Mar 1 – Mar 14"
         />
         <ChartCard
