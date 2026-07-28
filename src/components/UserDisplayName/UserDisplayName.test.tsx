@@ -104,9 +104,6 @@ describe("UserDisplayName", () => {
       expect(screen.queryByRole("img")).not.toBeInTheDocument();
     });
 
-    // Surfaces that fix their own text colour, such as a row over a cover image, need the
-    // badges to follow it. A theme-dependent tint renders black against white text in light
-    // mode.
     it("inherits the name's colour for the verified and AI-disclosure badges", () => {
       render(
         <UserDisplayName verified aiDisclosure>
