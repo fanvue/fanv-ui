@@ -5439,7 +5439,7 @@ function CreatorTileDemo() {
 
       <h3 className="typography-body-default-16px-semibold mt-4">Aspect ratio</h3>
       <div className="flex flex-wrap items-start gap-4">
-        {(["tall", "medium", "short", "wide"] as const).map((aspectRatio) => (
+        {(["tall", "medium", "short", "banner"] as const).map((aspectRatio) => (
           <div key={aspectRatio} className="flex w-[280px] flex-col gap-2">
             <CreatorTile
               background={<img src={sampleImage} alt="" loading="lazy" />}
@@ -5465,7 +5465,7 @@ function CreatorTileDemo() {
         ))}
       </div>
 
-      <h3 className="typography-body-default-16px-semibold mt-4">Wide banner with badges</h3>
+      <h3 className="typography-body-default-16px-semibold mt-4">Banner ratio with badges</h3>
       <div className="w-[400px]">
         <CreatorTile
           background={<img src={sampleImage} alt="" loading="lazy" />}
@@ -5481,7 +5481,7 @@ function CreatorTileDemo() {
               View Profile
             </Button>
           }
-          aspectRatio="wide"
+          aspectRatio="banner"
           className="rounded-lg"
         />
       </div>

@@ -45,7 +45,11 @@ describe("CreatorTile", () => {
       render(
         <CreatorTile
           {...baseProps}
-          avatar={{ fallback: "AL", className: "custom-avatar", onlineIndicator: true }}
+          avatar={{
+            fallback: "AL",
+            className: "custom-avatar",
+            onlineIndicator: true,
+          }}
         />,
       );
       const avatar = screen.getByTestId("avatar");
@@ -94,6 +98,7 @@ describe("CreatorTile", () => {
       ["tall", "aspect-5/4"],
       ["medium", "aspect-3/2"],
       ["short", "aspect-9/5"],
+      ["banner", "aspect-5/2"],
     ] as const)("applies %s ratio class", (aspectRatio, expectedClass) => {
       render(<CreatorTile {...baseProps} data-testid="tile" aspectRatio={aspectRatio} />);
       expect(screen.getByTestId("tile")).toHaveClass(expectedClass);

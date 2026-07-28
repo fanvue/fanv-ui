@@ -3,13 +3,13 @@ import { cn } from "../../utils/cn";
 import { Avatar } from "../Avatar/Avatar";
 
 /** Width-to-height ratio preset for the tile. */
-export type CreatorTileAspectRatio = "tall" | "medium" | "short" | "wide";
+export type CreatorTileAspectRatio = "tall" | "medium" | "short" | "banner";
 
 const ASPECT_RATIO_CLASSES: Record<CreatorTileAspectRatio, string> = {
   tall: "aspect-5/4",
   medium: "aspect-3/2",
   short: "aspect-9/5",
-  wide: "aspect-5/2",
+  banner: "aspect-5/2",
 };
 
 export interface CreatorTileProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -32,7 +32,12 @@ export interface CreatorTileProps extends React.HTMLAttributes<HTMLDivElement> {
    * - `tall` – 5:4, closest to square
    * - `medium` – 3:2 landscape
    * - `short` – 9:5 landscape
-   * - `wide` – 5:2, a slim banner
+   * - `banner` – 5:2, the slimmest preset
+   *
+   * The profile row is a fixed ~74px tall, so `banner` needs at least 185px of
+   * width before the ratio makes the tile shorter than its own row and the top
+   * of the row is clipped. The taller presets reach that floor at widths too
+   * narrow to be practical.
    *
    * @default "medium"
    */

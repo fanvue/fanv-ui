@@ -22,7 +22,7 @@ const meta = {
   argTypes: {
     aspectRatio: {
       control: "select",
-      options: ["tall", "medium", "short", "wide"],
+      options: ["tall", "medium", "short", "banner"],
     },
   },
   args: {
@@ -76,11 +76,11 @@ export const WithoutAction: Story = {
 };
 
 /**
- * The `wide` ratio is a slim banner. Compose {@link UserDisplayName} into `name`
- * when the creator needs verified or AI-disclosure badges beside it.
+ * The `banner` ratio is the slimmest preset. Compose {@link UserDisplayName} into
+ * `name` when the creator needs verified or AI-disclosure badges beside it.
  */
-export const Wide: Story = {
-  args: { aspectRatio: "wide" },
+export const Banner: Story = {
+  args: { aspectRatio: "banner" },
   render: (args) => (
     <div className="w-100">
       <CreatorTile
@@ -106,7 +106,7 @@ export const Wide: Story = {
 export const AspectRatios: Story = {
   render: (args) => (
     <div className="flex flex-wrap items-start gap-4">
-      {(["tall", "medium", "short", "wide"] as const).map((aspectRatio) => (
+      {(["tall", "medium", "short", "banner"] as const).map((aspectRatio) => (
         <div key={aspectRatio} className="flex w-[280px] flex-col gap-2">
           <CreatorTile {...args} aspectRatio={aspectRatio} className="rounded-lg" />
           <p className="typography-description-12px-regular text-content-secondary">
