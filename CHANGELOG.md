@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.23.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.22.0...ui-v3.23.0) (2026-07-28)
+
+
+### Features
+
+* **ButtonIconGroup:** build V2 button icon group (ENG-11788) ([#603](https://github.com/fanvue/fanv-ui/issues/603)) ([c0996fc](https://github.com/fanvue/fanv-ui/commit/c0996fc77aeebc3c9508553bd795116ac72ff339))
+* **CreatorTile:** add banner ratio, and AI-disclosure badge to user components ([#618](https://github.com/fanvue/fanv-ui/issues/618)) ([a13fddb](https://github.com/fanvue/fanv-ui/commit/a13fddb155ac0c6a13e33528dc7e3067164c8bd1))
+
 ## [3.22.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.21.1...ui-v3.22.0) (2026-07-28)
 
 
