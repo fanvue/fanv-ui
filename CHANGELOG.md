@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.22.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.21.1...ui-v3.22.0) (2026-07-28)
+
+
+### Features
+
+* **ChartCard:** move insight cards to the V2 Insight Card spec ([#616](https://github.com/fanvue/fanv-ui/issues/616)) ([4c685de](https://github.com/fanvue/fanv-ui/commit/4c685deec3856923a8d2fb68a8bb61d20357b28e))
+
+
+### Bug Fixes
+
+* **deps:** resolve high security audit findings (postcss, brace-expansion) ([#612](https://github.com/fanvue/fanv-ui/issues/612)) ([8017889](https://github.com/fanvue/fanv-ui/commit/801788950b46f0cc92bcd611876c8e47f49d3f27))
+
 ## [3.21.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.21.0...ui-v3.21.1) (2026-07-27)
 
 
