@@ -175,6 +175,31 @@ export const BottomSheet: Story = {
   ),
 };
 
+/**
+ * `variant="menu"` is for a dropdown that becomes a bottom overlay on a narrow
+ * viewport. Unlike `"sheet"` it floats clear of the edges and keeps the dropdown
+ * surface, so the menu reads as the same object it is on desktop.
+ */
+export const BottomMenu: Story = {
+  args: { position: "bottom", variant: "menu" },
+  play: openDrawer,
+  render: (args) => (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button>Open Bottom Menu</Button>
+      </DrawerTrigger>
+      <DrawerContent {...args}>
+        <DrawerHeader>
+          <DrawerTitle className="typography-header-heading-xs">Revenue View</DrawerTitle>
+        </DrawerHeader>
+        <div className="p-4 pt-0">
+          <p>Inset from all three edges, rounded on every corner.</p>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  ),
+};
+
 export const WithoutOverlay: Story = {
   args: { overlay: false },
   play: openDrawer,

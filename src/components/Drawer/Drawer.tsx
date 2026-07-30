@@ -18,8 +18,12 @@ export type DrawerSize = "sm" | "md" | "lg" | "full";
  * - `"sheet"` — a bottom-sheet treatment matching the modal surface: large
  *   top-only radius (32px), modal background/stroke, and menu blur+shadow.
  *   Intended for `position="bottom"`.
+ * - `"menu"` — a floating menu near the bottom edge rather than a sheet fixed to
+ *   it: inset from all three sides and rounded on every corner. Shares the modal
+ *   surface with `"sheet"`; only the shape differs. Intended for
+ *   `position="bottom"`.
  */
-export type DrawerVariant = "panel" | "sheet";
+export type DrawerVariant = "panel" | "sheet" | "menu";
 
 /**
  * Shared surface classes for the `"sheet"` variant. Mirrors the mobile sheet
@@ -27,6 +31,18 @@ export type DrawerVariant = "panel" | "sheet";
  */
 const SHEET_CLASSES =
   "rounded-t-xl border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px]";
+
+/**
+ * Surface and inset for the `"menu"` variant. Same modal background and stroke as
+ * a sheet — the design puts this panel on `background/secondary` with
+ * `border/strong`, not on the lighter surface the trigger-anchored dropdown uses.
+ * The 24px radius is the design's `rounded-lg`.
+ *
+ * The insets restate position on purpose — they override `SLIDE_CLASSES.bottom`,
+ * which pins a sheet flush to the bottom edge at full width.
+ */
+const MENU_CLASSES =
+  "inset-x-4 bottom-4 w-auto rounded-lg border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[8px]";
 
 /**
  * Props for the {@link Drawer} root component.
@@ -174,7 +190,8 @@ export interface DrawerContentProps
   size?: DrawerSize;
   /**
    * Visual treatment of the panel. Use `"sheet"` (with `position="bottom"`) for
-   * a bottom sheet with the modal surface treatment. @default "panel"
+   * a bottom sheet with the modal surface treatment, or `"menu"` for a floating
+   * inset menu carrying the dropdown surface. @default "panel"
    */
   variant?: DrawerVariant;
   /**
@@ -253,6 +270,7 @@ export const DrawerContent = React.forwardRef<
             SLIDE_CLASSES[position],
             sizeClass,
             variant === "sheet" && SHEET_CLASSES,
+            variant === "menu" && MENU_CLASSES,
             className,
           )}
           {...props}

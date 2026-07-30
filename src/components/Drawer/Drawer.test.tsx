@@ -225,6 +225,33 @@ describe("Drawer", () => {
     });
   });
 
+  describe("variants", () => {
+    it("floats the menu variant clear of the edges on the modal surface", async () => {
+      // The variant differs from `sheet` in shape only — inset and rounded on every
+      // corner — so it keeps the modal background and stroke rather than the
+      // lighter surface the trigger-anchored dropdown paints.
+      const user = userEvent.setup();
+      render(
+        <Drawer>
+          <DrawerTrigger>Open menu</DrawerTrigger>
+          <DrawerContent position="bottom" variant="menu" aria-describedby={undefined}>
+            <DrawerTitle>Revenue View</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open menu" }));
+      const content = screen.getByRole("dialog");
+      expect(content).toHaveClass(
+        "bg-modal-background",
+        "border-modal-stroke",
+        "inset-x-4",
+        "bottom-4",
+        "rounded-lg",
+      );
+      expect(content).not.toHaveClass("rounded-t-xl");
+    });
+  });
+
   describe("ref forwarding", () => {
     it("forwards ref to DrawerContent", async () => {
       const ref = React.createRef<HTMLDivElement>();
