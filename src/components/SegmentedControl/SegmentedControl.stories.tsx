@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { AIIcon } from "../Icons/AIIcon";
 import { GridViewIcon } from "../Icons/GridViewIcon";
+import { HomeIcon } from "../Icons/HomeIcon";
 import { ListViewIcon } from "../Icons/ListViewIcon";
 import type { SegmentedControlSize, SegmentedControlVariant } from "./SegmentedControl";
 import { SegmentedControl } from "./SegmentedControl";
@@ -27,7 +29,7 @@ const meta = {
     },
     appearance: {
       control: "inline-radio",
-      options: ["pill", "plain"],
+      options: ["pill", "plain", "brand"],
     },
     disabled: {
       control: "boolean",
@@ -147,6 +149,30 @@ export const IconOnly: Story = {
     design: {
       type: "figma",
       url: "https://www.figma.com/design/LB9q4XzCNlbOaeW3xN6tQo/Creator---Content---Creation?node-id=4506-17416",
+    },
+  },
+};
+
+const brandOptions = [
+  { label: "Home", value: "home", icon: <HomeIcon size={16} aria-hidden="true" /> },
+  { label: "Agent", value: "agent", icon: <AIIcon size={16} aria-hidden="true" /> },
+];
+
+/**
+ * Icon + visible label with the brand-green selected pill — the Home/Agent navigation switch.
+ * Colours are approximated with existing tokens pending dedicated navigation tokens.
+ */
+export const Brand: Story = {
+  args: {
+    appearance: "brand",
+    options: brandOptions,
+    defaultValue: "agent",
+    "aria-label": "Navigation mode",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/fDlJj7bf7KXQlibPoujgaC/Creator---AI-Features?node-id=6470-48376",
     },
   },
 };

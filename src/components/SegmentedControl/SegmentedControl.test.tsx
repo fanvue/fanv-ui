@@ -23,6 +23,11 @@ const iconOptions = [
   { label: "Grid view", value: "grid", icon: <GridViewIcon size={16} aria-hidden="true" /> },
 ];
 
+const brandOptions = [
+  { label: "Home", value: "home", icon: <ListViewIcon size={16} aria-hidden="true" /> },
+  { label: "Agent", value: "agent", icon: <GridViewIcon size={16} aria-hidden="true" /> },
+];
+
 describe("SegmentedControl", () => {
   describe("API", () => {
     it("applies custom className", () => {
@@ -216,6 +221,64 @@ describe("SegmentedControl", () => {
         <SegmentedControl appearance="plain" options={iconOptions} aria-label="View" />,
       );
       expect(container.firstChild).not.toHaveClass("bg-surface-tertiary");
+    });
+  });
+
+  describe("brand appearance", () => {
+    it("renders both the icon and the visible label for each segment", () => {
+      render(<SegmentedControl appearance="brand" options={brandOptions} aria-label="Mode" />);
+      expect(screen.getByText("Home")).toBeInTheDocument();
+      expect(screen.getByText("Agent")).toBeInTheDocument();
+      // Accessible name comes from the visible text, not an aria-label override.
+      expect(screen.getByRole("radio", { name: "Home" })).toBeInTheDocument();
+      expect(screen.getByRole("radio", { name: "Agent" })).toBeInTheDocument();
+    });
+
+    it("does not override the accessible name with aria-label when the label is visible", () => {
+      render(<SegmentedControl appearance="brand" options={brandOptions} aria-label="Mode" />);
+      expect(screen.getByRole("radio", { name: "Home" })).not.toHaveAttribute("aria-label");
+    });
+
+    it("applies the brand-green pill to the selected segment", () => {
+      render(
+        <SegmentedControl
+          appearance="brand"
+          options={brandOptions}
+          defaultValue="agent"
+          aria-label="Mode"
+        />,
+      );
+      expect(screen.getByRole("radio", { name: "Agent" })).toHaveClass("bg-brand-primary-muted");
+    });
+
+    it("keeps the pill container background", () => {
+      const { container } = render(
+        <SegmentedControl appearance="brand" options={brandOptions} aria-label="Mode" />,
+      );
+      expect(container.firstChild).toHaveClass("bg-surface-tertiary");
+    });
+
+    it("selects via click and reports the value", async () => {
+      const user = userEvent.setup();
+      const handleChange = vi.fn();
+      render(
+        <SegmentedControl
+          appearance="brand"
+          options={brandOptions}
+          onChange={handleChange}
+          aria-label="Mode"
+        />,
+      );
+      await user.click(screen.getByRole("radio", { name: "Agent" }));
+      expect(handleChange).toHaveBeenCalledWith("agent");
+    });
+
+    it("has no accessibility violations", async () => {
+      const { container } = render(
+        <SegmentedControl appearance="brand" options={brandOptions} aria-label="Mode" />,
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 
