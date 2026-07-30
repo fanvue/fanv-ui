@@ -153,6 +153,7 @@ const meta = {
         "tertiaryDestructive",
         "stop",
         "microphone",
+        "field",
       ],
     },
     size: {
@@ -695,5 +696,22 @@ export const AllIcons: Story = {
   ),
   parameters: {
     layout: "fullscreen",
+  },
+};
+
+/**
+ * Carries the input surface rather than a button one, so an icon-only action can sit
+ * flush in a row of fields — Figma draws these as a `V2 Input Fields` instance with
+ * only an icon inside. Its border and hover match the Select trigger it lines up
+ * with, so the row reads as one control group.
+ *
+ * The only variant that is never circular: it takes the inputs' `rounded-sm` at
+ * every size, where the other variants are shaped by size.
+ */
+export const Field: Story = {
+  args: {
+    variant: "field",
+    size: "40",
+    icon: <HomeIcon />,
   },
 };
