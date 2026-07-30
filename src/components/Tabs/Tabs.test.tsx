@@ -53,6 +53,62 @@ describe("Tabs", () => {
       expect(screen.getByRole("tablist")).toHaveClass("custom-list");
     });
 
+    it("does not zero the first tab's leading padding by default", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList alignLeft>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tablist")).not.toHaveClass(
+        "data-[orientation=horizontal]:[&>[role=tab]:first-child]:pl-0",
+      );
+    });
+
+    it("zeroes the first tab's leading padding when flushLeft is set", () => {
+      // Lines the first label up with page content beside the bar; the DS pads
+      // every trigger by 16px, which would otherwise indent it.
+      render(
+        <Tabs defaultValue="t">
+          <TabsList alignLeft flushLeft>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tablist")).toHaveClass(
+        "data-[orientation=horizontal]:[&>[role=tab]:first-child]:pl-0",
+      );
+    });
+
+    it("scrolls rather than compresses the tabs when scrollable is set", () => {
+      // `flex-none` is the load-bearing half: tabs that still share the row
+      // never overflow, so there would be nothing to scroll.
+      render(
+        <Tabs defaultValue="t">
+          <TabsList scrollable>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      const list = screen.getByRole("tablist");
+      expect(list).toHaveClass("data-[orientation=horizontal]:overflow-x-auto");
+      expect(list).toHaveClass("data-[orientation=horizontal]:[&>[role=tab]]:flex-none");
+    });
+
+    it("lets the tabs share the row by default", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tablist")).not.toHaveClass(
+        "data-[orientation=horizontal]:overflow-x-auto",
+      );
+    });
+
     it("isolates the active-indicator z-index in a local stacking context", () => {
       // `isolate` keeps the indicator's z-10 from escaping above page chrome.
       render(
