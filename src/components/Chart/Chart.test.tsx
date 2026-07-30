@@ -11,6 +11,7 @@ import { ChartLegendContent } from "./ChartLegend";
 import { ChartLoadingOverlay } from "./ChartLoadingOverlay";
 import { ChartPieLegend } from "./ChartPieLegend";
 import { ChartSeriesToggle } from "./ChartSeriesToggle";
+import { ChartSkeleton } from "./ChartSkeleton";
 import { ChartStyle } from "./ChartStyle";
 import { ChartTooltipContent } from "./ChartTooltip";
 import type { ChartConfig } from "./types";
@@ -457,6 +458,32 @@ describe("Chart", () => {
       expect(await axe(container)).toHaveNoViolations();
     });
 
+    it("renders a wave skeleton instead of the spinner when variant is set", () => {
+      const { container } = render(
+        <ChartLoadingOverlay loading variant="bar">
+          <div>chart</div>
+        </ChartLoadingOverlay>,
+      );
+      expect(container.querySelector(".fv-skeleton-wave")).not.toBeNull();
+      expect(container.querySelector('[class*="bg-surface-primary/60"]')).toBeNull();
+    });
+
+    it("shows the area skeleton by default and the spinner only at variant={false}", () => {
+      const { container: byDefault } = render(
+        <ChartLoadingOverlay loading>
+          <div>chart</div>
+        </ChartLoadingOverlay>,
+      );
+      expect(byDefault.querySelector(".fv-skeleton-wave")).not.toBeNull();
+
+      const { container: legacy } = render(
+        <ChartLoadingOverlay loading variant={false}>
+          <div>chart</div>
+        </ChartLoadingOverlay>,
+      );
+      expect(legacy.querySelector(".fv-skeleton-wave")).toBeNull();
+    });
+
     it("ChartCard has no accessibility violations", async () => {
       const { container } = render(
         <ChartCard title="Revenue" subtitle="$1,234" dateInfo="Mar 1 - Mar 14">
@@ -508,6 +535,57 @@ describe("Chart", () => {
         </svg>,
       );
       expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+  describe("ChartSkeleton", () => {
+    it("renders a circular placeholder for circular charts", () => {
+      const { container } = render(<ChartSkeleton variant="circular" />);
+      expect(container.querySelector(".rounded-full")).not.toBeNull();
+    });
+
+    it("renders one bar per sample for bar charts", () => {
+      const { container } = render(<ChartSkeleton variant="bar" />);
+      expect(container.querySelectorAll(".fv-skeleton-wave").length).toBe(7);
+    });
+
+    it("renders line charts as a single band, matching area", () => {
+      const { container } = render(<ChartSkeleton variant="line" />);
+      expect(container.querySelectorAll(".fv-skeleton-wave").length).toBe(1);
+    });
+
+    it("renders a single filled band for area charts", () => {
+      const { container } = render(<ChartSkeleton variant="area" />);
+      expect(container.querySelectorAll(".fv-skeleton-wave").length).toBe(1);
+    });
+
+    it("renders a header plus one row per entry for tables", () => {
+      const { container } = render(<ChartSkeleton variant="table" rows={5} />);
+      // 3 header bars, then 4 elements per row (rank, avatar, label, value).
+      expect(container.querySelectorAll(".fv-skeleton-wave").length).toBe(3 + 5 * 4);
+    });
+
+    it("renders a glyph, label, value and bar per breakdown row", () => {
+      const { container } = render(<ChartSkeleton variant="rows" rows={3} />);
+      expect(container.querySelectorAll(".fv-skeleton-wave").length).toBe(3 * 4);
+    });
+
+    it("matches the row count it is given, so the card does not resize on load", () => {
+      const { container } = render(<ChartSkeleton variant="rows" rows={1} />);
+      expect(container.querySelectorAll(".fv-skeleton-wave").length).toBe(4);
+    });
+
+    it("has no accessibility violations", async () => {
+      const { container } = render(<ChartSkeleton variant="line" />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations for the list variants", async () => {
+      const table = render(<ChartSkeleton variant="table" rows={3} />);
+      expect(await axe(table.container)).toHaveNoViolations();
+      table.unmount();
+
+      const rows = render(<ChartSkeleton variant="rows" rows={3} />);
+      expect(await axe(rows.container)).toHaveNoViolations();
     });
   });
 });

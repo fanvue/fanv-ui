@@ -16,6 +16,11 @@ export type {
   ChartSeriesToggleProps,
 } from "./components/Chart/ChartSeriesToggle";
 export { ChartSeriesToggle } from "./components/Chart/ChartSeriesToggle";
+export type {
+  ChartSkeletonProps,
+  ChartSkeletonVariant,
+} from "./components/Chart/ChartSkeleton";
+export { ChartSkeleton } from "./components/Chart/ChartSkeleton";
 export type { ChartStyleProps } from "./components/Chart/ChartStyle";
 export { ChartStyle } from "./components/Chart/ChartStyle";
 export type {

@@ -4,6 +4,7 @@ import { ChartCard } from "./ChartCard";
 import { ChartLoadingOverlay } from "./ChartLoadingOverlay";
 import { ChartPieLegend } from "./ChartPieLegend";
 import { ChartSeriesToggle } from "./ChartSeriesToggle";
+import { ChartSkeleton } from "./ChartSkeleton";
 import { SimpleLineChart, simpleLineConfig } from "./chartStoryFixtures";
 
 const meta = {
@@ -256,6 +257,37 @@ export const PieLegendCompact: Story = {
           },
         ]}
       />
+    </div>
+  ),
+};
+
+export const ChartSkeletons: Story = {
+  name: "Chart skeletons (per chart type)",
+  render: () => (
+    <div className="grid w-full max-w-4xl gap-6 sm:grid-cols-2">
+      {(["area", "line", "bar", "circular"] as const).map((variant) => (
+        <div key={variant} className="flex flex-col gap-2">
+          <span className="typography-description-12px-semibold text-content-secondary">
+            {variant}
+          </span>
+          <div className="h-40 rounded-sm border border-border-strong bg-background-primary p-4">
+            <ChartSkeleton variant={variant} />
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const LoadingOverlayWithSkeleton: Story = {
+  render: () => (
+    <div className="grid w-full max-w-4xl gap-6 sm:grid-cols-2">
+      <ChartLoadingOverlay loading variant="area" className="h-48">
+        <SimpleLineChart config={simpleLineConfig} />
+      </ChartLoadingOverlay>
+      <ChartLoadingOverlay loading variant="bar" className="h-48">
+        <SimpleLineChart config={simpleLineConfig} />
+      </ChartLoadingOverlay>
     </div>
   ),
 };
