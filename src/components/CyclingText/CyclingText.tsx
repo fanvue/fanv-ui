@@ -1,9 +1,9 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { usePrefersReducedMotion } from "../../utils/usePrefersReducedMotion";
 import { useCyclingCycle } from "./useCyclingCycle";
 import { useCyclingTextTrackWidth } from "./useCyclingTextTrackWidth";
 import { usePageVisibility } from "./usePageVisibility";
-import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 const DEFAULT_INTERVAL_MS = 2100;
 const DEFAULT_TRANSITION_MS = 200;
