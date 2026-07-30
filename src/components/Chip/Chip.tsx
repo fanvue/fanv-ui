@@ -26,6 +26,15 @@ export interface ChipProps extends React.HTMLAttributes<HTMLElement> {
    * @default false
    */
   dotted?: boolean;
+  /**
+   * Draws the unselected state as a 1px `buttons-chip-default` outline over a
+   * transparent background instead of filling with that same token. This is the
+   * Figma `V2 Insights Chips` treatment, used where chips sit over a chart and a
+   * row of solid fills would compete with the plotted series. The selected state
+   * is unaffected — it stays filled — as are the `dark` and `dotted` variants.
+   * @default false
+   */
+  outlined?: boolean;
   /** Icon element displayed before the label. */
   leftIcon?: React.ReactNode;
   /** Icon element displayed after the label. */
@@ -64,6 +73,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
       disabled = false,
       leftDot = false,
       dotted = false,
+      outlined = false,
       leftIcon,
       rightIcon,
       notificationLabel,
@@ -131,7 +141,24 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
             selected &&
             dotted &&
             "border border-border-primary border-solid bg-inputs-inputs-primary text-content-primary",
-          !isDark && !selected && !dotted && "bg-buttons-chip-default text-content-primary",
+          !isDark &&
+            !selected &&
+            !dotted &&
+            !outlined &&
+            "bg-buttons-chip-default text-content-primary",
+          // Outlined: the same token as a 1px stroke rather than a fill. The border
+          // is declared in BOTH states and only changes colour, going transparent
+          // once selected. It cannot be dropped on selection: `border-box` constrains
+          // only explicitly sized axes, and a chip's width is intrinsic, so losing the
+          // border would narrow the chip by 2px and reflow the whole row on every
+          // click. Height is safe either way because `h-8` is explicit.
+          !isDark && !dotted && outlined && "border border-solid",
+          !isDark &&
+            !selected &&
+            !dotted &&
+            outlined &&
+            "border-buttons-chip-default bg-transparent text-content-primary",
+          !isDark && selected && !dotted && outlined && "border-transparent",
           // Dotted (non-selected): the dashed border is drawn via SVG (`dottedBorder`).
           // `group` lets that SVG react to hover/active. `asChild` keeps a CSS dashed
           // border fallback since the SVG is only rendered in the default path.
@@ -165,7 +192,9 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           disabled && !isDark && "pointer-events-none text-content-disabled",
           // Solid (non-dotted) disabled chips get a muted fill; dotted ones stay
           // transparent with their dashed border (drawn via SVG).
-          disabled && !isDark && !dotted && "bg-buttons-chip-disabled",
+          disabled && !isDark && !dotted && !outlined && "bg-buttons-chip-disabled",
+          // Outlined stays unfilled when disabled; only its stroke greys out.
+          disabled && !isDark && !dotted && outlined && "border-buttons-chip-disabled",
           className,
         )}
         {...(isInteractive && {
