@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./Tooltip";
+import { TooltipLabel } from "./TooltipLabel";
 
 const meta: Meta<typeof TooltipContent> = {
   title: "Components/Tooltip",
@@ -154,4 +155,21 @@ export const AllPlacements: Story = {
   parameters: {
     layout: "padded",
   },
+};
+
+export const LabelAsTrigger: Story = {
+  name: "Label as trigger (dashed underline)",
+  parameters: {
+    layout: "padded",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/23x2vofTPkLpbcJyRdDa55/Creator---Management%E2%80%A8--Teams?node-id=8279-35515",
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-1">
+      <TooltipLabel tooltip="Total earnings for the selected period.">Total Earnings</TooltipLabel>
+      <span className="typography-header-heading-xl text-content-primary">$128,046.73</span>
+    </div>
+  ),
 };
