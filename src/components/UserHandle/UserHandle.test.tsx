@@ -24,6 +24,17 @@ describe("UserHandle", () => {
       );
     });
 
+    it("renders the handle as the identity line at tone=primary", () => {
+      render(
+        <UserHandle data-testid="handle" tone="primary">
+          fit_aitana
+        </UserHandle>,
+      );
+      const el = screen.getByTestId("handle");
+      expect(el).toHaveClass("text-content-primary");
+      expect(el).not.toHaveClass("text-content-secondary");
+    });
+
     it("applies custom className", () => {
       render(
         <UserHandle data-testid="handle" className="custom">
