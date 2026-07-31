@@ -91,13 +91,19 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
     const isInteractive = !!onClick && !asChild;
     const Comp = asChild ? Slot : isInteractive ? "button" : "span";
     const isDark = variant === "dark";
+    // Precedence between the three treatments, named once rather than re-derived per
+    // rule: `dark` owns its own palette, `dotted` wins over `outlined`, and what is
+    // left is the normal chip, either filled or outlined.
+    const isDotted = !isDark && dotted;
+    const isSolid = !isDark && !dotted && !outlined;
+    const isOutlined = !isDark && !dotted && outlined;
 
     // The dashed border is drawn as an SVG so the dash length matches the design
     // spec (8/8 for the 40px square, 6/6 otherwise). CSS `border-dashed` only
     // renders browser-default dash lengths, which are too short. The stroke colour
     // is driven by `currentColor`, and `group-hover`/`group-active` react to the
     // chip's interactive states. Rendered only in the default (non-`asChild`) path.
-    const showDottedBorder = !isDark && dotted && !selected && !asChild;
+    const showDottedBorder = isDotted && !selected && !asChild;
     const dottedBorder = showDottedBorder ? (
       <svg
         aria-hidden="true"
@@ -135,67 +141,52 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           size === "40" && "typography-body-small-14px-semibold h-10 py-2.5",
           // Variant colors
           isDark && "bg-neutral-alphas-600 text-content-always-white",
-          !isDark && selected && !dotted && "bg-buttons-chip-active text-content-primary-inverted",
-          // Active + dotted is a subtle filled state with a solid (non-dashed) border.
-          !isDark &&
+          (isSolid || isOutlined) &&
             selected &&
-            dotted &&
+            "bg-buttons-chip-active text-content-primary-inverted",
+          // Active + dotted is a subtle filled state with a solid (non-dashed) border.
+          isDotted &&
+            selected &&
             "border border-border-primary border-solid bg-inputs-inputs-primary text-content-primary",
-          !isDark &&
-            !selected &&
-            !dotted &&
-            !outlined &&
-            "bg-buttons-chip-default text-content-primary",
+          isSolid && !selected && "bg-buttons-chip-default text-content-primary",
           // Outlined: the same token as a 1px stroke rather than a fill. The border
           // is declared in BOTH states and only changes colour, going transparent
           // once selected. It cannot be dropped on selection: `border-box` constrains
           // only explicitly sized axes, and a chip's width is intrinsic, so losing the
           // border would narrow the chip by 2px and reflow the whole row on every
           // click. Height is safe either way because `h-8` is explicit.
-          !isDark && !dotted && outlined && "border border-solid",
-          !isDark &&
+          isOutlined && "border border-solid",
+          isOutlined &&
             !selected &&
-            !dotted &&
-            outlined &&
             "border-buttons-chip-default bg-transparent text-content-primary",
-          !isDark && selected && !dotted && outlined && "border-transparent",
+          isOutlined && selected && "border-transparent",
           // Dotted (non-selected): the dashed border is drawn via SVG (`dottedBorder`).
           // `group` lets that SVG react to hover/active. `asChild` keeps a CSS dashed
           // border fallback since the SVG is only rendered in the default path.
-          !isDark && !selected && dotted && "bg-transparent text-content-primary",
-          !isDark && !selected && dotted && !asChild && "group",
-          asChild &&
-            !isDark &&
+          isDotted && !selected && "bg-transparent text-content-primary",
+          isDotted && !selected && !asChild && "group",
+          isDotted &&
             !selected &&
-            dotted &&
+            asChild &&
             (disabled
               ? "border border-buttons-chip-disabled border-dashed"
               : "border border-buttons-chip-dotted-default border-dashed"),
           // Interactive
           isInteractive && !disabled && "cursor-pointer",
-          isInteractive &&
-            !disabled &&
-            !isDark &&
-            !selected &&
-            !dotted &&
-            !outlined &&
-            "hover:bg-buttons-chip-hover",
+          isInteractive && !disabled && isSolid && !selected && "hover:bg-buttons-chip-hover",
           // Outlined darkens its stroke rather than filling. `buttons-chip-hover` is
           // the one-step darkening for chips, but as a fill it is 20% over a 10%
           // stroke, so it swallows the outline the variant exists to show. Moved onto
           // the border, over `interaction-hover`, the atomic hover surface.
           isInteractive &&
             !disabled &&
-            !isDark &&
+            isOutlined &&
             !selected &&
-            !dotted &&
-            outlined &&
             "hover:border-buttons-chip-hover hover:bg-interaction-hover",
           isInteractive &&
             !disabled &&
-            !isDark &&
+            isDotted &&
             !selected &&
-            dotted &&
             "hover:bg-neutral-alphas-50 active:bg-neutral-alphas-50",
           // Focus
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
@@ -204,10 +195,10 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           disabled && !isDark && "pointer-events-none text-content-disabled",
           // Solid (non-dotted) disabled chips get a muted fill; dotted ones stay
           // transparent with their dashed border (drawn via SVG).
-          disabled && !isDark && !dotted && (!outlined || selected) && "bg-buttons-chip-disabled",
+          disabled && (isSolid || (isOutlined && selected)) && "bg-buttons-chip-disabled",
           // Unselected outlined greys only its stroke. Selected is already filled, so
           // it takes the muted fill above and keeps `border-transparent` for its width.
-          disabled && !isDark && !dotted && outlined && !selected && "border-buttons-chip-disabled",
+          disabled && isOutlined && !selected && "border-buttons-chip-disabled",
           className,
         )}
         {...(isInteractive && {
