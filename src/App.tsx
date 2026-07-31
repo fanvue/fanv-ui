@@ -12,6 +12,7 @@ import {
 } from "./charts";
 import { simpleLineConfig, simpleLineData } from "./components/Chart/chartStoryFixtures";
 import { DatePicker } from "./date-picker";
+import { CountryFlag } from "./flags";
 import type { AudioRecordButtonStatus } from "./index";
 import {
   Accordion,
@@ -82,6 +83,7 @@ import {
   CrossIcon,
   CrownIcon,
   CyclingText,
+  Demographics,
   Dialog,
   DialogBody,
   DialogClose,
@@ -2550,6 +2552,32 @@ function AiButtonDemo() {
           active={active}
           onClick={() => setActive((a) => !a)}
         />
+      </div>
+    </section>
+  );
+}
+
+function DemographicsDemo() {
+  const rows = [
+    { code: "us", label: "United States", value: 52.6 },
+    { code: "gb", label: "United Kingdom", value: 21.4 },
+    { code: "nl", label: "Netherlands", value: 12.8 },
+    { code: "zz", label: "Unknown", value: 8.2 },
+  ];
+  return (
+    <section>
+      <h2 className="typography-header-heading-sm mb-4">Demographics</h2>
+      <div className="flex w-full max-w-sm flex-col gap-4">
+        {rows.map((row) => (
+          <Demographics
+            key={row.code}
+            icon={<CountryFlag country={row.code} />}
+            label={row.label}
+            value={row.value}
+            formattedValue={`${row.value}%`}
+          />
+        ))}
+        <Demographics label="Direct" value={64} formattedValue="64%" />
       </div>
     </section>
   );
@@ -5886,6 +5914,7 @@ function App() {
             <TrendPillDemo />
             <AnimatedNumberDemo />
             <AiButtonDemo />
+            <DemographicsDemo />
 
             {/* Checkbox */}
             <CheckboxDemo />
