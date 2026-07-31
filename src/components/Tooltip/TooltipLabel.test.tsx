@@ -72,6 +72,25 @@ describe("TooltipLabel", () => {
     expect(label?.className).not.toMatch(/\bbg-bottom(?![\w-])/);
   });
 
+  it("does not repeat the label in the trigger's description", () => {
+    render(<TooltipLabel tooltip="Explains it">Revenue</TooltipLabel>);
+    const trigger = screen.getByRole("button", { name: "Revenue" });
+    tap(trigger);
+    // Radix wires the whole tooltip as the trigger's `aria-describedby`, and the
+    // trigger's name is already this label, so an exposed heading described the
+    // button as "RevenueExplains it". Assert the computed description rather than
+    // textContent, which ignores `aria-hidden` and would pass either way.
+    expect(trigger).toHaveAccessibleName("Revenue");
+    expect(trigger).toHaveAccessibleDescription("Explains it");
+  });
+
+  it("still shows the label as the tooltip's visible heading", () => {
+    render(<TooltipLabel tooltip="Explains it">Revenue</TooltipLabel>);
+    tap(screen.getByRole("button", { name: "Revenue" }));
+    // Hidden from assistive tech, still on screen: the two-row block is the design.
+    expect(screen.getAllByText("Revenue").length).toBeGreaterThan(1);
+  });
+
   it("stays open after a tap, rather than flashing", () => {
     render(<TooltipLabel tooltip="Explains it">Revenue</TooltipLabel>);
     tap(screen.getByRole("button", { name: "Revenue" }));

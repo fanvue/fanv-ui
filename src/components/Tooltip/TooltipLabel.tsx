@@ -3,7 +3,10 @@ import { cn } from "../../utils/cn";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./Tooltip";
 
 /** Props for {@link TooltipLabel}. */
-export interface TooltipLabelProps extends React.ComponentPropsWithoutRef<"button"> {
+export interface TooltipLabelProps
+  // `title` is omitted so a native browser tooltip cannot appear alongside the
+  // Radix one on the same element. `TooltipContentProps` omits it too.
+  extends Omit<React.ComponentPropsWithoutRef<"button">, "title"> {
   /** Tooltip content. Pass a translated string for i18n. */
   tooltip: React.ReactNode;
   /** The label text, which doubles as the trigger. */
@@ -120,7 +123,14 @@ export const TooltipLabel = React.forwardRef<HTMLButtonElement, TooltipLabelProp
               </span>
             </button>
           </TooltipTrigger>
-          <TooltipContent title={children}>{tooltip}</TooltipContent>
+          {/*
+           * The heading is hidden from assistive tech. Radix wires the whole content
+           * as the trigger's `aria-describedby`, and the trigger's name is already
+           * this same label, so leaving it exposed described the button as
+           * "Total EarningsTotal earnings for the selected period." It stays visible,
+           * since the two-row block is the point of the design.
+           */}
+          <TooltipContent title={<span aria-hidden>{children}</span>}>{tooltip}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
     );
