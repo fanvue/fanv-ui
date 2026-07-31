@@ -45,17 +45,31 @@ describe("TooltipLabel", () => {
   it("marks the label with a dashed underline rather than an icon", () => {
     render(<TooltipLabel tooltip="Explains it">Revenue</TooltipLabel>);
     const trigger = screen.getByRole("button", { name: "Revenue" });
-    expect(trigger.className).toContain("bg-repeat-x");
+    expect(trigger.querySelector("span")?.className).toContain("bg-repeat-x");
     expect(trigger.querySelector("svg")).toBeNull();
+  });
+
+  it("draws the dash on the label text, not the trigger box", () => {
+    render(<TooltipLabel tooltip="Explains it">Revenue</TooltipLabel>);
+    const trigger = screen.getByRole("button", { name: "Revenue" });
+    const label = trigger.querySelector("span");
+    // The button is block-level and stretches to its container, so a dash painted
+    // on it runs the width of the row instead of the word. It belongs on the
+    // inline span, which is only ever as wide as the text.
+    expect(label?.textContent).toBe("Revenue");
+    expect(label?.className).toContain("bg-repeat-x");
+    expect(trigger.className).not.toContain("bg-repeat-x");
+    // And the trigger itself hugs the label, so hover does not answer across the row.
+    expect(trigger.className).toContain("w-fit");
   });
 
   it("anchors the dash pattern to the left edge so it does not clip mid-dash", () => {
     render(<TooltipLabel tooltip="Explains it">Revenue</TooltipLabel>);
-    const trigger = screen.getByRole("button", { name: "Revenue" });
-    expect(trigger.className).toContain("bg-bottom-left");
+    const label = screen.getByRole("button", { name: "Revenue" }).querySelector("span");
+    expect(label?.className).toContain("bg-bottom-left");
     // Not the bare `bg-bottom`, which centres the tile and lays the pattern out
     // from the middle outward.
-    expect(trigger.className).not.toMatch(/\bbg-bottom(?![\w-])/);
+    expect(label?.className).not.toMatch(/\bbg-bottom(?![\w-])/);
   });
 
   it("stays open after a tap, rather than flashing", () => {

@@ -72,16 +72,11 @@ export const TooltipLabel = React.forwardRef<HTMLButtonElement, TooltipLabelProp
               ref={ref}
               type="button"
               className={cn(
-                "typography-body-small-14px-regular cursor-help rounded-2xs text-left text-content-secondary outline-none",
-                // Anchor the 4-on/4-off tile to the left edge. A centred position (the
-                // `bg-bottom` default) lays the pattern out from the middle outward and
-                // clips mid-dash at the start of the label as well as the end.
-                //
-                // No bottom padding: the dash sits in the descender space the 18px
-                // line-height already leaves under the 14px text. Padding it out made
-                // the label 20px, and since this label is the entire header of a
-                // title-only insight card, that put the card over its designed height.
-                "bg-[length:8px_1px] bg-[linear-gradient(to_right,var(--color-icons-tertiary)_0_4px,transparent_4px_8px)] bg-bottom-left bg-repeat-x",
+                // `w-fit` keeps the trigger the size of its label. The button is
+                // block-level, so a column flex or grid cell would otherwise stretch it
+                // and the whole row would answer to hover with a help cursor, opening
+                // this label's tooltip from a long way away from the label.
+                "typography-body-small-14px-regular w-fit cursor-help rounded-2xs text-left text-content-secondary outline-none",
                 "hover:text-content-primary focus-visible:shadow-focus-ring",
                 className,
               )}
@@ -105,7 +100,24 @@ export const TooltipLabel = React.forwardRef<HTMLButtonElement, TooltipLabelProp
               }}
               {...props}
             >
-              {children}
+              {/*
+               * The dash lives on this inline span, not the button. The button is a
+               * block-level trigger and stretches to whatever its container gives it —
+               * a column flex or grid cell makes it full width — which dragged the
+               * underline across the whole row instead of the label.
+               *
+               * Anchor the 4-on/4-off tile to the left edge. A centred position (the
+               * `bg-bottom` default) lays the pattern out from the middle outward and
+               * clips mid-dash at the start of the label as well as the end.
+               *
+               * No bottom padding: the dash sits in the descender space the 18px
+               * line-height already leaves under the 14px text. Padding it out made
+               * the label 20px, and since this label is the entire header of a
+               * title-only insight card, that put the card over its designed height.
+               */}
+              <span className="bg-[length:8px_1px] bg-[linear-gradient(to_right,var(--color-icons-tertiary)_0_4px,transparent_4px_8px)] bg-bottom-left bg-repeat-x">
+                {children}
+              </span>
             </button>
           </TooltipTrigger>
           <TooltipContent title={children}>{tooltip}</TooltipContent>
