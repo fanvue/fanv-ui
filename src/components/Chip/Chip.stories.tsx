@@ -38,6 +38,7 @@ const meta = {
     disabled: { control: "boolean" },
     leftDot: { control: "boolean" },
     dotted: { control: "boolean" },
+    outlined: { control: "boolean" },
     notificationVariant: {
       control: "select",
       options: ["default", "contrast", "brand", "alert", "pink", "info", "success", "warning"],
@@ -133,6 +134,35 @@ export const Dark: Story = {
   args: {
     variant: "dark",
     children: "Chip",
+  },
+};
+
+/**
+ * The Figma `V2 Insights Chips` treatment: the unselected chip is a 1px outline
+ * over a transparent background rather than a fill. Used where a row of chips sits
+ * over a chart, and solid fills would compete with the plotted series. Selecting
+ * one still fills it, so the selected chip reads as the odd one out either way.
+ */
+export const Outlined: Story = {
+  args: {
+    outlined: true,
+    children: "Chip",
+  },
+};
+
+export const OutlinedSelected: Story = {
+  args: {
+    outlined: true,
+    selected: true,
+    children: "Chip",
+  },
+};
+
+export const OutlinedInteractive: Story = {
+  args: {
+    outlined: true,
+    children: "Chip",
+    onClick: () => {},
   },
 };
 

@@ -119,6 +119,87 @@ describe("Chip", () => {
     });
   });
 
+  describe("outlined", () => {
+    it("strokes the unselected chip instead of filling it", () => {
+      render(<Chip outlined>Subs</Chip>);
+      const chip = screen.getByTestId("chip");
+      expect(chip).toHaveClass("border-buttons-chip-default", "bg-transparent");
+      expect(chip).not.toHaveClass("bg-buttons-chip-default");
+    });
+
+    it("still fills when selected, so the selected state is unchanged", () => {
+      render(
+        <Chip outlined selected>
+          Subs
+        </Chip>,
+      );
+      const chip = screen.getByTestId("chip");
+      expect(chip).toHaveClass("bg-buttons-chip-active");
+      expect(chip).not.toHaveClass("border-buttons-chip-default");
+    });
+
+    it("keeps a border in both states", () => {
+      const { rerender } = render(<Chip outlined>Subs</Chip>);
+      expect(screen.getByTestId("chip")).toHaveClass("border", "border-solid");
+
+      rerender(
+        <Chip outlined selected>
+          Subs
+        </Chip>,
+      );
+      const chip = screen.getByTestId("chip");
+      expect(chip).toHaveClass("border", "border-solid", "border-transparent");
+    });
+
+    it("fills by default, leaving every existing chip untouched", () => {
+      render(<Chip>Subs</Chip>);
+      const chip = screen.getByTestId("chip");
+      expect(chip).toHaveClass("bg-buttons-chip-default");
+      expect(chip).not.toHaveClass("bg-transparent");
+    });
+
+    it("greys only its stroke when disabled and unselected", () => {
+      render(
+        <Chip outlined disabled onClick={() => {}}>
+          Subs
+        </Chip>,
+      );
+      const chip = screen.getByTestId("chip");
+      expect(chip).toHaveClass("border-buttons-chip-disabled");
+      expect(chip).not.toHaveClass("bg-buttons-chip-disabled");
+    });
+
+    it("darkens its stroke on hover instead of inheriting the filled chip's hover", () => {
+      render(
+        <Chip outlined onClick={() => {}}>
+          Subs
+        </Chip>,
+      );
+      const chip = screen.getByTestId("chip");
+      expect(chip).toHaveClass("hover:border-buttons-chip-hover", "hover:bg-interaction-hover");
+      expect(chip).not.toHaveClass("hover:bg-buttons-chip-hover");
+    });
+
+    it("leaves the filled chip's hover untouched", () => {
+      render(<Chip onClick={() => {}}>Subs</Chip>);
+      const chip = screen.getByTestId("chip");
+      expect(chip).toHaveClass("hover:bg-buttons-chip-hover");
+      expect(chip).not.toHaveClass("hover:border-buttons-chip-hover");
+    });
+
+    it("takes the muted fill when disabled and selected", () => {
+      render(
+        <Chip outlined selected disabled onClick={() => {}}>
+          Subs
+        </Chip>,
+      );
+      const chip = screen.getByTestId("chip");
+      expect(chip).toHaveClass("bg-buttons-chip-disabled");
+      expect(chip).not.toHaveClass("bg-buttons-chip-active");
+      expect(chip).toHaveClass("border-transparent");
+    });
+  });
+
   describe("dotted", () => {
     it("renders a dashed svg border when dotted is true", () => {
       render(<Chip dotted>New folder</Chip>);
