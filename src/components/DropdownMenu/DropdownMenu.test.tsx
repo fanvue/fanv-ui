@@ -1,10 +1,11 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuHeader,
@@ -48,6 +49,40 @@ describe("DropdownMenu", () => {
   });
 
   describe("API", () => {
+    it("sits the avatar, count and icons on a two-line row's title line", () => {
+      renderMenu(
+        <DropdownMenuItem
+          avatar={<span data-testid="avatar">A</span>}
+          count="12"
+          description="Product designer"
+        >
+          Alex Smith
+        </DropdownMenuItem>,
+      );
+      // 18px is the title's leading; a `pt-1` nudge would sit them 3px low.
+      expect(screen.getByTestId("avatar").parentElement).toHaveClass("h-[18px]");
+      expect(screen.getByText("12")).toHaveClass("h-[18px]");
+      expect(screen.getByText("12")).not.toHaveClass("pt-1");
+    });
+
+    it("leaves a single-line row's siblings vertically centred by the row", () => {
+      renderMenu(
+        <DropdownMenuItem avatar={<span data-testid="avatar">A</span>} count="12">
+          Alex Smith
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByTestId("avatar").parentElement).not.toHaveClass("h-[18px]");
+      expect(screen.getByText("12")).not.toHaveClass("h-[18px]");
+    });
+
+    it("gives the panel the 12px menu radius, not the 8px row radius", () => {
+      renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
+      const panel = screen.getByRole("menu");
+      expect(panel).toHaveClass("rounded-sm");
+      expect(panel).not.toHaveClass("rounded-xs");
+      expect(panel).not.toHaveClass("rounded-lg");
+    });
+
     it("does not render content when closed", () => {
       renderMenu(<DropdownMenuItem>Hidden</DropdownMenuItem>, {
         defaultOpen: false,
@@ -64,6 +99,27 @@ describe("DropdownMenu", () => {
       );
       expect(screen.getByText("First")).toBeInTheDocument();
       expect(screen.getByText("Second")).toBeInTheDocument();
+    });
+
+    // The pointer-dismissal path (no focus ring left on the trigger) can't be
+    // driven in jsdom: a modal menu sets pointer-events:none on the body, and
+    // Radix's dismissal never completes from synthesised events. This covers the
+    // regression that broke it — the props spread replacing our handler.
+    it("composes a consumer's onCloseAutoFocus rather than replacing it", async () => {
+      const onCloseAutoFocus = vi.fn();
+      const user = userEvent.setup();
+      render(
+        <DropdownMenu defaultOpen>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent onCloseAutoFocus={onCloseAutoFocus}>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+
+      await user.keyboard("{Escape}");
+      await waitFor(() => expect(onCloseAutoFocus).toHaveBeenCalled());
+      expect(screen.getByRole("button", { name: "trigger" })).toHaveFocus();
     });
 
     it("calls onOpenChange on Escape key", async () => {
@@ -745,6 +801,29 @@ describe("DropdownMenuHeader", () => {
       expect(onChange).toHaveBeenLastCalledWith("ab");
     });
 
+    it("focuses the search input on open when autoFocus is set", async () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader type="search" searchProps={{ autoFocus: true }} />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+
+      await waitFor(() => expect(screen.getByRole("searchbox")).toHaveFocus());
+    });
+
+    it("leaves the search input unfocused when autoFocus is not set", async () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader type="search" />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+
+      await waitFor(() => expect(screen.getByRole("menuitem", { name: "Item" })).toBeVisible());
+      expect(screen.getByRole("searchbox")).not.toHaveFocus();
+    });
+
     it("keeps focus on the search input while typing characters", async () => {
       const user = userEvent.setup();
       const SearchDemo = () => {
@@ -812,6 +891,80 @@ describe("DropdownMenuHeader", () => {
         </>,
       );
       expect(screen.queryByRole("button", { name: /close/i })).not.toBeInTheDocument();
+    });
+  });
+});
+
+describe("DropdownMenuCheckboxItem", () => {
+  it("does not shade a row just because it is checked", () => {
+    renderMenu(
+      <>
+        <DropdownMenuCheckboxItem checked>@sofiabloom</DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem checked={false}>@aria.lane</DropdownMenuCheckboxItem>
+      </>,
+    );
+
+    // A menu that opens fully selected would otherwise render every row shaded.
+    for (const name of ["@sofiabloom", "@aria.lane"]) {
+      const row = screen.getByRole("menuitemcheckbox", { name });
+      expect(row.className).not.toContain("data-[state=checked]:bg-");
+    }
+  });
+
+  describe("accessibility", () => {
+    it("has no a11y violations", async () => {
+      const { container } = renderMenu(
+        <>
+          <DropdownMenuCheckboxItem checked helper="Helper text">
+            @sofiabloom
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked={false}>@aria.lane</DropdownMenuCheckboxItem>
+        </>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  describe("API", () => {
+    it("exposes the menuitemcheckbox role and reflects checked state", () => {
+      renderMenu(
+        <>
+          <DropdownMenuCheckboxItem checked={false}>One</DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked>Two</DropdownMenuCheckboxItem>
+        </>,
+      );
+      const items = screen.getAllByRole("menuitemcheckbox");
+      expect(items[0]).toHaveAttribute("data-state", "unchecked");
+      expect(items[1]).toHaveAttribute("data-state", "checked");
+    });
+
+    it("renders the helper text when provided", () => {
+      renderMenu(
+        <DropdownMenuCheckboxItem checked helper="Managed creator">
+          @novaknight
+        </DropdownMenuCheckboxItem>,
+      );
+      expect(screen.getByText("Managed creator")).toBeInTheDocument();
+    });
+
+    it("renders a leading avatar when provided", () => {
+      renderMenu(
+        <DropdownMenuCheckboxItem checked avatar={<span data-testid="avatar" />}>
+          @miarivers
+        </DropdownMenuCheckboxItem>,
+      );
+      expect(screen.getByTestId("avatar")).toBeInTheDocument();
+    });
+
+    it("calls onCheckedChange when toggled", async () => {
+      const onCheckedChange = vi.fn();
+      renderMenu(
+        <DropdownMenuCheckboxItem checked={false} onCheckedChange={onCheckedChange}>
+          @lunavale
+        </DropdownMenuCheckboxItem>,
+      );
+      await userEvent.click(screen.getByRole("menuitemcheckbox"));
+      expect(onCheckedChange).toHaveBeenCalledWith(true);
     });
   });
 });

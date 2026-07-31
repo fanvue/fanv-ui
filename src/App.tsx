@@ -104,6 +104,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuHeader,
   DropdownMenuItem,
@@ -2883,6 +2884,7 @@ function SelectDemo() {
 }
 
 function DropdownMenuDemo() {
+  const [selectedCreators, setSelectedCreators] = React.useState<string[]>(["Jane Doe"]);
   return (
     <div id="dropdownmenu" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Dropdown menu</h2>
@@ -2915,6 +2917,43 @@ function DropdownMenuDemo() {
               <DropdownMenuItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
                 Delete
               </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="typography-description-12px-semibold text-content-secondary">
+            Multi-select with a search header
+          </span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
+                Creators
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuHeader
+                type="search"
+                title="Creators"
+                searchProps={{ autoFocus: true, placeholder: "Search creators" }}
+              />
+              {["Jane Doe", "Alex Kim", "Sam Patel"].map((name) => (
+                <DropdownMenuCheckboxItem
+                  key={name}
+                  checked={selectedCreators.includes(name)}
+                  onCheckedChange={() =>
+                    setSelectedCreators((current) =>
+                      current.includes(name)
+                        ? current.filter((n) => n !== name)
+                        : [...current, name],
+                    )
+                  }
+                  onSelect={(event) => event.preventDefault()}
+                  helper="12 purchases"
+                >
+                  {name}
+                </DropdownMenuCheckboxItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
