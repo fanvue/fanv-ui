@@ -18,7 +18,9 @@ const STYLE_FILES = ["theme.css", "base.css"];
  */
 const copyStyles = (): Plugin => ({
   name: "fanvue-ui-copy-styles",
-  writeBundle() {
+  // `closeBundle`, not `writeBundle`: the latter fires once per output and we
+  // declare two (es into `dist`, cjs into `dist/cjs`), so it would copy twice.
+  closeBundle() {
     const outDir = resolve(import.meta.dirname, "dist/styles");
     mkdirSync(outDir, { recursive: true });
     for (const file of STYLE_FILES) {
@@ -79,11 +81,17 @@ export default defineConfig({
       ],
     },
     cssCodeSplit: false,
-    // `vite build --watch` re-emits only what its incremental graph rebuilds, so
-    // clearing the directory drops every artifact it does not rewrite — entry
-    // points added since the watcher started, and dist/styles. eden then fails to
-    // resolve them and the page 500s. Leaving the directory in place keeps a
-    // watch rebuild additive; `pnpm build` still produces a complete dist.
+    // A watch rebuild re-bundles everything, but with `emptyOutDir` on it does so
+    // in two visible steps: vite clears `dist` at `renderStart`, before anything
+    // is written, then refills it as outputs finish. Polling through one rebuild
+    // shows `dist` go 1179 files, then 0, then 588, then back to 1179 — roughly
+    // three seconds where a reader sees an empty or half-written `dist`. That is
+    // the window that breaks `pnpm start:localui`, since eden resolves against
+    // `dist` and 500s when an import is missing. Leaving the directory in place
+    // means a rebuild only overwrites, so there is never a gap. Builds then never
+    // delete, which would let a renamed or removed component linger in a local
+    // `dist` and get published (`files: ["dist"]` + `prepublishOnly`), so the
+    // `build` script does the cleaning explicitly with `rm -rf dist`.
     emptyOutDir: false,
     sourcemap: true,
     minify: false,
