@@ -4,8 +4,14 @@ import { ProgressBar } from "../ProgressBar/ProgressBar";
 
 /** Props for {@link Demographics}. */
 export interface DemographicsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
-  /** Row label, e.g. a country name. Pass a translated string for i18n. */
-  label: React.ReactNode;
+  /**
+   * Row label, e.g. a country name. Pass a translated string for i18n.
+   *
+   * A string rather than a node because it is also the bar's accessible name:
+   * a node would leave the bar announcing "Progress" and a bare number, with
+   * nothing saying which row it belongs to.
+   */
+  label: string;
   /** Share of the total, 0–100. Drives the bar and is announced to assistive tech. */
   value: number;
   /** Formatted share shown at the end of the row, e.g. `"52.6%"`. */
@@ -44,12 +50,7 @@ export const Demographics = React.forwardRef<HTMLDivElement, DemographicsProps>(
           {formattedValue}
         </span>
       </div>
-      <ProgressBar
-        variant="sky"
-        size="medium"
-        value={value}
-        ariaLabel={typeof label === "string" ? label : undefined}
-      />
+      <ProgressBar variant="sky" size="medium" value={value} ariaLabel={label} />
     </div>
   ),
 );
