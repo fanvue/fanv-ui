@@ -138,9 +138,7 @@ describe("Chip", () => {
       expect(chip).not.toHaveClass("border-buttons-chip-default");
     });
 
-    it("keeps a border in both states so toggling cannot resize the chip", () => {
-      // A chip's width is intrinsic, so `border-box` does not absorb the border on
-      // that axis: dropping it when selected would shrink the chip and shift the row.
+    it("keeps a border in both states", () => {
       const { rerender } = render(<Chip outlined>Subs</Chip>);
       expect(screen.getByTestId("chip")).toHaveClass("border", "border-solid");
 
@@ -160,7 +158,7 @@ describe("Chip", () => {
       expect(chip).not.toHaveClass("bg-transparent");
     });
 
-    it("greys only its stroke when disabled", () => {
+    it("greys only its stroke when disabled and unselected", () => {
       render(
         <Chip outlined disabled onClick={() => {}}>
           Subs
@@ -169,6 +167,18 @@ describe("Chip", () => {
       const chip = screen.getByTestId("chip");
       expect(chip).toHaveClass("border-buttons-chip-disabled");
       expect(chip).not.toHaveClass("bg-buttons-chip-disabled");
+    });
+
+    it("takes the muted fill when disabled and selected", () => {
+      render(
+        <Chip outlined selected disabled onClick={() => {}}>
+          Subs
+        </Chip>,
+      );
+      const chip = screen.getByTestId("chip");
+      expect(chip).toHaveClass("bg-buttons-chip-disabled");
+      expect(chip).not.toHaveClass("bg-buttons-chip-active");
+      expect(chip).toHaveClass("border-transparent");
     });
   });
 

@@ -192,9 +192,10 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           disabled && !isDark && "pointer-events-none text-content-disabled",
           // Solid (non-dotted) disabled chips get a muted fill; dotted ones stay
           // transparent with their dashed border (drawn via SVG).
-          disabled && !isDark && !dotted && !outlined && "bg-buttons-chip-disabled",
-          // Outlined stays unfilled when disabled; only its stroke greys out.
-          disabled && !isDark && !dotted && outlined && "border-buttons-chip-disabled",
+          disabled && !isDark && !dotted && (!outlined || selected) && "bg-buttons-chip-disabled",
+          // Unselected outlined greys only its stroke. Selected is already filled, so
+          // it takes the muted fill above and keeps `border-transparent` for its width.
+          disabled && !isDark && !dotted && outlined && !selected && "border-buttons-chip-disabled",
           className,
         )}
         {...(isInteractive && {
