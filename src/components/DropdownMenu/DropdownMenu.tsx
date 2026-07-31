@@ -382,10 +382,14 @@ const ITEM_SIZE_CLASSES: Record<"40" | "32", string> = {
 };
 
 /*
- * Both sizes are 14px: `V2 Menu Item` draws the count as `Body Small 14px/Regular`
- * in `content-tertiary` regardless of the row height (node `21542:8629`). The 40
- * row previously stepped up to 16px, which also put the count's line box at 24px
- * against the two-line layout's 18px title leading.
+ * 14px at both heights. `V2 Menu Item` draws the count as `Body Small 14px/Regular`
+ * in `content-tertiary` (node `21542:8629`), and the 40 row previously stepped up to
+ * 16px — which also put the count's line box at 24px against the two-line layout's
+ * 18px title leading.
+ *
+ * Only the 40 row is drawn in Figma: the component set's variants are Type and State
+ * with no size axis. The 32 row is ours, and 14px matches the body type it already
+ * uses, so both entries agree by construction rather than by design reference.
  */
 const ITEM_COUNT_TYPOGRAPHY: Record<"40" | "32", string> = {
   "40": "typography-body-small-14px-regular",
