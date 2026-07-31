@@ -227,7 +227,12 @@ describe("Chart", () => {
     it("filters out items with type 'none'", () => {
       const payload = [
         LEGEND_ITEM_REVENUE,
-        { value: "hidden", dataKey: "hidden", color: "#000", type: "none" as const },
+        {
+          value: "hidden",
+          dataKey: "hidden",
+          color: "#000",
+          type: "none" as const,
+        },
       ];
       render(
         <ChartContext.Provider value={{ config: SAMPLE_CONFIG }}>
@@ -468,6 +473,45 @@ describe("Chart", () => {
       expect(container.querySelector('[class*="bg-surface-primary/60"]')).toBeNull();
     });
 
+    it("announces loading on both paths, not just the spinner one", () => {
+      // axe cannot catch this: every Skeleton is aria-hidden, so the skeleton path
+      // has no markup to violate and a passing axe check says nothing about whether
+      // the loading state is conveyed at all. Assert the announcement directly.
+      const { unmount } = render(
+        <ChartLoadingOverlay loading>
+          <div>chart</div>
+        </ChartLoadingOverlay>,
+      );
+      expect(screen.getByRole("status")).toHaveAccessibleName(/loading/i);
+      expect(screen.getByRole("status")).toHaveAttribute("aria-busy", "true");
+      unmount();
+
+      render(
+        <ChartLoadingOverlay loading variant={false}>
+          <div>chart</div>
+        </ChartLoadingOverlay>,
+      );
+      expect(screen.getByRole("status")).toHaveAccessibleName(/loading/i);
+    });
+
+    it("takes a translated loading label", () => {
+      render(
+        <ChartLoadingOverlay loading loadingLabel="Chargement du graphique">
+          <div>chart</div>
+        </ChartLoadingOverlay>,
+      );
+      expect(screen.getByRole("status")).toHaveAccessibleName("Chargement du graphique");
+    });
+
+    it("does not announce loading once it has finished", () => {
+      render(
+        <ChartLoadingOverlay loading={false}>
+          <div>chart</div>
+        </ChartLoadingOverlay>,
+      );
+      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    });
+
     it("shows the area skeleton by default and the spinner only at variant={false}", () => {
       const { container: byDefault } = render(
         <ChartLoadingOverlay loading>
@@ -546,6 +590,26 @@ describe("Chart", () => {
     it("renders one bar per sample for bar charts", () => {
       const { container } = render(<ChartSkeleton variant="bar" />);
       expect(container.querySelectorAll(".fv-skeleton-wave").length).toBe(7);
+    });
+
+    it("matches the bar count it is given, so a three-bar chart does not shift on load", () => {
+      const { container } = render(<ChartSkeleton variant="bar" rows={3} />);
+      expect(container.querySelectorAll(".fv-skeleton-wave").length).toBe(3);
+    });
+
+    it("cycles the bar heights past the seven it has, rather than running out", () => {
+      const { container } = render(<ChartSkeleton variant="bar" rows={9} />);
+      const bars = [...container.querySelectorAll<HTMLElement>(".fv-skeleton-wave")];
+      expect(bars.length).toBe(9);
+      expect(bars.every((bar) => bar.style.height !== "")).toBe(true);
+    });
+
+    it("masks the donut hole rather than painting a surface colour over it", () => {
+      // A filled disc only vanishes on a surface of exactly that colour, and this
+      // renders standalone as well as inside the overlay.
+      const { container } = render(<ChartSkeleton variant="circular" />);
+      expect(container.querySelector('[class*="mask-image"]')).not.toBeNull();
+      expect(container.querySelector('[class*="bg-background-primary"]')).toBeNull();
     });
 
     it("renders line charts as a single band, matching area", () => {

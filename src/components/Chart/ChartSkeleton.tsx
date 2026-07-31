@@ -16,14 +16,17 @@ export interface ChartSkeletonProps extends React.HTMLAttributes<HTMLDivElement>
   /** Which shape to imitate. @default "area" */
   variant?: ChartSkeletonVariant;
   /**
-   * How many rows to draw, for the `table` and `rows` variants. Match the row
-   * count the loaded card will show, so the card does not resize once the real
-   * content arrives. @default 5
+   * How many items to draw: rows for `table` and `rows`, bars for `bar`. Match
+   * the count the loaded card will show, so the card does not resize once the
+   * real content arrives. Defaults to 5 rows, or 7 bars.
    */
   rows?: number;
 }
 
+/** Varying bar heights, so the series does not read as a solid block. */
 const BAR_HEIGHTS = ["45%", "70%", "55%", "85%", "60%", "95%", "75%"];
+
+const barHeight = (index: number) => BAR_HEIGHTS[index % BAR_HEIGHTS.length];
 
 /** Varying label widths, so the rows do not read as a single solid block. */
 const LABEL_WIDTHS = ["w-24", "w-32", "w-20", "w-28", "w-24"];
@@ -96,11 +99,20 @@ const RowsSkeleton = ({ rows }: { rows: number }) => (
  * ```
  */
 export const ChartSkeleton = React.forwardRef<HTMLDivElement, ChartSkeletonProps>(
-  ({ variant = "area", rows = 5, className, ...props }, ref) => {
+  ({ variant = "area", rows, className, ...props }, ref) => {
+    // Resolved per variant so `rows` can drive the bar count without moving the bar
+    // default from 7 to the list default of 5.
+    const rowCount = rows ?? 5;
+    const bars = rows ?? BAR_HEIGHTS.length;
+
     if (variant === "table" || variant === "rows") {
       return (
         <div ref={ref} className={cn("w-full", className)} {...props}>
-          {variant === "table" ? <TableSkeleton rows={rows} /> : <RowsSkeleton rows={rows} />}
+          {variant === "table" ? (
+            <TableSkeleton rows={rowCount} />
+          ) : (
+            <RowsSkeleton rows={rowCount} />
+          )}
         </div>
       );
     }
@@ -112,9 +124,18 @@ export const ChartSkeleton = React.forwardRef<HTMLDivElement, ChartSkeletonProps
           className={cn("flex size-full items-center justify-center", className)}
           {...props}
         >
-          <div className="relative aspect-square h-full">
-            <Skeleton animation="wave" variant="circular" className="size-full" />
-            <div className="absolute inset-[27%] rounded-full bg-background-primary" />
+          <div className="aspect-square h-full">
+            {/*
+             * The hole is masked out rather than painted over. A disc filled with a
+             * surface colour only disappears on a surface of exactly that colour, and
+             * this renders standalone via `ChartCard`'s `skeleton` prop as well as
+             * inside `ChartLoadingOverlay`, so it cannot assume what is underneath.
+             */}
+            <Skeleton
+              animation="wave"
+              variant="circular"
+              className="size-full [mask-image:radial-gradient(circle,transparent_27%,black_28%)]"
+            />
           </div>
         </div>
       );
@@ -123,13 +144,13 @@ export const ChartSkeleton = React.forwardRef<HTMLDivElement, ChartSkeletonProps
     if (variant === "bar") {
       return (
         <div ref={ref} className={cn("flex size-full items-end gap-2", className)} {...props}>
-          {BAR_HEIGHTS.map((height, index) => (
+          {Array.from({ length: bars }, (_, index) => (
             <Skeleton
               key={`bar-${index}`}
               animation="wave"
               variant="rounded"
               className="flex-1"
-              height={height}
+              height={barHeight(index)}
             />
           ))}
         </div>
