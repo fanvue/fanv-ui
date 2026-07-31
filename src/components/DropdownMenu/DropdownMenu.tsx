@@ -854,7 +854,7 @@ function SearchInput({
         "focus-within:shadow-focus-ring focus-within:outline-none",
       )}
     >
-      <SearchIcon className="size-4 shrink-0 text-content-tertiary" aria-hidden="true" />
+      <SearchIcon className="size-4 shrink-0 text-content-primary" aria-hidden="true" />
       <input
         type="search"
         className={cn(
