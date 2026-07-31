@@ -1,5 +1,6 @@
 import { act, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { axe } from "vitest-axe";
 import { AnimatedNumber } from "./AnimatedNumber";
 
 const formatPrice = (value: number) => `$${Math.round(value).toLocaleString("en-US")}`;
@@ -100,6 +101,23 @@ describe("AnimatedNumber", () => {
       );
       // 4 digits roll; "$" and "," do not.
       expect(container.querySelectorAll('[style*="translateY"]')).toHaveLength(4);
+    });
+  });
+  describe("accessibility", () => {
+    it("has no accessibility violations in the count variant", async () => {
+      const { container } = render(<AnimatedNumber value={1234} format={formatPrice} />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    // The roll variant stacks ten digits per column, so the run is hidden and the
+    // value exposed once as text. axe cannot see that distinction — it is covered
+    // by "exposes the formatted value once as text" above — but it does catch the
+    // markup being invalid.
+    it("has no accessibility violations in the roll variant", async () => {
+      const { container } = render(
+        <AnimatedNumber value={1234} format={formatPrice} variant="roll" />,
+      );
+      expect(await axe(container)).toHaveNoViolations();
     });
   });
 });
