@@ -275,9 +275,9 @@ export const DropdownMenuContent = React.forwardRef<
           sideOffset={sideOffset}
           collisionPadding={collisionPadding}
           className={cn(
-            // `rounded-lg` is the panel radius `V2 Menu Dropdown` carries (24px).
-            // The 12px `rounded-sm` belongs to the rows inside it, not the panel.
-            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-lg border border-border-primary bg-surface-primary p-1 text-content-primary shadow-blur-menu backdrop-blur-[4px]",
+            // `rounded-sm` (12px) is the panel radius `V2 Menu Dropdown` carries.
+            // The 8px `rounded-xs` belongs to the rows inside it, not the panel.
+            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-sm border border-border-primary bg-surface-primary p-1 text-content-primary shadow-blur-menu backdrop-blur-[4px]",
             "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
             "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
             "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",

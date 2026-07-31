@@ -49,6 +49,14 @@ describe("DropdownMenu", () => {
   });
 
   describe("API", () => {
+    it("gives the panel the 12px menu radius, not the 8px row radius", () => {
+      renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
+      const panel = screen.getByRole("menu");
+      expect(panel).toHaveClass("rounded-sm");
+      expect(panel).not.toHaveClass("rounded-xs");
+      expect(panel).not.toHaveClass("rounded-lg");
+    });
+
     it("does not render content when closed", () => {
       renderMenu(<DropdownMenuItem>Hidden</DropdownMenuItem>, {
         defaultOpen: false,
