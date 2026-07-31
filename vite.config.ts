@@ -9,12 +9,10 @@ const STYLE_FILES = ["theme.css", "base.css"];
 /**
  * Copies the design-token stylesheets into `dist/styles/`.
  *
- * These are consumed by eden via `@import "@fanvue/ui/styles/theme.css"`, which
- * postcss resolves against the package. The `build` npm script used to do this
- * with a trailing `cp`, so `vite build --watch` never produced them and every
- * rebuild left `dist/styles` missing — which breaks `pnpm start:localui`
- * (Turbopack then falls back to a path outside the project root and refuses to
- * compile). Doing it in the build itself keeps watch mode self-sufficient.
+ * eden imports these via `@import "@fanvue/ui/styles/theme.css"`, which postcss
+ * resolves against the package. Emitting them from the build rather than a
+ * trailing `cp` in the npm script keeps `vite build --watch` self-sufficient;
+ * without them `start:localui` fails to compile.
  */
 const copyStyles = (): Plugin => ({
   name: "fanvue-ui-copy-styles",
@@ -81,17 +79,9 @@ export default defineConfig({
       ],
     },
     cssCodeSplit: false,
-    // A watch rebuild re-bundles everything, but with `emptyOutDir` on it does so
-    // in two visible steps: vite clears `dist` at `renderStart`, before anything
-    // is written, then refills it as outputs finish. Polling through one rebuild
-    // shows `dist` go 1179 files, then 0, then 588, then back to 1179 — roughly
-    // three seconds where a reader sees an empty or half-written `dist`. That is
-    // the window that breaks `pnpm start:localui`, since eden resolves against
-    // `dist` and 500s when an import is missing. Leaving the directory in place
-    // means a rebuild only overwrites, so there is never a gap. Builds then never
-    // delete, which would let a renamed or removed component linger in a local
-    // `dist` and get published (`files: ["dist"]` + `prepublishOnly`), so the
-    // `build` script does the cleaning explicitly with `rm -rf dist`.
+    // Off so a watch rebuild never leaves `dist` empty mid-flight: vite clears it
+    // at `renderStart` and only refills at the end, and `start:localui` 500s in
+    // that window. Builds then never delete, so `build` does `rm -rf dist`.
     emptyOutDir: false,
     sourcemap: true,
     minify: false,
