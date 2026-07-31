@@ -40,45 +40,65 @@ export type TooltipPlacement =
   | "right-end";
 
 export interface TooltipContentProps
-  extends React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> {
+  extends Omit<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>, "title"> {
   /**
    * Position of the tooltip relative to the trigger. Takes precedence over `side` and `align`.
    * @default "top"
    */
   placement?: TooltipPlacement;
+  /**
+   * Optional heading above the body, for the two-row tooltip: a bold label
+   * naming the thing, then a plain-weight description of it. Without it the
+   * tooltip is a single bold line.
+   */
+  title?: React.ReactNode;
 }
 
 export const TooltipContent = React.forwardRef<
   React.ComponentRef<typeof TooltipPrimitive.Content>,
   TooltipContentProps
->(({ className, sideOffset = 8, style, placement, side, align, ...props }, ref) => {
-  let resolvedSide = side;
-  let resolvedAlign: "start" | "center" | "end" = align ?? "center";
-  if (placement) {
-    const [parsedSide, parsedAlign] = placement.split("-") as [
-      "top" | "right" | "bottom" | "left",
-      "start" | "end" | undefined,
-    ];
-    resolvedSide = parsedSide;
-    resolvedAlign = parsedAlign ?? "center";
-  }
+>(
+  (
+    { className, sideOffset = 8, style, placement, side, align, title, children, ...props },
+    ref,
+  ) => {
+    let resolvedSide = side;
+    let resolvedAlign: "start" | "center" | "end" = align ?? "center";
+    if (placement) {
+      const [parsedSide, parsedAlign] = placement.split("-") as [
+        "top" | "right" | "bottom" | "left",
+        "start" | "end" | undefined,
+      ];
+      resolvedSide = parsedSide;
+      resolvedAlign = parsedAlign ?? "center";
+    }
 
-  return (
-    <TooltipPrimitive.Portal>
-      <TooltipPrimitive.Content
-        ref={ref}
-        side={resolvedSide}
-        align={resolvedAlign}
-        sideOffset={sideOffset}
-        collisionPadding={8}
-        style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
-        className={cn(
-          "typography-description-12px-semibold max-w-[320px] rounded-sm bg-surface-primary-inverted px-4 py-2 text-content-primary-inverted shadow-[0px_1px_4px_0px_rgba(0,0,0,0.06),0px_1px_3px_0px_rgba(0,0,0,0.05)]",
-          className,
-        )}
-        {...props}
-      />
-    </TooltipPrimitive.Portal>
-  );
-});
+    return (
+      <TooltipPrimitive.Portal>
+        <TooltipPrimitive.Content
+          ref={ref}
+          side={resolvedSide}
+          align={resolvedAlign}
+          sideOffset={sideOffset}
+          collisionPadding={8}
+          style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
+          className={cn(
+            "typography-description-12px-semibold max-w-[320px] rounded-sm bg-surface-primary-inverted px-4 py-2 text-content-primary-inverted shadow-[0px_1px_4px_0px_rgba(0,0,0,0.06),0px_1px_3px_0px_rgba(0,0,0,0.05)]",
+            className,
+          )}
+          {...props}
+        >
+          {title ? (
+            <span className="flex flex-col gap-1">
+              <span>{title}</span>
+              <span className="typography-description-12px-regular">{children}</span>
+            </span>
+          ) : (
+            children
+          )}
+        </TooltipPrimitive.Content>
+      </TooltipPrimitive.Portal>
+    );
+  },
+);
 TooltipContent.displayName = "TooltipContent";

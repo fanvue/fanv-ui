@@ -838,6 +838,8 @@ export {
   TooltipProvider,
   TooltipTrigger,
 } from "./components/Tooltip/Tooltip";
+export type { TooltipLabelProps } from "./components/Tooltip/TooltipLabel";
+export { TooltipLabel } from "./components/Tooltip/TooltipLabel";
 export type { UserDisplayNameProps } from "./components/UserDisplayName/UserDisplayName";
 export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
 export type { UserHandleProps } from "./components/UserHandle/UserHandle";
