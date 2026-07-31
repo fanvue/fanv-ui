@@ -230,7 +230,8 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
  * `microphone`) stay circular at all sizes. `field` is the exception that is
  * never circular — it takes the inputs' `rounded-sm` so it matches the fields it
- * sits beside.
+ * sits beside. Use it at `32`, `40` or `48`: those are the sizes `Select` offers,
+ * and the variant only earns its surface when it lines up with one.
  *
  * @example
  * ```tsx
