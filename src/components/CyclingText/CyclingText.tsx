@@ -1,14 +1,12 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { usePrefersReducedMotion } from "../../utils/usePrefersReducedMotion";
 import { useCyclingCycle } from "./useCyclingCycle";
+import { useCyclingMotion } from "./useCyclingMotion";
 import { useCyclingTextTrackWidth } from "./useCyclingTextTrackWidth";
 import { usePageVisibility } from "./usePageVisibility";
 
 const DEFAULT_INTERVAL_MS = 2100;
 const DEFAULT_TRANSITION_MS = 200;
-
-const SLIDE_OFFSET_PX = 18;
 
 /** How the wrapper should be sized to accommodate variable-length items. */
 export type CyclingTextSizing = "longest" | "current";
@@ -82,7 +80,6 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
     ref,
   ) => {
     const docVisible = usePageVisibility();
-    const reducedMotion = usePrefersReducedMotion();
     const { sizingLabelRef, trackWidth } = useCyclingTextTrackWidth();
     const {
       cycle,
@@ -106,33 +103,12 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
       onActiveIndexChangeRef.current?.(currentIndex);
     }, [currentIndex]);
 
-    const outgoingMotionStyle = React.useMemo((): React.CSSProperties => {
-      const durMs = reducedMotion ? 0 : transitionMs;
-      const exiting = cycle.transitioning;
-      const yExit = direction === "up" ? -SLIDE_OFFSET_PX : SLIDE_OFFSET_PX;
-      return {
-        opacity: exiting ? 0 : 1,
-        transform: exiting ? `translate3d(0, ${yExit}px, 0)` : "translate3d(0, 0, 0)",
-        transition:
-          exiting && durMs > 0
-            ? `opacity ${durMs}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${durMs}ms cubic-bezier(0.4, 0, 0.2, 1)`
-            : "none",
-      };
-    }, [cycle.transitioning, direction, transitionMs, reducedMotion]);
-
-    const incomingMotionStyle = React.useMemo((): React.CSSProperties => {
-      const durMs = reducedMotion ? 0 : transitionMs;
-      const entered = cycle.incomingEntered;
-      const yEnter = direction === "up" ? SLIDE_OFFSET_PX : -SLIDE_OFFSET_PX;
-      return {
-        opacity: entered ? 1 : 0,
-        transform: entered ? "translate3d(0, 0, 0)" : `translate3d(0, ${yEnter}px, 0)`,
-        transition:
-          durMs > 0
-            ? `opacity ${durMs}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${durMs}ms cubic-bezier(0.4, 0, 0.2, 1)`
-            : "none",
-      };
-    }, [cycle.incomingEntered, direction, transitionMs, reducedMotion]);
+    const { outgoingStyle, incomingStyle } = useCyclingMotion({
+      transitioning: cycle.transitioning,
+      incomingEntered: cycle.incomingEntered,
+      direction,
+      transitionMs,
+    });
 
     if (itemCount === 0) {
       return null;
@@ -140,7 +116,6 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
 
     const wrapperStyle = {
       ...(trackWidth !== null ? { width: `${trackWidth}px` } : {}),
-      // paddingTop: SLIDE_OFFSET_PX,
     } as React.CSSProperties;
 
     const showIncoming = incomingLabel !== null && cycle.transitioning;
@@ -179,7 +154,7 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
             "absolute inset-0 flex items-center whitespace-nowrap leading-[inherit]",
             labelClassName,
           )}
-          style={outgoingMotionStyle}
+          style={outgoingStyle}
         >
           {currentLabel}
         </span>
@@ -193,7 +168,7 @@ export const CyclingText = React.forwardRef<HTMLSpanElement, CyclingTextProps>(
               "absolute inset-0 flex items-center whitespace-nowrap leading-[inherit]",
               labelClassName,
             )}
-            style={incomingMotionStyle}
+            style={incomingStyle}
           >
             {incomingLabel}
           </span>

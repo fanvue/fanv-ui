@@ -151,6 +151,54 @@ describe("CyclingText", () => {
     });
   });
 
+  describe("reduced motion", () => {
+    afterEach(() => {
+      Reflect.deleteProperty(window, "matchMedia");
+    });
+
+    const stubReducedMotion = (matches: boolean) => {
+      Object.defineProperty(window, "matchMedia", {
+        configurable: true,
+        writable: true,
+        value: vi.fn((query: string) => ({
+          matches,
+          media: query,
+          onchange: null,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+          addListener: () => {},
+          removeListener: () => {},
+          dispatchEvent: () => false,
+        })),
+      });
+    };
+
+    it("drops the transition when the user prefers reduced motion", () => {
+      stubReducedMotion(true);
+      render(<CyclingText items={ITEMS} intervalMs={500} transitionMs={200} />);
+
+      act(() => vi.advanceTimersByTime(500));
+      expect(getIncomingLabel()).toHaveStyle({ transition: "none" });
+    });
+
+    it("keeps the transition when the user has no preference", () => {
+      stubReducedMotion(false);
+      render(<CyclingText items={ITEMS} intervalMs={500} transitionMs={200} />);
+
+      act(() => vi.advanceTimersByTime(500));
+      expect(getIncomingLabel()?.getAttribute("style")).toContain("200ms");
+    });
+
+    it("still advances the cycle with no transition to wait on", () => {
+      stubReducedMotion(true);
+      render(<CyclingText items={ITEMS} intervalMs={500} transitionMs={200} />);
+
+      act(() => vi.advanceTimersByTime(500));
+      act(() => vi.advanceTimersByTime(200));
+      expect(getVisibleLabel().textContent).toBe("Beta");
+    });
+  });
+
   describe("onActiveIndexChange", () => {
     it("reports the initial index on mount", () => {
       const onActiveIndexChange = vi.fn();
