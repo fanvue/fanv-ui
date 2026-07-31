@@ -9,6 +9,11 @@ export type { ChartLegendContentProps } from "./components/Chart/ChartLegend";
 export { ChartLegend, ChartLegendContent } from "./components/Chart/ChartLegend";
 export type { ChartLoadingOverlayProps } from "./components/Chart/ChartLoadingOverlay";
 export { ChartLoadingOverlay } from "./components/Chart/ChartLoadingOverlay";
+export type {
+  ChartMetricTrendColor,
+  ChartMetricTrendProps,
+} from "./components/Chart/ChartMetricTrend";
+export { ChartMetricTrend } from "./components/Chart/ChartMetricTrend";
 export type { ChartPieLegendItem, ChartPieLegendProps } from "./components/Chart/ChartPieLegend";
 export { ChartPieLegend } from "./components/Chart/ChartPieLegend";
 export type {
