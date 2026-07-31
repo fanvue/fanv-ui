@@ -134,6 +134,22 @@ export const TabsList = React.forwardRef<
       }
     }, []);
 
+    // Radix scrolls a tab into view when it takes focus, and mount is not focus, so
+    // URL-driven state can land on a tab that is off to the right with nothing on
+    // screen to say so: no indicator, and tab one showing as though it were active.
+    // Assigns `scrollLeft` rather than calling `scrollIntoView`, which would also
+    // scroll every ancestor and the page with it. Only ever scrolls further right, so
+    // re-running it after the webfont settles corrects a short initial scroll without
+    // yanking the row back from wherever the user has since dragged it.
+    const revealActiveTab = React.useCallback(() => {
+      const list = innerRef.current;
+      if (!list || !scrollable || list.dataset.orientation === "vertical") return;
+      const activeTab = list.querySelector<HTMLElement>('[data-state="active"]');
+      if (!activeTab) return;
+      const overshoot = activeTab.offsetLeft + activeTab.offsetWidth - list.clientWidth;
+      if (overshoot > list.scrollLeft) list.scrollLeft = overshoot;
+    }, [scrollable]);
+
     React.useLayoutEffect(() => {
       const list = innerRef.current;
       const indicator = indicatorRef.current;
@@ -143,6 +159,7 @@ export const TabsList = React.forwardRef<
       updateIndicator();
       indicator.getBoundingClientRect();
       indicator.style.transitionDuration = "";
+      revealActiveTab();
 
       const mutationObserver = new MutationObserver(updateIndicator);
       mutationObserver.observe(list, {
@@ -158,7 +175,11 @@ export const TabsList = React.forwardRef<
       let cancelled = false;
       if (document.fonts?.status !== "loaded") {
         document.fonts?.ready.then(() => {
-          if (!cancelled) updateIndicator();
+          if (cancelled) return;
+          updateIndicator();
+          // The tabs are wider once the real font is in, so the mount-time scroll can
+          // fall short of the active tab. Recomputed here against the settled layout.
+          revealActiveTab();
         });
       }
 
@@ -167,7 +188,7 @@ export const TabsList = React.forwardRef<
         mutationObserver.disconnect();
         resizeObserver.disconnect();
       };
-    }, [updateIndicator]);
+    }, [updateIndicator, revealActiveTab]);
 
     return (
       <TabsPrimitive.List

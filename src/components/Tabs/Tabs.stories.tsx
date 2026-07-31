@@ -212,6 +212,37 @@ export const Scrollable: Story = {
   ),
 };
 
+/**
+ * A `scrollable` row mounted with a later tab already active, as URL-driven tab
+ * state does. The row scrolls to bring it into view on mount, so the active tab and
+ * its indicator are both visible rather than sitting off to the right unannounced.
+ */
+export const ScrollableActiveOffscreen: Story = {
+  name: "Scrollable - Active Tab Offscreen",
+  render: () => (
+    <div className="w-[320px]">
+      <Tabs defaultValue="tab3">
+        <TabsList scrollable flushLeft>
+          <TabsTrigger value="tab1">Manager Insights</TabsTrigger>
+          <TabsTrigger value="tab2">Chatter Leaderboard</TabsTrigger>
+          <TabsTrigger value="tab3">Fans at Risk</TabsTrigger>
+        </TabsList>
+        <TabsContent value="tab1">
+          <p className="pt-4 text-content-tertiary text-sm">Manager Insights content</p>
+        </TabsContent>
+        <TabsContent value="tab2">
+          <p className="pt-4 text-content-tertiary text-sm">Chatter Leaderboard content</p>
+        </TabsContent>
+        <TabsContent value="tab3">
+          <p className="pt-4 text-content-tertiary text-sm">
+            Mounted on the third tab, scrolled into view.
+          </p>
+        </TabsContent>
+      </Tabs>
+    </div>
+  ),
+};
+
 export const AlignLeft: Story = {
   name: "Full Width - Align Left",
   render: () => (

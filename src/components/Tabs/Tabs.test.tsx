@@ -133,6 +133,88 @@ describe("Tabs", () => {
       }
     });
 
+    it("scrolls a scrollable row so an already-active offscreen tab is visible on mount", () => {
+      const widths: Record<string, number> = { tab1: 0, tab2: 150, tab3: 300 };
+      Object.defineProperty(HTMLElement.prototype, "offsetLeft", {
+        configurable: true,
+        get(this: HTMLElement) {
+          return widths[this.getAttribute("data-testid") ?? ""] ?? 0;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+        configurable: true,
+        get() {
+          return 150;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+        configurable: true,
+        get() {
+          return 320;
+        },
+      });
+
+      try {
+        render(
+          <Tabs defaultValue="tab3">
+            <TabsList scrollable>
+              <TabsTrigger value="tab1" data-testid="tab1">
+                One
+              </TabsTrigger>
+              <TabsTrigger value="tab2" data-testid="tab2">
+                Two
+              </TabsTrigger>
+              <TabsTrigger value="tab3" data-testid="tab3">
+                Three
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+        expect(screen.getByRole("tablist").scrollLeft).toBe(130);
+      } finally {
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetLeft");
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetWidth");
+        Reflect.deleteProperty(HTMLElement.prototype, "clientWidth");
+      }
+    });
+
+    it("leaves scrollLeft alone when the active tab already fits", () => {
+      Object.defineProperty(HTMLElement.prototype, "offsetLeft", {
+        configurable: true,
+        get() {
+          return 0;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+        configurable: true,
+        get() {
+          return 150;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+        configurable: true,
+        get() {
+          return 320;
+        },
+      });
+
+      try {
+        render(
+          <Tabs defaultValue="tab1">
+            <TabsList scrollable>
+              <TabsTrigger value="tab1">One</TabsTrigger>
+              <TabsTrigger value="tab2">Two</TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+        expect(screen.getByRole("tablist").scrollLeft).toBe(0);
+      } finally {
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetLeft");
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetWidth");
+        Reflect.deleteProperty(HTMLElement.prototype, "clientWidth");
+      }
+    });
+
     it("scrolls rather than compresses the tabs when scrollable is set", () => {
       // `flex-none` is the load-bearing half: tabs that still share the row
       // never overflow, so there would be nothing to scroll.
