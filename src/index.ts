@@ -168,6 +168,8 @@ export type {
   CyclingTextSizing,
 } from "./components/CyclingText/CyclingText";
 export { CyclingText } from "./components/CyclingText/CyclingText";
+export type { DemographicsProps } from "./components/Demographics/Demographics";
+export { Demographics } from "./components/Demographics/Demographics";
 export type {
   DialogBodyProps,
   DialogCloseProps,
