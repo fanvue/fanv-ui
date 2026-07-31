@@ -4,18 +4,11 @@ import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 type Listener = () => void;
 
-/**
- * jsdom does not implement `matchMedia`, so every test that needs a value has to
- * install one. `stub` returns a setter so a test can flip the query and fire the
- * change event the same way a browser would.
- */
 function stubMatchMedia(initialMatches: boolean) {
   const listeners = new Set<Listener>();
   let matches = initialMatches;
 
   const matchMedia = vi.fn((query: string) => ({
-    // A real MediaQueryList updates `matches` in place, so this has to be a
-    // getter rather than a snapshot taken when the list was created.
     get matches() {
       return matches;
     },
@@ -47,7 +40,6 @@ function stubMatchMedia(initialMatches: boolean) {
   };
 }
 
-/** Records the hook's value on every render, so the first one can be asserted. */
 function renderHookValues() {
   const values: boolean[] = [];
   function Probe() {
@@ -73,8 +65,6 @@ describe("usePrefersReducedMotion", () => {
   it("reports the preference on the very first render, with no false frame", () => {
     stubMatchMedia(true);
     const { values } = renderHookValues();
-    // The effect-based version rendered `false` first and corrected itself, which
-    // let a reduced-motion user catch one animated frame.
     expect(values[0]).toBe(true);
   });
 
@@ -100,7 +90,6 @@ describe("usePrefersReducedMotion", () => {
     const mq = stubMatchMedia(false);
     const { unmount } = renderHookValues();
     unmount();
-    // A listener left attached would throw on setState after unmount.
     expect(() => act(() => mq.set(true))).not.toThrow();
   });
 });

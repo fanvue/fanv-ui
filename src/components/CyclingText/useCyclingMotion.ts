@@ -23,10 +23,9 @@ export interface CyclingMotion {
 /**
  * Inline styles driving the slide and cross-fade between two cycling items.
  *
- * Kept as inline styles rather than utility classes because `transitionMs` is a
- * runtime prop. Reduced motion collapses the duration to zero, which leaves the
- * end states intact so items still swap, just without the movement; the cycle
- * itself is advanced by the fallback timer in `useCyclingCycle`, not by
+ * Inline rather than utility classes because `transitionMs` is a runtime prop.
+ * Reduced motion collapses the duration to zero, leaving the end states intact;
+ * the cycle is advanced by the fallback timer in `useCyclingCycle`, not by
  * `transitionend`, so it keeps running when no transition fires.
  */
 export function useCyclingMotion({
