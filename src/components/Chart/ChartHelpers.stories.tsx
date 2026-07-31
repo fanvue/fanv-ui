@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { cn } from "../../utils/cn";
 import { ChartCard } from "./ChartCard";
 import { ChartLoadingOverlay } from "./ChartLoadingOverlay";
 import { ChartPieLegend } from "./ChartPieLegend";
 import { ChartSeriesToggle } from "./ChartSeriesToggle";
+import { ChartSkeleton } from "./ChartSkeleton";
 import { SimpleLineChart, simpleLineConfig } from "./chartStoryFixtures";
 
 const meta = {
@@ -256,6 +258,44 @@ export const PieLegendCompact: Story = {
           },
         ]}
       />
+    </div>
+  ),
+};
+
+export const ChartSkeletons: Story = {
+  name: "Chart skeletons (per chart type)",
+  render: () => (
+    <div className="grid w-full max-w-4xl gap-6 sm:grid-cols-2">
+      {(["area", "line", "bar", "circular", "table", "rows"] as const).map((variant) => (
+        <div key={variant} className="flex flex-col gap-2">
+          <span className="typography-description-12px-semibold text-content-secondary">
+            {variant}
+          </span>
+          {/* The chart shapes fill a fixed plot; the list shapes are sized by their
+              own rows, so forcing a height on those would misrepresent them. */}
+          <div
+            className={cn(
+              "rounded-sm border border-border-strong bg-background-primary p-4",
+              variant !== "table" && variant !== "rows" && "h-40",
+            )}
+          >
+            <ChartSkeleton variant={variant} rows={variant === "rows" ? 3 : 5} />
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const LoadingOverlayWithSkeleton: Story = {
+  render: () => (
+    <div className="grid w-full max-w-4xl gap-6 sm:grid-cols-2">
+      <ChartLoadingOverlay loading variant="area" className="h-48">
+        <SimpleLineChart config={simpleLineConfig} />
+      </ChartLoadingOverlay>
+      <ChartLoadingOverlay loading variant="bar" className="h-48">
+        <SimpleLineChart config={simpleLineConfig} />
+      </ChartLoadingOverlay>
     </div>
   ),
 };
