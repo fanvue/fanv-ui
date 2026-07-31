@@ -225,6 +225,112 @@ describe("Drawer", () => {
     });
   });
 
+  describe("variants", () => {
+    it("floats the menu variant clear of the edges on the modal surface", async () => {
+      // The variant differs from `sheet` in shape only — inset and rounded on every
+      // corner — so it keeps the modal background and stroke rather than the
+      // lighter surface the trigger-anchored dropdown paints.
+      const user = userEvent.setup();
+      render(
+        <Drawer>
+          <DrawerTrigger>Open menu</DrawerTrigger>
+          <DrawerContent position="bottom" variant="menu" aria-describedby={undefined}>
+            <DrawerTitle>Revenue View</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open menu" }));
+      const content = screen.getByRole("dialog");
+      expect(content).toHaveClass(
+        "bg-modal-background",
+        "border-modal-stroke",
+        "inset-x-4",
+        "bottom-4",
+        "rounded-lg",
+        // Same blur as a sheet: the docs promise the two share the modal surface.
+        "backdrop-blur-[4px]",
+      );
+      // `rounded-t-xs` is the class that is genuinely in the running: `SLIDE_CLASSES.bottom`
+      // emits it for `position="bottom"`, and `rounded-lg` only wins by being merged
+      // over it. A negative on `rounded-t-xl` would pass whatever happened here, since
+      // only `SHEET_CLASSES` emits that and this is not a sheet.
+      expect(content).not.toHaveClass("rounded-t-xs");
+      expect(content).not.toHaveClass("w-full");
+      expect(content).not.toHaveClass("inset-x-0");
+    });
+
+    it("emits the classes the menu variant overrides, on a plain bottom drawer", async () => {
+      // Proves the negatives above are live rather than decorative: these are the
+      // classes `position="bottom"` really does add, so if the merge ever stopped
+      // stripping them for `menu` the assertions above would start failing.
+      const user = userEvent.setup();
+      render(
+        <Drawer>
+          <DrawerTrigger>Open plain</DrawerTrigger>
+          <DrawerContent position="bottom" aria-describedby={undefined}>
+            <DrawerTitle>Title</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open plain" }));
+      const content = screen.getByRole("dialog");
+      expect(content).toHaveClass("rounded-t-xs");
+      expect(content).toHaveClass("w-full");
+      expect(content).toHaveClass("inset-x-0");
+    });
+
+    it("lets the variant shadow win instead of the base shadow-lg", async () => {
+      // tailwind-merge does not treat `shadow-blur-menu` as a box-shadow utility, so
+      // it never deduped it against the base `shadow-lg` and `shadow-lg` won on
+      // stylesheet order. Measured in a browser: the menu panel was painting
+      // shadow-lg's `0 4px 8px -1px / 0 8px 22px -1px` rather than the menu token's
+      // `0 6px 12px 0`. `shadow-lg` is now scoped to `panel`.
+      const user = userEvent.setup();
+      const { unmount } = render(
+        <Drawer>
+          <DrawerTrigger>Open menu</DrawerTrigger>
+          <DrawerContent position="bottom" variant="menu" aria-describedby={undefined}>
+            <DrawerTitle>Title</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open menu" }));
+      expect(screen.getByRole("dialog")).toHaveClass("shadow-blur-menu");
+      expect(screen.getByRole("dialog")).not.toHaveClass("shadow-lg");
+      unmount();
+
+      renderDrawer();
+      await user.click(screen.getByRole("button", { name: "Open drawer" }));
+      expect(screen.getByRole("dialog")).toHaveClass("shadow-lg");
+    });
+
+    it("gives menu and sheet the same blur, since only their shape differs", async () => {
+      const user = userEvent.setup();
+      const { unmount } = render(
+        <Drawer>
+          <DrawerTrigger>Open sheet</DrawerTrigger>
+          <DrawerContent position="bottom" variant="sheet" aria-describedby={undefined}>
+            <DrawerTitle>Title</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open sheet" }));
+      expect(screen.getByRole("dialog")).toHaveClass("backdrop-blur-[4px]");
+      unmount();
+
+      render(
+        <Drawer>
+          <DrawerTrigger>Open menu</DrawerTrigger>
+          <DrawerContent position="bottom" variant="menu" aria-describedby={undefined}>
+            <DrawerTitle>Title</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open menu" }));
+      expect(screen.getByRole("dialog")).toHaveClass("backdrop-blur-[4px]");
+    });
+  });
+
   describe("ref forwarding", () => {
     it("forwards ref to DrawerContent", async () => {
       const ref = React.createRef<HTMLDivElement>();
