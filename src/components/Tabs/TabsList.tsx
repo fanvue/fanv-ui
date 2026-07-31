@@ -79,14 +79,10 @@ export const TabsList = React.forwardRef<
     } else {
       indicator.style.background =
         "linear-gradient(90deg, var(--color-buttons-tertiary-default) 0%, var(--color-tab-active) 50%, var(--color-buttons-tertiary-default) 100%)";
-      const textSpan = activeTab.querySelector("span");
-      const textWidth = (textSpan ?? activeTab).getBoundingClientRect().width;
-      const tabCenter = activeTab.offsetLeft + activeTab.offsetWidth / 2;
-      const indicatorLeft = tabCenter - textWidth / 2;
       indicator.style.inset = "auto auto 0 0";
       indicator.style.height = "1px";
-      indicator.style.width = `${textWidth}px`;
-      indicator.style.transform = `translateX(${indicatorLeft}px)`;
+      indicator.style.width = `${activeTab.offsetWidth}px`;
+      indicator.style.transform = `translateX(${activeTab.offsetLeft}px)`;
     }
   }, []);
 
