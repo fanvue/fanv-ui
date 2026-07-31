@@ -52,7 +52,7 @@
   "scripts": {
     "dev": "vite --host",
     "dev:watch": "vite build --watch",
-    "build": "vite build && mkdir -p dist/styles && cp src/styles/theme.css src/styles/base.css dist/styles/",
+    "build": "rm -rf dist && vite build",
     "build:showcase": "vite build --config vite.showcase.config.ts",
     "preview": "vite preview",
     "test": "vitest run",
