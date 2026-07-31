@@ -9,6 +9,7 @@ import { StarIcon } from "../Icons/StarIcon";
 import { TrashBinIcon } from "../Icons/TrashBinIcon";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuHeader,
@@ -226,6 +227,76 @@ export const WithSearchHeader: Story = {
                 <DropdownMenuItem key={name} onSelect={(event) => event.preventDefault()}>
                   {name}
                 </DropdownMenuItem>
+              ))
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    };
+    return <Demo />;
+  },
+};
+
+export const CreatorMultiSelect: Story = {
+  name: "Creator multi-select (search + avatars)",
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/23x2vofTPkLpbcJyRdDa55/Creator---Management%E2%80%A8--Teams?node-id=7393-62008",
+    },
+  },
+  play: openMenu,
+  render: () => {
+    const Demo = () => {
+      // Starts closed so `play` can open it: a modal Radix menu aria-hides the
+      // rest of the canvas, which would leave the trigger unqueryable.
+      const [open, setOpen] = React.useState(false);
+      const [query, setQuery] = React.useState("");
+      const [selected, setSelected] = React.useState(
+        new Set(["@sofiabloom", "@aria.lane", "@novaknight", "@miarivers", "@lunavale"]),
+      );
+      const creators = ["@sofiabloom", "@aria.lane", "@novaknight", "@miarivers", "@lunavale"];
+      const filtered = creators.filter((handle) =>
+        handle.toLowerCase().includes(query.toLowerCase()),
+      );
+      const toggle = (handle: string) =>
+        setSelected((prev) => {
+          const next = new Set(prev);
+          if (next.has(handle)) {
+            next.delete(handle);
+          } else {
+            next.add(handle);
+          }
+          return next;
+        });
+      return (
+        <DropdownMenu open={open} onOpenChange={setOpen}>
+          <DropdownMenuTrigger asChild>
+            <Button variant="secondary">All Creators</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-72">
+            <DropdownMenuHeader
+              type="search"
+              showClose={false}
+              searchProps={{
+                value: query,
+                onChange: setQuery,
+                placeholder: "Search\u2026",
+              }}
+            />
+            {filtered.length === 0 ? (
+              <DropdownMenuLabel position="top">No results</DropdownMenuLabel>
+            ) : (
+              filtered.map((handle) => (
+                <DropdownMenuCheckboxItem
+                  key={handle}
+                  checked={selected.has(handle)}
+                  onCheckedChange={() => toggle(handle)}
+                  onSelect={(event) => event.preventDefault()}
+                  avatar={<Avatar size={32} fallback={handle.slice(1, 3).toUpperCase()} />}
+                >
+                  {handle}
+                </DropdownMenuCheckboxItem>
               ))
             )}
           </DropdownMenuContent>

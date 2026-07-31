@@ -220,6 +220,8 @@ export {
   DrawerTrigger,
 } from "./components/Drawer/Drawer";
 export type {
+  DropdownMenuCheckboxItemProps,
+  DropdownMenuCheckboxItemSize,
   DropdownMenuContentProps,
   DropdownMenuGroupProps,
   DropdownMenuHeaderProps,
@@ -239,6 +241,7 @@ export type {
 } from "./components/DropdownMenu/DropdownMenu";
 export {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuHeader,

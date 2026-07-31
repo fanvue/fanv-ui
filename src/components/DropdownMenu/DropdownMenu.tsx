@@ -9,6 +9,7 @@ import { IconButton } from "../IconButton/IconButton";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
+import { TickIcon } from "../Icons/TickIcon";
 
 // Movement, in CSS px, above which a touch press-and-release counts as a drag.
 const TAP_MOVEMENT_THRESHOLD_PX = 10;
@@ -217,20 +218,39 @@ export const DropdownMenuContent = React.forwardRef<
       // is enough to keep the menu flipping/shifting to stay on screen — no
       // hand-rolled reposition logic needed.
       collisionPadding = FLOATING_CONTENT_COLLISION_PADDING,
+      onPointerDownOutside,
+      onCloseAutoFocus,
       children,
       ...props
     },
     ref,
   ) => {
     const variant = React.useContext(DropdownMenuVariantContext);
+    // Radix returns focus to the trigger when the menu closes. That is right for
+    // the keyboard, but Chrome's :focus-visible heuristic also paints the ring on
+    // that programmatic refocus, so dismissing with a click left a focus ring
+    // sitting on the trigger. Track pointer dismissals and skip the restore for
+    // them only — Escape and Tab still hand focus back with the ring.
+    const dismissedByPointer = React.useRef(false);
 
     if (variant === "sheet") {
       return (
         <DrawerContent
           ref={ref}
           position="bottom"
-          variant="sheet"
-          className={cn("flex flex-col gap-1 p-1", className)}
+          // `"sheet"` sits flush to the bottom edge at full width; the design draws
+          // this panel inset from all three sides and rounded on every corner, which
+          // is `"menu"`. Both carry the same modal surface.
+          variant="menu"
+          // The design's `blur + shadow/menu` effect is a background blur, and the
+          // panel's own fill is opaque — so the blur has to go on the overlay to be
+          // visible at all. Scoped here rather than on DrawerOverlay so only menus
+          // shown this way blur the page behind them.
+          overlayProps={{ className: "backdrop-blur-[8px]" }}
+          // `pb-4` gives the design's 16px below the last row. The rows inset
+          // themselves horizontally (see the item's `mx-3`) rather than the panel
+          // padding doing it, so the header and its rule can still run full width.
+          className={cn("flex flex-col gap-1 p-1 pb-4", className)}
           style={style}
           {...props}
         >
@@ -243,10 +263,21 @@ export const DropdownMenuContent = React.forwardRef<
       <DropdownMenuPrimitive.Portal>
         <DropdownMenuPrimitive.Content
           ref={ref}
+          onPointerDownOutside={(event) => {
+            dismissedByPointer.current = true;
+            onPointerDownOutside?.(event);
+          }}
+          onCloseAutoFocus={(event) => {
+            if (dismissedByPointer.current) event.preventDefault();
+            dismissedByPointer.current = false;
+            onCloseAutoFocus?.(event);
+          }}
           sideOffset={sideOffset}
           collisionPadding={collisionPadding}
           className={cn(
-            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-sm border border-neutral-alphas-200 bg-surface-primary p-1 text-content-primary shadow-lg",
+            // `rounded-lg` is the panel radius `V2 Menu Dropdown` carries (24px).
+            // The 12px `rounded-sm` belongs to the rows inside it, not the panel.
+            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-lg border border-border-primary bg-surface-primary p-1 text-content-primary shadow-blur-menu backdrop-blur-[4px]",
             "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
             "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
             "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
@@ -357,7 +388,14 @@ const ITEM_COUNT_TYPOGRAPHY: Record<"40" | "32", string> = {
 function SelectedCheckIndicator({ hasDescription }: { hasDescription: boolean }) {
   return (
     <CheckIcon
-      className={cn("size-4 shrink-0 text-content-primary", hasDescription && "self-start")}
+      className={cn(
+        "size-4 shrink-0 text-content-primary",
+        // The two-line layout switches the row to `items-start`, which would hang
+        // the tick off the title's line. A leading icon or avatar belongs there —
+        // it labels the title — but the tick is a property of the whole row, so it
+        // centres against both lines. {@link SelectItem} already does this.
+        hasDescription && "self-center",
+      )}
     />
   );
 }
@@ -445,8 +483,17 @@ export const DropdownMenuItem = React.forwardRef<
     const hasDescription = description != null;
     const hasAvatar = avatar != null;
     const itemClassName = cn(
-      "group flex w-full cursor-pointer gap-2 rounded-xs px-3 outline-none",
+      // `text-start` because the sheet variant renders the row as a <button>, and
+      // the UA centres a button's text — which centred the two-line title and
+      // description while the popper variant (a div) inherited the panel's start
+      // alignment. Both read from the same edge now.
+      "group flex w-full cursor-pointer gap-2 rounded-xs px-3 text-start outline-none",
       hasDescription ? "items-start" : "items-center",
+      // The sheet's header runs the full width of the panel, so its rows have to
+      // come in off the edge themselves — 12px here on the panel's own 4px is the
+      // design's 16px. `w-auto` lets the column stretch them to the space left
+      // over; `w-full` plus a margin would overflow.
+      variant === "sheet" && "mx-3 w-auto",
       ITEM_SIZE_CLASSES[normalizedSize],
       // A 24px avatar would push the compact 32px row past its height with the
       // default padding; tighten it so the avatar variant keeps the 32px contract.
@@ -513,7 +560,14 @@ export const DropdownMenuItem = React.forwardRef<
         )}
         {hasDescription ? (
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-            <span className="truncate">{children}</span>
+            {/*
+             * The two-line row sets its own title type rather than inheriting the
+             * row's: `V2 Menu Item` pairs a 14px semibold title with the 14px
+             * regular description below it, where a single-line row's title is the
+             * size's own 16px regular. It also settles the row's height — 18 + 2 +
+             * 18 of text inside `py-2` is the design's 54px.
+             */}
+            <span className="typography-body-small-14px-semibold truncate">{children}</span>
             <span className="typography-body-small-14px-regular truncate text-content-secondary">
               {description}
             </span>
@@ -649,6 +703,12 @@ export interface DropdownMenuHeaderSearchProps {
   placeholder?: string;
   /** Accessible label for the search input. @default "Search" */
   "aria-label"?: string;
+  /**
+   * Focus the input as soon as the menu opens, so typing filters immediately.
+   * Radix parks initial focus on the content element (which is what drives its
+   * typeahead), so without this the first keystrokes never reach the input.
+   */
+  autoFocus?: boolean;
 }
 
 export interface DropdownMenuHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -701,11 +761,13 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
     },
     ref,
   ) => {
+    // Regular, not semibold: `V2 Menu Header` titles the menu at
+    // `Body Default 16px/Regular`. The weight belongs to the rows' own titles,
+    // which is where the two-line layout puts a semibold.
     const titleTypography =
-      size === "32"
-        ? "typography-body-small-14px-semibold"
-        : "typography-body-default-16px-semibold";
+      size === "32" ? "typography-body-small-14px-regular" : "typography-body-default-16px-regular";
     const toggleOpen = React.useContext(ToggleOpenContext);
+    const variant = React.useContext(DropdownMenuVariantContext);
 
     const handleClose = () => {
       onClose?.();
@@ -724,6 +786,10 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
           // default (title) variant uses 4px because the title baseline sits
           // closer to the divider naturally.
           type === "search" ? "gap-2" : "gap-1",
+          // The sheet is a taller, roomier surface than a trigger-anchored panel:
+          // the design sets 16px between the rule and the first row, which this
+          // margin plus the panel's own 4px gap adds up to.
+          variant === "sheet" && "mb-3",
           className,
         )}
         {...props}
@@ -746,7 +812,18 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
             />
           )}
         </div>
-        <DropdownMenuSeparator className="my-0" />
+        {/*
+         * Full-bleed, as the design draws it: the rule runs the panel's whole
+         * width rather than stopping at the text. `-mx-2` cancels both insets it
+         * sits inside — this header's own `px-1` and the content panel's `p-1`.
+         *
+         * `border-strong` is the colour the design gives this rule. The separator's
+         * own default is `neutral-alphas-200`, which in the dark theme is a 20%
+         * *white* alpha — as a hairline running the full width it reads as a white
+         * line rather than a divider. Group separators between items keep the
+         * alpha; this is the header's rule only.
+         */}
+        <DropdownMenuSeparator className="-mx-2 my-0 bg-border-strong" />
       </div>
     );
   },
@@ -759,12 +836,21 @@ function SearchInput({
   onChange,
   placeholder = "Search\u2026",
   "aria-label": ariaLabel = "Search",
+  autoFocus,
 }: DropdownMenuHeaderSearchProps = {}) {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  // Focus after mount rather than via the `autoFocus` attribute, so the focus
+  // move is explicit and only happens when the consumer asked for it.
+  React.useEffect(() => {
+    if (autoFocus) inputRef.current?.focus();
+  }, [autoFocus]);
+
   return (
     <label
       className={cn(
         "flex min-w-0 flex-1 items-center gap-2 rounded-xs border border-border-primary",
-        "bg-neutral-alphas-50 px-3 py-1 text-content-primary",
+        "bg-inputs-inputs-primary px-3 py-1 text-content-primary",
         "focus-within:shadow-focus-ring focus-within:outline-none",
       )}
     >
@@ -775,6 +861,7 @@ function SearchInput({
           "typography-body-default-16px-regular min-w-0 flex-1 bg-transparent outline-none",
           "placeholder:text-content-tertiary",
         )}
+        ref={inputRef}
         value={value}
         defaultValue={defaultValue}
         placeholder={placeholder}
@@ -882,3 +969,84 @@ export const DropdownMenuRadioItem = React.forwardRef<
   );
 });
 DropdownMenuRadioItem.displayName = "DropdownMenuRadioItem";
+
+/** Height preset for a {@link DropdownMenuCheckboxItem}. */
+export type DropdownMenuCheckboxItemSize = "40";
+
+export interface DropdownMenuCheckboxItemProps
+  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem> {
+  /** Optional secondary text shown below the title. */
+  helper?: string;
+  /** Leading avatar rendered between the checkbox and the title. Render at 32px to match the design. */
+  avatar?: React.ReactNode;
+  /** Height of the item row. @default "40" */
+  size?: DropdownMenuCheckboxItemSize;
+}
+
+/**
+ * A single multi-select choice within a dropdown menu. Shows a square indicator
+ * that fills when checked, an optional leading avatar, and an optional helper
+ * line underneath the title.
+ *
+ * Pair with {@link DropdownMenuHeader} at `type="search"` for filterable menus.
+ * Use {@link DropdownMenuRadioItem} instead when only one option may be active.
+ *
+ * @example
+ * ```tsx
+ * <DropdownMenuCheckboxItem
+ *   checked={selected.has(creator.id)}
+ *   onCheckedChange={() => toggle(creator.id)}
+ *   avatar={<Avatar size={32} src={creator.avatarUrl} />}
+ * >
+ *   @sofiabloom
+ * </DropdownMenuCheckboxItem>
+ * ```
+ */
+export const DropdownMenuCheckboxItem = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.CheckboxItem>,
+  DropdownMenuCheckboxItemProps
+>(({ className, children, helper, avatar, size: _size = "40", ...props }, ref) => {
+  return (
+    <DropdownMenuPrimitive.CheckboxItem
+      ref={ref}
+      className={cn(
+        "group flex w-full cursor-pointer items-center gap-3 rounded-xs px-3 py-2 outline-none",
+        // Checked state is carried by the tick alone. A background here would
+        // leave every selected row shaded, which reads as "all highlighted" on
+        // a menu that starts fully selected.
+        "data-[highlighted]:bg-neutral-alphas-50",
+        "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
+        className,
+      )}
+      {...props}
+    >
+      <span
+        className={cn(
+          "flex size-4 shrink-0 items-center justify-center rounded-2xs border border-icons-primary",
+          "group-data-[state=checked]:bg-icons-primary",
+          "group-data-[disabled]:border-content-disabled",
+        )}
+        aria-hidden="true"
+      >
+        <DropdownMenuPrimitive.ItemIndicator asChild>
+          <TickIcon className="size-4 text-content-primary-inverted" />
+        </DropdownMenuPrimitive.ItemIndicator>
+      </span>
+      {avatar && <span className="shrink-0">{avatar}</span>}
+      <span className="flex min-w-0 flex-1 flex-col gap-1">
+        <span className="typography-body-default-16px-semibold truncate">{children}</span>
+        {helper && (
+          <span
+            className={cn(
+              "typography-description-12px-regular text-content-secondary",
+              "group-data-[disabled]:text-content-disabled",
+            )}
+          >
+            {helper}
+          </span>
+        )}
+      </span>
+    </DropdownMenuPrimitive.CheckboxItem>
+  );
+});
+DropdownMenuCheckboxItem.displayName = "DropdownMenuCheckboxItem";
