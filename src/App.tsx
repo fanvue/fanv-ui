@@ -22,6 +22,7 @@ import {
   AIIcon,
   Alert,
   AlertIcon,
+  AnimatedNumber,
   ArrowDownIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -2512,6 +2513,22 @@ function TrendPillDemo() {
       <div className="flex flex-wrap items-center gap-2">
         <TrendPill label="$240 vs Jun" trend="positive" />
         <TrendPill label="$85 vs Jun" trend="negative" />
+      </div>
+    </section>
+  );
+}
+
+function AnimatedNumberDemo() {
+  const [value, setValue] = React.useState(1240);
+  return (
+    <section>
+      <h2 className="typography-header-heading-sm mb-4">AnimatedNumber</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <AnimatedNumber value={value} variant="roll" />
+        <AnimatedNumber value={value} variant="count" />
+        <Button size="32" onClick={() => setValue((v) => v + 310)}>
+          Increase
+        </Button>
       </div>
     </section>
   );
@@ -5846,6 +5863,7 @@ function App() {
             <PillDemo />
             <UserItemTrailingDemo />
             <TrendPillDemo />
+            <AnimatedNumberDemo />
 
             {/* Checkbox */}
             <CheckboxDemo />
