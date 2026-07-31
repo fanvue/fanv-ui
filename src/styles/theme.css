@@ -133,6 +133,9 @@
   --color-special-chart-gray: #c6c6c6ff;
   --color-special-chart-pink: #ff59acff;
   --color-special-chart-purple: #785dffff;
+  --color-special-chart-yellow: #f5d90aff;
+  --color-special-chart-lime: #8fcb3aff;
+  --color-special-chart-red: #ff4d4dff;
   --color-special-default: #9c27b0ff;
   --color-special-background: #fdf1ffff;
   --color-brand-primary-default: var(--primitives-color-green-500);
@@ -524,6 +527,9 @@
   --color-special-chart-gray: #c6c6c6ff;
   --color-special-chart-pink: #ff59acff;
   --color-special-chart-purple: #785dffff;
+  --color-special-chart-yellow: #f5d90aff;
+  --color-special-chart-lime: #8fcb3aff;
+  --color-special-chart-red: #ff4d4dff;
   --color-special-default: #9c27b0ff;
   --color-special-background: #fdf1ffff;
   --color-brand-primary-default: var(--primitives-color-green-500);
@@ -738,6 +744,9 @@
   --color-special-chart-gray: #c6c6c6ff;
   --color-special-chart-pink: #ff59acff;
   --color-special-chart-purple: #785dffff;
+  --color-special-chart-yellow: #f5d90aff;
+  --color-special-chart-lime: #8fcb3aff;
+  --color-special-chart-red: #ff4d4dff;
   --color-special-default: #ed81ffff;
   --color-special-background: #4f1259ff;
   --color-brand-primary-default: var(--primitives-color-green-500);

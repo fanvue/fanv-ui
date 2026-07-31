@@ -2531,6 +2531,21 @@
                   "exportKey": "variables"
                 }
               }
+            },
+            "yellow": {
+              "type": "color",
+              "value": "#f5d90aff",
+              "blendMode": "normal"
+            },
+            "lime": {
+              "type": "color",
+              "value": "#8fcb3aff",
+              "blendMode": "normal"
+            },
+            "red": {
+              "type": "color",
+              "value": "#ff4d4dff",
+              "blendMode": "normal"
             }
           },
           "default": {
@@ -6172,6 +6187,21 @@
                   "exportKey": "variables"
                 }
               }
+            },
+            "yellow": {
+              "type": "color",
+              "value": "#f5d90aff",
+              "blendMode": "normal"
+            },
+            "lime": {
+              "type": "color",
+              "value": "#8fcb3aff",
+              "blendMode": "normal"
+            },
+            "red": {
+              "type": "color",
+              "value": "#ff4d4dff",
+              "blendMode": "normal"
             }
           },
           "default": {
