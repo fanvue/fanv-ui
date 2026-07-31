@@ -260,6 +260,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
   TrashBinIcon,
+  TrendPill,
   TrophyIcon,
   TwitterIcon,
   UploadIcon,
@@ -2499,6 +2500,18 @@ function UserItemTrailingDemo() {
           showHandle={false}
           trailing={<UserItemTrailing value="$980.00" meta="3 purchases" />}
         />
+      </div>
+    </section>
+  );
+}
+
+function TrendPillDemo() {
+  return (
+    <section>
+      <h2 className="typography-header-heading-sm mb-4">TrendPill</h2>
+      <div className="flex flex-wrap items-center gap-2">
+        <TrendPill label="$240 vs Jun" trend="positive" />
+        <TrendPill label="$85 vs Jun" trend="negative" />
       </div>
     </section>
   );
@@ -5832,6 +5845,7 @@ function App() {
             {/* Pill */}
             <PillDemo />
             <UserItemTrailingDemo />
+            <TrendPillDemo />
 
             {/* Checkbox */}
             <CheckboxDemo />
