@@ -158,6 +158,14 @@ export const OutlinedSelected: Story = {
   },
 };
 
+export const OutlinedInteractive: Story = {
+  args: {
+    outlined: true,
+    children: "Chip",
+    onClick: () => {},
+  },
+};
+
 export const Size32: Story = {
   args: {
     size: "32",
