@@ -176,7 +176,7 @@ describe("Chip", () => {
         </Chip>,
       );
       const chip = screen.getByTestId("chip");
-      expect(chip).toHaveClass("hover:border-buttons-chip-hover", "hover:bg-neutral-alphas-50");
+      expect(chip).toHaveClass("hover:border-buttons-chip-hover", "hover:bg-interaction-hover");
       expect(chip).not.toHaveClass("hover:bg-buttons-chip-hover");
     });
 

@@ -183,14 +183,14 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           // Outlined darkens its stroke rather than filling. `buttons-chip-hover` is
           // the one-step darkening for chips, but as a fill it is 20% over a 10%
           // stroke, so it swallows the outline the variant exists to show. Moved onto
-          // the border, with the same 5% fill `dotted` uses under its darkened stroke.
+          // the border, over `interaction-hover`, the atomic hover surface.
           isInteractive &&
             !disabled &&
             !isDark &&
             !selected &&
             !dotted &&
             outlined &&
-            "hover:border-buttons-chip-hover hover:bg-neutral-alphas-50",
+            "hover:border-buttons-chip-hover hover:bg-interaction-hover",
           isInteractive &&
             !disabled &&
             !isDark &&
