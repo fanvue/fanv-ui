@@ -53,7 +53,8 @@ describe("IconButton", () => {
         );
         const button = screen.getByTestId("icon-button");
         expect(button).toHaveClass("rounded-sm");
-        expect(button).not.toHaveClass("rounded-full", "rounded-xs");
+        expect(button).not.toHaveClass("rounded-full");
+        expect(button).not.toHaveClass("rounded-xs");
         unmount();
       }
     });
