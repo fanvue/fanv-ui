@@ -115,15 +115,16 @@ type VariantProps = Omit<AnimatedNumberProps, "variant" | "format" | "durationMs
 const CountingNumber = React.forwardRef<HTMLSpanElement, VariantProps>(
   ({ value, format, durationMs, className, ...props }, ref) => {
     const [displayValue, setDisplayValue] = React.useState(value);
-    // Read the previous value inside the effect rather than depending on it, so
-    // a re-render mid-animation does not restart the tween from the current
-    // frame's position.
-    const fromRef = React.useRef(value);
+    // Tracks what is on screen, so an interrupted tween resumes from there. Storing
+    // the abandoned *target* instead would start the next tween from a number that
+    // was never displayed, which shows as a jump to the old target before counting
+    // on — a refetch or filter change landing mid-animation is enough to hit it.
+    const displayRef = React.useRef(value);
 
     React.useEffect(() => {
-      const from = fromRef.current;
+      const from = displayRef.current;
       if (from === value || durationMs === 0) {
-        fromRef.current = value;
+        displayRef.current = value;
         setDisplayValue(value);
         return;
       }
@@ -134,19 +135,16 @@ const CountingNumber = React.forwardRef<HTMLSpanElement, VariantProps>(
       const step = (now: number) => {
         start ??= now;
         const progress = Math.min((now - start) / durationMs, 1);
-        setDisplayValue(from + (value - from) * easeOutCubic(progress));
+        const next = from + (value - from) * easeOutCubic(progress);
+        displayRef.current = next;
+        setDisplayValue(next);
         if (progress < 1) {
           frame = requestAnimationFrame(step);
-        } else {
-          fromRef.current = value;
         }
       };
 
       frame = requestAnimationFrame(step);
-      return () => {
-        cancelAnimationFrame(frame);
-        fromRef.current = value;
-      };
+      return () => cancelAnimationFrame(frame);
     }, [value, durationMs]);
 
     return (
@@ -169,19 +167,38 @@ const RollingNumber = React.forwardRef<HTMLSpanElement, VariantProps>(
     const contentRef = React.useRef<HTMLSpanElement>(null);
     const [boxWidth, setBoxWidth] = React.useState<number>();
 
-    // The first measurement goes from `auto` to a pixel width, which must not
-    // transition or every mount animates its own box in from the wrong size —
-    // visible whenever a loading skeleton swaps to a rolling number.
+    // On the render where the width is still `auto` there is nothing to
+    // transition from, so the duration is zeroed. This is belt-and-braces rather
+    // than load-bearing: `auto` to a length is not interpolatable, so no
+    // transition would run either way.
     const hasMeasured = boxWidth !== undefined;
 
+    // Re-measure rather than measuring once per `display`: the box is
+    // `overflow-hidden`, so a web font landing after the first measurement leaves
+    // the locked width too narrow for the wider glyphs and clips the number until
+    // the value next changes, which for a headline figure may be never. Observing
+    // covers a container change too. Same approach as `useCyclingTextTrackWidth`.
     React.useLayoutEffect(() => {
-      if (!display) {
+      const node = contentRef.current;
+      if (!node || !display) {
         return;
       }
-      const measured = contentRef.current?.scrollWidth;
-      if (measured) {
-        setBoxWidth(measured);
+
+      const measure = () => {
+        const measured = node.scrollWidth;
+        if (measured) {
+          setBoxWidth(measured);
+        }
+      };
+
+      measure();
+
+      if (typeof ResizeObserver === "undefined") {
+        return;
       }
+      const observer = new ResizeObserver(measure);
+      observer.observe(node);
+      return () => observer.disconnect();
     }, [display]);
 
     return (

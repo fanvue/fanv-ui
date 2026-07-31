@@ -7,20 +7,15 @@ const formatPrice = (value: number) => `$${Math.round(value).toLocaleString("en-
 describe("AnimatedNumber", () => {
   describe("count variant", () => {
     beforeEach(() => {
-      // Drive requestAnimationFrame off fake timers so the tween can be stepped
-      // deterministically instead of waiting on real frames.
+      // Vitest fakes requestAnimationFrame itself, so the tween can be stepped
+      // deterministically. Hand-stubbing it over setTimeout instead would create
+      // timers that `cancelAnimationFrame` cannot clear, which only shows up once
+      // a test interrupts a tween while a frame is still pending.
       vi.useFakeTimers();
-      vi.stubGlobal(
-        "requestAnimationFrame",
-        (cb: FrameRequestCallback) =>
-          setTimeout(() => cb(performance.now()), 16) as unknown as number,
-      );
-      vi.stubGlobal("cancelAnimationFrame", (id: number) => clearTimeout(id));
     });
 
     afterEach(() => {
       vi.useRealTimers();
-      vi.unstubAllGlobals();
     });
 
     it("renders the formatted value on first paint without animating in", () => {
@@ -37,6 +32,31 @@ describe("AnimatedNumber", () => {
       });
 
       expect(screen.getByText("$200")).toBeInTheDocument();
+    });
+
+    it("resumes an interrupted tween from what is on screen, not the abandoned target", () => {
+      const plain = (value: number) => String(Math.round(value));
+      const read = () => Number(screen.getByTestId("n").textContent);
+
+      const { rerender } = render(<AnimatedNumber value={0} format={plain} data-testid="n" />);
+      rerender(<AnimatedNumber value={100} format={plain} data-testid="n" />);
+      act(() => {
+        vi.advanceTimersByTime(100);
+      });
+
+      const mid = read();
+      expect(mid).toBeGreaterThan(0);
+      expect(mid).toBeLessThan(100);
+
+      // Retarget mid-flight, as a refetch or filter change would.
+      rerender(<AnimatedNumber value={200} format={plain} data-testid="n" />);
+      act(() => {
+        vi.advanceTimersByTime(16);
+      });
+
+      // Carries on from `mid`. Resuming from the abandoned 100 would overshoot it.
+      expect(read()).toBeGreaterThanOrEqual(mid);
+      expect(read()).toBeLessThan(100);
     });
 
     it("swaps instantly when the duration is zero", () => {
