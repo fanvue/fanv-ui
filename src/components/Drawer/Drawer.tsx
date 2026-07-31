@@ -42,7 +42,7 @@ const SHEET_CLASSES =
  * which pins a sheet flush to the bottom edge at full width.
  */
 const MENU_CLASSES =
-  "inset-x-4 bottom-4 w-auto rounded-lg border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[8px]";
+  "inset-x-4 bottom-4 w-auto rounded-lg border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px]";
 
 /**
  * Props for the {@link Drawer} root component.
@@ -263,7 +263,13 @@ export const DrawerContent = React.forwardRef<
             ...style,
           }}
           className={cn(
-            "fixed flex flex-col bg-surface-secondary shadow-lg outline-none backdrop-blur-lg",
+            "fixed flex flex-col bg-surface-secondary outline-none backdrop-blur-lg",
+            // `shadow-lg` is scoped to `panel` rather than sitting in the base classes.
+            // tailwind-merge does not recognise `shadow-blur-menu` as a box-shadow
+            // utility, so it never deduped the two and `shadow-lg` won on stylesheet
+            // order — meaning the sheet and menu surfaces silently rendered `shadow-lg`
+            // instead of the menu shadow their tokens name.
+            variant === "panel" && "shadow-lg",
             "data-[state=closed]:animate-out data-[state=open]:animate-in",
             "data-[state=closed]:duration-150 data-[state=closed]:ease-in",
             "data-[state=open]:duration-200 data-[state=open]:ease-out",
