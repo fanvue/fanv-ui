@@ -32,11 +32,6 @@ describe("CountryFlag", () => {
     expect(drawnPaths("nl")).toHaveLength(FLAG_SHAPES.nl.length);
   });
 
-  it("renders nothing for a code it has no artwork for", () => {
-    const { container } = render(<CountryFlag country="zz" />);
-    expect(container).toBeEmptyDOMElement();
-  });
-
   it("defaults to the 20px the designs use, and takes the other sizes", () => {
     const { container: fallback } = render(<CountryFlag country="US" />);
     expect(fallback.querySelector("svg")).toHaveClass("size-5");
@@ -65,5 +60,21 @@ describe("CountryFlag", () => {
       Object.values(FLAG_SHAPES).flatMap((shapes) => shapes.map((shape) => shape.tag)),
     );
     expect([...tags].sort()).toEqual(["circle", "ellipse", "path", "rect"]);
+  });
+  it("falls back to the placeholder disc for a code with no artwork", () => {
+    const { container } = render(<CountryFlag country="zz" label="Unknown" />);
+    const svg = container.querySelector("svg");
+    // Not null, and drawn on the same viewBox as a real flag.
+    expect(svg).not.toBeNull();
+    expect(svg).toHaveAttribute("viewBox", "0 0 512 512");
+    expect(svg?.querySelectorAll("path, circle, rect, ellipse").length).toBeGreaterThan(0);
+  });
+
+  it("renders the placeholder identically to an explicit xx", () => {
+    const { container: unknown } = render(<CountryFlag country="zz" />);
+    const { container: explicit } = render(<CountryFlag country="xx" />);
+    const shapes = (c: HTMLElement) =>
+      [...c.querySelectorAll("path, circle, rect, ellipse")].map((n) => n.getAttribute("fill"));
+    expect(shapes(unknown)).toEqual(shapes(explicit));
   });
 });

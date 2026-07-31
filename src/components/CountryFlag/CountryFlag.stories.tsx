@@ -41,12 +41,16 @@ export const Sizes: Story = {
 
 export const Unknown: Story = {
   name: "Unknown country code",
-  args: { country: "zz", label: undefined },
+  args: { country: "zz", label: "Unknown" },
   render: (args) => (
-    <p className="typography-body-small-14px-regular text-content-secondary">
-      Nothing renders for a code we hold no artwork for:
+    <div className="flex items-center gap-4">
+      <CountryFlag country="NL" label="Netherlands" />
       <CountryFlag {...args} />
-    </p>
+      <span className="typography-body-small-14px-regular text-content-secondary">
+        A real flag beside a code we hold no artwork for. The placeholder keeps the row aligned
+        instead of leaving a gap.
+      </span>
+    </div>
   ),
 };
 

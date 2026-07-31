@@ -12,12 +12,15 @@ const SIZE_CLASS = {
 /** Rendered edge length in px. */
 export type CountryFlagSize = keyof typeof SIZE_CLASS;
 
+/** The source's placeholder disc, used for any code we hold no artwork for. */
+const UNKNOWN_CODE = "xx" as const;
+
 /** Props for {@link CountryFlag}. */
 export interface CountryFlagProps extends Omit<React.SVGProps<SVGSVGElement>, "children"> {
   /**
    * Two-letter country code, case-insensitive (e.g. `"US"`, `"nl"`). Codes we
-   * hold no artwork for render nothing, so a live feed of country codes can be
-   * passed straight through.
+   * hold no artwork for render a grey placeholder disc, so a live feed of
+   * country codes can be passed straight through.
    */
   country: string;
   /** Rendered edge length in px. Defaults to 20, the size the designs use. */
@@ -84,8 +87,14 @@ export const CountryFlag = React.forwardRef<SVGSVGElement, CountryFlagProps>(
     // can't carry them.
     const maskId = `country-flag-${generatedId.replace(/:/g, "")}`;
 
-    const shapes = FLAG_SHAPES[country.toLowerCase() as CountryFlagCode];
-    if (!shapes) return null;
+    // Unmapped codes fall back to the source's own `xx` placeholder — a plain
+    // grey disc — rather than rendering nothing. A live feed can hand us a code
+    // we hold no artwork for, and a blank where every other row has a glyph
+    // reads as a broken image rather than an unknown country. Using `xx` keeps
+    // the placeholder on the same viewBox and circular mask as a real flag,
+    // which a hand-drawn disc would not.
+    const shapes =
+      FLAG_SHAPES[country.toLowerCase() as CountryFlagCode] ?? FLAG_SHAPES[UNKNOWN_CODE];
 
     return (
       <svg
