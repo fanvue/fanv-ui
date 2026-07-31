@@ -80,7 +80,7 @@ const ShimmerLabel: React.FC<{ text: string }> = ({ text }) => (
           // resumes underneath it — the two animations are sequenced by delay.
           "group-focus-visible/ai:[animation:fv-ai-letter-focus_1s_ease-in-out,fv-ai-letter_1.2s_ease-in-out_infinite_1s]",
           "group-active/ai:text-content-primary group-active/ai:[animation:none]",
-          "group-active/ai:[text-shadow:0_0_4px_var(--color-content-always-white)]",
+          "group-active/ai:[text-shadow:0_0_4px_var(--color-content-primary)]",
           "motion-reduce:[animation:none]",
         )}
         style={{ animationDelay: `${index * LETTER_STAGGER}s` }}
@@ -165,9 +165,9 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
       >
         <span
           className={cn(
-            "flex shrink-0 items-center text-content-always-white",
+            "flex shrink-0 items-center text-content-primary",
             iconScaleVariants[size],
-            "[filter:drop-shadow(0_0_2px_color-mix(in_srgb,var(--color-content-always-white)_60%,transparent))]",
+            "[filter:drop-shadow(0_0_2px_color-mix(in_srgb,var(--color-content-primary)_60%,transparent))]",
             "[animation:fv-ai-flicker_2s_linear_infinite] [animation-delay:0.5s]",
             // Settles solid on hover, lit green from below like the sheen.
             "group-hover/ai:[animation:none]",
