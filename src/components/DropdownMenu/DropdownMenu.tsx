@@ -794,7 +794,15 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
         )}
         {...props}
       >
-        <div className="flex items-center gap-4 pl-2">
+        {/*
+         * The title is inset a further 8px so it clears the panel's rounded
+         * corner; the search input is not, because the design runs it to the
+         * header's own padding (`V2 Menu Dropdown` node `7393:62008`: the search
+         * row is `flex gap-16 w-full` with no inset, so the field sits 8px from
+         * the panel edge on both sides). Insetting it left-only left the field
+         * 16px in on the left and 8px on the right.
+         */}
+        <div className={cn("flex items-center gap-4", type === "default" && "pl-2")}>
           {type === "default" ? (
             <div className={cn("min-w-0 flex-1 truncate text-content-primary", titleTypography)}>
               {children ?? title}
