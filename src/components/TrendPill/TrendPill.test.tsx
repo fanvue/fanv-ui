@@ -42,5 +42,20 @@ describe("TrendPill", () => {
       const { container } = render(<TrendPill label="$240 vs Jun" trend="positive" />);
       expect(await axe(container)).toHaveNoViolations();
     });
+
+    // axe passes either way here: nothing in the markup is invalid, the direction
+    // was simply absent. These assert the text channel exists at all.
+    it("announces the direction, which colour and glyph alone do not carry", () => {
+      const { rerender } = render(<TrendPill label="$240 vs Jun" trend="positive" />);
+      expect(screen.getByText("Increase")).toBeInTheDocument();
+      rerender(<TrendPill label="$85 vs Jun" trend="negative" />);
+      expect(screen.getByText("Decrease")).toBeInTheDocument();
+    });
+
+    it("lets the host translate the direction", () => {
+      render(<TrendPill label="$240 vs Jun" trend="negative" decreaseLabel="Baisse" />);
+      expect(screen.getByText("Baisse")).toBeInTheDocument();
+      expect(screen.queryByText("Decrease")).not.toBeInTheDocument();
+    });
   });
 });

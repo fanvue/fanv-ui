@@ -12,6 +12,13 @@ export interface TrendPillProps extends Omit<React.HTMLAttributes<HTMLSpanElemen
   label: React.ReactNode;
   /** Drives the colour and the leading glyph. */
   trend: TrendDirection;
+  /**
+   * Announced before {@link label} when `trend` is `"positive"`. Overridable
+   * because the component cannot translate it. @default "Increase"
+   */
+  increaseLabel?: string;
+  /** As {@link increaseLabel}, for `"negative"`. @default "Decrease" */
+  decreaseLabel?: string;
 }
 
 /**
@@ -29,7 +36,7 @@ export interface TrendPillProps extends Omit<React.HTMLAttributes<HTMLSpanElemen
  * ```
  */
 export const TrendPill = React.forwardRef<HTMLSpanElement, TrendPillProps>(
-  ({ label, trend, ...props }, ref) => {
+  ({ label, trend, increaseLabel = "Increase", decreaseLabel = "Decrease", ...props }, ref) => {
     const isPositive = trend === "positive";
 
     return (
@@ -39,6 +46,13 @@ export const TrendPill = React.forwardRef<HTMLSpanElement, TrendPillProps>(
         leftIcon={isPositive ? <PlusIcon /> : <MinusIcon />}
         {...props}
       >
+        {/*
+         * `Pill` renders `leftIcon` inside `aria-hidden`, so without this the only
+         * channel carrying the direction is the green/red fill and the label itself
+         * says nothing about which way it went — WCAG 1.4.1, and the direction is
+         * the point of a trend.
+         */}
+        <span className="sr-only">{isPositive ? increaseLabel : decreaseLabel}</span>
         {label}
       </Pill>
     );
