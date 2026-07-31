@@ -136,6 +136,7 @@
   --color-special-chart-yellow: #f5d90aff;
   --color-special-chart-lime: #8fcb3aff;
   --color-special-chart-red: #ff4d4dff;
+  --color-special-chart-muted-sky: #e3f3feff;
   --color-special-default: #9c27b0ff;
   --color-special-background: #fdf1ffff;
   --color-brand-primary-default: var(--primitives-color-green-500);
@@ -530,6 +531,7 @@
   --color-special-chart-yellow: #f5d90aff;
   --color-special-chart-lime: #8fcb3aff;
   --color-special-chart-red: #ff4d4dff;
+  --color-special-chart-muted-sky: #e3f3feff;
   --color-special-default: #9c27b0ff;
   --color-special-background: #fdf1ffff;
   --color-brand-primary-default: var(--primitives-color-green-500);
@@ -747,6 +749,7 @@
   --color-special-chart-yellow: #f5d90aff;
   --color-special-chart-lime: #8fcb3aff;
   --color-special-chart-red: #ff4d4dff;
+  --color-special-chart-muted-sky: #30506aff;
   --color-special-default: #ed81ffff;
   --color-special-background: #4f1259ff;
   --color-brand-primary-default: var(--primitives-color-green-500);
