@@ -111,6 +111,172 @@
 }
 
 /*
+ * AiButton. Each letter runs `fv-ai-letter` on a staggered delay set inline from
+ * its index, which is what produces the left-to-right sweep — the alternative,
+ * a fixed set of :nth-child delays, silently stops staggering past whatever
+ * length the rules were written for.
+ */
+@keyframes fv-ai-letter {
+  50% {
+    color: var(--color-content-primary);
+    text-shadow: 0 0 6px var(--color-content-always-white);
+  }
+}
+
+@keyframes fv-ai-flicker {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes fv-ai-letter-focus {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: blur(0);
+  }
+  50% {
+    transform: scale(1.6);
+    filter: blur(6px) brightness(150%)
+      drop-shadow(-12px 4px 8px var(--color-content-always-white));
+  }
+}
+
+/*
+ * Registering the property is what makes it animatable: an unregistered custom
+ * property is just a token string to the engine, so it would jump between values
+ * and the sheen would snap to centre on pointer-out instead of gliding there.
+ * Browsers without @property degrade to exactly that snap, which is the old
+ * behaviour rather than a broken one.
+ */
+@property --fv-ai-x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+/*
+ * AiButton surface. The lit rim and the sheen are pseudo-elements rather than
+ * box-shadows on the button so they can be masked and brightened independently
+ * of the border, which is what gives the control its "powered on" feel.
+ */
+@utility fv-ai-button {
+  position: relative;
+
+  /*
+   * Horizontal centre of the sheen, as a percentage of the button's width. The
+   * component rewrites this inline on pointer move so the glow tracks the cursor;
+   * the default keeps it centred for keyboard focus and touch, where there is no
+   * pointer position to follow.
+   */
+  --fv-ai-x: 50%;
+
+  /*
+   * Rim just outside the border: unlit at rest, catching green as it lifts. It
+   * carries only inset glow — the 1px light/dark bevel pair it used to also draw
+   * read as a second outline ringing the button 3px out from its actual border.
+   */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    transition: box-shadow 400ms ease-out;
+    box-shadow:
+      0 -8px 8px -6px transparent inset,
+      0 -16px 16px -8px transparent inset;
+  }
+
+  /*
+   * Sheen rising from the bottom edge, masked so it fades before the top. It is a
+   * radial pool anchored to the bottom and centred on `--fv-ai-x` rather than a
+   * flat linear wash, so it reads as light cast from wherever the cursor is.
+   *
+   * This block is the pointer-out state, and it is where the exit is shaped: the
+   * pool glides back to centre while `ease-in` holds the opacity near full before
+   * dropping it, and the filter deepens the green as it recedes. The effect is the
+   * light sliding away and going out, rather than blinking off wherever it stood.
+   */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    filter: brightness(150%) saturate(140%);
+    transition:
+      opacity 550ms ease-in,
+      filter 550ms ease-in,
+      --fv-ai-x 550ms ease-out;
+    background-image: radial-gradient(
+      55% 130% at var(--fv-ai-x) 100%,
+      var(--color-brand-primary-default),
+      color-mix(in srgb, var(--color-brand-primary-default) 45%, transparent)
+        35%,
+      transparent 70%
+    );
+    mask-image: linear-gradient(
+      0deg,
+      var(--color-content-always-white),
+      transparent
+    );
+  }
+
+  &:hover::before {
+    box-shadow:
+      0 -8px 8px -6px
+        color-mix(in srgb, var(--color-content-always-white) 60%, transparent)
+        inset,
+      0 -16px 16px -8px
+        color-mix(in srgb, var(--color-brand-primary-default) 30%, transparent)
+        inset;
+  }
+
+  /*
+   * Pointer-in. `ease-out` over the same 400ms as the rim and the border, so the
+   * treatment lifts in as one movement and settles rather than arriving in pieces.
+   */
+  &:hover::after {
+    opacity: 1;
+    filter: none;
+    /* `--fv-ai-x` must not be transitioned while the pointer is over the button:
+       it is rewritten every move frame, and any duration here makes the glow
+       trail the cursor instead of sitting under it. */
+    transition:
+      opacity 400ms ease-out,
+      filter 400ms ease-out,
+      --fv-ai-x 0s;
+  }
+
+  &:focus-visible::after {
+    opacity: 0.6;
+  }
+
+  &:active::before {
+    box-shadow:
+      0 -8px 12px -6px
+        color-mix(in srgb, var(--color-content-always-white) 66%, transparent)
+        inset,
+      0 -16px 16px -8px
+        color-mix(in srgb, var(--color-brand-primary-default) 80%, transparent)
+        inset;
+  }
+
+  &:active::after {
+    opacity: 1;
+    filter: brightness(200%);
+  }
+
+  &:disabled::before,
+  &:disabled::after {
+    box-shadow: none;
+    opacity: 0;
+  }
+}
+/*
  * Animate `height` between 0 and the panel's measured height
  * (`--radix-accordion-content-height`, which Radix sets from a getBoundingClientRect
  * in a useLayoutEffect). This is the canonical Radix/Collapsible pattern and keeps the
