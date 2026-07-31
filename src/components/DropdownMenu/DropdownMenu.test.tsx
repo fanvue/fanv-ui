@@ -83,6 +83,53 @@ describe("DropdownMenu", () => {
       expect(panel).not.toHaveClass("rounded-lg");
     });
 
+    // Each of these three drifted from the design unnoticed, so they are asserted
+    // rather than left to the eye. Node references are in the component.
+    it("gives a menu item the 12px row radius", () => {
+      renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
+      const item = screen.getByRole("menuitem");
+      expect(item).toHaveClass("rounded-sm");
+      expect(item).not.toHaveClass("rounded-xs");
+    });
+
+    it("keeps the 8px radius on a radio item, which the design draws differently", () => {
+      renderMenu(
+        <DropdownMenuRadioGroup value="a">
+          <DropdownMenuRadioItem value="a">A</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      const item = screen.getByRole("menuitemradio");
+      expect(item).toHaveClass("rounded-xs");
+      expect(item).not.toHaveClass("rounded-sm");
+    });
+
+    it("indents a radio item the same as any other row", () => {
+      renderMenu(
+        <DropdownMenuRadioGroup value="a">
+          <DropdownMenuRadioItem value="a">A</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      const item = screen.getByRole("menuitemradio");
+      expect(item).toHaveClass("px-3");
+      expect(item).not.toHaveClass("px-4");
+    });
+
+    it("draws the count at 14px at both row heights", () => {
+      renderMenu(
+        <>
+          <DropdownMenuItem size="40" count="12">
+            Forty
+          </DropdownMenuItem>
+          <DropdownMenuItem size="32" count="34">
+            Thirty two
+          </DropdownMenuItem>
+        </>,
+      );
+      expect(screen.getByText("12")).toHaveClass("typography-body-small-14px-regular");
+      expect(screen.getByText("12")).not.toHaveClass("typography-body-default-16px-regular");
+      expect(screen.getByText("34")).toHaveClass("typography-body-small-14px-regular");
+    });
+
     it("does not render content when closed", () => {
       renderMenu(<DropdownMenuItem>Hidden</DropdownMenuItem>, {
         defaultOpen: false,
