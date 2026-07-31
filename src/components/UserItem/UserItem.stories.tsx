@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { UserItem } from "./UserItem";
+import { UserItemTrailing } from "./UserItemTrailing";
 
 const SAMPLE_AVATAR =
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
@@ -137,6 +138,82 @@ export const States: Story = {
       <UserItem {...args} showHandle={false} />
       <UserItem {...args} showAvatar={false} />
       <UserItem {...args} user={{ ...sampleUser, nickname: "Aitana" }} />
+    </div>
+  ),
+};
+
+export const Trailing: Story = {
+  args: {
+    avatarSize: 32,
+    showHandle: false,
+    trailing: <UserItemTrailing value="$14,523.59" />,
+  },
+};
+
+/**
+ * Trailing content keeps its intrinsic width while the name truncates, so values
+ * stay aligned down a list whatever the display names do.
+ */
+export const TrailingList: Story = {
+  name: "Trailing (list)",
+  render: (args) => (
+    <div className="flex w-96 flex-col gap-2">
+      {[
+        { name: "Caroline King", value: "$14,523.59" },
+        { name: "Agency Chatter", value: "$12,837.17" },
+        { name: "Agency Managed Creator 1 Fan", value: "$12,545.95" },
+      ].map(({ name, value }) => (
+        <UserItem
+          {...args}
+          key={name}
+          user={{ ...sampleUser, displayName: name }}
+          avatarSize={32}
+          showHandle={false}
+          trailing={<UserItemTrailing value={value} />}
+        />
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * An activity feed: `primary` carries a sentence about the user instead of their
+ * name, and the value sits above its timestamp at the end of the row.
+ */
+export const ActivityFeed: Story = {
+  name: "Activity feed (secondary + trailing)",
+  render: (args) => (
+    <div className="flex w-96 flex-col gap-2">
+      {[
+        {
+          name: "Benjamin Griffin",
+          action: "subscribed to your feed",
+          value: "$421.32",
+          meta: "7 hours ago",
+        },
+        {
+          name: "Caroline King",
+          action: "renewed their subscription",
+          value: "$102.05",
+          meta: "22 hours ago",
+        },
+        {
+          name: "Agency Chatter",
+          action: "purchased a post",
+          value: "$21.88",
+          meta: "1 day ago",
+        },
+      ].map(({ name, action, value, meta }) => (
+        <UserItem
+          {...args}
+          key={name}
+          user={{ ...sampleUser, displayName: name }}
+          avatarSize={32}
+          showHandle={false}
+          secondary={action}
+          trailing={<UserItemTrailing value={value} meta={meta} />}
+        />
+      ))}
     </div>
   ),
 };

@@ -265,6 +265,8 @@ import {
   UserCircleIcon,
   UserDisplayName,
   UserIcon,
+  UserItem,
+  UserItemTrailing,
   UsersIcon,
   VideoIcon,
   VipBadgeIcon,
@@ -2476,6 +2478,28 @@ function AudioRecordButtonDemo() {
         </div>
       </div>
     </div>
+  );
+}
+
+function UserItemTrailingDemo() {
+  return (
+    <section>
+      <h2 className="typography-header-heading-sm mb-4">UserItem trailing</h2>
+      <div className="flex max-w-sm flex-col gap-2">
+        <UserItem
+          user={{ displayName: "Jane Doe", handle: "jane_doe" }}
+          avatarSize={32}
+          showHandle={false}
+          trailing={<UserItemTrailing value="$14,523.59" meta="12 purchases" />}
+        />
+        <UserItem
+          user={{ displayName: "Alex Kim", handle: "alex_kim" }}
+          avatarSize={32}
+          showHandle={false}
+          trailing={<UserItemTrailing value="$980.00" meta="3 purchases" />}
+        />
+      </div>
+    </section>
   );
 }
 
@@ -5768,6 +5792,7 @@ function App() {
 
             {/* Pill */}
             <PillDemo />
+            <UserItemTrailingDemo />
 
             {/* Checkbox */}
             <CheckboxDemo />

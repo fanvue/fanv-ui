@@ -46,15 +46,50 @@ export interface UserItemProps extends React.HTMLAttributes<HTMLDivElement> {
   verified?: boolean;
   /** Accessible label for the verified badge. @default "Verified" */
   verifiedLabel?: string;
+  /**
+   * Content pinned to the end of the row — a value, count, timestamp or action.
+   * It keeps its intrinsic width while the name block absorbs the remaining
+   * space, so trailing content stays aligned down the rows of a list.
+   *
+   * Prefer {@link UserItemTrailing} over composing the lines yourself.
+   */
+  trailing?: React.ReactNode;
+  /**
+   * Replace the display-name line with arbitrary content, for rows that read as
+   * a sentence about the user rather than their name — an activity feed entry,
+   * for instance. Badges do not apply to custom content.
+   */
+  primary?: React.ReactNode;
+  /**
+   * A supporting line under the name, mirroring {@link UserItemTrailing}'s `meta`.
+   * Both are block lines on the same 18px advance, so a row using `secondary` on
+   * the left and `meta` on the right reads as two aligned tiers. Prefer it over
+   * letting a long primary wrap, which mixes line heights and drifts out of step.
+   */
+  secondary?: React.ReactNode;
 }
 
 /**
  * A compact user row showing an avatar, display name (or nickname) and handle,
  * with optional verified and AI-disclosure badges and online and muted indicators.
  *
+ * Pass {@link UserItemProps.trailing} to pin a value to the end of the row, the
+ * shape most list rows need — top spenders, most active fans, a recent-activity
+ * feed.
+ *
  * @example
  * ```tsx
  * <UserItem user={{ displayName: "Jane Doe", handle: "jane_doe" }} />
+ * ```
+ *
+ * @example A list row with a trailing value
+ * ```tsx
+ * <UserItem
+ *   user={user}
+ *   avatarSize={32}
+ *   showHandle={false}
+ *   trailing={<span className="typography-body-small-14px-semibold">$14,523.59</span>}
+ * />
  * ```
  */
 export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
@@ -71,6 +106,9 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
       aiDisclosureLabel,
       verified = false,
       verifiedLabel,
+      trailing,
+      primary,
+      secondary,
       className,
       ...props
     },
@@ -97,17 +135,25 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
           />
         )}
         <div className="flex-1 overflow-hidden pl-2">
-          <UserDisplayName
-            aiDisclosure={aiDisclosure}
-            aiDisclosureLabel={aiDisclosureLabel}
-            verified={verified}
-            verifiedLabel={verifiedLabel}
-            className="typography-body-small-14px-semibold"
-          >
-            {user.nickname || user.displayName}
-          </UserDisplayName>
+          {primary ?? (
+            <UserDisplayName
+              aiDisclosure={aiDisclosure}
+              aiDisclosureLabel={aiDisclosureLabel}
+              verified={verified}
+              verifiedLabel={verifiedLabel}
+              className="typography-body-small-14px-semibold"
+            >
+              {user.nickname || user.displayName}
+            </UserDisplayName>
+          )}
+          {secondary && (
+            <p className="typography-description-12px-regular truncate text-content-secondary">
+              {secondary}
+            </p>
+          )}
           {showHandle && <UserHandle>{user.handle}</UserHandle>}
         </div>
+        {trailing && <div className="shrink-0 pl-2">{trailing}</div>}
       </div>
     );
   },
