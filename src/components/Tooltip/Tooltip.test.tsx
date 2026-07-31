@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./Tooltip";
 
@@ -17,6 +17,41 @@ function renderTooltip(contentProps?: React.ComponentPropsWithoutRef<typeof Tool
 }
 
 describe("Tooltip", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  describe("delayDuration", () => {
+    function hoverWithFakeTimers() {
+      vi.useFakeTimers();
+      render(
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>Hover me</TooltipTrigger>
+            <TooltipContent>Tooltip text</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      );
+      fireEvent.pointerMove(screen.getByRole("button", { name: "Hover me" }));
+    }
+
+    it("keeps the tooltip closed until 200ms after hover", () => {
+      hoverWithFakeTimers();
+      act(() => {
+        vi.advanceTimersByTime(199);
+      });
+      expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
+    });
+
+    it("opens at 200ms without waiting for Radix's 700ms default", () => {
+      hoverWithFakeTimers();
+      act(() => {
+        vi.advanceTimersByTime(200);
+      });
+      expect(screen.getByRole("tooltip")).toHaveTextContent("Tooltip text");
+    });
+  });
+
   describe("API", () => {
     it("renders tooltip content on hover", async () => {
       const user = userEvent.setup();
