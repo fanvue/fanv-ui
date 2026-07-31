@@ -81,6 +81,58 @@ describe("Tabs", () => {
       );
     });
 
+    it("anchors the indicator to the label, not the tab centre, when padding is asymmetric", () => {
+      const rect = (left: number, width: number) =>
+        ({
+          left,
+          width,
+          right: left + width,
+          top: 0,
+          bottom: 0,
+          height: 0,
+          x: left,
+          y: 0,
+        }) as DOMRect;
+
+      const original = Element.prototype.getBoundingClientRect;
+      Element.prototype.getBoundingClientRect = function () {
+        if (this.getAttribute("role") === "tab") return rect(0, 149);
+        if (this.closest?.('[role="tab"]')) return rect(0, 133);
+        return rect(0, 320);
+      };
+      Object.defineProperty(HTMLElement.prototype, "offsetLeft", {
+        configurable: true,
+        get() {
+          return 0;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+        configurable: true,
+        get() {
+          return 149;
+        },
+      });
+
+      try {
+        const { container } = render(
+          <Tabs defaultValue="t">
+            <TabsList alignLeft flushLeft>
+              <TabsTrigger value="t">Manager Insights</TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+        const indicator = container.querySelector<HTMLElement>(
+          '[role="tablist"] > span:not([role])',
+        );
+        expect(indicator?.style.width).toBe("133px");
+        expect(indicator?.style.transform).toBe("translateX(0px)");
+      } finally {
+        Element.prototype.getBoundingClientRect = original;
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetLeft");
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetWidth");
+      }
+    });
+
     it("scrolls rather than compresses the tabs when scrollable is set", () => {
       // `flex-none` is the load-bearing half: tabs that still share the row
       // never overflow, so there would be nothing to scroll.

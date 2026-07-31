@@ -115,9 +115,18 @@ export const TabsList = React.forwardRef<
         indicator.style.background =
           "linear-gradient(90deg, var(--color-buttons-tertiary-default) 0%, var(--color-tab-active) 50%, var(--color-buttons-tertiary-default) 100%)";
         const textSpan = activeTab.querySelector("span");
-        const textWidth = (textSpan ?? activeTab).getBoundingClientRect().width;
-        const tabCenter = activeTab.offsetLeft + activeTab.offsetWidth / 2;
-        const indicatorLeft = tabCenter - textWidth / 2;
+        const target = textSpan ?? activeTab;
+        const textWidth = target.getBoundingClientRect().width;
+        // Anchor to where the label actually sits, not to the tab's centre. The two
+        // only coincide when the tab's horizontal padding is symmetric, which
+        // `flushLeft` breaks by dropping `pl` on the first tab: the tab's centre then
+        // sits `pr / 2` to the right of the label's. Measured as a difference of two
+        // rects so it stays correct while a `scrollable` list is scrolled.
+        const textOffsetInTab =
+          target === activeTab
+            ? 0
+            : target.getBoundingClientRect().left - activeTab.getBoundingClientRect().left;
+        const indicatorLeft = activeTab.offsetLeft + textOffsetInTab;
         indicator.style.inset = "auto auto 0 0";
         indicator.style.height = "1px";
         indicator.style.width = `${textWidth}px`;
