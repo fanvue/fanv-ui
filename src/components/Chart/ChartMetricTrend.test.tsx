@@ -10,7 +10,7 @@ import { ChartMetricTrend } from "./ChartMetricTrend";
  * gradient. Asserting on any of that would either fail or, worse, pass vacuously
  * against an empty NodeList. So these cover the wrapper contract only, which is
  * what the DS PR template asks for; the drawn series, its gradient and the
- * per-colour gradient scoping are covered by ChartMetricTrend.stories.tsx, which
+ * per-instance gradient ids are covered by ChartMetricTrend.stories.tsx, which
  * runs in a real browser.
  */
 describe("ChartMetricTrend", () => {

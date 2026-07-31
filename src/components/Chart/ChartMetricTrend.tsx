@@ -47,8 +47,11 @@ export const ChartMetricTrend = React.forwardRef<HTMLDivElement, ChartMetricTren
     const points = series && series.length > 1 ? series : [value, value];
     const chartData = points.map((point, index) => ({ index, value: point }));
     const chartConfig: ChartConfig = { value: { color: CHART_COLORS[color] } };
-    // Scoped per colour so two cards on the same page don't share one gradient def.
-    const gradientId = `metric-trend-gradient-${color}`;
+    // Per instance, not per colour: two same-colour cards would otherwise emit the
+    // same id and every `url(#...)` in the document would resolve to whichever
+    // rendered first. `useId` emits colons, which are legal in an `id` but break
+    // `querySelector`, so strip them.
+    const gradientId = `metric-trend-gradient-${React.useId().replace(/:/g, "")}`;
 
     return (
       // 106px is the design's `V2 Area Chart Item` slot height.

@@ -44,3 +44,19 @@ export const FlatWithoutSeries: Story = {
   name: "Flat (no series)",
   args: { series: undefined },
 };
+
+/**
+ * Two cards of the same colour, which is the case that would break a gradient id
+ * scoped by colour: both would emit the same `id` and every `url(#...)` in the
+ * document would resolve to whichever rendered first. Both series must show their
+ * own shape and fade.
+ */
+export const TwoSameColourCards: Story = {
+  name: "Two cards, same colour",
+  render: () => (
+    <div className="flex gap-4">
+      <ChartMetricTrend value={69} color="teal" series={[40, 46, 52, 58, 61, 66, 69]} />
+      <ChartMetricTrend value={22} color="teal" series={[70, 58, 44, 36, 30, 25, 22]} />
+    </div>
+  ),
+};
