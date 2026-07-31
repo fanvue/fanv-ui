@@ -138,6 +138,23 @@ describe("AiButton", () => {
       render(<AiButton label="A B" />);
       expect(screen.getByRole("button")).toHaveTextContent("A B");
     });
+
+    it("stops shimmering and stops lighting up on hover once disabled", () => {
+      render(<AiButton label="Ana" disabled />);
+      const letter = screen
+        .getByRole("button")
+        .querySelector<HTMLElement>("[aria-hidden='true'] > span");
+      expect(letter).not.toHaveClass("[animation:fv-ai-letter_2s_ease-in-out_infinite]");
+      expect(letter).not.toHaveClass("group-hover/ai:text-content-primary");
+    });
+
+    it("still shimmers when enabled", () => {
+      render(<AiButton label="Ana" />);
+      const letter = screen
+        .getByRole("button")
+        .querySelector<HTMLElement>("[aria-hidden='true'] > span");
+      expect(letter).toHaveClass("[animation:fv-ai-letter_2s_ease-in-out_infinite]");
+    });
   });
 
   describe("accessibility", () => {

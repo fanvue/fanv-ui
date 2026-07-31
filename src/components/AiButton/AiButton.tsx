@@ -67,20 +67,26 @@ export interface AiButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButto
  * The run is hidden from assistive tech — the button's accessible name comes from
  * its `aria-label`, so a screen reader says "Analyse" rather than spelling it out.
  */
-const ShimmerLabel: React.FC<{ text: string }> = ({ text }) => (
+const ShimmerLabel: React.FC<{ text: string; disabled?: boolean }> = ({ text, disabled }) => (
   <span aria-hidden="true">
     {Array.from(text).map((character, index) => (
       <span
         key={`${character}-${index}`}
         className={cn(
           "inline-block whitespace-pre text-content-secondary",
-          "[animation:fv-ai-letter_2s_ease-in-out_infinite]",
-          "group-hover/ai:text-content-primary group-hover/ai:[animation:none]",
-          // On focus each letter blows up and settles, then the idle shimmer
-          // resumes underneath it — the two animations are sequenced by delay.
-          "group-focus-visible/ai:[animation:fv-ai-letter-focus_1s_ease-in-out,fv-ai-letter_1.2s_ease-in-out_infinite_1s]",
-          "group-active/ai:text-content-primary group-active/ai:[animation:none]",
-          "group-active/ai:[text-shadow:0_0_4px_var(--color-content-primary)]",
+          // Gated in JS rather than with a `group-disabled/ai:` override, because
+          // that would rely on the generated rule ordering to beat `group-hover`.
+          // A faded control that still shimmers and still lights up green under the
+          // cursor reads as busy rather than unavailable.
+          !disabled && [
+            "[animation:fv-ai-letter_2s_ease-in-out_infinite]",
+            "group-hover/ai:text-content-primary group-hover/ai:[animation:none]",
+            // On focus each letter blows up and settles, then the idle shimmer
+            // resumes underneath it — the two animations are sequenced by delay.
+            "group-focus-visible/ai:[animation:fv-ai-letter-focus_1s_ease-in-out,fv-ai-letter_1.2s_ease-in-out_infinite_1s]",
+            "group-active/ai:text-content-primary group-active/ai:[animation:none]",
+            "group-active/ai:[text-shadow:0_0_4px_var(--color-content-primary)]",
+          ],
           "motion-reduce:[animation:none]",
         )}
         style={{ animationDelay: `${index * LETTER_STAGGER}s` }}
@@ -168,11 +174,15 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
             "flex shrink-0 items-center text-content-primary",
             iconScaleVariants[size],
             "[filter:drop-shadow(0_0_2px_color-mix(in_srgb,var(--color-content-primary)_60%,transparent))]",
-            "[animation:fv-ai-flicker_2s_linear_infinite] [animation-delay:0.5s]",
-            // Settles solid on hover, lit green from below like the sheen.
-            "group-hover/ai:[animation:none]",
-            "group-hover/ai:[filter:drop-shadow(0_0_3px_var(--color-brand-primary-default))_drop-shadow(0_-4px_6px_color-mix(in_srgb,var(--color-content-always-black)_60%,transparent))]",
-            "group-focus-visible/ai:[animation-duration:1.2s] group-focus-visible/ai:[animation-delay:0.2s]",
+            // Same reasoning as the letters: no flicker and no green lift once the
+            // button is unavailable.
+            !disabled && [
+              "[animation:fv-ai-flicker_2s_linear_infinite] [animation-delay:0.5s]",
+              // Settles solid on hover, lit green from below like the sheen.
+              "group-hover/ai:[animation:none]",
+              "group-hover/ai:[filter:drop-shadow(0_0_3px_var(--color-brand-primary-default))_drop-shadow(0_-4px_6px_color-mix(in_srgb,var(--color-content-always-black)_60%,transparent))]",
+              "group-focus-visible/ai:[animation-duration:1.2s] group-focus-visible/ai:[animation-delay:0.2s]",
+            ],
             "motion-reduce:[animation:none]",
           )}
         >
@@ -187,7 +197,7 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
               active ? "opacity-0" : "opacity-100",
             )}
           >
-            <ShimmerLabel text={label} />
+            <ShimmerLabel text={label} disabled={disabled} />
           </span>
           <span
             className={cn(
@@ -195,7 +205,7 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
               active ? "opacity-100" : "opacity-0",
             )}
           >
-            <ShimmerLabel text={resolvedActiveLabel} />
+            <ShimmerLabel text={resolvedActiveLabel} disabled={disabled} />
           </span>
         </span>
       </button>
