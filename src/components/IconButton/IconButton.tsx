@@ -27,7 +27,8 @@ export type IconButtonVariant =
   | "navTray"
   | "tertiaryDestructive"
   | "stop"
-  | "microphone";
+  | "microphone"
+  | "field";
 
 /** Icon button size in pixels. */
 export type IconButtonSize = "24" | "32" | "40" | "48" | "52" | "72";
@@ -184,6 +185,15 @@ const VARIANT_CLASSES: Record<IconButtonVariant, VariantClasses> = {
       "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black",
     disabled: DISABLED_OPACITY,
   },
+  // Carries the input surface rather than a button one, so an icon-only action can
+  // sit flush in a row of fields (Figma draws these as a `V2 Input Fields` instance
+  // with only an icon inside). Border and hover match the Select trigger it lines up
+  // with, so the row reads as one control group.
+  field: {
+    default:
+      "border border-border-primary bg-inputs-inputs-primary text-content-primary not-disabled:hover:border-neutral-alphas-400",
+    disabled: DISABLED_TRANSPARENT,
+  },
 };
 
 function getVariantClasses(variant: IconButtonVariant, negative: boolean): string {
@@ -218,7 +228,10 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * Shape is size-driven for the standard variants: the `24` size is squared
  * (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
  * `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
- * `microphone`) stay circular at all sizes.
+ * `microphone`) stay circular at all sizes. `field` is the exception that is
+ * never circular — it takes the inputs' `rounded-sm` so it matches the fields it
+ * sits beside. Use it at `32`, `40` or `48`: those are the sizes `Select` offers,
+ * and the variant only earns its surface when it lines up with one.
  *
  * @example
  * ```tsx
@@ -257,7 +270,13 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           "relative inline-flex shrink-0 items-center justify-center focus-visible:outline-none",
           "cursor-pointer transition-all duration-150 ease-in-out disabled:cursor-default",
           "focus-visible:shadow-focus-ring",
-          SIZE_DRIVEN_SHAPE_VARIANTS.has(variant) && size === "24" ? "rounded-xs" : "rounded-full",
+          // `field` takes the inputs' radius at every size so it lines up with the
+          // fields around it; everything else keeps the existing size-driven shape.
+          variant === "field"
+            ? "rounded-sm"
+            : SIZE_DRIVEN_SHAPE_VARIANTS.has(variant) && size === "24"
+              ? "rounded-xs"
+              : "rounded-full",
           sizeVariants[size],
           getVariantClasses(variant, negative),
           className,

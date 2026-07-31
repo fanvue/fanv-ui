@@ -46,6 +46,28 @@ describe("IconButton", () => {
       expect(button).not.toHaveClass("rounded-xs");
     });
 
+    it("gives the field variant the inputs' radius at every size, never circular", () => {
+      for (const size of ["24", "40"] as const) {
+        const { unmount } = render(
+          <IconButton icon={<HomeIcon />} variant="field" size={size} aria-label="Download" />,
+        );
+        const button = screen.getByTestId("icon-button");
+        expect(button).toHaveClass("rounded-sm");
+        expect(button).not.toHaveClass("rounded-full");
+        expect(button).not.toHaveClass("rounded-xs");
+        unmount();
+      }
+    });
+
+    it("gives the field variant the input surface and border", () => {
+      render(<IconButton icon={<HomeIcon />} variant="field" size="40" aria-label="Download" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass(
+        "bg-inputs-inputs-primary",
+        "border",
+        "border-border-primary",
+      );
+    });
+
     it("keeps bespoke variants circular at every size", () => {
       render(<IconButton icon={<HomeIcon />} variant="microphone" size="24" aria-label="Mic" />);
       expect(screen.getByTestId("icon-button")).toHaveClass("rounded-full");
