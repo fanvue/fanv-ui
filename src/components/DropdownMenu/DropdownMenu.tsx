@@ -514,14 +514,20 @@ export const DropdownMenuItem = React.forwardRef<
       className,
     );
 
-    // In the two-line (description) layout, icons sit on the title's line.
-    // 24px title line-height vs 16px icon → 4px (pt-1) centres the icon on it.
-    const iconAlignClassName = hasDescription ? "flex shrink-0 items-center pt-1" : null;
+    // In the two-line (description) layout everything beside the title sits on
+    // the title's line, not the centre of the two-line block. A box the height of
+    // that line centres each sibling on it whatever its own size — a 16px icon, a
+    // 24px avatar, or the count's larger text box. The height is the title's, from
+    // `typography-body-small-14px-semibold`; a `pt-*` nudge cannot do this because
+    // the correct offset differs per sibling, and the previous `pt-1` was computed
+    // against the single-line title's 24px leading, leaving all four 3px low.
+    const iconAlignClassName = hasDescription ? "flex h-[18px] shrink-0 items-center" : null;
 
     const countNode = count != null && (
       <span
         className={cn(
           "shrink-0 tabular-nums",
+          iconAlignClassName,
           ITEM_COUNT_TYPOGRAPHY[normalizedSize],
           destructive ? "text-error-content" : "text-content-tertiary",
           "group-data-[disabled]:text-content-disabled",
@@ -549,7 +555,7 @@ export const DropdownMenuItem = React.forwardRef<
     const itemChildren = (
       <>
         {avatar != null ? (
-          <span className="shrink-0">{avatar}</span>
+          <span className={cn("shrink-0", iconAlignClassName)}>{avatar}</span>
         ) : (
           leadingIcon != null &&
           (hasDescription ? (

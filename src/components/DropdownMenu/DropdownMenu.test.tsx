@@ -49,6 +49,32 @@ describe("DropdownMenu", () => {
   });
 
   describe("API", () => {
+    it("sits the avatar, count and icons on a two-line row's title line", () => {
+      renderMenu(
+        <DropdownMenuItem
+          avatar={<span data-testid="avatar">A</span>}
+          count="12"
+          description="Product designer"
+        >
+          Alex Smith
+        </DropdownMenuItem>,
+      );
+      // 18px is the title's leading; a `pt-1` nudge would sit them 3px low.
+      expect(screen.getByTestId("avatar").parentElement).toHaveClass("h-[18px]");
+      expect(screen.getByText("12")).toHaveClass("h-[18px]");
+      expect(screen.getByText("12")).not.toHaveClass("pt-1");
+    });
+
+    it("leaves a single-line row's siblings vertically centred by the row", () => {
+      renderMenu(
+        <DropdownMenuItem avatar={<span data-testid="avatar">A</span>} count="12">
+          Alex Smith
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByTestId("avatar").parentElement).not.toHaveClass("h-[18px]");
+      expect(screen.getByText("12")).not.toHaveClass("h-[18px]");
+    });
+
     it("gives the panel the 12px menu radius, not the 8px row radius", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const panel = screen.getByRole("menu");
