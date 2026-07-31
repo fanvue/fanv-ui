@@ -849,6 +849,8 @@ export type {
   UserItemUser,
 } from "./components/UserItem/UserItem";
 export { UserItem } from "./components/UserItem/UserItem";
+export type { UserItemTrailingProps } from "./components/UserItem/UserItemTrailing";
+export { UserItemTrailing } from "./components/UserItem/UserItemTrailing";
 export type {
   VoiceNoteProps,
   VoiceNoteSize,

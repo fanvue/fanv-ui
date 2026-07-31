@@ -147,10 +147,81 @@ describe("UserItem", () => {
     });
   });
 
+  describe("trailing", () => {
+    it("renders no trailing slot by default", () => {
+      render(<UserItem user={baseUser} data-testid="item" />);
+      expect(screen.getByTestId("item").children).toHaveLength(2);
+    });
+
+    it("renders trailing content as the last child of the row", () => {
+      render(<UserItem user={baseUser} trailing={<span>$14,523.59</span>} data-testid="item" />);
+      expect(screen.getByText("$14,523.59")).toBeInTheDocument();
+      expect(screen.getByTestId("item").lastElementChild).toHaveTextContent("$14,523.59");
+    });
+
+    it("keeps trailing content at its intrinsic width", () => {
+      render(<UserItem user={baseUser} trailing={<span>12</span>} data-testid="item" />);
+      expect(screen.getByTestId("item").lastElementChild).toHaveClass("shrink-0");
+    });
+  });
+
+  describe("primary", () => {
+    it("renders the display name when primary is not given", () => {
+      render(<UserItem user={baseUser} />);
+      expect(screen.getByText("Jane Doe")).toBeInTheDocument();
+    });
+
+    it("replaces the display-name line with custom content", () => {
+      render(<UserItem user={baseUser} primary={<span>Jane Doe subscribed</span>} />);
+      expect(screen.getByText("Jane Doe subscribed")).toBeInTheDocument();
+      expect(screen.queryByText("Jane Doe")).not.toBeInTheDocument();
+    });
+
+    it("still renders the handle alongside custom primary content", () => {
+      render(<UserItem user={baseUser} primary={<span>Jane Doe subscribed</span>} />);
+      expect(screen.getByText("@jane_doe")).toBeInTheDocument();
+    });
+  });
+
+  describe("secondary", () => {
+    it("renders no secondary line by default", () => {
+      render(<UserItem user={baseUser} showHandle={false} data-testid="item" />);
+      expect(screen.getByTestId("item").querySelector("p")).not.toBeInTheDocument();
+    });
+
+    it("renders the secondary line under the name", () => {
+      render(<UserItem user={baseUser} showHandle={false} secondary="subscribed to your feed" />);
+      expect(screen.getByText("Jane Doe")).toBeInTheDocument();
+      expect(screen.getByText("subscribed to your feed")).toBeInTheDocument();
+    });
+
+    it("renders the secondary line on the same tier as trailing meta", () => {
+      render(
+        <UserItem
+          user={baseUser}
+          showHandle={false}
+          secondary="subscribed to your feed"
+          data-testid="item"
+        />,
+      );
+      expect(screen.getByText("subscribed to your feed")).toHaveClass(
+        "typography-description-12px-regular",
+        "text-content-secondary",
+      );
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(
         <UserItem user={{ ...baseUser, nickname: "JD" }} isMuted isOnline showOnlineStatus />,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with trailing content", async () => {
+      const { container } = render(
+        <UserItem user={baseUser} showHandle={false} trailing={<span>$14,523.59</span>} />,
       );
       expect(await axe(container)).toHaveNoViolations();
     });
