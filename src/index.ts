@@ -13,6 +13,11 @@ export type { AccordionItemProps } from "./components/Accordion/AccordionItem";
 export { AccordionItem } from "./components/Accordion/AccordionItem";
 export type { AccordionTriggerProps } from "./components/Accordion/AccordionTrigger";
 export { AccordionTrigger } from "./components/Accordion/AccordionTrigger";
+export type {
+  AiButtonProps,
+  AiButtonSize,
+} from "./components/AiButton/AiButton";
+export { AiButton } from "./components/AiButton/AiButton";
 export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
 export type {

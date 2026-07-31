@@ -20,6 +20,7 @@ import {
   AccordionTrigger,
   AddIcon,
   AIIcon,
+  AiButton,
   Alert,
   AlertIcon,
   AnimatedNumber,
@@ -2529,6 +2530,26 @@ function AnimatedNumberDemo() {
         <Button size="32" onClick={() => setValue((v) => v + 310)}>
           Increase
         </Button>
+      </div>
+    </section>
+  );
+}
+
+function AiButtonDemo() {
+  const [active, setActive] = React.useState(false);
+  return (
+    <section>
+      <h2 className="typography-header-heading-sm mb-4">AiButton</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <AiButton size="24" label="Analyse" />
+        <AiButton size="32" label="Analyse" />
+        <AiButton size="40" label="Analyse" />
+        <AiButton
+          label="Get advice"
+          activeLabel="Thinking"
+          active={active}
+          onClick={() => setActive((a) => !a)}
+        />
       </div>
     </section>
   );
@@ -5864,6 +5885,7 @@ function App() {
             <UserItemTrailingDemo />
             <TrendPillDemo />
             <AnimatedNumberDemo />
+            <AiButtonDemo />
 
             {/* Checkbox */}
             <CheckboxDemo />
