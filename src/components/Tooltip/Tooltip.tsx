@@ -5,8 +5,23 @@ import { cn } from "../../utils/cn";
 /** Props for the {@link TooltipProvider}. Wraps Radix `Tooltip.Provider`. */
 export type TooltipProviderProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Provider>;
 
-/** Provides tooltip delay and skip-delay context. Wrap your app or a subtree. */
-export const TooltipProvider = TooltipPrimitive.Provider;
+const DEFAULT_DELAY_DURATION = 200;
+
+/**
+ * Provides tooltip delay and skip-delay context. Wrap your app or a subtree.
+ *
+ * Defaults `delayDuration` to 200ms rather than inheriting Radix's 700ms, which
+ * reads as unresponsive on the short hint labels this library uses tooltips for.
+ * Pass `delayDuration` to override.
+ *
+ * Note that `TooltipLabel`, `ChartCard` and `SwitchField` each mount their own
+ * provider internally, so they take this default but not an app-level override.
+ */
+export const TooltipProvider = ({
+  delayDuration = DEFAULT_DELAY_DURATION,
+  ...props
+}: TooltipProviderProps) => <TooltipPrimitive.Provider delayDuration={delayDuration} {...props} />;
+TooltipProvider.displayName = "TooltipProvider";
 
 /** Props for the {@link Tooltip} root component. */
 export interface TooltipProps extends React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Root> {
