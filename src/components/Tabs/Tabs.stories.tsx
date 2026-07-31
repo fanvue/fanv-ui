@@ -155,6 +155,94 @@ export const FillStyle: Story = {
   ),
 };
 
+/**
+ * `flushLeft` drops the first tab's leading padding so its label lines up with
+ * page content outside the bar. The heading here shares the tab list's left
+ * edge, which the default 16px trigger padding would otherwise break.
+ */
+export const FlushLeft: Story = {
+  name: "Full Width - Align Left, Flush",
+  render: () => (
+    <Tabs defaultValue="tab1">
+      <h2 className="typography-header-heading-sm pb-4 text-content-primary">Insights</h2>
+      <TabsList alignLeft flushLeft>
+        <TabsTrigger value="tab1">Manager Insights</TabsTrigger>
+        <TabsTrigger value="tab2">Chatter Leaderboard</TabsTrigger>
+      </TabsList>
+      <TabsContent value="tab1">
+        <p className="pt-4 text-content-tertiary text-sm">
+          The first label sits flush with the heading above it.
+        </p>
+      </TabsContent>
+      <TabsContent value="tab2">
+        <p className="pt-4 text-content-tertiary text-sm">Chatter Leaderboard content</p>
+      </TabsContent>
+    </Tabs>
+  ),
+};
+
+/**
+ * `scrollable` keeps every label readable in a narrow container. Without it the
+ * tabs compress until they all ellipsise at once; here they hold their width and
+ * the row scrolls, with the clipped tab at the edge as the affordance.
+ */
+export const Scrollable: Story = {
+  name: "Scrollable - Narrow Container",
+  render: () => (
+    <div className="w-[320px]">
+      <Tabs defaultValue="tab1">
+        <TabsList scrollable flushLeft>
+          <TabsTrigger value="tab1">Manager Insights</TabsTrigger>
+          <TabsTrigger value="tab2">Chatter Leaderboard</TabsTrigger>
+          <TabsTrigger value="tab3">Fans at Risk</TabsTrigger>
+        </TabsList>
+        <TabsContent value="tab1">
+          <p className="pt-4 text-content-tertiary text-sm">
+            Drag the row sideways to reach the later tabs.
+          </p>
+        </TabsContent>
+        <TabsContent value="tab2">
+          <p className="pt-4 text-content-tertiary text-sm">Chatter Leaderboard content</p>
+        </TabsContent>
+        <TabsContent value="tab3">
+          <p className="pt-4 text-content-tertiary text-sm">Fans at Risk content</p>
+        </TabsContent>
+      </Tabs>
+    </div>
+  ),
+};
+
+/**
+ * A `scrollable` row mounted with a later tab already active, as URL-driven tab
+ * state does. The row scrolls to bring it into view on mount, so the active tab and
+ * its indicator are both visible rather than sitting off to the right unannounced.
+ */
+export const ScrollableActiveOffscreen: Story = {
+  name: "Scrollable - Active Tab Offscreen",
+  render: () => (
+    <div className="w-[320px]">
+      <Tabs defaultValue="tab3">
+        <TabsList scrollable flushLeft>
+          <TabsTrigger value="tab1">Manager Insights</TabsTrigger>
+          <TabsTrigger value="tab2">Chatter Leaderboard</TabsTrigger>
+          <TabsTrigger value="tab3">Fans at Risk</TabsTrigger>
+        </TabsList>
+        <TabsContent value="tab1">
+          <p className="pt-4 text-content-tertiary text-sm">Manager Insights content</p>
+        </TabsContent>
+        <TabsContent value="tab2">
+          <p className="pt-4 text-content-tertiary text-sm">Chatter Leaderboard content</p>
+        </TabsContent>
+        <TabsContent value="tab3">
+          <p className="pt-4 text-content-tertiary text-sm">
+            Mounted on the third tab, scrolled into view.
+          </p>
+        </TabsContent>
+      </Tabs>
+    </div>
+  ),
+};
+
 export const AlignLeft: Story = {
   name: "Full Width - Align Left",
   render: () => (

@@ -53,6 +53,196 @@ describe("Tabs", () => {
       expect(screen.getByRole("tablist")).toHaveClass("custom-list");
     });
 
+    it("does not zero the first tab's leading padding by default", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList alignLeft>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tablist")).not.toHaveClass(
+        "data-[orientation=horizontal]:[&>[role=tab]:first-child]:pl-0",
+      );
+    });
+
+    it("zeroes the first tab's leading padding when flushLeft is set", () => {
+      // Lines the first label up with page content beside the bar; the DS pads
+      // every trigger by 16px, which would otherwise indent it.
+      render(
+        <Tabs defaultValue="t">
+          <TabsList alignLeft flushLeft>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tablist")).toHaveClass(
+        "data-[orientation=horizontal]:[&>[role=tab]:first-child]:pl-0",
+      );
+    });
+
+    it("anchors the indicator to the label, not the tab centre, when padding is asymmetric", () => {
+      const rect = (left: number, width: number) =>
+        ({
+          left,
+          width,
+          right: left + width,
+          top: 0,
+          bottom: 0,
+          height: 0,
+          x: left,
+          y: 0,
+        }) as DOMRect;
+
+      const original = Element.prototype.getBoundingClientRect;
+      Element.prototype.getBoundingClientRect = function () {
+        if (this.getAttribute("role") === "tab") return rect(0, 149);
+        if (this.closest?.('[role="tab"]')) return rect(0, 133);
+        return rect(0, 320);
+      };
+      Object.defineProperty(HTMLElement.prototype, "offsetLeft", {
+        configurable: true,
+        get() {
+          return 0;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+        configurable: true,
+        get() {
+          return 149;
+        },
+      });
+
+      try {
+        const { container } = render(
+          <Tabs defaultValue="t">
+            <TabsList alignLeft flushLeft>
+              <TabsTrigger value="t">Manager Insights</TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+        const indicator = container.querySelector<HTMLElement>(
+          '[role="tablist"] > span:not([role])',
+        );
+        expect(indicator?.style.width).toBe("133px");
+        expect(indicator?.style.transform).toBe("translateX(0px)");
+      } finally {
+        Element.prototype.getBoundingClientRect = original;
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetLeft");
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetWidth");
+      }
+    });
+
+    it("scrolls a scrollable row so an already-active offscreen tab is visible on mount", () => {
+      const widths: Record<string, number> = { tab1: 0, tab2: 150, tab3: 300 };
+      Object.defineProperty(HTMLElement.prototype, "offsetLeft", {
+        configurable: true,
+        get(this: HTMLElement) {
+          return widths[this.getAttribute("data-testid") ?? ""] ?? 0;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+        configurable: true,
+        get() {
+          return 150;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+        configurable: true,
+        get() {
+          return 320;
+        },
+      });
+
+      try {
+        render(
+          <Tabs defaultValue="tab3">
+            <TabsList scrollable>
+              <TabsTrigger value="tab1" data-testid="tab1">
+                One
+              </TabsTrigger>
+              <TabsTrigger value="tab2" data-testid="tab2">
+                Two
+              </TabsTrigger>
+              <TabsTrigger value="tab3" data-testid="tab3">
+                Three
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+        expect(screen.getByRole("tablist").scrollLeft).toBe(130);
+      } finally {
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetLeft");
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetWidth");
+        Reflect.deleteProperty(HTMLElement.prototype, "clientWidth");
+      }
+    });
+
+    it("leaves scrollLeft alone when the active tab already fits", () => {
+      Object.defineProperty(HTMLElement.prototype, "offsetLeft", {
+        configurable: true,
+        get() {
+          return 0;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+        configurable: true,
+        get() {
+          return 150;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+        configurable: true,
+        get() {
+          return 320;
+        },
+      });
+
+      try {
+        render(
+          <Tabs defaultValue="tab1">
+            <TabsList scrollable>
+              <TabsTrigger value="tab1">One</TabsTrigger>
+              <TabsTrigger value="tab2">Two</TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+        expect(screen.getByRole("tablist").scrollLeft).toBe(0);
+      } finally {
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetLeft");
+        Reflect.deleteProperty(HTMLElement.prototype, "offsetWidth");
+        Reflect.deleteProperty(HTMLElement.prototype, "clientWidth");
+      }
+    });
+
+    it("scrolls rather than compresses the tabs when scrollable is set", () => {
+      // `flex-none` is the load-bearing half: tabs that still share the row
+      // never overflow, so there would be nothing to scroll.
+      render(
+        <Tabs defaultValue="t">
+          <TabsList scrollable>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      const list = screen.getByRole("tablist");
+      expect(list).toHaveClass("data-[orientation=horizontal]:overflow-x-auto");
+      expect(list).toHaveClass("data-[orientation=horizontal]:[&>[role=tab]]:flex-none");
+    });
+
+    it("lets the tabs share the row by default", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tablist")).not.toHaveClass(
+        "data-[orientation=horizontal]:overflow-x-auto",
+      );
+    });
+
     it("isolates the active-indicator z-index in a local stacking context", () => {
       // `isolate` keeps the indicator's z-10 from escaping above page chrome.
       render(
