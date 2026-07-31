@@ -16,6 +16,11 @@ export { AccordionTrigger } from "./components/Accordion/AccordionTrigger";
 export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
 export type {
+  AnimatedNumberProps,
+  AnimatedNumberVariant,
+} from "./components/AnimatedNumber/AnimatedNumber";
+export { AnimatedNumber } from "./components/AnimatedNumber/AnimatedNumber";
+export type {
   AudioPlayerProps,
   AudioPlayerSize,
 } from "./components/AudioPlayer/AudioPlayer";
