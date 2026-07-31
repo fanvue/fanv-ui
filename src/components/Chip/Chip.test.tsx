@@ -218,6 +218,33 @@ describe("Chip", () => {
       expect(rect).toHaveAttribute("stroke-dasharray", "8 8");
     });
 
+    it("keeps a border in both states", () => {
+      const { rerender } = render(<Chip dotted>New folder</Chip>);
+      expect(screen.getByTestId("chip")).toHaveClass(
+        "border",
+        "border-solid",
+        "border-transparent",
+      );
+
+      rerender(
+        <Chip dotted selected>
+          New folder
+        </Chip>,
+      );
+      expect(screen.getByTestId("chip")).toHaveClass("border", "border-solid");
+    });
+
+    it("does not reserve a border on the asChild path, which draws a real one", () => {
+      render(
+        <Chip dotted asChild>
+          <a href="/x">New folder</a>
+        </Chip>,
+      );
+      const chip = screen.getByRole("link");
+      expect(chip).toHaveClass("border-dashed");
+      expect(chip).not.toHaveClass("border-transparent");
+    });
+
     it("does not render a dashed border by default", () => {
       render(<Chip>Chip</Chip>);
       const chip = screen.getByTestId("chip");

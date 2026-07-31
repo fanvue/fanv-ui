@@ -108,7 +108,10 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
       <svg
         aria-hidden="true"
         className={cn(
-          "pointer-events-none absolute inset-0 size-full overflow-visible",
+          // `-1px` spans the reserved transparent border rather than the padding box
+          // inside it, so the dash lands on the same ring as the solid border it
+          // becomes when selected.
+          "pointer-events-none absolute -top-px -left-px h-[calc(100%+2px)] w-[calc(100%+2px)] overflow-visible",
           disabled ? "text-buttons-chip-disabled" : "text-buttons-chip-dotted-default",
           isInteractive &&
             !disabled &&
@@ -165,6 +168,11 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           // border fallback since the SVG is only rendered in the default path.
           isDotted && !selected && "bg-transparent text-content-primary",
           isDotted && !selected && !asChild && "group",
+          // The SVG path draws no CSS border, so selecting one used to add 1px and
+          // widen the chip by 2px, shifting the row on every toggle. Reserving a
+          // transparent border also puts the dash on the same ring as the solid
+          // border it becomes. The `asChild` path already has a real border below.
+          isDotted && !selected && !asChild && "border border-transparent border-solid",
           isDotted &&
             !selected &&
             asChild &&
