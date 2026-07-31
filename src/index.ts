@@ -221,7 +221,6 @@ export {
 } from "./components/Drawer/Drawer";
 export type {
   DropdownMenuCheckboxItemProps,
-  DropdownMenuCheckboxItemSize,
   DropdownMenuContentProps,
   DropdownMenuGroupProps,
   DropdownMenuHeaderProps,

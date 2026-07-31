@@ -275,8 +275,14 @@ export const DropdownMenuContent = React.forwardRef<
           sideOffset={sideOffset}
           collisionPadding={collisionPadding}
           className={cn(
-            // `rounded-sm` (12px) is the panel radius `V2 Menu Dropdown` carries.
-            // The 8px `rounded-xs` belongs to the rows inside it, not the panel.
+            // `rounded-sm` (12px) is the panel radius `V2 Menu Dropdown` carries
+            // (product file node `7393:62008`). The 8px `rounded-xs` belongs to the
+            // rows inside it, not the panel.
+            //
+            // The `sheet` variant is deliberately not 12px: it renders through
+            // `DrawerContent variant="menu"`, whose `MENU_CLASSES` is `rounded-lg`
+            // (24px). A bottom sheet is a full-width surface with its own radius,
+            // not a scaled-up popper, so the two are meant to differ.
             "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-sm border border-border-primary bg-surface-primary p-1 text-content-primary shadow-blur-menu backdrop-blur-[4px]",
             "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
             "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
@@ -984,17 +990,12 @@ export const DropdownMenuRadioItem = React.forwardRef<
 });
 DropdownMenuRadioItem.displayName = "DropdownMenuRadioItem";
 
-/** Height preset for a {@link DropdownMenuCheckboxItem}. */
-export type DropdownMenuCheckboxItemSize = "40";
-
 export interface DropdownMenuCheckboxItemProps
   extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem> {
   /** Optional secondary text shown below the title. */
   helper?: string;
   /** Leading avatar rendered between the checkbox and the title. Render at 32px to match the design. */
   avatar?: React.ReactNode;
-  /** Height of the item row. @default "40" */
-  size?: DropdownMenuCheckboxItemSize;
 }
 
 /**
@@ -1019,7 +1020,7 @@ export interface DropdownMenuCheckboxItemProps
 export const DropdownMenuCheckboxItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.CheckboxItem>,
   DropdownMenuCheckboxItemProps
->(({ className, children, helper, avatar, size: _size = "40", ...props }, ref) => {
+>(({ className, children, helper, avatar, ...props }, ref) => {
   return (
     <DropdownMenuPrimitive.CheckboxItem
       ref={ref}
