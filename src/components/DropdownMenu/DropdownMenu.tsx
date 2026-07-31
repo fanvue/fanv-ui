@@ -381,8 +381,14 @@ const ITEM_SIZE_CLASSES: Record<"40" | "32", string> = {
   "32": "min-h-8 py-[7px] typography-body-small-14px-regular",
 };
 
+/*
+ * Both sizes are 14px: `V2 Menu Item` draws the count as `Body Small 14px/Regular`
+ * in `content-tertiary` regardless of the row height (node `21542:8629`). The 40
+ * row previously stepped up to 16px, which also put the count's line box at 24px
+ * against the two-line layout's 18px title leading.
+ */
 const ITEM_COUNT_TYPOGRAPHY: Record<"40" | "32", string> = {
-  "40": "typography-body-default-16px-regular",
+  "40": "typography-body-small-14px-regular",
   "32": "typography-body-small-14px-regular",
 };
 
@@ -489,11 +495,16 @@ export const DropdownMenuItem = React.forwardRef<
     const hasDescription = description != null;
     const hasAvatar = avatar != null;
     const itemClassName = cn(
+      // `rounded-sm` (12px), not the 8px the rows carried before: `V2 Menu Item` is
+      // `rounded-[var(--radius/rounded-sm,12px)]` (node `21542:8629`). Deliberately
+      // different from `DropdownMenuRadioItem` and `DropdownMenuCheckboxItem`, which
+      // `V2 Menu Radio Item` draws at `rounded-xs` (node `7393:62008`).
+      //
       // `text-start` because the sheet variant renders the row as a <button>, and
       // the UA centres a button's text — which centred the two-line title and
       // description while the popper variant (a div) inherited the panel's start
       // alignment. Both read from the same edge now.
-      "group flex w-full cursor-pointer gap-2 rounded-xs px-3 text-start outline-none",
+      "group flex w-full cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
       hasDescription ? "items-start" : "items-center",
       // The sheet's header runs the full width of the panel, so its rows have to
       // come in off the edge themselves — 12px here on the panel's own 4px is the
@@ -949,7 +960,10 @@ export const DropdownMenuRadioItem = React.forwardRef<
     <DropdownMenuPrimitive.RadioItem
       ref={ref}
       className={cn(
-        "group flex w-full cursor-pointer items-start gap-3 rounded-xs px-4 py-2 outline-none",
+        // `px-3` (12px), not 16px: `V2 Menu Radio Item` is `px-[12px] py-[8px]`
+        // (node `7393:62008`), and at 16px a radio row indented 4px further than a
+        // `DropdownMenuCheckboxItem` in the same menu.
+        "group flex w-full cursor-pointer items-start gap-3 rounded-xs px-3 py-2 outline-none",
         "data-[highlighted]:bg-neutral-alphas-50",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
         // See DropdownMenuItem above: bg-interaction-hover aliases to the same
