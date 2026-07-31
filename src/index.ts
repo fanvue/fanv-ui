@@ -842,6 +842,11 @@ export {
 } from "./components/Tooltip/Tooltip";
 export type { TooltipLabelProps } from "./components/Tooltip/TooltipLabel";
 export { TooltipLabel } from "./components/Tooltip/TooltipLabel";
+export type {
+  TrendDirection,
+  TrendPillProps,
+} from "./components/TrendPill/TrendPill";
+export { TrendPill } from "./components/TrendPill/TrendPill";
 export type { UserDisplayNameProps } from "./components/UserDisplayName/UserDisplayName";
 export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
 export type { UserHandleProps } from "./components/UserHandle/UserHandle";
