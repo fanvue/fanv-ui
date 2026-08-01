@@ -2546,6 +2546,13 @@
               "type": "color",
               "value": "#ff4d4dff",
               "blendMode": "normal"
+            },
+            "muted": {
+              "sky": {
+                "type": "color",
+                "value": "#e3f3feff",
+                "blendMode": "normal"
+              }
             }
           },
           "default": {
@@ -6202,6 +6209,13 @@
               "type": "color",
               "value": "#ff4d4dff",
               "blendMode": "normal"
+            },
+            "muted": {
+              "sky": {
+                "type": "color",
+                "value": "#30506aff",
+                "blendMode": "normal"
+              }
             }
           },
           "default": {

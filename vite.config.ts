@@ -44,6 +44,7 @@ export default defineConfig({
         index: resolve(import.meta.dirname, "src/index.ts"),
         charts: resolve(import.meta.dirname, "src/charts.ts"),
         "date-picker": resolve(import.meta.dirname, "src/date-picker.ts"),
+        flags: resolve(import.meta.dirname, "src/flags.ts"),
       },
     },
     rollupOptions: {

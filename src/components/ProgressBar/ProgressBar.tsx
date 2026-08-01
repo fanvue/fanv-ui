@@ -1,22 +1,24 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
 
-/** Track height — `"default"` (12px) or `"small"` (6px). */
-export type ProgressBarSize = "default" | "small";
+/** Track height — `"default"` (12px), `"medium"` (8px) or `"small"` (6px). */
+export type ProgressBarSize = "default" | "medium" | "small";
 /**
  * Colour mode.
  * - `"brand"` — V2 brand (green) fill on a tinted track.
  * - `"mono"` — V2 monochrome fill on a tinted track (theme-aware).
  * - `"default"` — legacy value-coded red/yellow/green.
  * - `"generic"` — legacy solid brand green on a neutral track.
+ * - `"sky"` — chart sky fill on the muted-sky track, for data bars such as the
+ *   demographics breakdown.
  * - `"neutral"` — legacy theme-aware inverse colour on a neutral track.
  */
-export type ProgressBarVariant = "brand" | "mono" | "default" | "generic" | "neutral";
+export type ProgressBarVariant = "brand" | "mono" | "sky" | "default" | "generic" | "neutral";
 
 export interface ProgressBarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   /** Current progress value, clamped to 0–100. */
   value: number;
-  /** Track height — `"default"` (12px) or `"small"` (6px). @default "default" */
+  /** Track height — `"default"` (12px), `"medium"` (8px) or `"small"` (6px). @default "default" */
   size?: ProgressBarSize;
   /** Colour mode. Prefer `"brand"` or `"mono"` (V2); `"default"`/`"generic"`/`"neutral"` are legacy. @default "default" */
   variant?: ProgressBarVariant;
@@ -40,11 +42,13 @@ export interface ProgressBarProps extends Omit<React.HTMLAttributes<HTMLDivEleme
 
 const TRACK_HEIGHT: Record<ProgressBarSize, string> = {
   default: "h-3",
+  medium: "h-2",
   small: "h-1.5",
 };
 
 const GAP: Record<ProgressBarSize, string> = {
   default: "gap-3",
+  medium: "gap-2",
   small: "gap-1",
 };
 
@@ -76,6 +80,12 @@ function resolveColors(
       barColor: "bg-progress-bar-mono-active",
       textColor: "text-content-primary",
       trackColor: "bg-progress-bar-mono-inactive",
+    };
+  if (variant === "sky")
+    return {
+      barColor: "bg-special-chart-sky",
+      textColor: "text-content-primary",
+      trackColor: "bg-special-chart-muted-sky",
     };
   if (variant === "neutral")
     return {
@@ -126,7 +136,9 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
     ref,
   ) => {
     const clampedValue = Math.min(100, Math.max(0, value));
-    const isSmall = size === "small";
+    // `medium` groups with `small`: both are compact bars, so the completion
+    // figure uses the smaller heading rather than the display size.
+    const isSmall = size !== "default";
     const { barColor, textColor, trackColor } = resolveColors(variant, clampedValue);
 
     const showHeader = title != null || showCompletion || stepsLabel != null;
