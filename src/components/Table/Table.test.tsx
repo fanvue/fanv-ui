@@ -94,6 +94,57 @@ describe("Table", () => {
       expect(cell).toHaveClass("min-h-12");
     });
 
+    it("renders body cells at 48px when Table size is condensed and there is no card", () => {
+      const { container } = render(
+        <TableScrollArea>
+          <Table size="condensed">
+            <TableBody>
+              <TableRow>
+                <TableCell>Value</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableScrollArea>,
+      );
+      const cell = container.querySelector("td");
+      expect(cell).toHaveClass("h-12");
+      expect(cell).toHaveClass("min-h-12");
+    });
+
+    it("inherits the card's density when Table has no size of its own", () => {
+      const { container } = render(
+        <TableCard size="lg">
+          <TableScrollArea>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Value</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      expect(container.querySelector("td")).toHaveClass("h-20");
+    });
+
+    it("lets the Table's own size override the card's", () => {
+      const { container } = render(
+        <TableCard size="lg">
+          <TableScrollArea>
+            <Table size="condensed">
+              <TableBody>
+                <TableRow>
+                  <TableCell>Value</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      expect(container.querySelector("td")).toHaveClass("h-12");
+    });
+
     it("uses 14px header typography when TableCard size is condensed", () => {
       const { container } = render(
         <TableCard size="condensed">
