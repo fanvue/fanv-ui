@@ -128,7 +128,9 @@ describe("Select", () => {
 
   describe("left icon", () => {
     it("renders left icon", () => {
-      const { container } = renderSelect({ leftIcon: <HomeIcon data-testid="left-icon" /> });
+      const { container } = renderSelect({
+        leftIcon: <HomeIcon data-testid="left-icon" />,
+      });
       expect(container.querySelector('[data-testid="left-icon"]')).toBeInTheDocument();
     });
   });
@@ -264,6 +266,37 @@ describe("Select", () => {
     it("keeps 40px rows for the larger trigger sizes", () => {
       renderOpen(<SelectItem value="a">Option A</SelectItem>, "48");
       expect(screen.getByRole("option", { name: "Option A" })).toHaveClass("min-h-10");
+    });
+
+    it("renders the panel on the shared menu surface, not a flat background", () => {
+      renderOpen(<SelectItem value="a">Option A</SelectItem>);
+      const panel = screen.getByRole("listbox");
+      expect(panel).toHaveClass("bg-surface-primary", "border-border-primary", "shadow-blur-menu");
+      expect(panel).not.toHaveClass("bg-background-primary", "border-neutral-alphas-200");
+    });
+
+    it("shades the selected row one step above the hover fill", () => {
+      renderOpen(<SelectItem value="a">Option A</SelectItem>);
+      const option = screen.getByRole("option", { name: "Option A" });
+      expect(option).toHaveClass("data-[state=checked]:bg-neutral-alphas-100");
+      expect(option).toHaveClass("data-[state=checked]:data-highlighted:bg-neutral-alphas-200");
+      expect(option).toHaveClass("data-highlighted:bg-neutral-alphas-50");
+    });
+
+    it("centres the check indicator against the whole two-line row", () => {
+      render(
+        <Select aria-label="Test" defaultOpen defaultValue="a">
+          <SelectContent>
+            <SelectItem value="a" description="Secondary line">
+              Option A
+            </SelectItem>
+          </SelectContent>
+        </Select>,
+      );
+      const option = screen.getByRole("option", { name: /Option A/ });
+      expect(option).toHaveClass("items-start");
+      expect(option.lastElementChild).toHaveClass("self-center");
+      expect(option.lastElementChild).not.toHaveClass("self-start");
     });
 
     it("has no accessibility violations for a feature row", async () => {
