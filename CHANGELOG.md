@@ -1,5 +1,33 @@
 # Changelog
 
+## [3.24.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.23.0...ui-v3.24.0) (2026-08-01)
+
+
+### Features
+
+* **AiButton:** add the shimmering AI action button ([#636](https://github.com/fanvue/fanv-ui/issues/636)) ([563c356](https://github.com/fanvue/fanv-ui/commit/563c356185b54a563d9f31f5b451c2dec1255ff6))
+* **AnimatedNumber:** add the roll and count value animations ([#635](https://github.com/fanvue/fanv-ui/issues/635)) ([e060d86](https://github.com/fanvue/fanv-ui/commit/e060d86c7a63dc761252974ec3e355585dc1d17e))
+* **Chart:** add ChartMetricTrend for the metric tile area chart ([#637](https://github.com/fanvue/fanv-ui/issues/637)) ([9f98215](https://github.com/fanvue/fanv-ui/commit/9f982155dad25ce1007113edf4d82010ef3093e9))
+* **ChartSkeleton:** add shaped loading placeholders for charts ([#627](https://github.com/fanvue/fanv-ui/issues/627)) ([d226391](https://github.com/fanvue/fanv-ui/commit/d22639151c1c73b78616a99380167512ec83d084))
+* **Chip:** add an outlined variant ([#622](https://github.com/fanvue/fanv-ui/issues/622)) ([d12a99a](https://github.com/fanvue/fanv-ui/commit/d12a99a4efd2e7a06866c39116f43b46b4cc1cae))
+* **CountryFlag, Demographics:** add the country breakdown row and its flags ([#641](https://github.com/fanvue/fanv-ui/issues/641)) ([e15c1f9](https://github.com/fanvue/fanv-ui/commit/e15c1f9fff6e687bc2572af9d6ba4de245b57e7f))
+* **Drawer:** add the menu variant ([#625](https://github.com/fanvue/fanv-ui/issues/625)) ([7e31960](https://github.com/fanvue/fanv-ui/commit/7e31960bd9ddd66f2e4b9fa95df27b4c15d99e08))
+* **DropdownMenu:** add DropdownMenuCheckboxItem and align the menu with V2 ([#639](https://github.com/fanvue/fanv-ui/issues/639)) ([5bd7b7e](https://github.com/fanvue/fanv-ui/commit/5bd7b7eed31f6dfc20c36bed9cf6de7e0bd338cf))
+* **IconButton:** add the field variant ([#623](https://github.com/fanvue/fanv-ui/issues/623)) ([209c6f8](https://github.com/fanvue/fanv-ui/commit/209c6f86e755f2c68d021a410d6dd8e344b2c442))
+* **TabsList:** add flushLeft and scrollable ([#624](https://github.com/fanvue/fanv-ui/issues/624)) ([26528c7](https://github.com/fanvue/fanv-ui/commit/26528c78a52ab4c83e1a519785cd16dae29fb0f8))
+* **tokens:** add the missing yellow, lime and red chart colours ([#629](https://github.com/fanvue/fanv-ui/issues/629)) ([5d02ca9](https://github.com/fanvue/fanv-ui/commit/5d02ca908de95cf9f8cc160bea56bb200fcec262))
+* **TooltipLabel:** add the underlined label trigger and two-row tooltip ([#628](https://github.com/fanvue/fanv-ui/issues/628)) ([d0124e9](https://github.com/fanvue/fanv-ui/commit/d0124e94ac9351c683bab5127e8761e3894eadd1))
+* **TrendPill:** add the filled trend pill from the V2 design ([#634](https://github.com/fanvue/fanv-ui/issues/634)) ([f26f9cc](https://github.com/fanvue/fanv-ui/commit/f26f9cc088f71139a9abac6e7d642a4b5a7e6961))
+* **UserItem:** add trailing, primary and secondary slots plus UserItemTrailing ([#638](https://github.com/fanvue/fanv-ui/issues/638)) ([b57bcc8](https://github.com/fanvue/fanv-ui/commit/b57bcc848984d3e14e2e49c4dd3d68bceddaca24))
+
+
+### Bug Fixes
+
+* **Chip:** stop a dotted chip resizing when it is selected ([#631](https://github.com/fanvue/fanv-ui/issues/631)) ([3ecbca3](https://github.com/fanvue/fanv-ui/commit/3ecbca3034990360b041dae90098f1c48ce96bde))
+* **CyclingText:** read reduced motion during render, split out the motion hook ([#630](https://github.com/fanvue/fanv-ui/issues/630)) ([6a623b0](https://github.com/fanvue/fanv-ui/commit/6a623b001afd0309223cf7d04aed48a4ba5d99ae))
+* **DropdownMenu:** align row radius, radio padding and count size to V2 ([#643](https://github.com/fanvue/fanv-ui/issues/643)) ([379d213](https://github.com/fanvue/fanv-ui/commit/379d213b6035654d2a86df828a418133fb99aba0))
+* **tooltip:** default TooltipProvider delayDuration to 200ms ([#633](https://github.com/fanvue/fanv-ui/issues/633)) ([43afb66](https://github.com/fanvue/fanv-ui/commit/43afb661a4d38b89a1e2f6b397c793f59e046d73))
+
 ## [3.23.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.22.0...ui-v3.23.0) (2026-07-28)
 
 
