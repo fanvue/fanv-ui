@@ -25,6 +25,10 @@ const meta = {
       control: "select",
       options: ["default", "agencies"],
     },
+    dimension: {
+      control: "select",
+      options: ["flat", "3d"],
+    },
     size: {
       control: "select",
       options: ["16", "20", "24", "32", "40", "48", "64"],
@@ -156,6 +160,21 @@ export const PortraitBlackAlways: Story = {
   args: {
     variant: "portrait",
     color: "blackAlways",
+  },
+};
+
+export const Icon3D: Story = {
+  args: {
+    variant: "icon",
+    dimension: "3d",
+    size: "24",
+  },
+};
+
+export const Full3D: Story = {
+  args: {
+    variant: "full",
+    dimension: "3d",
   },
 };
 
