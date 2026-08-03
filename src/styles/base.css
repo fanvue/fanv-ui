@@ -119,9 +119,11 @@
 @keyframes fv-ai-letter {
   50% {
     color: var(--color-content-primary);
-    /* Theme-aware, not always-white: the button's fill is now a light green in
-       light mode, where a white glow behind dark text is invisible. */
-    text-shadow: 0 0 6px var(--color-content-primary);
+    /* Brand green rather than a light/dark neutral, because the glow has to read
+       as the letter LIGHTING UP on both fills. `always-white` disappears into the
+       light-mode green; `content-primary` is near-black there and smudges the
+       label instead of brightening it. Green works on both and matches the sheen. */
+    text-shadow: 0 0 6px var(--color-brand-primary-default);
   }
 }
 

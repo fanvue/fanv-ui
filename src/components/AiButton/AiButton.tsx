@@ -175,7 +175,7 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
           className={cn(
             "flex shrink-0 items-center text-content-primary",
             iconScaleVariants[size],
-            "[filter:drop-shadow(0_0_2px_color-mix(in_srgb,var(--color-content-primary)_60%,transparent))]",
+            "[filter:drop-shadow(0_0_2px_color-mix(in_srgb,var(--color-brand-primary-default)_60%,transparent))]",
             // Same reasoning as the letters: no flicker and no green lift once the
             // button is unavailable.
             !disabled && [
