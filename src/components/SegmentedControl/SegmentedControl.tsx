@@ -16,22 +16,27 @@ export type SegmentedControlVariant = "hug" | "fill";
  * - `"pill"`: the container has a muted background and the selected segment shows a filled pill (default).
  * - `"plain"`: no container or selected-pill background; segments are bare content and selection is
  *   communicated by color alone. Designed for icon-only toggles (e.g. a list/grid view switch).
+ * - `"brand"`: like `"pill"`, but segments render their `icon` alongside the visible `label` and the
+ *   selected segment uses the brand-green pill. Designed for prominent toggles such as the
+ *   Home/Agent navigation switch.
  */
-export type SegmentedControlAppearance = "pill" | "plain";
+export type SegmentedControlAppearance = "pill" | "plain" | "brand";
 
 /** Describes one selectable segment. */
 export interface SegmentedControlOption {
   /**
-   * Display label for the segment. When `icon` is provided, the segment renders icon-only and
-   * this value is used as its accessible name (applied as `aria-label`) instead of visible text.
+   * Display label for the segment. In `pill`/`plain` appearances, when `icon` is provided the
+   * segment renders icon-only and this value becomes its accessible name (applied as `aria-label`)
+   * instead of visible text. In the `brand` appearance the label is always rendered as visible text
+   * (alongside the icon when present).
    */
   label: string;
   /** Value identifier returned via `onChange`. */
   value: string;
   /**
-   * Icon to render instead of the visible label. When set, the segment renders icon-only and
-   * `label` becomes required as its accessible name — it is applied as `aria-label` and no
-   * visible text is rendered.
+   * Icon to render for the segment. In `pill`/`plain` appearances the segment renders icon-only and
+   * `label` becomes required as its accessible name (applied as `aria-label`, no visible text). In
+   * the `brand` appearance the icon renders alongside the visible `label`.
    */
   icon?: React.ReactNode;
 }
@@ -112,8 +117,14 @@ function getSegmentClassName({
         )
       : cn(
           sizeClasses[size],
+          // brand renders icon + label together, so space them.
+          appearance === "brand" && "gap-1.5",
           isSelected
-            ? "bg-buttons-primary-default text-content-primary-inverted shadow-sm"
+            ? appearance === "brand"
+              ? // Approximate brand-green pill using existing tokens; exact colours pending
+                // dedicated navigation tokens (see ENG follow-up).
+                "bg-brand-primary-muted text-content-always-black shadow-sm ring-1 ring-brand-primary-default"
+              : "bg-buttons-primary-default text-content-primary-inverted shadow-sm"
             : "text-content-primary hover:bg-buttons-switch-hover",
         ),
     disabled && "pointer-events-none",
@@ -153,6 +164,20 @@ function getSegmentClassName({
  *   value={view}
  *   onChange={setView}
  *   aria-label="View"
+ * />
+ * ```
+ *
+ * @example Icon + label with the brand-green pill (e.g. the Home/Agent nav switch)
+ * ```tsx
+ * <SegmentedControl
+ *   appearance="brand"
+ *   options={[
+ *     { label: "Home", value: "home", icon: <HomeIcon size={16} /> },
+ *     { label: "Agent", value: "agent", icon: <AIIcon size={16} /> },
+ *   ]}
+ *   value={mode}
+ *   onChange={setMode}
+ *   aria-label="Navigation mode"
  * />
  * ```
  */
@@ -219,6 +244,9 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
       >
         {options.map((option, index) => {
           const isSelected = currentValue === option.value;
+          // `brand` shows the label as visible text (with the icon); `pill`/`plain` render
+          // icon-only when an icon is given, falling back to the label otherwise.
+          const showLabelText = appearance === "brand" || !option.icon;
           return (
             // biome-ignore lint/a11y/useSemanticElements: native radio inputs only allow Tab-focus on the checked item; buttons with roving tabindex give full keyboard navigation
             <button
@@ -231,18 +259,17 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
               aria-checked={isSelected}
               tabIndex={isSelected || (!anySelected && index === 0) ? 0 : -1}
               disabled={disabled}
-              aria-label={option.icon ? option.label : undefined}
+              aria-label={showLabelText ? undefined : option.label}
               onClick={() => handleSelect(option.value)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               className={getSegmentClassName({ appearance, size, variant, isSelected, disabled })}
             >
-              {option.icon ? (
+              {option.icon && (
                 <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
                   {option.icon}
                 </span>
-              ) : (
-                <span className="min-w-0 truncate">{option.label}</span>
               )}
+              {showLabelText && <span className="min-w-0 truncate">{option.label}</span>}
             </button>
           );
         })}
