@@ -2391,7 +2391,7 @@
               "start": {
                 "description": "",
                 "type": "color",
-                "value": "{primitives.light.color.green.550}",
+                "value": "{primitives.light.color.green.500}",
                 "extensions": {
                   "org.lukasoppermann.figmaDesignTokens": {
                     "mode": "Light",
@@ -2406,7 +2406,7 @@
               "end": {
                 "description": "",
                 "type": "color",
-                "value": "{primitives.light.color.green.200}",
+                "value": "{primitives.light.color.gray.900}",
                 "extensions": {
                   "org.lukasoppermann.figmaDesignTokens": {
                     "mode": "Light",

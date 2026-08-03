@@ -124,8 +124,8 @@
   --color-buttons-ai-background-gradient-default-end: var(--primitives-color-green-950);
   --color-buttons-ai-background-gradient-hover-start: var(--primitives-color-green-700);
   --color-buttons-ai-background-gradient-hover-end: var(--primitives-color-green-900);
-  --color-buttons-ai-stroke-start: var(--primitives-color-green-550);
-  --color-buttons-ai-stroke-end: var(--primitives-color-green-200);
+  --color-buttons-ai-stroke-start: var(--primitives-color-green-500);
+  --color-buttons-ai-stroke-end: var(--primitives-color-gray-900);
   --color-buttons-overlay-default: var(--primitives-color-blackalpha-300);
   --color-buttons-overlay-hover: var(--primitives-color-blackalpha-400);
   --color-special-chart-teal: #28ba8eff;
@@ -521,8 +521,8 @@
   --color-buttons-ai-background-gradient-default-end: var(--primitives-color-green-950);
   --color-buttons-ai-background-gradient-hover-start: var(--primitives-color-green-700);
   --color-buttons-ai-background-gradient-hover-end: var(--primitives-color-green-900);
-  --color-buttons-ai-stroke-start: var(--primitives-color-green-550);
-  --color-buttons-ai-stroke-end: var(--primitives-color-green-200);
+  --color-buttons-ai-stroke-start: var(--primitives-color-green-500);
+  --color-buttons-ai-stroke-end: var(--primitives-color-gray-900);
   --color-buttons-overlay-default: var(--primitives-color-blackalpha-300);
   --color-buttons-overlay-hover: var(--primitives-color-blackalpha-400);
   --color-special-chart-teal: #28ba8eff;

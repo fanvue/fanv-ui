@@ -81,19 +81,19 @@ const ShimmerLabel: React.FC<{ text: string; disabled?: boolean }> = ({ text, di
       <span
         key={`${character}-${index}`}
         className={cn(
-          "inline-block whitespace-pre text-content-secondary",
+          "inline-block whitespace-pre text-content-always-white/80",
           // Gated in JS rather than with a `group-disabled/ai:` override, because
           // that would rely on the generated rule ordering to beat `group-hover`.
           // A faded control that still shimmers and still lights up green under the
           // cursor reads as busy rather than unavailable.
           !disabled && [
             "[animation:fv-ai-letter_2s_ease-in-out_infinite]",
-            "group-hover/ai:text-content-primary group-hover/ai:[animation:none]",
+            "group-hover/ai:text-content-always-white group-hover/ai:[animation:none]",
             // On focus each letter blows up and settles, then the idle shimmer
             // resumes underneath it — the two animations are sequenced by delay.
             "group-focus-visible/ai:[animation:fv-ai-letter-focus_1s_ease-in-out,fv-ai-letter_1.2s_ease-in-out_infinite_1s]",
-            "group-active/ai:text-content-primary group-active/ai:[animation:none]",
-            "group-active/ai:[text-shadow:0_0_4px_var(--color-content-primary)]",
+            "group-active/ai:text-content-always-white group-active/ai:[animation:none]",
+            "group-active/ai:[text-shadow:0_0_4px_var(--color-content-always-white)]",
           ],
           "motion-reduce:[animation:none]",
         )}
@@ -106,17 +106,19 @@ const ShimmerLabel: React.FC<{ text: string; disabled?: boolean }> = ({ text, di
 );
 
 /**
- * A pill button for AI actions. It rests on the translucent `Buttons/AI/Default`
- * fill with a 1px `Buttons/AI/Stroke-*` gradient ring, from the `fv-ai-surface`
- * utility in `base.css`. The label shimmers letter by letter and the glyph flickers
- * at rest; on hover both settle, the fill steps to `Buttons/AI/Hover`, and a sheen
- * pools along the bottom edge under the cursor and follows it across the button.
- * On focus each letter blooms once before the shimmer resumes.
+ * A pill button for AI actions. The surface comes from the `fv-ai-surface` utility
+ * in `base.css`: in light mode the same opaque diagonal gradient `Button`'s `ai`
+ * variant paints, in dark the translucent `Buttons/AI/Default` fill with a masked
+ * `Buttons/AI/Stroke-*` ring. Either way the pill is dark, which is why every
+ * content colour here is `content-always-white` rather than theme-aware.
  *
- * It carries no `border-*` of its own — the ring is `fv-ai-surface`'s masked
- * pseudo-element, and a real border would double it. Hover and active states live
- * in `fv-ai-button` (the sheen) plus the one hover fill token, so nothing here
- * transitions except `background-color`.
+ * The label shimmers letter by letter from 80% white to full, and the glyph flickers
+ * at rest; on hover both settle, the fill steps up, and a sheen pools along the
+ * bottom edge under the cursor and follows it across the button. On focus each
+ * letter blooms once before the shimmer resumes.
+ *
+ * It carries no `border-*` class of its own — `fv-ai-surface` owns the ring, and a
+ * second border would double it.
  *
  * It shares {@link Button}'s geometry — `rounded-full`, the same heights and label
  * typography — so it sits alongside one without looking foreign. Both labels are
@@ -171,7 +173,10 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
         className={cn(
           "fv-ai-surface fv-ai-button",
           "group/ai inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-full",
-          "transition-colors duration-[400ms] ease-out",
+          // Not `transition-colors`: the light fill is a gradient, and only the
+          // two registered stop properties can carry it. Dark's fill is a plain
+          // background-color, so both are listed.
+          "transition-[--fv-ai-fill-start,--fv-ai-fill-end,background-color] duration-[400ms] ease-out",
           "hover:bg-buttons-ai-hover",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           "disabled:cursor-not-allowed disabled:opacity-60",
@@ -182,9 +187,9 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
       >
         <span
           className={cn(
-            "flex shrink-0 items-center text-content-primary",
+            "flex shrink-0 items-center text-content-always-white",
             iconScaleVariants[size],
-            "[filter:drop-shadow(0_0_2px_color-mix(in_srgb,var(--color-brand-primary-default)_60%,transparent))]",
+            "[filter:drop-shadow(0_0_2px_color-mix(in_srgb,var(--color-content-always-white)_60%,transparent))]",
             // Same reasoning as the letters: no flicker and no green lift once the
             // button is unavailable.
             !disabled && [

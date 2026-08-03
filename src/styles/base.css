@@ -118,12 +118,10 @@
  */
 @keyframes fv-ai-letter {
   50% {
-    color: var(--color-content-primary);
-    /* Always-white, and deliberately not theme-aware. Against the green fill it
-       backlights the dark light-mode letters and blooms the white dark-mode ones,
-       so one value carries both. A theme-aware neutral would be near-black in
-       light and smudge the label; brand green only reads in dark, where the fill
-       is dark enough for it to show. */
+    color: var(--color-content-always-white);
+    /* Always-white in both modes, because the pill is dark in both. The letter
+       rests at 80% white and the sweep takes it to full plus a halo, so the
+       shimmer reads as the text lighting up rather than changing hue. */
     text-shadow: 0 0 6px var(--color-content-always-white);
   }
 }
@@ -161,21 +159,47 @@
 }
 
 /*
- * The static AI surface: the translucent `Buttons/AI/Default` fill and the 1px
- * `Buttons/AI/Stroke-*` gradient ring, with no interaction states. Split out of
- * `fv-ai-button` because the surface and the button are not the same thing —
- * AiButton is one consumer, but so is any non-interactive AI affordance (a pill
- * nested inside a larger clickable card, for instance) that must not be a
- * `<button>`. Pair it with `fv-ai-button` for the interactive layer.
+ * The light-mode fill's two gradient stops, registered for the same reason as
+ * `--fv-ai-x`: `background-image` is not an animatable property, so swapping the
+ * whole gradient on hover snaps. Registered custom properties DO interpolate, so
+ * driving the stops through these and transitioning them cross-fades the fill in
+ * and out with the sheen instead. Browsers without @property fall back to the
+ * snap.
+ */
+@property --fv-ai-fill-start {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --fv-ai-fill-end {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+/*
+ * The static AI surface: fill plus a 1px `Buttons/AI/Stroke-*` ring, with no
+ * interaction states. Split out of `fv-ai-button` because the surface and the
+ * button are not the same thing — AiButton is one consumer, but so is any
+ * non-interactive AI affordance (a pill nested inside a larger clickable card,
+ * for instance) that must not be a `<button>`. Pair it with `fv-ai-button` for
+ * the interactive layer.
  *
- * The ring is a masked pseudo-element rather than the usual
- * `background-clip: padding-box, border-box` pair because the fill is
- * TRANSLUCENT: with that technique the border-box layer paints across the whole
- * element and shows through the fill, washing the entire surface with the
- * gradient. Button's AI_GRADIENT only gets away with the clip trick because its
- * fill is opaque.
+ * The two modes are deliberately different treatments, not one inverted:
  *
- * The ring sits at `z-index: 0`, not `-1`. At `-1` it paints behind the
+ * - LIGHT is the same opaque diagonal gradient `Button`'s `ai` variant paints,
+ *   down to the angle and stops, so the two AI affordances are indistinguishable
+ *   on a light page. It uses Button's `background-clip: padding-box, border-box`
+ *   pair, which draws fill and ring from one declaration — sound here only
+ *   because this fill is opaque.
+ * - DARK keeps the translucent `Buttons/AI/Default` fill so the pill still sits
+ *   into a dark surface rather than sitting on top of it. A translucent fill
+ *   cannot use the clip trick: the border-box layer paints across the whole
+ *   element and shows through, washing the surface with the ring gradient. Hence
+ *   the masked `::before` ring, which is dark-only.
+ *
+ * That ring sits at `z-index: 0`, not `-1`. At `-1` it paints behind the
  * element's own background, so the translucent fill tints it and the ring reads
  * muted. At `0` it paints above the background but below the `z-index: 1`
  * content, which is why children need lifting.
@@ -183,31 +207,53 @@
 @utility fv-ai-surface {
   position: relative;
   isolation: isolate;
-  background-color: var(--color-buttons-ai-default);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    border-radius: inherit;
-    padding: 1px;
-    pointer-events: none;
-    background-image: linear-gradient(
-      250.3deg,
-      var(--color-buttons-ai-stroke-start) -9%,
-      var(--color-buttons-ai-stroke-end) 110%
+  border: 1px solid transparent;
+  background-clip: padding-box, border-box;
+  background-origin: border-box;
+  --fv-ai-fill-start: var(--color-buttons-ai-background-gradient-default-start);
+  --fv-ai-fill-end: var(--color-buttons-ai-background-gradient-default-end);
+  background-image:
+    linear-gradient(
+      50deg,
+      var(--fv-ai-fill-start) 11.87%,
+      var(--fv-ai-fill-end) 112.39%
+    ),
+    linear-gradient(
+      50deg,
+      var(--color-buttons-ai-stroke-start) 11.87%,
+      var(--color-buttons-ai-stroke-end) 112.39%
     );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    mask-composite: exclude;
+  box-shadow: var(--shadow-ai-button-glow);
+
+  &:where(.dark, .dark *) {
+    background-image: none;
+    background-color: var(--color-buttons-ai-default);
+    box-shadow: none;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-radius: inherit;
+      padding: 1px;
+      pointer-events: none;
+      background-image: linear-gradient(
+        250.3deg,
+        var(--color-buttons-ai-stroke-start) -9%,
+        var(--color-buttons-ai-stroke-end) 110%
+      );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      mask-composite: exclude;
+    }
   }
 
   & > * {
@@ -236,6 +282,18 @@
    * pointer position to follow.
    */
   --fv-ai-x: 50%;
+
+  /*
+   * Light hover moves the fill's two gradient stops rather than replacing the
+   * whole `background-image`, so the change interpolates instead of snapping —
+   * see the `@property` block above. Dark is excluded because its fill is a
+   * `background-color`, which the component's `hover:bg-buttons-ai-hover`
+   * transitions on its own.
+   */
+  &:hover:not(:where(.dark, .dark *)) {
+    --fv-ai-fill-start: var(--color-buttons-ai-background-gradient-hover-start);
+    --fv-ai-fill-end: var(--color-buttons-ai-background-gradient-hover-end);
+  }
 
   /*
    * Sheen rising from the bottom edge, masked so it fades before the top. It is a
