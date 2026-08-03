@@ -2293,6 +2293,34 @@
             }
           },
           "ai": {
+            "default": {
+              "description": "",
+              "type": "color",
+              "value": "#acf6b9b8",
+              "extensions": {
+                "org.lukasoppermann.figmaDesignTokens": {
+                  "mode": "Light",
+                  "modeId": "4:0",
+                  "collection": "Semantic",
+                  "scopes": [],
+                  "exportKey": "variables"
+                }
+              }
+            },
+            "hover": {
+              "description": "",
+              "type": "color",
+              "value": "#80f593b8",
+              "extensions": {
+                "org.lukasoppermann.figmaDesignTokens": {
+                  "mode": "Light",
+                  "modeId": "4:0",
+                  "collection": "Semantic",
+                  "scopes": [],
+                  "exportKey": "variables"
+                }
+              }
+            },
             "backgroundGradient": {
               "default": {
                 "start": {
@@ -2363,7 +2391,7 @@
               "start": {
                 "description": "",
                 "type": "color",
-                "value": "{primitives.light.color.green.500}",
+                "value": "{primitives.light.color.green.550}",
                 "extensions": {
                   "org.lukasoppermann.figmaDesignTokens": {
                     "mode": "Light",
@@ -2378,7 +2406,7 @@
               "end": {
                 "description": "",
                 "type": "color",
-                "value": "{primitives.light.color.gray.900}",
+                "value": "{primitives.light.color.green.200}",
                 "extensions": {
                   "org.lukasoppermann.figmaDesignTokens": {
                     "mode": "Light",
@@ -5956,6 +5984,34 @@
             }
           },
           "ai": {
+            "default": {
+              "description": "",
+              "type": "color",
+              "value": "#033f15a3",
+              "extensions": {
+                "org.lukasoppermann.figmaDesignTokens": {
+                  "mode": "Dark",
+                  "modeId": "4:1",
+                  "collection": "Semantic",
+                  "scopes": [],
+                  "exportKey": "variables"
+                }
+              }
+            },
+            "hover": {
+              "description": "",
+              "type": "color",
+              "value": "#033f15a3",
+              "extensions": {
+                "org.lukasoppermann.figmaDesignTokens": {
+                  "mode": "Dark",
+                  "modeId": "4:1",
+                  "collection": "Semantic",
+                  "scopes": [],
+                  "exportKey": "variables"
+                }
+              }
+            },
             "backgroundGradient": {
               "default": {
                 "start": {
@@ -6041,7 +6097,7 @@
               "end": {
                 "description": "",
                 "type": "color",
-                "value": "{primitives.dark.color.gray.900}",
+                "value": "{primitives.dark.color.green.800}",
                 "extensions": {
                   "org.lukasoppermann.figmaDesignTokens": {
                     "mode": "Dark",
