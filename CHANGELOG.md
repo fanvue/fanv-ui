@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.25.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.24.0...ui-v3.25.0) (2026-08-03)
+
+
+### Features
+
+* **SegmentedControl:** allow icon and text ([#619](https://github.com/fanvue/fanv-ui/issues/619)) ([2d4f924](https://github.com/fanvue/fanv-ui/commit/2d4f924efa815fe79964983e06aee395e59f364c))
+
+
+### Bug Fixes
+
+* **DropdownMenu:** keep the Figma radius token out of consumers' Tailwind scan (ENG-13175) ([#649](https://github.com/fanvue/fanv-ui/issues/649)) ([756bfa6](https://github.com/fanvue/fanv-ui/commit/756bfa6c2116578580b42417cc92ab6f4a516551))
+
 ## [3.24.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.23.0...ui-v3.24.0) (2026-08-01)
 
 
