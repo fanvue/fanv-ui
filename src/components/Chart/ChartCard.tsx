@@ -37,6 +37,14 @@ export interface ChartCardProps extends Omit<React.HTMLAttributes<HTMLDivElement
   };
   /** Show loading skeleton instead of content. @default false */
   loading?: boolean;
+  /**
+   * Placeholder shown in place of {@link children} while {@link loading} —
+   * usually a `ChartSkeleton` of the variant matching the body it stands in for,
+   * so the card does not resize when the real content arrives. Omit it to keep
+   * rendering the children while loading, which is what a card whose body is
+   * decorative wants.
+   */
+  skeleton?: React.ReactNode;
   /** Chart content rendered below the header. */
   children?: React.ReactNode;
 }
@@ -84,6 +92,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
       dateInfo,
       trendChip,
       loading = false,
+      skeleton,
       children,
       ...props
     },
@@ -159,7 +168,11 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
               )}
             </>
           )}
-          {children && <div className="mt-auto">{children}</div>}
+          {loading && skeleton ? (
+            <div className="mt-auto">{skeleton}</div>
+          ) : (
+            children && <div className="mt-auto">{children}</div>
+          )}
         </div>
       </Card>
     );

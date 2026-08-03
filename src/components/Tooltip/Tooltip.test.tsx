@@ -66,6 +66,52 @@ describe("Tooltip", () => {
       expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
     });
 
+    it("fades the content in and out rather than blinking it on", async () => {
+      const user = userEvent.setup();
+      renderTooltip({ className: "styled-content" });
+      await user.hover(screen.getByRole("button", { name: "Hover me" }));
+      await screen.findByRole("tooltip");
+      expect(document.querySelector(".styled-content")).toHaveClass(
+        "data-[state=delayed-open]:[animation:fv-tooltip-in_150ms_ease-out]",
+        "data-[state=instant-open]:[animation:fv-tooltip-in_150ms_ease-out]",
+        "data-[state=closed]:[animation:fv-tooltip-out_120ms_ease-in]",
+      );
+    });
+
+    it("renders the v2 surface: tight radius, visible border, light shadow", async () => {
+      const user = userEvent.setup();
+      renderTooltip({ className: "styled-content" });
+      await user.hover(screen.getByRole("button", { name: "Hover me" }));
+      await screen.findByRole("tooltip");
+      const content = document.querySelector(".styled-content");
+      expect(content).toHaveClass("rounded-xs", "border", "border-border-selected", "shadow-sm");
+      expect(content).not.toHaveClass("rounded-sm");
+    });
+
+    it("drops the animation when the viewer asks for reduced motion", async () => {
+      const user = userEvent.setup();
+      renderTooltip({ className: "styled-content" });
+      await user.hover(screen.getByRole("button", { name: "Hover me" }));
+      await screen.findByRole("tooltip");
+      expect(document.querySelector(".styled-content")).toHaveClass(
+        "motion-reduce:[animation:none]",
+      );
+    });
+
+    it("lets a consumer override the exit animation, since its own class comes last", async () => {
+      const user = userEvent.setup();
+      renderTooltip({
+        className: "styled-content data-[state=closed]:[animation:none]",
+      });
+      await user.hover(screen.getByRole("button", { name: "Hover me" }));
+      await screen.findByRole("tooltip");
+      const content = document.querySelector(".styled-content");
+      expect(content).toHaveClass("data-[state=closed]:[animation:none]");
+      expect(content).not.toHaveClass(
+        "data-[state=closed]:[animation:fv-tooltip-out_120ms_ease-in]",
+      );
+    });
+
     it("applies custom className to content", async () => {
       const user = userEvent.setup();
       renderTooltip({ className: "custom-class" });

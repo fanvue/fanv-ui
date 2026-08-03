@@ -43,6 +43,19 @@ export const CardLoading: Story = {
   ),
 };
 
+export const CardLoadingWithSkeleton: Story = {
+  render: () => (
+    <div className="flex w-full max-w-lg flex-col gap-4">
+      <ChartCard title="Revenue" subtitle="$4,523" loading skeleton={<ChartSkeleton rows={4} />}>
+        <SimpleLineChart config={simpleLineConfig} />
+      </ChartCard>
+      <ChartCard title="Top Creators" loading skeleton={<ChartSkeleton variant="table" rows={4} />}>
+        <div className="h-48 w-full" />
+      </ChartCard>
+    </div>
+  ),
+};
+
 export const CardWithTooltip: Story = {
   render: () => (
     <div className="w-full max-w-lg">
@@ -127,11 +140,31 @@ function SeriesToggleInteractive() {
     <div className="w-full max-w-lg">
       <ChartSeriesToggle
         items={[
-          { key: "photos", label: "Photos", color: "var(--color-special-chart-teal)" },
-          { key: "videos", label: "Videos", color: "var(--color-special-chart-sky)" },
-          { key: "messages", label: "Messages", color: "var(--color-special-chart-orange)" },
-          { key: "tips", label: "Tips", color: "var(--color-special-chart-gray)" },
-          { key: "subs", label: "Subscriptions", color: "var(--color-special-chart-pink)" },
+          {
+            key: "photos",
+            label: "Photos",
+            color: "var(--color-special-chart-teal)",
+          },
+          {
+            key: "videos",
+            label: "Videos",
+            color: "var(--color-special-chart-sky)",
+          },
+          {
+            key: "messages",
+            label: "Messages",
+            color: "var(--color-special-chart-orange)",
+          },
+          {
+            key: "tips",
+            label: "Tips",
+            color: "var(--color-special-chart-gray)",
+          },
+          {
+            key: "subs",
+            label: "Subscriptions",
+            color: "var(--color-special-chart-pink)",
+          },
         ]}
         value={visible}
         onValueChange={setVisible}
@@ -150,11 +183,31 @@ function SeriesTogglePartialInteractive() {
     <div className="w-full max-w-lg">
       <ChartSeriesToggle
         items={[
-          { key: "photos", label: "Photos", color: "var(--color-special-chart-teal)" },
-          { key: "videos", label: "Videos", color: "var(--color-special-chart-sky)" },
-          { key: "messages", label: "Messages", color: "var(--color-special-chart-orange)" },
-          { key: "tips", label: "Tips", color: "var(--color-special-chart-gray)" },
-          { key: "subs", label: "Subscriptions", color: "var(--color-special-chart-pink)" },
+          {
+            key: "photos",
+            label: "Photos",
+            color: "var(--color-special-chart-teal)",
+          },
+          {
+            key: "videos",
+            label: "Videos",
+            color: "var(--color-special-chart-sky)",
+          },
+          {
+            key: "messages",
+            label: "Messages",
+            color: "var(--color-special-chart-orange)",
+          },
+          {
+            key: "tips",
+            label: "Tips",
+            color: "var(--color-special-chart-gray)",
+          },
+          {
+            key: "subs",
+            label: "Subscriptions",
+            color: "var(--color-special-chart-pink)",
+          },
         ]}
         value={visible}
         onValueChange={setVisible}
@@ -173,13 +226,41 @@ function SeriesToggleManyInteractive() {
     <div className="w-full max-w-3xl">
       <ChartSeriesToggle
         items={[
-          { key: "total", label: "Total", color: "var(--color-special-chart-purple)" },
-          { key: "subs", label: "Subs", color: "var(--color-special-chart-sky)" },
-          { key: "messages", label: "Messages", color: "var(--color-special-chart-orange)" },
-          { key: "posts", label: "Posts", color: "var(--color-special-chart-magenta)" },
-          { key: "tips", label: "Tips", color: "var(--color-special-chart-teal)" },
-          { key: "referrals", label: "Referrals", color: "var(--color-special-chart-pink)" },
-          { key: "other", label: "Other", color: "var(--color-special-chart-gray)" },
+          {
+            key: "total",
+            label: "Total",
+            color: "var(--color-special-chart-purple)",
+          },
+          {
+            key: "subs",
+            label: "Subs",
+            color: "var(--color-special-chart-sky)",
+          },
+          {
+            key: "messages",
+            label: "Messages",
+            color: "var(--color-special-chart-orange)",
+          },
+          {
+            key: "posts",
+            label: "Posts",
+            color: "var(--color-special-chart-magenta)",
+          },
+          {
+            key: "tips",
+            label: "Tips",
+            color: "var(--color-special-chart-teal)",
+          },
+          {
+            key: "referrals",
+            label: "Referrals",
+            color: "var(--color-special-chart-pink)",
+          },
+          {
+            key: "other",
+            label: "Other",
+            color: "var(--color-special-chart-gray)",
+          },
         ]}
         value={visible}
         onValueChange={setVisible}

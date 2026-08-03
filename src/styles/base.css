@@ -111,6 +111,25 @@
 }
 
 /*
+ * Tooltip enter/exit. Opacity only, deliberately: the tooltip is portalled and
+ * positioned by Radix's popper, which owns its transform — animating one here
+ * would fight it, and any transform on the content also makes it a stacking
+ * context. Fading in is also what lets the exit run at all; without an animation
+ * Radix unmounts the content the moment it closes.
+ */
+@keyframes fv-tooltip-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fv-tooltip-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/*
  * AiButton. Each letter runs `fv-ai-letter` on a staggered delay set inline from
  * its index, which is what produces the left-to-right sweep — the alternative,
  * a fixed set of :nth-child delays, silently stops staggering past whatever
