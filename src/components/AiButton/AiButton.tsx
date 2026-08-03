@@ -98,11 +98,17 @@ const ShimmerLabel: React.FC<{ text: string; disabled?: boolean }> = ({ text, di
 );
 
 /**
- * A pill button for AI actions. The label shimmers letter by letter and the glyph
- * flickers at rest; on hover both settle and the green treatment eases in together
- * — outline, rim and a sheen pooling along the bottom edge under the cursor, which
- * follows it across the button. On focus each letter blooms once before the shimmer
- * resumes. The lit rim and sheen come from the `fv-ai-button` utility in `base.css`.
+ * A pill button for AI actions. It rests on the translucent `Buttons/AI/Default`
+ * fill with a 1px `Buttons/AI/Stroke-*` gradient ring, from the `fv-ai-surface`
+ * utility in `base.css`. The label shimmers letter by letter and the glyph flickers
+ * at rest; on hover both settle, the fill steps to `Buttons/AI/Hover`, and a sheen
+ * pools along the bottom edge under the cursor and follows it across the button.
+ * On focus each letter blooms once before the shimmer resumes.
+ *
+ * It carries no `border-*` of its own — the ring is `fv-ai-surface`'s masked
+ * pseudo-element, and a real border would double it. Hover and active states live
+ * in `fv-ai-button` (the sheen) plus the one hover fill token, so nothing here
+ * transitions except `background-color`.
  *
  * It shares {@link Button}'s geometry — `rounded-full`, the same heights and label
  * typography — so it sits alongside one without looking foreign. Both labels are
@@ -154,16 +160,12 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
           onPointerLeave?.(event);
         }}
         className={cn(
-          "fv-ai-button",
+          "fv-ai-surface fv-ai-button",
           "group/ai inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-full",
-          "border border-border-primary bg-background-primary",
-          // Matched to the rim and sheen so the whole treatment arrives as one
-          // movement — at the old 300ms the outline landed ahead of the glow.
-          "transition-[background-color,border-color] duration-[400ms] ease-out",
-          "hover:border-brand-primary-default",
-          "focus-visible:outline-none",
-          "active:border-brand-primary-hover active:bg-brand-primary-muted",
-          "disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-border-primary",
+          "transition-colors duration-[400ms] ease-out",
+          "hover:bg-buttons-ai-hover",
+          "focus-visible:shadow-focus-ring focus-visible:outline-none",
+          "disabled:cursor-not-allowed disabled:opacity-60",
           sizeVariants[size],
           className,
         )}

@@ -7,6 +7,10 @@ const meta = {
   component: AiButton,
   parameters: {
     layout: "centered",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16650-1558&m=dev",
+    },
   },
   tags: ["autodocs"],
   argTypes: {
@@ -66,4 +70,31 @@ export const Toggling: Story = {
 
 export const LongLabel: Story = {
   args: { label: "Analyse this chart", activeLabel: "Analysing this chart" },
+};
+
+/**
+ * The fill is translucent and backdrop-blurred, so it takes on whatever sits
+ * behind it. A centred story on the default canvas cannot show that working —
+ * these three surfaces can.
+ */
+export const OnSurfaces: Story = {
+  parameters: { layout: "padded" },
+  render: (args) => (
+    <div className="flex flex-col gap-4">
+      {(
+        [
+          ["Background/Primary", "bg-background-primary"],
+          ["Background/Secondary", "bg-background-secondary"],
+          ["Green/900", "bg-[var(--primitives-color-green-900)]"],
+        ] as const
+      ).map(([label, surface]) => (
+        <div className={`flex items-center gap-4 rounded-md p-4 ${surface}`} key={label}>
+          <AiButton {...args} />
+          <span className="typography-description-12px-regular text-content-secondary">
+            {label}
+          </span>
+        </div>
+      ))}
+    </div>
+  ),
 };

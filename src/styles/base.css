@@ -119,7 +119,9 @@
 @keyframes fv-ai-letter {
   50% {
     color: var(--color-content-primary);
-    text-shadow: 0 0 6px var(--color-content-always-white);
+    /* Theme-aware, not always-white: the button's fill is now a light green in
+       light mode, where a white glow behind dark text is invisible. */
+    text-shadow: 0 0 6px var(--color-content-primary);
   }
 }
 
@@ -156,9 +158,70 @@
 }
 
 /*
- * AiButton surface. The lit rim and the sheen are pseudo-elements rather than
- * box-shadows on the button so they can be masked and brightened independently
- * of the border, which is what gives the control its "powered on" feel.
+ * The static AI surface: the translucent `Buttons/AI/Default` fill and the 1px
+ * `Buttons/AI/Stroke-*` gradient ring, with no interaction states. Split out of
+ * `fv-ai-button` because the surface and the button are not the same thing —
+ * AiButton is one consumer, but so is any non-interactive AI affordance (a pill
+ * nested inside a larger clickable card, for instance) that must not be a
+ * `<button>`. Pair it with `fv-ai-button` for the interactive layer.
+ *
+ * The ring is a masked pseudo-element rather than the usual
+ * `background-clip: padding-box, border-box` pair because the fill is
+ * TRANSLUCENT: with that technique the border-box layer paints across the whole
+ * element and shows through the fill, washing the entire surface with the
+ * gradient. Button's AI_GRADIENT only gets away with the clip trick because its
+ * fill is opaque.
+ *
+ * The ring sits at `z-index: 0`, not `-1`. At `-1` it paints behind the
+ * element's own background, so the translucent fill tints it and the ring reads
+ * muted. At `0` it paints above the background but below the `z-index: 1`
+ * content, which is why children need lifting.
+ */
+@utility fv-ai-surface {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--color-buttons-ai-default);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    background-image: linear-gradient(
+      250.3deg,
+      var(--color-buttons-ai-stroke-start) -9%,
+      var(--color-buttons-ai-stroke-end) 110%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/*
+ * The interactive layer over `fv-ai-surface`: a sheen that pools along the
+ * bottom edge and follows the cursor. It is a pseudo-element rather than a
+ * box-shadow so it can be masked and brightened independently of the ring.
+ *
+ * `::before` belongs to `fv-ai-surface` (the ring), so everything here hangs off
+ * `::after`. The rim glow this utility used to draw at `inset: -3px` is gone: it
+ * existed to reveal green as the button lifted from a NEUTRAL rest state, and
+ * against a green fill there is nothing left to reveal.
  */
 @utility fv-ai-button {
   position: relative;
@@ -170,24 +233,6 @@
    * pointer position to follow.
    */
   --fv-ai-x: 50%;
-
-  /*
-   * Rim just outside the border: unlit at rest, catching green as it lifts. It
-   * carries only inset glow — the 1px light/dark bevel pair it used to also draw
-   * read as a second outline ringing the button 3px out from its actual border.
-   */
-  &::before {
-    content: "";
-    position: absolute;
-    inset: -3px;
-    z-index: -1;
-    border-radius: inherit;
-    pointer-events: none;
-    transition: box-shadow 400ms ease-out;
-    box-shadow:
-      0 -8px 8px -6px transparent inset,
-      0 -16px 16px -8px transparent inset;
-  }
 
   /*
    * Sheen rising from the bottom edge, masked so it fades before the top. It is a
@@ -225,19 +270,9 @@
     );
   }
 
-  &:hover::before {
-    box-shadow:
-      0 -8px 8px -6px
-        color-mix(in srgb, var(--color-content-always-white) 60%, transparent)
-        inset,
-      0 -16px 16px -8px
-        color-mix(in srgb, var(--color-brand-primary-default) 30%, transparent)
-        inset;
-  }
-
   /*
-   * Pointer-in. `ease-out` over the same 400ms as the rim and the border, so the
-   * treatment lifts in as one movement and settles rather than arriving in pieces.
+   * Pointer-in. `ease-out` over 400ms, matching the fill's own hover transition
+   * so the treatment lifts in as one movement rather than arriving in pieces.
    */
   &:hover::after {
     opacity: 1;
@@ -255,24 +290,15 @@
     opacity: 0.6;
   }
 
-  &:active::before {
-    box-shadow:
-      0 -8px 12px -6px
-        color-mix(in srgb, var(--color-content-always-white) 66%, transparent)
-        inset,
-      0 -16px 16px -8px
-        color-mix(in srgb, var(--color-brand-primary-default) 80%, transparent)
-        inset;
-  }
-
   &:active::after {
     opacity: 1;
     filter: brightness(200%);
   }
 
-  &:disabled::before,
+  /* Only the sheen goes: `::before` is the ring, which a disabled surface keeps
+     (faded by the button's own `disabled:opacity-60`) so it still reads as a
+     control rather than a bare patch of colour. */
   &:disabled::after {
-    box-shadow: none;
     opacity: 0;
   }
 }

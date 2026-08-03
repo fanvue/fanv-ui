@@ -56,6 +56,16 @@ describe("AiButton", () => {
       expect(button).toHaveClass("custom");
       expect(button).toHaveAttribute("data-x", "y");
     });
+
+    it("composes the AI surface with the interactive layer", () => {
+      render(<AiButton label="Analyse" />);
+      expect(screen.getByRole("button")).toHaveClass("fv-ai-surface", "fv-ai-button");
+    });
+
+    it("carries no border of its own, so it cannot double the surface ring", () => {
+      render(<AiButton label="Analyse" />);
+      expect(screen.getByRole("button")).not.toHaveClass("border");
+    });
   });
 
   describe("interaction", () => {
@@ -158,6 +168,11 @@ describe("AiButton", () => {
   });
 
   describe("accessibility", () => {
+    it("shows a focus ring, not only the sheen", () => {
+      render(<AiButton label="Analyse" />);
+      expect(screen.getByRole("button")).toHaveClass("focus-visible:shadow-focus-ring");
+    });
+
     it("has no accessibility violations", async () => {
       const { container } = render(<AiButton label="Analyse" activeLabel="Analysing" />);
       expect(await axe(container)).toHaveNoViolations();

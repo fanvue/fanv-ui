@@ -2553,6 +2553,20 @@ function AiButtonDemo() {
           onClick={() => setActive((a) => !a)}
         />
       </div>
+      <div className="mt-4 flex flex-col gap-4">
+        {[
+          ["Background/Primary", "bg-background-primary"],
+          ["Background/Secondary", "bg-background-secondary"],
+          ["Green/900", "bg-[var(--primitives-color-green-900)]"],
+        ].map(([label, surface]) => (
+          <div className={`flex items-center gap-4 rounded-md p-4 ${surface}`} key={label}>
+            <AiButton label="Analyse" />
+            <span className="typography-description-12px-regular text-content-secondary">
+              {label}
+            </span>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
@@ -3014,7 +3028,10 @@ function DropdownMenuDemo() {
               <DropdownMenuHeader
                 type="search"
                 title="Creators"
-                searchProps={{ autoFocus: true, placeholder: "Search creators" }}
+                searchProps={{
+                  autoFocus: true,
+                  placeholder: "Search creators",
+                }}
               />
               {["Jane Doe", "Alex Kim", "Sam Patel"].map((name) => (
                 <DropdownMenuCheckboxItem
