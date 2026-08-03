@@ -3014,7 +3014,10 @@ function DropdownMenuDemo() {
               <DropdownMenuHeader
                 type="search"
                 title="Creators"
-                searchProps={{ autoFocus: true, placeholder: "Search creators" }}
+                searchProps={{
+                  autoFocus: true,
+                  placeholder: "Search creators",
+                }}
               />
               {["Jane Doe", "Alex Kim", "Sam Patel"].map((name) => (
                 <DropdownMenuCheckboxItem
@@ -5592,6 +5595,8 @@ function CreatorTileDemo() {
     "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=720&h=400&fit=crop";
   const sampleAvatar =
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+  const highDetailImage =
+    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=720&h=400&fit=crop";
 
   return (
     <div id="creator-tile" className="flex scroll-mt-20 flex-col gap-4">
@@ -5670,6 +5675,39 @@ function CreatorTileDemo() {
           }
           aspectRatio="banner"
           className="rounded-lg"
+        />
+      </div>
+
+      <h3 className="typography-body-default-16px-semibold mt-4">Progressive scrim</h3>
+      <div className="w-[361px]">
+        <CreatorTile
+          background={<img src={highDetailImage} alt="" loading="lazy" />}
+          avatar={{ src: sampleAvatar, alt: "Aitana Lopez", fallback: "AL" }}
+          name="Aitana Lopez"
+          tagline="@fit_aitana"
+          action={
+            <Button variant="primary" size="32">
+              Follow
+            </Button>
+          }
+          className="rounded-lg"
+        />
+      </div>
+
+      <h3 className="typography-body-default-16px-semibold mt-4">Narrow banner</h3>
+      <div className="w-[260px]">
+        <CreatorTile
+          background={<img src={highDetailImage} alt="" loading="lazy" />}
+          avatar={{ src: sampleAvatar, alt: "Jane Doe", fallback: "JD" }}
+          name="Jane Doe"
+          tagline="@jane_doe"
+          action={
+            <Button variant="white" size="32" className="rounded-full">
+              View Profile
+            </Button>
+          }
+          aspectRatio="banner"
+          className="rounded-sm"
         />
       </div>
     </div>

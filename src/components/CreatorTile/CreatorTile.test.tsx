@@ -36,6 +36,23 @@ describe("CreatorTile", () => {
       );
     });
 
+    it("ramps the scrim blur from 2px to 32px over the gradient", () => {
+      const { container } = render(<CreatorTile {...baseProps} />);
+      const blurLayers = container.querySelectorAll('[class*="backdrop-blur-"]');
+      expect(blurLayers).toHaveLength(5);
+      expect(blurLayers[0]).toHaveClass("backdrop-blur-[2px]");
+      expect(blurLayers[4]).toHaveClass("backdrop-blur-[32px]");
+      expect(container.querySelector('[class*="from-40%"]')).not.toBeNull();
+    });
+
+    it("keeps every blur layer non-interactive and radius-inheriting", () => {
+      const { container } = render(<CreatorTile {...baseProps} />);
+      for (const layer of container.querySelectorAll('[class*="backdrop-blur-"]')) {
+        expect(layer).toHaveClass("pointer-events-none");
+        expect(layer).toHaveClass("rounded-[inherit]");
+      }
+    });
+
     it("renders avatar fallback content", async () => {
       render(<CreatorTile {...baseProps} avatar={{ fallback: "AL" }} />);
       expect(await screen.findByText("AL")).toBeInTheDocument();

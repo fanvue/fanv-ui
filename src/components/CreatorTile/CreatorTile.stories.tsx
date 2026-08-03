@@ -7,6 +7,8 @@ const SAMPLE_BACKGROUND =
   "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=720&h=400&fit=crop";
 const SAMPLE_AVATAR =
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+const HIGH_DETAIL_BACKGROUND =
+  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=720&h=400&fit=crop";
 
 const meta = {
   title: "Components/CreatorTile",
@@ -93,6 +95,45 @@ export const Banner: Story = {
         }
         tagline="@jane_doe"
         avatar={{ src: SAMPLE_AVATAR, alt: "Jane Doe", fallback: "JD" }}
+        action={
+          <Button variant="white" size="32" className="rounded-full">
+            View Profile
+          </Button>
+        }
+      />
+    </div>
+  ),
+};
+
+/**
+ * The scrim blurs progressively from 0 to 32px towards the bottom. A high-frequency background
+ * shows the ramp; the soft sample used elsewhere hides it almost entirely.
+ */
+export const ProgressiveScrim: Story = {
+  args: {
+    background: <img src={HIGH_DETAIL_BACKGROUND} alt="" loading="lazy" />,
+  },
+  render: (args) => (
+    <div className="w-90">
+      <CreatorTile {...args} className="rounded-lg" />
+    </div>
+  ),
+};
+
+/**
+ * Below roughly 308px of width a `banner` tile's profile row rises above the scrim's 40% start
+ * line, so its top edge sits on unscrimmed media. This is the shape the chat creator embed uses.
+ */
+export const NarrowBanner: Story = {
+  args: {
+    aspectRatio: "banner",
+    background: <img src={HIGH_DETAIL_BACKGROUND} alt="" loading="lazy" />,
+  },
+  render: (args) => (
+    <div className="w-[260px]">
+      <CreatorTile
+        {...args}
+        className="rounded-sm"
         action={
           <Button variant="white" size="32" className="rounded-full">
             View Profile
