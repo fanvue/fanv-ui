@@ -499,15 +499,8 @@ export const DropdownMenuItem = React.forwardRef<
     const hasDescription = description != null;
     const hasAvatar = avatar != null;
     const itemClassName = cn(
-      // `rounded-sm` (12px), not the 8px the rows carried before: `V2 Menu Item` is
-      // `rounded-[var(--radius/rounded-sm,12px)]` (node `21542:8629`). Deliberately
-      // different from `DropdownMenuRadioItem` and `DropdownMenuCheckboxItem`, which
-      // `V2 Menu Radio Item` draws at `rounded-xs` (node `7393:62008`).
-      //
-      // `text-start` because the sheet variant renders the row as a <button>, and
-      // the UA centres a button's text — which centred the two-line title and
-      // description while the popper variant (a div) inherited the panel's start
-      // alignment. Both read from the same edge now.
+      // `text-start` because the sheet variant renders the row as a <button>,
+      // whose UA-centred text misaligned it from the popper variant's rows.
       "group flex w-full cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
       hasDescription ? "items-start" : "items-center",
       // The sheet's header runs the full width of the panel, so its rows have to
