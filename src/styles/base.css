@@ -119,11 +119,12 @@
 @keyframes fv-ai-letter {
   50% {
     color: var(--color-content-primary);
-    /* Brand green rather than a light/dark neutral, because the glow has to read
-       as the letter LIGHTING UP on both fills. `always-white` disappears into the
-       light-mode green; `content-primary` is near-black there and smudges the
-       label instead of brightening it. Green works on both and matches the sheen. */
-    text-shadow: 0 0 6px var(--color-brand-primary-default);
+    /* Always-white, and deliberately not theme-aware. Against the green fill it
+       backlights the dark light-mode letters and blooms the white dark-mode ones,
+       so one value carries both. A theme-aware neutral would be near-black in
+       light and smudge the label; brand green only reads in dark, where the fill
+       is dark enough for it to show. */
+    text-shadow: 0 0 6px var(--color-content-always-white);
   }
 }
 
