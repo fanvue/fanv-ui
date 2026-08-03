@@ -167,6 +167,48 @@ describe("AiButton", () => {
     });
   });
 
+  describe("children", () => {
+    it("renders children in place of the shimmering label", () => {
+      render(
+        <AiButton label="Analyse">
+          <span>Ask about your earnings</span>
+        </AiButton>,
+      );
+      const button = screen.getByRole("button");
+      expect(button).toHaveTextContent("Ask about your earnings");
+      expect(button.querySelectorAll("[aria-hidden='true'] > span")).toHaveLength(0);
+    });
+
+    it("still names the button from the label", () => {
+      render(
+        <AiButton label="Analyse">
+          <span>Ask about your earnings</span>
+        </AiButton>,
+      );
+      expect(screen.getByRole("button", { name: "Analyse" })).toBeInTheDocument();
+    });
+
+    it("ignores activeLabel, which has no string body to crossfade", () => {
+      render(
+        <AiButton label="Analyse" activeLabel="Analysing" active>
+          <span>Ask about your earnings</span>
+        </AiButton>,
+      );
+      const button = screen.getByRole("button");
+      expect(button).not.toHaveTextContent("Analysing");
+      expect(button).toHaveAttribute("aria-busy", "true");
+    });
+
+    it("keeps the leading glyph", () => {
+      const { container } = render(
+        <AiButton label="Analyse">
+          <span>Body</span>
+        </AiButton>,
+      );
+      expect(container.querySelector("svg")).toBeInTheDocument();
+    });
+  });
+
   describe("accessibility", () => {
     it("shows a focus ring, not only the sheen", () => {
       render(<AiButton label="Analyse" />);
@@ -180,6 +222,15 @@ describe("AiButton", () => {
 
     it("has no accessibility violations while active", async () => {
       const { container } = render(<AiButton label="Analyse" activeLabel="Analysing" active />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with a custom body", async () => {
+      const { container } = render(
+        <AiButton label="Analyse">
+          <span>Ask about your earnings</span>
+        </AiButton>,
+      );
       expect(await axe(container)).toHaveNoViolations();
     });
   });

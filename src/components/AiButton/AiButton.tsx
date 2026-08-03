@@ -60,6 +60,14 @@ export interface AiButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButto
   icon?: React.ReactNode;
   /** @default "button" */
   type?: "button" | "submit" | "reset";
+  /**
+   * Replaces the label body. Use when the label is not plain text — a rotating
+   * {@link CyclingText}, for instance. {@link label} stays required and is still
+   * the accessible name, so a screen reader is unaffected. Bypasses the
+   * per-character shimmer and the `active`/`activeLabel` crossfade, both of which
+   * need a string.
+   */
+  children?: React.ReactNode;
 }
 
 /**
@@ -132,6 +140,7 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
       size = "32",
       icon,
       type = "button",
+      children,
       className,
       disabled,
       onPointerMove,
@@ -192,24 +201,26 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
         </span>
         {/* Both labels occupy one grid cell so the button keeps the width of the
             longer of the two and the swap never reflows the row around it. */}
-        <span className="grid">
-          <span
-            className={cn(
-              "col-start-1 row-start-1 transition-opacity duration-300",
-              active ? "opacity-0" : "opacity-100",
-            )}
-          >
-            <ShimmerLabel text={label} disabled={disabled} />
+        {children ?? (
+          <span className="grid">
+            <span
+              className={cn(
+                "col-start-1 row-start-1 transition-opacity duration-300",
+                active ? "opacity-0" : "opacity-100",
+              )}
+            >
+              <ShimmerLabel text={label} disabled={disabled} />
+            </span>
+            <span
+              className={cn(
+                "col-start-1 row-start-1 transition-opacity duration-300",
+                active ? "opacity-100" : "opacity-0",
+              )}
+            >
+              <ShimmerLabel text={resolvedActiveLabel} disabled={disabled} />
+            </span>
           </span>
-          <span
-            className={cn(
-              "col-start-1 row-start-1 transition-opacity duration-300",
-              active ? "opacity-100" : "opacity-0",
-            )}
-          >
-            <ShimmerLabel text={resolvedActiveLabel} disabled={disabled} />
-          </span>
-        </span>
+        )}
       </button>
     );
   },

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { CyclingText } from "../CyclingText/CyclingText";
 import { AiButton } from "./AiButton";
 
 const meta = {
@@ -70,6 +71,28 @@ export const Toggling: Story = {
 
 export const LongLabel: Story = {
   args: { label: "Analyse this chart", activeLabel: "Analysing this chart" },
+};
+
+/**
+ * `children` replaces the label body when the label is not plain text. Here the
+ * rotation is the motion, so the per-character shimmer is deliberately gone;
+ * `label` still supplies the accessible name.
+ */
+export const CustomBody: Story = {
+  args: { label: "Ask the agent about your earnings" },
+  render: (args) => (
+    <AiButton {...args}>
+      <span className="flex items-center gap-1 whitespace-nowrap">
+        <span className="shrink-0">Ask about</span>
+        <CyclingText
+          items={["your earnings", "your top fans", "your best content"]}
+          intervalMs={2400}
+          sizing="longest"
+          labelClassName="typography-body-small-14px-semibold whitespace-nowrap"
+        />
+      </span>
+    </AiButton>
+  ),
 };
 
 /**
