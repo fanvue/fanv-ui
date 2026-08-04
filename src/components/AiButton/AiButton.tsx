@@ -60,6 +60,14 @@ export interface AiButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButto
   icon?: React.ReactNode;
   /** @default "button" */
   type?: "button" | "submit" | "reset";
+  /**
+   * Replaces the label body. Use when the label is not plain text — a rotating
+   * {@link CyclingText}, for instance. {@link label} stays required and is still
+   * the accessible name, so a screen reader is unaffected. Bypasses the
+   * per-character shimmer and the `active`/`activeLabel` crossfade, both of which
+   * need a string.
+   */
+  children?: React.ReactNode;
 }
 
 /**
@@ -73,19 +81,19 @@ const ShimmerLabel: React.FC<{ text: string; disabled?: boolean }> = ({ text, di
       <span
         key={`${character}-${index}`}
         className={cn(
-          "inline-block whitespace-pre text-content-secondary",
+          "inline-block whitespace-pre text-content-always-white/80",
           // Gated in JS rather than with a `group-disabled/ai:` override, because
           // that would rely on the generated rule ordering to beat `group-hover`.
           // A faded control that still shimmers and still lights up green under the
           // cursor reads as busy rather than unavailable.
           !disabled && [
             "[animation:fv-ai-letter_2s_ease-in-out_infinite]",
-            "group-hover/ai:text-content-primary group-hover/ai:[animation:none]",
+            "group-hover/ai:text-content-always-white group-hover/ai:[animation:none]",
             // On focus each letter blows up and settles, then the idle shimmer
             // resumes underneath it — the two animations are sequenced by delay.
             "group-focus-visible/ai:[animation:fv-ai-letter-focus_1s_ease-in-out,fv-ai-letter_1.2s_ease-in-out_infinite_1s]",
-            "group-active/ai:text-content-primary group-active/ai:[animation:none]",
-            "group-active/ai:[text-shadow:0_0_4px_var(--color-content-primary)]",
+            "group-active/ai:text-content-always-white group-active/ai:[animation:none]",
+            "group-active/ai:[text-shadow:0_0_4px_var(--color-content-always-white)]",
           ],
           "motion-reduce:[animation:none]",
         )}
@@ -98,11 +106,19 @@ const ShimmerLabel: React.FC<{ text: string; disabled?: boolean }> = ({ text, di
 );
 
 /**
- * A pill button for AI actions. The label shimmers letter by letter and the glyph
- * flickers at rest; on hover both settle and the green treatment eases in together
- * — outline, rim and a sheen pooling along the bottom edge under the cursor, which
- * follows it across the button. On focus each letter blooms once before the shimmer
- * resumes. The lit rim and sheen come from the `fv-ai-button` utility in `base.css`.
+ * A pill button for AI actions. The surface comes from the `fv-ai-surface` utility
+ * in `base.css`: in light mode the same opaque diagonal gradient `Button`'s `ai`
+ * variant paints, in dark the translucent `Buttons/AI/Default` fill with a masked
+ * `Buttons/AI/Stroke-*` ring. Either way the pill is dark, which is why every
+ * content colour here is `content-always-white` rather than theme-aware.
+ *
+ * The label shimmers letter by letter from 80% white to full, and the glyph flickers
+ * at rest; on hover both settle, the fill steps up, and a sheen pools along the
+ * bottom edge under the cursor and follows it across the button. On focus each
+ * letter blooms once before the shimmer resumes.
+ *
+ * It carries no `border-*` class of its own — `fv-ai-surface` owns the ring, and a
+ * second border would double it.
  *
  * It shares {@link Button}'s geometry — `rounded-full`, the same heights and label
  * typography — so it sits alongside one without looking foreign. Both labels are
@@ -126,6 +142,7 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
       size = "32",
       icon,
       type = "button",
+      children,
       className,
       disabled,
       onPointerMove,
@@ -154,16 +171,15 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
           onPointerLeave?.(event);
         }}
         className={cn(
-          "fv-ai-button",
+          "fv-ai-surface fv-ai-button",
           "group/ai inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-full",
-          "border border-border-primary bg-background-primary",
-          // Matched to the rim and sheen so the whole treatment arrives as one
-          // movement — at the old 300ms the outline landed ahead of the glow.
-          "transition-[background-color,border-color] duration-[400ms] ease-out",
-          "hover:border-brand-primary-default",
-          "focus-visible:outline-none",
-          "active:border-brand-primary-hover active:bg-brand-primary-muted",
-          "disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-border-primary",
+          // Not `transition-colors`: the light fill is a gradient, and only the
+          // two registered stop properties can carry it. Dark's fill is a plain
+          // background-color, so both are listed.
+          "transition-[--fv-ai-fill-start,--fv-ai-fill-end,background-color] duration-[400ms] ease-out",
+          "hover:bg-buttons-ai-hover",
+          "focus-visible:shadow-focus-ring focus-visible:outline-none",
+          "disabled:cursor-not-allowed disabled:opacity-60",
           sizeVariants[size],
           className,
         )}
@@ -171,9 +187,9 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
       >
         <span
           className={cn(
-            "flex shrink-0 items-center text-content-primary",
+            "flex shrink-0 items-center text-content-always-white",
             iconScaleVariants[size],
-            "[filter:drop-shadow(0_0_2px_color-mix(in_srgb,var(--color-content-primary)_60%,transparent))]",
+            "[filter:drop-shadow(0_0_2px_color-mix(in_srgb,var(--color-content-always-white)_60%,transparent))]",
             // Same reasoning as the letters: no flicker and no green lift once the
             // button is unavailable.
             !disabled && [
@@ -190,24 +206,26 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
         </span>
         {/* Both labels occupy one grid cell so the button keeps the width of the
             longer of the two and the swap never reflows the row around it. */}
-        <span className="grid">
-          <span
-            className={cn(
-              "col-start-1 row-start-1 transition-opacity duration-300",
-              active ? "opacity-0" : "opacity-100",
-            )}
-          >
-            <ShimmerLabel text={label} disabled={disabled} />
+        {children ?? (
+          <span className="grid">
+            <span
+              className={cn(
+                "col-start-1 row-start-1 transition-opacity duration-300",
+                active ? "opacity-0" : "opacity-100",
+              )}
+            >
+              <ShimmerLabel text={label} disabled={disabled} />
+            </span>
+            <span
+              className={cn(
+                "col-start-1 row-start-1 transition-opacity duration-300",
+                active ? "opacity-100" : "opacity-0",
+              )}
+            >
+              <ShimmerLabel text={resolvedActiveLabel} disabled={disabled} />
+            </span>
           </span>
-          <span
-            className={cn(
-              "col-start-1 row-start-1 transition-opacity duration-300",
-              active ? "opacity-100" : "opacity-0",
-            )}
-          >
-            <ShimmerLabel text={resolvedActiveLabel} disabled={disabled} />
-          </span>
-        </span>
+        )}
       </button>
     );
   },

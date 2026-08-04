@@ -118,6 +118,8 @@
   --color-buttons-chip-dotted-hover-stroke: var(--color-neutral-alphas-500);
   --color-buttons-navigation-base: var(--color-background-secondary);
   --color-buttons-navigation-highlight: var(--color-interaction-hover);
+  --color-buttons-ai-default: #acf6b9b8;
+  --color-buttons-ai-hover: #80f593b8;
   --color-buttons-ai-background-gradient-default-start: var(--primitives-color-green-800);
   --color-buttons-ai-background-gradient-default-end: var(--primitives-color-green-950);
   --color-buttons-ai-background-gradient-hover-start: var(--primitives-color-green-700);
@@ -513,6 +515,8 @@
   --color-buttons-chip-dotted-hover-stroke: var(--color-neutral-alphas-500);
   --color-buttons-navigation-base: var(--color-background-secondary);
   --color-buttons-navigation-highlight: var(--color-interaction-hover);
+  --color-buttons-ai-default: #acf6b9b8;
+  --color-buttons-ai-hover: #80f593b8;
   --color-buttons-ai-background-gradient-default-start: var(--primitives-color-green-800);
   --color-buttons-ai-background-gradient-default-end: var(--primitives-color-green-950);
   --color-buttons-ai-background-gradient-hover-start: var(--primitives-color-green-700);
@@ -731,12 +735,14 @@
   --color-buttons-chip-dotted-hover-stroke: var(--color-neutral-alphas-600);
   --color-buttons-navigation-base: var(--color-background-secondary);
   --color-buttons-navigation-highlight: var(--color-interaction-hover);
+  --color-buttons-ai-default: #033f15a3;
+  --color-buttons-ai-hover: #033f15a3;
   --color-buttons-ai-background-gradient-default-start: var(--primitives-color-green-800);
   --color-buttons-ai-background-gradient-default-end: var(--primitives-color-green-950);
   --color-buttons-ai-background-gradient-hover-start: var(--primitives-color-green-700);
   --color-buttons-ai-background-gradient-hover-end: var(--primitives-color-green-900);
   --color-buttons-ai-stroke-start: var(--primitives-color-green-500);
-  --color-buttons-ai-stroke-end: var(--primitives-color-gray-900);
+  --color-buttons-ai-stroke-end: var(--primitives-color-green-800);
   --color-buttons-overlay-default: var(--primitives-color-blackalpha-300);
   --color-buttons-overlay-hover: var(--primitives-color-blackalpha-400);
   --color-special-chart-teal: #28ba8eff;
