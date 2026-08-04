@@ -102,6 +102,26 @@ describe("AnimatedNumber", () => {
       // 4 digits roll; "$" and "," do not.
       expect(container.querySelectorAll('[style*="translateY"]')).toHaveLength(4);
     });
+
+    it("keeps a place value's column across a change of magnitude, so it rolls", () => {
+      // A column only animates if its node survives the re-render and its offset
+      // changes; a freshly mounted one paints at its final offset with no
+      // transition. Keying columns from the left renumbered every position when the
+      // digit count changed, so the number snapped instead of rolling. Keyed from
+      // the least-significant end, the units column is the units column either way.
+      const { container, rerender } = render(
+        <AnimatedNumber value={999} format={String} variant="roll" />,
+      );
+      const units = container.querySelectorAll('[style*="translateY"]')[2];
+
+      rerender(<AnimatedNumber value={1000} format={String} variant="roll" />);
+
+      const after = container.querySelectorAll('[style*="translateY"]');
+      expect(after).toHaveLength(4);
+      // Same DOM node, now offset to 0 — that identity is what the transition needs.
+      expect(after[3]).toBe(units);
+      expect(after[3]).toHaveAttribute("style", expect.stringContaining("translateY(-0%)"));
+    });
   });
   describe("accessibility", () => {
     it("has no accessibility violations in the count variant", async () => {
