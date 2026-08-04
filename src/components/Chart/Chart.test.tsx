@@ -4,6 +4,7 @@ import * as React from "react";
 import { Bar, BarChart } from "recharts";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { ChartAreaGradientDefs, chartAreaGradientFill } from "./ChartAreaGradient";
 import { ChartCard } from "./ChartCard";
 import { ChartCenterLabel } from "./ChartCenterLabel";
 import { ChartContainer } from "./ChartContainer";
@@ -650,6 +651,102 @@ describe("Chart", () => {
 
       const rows = render(<ChartSkeleton variant="rows" rows={3} />);
       expect(await axe(rows.container)).toHaveNoViolations();
+    });
+  });
+
+  describe("ChartAreaGradientDefs", () => {
+    const renderDefs = (props: React.ComponentProps<typeof ChartAreaGradientDefs>) =>
+      render(
+        <svg aria-hidden="true">
+          <ChartAreaGradientDefs {...props} />
+        </svg>,
+      );
+
+    /**
+     * Stops are read off the gradient node rather than with a descendant selector:
+     * jsdom lowercases a camelCase type selector when it is part of a combinator, so
+     * `linearGradient stop` matches nothing while `linearGradient` alone matches.
+     */
+    const stopsOf = (container: HTMLElement) => [
+      ...(container.querySelector("linearGradient")?.querySelectorAll("stop") ?? []),
+    ];
+
+    it("emits one gradient per series, namespaced by the given prefix", () => {
+      const { container } = renderDefs({
+        idPrefix: "chart-1",
+        seriesKeys: ["revenue", "subscribers"],
+      });
+
+      expect([...container.querySelectorAll("linearGradient")].map((node) => node.id)).toEqual([
+        "chart-1-revenue",
+        "chart-1-subscribers",
+      ]);
+    });
+
+    it("resolves each series to the custom property ChartStyle publishes", () => {
+      // Rather than taking a colour: the gradient then tracks whatever colour the
+      // chart config gives that series, including its dark-theme override.
+      const { container } = renderDefs({
+        idPrefix: "chart-1",
+        seriesKeys: ["revenue"],
+      });
+
+      expect(stopsOf(container).map((stop) => stop.getAttribute("stop-color"))).toEqual([
+        "var(--color-revenue)",
+        "var(--color-revenue)",
+      ]);
+    });
+
+    it("fades from a translucent top to nothing at the baseline", () => {
+      const { container } = renderDefs({
+        idPrefix: "chart-1",
+        seriesKeys: ["revenue"],
+      });
+
+      const stops = stopsOf(container);
+      expect(stops[0]).toHaveAttribute("stop-opacity", "0.3");
+      expect(stops[1]).toHaveAttribute("stop-opacity", "0");
+    });
+
+    it("takes a stronger top opacity when one is given", () => {
+      const { container } = renderDefs({
+        idPrefix: "chart-1",
+        seriesKeys: ["revenue"],
+        topOpacity: 0.6,
+      });
+
+      expect(stopsOf(container)[0]).toHaveAttribute("stop-opacity", "0.6");
+    });
+
+    it("runs the gradient down the value axis, not along the series", () => {
+      const { container } = renderDefs({
+        idPrefix: "chart-1",
+        seriesKeys: ["revenue"],
+      });
+
+      const gradient = container.querySelector("linearGradient");
+      expect(gradient).toHaveAttribute("x1", "0");
+      expect(gradient).toHaveAttribute("x2", "0");
+      expect(gradient).toHaveAttribute("y1", "0");
+      expect(gradient).toHaveAttribute("y2", "1");
+    });
+
+    it("addresses a series' gradient with the same id it emitted", () => {
+      const { container } = renderDefs({
+        idPrefix: "chart-1",
+        seriesKeys: ["revenue"],
+      });
+
+      expect(chartAreaGradientFill("chart-1", "revenue")).toBe("url(#chart-1-revenue)");
+      expect(container.querySelector("linearGradient")?.id).toBe("chart-1-revenue");
+    });
+
+    it("has no accessibility violations", async () => {
+      const { container } = renderDefs({
+        idPrefix: "chart-1",
+        seriesKeys: ["revenue", "subscribers"],
+      });
+      expect(await axe(container)).toHaveNoViolations();
     });
   });
 });
