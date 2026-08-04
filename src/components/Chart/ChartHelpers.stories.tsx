@@ -1,12 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
+import { useId, useState } from "react";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { cn } from "../../utils/cn";
+import { ChartAreaGradientDefs, chartAreaGradientFill } from "./ChartAreaGradient";
 import { ChartCard } from "./ChartCard";
+import { ChartContainer } from "./ChartContainer";
 import { ChartLoadingOverlay } from "./ChartLoadingOverlay";
 import { ChartPieLegend } from "./ChartPieLegend";
 import { ChartSeriesToggle } from "./ChartSeriesToggle";
 import { ChartSkeleton } from "./ChartSkeleton";
+import { ChartTooltip, ChartTooltipContent } from "./ChartTooltip";
 import { SimpleLineChart, simpleLineConfig } from "./chartStoryFixtures";
+import type { ChartConfig } from "./types";
 
 const meta = {
   title: "Components/Charts/Helpers",
@@ -296,6 +301,69 @@ export const LoadingOverlayWithSkeleton: Story = {
       <ChartLoadingOverlay loading variant="bar" className="h-48">
         <SimpleLineChart config={simpleLineConfig} />
       </ChartLoadingOverlay>
+    </div>
+  ),
+};
+
+const overlappingSeriesData = [
+  { month: "Jan", subs: 2400, tips: 1400 },
+  { month: "Feb", subs: 1900, tips: 2100 },
+  { month: "Mar", subs: 3200, tips: 1800 },
+  { month: "Apr", subs: 2100, tips: 2600 },
+  { month: "May", subs: 3900, tips: 2200 },
+  { month: "Jun", subs: 2800, tips: 3100 },
+];
+
+const overlappingSeriesConfig = {
+  subs: { label: "Subscriptions", color: "var(--color-special-chart-teal)" },
+  tips: { label: "Tips", color: "var(--color-special-chart-purple)" },
+} satisfies ChartConfig;
+
+const overlappingSeriesKeys = ["subs", "tips"] as const;
+
+const GradientAreaChart = ({ topOpacity }: { topOpacity?: number }) => {
+  const gradientId = useId();
+
+  return (
+    <ChartContainer config={overlappingSeriesConfig} className="h-48 w-full">
+      <AreaChart accessibilityLayer data={overlappingSeriesData}>
+        <ChartAreaGradientDefs
+          idPrefix={gradientId}
+          seriesKeys={overlappingSeriesKeys}
+          topOpacity={topOpacity}
+        />
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        {overlappingSeriesKeys.map((key) => (
+          <Area
+            key={key}
+            type="monotone"
+            dataKey={key}
+            stroke={`var(--color-${key})`}
+            strokeWidth={2}
+            fill={chartAreaGradientFill(gradientId, key)}
+          />
+        ))}
+      </AreaChart>
+    </ChartContainer>
+  );
+};
+
+export const AreaGradients: Story = {
+  name: "Area gradients (two crossing series)",
+  render: () => (
+    <div className="w-full max-w-lg">
+      <GradientAreaChart />
+    </div>
+  ),
+};
+
+export const AreaGradientsStrongerFill: Story = {
+  name: "Area gradients (stronger fill)",
+  render: () => (
+    <div className="w-full max-w-lg">
+      <GradientAreaChart topOpacity={0.6} />
     </div>
   ),
 };
