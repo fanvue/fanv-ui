@@ -217,11 +217,25 @@ const RollingNumber = React.forwardRef<HTMLSpanElement, VariantProps>(
             out in full, so expose the formatted value as text instead. */}
         <span className="sr-only">{display}</span>
         <span ref={contentRef} aria-hidden className="inline-flex whitespace-pre">
-          {characters.map((char, index) =>
-            isDigit(char) ? (
+          {/* Columns are keyed by their distance from the *end* of the number, not
+              from the start. A column only animates if its DOM node survives the
+              re-render and its `translateY` changes, so keying from the left meant
+              any change of magnitude renumbered every position: going from
+              `$12,345.67` to `$1,234.56` turned `digit-2` into `separator-2` and
+              `separator-3` into `digit-3`, so most columns were destroyed and
+              recreated, and a fresh column paints at its final offset with no
+              transition. The number snapped while only the box width eased.
+
+              Counting from the least-significant end is both how an odometer
+              behaves and what keeps money aligned: the decimal separator, the
+              decimal places and the thousands separators all sit at stable offsets
+              from the right, so every shared position keeps its identity and rolls,
+              and only the new leading digits mount. */}
+          {characters.map((char, index) => {
+            const fromEnd = characters.length - 1 - index;
+            return isDigit(char) ? (
               <span
-                // biome-ignore lint/suspicious/noArrayIndexKey: a column is a position in the number, so it must keep its identity (and animate) when its digit changes
-                key={`digit-${index}`}
+                key={`digit-${fromEnd}`}
                 className="relative inline-block overflow-hidden"
                 style={{ height: "1em", lineHeight: "1em" }}
               >
@@ -242,10 +256,16 @@ const RollingNumber = React.forwardRef<HTMLSpanElement, VariantProps>(
                 </span>
               </span>
             ) : (
-              // biome-ignore lint/suspicious/noArrayIndexKey: same positional identity as the digit columns
-              <span key={`separator-${index}`}>{char}</span>
-            ),
-          )}
+              // Same 1em box as a digit column. Without it the separator is the
+              // only child the flex line can stretch — the columns opt out with an
+              // explicit height — so it takes the full line-height and sits its
+              // glyph on a different baseline, raising every "$", "," and "." out
+              // of line with the figure.
+              <span key={`separator-${fromEnd}`} style={{ height: "1em", lineHeight: "1em" }}>
+                {char}
+              </span>
+            );
+          })}
         </span>
       </span>
     );
