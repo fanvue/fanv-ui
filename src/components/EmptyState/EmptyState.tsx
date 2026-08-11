@@ -133,7 +133,7 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       ) : (
         <div
           id={titleId}
-          className={cn("text-content-primary min-w-0 w-full", titleSizeClass[titleSize])}
+          className={cn("w-full min-w-0 text-content-primary", titleSizeClass[titleSize])}
         >
           {title}
         </div>
@@ -144,11 +144,11 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       description === null ||
       description === false ||
       description === "" ? null : isNonEmptyString(description) ? (
-        <p className="m-0 typography-body-default-16px-regular text-content-secondary">
+        <p className="typography-body-default-16px-regular m-0 text-content-secondary">
           {description}
         </p>
       ) : (
-        <div className="typography-body-default-16px-regular text-content-secondary min-w-0 w-full">
+        <div className="typography-body-default-16px-regular w-full min-w-0 text-content-secondary">
           {description}
         </div>
       );

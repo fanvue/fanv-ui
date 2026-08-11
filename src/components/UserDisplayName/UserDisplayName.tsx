@@ -108,7 +108,7 @@ export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProp
             <AIDisclosureIcon size={16} />
           </span>
         )}
-        {showOnlineStatus && <ProfileOnlineStatus label={onlineLabel} className="shrink-0 ml-2" />}
+        {showOnlineStatus && <ProfileOnlineStatus label={onlineLabel} className="ml-2 shrink-0" />}
       </Component>
     );
   },

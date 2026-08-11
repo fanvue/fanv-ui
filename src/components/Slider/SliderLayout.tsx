@@ -52,7 +52,7 @@ export function SliderLayout({
         </span>
       )}
       {(minLabel || maxLabel) && (
-        <div className="flex w-full items-start justify-between typography-body-small-14px-regular text-content-secondary">
+        <div className="typography-body-small-14px-regular flex w-full items-start justify-between text-content-secondary">
           {minLabel && <span>{minLabel}</span>}
           {maxLabel && <span className="ml-auto">{maxLabel}</span>}
         </div>

@@ -177,11 +177,11 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
             // Same reasoning as the letters: no flicker and no green lift once the
             // button is unavailable.
             !disabled && [
-              "[animation:fv-ai-flicker_2s_linear_infinite] [animation-delay:0.5s]",
+              "[animation-delay:0.5s] [animation:fv-ai-flicker_2s_linear_infinite]",
               // Settles solid on hover, lit green from below like the sheen.
               "group-hover/ai:[animation:none]",
               "group-hover/ai:[filter:drop-shadow(0_0_3px_var(--color-brand-primary-default))_drop-shadow(0_-4px_6px_color-mix(in_srgb,var(--color-content-always-black)_60%,transparent))]",
-              "group-focus-visible/ai:[animation-duration:1.2s] group-focus-visible/ai:[animation-delay:0.2s]",
+              "group-focus-visible/ai:[animation-delay:0.2s] group-focus-visible/ai:[animation-duration:1.2s]",
             ],
             "motion-reduce:[animation:none]",
           )}

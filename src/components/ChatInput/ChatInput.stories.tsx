@@ -232,7 +232,7 @@ export const WithCustomAttachmentPreviews: Story = {
   args: {
     placeholder: "Type a message...",
     attachmentPreviews: (
-      <div className="typography-body-small-14px-regular shrink-0 rounded-sm border border-dashed border-border-primary px-3 py-2 text-content-secondary">
+      <div className="typography-body-small-14px-regular shrink-0 rounded-sm border border-border-primary border-dashed px-3 py-2 text-content-secondary">
         Custom preview slot
       </div>
     ),

@@ -284,8 +284,8 @@ export const DropdownMenuContent = React.forwardRef<
             // (24px). A bottom sheet is a full-width surface with its own radius,
             // not a scaled-up popper, so the two are meant to differ.
             "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-sm border border-border-primary bg-surface-primary p-1 text-content-primary shadow-blur-menu backdrop-blur-[4px]",
-            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-            "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+            "data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:animate-in",
+            "data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:animate-out",
             "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
             "data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2",
             className,
@@ -340,7 +340,7 @@ export const DropdownMenuLabel = React.forwardRef<
   const variant = React.useContext(DropdownMenuVariantContext);
   const labelClassName = cn(
     "typography-description-12px-regular flex items-center px-3 text-content-secondary",
-    position === "top" ? "py-2" : "pb-2 pt-4",
+    position === "top" ? "py-2" : "pt-4 pb-2",
     className,
   );
 
@@ -801,7 +801,7 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
       <div
         ref={ref}
         className={cn(
-          "flex flex-col px-1 pt-1 mb-1",
+          "mb-1 flex flex-col px-1 pt-1",
           // Search needs an 8px gap between the input and the divider; the
           // default (title) variant uses 4px because the title baseline sits
           // closer to the divider naturally.
