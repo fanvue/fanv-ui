@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -21,6 +21,12 @@ const threeOptions = [
 const iconOptions = [
   { label: "List view", value: "list", icon: <ListViewIcon size={16} aria-hidden="true" /> },
   { label: "Grid view", value: "grid", icon: <GridViewIcon size={16} aria-hidden="true" /> },
+];
+
+const threeIconOptions = [
+  { label: "List view", value: "list", icon: <ListViewIcon size={16} aria-hidden="true" /> },
+  { label: "Grid view", value: "grid", icon: <GridViewIcon size={16} aria-hidden="true" /> },
+  { label: "Table view", value: "table", icon: <ListViewIcon size={16} aria-hidden="true" /> },
 ];
 
 const brandOptions = [
@@ -369,6 +375,271 @@ describe("SegmentedControl", () => {
       const radios = screen.getAllByRole("radio");
       expect(radios[0]).toHaveAttribute("tabIndex", "0");
       expect(radios[1]).toHaveAttribute("tabIndex", "-1");
+    });
+  });
+
+  describe("collapsible", () => {
+    /**
+     * jsdom has no layout, so drive the auto-collapse measurement directly: the off-screen
+     * replica is the only `aria-hidden="true"` element the hook measures, so return the
+     * "required" width for it and the "available" width for everything else (notably the
+     * root's parent). A controllable ResizeObserver lets tests re-evaluate after changing
+     * the widths, standing in for a real resize.
+     */
+    let rectSpy: ReturnType<typeof vi.spyOn> | undefined;
+    const resizeCallbacks: ResizeObserverCallback[] = [];
+
+    const setWidths = ({ available, required }: { available: number; required: number }) => {
+      rectSpy?.mockRestore();
+      rectSpy = vi
+        .spyOn(HTMLElement.prototype, "getBoundingClientRect")
+        .mockImplementation(function (this: HTMLElement) {
+          const width = this.getAttribute("aria-hidden") === "true" ? required : available;
+          return {
+            width,
+            height: 0,
+            top: 0,
+            left: 0,
+            right: width,
+            bottom: 0,
+            x: 0,
+            y: 0,
+          } as DOMRect;
+        });
+    };
+
+    const fireResize = () => {
+      act(() => {
+        for (const cb of resizeCallbacks) {
+          cb([], {} as ResizeObserver);
+        }
+      });
+    };
+
+    beforeEach(() => {
+      resizeCallbacks.length = 0;
+      vi.stubGlobal(
+        "ResizeObserver",
+        class {
+          constructor(cb: ResizeObserverCallback) {
+            resizeCallbacks.push(cb);
+          }
+          observe() {}
+          unobserve() {}
+          disconnect() {}
+        },
+      );
+    });
+
+    afterEach(() => {
+      rectSpy?.mockRestore();
+      rectSpy = undefined;
+      vi.unstubAllGlobals();
+    });
+
+    it("collapses to a single icon toggle when the container is too narrow", () => {
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl appearance="plain" collapsible options={iconOptions} aria-label="View" />,
+      );
+
+      // No radiogroup semantics while collapsed — a single button that cycles.
+      expect(screen.queryAllByRole("radio")).toHaveLength(0);
+      const toggle = screen.getByRole("button", { name: "List view" });
+      expect(toggle).toBeInTheDocument();
+      expect(toggle).not.toHaveAttribute("role", "radio");
+    });
+
+    it("stays expanded when the container has room", () => {
+      setWidths({ available: 300, required: 100 });
+      render(
+        <SegmentedControl appearance="plain" collapsible options={iconOptions} aria-label="View" />,
+      );
+      expect(screen.getAllByRole("radio")).toHaveLength(2);
+    });
+
+    it("cycles to the next option when the collapsed toggle is clicked", async () => {
+      const user = userEvent.setup();
+      const handleChange = vi.fn();
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl
+          appearance="plain"
+          collapsible
+          options={iconOptions}
+          onChange={handleChange}
+          aria-label="View"
+        />,
+      );
+      await user.click(screen.getByRole("button", { name: "List view" }));
+      expect(handleChange).toHaveBeenCalledWith("grid");
+      // Uncontrolled: the toggle now reflects the new selection.
+      expect(screen.getByRole("button", { name: "Grid view" })).toBeInTheDocument();
+    });
+
+    it("wraps from the last option back to the first (three options)", async () => {
+      const user = userEvent.setup();
+      const handleChange = vi.fn();
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl
+          appearance="plain"
+          collapsible
+          options={threeIconOptions}
+          defaultValue="table"
+          onChange={handleChange}
+          aria-label="View"
+        />,
+      );
+      await user.click(screen.getByRole("button", { name: "Table view" }));
+      expect(handleChange).toHaveBeenCalledWith("list");
+    });
+
+    it("cycles with the keyboard (Enter)", async () => {
+      const user = userEvent.setup();
+      const handleChange = vi.fn();
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl
+          appearance="plain"
+          collapsible
+          options={iconOptions}
+          onChange={handleChange}
+          aria-label="View"
+        />,
+      );
+      screen.getByRole("button", { name: "List view" }).focus();
+      await user.keyboard("{Enter}");
+      expect(handleChange).toHaveBeenCalledWith("grid");
+    });
+
+    it("does not cycle when disabled", async () => {
+      const user = userEvent.setup();
+      const handleChange = vi.fn();
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl
+          appearance="plain"
+          collapsible
+          disabled
+          options={iconOptions}
+          onChange={handleChange}
+          aria-label="View"
+        />,
+      );
+      await user.click(screen.getByRole("button", { name: "List view" }));
+      expect(handleChange).not.toHaveBeenCalled();
+    });
+
+    it("expands again when the container grows", () => {
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl appearance="plain" collapsible options={iconOptions} aria-label="View" />,
+      );
+      expect(screen.queryAllByRole("radio")).toHaveLength(0);
+
+      setWidths({ available: 400, required: 300 });
+      fireResize();
+      expect(screen.getAllByRole("radio")).toHaveLength(2);
+    });
+
+    it("supports the brand appearance", () => {
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl
+          appearance="brand"
+          collapsible
+          options={brandOptions}
+          aria-label="Mode"
+        />,
+      );
+      // Collapsed brand shows the selected icon only: the visible toggle has no label text
+      // (the off-screen measurement replica still carries it, so assert on the toggle itself).
+      const toggle = screen.getByRole("button", { name: "Home" });
+      expect(toggle).toBeInTheDocument();
+      expect(toggle.textContent).toBe("");
+    });
+
+    it("renders the collapsed brand toggle as a square (circular once rounded)", () => {
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl
+          appearance="brand"
+          collapsible
+          options={brandOptions}
+          aria-label="Mode"
+        />,
+      );
+      const toggle = screen.getByRole("button", { name: "Home" });
+      // Symmetric padding + aspect-square give a circle rather than the wider-than-tall pill.
+      expect(toggle).toHaveClass("aspect-square");
+      expect(toggle).toHaveClass("rounded-full");
+    });
+
+    it("has no accessibility violations while collapsed", async () => {
+      setWidths({ available: 100, required: 300 });
+      const { container } = render(
+        <SegmentedControl appearance="plain" collapsible options={iconOptions} aria-label="View" />,
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    describe("dev warnings", () => {
+      let consoleWarnSpy: ReturnType<typeof vi.spyOn>;
+
+      beforeEach(() => {
+        consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+      });
+
+      afterEach(() => {
+        consoleWarnSpy.mockRestore();
+      });
+
+      it("warns and does not collapse for the pill appearance", () => {
+        setWidths({ available: 100, required: 300 });
+        render(<SegmentedControl collapsible options={twoOptions} aria-label="Amount" />);
+        expect(consoleWarnSpy).toHaveBeenCalledWith(
+          expect.stringContaining('`collapsible` is only supported for the "plain" and "brand"'),
+        );
+        expect(screen.getAllByRole("radio")).toHaveLength(2);
+      });
+
+      it("warns and does not collapse when an option is missing an icon", () => {
+        setWidths({ available: 100, required: 300 });
+        render(
+          <SegmentedControl
+            appearance="plain"
+            collapsible
+            options={[
+              {
+                label: "List view",
+                value: "list",
+                icon: <ListViewIcon size={16} aria-hidden="true" />,
+              },
+              { label: "Grid view", value: "grid" },
+            ]}
+            aria-label="View"
+          />,
+        );
+        expect(consoleWarnSpy).toHaveBeenCalledWith(
+          expect.stringContaining("`collapsible` requires every option to define an `icon`"),
+        );
+        expect(screen.getAllByRole("radio")).toHaveLength(2);
+      });
+
+      it("does not warn for a valid collapsible plain control", () => {
+        setWidths({ available: 300, required: 100 });
+        render(
+          <SegmentedControl
+            appearance="plain"
+            collapsible
+            options={iconOptions}
+            aria-label="View"
+          />,
+        );
+        expect(consoleWarnSpy).not.toHaveBeenCalled();
+      });
     });
   });
 
