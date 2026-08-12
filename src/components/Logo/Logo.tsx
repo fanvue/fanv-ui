@@ -145,7 +145,7 @@ const AgenciesIconSVG = ({ className }: { className?: string }) => {
   );
   return (
     <span
-      className={cn("inline-block aspect-square isolate", className)}
+      className={cn("isolate inline-block aspect-square", className)}
       aria-hidden="true"
       data-testid="logo-icon"
       // biome-ignore lint/security/noDangerouslySetInnerHtml: static asset, ids namespaced per instance

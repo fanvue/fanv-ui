@@ -226,7 +226,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
           size === "condensed"
             ? "typography-body-small-14px-semibold"
             : "typography-body-default-16px-semibold",
-          "box-border h-12 min-h-12 border-b border-border-primary px-4 py-3 align-middle text-content-tertiary",
+          "box-border h-12 min-h-12 border-border-primary border-b px-4 py-3 align-middle text-content-tertiary",
           HEAD_INTENT_CLASSES[intent],
           className,
         )}
@@ -507,7 +507,7 @@ export const TableSortLabel = React.forwardRef<HTMLSpanElement, TableSortLabelPr
         className={cn("inline-flex items-center gap-1 text-content-primary", className)}
         {...props}
       >
-        <span className={cn(direction != null && "border-b border-content-primary pb-px")}>
+        <span className={cn(direction != null && "border-content-primary border-b pb-px")}>
           {children}
         </span>
         {direction != null && <Icon className="size-4 shrink-0" aria-hidden />}

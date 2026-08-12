@@ -100,9 +100,9 @@ describe("Chart", () => {
     });
 
     it("provides chart context to children", () => {
-      let contextValue: { config: ChartConfig } | null = null;
+      const captured: { value: { config: ChartConfig } | null } = { value: null };
       function Consumer() {
-        contextValue = useChart();
+        captured.value = useChart();
         return null;
       }
 
@@ -112,8 +112,8 @@ describe("Chart", () => {
         </ChartContext.Provider>,
       );
 
-      expect(contextValue).not.toBeNull();
-      expect(contextValue!.config).toBe(SAMPLE_CONFIG);
+      expect(captured.value).not.toBeNull();
+      expect(captured.value?.config).toBe(SAMPLE_CONFIG);
     });
   });
 

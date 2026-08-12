@@ -40,9 +40,9 @@ type Story = StoryObj<typeof meta>;
 function EmptyVaultArtwork() {
   return (
     <div className="relative h-full w-full bg-surface-secondary">
-      <div className="absolute left-5 top-8 size-20 rounded-full bg-surface-primary" />
-      <div className="absolute left-24 top-5 size-36 rounded-full bg-surface-tertiary" />
-      <div className="absolute left-40 top-20 size-24 rounded-full bg-surface-primary" />
+      <div className="absolute top-8 left-5 size-20 rounded-full bg-surface-primary" />
+      <div className="absolute top-5 left-24 size-36 rounded-full bg-surface-tertiary" />
+      <div className="absolute top-20 left-40 size-24 rounded-full bg-surface-primary" />
     </div>
   );
 }

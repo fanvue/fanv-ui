@@ -60,7 +60,7 @@ export const AccordionTrigger = React.forwardRef<
               </span>
             )}
             <span className="flex min-w-0 flex-1 flex-col gap-1">
-              <span className="truncate typography-body-small-14px-semibold text-content-primary">
+              <span className="typography-body-small-14px-semibold truncate text-content-primary">
                 {children}
               </span>
               {description && (

@@ -1968,7 +1968,7 @@ function CreatorCoverDemo() {
   return (
     <div id="creator-cover" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Creator Cover</h2>
-      <p className="typography-body-small-14px-regular text-content-secondary max-w-xl">
+      <p className="typography-body-small-14px-regular max-w-xl text-content-secondary">
         Profile hero with a blurred backdrop, central cover image, status pill, name, tagline, and
         primary CTA. Pass strings for the simple API or nodes for full control.
       </p>
