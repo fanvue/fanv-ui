@@ -19,6 +19,11 @@ export type {
 } from "./components/AiButton/AiButton";
 export { AiButton } from "./components/AiButton/AiButton";
 export type {
+  AiDisclosureBadgeProps,
+  AiDisclosureBadgeTone,
+} from "./components/AiDisclosureBadge/AiDisclosureBadge";
+export { AiDisclosureBadge } from "./components/AiDisclosureBadge/AiDisclosureBadge";
+export type {
   AiDisclosureLabelProps,
   AiDisclosureLabelSize,
   AiDisclosureLabelTone,
