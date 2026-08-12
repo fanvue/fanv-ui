@@ -18,6 +18,12 @@ export type {
   AiButtonSize,
 } from "./components/AiButton/AiButton";
 export { AiButton } from "./components/AiButton/AiButton";
+export type {
+  AiDisclosureLabelProps,
+  AiDisclosureLabelSize,
+  AiDisclosureLabelTone,
+} from "./components/AiDisclosureLabel/AiDisclosureLabel";
+export { AiDisclosureLabel } from "./components/AiDisclosureLabel/AiDisclosureLabel";
 export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
 export type {
