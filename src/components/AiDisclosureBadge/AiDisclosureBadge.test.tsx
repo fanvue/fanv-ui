@@ -50,7 +50,7 @@ describe("AiDisclosureBadge", () => {
     it("keeps the palette fixed rather than following the inherited text colour", () => {
       const { container } = render(<AiDisclosureBadge />);
       for (const path of paths(container)) {
-        expect(path.getAttribute("class")).not.toContain("currentColor");
+        expect(path).not.toHaveClass("fill-current");
         expect(path).not.toHaveAttribute("fill");
       }
     });
