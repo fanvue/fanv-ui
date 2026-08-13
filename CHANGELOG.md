@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.26.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.25.0...ui-v3.26.0) (2026-08-13)
+
+
+### Features
+
+* **AiDisclosureBadge:** add EU AI disclosure badge ([#650](https://github.com/fanvue/fanv-ui/issues/650)) ([bb8d9cc](https://github.com/fanvue/fanv-ui/commit/bb8d9cc80a3628b439c650a33c0f9619c93186ad))
+* **AiDisclosureLabel:** add EU AI generated/modified disclosure label ([#651](https://github.com/fanvue/fanv-ui/issues/651)) ([8f0b65a](https://github.com/fanvue/fanv-ui/commit/8f0b65a9d2614161010afb83d371003e32004761))
+* **Icons:** add AISettings, ProgrammingArrow and RefreshArrow icons ([#659](https://github.com/fanvue/fanv-ui/issues/659)) ([dc831ed](https://github.com/fanvue/fanv-ui/commit/dc831eddf5c558d30bd01fb39d9ca3feb2d8874a))
+* **SegmentedControl:** collapse to a cycling icon toggle when narrow ([#656](https://github.com/fanvue/fanv-ui/issues/656)) ([ef116a9](https://github.com/fanvue/fanv-ui/commit/ef116a9d27789fda2814793b75c4b26390c14a56))
+
+
+### Bug Fixes
+
+* latest security issues and re-order classes ([#657](https://github.com/fanvue/fanv-ui/issues/657)) ([c378709](https://github.com/fanvue/fanv-ui/commit/c378709dc4d411b8f89b75fed9c999c1e2ccc4a7))
+
 ## [3.25.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.24.0...ui-v3.25.0) (2026-08-03)
 
 
