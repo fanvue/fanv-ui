@@ -6,6 +6,7 @@ import { AI2Icon } from "../components/Icons/AI2Icon";
 import { AICallIcon } from "../components/Icons/AICallIcon";
 import { AIDisclosureIcon } from "../components/Icons/AIDisclosureIcon";
 import { AIIcon } from "../components/Icons/AIIcon";
+import { AISettingsIcon } from "../components/Icons/AiSettingsIcon";
 import { AlertIcon } from "../components/Icons/AlertIcon";
 import { AppsIcon } from "../components/Icons/AppsIcon";
 import { ArrowDownIcon } from "../components/Icons/ArrowDownIcon";
@@ -115,8 +116,10 @@ import { PinIcon } from "../components/Icons/PinIcon";
 import { PlayIcon } from "../components/Icons/PlayIcon";
 import { PlusIcon } from "../components/Icons/PlusIcon";
 import { PrivacyIcon } from "../components/Icons/PrivacyIcon";
+import { ProgrammingArrowIcon } from "../components/Icons/ProgrammingArrowIcon";
 import { QueueIcon } from "../components/Icons/QueueIcon";
 import { ReceiveMoneyIcon } from "../components/Icons/ReceiveMoneyIcon";
+import { RefreshArrowIcon } from "../components/Icons/RefreshArrowIcon";
 import { RepeatIcon } from "../components/Icons/RepeatIcon";
 import { Reply2Icon } from "../components/Icons/Reply2Icon";
 import { ReplyIcon } from "../components/Icons/ReplyIcon";
@@ -206,6 +209,12 @@ const icons: IconEntry[] = [
     name: "AIIcon",
     component: AIIcon,
     tags: ["ai", "artificial", "intelligence", "machine"],
+    propBased: true,
+  },
+  {
+    name: "AISettingsIcon",
+    component: AISettingsIcon,
+    tags: ["ai", "settings", "gear", "cog", "personalise", "configure"],
     propBased: true,
   },
   { name: "AddIcon", component: AddIcon, tags: ["add", "plus", "create", "new"], propBased: true },
@@ -770,6 +779,12 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   {
+    name: "ProgrammingArrowIcon",
+    component: ProgrammingArrowIcon,
+    tags: ["workflow", "branch", "git", "flow", "automation", "programming"],
+    propBased: true,
+  },
+  {
     name: "QueueIcon",
     component: QueueIcon,
     tags: ["queue", "list", "stack", "order"],
@@ -779,6 +794,12 @@ const icons: IconEntry[] = [
     name: "ReceiveMoneyIcon",
     component: ReceiveMoneyIcon,
     tags: ["receive", "money", "hand", "dollar", "earnings"],
+    propBased: true,
+  },
+  {
+    name: "RefreshArrowIcon",
+    component: RefreshArrowIcon,
+    tags: ["refresh", "reload", "sync", "automations", "rotate"],
     propBased: true,
   },
   {

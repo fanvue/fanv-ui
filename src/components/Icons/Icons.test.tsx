@@ -8,6 +8,7 @@ import { AI2Icon } from "./AI2Icon";
 import { AICallIcon } from "./AICallIcon";
 import { AIDisclosureIcon } from "./AIDisclosureIcon";
 import { AIIcon } from "./AIIcon";
+import { AISettingsIcon } from "./AiSettingsIcon";
 import { AlertIcon } from "./AlertIcon";
 import { AppsIcon } from "./AppsIcon";
 import { ArrowDownIcon } from "./ArrowDownIcon";
@@ -117,8 +118,10 @@ import { PinIcon } from "./PinIcon";
 import { PlayIcon } from "./PlayIcon";
 import { PlusIcon } from "./PlusIcon";
 import { PrivacyIcon } from "./PrivacyIcon";
+import { ProgrammingArrowIcon } from "./ProgrammingArrowIcon";
 import { QueueIcon } from "./QueueIcon";
 import { ReceiveMoneyIcon } from "./ReceiveMoneyIcon";
+import { RefreshArrowIcon } from "./RefreshArrowIcon";
 import { RepeatIcon } from "./RepeatIcon";
 import { Reply2Icon } from "./Reply2Icon";
 import { ReplyIcon } from "./ReplyIcon";
@@ -210,6 +213,7 @@ const propBasedIcons = [
   { name: "AICallIcon", Component: AICallIcon, hasFilled: true },
   { name: "AIDisclosureIcon", Component: AIDisclosureIcon, hasFilled: true },
   { name: "AIIcon", Component: AIIcon, hasFilled: true },
+  { name: "AISettingsIcon", Component: AISettingsIcon, hasFilled: true },
   { name: "AddIcon", Component: AddIcon, hasFilled: false },
   { name: "AffiliatesIcon", Component: AffiliatesIcon, hasFilled: true },
   { name: "AlertIcon", Component: AlertIcon, hasFilled: true },
@@ -302,8 +306,10 @@ const propBasedIcons = [
   { name: "PinIcon", Component: PinIcon, hasFilled: true },
   { name: "PlayIcon", Component: PlayIcon, hasFilled: true },
   { name: "PrivacyIcon", Component: PrivacyIcon, hasFilled: true },
+  { name: "ProgrammingArrowIcon", Component: ProgrammingArrowIcon, hasFilled: true },
   { name: "QueueIcon", Component: QueueIcon, hasFilled: false },
   { name: "ReceiveMoneyIcon", Component: ReceiveMoneyIcon, hasFilled: false },
+  { name: "RefreshArrowIcon", Component: RefreshArrowIcon, hasFilled: false },
   { name: "RepeatIcon", Component: RepeatIcon, hasFilled: false },
   { name: "Reply2Icon", Component: Reply2Icon, hasFilled: true },
   { name: "ReplyIcon", Component: ReplyIcon, hasFilled: true },
