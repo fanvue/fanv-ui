@@ -34,6 +34,9 @@ const meta = {
     disabled: {
       control: "boolean",
     },
+    collapsible: {
+      control: "boolean",
+    },
   },
 } satisfies Meta<typeof SegmentedControl>;
 
@@ -174,6 +177,49 @@ export const Brand: Story = {
       type: "figma",
       url: "https://www.figma.com/design/fDlJj7bf7KXQlibPoujgaC/Creator---AI-Features?node-id=6470-48376",
     },
+  },
+};
+
+/**
+ * With `collapsible`, an icon-bearing control (`plain` or `brand`) collapses to a single icon
+ * toggle when its container is too narrow to show every segment, and expands again when the
+ * space returns. Collapsed, it shows the selected option's icon; clicking it (or pressing
+ * Enter/Space) cycles to the next option, wrapping around.
+ *
+ * Drag the right edge of the box to shrink it and watch the control collapse.
+ */
+export const Collapsible: Story = {
+  args: {
+    appearance: "plain",
+    collapsible: true,
+    options: iconOnlyOptions,
+    "aria-label": "View",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/LB9q4XzCNlbOaeW3xN6tQo/Creator---Content---Creation?node-id=4506-17416",
+    },
+  },
+  render: function CollapsibleRender(args) {
+    const [view, setView] = useState("list");
+    return (
+      <div className="flex flex-col items-start gap-3">
+        <span className="typography-body-small-14px-regular text-content-secondary">
+          Drag the right edge to shrink the container — the control collapses to the selected icon
+          and cycles on click.
+        </span>
+        <div
+          className="resize-x overflow-auto rounded-lg border border-border-primary p-4"
+          style={{ width: 260, minWidth: 72, maxWidth: 420 }}
+        >
+          <SegmentedControl {...args} value={view} onChange={setView} />
+        </div>
+        <span className="typography-body-small-14px-regular text-content-secondary">
+          Selected: {view}
+        </span>
+      </div>
+    );
   },
 };
 
