@@ -1,6 +1,11 @@
 {
   "icons": [
     {
+      "name": "AddCircleIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "AddIcon",
       "sizes": [16, 24, 32],
       "hasFilled": false

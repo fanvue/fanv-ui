@@ -37,7 +37,8 @@ export interface SegmentedControlOption {
    * Icon to render for the segment. In `pill`/`plain` appearances the segment renders icon-only and
    * `label` becomes required as its accessible name (applied as `aria-label`, no visible text). In
    * the `brand` appearance the icon renders alongside the visible `label`. Required for every option
-   * when `collapsible` is set, since the collapsed control shows the selected option's icon alone.
+   * when `collapsible` is set unless a `collapsedIcon` is given, since the collapsed control
+   * otherwise shows the selected option's icon alone.
    */
   icon?: React.ReactNode;
 }
@@ -63,14 +64,23 @@ export interface SegmentedControlProps
   /**
    * When `true`, the control automatically collapses to a single icon-only toggle whenever its
    * container is too narrow to show every segment side by side, and expands again when the space
-   * returns. Collapsed, it shows the currently-selected option's `icon`; clicking it (or pressing
-   * Enter/Space) advances to the next option, wrapping around from the last back to the first.
+   * returns. Collapsed, it shows `collapsedIcon` when given and otherwise the currently-selected
+   * option's `icon`; clicking it (or pressing Enter/Space) advances to the next option, wrapping
+   * around from the last back to the first.
    *
    * Only supported for the icon-bearing `"plain"` and `"brand"` appearances, and every option must
-   * define an `icon` (there is nothing to show otherwise). Ignored, with a dev-time warning, when
-   * those conditions are not met. @default false
+   * define an `icon` unless `collapsedIcon` is given (there is nothing to show otherwise). Ignored,
+   * with a dev-time warning, when those conditions are not met. @default false
    */
   collapsible?: boolean;
+  /**
+   * Single glyph for the collapsed toggle, replacing the selected option's icon. Use it when the
+   * collapsed control should read as one switch affordance rather than as a preview of the current
+   * selection — the collapsed navigation rail shows a repeat glyph this way. The button still
+   * announces the selected option as its accessible name, so the current state stays available to
+   * assistive tech. Only meaningful alongside `collapsible`.
+   */
+  collapsedIcon?: React.ReactNode;
 }
 
 /** Padding and typography per size. Combined with the container's `p-1` these hit the 32/40/48px heights. */
@@ -105,15 +115,16 @@ function warnMissingOptionAccessibleName(options: SegmentedControlOption[]) {
 function warnUnsupportedCollapsible(
   appearance: SegmentedControlAppearance,
   options: SegmentedControlOption[],
+  hasCollapsedIcon: boolean,
 ) {
   if (process.env.NODE_ENV !== "production") {
     if (appearance === "pill") {
       console.warn(
         'SegmentedControl: `collapsible` is only supported for the "plain" and "brand" appearances; ignoring it.',
       );
-    } else if (!options.every((option) => option.icon)) {
+    } else if (!hasCollapsedIcon && !options.every((option) => option.icon)) {
       console.warn(
-        "SegmentedControl: `collapsible` requires every option to define an `icon`; ignoring it.",
+        "SegmentedControl: `collapsible` requires every option to define an `icon`, or a `collapsedIcon` to show instead; ignoring it.",
       );
     }
   }
@@ -160,17 +171,21 @@ function getSegmentClassName({
   );
 }
 
-/** Symmetric padding per size so the collapsed toggle is a square (a circle once `rounded-full`). */
-const collapsedPaddingClasses: Record<SegmentedControlSize, string> = {
-  "32": "p-1",
-  "40": "p-2",
-  "48": "p-3",
+/**
+ * Footprint of the collapsed toggle per size. A fixed square keeps the collapsed control the same
+ * height as the expanded one, whose height comes from the segment padding plus the container's
+ * `p-1` — padding the collapsed button alone would fall short of it by that container padding.
+ */
+const collapsedSizeClasses: Record<SegmentedControlSize, string> = {
+  "32": "size-8",
+  "40": "size-10",
+  "48": "size-12",
 };
 
 /**
  * Classes for the single button shown while the control is collapsed. Unlike an expanded segment
  * (which carries asymmetric `px`/`py` padding and so reads slightly wider than tall), the collapsed
- * toggle is forced to an `aspect-square` circle via symmetric padding and `rounded-full`, so the
+ * toggle is forced to a square via a fixed footprint and `aspect-square`, so with `rounded-full` the
  * icon-only control reads as a round button.
  */
 function getCollapsedButtonClassName({
@@ -191,8 +206,10 @@ function getCollapsedButtonClassName({
         // footprint icon-sized while the padding enlarges the hit target.
         "-m-1 p-1 text-icons-primary"
       : cn(
-          collapsedPaddingClasses[size],
-          "bg-brand-primary-muted text-content-always-black shadow-sm ring-1 ring-brand-primary-default",
+          collapsedSizeClasses[size],
+          // Neutral circle rather than the brand pill: collapsed, the control is a switch
+          // affordance, not a preview of the selected segment.
+          "bg-surface-secondary text-icons-primary hover:bg-buttons-switch-hover",
         ),
     disabled && "pointer-events-none",
   );
@@ -308,6 +325,22 @@ function useAutoCollapse(
  *   aria-label="View"
  * />
  * ```
+ *
+ * @example A collapsed toggle that shows one switch glyph instead of the selected icon
+ * ```tsx
+ * <SegmentedControl
+ *   appearance="brand"
+ *   collapsible
+ *   collapsedIcon={<RepeatIcon size={16} />}
+ *   options={[
+ *     { label: "Home", value: "home", icon: <HomeIcon size={16} /> },
+ *     { label: "Agent", value: "agent", icon: <AIIcon size={16} filled /> },
+ *   ]}
+ *   value={mode}
+ *   onChange={setMode}
+ *   aria-label="Navigation mode"
+ * />
+ * ```
  */
 export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>(
   (
@@ -322,13 +355,14 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
       onChange,
       disabled = false,
       collapsible = false,
+      collapsedIcon,
       ...props
     },
     ref,
   ) => {
     warnMissingAccessibleName(props["aria-label"], props["aria-labelledby"]);
     warnMissingOptionAccessibleName(options);
-    if (collapsible) warnUnsupportedCollapsible(appearance, options);
+    if (collapsible) warnUnsupportedCollapsible(appearance, options, collapsedIcon !== undefined);
 
     // Tracks selection for uncontrolled usage; ignored when `value` prop is provided
     const [internalValue, setInternalValue] = React.useState(defaultValue ?? options[0]?.value);
@@ -337,12 +371,13 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
     const anySelected = options.some((o) => o.value === currentValue);
     const buttonRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
 
-    // Collapsing only makes sense for icon-bearing appearances where every option has an icon
-    // to show. Anything else falls back to the normal expanded control (a dev warning fires above).
+    // Collapsing only makes sense for icon-bearing appearances where there is a glyph to show:
+    // either a `collapsedIcon` for every state, or an icon on every option. Anything else falls
+    // back to the normal expanded control (a dev warning fires above).
     const canCollapse =
       collapsible &&
       (appearance === "plain" || appearance === "brand") &&
-      options.every((option) => option.icon);
+      (collapsedIcon !== undefined || options.every((option) => option.icon));
 
     const rootRef = React.useRef<HTMLDivElement | null>(null);
     const measureRef = React.useRef<HTMLDivElement | null>(null);
@@ -459,7 +494,14 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
         className={cn(
           "relative items-center rounded-full",
           variant === "fill" ? "flex w-full" : "inline-flex",
-          appearance === "plain" ? "gap-2" : "bg-surface-tertiary p-1",
+          isCollapsed
+            ? // Collapsed, the toggle itself carries the surface, so the container drops its own
+              // chrome and centres the button instead of pinning it to the start of a full-width
+              // row — in a narrow rail that offset is the whole width of the column.
+              "justify-center"
+            : appearance === "plain"
+              ? "gap-2"
+              : "bg-surface-tertiary p-1",
           disabled && "cursor-not-allowed opacity-50",
           className,
         )}
@@ -473,9 +515,9 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
             onClick={handleCycle}
             className={getCollapsedButtonClassName({ appearance, size, disabled })}
           >
-            {selectedOption.icon && (
+            {(collapsedIcon ?? selectedOption.icon) && (
               <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
-                {selectedOption.icon}
+                {collapsedIcon ?? selectedOption.icon}
               </span>
             )}
           </button>

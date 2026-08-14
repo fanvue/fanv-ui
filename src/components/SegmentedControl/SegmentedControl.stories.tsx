@@ -5,6 +5,7 @@ import { AIIcon } from "../Icons/AIIcon";
 import { GridViewIcon } from "../Icons/GridViewIcon";
 import { HomeIcon } from "../Icons/HomeIcon";
 import { ListViewIcon } from "../Icons/ListViewIcon";
+import { RepeatIcon } from "../Icons/RepeatIcon";
 import type { SegmentedControlSize, SegmentedControlVariant } from "./SegmentedControl";
 import { SegmentedControl } from "./SegmentedControl";
 
@@ -169,6 +170,51 @@ export const Collapsible: Story = {
         <span className="typography-body-small-14px-regular text-content-secondary">
           Selected: {view}
         </span>
+      </div>
+    );
+  },
+};
+
+/**
+ * `collapsedIcon` replaces the selected option's icon with a single glyph, so the collapsed control
+ * reads as one switch affordance. Collapsed it is a neutral circle centred in its column, which is
+ * how the navigation rail shows the Home/Agent switch once the rail is reduced to icons.
+ */
+export const CollapsibleWithToggleIcon: Story = {
+  args: {
+    appearance: "brand",
+    variant: "fill",
+    collapsible: true,
+    collapsedIcon: <RepeatIcon size={16} />,
+    options: brandOptions,
+    "aria-label": "Navigation mode",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=21606-13563",
+    },
+  },
+  render: function CollapsibleWithToggleIconRender(args) {
+    const [mode, setMode] = useState("agent");
+    return (
+      <div className="flex items-start gap-6">
+        <div className="flex flex-col gap-2">
+          <span className="typography-body-small-14px-regular text-content-secondary">
+            Expanded rail
+          </span>
+          <div className="rounded-lg border border-border-primary p-4" style={{ width: 230 }}>
+            <SegmentedControl {...args} value={mode} onChange={setMode} />
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <span className="typography-body-small-14px-regular text-content-secondary">
+            Collapsed rail
+          </span>
+          <div className="rounded-lg border border-border-primary p-4" style={{ width: 72 }}>
+            <SegmentedControl {...args} value={mode} onChange={setMode} />
+          </div>
+        </div>
       </div>
     );
   },
