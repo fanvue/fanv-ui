@@ -163,7 +163,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, VariantClasses> = {
     disabled: DISABLED_FILL,
   },
   ai: {
-    default: `border border-transparent text-content-always-white shadow-ai-button-glow ${AI_GRADIENT}`,
+    default: `border border-transparent text-content-primary shadow-ai-button-glow ${AI_GRADIENT}`,
     disabled: DISABLED_FILL,
   },
   link: {

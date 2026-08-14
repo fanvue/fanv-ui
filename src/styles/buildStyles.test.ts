@@ -100,6 +100,26 @@ describe("buildThemeCss", () => {
     expect(css).toMatch(/--opacity-disabled: 0\.6;/);
   });
 
+  it("gives the ai button a different fill per theme", () => {
+    const fill = "--color-buttons-ai-background-gradient-default-start";
+    const bySelector = new Map<string, string>();
+    let selector = "";
+    for (const line of css.split("\n")) {
+      const opener = line.match(/^(@theme|:root|\.dark)\s*\{/)?.[1];
+      if (opener) {
+        selector = opener;
+      }
+      const declaration = line.match(new RegExp(`^\\s*${fill}: ([^;]+);`))?.[1];
+      if (declaration && !bySelector.has(selector)) {
+        bySelector.set(selector, declaration);
+      }
+    }
+
+    expect(bySelector.get(":root")).toBeDefined();
+    expect(bySelector.get(".dark")).toBeDefined();
+    expect(bySelector.get(":root")).not.toBe(bySelector.get(".dark"));
+  });
+
   it("stays in sync with the committed theme.css (run buildStyles.js to regenerate)", () => {
     const committed = readFileSync(join(stylesDir, "theme.css"), "utf-8");
     expect(css).toBe(committed);
