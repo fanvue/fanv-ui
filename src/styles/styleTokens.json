@@ -5961,7 +5961,7 @@
                 "start": {
                   "description": "",
                   "type": "color",
-                  "value": "{primitives.dark.color.green.800}",
+                  "value": "#033f15a3",
                   "extensions": {
                     "org.lukasoppermann.figmaDesignTokens": {
                       "mode": "Dark",
@@ -5976,7 +5976,7 @@
                 "end": {
                   "description": "",
                   "type": "color",
-                  "value": "{primitives.dark.color.green.950}",
+                  "value": "#033f15a3",
                   "extensions": {
                     "org.lukasoppermann.figmaDesignTokens": {
                       "mode": "Dark",
@@ -6041,7 +6041,7 @@
               "end": {
                 "description": "",
                 "type": "color",
-                "value": "{primitives.dark.color.gray.900}",
+                "value": "{primitives.dark.color.green.800}",
                 "extensions": {
                   "org.lukasoppermann.figmaDesignTokens": {
                     "mode": "Dark",
