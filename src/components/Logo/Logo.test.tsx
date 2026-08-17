@@ -111,6 +111,42 @@ describe("Logo", () => {
       expect(ids[0]).not.toBe(ids[1]);
     });
 
+    it("renders the 3D icon for dimension=3d", () => {
+      const { container } = render(<Logo variant="icon" dimension="3d" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]');
+      // Injected as markup, so the testid sits on the wrapper rather than the svg itself.
+      expect(icon?.tagName.toLowerCase()).toBe("span");
+      expect(icon?.querySelector("filter")).toBeInTheDocument();
+      expect(icon?.querySelector("radialGradient")).toBeInTheDocument();
+    });
+
+    it("uses the flat icon for dimension=3d with decolour, which has no 3D treatment", () => {
+      const { container } = render(<Logo variant="icon" dimension="3d" color="decolour" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]');
+      expect(icon?.tagName.toLowerCase()).toBe("svg");
+    });
+
+    it("lets the agencies glossy icon win over dimension=3d", () => {
+      const { container } = render(<Logo variant="icon" version="agencies" dimension="3d" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]');
+      // Both are injected markup; the agencies asset is identifiable by its pattern defs.
+      expect(icon?.querySelector("pattern")).toBeInTheDocument();
+    });
+
+    it("namespaces 3D icon ids so two logos on a page don't collide", () => {
+      const { container } = render(
+        <>
+          <Logo variant="icon" dimension="3d" />
+          <Logo variant="icon" dimension="3d" />
+        </>,
+      );
+      const ids = Array.from(container.querySelectorAll('[data-testid="logo-icon"]')).map(
+        (icon) => icon.querySelector("filter")?.id,
+      );
+      expect(ids[0]).toBeTruthy();
+      expect(ids[0]).not.toBe(ids[1]);
+    });
+
     it("renders portrait type with both icon and wordmark in column", () => {
       const { container } = render(<Logo variant="portrait" />);
       const logo = container.querySelector('[data-testid="logo"]');

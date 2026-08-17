@@ -631,6 +631,7 @@ export type { LoaderProps } from "./components/Loader/Loader";
 export { Loader } from "./components/Loader/Loader";
 export type {
   LogoColor,
+  LogoDimension,
   LogoProps,
   LogoSize,
   LogoVariant,

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { AGENCIES_ICON_SVG } from "./agenciesIcon";
+import { LOGO_3D_ICON_SVG } from "./logo3dIcon";
 
 const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
   if (color === "fullColour") {
@@ -57,6 +58,8 @@ export type LogoVariant = "full" | "icon" | "wordmark" | "portrait";
 export type LogoColor = "fullColour" | "decolour" | "whiteAlways" | "blackAlways";
 /** Sub-brand version of the logo. */
 export type LogoVersion = "default" | "agencies";
+/** Rendering of the brand icon: flat vector, or the 3D treatment with depth and glow. */
+export type LogoDimension = "flat" | "3d";
 /** Height of the logo in pixels. Both icon and wordmark scale proportionally. */
 export type LogoSize = "16" | "20" | "24" | "32" | "40" | "48" | "64";
 
@@ -77,6 +80,14 @@ export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: LogoColor;
   /** Sub-brand version of the logo. @default "default" */
   version?: LogoVersion;
+  /**
+   * Rendering of the brand icon. `"3d"` is fixed brand art, so it ignores `color` and
+   * falls back to the flat icon for `color="decolour"` and for `version="agencies"`
+   * (which has its own glossy icon). Affects the icon only — the wordmark is unchanged.
+   *
+   * @default "flat"
+   */
+  dimension?: LogoDimension;
   /** Height of the logo in pixels. @default "32" (or "40" when `variant="icon"`) */
   size?: LogoSize;
   /**
@@ -154,6 +165,33 @@ const AgenciesIconSVG = ({ className }: { className?: string }) => {
   );
 };
 
+/**
+ * The 3D brand icon. Injected as markup for the same reasons as the agencies icon: its
+ * gradients, `mix-blend-mode` highlight and filter need to survive intact, `isolate` keeps
+ * the blend off the page behind it, and ids are namespaced per instance so two logos on a
+ * page don't fight over the same gradient and filter definitions.
+ */
+const Logo3DIconSVG = ({ className }: { className?: string }) => {
+  const ns = React.useId().replace(/:/g, "");
+  const html = React.useMemo(
+    () =>
+      LOGO_3D_ICON_SVG.replace(/id="([a-z]+)"/g, `id="$1${ns}"`).replace(
+        /url\(#([a-z]+)\)/g,
+        `url(#$1${ns})`,
+      ),
+    [ns],
+  );
+  return (
+    <span
+      className={cn("inline-block aspect-square isolate", className)}
+      aria-hidden="true"
+      data-testid="logo-icon"
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: static asset, ids namespaced per instance
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+};
+
 const WordmarkSVG = ({ className }: { className?: string }) => {
   return (
     <svg
@@ -217,11 +255,20 @@ const AgenciesWordmark = ({
  * ```tsx
  * <Logo variant="full" color="fullColour" />
  * <Logo variant="full" version="agencies" />
+ * <Logo variant="icon" dimension="3d" size="24" aria-label="Fanvue home" />
  * ```
  */
 export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
   (
-    { className, variant = "full", color = "fullColour", version = "default", size, ...props },
+    {
+      className,
+      variant = "full",
+      color = "fullColour",
+      version = "default",
+      dimension = "flat",
+      size,
+      ...props
+    },
     ref,
   ) => {
     const colors = getLogoColors(color, variant);
@@ -235,6 +282,9 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
     const ariaProps = props["aria-label"] ? { role: "img" as const } : {};
     // The glossy icon only has a purple treatment; decolour falls back to the flat mono icon.
     const useGlossyIcon = isAgencies && color !== "decolour";
+    // Agencies keeps its own glossy icon, and decolour needs a mono mark, so both take
+    // precedence over the 3D art — its colours are fixed and can't answer either request.
+    const use3DIcon = dimension === "3d" && !isAgencies && color !== "decolour";
 
     return (
       <div
@@ -255,6 +305,8 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
         {showIcon &&
           (useGlossyIcon ? (
             <AgenciesIconSVG className={cn("w-auto shrink-0", sizeClass)} />
+          ) : use3DIcon ? (
+            <Logo3DIconSVG className={cn("w-auto shrink-0", sizeClass)} />
           ) : (
             <FlatIconSVG
               className={cn("w-auto shrink-0", sizeClass)}
