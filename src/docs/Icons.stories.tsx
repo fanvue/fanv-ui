@@ -6,7 +6,7 @@ import { AI2Icon } from "../components/Icons/AI2Icon";
 import { AICallIcon } from "../components/Icons/AICallIcon";
 import { AIDisclosureIcon } from "../components/Icons/AIDisclosureIcon";
 import { AIIcon } from "../components/Icons/AIIcon";
-import { AISettingsIcon } from "../components/Icons/AiSettingsIcon";
+import { AISettingsIcon } from "../components/Icons/AISettingsIcon";
 import { AlertIcon } from "../components/Icons/AlertIcon";
 import { AppsIcon } from "../components/Icons/AppsIcon";
 import { ArrowDownIcon } from "../components/Icons/ArrowDownIcon";

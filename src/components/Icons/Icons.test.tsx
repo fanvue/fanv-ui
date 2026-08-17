@@ -8,7 +8,7 @@ import { AI2Icon } from "./AI2Icon";
 import { AICallIcon } from "./AICallIcon";
 import { AIDisclosureIcon } from "./AIDisclosureIcon";
 import { AIIcon } from "./AIIcon";
-import { AISettingsIcon } from "./AiSettingsIcon";
+import { AISettingsIcon } from "./AISettingsIcon";
 import { AlertIcon } from "./AlertIcon";
 import { AppsIcon } from "./AppsIcon";
 import { ArrowDownIcon } from "./ArrowDownIcon";

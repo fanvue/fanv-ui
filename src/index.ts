@@ -302,8 +302,8 @@ export type { AIDisclosureIconProps } from "./components/Icons/AIDisclosureIcon"
 export { AIDisclosureIcon } from "./components/Icons/AIDisclosureIcon";
 export type { AIIconProps } from "./components/Icons/AIIcon";
 export { AIIcon } from "./components/Icons/AIIcon";
-export type { AISettingsIconProps } from "./components/Icons/AiSettingsIcon";
-export { AISettingsIcon } from "./components/Icons/AiSettingsIcon";
+export type { AISettingsIconProps } from "./components/Icons/AISettingsIcon";
+export { AISettingsIcon } from "./components/Icons/AISettingsIcon";
 export type { AlertIconProps } from "./components/Icons/AlertIcon";
 export { AlertIcon } from "./components/Icons/AlertIcon";
 export type { AppsIconProps } from "./components/Icons/AppsIcon";
@@ -608,6 +608,7 @@ export type { WifiOffIconProps } from "./components/Icons/WifiOffIcon";
 export { WifiOffIcon } from "./components/Icons/WifiOffIcon";
 export { WifiOnIcon } from "./components/Icons/WifiOnIcon";
 export { WrenchIcon } from "./components/Icons/WrenchIcon";
+
 export type {
   InfoBoxAction,
   InfoBoxContentProps,

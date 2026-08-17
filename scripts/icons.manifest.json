@@ -31,6 +31,11 @@
       "hasFilled": true
     },
     {
+      "name": "AISettingsIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "AlertIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -481,12 +486,22 @@
       "hasFilled": true
     },
     {
+      "name": "ProgrammingArrowIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "QueueIcon",
       "sizes": [16, 24, 32],
       "hasFilled": false
     },
     {
       "name": "ReceiveMoneyIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": false
+    },
+    {
+      "name": "RefreshArrowIcon",
       "sizes": [16, 24, 32],
       "hasFilled": false
     },
