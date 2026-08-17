@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.26.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.26.0...ui-v3.26.1) (2026-08-17)
+
+
+### Bug Fixes
+
+* **Icons:** correct AISettings, ProgrammingArrow, RefreshArrow output ([#664](https://github.com/fanvue/fanv-ui/issues/664)) ([e28de99](https://github.com/fanvue/fanv-ui/commit/e28de995ed0e781b00b91ebcad653a5a6fdad76e))
+
 ## [3.26.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.25.0...ui-v3.26.0) (2026-08-13)
 
 
