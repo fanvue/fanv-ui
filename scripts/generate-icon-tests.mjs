@@ -20,6 +20,11 @@ const manifest = fs.existsSync(MANIFEST_PATH)
   : { icons: [] };
 const propBased = new Map(manifest.icons.map((i) => [i.name, i]));
 
+// Icons whose `filled` prop defaults to true, so the outlined variant has to be
+// requested explicitly with `filled={false}`. Without this the filled-vs-outlined
+// geometry test renders the same variant twice and always fails.
+const DEFAULTS_FILLED = new Set(["VerifiedIcon"]);
+
 const files = fs
   .readdirSync(ICONS_DIR)
   .filter((f) => f.endsWith(".tsx") && !f.endsWith(".test.tsx"))
@@ -38,7 +43,8 @@ const propBasedEntries = files
   .filter((n) => propBased.has(n))
   .map((n) => {
     const m = propBased.get(n);
-    return `  { name: ${JSON.stringify(n)}, Component: ${n}, hasFilled: ${m.hasFilled} },`;
+    const defaultsFilled = DEFAULTS_FILLED.has(n) ? ", defaultsFilled: true" : "";
+    return `  { name: ${JSON.stringify(n)}, Component: ${n}, hasFilled: ${m.hasFilled}${defaultsFilled} },`;
   })
   .join("\n");
 
@@ -114,7 +120,7 @@ describe("Icons", () => {
     });
   }
 
-  for (const { name, Component, hasFilled } of propBasedIcons) {
+  for (const { name, Component, hasFilled, defaultsFilled } of propBasedIcons) {
     describe(\`\${name} (prop-based)\`, () => {
       it("renders each size with a matching viewBox", () => {
         for (const size of [16, 24, 32] as const) {
@@ -127,7 +133,9 @@ describe("Icons", () => {
       if (hasFilled) {
         it("renders different geometry for filled vs outlined in at least one size", () => {
           const diffs = ([16, 24, 32] as const).map((size) => {
-            const { container: outlined } = render(<Component size={size} />);
+            const { container: outlined } = render(
+              defaultsFilled ? <Component size={size} filled={false} /> : <Component size={size} />,
+            );
             const { container: filled } = render(<Component size={size} filled />);
             const o = outlined.querySelector("svg")?.innerHTML ?? "";
             const f = filled.querySelector("svg")?.innerHTML ?? "";

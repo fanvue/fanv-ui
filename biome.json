@@ -132,6 +132,7 @@
         "**/Icons/AI2Icon.tsx",
         "**/Icons/AICallIcon.tsx",
         "**/Icons/AIDisclosureIcon.tsx",
+        "**/Icons/AISettingsIcon.tsx",
         "**/Icons/UserAIIcon.tsx"
       ],
       "linter": {
