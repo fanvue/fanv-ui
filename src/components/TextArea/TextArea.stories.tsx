@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { TextArea } from "./TextArea";
 
 const meta: Meta<typeof TextArea> = {
@@ -81,53 +82,12 @@ export const WithoutLabel: Story = {
   },
 };
 
-export const Size48: Story = {
-  args: {
-    size: "48",
-    label: "Size 48",
-    placeholder: "Text Area",
-  },
-};
-
-export const Size40: Story = {
-  args: {
-    size: "40",
-    label: "Size 40",
-    placeholder: "Text Area",
-  },
-};
-
-export const Size32: Story = {
-  args: {
-    size: "32",
-    label: "Size 32",
-    placeholder: "Text Area",
-  },
-};
-
-export const WithHelperText: Story = {
-  args: {
-    label: "Description",
-    placeholder: "Enter your description...",
-    helperText: "Helper Text",
-  },
-};
-
 export const WithClearButton: Story = {
   args: {
     label: "Description",
     placeholder: "Enter your description...",
     showClearButton: true,
     defaultValue: "This text can be cleared",
-  },
-};
-
-export const Validated: Story = {
-  args: {
-    label: "Description",
-    placeholder: "Enter your description...",
-    validated: true,
-    defaultValue: "This input has been validated",
   },
 };
 
@@ -158,16 +118,6 @@ export const WithMinAndMaxRows: Story = {
   },
 };
 
-export const ErrorState: Story = {
-  args: {
-    label: "Description",
-    placeholder: "Enter your description...",
-    error: true,
-    errorMessage: "This field is required",
-    defaultValue: "",
-  },
-};
-
 export const ErrorWithoutMessage: Story = {
   args: {
     label: "Description",
@@ -189,23 +139,6 @@ export const ErrorWithClearButton: Story = {
   },
 };
 
-export const Disabled: Story = {
-  args: {
-    label: "Label",
-    placeholder: "Disabled textarea",
-    disabled: true,
-  },
-};
-
-export const DisabledWithValue: Story = {
-  args: {
-    label: "Label",
-    placeholder: "Disabled textarea",
-    disabled: true,
-    defaultValue: "Disabled value that cannot be edited",
-  },
-};
-
 export const FullWidth: Story = {
   decorators: [
     (Story) => (
@@ -224,6 +157,7 @@ export const FullWidth: Story = {
 export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story:

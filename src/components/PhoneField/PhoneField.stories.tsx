@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { PhoneField } from "./PhoneField";
 
 const ItalyFlag = () => (
@@ -56,20 +57,6 @@ export const Default: Story = {};
 
 export const Filled: Story = {
   args: {
-    defaultValue: "3381020300",
-  },
-};
-
-export const Size40: Story = {
-  args: {
-    size: "40",
-    defaultValue: "3381020300",
-  },
-};
-
-export const Size32: Story = {
-  args: {
-    size: "32",
     defaultValue: "3381020300",
   },
 };
@@ -155,6 +142,7 @@ const COUNTRIES = [
 export const Controlled: Story = {
   name: "Controlled with country picker",
   parameters: {
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story:

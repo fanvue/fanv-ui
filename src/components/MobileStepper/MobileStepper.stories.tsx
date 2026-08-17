@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Button } from "../Button/Button";
 import { MobileStepper } from "./MobileStepper";
 
@@ -215,6 +216,7 @@ function InteractiveDemo() {
 export const Interactive: Story = {
   render: () => <InteractiveDemo />,
   parameters: {
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       source: {
         code: `function InteractiveDemo() {
@@ -290,6 +292,7 @@ function InteractiveProgressDemo() {
 export const InteractiveProgress: Story = {
   render: () => <InteractiveProgressDemo />,
   parameters: {
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       source: {
         code: `function InteractiveProgressDemo() {
@@ -365,6 +368,7 @@ function InteractiveTextDemo() {
 export const InteractiveText: Story = {
   render: () => <InteractiveTextDemo />,
   parameters: {
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       source: {
         code: `function InteractiveTextDemo() {

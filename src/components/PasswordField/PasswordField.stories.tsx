@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { PasswordField } from "./PasswordField";
 
 const meta: Meta<typeof PasswordField> = {
@@ -58,30 +59,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     label: "Label",
-    placeholder: "Password",
-  },
-};
-
-export const Size48: Story = {
-  args: {
-    size: "48",
-    label: "Size 48",
-    placeholder: "Password",
-  },
-};
-
-export const Size40: Story = {
-  args: {
-    size: "40",
-    label: "Size 40",
-    placeholder: "Password",
-  },
-};
-
-export const Size32: Story = {
-  args: {
-    size: "32",
-    label: "Size 32",
     placeholder: "Password",
   },
 };
@@ -184,6 +161,7 @@ export const FullWidth: Story = {
 export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story:

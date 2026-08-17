@@ -48,13 +48,6 @@ export const CenteredVertically: Story = {
   },
 };
 
-export const Hidden: Story = {
-  args: {
-    show: false,
-    minHeight: 200,
-  },
-};
-
 export const CustomMinHeight: Story = {
   args: {
     center: true,

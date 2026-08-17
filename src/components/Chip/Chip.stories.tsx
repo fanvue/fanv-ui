@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Fragment, useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { CheckCircleIcon } from "../Icons/CheckCircleIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CrossIcon } from "../Icons/CrossIcon";
-import { Chip, type ChipProps, type ChipSize } from "./Chip";
+import { Chip, type ChipProps, type ChipSize, type ChipVariant } from "./Chip";
 
 /** Placeholder example for logo stories — consumers provide their own `<img>/NextImage` */
 const PaymentLogo = ({ label, color }: { label: string; color: string }) => (
@@ -72,7 +73,7 @@ const stateProps = (state: StateColumn): Partial<ChipProps> => {
   }
 };
 
-const VariantMatrix = ({ variant }: { variant: "rounded" | "square" }) => (
+const VariantMatrix = ({ variant }: { variant: ChipVariant }) => (
   <div className="flex flex-col gap-3">
     <h3 className="typography-body-small-14px-semibold text-content-primary capitalize">
       {variant}
@@ -84,7 +85,8 @@ const VariantMatrix = ({ variant }: { variant: "rounded" | "square" }) => (
           {state}
         </span>
       ))}
-      {MATRIX_ROWS.map((row) => (
+      {/* `dark` ignores `dotted`, so those rows would just repeat the solid ones. */}
+      {MATRIX_ROWS.filter((row) => !(variant === "dark" && row.dotted)).map((row) => (
         <Fragment key={row.label}>
           <span className="typography-description-12px-semibold whitespace-nowrap text-content-tertiary">
             {row.label}
@@ -103,7 +105,7 @@ const VariantMatrix = ({ variant }: { variant: "rounded" | "square" }) => (
 );
 
 /**
- * Every variant from the Figma library in one view: both shapes (Rounded, Square),
+ * Every variant from the Figma library in one view: all three shapes (Rounded, Square, Dark),
  * both sizes (40px, 32px), solid and dotted, across each state. The Default and Active
  * chips are interactive — hover over one to preview its hover state.
  */
@@ -113,26 +115,13 @@ export const AllVariants: Story = {
     <div className="flex flex-col gap-8">
       <VariantMatrix variant="rounded" />
       <VariantMatrix variant="square" />
+      <VariantMatrix variant="dark" />
     </div>
   ),
 };
 
 export const Rounded: Story = {
   args: {
-    children: "Chip",
-  },
-};
-
-export const Square: Story = {
-  args: {
-    variant: "square",
-    children: "Chip",
-  },
-};
-
-export const Dark: Story = {
-  args: {
-    variant: "dark",
     children: "Chip",
   },
 };
@@ -158,84 +147,6 @@ export const OutlinedSelected: Story = {
   },
 };
 
-export const OutlinedInteractive: Story = {
-  args: {
-    outlined: true,
-    children: "Chip",
-    onClick: () => {},
-  },
-};
-
-export const Size32: Story = {
-  args: {
-    size: "32",
-    children: "Chip",
-  },
-};
-
-export const Size40: Story = {
-  args: {
-    size: "40",
-    children: "Chip",
-  },
-};
-
-export const Selected: Story = {
-  args: {
-    selected: true,
-    children: "Chip",
-    onClick: () => {},
-  },
-};
-
-export const SelectedSquare: Story = {
-  args: {
-    variant: "square",
-    selected: true,
-    children: "Chip",
-    onClick: () => {},
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    children: "Chip",
-  },
-};
-
-export const DisabledSelected: Story = {
-  args: {
-    selected: true,
-    disabled: true,
-    children: "Chip",
-    onClick: () => {},
-  },
-};
-
-export const DisabledDark: Story = {
-  args: {
-    variant: "dark",
-    disabled: true,
-    children: "Chip",
-  },
-};
-
-export const Interactive: Story = {
-  args: {
-    children: "Chip",
-    onClick: () => {},
-  },
-};
-
-export const InteractiveSelected: Story = {
-  args: {
-    selected: true,
-    children: "Chip",
-    onClick: () => {},
-  },
-};
-
 export const WithDot: Story = {
   args: {
     leftDot: true,
@@ -248,52 +159,6 @@ export const WithDotDark: Story = {
     variant: "dark",
     leftDot: true,
     children: "Chip",
-  },
-};
-
-export const Dotted: Story = {
-  args: {
-    variant: "square",
-    dotted: true,
-    children: "New folder",
-  },
-};
-
-export const DottedInteractive: Story = {
-  args: {
-    variant: "square",
-    dotted: true,
-    children: "New folder",
-    onClick: () => {},
-  },
-};
-
-export const DottedSize40: Story = {
-  args: {
-    variant: "square",
-    size: "40",
-    dotted: true,
-    children: "New folder",
-    onClick: () => {},
-  },
-};
-
-export const DottedSelected: Story = {
-  args: {
-    variant: "square",
-    dotted: true,
-    selected: true,
-    children: "New folder",
-    onClick: () => {},
-  },
-};
-
-export const DottedDisabled: Story = {
-  args: {
-    variant: "square",
-    dotted: true,
-    disabled: true,
-    children: "New folder",
   },
 };
 
@@ -335,14 +200,6 @@ export const WithNotificationOverflow: Story = {
   },
 };
 
-export const WithNotificationDefault: Story = {
-  args: {
-    notificationCount: 5,
-    notificationVariant: "default",
-    children: "Chip",
-  },
-};
-
 export const WithNotificationAlert: Story = {
   args: {
     notificationCount: 2,
@@ -366,69 +223,6 @@ export const FullExample: Story = {
     selected: true,
     children: "Filter",
     onClick: () => {},
-  },
-};
-
-export const MediumRounded: Story = {
-  args: {
-    size: "40",
-    children: "Chip",
-  },
-};
-
-export const MediumSquare: Story = {
-  args: {
-    variant: "square",
-    size: "40",
-    children: "Chip",
-  },
-};
-
-export const MediumDark: Story = {
-  args: {
-    variant: "dark",
-    size: "40",
-    children: "Chip",
-  },
-};
-
-export const MediumSelected: Story = {
-  args: {
-    size: "40",
-    selected: true,
-    children: "Chip",
-    onClick: () => {},
-  },
-};
-
-export const PaymentMethod: Story = {
-  args: {
-    variant: "square",
-    size: "40",
-    leftIcon: <PaymentLogo label="₿" color="#F7931A" />,
-    children: "Bitcoin",
-    onClick: () => {},
-  },
-};
-
-export const PaymentMethodSelected: Story = {
-  args: {
-    variant: "square",
-    size: "40",
-    leftIcon: <PaymentLogo label="G" color="#4285F4" />,
-    children: "Google Pay",
-    selected: true,
-    onClick: () => {},
-  },
-};
-
-export const PaymentMethodDisabled: Story = {
-  args: {
-    variant: "square",
-    size: "40",
-    leftIcon: <PaymentLogo label="P" color="#003087" />,
-    children: "PayPal",
-    disabled: true,
   },
 };
 
@@ -480,6 +274,7 @@ export const ShortLabels: Story = {
 };
 
 export const Toggle: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: () => {
     const [selected, setSelected] = useState(false);
     return (

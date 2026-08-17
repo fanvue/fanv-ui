@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { AIIcon } from "../Icons/AIIcon";
 import { BulbIcon } from "../Icons/BulbIcon";
 import { ChatInput } from "./ChatInput";
@@ -264,6 +265,7 @@ export const WithMultipleRows: Story = {
 };
 
 export const Controlled: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: () => {
     const [value, setValue] = useState("");
     const [messages, setMessages] = useState<{ id: string; text: string }[]>([]);

@@ -33,65 +33,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    user: "receiver",
-    message: "Placeholder message.",
-    time: "16:00",
-    avatarSrc: AVATAR,
-    online: true,
-  },
-};
-
-export const Sender: Story = {
-  args: {
-    user: "sender",
-    message: "Placeholder message.",
-    time: "16:00",
-    status: "read",
-  },
-};
-
-export const LongMessage: Story = {
-  args: {
-    user: "receiver",
-    message:
-      "Hey! Just wanted to give you a quick update on everything we talked about earlier today. I've gone through all of the notes, applied the changes you suggested, and double-checked every detail. Let me know if there's anything else you'd like me to adjust before we finalise and send it over tomorrow.",
-    time: "16:00",
-    avatarSrc: AVATAR,
-    online: true,
-  },
-};
-
-export const Typing: Story = {
-  args: {
-    user: "receiver",
-    variant: "typing",
-    avatarSrc: AVATAR,
-    online: true,
-  },
-};
-
-export const Audio: Story = {
-  args: {
-    user: "sender",
-    variant: "audio",
-    audioDuration: "0:05",
-    time: "16:00",
-    status: "read",
-  },
-};
-
-export const Deleted: Story = {
-  args: {
-    user: "receiver",
-    variant: "deleted",
-    time: "16:00",
-    avatarSrc: AVATAR,
-    online: true,
-  },
-};
-
 /** Every variant, for both sender and receiver, as it appears in the design. */
 export const AllVariants: Story = {
   render: () => (

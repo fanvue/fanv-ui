@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { SwitchField } from "./SwitchField";
 
 const meta = {
@@ -41,40 +42,6 @@ export const Default: Story = {
   },
 };
 
-export const OrientationRight: Story = {
-  args: {
-    label: "Toggle",
-    helperText: "Helper",
-    orientation: "right",
-  },
-};
-
-export const OrientationLeft: Story = {
-  args: {
-    label: "Toggle",
-    helperText: "Helper",
-    orientation: "left",
-  },
-};
-
-export const SmallRight: Story = {
-  args: {
-    label: "Toggle",
-    helperText: "Helper",
-    size: "small",
-    orientation: "right",
-  },
-};
-
-export const SmallLeft: Story = {
-  args: {
-    label: "Toggle",
-    helperText: "Helper",
-    size: "small",
-    orientation: "left",
-  },
-};
-
 export const WithInfo: Story = {
   args: {
     label: "Toggle",
@@ -107,6 +74,7 @@ export const DisabledChecked: Story = {
 };
 
 export const ControlledExample: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   name: "Controlled",
   render: function ControlledRender() {
     const [checked, setChecked] = useState(false);
@@ -122,6 +90,7 @@ export const ControlledExample: Story = {
 };
 
 export const UncontrolledExample: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   name: "Uncontrolled",
   render: () => (
     <div className="flex flex-col gap-4">

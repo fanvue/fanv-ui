@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { AddIcon } from "../Icons/AddIcon";
 import { AIIcon } from "../Icons/AIIcon";
 import { AlertIcon } from "../Icons/AlertIcon";
@@ -180,36 +181,15 @@ const v2Variants = [
 ] as const;
 const v2Sizes = ["24", "32", "40", "48"] as const;
 
-export const Outline: Story = {
-  args: { variant: "outline", size: "40", icon: <SettingsIcon />, "aria-label": "Settings" },
-};
-
-export const ErrorVariant: Story = {
-  args: { variant: "error", size: "40", icon: <TrashBinIcon />, "aria-label": "Delete" },
-};
-
-export const White: Story = {
-  args: { variant: "white", size: "40", icon: <HomeIcon />, "aria-label": "Home" },
-  parameters: { backgrounds: { default: "dark" } },
-};
-
-export const Black: Story = {
-  args: { variant: "black", size: "40", icon: <HomeIcon />, "aria-label": "Home" },
-};
-
-export const Primary48: Story = {
-  args: { variant: "primary", size: "48", icon: <HomeIcon />, "aria-label": "Home" },
-};
-
-export const NegativePrimary: Story = {
-  args: {
-    variant: "primary",
-    size: "40",
-    icon: <HomeIcon />,
-    negative: true,
-    "aria-label": "Home",
-  },
-  parameters: { backgrounds: { default: "dark" } },
+/**
+ * Fixture for `e2e/iconButton.spec.ts`, which focuses a single button via
+ * `getByTestId("icon-button")` and so cannot target a cell inside `V2Matrix`. Its
+ * appearance is covered there, so it does not take a snapshot. The spec looks it up
+ * as `"Primary 40"`, so renaming it will fail the E2E job.
+ */
+export const Primary40: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
+  args: { variant: "primary", size: "40", icon: <HomeIcon />, "aria-label": "Home" },
 };
 
 export const V2Matrix: Story = {
@@ -285,109 +265,6 @@ export const FieldsetDisabled: Story = {
       ))}
     </fieldset>
   ),
-};
-
-// Primary variants
-export const Primary24: Story = {
-  args: {
-    variant: "primary",
-    size: "24",
-    icon: <HomeIcon />,
-    "aria-label": "Home",
-  },
-};
-
-export const Primary32: Story = {
-  args: {
-    variant: "primary",
-    size: "32",
-    icon: <HomeIcon />,
-  },
-};
-
-export const Primary40: Story = {
-  args: {
-    variant: "primary",
-    size: "40",
-    icon: <HomeIcon />,
-  },
-};
-
-export const PrimaryDisabled: Story = {
-  args: {
-    variant: "primary",
-    size: "40",
-    icon: <HomeIcon />,
-    disabled: true,
-  },
-};
-
-// Secondary variants
-export const Secondary24: Story = {
-  args: {
-    variant: "secondary",
-    size: "24",
-    icon: <HomeIcon />,
-  },
-};
-
-export const Secondary32: Story = {
-  args: {
-    variant: "secondary",
-    size: "32",
-    icon: <HomeIcon />,
-  },
-};
-
-export const Secondary40: Story = {
-  args: {
-    variant: "secondary",
-    size: "40",
-    icon: <HomeIcon />,
-  },
-};
-
-export const SecondaryDisabled: Story = {
-  args: {
-    variant: "secondary",
-    size: "40",
-    icon: <HomeIcon />,
-    disabled: true,
-  },
-};
-
-// Tertiary variants
-export const Tertiary24: Story = {
-  args: {
-    variant: "tertiary",
-    size: "24",
-    icon: <HomeIcon />,
-  },
-};
-
-export const Tertiary32: Story = {
-  args: {
-    variant: "tertiary",
-    size: "32",
-    icon: <HomeIcon />,
-  },
-};
-
-export const Tertiary40: Story = {
-  args: {
-    variant: "tertiary",
-    size: "40",
-    icon: <HomeIcon />,
-  },
-};
-
-export const TertiaryDisabled: Story = {
-  args: {
-    variant: "tertiary",
-    size: "40",
-    icon: <HomeIcon />,
-    disabled: true,
-  },
 };
 
 export const TertiaryWithCounter: Story = {

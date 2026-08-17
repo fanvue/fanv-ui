@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Switch } from "./Switch";
 
 const meta = {
@@ -36,68 +37,8 @@ export const Default: Story = {
   },
 };
 
-export const Checked: Story = {
-  args: {
-    checked: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const Unchecked: Story = {
-  args: {
-    checked: false,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const SmallSize: Story = {
-  args: {
-    size: "small",
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const SmallChecked: Story = {
-  args: {
-    size: "small",
-    checked: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const DisabledChecked: Story = {
-  args: {
-    disabled: true,
-    checked: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const SmallDisabled: Story = {
-  args: {
-    size: "small",
-    disabled: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const SmallDisabledChecked: Story = {
-  args: {
-    size: "small",
-    disabled: true,
-    checked: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
 export const ControlledExample: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   name: "Controlled",
   render: function ControlledRender() {
     const [checked, setChecked] = useState(false);
@@ -111,6 +52,7 @@ export const ControlledExample: Story = {
 };
 
 export const UncontrolledExample: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   name: "Uncontrolled",
   render: () => (
     <div className="flex flex-col gap-4">

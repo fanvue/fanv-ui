@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { PageSelector } from "./PageSelector";
 
 const meta = {
@@ -71,6 +72,7 @@ export const CustomLabel: Story = {
 };
 
 export const Interactive: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   args: {
     totalPages: 3,
     currentPage: 1,

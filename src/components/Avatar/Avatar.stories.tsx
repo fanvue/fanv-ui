@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { CheckCircleIcon } from "../Icons/CheckCircleIcon";
-import { Avatar, AvatarFallback, AvatarImage, AvatarRoot } from "./Avatar";
+import { Avatar, AvatarFallback, AvatarImage, AvatarRoot, type AvatarSize } from "./Avatar";
+
+const SRC = "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop";
 
 const meta = {
   title: "Components/Avatar",
@@ -32,285 +34,85 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Default with image
+const SIZES: AvatarSize[] = [16, 24, 32, 40, 48, 64, 88, 148];
+
+const Row = ({ label, children }: { label: string; children: React.ReactNode }) => (
+  <div className="flex flex-col gap-2">
+    <span className="typography-description-12px-semibold text-content-tertiary">{label}</span>
+    <div className="flex flex-wrap items-end gap-3">{children}</div>
+  </div>
+);
+
+/** Every size, for each of the three content types the avatar can render. */
+export const AllSizes: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-col gap-6">
+      <Row label="Image">
+        {SIZES.map((size) => (
+          <Avatar key={size} size={size} src={SRC} alt="User avatar" fallback="JD" />
+        ))}
+      </Row>
+      <Row label="Initials">
+        {SIZES.map((size) => (
+          <Avatar key={size} size={size} fallback="AB" />
+        ))}
+      </Row>
+      <Row label="Icon">
+        {SIZES.map((size) => (
+          <Avatar key={size} size={size} fallback={<CheckCircleIcon />} />
+        ))}
+      </Row>
+      <Row label="Empty">
+        {SIZES.map((size) => (
+          <Avatar key={size} size={size} fallback="" />
+        ))}
+      </Row>
+    </div>
+  ),
+};
+
+/**
+ * The three decorations — online indicator, platinum gradient border and NSFW blur —
+ * against each content type, at a small, default and large size so the indicator
+ * scaling is covered.
+ */
+export const AllDecorations: Story = {
+  parameters: { layout: "padded" },
+  render: () => {
+    const decorations = [
+      { label: "Online indicator", props: { onlineIndicator: true } },
+      { label: "Platinum", props: { platinumShow: true } },
+      { label: "NSFW", props: { NSFWShow: true } },
+      { label: "Platinum + NSFW", props: { platinumShow: true, NSFWShow: true } },
+      {
+        label: "All three",
+        props: { platinumShow: true, NSFWShow: true, onlineIndicator: true },
+      },
+    ];
+    return (
+      <div className="flex flex-col gap-6">
+        {decorations.map(({ label, props }) => (
+          <Row key={label} label={label}>
+            {([24, 40, 88] as AvatarSize[]).map((size) => (
+              <Avatar key={size} size={size} src={SRC} alt="User avatar" fallback="JD" {...props} />
+            ))}
+            {([24, 40, 88] as AvatarSize[]).map((size) => (
+              <Avatar key={`initials-${size}`} size={size} fallback="AB" {...props} />
+            ))}
+            <Avatar size={40} fallback={<CheckCircleIcon />} {...props} />
+          </Row>
+        ))}
+      </div>
+    );
+  },
+};
+
 export const Default: Story = {
   args: {
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
+    src: SRC,
     alt: "User avatar",
     fallback: "JD",
-  },
-};
-
-// Size variants with image
-export const Size16: Story = {
-  args: {
-    size: 16,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-  },
-};
-
-export const Size24: Story = {
-  args: {
-    size: 24,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-  },
-};
-
-export const Size32: Story = {
-  args: {
-    size: 32,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-  },
-};
-
-export const Size40: Story = {
-  args: {
-    size: 40,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-  },
-};
-
-export const Size48: Story = {
-  args: {
-    size: 48,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-  },
-};
-
-export const Size64: Story = {
-  args: {
-    size: 64,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-  },
-};
-
-export const Size88: Story = {
-  args: {
-    size: 88,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-  },
-};
-
-export const Size148: Story = {
-  args: {
-    size: 148,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-  },
-};
-
-// With initials
-export const WithInitials: Story = {
-  args: {
-    fallback: "AB",
-  },
-};
-
-export const WithInitialsSmall: Story = {
-  args: {
-    size: 24,
-    fallback: "AB",
-  },
-};
-
-export const WithInitialsLarge: Story = {
-  args: {
-    size: 88,
-    fallback: "AB",
-  },
-};
-
-// With icon
-export const WithIcon: Story = {
-  args: {
-    fallback: <CheckCircleIcon />,
-  },
-};
-
-export const WithIconSmall: Story = {
-  args: {
-    size: 24,
-    fallback: <CheckCircleIcon className="size-3" />,
-  },
-};
-
-export const WithIconLarge: Story = {
-  args: {
-    size: 88,
-    fallback: <CheckCircleIcon className="size-10" />,
-  },
-};
-
-// With online status
-export const WithOnlineStatus: Story = {
-  args: {
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    onlineIndicator: true,
-  },
-};
-
-export const WithOnlineStatusSmall: Story = {
-  args: {
-    size: 24,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    onlineIndicator: true,
-  },
-};
-
-export const WithOnlineStatusLarge: Story = {
-  args: {
-    size: 88,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    onlineIndicator: true,
-  },
-};
-
-export const WithOnlineStatusInitials: Story = {
-  args: {
-    fallback: "AB",
-    onlineIndicator: true,
-  },
-};
-
-export const WithOnlineStatusIcon: Story = {
-  args: {
-    fallback: <CheckCircleIcon />,
-    onlineIndicator: true,
-  },
-};
-
-// Empty/placeholder avatar
-export const Empty: Story = {
-  args: {
-    fallback: "",
-  },
-};
-
-// Platinum gradient border
-export const WithPlatinum: Story = {
-  args: {
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    platinumShow: true,
-  },
-};
-
-export const WithPlatinumSmall: Story = {
-  args: {
-    size: 24,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    platinumShow: true,
-  },
-};
-
-export const WithPlatinumLarge: Story = {
-  args: {
-    size: 88,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    platinumShow: true,
-  },
-};
-
-export const WithPlatinumInitials: Story = {
-  args: {
-    fallback: "AB",
-    platinumShow: true,
-  },
-};
-
-export const WithPlatinumAndStatus: Story = {
-  args: {
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    platinumShow: true,
-    onlineIndicator: true,
-  },
-};
-
-// NSFW blur filter
-export const WithNSFW: Story = {
-  args: {
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    NSFWShow: true,
-  },
-};
-
-export const WithNSFWSmall: Story = {
-  args: {
-    size: 24,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    NSFWShow: true,
-  },
-};
-
-export const WithNSFWLarge: Story = {
-  args: {
-    size: 88,
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    NSFWShow: true,
-  },
-};
-
-export const WithNSFWInitials: Story = {
-  args: {
-    fallback: "AB",
-    NSFWShow: true,
-  },
-};
-
-// Combined variations
-export const WithPlatinumAndNSFW: Story = {
-  args: {
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    platinumShow: true,
-    NSFWShow: true,
-  },
-};
-
-export const WithAllFeatures: Story = {
-  args: {
-    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    alt: "User avatar",
-    fallback: "JD",
-    size: 48,
-    platinumShow: true,
-    NSFWShow: true,
-    onlineIndicator: true,
   },
 };
 
@@ -356,23 +158,12 @@ export const WithAllFeatures: Story = {
 export const FrameworkAgnostic: Story = {
   render: (args) => (
     <AvatarRoot size={args.size} onlineIndicator={args.onlineIndicator}>
-      <AvatarImage
-        src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-        alt="User avatar"
-      />
+      <AvatarImage src={SRC} alt="User avatar" />
       <AvatarFallback>JD</AvatarFallback>
     </AvatarRoot>
   ),
   args: {
     size: 40,
     onlineIndicator: true,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "For framework-specific image components (Next.js, Gatsby, etc.), import `AvatarRoot`, `AvatarImage`, and `AvatarFallback` individually. Use the `asChild` prop on `AvatarImage` to render custom image components with full control over image optimization and loading.",
-      },
-    },
   },
 };

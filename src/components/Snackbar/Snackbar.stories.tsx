@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Button } from "../Button/Button";
 import { VipBadgeIcon } from "../Icons/VipBadgeIcon";
 import { Snackbar } from "./Snackbar";
@@ -41,94 +42,79 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// ─── Default variant ──────────────────────────────────────────────
+const VARIANT_CONTENT = [
+  {
+    variant: "default",
+    props: { children: DefaultMessage },
+    primary: "Accept",
+    secondary: "Dismiss",
+  },
+  {
+    variant: "vipEarn",
+    props: {
+      icon: VipBadge,
+      title: "You're killing it! You've earned 1,000pts",
+      description: "Find out how to redeem them, and earn more...",
+    },
+    primary: "Redeem points",
+    secondary: "Maybe later",
+  },
+  {
+    variant: "welcome",
+    props: {
+      title: "Welcome to Fanvue 👋",
+      description: "Let's get you started!",
+    },
+    primary: "Become a creator",
+    secondary: "Discover creators",
+  },
+] as const;
+
+/**
+ * Every variant against the four ways its action area can be filled — both labels,
+ * primary only, no actions, and custom slots — plus the closable affordance.
+ */
+export const AllVariants: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-col gap-10">
+      {VARIANT_CONTENT.map(({ variant, props, primary, secondary }) => (
+        <div key={variant} className="flex flex-col gap-3">
+          <h3 className="typography-body-small-14px-semibold text-content-primary">{variant}</h3>
+          <Snackbar
+            variant={variant}
+            {...props}
+            primaryLabel={primary}
+            secondaryLabel={secondary}
+          />
+          <Snackbar variant={variant} {...props} primaryLabel={primary} />
+          <Snackbar variant={variant} {...props} showActions={false} />
+          <Snackbar
+            variant={variant}
+            {...props}
+            primarySlot={
+              <Button variant="primary" size="40">
+                Custom Primary
+              </Button>
+            }
+            secondarySlot={
+              <a href="#dismiss" className="typography-links-link-md text-content-secondary">
+                Custom link
+              </a>
+            }
+          />
+          <Snackbar variant={variant} {...props} primaryLabel={primary} closable />
+        </div>
+      ))}
+    </div>
+  ),
+};
 
 export const Default: Story = {
   args: {
     children: DefaultMessage,
     primaryLabel: "Accept",
     secondaryLabel: "Dismiss",
-  },
-};
-
-export const DefaultWithoutActions: Story = {
-  args: {
-    children: DefaultMessage,
-    showActions: false,
-  },
-};
-
-export const DefaultPrimaryOnly: Story = {
-  args: {
-    children: DefaultMessage,
-    primaryLabel: "Accept",
-  },
-};
-
-export const DefaultWithCustomSlots: Story = {
-  args: {
-    children: DefaultMessage,
-    primarySlot: (
-      <Button variant="primary" size="40">
-        Custom Primary
-      </Button>
-    ),
-    secondarySlot: (
-      <a href="#dismiss" className="typography-links-link-md text-content-secondary">
-        Custom link
-      </a>
-    ),
-  },
-};
-
-// ─── VipEarn variant ──────────────────────────────────────────────
-
-export const VipEarn: Story = {
-  args: {
-    variant: "vipEarn",
-    icon: VipBadge,
-    title: "You're killing it! You've earned 1,000pts",
-    description: "Find out how to redeem them, and earn more...",
-    primaryLabel: "Redeem points",
-  },
-};
-
-export const VipEarnClosable: Story = {
-  render: (args) => {
-    const [visible, setVisible] = useState(true);
-    return visible ? (
-      <Snackbar
-        {...args}
-        variant="vipEarn"
-        icon={VipBadge}
-        title="You're killing it! You've earned 1,000pts"
-        description="Find out how to redeem them, and earn more..."
-        primaryLabel="Redeem points"
-        closable
-        onClose={() => setVisible(false)}
-      />
-    ) : (
-      <div className="text-content-tertiary text-sm">
-        Snackbar dismissed!{" "}
-        <button
-          type="button"
-          onClick={() => setVisible(true)}
-          className="cursor-pointer text-content-primary underline"
-        >
-          Show again
-        </button>
-      </div>
-    );
-  },
-};
-
-export const VipEarnWithoutAction: Story = {
-  args: {
-    variant: "vipEarn",
-    icon: VipBadge,
-    title: "You're killing it! You've earned 1,000pts",
-    description: "Find out how to redeem them, and earn more...",
-    showActions: false,
   },
 };
 
@@ -141,71 +127,10 @@ export const VipEarnWithoutIcon: Story = {
   },
 };
 
-export const VipEarnWithCustomSlot: Story = {
-  args: {
-    variant: "vipEarn",
-    icon: VipBadge,
-    title: "You're killing it! You've earned 1,000pts",
-    description: "Find out how to redeem them, and earn more...",
-    primarySlot: (
-      <a href="#redeem" className="typography-links-link-md text-brand-secondary-default">
-        Redeem now
-      </a>
-    ),
-  },
-};
-
-// ─── Welcome variant ──────────────────────────────────────────────
-
-export const Welcome: Story = {
-  args: {
-    variant: "welcome",
-    title: "Welcome to Fanvue 👋",
-    description: "Let's get you started!",
-    primaryLabel: "Become a creator",
-    secondaryLabel: "Discover creators",
-  },
-};
-
-export const WelcomeWithoutActions: Story = {
-  args: {
-    variant: "welcome",
-    title: "Welcome to Fanvue 👋",
-    description: "Let's get you started!",
-    showActions: false,
-  },
-};
-
-export const WelcomePrimaryOnly: Story = {
-  args: {
-    variant: "welcome",
-    title: "Welcome to Fanvue 👋",
-    description: "Let's get you started!",
-    primaryLabel: "Get started",
-  },
-};
-
-export const WelcomeWithCustomSlots: Story = {
-  args: {
-    variant: "welcome",
-    title: "Welcome to Fanvue 👋",
-    description: "Let's get you started!",
-    primarySlot: (
-      <Button variant="primary" leftIcon={<span>🚀</span>}>
-        Launch
-      </Button>
-    ),
-    secondarySlot: (
-      <a href="#explore" className="text-content-secondary text-sm underline">
-        Explore instead
-      </a>
-    ),
-  },
-};
-
 // ─── Closable / interactive ───────────────────────────────────────
 
 export const DefaultClosable: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: (args) => {
     const [visible, setVisible] = useState(true);
     return visible ? (
@@ -234,6 +159,7 @@ export const DefaultClosable: Story = {
 };
 
 export const MultipleDismissible: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: () => {
     const [snackbars, setSnackbars] = useState({
       vipEarn: true,

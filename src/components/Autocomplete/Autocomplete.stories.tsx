@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { HomeIcon } from "../Icons/HomeIcon";
 import {
   Autocomplete,
@@ -256,6 +257,7 @@ function ControlledExample() {
 }
 
 export const Controlled: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: () => <ControlledExample />,
 };
 
