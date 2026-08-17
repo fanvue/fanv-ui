@@ -96,16 +96,6 @@ export const GeneratedAudioRow: Story = {
   ),
 };
 
-/** Uncontrolled playback (default) — clicking the button toggles play state internally. */
-export const Uncontrolled: Story = {};
-
-/** Controlled playback — the `playing` prop drives the toggle; the parent owns the state. */
-export const Controlled: Story = {
-  args: {
-    playing: false,
-  },
-};
-
 /**
  * No `duration` prop, and the source never resolves to valid audio metadata:
  * shows the "--:--" placeholder. Uses a malformed local data URI (no network

@@ -27,70 +27,35 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Info: Story = {
-  args: {
-    variant: "info",
-    children: "This is an informational alert message.",
-  },
-};
+const VARIANTS = ["info", "success", "warning", "error", "neutral"] as const;
 
-export const Success: Story = {
-  args: {
-    variant: "success",
-    children: "Your changes have been saved successfully.",
-  },
-};
-
-export const Warning: Story = {
-  args: {
-    variant: "warning",
-    children: "Please review your information before proceeding.",
-  },
-};
-
-// biome-ignore lint/suspicious/noShadowRestrictedNames: Story name must match Figma variant
-export const Error: Story = {
-  args: {
-    variant: "error",
-    children: "An error occurred while processing your request.",
-  },
-};
-
-export const Neutral: Story = {
-  args: {
-    variant: "neutral",
-    children: "This is a general notice with no specific sentiment.",
-  },
-};
-
-export const NeutralWithTitle: Story = {
-  args: {
-    variant: "neutral",
-    title: "Heads up",
-    children: "This is the body text for a neutral in-app alert, longer text for the reference.",
-  },
-};
-
-export const NeutralClosable: Story = {
-  render: (args) => {
-    const [visible, setVisible] = useState(true);
-    return visible ? (
-      <Alert {...args} variant="neutral" closable onClose={() => setVisible(false)}>
-        This is a closable neutral alert.
-      </Alert>
-    ) : (
-      <div className="text-gray-500 text-sm">
-        Alert dismissed!{" "}
-        <button
-          type="button"
-          onClick={() => setVisible(true)}
-          className="cursor-pointer text-content-secondary underline"
-        >
-          Show again
-        </button>
-      </div>
-    );
-  },
+/**
+ * Every variant against every combination of the three layout props — title,
+ * closable and the `action` link slot. The `closable` column renders the close
+ * affordance; dismissing behaviour is covered by `InteractiveDismissible`.
+ */
+export const AllVariants: Story = {
+  render: () => (
+    <div className="flex flex-col gap-8">
+      {VARIANTS.map((variant) => (
+        <div key={variant} className="flex flex-col gap-3">
+          <h3 className="typography-body-small-14px-semibold text-content-primary capitalize">
+            {variant}
+          </h3>
+          <Alert variant={variant}>Body text only.</Alert>
+          <Alert variant={variant} title="Alert title">
+            Body text with a title above it.
+          </Alert>
+          <Alert variant={variant} closable>
+            Body text with a close button.
+          </Alert>
+          <Alert variant={variant} title="Alert title" closable action={<a href="#more">More</a>}>
+            Title, close button and an action link.
+          </Alert>
+        </div>
+      ))}
+    </div>
+  ),
 };
 
 export const WithLink: Story = {
@@ -107,15 +72,6 @@ export const WithLink: Story = {
           'The `action` slot is composable: pass any element and it receives the variant-appropriate link styling via Radix `Slot`. For a Next.js app, pass a router-aware link instead of a plain anchor, e.g. `action={<Link href="/changelog">See what\'s new</Link>}` where `Link` is imported from `next/link`.',
       },
     },
-  },
-};
-
-export const NeutralWithLink: Story = {
-  args: {
-    variant: "neutral",
-    title: "Heads up",
-    children: "A general notice with an inline link to related detail.",
-    action: <a href="#view-details">View details</a>,
   },
 };
 
@@ -148,159 +104,11 @@ export const WithLinkClosable: Story = {
   },
 };
 
-export const InfoClosable: Story = {
-  render: (args) => {
-    const [visible, setVisible] = useState(true);
-    return visible ? (
-      <Alert {...args} variant="info" closable onClose={() => setVisible(false)}>
-        This is a closable info alert.
-      </Alert>
-    ) : (
-      <div className="text-gray-500 text-sm">
-        Alert dismissed!{" "}
-        <button
-          type="button"
-          onClick={() => setVisible(true)}
-          className="cursor-pointer text-info-content underline"
-        >
-          Show again
-        </button>
-      </div>
-    );
-  },
-};
-
-export const SuccessClosable: Story = {
-  render: (args) => {
-    const [visible, setVisible] = useState(true);
-    return visible ? (
-      <Alert {...args} variant="success" closable onClose={() => setVisible(false)}>
-        This is a closable success alert.
-      </Alert>
-    ) : (
-      <div className="text-gray-500 text-sm">
-        Alert dismissed!{" "}
-        <button
-          type="button"
-          onClick={() => setVisible(true)}
-          className="cursor-pointer text-success-content underline"
-        >
-          Show again
-        </button>
-      </div>
-    );
-  },
-};
-
-export const WarningClosable: Story = {
-  render: (args) => {
-    const [visible, setVisible] = useState(true);
-    return visible ? (
-      <Alert {...args} variant="warning" closable onClose={() => setVisible(false)}>
-        This is a closable warning alert.
-      </Alert>
-    ) : (
-      <div className="text-gray-500 text-sm">
-        Alert dismissed!{" "}
-        <button
-          type="button"
-          onClick={() => setVisible(true)}
-          className="cursor-pointer text-warning-content underline"
-        >
-          Show again
-        </button>
-      </div>
-    );
-  },
-};
-
-export const ErrorClosable: Story = {
-  render: (args) => {
-    const [visible, setVisible] = useState(true);
-    return visible ? (
-      <Alert {...args} variant="error" closable onClose={() => setVisible(false)}>
-        This is a closable error alert.
-      </Alert>
-    ) : (
-      <div className="text-gray-500 text-sm">
-        Alert dismissed!{" "}
-        <button
-          type="button"
-          onClick={() => setVisible(true)}
-          className="cursor-pointer text-error-content underline"
-        >
-          Show again
-        </button>
-      </div>
-    );
-  },
-};
-
 export const WithoutIcon: Story = {
   args: {
     variant: "info",
     icon: null,
     children: "This is an alert without an icon.",
-  },
-};
-
-export const WithTitle: Story = {
-  args: {
-    variant: "info",
-    title: "Alert title",
-    children: "This is the body text for info in-app alert, longer text for the reference",
-  },
-};
-
-export const SuccessWithTitle: Story = {
-  args: {
-    variant: "success",
-    title: "Success!",
-    children: "Your changes have been saved successfully.",
-  },
-};
-
-export const WarningWithTitle: Story = {
-  args: {
-    variant: "warning",
-    title: "Warning",
-    children: "Please review your information before proceeding.",
-  },
-};
-
-export const ErrorWithTitle: Story = {
-  args: {
-    variant: "error",
-    title: "Error",
-    children: "An error occurred while processing your request.",
-  },
-};
-
-export const WithTitleClosable: Story = {
-  render: (args) => {
-    const [visible, setVisible] = useState(true);
-    return visible ? (
-      <Alert
-        {...args}
-        variant="warning"
-        title="Important Update"
-        closable
-        onClose={() => setVisible(false)}
-      >
-        Your subscription will expire in 3 days. Please renew to continue enjoying our services.
-      </Alert>
-    ) : (
-      <div className="text-gray-500 text-sm">
-        Alert dismissed!{" "}
-        <button
-          type="button"
-          onClick={() => setVisible(true)}
-          className="cursor-pointer text-warning-content underline"
-        >
-          Show again
-        </button>
-      </div>
-    );
   },
 };
 
@@ -336,16 +144,8 @@ export const LongContent: Story = {
   },
 };
 
-export const WithCustomContent: Story = {
-  args: {
-    variant: "warning",
-    title: "Important Update",
-    children:
-      "Your subscription will expire in 3 days. Please renew to continue enjoying our services.",
-  },
-};
-
 export const InteractiveDismissible: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   render: (args) => {
     const [visible, setVisible] = useState(true);
 
@@ -373,6 +173,7 @@ export const InteractiveDismissible: Story = {
 };
 
 export const MultipleDismissible: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => {
     const [alerts, setAlerts] = useState({
       info: true,

@@ -25,59 +25,25 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** Every variant, plus all three animation modes. */
+export const AllVariants: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <Skeleton variant="text" width={200} />
+      <Skeleton variant="circular" width={40} height={40} />
+      <Skeleton variant="rectangular" width={240} height={120} />
+      <Skeleton variant="rounded" width={240} height={120} />
+      <Skeleton variant="rectangular" width={240} height={120} animation="wave" />
+      <Skeleton variant="rectangular" width={240} height={120} animation={false} />
+    </div>
+  ),
+};
+
 export const Default: Story = {
   args: {
     width: 200,
     height: 20,
-  },
-};
-
-export const Text: Story = {
-  args: {
-    variant: "text",
-    width: 200,
-  },
-};
-
-export const Circular: Story = {
-  args: {
-    variant: "circular",
-    width: 40,
-    height: 40,
-  },
-};
-
-export const Rectangular: Story = {
-  args: {
-    variant: "rectangular",
-    width: 240,
-    height: 120,
-  },
-};
-
-export const Rounded: Story = {
-  args: {
-    variant: "rounded",
-    width: 240,
-    height: 120,
-  },
-};
-
-export const WaveAnimation: Story = {
-  args: {
-    variant: "rectangular",
-    width: 240,
-    height: 120,
-    animation: "wave",
-  },
-};
-
-export const NoAnimation: Story = {
-  args: {
-    variant: "rectangular",
-    width: 240,
-    height: 120,
-    animation: false,
   },
 };
 

@@ -227,6 +227,7 @@ export const WithoutOverlay: Story = {
 };
 
 export const Controlled: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   play: openDrawer,
   render: (args) => {
     const [open, setOpen] = useState(false);

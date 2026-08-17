@@ -71,6 +71,7 @@ export const CustomLabel: Story = {
 };
 
 export const Interactive: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   args: {
     totalPages: 3,
     currentPage: 1,

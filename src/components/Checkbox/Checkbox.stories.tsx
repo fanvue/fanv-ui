@@ -44,6 +44,7 @@ export const UncontrolledExample: Story = {
     label: "I agree (uncontrolled)",
   },
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       description: {
         story:
@@ -56,6 +57,7 @@ export const UncontrolledExample: Story = {
 export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       description: {
         story: "`checked` and `onCheckedChange` driven by React state.",
@@ -68,73 +70,10 @@ export const ControlledExample: Story = {
   },
 };
 
-export const Checked: Story = {
-  args: {
-    checked: true,
-  },
-};
-
-export const Indeterminate: Story = {
-  args: {
-    checked: "indeterminate",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-  },
-};
-
-export const DisabledChecked: Story = {
-  args: {
-    disabled: true,
-    checked: true,
-  },
-};
-
-export const WithLabel: Story = {
-  args: {
-    label: "Accept terms and conditions",
-  },
-};
-
-export const WithLabelAndHelperText: Story = {
-  args: {
-    label: "Checkbox",
-    helperText: "Helper",
-  },
-};
-
 export const WithLabelAndLongHelperText: Story = {
   args: {
     label: "Subscribe to newsletter",
     helperText: "Get weekly updates about new features and releases",
-  },
-};
-
-export const Compact16: Story = {
-  name: "Compact (16px)",
-  args: {
-    size: "16",
-    label: "Compact checkbox",
-    helperText: "16px box, used in dense surfaces like data tables",
-  },
-};
-
-export const SmallSize: Story = {
-  args: {
-    size: "small",
-    label: "Small text size",
-    helperText: "Label and helper use smaller text",
-  },
-};
-
-export const DefaultSize: Story = {
-  args: {
-    size: "default",
-    label: "Default text size",
-    helperText: "Label and helper use default text size",
   },
 };
 
@@ -149,13 +88,22 @@ export const LongLabel: Story = {
   },
 };
 
-export const MultipleCheckboxes: Story = {
+export const AllStates: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
-      <Checkbox label="Option 1" />
-      <Checkbox label="Option 2" checked />
-      <Checkbox label="Option 3" checked="indeterminate" />
-      <Checkbox label="Option 4 (Disabled)" disabled />
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
+        <Checkbox label="Unchecked" />
+        <Checkbox label="Checked" checked />
+        <Checkbox label="Indeterminate" checked="indeterminate" />
+        <Checkbox label="Disabled" disabled />
+        <Checkbox label="Disabled + checked" disabled checked />
+        <Checkbox label="With helper text" helperText="Helper" />
+      </div>
+      <div className="flex flex-col gap-4">
+        <Checkbox size="16" label="Compact (16px)" helperText="Dense surfaces like data tables" />
+        <Checkbox size="small" label="Small text size" helperText="Smaller label and helper" />
+        <Checkbox size="default" label="Default text size" helperText="Default label and helper" />
+      </div>
     </div>
   ),
   parameters: {

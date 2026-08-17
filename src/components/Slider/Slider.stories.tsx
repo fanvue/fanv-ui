@@ -40,32 +40,40 @@ const meta: Meta<typeof Slider> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** Every label arrangement, plus the disabled and range forms. */
+export const AllVariants: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex w-[360px] flex-col gap-8">
+      <Slider
+        defaultValue={[40]}
+        label="Label top"
+        labelPosition="top"
+        minLabel="0"
+        maxLabel="100"
+      />
+      <Slider
+        defaultValue={[40]}
+        label="Label left"
+        labelPosition="left"
+        minLabel="0"
+        maxLabel="100"
+      />
+      <Slider defaultValue={[60]} label="Label left, no min/max" labelPosition="left" />
+      <Slider defaultValue={[30]} minLabel="Low" maxLabel="High" />
+      <Slider defaultValue={[50]} />
+      <Slider defaultValue={[20, 80]} label="Range" minLabel="$0" maxLabel="$1000" />
+      <Slider defaultValue={[50]} label="Disabled" minLabel="Min" maxLabel="Max" disabled />
+    </div>
+  ),
+};
+
 export const Default: Story = {
   args: {
     defaultValue: [50],
     label: "Label",
     minLabel: "Min Value",
     maxLabel: "Max Value",
-  },
-};
-
-export const LabelTop: Story = {
-  args: {
-    defaultValue: [40],
-    label: "Volume",
-    labelPosition: "top",
-    minLabel: "0",
-    maxLabel: "100",
-  },
-};
-
-export const LabelLeft: Story = {
-  args: {
-    defaultValue: [40],
-    label: "Volume",
-    labelPosition: "left",
-    minLabel: "0",
-    maxLabel: "100",
   },
 };
 
@@ -91,39 +99,6 @@ export const WithFormattedTooltip: Story = {
   },
 };
 
-export const Range: Story = {
-  args: {
-    defaultValue: [20, 80],
-    label: "Price Range",
-    minLabel: "$0",
-    maxLabel: "$1000",
-  },
-};
-
-export const NoLabels: Story = {
-  args: {
-    defaultValue: [50],
-  },
-};
-
-export const MinMaxLabelsOnly: Story = {
-  args: {
-    defaultValue: [30],
-    minLabel: "Low",
-    maxLabel: "High",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    defaultValue: [50],
-    label: "Disabled Slider",
-    minLabel: "Min",
-    maxLabel: "Max",
-    disabled: true,
-  },
-};
-
 export const CustomStep: Story = {
   args: {
     defaultValue: [50],
@@ -140,6 +115,7 @@ export const CustomStep: Story = {
 export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       description: {
         story: "`value` and `onValueChange` driven by React state.",
@@ -163,13 +139,5 @@ export const ControlledExample: Story = {
         </p>
       </div>
     );
-  },
-};
-
-export const LabelLeftNoMinMax: Story = {
-  args: {
-    defaultValue: [60],
-    label: "Speed",
-    labelPosition: "left",
   },
 };

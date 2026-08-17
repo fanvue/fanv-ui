@@ -117,22 +117,6 @@ export const WithSeparator: Story = {
   ),
 };
 
-export const WithDisabledItems: Story = {
-  play: openMenu,
-  render: () => (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button>Open Menu</Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem>Enabled</DropdownMenuItem>
-        <DropdownMenuItem disabled>Disabled</DropdownMenuItem>
-        <DropdownMenuItem>Also enabled</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  ),
-};
-
 export const AsChildLink: Story = {
   play: openMenu,
   render: () => (
@@ -146,28 +130,6 @@ export const AsChildLink: Story = {
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <a href="#profile">Profile</a>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  ),
-};
-
-export const Size32: Story = {
-  play: openMenu,
-  render: () => (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button size="32">Open Menu</Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem size="32" leadingIcon={<EditIcon />}>
-          Edit
-        </DropdownMenuItem>
-        <DropdownMenuItem size="32" leadingIcon={<StarIcon />}>
-          Favourite
-        </DropdownMenuItem>
-        <DropdownMenuItem size="32" selected>
-          Selected
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

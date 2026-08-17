@@ -27,8 +27,18 @@ type Story = StoryObj<typeof meta>;
 const GROSS = 12_804_673;
 const NET = 10_243_738;
 
+/**
+ * `durationMs: 0` skips the tween, so this is the one story here that lands on a
+ * deterministic frame and is worth snapshotting. The animated stories below settle
+ * on whatever frame the capture happens to catch, so their snapshots are disabled.
+ */
 export const Default: Story = {
-  args: { value: 1234, variant: "count" },
+  args: { value: 1234, variant: "count", durationMs: 0 },
+};
+
+/** The `roll` variant at rest, for the digit-column layout and separators. */
+export const RollAtRest: Story = {
+  args: { value: GROSS, variant: "roll", durationMs: 0, format: formatPrice },
 };
 
 /**
@@ -37,6 +47,7 @@ export const Default: Story = {
  * digit count changes, while `count` interpolates the value itself.
  */
 export const Comparison: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => {
     const [value, setValue] = React.useState(GROSS);
 
@@ -77,6 +88,7 @@ export const Comparison: Story = {
  * snapping. Toggle repeatedly to see the separators shift.
  */
 export const DigitCountChange: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => {
     const [value, setValue] = React.useState(999_99);
 

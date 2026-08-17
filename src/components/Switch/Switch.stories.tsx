@@ -36,68 +36,8 @@ export const Default: Story = {
   },
 };
 
-export const Checked: Story = {
-  args: {
-    checked: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const Unchecked: Story = {
-  args: {
-    checked: false,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const SmallSize: Story = {
-  args: {
-    size: "small",
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const SmallChecked: Story = {
-  args: {
-    size: "small",
-    checked: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const DisabledChecked: Story = {
-  args: {
-    disabled: true,
-    checked: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const SmallDisabled: Story = {
-  args: {
-    size: "small",
-    disabled: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
-export const SmallDisabledChecked: Story = {
-  args: {
-    size: "small",
-    disabled: true,
-    checked: true,
-    "aria-label": "Toggle feature",
-  },
-};
-
 export const ControlledExample: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   name: "Controlled",
   render: function ControlledRender() {
     const [checked, setChecked] = useState(false);
@@ -111,6 +51,7 @@ export const ControlledExample: Story = {
 };
 
 export const UncontrolledExample: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   name: "Uncontrolled",
   render: () => (
     <div className="flex flex-col gap-4">

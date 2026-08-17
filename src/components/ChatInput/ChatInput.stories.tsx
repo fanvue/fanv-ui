@@ -264,6 +264,7 @@ export const WithMultipleRows: Story = {
 };
 
 export const Controlled: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => {
     const [value, setValue] = useState("");
     const [messages, setMessages] = useState<{ id: string; text: string }[]>([]);

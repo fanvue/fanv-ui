@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { Chip } from "../Chip/Chip";
 import { ErrorCircleIcon } from "../Icons/ErrorCircleIcon";
-import { EyeIcon } from "../Icons/EyeIcon";
 import { HomeIcon } from "../Icons/HomeIcon";
 import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
 import { TextField } from "./TextField";
@@ -80,64 +79,6 @@ export const WithoutLabel: Story = {
   },
 };
 
-export const Size48: Story = {
-  args: {
-    size: "48",
-    label: "Size 48",
-    placeholder: "Placeholder Text",
-  },
-};
-
-export const Size40: Story = {
-  args: {
-    size: "40",
-    label: "Size 40",
-    placeholder: "Placeholder Text",
-  },
-};
-
-export const Size32: Story = {
-  args: {
-    size: "32",
-    label: "Size 32",
-    placeholder: "Placeholder Text",
-  },
-};
-
-export const WithHelperText: Story = {
-  args: {
-    label: "Email",
-    placeholder: "you@example.com",
-    helperText: "We'll never share your email",
-  },
-};
-
-export const WithLeftIcon: Story = {
-  args: {
-    label: "Search",
-    placeholder: "Search...",
-    leftIcon: <HomeIcon />,
-  },
-};
-
-export const WithRightIcon: Story = {
-  args: {
-    label: "Password",
-    type: "password",
-    placeholder: "Enter password",
-    rightIcon: <EyeIcon />,
-  },
-};
-
-export const WithBothIcons: Story = {
-  args: {
-    label: "Search",
-    placeholder: "Search...",
-    leftIcon: <HomeIcon />,
-    rightIcon: <InfoCircleIcon />,
-  },
-};
-
 export const SideLabelPrefix: Story = {
   name: "Side Label (prefix)",
   args: {
@@ -153,17 +94,6 @@ export const SideLabelSuffix: Story = {
     label: "Amount",
     rightLabel: "USD",
     placeholder: "0.00",
-  },
-};
-
-export const SideLabelBoth: Story = {
-  name: "Side Label (prefix + suffix)",
-  args: {
-    label: "Rate",
-    leftLabel: "$",
-    rightLabel: "/ month",
-    placeholder: "0.00",
-    defaultValue: "9.99",
   },
 };
 
@@ -186,15 +116,6 @@ export const SideLabelSizes: Story = {
       <TextField size="32" label="Size 32" leftLabel="$" rightLabel="USD" placeholder="0.00" />
     </div>
   ),
-};
-
-export const WithButton: Story = {
-  name: "With button",
-  args: {
-    label: "Promo code",
-    placeholder: "Enter code",
-    action: <Chip size="32">Apply</Chip>,
-  },
 };
 
 export const WithButtonSizes: Story = {
@@ -223,25 +144,6 @@ export const WithButtonSizes: Story = {
   ),
 };
 
-export const Validated: Story = {
-  args: {
-    label: "Email",
-    placeholder: "you@example.com",
-    validated: true,
-    defaultValue: "user@example.com",
-  },
-};
-
-export const ErrorState: Story = {
-  args: {
-    label: "Email",
-    placeholder: "you@example.com",
-    error: true,
-    errorMessage: "Please enter a valid email address",
-    defaultValue: "invalid-email",
-  },
-};
-
 export const ErrorWithoutMessage: Story = {
   args: {
     label: "Username",
@@ -264,23 +166,6 @@ export const ErrorWithIcons: Story = {
   },
 };
 
-export const Disabled: Story = {
-  args: {
-    label: "Label",
-    placeholder: "Disabled input",
-    disabled: true,
-  },
-};
-
-export const DisabledWithValue: Story = {
-  args: {
-    label: "Label",
-    placeholder: "Disabled input",
-    disabled: true,
-    defaultValue: "Disabled value",
-  },
-};
-
 export const FullWidth: Story = {
   decorators: [
     (Story) => (
@@ -299,6 +184,7 @@ export const FullWidth: Story = {
 export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       description: {
         story:

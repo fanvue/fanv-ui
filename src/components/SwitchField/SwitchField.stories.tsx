@@ -41,40 +41,6 @@ export const Default: Story = {
   },
 };
 
-export const OrientationRight: Story = {
-  args: {
-    label: "Toggle",
-    helperText: "Helper",
-    orientation: "right",
-  },
-};
-
-export const OrientationLeft: Story = {
-  args: {
-    label: "Toggle",
-    helperText: "Helper",
-    orientation: "left",
-  },
-};
-
-export const SmallRight: Story = {
-  args: {
-    label: "Toggle",
-    helperText: "Helper",
-    size: "small",
-    orientation: "right",
-  },
-};
-
-export const SmallLeft: Story = {
-  args: {
-    label: "Toggle",
-    helperText: "Helper",
-    size: "small",
-    orientation: "left",
-  },
-};
-
 export const WithInfo: Story = {
   args: {
     label: "Toggle",
@@ -107,6 +73,7 @@ export const DisabledChecked: Story = {
 };
 
 export const ControlledExample: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   name: "Controlled",
   render: function ControlledRender() {
     const [checked, setChecked] = useState(false);
@@ -122,6 +89,7 @@ export const ControlledExample: Story = {
 };
 
 export const UncontrolledExample: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   name: "Uncontrolled",
   render: () => (
     <div className="flex flex-col gap-4">

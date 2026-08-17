@@ -35,172 +35,66 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const FullColour: Story = {
-  args: {
-    variant: "full",
-    color: "fullColour",
-  },
+const VARIANTS = ["full", "icon", "wordmark", "portrait"] as const;
+
+/**
+ * Both versions across every variant and colour. `whiteAlways` sits on an inverted
+ * surface so it stays visible — it renders white regardless of the active theme.
+ */
+export const AllVariants: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-col gap-10">
+      {(["default", "agencies"] as const).map((version) => (
+        <div key={version} className="flex flex-col gap-4">
+          <h3 className="typography-body-small-14px-semibold text-content-primary capitalize">
+            {version}
+          </h3>
+          <div className="grid grid-cols-[auto_repeat(4,minmax(0,1fr))] items-center gap-x-8 gap-y-6">
+            <span />
+            {VARIANTS.map((variant) => (
+              <span
+                key={variant}
+                className="typography-description-12px-semibold text-content-tertiary"
+              >
+                {variant}
+              </span>
+            ))}
+            {(["fullColour", "decolour", "blackAlways"] as const).map((color) => (
+              <Row key={color} color={color} version={version} />
+            ))}
+          </div>
+          <div className="grid grid-cols-[auto_repeat(4,minmax(0,1fr))] items-center gap-x-8 rounded-xs bg-surface-primary-inverted p-4">
+            <Row color="whiteAlways" version={version} inverted />
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
 };
 
-export const FullDecolour: Story = {
-  args: {
-    variant: "full",
-    color: "decolour",
-  },
-};
-
-export const FullWhiteAlways: Story = {
-  args: {
-    variant: "full",
-    color: "whiteAlways",
-  },
-  parameters: {
-    backgrounds: { default: "dark" },
-  },
-};
-
-export const FullBlackAlways: Story = {
-  args: {
-    variant: "full",
-    color: "blackAlways",
-  },
-};
-
-export const IconFullColour: Story = {
-  args: {
-    variant: "icon",
-    color: "fullColour",
-  },
-};
-
-export const IconDecolour: Story = {
-  args: {
-    variant: "icon",
-    color: "decolour",
-  },
-};
-
-export const IconWhiteAlways: Story = {
-  args: {
-    variant: "icon",
-    color: "whiteAlways",
-  },
-  parameters: {
-    backgrounds: { default: "dark" },
-  },
-};
-
-export const IconBlackAlways: Story = {
-  args: {
-    variant: "icon",
-    color: "blackAlways",
-  },
-};
-
-export const WordmarkFullColour: Story = {
-  args: {
-    variant: "wordmark",
-    color: "fullColour",
-  },
-};
-
-export const WordmarkDecolour: Story = {
-  args: {
-    variant: "wordmark",
-    color: "decolour",
-  },
-};
-
-export const WordmarkWhiteAlways: Story = {
-  args: {
-    variant: "wordmark",
-    color: "whiteAlways",
-  },
-  parameters: {
-    backgrounds: { default: "dark" },
-  },
-};
-
-export const WordmarkBlackAlways: Story = {
-  args: {
-    variant: "wordmark",
-    color: "blackAlways",
-  },
-};
-
-export const PortraitFullColour: Story = {
-  args: {
-    variant: "portrait",
-    color: "fullColour",
-  },
-};
-
-export const PortraitDecolour: Story = {
-  args: {
-    variant: "portrait",
-    color: "decolour",
-  },
-};
-
-export const PortraitWhiteAlways: Story = {
-  args: {
-    variant: "portrait",
-    color: "whiteAlways",
-  },
-  parameters: {
-    backgrounds: { default: "dark" },
-  },
-};
-
-export const PortraitBlackAlways: Story = {
-  args: {
-    variant: "portrait",
-    color: "blackAlways",
-  },
-};
-
-export const Agencies: Story = {
-  args: {
-    variant: "full",
-    version: "agencies",
-    color: "fullColour",
-  },
-};
-
-export const AgenciesIcon: Story = {
-  args: {
-    variant: "icon",
-    version: "agencies",
-    color: "fullColour",
-  },
-};
-
-export const AgenciesDecolour: Story = {
-  args: {
-    variant: "full",
-    version: "agencies",
-    color: "decolour",
-  },
-};
-
-export const AgenciesWhiteAlways: Story = {
-  args: {
-    variant: "full",
-    version: "agencies",
-    color: "whiteAlways",
-  },
-  parameters: {
-    backgrounds: { default: "dark" },
-  },
-};
-
-export const AgenciesBlackAlways: Story = {
-  args: {
-    variant: "full",
-    version: "agencies",
-    color: "blackAlways",
-  },
-};
+const Row = ({
+  color,
+  version,
+  inverted = false,
+}: {
+  color: "fullColour" | "decolour" | "whiteAlways" | "blackAlways";
+  version: "default" | "agencies";
+  inverted?: boolean;
+}) => (
+  <>
+    <span
+      className={`typography-description-12px-semibold ${
+        inverted ? "text-content-primary-inverted" : "text-content-tertiary"
+      }`}
+    >
+      {color}
+    </span>
+    {VARIANTS.map((variant) => (
+      <Logo key={variant} variant={variant} color={color} version={version} size="40" />
+    ))}
+  </>
+);
 
 export const Sizes: Story = {
   render: () => (

@@ -215,6 +215,7 @@ function InteractiveDemo() {
 export const Interactive: Story = {
   render: () => <InteractiveDemo />,
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       source: {
         code: `function InteractiveDemo() {
@@ -290,6 +291,7 @@ function InteractiveProgressDemo() {
 export const InteractiveProgress: Story = {
   render: () => <InteractiveProgressDemo />,
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       source: {
         code: `function InteractiveProgressDemo() {
@@ -365,6 +367,7 @@ function InteractiveTextDemo() {
 export const InteractiveText: Story = {
   render: () => <InteractiveTextDemo />,
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       source: {
         code: `function InteractiveTextDemo() {

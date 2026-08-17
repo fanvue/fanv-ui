@@ -32,53 +32,22 @@ const meta: Meta<typeof Toast> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Info: Story = {
-  args: {
-    variant: "info",
-    title: "Info",
-    description: "This is an informational message",
-    open: true,
-  },
-};
-
-export const Warning: Story = {
-  args: {
-    variant: "warning",
-    title: "Warning",
-    description: "This is a warning message",
-    open: true,
-  },
-};
-
-export const Success: Story = {
-  args: {
-    variant: "success",
-    title: "Success",
-    description: "This is a success message",
-    open: true,
-  },
-};
-
-// biome-ignore lint/suspicious/noShadowRestrictedNames: Story name must match Figma variant
-export const Error: Story = {
-  args: {
-    variant: "error",
-    title: "Error",
-    description: "This is an error message",
-    open: true,
-  },
-};
-
-export const MessageToast: Story = {
-  args: {
-    variant: "messageToast",
-    title: "Title",
-    description: "Placeholder text for info toast notifications",
-    avatarSrc: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop",
-    avatarAlt: "User avatar",
-    avatarFallback: "16",
-    open: true,
-  },
+/** Every variant. Rendered in one viewport so they stack as they would in the app. */
+export const AllVariants: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-col gap-3">
+      {(["info", "warning", "success", "error", "messageToast"] as const).map((variant) => (
+        <Toast
+          key={variant}
+          open
+          variant={variant}
+          title={variant}
+          description={`This is a ${variant} message`}
+        />
+      ))}
+    </div>
+  ),
 };
 
 export const WithoutDescription: Story = {

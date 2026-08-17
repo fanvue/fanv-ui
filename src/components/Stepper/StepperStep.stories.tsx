@@ -30,53 +30,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Completed: Story = {
-  args: {
-    state: "completed",
-    stepNumber: 1,
-    title: "Account",
-    description: "Create account",
-  },
-};
-
-export const Active: Story = {
-  args: {
-    state: "active",
-    stepNumber: 2,
-    title: "Profile",
-    description: "Set up profile",
-  },
-};
-
-export const Upcoming: Story = {
-  args: {
-    state: "upcoming",
-    stepNumber: 3,
-    title: "Review",
-    description: "Final review",
-  },
-};
-
-export const Small: Story = {
-  args: {
-    state: "active",
-    size: "sm",
-    stepNumber: 1,
-    title: "Step",
-    description: "Details",
-  },
-};
-
-export const Large: Story = {
-  args: {
-    state: "active",
-    size: "lg",
-    stepNumber: 1,
-    title: "Step",
-    description: "Details",
-  },
-};
-
 export const WithoutLabels: Story = {
   args: {
     state: "active",

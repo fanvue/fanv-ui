@@ -52,51 +52,8 @@ export const Default: Story = {
   ),
 };
 
-export const Multiple: Story = {
-  name: "Multiple Mode",
-  render: () => (
-    <Accordion type="multiple" className="max-w-md">
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Section 1</AccordionTrigger>
-        <AccordionContent>
-          Multiple items can be open at the same time. Try clicking multiple headers.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger>Section 2</AccordionTrigger>
-        <AccordionContent>
-          This section is independent from the others. Opening it won't close Section 1.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Section 3</AccordionTrigger>
-        <AccordionContent>All three sections can be expanded simultaneously.</AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  ),
-};
-
-export const WithDisabledItems: Story = {
-  name: "With Disabled Items",
-  render: () => (
-    <Accordion type="single" collapsible className="max-w-md">
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Enabled item</AccordionTrigger>
-        <AccordionContent>This item can be toggled normally.</AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2" disabled>
-        <AccordionTrigger>Disabled item</AccordionTrigger>
-        <AccordionContent>You should not be able to see this.</AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Another enabled item</AccordionTrigger>
-        <AccordionContent>This item can also be toggled normally.</AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  ),
-};
-
 export const Controlled: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   name: "Controlled Mode",
   render: () => {
     const [value, setValue] = useState("item-1");
@@ -122,87 +79,6 @@ export const Controlled: Story = {
       </div>
     );
   },
-};
-
-export const DefaultExpanded: Story = {
-  name: "Default Expanded",
-  render: () => (
-    <Accordion type="single" collapsible defaultValue="item-2" className="max-w-md">
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Section 1</AccordionTrigger>
-        <AccordionContent>Content for section 1.</AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger>Section 2 (default open)</AccordionTrigger>
-        <AccordionContent>This section is expanded by default via defaultValue.</AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Section 3</AccordionTrigger>
-        <AccordionContent>Content for section 3.</AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  ),
-};
-
-export const WithDescription: Story = {
-  name: "Header with Description",
-  render: () => (
-    <Accordion type="single" collapsible defaultValue="item-1" className="max-w-md">
-      <AccordionItem value="item-1">
-        <AccordionTrigger description="A short summary of what this section covers.">
-          Billing & payments
-        </AccordionTrigger>
-        <AccordionContent>Manage your payment methods and view past invoices.</AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger description="Control who can see your profile and activity.">
-          Privacy
-        </AccordionTrigger>
-        <AccordionContent>Adjust your visibility and data-sharing preferences.</AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  ),
-};
-
-export const WithLeadingIcon: Story = {
-  name: "Header with Leading Icon",
-  render: () => (
-    <Accordion type="single" collapsible defaultValue="item-1" className="max-w-md">
-      <AccordionItem value="item-1">
-        <AccordionTrigger leadingIcon={<CrownIcon />} description="Perks for premium members.">
-          Membership benefits
-        </AccordionTrigger>
-        <AccordionContent>Exclusive content, early access, and priority support.</AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger leadingIcon={<CrownIcon />}>Rewards</AccordionTrigger>
-        <AccordionContent>Earn points every time you engage.</AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  ),
-};
-
-export const WithAvatar: Story = {
-  name: "Header with Avatar",
-  render: () => (
-    <Accordion type="single" collapsible defaultValue="item-1" className="max-w-md">
-      <AccordionItem value="item-1">
-        <AccordionTrigger
-          avatar={<Avatar size={24} src={avatarSrc} alt="Jane Doe" fallback="JD" />}
-          description="@jane_doe"
-        >
-          Jane Doe
-        </AccordionTrigger>
-        <AccordionContent>View this creator's recent posts and details.</AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger avatar={<Avatar size={24} fallback="AB" />} description="@alex_b">
-          Alex Brown
-        </AccordionTrigger>
-        <AccordionContent>View this creator's recent posts and details.</AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  ),
 };
 
 export const HeaderVariants: Story = {

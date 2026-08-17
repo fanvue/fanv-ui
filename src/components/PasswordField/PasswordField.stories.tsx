@@ -62,30 +62,6 @@ export const Default: Story = {
   },
 };
 
-export const Size48: Story = {
-  args: {
-    size: "48",
-    label: "Size 48",
-    placeholder: "Password",
-  },
-};
-
-export const Size40: Story = {
-  args: {
-    size: "40",
-    label: "Size 40",
-    placeholder: "Password",
-  },
-};
-
-export const Size32: Story = {
-  args: {
-    size: "32",
-    label: "Size 32",
-    placeholder: "Password",
-  },
-};
-
 export const WithHelperText: Story = {
   args: {
     label: "Password",
@@ -184,6 +160,7 @@ export const FullWidth: Story = {
 export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       description: {
         story:

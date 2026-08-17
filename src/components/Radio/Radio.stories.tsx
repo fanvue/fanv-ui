@@ -58,6 +58,7 @@ export const UncontrolledExample: Story = {
   name: "Uncontrolled",
   args: { value: "unused" },
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       description: {
         story:
@@ -78,6 +79,7 @@ export const ControlledExample: Story = {
   name: "Controlled",
   args: { value: "unused" },
   parameters: {
+    chromatic: { disableSnapshot: true },
     docs: {
       description: {
         story:
@@ -113,14 +115,6 @@ export const Disabled: Story = {
   },
 };
 
-export const WithHelperText: Story = {
-  args: {
-    label: "Option with helper",
-    helperText: "This is helpful descriptive text",
-    value: "helper",
-  },
-};
-
 export const Trailing: Story = {
   args: {
     layout: "trailing",
@@ -151,16 +145,6 @@ export const WithAvatar: Story = {
         story: "Enable an avatar for options that represent a person or account.",
       },
     },
-  },
-};
-
-export const TrailingWithAvatar: Story = {
-  args: {
-    layout: "trailing",
-    label: "Jane Doe",
-    helperText: "@jane_doe",
-    value: "jane",
-    avatar: <Avatar size={32} src={avatarSrc} alt="Jane Doe" fallback="JD" onlineIndicator />,
   },
 };
 

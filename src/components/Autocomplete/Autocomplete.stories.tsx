@@ -256,6 +256,7 @@ function ControlledExample() {
 }
 
 export const Controlled: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => <ControlledExample />,
 };
 

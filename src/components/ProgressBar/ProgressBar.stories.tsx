@@ -31,68 +31,28 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** Every variant at both sizes. */
+export const AllVariants: Story = {
+  args: { value: 60 },
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-col gap-6">
+      {(["default", "brand", "mono", "generic", "neutral"] as const).map((variant) => (
+        <div key={variant} className="flex flex-col gap-2">
+          <span className="typography-description-12px-semibold text-content-tertiary">
+            {variant}
+          </span>
+          <ProgressBar className="w-[300px]" value={60} variant={variant} />
+          <ProgressBar className="w-[300px]" value={60} variant={variant} size="small" />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
 export const Default: Story = {
   args: {
     value: 60,
-  },
-};
-
-export const Brand: Story = {
-  args: {
-    value: 60,
-    variant: "brand",
-  },
-};
-
-export const Mono: Story = {
-  args: {
-    value: 60,
-    variant: "mono",
-  },
-};
-
-export const BrandSmall: Story = {
-  args: {
-    value: 60,
-    size: "small",
-    variant: "brand",
-  },
-};
-
-export const MonoSmall: Story = {
-  args: {
-    value: 60,
-    size: "small",
-    variant: "mono",
-  },
-};
-
-export const Small: Story = {
-  args: {
-    value: 60,
-    size: "small",
-  },
-};
-
-export const Generic: Story = {
-  args: {
-    value: 80,
-    variant: "generic",
-  },
-};
-
-export const Neutral: Story = {
-  args: {
-    value: 70,
-    variant: "neutral",
-  },
-};
-
-export const GenericSmall: Story = {
-  args: {
-    value: 80,
-    size: "small",
-    variant: "generic",
   },
 };
 

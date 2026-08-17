@@ -39,30 +39,6 @@ export const Default: Story = {
   },
 };
 
-export const SmallSize: Story = {
-  args: {
-    size: "24",
-    options: defaultOptions,
-    "aria-label": "Toggle view",
-  },
-};
-
-export const MediumSize: Story = {
-  args: {
-    size: "32",
-    options: defaultOptions,
-    "aria-label": "Toggle view",
-  },
-};
-
-export const LargeSize: Story = {
-  args: {
-    size: "40",
-    options: defaultOptions,
-    "aria-label": "Toggle view",
-  },
-};
-
 export const SecondOptionSelected: Story = {
   args: {
     options: defaultOptions,
@@ -80,6 +56,7 @@ export const Disabled: Story = {
 };
 
 export const ControlledExample: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   name: "Controlled",
   args: {
     options: defaultOptions,
@@ -102,6 +79,7 @@ export const ControlledExample: Story = {
 };
 
 export const UncontrolledExample: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   name: "Uncontrolled",
   args: {
     options: defaultOptions,

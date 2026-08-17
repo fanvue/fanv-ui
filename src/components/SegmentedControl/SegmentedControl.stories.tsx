@@ -54,38 +54,6 @@ const threeOptions = [
   { label: "Total", value: "total" },
 ];
 
-export const Default: Story = {
-  args: {
-    options: twoOptions,
-    size: "32",
-    variant: "hug",
-    "aria-label": "Amount type",
-  },
-};
-
-export const ThreeOptions: Story = {
-  args: {
-    options: threeOptions,
-    size: "32",
-    variant: "hug",
-    "aria-label": "Amount type",
-  },
-};
-
-export const Fill: Story = {
-  args: {
-    options: twoOptions,
-    size: "32",
-    variant: "fill",
-    "aria-label": "Amount type",
-  },
-  render: (args) => (
-    <div style={{ width: 480 }}>
-      <SegmentedControl {...args} />
-    </div>
-  ),
-};
-
 export const Disabled: Story = {
   args: {
     options: twoOptions,
@@ -95,6 +63,7 @@ export const Disabled: Story = {
 };
 
 export const Controlled: Story = {
+  parameters: { chromatic: { disableSnapshot: true } },
   args: {
     options: threeOptions,
     "aria-label": "Amount type",
@@ -115,25 +84,6 @@ export const Controlled: Story = {
       </div>
     );
   },
-};
-
-export const Sizes: Story = {
-  args: {
-    options: twoOptions,
-    "aria-label": "Amount type",
-  },
-  render: () => (
-    <div className="flex flex-col items-start gap-4">
-      {(["32", "40", "48"] as const).map((size) => (
-        <div key={size} className="flex flex-col items-start gap-2">
-          <span className="typography-body-small-14px-semibold text-content-secondary">
-            {size}px
-          </span>
-          <SegmentedControl size={size} options={twoOptions} aria-label={`${size}px control`} />
-        </div>
-      ))}
-    </div>
-  ),
 };
 
 const iconOnlyOptions = [

@@ -24,6 +24,26 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** Every size and every field state in one view. */
+export const AllStates: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex w-[375px] flex-col gap-4">
+      <SearchField size="48" label="Size 48" placeholder="Search..." />
+      <SearchField size="40" label="Size 40" placeholder="Search..." />
+      <SearchField size="32" label="Size 32" placeholder="Search..." />
+      <SearchField label="With helper" placeholder="Search..." helperText="Type to search" />
+      <SearchField
+        label="Error"
+        placeholder="Search..."
+        error
+        errorMessage="Search query is too short"
+      />
+      <SearchField label="Disabled" placeholder="Search..." disabled />
+    </div>
+  ),
+};
+
 export const Default: Story = {
   args: {
     placeholder: "Search...",
@@ -34,52 +54,6 @@ export const WithLabel: Story = {
   args: {
     label: "Search",
     placeholder: "Enter search terms",
-  },
-};
-
-export const WithHelperText: Story = {
-  args: {
-    label: "Search",
-    placeholder: "Search...",
-    helperText: "Type to search for items",
-  },
-};
-
-export const WithError: Story = {
-  args: {
-    label: "Search",
-    placeholder: "Search...",
-    error: true,
-    errorMessage: "Search query is too short",
-  },
-};
-
-export const Size48: Story = {
-  args: {
-    size: "48",
-    placeholder: "Size 48",
-  },
-};
-
-export const Size40: Story = {
-  args: {
-    size: "40",
-    placeholder: "Size 40",
-  },
-};
-
-export const Size32: Story = {
-  args: {
-    size: "32",
-    placeholder: "Size 32",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    label: "Search",
-    placeholder: "Search...",
-    disabled: true,
   },
 };
 
