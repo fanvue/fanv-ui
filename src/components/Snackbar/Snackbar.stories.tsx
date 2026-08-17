@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Button } from "../Button/Button";
 import { VipBadgeIcon } from "../Icons/VipBadgeIcon";
 import { Snackbar } from "./Snackbar";
@@ -129,7 +130,7 @@ export const VipEarnWithoutIcon: Story = {
 // ─── Closable / interactive ───────────────────────────────────────
 
 export const DefaultClosable: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: (args) => {
     const [visible, setVisible] = useState(true);
     return visible ? (
@@ -158,7 +159,7 @@ export const DefaultClosable: Story = {
 };
 
 export const MultipleDismissible: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: () => {
     const [snackbars, setSnackbars] = useState({
       vipEarn: true,

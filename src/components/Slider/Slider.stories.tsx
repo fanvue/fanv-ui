@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { E2E_FIXTURE_PARAMETERS, NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Slider } from "./Slider";
 
 const meta: Meta<typeof Slider> = {
@@ -77,6 +78,38 @@ export const Default: Story = {
   },
 };
 
+/**
+ * Fixtures for `e2e/slider.spec.ts`, which asserts against `getByRole("slider")` and
+ * so cannot target a cell inside `AllVariants` (it renders eight thumbs). Their
+ * appearance is covered there, so they do not take a snapshot. Renaming or removing
+ * one of these will fail the E2E job.
+ */
+export const NoLabels: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { defaultValue: [50] },
+};
+
+export const Disabled: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: {
+    defaultValue: [50],
+    label: "Disabled Slider",
+    minLabel: "Min",
+    maxLabel: "Max",
+    disabled: true,
+  },
+};
+
+export const Range: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: {
+    defaultValue: [20, 80],
+    label: "Price Range",
+    minLabel: "$0",
+    maxLabel: "$1000",
+  },
+};
+
 export const WithTooltip: Story = {
   args: {
     defaultValue: [25],
@@ -115,7 +148,7 @@ export const CustomStep: Story = {
 export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
-    chromatic: { disableSnapshot: true },
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story: "`value` and `onValueChange` driven by React state.",

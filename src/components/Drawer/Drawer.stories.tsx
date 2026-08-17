@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { userEvent, within } from "storybook/test";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Button } from "../Button/Button";
 import { TextField } from "../TextField/TextField";
 import {
@@ -227,7 +228,7 @@ export const WithoutOverlay: Story = {
 };
 
 export const Controlled: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   play: openDrawer,
   render: (args) => {
     const [open, setOpen] = useState(false);

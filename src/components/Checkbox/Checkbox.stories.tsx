@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { E2E_FIXTURE_PARAMETERS, NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Checkbox } from "./Checkbox";
 
 const meta = {
@@ -38,13 +39,34 @@ export const Default: Story = {
   },
 };
 
+/**
+ * Fixtures for `e2e/checkbox.spec.ts`, which asserts against a single checkbox via
+ * `getByRole("checkbox")` and so cannot target a cell inside `AllStates`. Their
+ * appearance is covered there, so they do not take a snapshot. Renaming or removing
+ * one of these will fail the E2E job — the label text is asserted on too.
+ */
+export const Checked: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { checked: true },
+};
+
+export const WithLabel: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { label: "Accept terms and conditions" },
+};
+
+export const Disabled: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { disabled: true },
+};
+
 export const UncontrolledExample: Story = {
   name: "Uncontrolled",
   args: {
     label: "I agree (uncontrolled)",
   },
   parameters: {
-    chromatic: { disableSnapshot: true },
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story:
@@ -57,7 +79,7 @@ export const UncontrolledExample: Story = {
 export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
-    chromatic: { disableSnapshot: true },
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story: "`checked` and `onCheckedChange` driven by React state.",

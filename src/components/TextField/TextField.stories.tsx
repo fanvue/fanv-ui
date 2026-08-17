@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Chip } from "../Chip/Chip";
 import { ErrorCircleIcon } from "../Icons/ErrorCircleIcon";
 import { HomeIcon } from "../Icons/HomeIcon";
@@ -184,7 +185,7 @@ export const FullWidth: Story = {
 export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
-    chromatic: { disableSnapshot: true },
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story:

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { AddIcon } from "../Icons/AddIcon";
 import { AIIcon } from "../Icons/AIIcon";
 import { AlertIcon } from "../Icons/AlertIcon";
@@ -179,6 +180,17 @@ const v2Variants = [
   "black",
 ] as const;
 const v2Sizes = ["24", "32", "40", "48"] as const;
+
+/**
+ * Fixture for `e2e/iconButton.spec.ts`, which focuses a single button via
+ * `getByTestId("icon-button")` and so cannot target a cell inside `V2Matrix`. Its
+ * appearance is covered there, so it does not take a snapshot. The spec looks it up
+ * as `"Primary 40"`, so renaming it will fail the E2E job.
+ */
+export const Primary40: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
+  args: { variant: "primary", size: "40", icon: <HomeIcon />, "aria-label": "Home" },
+};
 
 export const V2Matrix: Story = {
   args: { icon: <HomeIcon />, "aria-label": "Home" },

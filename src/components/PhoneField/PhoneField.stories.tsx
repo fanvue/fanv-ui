@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { PhoneField } from "./PhoneField";
 
 const ItalyFlag = () => (
@@ -141,7 +142,7 @@ const COUNTRIES = [
 export const Controlled: Story = {
   name: "Controlled with country picker",
   parameters: {
-    chromatic: { disableSnapshot: true },
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story:

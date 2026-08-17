@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Pagination } from "./Pagination";
 
 const meta = {
@@ -112,7 +113,7 @@ export const DotsFewPages: Story = {
 };
 
 export const Interactive: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   args: {
     totalPages: 20,
     currentPage: 1,
@@ -124,7 +125,7 @@ export const Interactive: Story = {
 };
 
 export const InteractiveDots: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   args: {
     variant: "dots",
     totalPages: 10,

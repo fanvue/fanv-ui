@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Fragment, useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { CheckCircleIcon } from "../Icons/CheckCircleIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CrossIcon } from "../Icons/CrossIcon";
@@ -273,7 +274,7 @@ export const ShortLabels: Story = {
 };
 
 export const Toggle: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: () => {
     const [selected, setSelected] = useState(false);
     return (

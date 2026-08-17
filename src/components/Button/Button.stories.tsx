@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { E2E_FIXTURE_PARAMETERS } from "../../storybook";
 import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
 import { CrownIcon } from "../Icons/CrownIcon";
 import { PlusIcon } from "../Icons/PlusIcon";
@@ -48,6 +49,62 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Fixtures for `e2e/button.spec.ts`, which asserts against a single button via
+ * `getByTestId("button")` and so cannot target a cell inside `AllStylesV2`.
+ * Their appearance is already covered there, so they do not take a snapshot.
+ * Renaming or removing one of these will fail the E2E job.
+ */
+export const Primary: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { variant: "primary", size: "48", children: "Label" },
+};
+
+export const Secondary: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { variant: "secondary", size: "48", children: "Label" },
+};
+
+export const Tertiary: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { variant: "tertiary", size: "48", children: "Label" },
+};
+
+export const Brand: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { variant: "brand", size: "48", children: "Label" },
+};
+
+export const Destructive: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { variant: "destructive", size: "48", children: "Label" },
+};
+
+export const Loading: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { variant: "primary", size: "48", loading: true, children: "Label" },
+};
+
+export const Disabled: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { variant: "primary", size: "48", disabled: true, children: "Label" },
+};
+
+export const Size48: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { variant: "primary", size: "48", children: "Label" },
+};
+
+export const Size40: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { variant: "primary", size: "40", children: "Label" },
+};
+
+export const Size32: Story = {
+  parameters: E2E_FIXTURE_PARAMETERS,
+  args: { variant: "primary", size: "32", children: "Label" },
+};
 
 export const WithLeftIcon: Story = {
   args: {

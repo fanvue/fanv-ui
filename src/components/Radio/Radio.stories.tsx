@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Avatar } from "../Avatar/Avatar";
 import { RadioGroup } from "../RadioGroup/RadioGroup";
 import { Radio } from "./Radio";
@@ -58,7 +59,7 @@ export const UncontrolledExample: Story = {
   name: "Uncontrolled",
   args: { value: "unused" },
   parameters: {
-    chromatic: { disableSnapshot: true },
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story:
@@ -79,7 +80,7 @@ export const ControlledExample: Story = {
   name: "Controlled",
   args: { value: "unused" },
   parameters: {
-    chromatic: { disableSnapshot: true },
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story:

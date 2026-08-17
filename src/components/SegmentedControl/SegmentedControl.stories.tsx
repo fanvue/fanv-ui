@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { AIIcon } from "../Icons/AIIcon";
 import { GridViewIcon } from "../Icons/GridViewIcon";
 import { HomeIcon } from "../Icons/HomeIcon";
@@ -63,7 +64,7 @@ export const Disabled: Story = {
 };
 
 export const Controlled: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   args: {
     options: threeOptions,
     "aria-label": "Amount type",

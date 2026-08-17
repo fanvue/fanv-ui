@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { SwitchToggle } from "./SwitchToggle";
 
 const meta = {
@@ -56,7 +57,7 @@ export const Disabled: Story = {
 };
 
 export const ControlledExample: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   name: "Controlled",
   args: {
     options: defaultOptions,
@@ -79,7 +80,7 @@ export const ControlledExample: Story = {
 };
 
 export const UncontrolledExample: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   name: "Uncontrolled",
   args: {
     options: defaultOptions,

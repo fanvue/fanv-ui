@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { TextArea } from "./TextArea";
 
 const meta: Meta<typeof TextArea> = {
@@ -156,7 +157,7 @@ export const FullWidth: Story = {
 export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
-    chromatic: { disableSnapshot: true },
+    ...NON_VISUAL_STORY_PARAMETERS,
     docs: {
       description: {
         story:

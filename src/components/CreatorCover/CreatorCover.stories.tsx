@@ -11,12 +11,6 @@ const meta = {
       type: "figma",
       url: "https://www.figma.com/design/Iq9ctjP7rhIKI3PGSbduNL/Fanvue-Exploration?node-id=2379-75729&m=dev",
     },
-    chromatic: {
-      modes: {
-        light: { theme: "light" },
-        dark: { theme: "dark" },
-      },
-    },
   },
   tags: ["autodocs"],
 } satisfies Meta<typeof CreatorCover>;

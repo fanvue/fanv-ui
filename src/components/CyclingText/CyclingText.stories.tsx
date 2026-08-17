@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Button } from "../Button/Button";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
 import { CyclingText } from "./CyclingText";
@@ -36,7 +37,7 @@ const STAGES = [
 ];
 
 export const Default: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   args: {
     items: STAGES,
     intervalMs: 1800,
@@ -47,7 +48,7 @@ export const Default: Story = {
 };
 
 export const InsideAButton: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: (args) => (
     <Button variant="secondary">
       <SpinnerIcon className="mr-2 size-4 animate-spin" />
@@ -60,7 +61,7 @@ export const InsideAButton: Story = {
 };
 
 export const InsideAStatusRow: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: (args) => (
     <div className="inline-flex items-center gap-2 text-content-tertiary">
       <SpinnerIcon className="size-4 animate-spin" />
@@ -73,7 +74,7 @@ export const InsideAStatusRow: Story = {
 };
 
 export const SizedToCurrent: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   args: {
     items: STAGES,
     sizing: "current",
@@ -81,7 +82,7 @@ export const SizedToCurrent: Story = {
 };
 
 export const ShortItems: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   args: {
     items: ["One", "Two", "Three"],
     intervalMs: 900,
@@ -96,7 +97,7 @@ export const Paused: Story = {
 };
 
 export const FakePlaceholder: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: (args) => (
     <div className="w-80 rounded-md border border-border-default bg-background-primary px-3 py-2 text-content-tertiary">
       <CyclingText {...args} />

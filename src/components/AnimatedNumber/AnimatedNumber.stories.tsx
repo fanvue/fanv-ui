@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Button } from "../Button/Button";
 import { AnimatedNumber } from "./AnimatedNumber";
 
@@ -47,7 +48,7 @@ export const RollAtRest: Story = {
  * digit count changes, while `count` interpolates the value itself.
  */
 export const Comparison: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: () => {
     const [value, setValue] = React.useState(GROSS);
 
@@ -88,7 +89,7 @@ export const Comparison: Story = {
  * snapping. Toggle repeatedly to see the separators shift.
  */
 export const DigitCountChange: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: () => {
     const [value, setValue] = React.useState(999_99);
 

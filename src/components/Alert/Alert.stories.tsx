@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { FlameIcon } from "../Icons/FlameIcon";
 import { Alert } from "./Alert";
 
@@ -56,6 +57,34 @@ export const AllVariants: Story = {
       ))}
     </div>
   ),
+};
+
+/**
+ * Fixture for `e2e/alert.spec.ts`, which dismisses this alert and asserts on the
+ * "Alert dismissed!" fallback. The closable appearance is covered by `AllVariants`,
+ * so this does not take a snapshot. Renaming it will fail the E2E job.
+ */
+export const InfoClosable: Story = {
+  parameters: NON_VISUAL_STORY_PARAMETERS,
+  render: (args) => {
+    const [visible, setVisible] = useState(true);
+    return visible ? (
+      <Alert {...args} variant="info" closable onClose={() => setVisible(false)}>
+        This is a closable info alert.
+      </Alert>
+    ) : (
+      <div className="text-gray-500 text-sm">
+        Alert dismissed!{" "}
+        <button
+          type="button"
+          onClick={() => setVisible(true)}
+          className="cursor-pointer text-info-content underline"
+        >
+          Show again
+        </button>
+      </div>
+    );
+  },
 };
 
 export const WithLink: Story = {
@@ -145,7 +174,7 @@ export const LongContent: Story = {
 };
 
 export const InteractiveDismissible: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: (args) => {
     const [visible, setVisible] = useState(true);
 
@@ -173,7 +202,7 @@ export const InteractiveDismissible: Story = {
 };
 
 export const MultipleDismissible: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   render: () => {
     const [alerts, setAlerts] = useState({
       info: true,

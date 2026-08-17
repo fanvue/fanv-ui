@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { SwitchField } from "./SwitchField";
 
 const meta = {
@@ -73,7 +74,7 @@ export const DisabledChecked: Story = {
 };
 
 export const ControlledExample: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   name: "Controlled",
   render: function ControlledRender() {
     const [checked, setChecked] = useState(false);
@@ -89,7 +90,7 @@ export const ControlledExample: Story = {
 };
 
 export const UncontrolledExample: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   name: "Uncontrolled",
   render: () => (
     <div className="flex flex-col gap-4">

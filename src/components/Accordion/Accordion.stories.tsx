@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Avatar } from "../Avatar/Avatar";
 import { CrownIcon } from "../Icons/CrownIcon";
 import { Accordion } from "./Accordion";
@@ -53,7 +54,7 @@ export const Default: Story = {
 };
 
 export const Controlled: Story = {
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
   name: "Controlled Mode",
   render: () => {
     const [value, setValue] = useState("item-1");
