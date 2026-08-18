@@ -290,6 +290,8 @@ export type {
   IconButtonVariant,
 } from "./components/IconButton/IconButton";
 export { IconButton } from "./components/IconButton/IconButton";
+export type { AddCircleIconProps } from "./components/Icons/AddCircleIcon";
+export { AddCircleIcon } from "./components/Icons/AddCircleIcon";
 export type { AddIconProps } from "./components/Icons/AddIcon";
 export { AddIcon } from "./components/Icons/AddIcon";
 export type { AffiliatesIconProps } from "./components/Icons/AffiliatesIcon";

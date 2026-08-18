@@ -574,6 +574,87 @@ describe("SegmentedControl", () => {
       // Symmetric padding + aspect-square give a circle rather than the wider-than-tall pill.
       expect(toggle).toHaveClass("aspect-square");
       expect(toggle).toHaveClass("rounded-full");
+      // Neutral surface, not the brand pill (Color/Surface/Secondary in the rail design).
+      expect(toggle).toHaveClass("bg-surface-secondary");
+    });
+
+    it("shows the collapsedIcon in place of the selected option's icon", () => {
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl
+          appearance="brand"
+          collapsible
+          collapsedIcon={<span data-testid="toggle-glyph" />}
+          options={[
+            {
+              label: "Home",
+              value: "home",
+              icon: <ListViewIcon size={16} data-testid="home-icon" aria-hidden="true" />,
+            },
+            {
+              label: "Agent",
+              value: "agent",
+              icon: <GridViewIcon size={16} aria-hidden="true" />,
+            },
+          ]}
+          aria-label="Mode"
+        />,
+      );
+
+      const toggle = screen.getByRole("button", { name: "Home" });
+      expect(toggle).toContainElement(screen.getByTestId("toggle-glyph"));
+      // The selected option's own icon survives only in the off-screen measurement replica.
+      expect(toggle.querySelector("[data-testid='home-icon']")).toBeNull();
+    });
+
+    it("still announces the selected option as the collapsed toggle's name", () => {
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl
+          appearance="brand"
+          collapsible
+          collapsedIcon={<span data-testid="toggle-glyph" />}
+          options={brandOptions}
+          value="agent"
+          aria-label="Mode"
+        />,
+      );
+
+      expect(screen.getByRole("button", { name: "Agent" })).toBeInTheDocument();
+    });
+
+    it("collapses without per-option icons when a collapsedIcon is given", () => {
+      setWidths({ available: 100, required: 300 });
+      render(
+        <SegmentedControl
+          appearance="brand"
+          collapsible
+          collapsedIcon={<span data-testid="toggle-glyph" />}
+          options={twoOptions}
+          aria-label="Amount"
+        />,
+      );
+
+      expect(screen.queryAllByRole("radio")).toHaveLength(0);
+      expect(screen.getByTestId("toggle-glyph")).toBeInTheDocument();
+    });
+
+    it("centres the collapsed toggle and drops the container chrome", () => {
+      setWidths({ available: 100, required: 300 });
+      const { container } = render(
+        <SegmentedControl
+          appearance="brand"
+          variant="fill"
+          collapsible
+          options={brandOptions}
+          aria-label="Mode"
+        />,
+      );
+
+      const root = container.firstElementChild as HTMLElement;
+      // Otherwise the toggle sits at the start of a full-width row, off the rail's centre line.
+      expect(root).toHaveClass("justify-center");
+      expect(root).not.toHaveClass("bg-surface-tertiary");
     });
 
     it("has no accessibility violations while collapsed", async () => {
@@ -626,6 +707,20 @@ describe("SegmentedControl", () => {
           expect.stringContaining("`collapsible` requires every option to define an `icon`"),
         );
         expect(screen.getAllByRole("radio")).toHaveLength(2);
+      });
+
+      it("does not warn when options lack icons but a collapsedIcon is given", () => {
+        setWidths({ available: 100, required: 300 });
+        render(
+          <SegmentedControl
+            appearance="brand"
+            collapsible
+            collapsedIcon={<span data-testid="toggle-glyph" />}
+            options={twoOptions}
+            aria-label="Amount"
+          />,
+        );
+        expect(consoleWarnSpy).not.toHaveBeenCalled();
       });
 
       it("does not warn for a valid collapsible plain control", () => {

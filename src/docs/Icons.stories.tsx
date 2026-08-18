@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { type ComponentType, useEffect, useRef, useState } from "react";
+import { AddCircleIcon } from "../components/Icons/AddCircleIcon";
 import { AddIcon } from "../components/Icons/AddIcon";
 import { AffiliatesIcon } from "../components/Icons/AffiliatesIcon";
 import { AI2Icon } from "../components/Icons/AI2Icon";
@@ -215,6 +216,12 @@ const icons: IconEntry[] = [
     name: "AISettingsIcon",
     component: AISettingsIcon,
     tags: ["ai", "settings", "gear", "cog", "personalise", "configure"],
+    propBased: true,
+  },
+  {
+    name: "AddCircleIcon",
+    component: AddCircleIcon,
+    tags: ["add", "plus", "create", "new", "square", "compose"],
     propBased: true,
   },
   { name: "AddIcon", component: AddIcon, tags: ["add", "plus", "create", "new"], propBased: true },

@@ -19,6 +19,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
+  AddCircleIcon,
   AddIcon,
   AIIcon,
   AISettingsIcon,
@@ -1004,6 +1005,7 @@ function LogoDemo() {
 function IconsDemo() {
   const allIcons = [
     ["Add", AddIcon],
+    ["AddCircle", AddCircleIcon],
     ["AI", AIIcon],
     ["AISettings", AISettingsIcon],
     ["Alert", AlertIcon],
