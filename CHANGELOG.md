@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.27.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.26.1...ui-v3.27.0) (2026-08-18)
+
+
+### Features
+
+* **SegmentedControl:** add collapsedIcon for the collapsed toggle ([#661](https://github.com/fanvue/fanv-ui/issues/661)) ([fe09594](https://github.com/fanvue/fanv-ui/commit/fe095943914cf75a4a636ac4cdced0a9eadebae4))
+
 ## [3.26.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.26.0...ui-v3.26.1) (2026-08-17)
 
 
