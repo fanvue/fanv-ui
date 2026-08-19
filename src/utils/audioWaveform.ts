@@ -1,7 +1,24 @@
 /** Number of amplitude samples decoded/kept internally, resampled to the rendered bar count. */
 export const RAW_PEAK_COUNT = 128;
 
-/** Formats a duration in seconds as `m:ss`, or `--:--` when unknown. */
+/**
+ * Waveform amplitudes (0–1) taken from the Figma reference, so a waveform with
+ * no real peak data still renders 1:1 with the design. Used by
+ * {@link VoiceNote} and available to consumers building their own waveform out
+ * of {@link resamplePeaks} and {@link useFittedBarCount}.
+ */
+export const DEFAULT_WAVEFORM_PEAKS = [
+  0.15, 0.46, 0.85, 0.23, 1, 0.85, 0.62, 0.62, 0.62, 0.85, 0.85, 0.62, 0.62, 1, 1, 0.62, 0.62, 0.62,
+  0.23, 0.23, 0.15, 0.46, 0.85, 0.23, 1, 0.46, 0.85, 0.62, 0.23, 0.23, 0.62, 0.62, 0.85, 0.85, 0.62,
+  0.62, 0.85, 1, 0.85, 1, 0.62, 0.62, 0.62, 0.23, 0.23, 0.62, 0.23, 0.23, 0.23, 0.62, 0.85, 0.62,
+  0.85, 1, 0.85, 0.85, 1, 0.85, 0.23, 0.23, 0.23, 0.46, 0.62, 0.23, 0.23,
+];
+
+/**
+ * Formats a duration in seconds as `m:ss`, or `--:--` when unknown. Matches the
+ * timestamp {@link VoiceNote} renders, so waveforms built elsewhere read the
+ * same.
+ */
 export function formatTime(seconds: number | undefined): string {
   if (seconds === undefined || !Number.isFinite(seconds)) return "--:--";
   const totalSeconds = Math.max(0, Math.floor(seconds));

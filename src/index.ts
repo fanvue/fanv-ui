@@ -896,7 +896,14 @@ export type {
   VoiceNoteVariant,
 } from "./components/VoiceNote/VoiceNote";
 export { VoiceNote } from "./components/VoiceNote/VoiceNote";
+export {
+  DEFAULT_WAVEFORM_PEAKS,
+  formatTime,
+  resamplePeaks,
+} from "./utils/audioWaveform";
 export { cn } from "./utils/cn";
 export { getInitials } from "./utils/getInitials";
 export type { OmitDistributed } from "./utils/types";
+export type { UseFittedBarCountOptions } from "./utils/useFittedBarCount";
+export { useFittedBarCount } from "./utils/useFittedBarCount";
 export { useSuppressClickAfterDrag } from "./utils/useSuppressClickAfterDrag";

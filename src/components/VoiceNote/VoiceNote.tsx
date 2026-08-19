@@ -1,5 +1,5 @@
 import * as React from "react";
-import { formatTime, resamplePeaks } from "@/utils/audioWaveform";
+import { DEFAULT_WAVEFORM_PEAKS, formatTime, resamplePeaks } from "@/utils/audioWaveform";
 import { cn } from "@/utils/cn";
 import { useAudioPlayback } from "@/utils/useAudioPlayback";
 import { useFittedBarCount } from "@/utils/useFittedBarCount";
@@ -15,17 +15,6 @@ export type VoiceNoteVariant = "default" | "flat";
 
 /** Size preset for the voice note. */
 export type VoiceNoteSize = "default" | "small";
-
-/**
- * Default waveform amplitudes (0–1), taken from the Figma reference so the
- * resting state renders 1:1 when no `waveform` data (or `src`) is supplied.
- */
-const DEFAULT_WAVEFORM = [
-  0.15, 0.46, 0.85, 0.23, 1, 0.85, 0.62, 0.62, 0.62, 0.85, 0.85, 0.62, 0.62, 1, 1, 0.62, 0.62, 0.62,
-  0.23, 0.23, 0.15, 0.46, 0.85, 0.23, 1, 0.46, 0.85, 0.62, 0.23, 0.23, 0.62, 0.62, 0.85, 0.85, 0.62,
-  0.62, 0.85, 1, 0.85, 1, 0.62, 0.62, 0.62, 0.23, 0.23, 0.62, 0.23, 0.23, 0.23, 0.62, 0.85, 0.62,
-  0.85, 1, 0.85, 0.85, 1, 0.85, 0.23, 0.23, 0.23, 0.46, 0.62, 0.23, 0.23,
-];
 
 const MIN_BAR_HEIGHT = 4;
 const MAX_BAR_HEIGHT: Record<VoiceNoteSize, number> = {
@@ -203,7 +192,7 @@ export const VoiceNote = React.forwardRef<HTMLDivElement, VoiceNoteProps>(
       className,
       src,
       duration,
-      waveform = DEFAULT_WAVEFORM,
+      waveform = DEFAULT_WAVEFORM_PEAKS,
       variant = "default",
       size = "default",
       negative = false,
