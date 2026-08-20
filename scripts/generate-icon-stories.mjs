@@ -59,6 +59,7 @@ const entries = files
 
 const body = `import type { Meta, StoryObj } from "@storybook/react";
 import { type ComponentType, useEffect, useRef, useState } from "react";
+import type { AnimatedIconHandle } from "../components/AnimatedIcons/types";
 ${imports}
 ${animatedImports}
 
@@ -122,6 +123,11 @@ function IconCard({
   }, []);
   const showAnimated = animated && entry.animated !== null;
   const Icon = showAnimated && entry.animated ? entry.animated : entry.component;
+  // The icon itself is not focusable, so the card drives it: hover for pointer
+  // users, focus for keyboard users. This is the documented \`controlRef\` pattern.
+  const controlRef = useRef<AnimatedIconHandle>(null);
+  const play = () => controlRef.current?.startAnimation();
+  const settle = () => controlRef.current?.stopAnimation();
 
   const importText = \`import { \${entry.name} } from "\${
     showAnimated ? "@fanvue/ui/animated-icons" : "@fanvue/ui"
@@ -159,17 +165,23 @@ function IconCard({
           ? "var(--color-success-surface)"
           : "var(--color-neutral-alphas-100)",
         cursor: "pointer",
-        transition: "background-color 150ms, border-color 150ms, opacity 150ms",
+        transition: "background-color 150ms, border-color 150ms",
         width: "100%",
         position: "relative",
-        opacity: animated && entry.animated === null ? 0.4 : 1,
+        borderStyle: animated && entry.animated === null ? "dashed" : "solid",
       }}
+      aria-label={\`\${entry.name} — \${
+        entry.animated !== null ? "has an animated twin" : "static only"
+      }. Click to copy \${importText}\`}
       title={\`Click to copy: \${importText}\`}
+      onMouseEnter={play}
+      onMouseLeave={settle}
+      onFocus={play}
+      onBlur={settle}
     >
       {entry.animated !== null && (
         <span
           aria-hidden="true"
-          title="Has an animated twin"
           style={{
             position: "absolute",
             top: 4,
@@ -202,6 +214,7 @@ function IconCard({
       <Icon
         className={sizeClass}
         style={{ color: "var(--color-content-primary)" }}
+        {...(showAnimated ? { controlRef } : {})}
         {...propExtras}
       />
       <span
@@ -296,7 +309,7 @@ function IconGallery() {
         >
           @fanvue/ui/animated-icons
         </code>
-        . Turn on <b>animated</b> below to preview them (hover a card) and copy that import
+        . Turn on <b>animated</b> below to preview them (hover or focus a card) and copy that import
         instead. They render in exactly the same box as the static icon, so swapping the
         import never moves your layout. Requires the optional{" "}
         <code

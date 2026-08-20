@@ -12,9 +12,9 @@
     "once a designer signs it off, then re-run `pnpm icons:animated`."
   ],
   "icons": {
+    "AIIcon": "sparkles",
     "AddIcon": "plus",
     "AffiliatesIcon": "users",
-    "AIIcon": "sparkles",
     "ArrowDownIcon": "arrow-down",
     "ArrowLeftIcon": "arrow-left",
     "ArrowRightIcon": "arrow-right",
@@ -31,8 +31,8 @@
     "ChevronLeftIcon": "chevron-left",
     "ChevronRightIcon": "chevron-right",
     "ChevronUpIcon": "chevron-up",
-    "CloseIcon": "x",
     "ClockIcon": "clock",
+    "CloseIcon": "x",
     "CogIcon": "cog",
     "CoinIcon": "circle-dollar-sign",
     "CopyIcon": "copy",
@@ -53,7 +53,6 @@
     "LinkIcon": "link",
     "LocationIcon": "map-pin",
     "LockerIcon": "lock-keyhole",
-    "LockerOnIcon": "lock-keyhole",
     "MenuCloseIcon": "panel-left-close",
     "MenuIcon": "menu",
     "MenuOpenIcon": "panel-left-open",
@@ -68,7 +67,6 @@
     "SendIcon": "send",
     "SettingsIcon": "sliders-horizontal",
     "SoundIcon": "audio-lines",
-    "SpinnerIcon": "loader-circle",
     "SunIcon": "sun",
     "ThumbDownIcon": "downvote",
     "ThumbUpIcon": "upvote",
@@ -82,7 +80,6 @@
     "UsersIcon": "users",
     "WalletIcon": "wallet",
     "WifiIcon": "wifi",
-    "WifiOnIcon": "wifi",
     "WrenchIcon": "wrench"
   },
   "review": {
@@ -93,11 +90,14 @@
     "EyeSlashIcon": "eye-off — ours slashes a circle rather than the eye",
     "FacebookIcon": "facebook — ours is a filled roundel, animated art is an outline glyph",
     "GridViewIcon": "layout-grid — ours uses filled squares, animated art is outlined",
+    "LockerOnIcon": "lock-keyhole — our static twin is fill-only (no stroke), the animated art is stroke-only, so a swap changes optical weight",
     "LogoutIcon": "logout — arrow points the opposite way in the animated art",
     "MessageIcon": "message-circle-more — ours adds a heart badge above the bubble",
     "PhoneOffIcon": "phone-missed — same handset-with-x artwork, different semantics",
     "ReceiveMoneyIcon": "hand-coins — ours holds a dollar sign rather than coins",
+    "SpinnerIcon": "loader-circle — the only functional animation here; a hover-triggered twin freezes a loading state, and Loader/animate-spin already covers it",
     "SuccessIcon": "circle-check — ours is a solid disc with a knockout check",
-    "UserAddIcon": "user-round-plus — ours encloses the figure in a circle"
+    "UserAddIcon": "user-round-plus — ours encloses the figure in a circle",
+    "WifiOnIcon": "wifi — our static twin is fill-only (no stroke), the animated art is stroke-only, so a swap changes optical weight"
   }
 }

@@ -1,6 +1,7 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
+import type * as React from "react";
 import { createRef } from "react";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { AddIcon as StaticAddIcon } from "../Icons/AddIcon";
 import { AffiliatesIcon as StaticAffiliatesIcon } from "../Icons/AffiliatesIcon";
@@ -43,7 +44,6 @@ import { LanguageIcon as StaticLanguageIcon } from "../Icons/LanguageIcon";
 import { LinkIcon as StaticLinkIcon } from "../Icons/LinkIcon";
 import { LocationIcon as StaticLocationIcon } from "../Icons/LocationIcon";
 import { LockerIcon as StaticLockerIcon } from "../Icons/LockerIcon";
-import { LockerOnIcon as StaticLockerOnIcon } from "../Icons/LockerOnIcon";
 import { MenuCloseIcon as StaticMenuCloseIcon } from "../Icons/MenuCloseIcon";
 import { MenuIcon as StaticMenuIcon } from "../Icons/MenuIcon";
 import { MenuOpenIcon as StaticMenuOpenIcon } from "../Icons/MenuOpenIcon";
@@ -58,7 +58,6 @@ import { SearchIcon as StaticSearchIcon } from "../Icons/SearchIcon";
 import { SendIcon as StaticSendIcon } from "../Icons/SendIcon";
 import { SettingsIcon as StaticSettingsIcon } from "../Icons/SettingsIcon";
 import { SoundIcon as StaticSoundIcon } from "../Icons/SoundIcon";
-import { SpinnerIcon as StaticSpinnerIcon } from "../Icons/SpinnerIcon";
 import { SunIcon as StaticSunIcon } from "../Icons/SunIcon";
 import { ThumbDownIcon as StaticThumbDownIcon } from "../Icons/ThumbDownIcon";
 import { ThumbUpIcon as StaticThumbUpIcon } from "../Icons/ThumbUpIcon";
@@ -72,7 +71,6 @@ import { UploadToCloudIcon as StaticUploadToCloudIcon } from "../Icons/UploadToC
 import { UsersIcon as StaticUsersIcon } from "../Icons/UsersIcon";
 import { WalletIcon as StaticWalletIcon } from "../Icons/WalletIcon";
 import { WifiIcon as StaticWifiIcon } from "../Icons/WifiIcon";
-import { WifiOnIcon as StaticWifiOnIcon } from "../Icons/WifiOnIcon";
 import { WrenchIcon as StaticWrenchIcon } from "../Icons/WrenchIcon";
 import { AddIcon } from "./AddIcon";
 import { AffiliatesIcon } from "./AffiliatesIcon";
@@ -115,7 +113,6 @@ import { LanguageIcon } from "./LanguageIcon";
 import { LinkIcon } from "./LinkIcon";
 import { LocationIcon } from "./LocationIcon";
 import { LockerIcon } from "./LockerIcon";
-import { LockerOnIcon } from "./LockerOnIcon";
 import { MenuCloseIcon } from "./MenuCloseIcon";
 import { MenuIcon } from "./MenuIcon";
 import { MenuOpenIcon } from "./MenuOpenIcon";
@@ -130,7 +127,6 @@ import { SearchIcon } from "./SearchIcon";
 import { SendIcon } from "./SendIcon";
 import { SettingsIcon } from "./SettingsIcon";
 import { SoundIcon } from "./SoundIcon";
-import { SpinnerIcon } from "./SpinnerIcon";
 import { SunIcon } from "./SunIcon";
 import { ThumbDownIcon } from "./ThumbDownIcon";
 import { ThumbUpIcon } from "./ThumbUpIcon";
@@ -144,13 +140,137 @@ import { UploadToCloudIcon } from "./UploadToCloudIcon";
 import { UsersIcon } from "./UsersIcon";
 import { WalletIcon } from "./WalletIcon";
 import { WifiIcon } from "./WifiIcon";
-import { WifiOnIcon } from "./WifiOnIcon";
 import { WrenchIcon } from "./WrenchIcon";
 
 /** The `size-*` box class an icon renders with, e.g. `size-6`. */
 function boxClass(container: HTMLElement) {
   const classes = container.querySelector("svg")?.getAttribute("class") ?? "";
   return classes.split(/\s+/).find((c) => /^size-/.test(c));
+}
+
+/** Every class an icon renders with, order-independent. */
+function classList(container: HTMLElement) {
+  const classes = container.querySelector("svg")?.getAttribute("class") ?? "";
+  return classes.split(/\s+/).filter(Boolean).sort();
+}
+
+/**
+ * Stroke width relative to the coordinate space it is drawn in.
+ *
+ * The rendered weight is `strokeWidth * boxPx / viewBox`, and both icons of a pair
+ * render in the same box (asserted separately), so this ratio is what has to match.
+ * The static icons stroke their paths; the animated ones stroke the root `<svg>`.
+ */
+function strokeRatio(container: HTMLElement) {
+  const svg = container.querySelector("svg");
+  const viewBox = svg?.getAttribute("viewBox")?.trim().split(/\s+/)[3];
+  const strokeWidth =
+    svg?.getAttribute("stroke-width") ??
+    svg?.querySelector("[stroke-width]")?.getAttribute("stroke-width");
+  if (!viewBox || !strokeWidth) return null;
+  return Number((Number(strokeWidth) / Number(viewBox)).toFixed(4));
+}
+
+/** Attributes Motion animates directly rather than through inline style. */
+const ANIMATABLE_ATTRS = [
+  "d",
+  "opacity",
+  "stroke-width",
+  "stroke-dasharray",
+  "stroke-dashoffset",
+  "transform",
+  "x",
+  "y",
+  "x1",
+  "x2",
+  "y1",
+  "y2",
+  "cx",
+  "cy",
+  "r",
+  "points",
+];
+
+/**
+ * Read an animatable attribute, collapsing the representations Motion leaves
+ * behind once an element is back at rest.
+ *
+ * Motion writes its own bookkeeping when it takes an element over — a literal
+ * `undefined`, a fully-drawn `stroke-dasharray` of `1 1` with zero offset from
+ * normalised `pathLength`, an explicit `opacity: 1` — and does not clean it up.
+ * Only the *resting* values are collapsed, so a mid-animation value still reads as
+ * a change.
+ */
+function restingAttr(el: Element, name: string) {
+  const raw = el.getAttribute(name);
+  if (raw === null || raw === "undefined") return "";
+  if (name === "opacity" && Number(raw) === 1) return "";
+  if (name === "stroke-dasharray" && /^1(\.0+)?\s+1(\.0+)?$/.test(raw.trim())) return "";
+  if (name === "stroke-dashoffset" && Number(raw) === 0) return "";
+  return raw;
+}
+
+/**
+ * A comparable picture of everything an animation can move.
+ *
+ * `transform-box`/`transform-origin`, an identity `transform` and a resting
+ * `opacity: 1` are normalised away for the same reason as {@link restingAttr}.
+ */
+function frame(container: HTMLElement) {
+  return [...container.querySelectorAll("svg, svg *")]
+    .map((el) => {
+      const style = (el.getAttribute("style") ?? "")
+        .replace(/transform:\s*none;?/g, "")
+        .replace(/transform-(box|origin):[^;]*;?/g, "")
+        .replace(/opacity:\s*1(\.0+)?;?/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      const attrs = ANIMATABLE_ATTRS.map((a) => restingAttr(el, a)).join(",");
+      return `${el.tagName}|${style}|${attrs}`;
+    })
+    .join("\n");
+}
+
+/**
+ * Wait until the DOM stops moving, then return that frame.
+ *
+ * Used instead of a fixed delay because the resting state is not always the
+ * mount state: several icons declare a resting variant that sets more than
+ * `initial` does, so the DOM after settling legitimately differs from the DOM
+ * before anything was ever played. What has to hold is that rest is *stable* and
+ * *reproducible*, which is what the hover test asserts.
+ */
+async function settle(container: HTMLElement) {
+  let previous = frame(container);
+  let quiet = 0;
+  // Three consecutive identical samples, not one: several icons stagger their
+  // paths with per-element delays, so a single quiet interval can land inside a
+  // delay window and read as finished while the animation is still running.
+  for (let i = 0; i < 80; i++) {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    const next = frame(container);
+    quiet = next === previous ? quiet + 1 : 0;
+    previous = next;
+    if (quiet >= 3) return next;
+  }
+  return previous;
+}
+
+/** Report reduced motion for the duration of a test. */
+function stubReducedMotion(matches: boolean) {
+  vi.stubGlobal(
+    "matchMedia",
+    vi.fn().mockImplementation((query: string) => ({
+      matches,
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  );
 }
 
 const animatedIcons = [
@@ -235,7 +355,6 @@ const animatedIcons = [
   { name: "LinkIcon", Component: LinkIcon, Static: StaticLinkIcon, propBased: true },
   { name: "LocationIcon", Component: LocationIcon, Static: StaticLocationIcon, propBased: true },
   { name: "LockerIcon", Component: LockerIcon, Static: StaticLockerIcon, propBased: true },
-  { name: "LockerOnIcon", Component: LockerOnIcon, Static: StaticLockerOnIcon, propBased: false },
   { name: "MenuCloseIcon", Component: MenuCloseIcon, Static: StaticMenuCloseIcon, propBased: true },
   { name: "MenuIcon", Component: MenuIcon, Static: StaticMenuIcon, propBased: true },
   { name: "MenuOpenIcon", Component: MenuOpenIcon, Static: StaticMenuOpenIcon, propBased: true },
@@ -260,7 +379,6 @@ const animatedIcons = [
   { name: "SendIcon", Component: SendIcon, Static: StaticSendIcon, propBased: true },
   { name: "SettingsIcon", Component: SettingsIcon, Static: StaticSettingsIcon, propBased: true },
   { name: "SoundIcon", Component: SoundIcon, Static: StaticSoundIcon, propBased: true },
-  { name: "SpinnerIcon", Component: SpinnerIcon, Static: StaticSpinnerIcon, propBased: false },
   { name: "SunIcon", Component: SunIcon, Static: StaticSunIcon, propBased: true },
   { name: "ThumbDownIcon", Component: ThumbDownIcon, Static: StaticThumbDownIcon, propBased: true },
   { name: "ThumbUpIcon", Component: ThumbUpIcon, Static: StaticThumbUpIcon, propBased: true },
@@ -289,9 +407,12 @@ const animatedIcons = [
   { name: "UsersIcon", Component: UsersIcon, Static: StaticUsersIcon, propBased: true },
   { name: "WalletIcon", Component: WalletIcon, Static: StaticWalletIcon, propBased: true },
   { name: "WifiIcon", Component: WifiIcon, Static: StaticWifiIcon, propBased: true },
-  { name: "WifiOnIcon", Component: WifiOnIcon, Static: StaticWifiOnIcon, propBased: false },
   { name: "WrenchIcon", Component: WrenchIcon, Static: StaticWrenchIcon, propBased: false },
 ];
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe("AnimatedIcons", () => {
   for (const { name, Component } of animatedIcons) {
@@ -335,6 +456,64 @@ describe("AnimatedIcons", () => {
         expect(ref.current).toBeInstanceOf(SVGSVGElement);
       });
 
+      it("keeps a caller's style prop alongside its own", () => {
+        const { container } = render(<Component style={{ color: "rgb(1, 2, 3)" }} />);
+        expect(container.querySelector("svg")).toHaveStyle({ color: "rgb(1, 2, 3)" });
+      });
+
+      it("animates on hover and settles back on leave", async () => {
+        const { container } = render(<Component />);
+        const svg = container.querySelector("svg") as SVGSVGElement;
+        const mounted = frame(container);
+
+        // Hovering has to move something. An icon whose variant labels do not
+        // match what the hook plays renders as a static SVG and fails here.
+        fireEvent.mouseEnter(svg);
+        await waitFor(() => expect(frame(container)).not.toBe(mounted), { timeout: 3000 });
+
+        fireEvent.mouseLeave(svg);
+        const rested = await settle(container);
+
+        // ...and the resting state has to be reproducible: a second cycle lands
+        // in exactly the same place, so nothing sticks mid-animation or drifts.
+        fireEvent.mouseEnter(svg);
+        await waitFor(() => expect(frame(container)).not.toBe(rested), { timeout: 3000 });
+
+        fireEvent.mouseLeave(svg);
+        expect(await settle(container)).toBe(rested);
+      });
+
+      it("gets its hover trigger back when controlRef goes away", async () => {
+        const controlRef = createRef<{
+          startAnimation: () => void;
+          stopAnimation: () => void;
+        }>();
+        const { container, rerender } = render(<Component controlRef={controlRef} />);
+        const svg = container.querySelector("svg") as SVGSVGElement;
+        const rest = frame(container);
+
+        rerender(<Component />);
+        fireEvent.mouseEnter(svg);
+        await waitFor(() => expect(frame(container)).not.toBe(rest), { timeout: 3000 });
+      });
+
+      it("stands down its hover trigger while a controlRef drives it", async () => {
+        const controlRef = createRef<{
+          startAnimation: () => void;
+          stopAnimation: () => void;
+        }>();
+        const { container } = render(<Component controlRef={controlRef} />);
+        const svg = container.querySelector("svg") as SVGSVGElement;
+        const rest = frame(container);
+
+        fireEvent.mouseEnter(svg);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        expect(frame(container)).toBe(rest);
+
+        controlRef.current?.startAnimation();
+        await waitFor(() => expect(frame(container)).not.toBe(rest), { timeout: 3000 });
+      });
+
       it("exposes imperative animation controls via controlRef", () => {
         const controlRef = createRef<{
           startAnimation: () => void;
@@ -343,6 +522,17 @@ describe("AnimatedIcons", () => {
         render(<Component controlRef={controlRef} />);
         expect(typeof controlRef.current?.startAnimation).toBe("function");
         expect(typeof controlRef.current?.stopAnimation).toBe("function");
+      });
+
+      it("stays still when the user has asked for reduced motion", async () => {
+        stubReducedMotion(true);
+        const { container } = render(<Component />);
+        const svg = container.querySelector("svg") as SVGSVGElement;
+        const rest = frame(container);
+
+        fireEvent.mouseEnter(svg);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        expect(frame(container)).toBe(rest);
       });
 
       it("has no accessibility violations", async () => {
@@ -354,21 +544,38 @@ describe("AnimatedIcons", () => {
     });
   }
 
-  describe("stays 1:1 with the static icon of the same name", () => {
+  describe("stays a drop-in for the static icon of the same name", () => {
     for (const { name, Component, Static, propBased } of animatedIcons) {
       if (propBased) {
-        it(`${name} matches its static twin's box at every size`, () => {
+        const Sized = Component as React.ComponentType<{ size: 16 | 24 | 32 }>;
+        const StaticSized = Static as React.ComponentType<{ size: 16 | 24 | 32 }>;
+
+        it(`${name} matches its static twin's box, classes and stroke weight at every size`, () => {
           for (const size of [16, 24, 32] as const) {
-            const animated = render(<Component size={size} />);
-            const original = render(<Static size={size} />);
+            const animated = render(<Sized size={size} />);
+            const original = render(<StaticSized size={size} />);
             expect(boxClass(animated.container)).toBe(boxClass(original.container));
+            expect(classList(animated.container)).toEqual(classList(original.container));
+            const staticRatio = strokeRatio(original.container);
+            // Fill-only static artwork has no stroke to match.
+            if (staticRatio !== null) {
+              expect(strokeRatio(animated.container)).toBe(staticRatio);
+            }
           }
         });
       } else {
-        it(`${name} matches its static twin's default box`, () => {
-          const animated = render(<Component />);
-          const original = render(<Static />);
+        const Legacy = Component as React.ComponentType<Record<string, never>>;
+        const StaticLegacy = Static as React.ComponentType<Record<string, never>>;
+
+        it(`${name} matches its static twin's box, classes and stroke weight`, () => {
+          const animated = render(<Legacy />);
+          const original = render(<StaticLegacy />);
           expect(boxClass(animated.container)).toBe(boxClass(original.container));
+          expect(classList(animated.container)).toEqual(classList(original.container));
+          const staticRatio = strokeRatio(original.container);
+          if (staticRatio !== null) {
+            expect(strokeRatio(animated.container)).toBe(staticRatio);
+          }
         });
       }
     }

@@ -37,13 +37,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-Lucide itself is ISC licensed, © Lucide Contributors.
+Lucide itself is ISC licensed (© Lucide Icons and Contributors), and some of its
+icons derive from Feather (MIT, © Cole Bemis).
+
+All three licence texts are reproduced in full in `THIRD-PARTY-NOTICES.md` at the
+repo root, which is listed in `package.json` `files` so it ships to consumers —
+this file does not.
 
 ## Adding an icon
 
 1. Find the registry slug at <https://lucide-animated.com> — the animated artwork
-   must be the **same glyph** as our static icon, since the animated icon is
-   published under our name and is meant to be a drop-in swap.
+   must be the **same glyph** as our static icon, at the same fill/stroke
+   treatment, since the animated icon is published under our name and is meant to
+   be a drop-in swap. A fill-only static twin against stroke-only animated art
+   changes the optical weight; those pairs belong in `review`.
 2. Add `"OurIconName": "registry-slug"` to `scripts/animated-icons.map.json`.
    Names with a static twin only: the generator refuses names it cannot mirror.
 3. Run `pnpm icons:animated`. That regenerates the components, the barrel
@@ -51,10 +58,13 @@ Lucide itself is ISC licensed, © Lucide Contributors.
 4. Check the Foundations/Icons story with **animated** switched on: the animated
    icon must sit in exactly the same box as the static one at 16/24/32 px.
 
-`node scripts/import-animated-icons.mjs --refresh` re-downloads the registry files cached under
-`.icon-migration/animated-registry/` (do that to pick up upstream animation
-changes).
+The registry responses are committed under `scripts/animated-registry/`, so a
+regeneration needs no network and produces the same output every time. Their
+hashes are recorded in `scripts/animated-icons.manifest.json` and checked on every
+run — a mismatch is a hard failure, not a silent re-fetch. Run
+`node scripts/import-animated-icons.mjs --refresh` to pull upstream changes; it
+prints the hash of anything that moved.
 
-If an import fails, the generator says why and skips that icon rather than
-writing something half-transformed — the upstream component shape it did not
-recognise is the thing to teach it about.
+If any icon fails to import, the generator reports why and writes **nothing** —
+a partial run would delete working components and drop their exports. The
+upstream component shape it did not recognise is the thing to teach it about.

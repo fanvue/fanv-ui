@@ -1,4 +1,253 @@
 {
+  "registry": {
+    "host": "https://lucide-animated.com",
+    "items": {
+      "arrow-down": {
+        "sha256": "14537c9afad47feb4625e9a3323430dd966f5327813c438701eeec7b5a972a68",
+        "fetchedAt": "2026-08-20T14:48:18.527Z"
+      },
+      "arrow-left": {
+        "sha256": "29f59add56443739d8680cc0037f7d737b3260e78101cf8174a9218a5d6d10b5",
+        "fetchedAt": "2026-08-20T14:48:18.527Z"
+      },
+      "arrow-right": {
+        "sha256": "26311986107c7d0953bf9b09317810c0fd38a5f4608fd937d241ae8fb8e71a60",
+        "fetchedAt": "2026-08-20T14:48:18.528Z"
+      },
+      "arrow-up": {
+        "sha256": "a855f6657941e9d090a8e123b820ef92a8871c6a4b793a979f0ff0f95746a392",
+        "fetchedAt": "2026-08-20T14:48:18.528Z"
+      },
+      "arrow-up-right": {
+        "sha256": "952a33cfdc28031db23c8d958a4ae97b9af410338c50ac34d5a27a3a08300793",
+        "fetchedAt": "2026-08-20T14:48:18.529Z"
+      },
+      "at-sign": {
+        "sha256": "7266e0c2eb8d22d360bb523174d21fd7ff6def0a8121bb57b4fe089401b259eb",
+        "fetchedAt": "2026-08-20T14:48:18.530Z"
+      },
+      "audio-lines": {
+        "sha256": "93086ecdd58b1931ff4bcb70a62c4086c620ed063bb30b02363589bc40515b70",
+        "fetchedAt": "2026-08-20T14:48:18.547Z"
+      },
+      "bell": {
+        "sha256": "ddc31910a55fffdc5b0d031af0db0da48be6f8460731ffbad8713a088459fbe0",
+        "fetchedAt": "2026-08-20T14:48:18.530Z"
+      },
+      "calendar-days": {
+        "sha256": "18f9fefea47df66e3e0b889497ef412f938ef4bfdd507b38365d1ece810544cc",
+        "fetchedAt": "2026-08-20T14:48:18.531Z"
+      },
+      "check": {
+        "sha256": "01548d0f35b7b7abf7c9b27ecf2224aafc35cfd5cc0bb9326ac0bd7c9edd5321",
+        "fetchedAt": "2026-08-20T14:48:18.549Z"
+      },
+      "check-check": {
+        "sha256": "ece6f4106c1fc1c25896027431e80e5765e9c4e3c302143aa409dddf2cec57fa",
+        "fetchedAt": "2026-08-20T14:48:18.537Z"
+      },
+      "chevron-down": {
+        "sha256": "b95ac8a08569e95a8750142cbf3b05f474104f38fd211fc671392adbb116a4a9",
+        "fetchedAt": "2026-08-20T14:48:18.533Z"
+      },
+      "chevron-left": {
+        "sha256": "1cebcee1f5f865dfcc89b1bf9c39e5c89e683ca3e823db8f9d14cbd1d5fa60f0",
+        "fetchedAt": "2026-08-20T14:48:18.533Z"
+      },
+      "chevron-right": {
+        "sha256": "60162163732fd650b80ddfb9b46cda201fca72947f2778fe096f2df8d6705f78",
+        "fetchedAt": "2026-08-20T14:48:18.534Z"
+      },
+      "chevron-up": {
+        "sha256": "120c0e177aff9a0416558d7ce9233c7a624d7f36fa09a4f6ca9693c384d1c8c1",
+        "fetchedAt": "2026-08-20T14:48:18.534Z"
+      },
+      "circle-check": {
+        "sha256": "bdd8790a76a464820cbd45cc0a1fe351fd8f40093d5b4b7f6b6ddba46a4838cf",
+        "fetchedAt": "2026-08-20T14:48:18.549Z"
+      },
+      "circle-dollar-sign": {
+        "sha256": "dde562ddcb5dbe09d36ce325793e43a5cde58bdd5ad4249e83725f1f7843e20c",
+        "fetchedAt": "2026-08-20T14:48:18.535Z"
+      },
+      "circle-help": {
+        "sha256": "44c79c49edfc063addadd1cb030bb1e921f88704778000277f0da2d9e1f594a3",
+        "fetchedAt": "2026-08-20T14:48:18.539Z"
+      },
+      "clock": {
+        "sha256": "1e9c2b9dec1a4dce3612703670552ef7bfa54db1e3e573b2647344d2b2ffe9ed",
+        "fetchedAt": "2026-08-20T14:48:18.534Z"
+      },
+      "cloud-upload": {
+        "sha256": "ab28599697dad8d3050c3421ea608eb93aeb8c8443c1925e0212032555c2bf53",
+        "fetchedAt": "2026-08-20T14:48:18.550Z"
+      },
+      "cog": {
+        "sha256": "533af264c1cfdac0ade654cfdd7d8abd868c7fab0b2f5f8512727c71fdb6c190",
+        "fetchedAt": "2026-08-20T14:48:18.535Z"
+      },
+      "copy": {
+        "sha256": "53db6a9d0e6d0edede026ca4a5b1b05b73cd26e5cf6d88e775204d09dbd93268",
+        "fetchedAt": "2026-08-20T14:48:18.536Z"
+      },
+      "credit-card": {
+        "sha256": "559ee46fa8c548ba71f9cfaa8a87900eedefab3ada37c7a5f7db792ed72d9ab2",
+        "fetchedAt": "2026-08-20T14:48:18.532Z"
+      },
+      "delete": {
+        "sha256": "051a3d520d06b362bae67788f56e98cd31deecdd19bc939599d90f767126e037",
+        "fetchedAt": "2026-08-20T14:48:18.549Z"
+      },
+      "discord": {
+        "sha256": "21e9fdc309b4f396cd8c58ce118860505215b2c0d7b9a47afce8b1cc85e10036",
+        "fetchedAt": "2026-08-20T14:48:18.536Z"
+      },
+      "download": {
+        "sha256": "bd75491689f28b2c015fb41ce5749b07e5f3cd6ee063222e9cc237effeb09eee",
+        "fetchedAt": "2026-08-20T14:48:18.537Z"
+      },
+      "downvote": {
+        "sha256": "11e55df3089d987d8c1c92f9e8c3dbf212a13d2162b3c07b3807aa9aa052f5a6",
+        "fetchedAt": "2026-08-20T14:48:18.548Z"
+      },
+      "external-link": {
+        "sha256": "98fdfa2b92cedfc08ce96fc8dcffaeaf8e3fcf3c0950c1569a9e88fff4068c69",
+        "fetchedAt": "2026-08-20T14:48:18.544Z"
+      },
+      "eye": {
+        "sha256": "99193f3676e8a40813004a3928bf892b1b6a4dc7c9e6999a8e5bb5c8aa7d07bb",
+        "fetchedAt": "2026-08-20T14:48:18.538Z"
+      },
+      "eye-off": {
+        "sha256": "f5aa05ded3b21f8bc2eec692ed85530a134d3c965ba22f8c668050a1b87ed1a6",
+        "fetchedAt": "2026-08-20T14:48:18.538Z"
+      },
+      "flame": {
+        "sha256": "3c30f98abf05e7ac1dee2eee969da36ed01e92409480f68dff38c422128db6dd",
+        "fetchedAt": "2026-08-20T14:48:18.539Z"
+      },
+      "heart": {
+        "sha256": "bd29b5835d0bb034ea9a38cd33573a180f57cf9822350d8531e39512146b93b2",
+        "fetchedAt": "2026-08-20T14:48:18.539Z"
+      },
+      "history": {
+        "sha256": "96771514b8fe58b2be189b03f53e68fae9004c776f39d56445c631e8a37c8a0c",
+        "fetchedAt": "2026-08-20T14:48:18.545Z"
+      },
+      "home": {
+        "sha256": "387b4fed85e4d434806e4ff2a02cd2b4472081e6102c4c03138c4a0ffff61e94",
+        "fetchedAt": "2026-08-20T14:48:18.540Z"
+      },
+      "hourglass": {
+        "sha256": "ea5699a389ff3b22ba543dd4d1f4ac9a35a1592810d36953ca985b71599f3ebd",
+        "fetchedAt": "2026-08-20T14:48:18.540Z"
+      },
+      "languages": {
+        "sha256": "4ab66e2c7d583eef5adae865daf99b91123a1c427346eb09de177ff75ad0f782",
+        "fetchedAt": "2026-08-20T14:48:18.540Z"
+      },
+      "link": {
+        "sha256": "370ce9b85dca2a7c59c3b084c283d83bb99d30fe2fe487ab1883fd207eb182f0",
+        "fetchedAt": "2026-08-20T14:48:18.541Z"
+      },
+      "lock-keyhole": {
+        "sha256": "e7d45c66d2487340a4a363676e0474f005ec2e53ac1e222801053a3910847e79",
+        "fetchedAt": "2026-08-20T14:48:18.541Z"
+      },
+      "map-pin": {
+        "sha256": "ca96bccb76eb50c501b4f2dd8823198b6bd3738731ce4e1760f02565564601fc",
+        "fetchedAt": "2026-08-20T14:48:18.541Z"
+      },
+      "maximize-2": {
+        "sha256": "b82438ac011753ec6198f7c445f8d095635cff147914a1cda4d5cb7249e483d0",
+        "fetchedAt": "2026-08-20T14:48:18.538Z"
+      },
+      "menu": {
+        "sha256": "a43c24b8c128bb3177bd15655f1d192cfb7d18cb5014a8065e64a1464cca75a0",
+        "fetchedAt": "2026-08-20T14:48:18.542Z"
+      },
+      "message-square-plus": {
+        "sha256": "043333cca362dbdcd8f8592033f06b1da6ffeb5ff811d2455e9b5ac3220ea87e",
+        "fetchedAt": "2026-08-20T14:48:18.543Z"
+      },
+      "mic": {
+        "sha256": "7d7bffe30960806b1577d4efb475bcbcc425d27113164a99e166c56725d2381b",
+        "fetchedAt": "2026-08-20T14:48:18.543Z"
+      },
+      "panel-left-close": {
+        "sha256": "8b76bc33f8b3ccf47824ca76dc4c02b42a91e25811eef33220fac6262956866d",
+        "fetchedAt": "2026-08-20T14:48:18.542Z"
+      },
+      "panel-left-open": {
+        "sha256": "84d8a35a21bf22aaf1f2b0e04f7480ae6d489ddc602dcfcece6e54d49aa2b7d2",
+        "fetchedAt": "2026-08-20T14:48:18.542Z"
+      },
+      "phone": {
+        "sha256": "69f7fac179b512fcd0346f42ea428c1e22e341f37b732f3c9bd230f505668304",
+        "fetchedAt": "2026-08-20T14:48:18.545Z"
+      },
+      "plus": {
+        "sha256": "900ef83140fe1fad091bd9dc388600255d1d7868cac57897eb42c075a9dceeac",
+        "fetchedAt": "2026-08-20T14:48:18.545Z"
+      },
+      "search": {
+        "sha256": "903359f02ee45f477c672bb23dee40de60b4b45f592fcc0ae1bd4b298e980015",
+        "fetchedAt": "2026-08-20T14:48:18.546Z"
+      },
+      "send": {
+        "sha256": "3ff4f42ef27996a9ae5237be2fe581e84b22eadd83053fbbf0d5dfb9318d922e",
+        "fetchedAt": "2026-08-20T14:48:18.547Z"
+      },
+      "sliders-horizontal": {
+        "sha256": "48f998412166192634aaa90e9b9a7b677d8cc9c422d48eff8ef845d86a6ff3a7",
+        "fetchedAt": "2026-08-20T14:48:18.547Z"
+      },
+      "smile": {
+        "sha256": "c41235c56743fafd3f982fa40ae6654f230ba9147618a69fd843ab063b2bcfc2",
+        "fetchedAt": "2026-08-20T14:48:18.537Z"
+      },
+      "sparkles": {
+        "sha256": "ed3b2356c0bf2e7e2beb2f109c2b2bf0d13e72201fd8896de63299323a560fb9",
+        "fetchedAt": "2026-08-20T14:48:18.526Z"
+      },
+      "sun": {
+        "sha256": "7e0e5358f3e308fc926a2b2b972ede3768f99e6f7c18cdaf0a9823a99f24a3f5",
+        "fetchedAt": "2026-08-20T14:48:18.548Z"
+      },
+      "upload": {
+        "sha256": "05ddac0815ac76e1c382ce9d23234f82bfb268f664a6e56e94533ede5780dc02",
+        "fetchedAt": "2026-08-20T14:48:18.550Z"
+      },
+      "upvote": {
+        "sha256": "6c11f3cd7a77c6d53e6074b38e8eccf9619df7085a22c893d0e4158e63af6d09",
+        "fetchedAt": "2026-08-20T14:48:18.548Z"
+      },
+      "users": {
+        "sha256": "554cfdd26db74db03fb17ddc9cca04ba79f3b7a58b60e8e82be9c3e5127a540e",
+        "fetchedAt": "2026-08-20T14:48:18.551Z"
+      },
+      "wallet": {
+        "sha256": "450c2447e54fb7ca1f0f13383fea0aa6b2505435ce6abc435e0d14573669927e",
+        "fetchedAt": "2026-08-20T14:48:18.551Z"
+      },
+      "wifi": {
+        "sha256": "bcf46d9cbb1d4a50f9d0905bd732c6abc7dfa8a907ade25fd6da2b3cfd201e0e",
+        "fetchedAt": "2026-08-20T14:48:18.551Z"
+      },
+      "wrench": {
+        "sha256": "84489d6ccedfa6c49b19d3d23b68dc71e89f749176b0f07781c832ab219ecfdb",
+        "fetchedAt": "2026-08-20T14:48:18.552Z"
+      },
+      "x": {
+        "sha256": "ad9697eee5c5604dc28309d1ef2d92803ed0bd04fb19c04519daa735e316d899",
+        "fetchedAt": "2026-08-20T14:48:18.536Z"
+      },
+      "zap": {
+        "sha256": "4becc3b7c2f25349cb72b2d6db2ff67a8902ff55314f88b854266452da3cc5e5",
+        "fetchedAt": "2026-08-20T14:48:18.531Z"
+      }
+    }
+  },
   "icons": [
     {
       "name": "AddIcon",
@@ -211,12 +460,6 @@
       "propBased": true
     },
     {
-      "name": "LockerOnIcon",
-      "slug": "lock-keyhole",
-      "propBased": false,
-      "sizeClass": "size-6"
-    },
-    {
       "name": "MenuCloseIcon",
       "slug": "panel-left-close",
       "propBased": true
@@ -290,12 +533,6 @@
       "propBased": true
     },
     {
-      "name": "SpinnerIcon",
-      "slug": "loader-circle",
-      "propBased": false,
-      "sizeClass": "size-5"
-    },
-    {
       "name": "SunIcon",
       "slug": "sun",
       "propBased": true
@@ -361,12 +598,6 @@
       "name": "WifiIcon",
       "slug": "wifi",
       "propBased": true
-    },
-    {
-      "name": "WifiOnIcon",
-      "slug": "wifi",
-      "propBased": false,
-      "sizeClass": "size-6"
     },
     {
       "name": "WrenchIcon",

@@ -41,7 +41,6 @@ import { LanguageIcon as AnimatedLanguageIcon } from "../components/AnimatedIcon
 import { LinkIcon as AnimatedLinkIcon } from "../components/AnimatedIcons/LinkIcon";
 import { LocationIcon as AnimatedLocationIcon } from "../components/AnimatedIcons/LocationIcon";
 import { LockerIcon as AnimatedLockerIcon } from "../components/AnimatedIcons/LockerIcon";
-import { LockerOnIcon as AnimatedLockerOnIcon } from "../components/AnimatedIcons/LockerOnIcon";
 import { MenuCloseIcon as AnimatedMenuCloseIcon } from "../components/AnimatedIcons/MenuCloseIcon";
 import { MenuIcon as AnimatedMenuIcon } from "../components/AnimatedIcons/MenuIcon";
 import { MenuOpenIcon as AnimatedMenuOpenIcon } from "../components/AnimatedIcons/MenuOpenIcon";
@@ -56,7 +55,6 @@ import { SearchIcon as AnimatedSearchIcon } from "../components/AnimatedIcons/Se
 import { SendIcon as AnimatedSendIcon } from "../components/AnimatedIcons/SendIcon";
 import { SettingsIcon as AnimatedSettingsIcon } from "../components/AnimatedIcons/SettingsIcon";
 import { SoundIcon as AnimatedSoundIcon } from "../components/AnimatedIcons/SoundIcon";
-import { SpinnerIcon as AnimatedSpinnerIcon } from "../components/AnimatedIcons/SpinnerIcon";
 import { SunIcon as AnimatedSunIcon } from "../components/AnimatedIcons/SunIcon";
 import { ThumbDownIcon as AnimatedThumbDownIcon } from "../components/AnimatedIcons/ThumbDownIcon";
 import { ThumbUpIcon as AnimatedThumbUpIcon } from "../components/AnimatedIcons/ThumbUpIcon";
@@ -64,13 +62,13 @@ import { TickCircleIcon as AnimatedTickCircleIcon } from "../components/Animated
 import { TickIcon as AnimatedTickIcon } from "../components/AnimatedIcons/TickIcon";
 import { TrashBinIcon as AnimatedTrashBinIcon } from "../components/AnimatedIcons/TrashBinIcon";
 import { TrashIcon as AnimatedTrashIcon } from "../components/AnimatedIcons/TrashIcon";
+import type { AnimatedIconHandle } from "../components/AnimatedIcons/types";
 import { UploadCloudIcon as AnimatedUploadCloudIcon } from "../components/AnimatedIcons/UploadCloudIcon";
 import { UploadIcon as AnimatedUploadIcon } from "../components/AnimatedIcons/UploadIcon";
 import { UploadToCloudIcon as AnimatedUploadToCloudIcon } from "../components/AnimatedIcons/UploadToCloudIcon";
 import { UsersIcon as AnimatedUsersIcon } from "../components/AnimatedIcons/UsersIcon";
 import { WalletIcon as AnimatedWalletIcon } from "../components/AnimatedIcons/WalletIcon";
 import { WifiIcon as AnimatedWifiIcon } from "../components/AnimatedIcons/WifiIcon";
-import { WifiOnIcon as AnimatedWifiOnIcon } from "../components/AnimatedIcons/WifiOnIcon";
 import { WrenchIcon as AnimatedWrenchIcon } from "../components/AnimatedIcons/WrenchIcon";
 import { AddCircleIcon } from "../components/Icons/AddCircleIcon";
 import { AddIcon } from "../components/Icons/AddIcon";
@@ -902,7 +900,7 @@ const icons: IconEntry[] = [
   {
     name: "LockerOnIcon",
     component: LockerOnIcon,
-    animated: AnimatedLockerOnIcon,
+    animated: null,
     tags: ["locker", "on", "lock", "secure"],
     propBased: false,
   },
@@ -1162,7 +1160,7 @@ const icons: IconEntry[] = [
   {
     name: "SpinnerIcon",
     component: SpinnerIcon,
-    animated: AnimatedSpinnerIcon,
+    animated: null,
     tags: ["spinner", "loading", "progress"],
     propBased: false,
   },
@@ -1430,7 +1428,7 @@ const icons: IconEntry[] = [
   {
     name: "WifiOnIcon",
     component: WifiOnIcon,
-    animated: AnimatedWifiOnIcon,
+    animated: null,
     tags: ["wifi", "on", "connected", "internet"],
     propBased: false,
   },
@@ -1472,6 +1470,11 @@ function IconCard({
   }, []);
   const showAnimated = animated && entry.animated !== null;
   const Icon = showAnimated && entry.animated ? entry.animated : entry.component;
+  // The icon itself is not focusable, so the card drives it: hover for pointer
+  // users, focus for keyboard users. This is the documented `controlRef` pattern.
+  const controlRef = useRef<AnimatedIconHandle>(null);
+  const play = () => controlRef.current?.startAnimation();
+  const settle = () => controlRef.current?.stopAnimation();
 
   const importText = `import { ${entry.name} } from "${
     showAnimated ? "@fanvue/ui/animated-icons" : "@fanvue/ui"
@@ -1509,17 +1512,23 @@ function IconCard({
           ? "var(--color-success-surface)"
           : "var(--color-neutral-alphas-100)",
         cursor: "pointer",
-        transition: "background-color 150ms, border-color 150ms, opacity 150ms",
+        transition: "background-color 150ms, border-color 150ms",
         width: "100%",
         position: "relative",
-        opacity: animated && entry.animated === null ? 0.4 : 1,
+        borderStyle: animated && entry.animated === null ? "dashed" : "solid",
       }}
+      aria-label={`${entry.name} — ${
+        entry.animated !== null ? "has an animated twin" : "static only"
+      }. Click to copy ${importText}`}
       title={`Click to copy: ${importText}`}
+      onMouseEnter={play}
+      onMouseLeave={settle}
+      onFocus={play}
+      onBlur={settle}
     >
       {entry.animated !== null && (
         <span
           aria-hidden="true"
-          title="Has an animated twin"
           style={{
             position: "absolute",
             top: 4,
@@ -1552,6 +1561,7 @@ function IconCard({
       <Icon
         className={sizeClass}
         style={{ color: "var(--color-content-primary)" }}
+        {...(showAnimated ? { controlRef } : {})}
         {...propExtras}
       />
       <span
@@ -1646,9 +1656,9 @@ function IconGallery() {
         >
           @fanvue/ui/animated-icons
         </code>
-        . Turn on <b>animated</b> below to preview them (hover a card) and copy that import instead.
-        They render in exactly the same box as the static icon, so swapping the import never moves
-        your layout. Requires the optional{" "}
+        . Turn on <b>animated</b> below to preview them (hover or focus a card) and copy that import
+        instead. They render in exactly the same box as the static icon, so swapping the import
+        never moves your layout. Requires the optional{" "}
         <code
           style={{
             fontSize: 12,
