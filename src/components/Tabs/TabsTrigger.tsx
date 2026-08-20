@@ -20,10 +20,9 @@ export const TabsTrigger = React.forwardRef<
 >(({ className, children, asChild, ...props }, ref) => {
   const label = <span className="min-w-0 truncate">{children}</span>;
 
-  // The `min-w-0 truncate` span keeps long labels ellipsised and lets
-  // TabsList measure the active indicator against the label width. With
-  // `asChild` the consumer's element becomes the tab, so wrap *its* children
-  // in that span (rather than wrapping the element) — the tab stays a single
+  // The `min-w-0 truncate` span keeps long labels ellipsised. With `asChild`
+  // the consumer's element becomes the tab, so wrap *its* children in that
+  // span (rather than wrapping the element) — the tab stays a single
   // interactive control (no nested link/button) while behaviour matches the
   // default button tab.
   const content =
