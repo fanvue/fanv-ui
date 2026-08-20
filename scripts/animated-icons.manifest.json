@@ -1,0 +1,378 @@
+{
+  "icons": [
+    {
+      "name": "AddIcon",
+      "slug": "plus",
+      "propBased": true
+    },
+    {
+      "name": "AffiliatesIcon",
+      "slug": "users",
+      "propBased": true
+    },
+    {
+      "name": "AIIcon",
+      "slug": "sparkles",
+      "propBased": true
+    },
+    {
+      "name": "ArrowDownIcon",
+      "slug": "arrow-down",
+      "propBased": true
+    },
+    {
+      "name": "ArrowLeftIcon",
+      "slug": "arrow-left",
+      "propBased": true
+    },
+    {
+      "name": "ArrowRightIcon",
+      "slug": "arrow-right",
+      "propBased": true
+    },
+    {
+      "name": "ArrowUpIcon",
+      "slug": "arrow-up",
+      "propBased": true
+    },
+    {
+      "name": "ArrowUpRightIcon",
+      "slug": "arrow-up-right",
+      "propBased": false,
+      "sizeClass": "size-5"
+    },
+    {
+      "name": "AtSignIcon",
+      "slug": "at-sign",
+      "propBased": true
+    },
+    {
+      "name": "BellIcon",
+      "slug": "bell",
+      "propBased": true
+    },
+    {
+      "name": "BoltIcon",
+      "slug": "zap",
+      "propBased": true
+    },
+    {
+      "name": "CalendarIcon",
+      "slug": "calendar-days",
+      "propBased": true
+    },
+    {
+      "name": "CardIcon",
+      "slug": "credit-card",
+      "propBased": true
+    },
+    {
+      "name": "CheckIcon",
+      "slug": "check",
+      "propBased": false,
+      "sizeClass": "size-3"
+    },
+    {
+      "name": "CheckOutlineIcon",
+      "slug": "circle-check",
+      "propBased": false,
+      "sizeClass": "size-5"
+    },
+    {
+      "name": "ChevronDownIcon",
+      "slug": "chevron-down",
+      "propBased": true
+    },
+    {
+      "name": "ChevronLeftIcon",
+      "slug": "chevron-left",
+      "propBased": true
+    },
+    {
+      "name": "ChevronRightIcon",
+      "slug": "chevron-right",
+      "propBased": true
+    },
+    {
+      "name": "ChevronUpIcon",
+      "slug": "chevron-up",
+      "propBased": true
+    },
+    {
+      "name": "ClockIcon",
+      "slug": "clock",
+      "propBased": true
+    },
+    {
+      "name": "CloseIcon",
+      "slug": "x",
+      "propBased": true
+    },
+    {
+      "name": "CogIcon",
+      "slug": "cog",
+      "propBased": true
+    },
+    {
+      "name": "CoinIcon",
+      "slug": "circle-dollar-sign",
+      "propBased": true
+    },
+    {
+      "name": "CopyIcon",
+      "slug": "copy",
+      "propBased": true
+    },
+    {
+      "name": "CrossIcon",
+      "slug": "x",
+      "propBased": false,
+      "sizeClass": "size-5"
+    },
+    {
+      "name": "DiscordIcon",
+      "slug": "discord",
+      "propBased": true
+    },
+    {
+      "name": "DoubleTickIcon",
+      "slug": "check-check",
+      "propBased": true
+    },
+    {
+      "name": "DownloadIcon",
+      "slug": "download",
+      "propBased": true
+    },
+    {
+      "name": "EmojiIcon",
+      "slug": "smile",
+      "propBased": false,
+      "sizeClass": "size-6"
+    },
+    {
+      "name": "ExpandIcon",
+      "slug": "maximize-2",
+      "propBased": true
+    },
+    {
+      "name": "EyeIcon",
+      "slug": "eye",
+      "propBased": true
+    },
+    {
+      "name": "EyeOffIcon",
+      "slug": "eye-off",
+      "propBased": true
+    },
+    {
+      "name": "FlameIcon",
+      "slug": "flame",
+      "propBased": true
+    },
+    {
+      "name": "HeartIcon",
+      "slug": "heart",
+      "propBased": true
+    },
+    {
+      "name": "HelpIcon",
+      "slug": "circle-help",
+      "propBased": true
+    },
+    {
+      "name": "HomeIcon",
+      "slug": "home",
+      "propBased": true
+    },
+    {
+      "name": "HourglassIcon",
+      "slug": "hourglass",
+      "propBased": true
+    },
+    {
+      "name": "LanguageIcon",
+      "slug": "languages",
+      "propBased": true
+    },
+    {
+      "name": "LinkIcon",
+      "slug": "link",
+      "propBased": true
+    },
+    {
+      "name": "LocationIcon",
+      "slug": "map-pin",
+      "propBased": true
+    },
+    {
+      "name": "LockerIcon",
+      "slug": "lock-keyhole",
+      "propBased": true
+    },
+    {
+      "name": "LockerOnIcon",
+      "slug": "lock-keyhole",
+      "propBased": false,
+      "sizeClass": "size-6"
+    },
+    {
+      "name": "MenuCloseIcon",
+      "slug": "panel-left-close",
+      "propBased": true
+    },
+    {
+      "name": "MenuIcon",
+      "slug": "menu",
+      "propBased": true
+    },
+    {
+      "name": "MenuOpenIcon",
+      "slug": "panel-left-open",
+      "propBased": true
+    },
+    {
+      "name": "MicrophoneIcon",
+      "slug": "mic",
+      "propBased": true
+    },
+    {
+      "name": "NewMessageIcon",
+      "slug": "message-square-plus",
+      "propBased": true
+    },
+    {
+      "name": "OpenIcon",
+      "slug": "external-link",
+      "propBased": false,
+      "sizeClass": "size-5"
+    },
+    {
+      "name": "PeopleIcon",
+      "slug": "users",
+      "propBased": false,
+      "sizeClass": "size-5"
+    },
+    {
+      "name": "PhoneIcon",
+      "slug": "phone",
+      "propBased": true
+    },
+    {
+      "name": "PlusIcon",
+      "slug": "plus",
+      "propBased": false,
+      "sizeClass": "size-5"
+    },
+    {
+      "name": "ReverseIcon",
+      "slug": "history",
+      "propBased": true
+    },
+    {
+      "name": "SearchIcon",
+      "slug": "search",
+      "propBased": true
+    },
+    {
+      "name": "SendIcon",
+      "slug": "send",
+      "propBased": true
+    },
+    {
+      "name": "SettingsIcon",
+      "slug": "sliders-horizontal",
+      "propBased": true
+    },
+    {
+      "name": "SoundIcon",
+      "slug": "audio-lines",
+      "propBased": true
+    },
+    {
+      "name": "SpinnerIcon",
+      "slug": "loader-circle",
+      "propBased": false,
+      "sizeClass": "size-5"
+    },
+    {
+      "name": "SunIcon",
+      "slug": "sun",
+      "propBased": true
+    },
+    {
+      "name": "ThumbDownIcon",
+      "slug": "downvote",
+      "propBased": true
+    },
+    {
+      "name": "ThumbUpIcon",
+      "slug": "upvote",
+      "propBased": true
+    },
+    {
+      "name": "TickCircleIcon",
+      "slug": "circle-check",
+      "propBased": true
+    },
+    {
+      "name": "TickIcon",
+      "slug": "check",
+      "propBased": true
+    },
+    {
+      "name": "TrashBinIcon",
+      "slug": "delete",
+      "propBased": false,
+      "sizeClass": "size-6"
+    },
+    {
+      "name": "TrashIcon",
+      "slug": "delete",
+      "propBased": true
+    },
+    {
+      "name": "UploadCloudIcon",
+      "slug": "cloud-upload",
+      "propBased": false,
+      "sizeClass": "size-5"
+    },
+    {
+      "name": "UploadIcon",
+      "slug": "upload",
+      "propBased": true
+    },
+    {
+      "name": "UploadToCloudIcon",
+      "slug": "cloud-upload",
+      "propBased": true
+    },
+    {
+      "name": "UsersIcon",
+      "slug": "users",
+      "propBased": true
+    },
+    {
+      "name": "WalletIcon",
+      "slug": "wallet",
+      "propBased": true
+    },
+    {
+      "name": "WifiIcon",
+      "slug": "wifi",
+      "propBased": true
+    },
+    {
+      "name": "WifiOnIcon",
+      "slug": "wifi",
+      "propBased": false,
+      "sizeClass": "size-6"
+    },
+    {
+      "name": "WrenchIcon",
+      "slug": "wrench",
+      "propBased": false,
+      "sizeClass": "size-6"
+    }
+  ]
+}

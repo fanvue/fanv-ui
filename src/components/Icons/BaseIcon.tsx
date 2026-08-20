@@ -1,12 +1,7 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
-import type { BaseIconProps, IconPath, IconSize, IconVariants } from "./types";
-
-const SIZE_CLASS: Record<IconSize, string> = {
-  16: "size-4",
-  24: "size-6",
-  32: "size-8",
-};
+import { ICON_SIZE_CLASS } from "./iconSizeClass";
+import type { BaseIconProps, IconPath, IconVariants } from "./types";
 
 const LAYER_TRANSITION =
   "motion-safe:transition-opacity motion-safe:duration-150 motion-safe:ease-in-out";
@@ -64,7 +59,7 @@ export const BaseIcon = React.forwardRef<SVGSVGElement, InternalBaseIconProps>(
         viewBox={`0 0 ${size} ${size}`}
         fill="none"
         aria-hidden="true"
-        className={cn(SIZE_CLASS[size], className)}
+        className={cn(ICON_SIZE_CLASS[size], className)}
         {...props}
       >
         <g className={cn(LAYER_TRANSITION, showFilled ? "opacity-0" : "opacity-100")}>
