@@ -56,6 +56,16 @@ describe("AiButton", () => {
       expect(button).toHaveClass("custom");
       expect(button).toHaveAttribute("data-x", "y");
     });
+
+    it("composes the AI surface with the interactive layer", () => {
+      render(<AiButton label="Analyse" />);
+      expect(screen.getByRole("button")).toHaveClass("fv-ai-surface", "fv-ai-button");
+    });
+
+    it("carries no border of its own, so it cannot double the surface ring", () => {
+      render(<AiButton label="Analyse" />);
+      expect(screen.getByRole("button")).not.toHaveClass("border");
+    });
   });
 
   describe("interaction", () => {
@@ -157,7 +167,54 @@ describe("AiButton", () => {
     });
   });
 
+  describe("children", () => {
+    it("renders children in place of the shimmering label", () => {
+      render(
+        <AiButton label="Analyse">
+          <span>Ask about your earnings</span>
+        </AiButton>,
+      );
+      const button = screen.getByRole("button");
+      expect(button).toHaveTextContent("Ask about your earnings");
+      expect(button.querySelectorAll("[aria-hidden='true'] > span")).toHaveLength(0);
+    });
+
+    it("still names the button from the label", () => {
+      render(
+        <AiButton label="Analyse">
+          <span>Ask about your earnings</span>
+        </AiButton>,
+      );
+      expect(screen.getByRole("button", { name: "Analyse" })).toBeInTheDocument();
+    });
+
+    it("ignores activeLabel, which has no string body to crossfade", () => {
+      render(
+        <AiButton label="Analyse" activeLabel="Analysing" active>
+          <span>Ask about your earnings</span>
+        </AiButton>,
+      );
+      const button = screen.getByRole("button");
+      expect(button).not.toHaveTextContent("Analysing");
+      expect(button).toHaveAttribute("aria-busy", "true");
+    });
+
+    it("keeps the leading glyph", () => {
+      const { container } = render(
+        <AiButton label="Analyse">
+          <span>Body</span>
+        </AiButton>,
+      );
+      expect(container.querySelector("svg")).toBeInTheDocument();
+    });
+  });
+
   describe("accessibility", () => {
+    it("shows a focus ring, not only the sheen", () => {
+      render(<AiButton label="Analyse" />);
+      expect(screen.getByRole("button")).toHaveClass("focus-visible:shadow-focus-ring");
+    });
+
     it("has no accessibility violations", async () => {
       const { container } = render(<AiButton label="Analyse" activeLabel="Analysing" />);
       expect(await axe(container)).toHaveNoViolations();
@@ -165,6 +222,15 @@ describe("AiButton", () => {
 
     it("has no accessibility violations while active", async () => {
       const { container } = render(<AiButton label="Analyse" activeLabel="Analysing" active />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with a custom body", async () => {
+      const { container } = render(
+        <AiButton label="Analyse">
+          <span>Ask about your earnings</span>
+        </AiButton>,
+      );
       expect(await axe(container)).toHaveNoViolations();
     });
   });
