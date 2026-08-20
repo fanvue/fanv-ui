@@ -252,6 +252,15 @@ export const DropdownMenuContent = React.forwardRef<
           // padding doing it, so the header and its rule can still run full width.
           className={cn("flex flex-col gap-1 p-1 pb-4", className)}
           style={style}
+          // Both are destructured above for the popper branch's focus-ring
+          // handling, which takes them out of `props` — so the sheet branch has
+          // to re-attach them or they are silently dropped. `DrawerContent`
+          // forwards them to its `DialogPrimitive.Content`, which supports both.
+          // Consumers stack sheets on these (a nested sheet's `onCloseAutoFocus`
+          // is the only point at which the parent knows the child has finished
+          // animating out), so dropping them breaks the flow with no error.
+          onPointerDownOutside={onPointerDownOutside}
+          onCloseAutoFocus={onCloseAutoFocus}
           {...props}
         >
           {children}
