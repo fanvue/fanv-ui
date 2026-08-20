@@ -19,7 +19,7 @@ export type ThumbUpIconHandle = AnimatedIconHandle;
  * Animated ThumbUp icon — the animated twin of `ThumbUpIcon` from
  * `@fanvue/ui`. Plays on hover, or on demand through `controlRef`, and stays
  * still when the user has asked for reduced motion.
- * Renders at sizes 16, 24, or 32 px — the same box and stroke weight as the static icon.
+ * Renders at sizes 16, 24, or 32 px — the same box as the static icon.
  *
  * @example
  * ```tsx

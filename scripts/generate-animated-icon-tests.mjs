@@ -147,10 +147,9 @@ function frame(container: HTMLElement) {
  */
 async function settle(container: HTMLElement) {
   let previous = frame(container);
+  // Three identical samples, not one: a staggered icon's delay window reads as
+  // finished while the animation is still running.
   let quiet = 0;
-  // Three consecutive identical samples, not one: several icons stagger their
-  // paths with per-element delays, so a single quiet interval can land inside a
-  // delay window and read as finished while the animation is still running.
   for (let i = 0; i < 80; i++) {
     await new Promise((resolve) => setTimeout(resolve, 50));
     const next = frame(container);
@@ -238,16 +237,15 @@ describe("AnimatedIcons", () => {
         const svg = container.querySelector("svg") as SVGSVGElement;
         const mounted = frame(container);
 
-        // Hovering has to move something. An icon whose variant labels do not
-        // match what the hook plays renders as a static SVG and fails here.
+        // An icon whose variant labels do not match what the hook plays renders
+        // as a static SVG and fails here.
         fireEvent.mouseEnter(svg);
         await waitFor(() => expect(frame(container)).not.toBe(mounted), { timeout: 3000 });
 
         fireEvent.mouseLeave(svg);
         const rested = await settle(container);
 
-        // ...and the resting state has to be reproducible: a second cycle lands
-        // in exactly the same place, so nothing sticks mid-animation or drifts.
+        // Rest must be reproducible: nothing sticks mid-animation or drifts.
         fireEvent.mouseEnter(svg);
         await waitFor(() => expect(frame(container)).not.toBe(rested), { timeout: 3000 });
 

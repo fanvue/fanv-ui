@@ -61,8 +61,8 @@ const SLUG_PATTERN = /^[a-z0-9-]+$/;
 
 /**
  * Ceiling for `repeat`. Upstream leaves a few animations running forever, which on
- * touch is unstoppable: the emulated hover sticks until the user taps elsewhere, so
- * `mouseleave` — the only thing that stops an icon — never fires.
+ * touch can run unbounded: the emulated hover state sticks, so `mouseleave` — the
+ * only thing that stops an icon — may not arrive until the user taps elsewhere.
  */
 const MAX_REPEAT = 2;
 
@@ -703,6 +703,7 @@ function renderComponent({ name, slug, source, propBased, legacy, strokeWidths, 
   const upstreamStroke = strokeAttr ? Number(strokeAttr.replace(/"/g, "")) : null;
   let strokeConst = null;
   let strokeScale = null;
+  let strokeDerived = false;
 
   if (strokeWidths && upstreamStroke) {
     if (propBased) {
@@ -720,10 +721,12 @@ function renderComponent({ name, slug, source, propBased, legacy, strokeWidths, 
         strokeConst = perSize;
         strokeAttr = "{STROKE_WIDTH[size]}";
       }
+      strokeDerived = true;
     } else if (legacy.viewBox) {
       const target = round((strokeWidths * viewBox) / legacy.viewBox);
       strokeAttr = `"${target}"`;
       strokeScale = target / upstreamStroke;
+      strokeDerived = true;
     }
   }
 
@@ -906,11 +909,18 @@ ${hookOptions}
         .join("\n")}\n};\n\n`
     : "";
 
+  // Only 12 of the twins are stroked artwork on both sides; the rest have a
+  // fill-painted static twin with no stroke weight to match, and saying otherwise
+  // in the JSDoc would be a claim a consumer reads on hover.
+  const matched = strokeDerived ? " and stroke weight" : "";
   const sizeDoc = propBased
-    ? "Renders at sizes 16, 24, or 32 px — the same box and stroke weight as the static icon."
+    ? `Renders at sizes 16, 24, or 32 px — the same box${matched} as the static icon.`
     : `Sized via \`className\`, defaulting to the same \`${legacy.classes.find((c) =>
         c.startsWith("size-"),
-      )}\` box as the static icon.`;
+      )}\`${matched === "" ? "" : " box and stroke weight"} box as the static icon.`.replace(
+        " box and stroke weight box ",
+        " box and stroke weight ",
+      );
 
   return `"use client";
 
@@ -1073,14 +1083,18 @@ async function main() {
   const barrel = `/**
  * Optional animated icon entry point — \`@fanvue/ui/animated-icons\`.
  *
- * Every export here mirrors an icon of the same name in \`@fanvue/ui\`, renders in
- * the same box and carries the same stroke weight, so swapping the import path
- * changes the motion and nothing else:
+ * Every export here mirrors an icon of the same name in \`@fanvue/ui\` and renders
+ * in the same box, so swapping the import path changes the motion and nothing
+ * about your layout:
  *
  * \`\`\`tsx
  * import { HeartIcon } from "@fanvue/ui";                 // static
  * import { HeartIcon } from "@fanvue/ui/animated-icons";  // animates on hover
  * \`\`\`
+ *
+ * Where our static twin is stroked artwork, the animated one is drawn at the same
+ * stroke weight too. Where the static twin is fill-painted there is no stroke to
+ * match, so the animated outline can read a little lighter.
  *
  * Not every icon has a twin: an icon is only mapped once its animated artwork has
  * been compared against ours, so a missing export means the pair was rejected or

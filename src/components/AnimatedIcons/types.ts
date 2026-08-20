@@ -35,14 +35,14 @@ export interface AnimatedIconHandle {
 }
 
 /**
- * DOM props Motion reserves for its own animation and gesture handling. They are
- * dropped from the animated icon props so an icon whose whole `<svg>` is a Motion
- * element still accepts the same prop bag as one that only animates its paths.
- * None of them are meaningful on an icon (`values` is an SVG attribute of
- * `<animate>`/`<feColorMatrix>`, never of `<svg>`).
+ * Props Motion intercepts that would otherwise look like usable DOM props, and
+ * that mean nothing on an icon (`values` is an SVG attribute of
+ * `<animate>`/`<feColorMatrix>`, never of `<svg>`). Dropping them keeps the prop
+ * bag identical whether an icon animates its whole `<svg>` or only its paths.
  *
- * Matches Motion's own `validMotionProps` for the props React also defines; the
- * `onAnimation*` props Motion passes straight through are deliberately not listed.
+ * Deliberately narrower than Motion's `validMotionProps`: `onAnimationEnd` and
+ * `onAnimationIteration` are not in that set at all and are passed through, and
+ * `style` is in it but is merged rather than dropped, since callers pass it.
  */
 type MotionReservedProps = "onAnimationStart" | "onDrag" | "onDragStart" | "onDragEnd" | "values";
 

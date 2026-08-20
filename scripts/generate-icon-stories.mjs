@@ -123,8 +123,8 @@ function IconCard({
   }, []);
   const showAnimated = animated && entry.animated !== null;
   const Icon = showAnimated && entry.animated ? entry.animated : entry.component;
-  // The icon itself is not focusable, so the card drives it: hover for pointer
-  // users, focus for keyboard users. This is the documented \`controlRef\` pattern.
+  // The icon is not focusable, so the card drives it: hover, and focus for
+  // keyboard users.
   const controlRef = useRef<AnimatedIconHandle>(null);
   const play = () => controlRef.current?.startAnimation();
   const settle = () => controlRef.current?.stopAnimation();

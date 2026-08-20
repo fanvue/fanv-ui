@@ -24,7 +24,7 @@ export type UploadCloudIconHandle = AnimatedIconHandle;
  * Animated UploadCloud icon — the animated twin of `UploadCloudIcon` from
  * `@fanvue/ui`. Plays on hover, or on demand through `controlRef`, and stays
  * still when the user has asked for reduced motion.
- * Sized via `className`, defaulting to the same `size-5` box as the static icon.
+ * Sized via `className`, defaulting to the same `size-5` box and stroke weight as the static icon.
  *
  * @example
  * ```tsx

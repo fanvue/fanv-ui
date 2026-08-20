@@ -40,7 +40,7 @@ export type CheckIconHandle = AnimatedIconHandle;
  * Animated Check icon — the animated twin of `CheckIcon` from
  * `@fanvue/ui`. Plays on hover, or on demand through `controlRef`, and stays
  * still when the user has asked for reduced motion.
- * Sized via `className`, defaulting to the same `size-3` box as the static icon.
+ * Sized via `className`, defaulting to the same `size-3` box and stroke weight as the static icon.
  *
  * @example
  * ```tsx

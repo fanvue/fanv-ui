@@ -135,10 +135,13 @@ be a drop-in for it, since consumers swap it in by changing the import path
 alone. Three things are enforced rather than documented and hoped for:
 
 - **Same box.** Both sets share `ICON_SIZE_CLASS`.
-- **Same stroke weight.** The importer re-derives `strokeWidth` from the static
-  twin's own geometry, because scaling a 24-unit stroke into a 16px box halves
-  it. The generated tests compare the effective weight at every size, along with
-  the full class list.
+- **Same stroke weight, where there is one to match.** Upstream draws every icon
+  on a 24-unit grid, so rendering it in a smaller box scales the stroke down with
+  it — a 12px box halves it. The importer re-derives `strokeWidth` from the static
+  twin's own geometry for the 12 pairs that are stroked on both sides; the rest
+  have a fill-painted static twin with no stroke weight to match, and the importer
+  reports those rather than inventing a number. The generated tests compare the
+  effective weight at every size, along with the full class list.
 - **It actually animates.** Upstream does not name its variants consistently
   (`animate`/`normal`, but also `fadeOut`/`fadeIn`, `initial`/`active`), and
   Motion resolves a label it cannot find to *nothing at all, silently*. The

@@ -65,10 +65,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ### Feather
 
-Lucide notes that a subset of its icons derive from Feather. Icons in this
-package that fall in that subset include `at-sign`, `check`, `chevron-down`,
-`chevron-left`, `chevron-right`, `chevron-up`, `clock`, `download`,
-`external-link`, `link`, `lock`, `plus`, `search`, `smile`, `upload` and `x`.
+Lucide's own LICENSE records which of its icons derive from Feather, and is the
+authoritative list. At the time of writing, the registry slugs used here that fall
+in that subset are `arrow-down`, `arrow-left`, `arrow-right`, `arrow-up`,
+`arrow-up-right`, `at-sign`, `check`, `chevron-down`, `chevron-left`,
+`chevron-right`, `chevron-up`, `clock`, `download`, `external-link`, `link`,
+`plus`, `search`, `smile`, `upload` and `x`.
 
 ```
 The MIT License (MIT)

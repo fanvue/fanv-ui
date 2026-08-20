@@ -1,14 +1,18 @@
 /**
  * Optional animated icon entry point — `@fanvue/ui/animated-icons`.
  *
- * Every export here mirrors an icon of the same name in `@fanvue/ui`, renders in
- * the same box and carries the same stroke weight, so swapping the import path
- * changes the motion and nothing else:
+ * Every export here mirrors an icon of the same name in `@fanvue/ui` and renders
+ * in the same box, so swapping the import path changes the motion and nothing
+ * about your layout:
  *
  * ```tsx
  * import { HeartIcon } from "@fanvue/ui";                 // static
  * import { HeartIcon } from "@fanvue/ui/animated-icons";  // animates on hover
  * ```
+ *
+ * Where our static twin is stroked artwork, the animated one is drawn at the same
+ * stroke weight too. Where the static twin is fill-painted there is no stroke to
+ * match, so the animated outline can read a little lighter.
  *
  * Not every icon has a twin: an icon is only mapped once its animated artwork has
  * been compared against ours, so a missing export means the pair was rejected or

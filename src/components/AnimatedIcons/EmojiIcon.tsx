@@ -19,7 +19,7 @@ export type EmojiIconHandle = AnimatedIconHandle;
  * Animated Emoji icon — the animated twin of `EmojiIcon` from
  * `@fanvue/ui`. Plays on hover, or on demand through `controlRef`, and stays
  * still when the user has asked for reduced motion.
- * Sized via `className`, defaulting to the same `size-6` box as the static icon.
+ * Sized via `className`, defaulting to the same `size-6` box and stroke weight as the static icon.
  *
  * @example
  * ```tsx

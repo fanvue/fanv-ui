@@ -88,8 +88,8 @@ function App() {
 
 `@fanvue/ui/animated-icons` ships animated twins of the icons that have one. Each
 is exported under the **same name** as the static icon and renders in **exactly
-the same box, at the same stroke weight**, so switching is a one-line change and
-nothing in your layout moves:
+the same box**, so switching is a one-line change and nothing in your layout
+moves:
 
 ```tsx
 import { HeartIcon } from "@fanvue/ui";                // static
@@ -130,7 +130,10 @@ const icon = useRef<AnimatedIconHandle>(null);
 ```
 
 The animated artwork is stroke-only, so these icons take no `filled` prop —
-passing one is a type error rather than a silent no-op. Browse what is available
+passing one is a type error rather than a silent no-op. Where our static twin is
+also stroked artwork the animated one is drawn at the same stroke weight; where
+the static twin is fill-painted there is no stroke to match, so the animated
+outline can read a little lighter. Browse what is available
 in Storybook under **Foundations → Icons** with **animated** switched on: icons
 badged `anim` have a twin, and clicking a card copies the right import. Artwork
 and animations come from [lucide-animated](https://lucide-animated.com) (MIT),
