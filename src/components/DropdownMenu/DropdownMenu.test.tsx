@@ -1252,6 +1252,27 @@ describe("DropdownMenu sheet variant", () => {
     expect(() => (receivedEvent as Event).stopPropagation()).not.toThrow();
   });
 
+  it("forwards onCloseAutoFocus to the sheet's dialog content", async () => {
+    // Regression guard: `onCloseAutoFocus` and `onPointerDownOutside` are
+    // destructured for the popper branch's focus-ring handling, which takes them
+    // out of the spread. The sheet branch has to re-attach them — consumers
+    // stack sheets on `onCloseAutoFocus` to know a nested sheet has finished
+    // animating out, and dropping it fails silently.
+    const user = userEvent.setup();
+    const onCloseAutoFocus = vi.fn();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent onCloseAutoFocus={onCloseAutoFocus}>
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    await user.click(screen.getByRole("option", { name: "Item 1" }));
+    await waitFor(() => expect(onCloseAutoFocus).toHaveBeenCalled());
+  });
+
   it("prevents the default action of a disabled asChild item's click (e.g. link navigation)", async () => {
     // Regression guard: the disabled guard used to return early without
     // calling preventDefault, so a disabled asChild link still navigated.
