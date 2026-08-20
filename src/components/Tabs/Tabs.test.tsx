@@ -81,7 +81,7 @@ describe("Tabs", () => {
       );
     });
 
-    it("anchors the indicator to the label, not the tab centre, when padding is asymmetric", () => {
+    it("sizes the indicator to the full tab width, not the label, even with asymmetric flushLeft padding", () => {
       const rect = (left: number, width: number) =>
         ({
           left,
@@ -124,7 +124,7 @@ describe("Tabs", () => {
         const indicator = container.querySelector<HTMLElement>(
           '[role="tablist"] > span:not([role])',
         );
-        expect(indicator?.style.width).toBe("133px");
+        expect(indicator?.style.width).toBe("149px");
         expect(indicator?.style.transform).toBe("translateX(0px)");
       } finally {
         Element.prototype.getBoundingClientRect = original;
@@ -288,7 +288,7 @@ describe("Tabs", () => {
       expect(tab).toHaveAttribute("href", "/tab1");
       expect(tab).toHaveClass("cursor-pointer");
       // The label is still wrapped in the truncate span (inside the anchor) so
-      // long labels ellipsise and TabsList can measure the indicator width.
+      // long labels ellipsise.
       expect(tab.querySelector("span.truncate")).not.toBeNull();
     });
 
