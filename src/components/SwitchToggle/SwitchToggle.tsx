@@ -4,6 +4,7 @@ import { cn } from "../../utils/cn";
 import { AddIcon } from "../Icons/AddIcon";
 import { AIIcon } from "../Icons/AIIcon";
 import {
+  SWITCH_TOGGLE_AI_SELECTED,
   SWITCH_TOGGLE_HEIGHT_CLASSES,
   SWITCH_TOGGLE_PADDING_CLASSES,
   SWITCH_TOGGLE_STATE_CLASSES,
@@ -17,21 +18,6 @@ export type SwitchToggleVariant = "default" | "ai";
 
 
 const ICON_SLOT_CLASSES = "flex size-4 shrink-0 items-center justify-center";
-
-/**
- * Pressed `"ai"` treatment, matching Figma node `16800:9469`: the translucent
- * `Buttons/AI/Default` fill, plus a 1px stroke whose three-stop gradient runs
- * `Stroke-End → Stroke-Start → Stroke-End` horizontally.
- *
- * The stroke is a masked overlay rather than a border because Figma draws it with
- * `strokeAlign: INSIDE` — a real border would add 2px to the hug width and push
- * every size past its Figma dimensions.
- *
- * Written as one literal string because Tailwind scans source text — composing it
- * from parts stops the utilities being generated at all.
- */
-const AI_PRESSED_FILL =
-  "relative bg-buttons-ai-default before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:p-px before:[background:linear-gradient(90deg,var(--color-buttons-ai-stroke-end)_0%,var(--color-buttons-ai-stroke-start)_50%,var(--color-buttons-ai-stroke-end)_100%)] before:[mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]";
 
 interface SwitchToggleBaseProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type" | "children"> {
@@ -198,7 +184,10 @@ export const SwitchToggle = React.forwardRef<HTMLButtonElement, SwitchToggleProp
           !disabled && "cursor-pointer",
           !disabled && !pressed && SWITCH_TOGGLE_STATE_CLASSES.unselected,
           !disabled && pressed && !isAi && SWITCH_TOGGLE_STATE_CLASSES.selected,
-          !disabled && pressed && isAi && `text-content-primary shadow-sm ${AI_PRESSED_FILL}`,
+          !disabled &&
+            pressed &&
+            isAi &&
+            `text-content-primary shadow-sm ${SWITCH_TOGGLE_AI_SELECTED}`,
           disabled && `cursor-not-allowed ${SWITCH_TOGGLE_STATE_CLASSES.disabled}`,
           className,
         )}

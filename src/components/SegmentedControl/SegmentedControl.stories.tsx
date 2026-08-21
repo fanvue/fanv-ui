@@ -31,7 +31,7 @@ const meta = {
     },
     appearance: {
       control: "inline-radio",
-      options: ["pill", "plain", "brand"],
+      options: ["pill", "plain", "ai", "brand"],
     },
     disabled: {
       control: "boolean",
@@ -108,19 +108,21 @@ export const IconOnly: Story = {
   },
 };
 
-const brandOptions = [
+const aiOptions = [
   { label: "Home", value: "home", icon: <HomeIcon size={16} aria-hidden="true" /> },
   { label: "Agent", value: "agent", icon: <AIIcon size={16} aria-hidden="true" /> },
 ];
 
 /**
- * Icon + visible label with the brand-green selected pill — the Home/Agent navigation switch.
+ * Icon + visible label with the `V2 Switch Button` AI pill selected — the Home/Agent navigation
+ * switch. `appearance="brand"` is a deprecated alias of this and renders identically.
  * Colours are approximated with existing tokens pending dedicated navigation tokens.
  */
-export const Brand: Story = {
+export const Ai: Story = {
+  name: "AI",
   args: {
-    appearance: "brand",
-    options: brandOptions,
+    appearance: "ai",
+    options: aiOptions,
     defaultValue: "agent",
     "aria-label": "Navigation mode",
   },
@@ -133,7 +135,7 @@ export const Brand: Story = {
 };
 
 /**
- * With `collapsible`, an icon-bearing control (`plain` or `brand`) collapses to a single icon
+ * With `collapsible`, an icon-bearing control (`plain` or `ai`) collapses to a single icon
  * toggle when its container is too narrow to show every segment, and expands again when the
  * space returns. Collapsed, it shows the selected option's icon; clicking it (or pressing
  * Enter/Space) cycles to the next option, wrapping around.
@@ -182,11 +184,11 @@ export const Collapsible: Story = {
  */
 export const CollapsibleWithToggleIcon: Story = {
   args: {
-    appearance: "brand",
+    appearance: "ai",
     variant: "fill",
     collapsible: true,
     collapsedIcon: <RepeatIcon size={16} />,
-    options: brandOptions,
+    options: aiOptions,
     "aria-label": "Navigation mode",
   },
   parameters: {
