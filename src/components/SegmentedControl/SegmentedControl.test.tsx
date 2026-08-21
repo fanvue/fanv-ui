@@ -251,6 +251,38 @@ describe("SegmentedControl", () => {
     });
   });
 
+  describe("amount", () => {
+    let consoleWarnSpy: ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+      consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      consoleWarnSpy.mockRestore();
+    });
+
+    it("does not warn for the two and three segments the design defines", () => {
+      render(<SegmentedControl options={twoOptions} aria-label="Amount" />);
+      render(<SegmentedControl options={threeOptions} aria-label="Amount" />);
+      expect(consoleWarnSpy).not.toHaveBeenCalledWith(
+        expect.stringContaining("the design defines 2 or 3 segments"),
+      );
+    });
+
+    it("warns when given more segments than the design defines", () => {
+      render(
+        <SegmentedControl
+          options={[...threeOptions, { label: "Four", value: "four" }]}
+          aria-label="Amount"
+        />,
+      );
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("the design defines 2 or 3 segments; received 4"),
+      );
+    });
+  });
+
   describe("ai appearance", () => {
     it("renders both the icon and the visible label for each segment", () => {
       render(<SegmentedControl appearance="ai" options={aiOptions} aria-label="Mode" />);
