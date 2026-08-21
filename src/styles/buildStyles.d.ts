@@ -6,3 +6,4 @@ export function getEffectTokens(effectTokens: Record<string, unknown>): string;
 export function assertPrimitiveParity(rawTokens: Record<string, unknown>): void;
 export function assertNoDanglingVars(css: string): void;
 export function buildThemeCss(rawTokens: Record<string, unknown>): string;
+export const LEGACY_COLOR_ALIASES: Record<string, string>;

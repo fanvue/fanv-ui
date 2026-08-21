@@ -81,7 +81,7 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
         isSelected ? "typography-body-small-14px-semibold" : "typography-body-small-14px-regular",
         modifiers.today &&
           !isSelected &&
-          "bg-inputs-calendar-today text-content-always-white hover:bg-inputs-calendar-today",
+          "bg-inputs-calendar-today ring-1 ring-inputs-calendar-today-stroke hover:bg-inputs-calendar-today",
         isSelected &&
           "bg-inputs-calendar-selected text-content-primary-inverted hover:bg-inputs-calendar-selected",
         modifiers.range_middle && "bg-transparent hover:bg-transparent",

@@ -6,6 +6,7 @@ import {
   assertPrimitiveParity,
   buildThemeCss,
   getEffectTokens,
+  LEGACY_COLOR_ALIASES,
   refToVar,
   resolveValue,
 } from "./buildStyles.js";
@@ -101,7 +102,7 @@ describe("buildThemeCss", () => {
   });
 
   it("gives the ai button a different fill per theme", () => {
-    const fill = "--color-buttons-ai-background-gradient-default-start";
+    const aiFillAliasTarget = "--color-creator-agent-banner-background";
     const bySelector = new Map<string, string>();
     let selector = "";
     for (const line of css.split("\n")) {
@@ -109,7 +110,7 @@ describe("buildThemeCss", () => {
       if (opener) {
         selector = opener;
       }
-      const declaration = line.match(new RegExp(`^\\s*${fill}: ([^;]+);`))?.[1];
+      const declaration = line.match(new RegExp(`^\\s*${aiFillAliasTarget}: ([^;]+);`))?.[1];
       if (declaration && !bySelector.has(selector)) {
         bySelector.set(selector, declaration);
       }
@@ -118,6 +119,36 @@ describe("buildThemeCss", () => {
     expect(bySelector.get(":root")).toBeDefined();
     expect(bySelector.get(".dark")).toBeDefined();
     expect(bySelector.get(":root")).not.toBe(bySelector.get(".dark"));
+  });
+
+  it("keeps every renamed-away colour var working as an alias", () => {
+    for (const [legacy, current] of Object.entries(LEGACY_COLOR_ALIASES)) {
+      expect(css).toContain(`${legacy}: var(${current});`);
+    }
+  });
+
+  it("declares the aliases in @theme so the old utilities regenerate", () => {
+    const themeBlocks = css.match(/@theme \{[^}]*\}/g) ?? [];
+    for (const legacy of Object.keys(LEGACY_COLOR_ALIASES)) {
+      expect(themeBlocks.some((block) => block.includes(`${legacy}:`))).toBe(true);
+    }
+  });
+
+  it("points every alias at a var that is actually defined", () => {
+    const defined = new Set([...css.matchAll(/^\s*(--[\w-]+)\s*:/gm)].map((m) => m[1]));
+    for (const current of Object.values(LEGACY_COLOR_ALIASES)) {
+      expect(defined).toContain(current);
+    }
+  });
+
+  it("documents every alias in DesignTokenDeprecations.mdx", () => {
+    const doc = readFileSync(join(process.cwd(), "src/docs/DesignTokenDeprecations.mdx"), "utf-8");
+    const documented = new Map(
+      [...doc.matchAll(/^\|\s*`(--color-[\w-]+)`\s*\|\s*`(--color-[\w-]+)`\s*\|/gm)].map(
+        (match) => [match[1], match[2]],
+      ),
+    );
+    expect(Object.fromEntries(documented)).toEqual(LEGACY_COLOR_ALIASES);
   });
 
   it("stays in sync with the committed theme.css (run buildStyles.js to regenerate)", () => {

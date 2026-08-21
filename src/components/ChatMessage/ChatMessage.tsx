@@ -67,7 +67,7 @@ const WAVEFORM_MAX_HEIGHT = 24;
 
 const bubbleColors: Record<ChatMessageUser, string> = {
   sender: "bg-messages-background-sender border-messages-background-sender-stroke",
-  receiver: "bg-messages-background-receiver border-messages-background-receiver-2",
+  receiver: "bg-messages-background-receiver border-messages-background-receiver-stroke",
 };
 
 function ChatMessageMeta({

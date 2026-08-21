@@ -198,6 +198,14 @@ describe("DatePicker", () => {
       expect(await axe(container)).toHaveNoViolations();
     });
 
+    it("gives today a readable foreground instead of white on the muted fill", () => {
+      const { container } = render(<DatePicker mode="single" defaultMonth={new Date()} />);
+      const today = container.querySelector("[data-today] button");
+      expect(today).toHaveClass("bg-inputs-calendar-today");
+      expect(today).toHaveClass("ring-inputs-calendar-today-stroke");
+      expect(today).not.toHaveClass("text-content-always-white");
+    });
+
     it("has no accessibility violations in range mode", async () => {
       const { container } = render(
         <DatePicker
