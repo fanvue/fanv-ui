@@ -3,18 +3,18 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { AddIcon } from "../Icons/AddIcon";
 import { AIIcon } from "../Icons/AIIcon";
+import {
+  SWITCH_TOGGLE_HEIGHT_CLASSES,
+  SWITCH_TOGGLE_PADDING_CLASSES,
+  SWITCH_TOGGLE_STATE_CLASSES,
+  type SwitchToggleSize,
+} from "./switchToggleStyles";
 
-/** Height of the toggle in pixels. Matches {@link Button}'s scale. */
-export type SwitchToggleSize = "24" | "32" | "40";
+export type { SwitchToggleSize };
 
 /** Visual treatment of the toggle. */
 export type SwitchToggleVariant = "default" | "ai";
 
-const sizeVariants: Record<SwitchToggleSize, string> = {
-  "24": "h-6 px-2 py-1 typography-description-12px-semibold",
-  "32": "h-8 px-3 py-[7px] typography-body-small-14px-semibold",
-  "40": "h-10 px-4 py-2 typography-body-default-16px-semibold",
-};
 
 const ICON_SLOT_CLASSES = "flex size-4 shrink-0 items-center justify-center";
 
@@ -193,15 +193,13 @@ export const SwitchToggle = React.forwardRef<HTMLButtonElement, SwitchToggleProp
           "inline-flex w-fit shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full",
           "motion-safe:transition-colors motion-safe:duration-150",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
-          sizeVariants[size],
+          SWITCH_TOGGLE_HEIGHT_CLASSES[size],
+          SWITCH_TOGGLE_PADDING_CLASSES[size],
           !disabled && "cursor-pointer",
-          !disabled && !pressed && "text-content-primary hover:bg-buttons-switch-hover",
-          !disabled &&
-            pressed &&
-            !isAi &&
-            "bg-buttons-switch-active text-content-primary-inverted shadow-sm",
+          !disabled && !pressed && SWITCH_TOGGLE_STATE_CLASSES.unselected,
+          !disabled && pressed && !isAi && SWITCH_TOGGLE_STATE_CLASSES.selected,
           !disabled && pressed && isAi && `text-content-primary shadow-sm ${AI_PRESSED_FILL}`,
-          disabled && "cursor-not-allowed text-content-disabled",
+          disabled && `cursor-not-allowed ${SWITCH_TOGGLE_STATE_CLASSES.disabled}`,
           className,
         )}
         {...props}

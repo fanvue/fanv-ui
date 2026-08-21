@@ -13,7 +13,11 @@ import {
 import { simpleLineConfig, simpleLineData } from "./components/Chart/chartStoryFixtures";
 import { DatePicker } from "./date-picker";
 import { CountryFlag } from "./flags";
-import type { AudioRecordButtonStatus } from "./index";
+import type {
+  AudioRecordButtonStatus,
+  SegmentedControlSize,
+  SegmentedControlVariant,
+} from "./index";
 import {
   Accordion,
   AccordionContent,
@@ -200,6 +204,7 @@ import {
   ReviewCard,
   SearchField,
   SearchIcon,
+  SegmentedControl,
   Select,
   SelectContent,
   SelectGroup,
@@ -3643,6 +3648,58 @@ function SnackbarDemo() {
   );
 }
 
+function SegmentedControlDemo() {
+  const sizes: SegmentedControlSize[] = ["32", "40", "48"];
+  const variants: SegmentedControlVariant[] = ["hug", "fill"];
+  const twoOptions = [
+    { label: "Net", value: "net" },
+    { label: "Gross", value: "gross" },
+  ];
+  const threeOptions = [
+    { label: "Net", value: "net" },
+    { label: "Gross", value: "gross" },
+    { label: "Total", value: "total" },
+  ];
+  return (
+    <div id="segmentedcontrol" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Segmented Control</h2>
+      {variants.map((variant) => (
+        <div key={variant} className="flex flex-col gap-4">
+          <h3 className="typography-body-small-14px-semibold text-content-secondary capitalize">
+            {variant}
+          </h3>
+          {sizes.map((size) => (
+            <div
+              key={size}
+              className="flex flex-col gap-3"
+              style={{ width: variant === "fill" ? 480 : "auto" }}
+            >
+              <span className="typography-description-12px-regular text-content-secondary">
+                {size}px
+              </span>
+              <SegmentedControl
+                size={size}
+                variant={variant}
+                options={twoOptions}
+                aria-label={`${variant} ${size}px two options`}
+              />
+              <SegmentedControl
+                size={size}
+                variant={variant}
+                options={threeOptions}
+                aria-label={`${variant} ${size}px three options`}
+              />
+            </div>
+          ))}
+        </div>
+      ))}
+      <div className="flex flex-wrap items-center gap-4">
+        <SegmentedControl options={twoOptions} disabled aria-label="Disabled amount type" />
+      </div>
+    </div>
+  );
+}
+
 function SwitchDemo() {
   return (
     <div id="switch" className="flex scroll-mt-20 flex-col gap-4">
@@ -5676,6 +5733,7 @@ function App() {
     { id: "progressbar", label: "Progress Bar" },
     { id: "radio", label: "Radio" },
     { id: "searchfield", label: "Search Field" },
+    { id: "segmentedcontrol", label: "Segmented Control" },
     { id: "select", label: "Select" },
     { id: "skeleton", label: "Skeleton" },
     { id: "slider", label: "Slider" },
@@ -5900,6 +5958,9 @@ function App() {
 
             {/* Snackbar */}
             <SnackbarDemo />
+
+            {/* SegmentedControl */}
+            <SegmentedControlDemo />
 
             {/* Switch */}
             <SwitchDemo />

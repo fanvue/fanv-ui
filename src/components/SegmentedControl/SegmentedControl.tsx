@@ -1,5 +1,10 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import {
+  SWITCH_TOGGLE_PADDING_CLASSES,
+  SWITCH_TOGGLE_STATE_CLASSES,
+  type SwitchToggleSize,
+} from "../SwitchToggle/switchToggleStyles";
 
 /** Height of the segmented control in pixels. */
 export type SegmentedControlSize = "32" | "40" | "48";
@@ -83,11 +88,16 @@ export interface SegmentedControlProps
   collapsedIcon?: React.ReactNode;
 }
 
-/** Padding and typography per size. Combined with the container's `p-1` these hit the 32/40/48px heights. */
-const sizeClasses: Record<SegmentedControlSize, string> = {
-  "32": "px-2 py-1 typography-description-12px-semibold",
-  "40": "px-3 py-1.75 typography-body-small-14px-semibold",
-  "48": "px-4 py-2 typography-body-default-16px-semibold",
+/**
+ * The `SwitchToggle` size each segment renders at. In Figma every `V2 Segmented
+ * Control` segment is an instance of `V2 Switch Button` one step down the scale:
+ * a 32px control holds 24px segments, 40px holds 32px, 48px holds 40px. The
+ * difference is the container's own `p-1`, which adds 4px above and below.
+ */
+const SEGMENT_SIZE: Record<SegmentedControlSize, SwitchToggleSize> = {
+  "32": "24",
+  "40": "32",
+  "48": "40",
 };
 
 function warnMissingAccessibleName(ariaLabel?: string, ariaLabelledBy?: string) {
@@ -156,7 +166,7 @@ function getSegmentClassName({
           isSelected ? "text-icons-primary" : "text-icons-tertiary hover:text-icons-primary",
         )
       : cn(
-          sizeClasses[size],
+          SWITCH_TOGGLE_PADDING_CLASSES[SEGMENT_SIZE[size]],
           // brand renders icon + label together, so space them.
           appearance === "brand" && "gap-1.5",
           isSelected
@@ -164,8 +174,8 @@ function getSegmentClassName({
               ? // Approximate brand-green pill using existing tokens; exact colours pending
                 // dedicated navigation tokens (see ENG follow-up).
                 "bg-brand-primary-muted text-content-always-black shadow-sm ring-1 ring-brand-primary-default"
-              : "bg-buttons-primary-default text-content-primary-inverted shadow-sm"
-            : "text-content-primary hover:bg-buttons-switch-hover",
+              : SWITCH_TOGGLE_STATE_CLASSES.selected
+            : SWITCH_TOGGLE_STATE_CLASSES.unselected,
         ),
     disabled && "pointer-events-none",
   );
