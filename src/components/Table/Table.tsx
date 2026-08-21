@@ -132,14 +132,26 @@ export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaP
 );
 TableScrollArea.displayName = "TableScrollArea";
 
-export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> {}
+export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> {
+  /**
+   * Row density for this table's cells. Omit to inherit from an enclosing
+   * {@link TableCard}, which is the usual case; set it when the table sits in
+   * some other surface — a `ChartCard`, say — and so has no card to inherit
+   * from.
+   */
+  size?: TableSize;
+}
 
 /**
  * Semantic `<table>` element. Place inside {@link TableScrollArea}.
+ *
+ * A {@link TableProps.size} is only provided to the cells when one is given, so
+ * omitting it still inherits the enclosing {@link TableCard}'s density rather
+ * than resetting to the context default.
  */
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
-  ({ className, ...props }, ref) => {
-    return (
+  ({ className, size, ...props }, ref) => {
+    const table = (
       <table
         ref={ref}
         className={cn(
@@ -148,6 +160,12 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
         )}
         {...props}
       />
+    );
+
+    return size ? (
+      <TableSizeContext.Provider value={size}>{table}</TableSizeContext.Provider>
+    ) : (
+      table
     );
   },
 );

@@ -64,7 +64,10 @@ type ProductRow = {
   created: string;
   price: string;
   purchases: string;
-  status: { label: "Active" | "Inactive" | "Warning"; variant: "green" | "red" | "gold" };
+  status: {
+    label: "Active" | "Inactive" | "Warning";
+    variant: "green" | "red" | "gold";
+  };
 };
 
 const PRODUCT_ROWS: ProductRow[] = [
@@ -267,7 +270,10 @@ export const Sortable: Story = {
     type Direction = "asc" | "desc" | null;
     const Demo = () => {
       const [direction, setDirection] = React.useState<Direction>("asc");
-      const next: Record<NonNullable<Direction>, Direction> = { asc: "desc", desc: null };
+      const next: Record<NonNullable<Direction>, Direction> = {
+        asc: "desc",
+        desc: null,
+      };
       const cycle = () => setDirection((d) => (d == null ? "asc" : next[d]));
       return (
         <TableCard className="max-w-2xl">
@@ -307,6 +313,34 @@ export const Sortable: Story = {
     };
     return <Demo />;
   },
+};
+
+export const CondensedWithoutCard: Story = {
+  name: "Variant — condensed, sized on the Table itself",
+  render: () => (
+    <div className="max-w-3xl">
+      <TableScrollArea>
+        <Table size="condensed">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[42px]">#</TableHead>
+              <TableHead>Creator</TableHead>
+              <TableHead>Earnings</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {["Sofia Bloom", "Jayna Patel", "Alex Rivera"].map((name, index) => (
+              <TableRow key={name}>
+                <TableCell className="text-content-secondary">{index + 1}</TableCell>
+                <TableCell>{name}</TableCell>
+                <TableCell intent="sideLabel">${(3120 - index * 480).toLocaleString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+    </div>
+  ),
 };
 
 export const LargeRows: Story = {
@@ -557,9 +591,21 @@ export const AllStatesV2: Story = {
             </TableHeader>
             <TableBody>
               {[
-                { status: "Active" as const, variant: "green" as const, progress: 80 },
-                { status: "Warning" as const, variant: "gold" as const, progress: 40 },
-                { status: "Inactive" as const, variant: "red" as const, progress: 10 },
+                {
+                  status: "Active" as const,
+                  variant: "green" as const,
+                  progress: 80,
+                },
+                {
+                  status: "Warning" as const,
+                  variant: "gold" as const,
+                  progress: 40,
+                },
+                {
+                  status: "Inactive" as const,
+                  variant: "red" as const,
+                  progress: 10,
+                },
               ].map((row, idx) => (
                 <TableRow key={row.status}>
                   <TableCell intent="checkbox">

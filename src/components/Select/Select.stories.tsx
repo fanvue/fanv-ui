@@ -188,6 +188,34 @@ export const WithGroupsAndSeparator: Story = {
   ),
 };
 
+export const SelectedTwoLineRow: Story = {
+  name: "Selected row, two-line",
+  decorators: [
+    (Story) => (
+      <div style={{ width: "375px", height: "260px" }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    label: "Earnings view",
+    defaultValue: "gross",
+    defaultOpen: true,
+  },
+  render: (args) => (
+    <Select {...args}>
+      <SelectContent>
+        <SelectItem value="gross" description="Before platform fees are deducted">
+          Gross earnings
+        </SelectItem>
+        <SelectItem value="net" description="After platform fees are deducted">
+          Net earnings
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  ),
+};
+
 export const WithItemIcons: Story = {
   name: "Rows with leading icons",
   decorators: [

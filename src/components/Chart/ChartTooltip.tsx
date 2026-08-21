@@ -25,7 +25,7 @@ export interface ChartTooltipContentProps extends React.HTMLAttributes<HTMLDivEl
     label: string | number,
     payload: Payload<ValueType, NameType>[],
   ) => React.ReactNode;
-  /** Custom value formatter. */
+  /** Replaces the whole row. Takes precedence over {@link valueFormatter}. */
   formatter?: (
     value: ValueType,
     name: NameType,
@@ -33,6 +33,13 @@ export interface ChartTooltipContentProps extends React.HTMLAttributes<HTMLDivEl
     index: number,
     payload: Payload<ValueType, NameType>[],
   ) => React.ReactNode;
+  /**
+   * Formats each row's figure, so a chart can show its values in its own units —
+   * a currency series wants a price, not a bare thousands-separated number.
+   * Unlike {@link formatter} this keeps the row's layout, indicator and series
+   * name, and changes only the figure.
+   */
+  valueFormatter?: (value: ValueType) => React.ReactNode;
   /** CSS class for the label element. */
   labelClassName?: string;
   /** Hide the tooltip header label. @default false */
@@ -63,6 +70,7 @@ function TooltipRow({
   hideIndicator,
   nestLabel,
   tooltipLabel,
+  valueFormatter,
 }: {
   item: Payload<ValueType, NameType>;
   itemConfig: ChartConfigEntry | undefined;
@@ -71,6 +79,7 @@ function TooltipRow({
   hideIndicator: boolean;
   nestLabel: boolean;
   tooltipLabel: React.ReactNode;
+  valueFormatter: ((value: ValueType) => React.ReactNode) | undefined;
 }) {
   return (
     <>
@@ -106,7 +115,11 @@ function TooltipRow({
         </div>
         {item.value !== undefined && (
           <span className="font-medium font-mono text-content-primary tabular-nums">
-            {typeof item.value === "number" ? item.value.toLocaleString() : item.value}
+            {valueFormatter
+              ? valueFormatter(item.value)
+              : typeof item.value === "number"
+                ? item.value.toLocaleString()
+                : item.value}
           </span>
         )}
       </div>
@@ -140,6 +153,7 @@ export const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltip
       labelFormatter,
       labelClassName,
       formatter,
+      valueFormatter,
       color,
       nameKey,
       labelKey,
@@ -210,6 +224,7 @@ export const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltip
                     hideIndicator={hideIndicator}
                     nestLabel={nestLabel}
                     tooltipLabel={tooltipLabel}
+                    valueFormatter={valueFormatter}
                   />
                 )}
               </div>

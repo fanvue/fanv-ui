@@ -69,6 +69,23 @@ export interface TooltipContentProps
   title?: React.ReactNode;
 }
 
+/**
+ * Fades the tooltip in and out, so it reads as arriving rather than blinking on.
+ *
+ * Opacity only, deliberately: the content is portalled and positioned by Radix's
+ * popper, which owns its transform — animating one here would fight it, and a
+ * transform on the content would also make it a stacking context. Declaring an
+ * exit animation is what keeps the content mounted long enough to play it, since
+ * Radix defers the unmount until `animationend`.
+ *
+ * Radix reports all three states through `data-state`, and the two open states
+ * are matched separately rather than as "not closed", so the exit rule can never
+ * be beaten by a broader selector. A consumer's own `data-[state=*]:` override
+ * still wins, since tailwind-merge sees the same variant and property.
+ */
+const ANIMATION_CLASSES =
+  "data-[state=delayed-open]:[animation:fv-tooltip-in_150ms_ease-out] data-[state=instant-open]:[animation:fv-tooltip-in_150ms_ease-out] data-[state=closed]:[animation:fv-tooltip-out_120ms_ease-in] motion-reduce:[animation:none]";
+
 export const TooltipContent = React.forwardRef<
   React.ComponentRef<typeof TooltipPrimitive.Content>,
   TooltipContentProps
@@ -98,7 +115,8 @@ export const TooltipContent = React.forwardRef<
           collisionPadding={8}
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
           className={cn(
-            "typography-description-12px-semibold max-w-[320px] rounded-sm bg-surface-primary-inverted px-4 py-2 text-content-primary-inverted shadow-[0px_1px_4px_0px_rgba(0,0,0,0.06),0px_1px_3px_0px_rgba(0,0,0,0.05)]",
+            "typography-description-12px-semibold max-w-[320px] rounded-xs border border-border-selected bg-surface-primary-inverted px-4 py-2 text-content-primary-inverted shadow-sm",
+            ANIMATION_CLASSES,
             className,
           )}
           {...props}

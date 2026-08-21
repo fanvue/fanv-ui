@@ -185,6 +185,34 @@ describe("Chart", () => {
       expect(screen.getByText("1,234")).toBeInTheDocument();
     });
 
+    it("formats the figure with valueFormatter, keeping the series name", () => {
+      const payload = [{ ...TOOLTIP_ITEM, value: 1234 }];
+      render(
+        <ChartContext.Provider value={{ config: SAMPLE_CONFIG }}>
+          <ChartTooltipContent active payload={payload} valueFormatter={(v) => `$${v}`} />
+        </ChartContext.Provider>,
+      );
+      expect(screen.getByText("$1234")).toBeInTheDocument();
+      expect(screen.queryByText("1,234")).not.toBeInTheDocument();
+      expect(screen.getAllByText("Revenue").length).toBeGreaterThanOrEqual(1);
+    });
+
+    it("lets formatter win over valueFormatter, since it replaces the whole row", () => {
+      const payload = [{ ...TOOLTIP_ITEM, value: 1234 }];
+      render(
+        <ChartContext.Provider value={{ config: SAMPLE_CONFIG }}>
+          <ChartTooltipContent
+            active
+            payload={payload}
+            valueFormatter={(v) => `$${v}`}
+            formatter={() => <span>whole row</span>}
+          />
+        </ChartContext.Provider>,
+      );
+      expect(screen.getByText("whole row")).toBeInTheDocument();
+      expect(screen.queryByText("$1234")).not.toBeInTheDocument();
+    });
+
     it("hides label when hideLabel is true", () => {
       render(
         <ChartContext.Provider value={{ config: SAMPLE_CONFIG }}>
@@ -319,6 +347,35 @@ describe("Chart", () => {
         </ChartCard>,
       );
       expect(container.querySelector(".mt-auto")).not.toBeNull();
+    });
+
+    it("swaps the children for the skeleton while loading", () => {
+      render(
+        <ChartCard title="Revenue" loading skeleton={<div>placeholder</div>}>
+          <div>chart</div>
+        </ChartCard>,
+      );
+      expect(screen.getByText("placeholder")).toBeInTheDocument();
+      expect(screen.queryByText("chart")).not.toBeInTheDocument();
+    });
+
+    it("renders the children once loading finishes", () => {
+      render(
+        <ChartCard title="Revenue" loading={false} skeleton={<div>placeholder</div>}>
+          <div>chart</div>
+        </ChartCard>,
+      );
+      expect(screen.getByText("chart")).toBeInTheDocument();
+      expect(screen.queryByText("placeholder")).not.toBeInTheDocument();
+    });
+
+    it("keeps rendering the children while loading when no skeleton is given", () => {
+      render(
+        <ChartCard title="Revenue" loading>
+          <div>chart</div>
+        </ChartCard>,
+      );
+      expect(screen.getByText("chart")).toBeInTheDocument();
     });
 
     it("renders the outlined info glyph rather than the filled disc", () => {

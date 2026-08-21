@@ -197,6 +197,15 @@ export interface SelectContentProps
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {}
 
 /**
+ * The same surface {@link DropdownMenuContent} uses, so a Select popup and a
+ * DropdownMenu popup sitting side by side read as one family: the surface token
+ * rather than a flat background, a solid border, and the shared menu shadow
+ * behind a blur.
+ */
+const CONTENT_SURFACE_CLASSES =
+  "border border-border-primary bg-surface-primary shadow-blur-menu backdrop-blur-[4px]";
+
+/**
  * The dropdown panel rendered inside a portal. Place {@link SelectItem} elements
  * (and optionally {@link SelectGroup} / {@link SelectLabel}) as children.
  */
@@ -224,7 +233,8 @@ export const SelectContent = React.forwardRef<
         collisionPadding={collisionPadding}
         style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
         className={cn(
-          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-background-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-sm text-content-primary",
+          CONTENT_SURFACE_CLASSES,
           "data-[state=closed]:animate-out data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -281,6 +291,28 @@ function isRenderableNode(node: React.ReactNode): boolean {
 }
 
 /**
+ * Shades the row holding the current value. Radix marks that row itself, so it
+ * stays marked whether or not the consumer re-derives what is selected.
+ *
+ * Plain hover sits at `neutral-alphas-50`, so this takes the next step up the
+ * ramp and its own hover the one after; sharing 50 would paint "selected" and
+ * "merely hovered" identically. Mirrors {@link DropdownMenuItem}'s `selected`
+ * ramp. Listed after the hover rule so tailwind-merge keeps both, and the
+ * two-attribute selector wins on specificity when a row is selected and hovered
+ * at once.
+ */
+const ITEM_SELECTED_CLASSES =
+  "data-[state=checked]:bg-neutral-alphas-100 data-[state=checked]:data-highlighted:bg-neutral-alphas-200";
+
+/**
+ * Centres the check indicator on the two-line row. That layout switches the row
+ * to `items-start`, which would otherwise hang the tick off the title's line — a
+ * leading icon or avatar belongs there because it labels the title, but the tick
+ * is a property of the whole row.
+ */
+const ITEM_INDICATOR_ALIGN_CLASSES = "self-center";
+
+/**
  * An individual option inside {@link SelectContent}, following the V2 Menu Item spec.
  *
  * Supports a leading icon or avatar, an optional two-line layout via `description`,
@@ -313,6 +345,7 @@ export const SelectItem = React.forwardRef<
         ITEM_SIZE_CLASSES[itemSize],
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",
         "focus:bg-neutral-alphas-50 data-highlighted:bg-neutral-alphas-50",
+        ITEM_SELECTED_CLASSES,
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}
@@ -352,7 +385,7 @@ export const SelectItem = React.forwardRef<
       <SelectPrimitive.ItemIndicator
         className={cn(
           "ml-auto flex size-4 shrink-0 items-center justify-center",
-          hasDescription && "self-start",
+          hasDescription && ITEM_INDICATOR_ALIGN_CLASSES,
         )}
       >
         <CheckIcon className="size-4 text-content-primary group-data-[disabled]:text-content-disabled" />
