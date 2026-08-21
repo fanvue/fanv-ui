@@ -1,0 +1,61 @@
+# Design Token Deprecations
+
+Seven colour variables were renamed when the token set was realigned with the Figma Semantic collection. **Nothing breaks on upgrade.** Each old name is still emitted, as an alias of its replacement, so existing CSS variables and Tailwind utilities keep working exactly as before.
+
+They will be removed in the next major. Move to the right-hand column when convenient.
+
+> Unlike the [v3 migration](/docs/design-token-migration-v3--docs), this is not a breaking change and there is no codemod to run. The old names resolve to the new values today.
+
+## Renamed variables
+
+| Deprecated | Use instead | Note |
+|---|---|---|
+| `--color-buttons-ai-background-gradient-default-start` | `--color-buttons-ai-default` | The fill is flat now, see [AI button](#ai-button) |
+| `--color-buttons-ai-background-gradient-default-end` | `--color-buttons-ai-default` | Both stops alias the same fill |
+| `--color-buttons-ai-background-gradient-hover-start` | `--color-buttons-ai-hover` | |
+| `--color-buttons-ai-background-gradient-hover-end` | `--color-buttons-ai-hover` | Both stops alias the same fill |
+| `--color-buttons-navigation-highlight` | `--color-buttons-navigation-selected` | |
+| `--color-inputs-inputs-off` | `--color-inputs-inputs-disabled` | |
+| `--color-messages-background-receiver-2` | `--color-messages-background-receiver-stroke` | Name now says what it is |
+
+`--color-buttons-ai-stroke-start` and `--color-buttons-ai-stroke-end` were **not** renamed, so gradient strokes need no change.
+
+## Finding usages
+
+Colour tokens are consumed as Tailwind utilities as well as CSS variables, so searching for `--color-*` alone will miss call sites. A utility can carry any of these prefixes:
+
+```
+bg text border ring ring-offset from to via fill stroke divide outline
+decoration accent caret placeholder shadow
+```
+
+So `--color-messages-background-receiver-2` also appears as `border-messages-background-receiver-2`, `bg-messages-background-receiver-2`, and so on. Search both forms:
+
+```bash
+rg -- 'color-messages-background-receiver-2'
+rg -E '(bg|text|border|ring|from|to|via|fill|stroke|divide|outline|decoration|accent|caret|placeholder|shadow)-messages-background-receiver-2'
+```
+
+## AI button
+
+The `ai` button variant previously painted a two-stop gradient behind a two-stop gradient stroke. The design now calls for a **flat fill** behind that stroke, so the four background-gradient tokens collapsed to one fill token per state.
+
+Both old stops alias that single fill, which means `linear-gradient(C, C)` — a gradient from a colour to itself, which renders as flat `C`. A consumer who changes nothing therefore picks up the new flat-fill design rather than a broken button. Once you move to `--color-buttons-ai-default` / `--color-buttons-ai-hover` you can drop the gradient entirely:
+
+```css
+/* before */
+background-image: linear-gradient(
+  50deg,
+  var(--color-buttons-ai-background-gradient-default-start) 11.87%,
+  var(--color-buttons-ai-background-gradient-default-end) 112.39%
+);
+
+/* after */
+background-color: var(--color-buttons-ai-default);
+```
+
+Note that the fill differs per theme (a light mint in light mode, a dark green in dark), which the previous tokens did not do.
+
+## Source of truth
+
+The alias map lives in `LEGACY_COLOR_ALIASES` in `src/styles/buildStyles.js`. The table above is checked against it in `buildStyles.test.ts`, so the two cannot drift.

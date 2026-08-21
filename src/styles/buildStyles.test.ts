@@ -141,6 +141,16 @@ describe("buildThemeCss", () => {
     }
   });
 
+  it("documents every alias in DesignTokenDeprecations.mdx", () => {
+    const doc = readFileSync(join(process.cwd(), "src/docs/DesignTokenDeprecations.mdx"), "utf-8");
+    const documented = new Map(
+      [...doc.matchAll(/^\|\s*`(--color-[\w-]+)`\s*\|\s*`(--color-[\w-]+)`\s*\|/gm)].map(
+        (match) => [match[1], match[2]],
+      ),
+    );
+    expect(Object.fromEntries(documented)).toEqual(LEGACY_COLOR_ALIASES);
+  });
+
   it("stays in sync with the committed theme.css (run buildStyles.js to regenerate)", () => {
     const committed = readFileSync(join(stylesDir, "theme.css"), "utf-8");
     expect(css).toBe(committed);
