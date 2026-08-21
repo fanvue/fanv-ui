@@ -42,6 +42,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(import.meta.dirname, "src/index.ts"),
+        "animated-icons": resolve(import.meta.dirname, "src/animated-icons.ts"),
         charts: resolve(import.meta.dirname, "src/charts.ts"),
         "date-picker": resolve(import.meta.dirname, "src/date-picker.ts"),
         flags: resolve(import.meta.dirname, "src/flags.ts"),
@@ -53,6 +54,8 @@ export default defineConfig({
         "react-dom",
         "react/jsx-runtime",
         "tailwindcss",
+        "motion",
+        "motion/react",
         "react-day-picker",
         "recharts",
         /^@radix-ui\//,

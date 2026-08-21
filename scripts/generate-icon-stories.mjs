@@ -17,6 +17,7 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 const ICONS_DIR = path.join(REPO_ROOT, "src/components/Icons");
 const TAGS_FILE = path.join(__dirname, "icon-tags.json");
 const MANIFEST_PATH = path.join(__dirname, "icons.manifest.json");
+const ANIMATED_MANIFEST_PATH = path.join(__dirname, "animated-icons.manifest.json");
 const OUT = path.join(REPO_ROOT, "src/docs/Icons.stories.tsx");
 
 const FIGMA_URL =
@@ -28,6 +29,11 @@ const manifest = fs.existsSync(MANIFEST_PATH)
   : { icons: [] };
 const propBasedSet = new Set(manifest.icons.map((i) => i.name));
 
+const animatedManifest = fs.existsSync(ANIMATED_MANIFEST_PATH)
+  ? JSON.parse(fs.readFileSync(ANIMATED_MANIFEST_PATH, "utf8"))
+  : { icons: [] };
+const animatedSet = new Set(animatedManifest.icons.map((i) => i.name));
+
 const files = fs
   .readdirSync(ICONS_DIR)
   .filter((f) => f.endsWith(".tsx") && !f.endsWith(".test.tsx"))
@@ -37,21 +43,33 @@ const files = fs
 
 const imports = files.map((n) => `import { ${n} } from "../components/Icons/${n}";`).join("\n");
 
+// Animated twins share our names, so they are aliased to sit alongside the statics.
+const animatedImports = files
+  .filter((n) => animatedSet.has(n))
+  .map((n) => `import { ${n} as Animated${n} } from "../components/AnimatedIcons/${n}";`)
+  .join("\n");
+
 const entries = files
   .map((n) => {
     const tags = tagMap[n] ?? [];
-    return `  { name: "${n}", component: ${n}, tags: ${JSON.stringify(tags)}, propBased: ${propBasedSet.has(n)} },`;
+    const animated = animatedSet.has(n) ? `Animated${n}` : "null";
+    return `  { name: "${n}", component: ${n}, animated: ${animated}, tags: ${JSON.stringify(tags)}, propBased: ${propBasedSet.has(n)} },`;
   })
   .join("\n");
 
 const body = `import type { Meta, StoryObj } from "@storybook/react";
 import { type ComponentType, useEffect, useRef, useState } from "react";
+import type { AnimatedIconHandle } from "../components/AnimatedIcons/types";
 ${imports}
+${animatedImports}
 
 type IconEntry = {
   name: string;
   // biome-ignore lint/suspicious/noExplicitAny: heterogeneous prop shapes (prop-based vs legacy).
   component: ComponentType<any>;
+  /** Animated twin from \`@fanvue/ui/animated-icons\`, when one exists. */
+  // biome-ignore lint/suspicious/noExplicitAny: heterogeneous prop shapes (prop-based vs legacy).
+  animated: ComponentType<any> | null;
   tags: string[];
   propBased: boolean;
 };
@@ -88,11 +106,13 @@ function IconCard({
   sizeClass,
   numeric,
   filled,
+  animated,
 }: {
   entry: IconEntry;
   sizeClass: string;
   numeric: 16 | 24 | 32;
   filled: boolean;
+  animated: boolean;
 }) {
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -101,9 +121,17 @@ function IconCard({
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
-  const Icon = entry.component;
+  const showAnimated = animated && entry.animated !== null;
+  const Icon = showAnimated && entry.animated ? entry.animated : entry.component;
+  // The icon is not focusable, so the card drives it: hover, and focus for
+  // keyboard users.
+  const controlRef = useRef<AnimatedIconHandle>(null);
+  const play = () => controlRef.current?.startAnimation();
+  const settle = () => controlRef.current?.stopAnimation();
 
-  const importText = \`import { \${entry.name} } from "@fanvue/ui";\`;
+  const importText = \`import { \${entry.name} } from "\${
+    showAnimated ? "@fanvue/ui/animated-icons" : "@fanvue/ui"
+  }";\`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(importText).then(() => {
@@ -116,7 +144,8 @@ function IconCard({
   const propExtras: Record<string, unknown> = {};
   if (entry.propBased) {
     propExtras.size = numeric;
-    if (filled) propExtras.filled = true;
+    // The animated artwork is stroke-only, so it has no filled variant.
+    if (filled && !showAnimated) propExtras.filled = true;
   }
 
   return (
@@ -139,9 +168,34 @@ function IconCard({
         transition: "background-color 150ms, border-color 150ms",
         width: "100%",
         position: "relative",
+        borderStyle: animated && entry.animated === null ? "dashed" : "solid",
       }}
+      aria-label={\`\${entry.name} — \${
+        entry.animated !== null ? "has an animated twin" : "static only"
+      }. Click to copy \${importText}\`}
       title={\`Click to copy: \${importText}\`}
+      onMouseEnter={play}
+      onMouseLeave={settle}
+      onFocus={play}
+      onBlur={settle}
     >
+      {entry.animated !== null && (
+        <span
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: 4,
+            left: 6,
+            fontSize: 9,
+            fontFamily: "monospace",
+            color: showAnimated
+              ? "var(--color-brand-secondary-default)"
+              : "var(--color-content-tertiary)",
+          }}
+        >
+          anim
+        </span>
+      )}
       {entry.propBased && (
         <span
           aria-hidden="true"
@@ -160,6 +214,7 @@ function IconCard({
       <Icon
         className={sizeClass}
         style={{ color: "var(--color-content-primary)" }}
+        {...(showAnimated ? { controlRef } : {})}
         {...propExtras}
       />
       <span
@@ -181,6 +236,8 @@ function IconGallery() {
   const [search, setSearch] = useState("");
   const [sizeLabel, setSizeLabel] = useState<"16" | "24" | "32">("24");
   const [filled, setFilled] = useState(false);
+  const [animated, setAnimated] = useState(false);
+  const animatedCount = icons.filter((icon) => icon.animated !== null).length;
 
   const size: SizeOption = SIZE_OPTIONS.find((s) => s.label === sizeLabel) ?? {
     label: "24",
@@ -228,7 +285,45 @@ function IconGallery() {
           v2
         </code>{" "}
         support the prop-based API with dedicated path data at 16, 24, and 32 px sizes plus
-        an outlined/filled toggle.
+        an outlined/filled toggle. {animatedCount} are marked{" "}
+        <code
+          style={{
+            fontSize: 12,
+            fontFamily: "monospace",
+            padding: "1px 4px",
+            backgroundColor: "var(--color-neutral-alphas-100)",
+            borderRadius: 3,
+          }}
+        >
+          anim
+        </code>{" "}
+        and have an animated twin of the same name on{" "}
+        <code
+          style={{
+            fontSize: 12,
+            fontFamily: "monospace",
+            padding: "1px 4px",
+            backgroundColor: "var(--color-neutral-alphas-100)",
+            borderRadius: 3,
+          }}
+        >
+          @fanvue/ui/animated-icons
+        </code>
+        . Turn on <b>animated</b> below to preview them (hover or focus a card) and copy that import
+        instead. They render in exactly the same box as the static icon, so swapping the
+        import never moves your layout. Requires the optional{" "}
+        <code
+          style={{
+            fontSize: 12,
+            fontFamily: "monospace",
+            padding: "1px 4px",
+            backgroundColor: "var(--color-neutral-alphas-100)",
+            borderRadius: 3,
+          }}
+        >
+          motion
+        </code>{" "}
+        peer dependency, and animated icons are stroke-only (no filled variant).
       </p>
 
       <div style={{ display: "flex", gap: 8, margin: "0 0 12px", flexWrap: "wrap" }}>
@@ -242,7 +337,9 @@ function IconGallery() {
             borderRadius: 6,
           }}
         >
-          {'<HeartIcon size={24} filled />'}
+          {animated
+            ? 'import { HeartIcon } from "@fanvue/ui/animated-icons";'
+            : "<HeartIcon size={24} filled />"}
         </code>
       </div>
 
@@ -316,6 +413,24 @@ function IconGallery() {
           />
           filled
         </label>
+        <label
+          style={{
+            display: "inline-flex",
+            gap: 6,
+            alignItems: "center",
+            fontSize: 12,
+            fontFamily: "monospace",
+            color: "var(--color-content-secondary)",
+            cursor: "pointer",
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={animated}
+            onChange={(e) => setAnimated(e.target.checked)}
+          />
+          animated
+        </label>
       </div>
 
       {filtered.length === 0 ? (
@@ -337,6 +452,7 @@ function IconGallery() {
               sizeClass={size.className}
               numeric={size.numeric}
               filled={filled}
+              animated={animated}
             />
           ))}
         </div>

@@ -39,6 +39,9 @@ npm i react react-dom tailwindcss
 
 # Only if using DatePicker
 npm i react-day-picker
+
+# Only if using animated icons
+npm i motion
 ```
 
 ### 3. Configure CSS
@@ -80,6 +83,62 @@ function App() {
   );
 }
 ```
+
+### Animated icons
+
+`@fanvue/ui/animated-icons` ships animated twins of the icons that have one. Each
+is exported under the **same name** as the static icon and renders in **exactly
+the same box**, so switching is a one-line change and nothing in your layout
+moves:
+
+```tsx
+import { HeartIcon } from "@fanvue/ui";                // static
+import { HeartIcon } from "@fanvue/ui/animated-icons";  // animates on hover
+
+<HeartIcon size={24} />;
+```
+
+They live on their own subpath and depend on the optional `motion` peer, so
+`@fanvue/ui` consumers never pay for Motion unless they import from here.
+
+Not every icon has a twin — an icon is only mapped once its animated artwork has
+been compared against ours — so a missing export means the pair was rejected or
+upstream has no equivalent. `SpinnerIcon` is deliberately absent: a loading
+indicator must not wait for a hover. Keep using the static one with
+`animate-spin`, or `Loader`.
+
+Nothing animates when the user has asked for reduced motion
+(`prefers-reduced-motion: reduce`), including animations you start yourself
+through `controlRef`.
+
+By default an icon animates while hovered. To drive it from a parent instead —
+an icon inside a button, say — pass a `controlRef`, which also turns the hover
+trigger off. Drive it from focus as well as hover: the `<svg>` is not focusable,
+so a keyboard user reaching the button gets nothing from hover alone.
+
+```tsx
+const icon = useRef<AnimatedIconHandle>(null);
+
+<button
+  onMouseEnter={() => icon.current?.startAnimation()}
+  onMouseLeave={() => icon.current?.stopAnimation()}
+  onFocus={() => icon.current?.startAnimation()}
+  onBlur={() => icon.current?.stopAnimation()}
+>
+  <HeartIcon controlRef={icon} /> Favourite
+</button>;
+```
+
+The animated artwork is stroke-only, so these icons take no `filled` prop —
+passing one is a type error rather than a silent no-op. Where our static twin is
+also stroked artwork the animated one is drawn at the same stroke weight; where
+the static twin is fill-painted there is no stroke to match, so the animated
+outline can read a little lighter. Browse what is available
+in Storybook under **Foundations → Icons** with **animated** switched on: icons
+badged `anim` have a twin, and clicking a card copies the right import. Artwork
+and animations come from [lucide-animated](https://lucide-animated.com) (MIT),
+built on Lucide (ISC) and in part Feather (MIT) — the full licence texts are in
+`THIRD-PARTY-NOTICES.md`, which ships with the package.
 
 ## Theming
 
@@ -131,6 +190,9 @@ pnpm storybook
 | **Storybook**            |                                      |
 | `pnpm storybook`         | Start Storybook dev server on port 6006 |
 | `pnpm build-storybook`   | Build Storybook static site          |
+| **Icons**                |                                      |
+| `pnpm icons:sync`        | Re-import icons from Figma and regenerate components, tests, stories |
+| `pnpm icons:animated`    | Re-import animated icons from the lucide-animated registry and regenerate |
 | **Tokens & Build**       |                                      |
 | `pnpm build:dictionary`  | Generate styles from design tokens   |
 | `pnpm build:showcase`    | Build the showcase site              |

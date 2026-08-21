@@ -1,5 +1,27 @@
 # Changelog
 
+## [3.29.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.28.0...ui-v3.29.0) (2026-08-21)
+
+
+### Features
+
+* **icons:** add animated icon twins on an optional subpath ([#672](https://github.com/fanvue/fanv-ui/issues/672)) ([5ec40d7](https://github.com/fanvue/fanv-ui/commit/5ec40d7daaa2153c3e4abe795e2884b0ddc0e6cd))
+
+## [3.28.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.27.0...ui-v3.28.0) (2026-08-20)
+
+
+### Features
+
+* expose waveform helpers as public API ([#667](https://github.com/fanvue/fanv-ui/issues/667)) ([892d6f3](https://github.com/fanvue/fanv-ui/commit/892d6f3daa56e2d7b637fd7e2804a353dee809b5))
+
+
+### Bug Fixes
+
+* **button:** give the ai variant its real light and dark fills ([#662](https://github.com/fanvue/fanv-ui/issues/662)) ([96b646f](https://github.com/fanvue/fanv-ui/commit/96b646ff1e579dc52697d32ba3947d5405da331d))
+* **DropdownMenu:** forward dismissal handlers on the sheet variant ([#670](https://github.com/fanvue/fanv-ui/issues/670)) ([a0933d9](https://github.com/fanvue/fanv-ui/commit/a0933d99c0c7cdde214f9b040ac0904cbc32b383))
+* **Tabs:** active indicator spans full tab width, not label width ([#671](https://github.com/fanvue/fanv-ui/issues/671)) ([a326f3a](https://github.com/fanvue/fanv-ui/commit/a326f3a55933b2afc46d88f2345024421f3a8430))
+* **Tabs:** size active indicator to full tab width, not label width ([a326f3a](https://github.com/fanvue/fanv-ui/commit/a326f3a55933b2afc46d88f2345024421f3a8430))
+
 ## [3.27.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.26.1...ui-v3.27.0) (2026-08-18)
 
 
