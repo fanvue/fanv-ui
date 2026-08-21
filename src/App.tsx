@@ -3719,110 +3719,45 @@ function SwitchFieldDemo() {
 }
 
 function SwitchToggleDemo() {
+  const sizes = ["40", "32", "24"] as const;
   return (
     <div id="switchtoggle" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Switch Toggle</h2>
-      <div className="flex flex-wrap items-center gap-4">
-        <SwitchToggle
-          size="24"
-          options={[
-            { label: "Monthly", value: "monthly" },
-            { label: "Yearly", value: "yearly" },
-          ]}
-        />
-        <SwitchToggle
-          size="24"
-          options={[
-            { label: "Monthly", value: "monthly" },
-            { label: "Yearly", value: "yearly" },
-          ]}
-          defaultValue="yearly"
-        />
-        <SwitchToggle
-          size="32"
-          options={[
-            { label: "Monthly", value: "monthly" },
-            { label: "Yearly", value: "yearly" },
-          ]}
-        />
-        <SwitchToggle
-          size="32"
-          options={[
-            { label: "Monthly", value: "monthly" },
-            { label: "Yearly", value: "yearly" },
-          ]}
-          defaultValue="yearly"
-        />
-        <SwitchToggle
-          size="40"
-          options={[
-            { label: "Monthly", value: "monthly" },
-            { label: "Yearly", value: "yearly" },
-          ]}
-        />
-        <SwitchToggle
-          size="40"
-          options={[
-            { label: "Monthly", value: "monthly" },
-            { label: "Yearly", value: "yearly" },
-          ]}
-          defaultValue="yearly"
-        />
-      </div>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <SwitchToggle
-          size="24"
-          disabled
-          options={[
-            { label: "On", value: "on" },
-            { label: "Off", value: "off" },
-          ]}
-        />
-        <SwitchToggle
-          size="24"
-          disabled
-          defaultValue="off"
-          options={[
-            { label: "On", value: "on" },
-            { label: "Off", value: "off" },
-          ]}
-        />
-        <SwitchToggle
-          size="32"
-          disabled
-          options={[
-            { label: "On", value: "on" },
-            { label: "Off", value: "off" },
-          ]}
-        />
-        <SwitchToggle
-          size="32"
-          disabled
-          defaultValue="off"
-          options={[
-            { label: "On", value: "on" },
-            { label: "Off", value: "off" },
-          ]}
-        />
-        <SwitchToggle
-          size="40"
-          disabled
-          options={[
-            { label: "On", value: "on" },
-            { label: "Off", value: "off" },
-          ]}
-        />
-        <SwitchToggle
-          size="40"
-          disabled
-          defaultValue="off"
-          options={[
-            { label: "On", value: "on" },
-            { label: "Off", value: "off" },
-          ]}
-        />
-      </div>
+      {(["default", "ai"] as const).map((variant) => (
+        <div key={variant} className="flex flex-col gap-3">
+          <h3 className="typography-body-small-14px-semibold text-content-secondary">
+            {variant === "ai" ? "AI" : "Default"}
+          </h3>
+          {sizes.map((size) => (
+            <div key={size} className="flex flex-wrap items-center gap-4">
+              <span className="typography-description-12px-regular w-10 text-content-secondary">
+                {size}px
+              </span>
+              <SwitchToggle variant={variant} size={size} label="CTA" />
+              <SwitchToggle variant={variant} size={size} label="CTA" defaultPressed />
+              <SwitchToggle variant={variant} size={size} label="CTA" disabled />
+              <SwitchToggle variant={variant} size={size} label="CTA" disabled defaultPressed />
+            </div>
+          ))}
+        </div>
+      ))}
+
+      <h3 className="typography-body-small-14px-semibold text-content-secondary">
+        Default icon flags
+      </h3>
+      {sizes.map((size) => (
+        <div key={size} className="flex flex-wrap items-center gap-4">
+          <span className="typography-description-12px-regular w-10 text-content-secondary">
+            {size}px
+          </span>
+          <SwitchToggle size={size} label="Neither" />
+          <SwitchToggle size={size} label="Left" showLeftIcon />
+          <SwitchToggle size={size} label="Right" showRightIcon />
+          <SwitchToggle size={size} label="Both" showLeftIcon showRightIcon />
+          <SwitchToggle size={size} label="Both on" showLeftIcon showRightIcon defaultPressed />
+        </div>
+      ))}
     </div>
   );
 }
