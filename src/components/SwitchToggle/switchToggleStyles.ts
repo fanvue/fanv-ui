@@ -39,3 +39,23 @@ export const SWITCH_TOGGLE_STATE_CLASSES = {
   /** `State=Disabled` — no fill, `Content/Disabled` label. */
   disabled: "text-content-disabled",
 } as const;
+
+/**
+ * `Type=AI, State=Active` treatment, from Figma node `16800:9469`: the translucent
+ * `Buttons/AI/Default` fill under a 1px stroke whose three-stop gradient runs
+ * `Stroke-End → Stroke-Start → Stroke-End` horizontally.
+ *
+ * The stroke is a masked overlay rather than a border because Figma draws it with
+ * `strokeAlign: INSIDE` — a real border would add 2px to the hug width and push every
+ * size past its Figma dimensions.
+ *
+ * Written as one literal string because Tailwind scans source text; composing it from
+ * parts stops the utilities being generated at all.
+ *
+ * Shared with `SegmentedControl`, whose `ai` appearance is the same pill.
+ */
+export const SWITCH_TOGGLE_AI_SELECTED =
+  "relative bg-buttons-ai-background-gradient-default-start before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:p-px before:[background:linear-gradient(90deg,var(--color-buttons-ai-stroke-end)_0%,var(--color-buttons-ai-stroke-start)_50%,var(--color-buttons-ai-stroke-end)_100%)] before:[mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]";
+
+/** Gap between a leading or trailing glyph and the label, `Spacing/Global/xs`. */
+export const SWITCH_TOGGLE_ICON_GAP = "gap-2";
