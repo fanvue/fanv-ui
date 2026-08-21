@@ -3,9 +3,15 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { AddIcon } from "../Icons/AddIcon";
 import { AIIcon } from "../Icons/AIIcon";
+import {
+  SWITCH_TOGGLE_AI_SELECTED,
+  SWITCH_TOGGLE_HEIGHT_CLASSES,
+  SWITCH_TOGGLE_PADDING_CLASSES,
+  SWITCH_TOGGLE_STATE_CLASSES,
+  type SwitchToggleSize,
+} from "./switchToggleStyles";
 
-/** Height of the toggle in pixels. Matches {@link Button}'s scale. */
-export type SwitchToggleSize = "24" | "32" | "40";
+export type { SwitchToggleSize };
 
 /** Visual treatment of the toggle. */
 export type SwitchToggleVariant = "default" | "ai";
@@ -25,28 +31,7 @@ export interface SwitchToggleOption {
   value: string;
 }
 
-const sizeVariants: Record<SwitchToggleSize, string> = {
-  "24": "h-6 px-2 py-1 typography-description-12px-semibold",
-  "32": "h-8 px-3 py-[7px] typography-body-small-14px-semibold",
-  "40": "h-10 px-4 py-2 typography-body-default-16px-semibold",
-};
-
 const ICON_SLOT_CLASSES = "flex size-4 shrink-0 items-center justify-center";
-
-/**
- * Pressed `"ai"` treatment, matching Figma node `16800:9469`: the translucent
- * `Buttons/AI/Default` fill, plus a 1px stroke whose three-stop gradient runs
- * `Stroke-End → Stroke-Start → Stroke-End` horizontally.
- *
- * The stroke is a masked overlay rather than a border because Figma draws it with
- * `strokeAlign: INSIDE` — a real border would add 2px to the hug width and push
- * every size past its Figma dimensions.
- *
- * Written as one literal string because Tailwind scans source text — composing it
- * from parts stops the utilities being generated at all.
- */
-const AI_PRESSED_FILL =
-  "relative bg-buttons-ai-background-gradient-default-start before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:p-px before:[background:linear-gradient(90deg,var(--color-buttons-ai-stroke-end)_0%,var(--color-buttons-ai-stroke-start)_50%,var(--color-buttons-ai-stroke-end)_100%)] before:[mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]";
 
 interface SwitchToggleBaseProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type" | "children"> {
@@ -208,15 +193,16 @@ export const SwitchToggle = React.forwardRef<HTMLButtonElement, SwitchToggleProp
           "inline-flex w-fit shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full",
           "motion-safe:transition-colors motion-safe:duration-150",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
-          sizeVariants[size],
+          SWITCH_TOGGLE_HEIGHT_CLASSES[size],
+          SWITCH_TOGGLE_PADDING_CLASSES[size],
           !disabled && "cursor-pointer",
-          !disabled && !pressed && "text-content-primary hover:bg-buttons-switch-hover",
+          !disabled && !pressed && SWITCH_TOGGLE_STATE_CLASSES.unselected,
+          !disabled && pressed && !isAi && SWITCH_TOGGLE_STATE_CLASSES.selected,
           !disabled &&
             pressed &&
-            !isAi &&
-            "bg-buttons-primary-default text-content-primary-inverted shadow-sm",
-          !disabled && pressed && isAi && `text-content-primary shadow-sm ${AI_PRESSED_FILL}`,
-          disabled && "cursor-not-allowed text-content-disabled",
+            isAi &&
+            `text-content-primary shadow-sm ${SWITCH_TOGGLE_AI_SELECTED}`,
+          disabled && `cursor-not-allowed ${SWITCH_TOGGLE_STATE_CLASSES.disabled}`,
           className,
         )}
         {...props}

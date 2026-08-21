@@ -29,7 +29,7 @@ const threeIconOptions = [
   { label: "Table view", value: "table", icon: <ListViewIcon size={16} aria-hidden="true" /> },
 ];
 
-const brandOptions = [
+const aiOptions = [
   { label: "Home", value: "home", icon: <ListViewIcon size={16} aria-hidden="true" /> },
   { label: "Agent", value: "agent", icon: <GridViewIcon size={16} aria-hidden="true" /> },
 ];
@@ -230,9 +230,41 @@ describe("SegmentedControl", () => {
     });
   });
 
-  describe("brand appearance", () => {
+  describe("amount", () => {
+    let consoleWarnSpy: ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+      consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      consoleWarnSpy.mockRestore();
+    });
+
+    it("does not warn for the two and three segments the design defines", () => {
+      render(<SegmentedControl options={twoOptions} aria-label="Amount" />);
+      render(<SegmentedControl options={threeOptions} aria-label="Amount" />);
+      expect(consoleWarnSpy).not.toHaveBeenCalledWith(
+        expect.stringContaining("the design defines 2 or 3 segments"),
+      );
+    });
+
+    it("warns when given more segments than the design defines", () => {
+      render(
+        <SegmentedControl
+          options={[...threeOptions, { label: "Four", value: "four" }]}
+          aria-label="Amount"
+        />,
+      );
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("the design defines 2 or 3 segments; received 4"),
+      );
+    });
+  });
+
+  describe("ai appearance", () => {
     it("renders both the icon and the visible label for each segment", () => {
-      render(<SegmentedControl appearance="brand" options={brandOptions} aria-label="Mode" />);
+      render(<SegmentedControl appearance="ai" options={aiOptions} aria-label="Mode" />);
       expect(screen.getByText("Home")).toBeInTheDocument();
       expect(screen.getByText("Agent")).toBeInTheDocument();
       // Accessible name comes from the visible text, not an aria-label override.
@@ -241,25 +273,27 @@ describe("SegmentedControl", () => {
     });
 
     it("does not override the accessible name with aria-label when the label is visible", () => {
-      render(<SegmentedControl appearance="brand" options={brandOptions} aria-label="Mode" />);
+      render(<SegmentedControl appearance="ai" options={aiOptions} aria-label="Mode" />);
       expect(screen.getByRole("radio", { name: "Home" })).not.toHaveAttribute("aria-label");
     });
 
-    it("applies the brand-green pill to the selected segment", () => {
+    it("applies the ai pill to the selected segment", () => {
       render(
         <SegmentedControl
-          appearance="brand"
-          options={brandOptions}
+          appearance="ai"
+          options={aiOptions}
           defaultValue="agent"
           aria-label="Mode"
         />,
       );
-      expect(screen.getByRole("radio", { name: "Agent" })).toHaveClass("bg-brand-primary-muted");
+      expect(screen.getByRole("radio", { name: "Agent" })).toHaveClass(
+        "bg-buttons-ai-background-gradient-default-start",
+      );
     });
 
     it("keeps the pill container background", () => {
       const { container } = render(
-        <SegmentedControl appearance="brand" options={brandOptions} aria-label="Mode" />,
+        <SegmentedControl appearance="ai" options={aiOptions} aria-label="Mode" />,
       );
       expect(container.firstChild).toHaveClass("bg-surface-tertiary");
     });
@@ -269,8 +303,8 @@ describe("SegmentedControl", () => {
       const handleChange = vi.fn();
       render(
         <SegmentedControl
-          appearance="brand"
-          options={brandOptions}
+          appearance="ai"
+          options={aiOptions}
           onChange={handleChange}
           aria-label="Mode"
         />,
@@ -281,7 +315,7 @@ describe("SegmentedControl", () => {
 
     it("has no accessibility violations", async () => {
       const { container } = render(
-        <SegmentedControl appearance="brand" options={brandOptions} aria-label="Mode" />,
+        <SegmentedControl appearance="ai" options={aiOptions} aria-label="Mode" />,
       );
       const results = await axe(container);
       expect(results).toHaveNoViolations();
@@ -543,38 +577,28 @@ describe("SegmentedControl", () => {
       expect(screen.getAllByRole("radio")).toHaveLength(2);
     });
 
-    it("supports the brand appearance", () => {
+    it("supports the ai appearance", () => {
       setWidths({ available: 100, required: 300 });
       render(
-        <SegmentedControl
-          appearance="brand"
-          collapsible
-          options={brandOptions}
-          aria-label="Mode"
-        />,
+        <SegmentedControl appearance="ai" collapsible options={aiOptions} aria-label="Mode" />,
       );
-      // Collapsed brand shows the selected icon only: the visible toggle has no label text
+      // Collapsed ai shows the selected icon only: the visible toggle has no label text
       // (the off-screen measurement replica still carries it, so assert on the toggle itself).
       const toggle = screen.getByRole("button", { name: "Home" });
       expect(toggle).toBeInTheDocument();
       expect(toggle.textContent).toBe("");
     });
 
-    it("renders the collapsed brand toggle as a square (circular once rounded)", () => {
+    it("renders the collapsed ai toggle as a square (circular once rounded)", () => {
       setWidths({ available: 100, required: 300 });
       render(
-        <SegmentedControl
-          appearance="brand"
-          collapsible
-          options={brandOptions}
-          aria-label="Mode"
-        />,
+        <SegmentedControl appearance="ai" collapsible options={aiOptions} aria-label="Mode" />,
       );
       const toggle = screen.getByRole("button", { name: "Home" });
       // Symmetric padding + aspect-square give a circle rather than the wider-than-tall pill.
       expect(toggle).toHaveClass("aspect-square");
       expect(toggle).toHaveClass("rounded-full");
-      // Neutral surface, not the brand pill (Color/Surface/Secondary in the rail design).
+      // Neutral surface, not the ai pill (Color/Surface/Secondary in the rail design).
       expect(toggle).toHaveClass("bg-surface-secondary");
     });
 
@@ -582,7 +606,7 @@ describe("SegmentedControl", () => {
       setWidths({ available: 100, required: 300 });
       render(
         <SegmentedControl
-          appearance="brand"
+          appearance="ai"
           collapsible
           collapsedIcon={<span data-testid="toggle-glyph" />}
           options={[
@@ -611,10 +635,10 @@ describe("SegmentedControl", () => {
       setWidths({ available: 100, required: 300 });
       render(
         <SegmentedControl
-          appearance="brand"
+          appearance="ai"
           collapsible
           collapsedIcon={<span data-testid="toggle-glyph" />}
-          options={brandOptions}
+          options={aiOptions}
           value="agent"
           aria-label="Mode"
         />,
@@ -627,7 +651,7 @@ describe("SegmentedControl", () => {
       setWidths({ available: 100, required: 300 });
       render(
         <SegmentedControl
-          appearance="brand"
+          appearance="ai"
           collapsible
           collapsedIcon={<span data-testid="toggle-glyph" />}
           options={twoOptions}
@@ -643,10 +667,10 @@ describe("SegmentedControl", () => {
       setWidths({ available: 100, required: 300 });
       const { container } = render(
         <SegmentedControl
-          appearance="brand"
+          appearance="ai"
           variant="fill"
           collapsible
-          options={brandOptions}
+          options={aiOptions}
           aria-label="Mode"
         />,
       );
@@ -681,7 +705,7 @@ describe("SegmentedControl", () => {
         setWidths({ available: 100, required: 300 });
         render(<SegmentedControl collapsible options={twoOptions} aria-label="Amount" />);
         expect(consoleWarnSpy).toHaveBeenCalledWith(
-          expect.stringContaining('`collapsible` is only supported for the "plain" and "brand"'),
+          expect.stringContaining('`collapsible` is only supported for the "plain" and "ai"'),
         );
         expect(screen.getAllByRole("radio")).toHaveLength(2);
       });
@@ -713,7 +737,7 @@ describe("SegmentedControl", () => {
         setWidths({ available: 100, required: 300 });
         render(
           <SegmentedControl
-            appearance="brand"
+            appearance="ai"
             collapsible
             collapsedIcon={<span data-testid="toggle-glyph" />}
             options={twoOptions}
