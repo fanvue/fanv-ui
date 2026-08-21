@@ -5,7 +5,7 @@
     "--color-bg-overlay": "--color-background-overlay-default",
     "--color-bg-gradient-start": "--color-background-gradient-start",
     "--color-bg-gradient-end": "--color-background-gradient-end",
-    "--color-surface-inputs-off": "--color-inputs-inputs-off",
+    "--color-surface-inputs-off": "--color-inputs-inputs-disabled",
     "--color-surface-inputs": "--color-inputs-inputs-primary",
     "--color-link-default": "--color-buttons-link-primary-default",
     "--color-link-hover": "--color-buttons-link-primary-hover",

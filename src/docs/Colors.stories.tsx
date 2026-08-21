@@ -264,9 +264,9 @@ const semanticGroups: ColorGroup[] = [
         tailwind: "inputs-inputs-primary",
       },
       {
-        name: "Inputs Off",
-        variable: "--color-inputs-inputs-off",
-        tailwind: "inputs-inputs-off",
+        name: "Inputs Disabled",
+        variable: "--color-inputs-inputs-disabled",
+        tailwind: "inputs-inputs-disabled",
       },
       {
         name: "Primary Inverted",

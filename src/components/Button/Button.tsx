@@ -87,9 +87,13 @@ const ICON_WRAPPER_CLASS: Record<ButtonSize, string> = {
   "24": "[&>svg]:size-3.5",
 };
 
-/** AI variant uses a fixed-angle gradient defined in the Figma design tokens. */
+/**
+ * AI variant paints a flat fill over a fixed-angle gradient stroke. The fill is written
+ * as a two-stop gradient of one colour because the border-box/padding-box clip trick
+ * that draws the stroke requires both layers to be background images.
+ */
 const AI_GRADIENT =
-  "[background-clip:padding-box,border-box] [background-image:linear-gradient(50deg,var(--color-buttons-ai-background-gradient-default-start)_11.87%,var(--color-buttons-ai-background-gradient-default-end)_112.39%),linear-gradient(50deg,var(--color-buttons-ai-stroke-start)_11.87%,var(--color-buttons-ai-stroke-end)_112.39%)] [background-origin:border-box] hover:[background-image:linear-gradient(50deg,var(--color-buttons-ai-background-gradient-hover-start)_11.87%,var(--color-buttons-ai-background-gradient-hover-end)_112.39%),linear-gradient(50deg,var(--color-buttons-ai-stroke-start)_11.87%,var(--color-buttons-ai-stroke-end)_112.39%)]";
+  "[background-clip:padding-box,border-box] [background-image:linear-gradient(var(--color-buttons-ai-default),var(--color-buttons-ai-default)),linear-gradient(50deg,var(--color-buttons-ai-stroke-start)_11.87%,var(--color-buttons-ai-stroke-end)_112.39%)] [background-origin:border-box] hover:[background-image:linear-gradient(var(--color-buttons-ai-hover),var(--color-buttons-ai-hover)),linear-gradient(50deg,var(--color-buttons-ai-stroke-start)_11.87%,var(--color-buttons-ai-stroke-end)_112.39%)]";
 
 const DISABLED_FILL = "bg-buttons-disabled-default text-content-disabled";
 const DISABLED_FILL_NEGATIVE = "bg-buttons-disabled-negative text-content-disabled";
