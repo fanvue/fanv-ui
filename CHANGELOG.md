@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.29.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.28.0...ui-v3.29.0) (2026-08-21)
+
+
+### Features
+
+* **icons:** add animated icon twins on an optional subpath ([#672](https://github.com/fanvue/fanv-ui/issues/672)) ([5ec40d7](https://github.com/fanvue/fanv-ui/commit/5ec40d7daaa2153c3e4abe795e2884b0ddc0e6cd))
+
 ## [3.28.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.27.0...ui-v3.28.0) (2026-08-20)
 
 
