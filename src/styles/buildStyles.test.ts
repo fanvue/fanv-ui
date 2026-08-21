@@ -102,9 +102,7 @@ describe("buildThemeCss", () => {
   });
 
   it("gives the ai button a different fill per theme", () => {
-    // --color-buttons-ai-default aliases this in both modes, so the per-mode literal
-    // lives here rather than on the button token itself.
-    const fill = "--color-creator-agent-banner-background";
+    const aiFillAliasTarget = "--color-creator-agent-banner-background";
     const bySelector = new Map<string, string>();
     let selector = "";
     for (const line of css.split("\n")) {
@@ -112,7 +110,7 @@ describe("buildThemeCss", () => {
       if (opener) {
         selector = opener;
       }
-      const declaration = line.match(new RegExp(`^\\s*${fill}: ([^;]+);`))?.[1];
+      const declaration = line.match(new RegExp(`^\\s*${aiFillAliasTarget}: ([^;]+);`))?.[1];
       if (declaration && !bySelector.has(selector)) {
         bySelector.set(selector, declaration);
       }
