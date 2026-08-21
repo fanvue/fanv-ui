@@ -125,6 +125,20 @@ function warnMissingOptionAccessibleName(options: SegmentedControlOption[]) {
   }
 }
 
+/**
+ * The Figma component set defines an `Amount` axis of 2 or 3 only. More segments still
+ * render, but they are outside the design and will crowd at the smaller sizes.
+ */
+function warnUnsupportedAmount(options: SegmentedControlOption[]) {
+  if (process.env.NODE_ENV !== "production") {
+    if (options.length < 2 || options.length > 3) {
+      console.warn(
+        `SegmentedControl: the design defines 2 or 3 segments; received ${options.length}.`,
+      );
+    }
+  }
+}
+
 function warnUnsupportedCollapsible(
   appearance: SegmentedControlAppearance,
   options: SegmentedControlOption[],
@@ -373,6 +387,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
   ) => {
     warnMissingAccessibleName(props["aria-label"], props["aria-labelledby"]);
     warnMissingOptionAccessibleName(options);
+    warnUnsupportedAmount(options);
     if (collapsible) warnUnsupportedCollapsible(appearance, options, collapsedIcon !== undefined);
 
     // Tracks selection for uncontrolled usage; ignored when `value` prop is provided
@@ -503,16 +518,20 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
         ref={setRootRef}
         role={isCollapsed ? "group" : "radiogroup"}
         className={cn(
-          "relative items-center rounded-full",
+          "relative items-start rounded-full",
           variant === "fill" ? "flex w-full" : "inline-flex",
           isCollapsed
             ? // Collapsed, the toggle itself carries the surface, so the container drops its own
               // chrome and centres the button instead of pinning it to the start of a full-width
               // row — in a narrow rail that offset is the whole width of the column.
-              "justify-center"
+              "items-center justify-center"
             : appearance === "plain"
               ? "gap-2"
-              : "bg-surface-tertiary p-1",
+              : // Figma clips the container, and its `Surface/Secondary` resolves to gray-150 in
+                // light and gray-850 in dark. No single repo token carries that pair:
+                // `surface-secondary` is gray-75 in light, `surface-tertiary` is gray-600 in dark.
+                // Pair them until `--color-surface-secondary` is remapped to gray-150.
+                "overflow-hidden bg-surface-tertiary p-1 dark:bg-surface-secondary",
           disabled && "cursor-not-allowed opacity-50",
           className,
         )}
