@@ -56,6 +56,16 @@ const SIZES: SwitchToggleSize[] = ["40", "32", "24"];
 
 const HOVER_CLASS = "bg-buttons-switch-hover";
 
+/**
+ * For stories that render a fixed set of instances rather than one driven by args.
+ * Their whole point is the combinations they hardcode, so leaving the Controls panel
+ * enabled advertises knobs that cannot move anything — toggle props on `Default`
+ * instead.
+ */
+const STATIC_STORY_PARAMETERS = {
+  controls: { disable: true },
+} as const;
+
 export const Default: Story = {};
 
 export const Pressed: Story = {
@@ -77,6 +87,7 @@ export const Disabled: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: STATIC_STORY_PARAMETERS,
   render: () => (
     <div className="flex flex-col gap-6">
       {SIZES.map((size) => (
@@ -97,6 +108,7 @@ export const Sizes: Story = {
 export const IconSlots: Story = {
   name: "Icon slots",
   parameters: {
+    ...STATIC_STORY_PARAMETERS,
     docs: {
       description: {
         story:
@@ -123,6 +135,7 @@ export const IconSlots: Story = {
 
 export const IconSlotsPressed: Story = {
   name: "Icon slots pressed",
+  parameters: STATIC_STORY_PARAMETERS,
   render: () => (
     <div className="flex flex-col gap-6">
       {SIZES.map((size) => (
@@ -142,6 +155,7 @@ export const IconSlotsPressed: Story = {
 
 export const Matrix: Story = {
   parameters: {
+    ...STATIC_STORY_PARAMETERS,
     docs: {
       description: {
         story:
@@ -194,6 +208,7 @@ export const ControlledExample: Story = {
   name: "Controlled",
   parameters: {
     ...NON_VISUAL_STORY_PARAMETERS,
+    ...STATIC_STORY_PARAMETERS,
     docs: {
       description: {
         story: "`pressed` and `onPressedChange` driven by React state.",
@@ -217,6 +232,7 @@ export const UncontrolledExample: Story = {
   name: "Uncontrolled",
   parameters: {
     ...NON_VISUAL_STORY_PARAMETERS,
+    ...STATIC_STORY_PARAMETERS,
     docs: {
       description: {
         story: "No `pressed` prop. State is held internally, seeded by `defaultPressed`.",
@@ -235,6 +251,7 @@ export const MigrationFromSegmented: Story = {
   name: "Migrating from the two-option API",
   parameters: {
     ...NON_VISUAL_STORY_PARAMETERS,
+    ...STATIC_STORY_PARAMETERS,
     docs: {
       description: {
         story:
