@@ -1,226 +1,228 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { SwitchToggle } from "./SwitchToggle";
-
-const defaultOptions: [{ label: string; value: string }, { label: string; value: string }] = [
-  { label: "Net", value: "net" },
-  { label: "Gross", value: "gross" },
-];
 
 describe("SwitchToggle", () => {
   describe("API", () => {
     it("applies custom className", () => {
-      const { container } = render(
-        <SwitchToggle className="custom-class" options={defaultOptions} aria-label="Toggle" />,
-      );
-      expect(container.firstChild).toHaveClass("custom-class");
+      render(<SwitchToggle label="Filter" className="custom-class" />);
+      expect(screen.getByRole("button")).toHaveClass("custom-class");
     });
 
-    it("selects first option by default (uncontrolled)", () => {
-      render(<SwitchToggle options={defaultOptions} aria-label="Toggle" />);
-      const radios = screen.getAllByRole("radio");
-      expect(radios[0]).toHaveAttribute("aria-checked", "true");
-      expect(radios[1]).toHaveAttribute("aria-checked", "false");
+    it("uses the label as the accessible name", () => {
+      render(<SwitchToggle label="Hide sold out" />);
+      expect(screen.getByRole("button", { name: "Hide sold out" })).toBeInTheDocument();
     });
 
-    it("supports defaultValue", () => {
-      render(<SwitchToggle options={defaultOptions} defaultValue="gross" aria-label="Toggle" />);
-      const radios = screen.getAllByRole("radio");
-      expect(radios[0]).toHaveAttribute("aria-checked", "false");
-      expect(radios[1]).toHaveAttribute("aria-checked", "true");
+    it("renders an unpressed toggle button by default", () => {
+      render(<SwitchToggle label="Filter" />);
+      const button = screen.getByRole("button");
+      expect(button).toHaveAttribute("aria-pressed", "false");
+      expect(button).toHaveAttribute("data-state", "off");
+      expect(button).toHaveAttribute("type", "button");
+    });
+
+    it("respects defaultPressed when uncontrolled", () => {
+      render(<SwitchToggle label="Filter" defaultPressed />);
+      const button = screen.getByRole("button");
+      expect(button).toHaveAttribute("aria-pressed", "true");
+      expect(button).toHaveAttribute("data-state", "on");
     });
 
     it("can be controlled", () => {
-      const { rerender } = render(
-        <SwitchToggle options={defaultOptions} value="net" aria-label="Toggle" />,
-      );
-      const radios = screen.getAllByRole("radio");
-      expect(radios[0]).toHaveAttribute("aria-checked", "true");
+      const { rerender } = render(<SwitchToggle label="Filter" pressed={false} />);
+      const button = screen.getByRole("button");
+      expect(button).toHaveAttribute("aria-pressed", "false");
 
-      rerender(<SwitchToggle options={defaultOptions} value="gross" aria-label="Toggle" />);
-      expect(radios[0]).toHaveAttribute("aria-checked", "false");
-      expect(radios[1]).toHaveAttribute("aria-checked", "true");
+      rerender(<SwitchToggle label="Filter" pressed={true} />);
+      expect(button).toHaveAttribute("aria-pressed", "true");
+      expect(button).toHaveAttribute("data-state", "on");
     });
 
-    it("calls onChange when toggled", async () => {
+    it("does not move a controlled value on its own", async () => {
       const user = userEvent.setup();
-      const handleChange = vi.fn();
-      render(<SwitchToggle options={defaultOptions} onChange={handleChange} aria-label="Toggle" />);
-      await user.click(screen.getByText("Gross"));
-      expect(handleChange).toHaveBeenCalledWith("gross");
+      const onPressedChange = vi.fn();
+      render(<SwitchToggle label="Filter" pressed={false} onPressedChange={onPressedChange} />);
+      const button = screen.getByRole("button");
+
+      await user.click(button);
+
+      expect(onPressedChange).toHaveBeenCalledWith(true);
+      expect(button).toHaveAttribute("aria-pressed", "false");
     });
 
-    it("disables interaction when disabled", async () => {
+    it("toggles on click and reports the next state", async () => {
       const user = userEvent.setup();
-      const handleChange = vi.fn();
-      render(
-        <SwitchToggle
-          disabled
-          options={defaultOptions}
-          onChange={handleChange}
-          aria-label="Toggle"
-        />,
-      );
-      await user.click(screen.getByText("Gross"));
-      expect(handleChange).not.toHaveBeenCalled();
+      const onPressedChange = vi.fn();
+      render(<SwitchToggle label="Filter" onPressedChange={onPressedChange} />);
+      const button = screen.getByRole("button");
+
+      await user.click(button);
+      expect(onPressedChange).toHaveBeenLastCalledWith(true);
+      expect(button).toHaveAttribute("aria-pressed", "true");
+
+      await user.click(button);
+      expect(onPressedChange).toHaveBeenLastCalledWith(false);
+      expect(button).toHaveAttribute("aria-pressed", "false");
+    });
+
+    it("still calls a supplied onClick", async () => {
+      const user = userEvent.setup();
+      const onClick = vi.fn();
+      render(<SwitchToggle label="Filter" onClick={onClick} />);
+      await user.click(screen.getByRole("button"));
+      expect(onClick).toHaveBeenCalledTimes(1);
     });
 
     it("forwards ref", () => {
-      const ref = React.createRef<HTMLDivElement>();
-      render(<SwitchToggle ref={ref} options={defaultOptions} aria-label="Toggle" />);
-      expect(ref.current).toBeInstanceOf(HTMLDivElement);
+      const ref = React.createRef<HTMLButtonElement>();
+      render(<SwitchToggle label="Filter" ref={ref} />);
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement);
     });
   });
 
-  describe("keyboard navigation", () => {
-    it("moves focus and selects with ArrowRight", async () => {
+  describe("keyboard", () => {
+    it("toggles with Enter and Space", async () => {
       const user = userEvent.setup();
-      const handleChange = vi.fn();
-      render(<SwitchToggle options={defaultOptions} onChange={handleChange} aria-label="Toggle" />);
-      const radios = screen.getAllByRole("radio");
+      render(<SwitchToggle label="Filter" />);
+      const button = screen.getByRole("button");
 
-      radios[0]?.focus();
-      await user.keyboard("{ArrowRight}");
+      await user.tab();
+      expect(button).toHaveFocus();
 
-      expect(handleChange).toHaveBeenCalledWith("gross");
-      expect(radios[1]).toHaveFocus();
+      await user.keyboard("{Enter}");
+      expect(button).toHaveAttribute("aria-pressed", "true");
+
+      await user.keyboard(" ");
+      expect(button).toHaveAttribute("aria-pressed", "false");
+    });
+  });
+
+  describe("size", () => {
+    it.each([
+      ["24", "h-6"],
+      ["32", "h-8"],
+      ["40", "h-10"],
+    ] as const)("renders the %s size at %s", (size, heightClass) => {
+      render(<SwitchToggle label="Filter" size={size} />);
+      expect(screen.getByRole("button")).toHaveClass(heightClass);
+    });
+  });
+
+  describe("icons", () => {
+    const glyphCount = (container: HTMLElement) => container.querySelectorAll("svg").length;
+
+    it("shows neither glyph by default", () => {
+      const { container } = render(<SwitchToggle label="Filter" />);
+      expect(glyphCount(container)).toBe(0);
     });
 
-    it("moves focus and selects with ArrowLeft", async () => {
-      const user = userEvent.setup();
-      const handleChange = vi.fn();
-      render(
-        <SwitchToggle
-          options={defaultOptions}
-          defaultValue="gross"
-          onChange={handleChange}
-          aria-label="Toggle"
-        />,
+    it("toggles the two glyphs independently", () => {
+      const { container, rerender } = render(<SwitchToggle label="Filter" showLeftIcon />);
+      expect(glyphCount(container)).toBe(1);
+
+      rerender(<SwitchToggle label="Filter" showRightIcon />);
+      expect(glyphCount(container)).toBe(1);
+
+      rerender(<SwitchToggle label="Filter" showLeftIcon showRightIcon />);
+      expect(glyphCount(container)).toBe(2);
+
+      rerender(<SwitchToggle label="Filter" />);
+      expect(glyphCount(container)).toBe(0);
+    });
+
+    it("puts the glyphs on the correct sides of the label", () => {
+      const { container } = render(<SwitchToggle label="Filter" showLeftIcon showRightIcon />);
+      const children = Array.from(
+        (container.firstElementChild as HTMLElement).children,
+      ) as HTMLElement[];
+      expect(children).toHaveLength(3);
+      expect(children[0]?.querySelector("svg")).toBeInTheDocument();
+      expect(children[1]?.textContent).toBe("Filter");
+      expect(children[2]?.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("keeps glyphs out of the accessible name", () => {
+      render(<SwitchToggle label="Earnings" showLeftIcon showRightIcon />);
+      expect(screen.getByRole("button", { name: "Earnings" })).toBeInTheDocument();
+    });
+  });
+
+  describe("variant", () => {
+    it("pins a single fixed sparkle on the ai variant", () => {
+      const { container } = render(<SwitchToggle variant="ai" label="Smart replies" />);
+      const children = Array.from(
+        (container.firstElementChild as HTMLElement).children,
+      ) as HTMLElement[];
+      expect(container.querySelectorAll("svg")).toHaveLength(1);
+      expect(children).toHaveLength(2);
+      expect(children[0]?.querySelector("svg")).toBeInTheDocument();
+      expect(children[1]?.textContent).toBe("Smart replies");
+    });
+
+    it("fills green and paints a masked three-stop gradient ring when pressed", () => {
+      render(<SwitchToggle variant="ai" label="Smart replies" defaultPressed />);
+      const button = screen.getByRole("button");
+      expect(button).toHaveClass("bg-buttons-ai-background-gradient-default-start");
+      expect(button.className).toContain(
+        "linear-gradient(90deg,var(--color-buttons-ai-stroke-end)_0%,var(--color-buttons-ai-stroke-start)_50%,var(--color-buttons-ai-stroke-end)_100%)",
       );
-      const radios = screen.getAllByRole("radio");
-
-      radios[1]?.focus();
-      await user.keyboard("{ArrowLeft}");
-
-      expect(handleChange).toHaveBeenCalledWith("net");
-      expect(radios[0]).toHaveFocus();
+      expect(button.className).toContain("content-box_exclude");
+      expect(button).not.toHaveClass("bg-buttons-primary-default");
     });
 
-    it("moves focus and selects with ArrowDown", async () => {
-      const user = userEvent.setup();
-      const handleChange = vi.fn();
-      render(<SwitchToggle options={defaultOptions} onChange={handleChange} aria-label="Toggle" />);
-      const radios = screen.getAllByRole("radio");
-
-      radios[0]?.focus();
-      await user.keyboard("{ArrowDown}");
-
-      expect(handleChange).toHaveBeenCalledWith("gross");
-      expect(radios[1]).toHaveFocus();
-    });
-
-    it("moves focus and selects with ArrowUp", async () => {
-      const user = userEvent.setup();
-      const handleChange = vi.fn();
-      render(
-        <SwitchToggle
-          options={defaultOptions}
-          defaultValue="gross"
-          onChange={handleChange}
-          aria-label="Toggle"
-        />,
+    it("carries no ai fill while unpressed", () => {
+      render(<SwitchToggle variant="ai" label="Smart replies" />);
+      expect(screen.getByRole("button").className).not.toContain(
+        "var(--color-buttons-ai-stroke-start)",
       );
-      const radios = screen.getAllByRole("radio");
-
-      radios[1]?.focus();
-      await user.keyboard("{ArrowUp}");
-
-      expect(handleChange).toHaveBeenCalledWith("net");
-      expect(radios[0]).toHaveFocus();
     });
 
-    it("does not fire onChange when clicking the already-selected option", async () => {
+    it("darkens and inverts its label when the default variant is pressed", () => {
+      render(<SwitchToggle label="Filter" defaultPressed />);
+      const button = screen.getByRole("button");
+      expect(button).toHaveClass("bg-buttons-primary-default");
+      expect(button).toHaveClass("text-content-primary-inverted");
+    });
+  });
+
+  describe("disabled", () => {
+    it("does not toggle when disabled", async () => {
       const user = userEvent.setup();
-      const handleChange = vi.fn();
-      render(<SwitchToggle options={defaultOptions} onChange={handleChange} aria-label="Toggle" />);
+      const onPressedChange = vi.fn();
+      render(<SwitchToggle label="Filter" disabled onPressedChange={onPressedChange} />);
+      const button = screen.getByRole("button");
 
-      await user.click(screen.getByText("Net"));
+      expect(button).toBeDisabled();
+      await user.click(button);
 
-      expect(handleChange).not.toHaveBeenCalled();
+      expect(onPressedChange).not.toHaveBeenCalled();
+      expect(button).toHaveAttribute("aria-pressed", "false");
     });
 
-    it("does not navigate when disabled", async () => {
-      const user = userEvent.setup();
-      const handleChange = vi.fn();
-      render(
-        <SwitchToggle
-          disabled
-          options={defaultOptions}
-          onChange={handleChange}
-          aria-label="Toggle"
-        />,
-      );
-      const radios = screen.getAllByRole("radio");
-
-      radios[0]?.focus();
-      await user.keyboard("{ArrowRight}");
-
-      expect(handleChange).not.toHaveBeenCalled();
-      expect(radios[0]).toHaveAttribute("aria-checked", "true");
-    });
-
-    it("sets tabIndex={0} on selected and tabIndex={-1} on unselected", () => {
-      render(<SwitchToggle options={defaultOptions} aria-label="Toggle" />);
-      const radios = screen.getAllByRole("radio");
-      expect(radios[0]).toHaveAttribute("tabIndex", "0");
-      expect(radios[1]).toHaveAttribute("tabIndex", "-1");
-    });
-
-    it("falls back to first option tabbable when value matches neither option", () => {
-      render(<SwitchToggle options={defaultOptions} value="stale" aria-label="Toggle" />);
-      const radios = screen.getAllByRole("radio");
-      expect(radios[0]).toHaveAttribute("tabIndex", "0");
-      expect(radios[1]).toHaveAttribute("tabIndex", "-1");
+    it("drops the pressed fill so the disabled treatment reads as unavailable", () => {
+      render(<SwitchToggle label="Filter" disabled defaultPressed />);
+      const button = screen.getByRole("button");
+      expect(button).toHaveAttribute("aria-pressed", "true");
+      expect(button).toHaveClass("text-content-disabled");
+      expect(button).not.toHaveClass("bg-buttons-primary-default");
     });
   });
 
   describe("accessibility", () => {
-    let consoleWarnSpy: ReturnType<typeof vi.spyOn>;
-
-    beforeEach(() => {
-      consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
-    });
-
-    afterEach(() => {
-      consoleWarnSpy.mockRestore();
-    });
-
     it("has no accessibility violations", async () => {
+      const { container } = render(<SwitchToggle label="Hide sold out" />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations when pressed and disabled", async () => {
       const { container } = render(
-        <SwitchToggle options={defaultOptions} aria-label="Toggle view" />,
+        <SwitchToggle variant="ai" label="Smart replies" defaultPressed disabled />,
       );
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
-    });
-
-    it("warns in dev when no accessible name is provided", () => {
-      render(<SwitchToggle options={defaultOptions} />);
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining("no accessible name provided"),
-      );
-    });
-
-    it("does not warn when aria-label is provided", () => {
-      render(<SwitchToggle options={defaultOptions} aria-label="Toggle" />);
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
-    });
-
-    it("does not warn when aria-labelledby is provided", () => {
-      render(<SwitchToggle options={defaultOptions} aria-labelledby="external-label" />);
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(await axe(container)).toHaveNoViolations();
     });
   });
 });
