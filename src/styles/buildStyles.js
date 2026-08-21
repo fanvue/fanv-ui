@@ -72,6 +72,26 @@ const resolveValue = (value) => {
   return refToVar(value.slice(1, -1));
 };
 
+/**
+ * Variable names the Figma Semantic collection renamed away, kept as aliases so the
+ * rename does not break consumers. Removing a colour var is silent in the browser (no
+ * error, just a wrong colour), and apps override the ai button locally, so these are
+ * carried through a deprecation period instead. Drop the whole block in the next major.
+ *
+ * Both ai gradient stops map to the single fill token on purpose: the design replaced
+ * that gradient with a flat fill, and `linear-gradient(C, C)` renders as flat C, so an
+ * untouched consumer picks up the new look rather than a broken one.
+ */
+const LEGACY_COLOR_ALIASES = {
+  "--color-buttons-ai-background-gradient-default-start": "--color-buttons-ai-default",
+  "--color-buttons-ai-background-gradient-default-end": "--color-buttons-ai-default",
+  "--color-buttons-ai-background-gradient-hover-start": "--color-buttons-ai-hover",
+  "--color-buttons-ai-background-gradient-hover-end": "--color-buttons-ai-hover",
+  "--color-buttons-navigation-highlight": "--color-buttons-navigation-selected",
+  "--color-inputs-inputs-off": "--color-inputs-inputs-disabled",
+  "--color-messages-background-receiver-2": "--color-messages-background-receiver-stroke",
+};
+
 const getColorSections = (rawTokens) => {
   const semanticLightTokens = flattenTokens(rawTokens.semantic.light.color);
   const semanticDarkTokens = flattenTokens(rawTokens.semantic.dark.color);
@@ -91,6 +111,15 @@ const getColorSections = (rawTokens) => {
     const darkRaw = darkMap.get(path.join("."));
     const darkResolved = darkRaw !== undefined ? resolveValue(darkRaw) : resolved;
     darkVars += `  ${cssVar}: ${darkResolved};\n`;
+  }
+
+  // The alias target is already mode-aware, so one identical line serves all three
+  // sections. Emitting into @theme is what regenerates the old Tailwind utilities.
+  for (const [legacy, current] of Object.entries(LEGACY_COLOR_ALIASES)) {
+    const declaration = `  ${legacy}: var(${current});\n`;
+    themeVars += declaration;
+    lightVars += declaration;
+    darkVars += declaration;
   }
 
   let primitivesVars = "";
@@ -347,6 +376,7 @@ export {
   assertPrimitiveParity,
   assertNoDanglingVars,
   buildThemeCss,
+  LEGACY_COLOR_ALIASES,
 };
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

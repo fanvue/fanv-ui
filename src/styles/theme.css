@@ -308,6 +308,13 @@
   --color-creator-agent-mesh-gradient-2: var(--primitives-color-green-200);
   --color-creator-agent-mesh-gradient-3: var(--primitives-color-green-300);
   --color-creator-agent-mesh-gradient-background: var(--color-background-secondary);
+  --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
+  --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
+  --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);
+  --color-buttons-ai-background-gradient-hover-end: var(--color-buttons-ai-hover);
+  --color-buttons-navigation-highlight: var(--color-buttons-navigation-selected);
+  --color-inputs-inputs-off: var(--color-inputs-inputs-disabled);
+  --color-messages-background-receiver-2: var(--color-messages-background-receiver-stroke);
 }
 
 :root {
@@ -769,6 +776,13 @@
   --color-creator-agent-mesh-gradient-2: var(--primitives-color-green-200);
   --color-creator-agent-mesh-gradient-3: var(--primitives-color-green-300);
   --color-creator-agent-mesh-gradient-background: var(--color-background-secondary);
+  --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
+  --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
+  --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);
+  --color-buttons-ai-background-gradient-hover-end: var(--color-buttons-ai-hover);
+  --color-buttons-navigation-highlight: var(--color-buttons-navigation-selected);
+  --color-inputs-inputs-off: var(--color-inputs-inputs-disabled);
+  --color-messages-background-receiver-2: var(--color-messages-background-receiver-stroke);
 
   /* Focus-ring colour, consumed by --shadow-focus-ring. Violet on light
      backgrounds; overridden to white in .dark so the ring stays visible. */
@@ -1053,6 +1067,13 @@
   --color-creator-agent-mesh-gradient-2: var(--primitives-color-green-700);
   --color-creator-agent-mesh-gradient-3: var(--primitives-color-green-600);
   --color-creator-agent-mesh-gradient-background: var(--color-background-secondary);
+  --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
+  --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
+  --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);
+  --color-buttons-ai-background-gradient-hover-end: var(--color-buttons-ai-hover);
+  --color-buttons-navigation-highlight: var(--color-buttons-navigation-selected);
+  --color-inputs-inputs-off: var(--color-inputs-inputs-disabled);
+  --color-messages-background-receiver-2: var(--color-messages-background-receiver-stroke);
   --fv-focus-ring-color: var(--color-content-always-white);
 }
 

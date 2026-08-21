@@ -6,6 +6,7 @@ import {
   assertPrimitiveParity,
   buildThemeCss,
   getEffectTokens,
+  LEGACY_COLOR_ALIASES,
   refToVar,
   resolveValue,
 } from "./buildStyles.js";
@@ -120,6 +121,26 @@ describe("buildThemeCss", () => {
     expect(bySelector.get(":root")).toBeDefined();
     expect(bySelector.get(".dark")).toBeDefined();
     expect(bySelector.get(":root")).not.toBe(bySelector.get(".dark"));
+  });
+
+  it("keeps every renamed-away colour var working as an alias", () => {
+    for (const [legacy, current] of Object.entries(LEGACY_COLOR_ALIASES)) {
+      expect(css).toContain(`${legacy}: var(${current});`);
+    }
+  });
+
+  it("declares the aliases in @theme so the old utilities regenerate", () => {
+    const themeBlocks = css.match(/@theme \{[^}]*\}/g) ?? [];
+    for (const legacy of Object.keys(LEGACY_COLOR_ALIASES)) {
+      expect(themeBlocks.some((block) => block.includes(`${legacy}:`))).toBe(true);
+    }
+  });
+
+  it("points every alias at a var that is actually defined", () => {
+    const defined = new Set([...css.matchAll(/^\s*(--[\w-]+)\s*:/gm)].map((m) => m[1]));
+    for (const current of Object.values(LEGACY_COLOR_ALIASES)) {
+      expect(defined).toContain(current);
+    }
   });
 
   it("stays in sync with the committed theme.css (run buildStyles.js to regenerate)", () => {
