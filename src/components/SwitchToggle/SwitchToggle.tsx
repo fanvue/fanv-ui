@@ -1,10 +1,23 @@
+import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { AddIcon } from "../Icons/AddIcon";
+import { AIIcon } from "../Icons/AIIcon";
 
-/** Height of the switch toggle in pixels. */
+/** Height of the toggle in pixels. Matches {@link Button}'s scale. */
 export type SwitchToggleSize = "24" | "32" | "40";
 
-/** Describes one side of the binary toggle. */
+/** Visual treatment of the toggle. */
+export type SwitchToggleVariant = "default" | "ai";
+
+/**
+ * Describes one side of the removed two-option segmented toggle.
+ *
+ * @deprecated `SwitchToggle` is now a single binary toggle and no longer takes
+ * `options`. Use {@link SegmentedControlOption} with {@link SegmentedControl}
+ * for two- or three-option selection. Kept as an alias so existing imports keep
+ * resolving; it is no longer referenced by {@link SwitchToggleProps}.
+ */
 export interface SwitchToggleOption {
   /** Display label for the option. */
   label: string;
@@ -12,37 +25,117 @@ export interface SwitchToggleOption {
   value: string;
 }
 
-export interface SwitchToggleProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
-  /** Height of the toggle in pixels. @default "24" */
-  size?: SwitchToggleSize;
-  /** The two options to toggle between (exactly two required). */
-  options: [SwitchToggleOption, SwitchToggleOption];
-  /** Currently selected value (controlled). */
-  value?: string;
-  /** Initially selected value (uncontrolled). */
-  defaultValue?: string;
-  /** Callback fired when the selected value changes. */
-  onChange?: (value: string) => void;
-  /** Whether the toggle is disabled. @default false */
-  disabled?: boolean;
-}
+const sizeVariants: Record<SwitchToggleSize, string> = {
+  "24": "h-6 px-2 py-1 typography-description-12px-semibold",
+  "32": "h-8 px-3 py-[7px] typography-body-small-14px-semibold",
+  "40": "h-10 px-4 py-2 typography-body-default-16px-semibold",
+};
 
-function warnMissingAccessibleName(ariaLabel?: string, ariaLabelledBy?: string) {
-  if (process.env.NODE_ENV !== "production") {
-    if (!ariaLabel && !ariaLabelledBy) {
-      console.warn(
-        "SwitchToggle: no accessible name provided. Pass an `aria-label` or `aria-labelledby` prop.",
-      );
-    }
-  }
+const ICON_SLOT_CLASSES = "flex size-4 shrink-0 items-center justify-center";
+
+/**
+ * Pressed `"ai"` treatment, matching Figma node `16800:9469`: the translucent
+ * `Buttons/AI/Default` fill, plus a 1px stroke whose three-stop gradient runs
+ * `Stroke-End → Stroke-Start → Stroke-End` horizontally.
+ *
+ * The stroke is a masked overlay rather than a border because Figma draws it with
+ * `strokeAlign: INSIDE` — a real border would add 2px to the hug width and push
+ * every size past its Figma dimensions.
+ *
+ * Written as one literal string because Tailwind scans source text — composing it
+ * from parts stops the utilities being generated at all.
+ */
+const AI_PRESSED_FILL =
+  "relative bg-buttons-ai-background-gradient-default-start before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:p-px before:[background:linear-gradient(90deg,var(--color-buttons-ai-stroke-end)_0%,var(--color-buttons-ai-stroke-start)_50%,var(--color-buttons-ai-stroke-end)_100%)] before:[mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]";
+
+interface SwitchToggleBaseProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type" | "children"> {
+  /** Visible text label, which is also the accessible name. */
+  label: string;
+  /** Height of the toggle in pixels. @default "32" */
+  size?: SwitchToggleSize;
+  /** On/off state for controlled usage. Pair with `onPressedChange`. */
+  pressed?: boolean;
+  /** Initial on/off state for uncontrolled usage. @default false */
+  defaultPressed?: boolean;
+  /** Fired with the next state each time the toggle flips. */
+  onPressedChange?: (pressed: boolean) => void;
+  /** Native button behaviour. @default "button" */
+  type?: "button" | "submit" | "reset";
 }
 
 /**
- * A binary segmented toggle rendered as a `radiogroup`. The active option is
- * highlighted with a sliding pill indicator. Supports both controlled and
- * uncontrolled usage.
+ * Props for the `"default"` variant, the only one with icon slots. The two are
+ * independent: pass either, neither, or both.
+ */
+export interface SwitchToggleDefaultProps extends SwitchToggleBaseProps {
+  /** Visual treatment. @default "default" */
+  variant?: "default";
+  /** Show an icon before the label. @default false */
+  showLeftIcon?: boolean;
+  /** Show an icon after the label. @default false */
+  showRightIcon?: boolean;
+  /** Icon rendered before the label when `showLeftIcon` is set. @default `<AddIcon size={16} />` */
+  leftIcon?: React.ReactNode;
+  /** Icon rendered after the label when `showRightIcon` is set. @default `<AddIcon size={16} />` */
+  rightIcon?: React.ReactNode;
+}
+
+/**
+ * Props for the `"ai"` variant. Its leading sparkle is fixed and it has no
+ * trailing slot, so neither icon prop is available here.
+ */
+export interface SwitchToggleAiProps extends SwitchToggleBaseProps {
+  /** Visual treatment. */
+  variant: "ai";
+  /** Unavailable on `"ai"` — the leading sparkle is always shown and cannot be swapped. */
+  showLeftIcon?: never;
+  /** Unavailable on `"ai"` — this variant has no trailing icon slot. */
+  showRightIcon?: never;
+  /** Unavailable on `"ai"` — the leading sparkle is fixed. */
+  leftIcon?: never;
+  /** Unavailable on `"ai"` — this variant has no trailing icon slot. */
+  rightIcon?: never;
+}
+
+/**
+ * Props for {@link SwitchToggle}. A discriminated union on `variant`, so the
+ * icon slots only type-check on the `"default"` variant.
+ */
+export type SwitchToggleProps = SwitchToggleDefaultProps | SwitchToggleAiProps;
+
+/**
+ * A labelled pill that switches one feature or mode on and off, for settings
+ * panels, filter bars and tool options. Unlike {@link Switch} it names the thing
+ * it controls, which suits contexts where the action needs spelling out.
+ *
+ * Rendered as a `<button>` carrying `aria-pressed` — the ARIA toggle-button
+ * pattern — so it flips on click and on Enter or Space, and exposes
+ * `data-state="on" | "off"` for styling. Supports controlled (`pressed`) and
+ * uncontrolled (`defaultPressed`) usage. The visible `label` is the accessible
+ * name, so no `aria-label` is needed.
+ *
+ * The `"default"` variant has two independent icon flags, `showLeftIcon` and
+ * `showRightIcon`, each rendering the add glyph on that side. The `"ai"` variant
+ * pins a sparkle before the label instead, takes neither flag, and turns green
+ * rather than dark when on.
  *
  * @example
+ * ```tsx
+ * <SwitchToggle label="Hide sold out" pressed={hidden} onPressedChange={setHidden} />
+ * ```
+ *
+ * @example Independent icon flags, available on the default variant only
+ * ```tsx
+ * <SwitchToggle size="40" label="Add filter" showLeftIcon showRightIcon />
+ * ```
+ *
+ * @example The AI variant, whose sparkle is fixed
+ * ```tsx
+ * <SwitchToggle variant="ai" label="Smart replies" defaultPressed />
+ * ```
+ *
+ * @example Migrating away from the removed two-option API
  * ```tsx
  * <SwitchToggle
  *   options={[
@@ -51,110 +144,95 @@ function warnMissingAccessibleName(ariaLabel?: string, ariaLabelledBy?: string) 
  *   ]}
  *   value={billing}
  *   onChange={setBilling}
+ *   aria-label="Billing period"
+ * />
+ *
+ * <SegmentedControl
+ *   options={[
+ *     { label: "Monthly", value: "monthly" },
+ *     { label: "Yearly", value: "yearly" },
+ *   ]}
+ *   value={billing}
+ *   onChange={setBilling}
+ *   aria-label="Billing period"
  * />
  * ```
  */
-export const SwitchToggle = React.forwardRef<HTMLDivElement, SwitchToggleProps>(
+export const SwitchToggle = React.forwardRef<HTMLButtonElement, SwitchToggleProps>(
   (
     {
+      label,
+      size = "32",
+      variant = "default",
+      pressed: pressedProp,
+      defaultPressed = false,
+      onPressedChange,
+      showLeftIcon = false,
+      showRightIcon = false,
+      leftIcon,
+      rightIcon,
+      type = "button",
       className,
-      size = "24",
-      options,
-      value: controlledValue,
-      defaultValue,
-      onChange,
       disabled = false,
+      onClick,
       ...props
     },
     ref,
   ) => {
-    warnMissingAccessibleName(props["aria-label"], props["aria-labelledby"]);
+    const [pressed = false, setPressed] = useControllableState({
+      prop: pressedProp,
+      defaultProp: defaultPressed,
+      onChange: onPressedChange,
+    });
 
-    // Tracks selection for uncontrolled usage; ignored when `value` prop is provided
-    const [internalValue, setInternalValue] = React.useState(defaultValue ?? options[0].value);
-    const isControlled = controlledValue !== undefined;
-    const currentValue = isControlled ? controlledValue : internalValue;
-    const anySelected = options.some((o) => o.value === currentValue);
-    const isSecondSelected = currentValue === options[1].value;
-    const buttonRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
-
-    const sizeClass =
-      size === "24"
-        ? "px-2 py-1 typography-description-12px-semibold"
-        : size === "32"
-          ? "px-3 py-1.75 typography-body-small-14px-semibold"
-          : "h-10 px-4 py-2.25 typography-body-default-16px-semibold";
-
-    const handleSelect = (optionValue: string) => {
-      if (disabled || optionValue === currentValue) return;
-      if (!isControlled) {
-        setInternalValue(optionValue);
-      }
-      onChange?.(optionValue);
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
-      const nextIndex =
-        e.key === "ArrowRight" || e.key === "ArrowDown"
-          ? (index + 1) % options.length
-          : e.key === "ArrowLeft" || e.key === "ArrowUp"
-            ? (index - 1 + options.length) % options.length
-            : null;
-      if (nextIndex === null) return;
-      e.preventDefault();
-      const nextOption = options[nextIndex] as (typeof options)[number];
-      handleSelect(nextOption.value);
-      buttonRefs.current[nextIndex]?.focus();
-    };
+    const isAi = variant === "ai";
+    const leading = isAi ? (
+      <AIIcon size={16} filled />
+    ) : showLeftIcon ? (
+      (leftIcon ?? <AddIcon size={16} />)
+    ) : undefined;
+    const trailing = !isAi && showRightIcon ? (rightIcon ?? <AddIcon size={16} />) : undefined;
 
     return (
-      <div
+      <button
         ref={ref}
-        role="radiogroup"
+        type={type}
+        disabled={disabled}
+        aria-pressed={pressed}
+        data-state={pressed ? "on" : "off"}
+        onClick={(event) => {
+          onClick?.(event);
+          setPressed(!pressed);
+        }}
         className={cn(
-          "relative inline-grid grid-cols-2 rounded-full border border-neutral-alphas-200 p-1",
-          disabled && "cursor-not-allowed opacity-50",
+          "inline-flex w-fit shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full",
+          "motion-safe:transition-colors motion-safe:duration-150",
+          "focus-visible:shadow-focus-ring focus-visible:outline-none",
+          sizeVariants[size],
+          !disabled && "cursor-pointer",
+          !disabled && !pressed && "text-content-primary hover:bg-buttons-switch-hover",
+          !disabled &&
+            pressed &&
+            !isAi &&
+            "bg-buttons-primary-default text-content-primary-inverted shadow-sm",
+          !disabled && pressed && isAi && `text-content-primary shadow-sm ${AI_PRESSED_FILL}`,
+          disabled && "cursor-not-allowed text-content-disabled",
           className,
         )}
         {...props}
       >
-        <span
-          aria-hidden="true"
-          className={cn(
-            "absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full border border-brand-primary-default bg-brand-primary-muted",
-            "motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-in-out",
-            isSecondSelected && "translate-x-full",
-          )}
-        />
-        {options.map((option, index) => {
-          const isSelected = currentValue === option.value;
-          return (
-            // biome-ignore lint/a11y/useSemanticElements: native radio inputs only allow Tab-focus on the checked item; buttons with roving tabindex give full keyboard navigation
-            <button
-              key={option.value}
-              ref={(el) => {
-                buttonRefs.current[index] = el;
-              }}
-              type="button"
-              role="radio"
-              aria-checked={isSelected}
-              tabIndex={isSelected || (!anySelected && index === 0) ? 0 : -1}
-              disabled={disabled}
-              onClick={() => handleSelect(option.value)}
-              onKeyDown={(e) => handleKeyDown(e, index)}
-              className={cn(
-                "relative z-10 inline-flex min-w-0 cursor-pointer items-center justify-center rounded-full border border-transparent text-content-primary",
-                "focus-visible:shadow-focus-ring focus-visible:outline-none",
-                "active:rounded-full active:bg-brand-primary-muted",
-                disabled && "pointer-events-none",
-                sizeClass,
-              )}
-            >
-              <span className="min-w-0 truncate">{option.label}</span>
-            </button>
-          );
-        })}
-      </div>
+        {leading && (
+          <span className={ICON_SLOT_CLASSES} aria-hidden="true">
+            {leading}
+          </span>
+        )}
+        <span className="min-w-0 truncate">{label}</span>
+        {trailing && (
+          <span className={ICON_SLOT_CLASSES} aria-hidden="true">
+            {trailing}
+          </span>
+        )}
+      </button>
     );
   },
 );
