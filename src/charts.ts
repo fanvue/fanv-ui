@@ -1,4 +1,6 @@
 export type { CardHierarchy } from "./components/Card/Card";
+export type { ChartAreaGradientDefsProps } from "./components/Chart/ChartAreaGradient";
+export { ChartAreaGradientDefs, chartAreaGradientFill } from "./components/Chart/ChartAreaGradient";
 export type { ChartCardProps } from "./components/Chart/ChartCard";
 export { ChartCard } from "./components/Chart/ChartCard";
 export type { ChartCenterLabelProps } from "./components/Chart/ChartCenterLabel";
