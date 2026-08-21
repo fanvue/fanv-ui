@@ -21,6 +21,16 @@
         "default": "./dist/cjs/index.cjs"
       }
     },
+    "./animated-icons": {
+      "import": {
+        "types": "./dist/animated-icons.d.ts",
+        "default": "./dist/animated-icons.mjs"
+      },
+      "require": {
+        "types": "./dist/animated-icons.d.ts",
+        "default": "./dist/cjs/animated-icons.cjs"
+      }
+    },
     "./charts": {
       "import": {
         "types": "./dist/charts.d.ts",
@@ -57,7 +67,8 @@
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
     "dev": "vite --host",
@@ -84,10 +95,12 @@
     "publish:dry-run": "pnpm run build && pnpm publish --dry-run",
     "icons:extract": "node scripts/extract-icons-from-figma.mjs",
     "icons:generate": "node scripts/generate-icons.mjs && node scripts/generate-icon-tests.mjs && node scripts/generate-icon-stories.mjs && node scripts/generate-icon-barrel.mjs",
-    "icons:sync": "pnpm run icons:extract && pnpm run icons:generate"
+    "icons:sync": "pnpm run icons:extract && pnpm run icons:generate",
+    "icons:animated": "node scripts/import-animated-icons.mjs && node scripts/generate-animated-icon-tests.mjs && node scripts/generate-icon-stories.mjs"
   },
   "peerDependencies": {
     "@radix-ui/react-slot": "^1.2.0",
+    "motion": "^12.0.0 || ^13.0.0",
     "react": "^18.0.0 || ^19.0.0",
     "react-day-picker": "^9.0.0",
     "react-dom": "^18.0.0 || ^19.0.0",
@@ -95,6 +108,9 @@
     "tailwindcss": "^4.0.0"
   },
   "peerDependenciesMeta": {
+    "motion": {
+      "optional": true
+    },
     "react-day-picker": {
       "optional": true
     },
@@ -152,6 +168,7 @@
     "husky": "9.1.7",
     "jsdom": "27.4.0",
     "lint-staged": "16.2.7",
+    "motion": "13.1.1",
     "playwright": "^1.58.1",
     "postcss": "8.5.26",
     "react": "19.2.3",
@@ -201,6 +218,15 @@
         "tailwind-merge",
         "react-day-picker",
         "recharts"
+      ]
+    },
+    {
+      "path": "dist/animated-icons.mjs",
+      "limit": "15 KB",
+      "ignore": [
+        "clsx",
+        "tailwind-merge",
+        "motion"
       ]
     }
   ],

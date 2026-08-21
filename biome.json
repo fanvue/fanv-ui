@@ -144,6 +144,19 @@
       }
     },
     {
+      "includes": ["**/AnimatedIcons/*.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": "off"
+          },
+          "suspicious": {
+            "noArrayIndexKey": "off"
+          }
+        }
+      }
+    },
+    {
       "includes": ["**/DatePicker/DatePicker.tsx"],
       "linter": {
         "rules": {
