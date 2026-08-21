@@ -230,27 +230,6 @@ describe("SegmentedControl", () => {
     });
   });
 
-  describe("brand appearance", () => {
-    it("is a deprecated alias of ai and renders the same pill", () => {
-      render(
-        <SegmentedControl
-          appearance="brand"
-          options={aiOptions}
-          defaultValue="agent"
-          aria-label="Mode"
-        />,
-      );
-      const selected = screen.getByRole("radio", { name: "Agent" });
-      expect(selected).toHaveClass("bg-buttons-ai-background-gradient-default-start");
-      expect(selected).not.toHaveClass("bg-brand-primary-muted");
-    });
-
-    it("renders icon alongside visible label, as ai does", () => {
-      render(<SegmentedControl appearance="brand" options={aiOptions} aria-label="Mode" />);
-      expect(screen.getByRole("radio", { name: "Agent" })).toHaveTextContent("Agent");
-    });
-  });
-
   describe("ai appearance", () => {
     it("renders both the icon and the visible label for each segment", () => {
       render(<SegmentedControl appearance="ai" options={aiOptions} aria-label="Mode" />);

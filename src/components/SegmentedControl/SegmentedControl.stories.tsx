@@ -31,7 +31,7 @@ const meta = {
     },
     appearance: {
       control: "inline-radio",
-      options: ["pill", "plain", "ai", "brand"],
+      options: ["pill", "plain", "ai"],
     },
     disabled: {
       control: "boolean",
@@ -115,7 +115,7 @@ const aiOptions = [
 
 /**
  * Icon + visible label with the `V2 Switch Button` AI pill selected — the Home/Agent navigation
- * switch. `appearance="brand"` is a deprecated alias of this and renders identically.
+ * switch.
  * Colours are approximated with existing tokens pending dedicated navigation tokens.
  */
 export const Ai: Story = {

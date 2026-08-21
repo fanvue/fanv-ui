@@ -27,16 +27,15 @@ export type SegmentedControlVariant = "hug" | "fill";
  *   selected segment uses the `V2 Switch Button` AI pill — a translucent `Buttons/AI/Default` fill
  *   under a three-stop gradient stroke. Designed for prominent toggles such as the Home/Agent
  *   navigation switch.
- * - `"brand"`: deprecated alias of `"ai"`.
  */
-export type SegmentedControlAppearance = "pill" | "plain" | "ai" | "brand";
+export type SegmentedControlAppearance = "pill" | "plain" | "ai";
 
 /** Describes one selectable segment. */
 export interface SegmentedControlOption {
   /**
    * Display label for the segment. In `pill`/`plain` appearances, when `icon` is provided the
    * segment renders icon-only and this value becomes its accessible name (applied as `aria-label`)
-   * instead of visible text. In the `brand` appearance the label is always rendered as visible text
+   * instead of visible text. In the `ai` appearance the label is always rendered as visible text
    * (alongside the icon when present).
    */
   label: string;
@@ -45,7 +44,7 @@ export interface SegmentedControlOption {
   /**
    * Icon to render for the segment. In `pill`/`plain` appearances the segment renders icon-only and
    * `label` becomes required as its accessible name (applied as `aria-label`, no visible text). In
-   * the `brand` appearance the icon renders alongside the visible `label`. Required for every option
+   * the `ai` appearance the icon renders alongside the visible `label`. Required for every option
    * when `collapsible` is set unless a `collapsedIcon` is given, since the collapsed control
    * otherwise shows the selected option's icon alone.
    */
@@ -77,7 +76,7 @@ export interface SegmentedControlProps
    * option's `icon`; clicking it (or pressing Enter/Space) advances to the next option, wrapping
    * around from the last back to the first.
    *
-   * Only supported for the icon-bearing `"plain"` and `"brand"` appearances, and every option must
+   * Only supported for the icon-bearing `"plain"` and `"ai"` appearances, and every option must
    * define an `icon` unless `collapsedIcon` is given (there is nothing to show otherwise). Ignored,
    * with a dev-time warning, when those conditions are not met. @default false
    */
@@ -103,15 +102,6 @@ const SEGMENT_SIZE: Record<SegmentedControlSize, SwitchToggleSize> = {
   "40": "32",
   "48": "40",
 };
-
-/**
- * Whether this appearance renders the AI pill. `"brand"` is the deprecated spelling of
- * `"ai"`; it previously approximated a brand-green pill with `brand-primary` tokens
- * while dedicated ones were pending, and now resolves to the same Figma-bound
- * treatment `SwitchToggle` uses for `Type=AI`.
- */
-const isAiAppearance = (appearance: SegmentedControlAppearance) =>
-  appearance === "ai" || appearance === "brand";
 
 function warnMissingAccessibleName(ariaLabel?: string, ariaLabelledBy?: string) {
   if (process.env.NODE_ENV !== "production") {
@@ -181,9 +171,9 @@ function getSegmentClassName({
       : cn(
           SWITCH_TOGGLE_PADDING_CLASSES[SEGMENT_SIZE[size]],
           // The AI appearance renders icon + label together, so space them.
-          isAiAppearance(appearance) && SWITCH_TOGGLE_ICON_GAP,
+          appearance === "ai" && SWITCH_TOGGLE_ICON_GAP,
           isSelected
-            ? isAiAppearance(appearance)
+            ? appearance === "ai"
               ? `text-content-primary shadow-sm ${SWITCH_TOGGLE_AI_SELECTED}`
               : SWITCH_TOGGLE_STATE_CLASSES.selected
             : SWITCH_TOGGLE_STATE_CLASSES.unselected,
@@ -228,7 +218,7 @@ function getCollapsedButtonClassName({
         "-m-1 p-1 text-icons-primary"
       : cn(
           collapsedSizeClasses[size],
-          // Neutral circle rather than the brand pill: collapsed, the control is a switch
+          // Neutral circle rather than the ai pill: collapsed, the control is a switch
           // affordance, not a preview of the selected segment.
           "bg-surface-secondary text-icons-primary hover:bg-buttons-switch-hover",
         ),
@@ -288,7 +278,7 @@ function useAutoCollapse(
  *
  * Rendered as a `radiogroup` with roving-tabindex keyboard navigation. Supports
  * both controlled and uncontrolled usage. With `collapsible`, the icon-bearing
- * `plain`/`brand` appearances shrink to a single cycling icon toggle when space
+ * `plain`/`ai` appearances shrink to a single cycling icon toggle when space
  * is tight (rendered as a `group` containing one button).
  *
  * @example
@@ -318,10 +308,10 @@ function useAutoCollapse(
  * />
  * ```
  *
- * @example Icon + label with the brand-green pill (e.g. the Home/Agent nav switch)
+ * @example Icon + label with the AI pill (e.g. the Home/Agent nav switch)
  * ```tsx
  * <SegmentedControl
- *   appearance="brand"
+ *   appearance="ai"
  *   options={[
  *     { label: "Home", value: "home", icon: <HomeIcon size={16} /> },
  *     { label: "Agent", value: "agent", icon: <AIIcon size={16} /> },
@@ -350,7 +340,7 @@ function useAutoCollapse(
  * @example A collapsed toggle that shows one switch glyph instead of the selected icon
  * ```tsx
  * <SegmentedControl
- *   appearance="brand"
+ *   appearance="ai"
  *   collapsible
  *   collapsedIcon={<RepeatIcon size={16} />}
  *   options={[
@@ -397,7 +387,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
     // back to the normal expanded control (a dev warning fires above).
     const canCollapse =
       collapsible &&
-      (appearance === "plain" || isAiAppearance(appearance)) &&
+      (appearance === "plain" || appearance === "ai") &&
       (collapsedIcon !== undefined || options.every((option) => option.icon));
 
     const rootRef = React.useRef<HTMLDivElement | null>(null);
@@ -436,9 +426,9 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
 
     const renderSegment = (option: SegmentedControlOption, index: number) => {
       const isSelected = currentValue === option.value;
-      // `brand` shows the label as visible text (with the icon); `pill`/`plain` render
+      // `ai` shows the label as visible text (with the icon); `pill`/`plain` render
       // icon-only when an icon is given, falling back to the label otherwise.
-      const showLabelText = isAiAppearance(appearance) || !option.icon;
+      const showLabelText = appearance === "ai" || !option.icon;
       return (
         // biome-ignore lint/a11y/useSemanticElements: native radio inputs only allow Tab-focus on the checked item; buttons with roving tabindex give full keyboard navigation
         <button
@@ -471,7 +461,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
     // accessibility tree and tab order, and always with hug sizing so the replica reflects the
     // natural (uncompressed) width even under a `fill` layout.
     const renderMeasureSegment = (option: SegmentedControlOption) => {
-      const showLabelText = isAiAppearance(appearance) || !option.icon;
+      const showLabelText = appearance === "ai" || !option.icon;
       return (
         <button
           key={option.value}
