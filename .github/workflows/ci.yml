@@ -40,6 +40,41 @@ jobs:
       - name: Type check
         run: pnpm typecheck
 
+  docs:
+    name: Docs Freshness
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Regenerate docs
+        run: pnpm docs:generate
+
+      - name: Check docs are up to date
+        id: docs_diff
+        run: |
+          # --intent-to-add so newly generated (untracked) pages show up in the diff
+          git add --intent-to-add -- docs/mintlify
+          git diff --exit-code -- docs/mintlify
+
+      - name: Docs are stale
+        if: ${{ failure() && steps.docs_diff.outcome == 'failure' }}
+        run: |
+          echo "::error::docs/mintlify is stale — run \`pnpm docs:generate\` and commit the result."
+          exit 1
+
   test:
     name: Unit & Storybook Tests
     runs-on: ubuntu-latest
@@ -92,6 +127,9 @@ jobs:
 
       - name: Build library
         run: pnpm build
+
+      - name: Check pack contents
+        run: node scripts/check-pack-contents.mjs
 
       - name: Check bundle size
         run: pnpm size-limit
