@@ -1,0 +1,159 @@
+---
+title: "Theming and design tokens"
+sidebarTitle: "Theming"
+description: "Switch @fanvue/ui between light and dark with a single class, use its design tokens in your own markup, and override them without breaking component internals."
+keywords: ["dark mode", "design tokens", "css custom properties", "color-scheme", "theming", "fanvue brand colours"]
+---
+
+Theming in `@fanvue/ui` is CSS custom properties end to end. Components never hard-code a colour; they reference semantic tokens such as `--color-content-primary`, and the token stylesheet defines those tokens twice, once for light and once for dark. Switching theme re-points the variables, so every component follows in the same frame.
+
+## Turn on dark mode
+
+Add the class `dark` to an ancestor of your app, and set `color-scheme` on the same element.
+
+```tsx ThemeRoot.tsx
+export function ThemeRoot({ theme, children }: { theme: "light" | "dark"; children: React.ReactNode }) {
+  return (
+    <div className={theme === "dark" ? "dark" : undefined} style={{ colorScheme: theme }}>
+      {children}
+    </div>
+  );
+}
+```
+
+Or on the document root, which is what most apps do:
+
+```ts
+const root = document.documentElement;
+root.classList.toggle("dark", theme === "dark");
+root.style.colorScheme = theme;
+```
+
+Two separate things are happening:
+
+- **The `dark` class** is the theme switch. `theme.css` defines the variant as `@variant dark (&:where(.dark, .dark *))` and defines the dark palette in a `.dark { ... }` block, so both the library's `dark:` utilities and its dark token values activate inside that element.
+- **`color-scheme`** tells the browser to render its own surfaces (scrollbars, native form controls, the canvas behind your page) in the matching scheme. It does not affect any token. Skipping it leaves light scrollbars on a dark page.
+
+<Note>
+  ##### The class is the only signal the library reads
+
+  `@fanvue/ui` never reads `prefers-color-scheme` on its own, and it reads no `data-*` attribute for theme. An app that should follow the operating system has to watch `prefers-color-scheme` itself and toggle the class. That is deliberate: it keeps the theme explicit and lets you offer a manual override.
+</Note>
+
+### Theming part of a page
+
+The variant matches the element carrying the class and everything inside it, so `dark` works on any subtree. A dark panel inside an otherwise light page is one wrapper:
+
+```tsx
+<div className="dark bg-background-primary" style={{ colorScheme: "dark" }}>
+  <Card>Rendered with the dark palette</Card>
+</div>
+```
+
+Overlays are the exception to keep in mind. `Dialog`, `Drawer`, `Select`, `DropdownMenu`, and `Tooltip` render through a portal attached to `document.body` by default, so they inherit the theme of the body, not of the subtree that opened them. Put the class on an element that contains your portal target when you use overlays, in practice the document root.
+
+## Design tokens
+
+All tokens are plain CSS custom properties. The colour tokens are declared inside Tailwind's `@theme`, so each one is also a utility class: `--color-content-primary` gives you `text-content-primary`, `bg-content-primary`, `border-content-primary`, and so on.
+
+### Semantic colour tokens
+
+These are the tokens to build with. They carry meaning rather than a value, and they have both a light and a dark definition.
+
+| Token family | Utility example | What it is for |
+| --- | --- | --- |
+| `--color-content-*` | `text-content-primary` | Text and icon colour. `primary`, `secondary`, `tertiary`, `disabled`, plus `-inverted` and `always-white` / `always-black` pairs. |
+| `--color-background-*` | `bg-background-primary` | Page and app backgrounds, plus overlay scrims and gradients. |
+| `--color-surface-*` | `bg-surface-primary` | Raised surfaces sitting on a background: cards, sheets, inputs. |
+| `--color-border-*` | `border-border-primary` | Dividers and outlines. `primary`, `strong`, `selected`, `error`, `new-feature`. |
+| `--color-brand-*` | `bg-brand-primary-default` | Fanvue green (`--color-brand-primary-default`) and purple (`--color-brand-secondary-default`), each with `hover` and `muted`. |
+| `--color-success-*`, `--color-warning-*`, `--color-error-*`, `--color-info-*` | `text-error-content` | Status colours, each with `surface`, `content`, and `secondary`. |
+| `--color-neutral-alphas-*` | `bg-neutral-alphas-100` | Translucent neutrals from `50` to `950`, black-based in light and white-based in dark. |
+
+Component-scoped families also exist and are used by the components themselves: `--color-buttons-*`, `--color-inputs-*`, `--color-icons-*`, `--color-alerts-*`, `--color-badges-*`, `--color-messages-*`, `--color-modal-*`, `--color-tab-*`, `--color-progress-*`, `--color-creator-*`, `--color-interaction-*`, and `--color-special-*`. Read them if you are building a component that must sit beside a library one, and prefer the general families everywhere else.
+
+### Other token families
+
+| Prefix | Contents | Notes |
+| --- | --- | --- |
+| `--primitives-color-*` | The raw palette: `gray`, `green`, `emerald`, `purple`, `pink`, `red`, `amber`, `blue`, plus `blackalpha` and `whitealpha` ramps. | Every semantic token resolves to one of these. Read them for reference, build against the semantic layer. |
+| `--radius-*` | `3xs` 2px through `2xl` 40px, and `full`. | Also `rounded-*` utilities. |
+| `--shadow-*` | `sm`, `md`, `lg`, `blur-menu`, `blur-floating`, `focus-ring`. | Also `shadow-*` utilities. |
+| `--primitives-spacing-*`, `--spacing-global-*` | The spacing scale, in `:root` rather than `@theme`. | Kept out of `@theme` on purpose so Tailwind's own `p-*` and `gap-*` scale is untouched. |
+| `--breakpoint-*` | `sm` 850px, `md` 1024px, `lg` 1280px. | Replaces Tailwind's defaults. See [Tailwind setup](/ui/tailwind-setup). |
+
+Storybook's **Foundations** section renders every colour, radius, shadow, spacing step, and type style with its token name.
+
+## Matching your app to Fanvue
+
+Use the tokens in your own markup. An app that paints its own chrome with `bg-background-primary` and `text-content-primary` tracks the platform through both themes with no work, including any future token change shipped by a library upgrade.
+
+```tsx
+<main className="min-h-dvh bg-background-primary text-content-primary">
+  <header className="border-border-primary border-b bg-surface-primary">
+    <h1 className="typography-header-heading-sm">Insights</h1>
+  </header>
+</main>
+```
+
+## Overriding tokens
+
+Redefine a variable after importing the stylesheet. Both blocks are needed when you change a token that has a dark value, because `.dark` in `theme.css` would otherwise win in dark mode:
+
+```css app.css
+@import "tailwindcss";
+@source "../node_modules/@fanvue/ui";
+@import "@fanvue/ui/styles/theme.css";
+
+:root {
+  --color-brand-primary-default: #00aeef;
+}
+
+.dark {
+  --color-brand-primary-default: #38c6f4;
+}
+```
+
+Two tokens exist specifically to be overridden:
+
+<ParamField path="--fanvue-ui-portal-z-index" type="number" default="50">
+  The `z-index` of every portal-rendered overlay: `Dialog`, `Drawer`, `Select`, `DropdownMenu`, `Tooltip`, `Autocomplete`, `InfoBox`, `BottomNavigation`. Raise it when an overlay renders behind a high-`z-index` container from another library, for example `:root { --fanvue-ui-portal-z-index: 1400; }`.
+</ParamField>
+
+<ParamField path="--fv-focus-ring-color" type="color">
+  The colour of the focus ring drawn by `--shadow-focus-ring`. Violet on light backgrounds, white in `.dark`. Override it in both blocks if you change it, and check the contrast against every surface it lands on.
+</ParamField>
+
+## Do and do not
+
+<Warning>
+  ##### Never edit or vendor `theme.css`
+
+  `theme.css` is generated from the design tokens and carries a "do not edit" banner. A copy you have edited stops receiving token updates and silently diverges from the platform. Override the variables in your own stylesheet instead, as shown above.
+</Warning>
+
+**Do**
+
+- Build with semantic tokens and their utilities rather than hex values or primitives.
+- Pass `className` to a component to adjust layout and spacing. Components merge it through `tailwind-merge`, so your utility beats theirs on a conflict rather than producing two competing classes. The same merge helper is exported as `cn` for your own components.
+- Use the props a component exposes for visual variants. `variant`, `size`, and `negative` cover the supported permutations and are the only ones that stay correct through an upgrade.
+- Override tokens globally when your whole app needs a different value, and scope an override to a wrapper class when only one area does.
+
+**Do not**
+
+- Do not target a component's internal elements with descendant selectors or `!important`. Internal markup and class names are not a public API and change without a major version.
+- Do not style against Radix `data-*` attributes on internals for anything beyond your own wrapper elements.
+- Do not set colours on component children that the component also sets. The result depends on cascade order and breaks the theme in the mode you did not test.
+- Do not assume a token is safe to repurpose because its current value suits you. Check what it means first: `--color-content-always-white` stays white in both themes by design.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Tailwind setup" icon="wind" href="/ui/tailwind-setup">
+    How the token stylesheet reaches your build, and what it changes there.
+  </Card>
+
+  <Card title="Subpath exports" icon="folder-tree" href="/ui/subpath-exports">
+    Charts take their series colours from the same tokens, per theme.
+  </Card>
+</CardGroup>

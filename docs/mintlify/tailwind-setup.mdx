@@ -1,0 +1,142 @@
+---
+title: "Tailwind CSS setup"
+sidebarTitle: "Tailwind setup"
+description: "@fanvue/ui ships class names, not compiled CSS. Configure Tailwind CSS v4 in your app so it scans the package, loads the token stylesheet, and produces the styles."
+keywords: ["tailwind css v4", "@source", "content detection", "css-first config", "@theme", "tw-animate-css", "breakpoints"]
+---
+
+`@fanvue/ui` has no compiled stylesheet. The published package contains JavaScript, type declarations, and two source stylesheets written in Tailwind v4 syntax. Your app's Tailwind build is what turns the components' class names into CSS, so it must be configured to see them.
+
+## What the package ships
+
+| File | Contents |
+| --- | --- |
+| `dist/*.mjs`, `dist/cjs/*.cjs` | Components. Every visual style is a Tailwind utility class in a `className`. |
+| `dist/styles/theme.css` | Design tokens in `@theme` and `:root`, the dark variant definition, and the `typography-*` utilities. |
+| `dist/styles/base.css` | Base-layer rules, imported automatically by `theme.css`. |
+
+Both stylesheets use Tailwind v4 at-rules (`@theme`, `@utility`, `@variant`, `@custom-variant`). They are inputs to a Tailwind build, not ready-to-serve CSS, so linking them straight into a page from a CDN does nothing.
+
+## The CSS entry point
+
+Three lines in your app's CSS entry point, in this order:
+
+```css app.css
+@import "tailwindcss";
+@source "../node_modules/@fanvue/ui";
+@import "@fanvue/ui/styles/theme.css";
+```
+
+<Steps>
+  <Step title='@import "tailwindcss"'>
+    Loads Tailwind v4 itself. It must come first: `theme.css` extends Tailwind's theme and defines utilities, so Tailwind has to be loaded before it is read.
+  </Step>
+  <Step title="@source with the path to the package">
+    Registers `@fanvue/ui` as a source Tailwind should scan for class names. Tailwind v4 auto-detects sources in your project but excludes `node_modules`, so without this line it never sees the classes the components render, and they generate no CSS.
+
+    The path is resolved relative to the CSS file it appears in. From `src/app.css` in a typical project that is `../node_modules/@fanvue/ui`. From `src/styles/app.css` it is `../../node_modules/@fanvue/ui`. In a pnpm workspace or a monorepo the real package directory may sit at the workspace root, so point the path at wherever the installed package actually resolves.
+  </Step>
+  <Step title='@import "@fanvue/ui/styles/theme.css"'>
+    Loads the tokens, the typography utilities, and the light and dark palettes. The `styles/*` subpath maps to `dist/styles/*`, so any bundler that resolves package `exports` finds it. This is the only stylesheet you import; it pulls in `base.css` itself.
+  </Step>
+</Steps>
+
+<Warning>
+  ##### Components render unstyled when `@source` is missing or wrong
+
+  A missing or mis-resolved `@source` path fails silently: Tailwind emits no error, and your components render with correct markup and no styling. Check that line first whenever a component looks unstyled. Confirm the path by checking that `node_modules/@fanvue/ui/dist` exists at the location it points to.
+</Warning>
+
+## What importing the theme changes in your app
+
+`theme.css` is not namespaced. Importing it into your Tailwind build changes some of the utilities your own code generates. Three changes are worth knowing before you import it.
+
+### Breakpoints are replaced, not extended
+
+The stylesheet resets Tailwind's breakpoint scale with `--breakpoint-*: initial` and defines Fanvue's:
+
+| Variant | Min width |
+| --- | --- |
+| `sm:` | 850px |
+| `md:` | 1024px |
+| `lg:` | 1280px |
+
+Tailwind's defaults (`sm:` at 640px, `md:` at 768px, `lg:` at 1024px) no longer apply, and `xl:` and `2xl:` no longer exist. Audit existing responsive classes when you add the library to an app that already uses Tailwind. Define your own extra breakpoints after the import if you need them:
+
+```css app.css
+@theme {
+  --breakpoint-xl: 1536px;
+}
+```
+
+### The `dark:` variant becomes class-based
+
+The stylesheet redefines the variant as `@variant dark (&:where(.dark, .dark *))`. Tailwind v4's default `dark:` follows the operating system through `prefers-color-scheme`; after this import, `dark:` in your own components matches only inside an element carrying the `dark` class. That is what keeps your app and the library in one theme. See [Theming](/ui/theming) for how to drive the class.
+
+### Radius and shadow scales are redefined
+
+`--radius-*` and `--shadow-*` are set to Fanvue's values, so `rounded-md` is 16px and `shadow-sm`, `shadow-md`, and `shadow-lg` render Fanvue's elevation. Colour utilities are additive: the token colours are added under names like `bg-background-primary`, and Tailwind's own palette (`bg-red-500`) still works.
+
+Spacing is deliberately untouched. The spacing tokens are defined in `:root` rather than `@theme` specifically so that `p-*`, `m-*`, and `gap-*` keep Tailwind's default scale.
+
+## Enter and exit animations for overlays
+
+`Dialog`, `Drawer`, `Select`, `DropdownMenu`, `Autocomplete`, and `Toast` animate open and closed with `animate-in`, `animate-out`, `fade-in-0`, `slide-in-from-*`, and `zoom-in-95` classes applied through `data-[state=open]` and `data-[state=closed]` variants. Those utilities are not part of Tailwind v4 core. Without a package that provides them the classes are inert, and because Radix waits for a CSS animation before unmounting, closing an overlay removes its content instantly with no exit motion.
+
+Add [`tw-animate-css`](https://www.npmjs.com/package/tw-animate-css) to supply them:
+
+```bash
+pnpm add tw-animate-css
+```
+
+```css app.css
+@import "tailwindcss";
+@import "tw-animate-css";
+@source "../node_modules/@fanvue/ui";
+@import "@fanvue/ui/styles/theme.css";
+```
+
+## Cascade layer order
+
+Declare the layer order at the top of your entry point so your own overrides land where you expect and Tailwind utilities beat component classes:
+
+```css app.css
+@layer theme, base, components, utilities;
+```
+
+## Typography utilities
+
+The stylesheet defines the type scale as utilities you can use in your own markup, not only inside components. Each one sets `font-size`, `font-weight`, `line-height`, `letter-spacing`, and `font-family` together:
+
+```tsx
+<h1 className="typography-header-heading-md">Earnings</h1>
+<p className="typography-body-default-16px-regular text-content-secondary">
+  Last 30 days
+</p>
+```
+
+There are 16 of them across five families: `typography-header-*`, `typography-body-*`, `typography-description-*`, `typography-badge-*`, and `typography-links-*`. Storybook's **Foundations** section lists every one with its rendered size.
+
+## Frameworks
+
+Any bundler with Tailwind v4 support works. The library makes no build-tool assumptions beyond a Tailwind v4 pipeline that resolves package `exports` for the `@import` of `theme.css`.
+
+<Accordion title="PostCSS-based setups (Next.js, Vite with PostCSS)">
+  Use `@tailwindcss/postcss` in your PostCSS config. The `@import "@fanvue/ui/styles/theme.css"` line is resolved by PostCSS against the installed package, so no path alias is needed for it. The `@source` line still needs a real filesystem path.
+</Accordion>
+
+<Accordion title="Turbopack and strict project roots">
+  A bundler that restricts filesystem access to the project root can reject an `@source` path that points outside it, which happens in monorepos where `node_modules` is hoisted above the app directory. Generate the `@source` rules from your PostCSS config, or configure the bundler's root to include the directory the package resolves from.
+</Accordion>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Theming" icon="palette" href="/ui/theming">
+    Drive the `dark` class, read the tokens, and override them.
+  </Card>
+
+  <Card title="Subpath exports" icon="folder-tree" href="/ui/subpath-exports">
+    Charts, date picker, flags, and animated icons live on their own entry points.
+  </Card>
+</CardGroup>

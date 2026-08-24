@@ -1,0 +1,69 @@
+---
+title: "UI Library"
+sidebarTitle: "Overview"
+description: "@fanvue/ui is the open-source React component library behind Fanvue's product UI. Install it to give your Fanvue App the same look, tokens, and dark mode as the platform."
+keywords: ["fanvue ui", "@fanvue/ui", "react components", "design system", "tailwind css", "component library"]
+---
+
+import VersionStamp from "/snippets/ui/version.mdx";
+
+<VersionStamp />
+
+`@fanvue/ui` is the React component library Fanvue builds its own product interface with, published on npm under Apache-2.0. These pages cover installing it, wiring up Tailwind CSS v4, theming it, and choosing the right entry point.
+
+## What you get
+
+- **83 components**, from `Button` and `TextField` up to `Dialog`, `Drawer`, `Table`, `ChatMessage`, and `Chart`, plus two icon sets: 173 static icons and 69 animated twins.
+- **Design tokens as CSS custom properties**, the same values Fanvue's product renders with, shipped as a Tailwind v4 theme stylesheet.
+- **Light and dark themes** driven by a single `.dark` class on an ancestor element.
+- **Accessible primitives**: interactive components are built on Radix UI, so focus management, keyboard behaviour, and ARIA wiring come with them.
+- **TypeScript types** for every component and every public prop, variant, and size type.
+- **Tree-shakeable named exports**, with heavy or optional features split onto their own subpaths.
+
+## Who this is for
+
+Builders of Fanvue Apps, embedded or off-platform, who want their interface to match the platform rather than approximate it. If your app renders inside Fanvue's UI, using these components is the shortest path to looking native. If it runs on your own infrastructure, they are still a normal npm dependency in any React 18 or React 19 app.
+
+The library is public and unrestricted: nothing in it is gated on being a Fanvue partner.
+
+## Start here
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/ui/installation">
+    Install the package, add the required peer dependencies, import the stylesheet, and render your first `Button`.
+  </Card>
+
+  <Card title="Tailwind setup" icon="wind" href="/ui/tailwind-setup">
+    The library ships no compiled CSS. Tailwind CSS v4 in your app is what turns its class names into styles.
+  </Card>
+
+  <Card title="Theming" icon="palette" href="/ui/theming">
+    Switch between light and dark, read the design tokens, and override them safely.
+  </Card>
+
+  <Card title="Subpath exports" icon="folder-tree" href="/ui/subpath-exports">
+    Five entry points: root, `/charts`, `/date-picker`, `/flags`, and `/animated-icons`. Which to import from and why.
+  </Card>
+</CardGroup>
+
+## Browse the components
+
+Every component has a live page in Storybook with rendered examples, an interactive controls panel, and generated prop tables.
+
+<Card title="Open Storybook" icon="book-open" href="https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/">
+  The published Storybook for the current `main` build of `@fanvue/ui`.
+</Card>
+
+Component reference pages also live in these docs, one per component, at `/ui/components/<name>`. For example, [Button](/ui/components/button).
+
+## How these docs are maintained
+
+The component reference pages are generated from the source of the library itself: prop tables come from the TypeScript types and the JSDoc on each component, so they track the published package rather than being written by hand. The guide pages you are reading now are hand-written.
+
+Both live in the library's repository, [github.com/fanvue/fanv-ui](https://github.com/fanvue/fanv-ui). File issues and pull requests there, including for docs corrections. Bug reports go to [github.com/fanvue/fanv-ui/issues](https://github.com/fanvue/fanv-ui/issues).
+
+<Note>
+  ##### Component behaviour is documented in the source
+
+  Props, variants, and per-component gotchas are documented as JSDoc on the exported types, so your editor shows them on hover and on autocomplete. Reach for that before searching the docs for a prop.
+</Note>
