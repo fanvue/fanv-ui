@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-dropdownmenu--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DropdownMenu — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-dropdownmenu--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="360" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DropdownMenu — Default" />
 </Frame>
 
 ```tsx
@@ -27,10 +27,40 @@ import {
 </DropdownMenu>
 ```
 
+## As Child Link
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-dropdownmenu--as-child-link&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="360" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DropdownMenu — As Child Link" />
+</Frame>
+
+```tsx
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@fanvue/ui";
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button>Open Menu</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem asChild>
+      <a href="#settings">Settings</a>
+    </DropdownMenuItem>
+    <DropdownMenuItem asChild>
+      <a href="#profile">Profile</a>
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
 ## With Icons
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-dropdownmenu--with-icons&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DropdownMenu — With Icons" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-dropdownmenu--with-icons&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="360" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DropdownMenu — With Icons" />
 </Frame>
 
 ```tsx
@@ -55,10 +85,10 @@ import {
 </DropdownMenu>
 ```
 
-## With Groups And Labels
+## Size Matrix
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-dropdownmenu--with-groups-and-labels&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DropdownMenu — With Groups And Labels" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-dropdownmenu--size-matrix&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="480" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DropdownMenu — Size Matrix" />
 </Frame>
 
 ```tsx
@@ -66,31 +96,85 @@ import {
   Button,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-  EditIcon,
-  StarIcon,
-  TrashBinIcon,
 } from "@fanvue/ui";
 
 <DropdownMenu>
   <DropdownMenuTrigger asChild>
     <Button>Open Menu</Button>
   </DropdownMenuTrigger>
-  <DropdownMenuContent>
-    <DropdownMenuGroup>
-      <DropdownMenuLabel position="top">Actions</DropdownMenuLabel>
-      <DropdownMenuItem leadingIcon={<EditIcon />}>Edit</DropdownMenuItem>
-      <DropdownMenuItem leadingIcon={<StarIcon />}>Favourite</DropdownMenuItem>
-    </DropdownMenuGroup>
-    <DropdownMenuGroup>
-      <DropdownMenuLabel>Danger zone</DropdownMenuLabel>
-      <DropdownMenuItem destructive leadingIcon={<TrashBinIcon />}>
-        Delete
-      </DropdownMenuItem>
-    </DropdownMenuGroup>
+  <DropdownMenuContent className="w-72">
+    <DropdownMenuLabel position="top">Size 40</DropdownMenuLabel>
+    <DropdownMenuItem size="40">Default</DropdownMenuItem>
+    <DropdownMenuItem size="40" selected>
+      Selected
+    </DropdownMenuItem>
+    <DropdownMenuItem size="40" disabled>
+      Disabled
+    </DropdownMenuItem>
+    <DropdownMenuItem size="40" destructive>
+      Error
+    </DropdownMenuItem>
+    <DropdownMenuLabel>Size 32</DropdownMenuLabel>
+    <DropdownMenuItem size="32">Default</DropdownMenuItem>
+    <DropdownMenuItem size="32" selected>
+      Selected
+    </DropdownMenuItem>
+    <DropdownMenuItem size="32" disabled>
+      Disabled
+    </DropdownMenuItem>
+    <DropdownMenuItem size="32" destructive>
+      Error
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Feature Items
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-dropdownmenu--feature-items&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="360" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DropdownMenu — Feature Items" />
+</Frame>
+
+```tsx
+import {
+  Avatar,
+  Button,
+  ChevronRightIcon,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  EditIcon,
+  StarIcon,
+} from "@fanvue/ui";
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button>Open Menu</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="w-80">
+    <DropdownMenuItem
+      avatar={<Avatar size={24} fallback="JD" />}
+      trailingIcon={<ChevronRightIcon />}
+    >
+      Jane Doe
+    </DropdownMenuItem>
+    <DropdownMenuItem
+      avatar={<Avatar size={24} fallback="AS" />}
+      description="Product designer"
+      count="12"
+    >
+      Alex Smith
+    </DropdownMenuItem>
+    <DropdownMenuItem leadingIcon={<StarIcon />} count="99+">
+      Favourites
+    </DropdownMenuItem>
+    <DropdownMenuItem leadingIcon={<EditIcon />} description="Update your details">
+      Edit profile
+    </DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
 ```

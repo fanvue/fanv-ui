@@ -4,7 +4,14 @@
  */
 
 import { declarationDescription, describeEmptyProps, describeReExport } from "./docgen.mjs";
-import { GENERATED_BANNER, jsdocToMdx, jsxAttribute } from "./mdx.mjs";
+import {
+  GENERATED_BANNER,
+  indentBlock,
+  jsdocToMdx,
+  jsdocToMdxBlocks,
+  jsxAttribute,
+  splitJsdocTags,
+} from "./mdx.mjs";
 
 /** Beyond this, a union is truncated in the `type` attribute and spelled out in the description. */
 const MAX_TYPE_LENGTH = 90;
@@ -54,8 +61,8 @@ export function renderPropsSnippet(page, context) {
  */
 function renderMember(member, source, context) {
   const lines = [`## ${member.name}`, ""];
-  const description = jsdocToMdx(declarationDescription(source, member.name));
-  if (description) lines.push(description, "");
+  const description = jsdocToMdxBlocks(declarationDescription(source, member.name));
+  if (description.length > 0) lines.push(...description, "");
 
   const reExport = describeReExport(source, member.name);
   if (reExport) {
@@ -67,7 +74,7 @@ function renderMember(member, source, context) {
   const props = selectProps(entry, context.propOverrides);
 
   if (props.length === 0) {
-    lines.push(describeEmptyProps(source, member.name), "");
+    lines.push(describeEmptyProps(source, member.name, context.warnings), "");
     return { lines, missingDescriptions: 0, documentedProps: 0 };
   }
 
@@ -104,22 +111,40 @@ function selectProps(entry, overrides) {
 }
 
 /**
+ * Renders one `<ParamField>`.
+ *
+ * Three things a naive single-line render gets wrong, all visible in the
+ * published tables: a JSDoc bullet list collapses into run-on prose with stray
+ * hyphens, a raw `@deprecated` tag renders as part of the sentence, and a
+ * `@default` containing backticks loses them to Mintlify's markdown pass.
+ *
  * @param {object} prop
  * @returns {string[]}
  */
-function renderParamField(prop) {
+export function renderParamField(prop) {
   const { display, full } = formatType(prop.type);
+  const { description, tags } = splitJsdocTags(prop.description);
+
   const attributes = [jsxAttribute("path", prop.name), jsxAttribute("type", display)];
-  const defaultValue = formatDefault(prop.defaultValue);
+  const defaultValue = formatDefault(prop.defaultValue) ?? formatDefault({ value: tags.default });
   if (defaultValue !== null) attributes.push(jsxAttribute("default", defaultValue));
   if (prop.required) attributes.push("required");
+  if (tags.deprecated !== undefined) attributes.push("deprecated");
 
-  const body = [jsdocToMdx(prop.description)];
-  if (full !== display) body.push(`Full type: \`${full}\`.`);
-  const text = body.filter(Boolean).join(" ");
+  const body = jsdocToMdxBlocks(description);
+  const trailer = [];
+  if (tags.deprecated) trailer.push(`**Deprecated.** ${jsdocToMdx(tags.deprecated)}`);
+  // A truncated `type` attribute is only readable if the whole union is spelled
+  // out somewhere, so this is unconditional whenever the display form was cut.
+  if (full !== display) trailer.push(`Full type: \`${full}\`.`);
 
-  if (!text) return [`<ParamField ${attributes.join(" ")} />`];
-  return [`<ParamField ${attributes.join(" ")}>`, `  ${text}`, "</ParamField>"];
+  for (const paragraph of trailer) {
+    if (body.length > 0) body.push("");
+    body.push(paragraph);
+  }
+
+  if (body.length === 0) return [`<ParamField ${attributes.join(" ")} />`];
+  return [`<ParamField ${attributes.join(" ")}>`, ...indentBlock(body), "</ParamField>"];
 }
 
 /**
@@ -173,13 +198,26 @@ function normalise(text) {
 }
 
 /**
+ * Normalises the many shapes a `@default` reaches docgen in. The library writes
+ * them three different ways — bare, escaped (`` \` ``), and wrapped in a
+ * markdown code span (`` ``…`` ``) — and stripping one leading and one trailing
+ * quote character handles none of them, which is what left seven defaults
+ * rendering with dangling backticks and a literal backslash.
+ *
  * @param {{ value?: unknown } | null | undefined} defaultValue
  * @returns {string | null}
  */
 function formatDefault(defaultValue) {
   const value = defaultValue?.value;
   if (value === undefined || value === null) return null;
-  const text = normalise(String(value));
+  let text = normalise(String(value));
+
+  const codeSpan = text.match(/^(`+)([\s\S]*?)\1$/);
+  if (codeSpan) text = codeSpan[2].trim();
+  text = text.replace(/\\`/g, "`");
+  const quoted = text.match(/^(["'])((?:(?!\1)[\s\S])*)\1$/);
+  if (quoted) text = quoted[2];
+
   if (text === "" || text === "undefined") return null;
-  return text.replace(/^["'`]|["'`]$/g, "");
+  return text;
 }

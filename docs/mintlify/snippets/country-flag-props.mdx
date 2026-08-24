@@ -2,7 +2,9 @@
 
 ## CountryFlag
 
-A country's flag, drawn as a circle. Use it wherever a row is keyed by country — a demographics breakdown, a country picker, the country selector on `PhoneField`. Prefer this to a flag emoji: emoji flags fall back to bare letter pairs on Windows, where the fonts carry no flag glyphs.
+A country's flag, drawn as a circle. Use it wherever a row is keyed by country — a demographics breakdown, a country picker, the country selector on `PhoneField`.
+
+Prefer this to a flag emoji: emoji flags fall back to bare letter pairs on Windows, where the fonts carry no flag glyphs.
 
 <ParamField path='country' type='string' required>
   Two-letter country code, case-insensitive (e.g. `"US"`, `"nl"`). Codes we hold no artwork for render a grey placeholder disc, so a live feed of country codes can be passed straight through.

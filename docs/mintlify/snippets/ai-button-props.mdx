@@ -2,7 +2,11 @@
 
 ## AiButton
 
-A pill button for AI actions. The label shimmers letter by letter and the glyph flickers at rest; on hover both settle and the green treatment eases in together — outline, rim and a sheen pooling along the bottom edge under the cursor, which follows it across the button. On focus each letter blooms once before the shimmer resumes. The lit rim and sheen come from the `fv-ai-button` utility in `base.css`. It shares `Button`'s geometry — `rounded-full`, the same heights and label typography — so it sits alongside one without looking foreign. Both labels are rendered stacked in a single grid cell, so swapping to `active` crossfades without the button changing width. Honours `prefers-reduced-motion`: the shimmer and flicker are dropped and the label renders in its settled state.
+A pill button for AI actions. The label shimmers letter by letter and the glyph flickers at rest; on hover both settle and the green treatment eases in together — outline, rim and a sheen pooling along the bottom edge under the cursor, which follows it across the button. On focus each letter blooms once before the shimmer resumes. The lit rim and sheen come from the `fv-ai-button` utility in `base.css`.
+
+It shares `Button`'s geometry — `rounded-full`, the same heights and label typography — so it sits alongside one without looking foreign. Both labels are rendered stacked in a single grid cell, so swapping to `active` crossfades without the button changing width.
+
+Honours `prefers-reduced-motion`: the shimmer and flicker are dropped and the label renders in its settled state.
 
 <ParamField path='label' type='string' required>
   Resting label. Also the accessible name unless `aria-label` is given.

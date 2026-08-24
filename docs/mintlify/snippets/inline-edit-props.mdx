@@ -2,7 +2,13 @@
 
 ## InlineEdit
 
-A chip-styled inline edit field. Renders as a dashed-border button that swaps to a text input on click, allowing the value to be edited in place. Enter and blur commit the draft via `onSubmit`. Escape reverts to `value` and calls `onCancel`. Drafts that fail `validate` are reverted. The forwarded ref points at the underlying `<input>` and is only populated while the field is in edit mode — it resolves to `null` in display mode. Consumers may pass `onChange`, `onBlur`, and `onKeyDown` to participate in input events. The component's own handlers run after the consumer's, and keyboard handling is skipped if the consumer calls `event.preventDefault()`.
+A chip-styled inline edit field. Renders as a dashed-border button that swaps to a text input on click, allowing the value to be edited in place.
+
+Enter and blur commit the draft via `onSubmit`. Escape reverts to `value` and calls `onCancel`. Drafts that fail `validate` are reverted.
+
+The forwarded ref points at the underlying `<input>` and is only populated while the field is in edit mode — it resolves to `null` in display mode.
+
+Consumers may pass `onChange`, `onBlur`, and `onKeyDown` to participate in input events. The component's own handlers run after the consumer's, and keyboard handling is skipped if the consumer calls `event.preventDefault()`.
 
 <ParamField path='onSubmit' type='(value: string) => void' required>
   Called with the trimmed draft when the user commits an edit (Enter or blur).

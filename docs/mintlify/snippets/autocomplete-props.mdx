@@ -2,6 +2,11 @@
 
 ## Autocomplete
 
+A combobox input with single- or multi-select, optional async loading, and native support for grouped + pinned options.
+
+- Pass `groups` plus an `options` array whose entries reference each group via `groupId` to render hierarchical lists with proper `role="group"` + `aria-labelledby` semantics. Options without a `groupId` render above the first group; options marked `pinned` render above everything and bypass the search filter.
+- Indentation of nested rows (e.g. price under product) is controlled by the consumer via `renderOption` styling — there is no built-in indent.
+
 <ParamField path='options' type='AutocompleteOption[]' required />
 
 <ParamField path='aria-label' type='string' />

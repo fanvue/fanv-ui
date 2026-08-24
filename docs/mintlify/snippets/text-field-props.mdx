@@ -2,7 +2,9 @@
 
 ## TextField
 
-A text input field with optional label, helper/error text, icon slots, and side labels. Use `leftLabel` / `rightLabel` for fixed unit or prefix affordances (currency symbol, country code, domain suffix). Provide at least one of `label`, `aria-label`, or `aria-labelledby` for accessibility — a console warning is emitted in development if none are set.
+A text input field with optional label, helper/error text, icon slots, and side labels.
+
+Use `leftLabel` / `rightLabel` for fixed unit or prefix affordances (currency symbol, country code, domain suffix). Provide at least one of `label`, `aria-label`, or `aria-labelledby` for accessibility — a console warning is emitted in development if none are set.
 
 <ParamField path='action' type='ReactNode'>
   Trailing interactive element pinned to the right edge — typically a `Chip` or `Button` (the "with button" field type). Reduces the right padding so the control sits flush, and clicks on it do not steal focus from the input.

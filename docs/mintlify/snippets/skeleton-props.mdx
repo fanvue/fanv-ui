@@ -2,7 +2,9 @@
 
 ## Skeleton
 
-A placeholder preview of content before data is loaded, reducing perceived load time. Mirrors common MUI Skeleton props for easy migration. When used as a loading state, wrap the skeleton region with `aria-busy="true"` and provide an accessible label so screen readers can convey the loading state.
+A placeholder preview of content before data is loaded, reducing perceived load time. Mirrors common MUI Skeleton props for easy migration.
+
+When used as a loading state, wrap the skeleton region with `aria-busy="true"` and provide an accessible label so screen readers can convey the loading state.
 
 <ParamField path='animation' type='SkeletonAnimation' default='pulse'>
   Animation style. Set to `false` to disable animation.
@@ -13,7 +15,12 @@ A placeholder preview of content before data is loaded, reducing perceived load 
 </ParamField>
 
 <ParamField path='variant' type='"text" | "circular" | "rounded" | "rectangular"' default='text'>
-  Shape variant of the skeleton. - `text` – a single line of text with slight vertical margin and rounded ends - `circular` – a circle (width and height should match) - `rectangular` – a sharp-cornered rectangle - `rounded` – a rectangle with rounded corners
+  Shape variant of the skeleton.
+
+  - `text` – a single line of text with slight vertical margin and rounded ends
+  - `circular` – a circle (width and height should match)
+  - `rectangular` – a sharp-cornered rectangle
+  - `rounded` – a rectangle with rounded corners
 </ParamField>
 
 <ParamField path='width' type='string | number'>

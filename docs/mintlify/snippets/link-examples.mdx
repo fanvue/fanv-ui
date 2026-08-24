@@ -12,16 +12,16 @@ import { Link } from "@fanvue/ui";
 <Link href="#" variant="primary">CTA</Link>
 ```
 
-## Brand
+## Disabled
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-link--brand&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Link — Brand" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-link--disabled&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Link — Disabled" />
 </Frame>
 
 ```tsx
 import { Link } from "@fanvue/ui";
 
-<Link href="#" variant="brand">CTA</Link>
+<Link href="#" disabled>CTA</Link>
 ```
 
 ## Small
@@ -34,4 +34,50 @@ import { Link } from "@fanvue/ui";
 import { Link } from "@fanvue/ui";
 
 <Link href="#" size="14">CTA</Link>
+```
+
+## Left Icon
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-link--left-icon&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Link — Left Icon" />
+</Frame>
+
+```tsx
+import { Link, WalletIcon } from "@fanvue/ui";
+
+<Link href="#" leftIcon={<WalletIcon />}>CTA</Link>
+```
+
+## All Variants
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-link--all-variants&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Link — All Variants" />
+</Frame>
+
+```tsx
+import { ArrowUpRightIcon, Link } from "@fanvue/ui";
+
+<div className="flex flex-col gap-6">
+  {(["16", "14"] as const).map((size) => (
+    <div key={size} className="flex flex-col gap-3">
+      <span className="typography-description-12px-semibold text-content-tertiary">
+        {size}px
+      </span>
+      <div className="flex flex-wrap items-center gap-6">
+        <Link href="#" variant="primary" size={size}>
+          Primary
+        </Link>
+        <Link href="#" variant="brand" size={size}>
+          Brand
+        </Link>
+        <Link href="#" variant="primary" size={size} rightIcon={<ArrowUpRightIcon />}>
+          With icon
+        </Link>
+        <Link href="#" variant="primary" size={size} disabled>
+          Disabled
+        </Link>
+      </div>
+    </div>
+  ))}
+</div>
 ```

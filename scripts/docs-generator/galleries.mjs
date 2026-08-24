@@ -6,11 +6,25 @@
  * because the interesting content is a list of hundreds of names and there is
  * nothing useful to hand-write around it. Mintlify cannot run custom client
  * JavaScript, so the searchable galleries in Storybook become sorted tables
- * here, with one live Storybook embed for the interactive version.
+ * here, with one live Storybook embed for the interactive version — but only
+ * where a story genuinely shows what the page is about.
  */
 
 import { declarationDescription } from "./docgen.mjs";
+import { embedHeight } from "./examples-snippet.mjs";
 import { GENERATED_BANNER, jsdocToMdx } from "./mdx.mjs";
+import { renderParamField } from "./props-snippet.mjs";
+
+/**
+ * Codes the flag artwork ships that are not ISO 3166-1 regions, so
+ * `Intl.DisplayNames` has nothing to say about them.
+ */
+const NON_REGION_FLAG_NAMES = {
+  eu: "European Union",
+  un: "United Nations",
+  xk: "Kosovo",
+  xx: "Unknown / placeholder",
+};
 
 /**
  * @param {object} context
@@ -23,20 +37,27 @@ export function renderIconsPage(context) {
   const names = context.iconNames.slice().sort((a, b) => a.localeCompare(b));
   const animated = new Set(context.animatedIconNames);
 
+  const untagged = [];
   const rows = names.map((name) => {
     const entry = propBased.get(name);
     const sizes = entry ? entry.sizes.join(", ") : "any (via `className`)";
     const filled = entry?.hasFilled ? "yes" : "no";
     const keywords = (tags[name] ?? []).slice(0, 4).join(", ");
-    const line = `\`import { ${name} } from "@fanvue/ui";\``;
-    return `| ${line} | ${sizes} | ${filled} | ${animated.has(name) ? "yes" : "no"} | ${keywords} |`;
+    if (!keywords) untagged.push(name);
+    return `| \`${name}\` | ${sizes} | ${filled} | ${animated.has(name) ? "yes" : "no"} | ${keywords} |`;
   });
+
+  if (untagged.length > 0) {
+    context.warnings.push(
+      `${untagged.length} icons have no search keywords in scripts/icon-tags.json: ${untagged.join(", ")}`,
+    );
+  }
 
   return [
     frontmatter("Icons", `All ${names.length} icons in @fanvue/ui, with their sizes and variants.`),
     GENERATED_BANNER,
     "",
-    `Every icon is a named export of \`@fanvue/ui\` and renders as an inline \`<svg>\` that inherits \`currentColor\`.`,
+    "Every icon is a named export of `@fanvue/ui` and renders as an inline `<svg>` that inherits `currentColor`.",
     "",
     '```tsx\nimport { AddCircleIcon } from "@fanvue/ui";\n\n<AddCircleIcon size={24} filled />;\n```',
     "",
@@ -49,17 +70,18 @@ export function renderIconsPage(context) {
     ...iconPropFields(context),
     "## Browse",
     "",
-    embed(context, "foundations-icons--gallery", "Icon gallery", 640),
+    embed(context, "foundations-icons--gallery", "Icon gallery"),
     "",
     "The embed above is searchable and copies the import line on click. The full",
-    "index below is sorted alphabetically.",
+    "index below is sorted alphabetically; every name imports from `@fanvue/ui`.",
     "",
     "## All icons",
     "",
-    "| Import | Sizes | Filled | Animated twin | Keywords |",
+    "| Icon | Sizes | Filled | Animated twin | Keywords |",
     "| --- | --- | --- | --- | --- |",
     ...rows,
     "",
+    ...setupFooter(context, false),
   ].join("\n");
 }
 
@@ -68,29 +90,16 @@ export function renderIconsPage(context) {
  * @returns {string[]}
  */
 function iconPropFields(context) {
-  const source = context.readSource("src/components/Icons/types.ts");
   const entry = context.docgenByMember.get("src/components/Icons/BaseIcon.tsx#BaseIcon");
   const lines = [];
   const props = Object.values(entry?.props ?? {})
     .filter((prop) => prop.name === "size" || prop.name === "filled")
     .sort((a, b) => a.name.localeCompare(b.name));
   for (const prop of props) {
-    const type =
-      prop.type?.name === "enum"
-        ? prop.type.value.map((value) => value.value).join(" | ")
-        : (prop.type?.raw ?? prop.type?.name);
-    const attributes = [`path='${prop.name}'`, `type='${type}'`];
-    if (prop.defaultValue?.value !== undefined && prop.defaultValue?.value !== null) {
-      attributes.push(`default='${String(prop.defaultValue.value)}'`);
-    }
-    const description = jsdocToMdx(prop.description);
-    if (description) {
-      lines.push(`<ParamField ${attributes.join(" ")}>`, `  ${description}`, "</ParamField>", "");
-    } else {
-      lines.push(`<ParamField ${attributes.join(" ")} />`, "");
-    }
+    lines.push(...renderParamField(prop), "");
   }
   if (lines.length === 0) {
+    const source = context.readSource("src/components/Icons/types.ts");
     lines.push(jsdocToMdx(declarationDescription(source, "BaseIconProps")), "");
   }
   lines.push(
@@ -109,8 +118,10 @@ function iconPropFields(context) {
 export function renderAnimatedIconsPage(context) {
   const manifest = context.readJson("scripts/animated-icons.manifest.json");
   const icons = manifest.icons.slice().sort((a, b) => a.name.localeCompare(b.name));
+  const propBased = icons.filter((icon) => icon.propBased).length;
   const rows = icons.map(
-    (icon) => `| \`${icon.name}\` | \`${icon.slug}\` | ${icon.propBased ? "yes" : "no"} |`,
+    (icon) =>
+      `| \`${icon.name}\` | \`${icon.slug}\` | ${icon.propBased ? "`size={16 \\| 24 \\| 32}`" : "`className`"} |`,
   );
 
   return [
@@ -124,16 +135,42 @@ export function renderAnimatedIconsPage(context) {
     "in the same box, so swapping the import path changes the motion and nothing",
     "about your layout.",
     "",
-    '```tsx\nimport { HeartIcon } from "@fanvue/ui";                 // static\nimport { HeartIcon } from "@fanvue/ui/animated-icons";  // animates on hover\n```',
+    '```tsx\n// The static icon, and its animated twin of the same name.\nimport { HeartIcon } from "@fanvue/ui";\nimport { HeartIcon as AnimatedHeartIcon } from "@fanvue/ui/animated-icons";\n```',
     "",
     "<Warning>",
     "  This subpath needs the optional `motion` peer dependency. Install it alongside",
-    "  `@fanvue/ui`, or the import will fail to resolve.",
+    `  \`@fanvue/ui\`, or the import will fail to resolve — see [Subpath exports](/${context.config.docsPathPrefix ?? "ui"}/subpath-exports).`,
     "",
     "  ```bash",
     "  pnpm add motion",
     "  ```",
     "</Warning>",
+    "",
+    "## Shared props",
+    "",
+    "Every animated icon accepts the standard `SVGAttributes` of an `<svg>` element",
+    "(`className`, `style`, `aria-*`), plus:",
+    "",
+    "<ParamField path='size' type='16 | 24 | 32' default='24'>",
+    `  Pixel size, matching the static icon's box exactly. Available on the ${propBased} icons`,
+    `  whose static twin is prop-based; the other ${icons.length - propBased} are sized with a utility`,
+    '  class instead, e.g. `className="size-6"`.',
+    "</ParamField>",
+    "",
+    "<ParamField path='controlRef' type='Ref<AnimatedIconHandle>'>",
+    "  Drives the animation yourself. When set, hovering the icon no longer starts it,",
+    "  and `onMouseEnter` / `onMouseLeave` are forwarded untouched. The handle exposes",
+    "  `startAnimation()` and `stopAnimation()`.",
+    "</ParamField>",
+    "",
+    "<ParamField path='filled' type='never'>",
+    "  Not available. The animated artwork is stroke-only, so there is no filled variant",
+    "  to swap to; the prop is typed as `never` so passing it through a wrapper's spread",
+    "  fails to compile instead of reaching the DOM.",
+    "</ParamField>",
+    "",
+    "Each icon also exports a matching `<Name>Props` and `<Name>Handle` type, so a",
+    "wrapper component can forward the ref with full typing.",
     "",
     "## Driving the animation",
     "",
@@ -141,32 +178,24 @@ export function renderAnimatedIconsPage(context) {
     "card that plays its icon when the whole card is hovered — pass a `controlRef`",
     "and call the handle.",
     "",
-    "Each icon exports a matching `<Name>Props` and `<Name>Handle` type, so a",
-    "wrapper component can forward the ref with full typing.",
-    "",
     '```tsx\nimport { useRef } from "react";\nimport { HeartIcon } from "@fanvue/ui/animated-icons";\nimport type { HeartIconHandle } from "@fanvue/ui/animated-icons";\n\nfunction LikeCard() {\n  const icon = useRef<HeartIconHandle>(null);\n  return (\n    <button\n      type="button"\n      onMouseEnter={() => icon.current?.startAnimation()}\n      onMouseLeave={() => icon.current?.stopAnimation()}\n    >\n      <HeartIcon controlRef={icon} size={24} />\n      Like\n    </button>\n  );\n}\n```',
     "",
     "<Note>",
-    "  Nothing animates under `prefers-reduced-motion`. The animated artwork is",
-    "  stroke-only, so these icons have no `filled` variant even where their static",
-    "  twin does. `SpinnerIcon` is deliberately absent — a loading indicator must not",
-    "  wait for a hover.",
+    "  Nothing animates under `prefers-reduced-motion`. `SpinnerIcon` is deliberately",
+    "  absent — a loading indicator must not wait for a hover.",
     "</Note>",
-    "",
-    "## Preview",
-    "",
-    embed(context, "foundations-icons--gallery", "Animated icon gallery", 640),
-    "",
-    "Turn on the **animated** toggle in the embed above, then hover a card.",
     "",
     "## All animated icons",
     "",
-    "| Icon | Upstream slug | Takes `size` / `filled` props |",
+    `Every name below imports from \`@fanvue/ui/animated-icons\`. The sizing column says how the icon is sized: the ${propBased} icons whose static twin is prop-based take \`size\`, and the remaining ${icons.length - propBased} take a utility class.`,
+    "",
+    "| Icon | Upstream slug | Sizing |",
     "| --- | --- | --- |",
     ...rows,
     "",
     "Artwork and animations from [lucide-animated](https://lucide-animated.com) (MIT).",
     "",
+    ...setupFooter(context, true),
   ].join("\n");
 }
 
@@ -176,15 +205,12 @@ export function renderAnimatedIconsPage(context) {
  */
 export function renderCountryFlagPage(context) {
   const codes = parseFlagCodes(context.readSource("src/components/CountryFlag/flagShapes.ts"));
-  const grouped = new Map();
-  for (const code of codes) {
-    const letter = code[0];
-    if (!grouped.has(letter)) grouped.set(letter, []);
-    grouped.get(letter).push(code);
-  }
-  const rows = [...grouped.entries()]
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([letter, list]) => `| **${letter}** | ${list.map((code) => `\`${code}\``).join(" ")} |`);
+  const names = countryNames(codes, context);
+  const rows = codes
+    .slice()
+    .sort((a, b) => a.localeCompare(b))
+    .map((code) => `| \`${code}\` | ${names.get(code)} |`);
+  const allFlags = context.storyIdFor?.("CountryFlag", "AllFlags");
 
   return [
     frontmatter(
@@ -199,8 +225,8 @@ export function renderCountryFlagPage(context) {
     '```tsx\nimport { CountryFlag } from "@fanvue/ui/flags";\n\n<CountryFlag country="NL" size={24} label="Netherlands" />;\n```',
     "",
     "<Note>",
-    "  Flags live on their own subpath so the artwork for 265 countries never lands",
-    "  in a bundle that does not ask for it.",
+    `  Flags live on their own subpath so the artwork for ${codes.length} countries never lands`,
+    `  in a bundle that does not ask for it — see [Subpath exports](/${context.config.docsPathPrefix ?? "ui"}/subpath-exports).`,
     "</Note>",
     "",
     "## Props",
@@ -211,6 +237,7 @@ export function renderCountryFlagPage(context) {
     "",
     "<CountryFlagExamples />",
     "",
+    ...(allFlags ? ["## Every flag", "", embed(context, allFlags, "Every country flag"), ""] : []),
     "## Supported codes",
     "",
     "Codes are case-insensitive, mostly ISO 3166-1 alpha-2 plus the extras the",
@@ -218,11 +245,47 @@ export function renderCountryFlagPage(context) {
     "grey placeholder disc, so a live feed of country codes can be passed straight",
     "through without filtering.",
     "",
-    "| | Codes |",
+    "| Code | Country |",
     "| --- | --- |",
     ...rows,
     "",
+    ...setupFooter(context, true),
   ].join("\n");
+}
+
+/**
+ * Country names come from `Intl.DisplayNames`, which every supported Node ships
+ * with full ICU data for — there is no dependency to add and no 265-entry table
+ * to keep in step with the artwork.
+ *
+ * @param {string[]} codes
+ * @param {object} context
+ * @returns {Map<string, string>}
+ */
+function countryNames(codes, context) {
+  const display = new Intl.DisplayNames(["en"], { type: "region", fallback: "none" });
+  const names = new Map();
+  const unnamed = [];
+  for (const code of codes) {
+    const explicit = NON_REGION_FLAG_NAMES[code.toLowerCase()];
+    if (explicit) {
+      names.set(code, explicit);
+      continue;
+    }
+    const resolved = display.of(code.toUpperCase());
+    if (resolved) {
+      names.set(code, resolved);
+      continue;
+    }
+    names.set(code, "—");
+    unnamed.push(code);
+  }
+  if (unnamed.length > 0) {
+    context.warnings.push(
+      `${unnamed.length} flag codes have no region name: ${unnamed.join(", ")}. Add them to NON_REGION_FLAG_NAMES in scripts/docs-generator/galleries.mjs.`,
+    );
+  }
+  return names;
 }
 
 /**
@@ -239,18 +302,38 @@ function parseFlagCodes(source) {
  * @param {object} context
  * @param {string} storyId
  * @param {string} title
- * @param {number} height
  * @returns {string}
  */
-function embed(context, storyId, title, height) {
+function embed(context, storyId, title) {
   const params = [`id=${storyId}`, "viewMode=story", "shortcuts=false", "singleStory=true"];
   if (context.config.embedTheme) params.push(`globals=theme:${context.config.embedTheme}`);
   const url = `${context.config.chromaticIframeBase}?${params.join("&")}`;
+  // A gallery embed is one story showing hundreds of items, so it is always an
+  // outlier: its height belongs in `embedHeights.byStory`.
+  const height = embedHeight(context.config, { category: "Gallery", storyId });
   return [
     "<Frame>",
     `  <iframe src={${JSON.stringify(url)}} width="100%" height="${height}" style={{border: "none", borderRadius: "8px"}} loading="lazy" title=${JSON.stringify(title)} />`,
     "</Frame>",
   ].join("\n");
+}
+
+/**
+ * Search drops people onto a gallery as readily as onto a component page, so
+ * each one ends with the same route back to setup.
+ *
+ * @param {object} context
+ * @param {boolean} subpath Whether the page documents a non-root subpath.
+ * @returns {string[]}
+ */
+function setupFooter(context, subpath) {
+  const prefix = context.config.docsPathPrefix ?? "ui";
+  const links = [
+    `[Installation](/${prefix}/installation)`,
+    `[Theming](/${prefix}/theming)`,
+    ...(subpath ? [`[Subpath exports](/${prefix}/subpath-exports)`] : []),
+  ];
+  return ["---", "", `**Setup:** ${links.join(" · ")}`, ""];
 }
 
 /**

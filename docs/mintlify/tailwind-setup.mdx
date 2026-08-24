@@ -19,7 +19,7 @@ Both stylesheets use Tailwind v4 at-rules (`@theme`, `@utility`, `@variant`, `@c
 
 ## The CSS entry point
 
-Three lines in your app's CSS entry point, in this order:
+Three lines in your app's CSS entry point, in this order. [Overlay animations](#enter-and-exit-animations-for-overlays) add a fourth, which is why [Installation](/ui/installation) shows four:
 
 ```css app.css
 @import "tailwindcss";
@@ -98,11 +98,16 @@ pnpm add tw-animate-css
 
 ## Cascade layer order
 
-Declare the layer order at the top of your entry point so your own overrides land where you expect and Tailwind utilities beat component classes:
+You do not have to declare it. Tailwind v4's own entry point opens with the declaration, so importing it registers the order before anything else in your file is read:
 
-```css app.css
+```css
+/* the first line of node_modules/tailwindcss/index.css */
 @layer theme, base, components, utilities;
 ```
+
+Repeating `@layer theme, base, components, utilities;` in your own stylesheet is therefore a no-op as long as `@import "tailwindcss"` comes first. Declare it yourself only if you import Tailwind's parts individually (`tailwindcss/theme.css`, `tailwindcss/preflight.css`, `tailwindcss/utilities.css`) instead of the single entry point.
+
+One consequence is worth knowing. `@fanvue/ui`'s `base.css` puts its reset rules in the `base` layer, so an unlayered rule of your own outranks them, with one reversal: for `!important` declarations the layer order runs backwards, so the `!important` rules in `base.css` (it uses them to neutralise the browser's autofill highlight) beat an unlayered `!important` of yours.
 
 ## Typography utilities
 
@@ -115,7 +120,30 @@ The stylesheet defines the type scale as utilities you can use in your own marku
 </p>
 ```
 
-There are 16 of them across five families: `typography-header-*`, `typography-body-*`, `typography-description-*`, `typography-badge-*`, and `typography-links-*`. Storybook's **Foundations** section lists every one with its rendered size.
+`theme.css` generates 16 of them from the design tokens, across five families:
+
+| Utility | Size / line height | Weight | Notes |
+| --- | --- | --- | --- |
+| `typography-header-heading-xl` | 48 / 52.8px | 700 | |
+| `typography-header-heading-lg` | 40 / 44px | 700 | |
+| `typography-header-heading-md` | 32 / 32px | 700 | |
+| `typography-header-heading-sm` | 24 / 26.4px | 700 | |
+| `typography-header-heading-xs` | 20 / 24px | 700 | |
+| `typography-body-default-16px-semibold` | 16 / 24px | 600 | |
+| `typography-body-default-16px-regular` | 16 / 24px | 400 | Body default. |
+| `typography-body-small-14px-semibold` | 14 / 18px | 600 | |
+| `typography-body-small-14px-regular` | 14 / 18px | 400 | |
+| `typography-description-12px-semibold` | 12 / 16px | 600 | |
+| `typography-description-12px-regular` | 12 / 16px | 400 | |
+| `typography-badge-badge` | 9 / 10.8px | 600 | `letter-spacing: 0.9px`. |
+| `typography-badge-badgecaps` | 9 / 10.8px | 600 | As above, plus `text-transform: uppercase`. |
+| `typography-links-link-lg` | 16 / 22px | 600 | `text-decoration: underline`. |
+| `typography-links-link-md` | 14 / 18px | 600 | `text-decoration: underline`. |
+| `typography-links-link-xs` | 12 / 16px | 600 | `text-decoration: underline`. |
+
+Every one of them declares `font-family: Inter`, which is why [Installation](/ui/installation) has a step for loading the typeface.
+
+`base.css` adds one more that is maintained by hand rather than generated from a token, `typography-medium-caption-xs` (10px / 12px, weight 500). Storybook's **Foundations** section renders the scale if you want to see the sizes side by side.
 
 ## Frameworks
 

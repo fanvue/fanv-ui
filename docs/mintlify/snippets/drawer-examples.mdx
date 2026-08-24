@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-drawer--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Drawer — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-drawer--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="460" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Drawer — Default" />
 </Frame>
 
 ```tsx
@@ -19,17 +19,11 @@ import {
   DrawerTrigger,
 } from "@fanvue/ui";
 
-const args = {
-  position: "right",
-  size: "sm",
-  overlay: true,
-};
-
 <Drawer>
   <DrawerTrigger asChild>
     <Button>Open Drawer</Button>
   </DrawerTrigger>
-  <DrawerContent {...args}>
+  <DrawerContent position="right" size="sm" overlay>
     <DrawerHeader>
       <DrawerTitle>Drawer Title</DrawerTitle>
       <DrawerDescription>
@@ -48,10 +42,10 @@ const args = {
 </Drawer>
 ```
 
-## Left
+## Without Overlay
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-drawer--left&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Drawer — Left" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-drawer--without-overlay&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="460" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Drawer — Without Overlay" />
 </Frame>
 
 ```tsx
@@ -67,17 +61,51 @@ import {
   DrawerTrigger,
 } from "@fanvue/ui";
 
-const args = {
-  position: "left",
-  size: "sm",
-  overlay: true,
-};
+<Drawer overlay={false}>
+  <DrawerTrigger asChild>
+    <Button>Open Without Overlay</Button>
+  </DrawerTrigger>
+  <DrawerContent position="right" size="sm" overlay={false}>
+    <DrawerHeader>
+      <DrawerTitle>No Overlay</DrawerTitle>
+      <DrawerDescription>This drawer has no backdrop overlay behind it.</DrawerDescription>
+    </DrawerHeader>
+    <div className="flex-1 overflow-y-auto p-4">
+      <p>The page behind remains fully visible.</p>
+    </div>
+    <DrawerFooter>
+      <DrawerClose asChild>
+        <Button variant="secondary">Close</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
+```
+
+## Left
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-drawer--left&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="460" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Drawer — Left" />
+</Frame>
+
+```tsx
+import {
+  Button,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@fanvue/ui";
 
 <Drawer>
   <DrawerTrigger asChild>
     <Button>Open Left Drawer</Button>
   </DrawerTrigger>
-  <DrawerContent {...args}>
+  <DrawerContent position="left" size="sm" overlay>
     <DrawerHeader>
       <DrawerTitle>Left Drawer</DrawerTitle>
       <DrawerDescription>This drawer slides in from the left.</DrawerDescription>
@@ -94,10 +122,57 @@ const args = {
 </Drawer>
 ```
 
+## Controlled
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-drawer--controlled&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="460" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Drawer — Controlled" />
+</Frame>
+
+```tsx
+import { useState } from "react";
+import {
+  Button,
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@fanvue/ui";
+
+function Example() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="flex items-center gap-4">
+      <Button onClick={() => setOpen(true)}>Open Controlled Drawer</Button>
+      <span className="typography-description-12px-regular text-content-secondary">
+        {open ? "Open" : "Closed"}
+      </span>
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerContent position="right" size="sm" overlay>
+          <DrawerHeader>
+            <DrawerTitle>Controlled Drawer</DrawerTitle>
+            <DrawerDescription>This drawer is controlled via external state.</DrawerDescription>
+          </DrawerHeader>
+          <div className="flex-1 overflow-y-auto p-4">
+            <p>The open state is managed by the parent component.</p>
+          </div>
+          <DrawerFooter>
+            <Button variant="secondary" onClick={() => setOpen(false)}>
+              Close
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </div>
+  );
+}
+```
+
 ## Top
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-drawer--top&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Drawer — Top" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-drawer--top&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="460" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Drawer — Top" />
 </Frame>
 
 ```tsx
@@ -113,17 +188,11 @@ import {
   DrawerTrigger,
 } from "@fanvue/ui";
 
-const args = {
-  position: "top",
-  size: "sm",
-  overlay: true,
-};
-
 <Drawer>
   <DrawerTrigger asChild>
     <Button>Open Top Drawer</Button>
   </DrawerTrigger>
-  <DrawerContent {...args}>
+  <DrawerContent position="top" size="sm" overlay>
     <DrawerHeader>
       <DrawerTitle>Top Drawer</DrawerTitle>
       <DrawerDescription>This drawer slides in from the top.</DrawerDescription>

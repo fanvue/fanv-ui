@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-table--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Table — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-table--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="520" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Table — Default" />
 </Frame>
 
 ```tsx
@@ -23,7 +23,15 @@ import {
 } from "@fanvue/ui";
 
 const TABLE_MEDIA_SRC =
-"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=112&h=160&fit=crop";
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=112&h=160&fit=crop";
+
+type ProductRow = {
+  name: string;
+  created: string;
+  price: string;
+  purchases: string;
+  status: { label: "Active" | "Inactive" | "Warning"; variant: "green" | "red" | "gold" };
+};
 
 const PRODUCT_ROWS: ProductRow[] = [
   {
@@ -99,10 +107,85 @@ function ProductTable({ showScrollbar = false }: { showScrollbar?: boolean }) {
 <ProductTable />
 ```
 
+## Variant — lg (80px rows)
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-table--large-rows&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="520" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Variant — lg (80px rows)" />
+</Frame>
+
+```tsx
+import * as React from "react";
+import {
+  Badge,
+  Checkbox,
+  Pagination,
+  Table,
+  TableBody,
+  TableCard,
+  TableCell,
+  TableCellContent,
+  TableHead,
+  TableHeader,
+  TableMediaThumbnail,
+  TablePagination,
+  TableRow,
+  TableRowsPerPageSelect,
+  TableScrollArea,
+} from "@fanvue/ui";
+
+const TABLE_MEDIA_SRC =
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=112&h=160&fit=crop";
+
+function Example() {
+  const [page, setPage] = React.useState(1);
+  return (
+    <TableCard size="lg" className="max-w-3xl">
+      <TableScrollArea>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead intent="checkbox">
+                <Checkbox size="16" aria-label="Select all" />
+              </TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>Media</TableHead>
+              <TableHead>Label</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell intent="checkbox">
+                <Checkbox size="16" aria-label="Select row" />
+              </TableCell>
+              <TableCell>
+                <TableCellContent primary="Sample label" secondary="Created today" />
+              </TableCell>
+              <TableCell>
+                <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" align="center" />
+              </TableCell>
+              <TableCell>
+                <Badge variant="info">Badge</Badge>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+      <TablePagination
+        leadingSlot={<TableRowsPerPageSelect id="lg-rows" />}
+        paginationSlot={
+          <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
+        }
+        summary="1–10 of 48 rows"
+      />
+    </TableCard>
+  );
+}
+```
+
 ## With scroll indicator
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-table--with-scroll-indicator&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Table — With scroll indicator" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-table--with-scroll-indicator&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="520" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Table — With scroll indicator" />
 </Frame>
 
 ```tsx
@@ -122,7 +205,15 @@ import {
 } from "@fanvue/ui";
 
 const TABLE_MEDIA_SRC =
-"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=112&h=160&fit=crop";
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=112&h=160&fit=crop";
+
+type ProductRow = {
+  name: string;
+  created: string;
+  price: string;
+  purchases: string;
+  status: { label: "Active" | "Inactive" | "Warning"; variant: "green" | "red" | "gold" };
+};
 
 const PRODUCT_ROWS: ProductRow[] = [
   {
@@ -200,10 +291,77 @@ function ProductTable({ showScrollbar = false }: { showScrollbar?: boolean }) {
 </div>
 ```
 
+## Sortable header
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-table--sortable&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="520" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Table — Sortable header" />
+</Frame>
+
+```tsx
+import * as React from "react";
+import {
+  Pill,
+  Table,
+  TableBody,
+  TableCard,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableScrollArea,
+  TableSortLabel,
+} from "@fanvue/ui";
+
+function Example() {
+  type Direction = "asc" | "desc" | null;
+  const Demo = () => {
+    const [direction, setDirection] = React.useState<Direction>("asc");
+    const next: Record<NonNullable<Direction>, Direction> = { asc: "desc", desc: null };
+    const cycle = () => setDirection((d) => (d == null ? "asc" : next[d]));
+    return (
+      <TableCard className="max-w-2xl">
+        <TableScrollArea>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>
+                  <button type="button" onClick={cycle} className="cursor-pointer">
+                    <TableSortLabel direction={direction}>Title</TableSortLabel>
+                  </button>
+                </TableHead>
+                <TableHead>Owner</TableHead>
+                <TableHead>Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>Quarterly review</TableCell>
+                <TableCell>Jane Doe</TableCell>
+                <TableCell>
+                  <Pill variant="green">Active</Pill>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Roadmap planning</TableCell>
+                <TableCell>John Doe</TableCell>
+                <TableCell>
+                  <Pill variant="gold">Warning</Pill>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableScrollArea>
+      </TableCard>
+    );
+  };
+  return <Demo />;
+}
+```
+
 ## With toolbar (bulk select)
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-table--with-toolbar&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Table — With toolbar (bulk select)" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-table--with-toolbar&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="520" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Table — With toolbar (bulk select)" />
 </Frame>
 
 ```tsx
@@ -233,7 +391,7 @@ import {
 } from "@fanvue/ui";
 
 const TABLE_MEDIA_SRC =
-"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=112&h=160&fit=crop";
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=112&h=160&fit=crop";
 
 function Example() {
   const [page, setPage] = React.useState(2);

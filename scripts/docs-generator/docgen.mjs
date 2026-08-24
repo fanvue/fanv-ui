@@ -85,8 +85,12 @@ export function componentSourceFiles(repoRoot) {
  * @returns {string}
  */
 export function declarationDescription(source, name) {
+  // A `// biome-ignore` line between the JSDoc and the export is common enough
+  // in this library to matter: without allowing for it, Autocomplete's
+  // carefully written block comment was invisible and its page description fell
+  // back to "The Autocomplete component, from @fanvue/ui."
   const pattern = new RegExp(
-    String.raw`/\*\*((?:(?!\*/)[\s\S])*?)\*/\s*export\s+(?:declare\s+)?(?:const|function|class|interface|type)\s+${name}\b`,
+    String.raw`/\*\*((?:(?!\*/)[\s\S])*?)\*/\s*(?://[^\n]*\n\s*)*export\s+(?:declare\s+)?(?:const|function|class|interface|type)\s+${name}\b`,
   );
   const match = source.match(pattern);
   if (!match) return "";
@@ -149,14 +153,15 @@ function importedFrom(source, local) {
  *
  * @param {string} source Implementation file text.
  * @param {string} name Member name.
+ * @param {string[]} [warnings] Collector for unmapped DOM interfaces.
  * @returns {string} MDX-ready prose, already safe (no braces or angle brackets).
  */
-export function describeEmptyProps(source, name) {
+export function describeEmptyProps(source, name, warnings) {
   const primitive = matchPrimitiveAlias(source, name);
   if (primitive) {
     return `Accepts all props of the underlying Radix \`${primitive}\` primitive, plus \`className\`.`;
   }
-  const element = matchHtmlAttributes(source, name);
+  const element = matchHtmlAttributes(source, name, warnings);
   if (element) {
     return `Takes no props of its own. Accepts all standard \`${element}\` attributes, including \`className\`.`;
   }
@@ -183,22 +188,82 @@ function matchPrimitiveAlias(source, name) {
  * @param {string} name
  * @returns {string | null} e.g. `div`.
  */
-function matchHtmlAttributes(source, name) {
+function matchHtmlAttributes(source, name, warnings) {
   const declaration = propsDeclaration(source, name);
   const match = declaration?.match(/React\.(\w*?)HTMLAttributes<HTML(\w*?)Element>/);
   if (!match) return null;
-  const element = match[2].toLowerCase();
-  return element === "" ? "div" : (ELEMENT_NAMES[element] ?? element);
+  const stem = match[2].toLowerCase();
+  if (stem === "") return "div";
+  const element = ELEMENT_NAMES[stem];
+  if (element) return element;
+  // Lower-casing an unmapped DOM interface stem invents elements that do not
+  // exist — `HTMLTableSectionElement` became "tablesection" in three published
+  // props tables. Say nothing rather than say something false.
+  warnings?.push(
+    `${name}: no HTML element mapped for \`HTML${match[2]}Element\` — add it to ELEMENT_NAMES in scripts/docs-generator/docgen.mjs`,
+  );
+  return null;
 }
 
+/**
+ * DOM interface stem (from `HTML<Stem>Element`) -> the tag or tags it covers.
+ * `HTMLElement` itself is handled separately, as `div`.
+ */
 const ELEMENT_NAMES = {
   anchor: "a",
-  paragraph: "p",
-  ulist: "ul",
-  olist: "ol",
-  li: "li",
+  area: "area",
+  audio: "audio",
+  br: "br",
+  button: "button",
+  canvas: "canvas",
+  data: "data",
+  datalist: "datalist",
+  details: "details",
+  dialog: "dialog",
+  div: "div",
+  dlist: "dl",
+  embed: "embed",
+  fieldset: "fieldset",
+  form: "form",
   heading: "h1-h6",
+  hr: "hr",
+  iframe: "iframe",
   image: "img",
+  input: "input",
+  label: "label",
+  legend: "legend",
+  li: "li",
+  map: "map",
+  media: "audio/video",
+  meter: "meter",
+  object: "object",
+  olist: "ol",
+  optgroup: "optgroup",
+  option: "option",
+  output: "output",
+  paragraph: "p",
+  picture: "picture",
+  pre: "pre",
+  progress: "progress",
+  quote: "blockquote/q",
+  script: "script",
+  select: "select",
+  slot: "slot",
+  source: "source",
+  span: "span",
+  style: "style",
+  table: "table",
+  tablecaption: "caption",
+  tablecell: "td/th",
+  tablecol: "col/colgroup",
+  tablerow: "tr",
+  tablesection: "thead/tbody/tfoot",
+  template: "template",
+  textarea: "textarea",
+  time: "time",
+  track: "track",
+  ulist: "ul",
+  video: "video",
 };
 
 /**

@@ -2,7 +2,9 @@
 
 ## Card
 
-A composable card component built on the V2 design system. Compose it with `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, and `CardFooter` for structured layouts. The `hierarchy` prop drives the surface treatment (Primary vs Secondary) and the `type` prop drives the internal spacing (Default / Header Only / Container).
+A composable card component built on the V2 design system. Compose it with `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, and `CardFooter` for structured layouts.
+
+The `hierarchy` prop drives the surface treatment (Primary vs Secondary) and the `type` prop drives the internal spacing (Default / Header Only / Container).
 
 <ParamField path='fullWidth' type='boolean' default='true'>
   When `true`, the card will take the full width of its container.
@@ -24,8 +26,10 @@ A composable card component built on the V2 design system. Compose it with `Card
   Structural type of the card.
 </ParamField>
 
-<ParamField path='variant' type='"filled" | "outlined" | "elevated" | "ghost"'>
-  Legacy visual style variant. @deprecated Use `hierarchy` instead. When set, the card keeps its legacy V1 appearance for backwards compatibility.
+<ParamField path='variant' type='"filled" | "outlined" | "elevated" | "ghost"' deprecated>
+  Legacy visual style variant.
+
+  **Deprecated.** Use `hierarchy` instead. When set, the card keeps its legacy V1 appearance for backwards compatibility.
 </ParamField>
 
 

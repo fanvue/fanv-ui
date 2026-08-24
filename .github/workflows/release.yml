@@ -240,7 +240,11 @@ jobs:
           PAYLOAD
 
       - name: Notify docs site
-        if: ${{ !cancelled() && (steps.publish_npm.outcome == 'success' || steps.publish_gh.outcome == 'success') }}
+        # Gated on npm specifically, not on "either registry": the docs tell
+        # readers to `pnpm add @fanvue/ui`, so a GitHub-Packages-only publish
+        # must not advertise a version npm cannot install. need_npm == 'false'
+        # covers the recovery path where the version is already on npm.
+        if: ${{ !cancelled() && (steps.publish_npm.outcome == 'success' || steps.check.outputs.need_npm == 'false') }}
         # The docs site also runs a daily scheduled sync, so a dispatch hiccup
         # must never fail the release.
         continue-on-error: true

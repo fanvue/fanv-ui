@@ -11,11 +11,11 @@ keywords: ["subpath exports", "tree shaking", "bundle size", "@fanvue/ui/charts"
 
 | Import path | Contains | Optional peer required |
 | --- | --- | --- |
-| `@fanvue/ui` | The component library: buttons, inputs, overlays, layout, avatars, chat, tables, 173 static icons, plus the `cn` helper. | None |
+| `@fanvue/ui` | The component library: buttons, inputs, overlays, layout, avatars, chat, tables, [172 static icons](/ui/components/icons), plus the `cn` helper and a re-export of `Slot` / `Slottable`. | None |
 | `@fanvue/ui/charts` | Chart primitives that wrap Recharts. | `recharts@^3` |
 | `@fanvue/ui/date-picker` | `DatePicker` and its types. | `react-day-picker@^9` |
-| `@fanvue/ui/flags` | `CountryFlag` and the `CountryFlagCode` union. | None |
-| `@fanvue/ui/animated-icons` | 69 animated twins of static icons. | `motion@^12 \|\| ^13` |
+| `@fanvue/ui/flags` | [`CountryFlag`](/ui/components/country-flag), plus the `CountryFlagCode` and `CountryFlagSize` types. | None |
+| `@fanvue/ui/animated-icons` | [69 animated twins](/ui/components/animated-icons) of static icons. | `motion@^12 \|\| ^13` |
 | `@fanvue/ui/styles/*` | The token stylesheets: `theme.css` and `base.css`. | None |
 
 Each JavaScript entry point resolves to both an ESM and a CommonJS build with the same type declarations, so `import` and `require` behave identically.
@@ -34,7 +34,7 @@ Three reasons, and each subpath exists for at least one of them.
 
 **Payload.** The flag artwork is a generated table of SVG shapes for 265 country codes, around 167 KB of source before minification, which is larger than a typical app's entire component payload. It stays behind its own import so only apps that render flags pay for it.
 
-**Size budgets in CI.** Two entry points are size-checked on every pull request with `size-limit`: `dist/index.mjs` has a 220 KB budget and `dist/animated-icons.mjs` has a 15 KB budget, both measured with external dependencies excluded. A change that pushes either past its budget fails the build.
+**Size budgets in CI.** Two entry points are size-checked on every pull request with `size-limit`: `dist/index.mjs` has a 220 KB budget and `dist/animated-icons.mjs` has a 15 KB budget. Each is measured with its heavy dependencies excluded from the count: Radix, `clsx`, `tailwind-merge`, `react-day-picker`, and `recharts` for the root, and `clsx`, `tailwind-merge`, and `motion` for the animated icons. A change that pushes either past its budget fails the build.
 
 Tree-shaking backs all of this up. The library uses explicit named exports only, never `export *`, and declares `sideEffects` as CSS files alone, so a modern bundler drops everything you did not import.
 
@@ -130,12 +130,16 @@ const [range, setRange] = useState<DateRange | undefined>();
 `CountryFlag` renders a circular flag from a country code, drawn as inline SVG with no network request.
 
 ```tsx
-import { CountryFlag, type CountryFlagCode } from "@fanvue/ui/flags";
+import { CountryFlag } from "@fanvue/ui/flags";
 
-<CountryFlag code="gb" size={24} />;
+<CountryFlag country="GB" size={24} label="United Kingdom" />;
 ```
 
-Codes are mostly ISO 3166-1 alpha-2, plus the extras the artwork source ships (`eu`, `un`, `xk`, and others). `CountryFlagCode` is the exhaustive union, so an unknown code is a type error rather than a blank space at runtime.
+The `country` prop is a case-insensitive string, `size` is one of `16 | 20 | 24 | 32` and defaults to `20`, and `label` sets the accessible name. Leave `label` unset when the country's name is already next to the flag: the SVG is then hidden from assistive technology rather than read out twice.
+
+Codes are mostly ISO 3166-1 alpha-2, plus the extras the artwork source ships (`eu`, `un`, `xk`, and others), 265 in all. `CountryFlagCode` is the exhaustive union of the codes artwork exists for, and it is exported so you can narrow your own data against it. It is deliberately not the type of the `country` prop: a code with no artwork renders the source's grey `xx` placeholder disc instead, so a live feed of country codes can be passed straight through without a runtime guard.
+
+The full set is on the [CountryFlag page](/ui/components/country-flag).
 
 ## `@fanvue/ui/animated-icons`
 
@@ -175,7 +179,7 @@ const icon = useRef<AnimatedIconHandle>(null);
 </button>;
 ```
 
-Storybook's **Foundations → Icons** page lists the full set with **animated** switched on: icons badged `anim` have a twin, and clicking a card copies the correct import.
+The [Animated icons page](/ui/components/animated-icons) lists all 69, and the [Icons page](/ui/components/icons) lists the 172 static ones they are drawn from.
 
 ## `@fanvue/ui/styles/*`
 

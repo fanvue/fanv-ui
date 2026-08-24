@@ -2,7 +2,15 @@
 
 ## UserDisplayName
 
-Renders a user's display name with optional ambassador/verified badges and an online-status indicator. Only the name shrinks and truncates; trailing badges and the online-status indicator stay visible on the same line. Typography is not baked in: pass a `typography-*` utility via `className` on the root and the name inherits it. Use `typography-body-small-14px-semibold` for the standard display-name scale. When both `ambassador` and `verified` are set, the ambassador badge takes precedence. `aiDisclosure` is independent of both and renders after whichever status badge is shown, since it discloses how the account is operated rather than ranking it. The verified and AI-disclosure badges inherit the name's colour, so setting a colour on the root tints them with it. That keeps them legible on surfaces that fix their own text colour — over a cover image, for example, where a theme-dependent tint would turn black against white text in light mode. The ambassador tint is deliberately not inherited: it uses `text-success-content` (not `text-icons-brand-green`) so the green darkens in light mode and lightens in dark mode, matching `ProfileOnlineStatus`; `text-icons-brand-green` is fixed across modes.
+Renders a user's display name with optional ambassador/verified badges and an online-status indicator. Only the name shrinks and truncates; trailing badges and the online-status indicator stay visible on the same line.
+
+Typography is not baked in: pass a `typography-*` utility via `className` on the root and the name inherits it. Use `typography-body-small-14px-semibold` for the standard display-name scale.
+
+When both `ambassador` and `verified` are set, the ambassador badge takes precedence. `aiDisclosure` is independent of both and renders after whichever status badge is shown, since it discloses how the account is operated rather than ranking it.
+
+The verified and AI-disclosure badges inherit the name's colour, so setting a colour on the root tints them with it. That keeps them legible on surfaces that fix their own text colour — over a cover image, for example, where a theme-dependent tint would turn black against white text in light mode.
+
+The ambassador tint is deliberately not inherited: it uses `text-success-content` (not `text-icons-brand-green`) so the green darkens in light mode and lightens in dark mode, matching `ProfileOnlineStatus`; `text-icons-brand-green` is fixed across modes.
 
 <ParamField path='aiDisclosure' type='boolean'>
   Render an AI-disclosure badge after the name, alongside any status badge.

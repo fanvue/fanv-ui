@@ -54,7 +54,7 @@ export function readPublicApi(repoRoot) {
         continue;
       }
       if (statement.type !== "ExportNamedDeclaration" || !statement.source) continue;
-      collectStatement(statement, entry, exports, reExports, repoRoot);
+      collectStatement(statement, entry, exports, reExports, repoRoot, warnings);
     }
   }
 
@@ -68,7 +68,7 @@ export function readPublicApi(repoRoot) {
  * @param {{ name: string, from: string }[]} reExports
  * @param {string} repoRoot
  */
-function collectStatement(statement, entry, exports, reExports, repoRoot) {
+function collectStatement(statement, entry, exports, reExports, repoRoot, warnings) {
   const source = statement.source.value;
   const subpath = ENTRY_SUBPATHS[entry];
   for (const specifier of statement.specifiers) {
@@ -82,13 +82,31 @@ function collectStatement(statement, entry, exports, reExports, repoRoot) {
       }
       continue;
     }
-    const [, , dir, stem] = source.replace(/^\.\//, "src/").split("/");
+    // `./components/<Dir>/<any/depth/of/stem>` — anything shallower has no
+    // component directory to hang a page off, and hardcoding two segments
+    // silently truncates anything deeper into a path that does not exist.
+    const segments = source.replace(/^\.\//, "").split("/").filter(Boolean);
+    if (segments.length < 3) {
+      warnings.push(
+        `${entry} re-exports \`${name}\` from \`${source}\`, which names no component directory — expected ./components/<Dir>/<file>`,
+      );
+      continue;
+    }
+    const dir = segments[1];
+    const stem = segments.slice(2).join("/");
+    const file = resolveSource(repoRoot, `src/components/${dir}/${stem}`);
+    if (!file) {
+      warnings.push(
+        `${entry} re-exports \`${name}\` from \`${source}\`, but no source file exists at src/components/${dir}/${stem}{.tsx,.ts,/index.tsx,/index.ts}`,
+      );
+      continue;
+    }
     exports.push({
       name,
       isType: statement.exportKind === "type" || specifier.exportKind === "type",
       subpath,
       dir,
-      file: resolveSource(repoRoot, `src/components/${dir}/${stem}`),
+      file,
     });
   }
 }
@@ -99,13 +117,13 @@ function collectStatement(statement, entry, exports, reExports, repoRoot) {
  *
  * @param {string} repoRoot
  * @param {string} stem Repo-relative path with no extension.
- * @returns {string}
+ * @returns {string | null}
  */
 function resolveSource(repoRoot, stem) {
   for (const suffix of [".tsx", ".ts", "/index.tsx", "/index.ts"]) {
     if (fs.existsSync(path.join(repoRoot, `${stem}${suffix}`))) return `${stem}${suffix}`;
   }
-  return `${stem}.tsx`;
+  return null;
 }
 
 /**

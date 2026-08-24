@@ -43,9 +43,9 @@ import {
   renderCountryFlagPage,
   renderIconsPage,
 } from "./docs-generator/galleries.mjs";
-import { jsdocToMdx, kebabCase, pascalCase } from "./docs-generator/mdx.mjs";
+import { firstSentence, jsdocToMdx, kebabCase, pascalCase } from "./docs-generator/mdx.mjs";
 import { renderPropsSnippet } from "./docs-generator/props-snippet.mjs";
-import { parseModule } from "./docs-generator/storybook-csf.mjs";
+import { parseModule, parseStoryFile } from "./docs-generator/storybook-csf.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -65,6 +65,22 @@ const PEER_DEPENDENCIES = {
   "@fanvue/ui/animated-icons": "motion",
 };
 
+/** What a category's components are *for*, in the voice of a description. */
+const CATEGORY_PURPOSE = {
+  Actions: "an action control",
+  "Forms & Inputs": "a form input",
+  "Overlays & Dialogs": "an overlay surface",
+  Navigation: "a navigation control",
+  "Data Display": "a data display element",
+  "Feedback & Status": "a feedback and status element",
+  Layout: "a layout primitive",
+  "Media & Audio": "a media control",
+  "Creator & Social": "a creator and social element",
+  Charts: "a chart building block",
+  "Icons & Flags": "an icon set",
+  Utility: "a utility",
+};
+
 main();
 
 function main() {
@@ -80,12 +96,20 @@ function main() {
   assertCategorised(pages, config);
 
   const docgenByMember = parseProps(REPO_ROOT, componentSourceFiles(REPO_ROOT));
-  const context = buildContext({ config, readSource, api, pages, docgenByMember });
+  const warnings = [...api.warnings];
+  const context = buildContext({ config, readSource, api, pages, docgenByMember, warnings });
 
   const written = { snippets: 0, wrappers: 0, galleries: 0, skippedWrappers: 0 };
   const gaps = [];
+  const descriptionGaps = [];
   const skippedStories = [];
   const storyIndex = {};
+  /** Every file this run is responsible for, so anything else can be pruned. */
+  const emitted = new Set();
+  const emit = (relative, content) => {
+    emitted.add(relative);
+    writeFile(relative, content);
+  };
 
   for (const page of pages.values()) {
     if (GALLERY_PAGES.has(page.dir)) continue;
@@ -94,9 +118,10 @@ function main() {
     const props = renderPropsSnippet(page, {
       docgenByMember,
       readSource,
+      warnings,
       propOverrides: config.propOverrides?.[page.dir] ?? {},
     });
-    writeFile(`snippets/${name}-props.mdx`, props.text);
+    emit(`snippets/${name}-props.mdx`, props.text);
     written.snippets += 1;
     if (props.missingDescriptions > 0) {
       gaps.push({
@@ -107,36 +132,67 @@ function main() {
     }
 
     const examples = renderExamplesSnippet(page, context);
-    writeFile(`snippets/${name}-examples.mdx`, examples.text);
+    emit(`snippets/${name}-examples.mdx`, examples.text);
     written.snippets += 1;
     storyIndex[name] = examples.storyIds;
     skippedStories.push(...examples.skipped);
 
     if (page.dir === "CountryFlag") continue;
-    if (writeWrapperOnce(page, name)) written.wrappers += 1;
+    const description = pageDescription(page, config, descriptionGaps);
+    emitted.add(`components/${name}.mdx`);
+    if (writeWrapperOnce(page, name, config, description)) written.wrappers += 1;
     else written.skippedWrappers += 1;
   }
 
-  writeFile("components/icons.mdx", renderIconsPage(context));
-  writeFile("components/animated-icons.mdx", renderAnimatedIconsPage(context));
-  writeFile("components/country-flag.mdx", renderCountryFlagPage(context));
+  emit("components/icons.mdx", renderIconsPage(context));
+  emit("components/animated-icons.mdx", renderAnimatedIconsPage(context));
+  emit("components/country-flag.mdx", renderCountryFlagPage(context));
   written.galleries = 3;
 
-  writeFile("nav.json", `${JSON.stringify(buildNav(pages, config), null, 2)}\n`);
-  writeFile(
+  emit("nav.json", `${JSON.stringify(buildNav(pages, config), null, 2)}\n`);
+  emit(
     "snippets/_meta.json",
     `${JSON.stringify(buildMeta(pages, config, storyIndex, api), null, 2)}\n`,
   );
 
-  report(written, gaps, skippedStories, api.warnings);
+  const pruned = pruneOrphans(emitted);
+  report(written, pruned, gaps, descriptionGaps, skippedStories, warnings);
   formatOutput();
+}
+
+/**
+ * Deletes generated files this run did not emit.
+ *
+ * Nothing else does: renaming a component leaves its page and both snippets on
+ * disk serving stale content forever, and the CI freshness gate cannot see it
+ * because an orphan is neither modified nor untracked. Wrapper pages may hold
+ * hand-written prose, so one is only removed when its component has genuinely
+ * left the export graph — which is exactly the case this handles.
+ *
+ * @param {Set<string>} emitted
+ * @returns {string[]} Repo-relative paths removed.
+ */
+function pruneOrphans(emitted) {
+  const removed = [];
+  for (const directory of ["components", "snippets"]) {
+    const absolute = path.join(DOCS_DIR, directory);
+    if (!fs.existsSync(absolute)) continue;
+    for (const entry of fs.readdirSync(absolute).sort((a, b) => a.localeCompare(b))) {
+      const relative = `${directory}/${entry}`;
+      if (emitted.has(relative)) continue;
+      if (!/\.(mdx|json)$/.test(entry)) continue;
+      fs.unlinkSync(path.join(DOCS_DIR, relative));
+      removed.push(relative);
+    }
+  }
+  return removed;
 }
 
 /**
  * Everything the snippet renderers need, bundled once so no renderer reaches
  * for the filesystem or the config on its own.
  */
-function buildContext({ config, readSource, api, pages, docgenByMember }) {
+function buildContext({ config, readSource, api, pages, docgenByMember, warnings }) {
   const publishedExports = new Map();
   for (const record of api.exports) {
     const existing = publishedExports.get(record.name);
@@ -144,12 +200,33 @@ function buildContext({ config, readSource, api, pages, docgenByMember }) {
   }
 
   const fixtureCache = new Map();
+  const storyFilesByDir = indexStoryFiles();
+  const spreadFallbacks = new Set();
   return {
     config,
     readSource,
     docgenByMember,
     publishedExports,
-    storyFilesByDir: indexStoryFiles(),
+    warnings,
+    storyFilesByDir,
+    /** Reported rather than silent: a leftover `{...args}` is a docs bug. */
+    onSpreadFallback: (reason) => {
+      if (!reason || spreadFallbacks.has(reason)) return;
+      spreadFallbacks.add(reason);
+      warnings.push(`example kept a \`{...args}\` spread: ${reason}`);
+    },
+    /**
+     * Storybook's own id for a story, so a gallery can embed one without
+     * hardcoding a slug that silently rots when the story is renamed.
+     */
+    storyIdFor: (dir, exportName) => {
+      for (const file of storyFilesByDir.get(dir) ?? []) {
+        const parsed = parseStoryFile(readSource(file), file);
+        const story = parsed?.stories.find((item) => item.exportName === exportName);
+        if (story) return story.id;
+      }
+      return null;
+    },
     iconNames: valueExportNames(pages, "Icons"),
     animatedIconNames: valueExportNames(pages, "AnimatedIcons"),
     fileExists: (file) => fs.existsSync(path.join(REPO_ROOT, file)),
@@ -201,14 +278,14 @@ function indexStoryFiles() {
  *
  * @returns {boolean} Whether a file was written.
  */
-function writeWrapperOnce(page, name) {
+function writeWrapperOnce(page, name, config, description) {
   const relative = `components/${name}.mdx`;
   if (fs.existsSync(path.join(DOCS_DIR, relative))) return false;
 
-  const primary = page.members.find((member) => member.name === page.dir) ?? null;
-  const description = pageDescription(page, primary);
   const component = pascalCase(name);
   const peer = PEER_DEPENDENCIES[page.subpath];
+  const prefix = config.docsPathPrefix ?? "ui";
+  const subpath = page.subpath !== "@fanvue/ui";
 
   const lines = [
     "---",
@@ -225,10 +302,19 @@ function writeWrapperOnce(page, name) {
     lines.push(
       "<Warning>",
       `  This subpath needs the optional \`${peer}\` peer dependency: \`pnpm add ${peer}\`.`,
+      `  See [Subpath exports](/${prefix}/subpath-exports).`,
       "</Warning>",
       "",
     );
   }
+
+  // Search drops people straight onto a component page, so every one of them
+  // needs a route back to the setup it assumes has already happened.
+  const footer = [
+    `[Installation](/${prefix}/installation)`,
+    `[Theming](/${prefix}/theming)`,
+    ...(subpath ? [`[Subpath exports](/${prefix}/subpath-exports)`] : []),
+  ].join(" · ");
 
   lines.push(
     "```tsx",
@@ -242,6 +328,10 @@ function writeWrapperOnce(page, name) {
     "## Props",
     "",
     `<${component}Props />`,
+    "",
+    "---",
+    "",
+    `**Setup:** ${footer}`,
     "",
     `{/* Add hand-written guidance below — when to reach for ${page.dir}, accessibility notes,`,
     "    composition patterns. Everything above this line is regenerated by",
@@ -283,34 +373,100 @@ function renderImportLine(keyword, names, subpath) {
 }
 
 /**
+ * The one-line description that becomes the page's `<meta>`, its search result
+ * and its card in the navigation.
+ *
+ * Sources, best first:
+ *
+ * 1. `pageDescriptions` in docs.config.json. A compound component's root export
+ *    (`export const Dialog = DialogPrimitive.Root`) carries a JSDoc about the
+ *    *root primitive* — "Root component that manages open/close state" — which
+ *    is true of the export and useless as a description of the page. There is
+ *    nothing better to derive, so the config is where a human says it.
+ * 2. The JSDoc of the export whose name matches the directory.
+ * 3. The JSDoc of the only value export, when there is exactly one.
+ * 4. A category-shaped fallback, which at least says what kind of thing it is.
+ *
+ * Anything that reaches 3 or 4 is reported as a JSDoc gap.
+ *
  * @param {object} page
- * @param {object | null} primary The export that shares the directory's name, if there is one.
+ * @param {object} config
+ * @param {{ component: string, reason: string, description: string }[]} gaps
  * @returns {string}
  */
-function pageDescription(page, primary) {
-  if (!primary) return fallbackDescription(page);
-  const source = fs.readFileSync(path.join(REPO_ROOT, primary.file), "utf8");
-  const jsdoc = declarationDescription(source, primary.name);
-  const sentence = jsdoc
-    .split(/(?<=\.)\s/)[0]
-    ?.replace(/\s+/g, " ")
-    .trim();
-  if (sentence) return jsdocToMdx(sentence).replace(/&#\d+;|&[a-z]+;/g, "");
-  return fallbackDescription(page);
+function pageDescription(page, config, gaps) {
+  const values = page.members.filter((member) => !member.isType);
+  const primary = values.find((member) => member.name === page.dir) ?? null;
+  const fromPrimary = primary ? memberSentence(primary) : "";
+
+  const override = config.pageDescriptions?.[page.dir];
+  if (override) {
+    if (!fromPrimary) {
+      gaps.push({
+        component: page.dir,
+        reason: primary
+          ? `\`${primary.name}\` has no JSDoc — description comes from docs.config.json`
+          : `no export named ${page.dir} — description comes from docs.config.json`,
+        description: override,
+      });
+    }
+    return override;
+  }
+  if (fromPrimary) return fromPrimary;
+
+  if (values.length === 1) {
+    const only = memberSentence(values[0]);
+    if (only) {
+      gaps.push({
+        component: page.dir,
+        reason: `no export named ${page.dir}; used ${values[0].name}'s JSDoc`,
+        description: only,
+      });
+      return only;
+    }
+  }
+
+  const fallback = fallbackDescription(page, config);
+  gaps.push({
+    component: page.dir,
+    reason: primary
+      ? `\`${primary.name}\` has no JSDoc`
+      : `no export named ${page.dir} carries usable JSDoc`,
+    description: fallback,
+  });
+  return fallback;
+}
+
+/**
+ * @param {object} member
+ * @returns {string}
+ */
+function memberSentence(member) {
+  const source = fs.readFileSync(path.join(REPO_ROOT, member.file), "utf8");
+  const sentence = firstSentence(declarationDescription(source, member.name));
+  if (!sentence) return "";
+  return jsdocToMdx(sentence).replace(/&#\d+;|&[a-z]+;/g, "");
 }
 
 /**
  * Used when the directory has no export of its own name (the chart parts, for
- * instance) or when that export carries no JSDoc.
+ * instance) or when that export carries no JSDoc. "The X component, from
+ * @fanvue/ui" says nothing at all, so the category at least narrows it down.
  *
  * @param {object} page
+ * @param {object} config
  * @returns {string}
  */
-function fallbackDescription(page) {
-  const count = page.members.filter((member) => !member.isType).length;
-  return count > 1
-    ? `${page.dir}: ${count} exports from ${page.subpath}, documented together.`
-    : `The ${page.dir} component, from ${page.subpath}.`;
+function fallbackDescription(page, config) {
+  const values = page.members.filter((member) => !member.isType);
+  const purpose = CATEGORY_PURPOSE[config.categories?.[page.dir]] ?? "a component";
+  if (values.length > 1) {
+    return `${page.dir}: ${purpose} built from ${values.length} exports — ${values
+      .slice(0, 4)
+      .map((member) => member.name)
+      .join(", ")}${values.length > 4 ? ", …" : ""} — imported from ${page.subpath}.`;
+  }
+  return `${page.dir} — ${purpose} from ${page.subpath}.`;
 }
 
 /**
@@ -438,13 +594,30 @@ function writeFile(relative, content) {
  * @param {{ story: string, reason: string }[]} skipped
  * @param {string[]} warnings
  */
-function report(written, gaps, skipped, warnings) {
+function report(written, pruned, gaps, descriptionGaps, skipped, warnings) {
   console.log(
     `Wrote ${written.snippets} snippets, ${written.wrappers} new wrapper pages ` +
       `(${written.skippedWrappers} left alone), ${written.galleries} gallery pages, nav.json and _meta.json.`,
   );
 
+  if (pruned.length > 0) {
+    console.warn(`\nPruned ${pruned.length} orphaned generated file(s):`);
+    for (const file of pruned) console.warn(`  removed docs/mintlify/${file}`);
+  }
+
   for (const warning of warnings) console.warn(`warning: ${warning}`);
+
+  if (descriptionGaps.length > 0) {
+    console.warn(
+      `\n${descriptionGaps.length} pages have no usable component-level JSDoc, so their description was derived:`,
+    );
+    for (const gap of descriptionGaps.sort((a, b) => a.component.localeCompare(b.component))) {
+      console.warn(`  ${gap.component}: ${gap.reason}`);
+    }
+    console.warn(
+      "  Fix at the source (a JSDoc on the export), or set `pageDescriptions` in docs/mintlify/docs.config.json.",
+    );
+  }
 
   if (skipped.length > 0) {
     console.warn(`\n${skipped.length} stories skipped:`);
@@ -469,17 +642,38 @@ function report(written, gaps, skipped, warnings) {
 
 /**
  * Biome owns the formatting of the JSON outputs, so a check pass over the whole
- * directory keeps `biome check .` in CI green. Status 1 means it fixed
- * something, which is the expected outcome.
+ * directory keeps `biome check .` in CI green.
+ *
+ * The write pass is followed by a verify pass on purpose. On biome 2.x a clean
+ * `--write` exits 0 and exit 1 means diagnostics *remain* — so treating 1 as
+ * success let generated output biome cannot auto-fix sail through `docs:generate`
+ * and fail later in the lint job, on a file whose header tells the author not to
+ * touch it.
  */
 function formatOutput() {
-  const args = ["biome", "check", "docs/mintlify", "--write"];
+  runBiome(["biome", "check", "docs/mintlify", "--write"]);
+  const verify = runBiome(["biome", "check", "docs/mintlify"]);
+  if (verify.status !== 0) {
+    console.error(
+      "\nbiome still reports problems in the generated output that it cannot fix itself.\n" +
+        "The output is generated, so fix scripts/generate-docs.mjs (or scripts/docs-generator/), not docs/mintlify/.",
+    );
+    process.exit(1);
+  }
+}
+
+/**
+ * @param {string[]} args
+ * @returns {{ status: number | null }}
+ */
+function runBiome(args) {
   let result = spawnSync("pnpm", args, { cwd: REPO_ROOT, stdio: "inherit" });
   if (result.error?.code === "EACCES" || result.error?.code === "ENOENT") {
     result = spawnSync("npx", ["pnpm", ...args], { cwd: REPO_ROOT, stdio: "inherit" });
   }
-  if (result.status !== 0 && result.status !== 1) {
-    console.error("biome format pass failed with status", result.status);
-    process.exit(result.status ?? 1);
+  if (result.error) {
+    console.error("could not run biome:", result.error.message);
+    process.exit(1);
   }
+  return result;
 }

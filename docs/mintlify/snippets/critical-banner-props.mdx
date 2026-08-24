@@ -2,7 +2,9 @@
 
 ## CriticalBanner
 
-A full-width, high-priority banner reserved for situations that block or significantly impact a user's ability to use the platform — account suspensions, blocking payment failures, identity verification requirements, or critical security notices. It sits at the very top of a page and is intentionally disruptive, so use it sparingly; for non-blocking messaging use `Alert` or `Banner` instead. Renders with `role="alert"` so assistive technology conveys its urgency; override `role` for a less assertive treatment when appropriate.
+A full-width, high-priority banner reserved for situations that block or significantly impact a user's ability to use the platform — account suspensions, blocking payment failures, identity verification requirements, or critical security notices. It sits at the very top of a page and is intentionally disruptive, so use it sparingly; for non-blocking messaging use `Alert` or `Banner` instead.
+
+Renders with `role="alert"` so assistive technology conveys its urgency; override `role` for a less assertive treatment when appropriate.
 
 <ParamField path='children' type='ReactNode' required>
   Body copy describing the blocking situation.

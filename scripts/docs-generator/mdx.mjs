@@ -84,6 +84,188 @@ export function jsdocToMdx(text) {
   return escapeMdxText(collapsed);
 }
 
+/** A markdown list item, in a JSDoc block or anywhere else. */
+const BULLET_RE = /^\s*(?:[-*+]|\d+\.)\s+/;
+
+/**
+ * Words that end in a period without ending a sentence. Without these the
+ * splitter cuts a description off at `(e.g.` — which is how two page
+ * descriptions ended up truncated mid-parenthesis in the published nav.
+ */
+const ABBREVIATIONS = [
+  "e.g",
+  "i.e",
+  "etc",
+  "vs",
+  "cf",
+  "approx",
+  "resp",
+  "al",
+  "ca",
+  "fig",
+  "no",
+  "dr",
+  "mr",
+  "mrs",
+  "ms",
+  "st",
+  "inc",
+  "ltd",
+  "px",
+  "min",
+  "max",
+];
+
+const ABBREVIATION_RE = new RegExp(`(?:^|[\\s("'\\[{])(?:${ABBREVIATIONS.join("|")})$`, "i");
+
+/** A lone capital before the period is an initial, not the end of a thought. */
+const INITIAL_RE = /(?:^|[\s("'[{])[A-Z]$/;
+
+/**
+ * The first *complete* sentence of a JSDoc block.
+ *
+ * Splitting on `/(?<=\.)\s/` is wrong in four ways that all show up in this
+ * library's prose: abbreviations (`e.g.`), decimals (`1.5`), ellipses, and
+ * periods inside an inline code span. It also happily cuts inside an open
+ * parenthesis, which is what produced descriptions ending in `(e.g.`.
+ *
+ * @param {string} text
+ * @returns {string}
+ */
+export function firstSentence(text) {
+  if (!text) return "";
+  // A sentence never runs into the bullet list or the paragraph after it, and a
+  // description that swallows one reads as "…grouped options. - Pass `groups`…".
+  const lines = [];
+  for (const line of text.split("\n")) {
+    if (lines.length > 0 && (line.trim() === "" || BULLET_RE.test(line))) break;
+    if (line.trim() === "" || BULLET_RE.test(line)) continue;
+    lines.push(line);
+  }
+  const flat = lines
+    .join(" ")
+    .replace(/\s*\n\s*/g, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+  let inCode = false;
+  let depth = 0;
+  for (let index = 0; index < flat.length; index += 1) {
+    const character = flat[index];
+    if (character === "`") {
+      inCode = !inCode;
+      continue;
+    }
+    if (inCode) continue;
+    if (character === "(" || character === "[") depth += 1;
+    if (character === ")" || character === "]") depth = Math.max(0, depth - 1);
+    if (character !== "." && character !== "!" && character !== "?") continue;
+    if (flat.startsWith("...", index) || flat.startsWith("…", index)) {
+      index += 2;
+      continue;
+    }
+    // A terminator not followed by a space is inside a token: `1.5`, `e.g`, `v2.0`.
+    const next = flat[index + 1];
+    if (next !== undefined && !/\s/.test(next)) continue;
+    const rest = flat.slice(index + 1).trimStart();
+    if (rest === "") break;
+    if (depth > 0) continue;
+    const before = flat.slice(0, index);
+    if (ABBREVIATION_RE.test(before) || INITIAL_RE.test(before)) continue;
+    // Whatever follows has to look like the start of a new sentence.
+    if (!/^[A-Z0-9`"'([]/.test(rest)) continue;
+    return flat.slice(0, index + 1);
+  }
+  return flat;
+}
+
+/**
+ * Splits a JSDoc block into its prose and its block tags. `@deprecated` and
+ * friends are markup, not sentences, and rendering them verbatim puts a literal
+ * `@deprecated` in the middle of a props table.
+ *
+ * @param {string | undefined} text
+ * @returns {{ description: string, tags: Record<string, string> }}
+ */
+export function splitJsdocTags(text) {
+  if (!text) return { description: "", tags: {} };
+  const lines = text.split("\n");
+  const body = [];
+  /** @type {Record<string, string[]>} */
+  const tags = {};
+  let current = null;
+  for (const line of lines) {
+    const match = line.match(/^\s*@([a-zA-Z]+)\b[ \t]*(.*)$/);
+    if (match) {
+      current = match[1].toLowerCase();
+      tags[current] ??= [];
+      if (match[2]) tags[current].push(match[2]);
+      continue;
+    }
+    if (current) tags[current].push(line);
+    else body.push(line);
+  }
+  return {
+    description: body.join("\n").trim(),
+    tags: Object.fromEntries(
+      Object.entries(tags).map(([name, value]) => [name, value.join("\n").trim()]),
+    ),
+  };
+}
+
+/**
+ * Renders a JSDoc description as MDX **blocks**, keeping any bullet list a
+ * list. The single-line `jsdocToMdx` collapses `- a\n- b` into `- a - b`, which
+ * reads as run-on prose with stray hyphens in it.
+ *
+ * @param {string | undefined} text
+ * @returns {string[]} Block-level MDX lines, paragraphs separated by a blank line.
+ */
+export function jsdocToMdxBlocks(text) {
+  if (!text?.trim()) return [];
+  /** @type {string[][]} */
+  const blocks = [];
+  let paragraph = [];
+  let list = null;
+
+  const flushParagraph = () => {
+    if (paragraph.length > 0) blocks.push([jsdocToMdx(paragraph.join(" "))]);
+    paragraph = [];
+  };
+  const flushList = () => {
+    if (list) blocks.push(list.map((item) => `- ${jsdocToMdx(item.join(" "))}`));
+    list = null;
+  };
+
+  for (const line of text.split("\n")) {
+    if (line.trim() === "") {
+      flushParagraph();
+      flushList();
+      continue;
+    }
+    if (BULLET_RE.test(line)) {
+      flushParagraph();
+      list ??= [];
+      list.push([line.replace(BULLET_RE, "")]);
+      continue;
+    }
+    if (list) {
+      list[list.length - 1].push(line.trim());
+      continue;
+    }
+    paragraph.push(line.trim());
+  }
+  flushParagraph();
+  flushList();
+
+  const out = [];
+  for (const block of blocks.filter((item) => item.join("").trim() !== "")) {
+    if (out.length > 0) out.push("");
+    out.push(...block);
+  }
+  return out;
+}
+
 /**
  * Renders a JSX attribute. Single quotes are the default because prop types are
  * full of `"` — and when a value contains a single quote, or an `&` that MDX
@@ -95,8 +277,23 @@ export function jsdocToMdx(text) {
  * @returns {string}
  */
 export function jsxAttribute(name, value) {
-  if (!/['&]/.test(value)) return `${name}='${value}'`;
+  // Backticks and backslashes survive the JSX parser but not Mintlify's markdown
+  // pass over the rendered value, which eats them as code-span delimiters.
+  if (!/['&`\\]/.test(value)) return `${name}='${value}'`;
   return `${name}={${JSON.stringify(value)}}`;
+}
+
+/**
+ * Indents a block of MDX lines to sit inside a JSX element, leaving blank lines
+ * blank so the markdown parser still sees paragraph and list boundaries.
+ *
+ * @param {string[]} lines
+ * @param {number} [spaces]
+ * @returns {string[]}
+ */
+export function indentBlock(lines, spaces = 2) {
+  const pad = " ".repeat(spaces);
+  return lines.map((line) => (line.trim() === "" ? "" : `${pad}${line}`));
 }
 
 /**

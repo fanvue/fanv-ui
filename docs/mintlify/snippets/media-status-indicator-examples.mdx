@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-mediastatusindicator--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="MediaStatusIndicator — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-mediastatusindicator--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="MediaStatusIndicator — Default" />
 </Frame>
 
 ```tsx
@@ -12,10 +12,26 @@ import { MediaStatusIndicator } from "@fanvue/ui";
 <MediaStatusIndicator status="default" />
 ```
 
+## All Statuses
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-mediastatusindicator--all-statuses&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="MediaStatusIndicator — All Statuses" />
+</Frame>
+
+```tsx
+import { MediaStatusIndicator } from "@fanvue/ui";
+
+<div className="flex items-center gap-4">
+  <MediaStatusIndicator status="default" />
+  <MediaStatusIndicator status="removed" />
+  <MediaStatusIndicator status="sensitive" />
+</div>
+```
+
 ## Removed
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-mediastatusindicator--removed&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="MediaStatusIndicator — Removed" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-mediastatusindicator--removed&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="MediaStatusIndicator — Removed" />
 </Frame>
 
 ```tsx
@@ -27,11 +43,27 @@ import { MediaStatusIndicator } from "@fanvue/ui";
 ## Sensitive
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-mediastatusindicator--sensitive&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="MediaStatusIndicator — Sensitive" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-mediastatusindicator--sensitive&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="MediaStatusIndicator — Sensitive" />
 </Frame>
 
 ```tsx
 import { MediaStatusIndicator } from "@fanvue/ui";
 
 <MediaStatusIndicator status="sensitive" />
+```
+
+## Overlaid on a thumbnail
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-mediastatusindicator--on-media&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="MediaStatusIndicator — Overlaid on a thumbnail" />
+</Frame>
+
+```tsx
+import { MediaStatusIndicator } from "@fanvue/ui";
+
+<div className="relative size-40 overflow-hidden rounded-lg bg-neutral-800">
+  <div className="absolute top-2 right-2">
+    <MediaStatusIndicator status="sensitive" />
+  </div>
+</div>
 ```

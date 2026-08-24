@@ -2,7 +2,9 @@
 
 ## AudioPlayer
 
-A compact playback control for a single audio clip: a play/pause toggle, a static amplitude waveform that doubles as a seek scrubber, and elapsed/total timestamps. Designed to sit as an overlay on media thumbnails (Vault cards) as well as inline rows (the AI Voice Message "Generated Audio" row). The waveform is seeded from the decoded audio when possible, falling back to a deterministic (not random) placeholder derived from `src` so the result is stable across renders, SSR, and Chromatic snapshots.
+A compact playback control for a single audio clip: a play/pause toggle, a static amplitude waveform that doubles as a seek scrubber, and elapsed/total timestamps. Designed to sit as an overlay on media thumbnails (Vault cards) as well as inline rows (the AI Voice Message "Generated Audio" row).
+
+The waveform is seeded from the decoded audio when possible, falling back to a deterministic (not random) placeholder derived from `src` so the result is stable across renders, SSR, and Chromatic snapshots.
 
 <ParamField path='src' type='string' required>
   URL of the audio file to play.

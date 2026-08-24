@@ -3,14 +3,14 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-useritem--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="UserItem — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-useritem--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="260" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="UserItem — Default" />
 </Frame>
 
 ```tsx
 import { UserItem } from "@fanvue/ui";
 
 const SAMPLE_AVATAR =
-"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
 
 const sampleUser = {
   avatarUri: { url: SAMPLE_AVATAR },
@@ -30,17 +30,87 @@ const sampleUser = {
 />
 ```
 
-## Without Avatar
+## Online Indicator
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-useritem--without-avatar&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="UserItem — Without Avatar" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-useritem--online-indicator&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="260" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="UserItem — Online Indicator" />
 </Frame>
 
 ```tsx
 import { UserItem } from "@fanvue/ui";
 
 const SAMPLE_AVATAR =
-"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+
+const sampleUser = {
+  avatarUri: { url: SAMPLE_AVATAR },
+  displayName: "Aitana Lopez",
+  handle: "fit_aitana",
+};
+
+<UserItem
+  user={sampleUser}
+  isMuted={false}
+  isOnline
+  showAvatar
+  showHandle
+  showOnlineStatus
+  aiDisclosure={false}
+  verified={false}
+/>
+```
+
+## Avatar Sizes
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-useritem--avatar-sizes&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="260" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="UserItem — Avatar Sizes" />
+</Frame>
+
+```tsx
+import { UserItem } from "@fanvue/ui";
+
+const SAMPLE_AVATAR =
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+
+const sampleUser = {
+  avatarUri: { url: SAMPLE_AVATAR },
+  displayName: "Aitana Lopez",
+  handle: "fit_aitana",
+};
+
+<div className="flex w-72 flex-col gap-2">
+  {([16, 24, 32, 40, 48, 64, 88, 148] as const).map((avatarSize) => (
+    <div key={avatarSize} className="flex flex-col gap-1">
+      <UserItem
+        user={sampleUser}
+        isMuted={false}
+        isOnline={false}
+        showAvatar
+        showHandle
+        showOnlineStatus={false}
+        aiDisclosure={false}
+        verified={false}
+        avatarSize={avatarSize}
+      />
+      <p className="typography-description-12px-regular pl-2 text-content-secondary">
+        avatarSize={avatarSize}
+      </p>
+    </div>
+  ))}
+</div>
+```
+
+## Without Avatar
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-useritem--without-avatar&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="260" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="UserItem — Without Avatar" />
+</Frame>
+
+```tsx
+import { UserItem } from "@fanvue/ui";
+
+const SAMPLE_AVATAR =
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
 
 const sampleUser = {
   avatarUri: { url: SAMPLE_AVATAR },
@@ -60,17 +130,17 @@ const sampleUser = {
 />
 ```
 
-## Without Handle
+## Nickname
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-useritem--without-handle&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="UserItem — Without Handle" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-useritem--nickname&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="260" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="UserItem — Nickname" />
 </Frame>
 
 ```tsx
 import { UserItem } from "@fanvue/ui";
 
 const SAMPLE_AVATAR =
-"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
 
 const sampleUser = {
   avatarUri: { url: SAMPLE_AVATAR },
@@ -79,11 +149,11 @@ const sampleUser = {
 };
 
 <UserItem
-  user={sampleUser}
+  user={{ ...sampleUser, nickname: "Aitana" }}
   isMuted={false}
   isOnline={false}
   showAvatar
-  showHandle={false}
+  showHandle
   showOnlineStatus={false}
   aiDisclosure={false}
   verified={false}

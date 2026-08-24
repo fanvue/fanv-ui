@@ -2,7 +2,9 @@
 
 ## SegmentedControl
 
-A compact selector for choosing between two or three mutually exclusive options where the choice affects the content immediately below it. Use instead of tabs when the options are more like settings or filters than navigation, such as toggling a list/grid view or a monthly/annual price. Rendered as a `radiogroup` with roving-tabindex keyboard navigation. Supports both controlled and uncontrolled usage. With `collapsible`, the icon-bearing `plain`/`brand` appearances shrink to a single cycling icon toggle when space is tight (rendered as a `group` containing one button).
+A compact selector for choosing between two or three mutually exclusive options where the choice affects the content immediately below it. Use instead of tabs when the options are more like settings or filters than navigation, such as toggling a list/grid view or a monthly/annual price.
+
+Rendered as a `radiogroup` with roving-tabindex keyboard navigation. Supports both controlled and uncontrolled usage. With `collapsible`, the icon-bearing `plain`/`brand` appearances shrink to a single cycling icon toggle when space is tight (rendered as a `group` containing one button).
 
 <ParamField path='options' type='SegmentedControlOption[]' required>
   The selectable segments. Designed for two or three mutually exclusive options.
@@ -17,7 +19,9 @@ A compact selector for choosing between two or three mutually exclusive options 
 </ParamField>
 
 <ParamField path='collapsible' type='boolean' default='false'>
-  When `true`, the control automatically collapses to a single icon-only toggle whenever its container is too narrow to show every segment side by side, and expands again when the space returns. Collapsed, it shows `collapsedIcon` when given and otherwise the currently-selected option's `icon`; clicking it (or pressing Enter/Space) advances to the next option, wrapping around from the last back to the first. Only supported for the icon-bearing `"plain"` and `"brand"` appearances, and every option must define an `icon` unless `collapsedIcon` is given (there is nothing to show otherwise). Ignored, with a dev-time warning, when those conditions are not met.
+  When `true`, the control automatically collapses to a single icon-only toggle whenever its container is too narrow to show every segment side by side, and expands again when the space returns. Collapsed, it shows `collapsedIcon` when given and otherwise the currently-selected option's `icon`; clicking it (or pressing Enter/Space) advances to the next option, wrapping around from the last back to the first.
+
+  Only supported for the icon-bearing `"plain"` and `"brand"` appearances, and every option must define an `icon` unless `collapsedIcon` is given (there is nothing to show otherwise). Ignored, with a dev-time warning, when those conditions are not met.
 </ParamField>
 
 <ParamField path='defaultValue' type='string'>

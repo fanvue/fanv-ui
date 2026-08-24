@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-datepicker--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DatePicker — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-datepicker--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="420" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DatePicker — Default" />
 </Frame>
 
 ```tsx
@@ -27,10 +27,62 @@ function Example() {
 }
 ```
 
+## With Disabled Dates
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-datepicker--with-disabled-dates&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="420" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DatePicker — With Disabled Dates" />
+</Frame>
+
+```tsx
+import { useState } from "react";
+import { DatePicker } from "@fanvue/ui/date-picker";
+
+const DEFAULT_MONTH = new Date(2026, 1);
+
+function Example() {
+  const [selected, setSelected] = useState<Date | undefined>();
+  return (
+    <DatePicker
+      mode="single"
+      defaultMonth={DEFAULT_MONTH}
+      selected={selected}
+      onSelect={setSelected}
+      disabled={{ before: new Date(2026, 1, 10) }}
+    />
+  );
+}
+```
+
+## Without Footer
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-datepicker--without-footer&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="420" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DatePicker — Without Footer" />
+</Frame>
+
+```tsx
+import { useState } from "react";
+import { DatePicker } from "@fanvue/ui/date-picker";
+
+const DEFAULT_MONTH = new Date(2026, 1);
+
+function Example() {
+  const [selected, setSelected] = useState<Date | undefined>();
+  return (
+    <DatePicker
+      mode="single"
+      defaultMonth={DEFAULT_MONTH}
+      selected={selected}
+      onSelect={setSelected}
+      showFooter={false}
+    />
+  );
+}
+```
+
 ## Single Selection
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-datepicker--single-selection&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DatePicker — Single Selection" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-datepicker--single-selection&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="420" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DatePicker — Single Selection" />
 </Frame>
 
 ```tsx
@@ -54,32 +106,30 @@ function Example() {
 }
 ```
 
-## Range Selection
+## Custom Labels
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-datepicker--range-selection&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DatePicker — Range Selection" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-datepicker--custom-labels&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="420" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="DatePicker — Custom Labels" />
 </Frame>
 
 ```tsx
 import { useState } from "react";
 import { DatePicker } from "@fanvue/ui/date-picker";
-import type { DateRange } from "@fanvue/ui/date-picker";
 
 const DEFAULT_MONTH = new Date(2026, 1);
 
 function Example() {
-  const [range, setRange] = useState<DateRange | undefined>({
-    from: new Date(2026, 1, 9),
-    to: new Date(2026, 1, 19),
-  });
+  const [selected, setSelected] = useState<Date | undefined>();
   return (
     <DatePicker
-      mode="range"
+      mode="single"
       defaultMonth={DEFAULT_MONTH}
-      selected={range}
-      onSelect={setRange}
-      onApply={() => console.log("Applied:", range)}
-      onCancel={() => setRange(undefined)}
+      selected={selected}
+      onSelect={setSelected}
+      cancelLabel="Reset"
+      applyLabel="Confirm"
+      onApply={() => console.log("Applied:", selected)}
+      onCancel={() => setSelected(undefined)}
     />
   );
 }

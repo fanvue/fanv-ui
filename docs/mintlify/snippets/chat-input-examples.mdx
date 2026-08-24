@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-chatinput--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ChatInput — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-chatinput--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="300" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ChatInput — Default" />
 </Frame>
 
 ```tsx
@@ -15,7 +15,7 @@ import { ChatInput } from "@fanvue/ui";
 ## With Placeholder
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-chatinput--with-placeholder&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ChatInput — With Placeholder" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-chatinput--with-placeholder&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="300" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ChatInput — With Placeholder" />
 </Frame>
 
 ```tsx
@@ -24,10 +24,78 @@ import { ChatInput } from "@fanvue/ui";
 <ChatInput placeholder="Ask the Creator Agent..." />
 ```
 
+## With File Button
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-chatinput--with-file-button&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="300" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ChatInput — With File Button" />
+</Frame>
+
+```tsx
+import { ChatInput } from "@fanvue/ui";
+
+<ChatInput placeholder="Type a message..." showFileButton />
+```
+
+## Full Feature
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-chatinput--full-feature&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="300" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ChatInput — Full Feature" />
+</Frame>
+
+```tsx
+import { useState } from "react";
+import { AIIcon, BulbIcon, ChatInput } from "@fanvue/ui";
+
+const SELECT_OPTIONS = [
+  {
+    value: "fanvue-ai",
+    // Short label on the collapsed trigger; longer title inside the menu/sheet.
+    label: "Fanvue AI",
+    menuLabel: "Fanvue AI",
+    description: "Most capable for ambitious work",
+    icon: <AIIcon className="size-4" />,
+  },
+  {
+    value: "example",
+    label: "Example",
+    menuLabel: "Example model",
+    description: "Fastest for quick answers",
+    icon: <BulbIcon className="size-4" />,
+  },
+];
+
+function Example() {
+  const [value, setValue] = useState("");
+  const [model, setModel] = useState("fanvue-ai");
+  const [fileHint, setFileHint] = useState<string | null>(null);
+
+  return (
+    <div className="flex w-full flex-col gap-2">
+      <ChatInput
+        placeholder="Ask the Creator Agent..."
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onSubmit={() => setValue("")}
+        showFileButton
+        onFileClick={() => setFileHint("Attach tapped.")}
+        selectOptions={SELECT_OPTIONS}
+        selectValue={model}
+        onSelectChange={setModel}
+      />
+      {fileHint ? (
+        <output className="typography-description-12px-regular px-1 text-content-secondary">
+          {fileHint}
+        </output>
+      ) : null}
+    </div>
+  );
+}
+```
+
 ## Disabled
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-chatinput--disabled&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ChatInput — Disabled" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-chatinput--disabled&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="300" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ChatInput — Disabled" />
 </Frame>
 
 ```tsx

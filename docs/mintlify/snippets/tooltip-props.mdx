@@ -12,7 +12,9 @@ A direct re-export of the Radix `TooltipPrimitive.Root` primitive. It accepts al
 <ParamField path='asChild' type='boolean' />
 
 <ParamField path='placement' type='"top" | "bottom" | "left" | "right" | "top-start" | "top-end" | "bottom-start" | ...' default='top'>
-  Position of the tooltip relative to the trigger. Takes precedence over `side` and `align`. Full type: `"top" | "bottom" | "left" | "right" | "top-start" | "top-end" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end"`.
+  Position of the tooltip relative to the trigger. Takes precedence over `side` and `align`.
+
+  Full type: `"top" | "bottom" | "left" | "right" | "top-start" | "top-end" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end"`.
 </ParamField>
 
 <ParamField path='title' type='ReactNode'>
@@ -22,7 +24,11 @@ A direct re-export of the Radix `TooltipPrimitive.Root` primitive. It accepts al
 
 ## TooltipLabel
 
-A text label that is itself the tooltip trigger, marked by a dashed underline. Use this instead of pairing a label with a separate info glyph: the visible text becomes the trigger's accessible name, and the row stays at text height rather than being stretched by an icon button. The label is repeated as the tooltip's heading, so the tooltip reads as the two-row block the design specifies — the term, then what it means. Tapping the label toggles the tooltip on touch devices, where there is no hover to trigger it. Tapping elsewhere, scrolling, or opening another tooltip dismisses it.
+A text label that is itself the tooltip trigger, marked by a dashed underline. Use this instead of pairing a label with a separate info glyph: the visible text becomes the trigger's accessible name, and the row stays at text height rather than being stretched by an icon button.
+
+The label is repeated as the tooltip's heading, so the tooltip reads as the two-row block the design specifies — the term, then what it means.
+
+Tapping the label toggles the tooltip on touch devices, where there is no hover to trigger it. Tapping elsewhere, scrolling, or opening another tooltip dismisses it.
 
 <ParamField path='children' type='ReactNode' required>
   The label text, which doubles as the trigger.
@@ -35,7 +41,11 @@ A text label that is itself the tooltip trigger, marked by a dashed underline. U
 
 ## TooltipProvider
 
-Provides tooltip delay and skip-delay context. Wrap your app or a subtree. Defaults `delayDuration` to 200ms rather than inheriting Radix's 700ms, which reads as unresponsive on the short hint labels this library uses tooltips for. Pass `delayDuration` to override. Note that `TooltipLabel`, `ChartCard` and `SwitchField` each mount their own provider internally, so they take this default but not an app-level override.
+Provides tooltip delay and skip-delay context. Wrap your app or a subtree.
+
+Defaults `delayDuration` to 200ms rather than inheriting Radix's 700ms, which reads as unresponsive on the short hint labels this library uses tooltips for. Pass `delayDuration` to override.
+
+Note that `TooltipLabel`, `ChartCard` and `SwitchField` each mount their own provider internally, so they take this default but not an app-level override.
 
 Accepts all props of the underlying Radix `TooltipPrimitive.Provider` primitive, plus `className`.
 

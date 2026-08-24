@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-aidisclosurebadge--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="AiDisclosureBadge — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-aidisclosurebadge--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="AiDisclosureBadge — Default" />
 </Frame>
 
 ```tsx
@@ -12,43 +12,39 @@ import { AiDisclosureBadge } from "@fanvue/ui";
 <AiDisclosureBadge />
 ```
 
-## Sizes
-
-<Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-aidisclosurebadge--sizes&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="AiDisclosureBadge — Sizes" />
-</Frame>
-
-```tsx
-import { AiDisclosureBadge } from "@fanvue/ui";
-
-const args = {};
-
-<div className="flex items-center gap-4">
-  <AiDisclosureBadge {...args} className="size-4" />
-  <AiDisclosureBadge {...args} className="size-6" />
-  <AiDisclosureBadge {...args} className="size-8" />
-</div>
-```
-
 ## Tones
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-aidisclosurebadge--tones&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="AiDisclosureBadge — Tones" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-aidisclosurebadge--tones&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="AiDisclosureBadge — Tones" />
 </Frame>
 
 ```tsx
 import { AiDisclosureBadge } from "@fanvue/ui";
 
-const args = {};
-
 <div className="flex gap-4">
   <div className="flex items-center gap-3 rounded-md bg-linear-to-br from-[#e8f5ef] via-[#9fd8c2] to-[#f7fbf9] p-6">
-    <AiDisclosureBadge {...args} tone="dark" className="size-6" />
-    <AiDisclosureBadge {...args} tone="transparent" className="size-6" />
+    <AiDisclosureBadge tone="dark" className="size-6" />
+    <AiDisclosureBadge tone="transparent" className="size-6" />
   </div>
   <div className="flex items-center gap-3 rounded-md bg-linear-to-br from-[#0e3b2f] via-[#1f8f6a] to-[#0b2b23] p-6">
-    <AiDisclosureBadge {...args} tone="light" className="size-6" />
-    <AiDisclosureBadge {...args} tone="transparent" className="size-6" />
+    <AiDisclosureBadge tone="light" className="size-6" />
+    <AiDisclosureBadge tone="transparent" className="size-6" />
   </div>
+</div>
+```
+
+## Sizes
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-aidisclosurebadge--sizes&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="AiDisclosureBadge — Sizes" />
+</Frame>
+
+```tsx
+import { AiDisclosureBadge } from "@fanvue/ui";
+
+<div className="flex items-center gap-4">
+  <AiDisclosureBadge className="size-4" />
+  <AiDisclosureBadge className="size-6" />
+  <AiDisclosureBadge className="size-8" />
 </div>
 ```

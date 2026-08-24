@@ -2,7 +2,9 @@
 
 ## ChatInput
 
-A chat-style multi-line input with an integrated toolbar containing an optional file-attach button, optional right-side controls (e.g. a model selector), and a submit button — all inside a single bordered container. Designed to behave like modern AI chat inputs: auto-grows with content, submits on Enter (Shift+Enter for newlines), and keeps controls inline.
+A chat-style multi-line input with an integrated toolbar containing an optional file-attach button, optional right-side controls (e.g. a model selector), and a submit button — all inside a single bordered container.
+
+Designed to behave like modern AI chat inputs: auto-grows with content, submits on Enter (Shift+Enter for newlines), and keeps controls inline.
 
 <ParamField path='attachmentPreviews' type='ReactNode'>
   Replaces the built-in attachment strip entirely. When set to any value other than `undefined` (including `null` or `[]`), `ChatInputProps.attachments` is ignored.
@@ -65,7 +67,12 @@ A chat-style multi-line input with an integrated toolbar containing an optional 
 </ParamField>
 
 <ParamField path='selectVariant' type='"menu" | "sheet"' default='menu'>
-  How the built-in selector presents its options: - `"menu"` (default) — a dropdown anchored to the trigger, for pointer/desktop. - `"sheet"` — a bottom sheet, for mobile/touch viewports. The viewport decision belongs to the consumer (it owns the breakpoint source of truth), so pass e.g. `selectVariant={isDesktop ? "menu" : "sheet"}`.
+  How the built-in selector presents its options:
+
+  - `"menu"` (default) — a dropdown anchored to the trigger, for pointer/desktop.
+  - `"sheet"` — a bottom sheet, for mobile/touch viewports.
+
+  The viewport decision belongs to the consumer (it owns the breakpoint source of truth), so pass e.g. `selectVariant={isDesktop ? "menu" : "sheet"}`.
 </ParamField>
 
 <ParamField path='showFileButton' type='boolean' default='false'>

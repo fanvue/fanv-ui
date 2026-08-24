@@ -2,7 +2,9 @@
 
 ## ChartCard
 
-Wraps any chart with a structured header containing title, subtitle, optional trend indicator, date range label, info tooltip, and a loading skeleton state. At `hierarchy="primary"` this implements the V2 Insight Card surface, which differs from `Card`'s own primary hierarchy: a white fill, the strong border, and a 12px radius.
+Wraps any chart with a structured header containing title, subtitle, optional trend indicator, date range label, info tooltip, and a loading skeleton state.
+
+At `hierarchy="primary"` this implements the V2 Insight Card surface, which differs from `Card`'s own primary hierarchy: a white fill, the strong border, and a 12px radius.
 
 <ParamField path='title' type='ReactNode' required>
   Card title text. Pass translated string for i18n.
@@ -84,7 +86,9 @@ A direct re-export of `RechartsLegend` from `recharts`, provided so a chart can 
 
 ## ChartLegendContent
 
-Styled legend content for use with `<ChartLegend content={<ChartLegendContent />} />`. Reads chart config from context to resolve labels and icons.
+Styled legend content for use with `<ChartLegend content={<ChartLegendContent />} />`.
+
+Reads chart config from context to resolve labels and icons.
 
 <ParamField path='hideIcon' type='boolean' default='false'>
   Hide the color/icon indicator.
@@ -105,7 +109,9 @@ Styled legend content for use with `<ChartLegend content={<ChartLegendContent />
 
 ## ChartLoadingOverlay
 
-A positioned overlay shown on top of chart content while it loads. The children are always rendered to maintain layout dimensions. By default the overlay is opaque and shows a wave-animated `ChartSkeleton` shaped like the chart. At `variant={false}` it falls back to a semi-transparent wash with a centred spinner.
+A positioned overlay shown on top of chart content while it loads. The children are always rendered to maintain layout dimensions.
+
+By default the overlay is opaque and shows a wave-animated `ChartSkeleton` shaped like the chart. At `variant={false}` it falls back to a semi-transparent wash with a centred spinner.
 
 <ParamField path='children' type='ReactNode' required>
   Chart content to render underneath the overlay.
@@ -126,7 +132,9 @@ A positioned overlay shown on top of chart content while it loads. The children 
 
 ## ChartMetricTrend
 
-The small area chart inside a metric tile, per the `V2 Area Chart Item` slot of the Figma insight card. `series` is optional because the endpoints behind these cards often return a single scalar with no history. With nothing to plot the chart draws a flat line at the current value rather than collapsing the slot, so the card keeps the height and shape the design gives it. The line is deliberately level rather than shaped, so it asserts no history that the data cannot support.
+The small area chart inside a metric tile, per the `V2 Area Chart Item` slot of the Figma insight card.
+
+`series` is optional because the endpoints behind these cards often return a single scalar with no history. With nothing to plot the chart draws a flat line at the current value rather than collapsing the slot, so the card keeps the height and shape the design gives it. The line is deliberately level rather than shaped, so it asserts no history that the data cannot support.
 
 <ParamField path='color' type='"red" | "teal"' required>
   Gradient and stroke colour.
@@ -169,7 +177,9 @@ Renders a wrapping row of toggleable `Chip`s that control which series are visib
 
 ## ChartSkeleton
 
-A wave-animated placeholder shaped like the content it stands in for — a chart series, a ranked table, or a breakdown of labelled bars. Use it while data loads instead of a generic spinner, so the layout does not visibly shift once the real content renders. For a chart body, pass it to `ChartLoadingOverlay` via its `variant` prop rather than rendering it directly. For a card body, pass it to `ChartCard`'s `skeleton` prop.
+A wave-animated placeholder shaped like the content it stands in for — a chart series, a ranked table, or a breakdown of labelled bars. Use it while data loads instead of a generic spinner, so the layout does not visibly shift once the real content renders.
+
+For a chart body, pass it to `ChartLoadingOverlay` via its `variant` prop rather than rendering it directly. For a card body, pass it to `ChartCard`'s `skeleton` prop.
 
 <ParamField path='rows' type='number'>
   How many items to draw: rows for `table` and `rows`, bars for `bar`. Match the count the loaded card will show, so the card does not resize once the real content arrives. Defaults to 5 rows, or 7 bars.
@@ -182,7 +192,9 @@ A wave-animated placeholder shaped like the content it stands in for — a chart
 
 ## ChartStyle
 
-Injects a scoped `<style>` tag that maps each config entry to a `--color-{key}` CSS custom property, with light/dark theme support. Rendered automatically by `ChartContainer` — you rarely need this directly.
+Injects a scoped `<style>` tag that maps each config entry to a `--color-{key}` CSS custom property, with light/dark theme support.
+
+Rendered automatically by `ChartContainer` — you rarely need this directly.
 
 <ParamField path='config' type='ChartConfig' required>
   Chart configuration mapping data keys to colors and themes.
@@ -202,7 +214,9 @@ A direct re-export of `RechartsTooltip` from `recharts`, provided so a chart can
 
 ## ChartTooltipContent
 
-Styled tooltip content for use with `<ChartTooltip content={<ChartTooltipContent />} />`. Reads chart config from context to resolve labels, colors, and icons. Supports dot/line/dashed indicators. Pass translated `label`s in config for i18n.
+Styled tooltip content for use with `<ChartTooltip content={<ChartTooltipContent />} />`.
+
+Reads chart config from context to resolve labels, colors, and icons. Supports dot/line/dashed indicators. Pass translated `label`s in config for i18n.
 
 <ParamField path='active' type='boolean'>
   Whether the tooltip is currently active/visible. Passed by Recharts.
@@ -213,7 +227,9 @@ Styled tooltip content for use with `<ChartTooltip content={<ChartTooltipContent
 </ParamField>
 
 <ParamField path='formatter' type='((value: ValueType, name: NameType, item: Payload<ValueType, NameType>, index: number, ...'>
-  Custom value formatter. Full type: `((value: ValueType, name: NameType, item: Payload<ValueType, NameType>, index: number, payload: Payload<ValueType, NameType>[]) => ReactNode)`.
+  Custom value formatter.
+
+  Full type: `((value: ValueType, name: NameType, item: Payload<ValueType, NameType>, index: number, payload: Payload<ValueType, NameType>[]) => ReactNode)`.
 </ParamField>
 
 <ParamField path='hideIndicator' type='boolean' default='false'>

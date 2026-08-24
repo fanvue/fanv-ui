@@ -2,7 +2,9 @@
 
 ## VoiceNote
 
-A voice-note audio player: a play/pause control, an amplitude waveform, and a timestamp — for voice messages and audio attachments in a conversation. Two modes: pass `src` for a self-contained player that decodes the waveform, plays real audio, tracks live progress and is seekable; or omit `src` and drive it with `playing`/`progress` + `onPlayPause` for a presentational, fully-controlled voice note. `flat` renders a compact dotted preview and `negative` adapts it to dark message bubbles.
+A voice-note audio player: a play/pause control, an amplitude waveform, and a timestamp — for voice messages and audio attachments in a conversation.
+
+Two modes: pass `src` for a self-contained player that decodes the waveform, plays real audio, tracks live progress and is seekable; or omit `src` and drive it with `playing`/`progress` + `onPlayPause` for a presentational, fully-controlled voice note. `flat` renders a compact dotted preview and `negative` adapts it to dark message bubbles.
 
 <ParamField path='aria-label' type='string' default='Voice note'>
   Accessible name for the whole player.

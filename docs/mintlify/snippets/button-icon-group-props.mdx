@@ -2,7 +2,11 @@
 
 ## ButtonIconGroup
 
-A pre-composed cluster of `IconButton`s for toolbars and action rows (media controls, editing tools, content action bars). Items are spaced with a fixed 4px gap and stay individually rounded — this is a spaced group, not a segmented/joined control. Exposes `role="group"` by default; pass an `aria-label` or `aria-labelledby` to describe the cluster for assistive technology. This is a presentational layout primitive: it does not implement roving-tabindex / arrow-key focus management. `role` is overridable, but if you set an interactive-widget role such as `role="toolbar"` you own the keyboard behaviour that role implies. For orientation-aware roles the `aria-orientation` is synced to `orientation` automatically.
+A pre-composed cluster of `IconButton`s for toolbars and action rows (media controls, editing tools, content action bars). Items are spaced with a fixed 4px gap and stay individually rounded — this is a spaced group, not a segmented/joined control.
+
+Exposes `role="group"` by default; pass an `aria-label` or `aria-labelledby` to describe the cluster for assistive technology.
+
+This is a presentational layout primitive: it does not implement roving-tabindex / arrow-key focus management. `role` is overridable, but if you set an interactive-widget role such as `role="toolbar"` you own the keyboard behaviour that role implies. For orientation-aware roles the `aria-orientation` is synced to `orientation` automatically.
 
 <ParamField path='children' type='ReactNode' required>
   The icon buttons to cluster together. Compose `IconButton` elements here; the group only handles layout and spacing.

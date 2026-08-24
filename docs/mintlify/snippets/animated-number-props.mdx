@@ -2,7 +2,11 @@
 
 ## AnimatedNumber
 
-Animates a number when its value changes, either by rolling each digit like an odometer or by counting through the intermediate values. Both variants collapse to an instant swap under `prefers-reduced-motion: reduce`. The rolling variant stacks all ten digits in each column, so the visual is hidden from assistive technology and the formatted value is exposed once as text instead.
+Animates a number when its value changes, either by rolling each digit like an odometer or by counting through the intermediate values.
+
+Both variants collapse to an instant swap under `prefers-reduced-motion: reduce`.
+
+The rolling variant stacks all ten digits in each column, so the visual is hidden from assistive technology and the formatted value is exposed once as text instead.
 
 <ParamField path='value' type='number' required>
   The value to display. Animates whenever this changes.

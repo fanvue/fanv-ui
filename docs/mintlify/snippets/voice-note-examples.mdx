@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-voicenote--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="VoiceNote — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-voicenote--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="VoiceNote — Default" />
 </Frame>
 
 ```tsx
@@ -12,30 +12,50 @@ import { VoiceNote } from "@fanvue/ui";
 <VoiceNote time="0:05" />
 ```
 
+## Negative
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-voicenote--negative&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="VoiceNote — Negative" />
+</Frame>
+
+```tsx
+import { VoiceNote } from "@fanvue/ui";
+
+<VoiceNote time="0:02" negative progress={0.4} playing />
+```
+
+## Small
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-voicenote--small&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="VoiceNote — Small" />
+</Frame>
+
+```tsx
+import { VoiceNote } from "@fanvue/ui";
+
+<VoiceNote time="0:05" size="small" />
+```
+
+## With File Name
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-voicenote--with-file-name&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="VoiceNote — With File Name" />
+</Frame>
+
+```tsx
+import { VoiceNote } from "@fanvue/ui";
+
+<VoiceNote time="0:05" fileName="audio_name.mp4" />
+```
+
 ## Player
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-voicenote--player&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="VoiceNote — Player" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-voicenote--player&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="VoiceNote — Player" />
 </Frame>
 
 ```tsx
 import { VoiceNote } from "@fanvue/ui";
 
-<VoiceNote
-  time={undefined}
-  src="https://example.com/voice-note.mp3"
-  duration={24}
-/>
-```
-
-## Listening
-
-<Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-voicenote--listening&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="VoiceNote — Listening" />
-</Frame>
-
-```tsx
-import { VoiceNote } from "@fanvue/ui";
-
-<VoiceNote time="0:02" progress={0.4} playing />
+<VoiceNote src="https://example.com/voice-note.mp3" duration={24} />
 ```

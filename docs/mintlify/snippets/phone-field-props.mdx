@@ -2,7 +2,9 @@
 
 ## PhoneField
 
-A phone number input with a country selector (flag + chevron), a fixed dial code prefix, and a `tel` input. The country picker itself is owned by the consumer: pass the selected country's `flag` and `dialCode`, and open your picker from `onCountrySelect`. Provide at least one of `label`, `aria-label`, or `aria-labelledby` for accessibility — a console warning is emitted in development if none are set.
+A phone number input with a country selector (flag + chevron), a fixed dial code prefix, and a `tel` input. The country picker itself is owned by the consumer: pass the selected country's `flag` and `dialCode`, and open your picker from `onCountrySelect`.
+
+Provide at least one of `label`, `aria-label`, or `aria-labelledby` for accessibility — a console warning is emitted in development if none are set.
 
 <ParamField path='countryButtonLabel' type='string' default='Select country'>
   Accessible name for the country selector button.

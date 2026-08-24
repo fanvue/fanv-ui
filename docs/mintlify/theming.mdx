@@ -65,9 +65,9 @@ These are the tokens to build with. They carry meaning rather than a value, and 
 | `--color-content-*` | `text-content-primary` | Text and icon colour. `primary`, `secondary`, `tertiary`, `disabled`, plus `-inverted` and `always-white` / `always-black` pairs. |
 | `--color-background-*` | `bg-background-primary` | Page and app backgrounds, plus overlay scrims and gradients. |
 | `--color-surface-*` | `bg-surface-primary` | Raised surfaces sitting on a background: cards, sheets, inputs. |
-| `--color-border-*` | `border-border-primary` | Dividers and outlines. `primary`, `strong`, `selected`, `error`, `new-feature`. |
+| `--color-border-*` | `border-border-primary` | Dividers and outlines. `primary`, `strong`, `selected`, `error`, `new-feature`, `background`. |
 | `--color-brand-*` | `bg-brand-primary-default` | Fanvue green (`--color-brand-primary-default`) and purple (`--color-brand-secondary-default`), each with `hover` and `muted`. |
-| `--color-success-*`, `--color-warning-*`, `--color-error-*`, `--color-info-*` | `text-error-content` | Status colours, each with `surface`, `content`, and `secondary`. |
+| `--color-success-*`, `--color-warning-*`, `--color-error-*`, `--color-info-*` | `text-error-content` | Status colours, each with `surface`, `content`, and `secondary`, plus a `negative-` set of the same three whose light and dark values are the base set's swapped, for status colour that has to stay readable against an inverted surface. |
 | `--color-neutral-alphas-*` | `bg-neutral-alphas-100` | Translucent neutrals from `50` to `950`, black-based in light and white-based in dark. |
 
 Component-scoped families also exist and are used by the components themselves: `--color-buttons-*`, `--color-inputs-*`, `--color-icons-*`, `--color-alerts-*`, `--color-badges-*`, `--color-messages-*`, `--color-modal-*`, `--color-tab-*`, `--color-progress-*`, `--color-creator-*`, `--color-interaction-*`, and `--color-special-*`. Read them if you are building a component that must sit beside a library one, and prefer the general families everywhere else.
@@ -76,13 +76,20 @@ Component-scoped families also exist and are used by the components themselves: 
 
 | Prefix | Contents | Notes |
 | --- | --- | --- |
-| `--primitives-color-*` | The raw palette: `gray`, `green`, `emerald`, `purple`, `pink`, `red`, `amber`, `blue`, plus `blackalpha` and `whitealpha` ramps. | Every semantic token resolves to one of these. Read them for reference, build against the semantic layer. |
-| `--radius-*` | `3xs` 2px through `2xl` 40px, and `full`. | Also `rounded-*` utilities. |
-| `--shadow-*` | `sm`, `md`, `lg`, `blur-menu`, `blur-floating`, `focus-ring`. | Also `shadow-*` utilities. |
-| `--primitives-spacing-*`, `--spacing-global-*` | The spacing scale, in `:root` rather than `@theme`. | Kept out of `@theme` on purpose so Tailwind's own `p-*` and `gap-*` scale is untouched. |
+| `--primitives-color-*` | The raw palette: `gray`, `green`, `emerald`, `purple`, `pink`, `red`, `amber`, `blue`, plus `alpha`, `blackalpha`, and `whitealpha` ramps. | Every semantic token resolves to one of these. Read them for reference, build against the semantic layer. |
+| `--radius-*` | `3xs` 2px, `2xs` 4px, `xs` 8px, `sm` 12px, `md` 16px, `lg` 24px, `xl` 32px, `2xl` 40px, `full` 9999px. | Also `rounded-*` utilities. |
+| `--shadow-*` | `sm`, `md`, `lg`, `blur-menu`, `blur-floating`, `ai-button-glow`, `focus-ring`. | Also `shadow-*` utilities. `focus-ring` is an inset ring that reads its colour from `--fv-focus-ring-color`. |
+| `--primitives-spacing-*`, `--spacing-global-*`, `--spacing-vertical-*`, `--spacing-horizontal-*` | The spacing scale and the named gaps between paired elements, in `:root` rather than `@theme`. | Kept out of `@theme` on purpose so Tailwind's own `p-*` and `gap-*` scale is untouched. |
 | `--breakpoint-*` | `sm` 850px, `md` 1024px, `lg` 1280px. | Replaces Tailwind's defaults. See [Tailwind setup](/ui/tailwind-setup). |
+| `--opacity-disabled` | The single opacity token, used for disabled states. | In `:root`. |
 
-Storybook's **Foundations** section renders every colour, radius, shadow, spacing step, and type style with its token name.
+### Typography and icons
+
+The type scale ships as 16 `typography-*` utility classes rather than tokens. [Tailwind setup](/ui/tailwind-setup#typography-utilities) lists all 16 with their sizes and weights.
+
+The icon sets have their own reference pages: [Icons](/ui/components/icons) for the 172 static icons, [Animated icons](/ui/components/animated-icons) for the 69 animated twins, and [CountryFlag](/ui/components/country-flag) for the flag artwork.
+
+Storybook's **Foundations** section renders every colour, radius, shadow, spacing step, and type style as a swatch next to its token name, which is the fastest way to pick a value by eye.
 
 ## Matching your app to Fanvue
 

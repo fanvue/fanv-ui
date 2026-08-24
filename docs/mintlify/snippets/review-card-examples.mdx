@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-reviewcard--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ReviewCard — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-reviewcard--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="400" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ReviewCard — Default" />
 </Frame>
 
 ```tsx
@@ -17,7 +17,7 @@ const SAMPLE_BODY = "Easily plan and organize your content with this app. Stream
 ## Without Author
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-reviewcard--without-author&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ReviewCard — Without Author" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-reviewcard--without-author&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="400" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ReviewCard — Without Author" />
 </Frame>
 
 ```tsx
@@ -31,11 +31,49 @@ const SAMPLE_BODY = "Easily plan and organize your content with this app. Stream
 ## Title Only
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-reviewcard--title-only&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ReviewCard — Title Only" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-reviewcard--title-only&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="400" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ReviewCard — Title Only" />
 </Frame>
 
 ```tsx
 import { ReviewCard } from "@fanvue/ui";
 
 <ReviewCard rating={3} author="@user_123" title="Good, but room to grow." />
+```
+
+## Low Rating
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-reviewcard--low-rating&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="400" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ReviewCard — Low Rating" />
+</Frame>
+
+```tsx
+import { ReviewCard } from "@fanvue/ui";
+
+<ReviewCard rating={1} author="@user_456" title="Not for me">The idea is solid but it kept crashing on launch. Hoping a future update sorts out the stability issues.</ReviewCard>
+```
+
+## List
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-reviewcard--list&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="400" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ReviewCard — List" />
+</Frame>
+
+```tsx
+import { Divider, ReviewCard } from "@fanvue/ui";
+
+const SAMPLE_BODY = "Easily plan and organize your content with this app. Streamline your scheduling and management tasks to focus on what yo…";
+
+<div className="flex flex-col gap-6">
+  <ReviewCard rating={5} author="@jane_doe" title="A great app to start!">
+    {SAMPLE_BODY}
+  </ReviewCard>
+  <Divider />
+  <ReviewCard rating={4} author="@sam_smith" title="Really useful">
+    {SAMPLE_BODY}
+  </ReviewCard>
+  <Divider />
+  <ReviewCard rating={3} author="@alex_p" title="Does the job">
+    {SAMPLE_BODY}
+  </ReviewCard>
+</div>
 ```

@@ -11,7 +11,9 @@ Root component that manages open/close state for a dropdown menu.
 
 ## DropdownMenuCheckboxItem
 
-A single multi-select choice within a dropdown menu. Shows a square indicator that fills when checked, an optional leading avatar, and an optional helper line underneath the title. Pair with `DropdownMenuHeader` at `type="search"` for filterable menus. Use `DropdownMenuRadioItem` instead when only one option may be active.
+A single multi-select choice within a dropdown menu. Shows a square indicator that fills when checked, an optional leading avatar, and an optional helper line underneath the title.
+
+Pair with `DropdownMenuHeader` at `type="search"` for filterable menus. Use `DropdownMenuRadioItem` instead when only one option may be active.
 
 <ParamField path='asChild' type='boolean' />
 
@@ -26,21 +28,27 @@ A single multi-select choice within a dropdown menu. Shows a square indicator th
 
 ## DropdownMenuContent
 
-The positioned content panel rendered inside a portal. Override the portal z-index per-instance via `style={{ zIndex: 1500 }}` or globally with the `--fanvue-ui-portal-z-index` CSS custom property.
+The positioned content panel rendered inside a portal.
+
+Override the portal z-index per-instance via `style={{ zIndex: 1500 }}` or globally with the `--fanvue-ui-portal-z-index` CSS custom property.
 
 <ParamField path='asChild' type='boolean' />
 
 
 ## DropdownMenuGroup
 
-Groups related menu items. Accepts an optional `DropdownMenuLabel`. Requires Radix menu context — not supported inside a `variant="sheet"` menu.
+Groups related menu items. Accepts an optional `DropdownMenuLabel`.
+
+Requires Radix menu context — not supported inside a `variant="sheet"` menu.
 
 A direct re-export of the Radix `DropdownMenuPrimitive.Group` primitive. It accepts all of that primitive's props, unchanged.
 
 
 ## DropdownMenuHeader
 
-Optional header rendered at the top of a `DropdownMenuContent`. Use `type="default"` to title the menu, or `type="search"` to embed a search input for filtering long lists. Renders an inset separator beneath the row so it slots cleanly above the first group of items.
+Optional header rendered at the top of a `DropdownMenuContent`. Use `type="default"` to title the menu, or `type="search"` to embed a search input for filtering long lists.
+
+Renders an inset separator beneath the row so it slots cleanly above the first group of items.
 
 <ParamField path='closeLabel' type='string' default='Close menu'>
   Accessible label for the close button.
@@ -152,7 +160,9 @@ Visual separator between groups of items.
 
 ## DropdownMenuTrigger
 
-The element that toggles the dropdown menu when clicked. On touch devices, the menu only opens if the press-and-release stays within a small movement threshold. A drag that incidentally ends over the trigger (common when scrolling a feed on Android Chrome) is ignored. Mouse and keyboard interactions are unchanged.
+The element that toggles the dropdown menu when clicked.
+
+On touch devices, the menu only opens if the press-and-release stays within a small movement threshold. A drag that incidentally ends over the trigger (common when scrolling a feed on Android Chrome) is ignored. Mouse and keyboard interactions are unchanged.
 
 <ParamField path='asChild' type='boolean' />
 

@@ -20,11 +20,11 @@ A compact, mobile-friendly stepper that shows progress through a sequence of ste
   Content rendered on the left (typically a "Back" button).
 </ParamField>
 
-<ParamField path='formatStepLabel' type='((activeStep: number, totalSteps: number) => string)' default='(active, total) => \`Step ${active} of ${total}\'>
+<ParamField path='formatStepLabel' type='((activeStep: number, totalSteps: number) => string)' default={"(active, total) => `Step ${active} of ${total}`"}>
   Formatter for the `aria-valuetext` on dots and progress variants. Receives `(activeStep, totalSteps)` where `activeStep` is 1-indexed.
 </ParamField>
 
-<ParamField path='formatText' type='((activeStep: number, totalSteps: number) => string)' default='(active, total) => \`${active} / ${total}\'>
+<ParamField path='formatText' type='((activeStep: number, totalSteps: number) => string)' default={"(active, total) => `${active} / ${total}`"}>
   Custom formatter for the text variant. Receives `(activeStep, steps)` where `activeStep` is 1-indexed for display. Only used when `variant` is `"text"`.
 </ParamField>
 

@@ -11,7 +11,7 @@ Takes no props of its own. Accepts all standard `table` attributes, including `c
 
 `<tbody>` wrapper. Removes the bottom border on cells in the final row to match the Figma `V2 Table Final Row` treatment.
 
-Takes no props of its own. Accepts all standard `tablesection` attributes, including `className`.
+Takes no props of its own. Accepts all standard `thead/tbody/tfoot` attributes, including `className`.
 
 
 ## TableCard
@@ -70,7 +70,7 @@ Takes no props of its own. Accepts all standard `div` attributes, including `cla
 
 ## TableFooter
 
-Takes no props of its own. Accepts all standard `tablesection` attributes, including `className`.
+Takes no props of its own. Accepts all standard `thead/tbody/tfoot` attributes, including `className`.
 
 
 ## TableHead
@@ -84,7 +84,7 @@ Header cell. v2: transparent background, 48px min height, tertiary text, `border
 
 ## TableHeader
 
-Takes no props of its own. Accepts all standard `tablesection` attributes, including `className`.
+Takes no props of its own. Accepts all standard `thead/tbody/tfoot` attributes, including `className`.
 
 
 ## TableLineClamp
@@ -123,7 +123,9 @@ Square thumbnail used inside `TableCell` for media columns (Figma `V2 Media Thum
 
 ## TablePagination
 
-Footer bar for data tables: rows-per-page control, page navigation, and range summary. Pair `paginationSlot` with `Pagination` for numbered controls. v2 sits flush inside `TableCard` (`px-3` matches the card's inner gutter); the chip styling now lives on the `TableRowsPerPageSelect` trigger itself.
+Footer bar for data tables: rows-per-page control, page navigation, and range summary. Pair `paginationSlot` with `Pagination` for numbered controls.
+
+v2 sits flush inside `TableCard` (`px-3` matches the card's inner gutter); the chip styling now lives on the `TableRowsPerPageSelect` trigger itself.
 
 <ParamField path='summary' type='ReactNode' required>
   Summary text or node (e.g. current range and total).
@@ -160,7 +162,7 @@ Thin progress track used with badges in table cells (Figma pill + progress). Ren
 
 ## TableRow
 
-Takes no props of its own. Accepts all standard `tablerow` attributes, including `className`.
+Takes no props of its own. Accepts all standard `tr` attributes, including `className`.
 
 
 ## TableRowsPerPageSelect
@@ -180,8 +182,10 @@ Rows-per-page `Select` styled for `TablePagination`. v2 uses a subtle pill trigg
 
 Horizontal scroll container for wide tables. The inner scrollport keeps `border-collapse` styles intact when the table wraps.
 
-<ParamField path='roundTop' type='boolean'>
-  No longer needed in v2 — `TableCard` handles corner rounding via its own `overflow-hidden rounded-3xl`. Accepted for back-compat. @deprecated v2 ignores this prop; safe to remove.
+<ParamField path='roundTop' type='boolean' deprecated>
+  No longer needed in v2 — `TableCard` handles corner rounding via its own `overflow-hidden rounded-3xl`. Accepted for back-compat.
+
+  **Deprecated.** v2 ignores this prop; safe to remove.
 </ParamField>
 
 <ParamField path='showScrollbar' type='boolean' default='false'>

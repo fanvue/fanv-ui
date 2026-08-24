@@ -2,7 +2,13 @@
 
 ## Alert
 
-Displays a contextual feedback message to the user. Supports `info`, `success`, `warning`, `error`, and `neutral` variants with a default icon per variant, optional title, description, dismiss button, and an optional composable `action` slot. Each variant renders a default icon automatically. Pass a custom `icon` to override, or `icon={null}` to hide the icon entirely. Only the title and description live inside the `role="alert"` live region. The icon, `action`, and close button are rendered outside it so interactive controls are announced and navigated consistently by screen readers.
+Displays a contextual feedback message to the user.
+
+Supports `info`, `success`, `warning`, `error`, and `neutral` variants with a default icon per variant, optional title, description, dismiss button, and an optional composable `action` slot.
+
+Each variant renders a default icon automatically. Pass a custom `icon` to override, or `icon={null}` to hide the icon entirely.
+
+Only the title and description live inside the `role="alert"` live region. The icon, `action`, and close button are rendered outside it so interactive controls are announced and navigated consistently by screen readers.
 
 <ParamField path='action' type='ReactNode'>
   Composable action slot rendered beneath the description, outside the `role="alert"` live region. Pass your own element (an `<a>`, a `next/link` `<Link>`, or a `<Button>`) and it receives the variant-appropriate link styling via the Radix `Slot` pattern while remaining a real link/button.

@@ -167,17 +167,45 @@ export function objectPath(node, path) {
  * Removes the shared leading indentation from a multi-line source slice so an
  * extracted render body sits flush against the left margin of its code fence.
  *
+ * A source slice starts mid-line, so line 0 carries no indentation of its own
+ * and cannot take part in the minimum. The column the slice *started* at is
+ * therefore the ceiling on what may be stripped: a statement that begins at
+ * column 0 must keep every space its continuation lines carry, or
+ * `const X =\n  "…"` collapses into two flush-left lines.
+ *
  * @param {string} text
+ * @param {number} [baseColumn] Column the slice starts at in the original source.
  * @returns {string}
  */
-export function dedent(text) {
+export function dedent(text, baseColumn = Number.POSITIVE_INFINITY) {
   const lines = text.replace(/\t/g, "  ").split("\n");
   let smallest = Number.POSITIVE_INFINITY;
   for (const line of lines.slice(1)) {
     if (line.trim() === "") continue;
     smallest = Math.min(smallest, line.length - line.trimStart().length);
   }
-  if (!Number.isFinite(smallest) || smallest === 0) return text.trimEnd();
+  const strip = Math.min(smallest, Math.max(0, baseColumn));
+  if (!Number.isFinite(strip) || strip === 0) return text.trimEnd();
   const [first, ...rest] = lines;
-  return [first, ...rest.map((line) => line.slice(smallest))].join("\n").trimEnd();
+  return [first, ...rest.map((line) => line.slice(strip))].join("\n").trimEnd();
+}
+
+/**
+ * @param {string} source
+ * @param {number} index
+ * @returns {number} Zero-based column of `index` within its line.
+ */
+export function columnAt(source, index) {
+  return index - (source.lastIndexOf("\n", index - 1) + 1);
+}
+
+/**
+ * Slices a node out of its source and re-indents it for a code fence.
+ *
+ * @param {string} source
+ * @param {{ start: number, end: number }} node
+ * @returns {string}
+ */
+export function sliceNode(source, node) {
+  return dedent(source.slice(node.start, node.end), columnAt(source, node.start));
 }

@@ -28,6 +28,77 @@ import { ButtonIconGroup, HeartIcon, IconButton, ReplyIcon, ShareIcon } from "@f
 </ButtonIconGroup>
 ```
 
+## Secondary Variant
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-buttonicongroup--secondary-variant&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ButtonIconGroup — Secondary Variant" />
+</Frame>
+
+```tsx
+import { ButtonIconGroup, HeartIcon, IconButton, ReplyIcon, ShareIcon } from "@fanvue/ui";
+
+<ButtonIconGroup aria-label="Post actions">
+  <IconButton
+    key="like"
+    variant="secondary"
+    size="40"
+    icon={<HeartIcon />}
+    aria-label="Like"
+  />
+  <IconButton
+    key="reply"
+    variant="secondary"
+    size="40"
+    icon={<ReplyIcon />}
+    aria-label="Reply"
+  />
+  <IconButton
+    key="share"
+    variant="secondary"
+    size="40"
+    icon={<ShareIcon />}
+    aria-label="Share"
+  />
+</ButtonIconGroup>
+```
+
+## Disabled
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-buttonicongroup--disabled&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="ButtonIconGroup — Disabled" />
+</Frame>
+
+```tsx
+import { ButtonIconGroup, CopyIcon, EditIcon, IconButton, TrashBinIcon } from "@fanvue/ui";
+
+<ButtonIconGroup aria-label="Editing tools">
+  <IconButton
+    key="edit"
+    variant="tertiary"
+    size="48"
+    icon={<EditIcon />}
+    aria-label="Edit"
+    disabled
+  />
+  <IconButton
+    key="copy"
+    variant="tertiary"
+    size="48"
+    icon={<CopyIcon />}
+    aria-label="Copy"
+    disabled
+  />
+  <IconButton
+    key="delete"
+    variant="tertiary"
+    size="48"
+    icon={<TrashBinIcon />}
+    aria-label="Delete"
+    disabled
+  />
+</ButtonIconGroup>
+```
+
 ## Media Controls
 
 <Frame>

@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-count--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Count — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-count--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="280" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Count — Default" />
 </Frame>
 
 ```tsx
@@ -12,10 +12,22 @@ import { Count } from "@fanvue/ui";
 <Count value={5} />
 ```
 
+## Custom Content
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-count--custom-content&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="280" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Count — Custom Content" />
+</Frame>
+
+```tsx
+import { Count } from "@fanvue/ui";
+
+<Count>NEW</Count>
+```
+
 ## Max Value
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-count--max-value&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Count — Max Value" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-count--max-value&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="280" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Count — Max Value" />
 </Frame>
 
 ```tsx
@@ -24,10 +36,30 @@ import { Count } from "@fanvue/ui";
 <Count value={150} max={99} />
 ```
 
+## Multiple Variants
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-count--multiple-variants&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="280" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Count — Multiple Variants" />
+</Frame>
+
+```tsx
+import { Count } from "@fanvue/ui";
+
+<div className="flex items-center gap-4">
+  <Count value={5} variant="default" />
+  <Count value={3} variant="alert" />
+  <Count value={12} variant="brand" />
+  <Count value={8} variant="pink" />
+  <Count value={3} variant="info" />
+  <Count value={7} variant="success" />
+  <Count value={99} variant="warning" />
+</div>
+```
+
 ## Zero Value
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-count--zero-value&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Count — Zero Value" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-count--zero-value&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="280" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Count — Zero Value" />
 </Frame>
 
 ```tsx

@@ -2,7 +2,11 @@
 
 ## RatingSummary
 
-An aggregated rating overview: a headline average with the total review count, followed by a per-rating histogram. Bar lengths are scaled relative to the most-reviewed rating, so the busiest rating always fills the track. The histogram is one shared grid (with subgrid rows) rather than per-row flex: the label column is sized by the widest label across all rows, so a width difference between labels (e.g. "1 review" vs "3 reviews") never changes a row's track length — every bar's right edge stays aligned. The brand star is decorative; the header and each histogram row expose `role="img"` with an accessible label (override via `formatAverageLabel` / `formatRatingLabel`) so the single-star-plus-number reads clearly.
+An aggregated rating overview: a headline average with the total review count, followed by a per-rating histogram. Bar lengths are scaled relative to the most-reviewed rating, so the busiest rating always fills the track.
+
+The histogram is one shared grid (with subgrid rows) rather than per-row flex: the label column is sized by the widest label across all rows, so a width difference between labels (e.g. "1 review" vs "3 reviews") never changes a row's track length — every bar's right edge stays aligned.
+
+The brand star is decorative; the header and each histogram row expose `role="img"` with an accessible label (override via `formatAverageLabel` / `formatRatingLabel`) so the single-star-plus-number reads clearly.
 
 <ParamField path='distribution' type='RatingCount[]' required>
   Per-rating review counts. Order is not significant — rows always render from `maxRating` down to `1`, and any rating without an entry renders as zero. Entries are expected to use whole-number ratings within `1`–`maxRating`; any outside that range are ignored, including in the derived total and average.
@@ -12,15 +16,15 @@ An aggregated rating overview: a headline average with the total review count, f
   Average rating shown in the header. Defaults to the count-weighted mean of `distribution`; provide it to display a server-computed average instead.
 </ParamField>
 
-<ParamField path='formatAverageLabel' type='((average: string, maxRating: number, total: number) => string)' default='`(average, max, total) => `Average rating ${average} out of ${max}, ${formatCount(total)}` `'>
+<ParamField path='formatAverageLabel' type='((average: string, maxRating: number, total: number) => string)' default={"(average, max, total) => `Average rating ${average} out of ${max}, ${formatCount(total)}`"}>
   Builds the accessible label for the header. Override to localise the screen-reader text. `average` is the already-formatted average string.
 </ParamField>
 
-<ParamField path='formatCount' type='((count: number) => string)' default='`(count) => `${count.toLocaleString()} review(s)` `'>
+<ParamField path='formatCount' type='((count: number) => string)' default={"(count) => `${count.toLocaleString()} review(s)`"}>
   Formats a review count into its label, without surrounding parentheses. Used for the visible text and as the count portion of the default accessible labels.
 </ParamField>
 
-<ParamField path='formatRatingLabel' type='((rating: number, count: number) => string)' default='`(rating, count) => `${rating} star(s), ${formatCount(count)}` `'>
+<ParamField path='formatRatingLabel' type='((rating: number, count: number) => string)' default={"(rating, count) => `${rating} star(s), ${formatCount(count)}`"}>
   Builds the accessible label for each histogram row. Override to localise the screen-reader text.
 </ParamField>
 

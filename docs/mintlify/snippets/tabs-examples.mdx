@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tabs--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tabs — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tabs--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="260" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tabs — Default" />
 </Frame>
 
 ```tsx
@@ -27,10 +27,41 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@fanvue/ui";
 </Tabs>
 ```
 
+## Hug (sizes to content — does not stretch)
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tabs--hug-style&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="260" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Hug (sizes to content — does not stretch)" />
+</Frame>
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@fanvue/ui";
+
+<div style={{ width: 400 }}>
+  <Tabs defaultValue="tab1">
+    <TabsList variant="hug">
+      <TabsTrigger value="tab1">Photos</TabsTrigger>
+      <TabsTrigger value="tab2">Videos</TabsTrigger>
+      <TabsTrigger value="tab3">Posts</TabsTrigger>
+    </TabsList>
+    <TabsContent value="tab1">
+      <p className="pt-4 text-content-tertiary text-sm">
+        List is only as wide as its tabs — not 400 px
+      </p>
+    </TabsContent>
+    <TabsContent value="tab2">
+      <p className="pt-4 text-content-tertiary text-sm">Videos content</p>
+    </TabsContent>
+    <TabsContent value="tab3">
+      <p className="pt-4 text-content-tertiary text-sm">Posts content</p>
+    </TabsContent>
+  </Tabs>
+</div>
+```
+
 ## With Disabled Tab
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tabs--with-disabled-tab&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tabs — With Disabled Tab" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tabs--with-disabled-tab&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="260" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tabs — With Disabled Tab" />
 </Frame>
 
 ```tsx
@@ -53,29 +84,92 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@fanvue/ui";
 </Tabs>
 ```
 
-## Vertical
+## Scrollable - Narrow Container
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tabs--vertical&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tabs — Vertical" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tabs--scrollable&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="260" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tabs — Scrollable - Narrow Container" />
 </Frame>
 
 ```tsx
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@fanvue/ui";
 
-<Tabs defaultValue="tab1" orientation="vertical">
-  <TabsList>
-    <TabsTrigger value="tab1">Photos</TabsTrigger>
-    <TabsTrigger value="tab2">Videos</TabsTrigger>
-    <TabsTrigger value="tab3">Posts</TabsTrigger>
-  </TabsList>
-  <TabsContent value="tab1">
-    <p className="pl-4 text-content-tertiary text-sm">Photos content</p>
-  </TabsContent>
-  <TabsContent value="tab2">
-    <p className="pl-4 text-content-tertiary text-sm">Videos content</p>
-  </TabsContent>
-  <TabsContent value="tab3">
-    <p className="pl-4 text-content-tertiary text-sm">Posts content</p>
-  </TabsContent>
-</Tabs>
+<div className="w-[320px]">
+  <Tabs defaultValue="tab1">
+    <TabsList scrollable flushLeft>
+      <TabsTrigger value="tab1">Manager Insights</TabsTrigger>
+      <TabsTrigger value="tab2">Chatter Leaderboard</TabsTrigger>
+      <TabsTrigger value="tab3">Fans at Risk</TabsTrigger>
+    </TabsList>
+    <TabsContent value="tab1">
+      <p className="pt-4 text-content-tertiary text-sm">
+        Drag the row sideways to reach the later tabs.
+      </p>
+    </TabsContent>
+    <TabsContent value="tab2">
+      <p className="pt-4 text-content-tertiary text-sm">Chatter Leaderboard content</p>
+    </TabsContent>
+    <TabsContent value="tab3">
+      <p className="pt-4 text-content-tertiary text-sm">Fans at Risk content</p>
+    </TabsContent>
+  </Tabs>
+</div>
+```
+
+## All States (Matrix)
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tabs--all-states&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="260" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tabs — All States (Matrix)" />
+</Frame>
+
+```tsx
+import { Tabs, TabsList, TabsTrigger } from "@fanvue/ui";
+
+<div className="flex flex-col gap-8">
+  <div>
+    <p className="typography-body-small-14px-semibold mb-4 text-content-tertiary">Active</p>
+    <div className="flex gap-10">
+      <div className="flex flex-col items-center gap-2">
+        <p className="typography-description-12px-regular text-content-tertiary">Default</p>
+        <Tabs defaultValue="t">
+          <TabsList>
+            <TabsTrigger value="t">Tab</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <p className="typography-description-12px-regular text-content-tertiary">Disabled</p>
+        <Tabs defaultValue="t">
+          <TabsList>
+            <TabsTrigger value="t" disabled>
+              Tab
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p className="typography-body-small-14px-semibold mb-4 text-content-tertiary">Inactive</p>
+    <div className="flex gap-10">
+      <div className="flex flex-col items-center gap-2">
+        <p className="typography-description-12px-regular text-content-tertiary">Default</p>
+        <Tabs defaultValue="other">
+          <TabsList>
+            <TabsTrigger value="t">Tab</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <p className="typography-description-12px-regular text-content-tertiary">Disabled</p>
+        <Tabs defaultValue="other">
+          <TabsList>
+            <TabsTrigger value="t" disabled>
+              Tab
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+    </div>
+  </div>
+</div>
 ```

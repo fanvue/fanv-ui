@@ -13,15 +13,33 @@
  */
 
 import path from "node:path";
-import { dedent, objectPath, referencedIdentifiers, staticValue } from "./ast.mjs";
+import {
+  columnAt,
+  dedent,
+  objectPath,
+  referencedIdentifiers,
+  sliceNode,
+  staticValue,
+  walk,
+} from "./ast.mjs";
 import { codeFence, GENERATED_BANNER, jsdocToMdx } from "./mdx.mjs";
 import { parseStoryFile } from "./storybook-csf.mjs";
 
-/** Storybook parameter identifiers that mark a story as not-for-documentation. */
-const NON_DOC_PARAMETERS = ["E2E_FIXTURE_PARAMETERS", "NON_VISUAL_STORY_PARAMETERS"];
-
-/** Modules an example may import from. Anything else means the story is test-only. */
-const ALLOWED_PACKAGES = new Set(["react", "recharts", "react-day-picker", "motion"]);
+/**
+ * Modules an example may import from. Anything else means the story is
+ * test-only. These are the package's declared peer dependencies plus React
+ * itself — `@radix-ui/react-slot` and `react-dom` are as legitimate in an
+ * example as `motion` is.
+ */
+const ALLOWED_PACKAGES = new Set([
+  "react",
+  "react-dom",
+  "recharts",
+  "react-day-picker",
+  "motion",
+  "motion/react",
+  "@radix-ui/react-slot",
+]);
 
 /** Type-only Storybook imports that never reach the rendered output. */
 const IGNORED_MODULES = new Set(["@storybook/react", "@storybook/react-vite"]);
@@ -44,22 +62,34 @@ export function renderExamplesSnippet(page, context) {
   const storyIds = [];
   /** @type {{ story: string, reason: string }[]} */
   const skipped = [];
+  const perFile = limitFor(context.config, "maxExamplesPerStoryFile", page.dir, 5);
+  const perPage = limitFor(context.config, "maxExamplesPerPage", page.dir, 8);
+  /** Two stories can differ only in a `chromatic` parameter; one is enough here. */
+  const seenCode = new Set();
 
   for (const file of files) {
+    if (storyIds.length >= perPage) break;
     const parsed = parseStoryFile(context.readSource(file), file);
     if (!parsed) continue;
     const fileContext = buildFileContext(parsed, file, context);
-    const candidates = selectCandidates(parsed, fileContext, page, context);
-    const limit = context.config.maxExamplesPerStoryFile ?? 3;
+    const candidates = selectCandidates(parsed, page, context);
     let used = 0;
 
     for (const story of candidates) {
-      if (used >= limit) break;
+      if (used >= perFile || storyIds.length >= perPage) break;
       const example = buildExample(story, fileContext, context);
       if (!example.code) {
         skipped.push({ story: `${parsed.title}/${story.exportName}`, reason: example.reason });
         continue;
       }
+      if (seenCode.has(example.code)) {
+        skipped.push({
+          story: `${parsed.title}/${story.exportName}`,
+          reason: "renders the same source as an example already on the page",
+        });
+        continue;
+      }
+      seenCode.add(example.code);
       used += 1;
       storyIds.push(story.id);
       lines.push(...renderExample(page, parsed, story, example, multiFile, context), "");
@@ -78,12 +108,68 @@ export function renderExamplesSnippet(page, context) {
 }
 
 /**
+ * @param {object} config
+ * @param {string} key
+ * @param {string} dir
+ * @param {number} fallback
+ * @returns {number}
+ */
+function limitFor(config, key, dir, fallback) {
+  const setting = config[key];
+  if (typeof setting === "number") return setting;
+  const override = setting?.byComponent?.[dir];
+  if (typeof override === "number") return override;
+  return typeof setting?.default === "number" ? setting.default : fallback;
+}
+
+/**
+ * Embed height, most specific source first.
+ *
+ * Every embed used to be 200px, which clipped a calendar, every chart, every
+ * dialog and every multi-state matrix. The category is the coarse signal (a
+ * chart is always taller than a badge), the component and story maps are for
+ * the outliers, and a story may still name its own height in `parameters`.
+ *
+ * @returns {number}
+ */
+export function embedHeight(config, { category, component, storyId, story }) {
+  const heights = config.embedHeights ?? {};
+  if (typeof story?.embedHeight === "number") return story.embedHeight;
+  const byStory = heights.byStory?.[storyId];
+  if (typeof byStory === "number") return byStory;
+  const byComponent = heights.byComponent?.[component];
+  if (typeof byComponent === "number") return byComponent;
+  const byCategory = heights.byCategory?.[category];
+  if (typeof byCategory === "number") return byCategory;
+  return heights.default ?? config.defaultEmbedHeight ?? 240;
+}
+
+/**
+ * Storybook derives story names by splitting on case boundaries, which pushes a
+ * trailing version digit into its own word (`AllStylesV2` -> `All Styles V 2`).
+ * Only the visible heading is rejoined: `story.name` itself feeds the story id,
+ * so it must stay byte-identical to Storybook's own derivation.
+ *
+ * @param {string} name
+ * @returns {string}
+ */
+function headingText(name) {
+  return name.replace(/\b([A-Z]) (\d+)\b/g, "$1$2");
+}
+
+/**
  * @returns {string[]}
  */
 function renderExample(page, parsed, story, example, multiFile, context) {
   const leaf = parsed.title.split("/").pop();
-  const heading = multiFile && leaf !== page.dir ? `${leaf} — ${story.name}` : story.name;
-  const height = story.embedHeight ?? context.config.defaultEmbedHeight ?? 200;
+  const storyHeading = headingText(story.name);
+  const heading = multiFile && leaf !== page.dir ? `${leaf} — ${storyHeading}` : storyHeading;
+  const height = embedHeight(context.config, {
+    category: context.config.categories?.[page.dir],
+    component: page.dir,
+    storyId: story.id,
+    story,
+  });
   const title = heading.includes(" — ") ? heading : `${page.dir} — ${heading}`;
   const lines = [`## ${heading}`, ""];
   if (story.prose) lines.push(story.prose, "");
@@ -154,7 +240,11 @@ function collectDeclarations(declaration, statement, declarations) {
   if (declaration.type === "VariableDeclaration") {
     for (const declarator of declaration.declarations) {
       if (declarator.id.type !== "Identifier") continue;
-      declarations.set(declarator.id.name, { node: declarator.init, statement });
+      // The declarator, not just its initialiser: `const SIZES: AvatarSize[] =
+      // […]` reaches for a type that only appears in the annotation, and a
+      // fixture whose type is invisible to the resolver is emitted without the
+      // import that makes it compile.
+      declarations.set(declarator.id.name, { node: declarator.init, statement, scope: declarator });
     }
     return;
   }
@@ -162,20 +252,75 @@ function collectDeclarations(declaration, statement, declarations) {
     (declaration.type === "FunctionDeclaration" || declaration.type === "ClassDeclaration") &&
     declaration.id
   ) {
-    declarations.set(declaration.id.name, { node: declaration, statement });
+    declarations.set(declaration.id.name, { node: declaration, statement, scope: declaration });
+    return;
+  }
+  // Local `type` / `interface` / `enum` declarations are as much a dependency of
+  // an example as a fixture value is: `const rows: ProductRow[]` does not
+  // compile next to an import block that has never heard of `ProductRow`.
+  if (
+    (declaration.type === "TSTypeAliasDeclaration" ||
+      declaration.type === "TSInterfaceDeclaration" ||
+      declaration.type === "TSEnumDeclaration") &&
+    declaration.id
+  ) {
+    declarations.set(declaration.id.name, {
+      node: declaration,
+      statement,
+      scope: declaration,
+      isType: declaration.type !== "TSEnumDeclaration",
+    });
   }
 }
 
 /**
- * Story selection. Explicit config wins; otherwise a `docs` tag opts a story in,
- * and failing that the first few stories in file order stand in — always
- * skipping the ones marked as test fixtures or held out of autodocs.
+ * What a story's name says it is *about*. Order matters: the first matching
+ * facet wins, so `AllVariants` is an overview rather than a variant.
  */
-function selectCandidates(parsed, fileContext, page, context) {
+const FACETS = [
+  // Case-sensitive: story export names are PascalCase, so `^All` before another
+  // capital is "AllStyles" and not "Alignment".
+  {
+    name: "overview",
+    test: /^All(?=[A-Z_]|$)|Matrix|Showcase|Overview|Gallery|Kitchen|Permutation/,
+  },
+  { name: "default", test: /^(default|basic|example|playground|simple|standard)$/i },
+  {
+    name: "state",
+    test: /loading|disabled|error|invalid|active|selected|checked|indeterminate|readonly|read-only|empty|open$|closed|expanded|collapsed|pending|skeleton|focus|hover|unknown|placeholder|required|busy|offline|online/i,
+  },
+  { name: "size", test: /size|small|medium|large|compact|dense|\b(xs|sm|md|lg|xl)\b|\d\dpx/i },
+  {
+    name: "composition",
+    test: /^with|without|icon|label|helper|caption|action|footer|header|children|slot|custom|nested|controlled|form|truncat|long|multi|scroll/i,
+  },
+  {
+    name: "variant",
+    test: /primary|secondary|tertiary|outline|brand|destructive|ghost|link|filled|solid|white|inverted|negative|variant|hierarchy|tone|colou?r|style|theme|dark|light/i,
+  },
+];
+
+/**
+ * The order facets are drawn from when building the shortlist. One story per
+ * facet is taken per round, so a page that keeps four examples shows four
+ * *different kinds* of example rather than the first four in file order.
+ */
+const FACET_PRIORITY = ["default", "variant", "state", "size", "composition", "overview", "other"];
+
+/**
+ * Story selection. Explicit config wins; otherwise a `docs` tag opts a story in,
+ * and failing that every story that is not held out of autodocs is a candidate,
+ * ordered so the shortlist spans variants, states, sizes and composition.
+ *
+ * `E2E_FIXTURE_PARAMETERS` / `NON_VISUAL_STORY_PARAMETERS` are deliberately
+ * *not* a filter: they set `chromatic.disableSnapshot` and nothing else. Reading
+ * them as "not documentation-worthy" is what left the Button page showing three
+ * icon slots and none of its twelve variants, sizes or loading state.
+ */
+function selectCandidates(parsed, page, context) {
   const overrides = context.config.storyOverrides?.[page.dir] ?? {};
   const eligible = parsed.stories
     .filter((story) => !story.tags.includes("!autodocs"))
-    .filter((story) => !isTestOnly(story, fileContext.source))
     .filter((story) => !(overrides.exclude ?? []).includes(story.exportName))
     .map((story) => ({ ...story, ...readStoryDocs(story) }));
 
@@ -184,17 +329,52 @@ function selectCandidates(parsed, fileContext, page, context) {
     return overrides.include.map((name) => wanted.get(name)).filter(Boolean);
   }
   const tagged = eligible.filter((story) => story.tags.includes("docs"));
-  return tagged.length > 0 ? tagged : eligible;
+  return spreadByFacet(tagged.length > 0 ? tagged : eligible);
 }
 
 /**
- * @param {object} story
- * @param {string} source
- * @returns {boolean}
+ * @param {string} name
+ * @returns {string}
  */
-function isTestOnly(story, source) {
-  const slice = source.slice(story.start, story.end);
-  return NON_DOC_PARAMETERS.some((name) => slice.includes(name));
+function facetOf(name) {
+  return FACETS.find((facet) => facet.test.test(name))?.name ?? "other";
+}
+
+/**
+ * Round-robins the stories across their facets, preserving file order within
+ * each facet, so truncating the list to N still yields a representative spread.
+ *
+ * @param {object[]} stories
+ * @returns {object[]}
+ */
+function spreadByFacet(stories) {
+  /** @type {Map<string, object[]>} */
+  const buckets = new Map();
+  for (const story of stories) {
+    const facet = facetOf(story.exportName);
+    if (!buckets.has(facet)) buckets.set(facet, []);
+    buckets.get(facet).push(story);
+  }
+  const order = [...buckets.keys()].sort((a, b) => {
+    const rank = (name) => {
+      const index = FACET_PRIORITY.indexOf(name);
+      return index === -1 ? FACET_PRIORITY.length : index;
+    };
+    return rank(a) - rank(b) || a.localeCompare(b);
+  });
+
+  const out = [];
+  for (let round = 0; out.length < stories.length; round += 1) {
+    let added = false;
+    for (const facet of order) {
+      const story = buckets.get(facet)[round];
+      if (!story) continue;
+      out.push(story);
+      added = true;
+    }
+    if (!added) break;
+  }
+  return out;
 }
 
 /**
@@ -219,7 +399,7 @@ function readStoryDocs(story) {
  * @returns {{ code: string | null, reason: string }}
  */
 function buildExample(story, fileContext, context) {
-  const body = renderStoryBody(story, fileContext);
+  const body = renderStoryBody(story, fileContext, context);
   if (!body.text) return { code: null, reason: body.reason };
 
   const resolution = resolveDependencies(body.roots, fileContext, context);
@@ -244,36 +424,126 @@ function buildExample(story, fileContext, context) {
  * args. Story-level args win on a key-by-key basis, exactly as Storybook merges
  * them.
  *
- * @returns {{ properties: object[], nodes: object[] }}
+ * `args: defaultArgs` and `args: { ...defaultArgs, tag: undefined }` are both
+ * ordinary in this library, so an identifier is followed to its declaration and
+ * a spread of a known object is flattened in place. Refusing to do either is
+ * what published a bare `<CreatorCover />` with none of its required props.
+ *
+ * @returns {{ properties: object[], nodes: object[], blocked: string }}
  */
-function mergeArgs(metaArgs, storyArgs) {
-  const byKey = new Map();
-  const spreads = [];
+function mergeArgs(metaArgs, storyArgs, fileContext) {
+  /** @type {object[]} */
+  const properties = [];
+  /** @type {Map<string, number>} */
+  const indexByKey = new Map();
   const nodes = [];
-  for (const node of [metaArgs, storyArgs]) {
-    if (node?.type !== "ObjectExpression") continue;
-    nodes.push(node);
-    for (const property of node.properties) {
+  let blocked = "";
+
+  const put = (key, property) => {
+    const existing = indexByKey.get(key);
+    if (existing !== undefined) {
+      properties[existing] = property;
+      return;
+    }
+    if (key !== null) indexByKey.set(key, properties.length);
+    properties.push(property);
+  };
+
+  const absorb = (node, depth) => {
+    const object = resolveObjectExpression(node, fileContext);
+    if (!object) {
+      blocked ||= `args are \`${describeNode(node, fileContext.source)}\`, which is not a resolvable object literal`;
+      return;
+    }
+    nodes.push(object);
+    for (const property of object.properties) {
       if (property.type === "SpreadElement") {
-        spreads.push(property);
+        if (depth < 4 && resolveObjectExpression(property.argument, fileContext)) {
+          absorb(property.argument, depth + 1);
+        } else {
+          put(null, property);
+        }
         continue;
       }
-      if (property.type !== "ObjectProperty" || property.computed) continue;
+      if (property.type !== "ObjectProperty" || property.computed) {
+        put(null, property);
+        continue;
+      }
       const key = property.key.name ?? property.key.value;
-      if (typeof key === "string") byKey.set(key, property);
+      put(typeof key === "string" ? key : null, property);
     }
+  };
+
+  for (const node of [metaArgs, storyArgs]) if (node) absorb(node, 0);
+
+  // `tag: undefined` in a spread override means "unset", not "pass undefined".
+  return {
+    properties: properties.filter((property) => !isUndefinedProperty(property)),
+    nodes,
+    blocked,
+  };
+}
+
+/**
+ * @param {object | null | undefined} node
+ * @returns {boolean}
+ */
+function isUndefinedProperty(node) {
+  return (
+    node?.type === "ObjectProperty" &&
+    node.value?.type === "Identifier" &&
+    node.value.name === "undefined"
+  );
+}
+
+/**
+ * Follows identifiers and type assertions down to an object literal.
+ *
+ * @param {object | null | undefined} node
+ * @param {object} fileContext
+ * @returns {object | null}
+ */
+function resolveObjectExpression(node, fileContext, seen = new Set()) {
+  if (!node) return null;
+  switch (node.type) {
+    case "ObjectExpression":
+      return node;
+    case "TSAsExpression":
+    case "TSSatisfiesExpression":
+    case "TSNonNullExpression":
+    case "ParenthesizedExpression":
+      return resolveObjectExpression(node.expression, fileContext, seen);
+    case "Identifier": {
+      if (seen.has(node.name)) return null;
+      seen.add(node.name);
+      const declaration = fileContext.declarations.get(node.name);
+      return declaration ? resolveObjectExpression(declaration.node, fileContext, seen) : null;
+    }
+    default:
+      return null;
   }
-  return { properties: [...spreads, ...byKey.values()], nodes };
+}
+
+/**
+ * @param {object | null | undefined} node
+ * @param {string} source
+ * @returns {string}
+ */
+function describeNode(node, source) {
+  if (!node) return "missing";
+  const text = source.slice(node.start, node.end).replace(/\s+/g, " ");
+  return text.length > 40 ? `${text.slice(0, 40)}…` : text;
 }
 
 /**
  * @returns {{ text: string | null, roots: object[], reason: string }}
  */
-function renderStoryBody(story, fileContext) {
+function renderStoryBody(story, fileContext, context) {
   const render = story.annotations.render;
-  const args = mergeArgs(fileContext.metaArgs, story.annotations.args);
+  const args = mergeArgs(fileContext.metaArgs, story.annotations.args, fileContext);
+  if (args.blocked) return { text: null, roots: [], reason: args.blocked };
 
-  if (render) return renderFromRender(render, args, fileContext);
+  if (render) return renderFromRender(render, args, fileContext, context);
   if (!fileContext.componentName) {
     return { text: null, roots: [], reason: "story file has no `component` in meta" };
   }
@@ -286,13 +556,16 @@ function renderStoryBody(story, fileContext) {
 }
 
 /**
- * A render function that takes `args` is shown with those args spelled out as a
- * literal above it, which keeps the snippet both runnable and faithful to what
- * the embed above it is showing.
+ * A render function that takes `args` is Storybook plumbing, not something a
+ * consumer would ever write: nobody builds an `args` object just to spread it
+ * into one element. The args are therefore substituted into the JSX as real
+ * attributes, and the `const args = …` form is kept only for the shapes that
+ * cannot be resolved statically — which are reported rather than silently
+ * published.
  *
  * @returns {{ text: string | null, roots: object[], reason: string }}
  */
-function renderFromRender(render, args, fileContext) {
+function renderFromRender(render, args, fileContext, context) {
   const params = render.params ?? [];
   if (params.length === 0) {
     const text = renderFunctionSource(render, fileContext.source);
@@ -301,14 +574,254 @@ function renderFromRender(render, args, fileContext) {
   if (params.length > 1 || params[0].type !== "Identifier") {
     return { text: null, roots: [], reason: "render function destructures its arguments" };
   }
+
+  const argName = params[0].name;
+  const substituted = substituteArgs(render, argName, args, fileContext);
+  if (substituted.text) {
+    return { text: substituted.text, roots: [render, ...args.nodes], reason: "" };
+  }
+
   const body = renderFunctionSource(render, fileContext.source);
   if (!body) return { text: null, roots: [], reason: "unsupported render shape" };
+  context.onSpreadFallback?.(substituted.reason);
   const literal = renderObjectLiteral(args.properties, fileContext.source);
   return {
-    text: `const ${params[0].name} = ${literal};\n\n${body}`,
+    text: `const ${argName} = ${literal};\n\n${body}`,
     roots: [render, ...args.nodes],
     reason: "",
   };
+}
+
+/**
+ * Rewrites `<Card {...args} className="…">` as `<Card hierarchy="primary" …
+ * className="…">`, which is the line a reader is meant to copy.
+ *
+ * @returns {{ text: string | null, reason: string }}
+ */
+function substituteArgs(render, argName, args, fileContext) {
+  const source = fileContext.source;
+  /** @type {object[]} */
+  const targets = [];
+  const isArgSpread = (attribute) =>
+    attribute.type === "JSXSpreadAttribute" &&
+    attribute.argument.type === "Identifier" &&
+    attribute.argument.name === argName;
+
+  /** @type {object[]} */
+  const reads = [];
+  let otherUse = "";
+  walk(render.body, (node) => {
+    if (node.type === "JSXElement" && node.openingElement.attributes.some(isArgSpread)) {
+      targets.push(node);
+    }
+    if (node.type === "JSXSpreadAttribute" && isArgSpread(node)) return false;
+    // `useState(args.value)` is plumbing too — the value is right there, so read
+    // it out rather than keeping the object alive just to index into it.
+    if (
+      node.type === "MemberExpression" &&
+      !node.computed &&
+      node.object.type === "Identifier" &&
+      node.object.name === argName &&
+      node.property.type === "Identifier"
+    ) {
+      reads.push(node);
+      return false;
+    }
+    if (node.type === "Identifier" && node.name === argName) {
+      otherUse ||= `\`${argName}\` is read in a way that cannot be inlined`;
+    }
+    return true;
+  });
+
+  if (otherUse) return { text: null, reason: otherUse };
+
+  /** @type {{ start: number, end: number, text: string }[]} */
+  const readReplacements = [];
+  const byKey = new Map();
+  for (const property of args.properties) {
+    if (property.type !== "ObjectProperty" || property.computed) continue;
+    const key = property.key.name ?? property.key.value;
+    if (typeof key === "string") byKey.set(key, property.value);
+  }
+  for (const read of reads) {
+    const value = byKey.get(read.property.name);
+    if (!value) {
+      return { text: null, reason: `\`${argName}.${read.property.name}\` is not in the args` };
+    }
+    const literal = staticValue(value);
+    readReplacements.push({
+      start: read.start,
+      end: read.end,
+      text:
+        typeof literal === "string"
+          ? JSON.stringify(shortenString(literal))
+          : reindent(sliceNode(source, value), columnAt(source, read.start)),
+    });
+  }
+
+  if (targets.length === 0 && readReplacements.length > 0) {
+    const text = renderFunctionSource(render, source, readReplacements);
+    return { text, reason: text ? "" : "unsupported render shape" };
+  }
+  if (targets.length === 0) {
+    // The render ignores its args entirely; the literal would be dead weight.
+    const text = renderFunctionSource(render, source);
+    return { text, reason: text ? "" : "unsupported render shape" };
+  }
+
+  const replacements = [...readReplacements];
+  for (const element of targets) {
+    const rebuilt = rebuildElement(element, isArgSpread, args, source);
+    if (!rebuilt) {
+      return { text: null, reason: `spread into \`<${elementName(element, source)}>\` collides` };
+    }
+    // A rebuilt element swallows any `args.x` reads inside it.
+    for (let index = replacements.length - 1; index >= 0; index -= 1) {
+      const item = replacements[index];
+      if (item.start >= rebuilt.start && item.end <= rebuilt.end) replacements.splice(index, 1);
+    }
+    replacements.push(rebuilt);
+  }
+
+  const text = renderFunctionSource(render, source, replacements);
+  return { text, reason: text ? "" : "unsupported render shape" };
+}
+
+/**
+ * @param {object} element
+ * @param {string} source
+ * @returns {string}
+ */
+function elementName(element, source) {
+  const name = element.openingElement.name;
+  return source.slice(name.start, name.end);
+}
+
+/**
+ * Rebuilds one JSX element with the spread expanded into real attributes.
+ *
+ * @returns {{ start: number, end: number, text: string } | null}
+ */
+function rebuildElement(element, isArgSpread, args, source) {
+  const opening = element.openingElement;
+  const attributes = opening.attributes;
+  const spreadIndex = attributes.findIndex(isArgSpread);
+  /** @type {Map<string, number>} */
+  const explicit = new Map();
+  for (const [index, attribute] of attributes.entries()) {
+    if (attribute.type !== "JSXAttribute") continue;
+    const name = attribute.name.name ?? attribute.name.value;
+    if (typeof name === "string") explicit.set(name, index);
+  }
+
+  const baseColumn = columnAt(source, element.start);
+  const expanded = [];
+  let childrenNode = null;
+  for (const property of args.properties) {
+    if (property.type === "SpreadElement") {
+      expanded.push(`{...${source.slice(property.argument.start, property.argument.end)}}`);
+      continue;
+    }
+    if (property.type !== "ObjectProperty" || property.computed) return null;
+    const key = property.key.name ?? property.key.value;
+    if (typeof key !== "string") return null;
+    if (key === "children") {
+      childrenNode = property.value;
+      continue;
+    }
+    const collision = explicit.get(key);
+    // A JSX attribute written after the spread already wins at runtime, so the
+    // arg is genuinely dead. One written *before* it does not, and reordering
+    // would change behaviour — leave that shape to the fallback.
+    if (collision !== undefined) {
+      if (collision > spreadIndex) continue;
+      return null;
+    }
+    expanded.push(reindent(renderAttribute(key, property.value, source), baseColumn + 2));
+  }
+
+  const parts = [];
+  for (const [index, attribute] of attributes.entries()) {
+    if (index === spreadIndex) {
+      parts.push(...expanded);
+      continue;
+    }
+    parts.push(reindent(sliceNode(source, attribute), baseColumn + 2));
+  }
+
+  const hasOwnChildren = element.children.some(
+    (child) => child.type !== "JSXText" || child.value.trim() !== "",
+  );
+  // JSX children beat a `children` arg at runtime, so only an element with none
+  // of its own gets the arg spelled out.
+  const children = childrenNode && !hasOwnChildren ? renderChildren(childrenNode, source) : null;
+  const selfClose = !children && !hasOwnChildren && opening.selfClosing;
+  const tag = elementName(element, source);
+  const head = renderOpeningTag(tag, parts, baseColumn, selfClose);
+
+  if (children === null) {
+    return { start: opening.start, end: opening.end, text: head };
+  }
+  const pad = " ".repeat(baseColumn);
+  const body = reindent(children, baseColumn + 2);
+  return {
+    start: element.start,
+    end: element.end,
+    text: `${head}\n${pad}  ${body}\n${pad}</${tag}>`,
+  };
+}
+
+/**
+ * @param {string} tag
+ * @param {string[]} parts
+ * @param {number} baseColumn
+ * @param {boolean} selfClose
+ * @returns {string}
+ */
+function renderOpeningTag(tag, parts, baseColumn, selfClose) {
+  const tail = selfClose ? " />" : ">";
+  const single = `<${tag}${parts.map((part) => ` ${part}`).join("")}${tail}`;
+  if (!single.includes("\n") && baseColumn + single.length <= 96) return single;
+  const pad = " ".repeat(baseColumn);
+  return [
+    `<${tag}`,
+    ...parts.map((part) => `${pad}  ${part}`),
+    `${pad}${selfClose ? "/>" : ">"}`,
+  ].join("\n");
+}
+
+/**
+ * @param {string} text
+ * @param {number} column
+ * @returns {string}
+ */
+function reindent(text, column) {
+  const pad = " ".repeat(column);
+  return text
+    .split("\n")
+    .map((line, index) => (index === 0 || line.trim() === "" ? line : `${pad}${line}`))
+    .join("\n");
+}
+
+/**
+ * @param {string} source
+ * @param {number} start
+ * @param {number} end
+ * @param {{ start: number, end: number, text: string }[]} replacements
+ * @returns {string}
+ */
+function applyReplacements(source, start, end, replacements) {
+  const inside = replacements
+    .filter((item) => item.start >= start && item.end <= end)
+    .sort((a, b) => a.start - b.start);
+  let out = "";
+  let cursor = start;
+  for (const item of inside) {
+    if (item.start < cursor) continue;
+    out += source.slice(cursor, item.start) + item.text;
+    cursor = item.end;
+  }
+  return out + source.slice(cursor, end);
 }
 
 /**
@@ -327,7 +840,7 @@ function renderObjectLiteral(properties, source) {
     const value =
       typeof literal === "string"
         ? JSON.stringify(shortenString(literal))
-        : dedent(source.slice(property.value.start, property.value.end));
+        : reindent(sliceNode(source, property.value), 2);
     return `  ${key}: ${value},`;
   });
   return `{\n${entries.join("\n")}\n}`;
@@ -339,16 +852,19 @@ function renderObjectLiteral(properties, source) {
  *
  * @param {object} node
  * @param {string} source
+ * @param {{ start: number, end: number, text: string }[]} [replacements]
  * @returns {string | null}
  */
-function renderFunctionSource(node, source) {
+function renderFunctionSource(node, source, replacements = []) {
   if (node.type !== "ArrowFunctionExpression" && node.type !== "FunctionExpression") return null;
   const body = node.body;
   if (body.type === "BlockStatement") {
-    return `function Example() ${dedent(source.slice(body.start, body.end))}`;
+    const text = applyReplacements(source, body.start, body.end, replacements);
+    return `function Example() ${dedent(text, columnAt(source, body.start))}`;
   }
   const inner = body.type === "ParenthesizedExpression" ? body.expression : body;
-  return dedent(source.slice(inner.start, inner.end));
+  const text = applyReplacements(source, inner.start, inner.end, replacements);
+  return dedent(text, columnAt(source, inner.start));
 }
 
 /**
@@ -379,9 +895,11 @@ function synthesiseJsx(componentName, properties, source) {
   }
 
   const open = `<${componentName}${attributes.map((item) => ` ${item}`).join("")}`;
-  const wrap = open.length > 80;
+  const wrap = open.length > 80 || open.includes("\n");
+  // An attribute whose value is itself multi-line JSX has to be re-indented, or
+  // its continuation lines land against the left margin of the code fence.
   const head = wrap
-    ? `<${componentName}\n${attributes.map((item) => `  ${item}`).join("\n")}\n`
+    ? `<${componentName}\n${attributes.map((item) => `  ${reindent(item, 2)}`).join("\n")}\n`
     : open;
 
   if (children === null) return `${head}${wrap ? "/>" : " />"}`;
@@ -404,7 +922,7 @@ function renderAttribute(key, value, source) {
   }
   if (literal === true) return key;
   if (literal === false || typeof literal === "number") return `${key}={${String(literal)}}`;
-  return `${key}={${dedent(source.slice(value.start, value.end))}}`;
+  return `${key}={${sliceNode(source, value)}}`;
 }
 
 /** Longer than this and a string is padding rather than illustration. */
@@ -443,14 +961,12 @@ function renderChildren(value, source) {
   }
   if (typeof literal === "number") return String(literal);
   if (value.type === "JSXElement" || value.type === "JSXFragment") {
-    return dedent(source.slice(value.start, value.end));
+    return sliceNode(source, value);
   }
   if (value.type === "ArrayExpression") {
-    return value.elements
-      .map((element) => dedent(source.slice(element.start, element.end)))
-      .join("\n");
+    return value.elements.map((element) => sliceNode(source, element)).join("\n");
   }
-  return `{${dedent(source.slice(value.start, value.end))}}`;
+  return `{${sliceNode(source, value)}}`;
 }
 
 /**
@@ -473,7 +989,7 @@ function indent(text) {
  * @returns {{ imports: Map<string, Set<string>>, inlines: string[], blocked: string }}
  */
 function resolveDependencies(roots, fileContext, context) {
-  /** @type {Map<string, Set<string>>} */
+  /** @type {Map<string, object>} */
   const imports = new Map();
   /** @type {Map<string, { order: string, text: string }>} */
   const inlines = new Map();
@@ -491,10 +1007,7 @@ function resolveDependencies(roots, fileContext, context) {
 
     const outcome = resolveName(item.name, item.context, context);
     if (outcome.blocked) return { imports, inlines: [], blocked: outcome.blocked };
-    if (outcome.import) {
-      const module = outcome.import.type ? `type:${outcome.import.module}` : outcome.import.module;
-      addImport(imports, module, outcome.import.name);
-    }
+    if (outcome.import) addImport(imports, outcome.import);
     if (outcome.inline) inlines.set(outcome.inline.order, outcome.inline);
     for (const next of outcome.next ?? []) queue.push(next);
   }
@@ -522,23 +1035,47 @@ function resolveName(name, fileContext, context) {
   if (declaration) return inlineDeclaration(name, declaration, fileContext);
 
   const imported = fileContext.imports.get(name);
-  if (!imported) return {};
-  if (IGNORED_MODULES.has(imported.module)) return {};
-
-  if (imported.isType) {
-    const published = context.publishedExports.get(imported.imported);
-    return published ? { import: { module: published.subpath, name, type: true } } : {};
+  if (!imported) {
+    // `React.ReactNode` in a fixture's type annotation is a real dependency even
+    // when the story file relies on the automatic JSX runtime and never imports
+    // React itself. Emitting the example without it would not compile.
+    if (name === "React") return { import: { module: "react", default: "React", type: true } };
+    return {};
   }
+  if (IGNORED_MODULES.has(imported.module)) return {};
 
   if (!imported.module.startsWith(".")) {
     if (!ALLOWED_PACKAGES.has(imported.module)) {
+      if (imported.isType) return {};
       return { blocked: `imports \`${name}\` from test-only module \`${imported.module}\`` };
     }
-    const specifier = imported.namespace ? `* as ${name}` : imported.imported;
-    return { import: { module: imported.module, name: specifier } };
+    return { import: bareImport(imported, name) };
   }
 
   return resolveRelative(name, imported, fileContext, context);
+}
+
+/**
+ * @param {object} imported
+ * @param {string} local
+ * @returns {object}
+ */
+function bareImport(imported, local) {
+  if (imported.namespace) return { module: imported.module, namespace: local };
+  if (imported.isDefault) return { module: imported.module, default: local };
+  return { module: imported.module, named: specifier(imported.imported, local) };
+}
+
+/**
+ * `import { ButtonProps as BP }` has to keep the `as`: emitting the local alias
+ * on its own names an export the package does not have.
+ *
+ * @param {string} exported
+ * @param {string} local
+ * @returns {string}
+ */
+function specifier(exported, local) {
+  return exported === local ? local : `${exported} as ${local}`;
 }
 
 /**
@@ -547,10 +1084,22 @@ function resolveName(name, fileContext, context) {
 function resolveRelative(name, imported, fileContext, context) {
   const published = context.publishedExports.get(imported.imported);
   const target = resolveModulePath(fileContext.file, imported.module, context);
+  // The identity check matters for types as much as for values: a local
+  // `ChipSize` that happens to share a name with a published export must not be
+  // rewritten into an import from the package.
   if (published && target && published.file === target) {
-    return { import: { module: published.subpath, name: imported.imported } };
+    return {
+      import: {
+        module: published.subpath,
+        named: specifier(imported.imported, name),
+        type: imported.isType || published.isType,
+      },
+    };
   }
-  if (!target) return { blocked: `cannot resolve \`${imported.module}\`` };
+  if (!target) {
+    if (imported.isType) return {};
+    return { blocked: `cannot resolve \`${imported.module}\`` };
+  }
   if (fileContext.hops >= MAX_FILE_HOPS) {
     return { blocked: `fixture \`${name}\` is nested more than ${MAX_FILE_HOPS} files deep` };
   }
@@ -558,7 +1107,10 @@ function resolveRelative(name, imported, fileContext, context) {
   const nested = context.fixtureContext(target, fileContext.hops + 1);
   if (!nested) return { blocked: `cannot read fixture module \`${imported.module}\`` };
   const declaration = nested.declarations.get(imported.imported);
-  if (!declaration) return { blocked: `fixture \`${name}\` is not a plain declaration` };
+  if (!declaration) {
+    if (imported.isType) return {};
+    return { blocked: `fixture \`${name}\` is not a plain declaration` };
+  }
   return inlineDeclaration(imported.imported, declaration, nested, name);
 }
 
@@ -574,17 +1126,22 @@ function inlineDeclaration(name, declaration, fileContext, alias) {
           fileContext.source
             .slice(declaration.statement.start, declaration.statement.end)
             .replace(/^export\s+/, ""),
+          columnAt(fileContext.source, declaration.statement.start),
         );
-  const renamed = alias && alias !== name ? `${text}\n\nconst ${alias} = ${name};` : text;
+  const renamed =
+    alias && alias !== name
+      ? `${text}\n\n${declaration.isType ? `type ${alias} = ${name};` : `const ${alias} = ${name};`}`
+      : text;
   return {
     inline: {
       order: `${fileContext.file}:${String(declaration.statement.start).padStart(8, "0")}`,
       text: renamed,
     },
-    next: [...referencedIdentifiers(declaration.node ?? declaration.statement)].map((next) => ({
-      name: next,
-      context: fileContext,
-    })),
+    // The whole declarator, so its TS type annotation is scanned alongside its
+    // initialiser.
+    next: [
+      ...referencedIdentifiers(declaration.scope ?? declaration.node ?? declaration.statement),
+    ].map((next) => ({ name: next, context: fileContext })),
   };
 }
 
@@ -603,44 +1160,62 @@ function resolveModulePath(fromFile, specifier, context) {
 }
 
 /**
- * @param {Map<string, Set<string>>} imports
- * @param {string} module
- * @param {string} name
+ * @param {Map<string, object>} imports
+ * @param {{ module: string, type?: boolean, named?: string, default?: string, namespace?: string }} record
  */
-function addImport(imports, module, name) {
-  if (!imports.has(module)) imports.set(module, new Set());
-  imports.get(module).add(name);
+function addImport(imports, record) {
+  const key = record.type ? `type:${record.module}` : record.module;
+  if (!imports.has(key)) {
+    imports.set(key, { module: record.module, type: Boolean(record.type), named: new Set() });
+  }
+  const entry = imports.get(key);
+  if (record.named) entry.named.add(record.named);
+  if (record.default) entry.default = record.default;
+  if (record.namespace) entry.namespace = record.namespace;
 }
 
 /**
  * React first, then the library, then peer dependencies — the order a hand
  * written example would use.
  *
- * @param {Map<string, Set<string>>} imports
+ * A module can legitimately need more than one statement (a namespace import
+ * cannot share a statement with named ones), so each entry renders every form
+ * it actually collected rather than the first one that matched.
+ *
+ * @param {Map<string, object>} imports
  * @returns {string}
  */
 function renderImports(imports) {
   const rank = (module) => {
-    const bare = module.replace(/^type:/, "");
-    if (bare === "react") return 0;
-    if (bare.startsWith("@fanvue/ui")) return 1;
+    if (module === "react" || module === "react-dom") return 0;
+    if (module.startsWith("@fanvue/ui")) return 1;
     return 2;
   };
-  return [...imports.entries()]
-    .sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0]))
-    .map(([module, names]) => {
-      const sorted = [...names].sort((a, b) => a.localeCompare(b));
-      const namespace = sorted.find((name) => name.startsWith("* as "));
-      if (namespace) return `import ${namespace} from "${module}";`;
-      const keyword = module.startsWith("type:") ? "import type" : "import";
-      const bare = module.replace(/^type:/, "");
-      const line = `${keyword} { ${sorted.join(", ")} } from "${bare}";`;
-      if (line.length <= 96) return line;
-      return [`${keyword} {`, ...sorted.map((name) => `  ${name},`), `} from "${bare}";`].join(
-        "\n",
-      );
-    })
-    .join("\n");
+  const lines = [];
+  for (const [, entry] of [...imports.entries()].sort(
+    (a, b) => rank(a[1].module) - rank(b[1].module) || a[0].localeCompare(b[0]),
+  )) {
+    const keyword = entry.type ? "import type" : "import";
+    if (entry.namespace) {
+      lines.push(`${keyword} * as ${entry.namespace} from "${entry.module}";`);
+    }
+    const named = [...entry.named].sort((a, b) => a.localeCompare(b));
+    if (named.length === 0 && !entry.default) continue;
+    const clause = [
+      ...(entry.default ? [entry.default] : []),
+      ...(named.length > 0 ? [`{ ${named.join(", ")} }`] : []),
+    ].join(", ");
+    const line = `${keyword} ${clause} from "${entry.module}";`;
+    if (line.length <= 96 || named.length === 0) {
+      lines.push(line);
+      continue;
+    }
+    const head = entry.default ? `${keyword} ${entry.default}, {` : `${keyword} {`;
+    lines.push(
+      [head, ...named.map((name) => `  ${name},`), `} from "${entry.module}";`].join("\n"),
+    );
+  }
+  return lines.join("\n");
 }
 
 /**

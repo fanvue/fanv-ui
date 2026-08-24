@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-checkbox--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Checkbox — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-checkbox--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Checkbox — Default" />
 </Frame>
 
 ```tsx
@@ -12,32 +12,64 @@ import { Checkbox } from "@fanvue/ui";
 <Checkbox label="Checkbox" helperText="Helper" />
 ```
 
-## With Label And Long Helper Text
+## Checked
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-checkbox--with-label-and-long-helper-text&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Checkbox — With Label And Long Helper Text" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-checkbox--checked&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Checkbox — Checked" />
 </Frame>
 
 ```tsx
 import { Checkbox } from "@fanvue/ui";
 
-<Checkbox
-  label="Subscribe to newsletter"
-  helperText="Get weekly updates about new features and releases"
-/>
+<Checkbox checked />
 ```
 
-## Long Label
+## With Label
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-checkbox--long-label&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Checkbox — Long Label" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-checkbox--with-label&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Checkbox — With Label" />
 </Frame>
 
 ```tsx
 import { Checkbox } from "@fanvue/ui";
 
-<Checkbox
-  label="I agree to the terms and conditions and privacy policy of this application and consent to the processing of my personal…"
-  helperText="By checking this box, you confirm that you have read and understood our policies"
-/>
+<Checkbox label="Accept terms and conditions" />
+```
+
+## All States
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-checkbox--all-states&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Checkbox — All States" />
+</Frame>
+
+```tsx
+import { Checkbox } from "@fanvue/ui";
+
+<div className="flex flex-col gap-6">
+  <div className="flex flex-col gap-4">
+    <Checkbox label="Unchecked" />
+    <Checkbox label="Checked" checked />
+    <Checkbox label="Indeterminate" checked="indeterminate" />
+    <Checkbox label="Disabled" disabled />
+    <Checkbox label="Disabled + checked" disabled checked />
+    <Checkbox label="With helper text" helperText="Helper" />
+  </div>
+  <div className="flex flex-col gap-4">
+    <Checkbox size="16" label="Compact (16px)" helperText="Dense surfaces like data tables" />
+    <Checkbox size="small" label="Small text size" helperText="Smaller label and helper" />
+    <Checkbox size="default" label="Default text size" helperText="Default label and helper" />
+  </div>
+</div>
+```
+
+## Disabled
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-checkbox--disabled&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="220" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Checkbox — Disabled" />
+</Frame>
+
+```tsx
+import { Checkbox } from "@fanvue/ui";
+
+<Checkbox disabled />
 ```

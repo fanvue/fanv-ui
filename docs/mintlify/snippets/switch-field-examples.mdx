@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-switchfield--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="SwitchField — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-switchfield--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="240" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="SwitchField — Default" />
 </Frame>
 
 ```tsx
@@ -12,10 +12,22 @@ import { SwitchField } from "@fanvue/ui";
 <SwitchField label="Toggle" helperText="Helper" />
 ```
 
+## Disabled
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-switchfield--disabled&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="240" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="SwitchField — Disabled" />
+</Frame>
+
+```tsx
+import { SwitchField } from "@fanvue/ui";
+
+<SwitchField label="Toggle" helperText="Helper" disabled />
+```
+
 ## With Info
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-switchfield--with-info&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="SwitchField — With Info" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-switchfield--with-info&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="240" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="SwitchField — With Info" />
 </Frame>
 
 ```tsx
@@ -24,14 +36,63 @@ import { SwitchField } from "@fanvue/ui";
 <SwitchField label="Toggle" helperText="Helper" infoText="Info text" />
 ```
 
-## Label Only
+## All Variants
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-switchfield--label-only&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="SwitchField — Label Only" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-switchfield--all-variants&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="240" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="SwitchField — All Variants" />
 </Frame>
 
 ```tsx
 import { SwitchField } from "@fanvue/ui";
 
-<SwitchField label="Notifications" />
+<div className="flex flex-col gap-6">
+  <div className="flex flex-col gap-3">
+    <span className="typography-body-small-14px-semibold text-content-secondary">
+      Default - Right orientation
+    </span>
+    <SwitchField label="Toggle" helperText="Helper" orientation="right" checked={true} />
+  </div>
+  <div className="flex flex-col gap-3">
+    <span className="typography-body-small-14px-semibold text-content-secondary">
+      Default - Left orientation
+    </span>
+    <SwitchField label="Toggle" helperText="Helper" orientation="left" checked={true} />
+  </div>
+  <div className="flex flex-col gap-3">
+    <span className="typography-body-small-14px-semibold text-content-secondary">
+      Small - Right orientation
+    </span>
+    <SwitchField
+      label="Toggle"
+      helperText="Helper"
+      size="small"
+      orientation="right"
+      checked={true}
+    />
+  </div>
+  <div className="flex flex-col gap-3">
+    <span className="typography-body-small-14px-semibold text-content-secondary">
+      Small - Left orientation
+    </span>
+    <SwitchField
+      label="Toggle"
+      helperText="Helper"
+      size="small"
+      orientation="left"
+      checked={true}
+    />
+  </div>
+</div>
+```
+
+## Disabled Checked
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-switchfield--disabled-checked&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="240" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="SwitchField — Disabled Checked" />
+</Frame>
+
+```tsx
+import { SwitchField } from "@fanvue/ui";
+
+<SwitchField label="Toggle" helperText="Helper" disabled checked />
 ```

@@ -2,7 +2,9 @@
 
 ## UserItem
 
-A compact user row showing an avatar, display name (or nickname) and handle, with optional verified and AI-disclosure badges and online and muted indicators. Pass `UserItemProps.trailing` to pin a value to the end of the row, the shape most list rows need — top spenders, most active fans, a recent-activity feed.
+A compact user row showing an avatar, display name (or nickname) and handle, with optional verified and AI-disclosure badges and online and muted indicators.
+
+Pass `UserItemProps.trailing` to pin a value to the end of the row, the shape most list rows need — top spenders, most active fans, a recent-activity feed.
 
 <ParamField path='user' type='UserItemUser' required>
   The user to display.
@@ -49,7 +51,9 @@ A compact user row showing an avatar, display name (or nickname) and handle, wit
 </ParamField>
 
 <ParamField path='trailing' type='ReactNode'>
-  Content pinned to the end of the row — a value, count, timestamp or action. It keeps its intrinsic width while the name block absorbs the remaining space, so trailing content stays aligned down the rows of a list. Prefer `UserItemTrailing` over composing the lines yourself.
+  Content pinned to the end of the row — a value, count, timestamp or action. It keeps its intrinsic width while the name block absorbs the remaining space, so trailing content stays aligned down the rows of a list.
+
+  Prefer `UserItemTrailing` over composing the lines yourself.
 </ParamField>
 
 <ParamField path='verified' type='boolean' default='false'>
@@ -63,7 +67,9 @@ A compact user row showing an avatar, display name (or nickname) and handle, wit
 
 ## UserItemTrailing
 
-The end-of-row block for a `UserItem`: a value with an optional supporting line beneath it, both aligned to the right edge so figures line up down a list. Pass it to `UserItem`'s `trailing` slot rather than composing the two lines at each call site, so value and meta typography stay consistent wherever a list row carries a figure.
+The end-of-row block for a `UserItem`: a value with an optional supporting line beneath it, both aligned to the right edge so figures line up down a list.
+
+Pass it to `UserItem`'s `trailing` slot rather than composing the two lines at each call site, so value and meta typography stay consistent wherever a list row carries a figure.
 
 <ParamField path='value' type='ReactNode' required>
   The headline figure — an amount, a count, a percentage.

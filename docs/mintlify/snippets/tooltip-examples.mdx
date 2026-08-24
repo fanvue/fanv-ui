@@ -3,7 +3,7 @@
 ## Default
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tooltip--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tooltip — Default" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tooltip--default&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="240" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tooltip — Default" />
 </Frame>
 
 ```tsx
@@ -19,10 +19,81 @@ import { InfoCircleIcon, Tooltip, TooltipContent, TooltipTrigger } from "@fanvue
 </Tooltip>
 ```
 
+## Long Content
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tooltip--long-content&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="240" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tooltip — Long Content" />
+</Frame>
+
+```tsx
+import { InfoCircleIcon, Tooltip, TooltipContent, TooltipTrigger } from "@fanvue/ui";
+
+<Tooltip defaultOpen>
+  <TooltipTrigger asChild>
+    <button type="button" className="text-content-secondary">
+      <InfoCircleIcon className="size-5" />
+    </button>
+  </TooltipTrigger>
+  <TooltipContent>
+    This is a longer tooltip that demonstrates how the component handles multiline text content.
+  </TooltipContent>
+</Tooltip>
+```
+
+## All Placements
+
+<Frame>
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tooltip--all-placements&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="520" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tooltip — All Placements" />
+</Frame>
+
+```tsx
+import { InfoCircleIcon, Tooltip, TooltipContent, TooltipTrigger } from "@fanvue/ui";
+
+function Example() {
+  const placements = [
+    "top-start",
+    "top",
+    "top-end",
+    "left-start",
+    "spacer-1",
+    "right-start",
+    "left",
+    "spacer-2",
+    "right",
+    "left-end",
+    "spacer-3",
+    "right-end",
+    "bottom-start",
+    "bottom",
+    "bottom-end",
+  ] as const;
+  return (
+    <div className="grid grid-cols-3 place-items-center gap-24 py-24">
+      {placements.map((slot) =>
+        slot.startsWith("spacer") ? (
+          <div key={slot} />
+        ) : (
+          <Tooltip key={slot} defaultOpen>
+            <TooltipTrigger asChild>
+              <button type="button" className="text-content-secondary">
+                <InfoCircleIcon className="size-5" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent placement={slot as Exclude<typeof slot, `spacer-${string}`>}>
+              {slot}
+            </TooltipContent>
+          </Tooltip>
+        ),
+      )}
+    </div>
+  );
+}
+```
+
 ## Bottom
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tooltip--bottom&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tooltip — Bottom" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tooltip--bottom&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="240" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tooltip — Bottom" />
 </Frame>
 
 ```tsx
@@ -38,21 +109,17 @@ import { InfoCircleIcon, Tooltip, TooltipContent, TooltipTrigger } from "@fanvue
 </Tooltip>
 ```
 
-## Left
+## Label as trigger (dashed underline)
 
 <Frame>
-  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tooltip--left&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="200" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tooltip — Left" />
+  <iframe src={"https://main--697a1b6dd4dad73ee9c0e5f5.chromatic.com/iframe.html?id=components-tooltip--label-as-trigger&viewMode=story&shortcuts=false&singleStory=true&globals=theme:light"} width="100%" height="240" style={{border: "none", borderRadius: "8px"}} loading="lazy" title="Tooltip — Label as trigger (dashed underline)" />
 </Frame>
 
 ```tsx
-import { InfoCircleIcon, Tooltip, TooltipContent, TooltipTrigger } from "@fanvue/ui";
+import { TooltipLabel } from "@fanvue/ui";
 
-<Tooltip defaultOpen>
-  <TooltipTrigger asChild>
-    <button type="button" className="text-content-secondary">
-      <InfoCircleIcon className="size-5" />
-    </button>
-  </TooltipTrigger>
-  <TooltipContent placement="left">Tooltip</TooltipContent>
-</Tooltip>
+<div className="flex flex-col gap-1">
+  <TooltipLabel tooltip="Total earnings for the selected period.">Total Earnings</TooltipLabel>
+  <span className="typography-header-heading-xl text-content-primary">$128,046.73</span>
+</div>
 ```
