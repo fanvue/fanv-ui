@@ -238,3 +238,34 @@ jobs:
             ]
           }
           PAYLOAD
+
+      - name: Notify docs site
+        if: ${{ !cancelled() && (steps.publish_npm.outcome == 'success' || steps.publish_gh.outcome == 'success') }}
+        # The docs site also runs a daily scheduled sync, so a dispatch hiccup
+        # must never fail the release.
+        continue-on-error: true
+        env:
+          DISPATCH_TOKEN: ${{ secrets.UI_DOCS_DISPATCH_TOKEN }}
+          TAG_NAME: ${{ steps.release.outputs.tag_name || format('ui-v{0}', steps.pkg.outputs.version) }}
+        run: |
+          if [ -z "$DISPATCH_TOKEN" ]; then
+            echo "::warning::UI_DOCS_DISPATCH_TOKEN is not set — skipping docs site dispatch"
+            exit 0
+          fi
+
+          body=$(mktemp)
+          status=$(curl -sS -o "$body" -w "%{http_code}" -X POST \
+            -H "Authorization: Bearer $DISPATCH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/fanvue/styx-docs-mintlify/dispatches" \
+            -d "{\"event_type\":\"ui-docs-release\",\"client_payload\":{\"tag\":\"${TAG_NAME}\"}}")
+
+          if [ "$status" = "204" ]; then
+            echo "Dispatched ui-docs-release for $TAG_NAME to fanvue/styx-docs-mintlify"
+            exit 0
+          fi
+
+          echo "::error::docs site dispatch failed with HTTP $status"
+          cat "$body"
+          exit 1
