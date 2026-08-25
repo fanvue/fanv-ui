@@ -241,8 +241,30 @@ describe("SegmentedControl", () => {
         />,
       );
       const selected = screen.getByRole("radio", { name: "Agent" });
-      expect(selected).toHaveClass("bg-buttons-ai-background-gradient-default-start");
+      expect(selected).toHaveClass("bg-buttons-ai-default");
       expect(selected).not.toHaveClass("bg-brand-primary-muted");
+    });
+
+    it("warns once that brand is deprecated, without breaking", async () => {
+      // The once-guard is module state, and other cases in this file already render
+      // `brand`, so take a fresh module instance to observe the first warning.
+      vi.resetModules();
+      const { SegmentedControl: Fresh } = await import("./SegmentedControl");
+      const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+      render(
+        <Fresh appearance="brand" options={aiOptions} defaultValue="agent" aria-label="Mode" />,
+      );
+      render(
+        <Fresh appearance="brand" options={aiOptions} defaultValue="agent" aria-label="Mode" />,
+      );
+      const brandWarnings = consoleWarnSpy.mock.calls.filter((call) =>
+        String(call[0]).includes('`appearance="brand"` is deprecated'),
+      );
+      expect(brandWarnings).toHaveLength(1);
+      expect(screen.getAllByRole("radio", { name: "Agent" })[0]).toHaveClass(
+        "bg-buttons-ai-default",
+      );
+      consoleWarnSpy.mockRestore();
     });
 
     it("renders icon alongside visible label, as ai does", () => {

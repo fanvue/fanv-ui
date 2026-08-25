@@ -139,6 +139,23 @@ function warnMissingOptionAccessibleName(options: SegmentedControlOption[]) {
  * The Figma component set defines an `Amount` axis of 2 or 3 only. More segments still
  * render, but they are outside the design and will crowd at the smaller sizes.
  */
+/**
+ * `"brand"` still renders, so nothing breaks on upgrade, but it is going away in a
+ * later major once consumers have moved. Warned once per session rather than per
+ * render, since a nav switch re-renders on every route change.
+ */
+let hasWarnedBrandAppearance = false;
+function warnDeprecatedBrandAppearance(appearance: SegmentedControlAppearance) {
+  if (process.env.NODE_ENV !== "production") {
+    if (appearance === "brand" && !hasWarnedBrandAppearance) {
+      hasWarnedBrandAppearance = true;
+      console.warn(
+        'SegmentedControl: `appearance="brand"` is deprecated and will be removed in a future major. Use `appearance="ai"`, which renders identically.',
+      );
+    }
+  }
+}
+
 function warnUnsupportedAmount(options: SegmentedControlOption[]) {
   if (process.env.NODE_ENV !== "production") {
     if (options.length < 2 || options.length > 3) {
@@ -332,10 +349,10 @@ function useAutoCollapse(
  * />
  * ```
  *
- * @example Icon + label with the brand-green pill (e.g. the Home/Agent nav switch)
+ * @example Icon + label with the AI pill (e.g. the Home/Agent nav switch)
  * ```tsx
  * <SegmentedControl
- *   appearance="brand"
+ *   appearance="ai"
  *   options={[
  *     { label: "Home", value: "home", icon: <HomeIcon size={16} /> },
  *     { label: "Agent", value: "agent", icon: <AIIcon size={16} /> },
@@ -364,7 +381,7 @@ function useAutoCollapse(
  * @example A collapsed toggle that shows one switch glyph instead of the selected icon
  * ```tsx
  * <SegmentedControl
- *   appearance="brand"
+ *   appearance="ai"
  *   collapsible
  *   collapsedIcon={<RepeatIcon size={16} />}
  *   options={[
@@ -398,6 +415,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
     warnMissingAccessibleName(props["aria-label"], props["aria-labelledby"]);
     warnMissingOptionAccessibleName(options);
     warnUnsupportedAmount(options);
+    warnDeprecatedBrandAppearance(appearance);
     if (collapsible) warnUnsupportedCollapsible(appearance, options, collapsedIcon !== undefined);
 
     // Tracks selection for uncontrolled usage; ignored when `value` prop is provided
