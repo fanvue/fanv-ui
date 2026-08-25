@@ -10,21 +10,6 @@ export type SwitchToggleSize = "24" | "32" | "40";
 /** Visual treatment of the toggle. */
 export type SwitchToggleVariant = "default" | "ai";
 
-/**
- * Describes one side of the removed two-option segmented toggle.
- *
- * @deprecated `SwitchToggle` is now a single binary toggle and no longer takes
- * `options`. Use {@link SegmentedControlOption} with {@link SegmentedControl}
- * for two- or three-option selection. Kept as an alias so existing imports keep
- * resolving; it is no longer referenced by {@link SwitchToggleProps}.
- */
-export interface SwitchToggleOption {
-  /** Display label for the option. */
-  label: string;
-  /** Value identifier returned via `onChange`. */
-  value: string;
-}
-
 const sizeVariants: Record<SwitchToggleSize, string> = {
   "24": "h-6 px-2 py-1 typography-description-12px-semibold",
   "32": "h-8 px-3 py-[7px] typography-body-small-14px-semibold",

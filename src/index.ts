@@ -776,7 +776,6 @@ export { SwitchField } from "./components/SwitchField/SwitchField";
 export type {
   SwitchToggleAiProps,
   SwitchToggleDefaultProps,
-  SwitchToggleOption,
   SwitchToggleProps,
   SwitchToggleSize,
   SwitchToggleVariant,
