@@ -46,7 +46,7 @@ const ICON_SLOT_CLASSES = "flex size-4 shrink-0 items-center justify-center";
  * from parts stops the utilities being generated at all.
  */
 const AI_PRESSED_FILL =
-  "relative bg-buttons-ai-background-gradient-default-start before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:p-px before:[background:linear-gradient(90deg,var(--color-buttons-ai-stroke-end)_0%,var(--color-buttons-ai-stroke-start)_50%,var(--color-buttons-ai-stroke-end)_100%)] before:[mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]";
+  "relative bg-buttons-ai-default before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:p-px before:[background:linear-gradient(90deg,var(--color-buttons-ai-stroke-end)_0%,var(--color-buttons-ai-stroke-start)_50%,var(--color-buttons-ai-stroke-end)_100%)] before:[mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]";
 
 interface SwitchToggleBaseProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type" | "children"> {
@@ -214,7 +214,7 @@ export const SwitchToggle = React.forwardRef<HTMLButtonElement, SwitchToggleProp
           !disabled &&
             pressed &&
             !isAi &&
-            "bg-buttons-primary-default text-content-primary-inverted shadow-sm",
+            "bg-buttons-switch-active text-content-primary-inverted shadow-sm",
           !disabled && pressed && isAi && `text-content-primary shadow-sm ${AI_PRESSED_FILL}`,
           disabled && "cursor-not-allowed text-content-disabled",
           className,

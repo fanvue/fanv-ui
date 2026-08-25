@@ -166,12 +166,12 @@ describe("SwitchToggle", () => {
     it("fills green and paints a masked three-stop gradient ring when pressed", () => {
       render(<SwitchToggle variant="ai" label="Smart replies" defaultPressed />);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("bg-buttons-ai-background-gradient-default-start");
+      expect(button).toHaveClass("bg-buttons-ai-default");
       expect(button.className).toContain(
         "linear-gradient(90deg,var(--color-buttons-ai-stroke-end)_0%,var(--color-buttons-ai-stroke-start)_50%,var(--color-buttons-ai-stroke-end)_100%)",
       );
       expect(button.className).toContain("content-box_exclude");
-      expect(button).not.toHaveClass("bg-buttons-primary-default");
+      expect(button).not.toHaveClass("bg-buttons-switch-active");
     });
 
     it("carries no ai fill while unpressed", () => {
@@ -184,7 +184,7 @@ describe("SwitchToggle", () => {
     it("darkens and inverts its label when the default variant is pressed", () => {
       render(<SwitchToggle label="Filter" defaultPressed />);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("bg-buttons-primary-default");
+      expect(button).toHaveClass("bg-buttons-switch-active");
       expect(button).toHaveClass("text-content-primary-inverted");
     });
   });
@@ -208,7 +208,7 @@ describe("SwitchToggle", () => {
       const button = screen.getByRole("button");
       expect(button).toHaveAttribute("aria-pressed", "true");
       expect(button).toHaveClass("text-content-disabled");
-      expect(button).not.toHaveClass("bg-buttons-primary-default");
+      expect(button).not.toHaveClass("bg-buttons-switch-active");
     });
   });
 
