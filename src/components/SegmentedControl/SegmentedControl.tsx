@@ -537,11 +537,9 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
               "items-center justify-center"
             : appearance === "plain"
               ? "gap-2"
-              : // Figma clips the container, and its `Surface/Secondary` resolves to gray-150 in
-                // light and gray-850 in dark. No single repo token carries that pair:
-                // `surface-secondary` is gray-75 in light, `surface-tertiary` is gray-600 in dark.
-                // Pair them until `--color-surface-secondary` is remapped to gray-150.
-                "overflow-hidden bg-surface-tertiary p-1 dark:bg-surface-secondary",
+              : // Figma clips the container and fills it with `Surface/Secondary`, which #674
+                // realigned to gray-150 in light and gray-850 in dark.
+                "overflow-hidden bg-surface-secondary p-1",
           disabled && "cursor-not-allowed opacity-50",
           className,
         )}
@@ -574,7 +572,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
             aria-hidden="true"
             className={cn(
               "pointer-events-none invisible absolute top-0 left-0 -z-10 flex items-center whitespace-nowrap rounded-full",
-              appearance === "plain" ? "gap-2" : "bg-surface-tertiary p-1",
+              appearance === "plain" ? "gap-2" : "bg-surface-secondary p-1",
             )}
           >
             {options.map((option) => renderMeasureSegment(option))}

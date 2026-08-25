@@ -226,7 +226,7 @@ describe("SegmentedControl", () => {
       const { container } = render(
         <SegmentedControl appearance="plain" options={iconOptions} aria-label="View" />,
       );
-      expect(container.firstChild).not.toHaveClass("bg-surface-tertiary");
+      expect(container.firstChild).not.toHaveClass("bg-surface-secondary");
     });
   });
 
@@ -307,16 +307,14 @@ describe("SegmentedControl", () => {
           aria-label="Mode"
         />,
       );
-      expect(screen.getByRole("radio", { name: "Agent" })).toHaveClass(
-        "bg-buttons-ai-background-gradient-default-start",
-      );
+      expect(screen.getByRole("radio", { name: "Agent" })).toHaveClass("bg-buttons-ai-default");
     });
 
     it("keeps the pill container background", () => {
       const { container } = render(
         <SegmentedControl appearance="ai" options={aiOptions} aria-label="Mode" />,
       );
-      expect(container.firstChild).toHaveClass("bg-surface-tertiary");
+      expect(container.firstChild).toHaveClass("bg-surface-secondary");
     });
 
     it("selects via click and reports the value", async () => {
@@ -699,7 +697,7 @@ describe("SegmentedControl", () => {
       const root = container.firstElementChild as HTMLElement;
       // Otherwise the toggle sits at the start of a full-width row, off the rail's centre line.
       expect(root).toHaveClass("justify-center");
-      expect(root).not.toHaveClass("bg-surface-tertiary");
+      expect(root).not.toHaveClass("bg-surface-secondary");
     });
 
     it("has no accessibility violations while collapsed", async () => {
