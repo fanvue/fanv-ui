@@ -2,6 +2,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import {
   SWITCH_TOGGLE_AI_SELECTED,
+  SWITCH_TOGGLE_HEIGHT_CLASSES,
   SWITCH_TOGGLE_ICON_GAP,
   SWITCH_TOGGLE_PADDING_CLASSES,
   SWITCH_TOGGLE_STATE_CLASSES,
@@ -210,6 +211,7 @@ function getSegmentClassName({
           isSelected ? "text-icons-primary" : "text-icons-tertiary hover:text-icons-primary",
         )
       : cn(
+          SWITCH_TOGGLE_HEIGHT_CLASSES[SEGMENT_SIZE[size]],
           SWITCH_TOGGLE_PADDING_CLASSES[SEGMENT_SIZE[size]],
           // The AI appearance renders icon + label together, so space them.
           isAiAppearance(appearance) && SWITCH_TOGGLE_ICON_GAP,
@@ -590,7 +592,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
             aria-hidden="true"
             className={cn(
               "pointer-events-none invisible absolute top-0 left-0 -z-10 flex items-center whitespace-nowrap rounded-full",
-              appearance === "plain" ? "gap-2" : "bg-surface-secondary p-1",
+              appearance === "plain" ? "gap-2" : "overflow-hidden bg-surface-secondary p-1",
             )}
           >
             {options.map((option) => renderMeasureSegment(option))}

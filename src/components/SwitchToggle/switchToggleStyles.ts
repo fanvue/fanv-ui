@@ -17,9 +17,11 @@ export const SWITCH_TOGGLE_PADDING_CLASSES: Record<SwitchToggleSize, string> = {
 };
 
 /**
- * Explicit heights, so a standalone toggle lands on its Figma height rather than
- * inheriting whatever the label's line box rounds to. `SegmentedControl` does not
- * apply these: its segment height comes from the container.
+ * Explicit heights, so a control lands on its Figma height rather than inheriting
+ * whatever the label's line box happens to round to. Both components apply these:
+ * nothing stretches a segment, so without them a segment's height would depend on
+ * the 12/14/16px sizes mapping to 16/18/24px line heights, which is exactly the kind
+ * of implicit dependency a token remap can break.
  */
 export const SWITCH_TOGGLE_HEIGHT_CLASSES: Record<SwitchToggleSize, string> = {
   "24": "h-6",

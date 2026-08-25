@@ -273,6 +273,32 @@ describe("SegmentedControl", () => {
     });
   });
 
+  describe("figma container spec", () => {
+    it("fills with surface-secondary, the token Figma binds", () => {
+      // Regression guard for #674, which remapped surface-tertiary from gray-150 to
+      // gray-300 and briefly left this container two steps too dark on main.
+      const { container } = render(<SegmentedControl options={twoOptions} aria-label="View" />);
+      const root = container.firstChild as HTMLElement;
+      expect(root).toHaveClass("bg-surface-secondary");
+      expect(root).not.toHaveClass("bg-surface-tertiary");
+    });
+
+    it("clips its content and pads by 4px, per the node", () => {
+      const { container } = render(<SegmentedControl options={twoOptions} aria-label="View" />);
+      const root = container.firstChild as HTMLElement;
+      expect(root).toHaveClass("overflow-hidden");
+      expect(root).toHaveClass("p-1");
+    });
+
+    it("gives each segment the Figma height one step below the control size", () => {
+      const { container } = render(
+        <SegmentedControl size="48" options={twoOptions} aria-label="View" />,
+      );
+      // A 48px control holds 40px segments, the container's p-1 making up the rest.
+      expect(container.querySelectorAll(".h-10")).toHaveLength(2);
+    });
+  });
+
   describe("amount", () => {
     let consoleWarnSpy: ReturnType<typeof vi.spyOn>;
 

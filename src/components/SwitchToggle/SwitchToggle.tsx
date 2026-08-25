@@ -6,6 +6,7 @@ import { AIIcon } from "../Icons/AIIcon";
 import {
   SWITCH_TOGGLE_AI_SELECTED,
   SWITCH_TOGGLE_HEIGHT_CLASSES,
+  SWITCH_TOGGLE_ICON_GAP,
   SWITCH_TOGGLE_PADDING_CLASSES,
   SWITCH_TOGGLE_STATE_CLASSES,
   type SwitchToggleSize,
@@ -15,7 +16,6 @@ export type { SwitchToggleSize };
 
 /** Visual treatment of the toggle. */
 export type SwitchToggleVariant = "default" | "ai";
-
 
 const ICON_SLOT_CLASSES = "flex size-4 shrink-0 items-center justify-center";
 
@@ -176,7 +176,8 @@ export const SwitchToggle = React.forwardRef<HTMLButtonElement, SwitchToggleProp
           setPressed(!pressed);
         }}
         className={cn(
-          "inline-flex w-fit shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full",
+          "inline-flex w-fit shrink-0 items-center justify-center whitespace-nowrap rounded-full",
+          SWITCH_TOGGLE_ICON_GAP,
           "motion-safe:transition-colors motion-safe:duration-150",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           SWITCH_TOGGLE_HEIGHT_CLASSES[size],
