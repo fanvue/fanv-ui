@@ -223,6 +223,7 @@ import {
   Support2Icon,
   SupportIcon,
   Switch,
+  SwitchButton,
   SwitchField,
   SwitchToggle,
   Table,
@@ -3718,6 +3719,34 @@ function SwitchFieldDemo() {
   );
 }
 
+function SwitchButtonDemo() {
+  return (
+    <div id="switchbutton" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Switch Button</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <SwitchButton size="40" label="CTA" />
+        <SwitchButton size="40" label="CTA" defaultPressed />
+        <SwitchButton size="40" label="CTA" disabled />
+        <SwitchButton size="40" variant="ai" label="CTA" />
+        <SwitchButton size="40" variant="ai" label="CTA" defaultPressed />
+      </div>
+      <div className="flex flex-wrap items-center gap-4">
+        <SwitchButton size="32" label="CTA" />
+        <SwitchButton size="32" label="CTA" defaultPressed />
+        <SwitchButton size="32" variant="ai" label="CTA" defaultPressed />
+        <SwitchButton size="24" label="CTA" />
+        <SwitchButton size="24" label="CTA" defaultPressed />
+        <SwitchButton size="24" variant="ai" label="CTA" defaultPressed />
+      </div>
+      <div className="flex flex-wrap items-center gap-4">
+        <SwitchButton size="32" label="Left" showLeftIcon />
+        <SwitchButton size="32" label="Right" showRightIcon />
+        <SwitchButton size="32" label="Both" showLeftIcon showRightIcon />
+      </div>
+    </div>
+  );
+}
+
 function SwitchToggleDemo() {
   return (
     <div id="switchtoggle" className="flex scroll-mt-20 flex-col gap-4">
@@ -5747,6 +5776,7 @@ function App() {
     { id: "snackbar", label: "Snackbar" },
     { id: "switch", label: "Switch" },
     { id: "switchfield", label: "Switch Field" },
+    { id: "switchbutton", label: "Switch Button" },
     { id: "switchtoggle", label: "Switch Toggle" },
     { id: "tabs", label: "Tabs" },
     { id: "table", label: "Table" },
@@ -5973,6 +6003,7 @@ function App() {
             <SwitchFieldDemo />
 
             {/* SwitchToggle */}
+            <SwitchButtonDemo />
             <SwitchToggleDemo />
 
             {/* DatePicker */}

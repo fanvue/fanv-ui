@@ -769,6 +769,14 @@ export { SubscribeButton } from "./components/SubscribeButton/SubscribeButton";
 export type { SwitchProps, SwitchSize } from "./components/Switch/Switch";
 export { Switch } from "./components/Switch/Switch";
 export type {
+  SwitchButtonAiProps,
+  SwitchButtonDefaultProps,
+  SwitchButtonProps,
+  SwitchButtonSize,
+  SwitchButtonVariant,
+} from "./components/SwitchButton/SwitchButton";
+export { SwitchButton } from "./components/SwitchButton/SwitchButton";
+export type {
   SwitchFieldOrientation,
   SwitchFieldProps,
 } from "./components/SwitchField/SwitchField";
