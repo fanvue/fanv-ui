@@ -164,6 +164,10 @@ export const SwitchButton = React.forwardRef<HTMLButtonElement, SwitchButtonProp
         data-state={pressed ? "on" : "off"}
         onClick={(event) => {
           onClick?.(event);
+          // A consumer cancelling the event, typically to stop a `type="submit"`
+          // button submitting, means the interaction did not happen, so the state
+          // must not flip either.
+          if (event.defaultPrevented) return;
           setPressed(!pressed);
         }}
         className={cn(

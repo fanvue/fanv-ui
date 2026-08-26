@@ -77,6 +77,36 @@ describe("SwitchButton", () => {
       expect(onClick).toHaveBeenCalledTimes(1);
     });
 
+    it("does not flip when a consumer cancels the click", async () => {
+      const user = userEvent.setup();
+      const onPressedChange = vi.fn();
+      render(
+        <SwitchButton
+          label="Filter"
+          onPressedChange={onPressedChange}
+          onClick={(event) => event.preventDefault()}
+        />,
+      );
+      const button = screen.getByRole("button");
+      await user.click(button);
+      expect(button).toHaveAttribute("aria-pressed", "false");
+      expect(onPressedChange).not.toHaveBeenCalled();
+    });
+
+    it("does not submit a form when the click is cancelled", async () => {
+      const user = userEvent.setup();
+      const onSubmit = vi.fn((event: React.FormEvent) => event.preventDefault());
+      render(
+        <form onSubmit={onSubmit}>
+          <SwitchButton label="Filter" type="submit" onClick={(event) => event.preventDefault()} />
+        </form>,
+      );
+      const button = screen.getByRole("button");
+      await user.click(button);
+      expect(onSubmit).not.toHaveBeenCalled();
+      expect(button).toHaveAttribute("aria-pressed", "false");
+    });
+
     it("forwards ref", () => {
       const ref = React.createRef<HTMLButtonElement>();
       render(<SwitchButton label="Filter" ref={ref} />);
