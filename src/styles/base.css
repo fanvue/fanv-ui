@@ -160,6 +160,48 @@
  * box-shadows on the button so they can be masked and brightened independently
  * of the border, which is what gives the control its "powered on" feel.
  */
+/*
+ * AI treatment for a single segment of a `brand` SegmentedControl — the Agent
+ * side of the Manage/Agent navigation switch.
+ *
+ * Draws the `Buttons/AI/Stroke-Start` -> `Stroke-End` gradient stroke as a masked
+ * 1px ring on `::before`. A real `border` would reflow the segment, and Tailwind's
+ * `ring-*` utilities cannot hold a gradient. `z-index: -1` against
+ * `isolation: isolate` keeps the ring above the segment's own fill and below its
+ * icon and label. Both stops are tokens, so light and dark follow the theme
+ * without a second rule.
+ *
+ * The fill is left to a `bg-*` utility on the element so it stays visible to
+ * tailwind-merge and can be overridden per consumer.
+ */
+@utility fv-ai-stroke {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      250.3deg,
+      var(--color-buttons-ai-stroke-start) -9%,
+      var(--color-buttons-ai-stroke-end) 110%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+}
+
 @utility fv-ai-button {
   position: relative;
 

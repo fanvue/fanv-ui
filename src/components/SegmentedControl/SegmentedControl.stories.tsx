@@ -110,12 +110,12 @@ export const IconOnly: Story = {
 
 const brandOptions = [
   { label: "Home", value: "home", icon: <HomeIcon size={16} aria-hidden="true" /> },
-  { label: "Agent", value: "agent", icon: <AIIcon size={16} aria-hidden="true" /> },
+  { label: "Agent", value: "agent", icon: <AIIcon size={16} aria-hidden="true" />, ai: true },
 ];
 
 /**
- * Icon + visible label with the brand-green selected pill — the Home/Agent navigation switch.
- * Colours are approximated with existing tokens pending dedicated navigation tokens.
+ * Icon + visible label — the Home/Agent navigation switch. The Agent segment is marked `ai`, so
+ * selecting it shows the AI fill and gradient stroke while Home takes the neutral selected pill.
  */
 export const Brand: Story = {
   args: {

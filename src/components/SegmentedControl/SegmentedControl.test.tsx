@@ -31,7 +31,7 @@ const threeIconOptions = [
 
 const brandOptions = [
   { label: "Home", value: "home", icon: <ListViewIcon size={16} aria-hidden="true" /> },
-  { label: "Agent", value: "agent", icon: <GridViewIcon size={16} aria-hidden="true" /> },
+  { label: "Agent", value: "agent", icon: <GridViewIcon size={16} aria-hidden="true" />, ai: true },
 ];
 
 describe("SegmentedControl", () => {
@@ -245,7 +245,7 @@ describe("SegmentedControl", () => {
       expect(screen.getByRole("radio", { name: "Home" })).not.toHaveAttribute("aria-label");
     });
 
-    it("applies the brand-green pill to the selected segment", () => {
+    it("applies the AI treatment to the selected segment marked `ai`", () => {
       render(
         <SegmentedControl
           appearance="brand"
@@ -254,7 +254,37 @@ describe("SegmentedControl", () => {
           aria-label="Mode"
         />,
       );
-      expect(screen.getByRole("radio", { name: "Agent" })).toHaveClass("bg-brand-primary-muted");
+      const agent = screen.getByRole("radio", { name: "Agent" });
+      expect(agent).toHaveClass("fv-ai-stroke");
+      expect(agent).toHaveClass("bg-buttons-ai-default");
+    });
+
+    it("gives a selected segment without `ai` the neutral pill and no AI stroke", () => {
+      render(
+        <SegmentedControl
+          appearance="brand"
+          options={brandOptions}
+          defaultValue="home"
+          aria-label="Mode"
+        />,
+      );
+      const home = screen.getByRole("radio", { name: "Home" });
+      expect(home).toHaveClass("bg-buttons-primary-default");
+      expect(home).not.toHaveClass("fv-ai-stroke");
+    });
+
+    it("does not apply the AI treatment to the AI segment while it is unselected", () => {
+      render(
+        <SegmentedControl
+          appearance="brand"
+          options={brandOptions}
+          defaultValue="home"
+          aria-label="Mode"
+        />,
+      );
+      // The treatment is the selected-and-`ai` case only, so an unselected AI
+      // segment stays plain text like any other.
+      expect(screen.getByRole("radio", { name: "Agent" })).not.toHaveClass("fv-ai-stroke");
     });
 
     it("keeps the pill container background", () => {

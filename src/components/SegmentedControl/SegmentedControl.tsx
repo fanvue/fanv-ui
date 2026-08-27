@@ -16,9 +16,10 @@ export type SegmentedControlVariant = "hug" | "fill";
  * - `"pill"`: the container has a muted background and the selected segment shows a filled pill (default).
  * - `"plain"`: no container or selected-pill background; segments are bare content and selection is
  *   communicated by color alone. Designed for icon-only toggles (e.g. a list/grid view switch).
- * - `"brand"`: like `"pill"`, but segments render their `icon` alongside the visible `label` and the
- *   selected segment uses the brand-green pill. Designed for prominent toggles such as the
- *   Home/Agent navigation switch.
+ * - `"brand"`: like `"pill"`, but segments render their `icon` alongside the visible `label`.
+ *   A selected segment takes the neutral selected pill, except the one marked `ai`, which takes the
+ *   AI fill and gradient stroke. Designed for prominent toggles such as the Home/Agent navigation
+ *   switch.
  */
 export type SegmentedControlAppearance = "pill" | "plain" | "brand";
 
@@ -41,6 +42,16 @@ export interface SegmentedControlOption {
    * otherwise shows the selected option's icon alone.
    */
   icon?: React.ReactNode;
+  /**
+   * Marks this segment as the AI one, so that when it is selected it takes the AI treatment — the
+   * translucent `Buttons/AI/Default` fill and the `Buttons/AI` gradient stroke — instead of the
+   * neutral selected pill every other segment gets.
+   *
+   * Set it on the Agent side of a Manage/Agent switch. Without it the AI treatment would follow
+   * whichever segment happened to be selected, putting a brand stroke on segments that should not
+   * carry one. Only meaningful in the `brand` appearance. @default false
+   */
+  ai?: boolean;
 }
 
 export interface SegmentedControlProps
@@ -135,12 +146,14 @@ function getSegmentClassName({
   size,
   variant,
   isSelected,
+  isAiSegment,
   disabled,
 }: {
   appearance: SegmentedControlAppearance;
   size: SegmentedControlSize;
   variant: SegmentedControlVariant;
   isSelected: boolean;
+  isAiSegment: boolean;
   disabled: boolean;
 }) {
   return cn(
@@ -160,11 +173,15 @@ function getSegmentClassName({
           // brand renders icon + label together, so space them.
           appearance === "brand" && "gap-1.5",
           isSelected
-            ? appearance === "brand"
-              ? // Approximate brand-green pill using existing tokens; exact colours pending
-                // dedicated navigation tokens (see ENG follow-up).
-                "bg-brand-primary-muted text-content-always-black shadow-sm ring-1 ring-brand-primary-default"
-              : "bg-buttons-primary-default text-content-primary-inverted shadow-sm"
+            ? appearance === "brand" && isAiSegment
+              ? // The AI segment: translucent AI fill plus the AI gradient stroke. Scoped to the
+                // segment marked `ai` rather than to whatever is selected, so a brand stroke never
+                // lands on a segment that should read as plain.
+                "fv-ai-stroke bg-buttons-ai-default text-content-primary"
+              : // Every other selected segment, `brand` included, takes the neutral pill. Its
+                // tokens invert with the theme, so this is a white pill on dark and a black one on
+                // light.
+                "bg-buttons-primary-default text-content-primary-inverted shadow-sm"
             : "text-content-primary hover:bg-buttons-switch-hover",
         ),
     disabled && "pointer-events-none",
@@ -297,13 +314,13 @@ function useAutoCollapse(
  * />
  * ```
  *
- * @example Icon + label with the brand-green pill (e.g. the Home/Agent nav switch)
+ * @example Icon + label, with the AI treatment on the Agent segment (the Home/Agent nav switch)
  * ```tsx
  * <SegmentedControl
  *   appearance="brand"
  *   options={[
  *     { label: "Home", value: "home", icon: <HomeIcon size={16} /> },
- *     { label: "Agent", value: "agent", icon: <AIIcon size={16} /> },
+ *     { label: "Agent", value: "agent", icon: <AIIcon size={16} />, ai: true },
  *   ]}
  *   value={mode}
  *   onChange={setMode}
@@ -334,7 +351,7 @@ function useAutoCollapse(
  *   collapsedIcon={<RepeatIcon size={16} />}
  *   options={[
  *     { label: "Home", value: "home", icon: <HomeIcon size={16} /> },
- *     { label: "Agent", value: "agent", icon: <AIIcon size={16} filled /> },
+ *     { label: "Agent", value: "agent", icon: <AIIcon size={16} filled />, ai: true },
  *   ]}
  *   value={mode}
  *   onChange={setMode}
@@ -433,7 +450,14 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
           aria-label={showLabelText ? undefined : option.label}
           onClick={() => handleSelect(option.value)}
           onKeyDown={(e) => handleKeyDown(e, index)}
-          className={getSegmentClassName({ appearance, size, variant, isSelected, disabled })}
+          className={getSegmentClassName({
+            appearance,
+            size,
+            variant,
+            isSelected,
+            isAiSegment: option.ai === true,
+            disabled,
+          })}
         >
           {option.icon && (
             <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
@@ -463,6 +487,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
             size,
             variant: "hug",
             isSelected: currentValue === option.value,
+            isAiSegment: option.ai === true,
             disabled,
           })}
         >
