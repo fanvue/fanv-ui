@@ -110,18 +110,38 @@ export const IconOnly: Story = {
 
 const brandOptions = [
   { label: "Home", value: "home", icon: <HomeIcon size={16} aria-hidden="true" /> },
-  { label: "Agent", value: "agent", icon: <AIIcon size={16} aria-hidden="true" /> },
+  { label: "Agent", value: "agent", icon: <AIIcon size={16} aria-hidden="true" />, ai: true },
 ];
 
 /**
- * Icon + visible label with the brand-green selected pill — the Home/Agent navigation switch.
- * Colours are approximated with existing tokens pending dedicated navigation tokens.
+ * Icon + visible label — the Home/Agent navigation switch. The Agent segment is marked `ai`, so
+ * selecting it shows the AI fill and gradient stroke while Home takes the neutral selected pill.
  */
 export const Brand: Story = {
   args: {
     appearance: "brand",
     options: brandOptions,
     defaultValue: "agent",
+    "aria-label": "Navigation mode",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/fDlJj7bf7KXQlibPoujgaC/Creator---AI-Features?node-id=6470-48376",
+    },
+  },
+};
+
+/**
+ * The same control with the plain segment selected. Only the segment marked `ai` takes the AI
+ * treatment, so selecting Home gives the neutral pill every other appearance uses — the case that
+ * keeps a brand stroke off segments meant to read as plain.
+ */
+export const BrandNeutralSelected: Story = {
+  args: {
+    appearance: "brand",
+    options: brandOptions,
+    defaultValue: "home",
     "aria-label": "Navigation mode",
   },
   parameters: {
