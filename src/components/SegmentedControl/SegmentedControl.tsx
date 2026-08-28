@@ -49,7 +49,9 @@ export interface SegmentedControlOption {
    *
    * Set it on the Agent side of a Manage/Agent switch. Without it the AI treatment would follow
    * whichever segment happened to be selected, putting a brand stroke on segments that should not
-   * carry one. Only meaningful in the `brand` appearance. @default false
+   * carry one. Only meaningful in the `brand` appearance, and only while the control is expanded —
+   * collapsed, the toggle stays the neutral switch affordance whichever option is selected.
+   * @default false
    */
   ai?: boolean;
 }

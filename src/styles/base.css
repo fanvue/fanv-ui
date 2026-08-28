@@ -156,11 +156,6 @@
 }
 
 /*
- * AiButton surface. The lit rim and the sheen are pseudo-elements rather than
- * box-shadows on the button so they can be masked and brightened independently
- * of the border, which is what gives the control its "powered on" feel.
- */
-/*
  * AI treatment for a single segment of a `brand` SegmentedControl — the Agent
  * side of the Manage/Agent navigation switch.
  *
@@ -202,6 +197,11 @@
   }
 }
 
+/*
+ * AiButton surface. The lit rim and the sheen are pseudo-elements rather than
+ * box-shadows on the button so they can be masked and brightened independently
+ * of the border, which is what gives the control its "powered on" feel.
+ */
 @utility fv-ai-button {
   position: relative;
 

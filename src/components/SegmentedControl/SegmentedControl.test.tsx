@@ -259,7 +259,7 @@ describe("SegmentedControl", () => {
       expect(agent).toHaveClass("bg-buttons-ai-default");
     });
 
-    it("gives a selected segment without `ai` the neutral pill and no AI stroke", () => {
+    it("gives a selected segment without `ai` the neutral pill and leaves the AI segment plain", () => {
       render(
         <SegmentedControl
           appearance="brand"
@@ -271,20 +271,11 @@ describe("SegmentedControl", () => {
       const home = screen.getByRole("radio", { name: "Home" });
       expect(home).toHaveClass("bg-buttons-primary-default");
       expect(home).not.toHaveClass("fv-ai-stroke");
-    });
-
-    it("does not apply the AI treatment to the AI segment while it is unselected", () => {
-      render(
-        <SegmentedControl
-          appearance="brand"
-          options={brandOptions}
-          defaultValue="home"
-          aria-label="Mode"
-        />,
-      );
       // The treatment is the selected-and-`ai` case only, so an unselected AI
       // segment stays plain text like any other.
-      expect(screen.getByRole("radio", { name: "Agent" })).not.toHaveClass("fv-ai-stroke");
+      const agent = screen.getByRole("radio", { name: "Agent" });
+      expect(agent).not.toHaveClass("fv-ai-stroke");
+      expect(agent).not.toHaveClass("bg-buttons-ai-default");
     });
 
     it("keeps the pill container background", () => {

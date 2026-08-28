@@ -133,6 +133,26 @@ export const Brand: Story = {
 };
 
 /**
+ * The same control with the plain segment selected. Only the segment marked `ai` takes the AI
+ * treatment, so selecting Home gives the neutral pill every other appearance uses — the case that
+ * keeps a brand stroke off segments meant to read as plain.
+ */
+export const BrandNeutralSelected: Story = {
+  args: {
+    appearance: "brand",
+    options: brandOptions,
+    defaultValue: "home",
+    "aria-label": "Navigation mode",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/fDlJj7bf7KXQlibPoujgaC/Creator---AI-Features?node-id=6470-48376",
+    },
+  },
+};
+
+/**
  * With `collapsible`, an icon-bearing control (`plain` or `brand`) collapses to a single icon
  * toggle when its container is too narrow to show every segment, and expands again when the
  * space returns. Collapsed, it shows the selected option's icon; clicking it (or pressing
