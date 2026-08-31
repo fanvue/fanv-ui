@@ -8,6 +8,11 @@ dist-ssr
 dist-showcase
 *.local
 
+# Generated docs output (pnpm docs:generate); hand-written inputs stay tracked
+docs/mintlify/components
+docs/mintlify/snippets
+docs/mintlify/nav.json
+
 # Test coverage
 coverage
 

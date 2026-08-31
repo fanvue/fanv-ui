@@ -1,0 +1,187 @@
+---
+title: "Install @fanvue/ui"
+sidebarTitle: "Installation"
+description: "Add @fanvue/ui to a React app: install the package and its peer dependencies, import the token stylesheet, load Inter, and render your first component."
+keywords: ["install @fanvue/ui", "peer dependencies", "react 19", "tailwindcss v4", "styles/theme.css", "npm install"]
+---
+
+Installing `@fanvue/ui` takes four steps: the package, its peer dependencies, the CSS entry point, and the Inter typeface. This page covers all four and ends with a working component.
+
+## Requirements
+
+| Requirement | Version | Why |
+| --- | --- | --- |
+| React | `^18.0.0 \|\| ^19.0.0` | Components are React function components with `forwardRef`. |
+| React DOM | `^18.0.0 \|\| ^19.0.0` | Overlays (`Dialog`, `Drawer`, `Select`, `Tooltip`) render through portals. |
+| Tailwind CSS | `^4.0.0` | The library ships class names, not compiled CSS. Your Tailwind build produces the styles. See [Tailwind setup](/ui/tailwind-setup). |
+| `@radix-ui/react-slot` | `^1.2.0` | Powers the `asChild` prop, and `Slot` / `Slottable` are re-exported from the package root. |
+
+<Warning>
+  ##### Tailwind CSS v4 is required, not optional
+
+  `@fanvue/ui` publishes no compiled stylesheet. Components render Tailwind utility classes and a token stylesheet written in Tailwind v4 syntax (`@theme`, `@utility`, `@variant`). Without Tailwind v4 compiling your CSS, every component renders unstyled. If your app is on Tailwind v3, upgrade to v4 before installing. See [Tailwind setup](/ui/tailwind-setup).
+</Warning>
+
+## Install
+
+<Steps>
+  <Step title="Install the package">
+    <CodeGroup>
+
+    ```bash pnpm
+    pnpm add @fanvue/ui
+    ```
+
+    ```bash npm
+    npm install @fanvue/ui
+    ```
+
+    ```bash yarn
+    yarn add @fanvue/ui
+    ```
+
+    </CodeGroup>
+  </Step>
+
+  <Step title="Install the required peer dependencies">
+    <CodeGroup>
+
+    ```bash pnpm
+    pnpm add react react-dom tailwindcss @radix-ui/react-slot
+    ```
+
+    ```bash npm
+    npm install react react-dom tailwindcss @radix-ui/react-slot
+    ```
+
+    ```bash yarn
+    yarn add react react-dom tailwindcss @radix-ui/react-slot
+    ```
+
+    </CodeGroup>
+
+    npm and yarn install missing peer dependencies automatically; pnpm does not, so install them explicitly.
+  </Step>
+
+  <Step title="Set up your CSS entry point">
+    Install the animation utilities the overlays need, then write four lines into your CSS entry point, in this order:
+
+    ```bash
+    pnpm add tw-animate-css
+    ```
+
+    ```css app.css
+    @import "tailwindcss";
+    @import "tw-animate-css";
+    @source "../node_modules/@fanvue/ui";
+    @import "@fanvue/ui/styles/theme.css";
+    ```
+
+    `@fanvue/ui/styles/theme.css` defines every design token and the typography utilities, and pulls in `base.css` itself.
+
+    The `@source` line tells Tailwind to scan the package for the class names the components use, which it skips by default because the package lives in `node_modules`. Adjust the relative path so it resolves from your CSS file to your `node_modules` directory.
+
+    `tw-animate-css` supplies the `animate-in` / `animate-out` utilities that `Dialog`, `Drawer`, `Select`, `DropdownMenu`, `Autocomplete`, and `Toast` apply on open and close. Tailwind v4 core does not ship them and neither does `@fanvue/ui`, so without a package that provides them those overlays appear and disappear with no motion. Any package supplying the same utility names works.
+
+    Every line is explained in [Tailwind setup](/ui/tailwind-setup).
+
+    <Note>
+      ##### You do not need to declare the cascade layer order
+
+      `@import "tailwindcss"` opens with `@layer theme, base, components, utilities;`, so the order is already registered by the time `theme.css` is read. Repeating that line in your own entry point changes nothing.
+    </Note>
+  </Step>
+
+  <Step title="Load Inter">
+    The typography utilities declare `font-family: Inter`. Load the typeface from Google Fonts:
+
+    ```html index.html
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    ```
+
+    Or self-host it:
+
+    ```bash
+    pnpm add @fontsource-variable/inter
+    ```
+
+    <Note>
+      ##### Self-hosting registers a different family name
+
+      `@fontsource-variable/inter` registers the family as `Inter Variable`, and the library's typography utilities ask for `Inter`. Re-declare the same font files under the name `Inter` with an `@font-face` rule, or the browser falls back to a system sans-serif.
+    </Note>
+  </Step>
+</Steps>
+
+## Optional peer dependencies
+
+Three features depend on packages that are declared optional in the library's `peerDependenciesMeta`. Your package manager will not install them, and nothing warns you until you import the subpath that needs one. Install a package only when you use the feature it powers.
+
+| Feature | Package | Version | Needed when you import |
+| --- | --- | --- | --- |
+| Charts | `recharts` | `^3.0.0` | `@fanvue/ui/charts` |
+| Date picker | `react-day-picker` | `^9.0.0` | `@fanvue/ui/date-picker` |
+| Animated icons | `motion` | `^12.0.0 \|\| ^13.0.0` | `@fanvue/ui/animated-icons` |
+
+```bash
+# only if you render charts
+pnpm add recharts
+
+# only if you render a date picker
+pnpm add react-day-picker
+
+# only if you use animated icons
+pnpm add motion
+```
+
+The package root never imports any of the three. See [Subpath exports](/ui/subpath-exports) for what each entry point contains.
+
+## Your first component
+
+```tsx App.tsx
+import { Button } from "@fanvue/ui";
+
+export function App() {
+  return (
+    <Button variant="primary" size="40">
+      Click me
+    </Button>
+  );
+}
+```
+
+If the button renders with no styling, Tailwind is not picking up the library's class names. Check the `@source` line from step 3 against [Tailwind setup](/ui/tailwind-setup).
+
+## TypeScript
+
+Types ship with the package as `dist/index.d.ts`, bundled per entry point, so no `@types/fanvue__ui` package exists or is needed. Every component exports its props type and its variant and size unions alongside it:
+
+```tsx
+import { Button, type ButtonProps, type ButtonVariant } from "@fanvue/ui";
+
+const variants: ButtonVariant[] = ["primary", "secondary", "tertiary"];
+
+function SubmitButton(props: ButtonProps) {
+  return <Button type="submit" {...props} />;
+}
+```
+
+Both ESM and CommonJS builds are published, and the `exports` map points each at the same type declarations, so `import` and `require` resolve identically.
+
+## React Server Components
+
+Every built module carries a `"use client"` banner, so importing a component into a React Server Components tree (the Next.js App Router, for example) marks it as a client component without any wrapper file of your own. Server components can import from `@fanvue/ui` directly.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Tailwind setup" icon="wind" href="/ui/tailwind-setup">
+    Class detection, the `@source` line, and the animation utilities overlays need.
+  </Card>
+
+  <Card title="Theming" icon="palette" href="/ui/theming">
+    Turn on dark mode and override tokens to match your brand.
+  </Card>
+</CardGroup>

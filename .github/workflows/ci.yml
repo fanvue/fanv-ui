@@ -40,6 +40,30 @@ jobs:
       - name: Type check
         run: pnpm typecheck
 
+  docs:
+    name: Docs Generate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Output is untracked; this proves the generator still runs clean
+      # against the PR's props, stories and exports.
+      - name: Generate docs
+        run: pnpm docs:generate
+
   test:
     name: Unit & Storybook Tests
     runs-on: ubuntu-latest
@@ -92,6 +116,9 @@ jobs:
 
       - name: Build library
         run: pnpm build
+
+      - name: Check pack contents
+        run: node scripts/check-pack-contents.mjs
 
       - name: Check bundle size
         run: pnpm size-limit

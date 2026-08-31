@@ -1,0 +1,204 @@
+---
+title: "Subpath exports"
+sidebarTitle: "Subpath exports"
+description: "@fanvue/ui publishes five JavaScript entry points plus a styles subpath. What each one contains, which optional peer dependency it needs, and how to import from it."
+keywords: ["subpath exports", "tree shaking", "bundle size", "@fanvue/ui/charts", "@fanvue/ui/animated-icons", "optional peer dependencies"]
+---
+
+`@fanvue/ui` publishes five JavaScript entry points and one styles subpath. Most code imports from the root; the other four exist so that a feature nobody uses costs nothing, either in bundle bytes or in a peer dependency you have to install.
+
+## The entry points
+
+| Import path | Contains | Optional peer required |
+| --- | --- | --- |
+| `@fanvue/ui` | The component library: buttons, inputs, overlays, layout, avatars, chat, tables, [172 static icons](/ui/components/icons), plus the `cn` helper and a re-export of `Slot` / `Slottable`. | None |
+| `@fanvue/ui/charts` | Chart primitives that wrap Recharts. | `recharts@^3` |
+| `@fanvue/ui/date-picker` | `DatePicker` and its types. | `react-day-picker@^9` |
+| `@fanvue/ui/flags` | [`CountryFlag`](/ui/components/country-flag), plus the `CountryFlagCode` and `CountryFlagSize` types. | None |
+| `@fanvue/ui/animated-icons` | [69 animated twins](/ui/components/animated-icons) of static icons. | `motion@^12 \|\| ^13` |
+| `@fanvue/ui/styles/*` | The token stylesheets: `theme.css` and `base.css`. | None |
+
+Each JavaScript entry point resolves to both an ESM and a CommonJS build with the same type declarations, so `import` and `require` behave identically.
+
+<Note>
+  ##### Nothing is duplicated across entry points
+
+  `Chart*`, `DatePicker`, and `CountryFlag` are exported only from their own subpath, never from the root. If an import of `DatePicker` from `@fanvue/ui` fails to resolve, the fix is the import path, not the version.
+</Note>
+
+## Why the split
+
+Three reasons, and each subpath exists for at least one of them.
+
+**Optional peer dependencies.** `recharts`, `react-day-picker`, and `motion` are declared optional in `peerDependenciesMeta`. Keeping the code that imports them off the root means installing `@fanvue/ui` never pulls them in and never warns about them. A root export would make every consumer either install all three or live with unresolved imports.
+
+**Payload.** The flag artwork is a generated table of SVG shapes for 265 country codes, around 167 KB of source before minification, which is larger than a typical app's entire component payload. It stays behind its own import so only apps that render flags pay for it.
+
+**Size budgets in CI.** Two entry points are size-checked on every pull request with `size-limit`: `dist/index.mjs` has a 220 KB budget and `dist/animated-icons.mjs` has a 15 KB budget. Each is measured with its heavy dependencies excluded from the count: Radix, `clsx`, `tailwind-merge`, `react-day-picker`, and `recharts` for the root, and `clsx`, `tailwind-merge`, and `motion` for the animated icons. A change that pushes either past its budget fails the build.
+
+Tree-shaking backs all of this up. The library uses explicit named exports only, never `export *`, and declares `sideEffects` as CSS files alone, so a modern bundler drops everything you did not import.
+
+## `@fanvue/ui`
+
+The default import for almost everything.
+
+```tsx
+import { Alert, Button, Dialog, TextField, cn } from "@fanvue/ui";
+```
+
+### Slot and Slottable
+
+`Slot` and `Slottable` are re-exported from `@radix-ui/react-slot` at the root, so composition helpers come from one package rather than two, and your app and the library share a single copy of the primitive.
+
+```tsx
+import { Button, Slot } from "@fanvue/ui";
+```
+
+Components that accept `asChild` merge their props and class names onto the child element instead of rendering their own. That is how a button becomes a link without losing its styling:
+
+```tsx
+<Button asChild variant="primary">
+  <a href="/insights">View insights</a>
+</Button>
+```
+
+`Slot` is exported for the same pattern in your own components. See [Button](/ui/components/button) for the props it accepts.
+
+## `@fanvue/ui/charts`
+
+Composable chart parts that theme Recharts with Fanvue's tokens. You render the Recharts chart yourself and wrap it in `ChartContainer`, which provides responsive sizing and the series configuration that tooltips and legends read.
+
+```bash
+pnpm add recharts
+```
+
+```tsx Revenue.tsx
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@fanvue/ui/charts";
+import { Area, AreaChart, XAxis } from "recharts";
+
+const config: ChartConfig = {
+  revenue: {
+    label: "Revenue",
+    color: "var(--color-special-chart-teal)",
+  },
+};
+
+export function Revenue({ data }: { data: { month: string; revenue: number }[] }) {
+  return (
+    <ChartContainer config={config}>
+      <AreaChart data={data}>
+        <XAxis dataKey="month" />
+        <Area dataKey="revenue" fill="var(--color-revenue)" stroke="var(--color-revenue)" />
+        <ChartTooltip content={<ChartTooltipContent />} />
+      </AreaChart>
+    </ChartContainer>
+  );
+}
+```
+
+A `ChartConfig` entry takes either a single `color` or a `theme` map with `light` and `dark` keys, which is how a series can use a different colour per theme:
+
+```tsx
+const config: ChartConfig = {
+  subscribers: {
+    label: "Subscribers",
+    theme: { light: "#2563eb", dark: "#60a5fa" },
+  },
+};
+```
+
+Alongside the container the subpath exports `ChartCard`, `ChartLegend`, `ChartLegendContent`, `ChartPieLegend`, `ChartCenterLabel`, `ChartMetricTrend`, `ChartSeriesToggle`, `ChartSkeleton`, `ChartLoadingOverlay`, `ChartStyle`, and the `useChart` hook.
+
+## `@fanvue/ui/date-picker`
+
+`DatePicker` wraps [react-day-picker](https://daypicker.dev/) and accepts its props, so single dates, ranges, and multiple selection all work through the underlying API.
+
+```bash
+pnpm add react-day-picker
+```
+
+```tsx
+import { DatePicker, type DateRange } from "@fanvue/ui/date-picker";
+
+const [range, setRange] = useState<DateRange | undefined>();
+
+<DatePicker mode="range" selected={range} onSelect={setRange} />;
+```
+
+## `@fanvue/ui/flags`
+
+`CountryFlag` renders a circular flag from a country code, drawn as inline SVG with no network request.
+
+```tsx
+import { CountryFlag } from "@fanvue/ui/flags";
+
+<CountryFlag country="GB" size={24} label="United Kingdom" />;
+```
+
+The `country` prop is a case-insensitive string, `size` is one of `16 | 20 | 24 | 32` and defaults to `20`, and `label` sets the accessible name. Leave `label` unset when the country's name is already next to the flag: the SVG is then hidden from assistive technology rather than read out twice.
+
+Codes are mostly ISO 3166-1 alpha-2, plus the extras the artwork source ships (`eu`, `un`, `xk`, and others), 265 in all. `CountryFlagCode` is the exhaustive union of the codes artwork exists for, and it is exported so you can narrow your own data against it. It is deliberately not the type of the `country` prop: a code with no artwork renders the source's grey `xx` placeholder disc instead, so a live feed of country codes can be passed straight through without a runtime guard.
+
+The full set is on the [CountryFlag page](/ui/components/country-flag).
+
+## `@fanvue/ui/animated-icons`
+
+Animated twins of the static icons. Every export here matches a static icon of the same name and renders in exactly the same box, so switching is a one-line import change and nothing in your layout moves.
+
+```bash
+pnpm add motion
+```
+
+```tsx
+import { HeartIcon } from "@fanvue/ui";                // static
+import { HeartIcon } from "@fanvue/ui/animated-icons";  // animates on hover
+
+<HeartIcon size={24} />;
+```
+
+Four things to know before you use them:
+
+- **Not every icon has a twin.** 69 of the static icons are mapped. A missing export means no equivalent was accepted, not a bug. `SpinnerIcon` is deliberately absent, because a loading indicator must not wait for a hover; use the static one with `animate-spin`, or `Loader`.
+- **Reduced motion is respected.** Nothing animates under `prefers-reduced-motion: reduce`, including animations you start yourself through `controlRef`.
+- **Drive the animation from a parent for icons inside buttons.** Passing `controlRef` turns the built-in hover trigger off and hands you `startAnimation` and `stopAnimation`. Wire focus as well as hover: the `<svg>` is not focusable, so a keyboard user reaching the button gets nothing from hover alone.
+- **The artwork is stroke-only.** These icons take no `filled` prop, and passing one is a type error rather than a silent no-op.
+
+```tsx
+import { useRef } from "react";
+import { HeartIcon, type AnimatedIconHandle } from "@fanvue/ui/animated-icons";
+
+const icon = useRef<AnimatedIconHandle>(null);
+
+<button
+  onMouseEnter={() => icon.current?.startAnimation()}
+  onMouseLeave={() => icon.current?.stopAnimation()}
+  onFocus={() => icon.current?.startAnimation()}
+  onBlur={() => icon.current?.stopAnimation()}
+>
+  <HeartIcon controlRef={icon} /> Favourite
+</button>;
+```
+
+The [Animated icons page](/ui/components/animated-icons) lists all 69, and the [Icons page](/ui/components/icons) lists the 172 static ones they are drawn from.
+
+## `@fanvue/ui/styles/*`
+
+A wildcard subpath serving the token stylesheets from `dist/styles/`. Apps import one file:
+
+```css app.css
+@import "@fanvue/ui/styles/theme.css";
+```
+
+`theme.css` imports `base.css` itself, so importing `base.css` separately is unnecessary. Both are Tailwind v4 source files rather than compiled CSS. See [Tailwind setup](/ui/tailwind-setup) for the full entry point and [Theming](/ui/theming) for what the tokens contain.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/ui/installation">
+    Optional peer dependencies and which feature each one unlocks.
+  </Card>
+
+  <Card title="Theming" icon="palette" href="/ui/theming">
+    The tokens charts and components both read from.
+  </Card>
+</CardGroup>
