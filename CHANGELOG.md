@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.30.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.29.0...ui-v3.30.0) (2026-08-31)
+
+
+### Features
+
+* realign design tokens with Figma source ([#674](https://github.com/fanvue/fanv-ui/issues/674)) ([b94ea49](https://github.com/fanvue/fanv-ui/commit/b94ea4904dbfd4333bb117a4ceadc1ccef513bea))
+
+
+### Bug Fixes
+
+* **segmented-control:** add AI treatment to brand segments ([#680](https://github.com/fanvue/fanv-ui/issues/680)) ([41eecff](https://github.com/fanvue/fanv-ui/commit/41eecff267efad0b53af99a10174343bda7284e7))
+
 ## [3.29.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.28.0...ui-v3.29.0) (2026-08-21)
 
 
