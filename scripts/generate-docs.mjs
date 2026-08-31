@@ -3,25 +3,21 @@
 /**
  * Regenerates the Mintlify documentation for `@fanvue/ui` under docs/mintlify/.
  *
- * The docs site lives in another repository and syncs this directory verbatim,
- * so everything here has to be derivable from this tree alone. CI regenerates
- * and diffs the result, which makes determinism a hard requirement: no
- * timestamps, no wall-clock, every list sorted, and — deliberately — no package
- * version anywhere in the output, since release-please bumps the version in a
- * pull request nobody can regenerate on.
+ * The docs site lives in another repository; its sync job checks out a release
+ * tag of this repo, runs this generator, and vendors docs/mintlify/ verbatim,
+ * so everything here has to be derivable from this tree alone. Output is
+ * deterministic: no timestamps, no wall-clock, every list sorted, and —
+ * deliberately — no package version anywhere.
  *
- * What is generated, and what is not:
+ * `components/`, `snippets/` and `nav.json` are generated output: untracked in
+ * git and overwritten on every run. Hand-edited inputs, tracked in git:
  *
- * - `snippets/<name>-props.mdx` and `snippets/<name>-examples.mdx` are fully
- *   generated and overwritten on every run.
- * - `components/<name>.mdx` wrappers are scaffolded **once** and then belong to
- *   whoever writes the prose. An existing wrapper is never touched.
- * - The three gallery pages (icons, animated icons, country flags) are indexes
- *   of hundreds of names with nothing to hand-write around them, so they are
- *   generated whole.
- * - `docs.config.json` is a hand-edited input, not an output. A new component
- *   with no category in it fails the run, so that adding a component forces a
- *   decision about where it belongs in the navigation.
+ * - `docs.config.json`. A new component with no category in it fails the run,
+ *   so that adding a component forces a decision about where it belongs in the
+ *   navigation.
+ * - `prose/<name>.mdx`, when present, is hand-written guidance (when to reach
+ *   for the component, accessibility notes, composition patterns) spliced into
+ *   the end of that component's generated page.
  *
  * Usage: `pnpm docs:generate`
  */
@@ -99,7 +95,7 @@ function main() {
   const warnings = [...api.warnings];
   const context = buildContext({ config, readSource, api, pages, docgenByMember, warnings });
 
-  const written = { snippets: 0, wrappers: 0, galleries: 0, skippedWrappers: 0 };
+  const written = { snippets: 0, wrappers: 0, galleries: 0 };
   const gaps = [];
   const descriptionGaps = [];
   const skippedStories = [];
@@ -139,9 +135,8 @@ function main() {
 
     if (page.dir === "CountryFlag") continue;
     const description = pageDescription(page, config, descriptionGaps);
-    emitted.add(`components/${name}.mdx`);
-    if (writeWrapperOnce(page, name, config, description)) written.wrappers += 1;
-    else written.skippedWrappers += 1;
+    emit(`components/${name}.mdx`, renderWrapperPage(page, name, config, description));
+    written.wrappers += 1;
   }
 
   emit("components/icons.mdx", renderIconsPage(context));
@@ -164,10 +159,8 @@ function main() {
  * Deletes generated files this run did not emit.
  *
  * Nothing else does: renaming a component leaves its page and both snippets on
- * disk serving stale content forever, and the CI freshness gate cannot see it
- * because an orphan is neither modified nor untracked. Wrapper pages may hold
- * hand-written prose, so one is only removed when its component has genuinely
- * left the export graph — which is exactly the case this handles.
+ * disk serving stale content forever. Hand-written prose lives in `prose/`,
+ * which is never touched here.
  *
  * @param {Set<string>} emitted
  * @returns {string[]} Repo-relative paths removed.
@@ -273,14 +266,14 @@ function indexStoryFiles() {
 }
 
 /**
- * Scaffolds a component page the first time it is needed and never again — the
- * prose under the generated sections is the point of the file.
+ * Renders a component page: frontmatter, imports, examples and props, plus any
+ * hand-written guidance from `prose/<name>.mdx` spliced in at the end.
  *
- * @returns {boolean} Whether a file was written.
+ * @returns {string} The page content.
  */
-function writeWrapperOnce(page, name, config, description) {
-  const relative = `components/${name}.mdx`;
-  if (fs.existsSync(path.join(DOCS_DIR, relative))) return false;
+function renderWrapperPage(page, name, config, description) {
+  const prosePath = path.join(DOCS_DIR, "prose", `${name}.mdx`);
+  const prose = fs.existsSync(prosePath) ? fs.readFileSync(prosePath, "utf8").trim() : null;
 
   const component = pascalCase(name);
   const peer = PEER_DEPENDENCIES[page.subpath];
@@ -333,14 +326,11 @@ function writeWrapperOnce(page, name, config, description) {
     "",
     `**Setup:** ${footer}`,
     "",
-    `{/* Add hand-written guidance below — when to reach for ${page.dir}, accessibility notes,`,
-    "    composition patterns. Everything above this line is regenerated by",
-    "    scripts/generate-docs.mjs in fanvue/fanv-ui; everything below it is yours. */}",
-    "",
   );
 
-  writeFile(relative, lines.join("\n"));
-  return true;
+  if (prose) lines.push(prose, "");
+
+  return lines.join("\n");
 }
 
 /**
@@ -596,8 +586,8 @@ function writeFile(relative, content) {
  */
 function report(written, pruned, gaps, descriptionGaps, skipped, warnings) {
   console.log(
-    `Wrote ${written.snippets} snippets, ${written.wrappers} new wrapper pages ` +
-      `(${written.skippedWrappers} left alone), ${written.galleries} gallery pages, nav.json and _meta.json.`,
+    `Wrote ${written.snippets} snippets, ${written.wrappers} component pages, ` +
+      `${written.galleries} gallery pages, nav.json and _meta.json.`,
   );
 
   if (pruned.length > 0) {

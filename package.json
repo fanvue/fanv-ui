@@ -85,6 +85,7 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "docs:generate": "node scripts/generate-docs.mjs",
+    "docs:preview": "node scripts/preview-docs.mjs",
     "flags:generate": "node scripts/generate-flags.mjs",
     "format": "biome format --write .",
     "storybook": "storybook dev -p 6006",
