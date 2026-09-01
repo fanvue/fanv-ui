@@ -2,6 +2,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { Slot } from "@radix-ui/react-slot";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
 import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer/Drawer";
@@ -749,6 +750,12 @@ export interface DropdownMenuHeaderProps extends React.HTMLAttributes<HTMLDivEle
   title?: string;
   /** Configuration for the embedded search input when `type="search"`. */
   searchProps?: DropdownMenuHeaderSearchProps;
+  /**
+   * Action elements rendered at the end of the header row, before the close
+   * button — e.g. icon buttons for search/add, or a primary "Done" button that
+   * commits a {@link DropdownMenuReorderGroup} reorder.
+   */
+  actions?: React.ReactNode;
   /** Whether to render the close icon button on the right. @default true */
   showClose?: boolean;
   /** Fires when the close icon button is activated. */
@@ -781,6 +788,7 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
       size = "40",
       title,
       searchProps,
+      actions,
       showClose = true,
       onClose,
       closeLabel = "Close menu",
@@ -839,14 +847,19 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
           ) : (
             <SearchInput {...searchProps} />
           )}
-          {showClose && (
-            <IconButton
-              variant="tertiary"
-              size="32"
-              icon={<CloseIcon />}
-              onClick={handleClose}
-              aria-label={closeLabel}
-            />
+          {(actions != null || showClose) && (
+            <div className="flex shrink-0 items-center gap-1">
+              {actions}
+              {showClose && (
+                <IconButton
+                  variant="tertiary"
+                  size="32"
+                  icon={<CloseIcon />}
+                  onClick={handleClose}
+                  aria-label={closeLabel}
+                />
+              )}
+            </div>
           )}
         </div>
         {/*
@@ -1085,3 +1098,510 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
   );
 });
 DropdownMenuCheckboxItem.displayName = "DropdownMenuCheckboxItem";
+
+// Movement, in CSS px, below which a press-and-release on a reorder row still
+// counts as a click rather than a drag lift.
+const REORDER_LIFT_THRESHOLD_PX = 4;
+
+// Distance from a scrollable menu's top/bottom edge within which a lifted drag
+// auto-scrolls it, and the fastest per-frame scroll step that ramps up as the
+// pointer nears the edge.
+const REORDER_AUTOSCROLL_ZONE_PX = 32;
+const REORDER_AUTOSCROLL_MAX_STEP_PX = 8;
+
+function findScrollableAncestor(element: HTMLElement): HTMLElement | null {
+  let current = element.parentElement;
+  while (current !== null) {
+    const { overflowY } = getComputedStyle(current);
+    if (
+      (overflowY === "auto" || overflowY === "scroll") &&
+      current.scrollHeight > current.clientHeight
+    ) {
+      return current;
+    }
+    current = current.parentElement;
+  }
+  return null;
+}
+
+// The `V2 Menu Item` drag handle glyph (2×3 dot grip). Inlined rather than
+// added to `src/components/Icons` because that directory is generated from
+// Figma exports and hand-written files there are overwritten by icons:sync.
+function DragHandleDots(props: React.SVGAttributes<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" {...props}>
+      <circle cx="5.333" cy="2.667" r="1.333" />
+      <circle cx="5.333" cy="8" r="1.333" />
+      <circle cx="5.333" cy="13.333" r="1.333" />
+      <circle cx="10.667" cy="2.667" r="1.333" />
+      <circle cx="10.667" cy="8" r="1.333" />
+      <circle cx="10.667" cy="13.333" r="1.333" />
+    </svg>
+  );
+}
+
+type ReorderDrag = {
+  value: string;
+  pointerId: number;
+  startX: number;
+  startY: number;
+  offsetX: number;
+  offsetY: number;
+  x: number;
+  y: number;
+  width: number;
+  lifted: boolean;
+  dropIndex: number;
+  zIndex: string;
+};
+
+type ReorderContextValue = {
+  values: string[];
+  drag: ReorderDrag | null;
+  registerItem: (value: string, element: HTMLDivElement | null) => void;
+  startDrag: (value: string, event: React.PointerEvent, element: HTMLDivElement) => void;
+  updateDrag: (event: React.PointerEvent) => void;
+  endDrag: (pointerId: number, commit: boolean) => void;
+  moveItem: (value: string, delta: number) => void;
+};
+
+const ReorderContext = React.createContext<ReorderContextValue | null>(null);
+
+/** Props for the {@link DropdownMenuReorderGroup} component. */
+export interface DropdownMenuReorderGroupProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+  /**
+   * Item values in their current order. Must contain one entry per
+   * {@link DropdownMenuReorderItem} child, in the same order the children are
+   * rendered.
+   */
+  values: string[];
+  /** Fires with the new order after a drop or a keyboard move completes. */
+  onReorder: (values: string[]) => void;
+}
+
+/**
+ * A drag-to-reorder list of {@link DropdownMenuReorderItem} rows within a
+ * dropdown menu — the "Reorganise" mode of `V2 Menu Dropdown`. Rows are
+ * dragged with the pointer (from anywhere on the row with a mouse, from the
+ * drag handle on touch) or moved with ArrowUp/ArrowDown on the focused
+ * handle. Works in both the `"menu"` and `"sheet"` variants.
+ *
+ * Pair with a {@link DropdownMenuHeader} whose `actions` contains a commit
+ * button to exit the reorder mode.
+ *
+ * @example
+ * ```tsx
+ * <DropdownMenuReorderGroup values={folders} onReorder={setFolders} aria-label="Reorder folders">
+ *   {folders.map((folder) => (
+ *     <DropdownMenuReorderItem key={folder} value={folder}>
+ *       {folder}
+ *     </DropdownMenuReorderItem>
+ *   ))}
+ * </DropdownMenuReorderGroup>
+ * ```
+ */
+export const DropdownMenuReorderGroup = React.forwardRef<
+  HTMLDivElement,
+  DropdownMenuReorderGroupProps
+>(({ values, onReorder, className, children, onKeyDown, ...props }, ref) => {
+  const variant = React.useContext(DropdownMenuVariantContext);
+  const groupRef = React.useRef<HTMLDivElement | null>(null);
+  const itemsRef = React.useRef(new Map<string, HTMLDivElement>());
+  const midpointsRef = React.useRef<number[]>([]);
+  const edgesRef = React.useRef<number[]>([]);
+  const dragRef = React.useRef<ReorderDrag | null>(null);
+  const scrollContainerRef = React.useRef<HTMLElement | null>(null);
+  const lastPointerRef = React.useRef<{ x: number; y: number } | null>(null);
+  const [drag, setDrag] = React.useState<ReorderDrag | null>(null);
+  const [announcement, setAnnouncement] = React.useState("");
+
+  const setDragState = React.useCallback((next: ReorderDrag | null) => {
+    dragRef.current = next;
+    setDrag(next);
+  }, []);
+
+  const registerItem = React.useCallback((value: string, element: HTMLDivElement | null) => {
+    if (element === null) {
+      itemsRef.current.delete(value);
+    } else {
+      itemsRef.current.set(value, element);
+    }
+  }, []);
+
+  const applyReorder = React.useCallback(
+    (value: string, from: number, to: number) => {
+      const next = [...values];
+      next.splice(from, 1);
+      next.splice(to, 0, value);
+      onReorder(next);
+      setAnnouncement(`${value} moved to position ${to + 1} of ${next.length}`);
+    },
+    [values, onReorder],
+  );
+
+  // Row geometry is re-measured from live rects on every pointer move and
+  // auto-scroll frame, so the drop target stays correct when the menu scrolls
+  // mid-drag. Midpoints are viewport coordinates; edges are group-relative so
+  // the drop indicator scrolls with the rows.
+  const measure = React.useCallback(() => {
+    const groupElement = groupRef.current;
+    if (groupElement === null) return;
+    const groupTop = groupElement.getBoundingClientRect().top;
+    const rects = values.map((v) => itemsRef.current.get(v)?.getBoundingClientRect() ?? null);
+    midpointsRef.current = rects.map((rect) => (rect ? rect.top + rect.height / 2 : 0));
+    const lastRect = rects[rects.length - 1];
+    edgesRef.current = [
+      ...rects.map((rect) => (rect ? rect.top - groupTop : 0)),
+      lastRect ? lastRect.bottom - groupTop : 0,
+    ];
+  }, [values]);
+
+  const startDrag = React.useCallback(
+    (value: string, event: React.PointerEvent, element: HTMLDivElement) => {
+      if (groupRef.current === null) return;
+      measure();
+      scrollContainerRef.current = findScrollableAncestor(element);
+      lastPointerRef.current = { x: event.clientX, y: event.clientY };
+      const rect = element.getBoundingClientRect();
+      // The ghost is portalled to <body>, outside the menu's stacking context,
+      // so it inherits none of the menu's z-index. Match the surface it lifted
+      // from (the popper sets its own z, and a consumer may have raised it) —
+      // being appended later in the DOM keeps it painted above at equal z.
+      const surface = element.closest<HTMLElement>('[role="menu"],[role="dialog"]');
+      const surfaceZIndex = surface === null ? "" : getComputedStyle(surface).zIndex;
+      setDragState({
+        value,
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        offsetX: event.clientX - rect.left,
+        offsetY: event.clientY - rect.top,
+        x: rect.left,
+        y: rect.top,
+        width: rect.width,
+        lifted: false,
+        dropIndex: values.indexOf(value),
+        zIndex:
+          surfaceZIndex === "" || surfaceZIndex === "auto"
+            ? "var(--fanvue-ui-portal-z-index, 50)"
+            : surfaceZIndex,
+      });
+    },
+    [values, measure, setDragState],
+  );
+
+  const updateDrag = React.useCallback(
+    (event: React.PointerEvent) => {
+      const previous = dragRef.current;
+      if (previous === null || event.pointerId !== previous.pointerId) return;
+      lastPointerRef.current = { x: event.clientX, y: event.clientY };
+      const lifted =
+        previous.lifted ||
+        Math.hypot(event.clientX - previous.startX, event.clientY - previous.startY) >
+          REORDER_LIFT_THRESHOLD_PX;
+      measure();
+      setDragState({
+        ...previous,
+        x: event.clientX - previous.offsetX,
+        y: event.clientY - previous.offsetY,
+        lifted,
+        dropIndex: midpointsRef.current.filter((midpoint) => midpoint < event.clientY).length,
+      });
+    },
+    [measure, setDragState],
+  );
+
+  const endDrag = React.useCallback(
+    (pointerId: number, commit: boolean) => {
+      const previous = dragRef.current;
+      if (previous === null || pointerId !== previous.pointerId) return;
+      setDragState(null);
+      if (!commit || !previous.lifted) return;
+      const from = values.indexOf(previous.value);
+      if (from === -1) return;
+      const to = Math.max(
+        0,
+        Math.min(
+          previous.dropIndex > from ? previous.dropIndex - 1 : previous.dropIndex,
+          values.length - 1,
+        ),
+      );
+      if (to === from) return;
+      applyReorder(previous.value, from, to);
+    },
+    [values, applyReorder, setDragState],
+  );
+
+  const moveItem = React.useCallback(
+    (value: string, delta: number) => {
+      const from = values.indexOf(value);
+      const to = from + delta;
+      if (from === -1 || to < 0 || to >= values.length) return;
+      applyReorder(value, from, to);
+    },
+    [values, applyReorder],
+  );
+
+  const dragging = drag !== null;
+  React.useEffect(() => {
+    if (!dragging) return;
+    const cancelOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || dragRef.current === null) return;
+      // Swallow it entirely so Radix's dismissable layer doesn't also close
+      // the whole menu — Escape mid-drag only cancels the drag.
+      event.preventDefault();
+      event.stopPropagation();
+      setDragState(null);
+    };
+    window.addEventListener("keydown", cancelOnEscape, true);
+    return () => window.removeEventListener("keydown", cancelOnEscape, true);
+  }, [dragging, setDragState]);
+
+  // While lifted: auto-scroll the nearest scrollable ancestor when the pointer
+  // sits near its edge, and refresh the drop target whenever it scrolls at all
+  // (edge auto-scroll or the user wheel-scrolling mid-drag) — the pointer may
+  // not move again, so pointermove alone can't keep the indicator honest.
+  const isLiftedDrag = drag !== null && drag.lifted;
+  React.useEffect(() => {
+    if (!isLiftedDrag) return;
+    const container = scrollContainerRef.current;
+    let lastScrollTop = container?.scrollTop ?? 0;
+    let frame = requestAnimationFrame(function step() {
+      const pointer = lastPointerRef.current;
+      const previous = dragRef.current;
+      if (pointer !== null && previous !== null) {
+        if (container !== null) {
+          const rect = container.getBoundingClientRect();
+          const past =
+            pointer.y < rect.top + REORDER_AUTOSCROLL_ZONE_PX
+              ? pointer.y - (rect.top + REORDER_AUTOSCROLL_ZONE_PX)
+              : pointer.y > rect.bottom - REORDER_AUTOSCROLL_ZONE_PX
+                ? pointer.y - (rect.bottom - REORDER_AUTOSCROLL_ZONE_PX)
+                : 0;
+          if (past !== 0) {
+            const step = Math.min(Math.ceil(Math.abs(past) / 4), REORDER_AUTOSCROLL_MAX_STEP_PX);
+            container.scrollTop += past < 0 ? -step : step;
+          }
+        }
+        if (container !== null && container.scrollTop !== lastScrollTop) {
+          lastScrollTop = container.scrollTop;
+          measure();
+          setDragState({
+            ...previous,
+            dropIndex: midpointsRef.current.filter((midpoint) => midpoint < pointer.y).length,
+          });
+        }
+      }
+      frame = requestAnimationFrame(step);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [isLiftedDrag, measure, setDragState]);
+
+  const contextValue = React.useMemo<ReorderContextValue>(
+    () => ({ values, drag, registerItem, startDrag, updateDrag, endDrag, moveItem }),
+    [values, drag, registerItem, startDrag, updateDrag, endDrag, moveItem],
+  );
+
+  const dragFrom = drag === null ? -1 : values.indexOf(drag.value);
+  const showDropIndicator =
+    drag !== null && drag.lifted && drag.dropIndex !== dragFrom && drag.dropIndex !== dragFrom + 1;
+
+  return (
+    // biome-ignore lint/a11y/useSemanticElements: <fieldset> carries form semantics and default styling we don't want inside a menu; role="group" is the correct ARIA pattern here
+    <div
+      ref={(node) => {
+        groupRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      }}
+      role="group"
+      className={cn("relative flex w-full flex-col", className)}
+      onKeyDown={(event) => {
+        onKeyDown?.(event);
+        // Radix closes the menu on Tab; keep it inside the popper variant so
+        // the drag handles stay keyboard-reachable. The sheet (Dialog) variant
+        // manages Tab itself.
+        if (variant === "menu" && event.key === "Tab") event.stopPropagation();
+      }}
+      {...props}
+    >
+      <ReorderContext.Provider value={contextValue}>{children}</ReorderContext.Provider>
+      {showDropIndicator && (
+        <div
+          aria-hidden="true"
+          data-reorder-indicator=""
+          className="pointer-events-none absolute inset-x-1 z-10 flex -translate-y-1/2 items-center"
+          style={{ top: edgesRef.current[drag.dropIndex] }}
+        >
+          <span className="size-2 shrink-0 rounded-full bg-content-primary" />
+          <span className="h-0.5 min-w-0 flex-1 rounded-full bg-content-primary" />
+        </div>
+      )}
+      {/* biome-ignore lint/a11y/useSemanticElements: <output> is not appropriate here; using role="status" for live region announcements */}
+      <span role="status" aria-live="polite" className="sr-only">
+        {announcement}
+      </span>
+    </div>
+  );
+});
+DropdownMenuReorderGroup.displayName = "DropdownMenuReorderGroup";
+
+/** Props for the {@link DropdownMenuReorderItem} component. */
+export interface DropdownMenuReorderItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Value identifying this item within the parent group's `values`. */
+  value: string;
+  /** Icon (or other node) rendered between the drag handle and the label. */
+  leadingIcon?: React.ReactNode;
+  /** Accessible label for the drag handle button. @default "Reorder" */
+  dragHandleLabel?: string;
+  /** Disables dragging and keyboard reordering for this item. @default false */
+  disabled?: boolean;
+}
+
+/**
+ * A draggable row within a {@link DropdownMenuReorderGroup}. Shows the drag
+ * handle grip, dims in place while its floating copy follows the pointer, and
+ * supports ArrowUp/ArrowDown reordering when the handle has focus.
+ */
+export const DropdownMenuReorderItem = React.forwardRef<
+  HTMLDivElement,
+  DropdownMenuReorderItemProps
+>(
+  (
+    {
+      value,
+      leadingIcon,
+      dragHandleLabel = "Reorder",
+      disabled,
+      className,
+      children,
+      onPointerDown,
+      onPointerMove,
+      onPointerUp,
+      onPointerCancel,
+      ...props
+    },
+    ref,
+  ) => {
+    const context = React.useContext(ReorderContext);
+    const variant = React.useContext(DropdownMenuVariantContext);
+    const elementRef = React.useRef<HTMLDivElement | null>(null);
+    const handleRef = React.useRef<HTMLButtonElement | null>(null);
+    const drag = context?.drag ?? null;
+    const isLifted = drag !== null && drag.value === value && drag.lifted;
+
+    return (
+      <div
+        ref={(node) => {
+          elementRef.current = node;
+          context?.registerItem(value, node);
+          if (typeof ref === "function") {
+            ref(node);
+          } else if (ref) {
+            ref.current = node;
+          }
+        }}
+        data-dragging={isLifted || undefined}
+        className={cn(
+          "typography-body-small-14px-regular group relative flex min-h-10 w-full select-none items-center gap-2 rounded-sm px-3 py-2 text-content-primary",
+          variant === "sheet" && "mx-3 w-auto",
+          disabled ? "cursor-default" : isLifted ? "cursor-grabbing" : "cursor-grab",
+          (isLifted || disabled) && "text-content-disabled",
+          className,
+        )}
+        {...props}
+        onPointerDown={(event) => {
+          onPointerDown?.(event);
+          if (
+            disabled ||
+            context === null ||
+            event.defaultPrevented ||
+            (event.pointerType === "mouse" && event.button !== 0)
+          ) {
+            return;
+          }
+          // Touch drags start from the handle only, so the rest of the row
+          // still scrolls a long menu; a mouse can grab anywhere on the row.
+          if (
+            event.pointerType !== "mouse" &&
+            !(event.target instanceof Node && handleRef.current?.contains(event.target))
+          ) {
+            return;
+          }
+          const element = elementRef.current;
+          if (element === null) return;
+          event.preventDefault();
+          element.setPointerCapture?.(event.pointerId);
+          context.startDrag(value, event, element);
+        }}
+        onPointerMove={(event) => {
+          onPointerMove?.(event);
+          context?.updateDrag(event);
+        }}
+        onPointerUp={(event) => {
+          onPointerUp?.(event);
+          context?.endDrag(event.pointerId, true);
+        }}
+        onPointerCancel={(event) => {
+          onPointerCancel?.(event);
+          context?.endDrag(event.pointerId, false);
+        }}
+      >
+        <button
+          ref={handleRef}
+          type="button"
+          aria-label={dragHandleLabel}
+          disabled={disabled}
+          className={cn(
+            "flex size-4 shrink-0 touch-none items-center justify-center rounded-2xs outline-none focus-visible:shadow-focus-ring",
+            disabled ? "cursor-not-allowed" : isLifted ? "cursor-grabbing" : "cursor-grab",
+          )}
+          onKeyDown={(event) => {
+            if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
+            event.preventDefault();
+            event.stopPropagation();
+            context?.moveItem(value, event.key === "ArrowUp" ? -1 : 1);
+          }}
+        >
+          <DragHandleDots
+            className={cn(
+              "size-4 text-icons-primary",
+              (isLifted || disabled) && "text-content-disabled",
+            )}
+          />
+        </button>
+        {leadingIcon != null && <span className="shrink-0">{leadingIcon}</span>}
+        <span className="min-w-0 flex-1 truncate">{children}</span>
+        {isLifted &&
+          drag !== null &&
+          createPortal(
+            <div
+              aria-hidden="true"
+              data-reorder-ghost=""
+              className="pointer-events-none fixed"
+              style={{
+                left: drag.x,
+                top: drag.y,
+                width: drag.width,
+                zIndex: drag.zIndex,
+              }}
+            >
+              <div className="shadow-blur-menu overflow-hidden rounded-sm bg-surface-primary">
+                <div className="typography-body-small-14px-regular flex min-h-10 items-center gap-2 bg-neutral-alphas-100 py-2 pl-3 pr-6 text-content-primary">
+                  <DragHandleDots className="size-4 shrink-0 text-icons-primary" />
+                  {leadingIcon != null && <span className="shrink-0">{leadingIcon}</span>}
+                  <span className="truncate">{children}</span>
+                </div>
+              </div>
+            </div>,
+            elementRef.current?.ownerDocument.body ?? document.body,
+          )}
+      </div>
+    );
+  },
+);
+DropdownMenuReorderItem.displayName = "DropdownMenuReorderItem";

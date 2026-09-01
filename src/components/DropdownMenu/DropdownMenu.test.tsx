@@ -13,6 +13,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuReorderGroup,
+  DropdownMenuReorderItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./DropdownMenu";
@@ -1435,5 +1437,231 @@ describe("DropdownMenu sheet variant", () => {
     await user.click(screen.getByText("trigger"));
     const link = screen.getByRole("option", { name: "Settings" });
     expect(link).toHaveClass("aria-disabled:text-content-disabled");
+  });
+});
+
+describe("DropdownMenuHeader actions", () => {
+  it("renders custom actions before the close button", () => {
+    renderMenu(
+      <DropdownMenuHeader
+        title="All Folders"
+        actions={
+          <button type="button" data-testid="done">
+            Done
+          </button>
+        }
+      />,
+    );
+    const done = screen.getByTestId("done");
+    const close = screen.getByLabelText("Close menu");
+    expect(done.parentElement).toBe(close.parentElement);
+    expect(done.compareDocumentPosition(close) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("renders actions without a close button when showClose is false", () => {
+    renderMenu(
+      <DropdownMenuHeader
+        title="All Folders"
+        showClose={false}
+        actions={
+          <button type="button" data-testid="done">
+            Done
+          </button>
+        }
+      />,
+    );
+    expect(screen.getByTestId("done")).toBeInTheDocument();
+    expect(screen.queryByLabelText("Close menu")).not.toBeInTheDocument();
+  });
+});
+
+describe("DropdownMenuReorderGroup", () => {
+  function ReorderDemo({
+    onReorder,
+    disabledValue,
+  }: {
+    onReorder?: (values: string[]) => void;
+    disabledValue?: string;
+  }) {
+    const [values, setValues] = React.useState(["Alpha", "Beta", "Gamma"]);
+    return (
+      <DropdownMenuReorderGroup
+        values={values}
+        onReorder={(next) => {
+          setValues(next);
+          onReorder?.(next);
+        }}
+        aria-label="Reorder sections"
+      >
+        {values.map((value) => (
+          <DropdownMenuReorderItem
+            key={value}
+            value={value}
+            disabled={value === disabledValue}
+            dragHandleLabel={`Reorder ${value}`}
+          >
+            {value}
+          </DropdownMenuReorderItem>
+        ))}
+      </DropdownMenuReorderGroup>
+    );
+  }
+
+  function mockRect(element: Element, top: number, height = 40, width = 240) {
+    vi.spyOn(element, "getBoundingClientRect").mockReturnValue({
+      top,
+      bottom: top + height,
+      height,
+      left: 0,
+      right: width,
+      width,
+      x: 0,
+      y: top,
+      toJSON: () => ({}),
+    } as DOMRect);
+  }
+
+  function mockLayout(container: HTMLElement) {
+    const group = container.querySelector('[role="group"]');
+    if (group === null) throw new Error("group not rendered");
+    mockRect(group, 0, 120);
+    const rows = Array.from(group.children).filter((child) => child.tagName === "DIV");
+    rows.forEach((row, index) => {
+      mockRect(row, index * 40);
+    });
+    return rows as HTMLElement[];
+  }
+
+  describe("accessibility", () => {
+    it("has no violations standalone", async () => {
+      const { container } = render(<ReorderDemo />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no violations inside an open menu", async () => {
+      const { container } = renderMenu(<ReorderDemo />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  describe("keyboard", () => {
+    it("moves the item down on ArrowDown and announces the move", () => {
+      const onReorder = vi.fn();
+      render(<ReorderDemo onReorder={onReorder} />);
+      const handle = screen.getByRole("button", { name: "Reorder Alpha" });
+      fireEvent.keyDown(handle, { key: "ArrowDown" });
+      expect(onReorder).toHaveBeenCalledWith(["Beta", "Alpha", "Gamma"]);
+      expect(screen.getByRole("status")).toHaveTextContent("Alpha moved to position 2 of 3");
+    });
+
+    it("moves the item up on ArrowUp", () => {
+      const onReorder = vi.fn();
+      render(<ReorderDemo onReorder={onReorder} />);
+      fireEvent.keyDown(screen.getByRole("button", { name: "Reorder Gamma" }), {
+        key: "ArrowUp",
+      });
+      expect(onReorder).toHaveBeenCalledWith(["Alpha", "Gamma", "Beta"]);
+    });
+
+    it("ignores moves past the ends of the list", () => {
+      const onReorder = vi.fn();
+      render(<ReorderDemo onReorder={onReorder} />);
+      fireEvent.keyDown(screen.getByRole("button", { name: "Reorder Alpha" }), {
+        key: "ArrowUp",
+      });
+      fireEvent.keyDown(screen.getByRole("button", { name: "Reorder Gamma" }), {
+        key: "ArrowDown",
+      });
+      expect(onReorder).not.toHaveBeenCalled();
+    });
+
+    it("disables the handle of a disabled item", () => {
+      render(<ReorderDemo disabledValue="Beta" />);
+      expect(screen.getByRole("button", { name: "Reorder Beta" })).toBeDisabled();
+    });
+  });
+
+  describe("pointer drag", () => {
+    it("reorders after dragging a row past the next row's midpoint", () => {
+      const onReorder = vi.fn();
+      const { container } = render(<ReorderDemo onReorder={onReorder} />);
+      const rows = mockLayout(container);
+      fireEvent.pointerDown(rows[0] as HTMLElement, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientX: 10,
+        clientY: 20,
+      });
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      expect(onReorder).toHaveBeenCalledWith(["Beta", "Alpha", "Gamma"]);
+    });
+
+    it("shows the floating copy while lifted and clears it on drop", () => {
+      const { container } = render(<ReorderDemo />);
+      const rows = mockLayout(container);
+      fireEvent.pointerDown(rows[0] as HTMLElement, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientX: 10,
+        clientY: 20,
+      });
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 100 });
+      expect(rows[0]).toHaveAttribute("data-dragging");
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 100 });
+      expect(rows[0]).not.toHaveAttribute("data-dragging");
+    });
+
+    it("does not reorder when the pointer never leaves the lift threshold", () => {
+      const onReorder = vi.fn();
+      const { container } = render(<ReorderDemo onReorder={onReorder} />);
+      const rows = mockLayout(container);
+      fireEvent.pointerDown(rows[0] as HTMLElement, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientX: 10,
+        clientY: 20,
+      });
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 11, clientY: 21 });
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 11, clientY: 21 });
+      expect(onReorder).not.toHaveBeenCalled();
+    });
+
+    it("cancels the drag on Escape without reordering", () => {
+      const onReorder = vi.fn();
+      const { container } = render(<ReorderDemo onReorder={onReorder} />);
+      const rows = mockLayout(container);
+      fireEvent.pointerDown(rows[0] as HTMLElement, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientX: 10,
+        clientY: 20,
+      });
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      fireEvent.keyDown(document.body, { key: "Escape" });
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      expect(onReorder).not.toHaveBeenCalled();
+      expect(rows[0]).not.toHaveAttribute("data-dragging");
+    });
+
+    it("ignores drags starting on a disabled row", () => {
+      const onReorder = vi.fn();
+      const { container } = render(<ReorderDemo onReorder={onReorder} disabledValue="Alpha" />);
+      const rows = mockLayout(container);
+      fireEvent.pointerDown(rows[0] as HTMLElement, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientX: 10,
+        clientY: 20,
+      });
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      expect(onReorder).not.toHaveBeenCalled();
+    });
   });
 });

@@ -3,9 +3,14 @@ import * as React from "react";
 import { userEvent, within } from "storybook/test";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
+import { IconButton } from "../IconButton/IconButton";
 import { ChevronRightIcon } from "../Icons/ChevronRightIcon";
 import { EditIcon } from "../Icons/EditIcon";
+import { MoreIcon } from "../Icons/MoreIcon";
+import { PlusIcon } from "../Icons/PlusIcon";
+import { SearchIcon } from "../Icons/SearchIcon";
 import { StarIcon } from "../Icons/StarIcon";
+import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
 import { TrashBinIcon } from "../Icons/TrashBinIcon";
 import {
   DropdownMenu,
@@ -17,6 +22,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuReorderGroup,
+  DropdownMenuReorderItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./DropdownMenu";
@@ -400,6 +407,261 @@ export const FeatureItemStates: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
+};
+
+export const Reorderable: Story = {
+  play: openMenu,
+  render: () => {
+    const Demo = () => {
+      const [open, setOpen] = React.useState(false);
+      const [items, setItems] = React.useState(["Photos", "Videos", "Audio", "Documents"]);
+      return (
+        <DropdownMenu open={open} onOpenChange={setOpen}>
+          <DropdownMenuTrigger asChild>
+            <Button>Reorder sections</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-72">
+            <DropdownMenuHeader
+              title="Sections"
+              showClose={false}
+              actions={
+                <Button size="32" onClick={() => setOpen(false)}>
+                  Done
+                </Button>
+              }
+            />
+            <DropdownMenuReorderGroup
+              values={items}
+              onReorder={setItems}
+              aria-label="Reorder sections"
+            >
+              {items.map((item) => (
+                <DropdownMenuReorderItem
+                  key={item}
+                  value={item}
+                  dragHandleLabel={`Reorder ${item}`}
+                >
+                  {item}
+                </DropdownMenuReorderItem>
+              ))}
+            </DropdownMenuReorderGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    };
+    return <Demo />;
+  },
+};
+
+export const ReorderableScrolling: Story = {
+  play: openMenu,
+  render: () => {
+    const Demo = () => {
+      const [open, setOpen] = React.useState(false);
+      const [items, setItems] = React.useState(
+        Array.from({ length: 15 }, (_, index) => `Folder ${index + 1}`),
+      );
+      return (
+        <DropdownMenu open={open} onOpenChange={setOpen}>
+          <DropdownMenuTrigger asChild>
+            <Button>Reorder long list</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="max-h-80 w-72">
+            <DropdownMenuHeader
+              title="Folders"
+              showClose={false}
+              actions={
+                <Button size="32" onClick={() => setOpen(false)}>
+                  Done
+                </Button>
+              }
+            />
+            <DropdownMenuReorderGroup
+              values={items}
+              onReorder={setItems}
+              aria-label="Reorder folders"
+            >
+              {items.map((item) => (
+                <DropdownMenuReorderItem
+                  key={item}
+                  value={item}
+                  dragHandleLabel={`Reorder ${item}`}
+                >
+                  {item}
+                </DropdownMenuReorderItem>
+              ))}
+            </DropdownMenuReorderGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    };
+    return <Demo />;
+  },
+};
+
+const VAULT_FOLDERS = [
+  "AI Images",
+  "Clean Photos",
+  "Wallposts",
+  "Convo Starters",
+  "PTVs",
+  "Crop Tee Set \u{1F339}",
+];
+
+export const VaultFolders: Story = {
+  name: "Vault folders (actions + reorganise)",
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16804-84593",
+    },
+  },
+  play: openMenu,
+  render: () => {
+    const Demo = () => {
+      const [open, setOpen] = React.useState(false);
+      const [mode, setMode] = React.useState<"browse" | "reorganise">("browse");
+      const [folders, setFolders] = React.useState(VAULT_FOLDERS);
+      const [actionsFor, setActionsFor] = React.useState<string | null>(null);
+      const handleOpenChange = (nextOpen: boolean) => {
+        setOpen(nextOpen);
+        if (!nextOpen) {
+          setMode("browse");
+          setActionsFor(null);
+        }
+      };
+      return (
+        <DropdownMenu open={open} onOpenChange={handleOpenChange} modal={false}>
+          <DropdownMenuTrigger asChild>
+            <Button variant="secondary">All Folders</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="start"
+            className="w-60 rounded-lg"
+            onInteractOutside={(event) => {
+              if (actionsFor !== null) event.preventDefault();
+            }}
+          >
+            {mode === "browse" ? (
+              <>
+                <DropdownMenuHeader
+                  title="All Folders"
+                  showClose={false}
+                  actions={
+                    <>
+                      <IconButton
+                        variant="tertiary"
+                        size="32"
+                        icon={<SearchIcon />}
+                        aria-label="Search folders"
+                      />
+                      <IconButton
+                        variant="tertiary"
+                        size="32"
+                        icon={<PlusIcon />}
+                        aria-label="New folder"
+                      />
+                    </>
+                  }
+                />
+                {folders.map((folder) => (
+                  <DropdownMenuItem
+                    key={folder}
+                    size="32"
+                    className="min-h-10 py-2"
+                    onSelect={(event) => {
+                      if (actionsFor !== null) event.preventDefault();
+                    }}
+                    trailingIcon={
+                      <DropdownMenu
+                        open={actionsFor === folder}
+                        onOpenChange={(nextOpen) => setActionsFor(nextOpen ? folder : null)}
+                      >
+                        <DropdownMenuTrigger asChild>
+                          <IconButton
+                            variant="tertiary"
+                            size="24"
+                            icon={<MoreIcon />}
+                            aria-label={`${folder} actions`}
+                            className="data-[state=open]:bg-buttons-tertiary-hover"
+                            onPointerDown={(event) => event.stopPropagation()}
+                            onClick={(event) => event.stopPropagation()}
+                          />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          side="right"
+                          align="start"
+                          sideOffset={12}
+                          className="rounded-lg"
+                        >
+                          <DropdownMenuItem
+                            size="32"
+                            className="min-h-10 py-2"
+                            leadingIcon={<EditIcon className="size-4" />}
+                          >
+                            Rename
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            size="32"
+                            className="min-h-10 py-2"
+                            leadingIcon={<TranscationArrowIcon className="size-4" />}
+                            onSelect={() => {
+                              setActionsFor(null);
+                              setMode("reorganise");
+                            }}
+                          >
+                            Reorganise
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            size="32"
+                            className="min-h-10 py-2"
+                            destructive
+                            leadingIcon={<TrashBinIcon className="size-4" />}
+                          >
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    }
+                  >
+                    {folder}
+                  </DropdownMenuItem>
+                ))}
+              </>
+            ) : (
+              <>
+                <DropdownMenuHeader
+                  title="All Folders"
+                  showClose={false}
+                  actions={
+                    <Button size="32" onClick={() => setMode("browse")}>
+                      Done
+                    </Button>
+                  }
+                />
+                <DropdownMenuReorderGroup
+                  values={folders}
+                  onReorder={setFolders}
+                  aria-label="Reorder folders"
+                >
+                  {folders.map((folder) => (
+                    <DropdownMenuReorderItem
+                      key={folder}
+                      value={folder}
+                      dragHandleLabel={`Reorder ${folder}`}
+                    >
+                      {folder}
+                    </DropdownMenuReorderItem>
+                  ))}
+                </DropdownMenuReorderGroup>
+              </>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    };
+    return <Demo />;
+  },
 };
 
 export const AllStatesV2: Story = {
