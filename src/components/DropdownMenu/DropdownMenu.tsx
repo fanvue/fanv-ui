@@ -824,9 +824,10 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
           // closer to the divider naturally.
           type === "search" ? "gap-2" : "gap-1",
           // With action buttons the design draws a roomier header: 12px above
-          // and below the 32px actions row (the panel's own 4px padding makes
-          // up the difference).
-          actions != null && "gap-3 pt-2",
+          // the 32px actions row (the panel's own 4px padding makes up the
+          // difference), 8px between it and the divider, and 8px between the
+          // divider and the first row.
+          actions != null && "mb-2 gap-2 pt-2",
           // The sheet is a taller, roomier surface than a trigger-anchored panel:
           // the design sets 16px between the rule and the first row, which this
           // margin plus the panel's own 4px gap adds up to.
@@ -843,7 +844,14 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
          * the panel edge on both sides). Insetting it left-only left the field
          * 16px in on the left and 8px on the right.
          */}
-        <div className={cn("flex items-center gap-4", type === "default" && "pl-2")}>
+        <div
+          className={cn(
+            "flex items-center gap-4",
+            // With action buttons the title sits a further 4px in (20px from
+            // the panel edge) than the close-only header's 16px.
+            type === "default" && (actions != null ? "pl-3" : "pl-2"),
+          )}
+        >
           {type === "default" ? (
             <div className={cn("min-w-0 flex-1 truncate text-content-primary", titleTypography)}>
               {children ?? title}
@@ -853,9 +861,9 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
           )}
           {(actions != null || showClose) && (
             // The extra right margin only applies with action buttons: filled
-            // actions like a "Done" pill sit 16px off the panel edge, while the
+            // actions like a "Done" pill sit 12px off the panel edge, while the
             // bare tertiary close icon keeps the header's own 8px inset.
-            <div className={cn("flex shrink-0 items-center gap-1", actions != null && "mr-2")}>
+            <div className={cn("flex shrink-0 items-center gap-1", actions != null && "mr-1")}>
               {actions}
               {showClose && (
                 <IconButton
@@ -1441,7 +1449,7 @@ export const DropdownMenuReorderGroup = React.forwardRef<
         <div
           aria-hidden="true"
           data-reorder-indicator=""
-          className="pointer-events-none absolute inset-x-1 z-10 flex -translate-y-1/2 items-center"
+          className="pointer-events-none absolute inset-x-3 z-10 flex -translate-y-1/2 items-center"
           style={{ top: edgesRef.current[drag.dropIndex] }}
         >
           <span className="size-2 shrink-0 rounded-full bg-content-primary" />
@@ -1514,11 +1522,14 @@ export const DropdownMenuReorderItem = React.forwardRef<
         }}
         data-dragging={isLifted || undefined}
         className={cn(
-          "typography-body-default-16px-regular group relative flex min-h-12 w-full select-none items-center gap-3 rounded-sm px-3 py-2 text-content-primary",
+          "typography-body-small-14px-regular group relative flex min-h-10 w-full select-none items-center gap-2 rounded-sm px-3 py-2 text-content-primary",
           variant === "sheet" && "mx-3 w-auto",
           disabled ? "cursor-default" : isLifted ? "cursor-grabbing" : "cursor-grab",
           !disabled && !isLifted && "hover:bg-neutral-alphas-50",
-          (isLifted || disabled) && "text-content-disabled",
+          // The design dims the lifted source row as a whole — 60% opacity
+          // over its own colours — rather than swapping to the disabled tone.
+          isLifted && "opacity-60",
+          disabled && "text-content-disabled",
           className,
         )}
         {...props}
@@ -1576,10 +1587,7 @@ export const DropdownMenuReorderItem = React.forwardRef<
           }}
         >
           <DragHandleDots
-            className={cn(
-              "size-4 text-icons-secondary",
-              (isLifted || disabled) && "text-content-disabled",
-            )}
+            className={cn("size-4 text-icons-tertiary", disabled && "text-content-disabled")}
           />
         </button>
         {leadingIcon != null && <span className="shrink-0">{leadingIcon}</span>}
@@ -1598,9 +1606,15 @@ export const DropdownMenuReorderItem = React.forwardRef<
                 zIndex: drag.zIndex,
               }}
             >
-              <div className="shadow-blur-menu overflow-hidden rounded-sm bg-surface-primary">
-                <div className="typography-body-default-16px-regular flex min-h-12 items-center gap-3 bg-neutral-alphas-100 py-2 pl-3 pr-6 text-content-primary">
-                  <DragHandleDots className="size-4 shrink-0 text-icons-secondary" />
+              {/*
+               * The design draws the floating copy as frosted glass — a
+               * translucent surface with a heavy backdrop blur and no drop
+               * shadow (the same treatment the panel itself gets) — so what
+               * the ghost passes over smears through it.
+               */}
+              <div className="overflow-hidden rounded-sm bg-surface-primary/65 backdrop-blur-[20px]">
+                <div className="typography-body-small-14px-regular flex min-h-10 items-center gap-2 bg-neutral-alphas-100 py-2 pl-3 pr-6 text-content-primary">
+                  <DragHandleDots className="size-4 shrink-0 text-icons-tertiary" />
                   {leadingIcon != null && <span className="shrink-0">{leadingIcon}</span>}
                   <span className="truncate">{children}</span>
                 </div>

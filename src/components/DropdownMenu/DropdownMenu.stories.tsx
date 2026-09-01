@@ -435,7 +435,7 @@ export const Reorderable: Story = {
           <DropdownMenuTrigger asChild>
             <Button>Reorder folders</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-80 rounded-lg">
+          <DropdownMenuContent className="w-60 rounded-lg border-border-strong">
             <DropdownMenuHeader
               title="All Folders"
               showClose={false}
@@ -481,7 +481,7 @@ export const ReorderableScrolling: Story = {
           <DropdownMenuTrigger asChild>
             <Button>Reorder long list</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="max-h-80 w-80 rounded-lg">
+          <DropdownMenuContent className="max-h-80 w-60 rounded-lg border-border-strong">
             <DropdownMenuHeader
               title="Folders"
               showClose={false}
