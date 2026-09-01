@@ -409,20 +409,35 @@ export const FeatureItemStates: Story = {
   ),
 };
 
+const VAULT_FOLDERS = [
+  "AI Images",
+  "Clean Photos",
+  "Wallposts",
+  "Convo Starters",
+  "PTVs",
+  "Crop Tee Set \u{1F339}",
+];
+
 export const Reorderable: Story = {
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/LB9q4XzCNlbOaeW3xN6tQo/Creator---Content---Creation?node-id=4841-35891",
+    },
+  },
   play: openMenu,
   render: () => {
     const Demo = () => {
       const [open, setOpen] = React.useState(false);
-      const [items, setItems] = React.useState(["Photos", "Videos", "Audio", "Documents"]);
+      const [items, setItems] = React.useState(VAULT_FOLDERS);
       return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild>
-            <Button>Reorder sections</Button>
+            <Button>Reorder folders</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-72">
+          <DropdownMenuContent className="w-80 rounded-lg">
             <DropdownMenuHeader
-              title="Sections"
+              title="All Folders"
               showClose={false}
               actions={
                 <Button size="32" onClick={() => setOpen(false)}>
@@ -433,7 +448,7 @@ export const Reorderable: Story = {
             <DropdownMenuReorderGroup
               values={items}
               onReorder={setItems}
-              aria-label="Reorder sections"
+              aria-label="Reorder folders"
             >
               {items.map((item) => (
                 <DropdownMenuReorderItem
@@ -466,7 +481,7 @@ export const ReorderableScrolling: Story = {
           <DropdownMenuTrigger asChild>
             <Button>Reorder long list</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="max-h-80 w-72">
+          <DropdownMenuContent className="max-h-80 w-80 rounded-lg">
             <DropdownMenuHeader
               title="Folders"
               showClose={false}
@@ -498,15 +513,6 @@ export const ReorderableScrolling: Story = {
     return <Demo />;
   },
 };
-
-const VAULT_FOLDERS = [
-  "AI Images",
-  "Clean Photos",
-  "Wallposts",
-  "Convo Starters",
-  "PTVs",
-  "Crop Tee Set \u{1F339}",
-];
 
 export const VaultFolders: Story = {
   name: "Vault folders (actions + reorganise)",

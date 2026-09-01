@@ -823,6 +823,10 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
           // default (title) variant uses 4px because the title baseline sits
           // closer to the divider naturally.
           type === "search" ? "gap-2" : "gap-1",
+          // With action buttons the design draws a roomier header: 12px above
+          // and below the 32px actions row (the panel's own 4px padding makes
+          // up the difference).
+          actions != null && "gap-3 pt-2",
           // The sheet is a taller, roomier surface than a trigger-anchored panel:
           // the design sets 16px between the rule and the first row, which this
           // margin plus the panel's own 4px gap adds up to.
@@ -848,7 +852,10 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
             <SearchInput {...searchProps} />
           )}
           {(actions != null || showClose) && (
-            <div className="flex shrink-0 items-center gap-1">
+            // The extra right margin only applies with action buttons: filled
+            // actions like a "Done" pill sit 16px off the panel edge, while the
+            // bare tertiary close icon keeps the header's own 8px inset.
+            <div className={cn("flex shrink-0 items-center gap-1", actions != null && "mr-2")}>
               {actions}
               {showClose && (
                 <IconButton
@@ -1507,9 +1514,10 @@ export const DropdownMenuReorderItem = React.forwardRef<
         }}
         data-dragging={isLifted || undefined}
         className={cn(
-          "typography-body-small-14px-regular group relative flex min-h-10 w-full select-none items-center gap-2 rounded-sm px-3 py-2 text-content-primary",
+          "typography-body-default-16px-regular group relative flex min-h-12 w-full select-none items-center gap-3 rounded-sm px-3 py-2 text-content-primary",
           variant === "sheet" && "mx-3 w-auto",
           disabled ? "cursor-default" : isLifted ? "cursor-grabbing" : "cursor-grab",
+          !disabled && !isLifted && "hover:bg-neutral-alphas-50",
           (isLifted || disabled) && "text-content-disabled",
           className,
         )}
@@ -1569,7 +1577,7 @@ export const DropdownMenuReorderItem = React.forwardRef<
         >
           <DragHandleDots
             className={cn(
-              "size-4 text-icons-primary",
+              "size-4 text-icons-secondary",
               (isLifted || disabled) && "text-content-disabled",
             )}
           />
@@ -1591,8 +1599,8 @@ export const DropdownMenuReorderItem = React.forwardRef<
               }}
             >
               <div className="shadow-blur-menu overflow-hidden rounded-sm bg-surface-primary">
-                <div className="typography-body-small-14px-regular flex min-h-10 items-center gap-2 bg-neutral-alphas-100 py-2 pl-3 pr-6 text-content-primary">
-                  <DragHandleDots className="size-4 shrink-0 text-icons-primary" />
+                <div className="typography-body-default-16px-regular flex min-h-12 items-center gap-3 bg-neutral-alphas-100 py-2 pl-3 pr-6 text-content-primary">
+                  <DragHandleDots className="size-4 shrink-0 text-icons-secondary" />
                   {leadingIcon != null && <span className="shrink-0">{leadingIcon}</span>}
                   <span className="truncate">{children}</span>
                 </div>

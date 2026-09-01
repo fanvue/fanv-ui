@@ -3021,7 +3021,7 @@ function DropdownMenuDemo() {
                 Reorder folders
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-72">
+            <DropdownMenuContent align="start" className="w-80 rounded-lg">
               <DropdownMenuHeader
                 title="All Folders"
                 showClose={false}
