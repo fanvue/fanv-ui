@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.31.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.30.0...ui-v3.31.0) (2026-09-02)
+
+
+### Features
+
+* **SwitchButton:** add the V2 Switch Button ([#679](https://github.com/fanvue/fanv-ui/issues/679)) ([4516ba7](https://github.com/fanvue/fanv-ui/commit/4516ba7b4d1ea5d9971b942813a4a23b726da22c))
+
+
+### Bug Fixes
+
+* **AiButton:** stop idle shimmer from reading as busy in multi-button rails ([#685](https://github.com/fanvue/fanv-ui/issues/685)) ([151c025](https://github.com/fanvue/fanv-ui/commit/151c025a3bd0e8ef38e74db1c5fd817490142873))
+
 ## [3.30.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.29.0...ui-v3.30.0) (2026-08-31)
 
 
