@@ -54,6 +54,12 @@ export interface AiButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButto
   activeLabel?: string;
   /** Swap to {@link activeLabel} and keep the shimmer running. @default false */
   active?: boolean;
+  /**
+   * Shimmer and flicker while enabled and idle, inviting a click. Turn off when
+   * several `AiButton`s sit side by side, so an idle one sits still and only the
+   * `active` one reads as busy. @default true
+   */
+  idleShimmer?: boolean;
   /** @default "32" */
   size?: AiButtonSize;
   /** Replace the leading AI glyph. */
@@ -67,7 +73,7 @@ export interface AiButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButto
  * The run is hidden from assistive tech — the button's accessible name comes from
  * its `aria-label`, so a screen reader says "Analyse" rather than spelling it out.
  */
-const ShimmerLabel: React.FC<{ text: string; disabled?: boolean }> = ({ text, disabled }) => (
+const ShimmerLabel: React.FC<{ text: string; shimmer: boolean }> = ({ text, shimmer }) => (
   <span aria-hidden="true">
     {Array.from(text).map((character, index) => (
       <span
@@ -78,7 +84,7 @@ const ShimmerLabel: React.FC<{ text: string; disabled?: boolean }> = ({ text, di
           // that would rely on the generated rule ordering to beat `group-hover`.
           // A faded control that still shimmers and still lights up green under the
           // cursor reads as busy rather than unavailable.
-          !disabled && [
+          shimmer && [
             "[animation:fv-ai-letter_2s_ease-in-out_infinite]",
             "group-hover/ai:text-content-primary group-hover/ai:[animation:none]",
             // On focus each letter blows up and settles, then the idle shimmer
@@ -112,6 +118,10 @@ const ShimmerLabel: React.FC<{ text: string; disabled?: boolean }> = ({ text, di
  * Honours `prefers-reduced-motion`: the shimmer and flicker are dropped and the
  * label renders in its settled state.
  *
+ * Set `idleShimmer={false}` when several `AiButton`s sit side by side, so an
+ * idle one sits still and the shimmer reads as "this one is genuinely busy"
+ * rather than "any of these could be clicked".
+ *
  * @example
  * ```tsx
  * <AiButton label="Analyse" activeLabel="Analysing" active={isPending} onClick={run} />
@@ -123,6 +133,7 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
       label,
       activeLabel,
       active = false,
+      idleShimmer = true,
       size = "32",
       icon,
       type = "button",
@@ -135,6 +146,7 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
     ref,
   ) => {
     const resolvedActiveLabel = activeLabel ?? label;
+    const shimmer = !disabled && (idleShimmer || active);
 
     return (
       <button
@@ -175,8 +187,8 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
             iconScaleVariants[size],
             "[filter:drop-shadow(0_0_2px_color-mix(in_srgb,var(--color-content-primary)_60%,transparent))]",
             // Same reasoning as the letters: no flicker and no green lift once the
-            // button is unavailable.
-            !disabled && [
+            // button is unavailable or shimmer is turned off for this instance.
+            shimmer && [
               "[animation-delay:0.5s] [animation:fv-ai-flicker_2s_linear_infinite]",
               // Settles solid on hover, lit green from below like the sheen.
               "group-hover/ai:[animation:none]",
@@ -197,7 +209,7 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
               active ? "opacity-0" : "opacity-100",
             )}
           >
-            <ShimmerLabel text={label} disabled={disabled} />
+            <ShimmerLabel text={label} shimmer={shimmer} />
           </span>
           <span
             className={cn(
@@ -205,7 +217,7 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
               active ? "opacity-100" : "opacity-0",
             )}
           >
-            <ShimmerLabel text={resolvedActiveLabel} disabled={disabled} />
+            <ShimmerLabel text={resolvedActiveLabel} shimmer={shimmer} />
           </span>
         </span>
       </button>
