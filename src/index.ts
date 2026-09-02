@@ -29,7 +29,7 @@ export type {
   AiDisclosureLabelTone,
 } from "./components/AiDisclosureLabel/AiDisclosureLabel";
 export { AiDisclosureLabel } from "./components/AiDisclosureLabel/AiDisclosureLabel";
-export type { AlertProps, AlertVariant } from "./components/Alert/Alert";
+export type { AlertLayout, AlertProps, AlertVariant } from "./components/Alert/Alert";
 export { Alert } from "./components/Alert/Alert";
 export type {
   AnimatedNumberProps,

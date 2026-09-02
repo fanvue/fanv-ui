@@ -11,7 +11,7 @@ const meta = {
     layout: "padded",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=1622-9357&m=dev",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=22285-685&m=dev",
     },
   },
   tags: ["autodocs"],
@@ -22,6 +22,11 @@ const meta = {
     },
     title: { control: "text" },
     closable: { control: "boolean" },
+    layout: {
+      control: "inline-radio",
+      options: ["under", "trailing"],
+    },
+    ctaLabel: { control: "text" },
   },
 } satisfies Meta<typeof Alert>;
 
@@ -255,5 +260,85 @@ export const MultipleDismissible: Story = {
         )}
       </div>
     );
+  },
+};
+
+/**
+ * The two CTA placements against every variant. `under` stacks the action
+ * beneath the description; `trailing` keeps it inline with the message.
+ */
+export const CtaLayouts: Story = {
+  render: () => (
+    <div className="flex flex-col gap-8">
+      {(["under", "trailing"] as const).map((layout) => (
+        <div key={layout} className="flex flex-col gap-3">
+          <h3 className="typography-body-small-14px-semibold text-content-primary capitalize">
+            {layout}
+          </h3>
+          {VARIANTS.map((variant) => (
+            <Alert
+              key={variant}
+              variant={variant}
+              layout={layout}
+              title="Alert title"
+              action={<a href="#more">Learn more</a>}
+            >
+              This is the body text for an in-app alert, longer text for the reference.
+            </Alert>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * `layout="trailing"` keeps the action inline with the message. It suits short
+ * labels — a long one is better stacked with the default `under` placement.
+ */
+export const TrailingLink: Story = {
+  args: {
+    variant: "info",
+    layout: "trailing",
+    title: "Alert title",
+    children: "Scheduled posts now publish in your local timezone.",
+    action: <a href="#learn-more">Learn more</a>,
+  },
+};
+
+/**
+ * `ctaLabel` renders the button form of the CTA instead of a link. Use it when
+ * the alert asks the user to do something specific — activating a feature or
+ * completing setup — rather than pointing at more detail. It defaults to a
+ * `secondary` button at size `32`; override either through `ctaProps`.
+ */
+export const ButtonCta: Story = {
+  args: {
+    variant: "warning",
+    title: "Finish setup",
+    children: "Verify your identity to start receiving payouts.",
+    ctaLabel: "Verify now",
+  },
+};
+
+export const TrailingButtonCta: Story = {
+  args: {
+    variant: "warning",
+    layout: "trailing",
+    title: "Finish setup",
+    children: "Verify your identity to start receiving payouts.",
+    ctaLabel: "Verify now",
+    closable: true,
+  },
+};
+
+/**
+ * The description is optional — a title on its own renders without an empty
+ * body element beneath it.
+ */
+export const TitleOnly: Story = {
+  args: {
+    variant: "success",
+    title: "Your changes have been saved",
   },
 };
