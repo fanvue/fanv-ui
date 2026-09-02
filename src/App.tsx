@@ -117,6 +117,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuReorderGroup,
+  DropdownMenuReorderItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   EditIcon,
@@ -2973,6 +2975,7 @@ function SelectDemo() {
 
 function DropdownMenuDemo() {
   const [selectedCreators, setSelectedCreators] = React.useState<string[]>(["Jane Doe"]);
+  const [folders, setFolders] = React.useState(["Photos", "Videos", "Audio", "Documents"]);
   return (
     <div id="dropdownmenu" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Dropdown menu</h2>
@@ -3005,6 +3008,41 @@ function DropdownMenuDemo() {
               <DropdownMenuItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
                 Delete
               </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="typography-description-12px-semibold text-content-secondary">
+            Drag-to-reorder with a Done header action
+          </span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
+                Reorder folders
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-60 rounded-lg border-border-strong">
+              <DropdownMenuHeader
+                title="All Folders"
+                showClose={false}
+                actions={<Button size="32">Done</Button>}
+              />
+              <DropdownMenuReorderGroup
+                values={folders}
+                onReorder={setFolders}
+                aria-label="Reorder folders"
+              >
+                {folders.map((folder) => (
+                  <DropdownMenuReorderItem
+                    key={folder}
+                    value={folder}
+                    dragHandleLabel={`Reorder ${folder}`}
+                  >
+                    {folder}
+                  </DropdownMenuReorderItem>
+                ))}
+              </DropdownMenuReorderGroup>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
