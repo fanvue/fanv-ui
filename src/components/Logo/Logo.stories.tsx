@@ -15,7 +15,7 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["full", "icon", "wordmark", "portrait"],
+      options: ["full", "icon", "wordmark", "portrait", "3d"],
     },
     color: {
       control: "select",
@@ -27,7 +27,7 @@ const meta = {
     },
     size: {
       control: "select",
-      options: ["16", "20", "24", "32", "40", "48", "64"],
+      options: ["16", "20", "24", "32", "40", "48", "64", "80"],
     },
   },
 } satisfies Meta<typeof Logo>;
@@ -106,6 +106,49 @@ export const Sizes: Story = {
       <Logo size="40" />
       <Logo size="48" />
       <Logo size="64" />
+    </div>
+  ),
+};
+
+/**
+ * The 3D mark is icon-only and has one fixed treatment, so `color` and `version` do not
+ * apply. Its shadow is drawn outside the element's box, which is why the sizes below are
+ * spaced further apart than the flat variants need.
+ */
+export const ThreeD: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-wrap items-end gap-16 p-4 pb-16">
+      {(["24", "32", "48", "64", "80"] as const).map((size) => (
+        <div key={size} className="flex flex-col items-start gap-3">
+          <Logo variant="3d" size={size} aria-label="Fanvue" />
+          <span className="typography-description-12px-semibold text-content-tertiary">{size}</span>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * The nav slot the 3D mark is intended for: a 32px square holding a 24px logo. Shown on
+ * both surfaces because the shadow is green and reads differently against each.
+ */
+export const ThreeDInNavSlot: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex gap-8">
+      {(["bg-surface-primary", "bg-surface-primary-inverted"] as const).map((surface) => (
+        <div key={surface} className={`flex gap-6 rounded-xs p-6 ${surface}`}>
+          {(["icon", "3d"] as const).map((variant) => (
+            <div
+              key={variant}
+              className="grid size-8 place-items-center rounded-sm outline-1 outline-dashed outline-content-tertiary"
+            >
+              <Logo variant={variant} className="size-6 [&>svg]:size-6" aria-label="Fanvue" />
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   ),
 };

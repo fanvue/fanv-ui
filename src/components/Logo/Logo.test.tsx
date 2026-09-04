@@ -166,4 +166,61 @@ describe("Logo", () => {
       expect(results).toHaveNoViolations();
     });
   });
+
+  describe("3D variant", () => {
+    it("renders the icon without a wordmark", () => {
+      const { container } = render(<Logo variant="3d" />);
+      const logo = container.querySelector('[data-testid="logo"]');
+      expect(logo?.querySelector('[data-testid="logo-icon"]')).toBeInTheDocument();
+      expect(logo?.querySelector('[data-testid="logo-wordmark"]')).not.toBeInTheDocument();
+    });
+
+    it("defaults to size 40 like the icon variant", () => {
+      const { container } = render(<Logo variant="3d" />);
+      expect(container.querySelector('[data-testid="logo-icon"]')).toHaveClass("h-10");
+    });
+
+    it("applies the requested size", () => {
+      const { container } = render(<Logo variant="3d" size="24" />);
+      expect(container.querySelector('[data-testid="logo-icon"]')).toHaveClass("h-6");
+    });
+
+    it("supports the 80 size token", () => {
+      const { container } = render(<Logo variant="3d" size="80" />);
+      expect(container.querySelector('[data-testid="logo-icon"]')).toHaveClass("h-20");
+    });
+
+    it("lets the shadow escape the element box", () => {
+      const { container } = render(<Logo variant="3d" />);
+      expect(container.querySelector('[data-testid="logo-icon"]')).toHaveAttribute(
+        "overflow",
+        "visible",
+      );
+    });
+
+    it("gives each instance its own gradient and filter ids", () => {
+      const { container } = render(
+        <>
+          <Logo variant="3d" />
+          <Logo variant="3d" />
+        </>,
+      );
+      const ids = Array.from(container.querySelectorAll("[id]")).map((el) => el.id);
+      expect(ids.length).toBeGreaterThan(0);
+      expect(new Set(ids).size).toBe(ids.length);
+    });
+
+    it("renders the 3D icon regardless of color and version", () => {
+      const { container } = render(<Logo variant="3d" color="decolour" version="agencies" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]');
+      expect(icon?.tagName.toLowerCase()).toBe("svg");
+      expect(icon?.querySelector("filter")).toBeInTheDocument();
+    });
+
+    it("has no accessibility violations with an aria-label", async () => {
+      const { container } = render(<Logo variant="3d" aria-label="Fanvue home" />);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
 });
