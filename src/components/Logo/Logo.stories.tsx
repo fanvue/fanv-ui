@@ -129,28 +129,3 @@ export const ThreeD: Story = {
     </div>
   ),
 };
-
-/**
- * The nav slot the 3D mark is intended for: a 32px square holding a 24px logo, matching
- * `DesktopNavigationHeader`. Shown on both surfaces because the glow is green and reads
- * differently against each.
- */
-export const ThreeDInNavSlot: Story = {
-  parameters: { layout: "padded" },
-  render: () => (
-    <div className="flex gap-8">
-      {(["bg-surface-primary", "bg-surface-primary-inverted"] as const).map((surface) => (
-        <div key={surface} className={`flex gap-6 rounded-xs p-6 ${surface}`}>
-          {(["icon", "3d"] as const).map((variant) => (
-            <div
-              key={variant}
-              className="grid size-8 place-items-center rounded-sm outline-dashed outline-1 outline-content-tertiary"
-            >
-              <Logo variant={variant} size="24" className="size-6" aria-label="Fanvue" />
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  ),
-};
