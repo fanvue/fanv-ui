@@ -113,7 +113,8 @@ export const Sizes: Story = {
 /**
  * The 3D mark is icon-only and has one fixed treatment, so `color` and `version` do not
  * apply. The mark is clipped to its own box but casts a green glow beneath it, which is why
- * the sizes below are spaced further apart than the flat variants need.
+ * the sizes below are spaced further apart than the flat variants need. The glow keeps Figma's
+ * absolute values at every size below 80, so it reads at full strength on the nav's 24px mark.
  */
 export const ThreeD: Story = {
   parameters: { layout: "padded" },
@@ -145,7 +146,7 @@ export const ThreeDInNavSlot: Story = {
               key={variant}
               className="grid size-8 place-items-center rounded-sm outline-dashed outline-1 outline-content-tertiary"
             >
-              <Logo variant={variant} className="size-6 [&>svg]:size-6" aria-label="Fanvue" />
+              <Logo variant={variant} size="24" className="size-6" aria-label="Fanvue" />
             </div>
           ))}
         </div>

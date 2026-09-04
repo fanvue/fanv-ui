@@ -196,7 +196,7 @@ describe("Logo", () => {
     });
 
     it("casts the green glow beneath the mark", () => {
-      const { container } = render(<Logo variant="3d" size="24" />);
+      const { container } = render(<Logo variant="3d" size="64" />);
       const icon = container.querySelector('[data-testid="logo-icon"]') as HTMLElement;
       expect(icon.style.filter).toContain("rgba(92, 238, 116, 0.08)");
       expect(icon.style.filter).toContain("drop-shadow(0 2.667px 2.667px");
@@ -206,6 +206,13 @@ describe("Logo", () => {
       const { container } = render(<Logo variant="3d" size="80" />);
       const icon = container.querySelector('[data-testid="logo-icon"]') as HTMLElement;
       expect(icon.style.filter).toContain("drop-shadow(0 3.333px 3.333px");
+    });
+
+    it("keeps the glow at full strength for the nav's 24px mark", () => {
+      const { container } = render(<Logo variant="3d" size="24" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]') as HTMLElement;
+      expect(icon.style.filter).toContain("drop-shadow(0 2.667px 2.667px");
+      expect(icon.style.filter).toContain("drop-shadow(0 40px 9.333px");
     });
 
     it("keeps Figma's filter region so the top edge stays crisp", () => {
@@ -232,6 +239,25 @@ describe("Logo", () => {
       const icon = container.querySelector('[data-testid="logo-icon"]');
       expect(icon?.querySelector("svg")).toBeInTheDocument();
       expect(icon?.querySelector("filter")).toBeInTheDocument();
+    });
+
+    it("positions the sheen into the icon's coordinate space", () => {
+      const { container } = render(<Logo variant="3d" />);
+      const stroke = container.querySelector('path[stroke-width="0.5"]');
+      expect(stroke?.closest("g[transform]")).toHaveAttribute(
+        "transform",
+        "translate(12.709 19.018)",
+      );
+    });
+
+    it("draws both sheen strokes over the mark", () => {
+      const { container } = render(<Logo variant="3d" />);
+      const strokes = container.querySelectorAll('path[stroke-width="0.5"]');
+      expect(strokes).toHaveLength(2);
+      const stops = Array.from(container.querySelectorAll("stop")).map((s) =>
+        s.getAttribute("stop-opacity"),
+      );
+      expect(stops).toEqual(expect.arrayContaining(["0.95", "0.6"]));
     });
 
     it("has no accessibility violations with an aria-label", async () => {
