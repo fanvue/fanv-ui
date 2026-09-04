@@ -983,6 +983,13 @@ function LogoDemo() {
         <Logo variant="portrait" color="decolour" />
         <Logo variant="wordmark" color="decolour" />
       </div>
+      <div className="flex flex-wrap items-end gap-12 pb-12">
+        <Logo variant="3d" size="24" aria-label="Fanvue" />
+        <Logo variant="3d" size="32" aria-label="Fanvue" />
+        <Logo variant="3d" size="48" aria-label="Fanvue" />
+        <Logo variant="3d" size="64" aria-label="Fanvue" />
+        <Logo variant="3d" size="80" aria-label="Fanvue" />
+      </div>
       <div className="rounded-xs bg-[#ffffff] p-4">
         <div className="flex flex-wrap items-start gap-8">
           <Logo variant="full" color="blackAlways" />

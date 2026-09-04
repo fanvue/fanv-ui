@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { AGENCIES_ICON_SVG } from "./agenciesIcon";
+import { Logo3dIcon } from "./Logo3dIcon";
 
 const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
   if (color === "fullColour") {
@@ -51,14 +52,14 @@ const getLogoColors = (color: LogoColor, variant: LogoVariant) => {
   };
 };
 
-/** Layout variant of the logo. */
-export type LogoVariant = "full" | "icon" | "wordmark" | "portrait";
+/** Layout variant of the logo. `"3d"` is the icon-only 3D brand mark. */
+export type LogoVariant = "full" | "icon" | "wordmark" | "portrait" | "3d";
 /** Colour scheme of the logo. */
 export type LogoColor = "fullColour" | "decolour" | "whiteAlways" | "blackAlways";
 /** Sub-brand version of the logo. */
 export type LogoVersion = "default" | "agencies";
 /** Height of the logo in pixels. Both icon and wordmark scale proportionally. */
-export type LogoSize = "16" | "20" | "24" | "32" | "40" | "48" | "64";
+export type LogoSize = "16" | "20" | "24" | "32" | "40" | "48" | "64" | "80";
 
 const sizeClasses: Record<LogoSize, string> = {
   "16": "h-4",
@@ -68,6 +69,7 @@ const sizeClasses: Record<LogoSize, string> = {
   "40": "h-10",
   "48": "h-12",
   "64": "h-16",
+  "80": "h-20",
 };
 
 export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -77,7 +79,7 @@ export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: LogoColor;
   /** Sub-brand version of the logo. @default "default" */
   version?: LogoVersion;
-  /** Height of the logo in pixels. @default "32" (or "40" when `variant="icon"`) */
+  /** Height of the logo in pixels. @default "32" (or "40" when `variant` is `"icon"` or `"3d"`) */
   size?: LogoSize;
   /**
    * Accessible label for the logo. Required when `variant` is `"icon"` and
@@ -154,6 +156,29 @@ const AgenciesIconSVG = ({ className }: { className?: string }) => {
   );
 };
 
+/** Picks the icon treatment for the variant: 3D mark, glossy agencies icon, or the flat one. */
+const LogoIcon = ({
+  className,
+  variant,
+  color,
+  glossy,
+  size,
+}: {
+  className?: string;
+  variant: LogoVariant;
+  color: LogoColor;
+  glossy: boolean;
+  size: LogoSize;
+}) => {
+  if (variant === "3d") {
+    return <Logo3dIcon className={cn("aspect-square", className)} size={size} />;
+  }
+  if (glossy) {
+    return <AgenciesIconSVG className={className} />;
+  }
+  return <FlatIconSVG className={className} color={color} variant={variant} />;
+};
+
 const WordmarkSVG = ({ className }: { className?: string }) => {
   return (
     <svg
@@ -213,10 +238,16 @@ const AgenciesWordmark = ({
  * portrait (stacked) layouts with multiple colour schemes. `version="agencies"` renders the
  * sub-brand lockup: a glossy purple icon and an "AGENCIES" label beneath the wordmark.
  *
+ * `variant="3d"` renders the icon-only 3D brand mark. It is an additional mark rather than a
+ * replacement for the flat one, and it has a single fixed treatment, so `color` and `version`
+ * do not apply to it. The mark itself is clipped to its own box, but it casts a soft green
+ * glow beneath, which a parent with `overflow-hidden` will cut off.
+ *
  * @example
  * ```tsx
  * <Logo variant="full" color="fullColour" />
  * <Logo variant="full" version="agencies" />
+ * <Logo variant="3d" size="24" aria-label="Fanvue" />
  * ```
  */
 export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
@@ -227,9 +258,10 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
     const colors = getLogoColors(color, variant);
     const isAgencies = version === "agencies";
     const isAgenciesFull = isAgencies && variant === "full";
-    const showIcon = variant === "full" || variant === "icon" || variant === "portrait";
+    const is3D = variant === "3d";
+    const showIcon = variant === "full" || variant === "icon" || variant === "portrait" || is3D;
     const showWordmark = variant === "full" || variant === "wordmark" || variant === "portrait";
-    const resolvedSize = size ?? (variant === "icon" ? "40" : "32");
+    const resolvedSize = size ?? (variant === "icon" || is3D ? "40" : "32");
     const sizeClass = sizeClasses[resolvedSize];
 
     const ariaProps = props["aria-label"] ? { role: "img" as const } : {};
@@ -252,16 +284,15 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
         {...ariaProps}
         {...props}
       >
-        {showIcon &&
-          (useGlossyIcon ? (
-            <AgenciesIconSVG className={cn("w-auto shrink-0", sizeClass)} />
-          ) : (
-            <FlatIconSVG
-              className={cn("w-auto shrink-0", sizeClass)}
-              color={color}
-              variant={variant}
-            />
-          ))}
+        {showIcon && (
+          <LogoIcon
+            className={cn("w-auto shrink-0", sizeClass)}
+            variant={variant}
+            color={color}
+            glossy={useGlossyIcon}
+            size={resolvedSize}
+          />
+        )}
         {showWordmark &&
           (isAgencies ? (
             <AgenciesWordmark
