@@ -112,8 +112,8 @@ export const Sizes: Story = {
 
 /**
  * The 3D mark is icon-only and has one fixed treatment, so `color` and `version` do not
- * apply. Its shadow is drawn outside the element's box, which is why the sizes below are
- * spaced further apart than the flat variants need.
+ * apply. The mark is clipped to its own box but casts a green glow beneath it, which is why
+ * the sizes below are spaced further apart than the flat variants need.
  */
 export const ThreeD: Story = {
   parameters: { layout: "padded" },
@@ -130,8 +130,9 @@ export const ThreeD: Story = {
 };
 
 /**
- * The nav slot the 3D mark is intended for: a 32px square holding a 24px logo. Shown on
- * both surfaces because the shadow is green and reads differently against each.
+ * The nav slot the 3D mark is intended for: a 32px square holding a 24px logo, matching
+ * `DesktopNavigationHeader`. Shown on both surfaces because the glow is green and reads
+ * differently against each.
  */
 export const ThreeDInNavSlot: Story = {
   parameters: { layout: "padded" },
@@ -142,7 +143,7 @@ export const ThreeDInNavSlot: Story = {
           {(["icon", "3d"] as const).map((variant) => (
             <div
               key={variant}
-              className="grid size-8 place-items-center rounded-sm outline-1 outline-dashed outline-content-tertiary"
+              className="grid size-8 place-items-center rounded-sm outline-dashed outline-1 outline-content-tertiary"
             >
               <Logo variant={variant} className="size-6 [&>svg]:size-6" aria-label="Fanvue" />
             </div>

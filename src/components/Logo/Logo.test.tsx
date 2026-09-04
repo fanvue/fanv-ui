@@ -190,12 +190,29 @@ describe("Logo", () => {
       expect(container.querySelector('[data-testid="logo-icon"]')).toHaveClass("h-20");
     });
 
-    it("lets the shadow escape the element box", () => {
+    it("clips the mark to its own box", () => {
       const { container } = render(<Logo variant="3d" />);
-      expect(container.querySelector('[data-testid="logo-icon"]')).toHaveAttribute(
-        "overflow",
-        "visible",
-      );
+      expect(container.querySelector('[data-testid="logo-icon"]')).toHaveClass("overflow-hidden");
+    });
+
+    it("casts the green glow beneath the mark", () => {
+      const { container } = render(<Logo variant="3d" size="24" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]') as HTMLElement;
+      expect(icon.style.filter).toContain("rgba(92, 238, 116, 0.08)");
+      expect(icon.style.filter).toContain("drop-shadow(0 2.667px 2.667px");
+    });
+
+    it("scales the glow up only for the 80 size", () => {
+      const { container } = render(<Logo variant="3d" size="80" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]') as HTMLElement;
+      expect(icon.style.filter).toContain("drop-shadow(0 3.333px 3.333px");
+    });
+
+    it("keeps Figma's filter region so the top edge stays crisp", () => {
+      const { container } = render(<Logo variant="3d" />);
+      const filter = container.querySelector("filter");
+      expect(filter).toHaveAttribute("x", "10.4884");
+      expect(filter).toHaveAttribute("y", "17.6179");
     });
 
     it("gives each instance its own gradient and filter ids", () => {
@@ -213,7 +230,7 @@ describe("Logo", () => {
     it("renders the 3D icon regardless of color and version", () => {
       const { container } = render(<Logo variant="3d" color="decolour" version="agencies" />);
       const icon = container.querySelector('[data-testid="logo-icon"]');
-      expect(icon?.tagName.toLowerCase()).toBe("svg");
+      expect(icon?.querySelector("svg")).toBeInTheDocument();
       expect(icon?.querySelector("filter")).toBeInTheDocument();
     });
 

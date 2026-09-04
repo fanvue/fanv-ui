@@ -162,14 +162,16 @@ const LogoIcon = ({
   variant,
   color,
   glossy,
+  size,
 }: {
   className?: string;
   variant: LogoVariant;
   color: LogoColor;
   glossy: boolean;
+  size: LogoSize;
 }) => {
   if (variant === "3d") {
-    return <Logo3dIcon className={cn("aspect-square", className)} />;
+    return <Logo3dIcon className={cn("aspect-square", className)} size={size} />;
   }
   if (glossy) {
     return <AgenciesIconSVG className={className} />;
@@ -238,8 +240,8 @@ const AgenciesWordmark = ({
  *
  * `variant="3d"` renders the icon-only 3D brand mark. It is an additional mark rather than a
  * replacement for the flat one, and it has a single fixed treatment, so `color` and `version`
- * do not apply to it. Its drop shadow falls outside the element's box by design, so it is
- * clipped by any parent with `overflow-hidden`.
+ * do not apply to it. The mark itself is clipped to its own box, but it casts a soft green
+ * glow beneath, which a parent with `overflow-hidden` will cut off.
  *
  * @example
  * ```tsx
@@ -288,6 +290,7 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
             variant={variant}
             color={color}
             glossy={useGlossyIcon}
+            size={resolvedSize}
           />
         )}
         {showWordmark &&
