@@ -2976,6 +2976,7 @@ function SelectDemo() {
 function DropdownMenuDemo() {
   const [selectedCreators, setSelectedCreators] = React.useState<string[]>(["Jane Doe"]);
   const [folders, setFolders] = React.useState(["Photos", "Videos", "Audio", "Documents"]);
+  const [reorderOpen, setReorderOpen] = React.useState(false);
   return (
     <div id="dropdownmenu" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Dropdown menu</h2>
@@ -3016,7 +3017,8 @@ function DropdownMenuDemo() {
           <span className="typography-description-12px-semibold text-content-secondary">
             Drag-to-reorder with a Done header action
           </span>
-          <DropdownMenu>
+          {/* Controlled so the header's Done action can close the menu. */}
+          <DropdownMenu open={reorderOpen} onOpenChange={setReorderOpen}>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
                 Reorder folders
@@ -3026,13 +3028,20 @@ function DropdownMenuDemo() {
               <DropdownMenuHeader
                 title="All Folders"
                 showClose={false}
-                actions={<Button size="32">Done</Button>}
+                actions={
+                  <Button size="32" onClick={() => setReorderOpen(false)}>
+                    Done
+                  </Button>
+                }
               />
               <DropdownMenuReorderGroup
                 values={folders}
-                // The second argument says which item moved and where, so a
-                // consumer can call a move-to-position API without diffing.
-                onReorder={(next) => setFolders(next)}
+                // `detail` says which item moved and where, for consumers that
+                // call a move-to-position API instead of storing the array.
+                onReorder={(next, detail) => {
+                  console.info("reordered", detail);
+                  setFolders(next);
+                }}
                 aria-label="Reorder folders"
               >
                 {folders.map((folder) => (

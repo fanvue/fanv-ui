@@ -1999,6 +1999,86 @@ describe("DropdownMenuReorderGroup drag lifecycle", () => {
     expect(onReorder).toHaveBeenCalledWith(["B", "A", "C"], expect.anything());
   });
 
+  it("lets Escape through while a row is pressed but not yet lifted", () => {
+    const { container } = render(<Demo values={["A", "B", "C"]} />);
+    const rows = mockLayout(container);
+    fireEvent.pointerDown(rows[0] as HTMLElement, mousePress);
+    expect(fireEvent.keyDown(document.body, { key: "Escape" })).toBe(true);
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 20 });
+  });
+
+  it("does not take the pointer from a control inside the row", () => {
+    const onReorder = vi.fn();
+    const onClick = vi.fn();
+    const values = ["A", "B", "C"];
+    const { container } = render(
+      <DropdownMenuReorderGroup values={values} onReorder={onReorder} aria-label="Reorder">
+        {values.map((value) => (
+          <DropdownMenuReorderItem
+            key={value}
+            value={value}
+            dragHandleLabel={`Reorder ${value}`}
+            trailing={
+              <button type="button" onClick={onClick}>
+                More {value}
+              </button>
+            }
+          >
+            {value}
+          </DropdownMenuReorderItem>
+        ))}
+      </DropdownMenuReorderGroup>,
+    );
+    const rows = mockLayout(container);
+    const more = screen.getByRole("button", { name: "More A" });
+    expect(fireEvent.pointerDown(more, mousePress)).toBe(true);
+    fireEvent.pointerMove(more, { pointerId: 1, clientX: 10, clientY: 70 });
+    fireEvent.pointerUp(more, { pointerId: 1, clientX: 10, clientY: 70 });
+    fireEvent.click(more);
+    expect(onReorder).not.toHaveBeenCalled();
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(rows[0]).not.toHaveAttribute("data-dragging");
+  });
+
+  it("leaves a second pointer's default alone while a drag is in flight", () => {
+    const { container } = render(<Demo values={["A", "B", "C"]} />);
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    const handleC = screen.getByRole("button", { name: "Reorder C" });
+    const notPrevented = fireEvent.pointerDown(handleC, {
+      pointerId: 2,
+      pointerType: "touch",
+      clientX: 5,
+      clientY: 100,
+    });
+    expect(notPrevented).toBe(true);
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+  });
+
+  it("focuses the grip on a plain click so the arrow keys work next", () => {
+    const { container } = render(<Demo values={["A", "B", "C"]} />);
+    mockLayout(container);
+    const handle = screen.getByRole("button", { name: "Reorder B" });
+    fireEvent.pointerDown(handle, { ...mousePress, clientY: 60 });
+    fireEvent.pointerUp(handle, { pointerId: 1, clientX: 10, clientY: 60 });
+    expect(handle).toHaveFocus();
+  });
+
+  it("drops at either end of the list", () => {
+    const onReorder = vi.fn();
+    const { container, rerender } = render(<Demo values={["A", "B", "C"]} onReorder={onReorder} />);
+    let rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 115);
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 115 });
+    expect(onReorder).toHaveBeenLastCalledWith(["B", "C", "A"], expect.objectContaining({ to: 2 }));
+    rerender(<Demo values={["A", "B", "C"]} onReorder={onReorder} />);
+    rows = mockLayout(container);
+    fireEvent.pointerDown(rows[2] as HTMLElement, { ...mousePress, clientY: 100 });
+    fireEvent.pointerMove(rows[2] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 5 });
+    fireEvent.pointerUp(rows[2] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 5 });
+    expect(onReorder).toHaveBeenLastCalledWith(["C", "A", "B"], expect.objectContaining({ to: 0 }));
+  });
+
   it("removes its window listeners when the group unmounts mid-drag", () => {
     const { container, unmount } = render(<Demo values={["A", "B", "C"]} />);
     const rows = mockLayout(container);
@@ -2023,7 +2103,12 @@ describe("DropdownMenu keyboard reachability of non-item controls", () => {
     );
   }
 
-  const flush = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+  // jsdom schedules requestAnimationFrame on a ~16ms timer, so waiting one
+  // frame is the only way to see what the group's focus effect decided.
+  const nextFrame = () =>
+    new Promise<void>((resolve) => {
+      requestAnimationFrame(() => resolve());
+    });
 
   it("focuses the first handle when a menu opens straight into a reorder group", async () => {
     renderMenu(<ReorderRows values={["A", "B"]} />);
@@ -2039,9 +2124,10 @@ describe("DropdownMenu keyboard reachability of non-item controls", () => {
         <ReorderRows values={["A", "B"]} />
       </>,
     );
-    await flush();
-    await flush();
+    await nextFrame();
+    await nextFrame();
     expect(screen.getByRole("button", { name: "Reorder A" })).not.toHaveFocus();
+    expect(screen.getByRole("menu")).toHaveFocus();
   });
 
   it("cycles Tab through header actions and reorder handles inside a menu", async () => {
