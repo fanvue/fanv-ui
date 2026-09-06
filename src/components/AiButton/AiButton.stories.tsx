@@ -67,3 +67,32 @@ export const Toggling: Story = {
 export const LongLabel: Story = {
   args: { label: "Analyse this chart", activeLabel: "Analysing this chart" },
 };
+
+/**
+ * With several `AiButton`s side by side, `idleShimmer={false}` keeps the two
+ * idle actions still so only the one that is genuinely running reads as busy.
+ */
+export const GroupedActions: Story = {
+  render: () => {
+    const [active, setActive] = useState<"generate" | "voicenote" | "enhance" | null>(null);
+    const actions = [
+      { id: "generate" as const, label: "Generate reply", activeLabel: "Generating" },
+      { id: "voicenote" as const, label: "Generate voicenote", activeLabel: "Converting" },
+      { id: "enhance" as const, label: "Enhance for speech", activeLabel: "Enhancing" },
+    ];
+    return (
+      <div className="flex items-center gap-2">
+        {actions.map((action) => (
+          <AiButton
+            key={action.id}
+            label={action.label}
+            activeLabel={action.activeLabel}
+            active={active === action.id}
+            idleShimmer={false}
+            onClick={() => setActive(action.id)}
+          />
+        ))}
+      </div>
+    );
+  },
+};

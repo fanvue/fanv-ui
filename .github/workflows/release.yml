@@ -21,6 +21,10 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
+    outputs:
+      # Set only when this run published (or confirmed) the version on npm —
+      # the docs-artifact job below keys off it.
+      docs_tag: ${{ steps.docs.outputs.tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -239,18 +243,73 @@ jobs:
           }
           PAYLOAD
 
-      - name: Notify docs site
+      - name: Expose the tag for the docs artifact job
         # Gated on npm specifically, not on "either registry": the docs tell
         # readers to `pnpm add @fanvue/ui`, so a GitHub-Packages-only publish
         # must not advertise a version npm cannot install. need_npm == 'false'
         # covers the recovery path where the version is already on npm.
+        id: docs
         if: ${{ !cancelled() && (steps.publish_npm.outcome == 'success' || steps.check.outputs.need_npm == 'false') }}
+        env:
+          TAG_NAME: ${{ steps.release.outputs.tag_name || format('ui-v{0}', steps.pkg.outputs.version) }}
+        run: echo "tag=$TAG_NAME" >> "$GITHUB_OUTPUT"
+
+  # Generates docs/mintlify/ for the released tag and attaches it to the GitHub
+  # release as docs-mintlify.tar.gz. The generated half of that tree
+  # (components/, snippets/, nav.json) is gitignored, so this asset is the only
+  # complete docs tree a release has — fanvue/styx-docs-mintlify's sync job
+  # downloads it. A separate job so a docs failure can never block or fail the
+  # npm publish, and so it can check out the tag itself rather than whatever
+  # main has moved on to.
+  docs-artifact:
+    name: Docs artifact
+    needs: release
+    if: ${{ needs.release.outputs.docs_tag != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release.outputs.docs_tag }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate docs
+        run: pnpm docs:generate
+
+      # Same shape as a repo tarball — one top-level directory with
+      # docs/mintlify/ inside — which is what the docs repo's sync script
+      # extracts. --clobber so re-running this job repairs a broken asset.
+      - name: Attach docs to the GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ needs.release.outputs.docs_tag }}
+        run: |
+          staging=$(mktemp -d)
+          mkdir -p "$staging/fanv-ui-docs/docs"
+          cp -R docs/mintlify "$staging/fanv-ui-docs/docs/"
+          tar -czf docs-mintlify.tar.gz -C "$staging" fanv-ui-docs
+          gh release upload "$TAG_NAME" docs-mintlify.tar.gz --clobber
+
+      - name: Notify docs site
+        # After the asset upload on purpose: the dispatch tells the docs repo
+        # to download that asset, so firing earlier would race it.
         # The docs site also runs a daily scheduled sync, so a dispatch hiccup
-        # must never fail the release.
+        # must never turn this job red as if the artifact were missing.
         continue-on-error: true
         env:
           DISPATCH_TOKEN: ${{ secrets.UI_DOCS_DISPATCH_TOKEN }}
-          TAG_NAME: ${{ steps.release.outputs.tag_name || format('ui-v{0}', steps.pkg.outputs.version) }}
+          TAG_NAME: ${{ needs.release.outputs.docs_tag }}
         run: |
           if [ -z "$DISPATCH_TOKEN" ]; then
             echo "::warning::UI_DOCS_DISPATCH_TOKEN is not set — skipping docs site dispatch"

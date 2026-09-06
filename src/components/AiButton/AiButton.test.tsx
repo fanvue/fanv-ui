@@ -155,6 +155,30 @@ describe("AiButton", () => {
         .querySelector<HTMLElement>("[aria-hidden='true'] > span");
       expect(letter).toHaveClass("[animation:fv-ai-letter_2s_ease-in-out_infinite]");
     });
+
+    it("stops shimmering while idle once idleShimmer is off", () => {
+      render(<AiButton label="Ana" idleShimmer={false} />);
+      const letter = screen
+        .getByRole("button")
+        .querySelector<HTMLElement>("[aria-hidden='true'] > span");
+      expect(letter).not.toHaveClass("[animation:fv-ai-letter_2s_ease-in-out_infinite]");
+    });
+
+    it("still shimmers while active with idleShimmer off", () => {
+      render(<AiButton label="Ana" activeLabel="Analysing" active idleShimmer={false} />);
+      const letter = screen
+        .getByRole("button", { name: "Analysing" })
+        .querySelector<HTMLElement>("[aria-hidden='true'] > span");
+      expect(letter).toHaveClass("[animation:fv-ai-letter_2s_ease-in-out_infinite]");
+    });
+
+    it("never shimmers when disabled, even while active", () => {
+      render(<AiButton label="Ana" activeLabel="Analysing" active disabled />);
+      const letter = screen
+        .getByRole("button")
+        .querySelector<HTMLElement>("[aria-hidden='true'] > span");
+      expect(letter).not.toHaveClass("[animation:fv-ai-letter_2s_ease-in-out_infinite]");
+    });
   });
 
   describe("accessibility", () => {
