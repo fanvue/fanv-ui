@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import {
   DropdownMenu,
@@ -13,6 +13,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  type DropdownMenuReorderDetail,
+  DropdownMenuReorderGroup,
+  DropdownMenuReorderItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./DropdownMenu";
@@ -1435,5 +1438,802 @@ describe("DropdownMenu sheet variant", () => {
     await user.click(screen.getByText("trigger"));
     const link = screen.getByRole("option", { name: "Settings" });
     expect(link).toHaveClass("aria-disabled:text-content-disabled");
+  });
+});
+
+describe("DropdownMenuHeader actions", () => {
+  it("renders custom actions before the close button", () => {
+    renderMenu(
+      <DropdownMenuHeader
+        title="All Folders"
+        actions={
+          <button type="button" data-testid="done">
+            Done
+          </button>
+        }
+      />,
+    );
+    const done = screen.getByTestId("done");
+    const close = screen.getByLabelText("Close menu");
+    expect(done.parentElement).toBe(close.parentElement);
+    expect(done.compareDocumentPosition(close) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("renders actions without a close button when showClose is false", () => {
+    renderMenu(
+      <DropdownMenuHeader
+        title="All Folders"
+        showClose={false}
+        actions={
+          <button type="button" data-testid="done">
+            Done
+          </button>
+        }
+      />,
+    );
+    expect(screen.getByTestId("done")).toBeInTheDocument();
+    expect(screen.queryByLabelText("Close menu")).not.toBeInTheDocument();
+  });
+});
+
+function mockRect(element: Element, top: number, height = 40, width = 240) {
+  return vi.spyOn(element, "getBoundingClientRect").mockReturnValue({
+    top,
+    bottom: top + height,
+    height,
+    left: 0,
+    right: width,
+    width,
+    x: 0,
+    y: top,
+    toJSON: () => ({}),
+  } as DOMRect);
+}
+
+function mockLayout(container: HTMLElement) {
+  const group = container.querySelector('[role="group"]');
+  if (group === null) throw new Error("group not rendered");
+  mockRect(group, 0, 120);
+  const rows = Array.from(group.children).filter(
+    (child) => child.tagName === "DIV" && !child.hasAttribute("data-reorder-indicator"),
+  );
+  rows.forEach((row, index) => {
+    mockRect(row, index * 40);
+  });
+  return rows as HTMLElement[];
+}
+
+const mousePress = { pointerId: 1, pointerType: "mouse", button: 0, clientX: 10, clientY: 20 };
+
+/** Lifts the first row and drags it to `clientY` without releasing. */
+function liftRow(row: HTMLElement, clientY: number) {
+  fireEvent.pointerDown(row, mousePress);
+  fireEvent.pointerMove(row, { pointerId: 1, clientX: 10, clientY });
+}
+
+describe("DropdownMenuReorderGroup", () => {
+  function ReorderDemo({
+    onReorder,
+    disabledValue,
+  }: {
+    onReorder?: (values: string[], detail: DropdownMenuReorderDetail) => void;
+    disabledValue?: string;
+  }) {
+    const [values, setValues] = React.useState(["Alpha", "Beta", "Gamma"]);
+    return (
+      <DropdownMenuReorderGroup
+        values={values}
+        onReorder={(next, detail) => {
+          setValues(next);
+          onReorder?.(next, detail);
+        }}
+        aria-label="Reorder sections"
+      >
+        {values.map((value) => (
+          <DropdownMenuReorderItem
+            key={value}
+            value={value}
+            disabled={value === disabledValue}
+            dragHandleLabel={`Reorder ${value}`}
+          >
+            {value}
+          </DropdownMenuReorderItem>
+        ))}
+      </DropdownMenuReorderGroup>
+    );
+  }
+
+  describe("accessibility", () => {
+    it("has no violations standalone", async () => {
+      const { container } = render(<ReorderDemo />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no violations inside an open menu", async () => {
+      const { container } = renderMenu(<ReorderDemo />);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  describe("keyboard", () => {
+    it("moves the item down on ArrowDown and announces the move", () => {
+      const onReorder = vi.fn();
+      render(<ReorderDemo onReorder={onReorder} />);
+      const handle = screen.getByRole("button", { name: "Reorder Alpha" });
+      fireEvent.keyDown(handle, { key: "ArrowDown" });
+      expect(onReorder).toHaveBeenCalledWith(["Beta", "Alpha", "Gamma"], {
+        value: "Alpha",
+        label: "Alpha",
+        from: 0,
+        to: 1,
+        total: 3,
+      });
+      expect(screen.getByRole("status")).toHaveTextContent("Alpha moved to position 2 of 3");
+    });
+
+    it("moves the item up on ArrowUp", () => {
+      const onReorder = vi.fn();
+      render(<ReorderDemo onReorder={onReorder} />);
+      fireEvent.keyDown(screen.getByRole("button", { name: "Reorder Gamma" }), {
+        key: "ArrowUp",
+      });
+      expect(onReorder).toHaveBeenCalledWith(["Alpha", "Gamma", "Beta"], expect.anything());
+    });
+
+    it("ignores moves past the ends of the list", () => {
+      const onReorder = vi.fn();
+      render(<ReorderDemo onReorder={onReorder} />);
+      fireEvent.keyDown(screen.getByRole("button", { name: "Reorder Alpha" }), {
+        key: "ArrowUp",
+      });
+      fireEvent.keyDown(screen.getByRole("button", { name: "Reorder Gamma" }), {
+        key: "ArrowDown",
+      });
+      expect(onReorder).not.toHaveBeenCalled();
+    });
+
+    it("disables the handle of a disabled item", () => {
+      render(<ReorderDemo disabledValue="Beta" />);
+      expect(screen.getByRole("button", { name: "Reorder Beta" })).toBeDisabled();
+    });
+  });
+
+  describe("pointer drag", () => {
+    it("reorders after dragging a row past the next row's midpoint", () => {
+      const onReorder = vi.fn();
+      const { container } = render(<ReorderDemo onReorder={onReorder} />);
+      const rows = mockLayout(container);
+      fireEvent.pointerDown(rows[0] as HTMLElement, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientX: 10,
+        clientY: 20,
+      });
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      expect(onReorder).toHaveBeenCalledWith(["Beta", "Alpha", "Gamma"], expect.anything());
+    });
+
+    it("shows the floating copy while lifted and clears it on drop", () => {
+      const { container } = render(<ReorderDemo />);
+      const rows = mockLayout(container);
+      fireEvent.pointerDown(rows[0] as HTMLElement, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientX: 10,
+        clientY: 20,
+      });
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 100 });
+      expect(rows[0]).toHaveAttribute("data-dragging");
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 100 });
+      expect(rows[0]).not.toHaveAttribute("data-dragging");
+    });
+
+    it("does not reorder when the pointer never leaves the lift threshold", () => {
+      const onReorder = vi.fn();
+      const { container } = render(<ReorderDemo onReorder={onReorder} />);
+      const rows = mockLayout(container);
+      fireEvent.pointerDown(rows[0] as HTMLElement, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientX: 10,
+        clientY: 20,
+      });
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 11, clientY: 21 });
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 11, clientY: 21 });
+      expect(onReorder).not.toHaveBeenCalled();
+    });
+
+    it("cancels the drag on Escape without reordering", () => {
+      const onReorder = vi.fn();
+      const { container } = render(<ReorderDemo onReorder={onReorder} />);
+      const rows = mockLayout(container);
+      fireEvent.pointerDown(rows[0] as HTMLElement, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientX: 10,
+        clientY: 20,
+      });
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      fireEvent.keyDown(document.body, { key: "Escape" });
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      expect(onReorder).not.toHaveBeenCalled();
+      expect(rows[0]).not.toHaveAttribute("data-dragging");
+    });
+
+    it("ignores drags starting on a disabled row", () => {
+      const onReorder = vi.fn();
+      const { container } = render(<ReorderDemo onReorder={onReorder} disabledValue="Alpha" />);
+      const rows = mockLayout(container);
+      fireEvent.pointerDown(rows[0] as HTMLElement, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientX: 10,
+        clientY: 20,
+      });
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+      expect(onReorder).not.toHaveBeenCalled();
+    });
+  });
+});
+
+describe("DropdownMenuReorderGroup API", () => {
+  type Folder = { id: string; name: string };
+  const FOLDERS: Folder[] = [
+    { id: "f1", name: "Alpha" },
+    { id: "f2", name: "Beta" },
+    { id: "f3", name: "Gamma" },
+  ];
+
+  function FolderDemo({
+    onReorder,
+    getAnnouncement,
+    instructions,
+  }: Pick<
+    React.ComponentProps<typeof DropdownMenuReorderGroup>,
+    "onReorder" | "getAnnouncement" | "instructions"
+  >) {
+    const [folders, setFolders] = React.useState(FOLDERS);
+    return (
+      <DropdownMenuReorderGroup
+        values={folders.map((folder) => folder.id)}
+        onReorder={(next, detail) => {
+          setFolders(next.flatMap((id) => folders.filter((folder) => folder.id === id)));
+          onReorder(next, detail);
+        }}
+        getAnnouncement={getAnnouncement}
+        instructions={instructions}
+        aria-label="Reorder folders"
+      >
+        {folders.map((folder) => (
+          <DropdownMenuReorderItem
+            key={folder.id}
+            value={folder.id}
+            label={folder.name}
+            dragHandleLabel={`Reorder ${folder.name}`}
+            trailing={<span data-testid={`count-${folder.id}`}>12</span>}
+          >
+            {folder.name}
+          </DropdownMenuReorderItem>
+        ))}
+      </DropdownMenuReorderGroup>
+    );
+  }
+
+  it("reports the moved item's value, label and indices alongside the new order", () => {
+    const onReorder = vi.fn();
+    render(<FolderDemo onReorder={onReorder} />);
+    fireEvent.keyDown(screen.getByRole("button", { name: "Reorder Gamma" }), { key: "ArrowUp" });
+    expect(onReorder).toHaveBeenCalledWith(["f1", "f3", "f2"], {
+      value: "f3",
+      label: "Gamma",
+      from: 2,
+      to: 1,
+      total: 3,
+    });
+  });
+
+  it("announces with the item's label rather than its value", () => {
+    render(<FolderDemo onReorder={vi.fn()} />);
+    fireEvent.keyDown(screen.getByRole("button", { name: "Reorder Alpha" }), { key: "ArrowDown" });
+    expect(screen.getByRole("status")).toHaveTextContent("Alpha moved to position 2 of 3");
+  });
+
+  it("uses a custom announcement builder", () => {
+    render(
+      <FolderDemo
+        onReorder={vi.fn()}
+        getAnnouncement={({ label, to, total }) => `${label} ist jetzt ${to + 1} von ${total}`}
+      />,
+    );
+    fireEvent.keyDown(screen.getByRole("button", { name: "Reorder Alpha" }), { key: "ArrowDown" });
+    expect(screen.getByRole("status")).toHaveTextContent("Alpha ist jetzt 2 von 3");
+  });
+
+  it("reports the detail after a pointer drop too", () => {
+    const onReorder = vi.fn();
+    const { container } = render(<FolderDemo onReorder={onReorder} />);
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+    expect(onReorder).toHaveBeenCalledWith(["f2", "f1", "f3"], {
+      value: "f1",
+      label: "Alpha",
+      from: 0,
+      to: 1,
+      total: 3,
+    });
+  });
+
+  it("renders the trailing slot in the row and mirrors it in the floating copy", () => {
+    const { container } = render(<FolderDemo onReorder={vi.fn()} />);
+    expect(screen.getByTestId("count-f1")).toBeInTheDocument();
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    const ghost = document.querySelector("[data-reorder-ghost]");
+    expect(ghost).not.toBeNull();
+    expect(ghost?.querySelector('[data-testid="count-f1"]')).not.toBeNull();
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+  });
+
+  it("describes every handle with the reorder instructions", () => {
+    render(<FolderDemo onReorder={vi.fn()} />);
+    const handle = screen.getByRole("button", { name: "Reorder Alpha" });
+    expect(handle).toHaveAccessibleDescription(
+      "Press the up and down arrow keys to move this item.",
+    );
+  });
+
+  it("accepts localised instructions", () => {
+    render(<FolderDemo onReorder={vi.fn()} instructions="Flèches haut/bas pour déplacer." />);
+    expect(screen.getByRole("button", { name: "Reorder Beta" })).toHaveAccessibleDescription(
+      "Flèches haut/bas pour déplacer.",
+    );
+  });
+});
+
+describe("DropdownMenuReorderGroup drag performance", () => {
+  function Demo({ values }: { values: string[] }) {
+    return (
+      <DropdownMenuReorderGroup values={values} onReorder={vi.fn()} aria-label="Reorder">
+        {values.map((value) => (
+          <DropdownMenuReorderItem key={value} value={value} dragHandleLabel={`Reorder ${value}`}>
+            {value}
+          </DropdownMenuReorderItem>
+        ))}
+      </DropdownMenuReorderGroup>
+    );
+  }
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("measures the rows once at lift, not on every pointer move", () => {
+    const { container } = render(<Demo values={["A", "B", "C"]} />);
+    const group = container.querySelector('[role="group"]') as HTMLElement;
+    const rows = mockLayout(container);
+    const groupSpy = vi.spyOn(group, "getBoundingClientRect");
+    const rowSpies = rows.map((row) => vi.spyOn(row, "getBoundingClientRect"));
+    liftRow(rows[0] as HTMLElement, 70);
+    for (const clientY of [72, 80, 95, 110]) {
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY });
+    }
+    expect(groupSpy).toHaveBeenCalledTimes(1);
+    // The lifted row is read once for its grab offset and once in the batch.
+    expect(rowSpies[0]).toHaveBeenCalledTimes(2);
+    expect(rowSpies[1]).toHaveBeenCalledTimes(1);
+    expect(rowSpies[2]).toHaveBeenCalledTimes(1);
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 110 });
+  });
+
+  it("moves the floating copy with a transform written outside React", () => {
+    const { container } = render(<Demo values={["A", "B", "C"]} />);
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    const ghost = document.querySelector<HTMLElement>("[data-reorder-ghost]");
+    expect(ghost).not.toBeNull();
+    // Grabbed 10px in and 20px down from the row's corner at (0, 0).
+    expect(ghost?.style.transform).toBe("translate3d(0px, 50px, 0)");
+    expect(ghost?.style.left).toBe("");
+    fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 30, clientY: 90 });
+    expect(ghost?.style.transform).toBe("translate3d(20px, 70px, 0)");
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 30, clientY: 90 });
+    expect(document.querySelector("[data-reorder-ghost]")).toBeNull();
+  });
+
+  it("commits to React only when the drop index changes, not on every move", () => {
+    const commits = vi.fn();
+    const values = ["A", "B", "C"];
+    const { container } = render(
+      <React.Profiler id="reorder" onRender={commits}>
+        <Demo values={values} />
+      </React.Profiler>,
+    );
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    commits.mockClear();
+    // Still between B's and C's midpoints: same drop index, nothing to commit.
+    for (const clientY of [72, 80, 95]) {
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY });
+    }
+    expect(commits).not.toHaveBeenCalled();
+    // Past C's midpoint (100): one commit for the indicator.
+    fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 105 });
+    expect(commits).toHaveBeenCalledTimes(1);
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 105 });
+  });
+
+  it("does not start a frame loop when nothing can scroll", () => {
+    const raf = vi.spyOn(window, "requestAnimationFrame");
+    const { container } = render(<Demo values={["A", "B", "C"]} />);
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 115 });
+    expect(raf).not.toHaveBeenCalled();
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 115 });
+  });
+
+  describe("inside a scrollable container", () => {
+    function renderScrollable() {
+      const frames: FrameRequestCallback[] = [];
+      vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+        frames.push(callback);
+        return frames.length;
+      });
+      vi.spyOn(window, "cancelAnimationFrame").mockImplementation(() => {});
+      const utils = render(
+        <div data-testid="scroller" style={{ overflowY: "auto" }}>
+          <Demo values={["A", "B", "C"]} />
+        </div>,
+      );
+      const scroller = screen.getByTestId("scroller");
+      Object.defineProperty(scroller, "scrollHeight", { value: 400, configurable: true });
+      Object.defineProperty(scroller, "clientHeight", { value: 120, configurable: true });
+      Object.defineProperty(scroller, "scrollTop", {
+        value: 0,
+        writable: true,
+        configurable: true,
+      });
+      mockRect(scroller, 0, 120);
+      const rows = mockLayout(utils.container);
+      return { ...utils, scroller, rows, frames };
+    }
+
+    it("moves the drop target when the container scrolls under a stationary pointer", () => {
+      const { container, scroller, rows } = renderScrollable();
+      // Pointer at y=50 sits just under row B's midpoint gap: drop index 1,
+      // which is the source row's own slot, so no indicator.
+      liftRow(rows[0] as HTMLElement, 50);
+      expect(container.querySelector("[data-reorder-indicator]")).toBeNull();
+      // Scrolling 40px moves the rows up under the pointer: it now sits past
+      // row C's midpoint (original 100), drop index 2.
+      scroller.scrollTop = 40;
+      fireEvent.scroll(scroller);
+      const indicator = container.querySelector<HTMLElement>("[data-reorder-indicator]");
+      expect(indicator).not.toBeNull();
+      expect(indicator?.style.top).toBe("80px");
+      // Rows were not re-measured for the scroll: the cached edges were reused.
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 50 });
+    });
+
+    it("auto-scrolls only while the pointer is in an edge zone", () => {
+      const { scroller, rows, frames } = renderScrollable();
+      liftRow(rows[0] as HTMLElement, 60);
+      expect(frames).toHaveLength(0);
+      // 110 is inside the 32px bottom zone of a container ending at 120.
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 110 });
+      expect(frames).toHaveLength(1);
+      frames[0]?.(0);
+      expect(scroller.scrollTop).toBeGreaterThan(0);
+      // Each frame re-queues while the pointer stays in the zone...
+      expect(frames).toHaveLength(2);
+      // ...and stops as soon as it leaves.
+      fireEvent.pointerMove(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 60 });
+      const before = scroller.scrollTop;
+      frames[1]?.(0);
+      expect(scroller.scrollTop).toBe(before);
+      expect(frames).toHaveLength(2);
+      fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 60 });
+    });
+  });
+});
+
+describe("DropdownMenuReorderGroup drag lifecycle", () => {
+  function Demo({ values, onReorder }: { values: string[]; onReorder?: () => void }) {
+    return (
+      <DropdownMenuReorderGroup
+        values={values}
+        onReorder={onReorder ?? vi.fn()}
+        aria-label="Reorder"
+      >
+        {values.map((value) => (
+          <DropdownMenuReorderItem key={value} value={value} dragHandleLabel={`Reorder ${value}`}>
+            {value}
+          </DropdownMenuReorderItem>
+        ))}
+      </DropdownMenuReorderGroup>
+    );
+  }
+
+  it("commits the drop from a pointerup the row never receives", () => {
+    const onReorder = vi.fn();
+    const { container } = render(<Demo values={["A", "B", "C"]} onReorder={onReorder} />);
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    fireEvent.pointerUp(window, { pointerId: 1 });
+    expect(onReorder).toHaveBeenCalledWith(["B", "A", "C"], expect.anything());
+    expect(rows[0]).not.toHaveAttribute("data-dragging");
+    expect(document.querySelector("[data-reorder-ghost]")).toBeNull();
+  });
+
+  it("cancels the drag when the lifted item leaves the list", () => {
+    const { container, rerender } = render(<Demo values={["A", "B", "C"]} />);
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    expect(document.querySelector("[data-reorder-ghost]")).not.toBeNull();
+    rerender(<Demo values={["B", "C"]} />);
+    expect(document.querySelector("[data-reorder-ghost]")).toBeNull();
+    expect(container.querySelector("[data-reorder-indicator]")).toBeNull();
+    // A later Escape reaches the menu again rather than being swallowed.
+    const escapeNotSwallowed = fireEvent.keyDown(document.body, { key: "Escape" });
+    expect(escapeNotSwallowed).toBe(true);
+  });
+
+  it("ignores a second pointer while a drag is in flight", () => {
+    const onReorder = vi.fn();
+    const { container } = render(<Demo values={["A", "B", "C"]} onReorder={onReorder} />);
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    fireEvent.pointerDown(rows[2] as HTMLElement, { ...mousePress, pointerId: 2, clientY: 100 });
+    fireEvent.pointerMove(rows[2] as HTMLElement, { pointerId: 2, clientX: 10, clientY: 20 });
+    fireEvent.pointerUp(rows[2] as HTMLElement, { pointerId: 2, clientX: 10, clientY: 20 });
+    expect(onReorder).not.toHaveBeenCalled();
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+    expect(onReorder).toHaveBeenCalledWith(["B", "A", "C"], expect.anything());
+  });
+
+  it("lets Escape through while a row is pressed but not yet lifted", () => {
+    const { container } = render(<Demo values={["A", "B", "C"]} />);
+    const rows = mockLayout(container);
+    fireEvent.pointerDown(rows[0] as HTMLElement, mousePress);
+    expect(fireEvent.keyDown(document.body, { key: "Escape" })).toBe(true);
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 20 });
+  });
+
+  it("does not take the pointer from a control inside the row", () => {
+    const onReorder = vi.fn();
+    const onClick = vi.fn();
+    const values = ["A", "B", "C"];
+    const { container } = render(
+      <DropdownMenuReorderGroup values={values} onReorder={onReorder} aria-label="Reorder">
+        {values.map((value) => (
+          <DropdownMenuReorderItem
+            key={value}
+            value={value}
+            dragHandleLabel={`Reorder ${value}`}
+            trailing={
+              <button type="button" onClick={onClick}>
+                More {value}
+              </button>
+            }
+          >
+            {value}
+          </DropdownMenuReorderItem>
+        ))}
+      </DropdownMenuReorderGroup>,
+    );
+    const rows = mockLayout(container);
+    const more = screen.getByRole("button", { name: "More A" });
+    expect(fireEvent.pointerDown(more, mousePress)).toBe(true);
+    fireEvent.pointerMove(more, { pointerId: 1, clientX: 10, clientY: 70 });
+    fireEvent.pointerUp(more, { pointerId: 1, clientX: 10, clientY: 70 });
+    fireEvent.click(more);
+    expect(onReorder).not.toHaveBeenCalled();
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(rows[0]).not.toHaveAttribute("data-dragging");
+  });
+
+  it("leaves a second pointer's default alone while a drag is in flight", () => {
+    const { container } = render(<Demo values={["A", "B", "C"]} />);
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    const handleC = screen.getByRole("button", { name: "Reorder C" });
+    const notPrevented = fireEvent.pointerDown(handleC, {
+      pointerId: 2,
+      pointerType: "touch",
+      clientX: 5,
+      clientY: 100,
+    });
+    expect(notPrevented).toBe(true);
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+  });
+
+  it("focuses the grip on a plain click so the arrow keys work next", () => {
+    const { container } = render(<Demo values={["A", "B", "C"]} />);
+    mockLayout(container);
+    const handle = screen.getByRole("button", { name: "Reorder B" });
+    fireEvent.pointerDown(handle, { ...mousePress, clientY: 60 });
+    fireEvent.pointerUp(handle, { pointerId: 1, clientX: 10, clientY: 60 });
+    expect(handle).toHaveFocus();
+  });
+
+  it("drops at either end of the list", () => {
+    const onReorder = vi.fn();
+    const { container, rerender } = render(<Demo values={["A", "B", "C"]} onReorder={onReorder} />);
+    let rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 115);
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 115 });
+    expect(onReorder).toHaveBeenLastCalledWith(["B", "C", "A"], expect.objectContaining({ to: 2 }));
+    rerender(<Demo values={["A", "B", "C"]} onReorder={onReorder} />);
+    rows = mockLayout(container);
+    fireEvent.pointerDown(rows[2] as HTMLElement, { ...mousePress, clientY: 100 });
+    fireEvent.pointerMove(rows[2] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 5 });
+    fireEvent.pointerUp(rows[2] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 5 });
+    expect(onReorder).toHaveBeenLastCalledWith(["C", "A", "B"], expect.objectContaining({ to: 0 }));
+  });
+
+  it("removes its window listeners when the group unmounts mid-drag", () => {
+    const { container, unmount } = render(<Demo values={["A", "B", "C"]} />);
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    unmount();
+    expect(document.querySelector("[data-reorder-ghost]")).toBeNull();
+    // Escape is no longer swallowed by a dead drag.
+    expect(fireEvent.keyDown(document.body, { key: "Escape" })).toBe(true);
+  });
+});
+
+describe("DropdownMenu keyboard reachability of non-item controls", () => {
+  function ReorderRows({ values }: { values: string[] }) {
+    return (
+      <DropdownMenuReorderGroup values={values} onReorder={vi.fn()} aria-label="Reorder">
+        {values.map((value) => (
+          <DropdownMenuReorderItem key={value} value={value} dragHandleLabel={`Reorder ${value}`}>
+            {value}
+          </DropdownMenuReorderItem>
+        ))}
+      </DropdownMenuReorderGroup>
+    );
+  }
+
+  // jsdom schedules requestAnimationFrame on a ~16ms timer, so waiting one
+  // frame is the only way to see what the group's focus effect decided.
+  const nextFrame = () =>
+    new Promise<void>((resolve) => {
+      requestAnimationFrame(() => resolve());
+    });
+
+  it("focuses the first handle when a menu opens straight into a reorder group", async () => {
+    renderMenu(<ReorderRows values={["A", "B"]} />);
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "Reorder A" })).toHaveFocus();
+    });
+  });
+
+  it("leaves focus with Radix when the menu also has items", async () => {
+    renderMenu(
+      <>
+        <DropdownMenuItem>Item</DropdownMenuItem>
+        <ReorderRows values={["A", "B"]} />
+      </>,
+    );
+    await nextFrame();
+    await nextFrame();
+    expect(screen.getByRole("button", { name: "Reorder A" })).not.toHaveFocus();
+    expect(screen.getByRole("menu")).toHaveFocus();
+  });
+
+  it("cycles Tab through header actions and reorder handles inside a menu", async () => {
+    const user = userEvent.setup();
+    renderMenu(
+      <>
+        <DropdownMenuHeader
+          title="Folders"
+          showClose={false}
+          actions={<button type="button">Done</button>}
+        />
+        <ReorderRows values={["A", "B"]} />
+      </>,
+    );
+    const done = screen.getByRole("button", { name: "Done" });
+    const handleA = screen.getByRole("button", { name: "Reorder A" });
+    const handleB = screen.getByRole("button", { name: "Reorder B" });
+    await waitFor(() => expect(handleA).toHaveFocus());
+    await user.tab();
+    expect(handleB).toHaveFocus();
+    await user.tab();
+    expect(done).toHaveFocus();
+    await user.tab();
+    expect(handleA).toHaveFocus();
+    await user.tab({ shift: true });
+    expect(done).toHaveFocus();
+  });
+
+  it("reaches header actions by Tab from a menu item", async () => {
+    const user = userEvent.setup();
+    renderMenu(
+      <>
+        <DropdownMenuHeader
+          title="Folders"
+          showClose={false}
+          actions={<button type="button">Add</button>}
+        />
+        <DropdownMenuItem>First</DropdownMenuItem>
+        <DropdownMenuItem>Second</DropdownMenuItem>
+      </>,
+    );
+    await user.keyboard("{ArrowDown}");
+    expect(screen.getByRole("menuitem", { name: "First" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Add" })).toHaveFocus();
+  });
+
+  it("includes the search input and close button in the Tab cycle", async () => {
+    const user = userEvent.setup();
+    renderMenu(
+      <>
+        <DropdownMenuHeader type="search" searchProps={{ "aria-label": "Search" }} />
+        <DropdownMenuItem>First</DropdownMenuItem>
+      </>,
+    );
+    await user.tab();
+    expect(screen.getByRole("searchbox", { name: "Search" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Close menu" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("searchbox", { name: "Search" })).toHaveFocus();
+  });
+
+  it("brings Tab back to the first handle when focus has fallen to the body", async () => {
+    renderMenu(<ReorderRows values={["A", "B"]} />);
+    const handleA = screen.getByRole("button", { name: "Reorder A" });
+    await waitFor(() => expect(handleA).toHaveFocus());
+    handleA.blur();
+    expect(document.body).toHaveFocus();
+    const notPrevented = fireEvent.keyDown(document.body, { key: "Tab" });
+    expect(notPrevented).toBe(false);
+    expect(handleA).toHaveFocus();
+  });
+});
+
+describe("DropdownMenuHeader back button", () => {
+  it("renders a back button before the title when onBack is provided", () => {
+    const onBack = vi.fn();
+    renderMenu(<DropdownMenuHeader title="Search" onBack={onBack} backLabel="Stop searching" />);
+    const back = screen.getByRole("button", { name: "Stop searching" });
+    fireEvent.click(back);
+    expect(onBack).toHaveBeenCalledTimes(1);
+    const header = back.closest("div[class*='flex-col']");
+    expect(header?.textContent?.indexOf("Search")).toBeGreaterThan(-1);
+  });
+
+  it("renders no back button by default", () => {
+    renderMenu(<DropdownMenuHeader title="Sort by" />);
+    expect(screen.queryByRole("button", { name: "Back" })).toBeNull();
+  });
+
+  it("has no a11y violations with back button, actions and a reorder group", async () => {
+    const { container } = renderMenu(
+      <>
+        <DropdownMenuHeader
+          title="Folders"
+          onBack={() => {}}
+          actions={<button type="button">Done</button>}
+        />
+        <DropdownMenuReorderGroup values={["A"]} onReorder={vi.fn()} aria-label="Reorder">
+          <DropdownMenuReorderItem value="A" dragHandleLabel="Reorder A" trailing={<span>3</span>}>
+            A
+          </DropdownMenuReorderItem>
+        </DropdownMenuReorderGroup>
+      </>,
+    );
+    expect(await axe(container)).toHaveNoViolations();
   });
 });

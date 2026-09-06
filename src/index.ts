@@ -258,8 +258,12 @@ export type {
   DropdownMenuRadioGroupProps,
   DropdownMenuRadioItemProps,
   DropdownMenuRadioItemSize,
+  DropdownMenuReorderDetail,
+  DropdownMenuReorderGroupProps,
+  DropdownMenuReorderItemProps,
   DropdownMenuSeparatorProps,
   DropdownMenuTriggerProps,
+  DropdownMenuVariant,
 } from "./components/DropdownMenu/DropdownMenu";
 export {
   DropdownMenu,
@@ -271,6 +275,8 @@ export {
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuReorderGroup,
+  DropdownMenuReorderItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./components/DropdownMenu/DropdownMenu";
