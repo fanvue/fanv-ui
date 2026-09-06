@@ -170,6 +170,7 @@
     "Stepper": "Navigation",
     "SubscribeButton": "Actions",
     "Switch": "Forms & Inputs",
+    "SwitchButton": "Actions",
     "SwitchField": "Forms & Inputs",
     "SwitchToggle": "Forms & Inputs",
     "Table": "Data Display",
