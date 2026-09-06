@@ -7,6 +7,7 @@ import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
 import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer/Drawer";
 import { IconButton } from "../IconButton/IconButton";
+import { ArrowLeftIcon } from "../Icons/ArrowLeftIcon";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
@@ -27,6 +28,50 @@ const NAVIGATION_KEYS = new Set([
   "Tab",
   "Enter",
 ]);
+
+// Radix menus swallow Tab (a menu has no tab stops, only items), which strands
+// any non-item control rendered inside one — header actions, a search input,
+// reorder handles. Containers of such controls carry this attribute and
+// `DropdownMenuContent` cycles Tab through the focusable elements inside them.
+const TAB_STOPS_ATTRIBUTE = "data-dropdown-menu-tab-stops";
+const FOCUSABLE_SELECTOR = "a[href], button, input, select, textarea, [tabindex]";
+
+function getMenuTabStops(content: HTMLElement): HTMLElement[] {
+  const stops: HTMLElement[] = [];
+  for (const container of content.querySelectorAll<HTMLElement>(`[${TAB_STOPS_ATTRIBUTE}]`)) {
+    for (const element of container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)) {
+      if (element.tabIndex < 0 || element.matches(":disabled") || element.hidden) continue;
+      stops.push(element);
+    }
+  }
+  return stops;
+}
+
+// Cycles focus through the menu's tab stops on Tab / Shift+Tab, skipping menu
+// items (which keep their arrow-key navigation). Returns without acting when
+// the key isn't a plain Tab, came from a nested menu, or there is nothing to
+// cycle through — Radix then swallows the key as it always has.
+function cycleMenuTabStops(event: React.KeyboardEvent<HTMLElement>): void {
+  if (event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey) return;
+  // A nested menu's keydowns bubble here through React's portal tree; they are
+  // the nested menu's to handle.
+  const target = event.target as HTMLElement;
+  if (target.closest("[data-radix-menu-content]") !== event.currentTarget) return;
+  const stops = getMenuTabStops(event.currentTarget);
+  if (stops.length === 0) return;
+  // Prevented here so Radix's own handler (which would swallow the key) is
+  // skipped — Radix composes it after ours and checks `defaultPrevented`.
+  event.preventDefault();
+  const index = stops.indexOf(target);
+  const last = stops.length - 1;
+  const next = event.shiftKey
+    ? stops[index <= 0 ? last : index - 1]
+    : stops[index === -1 || index === last ? 0 : index + 1];
+  // Deferred past Radix's FocusScope, whose Tab handler runs after this one
+  // (and ignores `defaultPrevented`) and would otherwise loop focus off the
+  // last tabbable element.
+  queueMicrotask(() => next?.focus({ preventScroll: true }));
+}
 
 type ActiveTap = {
   pointerId: number;
@@ -221,6 +266,7 @@ export const DropdownMenuContent = React.forwardRef<
       collisionPadding = FLOATING_CONTENT_COLLISION_PADDING,
       onPointerDownOutside,
       onCloseAutoFocus,
+      onKeyDown,
       children,
       ...props
     },
@@ -262,6 +308,7 @@ export const DropdownMenuContent = React.forwardRef<
           // animating out), so dropping them breaks the flow with no error.
           onPointerDownOutside={onPointerDownOutside}
           onCloseAutoFocus={onCloseAutoFocus}
+          onKeyDown={onKeyDown}
           {...props}
         >
           {children}
@@ -281,6 +328,10 @@ export const DropdownMenuContent = React.forwardRef<
             if (dismissedByPointer.current) event.preventDefault();
             dismissedByPointer.current = false;
             onCloseAutoFocus?.(event);
+          }}
+          onKeyDown={(event) => {
+            onKeyDown?.(event);
+            if (!event.defaultPrevented) cycleMenuTabStops(event);
           }}
           sideOffset={sideOffset}
           collisionPadding={collisionPadding}
@@ -762,6 +813,16 @@ export interface DropdownMenuHeaderProps extends React.HTMLAttributes<HTMLDivEle
   onClose?: () => void;
   /** Accessible label for the close button. @default "Close menu" */
   closeLabel?: string;
+  /**
+   * Fires when the back icon button at the start of the row is activated.
+   * Rendering it lets a menu step back from a sub-view — a `type="search"`
+   * header returning to its title, for instance — without closing the menu.
+   */
+  onBack?: () => void;
+  /** Whether to render the back icon button. @default `onBack !== undefined` */
+  showBack?: boolean;
+  /** Accessible label for the back button. @default "Back" */
+  backLabel?: string;
 }
 
 /**
@@ -792,6 +853,9 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
       showClose = true,
       onClose,
       closeLabel = "Close menu",
+      onBack,
+      showBack = onBack !== undefined,
+      backLabel = "Back",
       className,
       children,
       ...props
@@ -848,10 +912,22 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
           className={cn(
             "flex items-center gap-4",
             // With action buttons the title sits a further 4px in (20px from
-            // the panel edge) than the close-only header's 16px.
-            type === "default" && (actions != null ? "pl-3" : "pl-2"),
+            // the panel edge) than the close-only header's 16px. A back button
+            // supplies its own inset.
+            type === "default" && !showBack && (actions != null ? "pl-3" : "pl-2"),
           )}
         >
+          {showBack && (
+            <div data-dropdown-menu-tab-stops="" className="flex shrink-0 items-center">
+              <IconButton
+                variant="tertiary"
+                size="32"
+                icon={<ArrowLeftIcon />}
+                onClick={onBack}
+                aria-label={backLabel}
+              />
+            </div>
+          )}
           {type === "default" ? (
             <div className={cn("min-w-0 flex-1 truncate text-content-primary", titleTypography)}>
               {children ?? title}
@@ -863,7 +939,10 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
             // The extra right margin only applies with action buttons: filled
             // actions like a "Done" pill sit 12px off the panel edge, while the
             // bare tertiary close icon keeps the header's own 8px inset.
-            <div className={cn("flex shrink-0 items-center gap-1", actions != null && "mr-1")}>
+            <div
+              data-dropdown-menu-tab-stops=""
+              className={cn("flex shrink-0 items-center gap-1", actions != null && "mr-1")}
+            >
               {actions}
               {showClose && (
                 <IconButton
@@ -913,6 +992,7 @@ function SearchInput({
 
   return (
     <label
+      data-dropdown-menu-tab-stops=""
       className={cn(
         "flex min-w-0 flex-1 items-center gap-2 rounded-xs border border-border-primary",
         "bg-inputs-inputs-primary px-3 py-1 text-content-primary",
@@ -1124,6 +1204,8 @@ const REORDER_LIFT_THRESHOLD_PX = 4;
 const REORDER_AUTOSCROLL_ZONE_PX = 32;
 const REORDER_AUTOSCROLL_MAX_STEP_PX = 8;
 
+const DEFAULT_REORDER_INSTRUCTIONS = "Press the up and down arrow keys to move this item.";
+
 function findScrollableAncestor(element: HTMLElement): HTMLElement | null {
   let current = element.parentElement;
   while (current !== null) {
@@ -1137,6 +1219,30 @@ function findScrollableAncestor(element: HTMLElement): HTMLElement | null {
     current = current.parentElement;
   }
   return null;
+}
+
+// How far past the auto-scroll zone the pointer sits: negative above the top
+// zone, positive below the bottom one, 0 when it is clear of both.
+function edgeOvershoot(rect: DOMRect, y: number): number {
+  if (y < rect.top + REORDER_AUTOSCROLL_ZONE_PX) return y - (rect.top + REORDER_AUTOSCROLL_ZONE_PX);
+  if (y > rect.bottom - REORDER_AUTOSCROLL_ZONE_PX) {
+    return y - (rect.bottom - REORDER_AUTOSCROLL_ZONE_PX);
+  }
+  return 0;
+}
+
+// Keeps the latest value of a prop reachable from callbacks that must stay
+// referentially stable (they are handed to imperative listeners and a context).
+function useLatestRef<T>(value: T): React.RefObject<T> {
+  const ref = React.useRef(value);
+  React.useLayoutEffect(() => {
+    ref.current = value;
+  });
+  return ref;
+}
+
+function shallowEqualArrays(a: readonly string[], b: readonly string[]): boolean {
+  return a.length === b.length && a.every((value, index) => value === b[index]);
 }
 
 // The `V2 Menu Item` drag handle glyph (2×3 dot grip). Inlined rather than
@@ -1155,32 +1261,75 @@ function DragHandleDots(props: React.SVGAttributes<SVGSVGElement>) {
   );
 }
 
+/** Describes a completed reorder: which item moved and where. */
+export interface DropdownMenuReorderDetail {
+  /** `value` of the item that moved. */
+  value: string;
+  /** Plain-text name of the item that moved (see `DropdownMenuReorderItem.label`). */
+  label: string;
+  /** Index the item moved from. */
+  from: number;
+  /** Index the item now occupies. */
+  to: number;
+  /** Number of items in the group. */
+  total: number;
+}
+
+type RegisteredReorderItem = { element: HTMLDivElement; label: string };
+
+// Everything a drag needs between pointer events. It lives in a ref rather
+// than state: pointer moves mutate it and write the ghost's transform directly,
+// and only a lift, a drop-index change or the drop itself reach React.
 type ReorderDrag = {
   value: string;
   pointerId: number;
+  element: HTMLDivElement;
   startX: number;
   startY: number;
   offsetX: number;
   offsetY: number;
-  x: number;
-  y: number;
-  width: number;
   lifted: boolean;
   dropIndex: number;
-  zIndex: string;
+  // Geometry captured once at lift. Rows never move during a drag — the source
+  // row stays in flow, dimmed — so the only thing that shifts them is the
+  // scroll container, tracked by comparing its scrollTop with the value here.
+  /** Row vertical centres in viewport coordinates at measure time. */
+  midpoints: number[];
+  /** Row top edges plus the last row's bottom, relative to the group. */
+  edges: number[];
+  scrollTopAtMeasure: number;
+  containerRect: DOMRect | null;
 };
 
-type ReorderContextValue = {
-  values: string[];
-  drag: ReorderDrag | null;
-  registerItem: (value: string, element: HTMLDivElement | null) => void;
+type ReorderLifted = { value: string; width: number; zIndex: string };
+
+type ReorderActions = {
+  registerItem: (value: string, item: RegisteredReorderItem | null) => void;
+  registerGhost: (element: HTMLDivElement | null) => void;
   startDrag: (value: string, event: React.PointerEvent, element: HTMLDivElement) => void;
   updateDrag: (event: React.PointerEvent) => void;
   endDrag: (pointerId: number, commit: boolean) => void;
   moveItem: (value: string, delta: number) => void;
+  instructionsId: string;
 };
 
-const ReorderContext = React.createContext<ReorderContextValue | null>(null);
+const ReorderActionsContext = React.createContext<ReorderActions | null>(null);
+// Separate from the actions so rows re-render only when a lift starts or ends,
+// not on every drop-index change (which only the group's indicator needs).
+const ReorderLiftedContext = React.createContext<ReorderLifted | null>(null);
+
+// A drag starts from a primary mouse button anywhere on the row, or from the
+// drag handle only for touch/pen — so the rest of the row still scrolls a long
+// menu with a finger.
+function canStartReorderDrag(event: React.PointerEvent, handle: HTMLElement | null): boolean {
+  if (event.defaultPrevented) return false;
+  if (event.pointerType === "mouse") return event.button === 0;
+  return event.target instanceof Node && handle !== null && handle.contains(event.target);
+}
+
+function defaultReorderAnnouncement({ label, to, total }: DropdownMenuReorderDetail): string {
+  return `${label} moved to position ${to + 1} of ${total}`;
+}
 
 /** Props for the {@link DropdownMenuReorderGroup} component. */
 export interface DropdownMenuReorderGroupProps
@@ -1191,8 +1340,24 @@ export interface DropdownMenuReorderGroupProps
    * rendered.
    */
   values: string[];
-  /** Fires with the new order after a drop or a keyboard move completes. */
-  onReorder: (values: string[]) => void;
+  /**
+   * Fires after a drop or a keyboard move completes with the new order, plus
+   * which item moved and from/to where — enough to call a move-to-position
+   * API without diffing the arrays.
+   */
+  onReorder: (values: string[], detail: DropdownMenuReorderDetail) => void;
+  /**
+   * Builds the text announced to screen readers after a move. Override to
+   * localise it.
+   * @default ({ label, to, total }) => `${label} moved to position ${to + 1} of ${total}`
+   */
+  getAnnouncement?: (detail: DropdownMenuReorderDetail) => string;
+  /**
+   * Screen-reader instructions attached to every drag handle. Override to
+   * localise them.
+   * @default "Press the up and down arrow keys to move this item."
+   */
+  instructions?: string;
 }
 
 /**
@@ -1202,15 +1367,23 @@ export interface DropdownMenuReorderGroupProps
  * drag handle on touch) or moved with ArrowUp/ArrowDown on the focused
  * handle. Works in both the `"menu"` and `"sheet"` variants.
  *
+ * Inside a `"menu"`, Tab cycles through the handles and any header actions
+ * (Radix menus otherwise swallow Tab), and the first handle takes focus when
+ * the menu opens straight into the group.
+ *
  * Pair with a {@link DropdownMenuHeader} whose `actions` contains a commit
  * button to exit the reorder mode.
  *
  * @example
  * ```tsx
- * <DropdownMenuReorderGroup values={folders} onReorder={setFolders} aria-label="Reorder folders">
+ * <DropdownMenuReorderGroup
+ *   values={folders.map((folder) => folder.id)}
+ *   onReorder={(_, { value, to }) => moveFolder(value, to)}
+ *   aria-label="Reorder folders"
+ * >
  *   {folders.map((folder) => (
- *     <DropdownMenuReorderItem key={folder} value={folder}>
- *       {folder}
+ *     <DropdownMenuReorderItem key={folder.id} value={folder.id} label={folder.name}>
+ *       {folder.name}
  *     </DropdownMenuReorderItem>
  *   ))}
  * </DropdownMenuReorderGroup>
@@ -1219,258 +1392,531 @@ export interface DropdownMenuReorderGroupProps
 export const DropdownMenuReorderGroup = React.forwardRef<
   HTMLDivElement,
   DropdownMenuReorderGroupProps
->(({ values, onReorder, className, children, onKeyDown, ...props }, ref) => {
-  const variant = React.useContext(DropdownMenuVariantContext);
-  const groupRef = React.useRef<HTMLDivElement | null>(null);
-  const itemsRef = React.useRef(new Map<string, HTMLDivElement>());
-  const midpointsRef = React.useRef<number[]>([]);
-  const edgesRef = React.useRef<number[]>([]);
-  const dragRef = React.useRef<ReorderDrag | null>(null);
-  const scrollContainerRef = React.useRef<HTMLElement | null>(null);
-  const lastPointerRef = React.useRef<{ x: number; y: number } | null>(null);
-  const [drag, setDrag] = React.useState<ReorderDrag | null>(null);
-  const [announcement, setAnnouncement] = React.useState("");
-
-  const setDragState = React.useCallback((next: ReorderDrag | null) => {
-    dragRef.current = next;
-    setDrag(next);
-  }, []);
-
-  const registerItem = React.useCallback((value: string, element: HTMLDivElement | null) => {
-    if (element === null) {
-      itemsRef.current.delete(value);
-    } else {
-      itemsRef.current.set(value, element);
-    }
-  }, []);
-
-  const applyReorder = React.useCallback(
-    (value: string, from: number, to: number) => {
-      const next = [...values];
-      next.splice(from, 1);
-      next.splice(to, 0, value);
-      onReorder(next);
-      setAnnouncement(`${value} moved to position ${to + 1} of ${next.length}`);
+>(
+  (
+    {
+      values,
+      onReorder,
+      getAnnouncement = defaultReorderAnnouncement,
+      instructions = DEFAULT_REORDER_INSTRUCTIONS,
+      className,
+      children,
+      ...props
     },
-    [values, onReorder],
-  );
+    ref,
+  ) => {
+    const variant = React.useContext(DropdownMenuVariantContext);
+    const instructionsId = React.useId();
+    const groupRef = React.useRef<HTMLDivElement | null>(null);
+    const itemsRef = React.useRef(new Map<string, RegisteredReorderItem>());
+    const dragRef = React.useRef<ReorderDrag | null>(null);
+    const ghostRef = React.useRef<HTMLDivElement | null>(null);
+    const scrollContainerRef = React.useRef<HTMLElement | null>(null);
+    const lastPointerRef = React.useRef<{ x: number; y: number } | null>(null);
+    const autoScrollFrameRef = React.useRef<number | null>(null);
+    const dragDisposersRef = React.useRef<Array<() => void>>([]);
+    const valuesRef = useLatestRef(values);
+    const onReorderRef = useLatestRef(onReorder);
+    const getAnnouncementRef = useLatestRef(getAnnouncement);
+    const [lifted, setLifted] = React.useState<ReorderLifted | null>(null);
+    const [dropIndex, setDropIndex] = React.useState(-1);
+    const [announcement, setAnnouncement] = React.useState("");
 
-  // Row geometry is re-measured from live rects on every pointer move and
-  // auto-scroll frame, so the drop target stays correct when the menu scrolls
-  // mid-drag. Midpoints are viewport coordinates; edges are group-relative so
-  // the drop indicator scrolls with the rows.
-  const measure = React.useCallback(() => {
-    const groupElement = groupRef.current;
-    if (groupElement === null) return;
-    const groupTop = groupElement.getBoundingClientRect().top;
-    const rects = values.map((v) => itemsRef.current.get(v)?.getBoundingClientRect() ?? null);
-    midpointsRef.current = rects.map((rect) => (rect ? rect.top + rect.height / 2 : 0));
-    const lastRect = rects[rects.length - 1];
-    edgesRef.current = [
-      ...rects.map((rect) => (rect ? rect.top - groupTop : 0)),
-      lastRect ? lastRect.bottom - groupTop : 0,
-    ];
-  }, [values]);
-
-  const startDrag = React.useCallback(
-    (value: string, event: React.PointerEvent, element: HTMLDivElement) => {
-      if (groupRef.current === null) return;
-      measure();
-      scrollContainerRef.current = findScrollableAncestor(element);
-      lastPointerRef.current = { x: event.clientX, y: event.clientY };
-      const rect = element.getBoundingClientRect();
-      // The ghost is portalled to <body>, outside the menu's stacking context,
-      // so it inherits none of the menu's z-index. Match the surface it lifted
-      // from (the popper sets its own z, and a consumer may have raised it) —
-      // being appended later in the DOM keeps it painted above at equal z.
-      const surface = element.closest<HTMLElement>('[role="menu"],[role="dialog"]');
-      const surfaceZIndex = surface === null ? "" : getComputedStyle(surface).zIndex;
-      setDragState({
-        value,
-        pointerId: event.pointerId,
-        startX: event.clientX,
-        startY: event.clientY,
-        offsetX: event.clientX - rect.left,
-        offsetY: event.clientY - rect.top,
-        x: rect.left,
-        y: rect.top,
-        width: rect.width,
-        lifted: false,
-        dropIndex: values.indexOf(value),
-        zIndex:
-          surfaceZIndex === "" || surfaceZIndex === "auto"
-            ? "var(--fanvue-ui-portal-z-index, 50)"
-            : surfaceZIndex,
-      });
-    },
-    [values, measure, setDragState],
-  );
-
-  const updateDrag = React.useCallback(
-    (event: React.PointerEvent) => {
-      const previous = dragRef.current;
-      if (previous === null || event.pointerId !== previous.pointerId) return;
-      lastPointerRef.current = { x: event.clientX, y: event.clientY };
-      const lifted =
-        previous.lifted ||
-        Math.hypot(event.clientX - previous.startX, event.clientY - previous.startY) >
-          REORDER_LIFT_THRESHOLD_PX;
-      measure();
-      setDragState({
-        ...previous,
-        x: event.clientX - previous.offsetX,
-        y: event.clientY - previous.offsetY,
-        lifted,
-        dropIndex: midpointsRef.current.filter((midpoint) => midpoint < event.clientY).length,
-      });
-    },
-    [measure, setDragState],
-  );
-
-  const endDrag = React.useCallback(
-    (pointerId: number, commit: boolean) => {
-      const previous = dragRef.current;
-      if (previous === null || pointerId !== previous.pointerId) return;
-      setDragState(null);
-      if (!commit || !previous.lifted) return;
-      const from = values.indexOf(previous.value);
-      if (from === -1) return;
-      const to = Math.max(
-        0,
-        Math.min(
-          previous.dropIndex > from ? previous.dropIndex - 1 : previous.dropIndex,
-          values.length - 1,
-        ),
-      );
-      if (to === from) return;
-      applyReorder(previous.value, from, to);
-    },
-    [values, applyReorder, setDragState],
-  );
-
-  const moveItem = React.useCallback(
-    (value: string, delta: number) => {
-      const from = values.indexOf(value);
-      const to = from + delta;
-      if (from === -1 || to < 0 || to >= values.length) return;
-      applyReorder(value, from, to);
-    },
-    [values, applyReorder],
-  );
-
-  const dragging = drag !== null;
-  React.useEffect(() => {
-    if (!dragging) return;
-    const cancelOnEscape = (event: KeyboardEvent) => {
-      if (event.key !== "Escape" || dragRef.current === null) return;
-      // Swallow it entirely so Radix's dismissable layer doesn't also close
-      // the whole menu — Escape mid-drag only cancels the drag.
-      event.preventDefault();
-      event.stopPropagation();
-      setDragState(null);
-    };
-    window.addEventListener("keydown", cancelOnEscape, true);
-    return () => window.removeEventListener("keydown", cancelOnEscape, true);
-  }, [dragging, setDragState]);
-
-  // While lifted: auto-scroll the nearest scrollable ancestor when the pointer
-  // sits near its edge, and refresh the drop target whenever it scrolls at all
-  // (edge auto-scroll or the user wheel-scrolling mid-drag) — the pointer may
-  // not move again, so pointermove alone can't keep the indicator honest.
-  const isLiftedDrag = drag !== null && drag.lifted;
-  React.useEffect(() => {
-    if (!isLiftedDrag) return;
-    const container = scrollContainerRef.current;
-    let lastScrollTop = container?.scrollTop ?? 0;
-    let frame = requestAnimationFrame(function step() {
-      const pointer = lastPointerRef.current;
-      const previous = dragRef.current;
-      if (pointer !== null && previous !== null) {
-        if (container !== null) {
-          const rect = container.getBoundingClientRect();
-          const past =
-            pointer.y < rect.top + REORDER_AUTOSCROLL_ZONE_PX
-              ? pointer.y - (rect.top + REORDER_AUTOSCROLL_ZONE_PX)
-              : pointer.y > rect.bottom - REORDER_AUTOSCROLL_ZONE_PX
-                ? pointer.y - (rect.bottom - REORDER_AUTOSCROLL_ZONE_PX)
-                : 0;
-          if (past !== 0) {
-            const step = Math.min(Math.ceil(Math.abs(past) / 4), REORDER_AUTOSCROLL_MAX_STEP_PX);
-            container.scrollTop += past < 0 ? -step : step;
-          }
-        }
-        if (container !== null && container.scrollTop !== lastScrollTop) {
-          lastScrollTop = container.scrollTop;
-          measure();
-          setDragState({
-            ...previous,
-            dropIndex: midpointsRef.current.filter((midpoint) => midpoint < pointer.y).length,
-          });
-        }
+    const registerItem = React.useCallback((value: string, item: RegisteredReorderItem | null) => {
+      if (item === null) {
+        itemsRef.current.delete(value);
+      } else {
+        itemsRef.current.set(value, item);
       }
-      frame = requestAnimationFrame(step);
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [isLiftedDrag, measure, setDragState]);
+    }, []);
 
-  const contextValue = React.useMemo<ReorderContextValue>(
-    () => ({ values, drag, registerItem, startDrag, updateDrag, endDrag, moveItem }),
-    [values, drag, registerItem, startDrag, updateDrag, endDrag, moveItem],
-  );
+    const positionGhost = React.useCallback(() => {
+      const drag = dragRef.current;
+      const ghost = ghostRef.current;
+      const pointer = lastPointerRef.current;
+      if (drag === null || ghost === null || pointer === null) return;
+      // A transform, not left/top: it moves the ghost on the compositor
+      // without invalidating layout, so nothing forces a reflow per move.
+      ghost.style.transform = `translate3d(${pointer.x - drag.offsetX}px, ${pointer.y - drag.offsetY}px, 0)`;
+    }, []);
 
-  const dragFrom = drag === null ? -1 : values.indexOf(drag.value);
-  const showDropIndicator =
-    drag !== null && drag.lifted && drag.dropIndex !== dragFrom && drag.dropIndex !== dragFrom + 1;
+    const registerGhost = React.useCallback(
+      (element: HTMLDivElement | null) => {
+        ghostRef.current = element;
+        // The ghost mounts in the commit after the lift; place it straight away
+        // rather than waiting for the next pointer move.
+        if (element !== null) positionGhost();
+      },
+      [positionGhost],
+    );
 
-  return (
-    // biome-ignore lint/a11y/useSemanticElements: <fieldset> carries form semantics and default styling we don't want inside a menu; role="group" is the correct ARIA pattern here
-    <div
-      ref={(node) => {
-        groupRef.current = node;
-        if (typeof ref === "function") {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
+    // Reads every row rect once, in a single batch with no writes in between,
+    // so it costs one layout flush per lift instead of one per pointer move.
+    const measure = React.useCallback(
+      (drag: ReorderDrag) => {
+        const group = groupRef.current;
+        if (group === null) return;
+        const groupTop = group.getBoundingClientRect().top;
+        const midpoints: number[] = [];
+        const edges: number[] = [];
+        let bottom = groupTop;
+        for (const value of valuesRef.current) {
+          const rect = itemsRef.current.get(value)?.element.getBoundingClientRect();
+          if (rect === undefined) {
+            midpoints.push(bottom);
+            edges.push(bottom - groupTop);
+            continue;
+          }
+          midpoints.push(rect.top + rect.height / 2);
+          edges.push(rect.top - groupTop);
+          bottom = rect.bottom;
         }
-      }}
-      role="group"
-      className={cn("relative flex w-full flex-col", className)}
-      onKeyDown={(event) => {
-        onKeyDown?.(event);
-        // Radix closes the menu on Tab; keep it inside the popper variant so
-        // the drag handles stay keyboard-reachable. The sheet (Dialog) variant
-        // manages Tab itself.
-        if (variant === "menu" && event.key === "Tab") event.stopPropagation();
-      }}
-      {...props}
-    >
-      <ReorderContext.Provider value={contextValue}>{children}</ReorderContext.Provider>
-      {showDropIndicator && (
-        <div
-          aria-hidden="true"
-          data-reorder-indicator=""
-          className="pointer-events-none absolute inset-x-3 z-10 flex -translate-y-1/2 items-center"
-          style={{ top: edgesRef.current[drag.dropIndex] }}
-        >
-          <span className="size-2 shrink-0 rounded-full bg-content-primary" />
-          <span className="h-0.5 min-w-0 flex-1 rounded-full bg-content-primary" />
-        </div>
-      )}
-      {/* biome-ignore lint/a11y/useSemanticElements: <output> is not appropriate here; using role="status" for live region announcements */}
-      <span role="status" aria-live="polite" className="sr-only">
-        {announcement}
-      </span>
-    </div>
-  );
-});
+        edges.push(bottom - groupTop);
+        drag.midpoints = midpoints;
+        drag.edges = edges;
+        const container = scrollContainerRef.current;
+        drag.scrollTopAtMeasure = container?.scrollTop ?? 0;
+        drag.containerRect = container?.getBoundingClientRect() ?? null;
+      },
+      [valuesRef],
+    );
+
+    // Rows only move when the container scrolls, so a pointer position in
+    // measure-time coordinates is the live one shifted by the scroll delta.
+    const computeDropIndex = React.useCallback((drag: ReorderDrag, clientY: number) => {
+      const container = scrollContainerRef.current;
+      const y = clientY + (container === null ? 0 : container.scrollTop - drag.scrollTopAtMeasure);
+      let index = 0;
+      for (const midpoint of drag.midpoints) {
+        if (midpoint >= y) break;
+        index += 1;
+      }
+      return index;
+    }, []);
+
+    const refreshDropIndex = React.useCallback(
+      (drag: ReorderDrag, clientY: number) => {
+        const next = computeDropIndex(drag, clientY);
+        if (next === drag.dropIndex) return;
+        drag.dropIndex = next;
+        setDropIndex(next);
+      },
+      [computeDropIndex],
+    );
+
+    const stopAutoScroll = React.useCallback(() => {
+      if (autoScrollFrameRef.current === null) return;
+      cancelAnimationFrame(autoScrollFrameRef.current);
+      autoScrollFrameRef.current = null;
+    }, []);
+
+    // Runs a frame loop only while the pointer sits in an edge zone of a
+    // scrollable container; each frame scrolls one step and the container's
+    // scroll event (below) moves the drop target. The loop ends by itself when
+    // the pointer leaves the zone or the container runs out of scroll range.
+    const updateAutoScroll = React.useCallback(() => {
+      const drag = dragRef.current;
+      const container = scrollContainerRef.current;
+      const pointer = lastPointerRef.current;
+      if (
+        drag === null ||
+        !drag.lifted ||
+        container === null ||
+        drag.containerRect === null ||
+        pointer === null ||
+        edgeOvershoot(drag.containerRect, pointer.y) === 0
+      ) {
+        stopAutoScroll();
+        return;
+      }
+      if (autoScrollFrameRef.current !== null) return;
+      const step = () => {
+        autoScrollFrameRef.current = null;
+        const current = dragRef.current;
+        const latest = lastPointerRef.current;
+        if (
+          current === null ||
+          !current.lifted ||
+          current.containerRect === null ||
+          latest === null
+        ) {
+          return;
+        }
+        const overshoot = edgeOvershoot(current.containerRect, latest.y);
+        if (overshoot === 0) return;
+        const amount = Math.min(Math.ceil(Math.abs(overshoot) / 4), REORDER_AUTOSCROLL_MAX_STEP_PX);
+        const before = container.scrollTop;
+        container.scrollTop = before + (overshoot < 0 ? -amount : amount);
+        // At the end of the scroll range there is nothing more to do until the
+        // pointer moves again.
+        if (container.scrollTop === before) return;
+        autoScrollFrameRef.current = requestAnimationFrame(step);
+      };
+      autoScrollFrameRef.current = requestAnimationFrame(step);
+    }, [stopAutoScroll]);
+
+    const clearDrag = React.useCallback(() => {
+      stopAutoScroll();
+      for (const dispose of dragDisposersRef.current) dispose();
+      dragDisposersRef.current = [];
+      const drag = dragRef.current;
+      dragRef.current = null;
+      lastPointerRef.current = null;
+      scrollContainerRef.current = null;
+      if (drag?.lifted) {
+        setLifted(null);
+        setDropIndex(-1);
+      }
+    }, [stopAutoScroll]);
+
+    const applyReorder = React.useCallback(
+      (value: string, from: number, to: number) => {
+        const next = [...valuesRef.current];
+        next.splice(from, 1);
+        next.splice(to, 0, value);
+        const detail: DropdownMenuReorderDetail = {
+          value,
+          label: itemsRef.current.get(value)?.label ?? value,
+          from,
+          to,
+          total: next.length,
+        };
+        onReorderRef.current(next, detail);
+        setAnnouncement(getAnnouncementRef.current(detail));
+      },
+      [valuesRef, onReorderRef, getAnnouncementRef],
+    );
+
+    const endDrag = React.useCallback(
+      (pointerId: number, commit: boolean) => {
+        const drag = dragRef.current;
+        if (drag === null || pointerId !== drag.pointerId) return;
+        clearDrag();
+        if (!commit || !drag.lifted) return;
+        const current = valuesRef.current;
+        const from = current.indexOf(drag.value);
+        if (from === -1) return;
+        const to = Math.max(
+          0,
+          Math.min(drag.dropIndex > from ? drag.dropIndex - 1 : drag.dropIndex, current.length - 1),
+        );
+        if (to === from) return;
+        applyReorder(drag.value, from, to);
+      },
+      [clearDrag, applyReorder, valuesRef],
+    );
+
+    const startDrag = React.useCallback(
+      (value: string, event: React.PointerEvent, element: HTMLDivElement) => {
+        // One drag at a time: a second finger cannot hijack the first.
+        if (dragRef.current !== null || groupRef.current === null) return;
+        dragRef.current = {
+          value,
+          pointerId: event.pointerId,
+          element,
+          startX: event.clientX,
+          startY: event.clientY,
+          offsetX: 0,
+          offsetY: 0,
+          lifted: false,
+          dropIndex: -1,
+          midpoints: [],
+          edges: [],
+          scrollTopAtMeasure: 0,
+          containerRect: null,
+        };
+        lastPointerRef.current = { x: event.clientX, y: event.clientY };
+
+        const view = element.ownerDocument.defaultView ?? window;
+        // The row's own pointer handlers end the drag in the normal case. These
+        // catch the pointer the row never sees again — the row unmounting
+        // mid-drag (a list refetch) or its capture being lost — so a drag can't
+        // be left half-finished with its listeners still attached.
+        const onPointerUp = (pointerEvent: PointerEvent) => endDrag(pointerEvent.pointerId, true);
+        const onPointerCancel = (pointerEvent: PointerEvent) =>
+          endDrag(pointerEvent.pointerId, false);
+        const onKeyDown = (keyEvent: KeyboardEvent) => {
+          if (keyEvent.key !== "Escape" || dragRef.current === null) return;
+          // Swallow it entirely so Radix's dismissable layer doesn't also close
+          // the whole menu — Escape mid-drag only cancels the drag.
+          keyEvent.preventDefault();
+          keyEvent.stopPropagation();
+          clearDrag();
+        };
+        view.addEventListener("pointerup", onPointerUp);
+        view.addEventListener("pointercancel", onPointerCancel);
+        view.addEventListener("keydown", onKeyDown, true);
+        dragDisposersRef.current.push(() => {
+          view.removeEventListener("pointerup", onPointerUp);
+          view.removeEventListener("pointercancel", onPointerCancel);
+          view.removeEventListener("keydown", onKeyDown, true);
+        });
+      },
+      [endDrag, clearDrag],
+    );
+
+    const lift = React.useCallback(
+      (drag: ReorderDrag, pointer: { x: number; y: number }) => {
+        const { element } = drag;
+        const rect = element.getBoundingClientRect();
+        drag.offsetX = drag.startX - rect.left;
+        drag.offsetY = drag.startY - rect.top;
+
+        const container = findScrollableAncestor(element);
+        scrollContainerRef.current = container;
+        if (container !== null) {
+          // Covers both edge auto-scroll and the user wheel-scrolling mid-drag:
+          // the pointer may not move again, so pointermove alone can't keep the
+          // drop target honest.
+          const onScroll = () => {
+            const current = dragRef.current;
+            const latest = lastPointerRef.current;
+            if (current === null || !current.lifted || latest === null) return;
+            refreshDropIndex(current, latest.y);
+          };
+          container.addEventListener("scroll", onScroll, { passive: true });
+          dragDisposersRef.current.push(() => container.removeEventListener("scroll", onScroll));
+        }
+
+        measure(drag);
+        drag.lifted = true;
+        drag.dropIndex = computeDropIndex(drag, pointer.y);
+
+        // The ghost is portalled to <body>, outside the menu's stacking context,
+        // so it inherits none of the menu's z-index. Match the surface it lifted
+        // from (the popper sets its own z, and a consumer may have raised it) —
+        // being appended later in the DOM keeps it painted above at equal z.
+        const surface = element.closest<HTMLElement>('[role="menu"],[role="dialog"]');
+        const surfaceZIndex = surface === null ? "" : getComputedStyle(surface).zIndex;
+        setLifted({
+          value: drag.value,
+          width: rect.width,
+          zIndex:
+            surfaceZIndex === "" || surfaceZIndex === "auto"
+              ? "var(--fanvue-ui-portal-z-index, 50)"
+              : surfaceZIndex,
+        });
+        setDropIndex(drag.dropIndex);
+      },
+      [measure, computeDropIndex, refreshDropIndex],
+    );
+
+    const updateDrag = React.useCallback(
+      (event: React.PointerEvent) => {
+        const drag = dragRef.current;
+        if (drag === null || event.pointerId !== drag.pointerId) return;
+        const pointer = { x: event.clientX, y: event.clientY };
+        lastPointerRef.current = pointer;
+        if (!drag.lifted) {
+          if (
+            Math.hypot(pointer.x - drag.startX, pointer.y - drag.startY) <=
+            REORDER_LIFT_THRESHOLD_PX
+          ) {
+            return;
+          }
+          lift(drag, pointer);
+        }
+        positionGhost();
+        refreshDropIndex(drag, pointer.y);
+        updateAutoScroll();
+      },
+      [lift, positionGhost, refreshDropIndex, updateAutoScroll],
+    );
+
+    const moveItem = React.useCallback(
+      (value: string, delta: number) => {
+        const current = valuesRef.current;
+        const from = current.indexOf(value);
+        const to = from + delta;
+        if (from === -1 || to < 0 || to >= current.length) return;
+        applyReorder(value, from, to);
+      },
+      [applyReorder, valuesRef],
+    );
+
+    // Never leave listeners or a frame loop behind when the group goes away
+    // mid-drag (the menu closing, for instance).
+    React.useEffect(() => clearDrag, [clearDrag]);
+
+    // The list changed under a drag: drop the drag if its row is gone, else
+    // re-measure so the indicator tracks the rows' new positions.
+    const previousValuesRef = React.useRef(values);
+    React.useLayoutEffect(() => {
+      if (shallowEqualArrays(previousValuesRef.current, values)) return;
+      previousValuesRef.current = values;
+      const drag = dragRef.current;
+      if (drag === null) return;
+      if (!values.includes(drag.value)) {
+        clearDrag();
+        return;
+      }
+      if (!drag.lifted) return;
+      measure(drag);
+      const pointer = lastPointerRef.current;
+      if (pointer !== null) refreshDropIndex(drag, pointer.y);
+    }, [values, clearDrag, measure, refreshDropIndex]);
+
+    // Keyboard reachability inside a Radix menu. Radix parks focus on the menu
+    // content when it opens and moves it only between menu items — which
+    // these rows are not — so without help a keyboard user could never reach
+    // a handle. When the menu opens straight into the group, the first handle
+    // takes focus once Radix has finished its own focus work. And if focus has
+    // fallen to <body> (the control that switched the menu into reorder mode
+    // unmounted under it), Tab lands on the first handle instead of leaving
+    // the menu for the page behind it.
+    React.useEffect(() => {
+      if (variant !== "menu") return;
+      const group = groupRef.current;
+      const menu = group?.closest<HTMLElement>('[role="menu"]') ?? null;
+      // Nothing to do outside a menu (the sheet variant, or a bare group).
+      if (group === null || menu === null) return;
+      const doc = group.ownerDocument;
+      const focusFirstHandle = () => {
+        const handle = group.querySelector<HTMLElement>("button:not(:disabled)");
+        if (handle === null) return false;
+        handle.focus({ preventScroll: true });
+        return true;
+      };
+      const frame = requestAnimationFrame(() => {
+        const active = doc.activeElement;
+        const parkedOnMenu = active === null || active === doc.body || active === menu;
+        // A menu that also lists regular items keeps Radix's item-first
+        // navigation; only claim focus when the group is all there is.
+        const hasMenuItems = menu.querySelector('[role^="menuitem"]') !== null;
+        if (parkedOnMenu && !hasMenuItems) focusFirstHandle();
+      });
+      const rescueTab = (event: KeyboardEvent) => {
+        if (event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey) return;
+        const active = doc.activeElement;
+        if (active !== null && active !== doc.body) return;
+        if (menu.getAttribute("data-state") !== "open") return;
+        if (focusFirstHandle()) event.preventDefault();
+      };
+      doc.addEventListener("keydown", rescueTab, true);
+      return () => {
+        cancelAnimationFrame(frame);
+        doc.removeEventListener("keydown", rescueTab, true);
+      };
+    }, [variant]);
+
+    const actions = React.useMemo<ReorderActions>(
+      () => ({
+        registerItem,
+        registerGhost,
+        startDrag,
+        updateDrag,
+        endDrag,
+        moveItem,
+        instructionsId,
+      }),
+      [registerItem, registerGhost, startDrag, updateDrag, endDrag, moveItem, instructionsId],
+    );
+
+    const drag = dragRef.current;
+    const liftedFrom = lifted === null ? -1 : values.indexOf(lifted.value);
+    const showDropIndicator =
+      lifted !== null &&
+      drag !== null &&
+      dropIndex !== -1 &&
+      dropIndex !== liftedFrom &&
+      dropIndex !== liftedFrom + 1;
+
+    return (
+      // biome-ignore lint/a11y/useSemanticElements: <fieldset> carries form semantics and default styling we don't want inside a menu; role="group" is the correct ARIA pattern here
+      <div
+        ref={(node) => {
+          groupRef.current = node;
+          if (typeof ref === "function") {
+            ref(node);
+          } else if (ref) {
+            ref.current = node;
+          }
+        }}
+        role="group"
+        data-dropdown-menu-tab-stops=""
+        className={cn("relative flex w-full flex-col", className)}
+        {...props}
+      >
+        <ReorderActionsContext.Provider value={actions}>
+          <ReorderLiftedContext.Provider value={lifted}>{children}</ReorderLiftedContext.Provider>
+        </ReorderActionsContext.Provider>
+        {showDropIndicator && (
+          <div
+            aria-hidden="true"
+            data-reorder-indicator=""
+            className="pointer-events-none absolute inset-x-3 z-10 flex -translate-y-1/2 items-center"
+            style={{ top: drag.edges[dropIndex] }}
+          >
+            <span className="size-2 shrink-0 rounded-full bg-content-primary" />
+            <span className="h-0.5 min-w-0 flex-1 rounded-full bg-content-primary" />
+          </div>
+        )}
+        <span id={instructionsId} className="sr-only">
+          {instructions}
+        </span>
+        {/* biome-ignore lint/a11y/useSemanticElements: <output> is not appropriate here; using role="status" for live region announcements */}
+        <span role="status" aria-live="polite" className="sr-only">
+          {announcement}
+        </span>
+      </div>
+    );
+  },
+);
 DropdownMenuReorderGroup.displayName = "DropdownMenuReorderGroup";
+
+// The floating copy of a lifted row. Anchored at the viewport origin and moved
+// with a transform (see the group's positionGhost) so each pointer move is
+// compositor work only.
+function ReorderGhost({
+  lifted,
+  registerGhost,
+  container,
+  children,
+}: {
+  lifted: ReorderLifted;
+  registerGhost: ReorderActions["registerGhost"];
+  container: Element;
+  children: React.ReactNode;
+}) {
+  return createPortal(
+    <div
+      aria-hidden="true"
+      data-reorder-ghost=""
+      ref={registerGhost}
+      className="pointer-events-none fixed top-0 left-0 will-change-transform"
+      style={{ width: lifted.width, zIndex: lifted.zIndex }}
+    >
+      {/*
+       * The design draws the floating copy as frosted glass — a translucent
+       * surface with a heavy backdrop blur and no drop shadow (the same
+       * treatment the panel itself gets) — so what the ghost passes over
+       * smears through it.
+       */}
+      <div className="overflow-hidden rounded-sm bg-surface-primary/65 backdrop-blur-[20px]">
+        <div className="typography-body-small-14px-regular flex min-h-10 items-center gap-2 bg-neutral-alphas-100 py-2 pr-6 pl-3 text-content-primary">
+          <DragHandleDots className="size-4 shrink-0 text-icons-tertiary" />
+          {children}
+        </div>
+      </div>
+    </div>,
+    container,
+  );
+}
 
 /** Props for the {@link DropdownMenuReorderItem} component. */
 export interface DropdownMenuReorderItemProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Value identifying this item within the parent group's `values`. */
   value: string;
+  /**
+   * Plain-text name used in the group's screen-reader announcements and
+   * reported in `onReorder`'s detail. Defaults to `children` when that is a
+   * string, then to `value` — so pass it whenever `value` is an id.
+   */
+  label?: string;
   /** Icon (or other node) rendered between the drag handle and the label. */
   leadingIcon?: React.ReactNode;
+  /** Content rendered at the end of the row, e.g. an item count. */
+  trailing?: React.ReactNode;
   /** Accessible label for the drag handle button. @default "Reorder" */
   dragHandleLabel?: string;
   /** Disables dragging and keyboard reordering for this item. @default false */
@@ -1489,7 +1935,9 @@ export const DropdownMenuReorderItem = React.forwardRef<
   (
     {
       value,
+      label,
       leadingIcon,
+      trailing,
       dragHandleLabel = "Reorder",
       disabled,
       className,
@@ -1502,126 +1950,119 @@ export const DropdownMenuReorderItem = React.forwardRef<
     },
     ref,
   ) => {
-    const context = React.useContext(ReorderContext);
+    const actions = React.useContext(ReorderActionsContext);
+    const lifted = React.useContext(ReorderLiftedContext);
     const variant = React.useContext(DropdownMenuVariantContext);
     const elementRef = React.useRef<HTMLDivElement | null>(null);
     const handleRef = React.useRef<HTMLButtonElement | null>(null);
-    const drag = context?.drag ?? null;
-    const isLifted = drag !== null && drag.value === value && drag.lifted;
+    const liftedHere = lifted !== null && lifted.value === value ? lifted : null;
+    const isLifted = liftedHere !== null;
+    const resolvedLabel = label ?? (typeof children === "string" ? children : value);
+    const grabCursor = isLifted ? "cursor-grabbing" : "cursor-grab";
+    // The design dims the lifted source row as a whole — 60% opacity over its
+    // own colours — rather than swapping to the disabled tone.
+    const rowStateClasses = disabled
+      ? "cursor-default text-content-disabled"
+      : cn(grabCursor, isLifted ? "opacity-60" : "hover:bg-neutral-alphas-50");
+    const handleStateClasses = disabled
+      ? "cursor-not-allowed [&>svg]:text-content-disabled"
+      : grabCursor;
+
+    const setElement = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        elementRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      },
+      [ref],
+    );
+
+    // Registered from an effect, not the ref callback, so re-renders don't
+    // churn the group's registry with a delete + set per row.
+    React.useLayoutEffect(() => {
+      const element = elementRef.current;
+      if (actions === null || element === null) return;
+      actions.registerItem(value, { element, label: resolvedLabel });
+      return () => actions.registerItem(value, null);
+    }, [actions, value, resolvedLabel]);
+
+    const rowContent = (
+      <>
+        {leadingIcon != null && <span className="shrink-0">{leadingIcon}</span>}
+        <span className="min-w-0 flex-1 truncate">{children}</span>
+        {trailing != null && <span className="shrink-0">{trailing}</span>}
+      </>
+    );
 
     return (
       <div
-        ref={(node) => {
-          elementRef.current = node;
-          context?.registerItem(value, node);
-          if (typeof ref === "function") {
-            ref(node);
-          } else if (ref) {
-            ref.current = node;
-          }
-        }}
+        ref={setElement}
         data-dragging={isLifted || undefined}
         className={cn(
           "typography-body-small-14px-regular group relative flex min-h-10 w-full select-none items-center gap-2 rounded-sm px-3 py-2 text-content-primary",
           variant === "sheet" && "mx-3 w-auto",
-          disabled ? "cursor-default" : isLifted ? "cursor-grabbing" : "cursor-grab",
-          !disabled && !isLifted && "hover:bg-neutral-alphas-50",
-          // The design dims the lifted source row as a whole — 60% opacity
-          // over its own colours — rather than swapping to the disabled tone.
-          isLifted && "opacity-60",
-          disabled && "text-content-disabled",
+          rowStateClasses,
           className,
         )}
         {...props}
         onPointerDown={(event) => {
           onPointerDown?.(event);
-          if (
-            disabled ||
-            context === null ||
-            event.defaultPrevented ||
-            (event.pointerType === "mouse" && event.button !== 0)
-          ) {
-            return;
-          }
-          // Touch drags start from the handle only, so the rest of the row
-          // still scrolls a long menu; a mouse can grab anywhere on the row.
-          if (
-            event.pointerType !== "mouse" &&
-            !(event.target instanceof Node && handleRef.current?.contains(event.target))
-          ) {
-            return;
-          }
           const element = elementRef.current;
-          if (element === null) return;
+          if (disabled || actions === null || element === null) return;
+          if (!canStartReorderDrag(event, handleRef.current)) return;
           event.preventDefault();
           element.setPointerCapture?.(event.pointerId);
-          context.startDrag(value, event, element);
+          actions.startDrag(value, event, element);
         }}
         onPointerMove={(event) => {
           onPointerMove?.(event);
-          context?.updateDrag(event);
+          actions?.updateDrag(event);
         }}
         onPointerUp={(event) => {
           onPointerUp?.(event);
-          context?.endDrag(event.pointerId, true);
+          actions?.endDrag(event.pointerId, true);
         }}
         onPointerCancel={(event) => {
           onPointerCancel?.(event);
-          context?.endDrag(event.pointerId, false);
+          actions?.endDrag(event.pointerId, false);
         }}
       >
         <button
           ref={handleRef}
           type="button"
           aria-label={dragHandleLabel}
+          aria-describedby={actions?.instructionsId}
           disabled={disabled}
           className={cn(
-            "flex size-4 shrink-0 touch-none items-center justify-center rounded-2xs outline-none focus-visible:shadow-focus-ring",
-            disabled ? "cursor-not-allowed" : isLifted ? "cursor-grabbing" : "cursor-grab",
+            "relative flex size-4 shrink-0 touch-none items-center justify-center rounded-2xs outline-none focus-visible:shadow-focus-ring",
+            // The grip draws at 16px but is the only touch drag affordance, so
+            // its hit area extends 12px each way to the row's edges — a 40px
+            // target — without changing the glyph.
+            "before:absolute before:-inset-3 before:content-['']",
+            handleStateClasses,
           )}
           onKeyDown={(event) => {
             if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
             event.preventDefault();
             event.stopPropagation();
-            context?.moveItem(value, event.key === "ArrowUp" ? -1 : 1);
+            actions?.moveItem(value, event.key === "ArrowUp" ? -1 : 1);
           }}
         >
-          <DragHandleDots
-            className={cn("size-4 text-icons-tertiary", disabled && "text-content-disabled")}
-          />
+          <DragHandleDots className="size-4 text-icons-tertiary" />
         </button>
-        {leadingIcon != null && <span className="shrink-0">{leadingIcon}</span>}
-        <span className="min-w-0 flex-1 truncate">{children}</span>
-        {isLifted &&
-          drag !== null &&
-          createPortal(
-            <div
-              aria-hidden="true"
-              data-reorder-ghost=""
-              className="pointer-events-none fixed"
-              style={{
-                left: drag.x,
-                top: drag.y,
-                width: drag.width,
-                zIndex: drag.zIndex,
-              }}
-            >
-              {/*
-               * The design draws the floating copy as frosted glass — a
-               * translucent surface with a heavy backdrop blur and no drop
-               * shadow (the same treatment the panel itself gets) — so what
-               * the ghost passes over smears through it.
-               */}
-              <div className="overflow-hidden rounded-sm bg-surface-primary/65 backdrop-blur-[20px]">
-                <div className="typography-body-small-14px-regular flex min-h-10 items-center gap-2 bg-neutral-alphas-100 py-2 pl-3 pr-6 text-content-primary">
-                  <DragHandleDots className="size-4 shrink-0 text-icons-tertiary" />
-                  {leadingIcon != null && <span className="shrink-0">{leadingIcon}</span>}
-                  <span className="truncate">{children}</span>
-                </div>
-              </div>
-            </div>,
-            elementRef.current?.ownerDocument.body ?? document.body,
-          )}
+        {rowContent}
+        {liftedHere !== null && actions !== null && (
+          <ReorderGhost
+            lifted={liftedHere}
+            registerGhost={actions.registerGhost}
+            container={elementRef.current?.ownerDocument.body ?? document.body}
+          >
+            {rowContent}
+          </ReorderGhost>
+        )}
       </div>
     );
   },

@@ -3029,7 +3029,9 @@ function DropdownMenuDemo() {
               />
               <DropdownMenuReorderGroup
                 values={folders}
-                onReorder={setFolders}
+                // The second argument says which item moved and where, so a
+                // consumer can call a move-to-position API without diffing.
+                onReorder={(next) => setFolders(next)}
                 aria-label="Reorder folders"
               >
                 {folders.map((folder) => (

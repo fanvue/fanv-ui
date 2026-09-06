@@ -409,14 +409,22 @@ export const FeatureItemStates: Story = {
   ),
 };
 
-const VAULT_FOLDERS = [
-  "AI Images",
-  "Clean Photos",
-  "Wallposts",
-  "Convo Starters",
-  "PTVs",
-  "Crop Tee Set \u{1F339}",
+type VaultFolder = { id: string; name: string; count: number };
+
+const VAULT_FOLDERS: VaultFolder[] = [
+  { id: "f-ai", name: "AI Images", count: 24 },
+  { id: "f-clean", name: "Clean Photos", count: 132 },
+  { id: "f-wall", name: "Wallposts", count: 18 },
+  { id: "f-convo", name: "Convo Starters", count: 7 },
+  { id: "f-ptv", name: "PTVs", count: 41 },
+  { id: "f-crop", name: "Crop Tee Set \u{1F339}", count: 12 },
 ];
+
+// `values` are ids, so `label` carries the visible name for announcements and
+// the `onReorder` detail carries the move for a move-to-position API.
+function reorderFolders(folders: VaultFolder[], orderedIds: string[]): VaultFolder[] {
+  return orderedIds.flatMap((id) => folders.filter((folder) => folder.id === id));
+}
 
 export const Reorderable: Story = {
   parameters: {
@@ -429,11 +437,12 @@ export const Reorderable: Story = {
   render: () => {
     const Demo = () => {
       const [open, setOpen] = React.useState(false);
-      const [items, setItems] = React.useState(VAULT_FOLDERS);
+      const [folders, setFolders] = React.useState(VAULT_FOLDERS);
+      const [lastMove, setLastMove] = React.useState<string | null>(null);
       return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild>
-            <Button>Reorder folders</Button>
+            <Button>{lastMove ?? "Reorder folders"}</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-60 rounded-lg border-border-strong">
             <DropdownMenuHeader
@@ -446,17 +455,26 @@ export const Reorderable: Story = {
               }
             />
             <DropdownMenuReorderGroup
-              values={items}
-              onReorder={setItems}
+              values={folders.map((folder) => folder.id)}
+              onReorder={(orderedIds, { label, from, to }) => {
+                setFolders((previous) => reorderFolders(previous, orderedIds));
+                setLastMove(`${label}: ${from + 1} \u2192 ${to + 1}`);
+              }}
               aria-label="Reorder folders"
             >
-              {items.map((item) => (
+              {folders.map((folder) => (
                 <DropdownMenuReorderItem
-                  key={item}
-                  value={item}
-                  dragHandleLabel={`Reorder ${item}`}
+                  key={folder.id}
+                  value={folder.id}
+                  label={folder.name}
+                  dragHandleLabel={`Reorder ${folder.name}`}
+                  trailing={
+                    <span className="typography-description-12px-regular text-content-tertiary">
+                      {folder.count}
+                    </span>
+                  }
                 >
-                  {item}
+                  {folder.name}
                 </DropdownMenuReorderItem>
               ))}
             </DropdownMenuReorderGroup>
@@ -526,16 +544,35 @@ export const VaultFolders: Story = {
   render: () => {
     const Demo = () => {
       const [open, setOpen] = React.useState(false);
-      const [mode, setMode] = React.useState<"browse" | "reorganise">("browse");
+      const [mode, setMode] = React.useState<"browse" | "search" | "reorganise">("browse");
+      const [query, setQuery] = React.useState("");
       const [folders, setFolders] = React.useState(VAULT_FOLDERS);
       const [actionsFor, setActionsFor] = React.useState<string | null>(null);
       const handleOpenChange = (nextOpen: boolean) => {
         setOpen(nextOpen);
         if (!nextOpen) {
           setMode("browse");
+          setQuery("");
           setActionsFor(null);
         }
       };
+      const addFolder = () => {
+        setFolders((previous) => {
+          const name = `New folder ${previous.length + 1}`;
+          return [...previous, { id: `f-new-${previous.length + 1}`, name, count: 0 }];
+        });
+      };
+      const removeFolder = (id: string) => {
+        setFolders((previous) => previous.filter((folder) => folder.id !== id));
+      };
+      const visibleFolders =
+        mode === "search"
+          ? folders.filter((folder) => folder.name.toLowerCase().includes(query.toLowerCase()))
+          : folders;
+      const rowClassName = "min-h-10 py-2";
+      const count = (value: number) => (
+        <span className="typography-description-12px-regular text-content-tertiary">{value}</span>
+      );
       return (
         <DropdownMenu open={open} onOpenChange={handleOpenChange} modal={false}>
           <DropdownMenuTrigger asChild>
@@ -548,93 +585,7 @@ export const VaultFolders: Story = {
               if (actionsFor !== null) event.preventDefault();
             }}
           >
-            {mode === "browse" ? (
-              <>
-                <DropdownMenuHeader
-                  title="All Folders"
-                  showClose={false}
-                  actions={
-                    <>
-                      <IconButton
-                        variant="tertiary"
-                        size="32"
-                        icon={<SearchIcon />}
-                        aria-label="Search folders"
-                      />
-                      <IconButton
-                        variant="tertiary"
-                        size="32"
-                        icon={<PlusIcon />}
-                        aria-label="New folder"
-                      />
-                    </>
-                  }
-                />
-                {folders.map((folder) => (
-                  <DropdownMenuItem
-                    key={folder}
-                    size="32"
-                    className="min-h-10 py-2"
-                    onSelect={(event) => {
-                      if (actionsFor !== null) event.preventDefault();
-                    }}
-                    trailingIcon={
-                      <DropdownMenu
-                        open={actionsFor === folder}
-                        onOpenChange={(nextOpen) => setActionsFor(nextOpen ? folder : null)}
-                      >
-                        <DropdownMenuTrigger asChild>
-                          <IconButton
-                            variant="tertiary"
-                            size="24"
-                            icon={<MoreIcon />}
-                            aria-label={`${folder} actions`}
-                            className="data-[state=open]:bg-buttons-tertiary-hover"
-                            onPointerDown={(event) => event.stopPropagation()}
-                            onClick={(event) => event.stopPropagation()}
-                          />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent
-                          side="right"
-                          align="start"
-                          sideOffset={12}
-                          className="rounded-lg"
-                        >
-                          <DropdownMenuItem
-                            size="32"
-                            className="min-h-10 py-2"
-                            leadingIcon={<EditIcon className="size-4" />}
-                          >
-                            Rename
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            size="32"
-                            className="min-h-10 py-2"
-                            leadingIcon={<TranscationArrowIcon className="size-4" />}
-                            onSelect={() => {
-                              setActionsFor(null);
-                              setMode("reorganise");
-                            }}
-                          >
-                            Reorganise
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            size="32"
-                            className="min-h-10 py-2"
-                            destructive
-                            leadingIcon={<TrashBinIcon className="size-4" />}
-                          >
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    }
-                  >
-                    {folder}
-                  </DropdownMenuItem>
-                ))}
-              </>
-            ) : (
+            {mode === "reorganise" ? (
               <>
                 <DropdownMenuHeader
                   title="All Folders"
@@ -646,20 +597,146 @@ export const VaultFolders: Story = {
                   }
                 />
                 <DropdownMenuReorderGroup
-                  values={folders}
-                  onReorder={setFolders}
+                  values={folders.map((folder) => folder.id)}
+                  onReorder={(orderedIds) =>
+                    setFolders((previous) => reorderFolders(previous, orderedIds))
+                  }
                   aria-label="Reorder folders"
                 >
                   {folders.map((folder) => (
                     <DropdownMenuReorderItem
-                      key={folder}
-                      value={folder}
-                      dragHandleLabel={`Reorder ${folder}`}
+                      key={folder.id}
+                      value={folder.id}
+                      label={folder.name}
+                      dragHandleLabel={`Reorder ${folder.name}`}
+                      trailing={count(folder.count)}
                     >
-                      {folder}
+                      {folder.name}
                     </DropdownMenuReorderItem>
                   ))}
                 </DropdownMenuReorderGroup>
+              </>
+            ) : (
+              <>
+                {mode === "search" ? (
+                  // The back button returns to the titled header without
+                  // closing the menu; Escape still closes it as usual.
+                  <DropdownMenuHeader
+                    type="search"
+                    showClose={false}
+                    onBack={() => {
+                      setMode("browse");
+                      setQuery("");
+                    }}
+                    backLabel="Stop searching"
+                    searchProps={{
+                      value: query,
+                      onChange: setQuery,
+                      placeholder: "Search folders\u2026",
+                      autoFocus: true,
+                    }}
+                  />
+                ) : (
+                  <DropdownMenuHeader
+                    title="All Folders"
+                    showClose={false}
+                    actions={
+                      <>
+                        <IconButton
+                          variant="tertiary"
+                          size="32"
+                          icon={<SearchIcon />}
+                          aria-label="Search folders"
+                          onClick={() => setMode("search")}
+                        />
+                        <IconButton
+                          variant="tertiary"
+                          size="32"
+                          icon={<PlusIcon />}
+                          aria-label="New folder"
+                          onClick={addFolder}
+                        />
+                      </>
+                    }
+                  />
+                )}
+                {visibleFolders.length === 0 && (
+                  <DropdownMenuLabel position="top">No folders match</DropdownMenuLabel>
+                )}
+                {visibleFolders.map((folder) => (
+                  <DropdownMenuItem
+                    key={folder.id}
+                    size="32"
+                    className={rowClassName}
+                    count={String(folder.count)}
+                    onSelect={(event) => {
+                      if (actionsFor !== null) event.preventDefault();
+                    }}
+                    trailingIcon={
+                      <DropdownMenu
+                        open={actionsFor === folder.id}
+                        onOpenChange={(nextOpen) => setActionsFor(nextOpen ? folder.id : null)}
+                      >
+                        <DropdownMenuTrigger asChild>
+                          <IconButton
+                            variant="tertiary"
+                            size="24"
+                            icon={<MoreIcon />}
+                            aria-label={`${folder.name} actions`}
+                            className="data-[state=open]:bg-buttons-tertiary-hover"
+                            onPointerDown={(event) => event.stopPropagation()}
+                            onClick={(event) => event.stopPropagation()}
+                          />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          side="right"
+                          align="start"
+                          sideOffset={12}
+                          className="rounded-lg"
+                          // Reorganise/Delete unmount this menu's trigger, so
+                          // Radix must not try to hand focus back to it; the
+                          // reorder group then claims focus for its handles.
+                          onCloseAutoFocus={(event) => {
+                            if (actionsFor === null) event.preventDefault();
+                          }}
+                        >
+                          <DropdownMenuItem
+                            size="32"
+                            className={rowClassName}
+                            leadingIcon={<EditIcon className="size-4" />}
+                          >
+                            Rename
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            size="32"
+                            className={rowClassName}
+                            leadingIcon={<TranscationArrowIcon className="size-4" />}
+                            onSelect={() => {
+                              setActionsFor(null);
+                              setMode("reorganise");
+                            }}
+                          >
+                            Reorganise
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            size="32"
+                            className={rowClassName}
+                            destructive
+                            leadingIcon={<TrashBinIcon className="size-4" />}
+                            onSelect={() => {
+                              setActionsFor(null);
+                              removeFolder(folder.id);
+                            }}
+                          >
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    }
+                  >
+                    {folder.name}
+                  </DropdownMenuItem>
+                ))}
               </>
             )}
           </DropdownMenuContent>

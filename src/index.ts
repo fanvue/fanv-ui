@@ -258,6 +258,7 @@ export type {
   DropdownMenuRadioGroupProps,
   DropdownMenuRadioItemProps,
   DropdownMenuRadioItemSize,
+  DropdownMenuReorderDetail,
   DropdownMenuReorderGroupProps,
   DropdownMenuReorderItemProps,
   DropdownMenuSeparatorProps,
