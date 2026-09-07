@@ -166,4 +166,104 @@ describe("Logo", () => {
       expect(results).toHaveNoViolations();
     });
   });
+
+  describe("3D variant", () => {
+    it("renders the icon without a wordmark", () => {
+      const { container } = render(<Logo variant="3d" />);
+      const logo = container.querySelector('[data-testid="logo"]');
+      expect(logo?.querySelector('[data-testid="logo-icon"]')).toBeInTheDocument();
+      expect(logo?.querySelector('[data-testid="logo-wordmark"]')).not.toBeInTheDocument();
+    });
+
+    it("defaults to size 40 like the icon variant", () => {
+      const { container } = render(<Logo variant="3d" />);
+      expect(container.querySelector('[data-testid="logo-icon"]')).toHaveClass("h-10");
+    });
+
+    it("applies the requested size", () => {
+      const { container } = render(<Logo variant="3d" size="24" />);
+      expect(container.querySelector('[data-testid="logo-icon"]')).toHaveClass("h-6");
+    });
+
+    it("supports the 80 size token", () => {
+      const { container } = render(<Logo variant="3d" size="80" />);
+      expect(container.querySelector('[data-testid="logo-icon"]')).toHaveClass("h-20");
+    });
+
+    it("clips the mark to its own box", () => {
+      const { container } = render(<Logo variant="3d" />);
+      expect(container.querySelector('[data-testid="logo-icon"]')).toHaveClass("overflow-hidden");
+    });
+
+    it("casts the green glow beneath the mark", () => {
+      const { container } = render(<Logo variant="3d" size="64" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]') as HTMLElement;
+      expect(icon.style.filter).toContain("rgba(92, 238, 116, 0.08)");
+      expect(icon.style.filter).toContain("drop-shadow(0 2.667px 2.667px");
+    });
+
+    it("scales the glow up only for the 80 size", () => {
+      const { container } = render(<Logo variant="3d" size="80" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]') as HTMLElement;
+      expect(icon.style.filter).toContain("drop-shadow(0 3.333px 3.333px");
+    });
+
+    it("keeps the glow at full strength for the nav's 24px mark", () => {
+      const { container } = render(<Logo variant="3d" size="24" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]') as HTMLElement;
+      expect(icon.style.filter).toContain("drop-shadow(0 2.667px 2.667px");
+      expect(icon.style.filter).toContain("drop-shadow(0 40px 9.333px");
+    });
+
+    it("keeps Figma's filter region so the top edge stays crisp", () => {
+      const { container } = render(<Logo variant="3d" />);
+      const filter = container.querySelector("filter");
+      expect(filter).toHaveAttribute("x", "10.4884");
+      expect(filter).toHaveAttribute("y", "17.6179");
+    });
+
+    it("gives each instance its own gradient and filter ids", () => {
+      const { container } = render(
+        <>
+          <Logo variant="3d" />
+          <Logo variant="3d" />
+        </>,
+      );
+      const ids = Array.from(container.querySelectorAll("[id]")).map((el) => el.id);
+      expect(ids.length).toBeGreaterThan(0);
+      expect(new Set(ids).size).toBe(ids.length);
+    });
+
+    it("renders the 3D icon regardless of color and version", () => {
+      const { container } = render(<Logo variant="3d" color="decolour" version="agencies" />);
+      const icon = container.querySelector('[data-testid="logo-icon"]');
+      expect(icon?.querySelector("svg")).toBeInTheDocument();
+      expect(icon?.querySelector("filter")).toBeInTheDocument();
+    });
+
+    it("positions the sheen into the icon's coordinate space", () => {
+      const { container } = render(<Logo variant="3d" />);
+      const stroke = container.querySelector('path[stroke-width="0.5"]');
+      expect(stroke?.closest("g[transform]")).toHaveAttribute(
+        "transform",
+        "translate(12.709 19.018)",
+      );
+    });
+
+    it("draws both sheen strokes over the mark", () => {
+      const { container } = render(<Logo variant="3d" />);
+      const strokes = container.querySelectorAll('path[stroke-width="0.5"]');
+      expect(strokes).toHaveLength(2);
+      const stops = Array.from(container.querySelectorAll("stop")).map((s) =>
+        s.getAttribute("stop-opacity"),
+      );
+      expect(stops).toEqual(expect.arrayContaining(["0.95", "0.6"]));
+    });
+
+    it("has no accessibility violations with an aria-label", async () => {
+      const { container } = render(<Logo variant="3d" aria-label="Fanvue home" />);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
 });

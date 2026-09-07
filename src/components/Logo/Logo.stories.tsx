@@ -15,7 +15,7 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["full", "icon", "wordmark", "portrait"],
+      options: ["full", "icon", "wordmark", "portrait", "3d"],
     },
     color: {
       control: "select",
@@ -27,7 +27,7 @@ const meta = {
     },
     size: {
       control: "select",
-      options: ["16", "20", "24", "32", "40", "48", "64"],
+      options: ["16", "20", "24", "32", "40", "48", "64", "80"],
     },
   },
 } satisfies Meta<typeof Logo>;
@@ -106,6 +106,26 @@ export const Sizes: Story = {
       <Logo size="40" />
       <Logo size="48" />
       <Logo size="64" />
+    </div>
+  ),
+};
+
+/**
+ * The 3D mark is icon-only and has one fixed treatment, so `color` and `version` do not
+ * apply. The mark is clipped to its own box but casts a green glow beneath it, which is why
+ * the sizes below are spaced further apart than the flat variants need. The glow keeps Figma's
+ * absolute values at every size below 80, so it reads at full strength on the nav's 24px mark.
+ */
+export const ThreeD: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-wrap items-end gap-16 p-4 pb-16">
+      {(["24", "32", "48", "64", "80"] as const).map((size) => (
+        <div key={size} className="flex flex-col items-start gap-3">
+          <Logo variant="3d" size={size} aria-label="Fanvue" />
+          <span className="typography-description-12px-semibold text-content-tertiary">{size}</span>
+        </div>
+      ))}
     </div>
   ),
 };
