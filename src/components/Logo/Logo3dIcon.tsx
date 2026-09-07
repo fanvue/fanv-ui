@@ -56,10 +56,6 @@ const GLOW_BY_SIZE = {
  * The SVG filter region is Figma's exact box rather than a generous one, so the inner shadow
  * is clipped exactly where Figma clips it.
  *
- * `isolate` is required, not decorative: the face gradient blends with `mix-blend-mode:
- * lighten`, and without a stacking context of its own it composites against the page behind
- * instead of the base green, which washes the face out.
- *
  * The mark is clipped to its own box, matching Figma, so the inner shadow never escapes.
  * The green glow is a CSS drop-shadow on the wrapper, so it paints outside the box and is
  * the one part that a parent with `overflow-hidden` will cut off.
@@ -86,7 +82,7 @@ export const Logo3dIcon = ({ className, size }: { className?: string; size: Logo
 
   return (
     <span
-      className={cn("isolate inline-block overflow-hidden", className)}
+      className={cn("inline-block overflow-hidden", className)}
       style={{ filter: glow }}
       aria-hidden="true"
       data-testid="logo-icon"

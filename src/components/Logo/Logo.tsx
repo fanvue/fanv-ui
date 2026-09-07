@@ -82,8 +82,8 @@ export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Height of the logo in pixels. @default "32" (or "40" when `variant` is `"icon"` or `"3d"`) */
   size?: LogoSize;
   /**
-   * Accessible label for the logo. Required when `variant` is `"icon"` and
-   * the logo is used inside interactive contexts (links, buttons).
+   * Accessible label for the logo. Required when `variant` is `"icon"` or `"3d"`
+   * and the logo is used inside interactive contexts (links, buttons).
    *
    * @example "Fanvue home"
    */
