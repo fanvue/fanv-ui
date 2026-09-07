@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.34.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.33.1...ui-v3.34.0) (2026-09-07)
+
+
+### Features
+
+* **Alert:** add the V2 CTA options and align the component to its design node ([507a42c](https://github.com/fanvue/fanv-ui/commit/507a42c309d79f643b10cf5f1d08e9c37df678ff))
+* **Alert:** add trailing CTA placement, a button CTA and an optional description ([#686](https://github.com/fanvue/fanv-ui/issues/686)) ([507a42c](https://github.com/fanvue/fanv-ui/commit/507a42c309d79f643b10cf5f1d08e9c37df678ff))
+
 ## [3.33.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.33.0...ui-v3.33.1) (2026-09-07)
 
 
