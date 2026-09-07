@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.33.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.32.0...ui-v3.33.0) (2026-09-07)
+
+
+### Features
+
+* **Logo:** add the V2 3D Fanvue logo as a variant ([#687](https://github.com/fanvue/fanv-ui/issues/687)) ([d69a5b4](https://github.com/fanvue/fanv-ui/commit/d69a5b4bbfd8820d238f2edce3768e38bd920320))
+
 ## [3.32.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.31.0...ui-v3.32.0) (2026-09-06)
 
 
