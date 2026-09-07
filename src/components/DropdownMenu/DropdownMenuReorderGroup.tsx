@@ -48,6 +48,29 @@ function edgeOvershoot(rect: DOMRect, y: number): number {
   return 0;
 }
 
+const POSITIONED = new Set(["relative", "absolute", "fixed", "sticky"]);
+
+// The z-index a row's surface paints at, or null when no positioned ancestor
+// carries one. The row's own menu / dialog element is not the place to read
+// it: Radix's popper copies the content's z-index onto its wrapper, which is
+// where the browser applies it — and a host may raise the wrapper further
+// (eden lifts `[data-radix-popper-content-wrapper]` above dialogs with
+// `!important`). Walking up to <body> and taking the outermost positioned
+// ancestor with a numeric z-index finds the value that wins in either variant.
+function surfaceZIndex(element: HTMLElement): string | null {
+  let zIndex: string | null = null;
+  const { body } = element.ownerDocument;
+  for (
+    let node = element.parentElement;
+    node !== null && node !== body;
+    node = node.parentElement
+  ) {
+    const { position, zIndex: candidate } = getComputedStyle(node);
+    if (POSITIONED.has(position) && candidate !== "" && candidate !== "auto") zIndex = candidate;
+  }
+  return zIndex;
+}
+
 // Keeps the latest value of a prop reachable from callbacks that must stay
 // referentially stable (they are handed to imperative listeners and a context).
 function useLatestRef<T>(value: T): React.RefObject<T> {
@@ -421,18 +444,13 @@ export const DropdownMenuReorderGroup = React.forwardRef<
         drag.dropIndex = computeDropIndex(drag, pointer.y);
 
         // The ghost is portalled to <body>, outside the menu's stacking context,
-        // so it inherits none of the menu's z-index. Match the surface it lifted
-        // from (the popper sets its own z, and a consumer may have raised it) —
-        // being appended later in the DOM keeps it painted above at equal z.
-        const surface = element.closest<HTMLElement>('[role="menu"],[role="dialog"]');
-        const surfaceZIndex = surface === null ? "" : getComputedStyle(surface).zIndex;
+        // so it inherits none of the menu's z-index. Match the z the surface it
+        // lifted from actually paints at — being appended later in the DOM keeps
+        // the ghost above at equal z.
         setLifted({
           value: drag.value,
           width: rect.width,
-          zIndex:
-            surfaceZIndex === "" || surfaceZIndex === "auto"
-              ? "var(--fanvue-ui-portal-z-index, 50)"
-              : surfaceZIndex,
+          zIndex: surfaceZIndex(element) ?? "var(--fanvue-ui-portal-z-index, 50)",
         });
         setDropIndex(drag.dropIndex);
       },

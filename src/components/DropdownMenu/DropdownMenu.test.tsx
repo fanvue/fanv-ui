@@ -1782,6 +1782,33 @@ describe("DropdownMenuReorderGroup API", () => {
     fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
   });
 
+  it("paints the floating copy at the popper wrapper's z-index, not the menu content's", () => {
+    // Radix applies the z-index on its popper wrapper, and a host may raise
+    // that wrapper above the (unpositioned) content it holds — the ghost must
+    // follow the wrapper or it slides under the menu it was lifted from.
+    const { container } = render(
+      <div data-radix-popper-content-wrapper="" style={{ position: "fixed", zIndex: 1500 }}>
+        <div role="menu" style={{ zIndex: 1400 }}>
+          <FolderDemo onReorder={vi.fn()} />
+        </div>
+      </div>,
+    );
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    expect(document.querySelector<HTMLElement>("[data-reorder-ghost]")?.style.zIndex).toBe("1500");
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+  });
+
+  it("falls back to the portal z-index token when no positioned ancestor carries one", () => {
+    const { container } = render(<FolderDemo onReorder={vi.fn()} />);
+    const rows = mockLayout(container);
+    liftRow(rows[0] as HTMLElement, 70);
+    expect(document.querySelector<HTMLElement>("[data-reorder-ghost]")?.style.zIndex).toBe(
+      "var(--fanvue-ui-portal-z-index, 50)",
+    );
+    fireEvent.pointerUp(rows[0] as HTMLElement, { pointerId: 1, clientX: 10, clientY: 70 });
+  });
+
   it("describes every handle with the reorder instructions", () => {
     render(<FolderDemo onReorder={vi.fn()} />);
     const handle = screen.getByRole("button", { name: "Reorder Alpha" });
