@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.33.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.33.0...ui-v3.33.1) (2026-09-07)
+
+
+### Bug Fixes
+
+* **dropdown-menu:** paint the reorder ghost at the popper wrapper's z-index ([#691](https://github.com/fanvue/fanv-ui/issues/691)) ([b408692](https://github.com/fanvue/fanv-ui/commit/b4086925296a8ec38aa11536df0f993a4ca209cb))
+
 ## [3.33.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.32.0...ui-v3.33.0) (2026-09-07)
 
 
