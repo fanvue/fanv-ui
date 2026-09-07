@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.32.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.31.0...ui-v3.32.0) (2026-09-06)
+
+
+### Features
+
+* **dropdown-menu:** add drag-and-drop reorder and header actions ([#683](https://github.com/fanvue/fanv-ui/issues/683)) ([3c63a39](https://github.com/fanvue/fanv-ui/commit/3c63a3916f2c00d33fea95c1a9561b9127d9c563))
+
 ## [3.31.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.30.0...ui-v3.31.0) (2026-09-02)
 
 
