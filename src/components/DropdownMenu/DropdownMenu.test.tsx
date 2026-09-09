@@ -78,12 +78,20 @@ describe("DropdownMenu", () => {
       expect(screen.getByText("12")).not.toHaveClass("h-[18px]");
     });
 
-    it("gives the panel the 12px menu radius, not the 8px row radius", () => {
+    it("gives the panel the 24px menu radius, not the 12px row radius", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const panel = screen.getByRole("menu");
-      expect(panel).toHaveClass("rounded-sm");
+      expect(panel).toHaveClass("rounded-lg");
+      expect(panel).not.toHaveClass("rounded-sm");
       expect(panel).not.toHaveClass("rounded-xs");
-      expect(panel).not.toHaveClass("rounded-lg");
+    });
+
+    it("gives the panel the V2 Menu Dropdown surface, padding and stroke", () => {
+      renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
+      const panel = screen.getByRole("menu");
+      expect(panel).toHaveClass("bg-background-secondary");
+      expect(panel).toHaveClass("border-border-strong");
+      expect(panel).toHaveClass("p-2");
     });
 
     // Each of these three drifted from the design unnoticed, so they are asserted
