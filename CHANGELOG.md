@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.34.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.34.0...ui-v3.34.1) (2026-09-09)
+
+
+### Bug Fixes
+
+* **DropdownMenu:** take the panel surface from V2 Menu Dropdown ([#694](https://github.com/fanvue/fanv-ui/issues/694)) ([406615a](https://github.com/fanvue/fanv-ui/commit/406615a6c79872b4aa3953bfcc4f64d9b7718f80))
+
 ## [3.34.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.33.1...ui-v3.34.0) (2026-09-07)
 
 
