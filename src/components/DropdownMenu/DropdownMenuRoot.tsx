@@ -298,15 +298,15 @@ export const DropdownMenuContent = React.forwardRef<
           sideOffset={sideOffset}
           collisionPadding={collisionPadding}
           className={cn(
-            // `rounded-sm` (12px) is the panel radius `V2 Menu Dropdown` carries
-            // (product file node `7393:62008`). The 8px `rounded-xs` belongs to the
-            // rows inside it, not the panel.
+            // Panel tokens come from `V2 Menu Dropdown` (product file node
+            // `7393:62008`): `rounded-lg` (24px) over `Background/Secondary`, a
+            // `Border/Strong` stroke, and 8px of padding. The 12px `rounded-sm` is
+            // the row radius, not the panel's — the two were transposed here.
             //
-            // The `sheet` variant is deliberately not 12px: it renders through
-            // `DrawerContent variant="menu"`, whose `MENU_CLASSES` is `rounded-lg`
-            // (24px). A bottom sheet is a full-width surface with its own radius,
-            // not a scaled-up popper, so the two are meant to differ.
-            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-sm border border-border-primary bg-surface-primary p-1 text-content-primary shadow-blur-menu backdrop-blur-[4px]",
+            // `backdrop-blur-[4px]` is the CSS equivalent of that node's
+            // `blur + shadow/menu` BACKGROUND_BLUR radius 8, which Figma halves on
+            // export. It is not a 4-against-8 mismatch.
+            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-lg border border-border-strong bg-background-secondary p-2 text-content-primary shadow-blur-menu backdrop-blur-[4px]",
             "data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:animate-out",
             "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
