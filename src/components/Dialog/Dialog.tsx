@@ -338,7 +338,10 @@ export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex-1 overflow-y-auto py-4", className)} {...props} />
+    // px-1/-mx-1 cancel out visually but move this scroll box's clip edge 4px
+    // outward, so hover/focus rings on controls at the content edge (e.g.
+    // Checkbox's ring-2) aren't cut off by the overflow clip.
+    <div ref={ref} className={cn("-mx-1 flex-1 overflow-y-auto px-1 py-4", className)} {...props} />
   ),
 );
 DialogBody.displayName = "DialogBody";
