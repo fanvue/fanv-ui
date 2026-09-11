@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.34.2](https://github.com/fanvue/fanv-ui/compare/ui-v3.34.1...ui-v3.34.2) (2026-09-11)
+
+
+### Bug Fixes
+
+* **AiButton:** fill the resting pill with the AI surface tokens ([#696](https://github.com/fanvue/fanv-ui/issues/696)) ([69957d5](https://github.com/fanvue/fanv-ui/commit/69957d5d147d5cf7ffe7c02c08427142e6433c70))
+
 ## [3.34.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.34.0...ui-v3.34.1) (2026-09-09)
 
 
