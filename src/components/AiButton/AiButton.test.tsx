@@ -58,6 +58,16 @@ describe("AiButton", () => {
     });
   });
 
+  describe("surface", () => {
+    it("fills with the AI tokens at rest", () => {
+      render(<AiButton label="Ana" />);
+      expect(screen.getByRole("button")).toHaveClass(
+        "border-buttons-ai-stroke-end",
+        "bg-buttons-ai-default",
+      );
+    });
+  });
+
   describe("interaction", () => {
     it("calls onClick", async () => {
       const onClick = vi.fn();
@@ -154,6 +164,14 @@ describe("AiButton", () => {
         .getByRole("button")
         .querySelector<HTMLElement>("[aria-hidden='true'] > span");
       expect(letter).toHaveClass("[animation:fv-ai-letter_2s_ease-in-out_infinite]");
+    });
+
+    it("settles a still label on the resting content colour", () => {
+      render(<AiButton label="Ana" idleShimmer={false} />);
+      const letter = screen
+        .getByRole("button")
+        .querySelector<HTMLElement>("[aria-hidden='true'] > span");
+      expect(letter).toHaveClass("text-content-primary");
     });
 
     it("stops shimmering while idle once idleShimmer is off", () => {

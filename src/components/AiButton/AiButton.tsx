@@ -79,7 +79,11 @@ const ShimmerLabel: React.FC<{ text: string; shimmer: boolean }> = ({ text, shim
       <span
         key={`${character}-${index}`}
         className={cn(
-          "inline-block whitespace-pre text-content-secondary",
+          // `Content/Primary` is the resting label the design asks for, but the
+          // shimmer's keyframe peaks at that same colour, so a shimmering letter
+          // needs the dimmer base to sweep up from.
+          shimmer ? "text-content-secondary" : "text-content-primary",
+          "inline-block whitespace-pre",
           // Gated in JS rather than with a `group-disabled/ai:` override, because
           // that would rely on the generated rule ordering to beat `group-hover`.
           // A faded control that still shimmers and still lights up green under the
@@ -168,14 +172,16 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
         className={cn(
           "fv-ai-button",
           "group/ai inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-full",
-          "border border-border-primary bg-background-primary",
+          // The mint AI surface the design fills this control with at rest, rather
+          // than the neutral chip it used to sit as until hovered.
+          "border border-buttons-ai-stroke-end bg-buttons-ai-default",
           // Matched to the rim and sheen so the whole treatment arrives as one
           // movement — at the old 300ms the outline landed ahead of the glow.
           "transition-[background-color,border-color] duration-[400ms] ease-out",
-          "hover:border-brand-primary-default",
+          "hover:border-brand-primary-default hover:bg-buttons-ai-hover",
           "focus-visible:outline-none",
           "active:border-brand-primary-hover active:bg-brand-primary-muted",
-          "disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-border-primary",
+          "disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-buttons-ai-stroke-end",
           sizeVariants[size],
           className,
         )}
