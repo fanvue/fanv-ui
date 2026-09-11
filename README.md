@@ -204,10 +204,10 @@ pnpm storybook
 
 To iterate on a component and see it live in eden (`local.fanvue.com`) without publishing:
 
-- **Easiest:** from the pandora repo root, run `pnpm dev:local-ui`. It runs this library's watch build automatically and points eden at this checkout's `dist/`. See pandora's README ("Live-reloading `@fanvue/ui`") — the pandora wiring ships in a companion PR.
-- **Manual:** run `pnpm dev:watch` here, and start eden with `USE_LOCAL_FANVUE_UI=1` (or `pnpm --filter @pandora/eden start:local-ui`).
+- **Easiest:** from the pandora repo root, run `pnpm start:localui`. It runs this library's watch build automatically and points eden at this checkout's `dist/`. See pandora's README ("Live-reloading `@fanvue/ui` from a local checkout"). Variants: `pnpm start:dev:localui` and `pnpm start:docker:localui` pick up the matching env files and handle AWS auth.
+- **Manual:** run `pnpm dev:watch` here, and start eden with `USE_LOCAL_FANVUE_UI=1` (or `pnpm --filter @pandora/eden start:localui`).
 
-Requires this repo checked out beside `pandora` (or `FANVUE_UI_PATH` set in pandora). Component markup and Tailwind classes hot-reload; design **tokens** in `theme.css` are loaded by eden from the installed package, so local `theme.css` edits aren't reflected — test those via a published (pre)release.
+Requires this repo checked out beside `pandora` (or `FANVUE_UI_PATH` set in pandora). Component markup, Tailwind classes and design **tokens** all hot-reload: pandora's `eden/postcss.config.mjs` redirects the `@fanvue/ui/styles/theme.css` import to this checkout's `src/styles/theme.css`, so token edits show up without a published (pre)release.
 
 ## Figma + Storybook Integration
 
