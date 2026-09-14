@@ -36,12 +36,29 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** 12:34 — long enough that both elapsed and total pass the ten-minute, five-character mark. */
+const LONG_DURATION_SECONDS = 754;
+
+/**
+ * A malformed local data URI (no network request): metadata never loads, so the
+ * `duration` prop stands instead of being replaced by the real clip length.
+ */
+const UNRESOLVABLE_CLIP = "data:audio/wav;base64,bm90LXJlYWwtYXVkaW8=";
+
 /** Seeks the waveform 2 seconds in via the keyboard so the "elapsed / total" state is deterministic for Chromatic. */
 const seekToTwoSeconds: Story["play"] = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const slider = canvas.getByRole("slider");
   slider.focus();
   await userEvent.keyboard("{ArrowRight}{ArrowRight}");
+};
+
+/** Seeks to the very end via the keyboard, so the elapsed time renders at its widest. */
+const seekToEnd: Story["play"] = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const slider = canvas.getByRole("slider");
+  slider.focus();
+  await userEvent.keyboard("{End}");
 };
 
 /** Before playback starts: play button, waveform at full opacity, total duration only. */
@@ -97,6 +114,31 @@ export const GeneratedAudioRow: Story = {
 };
 
 /**
+ * A clip past the ten-minute mark, where the elapsed time grows from four
+ * characters ("9:59") to five ("10:00"). The timer reserves the total's width
+ * for the elapsed slot, so crossing that boundary does not resize the timer or
+ * reflow the waveform.
+ *
+ * Uses the unresolvable source so `duration` is not overwritten by the real
+ * 5-second clip's metadata.
+ */
+export const LongDuration: Story = {
+  args: {
+    duration: LONG_DURATION_SECONDS,
+    src: UNRESOLVABLE_CLIP,
+  },
+};
+
+/** {@link LongDuration} seeked to the end, showing the widest "elapsed / total" the player can render. */
+export const LongDurationInProgress: Story = {
+  args: {
+    duration: LONG_DURATION_SECONDS,
+    src: UNRESOLVABLE_CLIP,
+  },
+  play: seekToEnd,
+};
+
+/**
  * No `duration` prop, and the source never resolves to valid audio metadata:
  * shows the "--:--" placeholder. Uses a malformed local data URI (no network
  * request) so the "unknown duration" state stays stable for the story.
@@ -104,6 +146,6 @@ export const GeneratedAudioRow: Story = {
 export const UnknownDuration: Story = {
   args: {
     duration: undefined,
-    src: "data:audio/wav;base64,bm90LXJlYWwtYXVkaW8=",
+    src: UNRESOLVABLE_CLIP,
   },
 };

@@ -256,6 +256,11 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
       }
     };
 
+    const totalLabel = formatTime(displayDuration);
+    // Zero-padded to the total's length so the two timestamps always occupy the same width
+    // (seconds are already two digits, so this only ever extends the minutes field).
+    const elapsedLabel = formatTime(currentTime).padStart(totalLabel.length, "0");
+
     const bars = resamplePeaks(peaks, barCount);
     const progressFraction =
       displayDuration && displayDuration > 0
@@ -324,15 +329,15 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
             ))}
           </div>
 
-          <span className="typography-body-small-14px-semibold flex shrink-0 items-center gap-0.5 whitespace-nowrap">
-            {hasStarted ? (
-              <>
-                <span className="text-content-primary">{formatTime(currentTime)}</span>
-                <span className="text-content-secondary">/{formatTime(displayDuration)}</span>
-              </>
-            ) : (
-              <span className="text-content-primary">{formatTime(displayDuration)}</span>
-            )}
+          {/* Both slots always render, the second one merely hidden before playback, so the
+              timer keeps one width and the waveform never reflows. The first slot shows the
+              total until playback starts, and the two labels are equal width, so the timestamp
+              sits in the same place in either state. */}
+          <span className="typography-body-small-14px-semibold flex shrink-0 items-center gap-0.5 whitespace-nowrap tabular-nums">
+            <span className="text-content-primary">{hasStarted ? elapsedLabel : totalLabel}</span>
+            <span className={cn("text-content-secondary", !hasStarted && "invisible")}>
+              /{totalLabel}
+            </span>
           </span>
         </div>
 
