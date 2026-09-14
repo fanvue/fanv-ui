@@ -324,15 +324,16 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
             ))}
           </div>
 
-          <span className="typography-body-small-14px-semibold flex shrink-0 items-center gap-0.5 whitespace-nowrap">
-            {hasStarted ? (
-              <>
-                <span className="text-content-primary">{formatTime(currentTime)}</span>
-                <span className="text-content-secondary">/{formatTime(displayDuration)}</span>
-              </>
-            ) : (
-              <span className="text-content-primary">{formatTime(displayDuration)}</span>
-            )}
+          {/* The elapsed slot and separator always render — hidden rather than dropped before
+              playback starts — so the timer keeps one width and the waveform never reflows. */}
+          <span className="typography-body-small-14px-semibold flex shrink-0 items-center gap-0.5 whitespace-nowrap tabular-nums">
+            <span className={cn("text-content-primary", !hasStarted && "invisible")}>
+              {formatTime(currentTime)}
+            </span>
+            <span className={hasStarted ? "text-content-secondary" : "text-content-primary"}>
+              <span className={cn(!hasStarted && "invisible")}>/</span>
+              {formatTime(displayDuration)}
+            </span>
           </span>
         </div>
 
