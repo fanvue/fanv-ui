@@ -50,8 +50,7 @@ describe("AudioPlayer", () => {
 
     it("keeps the elapsed slot rendered but hidden, so the timer does not resize on playback", () => {
       render(<AudioPlayer src="https://example.com/clip.mp3" duration={5} />);
-      expect(screen.getByText("0:00")).toHaveClass("invisible");
-      expect(screen.getByText("/")).toHaveClass("invisible");
+      expect(screen.getByText("/0:05")).toHaveClass("invisible");
     });
 
     it("shows a placeholder when no duration is known yet", () => {
@@ -203,8 +202,7 @@ describe("AudioPlayer", () => {
       fireEvent.timeUpdate(audio);
 
       expect(screen.getByText("0:02")).toBeInTheDocument();
-      expect(screen.getByText("0:05")).toBeInTheDocument();
-      expect(screen.getByText("/")).not.toHaveClass("invisible");
+      expect(screen.getByText("/0:05")).not.toHaveClass("invisible");
       expect(screen.getByRole("slider")).toHaveAttribute("aria-valuenow", "2");
     });
 

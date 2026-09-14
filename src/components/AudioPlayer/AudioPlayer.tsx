@@ -324,17 +324,17 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
             ))}
           </div>
 
-          {/* The elapsed slot and separator always render — hidden rather than dropped before
-              playback starts — so the timer keeps one width and the waveform never reflows.
-              Equal grid columns size the elapsed slot from the (never shorter) total, so it
-              still fits once elapsed time gains a digit at the ten-minute mark. */}
+          {/* Two equal columns, both always rendered, so the timer keeps one width and the
+              waveform never reflows. The second column is sized by "/total", which no elapsed
+              time can outgrow — including once it gains a digit at the ten-minute mark. Before
+              playback the total moves into the first column and hugs the waveform, leaving the
+              reserved space on the right. */}
           <span className="typography-body-small-14px-semibold grid shrink-0 grid-cols-2 items-center gap-0.5 whitespace-nowrap tabular-nums">
-            <span className={cn("text-right text-content-primary", !hasStarted && "invisible")}>
-              {formatTime(currentTime)}
+            <span className={cn("text-content-primary", hasStarted ? "text-right" : "text-left")}>
+              {formatTime(hasStarted ? currentTime : displayDuration)}
             </span>
-            <span className={hasStarted ? "text-content-secondary" : "text-content-primary"}>
-              <span className={cn(!hasStarted && "invisible")}>/</span>
-              {formatTime(displayDuration)}
+            <span className={cn("text-content-secondary", !hasStarted && "invisible")}>
+              /{formatTime(displayDuration)}
             </span>
           </span>
         </div>
