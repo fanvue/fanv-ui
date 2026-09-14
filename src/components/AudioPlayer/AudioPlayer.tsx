@@ -256,6 +256,11 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
       }
     };
 
+    const totalLabel = formatTime(displayDuration);
+    // Zero-padded to the total's length so the two timestamps always occupy the same width
+    // (seconds are already two digits, so this only ever extends the minutes field).
+    const elapsedLabel = formatTime(currentTime).padStart(totalLabel.length, "0");
+
     const bars = resamplePeaks(peaks, barCount);
     const progressFraction =
       displayDuration && displayDuration > 0
@@ -324,17 +329,14 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
             ))}
           </div>
 
-          {/* Two equal columns, both always rendered, so the timer keeps one width and the
-              waveform never reflows. The second column is sized by "/total", which no elapsed
-              time can outgrow — including once it gains a digit at the ten-minute mark. Before
-              playback the total moves into the first column and hugs the waveform, leaving the
-              reserved space on the right. */}
-          <span className="typography-body-small-14px-semibold grid shrink-0 grid-cols-2 items-center gap-0.5 whitespace-nowrap tabular-nums">
-            <span className={cn("text-content-primary", hasStarted ? "text-right" : "text-left")}>
-              {formatTime(hasStarted ? currentTime : displayDuration)}
-            </span>
+          {/* Both slots always render, the second one merely hidden before playback, so the
+              timer keeps one width and the waveform never reflows. The first slot shows the
+              total until playback starts, and the two labels are equal width, so the timestamp
+              sits in the same place in either state. */}
+          <span className="typography-body-small-14px-semibold flex shrink-0 items-center gap-0.5 whitespace-nowrap tabular-nums">
+            <span className="text-content-primary">{hasStarted ? elapsedLabel : totalLabel}</span>
             <span className={cn("text-content-secondary", !hasStarted && "invisible")}>
-              /{formatTime(displayDuration)}
+              /{totalLabel}
             </span>
           </span>
         </div>
