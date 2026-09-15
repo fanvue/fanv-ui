@@ -8,8 +8,8 @@ import {
 } from "../../utils/audioWaveform";
 import { cn } from "../../utils/cn";
 import { useFittedBarCount } from "../../utils/useFittedBarCount";
-import { PauseIcon } from "../Icons/PauseIcon";
-import { PlayIcon } from "../Icons/PlayIcon";
+import { PauseBarsIcon } from "../Icons/PauseBarsIcon";
+import { PlayTriangleIcon } from "../Icons/PlayTriangleIcon";
 
 /** Width of a single waveform bar, in pixels. */
 const BAR_WIDTH_PX = 4;
@@ -298,7 +298,7 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
             "focus-visible:shadow-focus-ring focus-visible:outline-none",
           )}
         >
-          {playing ? <PauseIcon size={16} filled /> : <PlayIcon size={16} filled />}
+          {playing ? <PauseBarsIcon /> : <PlayTriangleIcon />}
         </button>
 
         <div className="flex min-w-0 flex-1 items-center gap-3">
