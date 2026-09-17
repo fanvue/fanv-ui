@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.36.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.35.0...ui-v3.36.0) (2026-09-17)
+
+
+### Features
+
+* **icons:** add Play2Icon and Pause2Icon from Figma ([#705](https://github.com/fanvue/fanv-ui/issues/705)) ([62180ff](https://github.com/fanvue/fanv-ui/commit/62180ff91568f17aa60dfdba05d757c359a93431))
+
 ## [3.35.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.34.1...ui-v3.35.0) (2026-09-17)
 
 
