@@ -209,9 +209,9 @@ export const DropdownMenuItem = React.forwardRef<
       destructive && "text-error-content",
       // bg-interaction-hover aliases to the same token as the plain hover
       // background above, so a selected row would be indistinguishable from a
-      // hovered-but-unselected one. Use the next step up the neutral-alphas
-      // ramp instead (still a subtle overlay, not the heavy filled style).
-      selected && ["bg-neutral-alphas-100", "data-[highlighted]:bg-neutral-alphas-200"],
+      // hovered-but-unselected one. Two steps up the neutral-alphas ramp: one
+      // step (100 over 50) still read as the same state in practice.
+      selected && ["bg-neutral-alphas-200", "data-[highlighted]:bg-neutral-alphas-300"],
       className,
     );
 

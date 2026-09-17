@@ -630,7 +630,7 @@ describe("DropdownMenuItem", () => {
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass("bg-neutral-alphas-100");
+      expect(item).toHaveClass("bg-neutral-alphas-200");
       expect(item).not.toHaveClass("text-content-primary-inverted");
     });
 
@@ -645,7 +645,7 @@ describe("DropdownMenuItem", () => {
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item.className).toContain("data-[highlighted]:bg-neutral-alphas-200");
+      expect(item.className).toContain("data-[highlighted]:bg-neutral-alphas-300");
       expect(item.className).not.toContain("data-[highlighted]:bg-neutral-alphas-50");
     });
 
@@ -1079,7 +1079,7 @@ describe("DropdownMenuRadioItem", () => {
       );
       const checkedItem = screen.getByRole("menuitemradio", { name: /Two/ });
       expect(checkedItem.className).toContain(
-        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-200",
+        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-300",
       );
     });
 

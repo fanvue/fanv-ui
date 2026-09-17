@@ -313,6 +313,7 @@ export const SelectItem = React.forwardRef<
         ITEM_SIZE_CLASSES[itemSize],
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",
         "focus:bg-neutral-alphas-50 data-highlighted:bg-neutral-alphas-50",
+        "data-[state=checked]:bg-neutral-alphas-200 data-[state=checked]:focus:bg-neutral-alphas-300 data-[state=checked]:data-highlighted:bg-neutral-alphas-300",
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}

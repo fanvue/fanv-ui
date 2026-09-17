@@ -56,8 +56,8 @@ export const DropdownMenuRadioItem = React.forwardRef<
         // See DropdownMenuItem above: bg-interaction-hover aliases to the same
         // token as the plain hover background, so it can't distinguish the
         // checked state from an unchecked-but-hovered row.
-        "data-[state=checked]:bg-neutral-alphas-100",
-        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-200",
+        "data-[state=checked]:bg-neutral-alphas-200",
+        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-300",
         className,
       )}
       {...props}
