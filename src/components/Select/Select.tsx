@@ -8,6 +8,13 @@ import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 /** Select field height in pixels. */
 export type SelectSize = "48" | "40" | "32";
 
+/**
+ * Trigger surface. `"default"` is the bordered input field; `"filled"` is the
+ * V2 Table Tab Actions pill: a `background-secondary` fill with no border and a
+ * centred `content-tertiary` label, for filters that sit beside a table or chart.
+ */
+export type SelectVariant = "default" | "filled";
+
 type SelectContextValue = {
   size: SelectSize;
   error: boolean;
@@ -54,6 +61,8 @@ export interface SelectProps extends Omit<SelectPrimitive.SelectProps, "dir"> {
   helperText?: string;
   /** Height of the select field in pixels. @default "48" */
   size?: SelectSize;
+  /** Trigger surface. See {@link SelectVariant}. @default "default" */
+  variant?: SelectVariant;
   /** Whether the field is in an error state. @default false */
   error?: boolean;
   /** Error message displayed below the trigger. Shown instead of `helperText` when `error` is `true`. */
@@ -95,6 +104,7 @@ export const Select = React.forwardRef<
       label,
       helperText,
       size = "48",
+      variant = "default",
       error = false,
       errorMessage,
       placeholder,
@@ -114,6 +124,7 @@ export const Select = React.forwardRef<
     const triggerId = id ?? generatedId;
     const helperTextId = `${triggerId}-helper`;
     const bottomText = error && errorMessage ? errorMessage : helperText;
+    const isFilled = variant === "filled";
 
     return (
       <SelectContext.Provider value={{ size, error, disabled }}>
@@ -140,15 +151,24 @@ export const Select = React.forwardRef<
               aria-describedby={bottomText ? helperTextId : undefined}
               aria-invalid={error || undefined}
               className={cn(
-                "flex w-full cursor-pointer items-center justify-between rounded-sm border bg-inputs-inputs-primary outline-none focus-visible:shadow-focus-ring motion-safe:transition-colors",
+                "flex w-full cursor-pointer items-center rounded-sm border outline-none focus-visible:shadow-focus-ring motion-safe:transition-colors",
                 TRIGGER_HEIGHT[size],
-                TRIGGER_PADDING_X[size],
+                isFilled ? "px-2" : TRIGGER_PADDING_X[size],
                 TRIGGER_GAP[size],
                 TRIGGER_TYPOGRAPHY[size],
-                error ? "border-error-content" : "border-border-primary",
+                isFilled
+                  ? "justify-center bg-background-secondary text-content-tertiary"
+                  : "justify-between bg-inputs-inputs-primary",
+                error
+                  ? "border-error-content"
+                  : isFilled
+                    ? "border-transparent"
+                    : "border-border-primary",
                 !disabled &&
                   !error &&
-                  "hover:border-neutral-alphas-400 data-[state=open]:border-neutral-alphas-400",
+                  (isFilled
+                    ? "hover:bg-neutral-alphas-100 data-[state=open]:bg-neutral-alphas-100"
+                    : "hover:border-neutral-alphas-400 data-[state=open]:border-neutral-alphas-400"),
                 disabled && "cursor-not-allowed opacity-50",
               )}
             >
@@ -161,13 +181,20 @@ export const Select = React.forwardRef<
                     {leftIcon}
                   </span>
                 )}
-                <span className="min-w-0 flex-1 truncate text-left text-content-primary [&>[data-placeholder]]:text-content-tertiary">
+                <span
+                  className={cn(
+                    "min-w-0 flex-1 truncate [&>[data-placeholder]]:text-content-tertiary",
+                    isFilled
+                      ? "text-center text-content-tertiary"
+                      : "text-left text-content-primary",
+                  )}
+                >
                   <SelectPrimitive.Value placeholder={placeholder} />
                 </span>
               </div>
 
               <SelectPrimitive.Icon asChild>
-                <ChevronDownIcon />
+                <ChevronDownIcon size={isFilled ? 16 : 24} className="shrink-0" />
               </SelectPrimitive.Icon>
             </SelectPrimitive.Trigger>
 
