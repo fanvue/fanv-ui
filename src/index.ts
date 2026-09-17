@@ -733,6 +733,7 @@ export type {
   SelectProps,
   SelectSeparatorProps,
   SelectSize,
+  SelectVariant,
 } from "./components/Select/Select";
 export {
   Select,
