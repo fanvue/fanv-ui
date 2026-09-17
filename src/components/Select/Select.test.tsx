@@ -145,6 +145,41 @@ describe("Select", () => {
     });
   });
 
+  describe("variant", () => {
+    it("draws the bordered input field by default", () => {
+      renderSelect();
+      const trigger = screen.getByRole("combobox");
+      expect(trigger).toHaveClass(
+        "bg-inputs-inputs-primary",
+        "border-border-primary",
+        "justify-between",
+      );
+    });
+
+    it("draws the filled pill without a border and with a centred label", () => {
+      renderSelect({ variant: "filled", size: "32" });
+      const trigger = screen.getByRole("combobox");
+      expect(trigger).toHaveClass(
+        "bg-background-secondary",
+        "border-transparent",
+        "justify-center",
+        "px-2",
+      );
+      expect(trigger).not.toHaveClass("bg-inputs-inputs-primary");
+      expect(trigger.querySelector("svg")).toHaveClass("size-4");
+    });
+
+    it("keeps the error border on the filled pill", () => {
+      renderSelect({ variant: "filled", error: true });
+      expect(screen.getByRole("combobox")).toHaveClass("border-error-content");
+    });
+
+    it("has no accessibility violations when filled", async () => {
+      const { container } = renderSelect({ variant: "filled" });
+      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = renderSelect({ label: "Accessible Select" });

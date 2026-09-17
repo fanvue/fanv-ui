@@ -380,3 +380,25 @@ export const AllStates: Story = {
     </div>
   ),
 };
+
+export const Filled: Story = {
+  name: "Filled (Table Tab Actions)",
+  render: () => (
+    <div className="grid w-[361px] grid-cols-2 gap-2">
+      <Select variant="filled" size="32" defaultValue="earnings" aria-label="Metric">
+        <SelectContent>
+          <SelectItem value="earnings">Earnings</SelectItem>
+          <SelectItem value="payments">Payments</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select variant="filled" size="32" defaultValue="monthly" aria-label="Period">
+        <SelectContent>
+          <SelectItem value="7d">Last 7 days</SelectItem>
+          <SelectItem value="30d">Last 30 days</SelectItem>
+          <SelectItem value="monthly">Monthly</SelectItem>
+          <SelectItem value="12m">Last 12 months</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  ),
+};
