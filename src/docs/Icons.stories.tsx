@@ -178,12 +178,14 @@ import { MoreIcon } from "../components/Icons/MoreIcon";
 import { MoreVerticalIcon } from "../components/Icons/MoreVerticalIcon";
 import { NewMessageIcon } from "../components/Icons/NewMessageIcon";
 import { OpenIcon } from "../components/Icons/OpenIcon";
+import { Pause2Icon } from "../components/Icons/Pause2Icon";
 import { PauseIcon } from "../components/Icons/PauseIcon";
 import { PeopleIcon } from "../components/Icons/PeopleIcon";
 import { PhoneIcon } from "../components/Icons/PhoneIcon";
 import { PhoneOffIcon } from "../components/Icons/PhoneOffIcon";
 import { Pin2Icon } from "../components/Icons/Pin2Icon";
 import { PinIcon } from "../components/Icons/PinIcon";
+import { Play2Icon } from "../components/Icons/Play2Icon";
 import { PlayIcon } from "../components/Icons/PlayIcon";
 import { PlusIcon } from "../components/Icons/PlusIcon";
 import { PrivacyIcon } from "../components/Icons/PrivacyIcon";
@@ -1010,6 +1012,13 @@ const icons: IconEntry[] = [
     propBased: false,
   },
   {
+    name: "Pause2Icon",
+    component: Pause2Icon,
+    animated: null,
+    tags: ["pause", "media", "stop", "bars", "audio"],
+    propBased: true,
+  },
+  {
     name: "PauseIcon",
     component: PauseIcon,
     animated: null,
@@ -1043,6 +1052,13 @@ const icons: IconEntry[] = [
     component: PinIcon,
     animated: null,
     tags: ["pin", "bookmark", "save"],
+    propBased: true,
+  },
+  {
+    name: "Play2Icon",
+    component: Play2Icon,
+    animated: null,
+    tags: ["play", "media", "start", "triangle", "audio"],
     propBased: true,
   },
   {

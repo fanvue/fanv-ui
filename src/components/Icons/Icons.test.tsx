@@ -110,12 +110,14 @@ import { MoreIcon } from "./MoreIcon";
 import { MoreVerticalIcon } from "./MoreVerticalIcon";
 import { NewMessageIcon } from "./NewMessageIcon";
 import { OpenIcon } from "./OpenIcon";
+import { Pause2Icon } from "./Pause2Icon";
 import { PauseIcon } from "./PauseIcon";
 import { PeopleIcon } from "./PeopleIcon";
 import { PhoneIcon } from "./PhoneIcon";
 import { PhoneOffIcon } from "./PhoneOffIcon";
 import { Pin2Icon } from "./Pin2Icon";
 import { PinIcon } from "./PinIcon";
+import { Play2Icon } from "./Play2Icon";
 import { PlayIcon } from "./PlayIcon";
 import { PlusIcon } from "./PlusIcon";
 import { PrivacyIcon } from "./PrivacyIcon";
@@ -301,11 +303,13 @@ const propBasedIcons = [
   { name: "MoreIcon", Component: MoreIcon, hasFilled: false },
   { name: "MoreVerticalIcon", Component: MoreVerticalIcon, hasFilled: false },
   { name: "NewMessageIcon", Component: NewMessageIcon, hasFilled: true },
+  { name: "Pause2Icon", Component: Pause2Icon, hasFilled: true },
   { name: "PauseIcon", Component: PauseIcon, hasFilled: true },
   { name: "PhoneIcon", Component: PhoneIcon, hasFilled: true },
   { name: "PhoneOffIcon", Component: PhoneOffIcon, hasFilled: true },
   { name: "Pin2Icon", Component: Pin2Icon, hasFilled: true },
   { name: "PinIcon", Component: PinIcon, hasFilled: true },
+  { name: "Play2Icon", Component: Play2Icon, hasFilled: true },
   { name: "PlayIcon", Component: PlayIcon, hasFilled: true },
   { name: "PrivacyIcon", Component: PrivacyIcon, hasFilled: true },
   { name: "ProgrammingArrowIcon", Component: ProgrammingArrowIcon, hasFilled: true },
