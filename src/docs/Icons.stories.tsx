@@ -179,7 +179,6 @@ import { MoreVerticalIcon } from "../components/Icons/MoreVerticalIcon";
 import { NewMessageIcon } from "../components/Icons/NewMessageIcon";
 import { OpenIcon } from "../components/Icons/OpenIcon";
 import { Pause2Icon } from "../components/Icons/Pause2Icon";
-import { PauseBarsIcon } from "../components/Icons/PauseBarsIcon";
 import { PauseIcon } from "../components/Icons/PauseIcon";
 import { PeopleIcon } from "../components/Icons/PeopleIcon";
 import { PhoneIcon } from "../components/Icons/PhoneIcon";
@@ -188,7 +187,6 @@ import { Pin2Icon } from "../components/Icons/Pin2Icon";
 import { PinIcon } from "../components/Icons/PinIcon";
 import { Play2Icon } from "../components/Icons/Play2Icon";
 import { PlayIcon } from "../components/Icons/PlayIcon";
-import { PlayTriangleIcon } from "../components/Icons/PlayTriangleIcon";
 import { PlusIcon } from "../components/Icons/PlusIcon";
 import { PrivacyIcon } from "../components/Icons/PrivacyIcon";
 import { ProgrammingArrowIcon } from "../components/Icons/ProgrammingArrowIcon";
@@ -1020,7 +1018,6 @@ const icons: IconEntry[] = [
     tags: ["pause", "media", "stop", "bars", "audio"],
     propBased: true,
   },
-  { name: "PauseBarsIcon", component: PauseBarsIcon, animated: null, tags: [], propBased: false },
   {
     name: "PauseIcon",
     component: PauseIcon,
@@ -1070,13 +1067,6 @@ const icons: IconEntry[] = [
     animated: null,
     tags: ["play", "media", "start", "video"],
     propBased: true,
-  },
-  {
-    name: "PlayTriangleIcon",
-    component: PlayTriangleIcon,
-    animated: null,
-    tags: [],
-    propBased: false,
   },
   {
     name: "PlusIcon",

@@ -111,7 +111,6 @@ import { MoreVerticalIcon } from "./MoreVerticalIcon";
 import { NewMessageIcon } from "./NewMessageIcon";
 import { OpenIcon } from "./OpenIcon";
 import { Pause2Icon } from "./Pause2Icon";
-import { PauseBarsIcon } from "./PauseBarsIcon";
 import { PauseIcon } from "./PauseIcon";
 import { PeopleIcon } from "./PeopleIcon";
 import { PhoneIcon } from "./PhoneIcon";
@@ -120,7 +119,6 @@ import { Pin2Icon } from "./Pin2Icon";
 import { PinIcon } from "./PinIcon";
 import { Play2Icon } from "./Play2Icon";
 import { PlayIcon } from "./PlayIcon";
-import { PlayTriangleIcon } from "./PlayTriangleIcon";
 import { PlusIcon } from "./PlusIcon";
 import { PrivacyIcon } from "./PrivacyIcon";
 import { ProgrammingArrowIcon } from "./ProgrammingArrowIcon";
@@ -197,9 +195,7 @@ const legacyIcons = [
   { name: "InfoCircleIcon", Component: InfoCircleIcon },
   { name: "LockerOnIcon", Component: LockerOnIcon },
   { name: "OpenIcon", Component: OpenIcon },
-  { name: "PauseBarsIcon", Component: PauseBarsIcon },
   { name: "PeopleIcon", Component: PeopleIcon },
-  { name: "PlayTriangleIcon", Component: PlayTriangleIcon },
   { name: "PlusIcon", Component: PlusIcon },
   { name: "SpinnerIcon", Component: SpinnerIcon },
   { name: "SuccessIcon", Component: SuccessIcon },

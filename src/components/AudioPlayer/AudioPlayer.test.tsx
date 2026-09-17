@@ -2,8 +2,8 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
-import { PauseBarsIcon } from "../Icons/PauseBarsIcon";
-import { PlayTriangleIcon } from "../Icons/PlayTriangleIcon";
+import { Pause2Icon } from "../Icons/Pause2Icon";
+import { Play2Icon } from "../Icons/Play2Icon";
 import { AudioPlayer } from "./AudioPlayer";
 
 function getAudioElement(container: HTMLElement): HTMLAudioElement {
@@ -85,7 +85,7 @@ describe("AudioPlayer", () => {
   describe("play/pause", () => {
     it("renders the bare play triangle, not the circled play glyph", () => {
       render(<AudioPlayer src="https://example.com/clip.mp3" duration={5} />);
-      const { container: bareGlyph } = render(<PlayTriangleIcon />);
+      const { container: bareGlyph } = render(<Play2Icon size={16} filled />);
       const buttonGlyph = screen.getByRole("button", { name: "Play" }).querySelector("svg");
       expect(buttonGlyph?.innerHTML).toBe(bareGlyph.querySelector("svg")?.innerHTML);
     });
@@ -94,7 +94,7 @@ describe("AudioPlayer", () => {
       const user = userEvent.setup();
       render(<AudioPlayer src="https://example.com/clip.mp3" duration={5} />);
       await user.click(screen.getByRole("button", { name: "Play" }));
-      const { container: bareGlyph } = render(<PauseBarsIcon />);
+      const { container: bareGlyph } = render(<Pause2Icon size={16} filled />);
       const buttonGlyph = screen.getByRole("button", { name: "Pause" }).querySelector("svg");
       expect(buttonGlyph?.innerHTML).toBe(bareGlyph.querySelector("svg")?.innerHTML);
     });
