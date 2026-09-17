@@ -383,12 +383,6 @@ export const AllStates: Story = {
 
 export const Filled: Story = {
   name: "Filled (Table Tab Actions)",
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/design/Iq9ctjP7rhIKI3PGSbduNL/Fanvue-Exploration?node-id=8680-51803&m=dev",
-    },
-  },
   render: () => (
     <div className="grid w-[361px] grid-cols-2 gap-2">
       <Select variant="filled" size="32" defaultValue="earnings" aria-label="Metric">
