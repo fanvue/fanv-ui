@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.35.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.34.1...ui-v3.35.0) (2026-09-17)
+
+
+### Features
+
+* **Select:** add the filled trigger variant for table tab actions (ENG-14747) ([#703](https://github.com/fanvue/fanv-ui/issues/703)) ([0fd0829](https://github.com/fanvue/fanv-ui/commit/0fd08299145025a2787272c5548f4209d10ac2cc))
+
+
+### Bug Fixes
+
+* **AiButton:** fill the resting pill with the AI surface tokens ([#696](https://github.com/fanvue/fanv-ui/issues/696)) ([69957d5](https://github.com/fanvue/fanv-ui/commit/69957d5d147d5cf7ffe7c02c08427142e6433c70))
+* **AudioPlayer:** keep the timer a fixed width so the waveform never reflows ([#700](https://github.com/fanvue/fanv-ui/issues/700)) ([07b08cc](https://github.com/fanvue/fanv-ui/commit/07b08cc2dfea38d0c37bf3d29ccbeac176cd54f9))
+* **CogIcon:** centre the gear glyph in its viewBox (ENG-14521) ([#697](https://github.com/fanvue/fanv-ui/issues/697)) ([0e40991](https://github.com/fanvue/fanv-ui/commit/0e409914234fbef3b2ddf44b7043a8ce5f9f0ba9))
+
 ## [3.34.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.34.0...ui-v3.34.1) (2026-09-09)
 
 
