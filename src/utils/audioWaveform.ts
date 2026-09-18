@@ -54,7 +54,15 @@ export function generateFallbackPeaks(src: string, count: number): number[] {
   return Array.from({ length: count }, () => 0.2 + random() * 0.8);
 }
 
-/** Downsamples decoded PCM data to `count` peak (max-abs) amplitudes. */
+/** Amplitude below which a clip counts as silent, so it renders flat rather than amplifying noise to full height. */
+const SILENCE_THRESHOLD = 0.01;
+
+/**
+ * Downsamples decoded PCM data to `count` peak (max-abs) amplitudes, scaled
+ * against the clip's own loudest peak. Recordings rarely approach full scale,
+ * so without that scaling a normally-recorded clip draws a near-flat waveform.
+ * A silent clip is returned unscaled rather than divided by ~0.
+ */
 export function computePeaksFromChannelData(channelData: Float32Array, count: number): number[] {
   const blockSize = Math.max(1, Math.floor(channelData.length / count));
   const peaks: number[] = [];
@@ -66,7 +74,9 @@ export function computePeaksFromChannelData(channelData: Float32Array, count: nu
     }
     peaks.push(max);
   }
-  return peaks;
+  const loudest = peaks.reduce((highest, peak) => Math.max(highest, peak), 0);
+  if (loudest <= SILENCE_THRESHOLD) return peaks;
+  return peaks.map((peak) => peak / loudest);
 }
 
 /** Resamples a peaks array to `barCount` values (nearest-neighbour). */
