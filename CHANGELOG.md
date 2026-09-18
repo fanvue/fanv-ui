@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.36.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.36.0...ui-v3.36.1) (2026-09-18)
+
+
+### Bug Fixes
+
+* **AudioPlayer:** use bare play/pause glyphs and scale the waveform to the clip ([#702](https://github.com/fanvue/fanv-ui/issues/702)) ([b05cb86](https://github.com/fanvue/fanv-ui/commit/b05cb860869d1eed90aad88ff4920c33146d3adf))
+
 ## [3.36.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.35.0...ui-v3.36.0) (2026-09-17)
 
 
