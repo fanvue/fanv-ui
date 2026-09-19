@@ -93,7 +93,6 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogItem,
   DialogTitle,
   DialogTrigger,
   DiamondIcon,
@@ -171,6 +170,13 @@ import {
   MicrophoneIcon,
   MinusIcon,
   MobileStepper,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalItem,
+  ModalTitle,
+  ModalTrigger,
   MoonIcon,
   MoreIcon,
   MoreVerticalIcon,
@@ -5230,7 +5236,6 @@ function DialogDemo() {
   const [backOpen, setBackOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrollOpen, setScrollOpen] = useState(false);
-  const [actionsOpen, setActionsOpen] = useState(false);
 
   return (
     <div id="dialog" className="flex scroll-mt-20 flex-col gap-4">
@@ -5257,26 +5262,6 @@ function DialogDemo() {
               </DialogClose>
               <Button>CTA</Button>
             </DialogFooter>
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={actionsOpen} onOpenChange={setActionsOpen}>
-          <DialogTrigger asChild>
-            <Button variant="secondary">List actions</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Top Spenders</DialogTitle>
-            </DialogHeader>
-            <DialogBody className="flex flex-col">
-              <DialogItem leadingIcon={<MessageIcon size={16} filled />}>Message List</DialogItem>
-              <DialogItem leadingIcon={<StarIcon size={16} filled />}>Add to Favourites</DialogItem>
-              <DialogItem leadingIcon={<EditIcon size={16} filled />}>Edit List</DialogItem>
-              <DialogItem leadingIcon={<CopyIcon size={16} filled />}>Duplicate</DialogItem>
-              <DialogItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
-                Delete List
-              </DialogItem>
-            </DialogBody>
           </DialogContent>
         </Dialog>
 
@@ -5392,6 +5377,35 @@ function DialogDemo() {
           </DialogContent>
         </Dialog>
       </div>
+    </div>
+  );
+}
+
+function ModalDemo() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div id="modal" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-xs mb-4">Modal</h2>
+      <Modal open={open} onOpenChange={setOpen}>
+        <ModalTrigger asChild>
+          <Button variant="secondary">List actions</Button>
+        </ModalTrigger>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>Top Spenders</ModalTitle>
+          </ModalHeader>
+          <ModalBody>
+            <ModalItem leadingIcon={<MessageIcon size={16} filled />}>Message List</ModalItem>
+            <ModalItem leadingIcon={<StarIcon size={16} filled />}>Add to Favourites</ModalItem>
+            <ModalItem leadingIcon={<EditIcon size={16} filled />}>Edit List</ModalItem>
+            <ModalItem leadingIcon={<CopyIcon size={16} filled />}>Duplicate</ModalItem>
+            <ModalItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
+              Delete List
+            </ModalItem>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
@@ -5840,6 +5854,7 @@ function App() {
     { id: "cycling-text", label: "Cycling Text" },
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
+    { id: "modal", label: "Modal" },
     { id: "divider", label: "Divider" },
     { id: "empty-state", label: "Empty State" },
     { id: "dropdownmenu", label: "Dropdown menu" },
@@ -6168,6 +6183,9 @@ function App() {
 
             {/* Dialog */}
             <DialogDemo />
+
+            {/* Modal */}
+            <ModalDemo />
 
             {/* Bottom Navigation */}
             <BottomNavigationDemo />

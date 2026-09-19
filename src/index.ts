@@ -198,7 +198,6 @@ export type {
   DialogDescriptionProps,
   DialogFooterProps,
   DialogHeaderProps,
-  DialogItemProps,
   DialogOverlayProps,
   DialogProps,
   DialogTitleProps,
@@ -212,7 +211,6 @@ export {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogItem,
   DialogOverlay,
   DialogTitle,
   DialogTrigger,
@@ -661,6 +659,30 @@ export type {
   MobileStepperVariant,
 } from "./components/MobileStepper/MobileStepper";
 export { MobileStepper } from "./components/MobileStepper/MobileStepper";
+export type {
+  ModalBodyProps,
+  ModalCloseProps,
+  ModalContentProps,
+  ModalDescriptionProps,
+  ModalHeaderProps,
+  ModalItemProps,
+  ModalOverlayProps,
+  ModalProps,
+  ModalTitleProps,
+  ModalTriggerProps,
+} from "./components/Modal/Modal";
+export {
+  Modal,
+  ModalBody,
+  ModalClose,
+  ModalContent,
+  ModalDescription,
+  ModalHeader,
+  ModalItem,
+  ModalOverlay,
+  ModalTitle,
+  ModalTrigger,
+} from "./components/Modal/Modal";
 export type {
   OnlineBlinkingIconProps,
   OnlineBlinkingIconSize,
