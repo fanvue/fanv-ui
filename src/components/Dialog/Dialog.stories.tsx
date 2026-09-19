@@ -5,6 +5,11 @@ import { Button } from "../Button/Button";
 import { Chip } from "../Chip/Chip";
 import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
 import { CheckIcon } from "../Icons/CheckIcon";
+import { CopyIcon } from "../Icons/CopyIcon";
+import { EditIcon } from "../Icons/EditIcon";
+import { MessageIcon } from "../Icons/MessageIcon";
+import { StarIcon } from "../Icons/StarIcon";
+import { TrashBinIcon } from "../Icons/TrashBinIcon";
 import { SearchField } from "../SearchField/SearchField";
 import { TextArea } from "../TextArea/TextArea";
 import { TextField } from "../TextField/TextField";
@@ -16,6 +21,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogItem,
   DialogTitle,
   DialogTrigger,
 } from "./Dialog";
@@ -738,6 +744,38 @@ export const WithoutPortal: Story = {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: /open inline dialog/i }));
   },
+};
+
+export const ListActions: Story = {
+  name: "List actions",
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/23x2vofTPkLpbcJyRdDa55/Creator---Management%E2%80%A8--Teams?node-id=9076-77632&m=dev",
+    },
+  },
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Top Spenders</DialogTitle>
+        </DialogHeader>
+        <DialogBody className="flex flex-col">
+          <DialogItem leadingIcon={<MessageIcon size={16} filled />}>Message List</DialogItem>
+          <DialogItem leadingIcon={<StarIcon size={16} filled />}>Add to Favourites</DialogItem>
+          <DialogItem leadingIcon={<EditIcon size={16} filled />}>Edit List</DialogItem>
+          <DialogItem leadingIcon={<CopyIcon size={16} filled />}>Duplicate</DialogItem>
+          <DialogItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
+            Delete List
+          </DialogItem>
+        </DialogBody>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: openDialog,
 };
 
 export const CustomOverlay: Story = {

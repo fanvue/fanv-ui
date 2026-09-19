@@ -93,6 +93,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogItem,
   DialogTitle,
   DialogTrigger,
   DiamondIcon,
@@ -5229,6 +5230,7 @@ function DialogDemo() {
   const [backOpen, setBackOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrollOpen, setScrollOpen] = useState(false);
+  const [actionsOpen, setActionsOpen] = useState(false);
 
   return (
     <div id="dialog" className="flex scroll-mt-20 flex-col gap-4">
@@ -5255,6 +5257,26 @@ function DialogDemo() {
               </DialogClose>
               <Button>CTA</Button>
             </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={actionsOpen} onOpenChange={setActionsOpen}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">List actions</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Top Spenders</DialogTitle>
+            </DialogHeader>
+            <DialogBody className="flex flex-col">
+              <DialogItem leadingIcon={<MessageIcon size={16} filled />}>Message List</DialogItem>
+              <DialogItem leadingIcon={<StarIcon size={16} filled />}>Add to Favourites</DialogItem>
+              <DialogItem leadingIcon={<EditIcon size={16} filled />}>Edit List</DialogItem>
+              <DialogItem leadingIcon={<CopyIcon size={16} filled />}>Duplicate</DialogItem>
+              <DialogItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
+                Delete List
+              </DialogItem>
+            </DialogBody>
           </DialogContent>
         </Dialog>
 
