@@ -1,19 +1,22 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  type DialogContentProps,
+  DialogDescription,
+  type DialogDescriptionProps,
+  DialogOverlay,
+  type DialogOverlayProps,
+  DialogTitle,
+  type DialogTitleProps,
+  DialogTrigger,
+  type DialogTriggerProps,
+} from "../Dialog/Dialog";
 import { IconButton } from "../IconButton/IconButton";
 import { CloseIcon } from "../Icons/CloseIcon";
-
-/** Props for the {@link Modal} root component. */
-export interface ModalProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root> {
-  /** Controlled open state. When provided, you must also supply `onOpenChange`. */
-  open?: boolean;
-  /** Called when the open state changes. Required when `open` is controlled. */
-  onOpenChange?: (open: boolean) => void;
-  /** The open state of the modal when it is initially rendered (uncontrolled). */
-  defaultOpen?: boolean;
-}
 
 /**
  * Root for the V2 modal. Manages open/close state.
@@ -21,10 +24,10 @@ export interface ModalProps extends React.ComponentPropsWithoutRef<typeof Dialog
  * Use this for action sheets and selection lists. Confirmation copy with
  * footer buttons belongs in {@link Dialog}.
  */
-export const Modal = DialogPrimitive.Root;
+export const Modal = Dialog;
 
-/** Props for the {@link ModalTrigger} component. */
-export type ModalTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>;
+/** Props for the {@link Modal} root component. */
+export type ModalProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>;
 
 /**
  * The element that opens the modal when clicked.
@@ -32,77 +35,35 @@ export type ModalTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrim
  * On touch / pen, a press-and-release that crosses a small movement threshold
  * is treated as a drag and the resulting synthetic click is suppressed.
  */
-export const ModalTrigger = React.forwardRef<
-  React.ComponentRef<typeof DialogPrimitive.Trigger>,
-  ModalTriggerProps
->((props, ref) => <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
-ModalTrigger.displayName = "ModalTrigger";
+export const ModalTrigger = DialogTrigger;
 
-/** Convenience alias for Radix `Dialog.Close`. Closes the modal when clicked. */
-export const ModalClose = DialogPrimitive.Close;
+/** Props for the {@link ModalTrigger} component. */
+export type ModalTriggerProps = DialogTriggerProps;
+
+/** Convenience alias for Radix `Dialog.Close`. Closes the modal when chosen. */
+export const ModalClose = DialogClose;
 
 /** Props for the {@link ModalClose} component. */
 export type ModalCloseProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>;
-
-export interface ModalOverlayProps
-  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay> {}
 
 /**
  * Semi-transparent backdrop rendered behind the modal.
  * Rendered by {@link ModalContent}; portaled to `document.body` when {@link ModalContent} `portal` is true.
  */
-export const ModalOverlay = React.forwardRef<
-  React.ComponentRef<typeof DialogPrimitive.Overlay>,
-  ModalOverlayProps
->(({ className, style, ...props }, ref) => (
-  <DialogPrimitive.Overlay
-    ref={ref}
-    className={cn(
-      "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 fixed inset-0 bg-background-overlay-default data-[state=closed]:animate-out data-[state=open]:animate-in",
-      className,
-    )}
-    style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
-    {...props}
-  />
-));
-ModalOverlay.displayName = "ModalOverlay";
+export const ModalOverlay = DialogOverlay;
+
+/** Props for the {@link ModalOverlay} component. */
+export type ModalOverlayProps = DialogOverlayProps;
 
 export interface ModalContentProps
-  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
-  /**
-   * Width preset from the `sm` breakpoint up.
-   * - `"sm"` — 400px max-width
-   * - `"md"` — 440px max-width (default)
-   * - `"lg"` — 600px max-width
-   *
-   * @default "md"
-   */
-  size?: "sm" | "md" | "lg";
-  /** When true, renders overlay automatically. @default true */
-  overlay?: boolean;
-  /**
-   * When true, teleports overlay and panel to `document.body`.
-   * When false, renders inline in the React tree.
-   * @default true
-   */
-  portal?: boolean;
-  /** Props forwarded to the default {@link ModalOverlay} when `overlay` is `true`. */
-  overlayProps?: ModalOverlayProps;
-}
-
-const SIZE_CLASSES: Record<NonNullable<ModalContentProps["size"]>, string> = {
-  sm: "sm:max-w-[400px]",
-  md: "sm:max-w-[440px]",
-  lg: "sm:max-w-[600px]",
-};
+  extends Omit<DialogContentProps, "mobilePresentation" | "showMobileHandle"> {}
 
 /**
- * The V2 modal panel.
- *
- * Below `sm` it is a bottom sheet. From `sm` up it is a centered card. Radius
- * and padding come from the modal theme tokens (`--color-modal-radius`,
- * `--color-modal-padding-mobile`, `--color-modal-padding-desktop`) so light
- * and dark stay in sync.
+ * The V2 modal panel, built on {@link DialogContent}'s bottom-sheet/centered-card
+ * presentation rather than a second copy of it. Radius and padding come from
+ * the modal theme tokens (`--color-modal-radius`, `--color-modal-padding-mobile`,
+ * `--color-modal-padding-desktop`), overriding Dialog's own card sizing so
+ * light and dark stay in sync.
  *
  * @example
  * ```tsx
@@ -122,62 +83,21 @@ const SIZE_CLASSES: Record<NonNullable<ModalContentProps["size"]>, string> = {
  * ```
  */
 export const ModalContent = React.forwardRef<
-  React.ComponentRef<typeof DialogPrimitive.Content>,
+  React.ComponentRef<typeof DialogContent>,
   ModalContentProps
->(
-  (
-    {
+>(({ className, ...props }, ref) => (
+  <DialogContent
+    ref={ref}
+    showMobileHandle={false}
+    className={cn(
+      "gap-2 rounded-t-[var(--color-modal-radius)] p-[var(--color-modal-padding-mobile)]",
+      "pb-[calc(var(--color-modal-padding-mobile)+env(safe-area-inset-bottom,0px))]",
+      "sm:rounded-[var(--color-modal-radius)] sm:p-[var(--color-modal-padding-desktop)]",
       className,
-      children,
-      size = "md",
-      overlay = true,
-      portal = true,
-      overlayProps,
-      style,
-      onOpenAutoFocus,
-      ...props
-    },
-    ref,
-  ) => {
-    const content = (
-      <>
-        {overlay && <ModalOverlay {...overlayProps} />}
-        <DialogPrimitive.Content
-          ref={ref}
-          style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
-          onOpenAutoFocus={(e) => {
-            if (onOpenAutoFocus) {
-              onOpenAutoFocus(e);
-              return;
-            }
-            e.preventDefault();
-            (e.currentTarget as HTMLElement).focus();
-          }}
-          className={cn(
-            "fixed flex flex-col gap-2 overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
-            "rounded-t-[var(--color-modal-radius)] p-[var(--color-modal-padding-mobile)]",
-            "pb-[calc(var(--color-modal-padding-mobile)+env(safe-area-inset-bottom,0px))]",
-            "dialog-max-h-dynamic inset-x-0 bottom-0 w-full",
-            "data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-full data-[state=open]:animate-in",
-            "data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-bottom-full data-[state=closed]:animate-out",
-            "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
-            "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
-            "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:bottom-auto sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2",
-            "sm:rounded-[var(--color-modal-radius)] sm:p-[var(--color-modal-padding-desktop)]",
-            "duration-200",
-            SIZE_CLASSES[size],
-            className,
-          )}
-          {...props}
-        >
-          {children}
-        </DialogPrimitive.Content>
-      </>
-    );
-
-    return portal ? <DialogPrimitive.Portal>{content}</DialogPrimitive.Portal> : content;
-  },
-);
+    )}
+    {...props}
+  />
+));
 ModalContent.displayName = "ModalContent";
 
 export interface ModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -220,46 +140,31 @@ export const ModalHeader = React.forwardRef<HTMLDivElement, ModalHeaderProps>(
 );
 ModalHeader.displayName = "ModalHeader";
 
-/** Props for the {@link ModalTitle} component. */
-export type ModalTitleProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>;
-
 /**
  * Accessible title for the modal. Render inside {@link ModalHeader}
  * or directly within {@link ModalContent}.
  */
-export const ModalTitle = React.forwardRef<
-  React.ComponentRef<typeof DialogPrimitive.Title>,
-  ModalTitleProps
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title
-    ref={ref}
-    className={cn("typography-header-heading-xs text-content-primary", className)}
-    {...props}
-  />
-));
-ModalTitle.displayName = "ModalTitle";
+export const ModalTitle = DialogTitle;
 
-/** Props for the {@link ModalDescription} component. */
-export type ModalDescriptionProps = React.ComponentPropsWithoutRef<
-  typeof DialogPrimitive.Description
->;
+/** Props for the {@link ModalTitle} component. */
+export type ModalTitleProps = DialogTitleProps;
 
 /** Accessible description for the modal. Rendered as secondary text. */
-export const ModalDescription = React.forwardRef<
-  React.ComponentRef<typeof DialogPrimitive.Description>,
-  ModalDescriptionProps
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description
-    ref={ref}
-    className={cn("typography-body-default-16px-regular text-content-secondary", className)}
-    {...props}
-  />
-));
-ModalDescription.displayName = "ModalDescription";
+export const ModalDescription = DialogDescription;
+
+/** Props for the {@link ModalDescription} component. */
+export type ModalDescriptionProps = DialogDescriptionProps;
 
 export interface ModalBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-/** Action list (or other content) under the header. */
+/**
+ * Action list (or other content) under the header.
+ *
+ * Unlike {@link DialogBody}, this carries no padding of its own: ModalContent's
+ * own padding already frames the whole panel, and stacking a second inset here
+ * is exactly the bug that doubled the mobile card's bottom gap on Dialog
+ * (ENG-14961) — see Dialog.tsx's DialogBody for the fix.
+ */
 export const ModalBody = React.forwardRef<HTMLDivElement, ModalBodyProps>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cn("flex flex-1 flex-col overflow-y-auto", className)} {...props} />
