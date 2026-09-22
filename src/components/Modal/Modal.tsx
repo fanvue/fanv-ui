@@ -8,6 +8,7 @@ import {
   type DialogContentProps,
   DialogDescription,
   type DialogDescriptionProps,
+  DialogFooter,
   DialogOverlay,
   type DialogOverlayProps,
   DialogTitle,
@@ -56,7 +57,17 @@ export const ModalOverlay = DialogOverlay;
 export type ModalOverlayProps = DialogOverlayProps;
 
 export interface ModalContentProps
-  extends Omit<DialogContentProps, "mobilePresentation" | "showMobileHandle"> {}
+  extends Omit<DialogContentProps, "mobilePresentation" | "showMobileHandle"> {
+  /**
+   * Mobile presentation below `sm`. From `sm` up both render as a centered card.
+   *
+   * - `"menu"` — floating card inset 16px from the sides and bottom, for action and selection lists
+   * - `"sheet"` — edge-to-edge bottom sheet with a pull handle, for forms with a {@link ModalFooter}
+   *
+   * @default "menu"
+   */
+  variant?: "menu" | "sheet";
+}
 
 /**
  * The V2 modal panel, built on {@link DialogContent}'s bottom-sheet/centered-card
@@ -85,14 +96,22 @@ export interface ModalContentProps
 export const ModalContent = React.forwardRef<
   React.ComponentRef<typeof DialogContent>,
   ModalContentProps
->(({ className, ...props }, ref) => (
+>(({ className, variant = "menu", ...props }, ref) => (
   <DialogContent
     ref={ref}
-    showMobileHandle={false}
+    mobilePresentation={variant === "sheet" ? "sheet" : "card"}
+    showMobileHandle={variant === "sheet"}
     className={cn(
-      "gap-2 rounded-t-[var(--color-modal-radius)] p-[var(--color-modal-padding-mobile)]",
-      "pb-[calc(var(--color-modal-padding-mobile)+env(safe-area-inset-bottom,0px))]",
-      "sm:rounded-[var(--color-modal-radius)] sm:p-[var(--color-modal-padding-desktop)]",
+      "gap-2 p-[var(--color-modal-padding-mobile)] sm:rounded-[var(--color-modal-radius)] sm:p-[var(--color-modal-padding-desktop)]",
+      variant === "sheet"
+        ? cn(
+            "rounded-t-[var(--color-modal-radius)] pt-3",
+            "pb-[calc(var(--color-modal-padding-mobile)+env(safe-area-inset-bottom,0px))]",
+          )
+        : cn(
+            "top-auto bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] translate-y-0 rounded-[var(--color-modal-radius)]",
+            "sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2",
+          ),
       className,
     )}
     {...props}
@@ -171,6 +190,19 @@ export const ModalBody = React.forwardRef<HTMLDivElement, ModalBodyProps>(
   ),
 );
 ModalBody.displayName = "ModalBody";
+
+export interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+/**
+ * Action row pinned under a scrolling {@link ModalBody}, e.g. Reset and Apply.
+ * Children share the row equally.
+ */
+export const ModalFooter = React.forwardRef<HTMLDivElement, ModalFooterProps>(
+  ({ className, ...props }, ref) => (
+    <DialogFooter ref={ref} className={cn("pt-2", className)} {...props} />
+  ),
+);
+ModalFooter.displayName = "ModalFooter";
 
 /**
  * Props for {@link ModalItem}, a V2 modal action row.

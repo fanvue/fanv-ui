@@ -7,6 +7,7 @@ import {
   Modal,
   ModalBody,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalItem,
   ModalTitle,
@@ -30,12 +31,41 @@ describe("Modal", () => {
     expect(modal).toHaveClass("border-modal-stroke");
     expect(modal).toHaveClass("shadow-blur-menu");
     expect(modal).toHaveClass("backdrop-blur-[4px]");
-    expect(modal).toHaveClass("rounded-t-[var(--color-modal-radius)]");
+    expect(modal).toHaveClass("rounded-[var(--color-modal-radius)]");
+    expect(modal).toHaveClass("inset-x-4");
+    expect(modal).toHaveClass("top-auto");
+    expect(modal).toHaveClass("sm:top-1/2");
     expect(modal).toHaveClass("sm:rounded-[var(--color-modal-radius)]");
     expect(modal).toHaveClass("p-[var(--color-modal-padding-mobile)]");
     expect(modal).toHaveClass("sm:p-[var(--color-modal-padding-desktop)]");
     expect(modal).not.toHaveClass("sm:rounded-lg");
     expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
+  });
+
+  it("renders the sheet variant edge to edge with a pull handle", () => {
+    render(
+      <Modal defaultOpen>
+        <ModalContent variant="sheet">
+          <ModalHeader>
+            <ModalTitle>Apply Filters</ModalTitle>
+          </ModalHeader>
+          <ModalBody>Filters</ModalBody>
+          <ModalFooter>
+            <Button variant="secondary">Reset</Button>
+            <Button>Apply</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>,
+    );
+
+    const modal = screen.getByRole("dialog");
+    expect(modal).toHaveClass("inset-x-0");
+    expect(modal).toHaveClass("bottom-0");
+    expect(modal).toHaveClass("rounded-t-[var(--color-modal-radius)]");
+    expect(modal).not.toHaveClass("inset-x-4");
+    expect(document.querySelector(".bg-icons-tertiary")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reset" }).parentElement).toHaveClass("[&>*]:flex-1");
+    expect(screen.getByRole("button", { name: "Apply" })).toBeInTheDocument();
   });
 
   it("closes from the header button", async () => {

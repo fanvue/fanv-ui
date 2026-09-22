@@ -10,6 +10,7 @@ import {
   Modal,
   ModalBody,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalItem,
   ModalTitle,
@@ -60,6 +61,32 @@ export const ListActions: Story = {
             Delete List
           </ModalItem>
         </ModalBody>
+      </ModalContent>
+    </Modal>
+  ),
+  play: openModal,
+};
+
+export const FilterSheet: Story = {
+  name: "Filter sheet",
+  render: () => (
+    <Modal>
+      <ModalTrigger asChild>
+        <Button>Open modal</Button>
+      </ModalTrigger>
+      <ModalContent variant="sheet">
+        <ModalHeader>
+          <ModalTitle>Apply Filters</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
+          <p className="typography-body-default-16px-regular text-content-primary">
+            Filter fields scroll here while the footer stays pinned.
+          </p>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="secondary">Reset</Button>
+          <Button>Apply</Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   ),

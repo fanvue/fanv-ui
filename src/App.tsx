@@ -173,6 +173,7 @@ import {
   Modal,
   ModalBody,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalItem,
   ModalTitle,
@@ -5404,6 +5405,25 @@ function ModalDemo() {
               Delete List
             </ModalItem>
           </ModalBody>
+        </ModalContent>
+      </Modal>
+      <Modal>
+        <ModalTrigger asChild>
+          <Button variant="secondary">Filter sheet</Button>
+        </ModalTrigger>
+        <ModalContent variant="sheet">
+          <ModalHeader>
+            <ModalTitle>Apply Filters</ModalTitle>
+          </ModalHeader>
+          <ModalBody>
+            <p className="typography-body-default-16px-regular text-content-primary">
+              Filter fields scroll here while the footer stays pinned.
+            </p>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="secondary">Reset</Button>
+            <Button>Apply</Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </div>
