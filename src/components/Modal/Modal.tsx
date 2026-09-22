@@ -102,7 +102,7 @@ export const ModalContent = React.forwardRef<
     mobilePresentation={variant === "sheet" ? "sheet" : "card"}
     showMobileHandle={variant === "sheet"}
     className={cn(
-      "gap-2 p-[var(--color-modal-padding-mobile)] sm:rounded-[var(--color-modal-radius)] sm:p-[var(--color-modal-padding-desktop)]",
+      "gap-4 p-[var(--color-modal-padding-mobile)] sm:rounded-[var(--color-modal-radius)] sm:p-[var(--color-modal-padding-desktop)]",
       variant === "sheet"
         ? cn(
             "rounded-t-[var(--color-modal-radius)] pt-3",
