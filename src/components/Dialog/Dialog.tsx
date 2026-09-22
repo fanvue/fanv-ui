@@ -89,7 +89,7 @@ export interface DialogContentProps
    * How the dialog presents below the `sm` breakpoint.
    * - `"sheet"` — bottom sheet pinned to the viewport bottom edge (default)
    * - `"card"` — centered floating card per the v2-modal confirmation spec:
-   *   16px side margins, 24px padding, 32px radius on all corners, no pull handle
+   *   16px side margins, 16px padding, 32px radius on all corners, no pull handle
    *
    * @default "sheet"
    */
@@ -170,14 +170,15 @@ export const DialogContent = React.forwardRef<
             e.preventDefault();
             (e.currentTarget as HTMLElement).focus();
           }}
+          data-mobile-presentation={mobilePresentation}
           className={cn(
-            "fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
+            "group/dialog fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
             "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
             mobilePresentation === "card"
-              ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
+              ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius per Figma
                 cn(
-                  "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
+                  "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-4",
                   "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
                   "sm:inset-x-auto",
                 )
@@ -338,7 +339,16 @@ export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex-1 overflow-y-auto py-4", className)} {...props} />
+    <div
+      ref={ref}
+      // The mobile "card" panel already carries 16px padding on every edge (see DialogContent);
+      // without this override, this pb-4 doubled it into a 41px bottom gap against Figma's 16px.
+      className={cn(
+        "flex-1 overflow-y-auto py-4 max-sm:group-data-[mobile-presentation=card]/dialog:pb-0",
+        className,
+      )}
+      {...props}
+    />
   ),
 );
 DialogBody.displayName = "DialogBody";
