@@ -71,6 +71,7 @@ import {
   ChevronRightIcon,
   ChevronUpIcon,
   Chip,
+  ChipGroup,
   ClockIcon,
   CloseIcon,
   CodeIcon,
@@ -3683,6 +3684,44 @@ function ChipDemo() {
   );
 }
 
+function ChipGroupDemo() {
+  const categories = [
+    "Music",
+    "Fitness",
+    "Cooking",
+    "Travel",
+    "Gaming",
+    "Art",
+    "Fashion",
+    "Comedy",
+  ];
+  const [selected, setSelected] = useState<string[]>(["Music"]);
+  const toggle = (label: string) =>
+    setSelected((current) =>
+      current.includes(label) ? current.filter((item) => item !== label) : [...current, label],
+    );
+  const chips = categories.map((label) => (
+    <Chip key={label} size="40" selected={selected.includes(label)} onClick={() => toggle(label)}>
+      {label}
+    </Chip>
+  ));
+  return (
+    <div id="chip-group" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Chip Group</h2>
+      <div className="flex max-w-sm flex-col gap-2">
+        <p className="typography-body-small-14px-regular">Single line (scrolls horizontally)</p>
+        <ChipGroup aria-label="Categories, single line">{chips}</ChipGroup>
+      </div>
+      <div className="flex max-w-sm flex-col gap-2">
+        <p className="typography-body-small-14px-regular">Wrapped</p>
+        <ChipGroup aria-label="Categories, wrapped" wrapped>
+          {chips}
+        </ChipGroup>
+      </div>
+    </div>
+  );
+}
+
 function SnackbarDemo() {
   return (
     <div id="snackbar" className="flex scroll-mt-20 flex-col gap-4">
@@ -5810,6 +5849,7 @@ function App() {
     { id: "charts", label: "Charts" },
     { id: "checkbox", label: "Checkbox" },
     { id: "chip", label: "Chip" },
+    { id: "chip-group", label: "Chip Group" },
     { id: "count", label: "Count" },
     { id: "fan-follower-count", label: "Fan & Follower Count" },
     { id: "creator-card", label: "Creator Card" },
@@ -6062,6 +6102,9 @@ function App() {
 
             {/* Chip */}
             <ChipDemo />
+
+            {/* Chip Group */}
+            <ChipGroupDemo />
 
             {/* Snackbar */}
             <SnackbarDemo />
