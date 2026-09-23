@@ -15,6 +15,8 @@ export interface SearchFieldProps extends Omit<TextFieldProps, "type" | "leftIco
   debounceMs?: number;
   /** Minimum number of characters required before onChange fires. The input still updates visually, but onChange is suppressed until the threshold is met. Clearing always fires onClear regardless. */
   minChars?: number;
+  /** Accessible name for the clear button. @default "Clear search" */
+  clearAriaLabel?: string;
 }
 
 /**
@@ -33,7 +35,19 @@ export interface SearchFieldProps extends Omit<TextFieldProps, "type" | "leftIco
  * ```
  */
 export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
-  ({ disabled, onClear, value, debounceMs, minChars, onChange, ...props }, ref) => {
+  (
+    {
+      disabled,
+      onClear,
+      value,
+      debounceMs,
+      minChars,
+      onChange,
+      clearAriaLabel = "Clear search",
+      ...props
+    },
+    ref,
+  ) => {
     const [internalValue, setInternalValue] = React.useState(value ?? "");
     const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -91,7 +105,7 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
         variant="tertiary"
         size="24"
         icon={<CloseIcon />}
-        aria-label="Clear search"
+        aria-label={clearAriaLabel}
         disabled={disabled}
         onClick={handleClear}
       />

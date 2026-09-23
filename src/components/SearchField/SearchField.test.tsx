@@ -86,6 +86,20 @@ describe("SearchField", () => {
       expect(clearButton).toBeDisabled();
     });
 
+    it("uses clearAriaLabel for the clear button when provided", () => {
+      render(
+        <SearchField
+          value="test"
+          onChange={vi.fn()}
+          onClear={vi.fn()}
+          clearAriaLabel="Effacer la recherche"
+          placeholder="Search"
+        />,
+      );
+      expect(screen.getByLabelText("Effacer la recherche")).toBeInTheDocument();
+      expect(screen.queryByLabelText("Clear search")).not.toBeInTheDocument();
+    });
+
     it("sets type to search", () => {
       render(<SearchField placeholder="Search" />);
       const input = screen.getByPlaceholderText("Search");
