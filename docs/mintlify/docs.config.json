@@ -174,6 +174,7 @@
     "SwitchField": "Forms & Inputs",
     "SwitchToggle": "Forms & Inputs",
     "Table": "Data Display",
+    "TableMobile": "Data Display",
     "Tabs": "Navigation",
     "TextArea": "Forms & Inputs",
     "TextField": "Forms & Inputs",
@@ -200,6 +201,7 @@
     "PasswordField": "A password input with a show/hide toggle, in three sizes, taking the rest of its API from TextField.",
     "RadioGroup": "A set of Radio items where exactly one can be selected, controlled or uncontrolled.",
     "Table": "A data table built from TableCard, TableScrollArea, TableToolbar, TableHeader, TableRow, TableCell and TablePagination, plus a dozen cell-level parts.",
+    "TableMobile": "The mobile layout of a table, built from TableMobileList, TableMobileRow and TableMobileField: each row stacks a header, primary block and label/value columns.",
     "Tabs": "A tabbed interface built from Tabs, TabsList, TabsTrigger and TabsContent.",
     "Tooltip": "A short label shown on hover or focus, built from TooltipProvider, TooltipTrigger and TooltipContent, with twelve placements."
   },
