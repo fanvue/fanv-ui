@@ -18,7 +18,7 @@ import {
 } from "./Modal";
 
 const FIGMA_URL =
-  "https://www.figma.com/design/23x2vofTPkLpbcJyRdDa55/Creator---Management%E2%80%A8--Teams?node-id=9076-77632&m=dev";
+  "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=17250-5111";
 
 const meta = {
   title: "Components/Modal",
