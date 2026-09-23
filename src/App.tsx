@@ -238,6 +238,9 @@ import {
   TableHeader,
   TableLineClamp,
   TableMediaThumbnail,
+  TableMobileField,
+  TableMobileList,
+  TableMobileRow,
   TablePagination,
   TablePillProgressLayout,
   TableProgressTrack,
@@ -4352,6 +4355,52 @@ function TableDemo() {
   );
 }
 
+function TableMobileDemo() {
+  return (
+    <div id="table-mobile" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Table Mobile</h2>
+      <TableMobileList aria-label="Table mobile demo" className="max-w-[361px]">
+        <TableMobileRow
+          header={<Pill variant="green">Active</Pill>}
+          actions={
+            <>
+              <IconButton variant="tertiary" size="24" icon={<StarIcon />} aria-label="Favourite" />
+              <IconButton
+                variant="secondary"
+                size="24"
+                icon={<ChevronRightIcon />}
+                aria-label="Open list"
+              />
+            </>
+          }
+          title="Weekend offers"
+          label="320 members"
+        />
+        <TableMobileRow
+          header={<Pill variant="green">Active</Pill>}
+          title="Main Content of the Table"
+          label="Primary"
+          labelPosition="above"
+        >
+          <TableMobileField label="Secondary" value="Sub Content" />
+          <TableMobileField label="Secondary" value="Sub Content" />
+          <TableMobileField label="Secondary" value="Sub Content" />
+        </TableMobileRow>
+        <TableMobileRow
+          actions={<Checkbox aria-label="Select Jane Doe" />}
+          media={<Avatar src={TABLE_DEMO_MEDIA} alt="" fallback="JD" size={40} />}
+          title="Jane Doe"
+          label="@jane_doe"
+        >
+          <TableMobileField label="Status" value={<Pill variant="green">Subscriber</Pill>} />
+          <TableMobileField label="Spend" value="$120.00" />
+          <TableMobileField label="Last Active" value="2d ago" />
+        </TableMobileRow>
+      </TableMobileList>
+    </div>
+  );
+}
+
 function TabsDemo() {
   return (
     <div id="tabs" className="flex scroll-mt-20 flex-col gap-4">
@@ -5850,6 +5899,7 @@ function App() {
     { id: "switchtoggle", label: "Switch Toggle" },
     { id: "tabs", label: "Tabs" },
     { id: "table", label: "Table" },
+    { id: "table-mobile", label: "Table Mobile" },
     { id: "textarea", label: "Text Area" },
     { id: "textfield", label: "Text Field" },
     { id: "toast", label: "Toast" },
@@ -6093,6 +6143,7 @@ function App() {
 
             {/* Table */}
             <TableDemo />
+            <TableMobileDemo />
 
             {/* Slider */}
             <SliderDemo />

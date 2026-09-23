@@ -852,6 +852,17 @@ export type {
   TablePaginationProps,
 } from "./components/Table/TablePagination";
 export { TablePagination } from "./components/Table/TablePagination";
+export type {
+  TableMobileFieldProps,
+  TableMobileLabelPosition,
+  TableMobileListProps,
+  TableMobileRowProps,
+} from "./components/TableMobile/TableMobile";
+export {
+  TableMobileField,
+  TableMobileList,
+  TableMobileRow,
+} from "./components/TableMobile/TableMobile";
 export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";
