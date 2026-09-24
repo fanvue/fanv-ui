@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import {
   Table,
@@ -200,6 +201,48 @@ describe("Table", () => {
       expect(label).toHaveClass("border-content-primary");
     });
 
+    it("renders TableSortLabel as a span without onClick", () => {
+      const { container } = render(<TableSortLabel direction="asc">Title</TableSortLabel>);
+      expect(screen.queryByRole("button")).toBeNull();
+      expect(container.firstElementChild?.tagName).toBe("SPAN");
+    });
+
+    it("renders TableSortLabel as a button that fires onClick", async () => {
+      const user = userEvent.setup();
+      const onClick = vi.fn();
+      render(
+        <TableSortLabel direction="asc" onClick={onClick}>
+          Title
+        </TableSortLabel>,
+      );
+      const button = screen.getByRole("button", { name: "Title" });
+      expect(button).toHaveAttribute("type", "button");
+      expect(screen.getByText("Title")).toHaveClass("border-b");
+      await user.click(button);
+      expect(onClick).toHaveBeenCalledTimes(1);
+    });
+
+    it("activates the TableSortLabel button with Enter and Space", async () => {
+      const user = userEvent.setup();
+      const onClick = vi.fn();
+      render(<TableSortLabel onClick={onClick}>Title</TableSortLabel>);
+      await user.tab();
+      expect(screen.getByRole("button", { name: "Title" })).toHaveFocus();
+      await user.keyboard("{Enter}");
+      await user.keyboard(" ");
+      expect(onClick).toHaveBeenCalledTimes(2);
+    });
+
+    it("forwards the ref to the TableSortLabel button", () => {
+      const ref = { current: null as HTMLButtonElement | null };
+      render(
+        <TableSortLabel ref={ref} onClick={() => {}}>
+          Title
+        </TableSortLabel>,
+      );
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    });
+
     it("renders TableCellContent primary + secondary lines", () => {
       render(<TableCellContent primary="Product Name" secondary="SKU-00321" />);
       expect(screen.getByText("Product Name")).toHaveClass("typography-body-small-14px-semibold");
@@ -227,6 +270,36 @@ describe("Table", () => {
                   <TableHead>Column</TableHead>
                   <TableHead>
                     <TableSortLabel direction="asc">Sortable</TableSortLabel>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Cell A</TableCell>
+                  <TableCell>Cell B</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations with a clickable TableSortLabel and aria-sort", async () => {
+      const { container } = render(
+        <TableCard>
+          <TableScrollArea>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead aria-sort="ascending">
+                    <TableSortLabel direction="asc" onClick={() => {}}>
+                      Sortable
+                    </TableSortLabel>
+                  </TableHead>
+                  <TableHead aria-sort="none">
+                    <TableSortLabel onClick={() => {}}>Other</TableSortLabel>
                   </TableHead>
                 </TableRow>
               </TableHeader>
