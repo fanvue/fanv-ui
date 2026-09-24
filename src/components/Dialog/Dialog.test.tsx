@@ -106,7 +106,9 @@ describe("Dialog", () => {
 
     it("top-aligns header buttons so the close button tracks the title's first line", () => {
       renderDialog();
-      const header = screen.getByRole("button", { name: "Close" }).parentElement;
+      const header = screen.getByRole("button", {
+        name: "Close",
+      }).parentElement;
       expect(header).toHaveClass("items-start");
       expect(header).not.toHaveClass("items-center");
     });
@@ -182,7 +184,7 @@ describe("Dialog", () => {
       const dialog = screen.getByRole("dialog");
       expect(dialog).toHaveClass("inset-x-4");
       expect(dialog).toHaveClass("rounded-xl");
-      expect(dialog).toHaveClass("p-6");
+      expect(dialog).toHaveClass("p-4");
       expect(dialog).not.toHaveClass("bottom-0");
       expect(dialog).not.toHaveClass("rounded-t-xl");
       expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
@@ -221,6 +223,21 @@ describe("Dialog", () => {
       expect(screen.getByRole("dialog")).not.toHaveClass(
         "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
       );
+    });
+
+    it("does not double the bottom padding of a DialogBody inside a floating card", () => {
+      render(
+        <Dialog defaultOpen>
+          <DialogContent mobilePresentation="card">
+            <DialogHeader>
+              <DialogTitle>Card</DialogTitle>
+            </DialogHeader>
+            <DialogBody>Content</DialogBody>
+          </DialogContent>
+        </Dialog>,
+      );
+      const body = screen.getByText("Content");
+      expect(body).toHaveClass("max-sm:group-data-[mobile-presentation=card]/dialog:pb-0");
     });
 
     it("supports controlled open state", async () => {
