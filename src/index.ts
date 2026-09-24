@@ -660,6 +660,32 @@ export type {
 } from "./components/MobileStepper/MobileStepper";
 export { MobileStepper } from "./components/MobileStepper/MobileStepper";
 export type {
+  ModalBodyProps,
+  ModalCloseProps,
+  ModalContentProps,
+  ModalDescriptionProps,
+  ModalFooterProps,
+  ModalHeaderProps,
+  ModalItemProps,
+  ModalOverlayProps,
+  ModalProps,
+  ModalTitleProps,
+  ModalTriggerProps,
+} from "./components/Modal/Modal";
+export {
+  Modal,
+  ModalBody,
+  ModalClose,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalItem,
+  ModalOverlay,
+  ModalTitle,
+  ModalTrigger,
+} from "./components/Modal/Modal";
+export type {
   OnlineBlinkingIconProps,
   OnlineBlinkingIconSize,
 } from "./components/OnlineBlinkingIcon/OnlineBlinkingIcon";
