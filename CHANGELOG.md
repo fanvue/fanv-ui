@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.37.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.37.0...ui-v3.37.1) (2026-09-27)
+
+
+### Bug Fixes
+
+* **VoiceNote:** use bare play/pause glyphs to match the V2 Waveform design ([#716](https://github.com/fanvue/fanv-ui/issues/716)) ([cbe6b83](https://github.com/fanvue/fanv-ui/commit/cbe6b832785f02b14a21e44c47dc0d95bbdfd63e))
+
 ## [3.37.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.36.0...ui-v3.37.0) (2026-09-23)
 
 
