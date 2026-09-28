@@ -22,7 +22,7 @@ export interface UndoAlertPromptProps
   title: React.ReactNode;
   /**
    * Called once when the user activates the undo button. The button then
-   * confirms with a tick and `undoneLabel`, and the prompt closes after
+   * confirms with `undoneLabel` and a trailing tick, and the prompt closes after
    * `undoneDuration`.
    */
   onUndo: () => void;
@@ -57,8 +57,8 @@ const TypeIcon = ({ type }: { type: UndoAlertPromptType }) =>
  * pass a `title` describing the action that just happened, and pick `type`
  * by outcome (`removed` for deletions, `positive` for everything else).
  *
- * Activating Undo calls `onUndo` once, swaps the button to a tick and
- * "Undone", then closes the prompt after `undoneDuration`.
+ * Activating Undo calls `onUndo` once, swaps the button to "Undone" with a
+ * trailing tick, then closes the prompt after `undoneDuration`.
  *
  * Use inside a {@link ToastProvider} with a {@link ToastViewport}.
  *
@@ -144,7 +144,7 @@ export const UndoAlertPrompt = React.forwardRef<
             negative
             size="24"
             aria-disabled={undone || undefined}
-            leftIcon={
+            rightIcon={
               undone ? (
                 <TickIcon data-testid="undone-tick" className="motion-safe:animate-undo-tick-in" />
               ) : undefined

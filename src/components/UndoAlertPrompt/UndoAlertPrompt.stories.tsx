@@ -90,8 +90,8 @@ export const ActionCopy: Story = {
 };
 
 /**
- * After Undo is pressed: the tick slides in from the left, the label reads
- * "Undone", and the prompt closes after `undoneDuration`. Held open here so the
+ * After Undo is pressed: the label reads "Undone" and a tick slides in from
+ * the left on its right, and the prompt closes after `undoneDuration`. Held open here so the
  * confirmation state can be reviewed.
  */
 export const Undone: Story = {
