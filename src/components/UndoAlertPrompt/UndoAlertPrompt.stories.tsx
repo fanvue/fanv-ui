@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent, within } from "storybook/test";
 import { ToastProvider, ToastViewport } from "../Toast/Toast";
 import { UndoAlertPrompt } from "./UndoAlertPrompt";
 
@@ -87,24 +86,6 @@ export const ActionCopy: Story = {
       ))}
     </div>
   ),
-};
-
-/**
- * After Undo is pressed: the label reads "Undone" and a tick slides in from
- * the left on its right, and the prompt closes after `undoneDuration`. Held open here so the
- * confirmation state can be reviewed.
- */
-export const Undone: Story = {
-  args: {
-    type: "removed",
-    title: "Folder Deleted",
-    undoneDuration: Number.POSITIVE_INFINITY,
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await userEvent.click(await canvas.findByRole("button", { name: "Undo" }));
-    await expect(await canvas.findByRole("button", { name: "Undone" })).toBeInTheDocument();
-  },
 };
 
 export const CustomLabel: Story = {

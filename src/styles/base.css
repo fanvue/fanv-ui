@@ -361,28 +361,6 @@
 }
 
 /*
- * UndoAlertPrompt confirmation tick. The whole icon slot starts flush against the
- * end of the label (pulled back by the Button's 8px gap) and travels to its resting
- * position while fading in. Only `transform` and `opacity` animate, so it runs off
- * the main thread. Apply it behind `motion-safe:` so reduced-motion users get the
- * tick instantly.
- */
-@keyframes fv-undo-tick-in {
-  from {
-    opacity: 0;
-    transform: translateX(calc(var(--spacing) * -2));
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@utility animate-undo-tick-in {
-  animation: fv-undo-tick-in 200ms ease-out both;
-}
-
-/*
  * `dvh` reflects the browser chrome actually on screen (e.g. iOS in-app browsers
  * like Instagram, which report a `vh` taller than what's visible once chrome +
  * home-indicator inset are subtracted). `dvh` support is what's missing on older
