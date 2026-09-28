@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { ToastProvider, ToastViewport } from "../Toast/Toast";
 import { UndoAlertPrompt } from "./UndoAlertPrompt";
@@ -12,6 +12,10 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 describe("UndoAlertPrompt", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   describe("API", () => {
     it("applies custom className", () => {
       render(
@@ -59,7 +63,8 @@ describe("UndoAlertPrompt", () => {
       expect(screen.getByRole("button", { name: "Restore" })).toBeInTheDocument();
     });
 
-    it("calls onUndo and requests close when the undo button is clicked", () => {
+    it("confirms with a tick and Undone, calls onUndo once, then closes after undoneDuration", () => {
+      vi.useFakeTimers();
       const onUndo = vi.fn();
       const onOpenChange = vi.fn();
       render(
@@ -68,14 +73,37 @@ describe("UndoAlertPrompt", () => {
             open
             title="Folder Deleted"
             type="removed"
+            undoneDuration={1000}
             onUndo={onUndo}
             onOpenChange={onOpenChange}
           />
         </Wrapper>,
       );
       fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+      const undoneButton = screen.getByRole("button", { name: "Undone" });
       expect(onUndo).toHaveBeenCalledTimes(1);
+      expect(screen.getByTestId("undone-tick")).toBeInTheDocument();
+      expect(undoneButton).toHaveAttribute("aria-disabled", "true");
+      expect(screen.getByTestId("undone-announcement")).toHaveTextContent("Undone");
+      expect(onOpenChange).not.toHaveBeenCalled();
+
+      fireEvent.click(undoneButton);
+      expect(onUndo).toHaveBeenCalledTimes(1);
+
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
       expect(onOpenChange).toHaveBeenCalledWith(false);
+    });
+
+    it("renders a custom undone label", () => {
+      render(
+        <Wrapper>
+          <UndoAlertPrompt open title="Message Unsent" undoneLabel="Restored" onUndo={() => {}} />
+        </Wrapper>,
+      );
+      fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+      expect(screen.getByRole("button", { name: "Restored" })).toBeInTheDocument();
     });
 
     it("forwards ref to the toast root", () => {
