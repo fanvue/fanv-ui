@@ -32,6 +32,24 @@ describe("UndoAlertPrompt", () => {
       expect(screen.getByRole("button", { name: "Undo" })).toBeInTheDocument();
     });
 
+    it("renders whatever title the action passes, including rich content", () => {
+      render(
+        <Wrapper>
+          <UndoAlertPrompt
+            open
+            title={
+              <>
+                <strong>Summer Shoot</strong> folder deleted
+              </>
+            }
+            onUndo={() => {}}
+          />
+        </Wrapper>,
+      );
+      expect(screen.getByText("Summer Shoot").tagName).toBe("STRONG");
+      expect(screen.getByText(/folder deleted/)).toBeInTheDocument();
+    });
+
     it("renders a custom undo label", () => {
       render(
         <Wrapper>

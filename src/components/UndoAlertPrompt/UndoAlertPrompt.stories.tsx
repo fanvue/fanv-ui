@@ -18,6 +18,8 @@ const meta = {
       control: "select",
       options: ["positive", "removed"],
     },
+    title: { control: "text" },
+    undoLabel: { control: "text" },
   },
   args: {
     title: "Template Moved",
@@ -51,13 +53,37 @@ export const Removed: Story = {
   },
 };
 
-/** Both types. Rendered in one viewport so they stack as they would in the app. */
+/** Both types with the same copy. Edit `title` in Controls to try your own. */
 export const AllTypes: Story = {
   parameters: { layout: "padded" },
   render: (args) => (
     <div className="flex flex-col items-start gap-3">
-      <UndoAlertPrompt {...args} type="positive" title="Template Moved" />
-      <UndoAlertPrompt {...args} type="removed" title="Folder Deleted" />
+      <UndoAlertPrompt {...args} type="positive" />
+      <UndoAlertPrompt {...args} type="removed" />
+    </div>
+  ),
+};
+
+const ACTION_EXAMPLES = [
+  { type: "positive", title: "Template Moved" },
+  { type: "positive", title: "Post Scheduled" },
+  { type: "positive", title: "3 Messages Archived" },
+  { type: "removed", title: "Folder Deleted" },
+  { type: "removed", title: "Media Removed from Vault" },
+  { type: "removed", title: "Draft Discarded" },
+] as const;
+
+/**
+ * The copy is not fixed. Write the title for whichever action just completed,
+ * and pick `type` by outcome: `removed` for deletions, `positive` otherwise.
+ */
+export const ActionCopy: Story = {
+  parameters: { layout: "padded" },
+  render: (args) => (
+    <div className="flex flex-col items-start gap-3">
+      {ACTION_EXAMPLES.map((example) => (
+        <UndoAlertPrompt key={example.title} {...args} type={example.type} title={example.title} />
+      ))}
     </div>
   ),
 };

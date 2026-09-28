@@ -12,15 +12,20 @@ export interface UndoAlertPromptProps
   extends Omit<React.ComponentPropsWithoutRef<typeof ToastPrimitive.Root>, "type" | "title"> {
   /** Outcome being confirmed. Drives the leading icon. @default "positive" */
   type?: UndoAlertPromptType;
-  /** Short confirmation of what just happened, e.g. "Template moved". */
-  title: string;
+  /**
+   * Confirmation of the action that just completed. Write it for the action
+   * being undone, e.g. "Folder deleted", "Template moved" or
+   * "3 messages archived". Accepts rich content for emphasising an item name.
+   */
+  title: React.ReactNode;
   /** Called when the user activates the undo button. The prompt closes afterwards. */
   onUndo: () => void;
   /** Label for the undo button. @default "Undo" */
   undoLabel?: string;
   /**
    * Describes an alternative way to undo, announced to screen reader users
-   * who cannot reach the button before the prompt dismisses. @default undoLabel
+   * who cannot reach the button before the prompt dismisses. Word it for the
+   * action, e.g. "Restore the folder from Recently deleted". @default undoLabel
    */
   undoAltText?: string;
 }
@@ -35,7 +40,9 @@ const TypeIcon = ({ type }: { type: UndoAlertPromptType }) =>
 /**
  * A compact, auto-dismissing confirmation with a single undo action. Use it
  * straight after a reversible change, such as moving or deleting an item, so
- * the user can reverse it without leaving their flow.
+ * the user can reverse it without leaving their flow. The copy is not fixed:
+ * pass a `title` describing the action that just happened, and pick `type`
+ * by outcome (`removed` for deletions, `positive` for everything else).
  *
  * Use inside a {@link ToastProvider} with a {@link ToastViewport}.
  *
