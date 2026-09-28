@@ -144,14 +144,11 @@ export const UndoAlertPrompt = React.forwardRef<
             negative
             size="24"
             aria-disabled={undone || undefined}
-            rightIcon={
-              undone ? (
-                <TickIcon data-testid="undone-tick" className="motion-safe:animate-undo-tick-in" />
-              ) : undefined
-            }
+            rightIcon={undone ? <TickIcon data-testid="undone-tick" /> : undefined}
             className={cn(
               "typography-description-12px-semibold shrink-0 rounded-xs",
-              undone && "cursor-default hover:bg-buttons-secondary-negative-default",
+              undone &&
+                "cursor-default hover:bg-buttons-secondary-negative-default motion-safe:[&>[aria-hidden=true]]:animate-undo-tick-in",
             )}
           >
             {undone ? undoneLabel : undoLabel}

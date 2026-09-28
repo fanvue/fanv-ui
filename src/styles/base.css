@@ -361,14 +361,16 @@
 }
 
 /*
- * UndoAlertPrompt confirmation tick. Only `transform` and `opacity` animate, so it
- * runs off the main thread. Apply it behind `motion-safe:` so reduced-motion users
- * get the tick instantly.
+ * UndoAlertPrompt confirmation tick. The whole icon slot starts flush against the
+ * end of the label (pulled back by the Button's 8px gap) and travels to its resting
+ * position while fading in. Only `transform` and `opacity` animate, so it runs off
+ * the main thread. Apply it behind `motion-safe:` so reduced-motion users get the
+ * tick instantly.
  */
 @keyframes fv-undo-tick-in {
   from {
     opacity: 0;
-    transform: translateX(-6px);
+    transform: translateX(calc(var(--spacing) * -2));
   }
   to {
     opacity: 1;
