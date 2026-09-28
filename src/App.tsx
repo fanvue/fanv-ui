@@ -274,6 +274,7 @@ import {
   TrendPill,
   TrophyIcon,
   TwitterIcon,
+  UndoAlertPrompt,
   UploadIcon,
   UserCircleIcon,
   UserDisplayName,
@@ -949,6 +950,48 @@ function ToastDemo() {
         onOpenChange={(open: boolean) => !open && hideToast("messageToast")}
       />
       <ToastViewport />
+    </div>
+  );
+}
+
+function UndoAlertPromptDemo() {
+  const [open, setOpen] = useState({ positive: false, removed: false });
+  const [lastUndo, setLastUndo] = useState("");
+
+  return (
+    <div id="undoalertprompt" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Undo Alert Prompt</h2>
+      <div className="flex flex-wrap gap-3">
+        <Button
+          variant="primary"
+          size="40"
+          onClick={() => setOpen((prev) => ({ ...prev, positive: true }))}
+        >
+          Move Template
+        </Button>
+        <Button
+          variant="primary"
+          size="40"
+          onClick={() => setOpen((prev) => ({ ...prev, removed: true }))}
+        >
+          Delete Folder
+        </Button>
+      </div>
+      {lastUndo && <p className="typography-body-small-14px-regular">Undid: {lastUndo}</p>}
+      <UndoAlertPrompt
+        type="positive"
+        title="Template Moved"
+        onUndo={() => setLastUndo("Template Moved")}
+        open={open.positive}
+        onOpenChange={(value: boolean) => setOpen((prev) => ({ ...prev, positive: value }))}
+      />
+      <UndoAlertPrompt
+        type="removed"
+        title="Folder Deleted"
+        onUndo={() => setLastUndo("Folder Deleted")}
+        open={open.removed}
+        onOpenChange={(value: boolean) => setOpen((prev) => ({ ...prev, removed: value }))}
+      />
     </div>
   );
 }
@@ -5853,6 +5896,7 @@ function App() {
     { id: "textarea", label: "Text Area" },
     { id: "textfield", label: "Text Field" },
     { id: "toast", label: "Toast" },
+    { id: "undoalertprompt", label: "Undo Alert Prompt" },
     { id: "loader", label: "Loader" },
     { id: "breadcrumb", label: "Breadcrumb" },
     { id: "skeleton", label: "Skeleton" },
@@ -6143,6 +6187,9 @@ function App() {
 
             {/* Toast */}
             <ToastDemo />
+
+            {/* Undo Alert Prompt */}
+            <UndoAlertPromptDemo />
 
             {/* Dialog */}
             <DialogDemo />

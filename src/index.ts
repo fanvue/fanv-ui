@@ -897,6 +897,11 @@ export type {
   TrendPillProps,
 } from "./components/TrendPill/TrendPill";
 export { TrendPill } from "./components/TrendPill/TrendPill";
+export type {
+  UndoAlertPromptProps,
+  UndoAlertPromptType,
+} from "./components/UndoAlertPrompt/UndoAlertPrompt";
+export { UndoAlertPrompt } from "./components/UndoAlertPrompt/UndoAlertPrompt";
 export type { UserDisplayNameProps } from "./components/UserDisplayName/UserDisplayName";
 export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
 export type { UserHandleProps } from "./components/UserHandle/UserHandle";
