@@ -19,6 +19,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
+  ActionInput,
   AddCircleIcon,
   AddIcon,
   AIIcon,
@@ -1541,6 +1542,44 @@ function AvatarDemo() {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function ActionInputDemo() {
+  const [period, setPeriod] = useState("");
+  return (
+    <div id="action-input" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Action Input</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <ActionInput variant="add" leadingIcon={<AddIcon size={16} />}>
+              Add condition
+            </ActionInput>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem>Total spent</DropdownMenuItem>
+            <DropdownMenuItem>Subscription status</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <ActionInput filled={period !== ""}>{period || "Any"}</ActionInput>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            {["Last 7d", "Last 30d", "Last 90d"].map((option) => (
+              <DropdownMenuItem key={option} onSelect={() => setPeriod(option)}>
+                {option}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <ActionInput filled>Total spent</ActionInput>
+        <ActionInput error>Any</ActionInput>
+        <ActionInput trailingIcon={null}>No icon</ActionInput>
+        <ActionInput disabled>Disabled</ActionInput>
       </div>
     </div>
   );
@@ -5794,6 +5833,7 @@ function App() {
 
   const sections = [
     { id: "accordion", label: "Accordion" },
+    { id: "action-input", label: "Action Input" },
     { id: "alert", label: "Alert" },
     { id: "banner", label: "Banner" },
     { id: "critical-banner", label: "Critical Banner" },
@@ -5970,6 +6010,9 @@ function App() {
 
             {/* Accordion */}
             <AccordionDemo />
+
+            {/* Action Input */}
+            <ActionInputDemo />
 
             {/* Alert */}
             <AlertDemo />

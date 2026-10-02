@@ -14,6 +14,11 @@ export { AccordionItem } from "./components/Accordion/AccordionItem";
 export type { AccordionTriggerProps } from "./components/Accordion/AccordionTrigger";
 export { AccordionTrigger } from "./components/Accordion/AccordionTrigger";
 export type {
+  ActionInputProps,
+  ActionInputVariant,
+} from "./components/ActionInput/ActionInput";
+export { ActionInput } from "./components/ActionInput/ActionInput";
+export type {
   AiButtonProps,
   AiButtonSize,
 } from "./components/AiButton/AiButton";
