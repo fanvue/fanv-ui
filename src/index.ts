@@ -821,6 +821,7 @@ export type {
   TableScrollAreaProps,
   TableSize,
   TableSortDirection,
+  TableSortLabelButtonProps,
   TableSortLabelProps,
   TableStackedTextProps,
   TableStatusDotProps,
