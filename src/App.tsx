@@ -192,6 +192,7 @@ import {
   ProgressBar,
   ProgressBarSteps,
   Radio,
+  RadioCard,
   RadioGroup,
   RatingSummary,
   RefreshArrowIcon,
@@ -2716,6 +2717,37 @@ function RadioDemo() {
           value="leading-avatar"
           avatar={<Avatar size={32} fallback="LA" />}
         />
+      </RadioGroup>
+    </div>
+  );
+}
+
+function RadioCardDemo() {
+  const [listType, setListType] = React.useState("dynamic");
+  return (
+    <div id="radiocard" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Radio Card</h2>
+      <RadioGroup
+        value={listType}
+        onValueChange={setListType}
+        aria-label="List type"
+        className="grid max-w-lg grid-cols-2 gap-4"
+      >
+        <RadioCard
+          value="dynamic"
+          icon={<RefreshArrowIcon />}
+          title="Dynamic list"
+          description="Define rules which automatically update"
+        />
+        <RadioCard
+          value="specific"
+          icon={<UsersIcon />}
+          title="Specific fans"
+          description="A fixed set of fans picked by you"
+        />
+      </RadioGroup>
+      <RadioGroup aria-label="Disabled list type" className="grid max-w-lg grid-cols-2 gap-4">
+        <RadioCard value="disabled" title="Disabled" description="Not available" disabled />
       </RadioGroup>
     </div>
   );
@@ -5839,6 +5871,7 @@ function App() {
     { id: "profile-status", label: "Profile Status" },
     { id: "progressbar", label: "Progress Bar" },
     { id: "radio", label: "Radio" },
+    { id: "radiocard", label: "Radio Card" },
     { id: "searchfield", label: "Search Field" },
     { id: "select", label: "Select" },
     { id: "skeleton", label: "Skeleton" },
@@ -6029,6 +6062,9 @@ function App() {
 
             {/* Radio */}
             <RadioDemo />
+
+            {/* RadioCard */}
+            <RadioCardDemo />
 
             {/* TextField */}
             <TextFieldShowcase />
