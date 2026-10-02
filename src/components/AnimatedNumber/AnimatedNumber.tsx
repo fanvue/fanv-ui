@@ -242,8 +242,14 @@ const RollingNumber = React.forwardRef<HTMLSpanElement, VariantProps>(
                 </span>
               </span>
             ) : (
-              // biome-ignore lint/suspicious/noArrayIndexKey: same positional identity as the digit columns
-              <span key={`separator-${index}`}>{char}</span>
+              <span
+                // biome-ignore lint/suspicious/noArrayIndexKey: same positional identity as the digit columns
+                key={`separator-${index}`}
+                className="inline-block"
+                style={{ height: "1em", lineHeight: "1em" }}
+              >
+                {char}
+              </span>
             ),
           )}
         </span>
