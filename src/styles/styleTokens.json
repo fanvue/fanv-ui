@@ -4700,7 +4700,7 @@
           "stroke": {
             "description": "",
             "type": "color",
-            "value": "{semantic.light.color.border.strong}",
+            "value": "{primitives.light.color.gray.300}",
             "extensions": {
               "org.lukasoppermann.figmaDesignTokens": {
                 "mode": "Light",

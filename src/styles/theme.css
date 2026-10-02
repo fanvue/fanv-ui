@@ -259,7 +259,7 @@
   --color-messages-user-callout: var(--primitives-color-green-800);
   --color-tab-active: var(--color-buttons-primary-default);
   --color-tab-inactive-hover: var(--color-buttons-secondary-hover);
-  --color-modal-stroke: var(--color-border-strong);
+  --color-modal-stroke: var(--primitives-color-gray-300);
   --color-modal-background: var(--color-background-secondary);
   --color-modal-padding-desktop: var(--spacing-global-lg);
   --color-modal-padding-mobile: var(--spacing-global-md);
@@ -727,7 +727,7 @@
   --color-messages-user-callout: var(--primitives-color-green-800);
   --color-tab-active: var(--color-buttons-primary-default);
   --color-tab-inactive-hover: var(--color-buttons-secondary-hover);
-  --color-modal-stroke: var(--color-border-strong);
+  --color-modal-stroke: var(--primitives-color-gray-300);
   --color-modal-background: var(--color-background-secondary);
   --color-modal-padding-desktop: var(--spacing-global-lg);
   --color-modal-padding-mobile: var(--spacing-global-md);
