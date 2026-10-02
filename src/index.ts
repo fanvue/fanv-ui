@@ -161,6 +161,8 @@ export type {
 export { Checkbox } from "./components/Checkbox/Checkbox";
 export type { ChipProps, ChipSize, ChipVariant } from "./components/Chip/Chip";
 export { Chip } from "./components/Chip/Chip";
+export type { ChipGroupProps } from "./components/ChipGroup/ChipGroup";
+export { ChipGroup } from "./components/ChipGroup/ChipGroup";
 export type {
   CountProps,
   CountSize,
