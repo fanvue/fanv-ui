@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.38.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.37.1...ui-v3.38.0) (2026-10-02)
+
+
+### Features
+
+* **DropdownMenu:** align the menu, modal stroke and switch label with the v2 design ([#720](https://github.com/fanvue/fanv-ui/issues/720)) ([404a44f](https://github.com/fanvue/fanv-ui/commit/404a44f311ff0ea6b4001c4558917a99a54b70c5))
+
 ## [3.37.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.37.0...ui-v3.37.1) (2026-09-27)
 
 
