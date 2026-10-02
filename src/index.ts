@@ -787,6 +787,7 @@ export type {
 } from "./components/SwitchButton/SwitchButton";
 export { SwitchButton } from "./components/SwitchButton/SwitchButton";
 export type {
+  SwitchFieldLabelWeight,
   SwitchFieldOrientation,
   SwitchFieldProps,
 } from "./components/SwitchField/SwitchField";

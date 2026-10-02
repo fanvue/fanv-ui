@@ -2,7 +2,6 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { CheckIcon } from "../Icons/CheckIcon";
 import { DropdownMenuVariantContext, ToggleOpenContext } from "./context";
 
 /** Vertical placement of a {@link DropdownMenuLabel} within its group. */
@@ -83,25 +82,10 @@ const ITEM_COUNT_TYPOGRAPHY: Record<"40" | "32", string> = {
   "32": "typography-body-small-14px-regular",
 };
 
-// Background alone can't reliably tell "selected" apart from a
-// hovered-but-unselected row across every theme/contrast combination (see the
-// neutral-alphas fix on itemClassName below) — pair it with an explicit
-// indicator, matching SelectItem's check indicator for the same V2 Menu Item
-// spec.
-function SelectedCheckIndicator({ hasDescription }: { hasDescription: boolean }) {
-  return (
-    <CheckIcon
-      className={cn(
-        "size-4 shrink-0 text-content-primary",
-        // The two-line layout switches the row to `items-start`, which would hang
-        // the tick off the title's line. A leading icon or avatar belongs there —
-        // it labels the title — but the tick is a property of the whole row, so it
-        // centres against both lines. {@link SelectItem} already does this.
-        hasDescription && "self-center",
-      )}
-    />
-  );
-}
+const ITEM_SELECTED_TYPOGRAPHY: Record<"40" | "32", string> = {
+  "40": "typography-body-default-16px-semibold",
+  "32": "typography-body-small-14px-semibold",
+};
 
 export interface DropdownMenuItemProps
   extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> {
@@ -118,11 +102,7 @@ export interface DropdownMenuItemProps
    */
   avatar?: React.ReactNode;
   /**
-   * Icon (or other node) rendered after the label. When
-   * {@link DropdownMenuItemProps.selected} is true and no `trailingIcon` is
-   * given, the built-in selected check indicator renders in this slot
-   * instead — pass a `trailingIcon` to use a custom selected indicator (e.g.
-   * a themed tick) rather than the default one.
+   * Icon (or other node) rendered after the label.
    */
   trailingIcon?: React.ReactNode;
   /** Trailing count or number (e.g. an unread total) rendered before {@link DropdownMenuItemProps.trailingIcon}. */
@@ -188,7 +168,7 @@ export const DropdownMenuItem = React.forwardRef<
     const itemClassName = cn(
       // `text-start` because the sheet variant renders the row as a <button>,
       // whose UA-centred text misaligned it from the popper variant's rows.
-      "group flex w-full cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
+      "group flex w-full cursor-pointer gap-2 rounded-xs px-3 text-start outline-none",
       hasDescription ? "items-start" : "items-center",
       // The sheet's header runs the full width of the panel, so its rows have to
       // come in off the edge themselves — 12px here on the panel's own 4px is the
@@ -207,11 +187,13 @@ export const DropdownMenuItem = React.forwardRef<
       // data-disabled — neither selector above matches them.
       "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
       destructive && "text-error-content",
-      // bg-interaction-hover aliases to the same token as the plain hover
-      // background above, so a selected row would be indistinguishable from a
-      // hovered-but-unselected one. Use the next step up the neutral-alphas
-      // ramp instead (still a subtle overlay, not the heavy filled style).
-      selected && ["bg-neutral-alphas-100", "data-[highlighted]:bg-neutral-alphas-200"],
+      // `V2 Menu Item` Selected: a `Buttons/Primary/Default` fill with semibold
+      // `Content/Primary Inverted` text. The highlighted override keeps the fill
+      // when the row is also hovered or keyboard-focused.
+      selected && [
+        "bg-buttons-primary-default text-content-primary-inverted data-[highlighted]:bg-buttons-primary-default",
+        !hasDescription && ITEM_SELECTED_TYPOGRAPHY[normalizedSize],
+      ],
       className,
     );
 
@@ -230,7 +212,11 @@ export const DropdownMenuItem = React.forwardRef<
           "shrink-0 tabular-nums",
           iconAlignClassName,
           ITEM_COUNT_TYPOGRAPHY[normalizedSize],
-          destructive ? "text-error-content" : "text-content-tertiary",
+          destructive
+            ? "text-error-content"
+            : selected
+              ? "text-content-primary-inverted"
+              : "text-content-tertiary",
           "group-data-[disabled]:text-content-disabled",
         )}
       >
@@ -238,20 +224,9 @@ export const DropdownMenuItem = React.forwardRef<
       </span>
     );
 
-    // A caller-supplied trailingIcon always wins the trailing slot — some
-    // consumers pass their own selected indicator (e.g. a themed tick) and
-    // rely on it being shown as-is rather than replaced. Only fall back to
-    // the built-in check indicator when selected and no trailingIcon is given.
     const trailingNode =
-      trailingIcon != null ? (
-        hasDescription ? (
-          <span className={iconAlignClassName!}>{trailingIcon}</span>
-        ) : (
-          trailingIcon
-        )
-      ) : (
-        selected && <SelectedCheckIndicator hasDescription={hasDescription} />
-      );
+      trailingIcon != null &&
+      (hasDescription ? <span className={iconAlignClassName!}>{trailingIcon}</span> : trailingIcon);
 
     const itemChildren = (
       <>
@@ -275,7 +250,12 @@ export const DropdownMenuItem = React.forwardRef<
              * 18 of text inside `py-2` is the design's 54px.
              */}
             <span className="typography-body-small-14px-semibold truncate">{children}</span>
-            <span className="typography-body-small-14px-regular truncate text-content-secondary">
+            <span
+              className={cn(
+                "typography-body-small-14px-regular truncate",
+                selected ? "text-content-primary-inverted" : "text-content-secondary",
+              )}
+            >
               {description}
             </span>
           </span>
