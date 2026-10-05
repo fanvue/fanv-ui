@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.38.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.37.1...ui-v3.38.0) (2026-10-05)
+
+
+### Features
+
+* **ChatEmbed:** add chat embed cards and the LiveStatus badge ([#719](https://github.com/fanvue/fanv-ui/issues/719)) ([8774371](https://github.com/fanvue/fanv-ui/commit/877437182b52f13c185f22f5ce397736094b60c1))
+* **DropdownMenu:** align the menu, modal stroke and switch label with the v2 design ([#720](https://github.com/fanvue/fanv-ui/issues/720)) ([404a44f](https://github.com/fanvue/fanv-ui/commit/404a44f311ff0ea6b4001c4558917a99a54b70c5))
+
+
+### Bug Fixes
+
+* **deps:** bump lint-staged and style-dictionary to drop vulnerable braces ([#722](https://github.com/fanvue/fanv-ui/issues/722)) ([790e1ab](https://github.com/fanvue/fanv-ui/commit/790e1aba9ce1fdf8d9a335d2bc8414c87ea6a38c))
+
 ## [3.37.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.37.0...ui-v3.37.1) (2026-09-27)
 
 
