@@ -217,13 +217,13 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
          * width rather than stopping at the text. `-mx-2` cancels both insets it
          * sits inside — this header's own `px-1` and the content panel's `p-1`.
          *
-         * `border-strong` is the colour the design gives this rule. The separator's
-         * own default is `neutral-alphas-200`, which in the dark theme is a 20%
-         * *white* alpha — as a hairline running the full width it reads as a white
-         * line rather than a divider. Group separators between items keep the
-         * alpha; this is the header's rule only.
+         * `Border/Primary` is the token the design binds to this rule. The
+         * separator's own default is `neutral-alphas-200`, which in the dark theme
+         * is a 20% *white* alpha — as a hairline running the full width it reads as
+         * a white line rather than a divider. Group separators between items keep
+         * the alpha; this is the header's rule only.
          */}
-        <DropdownMenuSeparator className="-mx-2 my-0 bg-border-strong" />
+        <DropdownMenuSeparator className="-mx-2 my-0 bg-border-primary" />
       </div>
     );
   },
