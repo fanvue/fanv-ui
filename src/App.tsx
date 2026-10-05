@@ -62,6 +62,9 @@ import {
   CardHeader,
   CardTitle,
   ChartIcon,
+  ChatEmbed,
+  ChatEmbedSkeleton,
+  ChatEmbedUnavailable,
   ChatInput,
   Checkbox,
   CheckCircleIcon,
@@ -154,6 +157,7 @@ import {
   InlineEdit,
   Link,
   LinkIcon,
+  LiveStatus,
   Loader,
   LocationIcon,
   LockerOffIcon,
@@ -5694,6 +5698,116 @@ function CreatorCardDemo() {
   );
 }
 
+function ChatEmbedDemo() {
+  const cover = "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&h=320&fit=crop";
+  const stream =
+    "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&h=480&fit=crop";
+  const game = "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=480&fit=crop";
+  const avatar =
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
+  const watchers = [
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop",
+    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop",
+  ].map((src) => ({ src, alt: "" }));
+  const creatorAvatar = { src: avatar, alt: "Jane Doe", fallback: "JD" };
+
+  return (
+    <div id="chat-embed" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-xs mb-4">Chat Embed</h2>
+
+      <h3 className="typography-body-default-16px-semibold">Live status</h3>
+      <div className="flex gap-2">
+        <LiveStatus variant="live" />
+        <LiveStatus variant="ended" />
+      </div>
+
+      <h3 className="typography-body-default-16px-semibold mt-4">Creator</h3>
+      <ChatEmbed
+        href="https://www.fanvue.com"
+        media={<img src={cover} alt="" loading="lazy" />}
+        avatar={creatorAvatar}
+        title="Jane Doe"
+        subtitle="@jane_doe"
+        verified
+        aiDisclosure
+        action={
+          <Button variant="white" size="32">
+            View Profile
+          </Button>
+        }
+      />
+
+      <h3 className="typography-body-default-16px-semibold mt-4">Experiences</h3>
+      <div className="flex flex-col gap-2">
+        <ChatEmbed
+          variant="experience"
+          href="https://www.fanvue.com"
+          media={<img src={cover} alt="" loading="lazy" />}
+          avatar={creatorAvatar}
+          title="Launch your page"
+          subtitle="Made by @jane_doe"
+          verified
+          action={
+            <Button variant="white" size="32">
+              Open
+            </Button>
+          }
+        />
+        <ChatEmbed
+          variant="experience"
+          href="https://www.fanvue.com"
+          badge={<LiveStatus variant="live" />}
+          category="Audio"
+          media={<img src={stream} alt="" loading="lazy" />}
+          avatar={creatorAvatar}
+          title="Friday night Q&A"
+          subtitle="Made by @jane_doe"
+          verified
+          socialProof={{ avatars: watchers, label: "+3 watching" }}
+          action={
+            <Button variant="white" size="32">
+              Join
+            </Button>
+          }
+        />
+        <ChatEmbed
+          variant="experience"
+          href="https://www.fanvue.com"
+          badge={<LiveStatus variant="ended" />}
+          meta="2 hours ago"
+          inactive
+          media={<img src={stream} alt="" loading="lazy" />}
+          avatar={creatorAvatar}
+          title="Friday night Q&A"
+          subtitle="Made by @jane_doe"
+          action={
+            <Button variant="white" size="32">
+              Follow
+            </Button>
+          }
+        />
+        <ChatEmbed
+          variant="experience"
+          href="https://www.fanvue.com"
+          category="Game"
+          media={<img src={game} alt="" loading="lazy" />}
+          avatar={creatorAvatar}
+          title="Neon Run"
+          subtitle="Made by @jane_doe"
+          action={
+            <Button variant="white" size="32">
+              Play Now
+            </Button>
+          }
+        />
+        <ChatEmbedSkeleton variant="experience" />
+        <ChatEmbedUnavailable variant="experience" icon={<InfoCircleIcon className="size-6" />} />
+      </div>
+    </div>
+  );
+}
+
 function CreatorTileDemo() {
   const sampleImage =
     "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=720&h=400&fit=crop";
@@ -5815,6 +5929,7 @@ function App() {
     { id: "creator-card", label: "Creator Card" },
     { id: "creator-cover", label: "Creator Cover" },
     { id: "creator-tile", label: "Creator Tile" },
+    { id: "chat-embed", label: "Chat Embed" },
     { id: "cycling-text", label: "Cycling Text" },
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
@@ -5991,6 +6106,9 @@ function App() {
 
             {/* Creator Tile */}
             <CreatorTileDemo />
+
+            {/* Chat Embed */}
+            <ChatEmbedDemo />
 
             {/* Button */}
             <ButtonDemo />
