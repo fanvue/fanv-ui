@@ -34,6 +34,8 @@ interface ChatEmbedBaseProps
   subtitle?: React.ReactNode;
   /** Show the verified badge on the creator line. @default false */
   verified?: boolean;
+  /** Accessible label for the verified badge. @default "Verified" */
+  verifiedLabel?: string;
   /** Show the EU AI-disclosure badge on the creator line. @default false */
   aiDisclosure?: boolean;
   /** Accessible label for the AI-disclosure badge. @default "AI creator" */
@@ -220,6 +222,7 @@ function Scrim({ experience }: { experience: boolean }) {
 
 function CreatorName({
   verified,
+  verifiedLabel,
   aiDisclosure,
   aiDisclosureLabel,
   nameId,
@@ -227,6 +230,7 @@ function CreatorName({
   children,
 }: {
   verified: boolean;
+  verifiedLabel: string;
   aiDisclosure: boolean;
   aiDisclosureLabel: string;
   nameId?: string;
@@ -238,6 +242,7 @@ function CreatorName({
       <UserDisplayName
         component="p"
         verified={verified}
+        verifiedLabel={verifiedLabel}
         className={cn("m-0 [&>[role=img]]:ml-1 [&>span:empty+[role=img]]:ml-0", className)}
       >
         {children && <span id={nameId}>{children}</span>}
@@ -349,6 +354,7 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
       title,
       subtitle,
       verified = false,
+      verifiedLabel = "Verified",
       aiDisclosure = false,
       aiDisclosureLabel = "AI creator",
       action,
@@ -368,7 +374,7 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
     const titleId = React.useId();
     const isExperience = variant === "experience";
     const hasTopRow = Boolean(badge || category || meta);
-    const badges = { verified, aiDisclosure, aiDisclosureLabel };
+    const badges = { verified, verifiedLabel, aiDisclosure, aiDisclosureLabel };
 
     return (
       <div

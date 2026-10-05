@@ -27,6 +27,12 @@ describe("ChatEmbed", () => {
       expect(screen.getByRole("img", { name: "AI creator" })).toBeInTheDocument();
     });
 
+    it("labels the verified badge with the given text", () => {
+      render(<ChatEmbed {...baseProps} verified verifiedLabel="Verifiziert" />);
+      expect(screen.getByRole("img", { name: "Verifiziert" })).toBeInTheDocument();
+      expect(screen.queryByRole("img", { name: "Verified" })).not.toBeInTheDocument();
+    });
+
     it("shows the creator badges after the subtitle on the experience layout", () => {
       render(<ChatEmbed {...baseProps} variant="experience" verified />);
       const subtitle = screen.getByText("@handle").closest("p");
