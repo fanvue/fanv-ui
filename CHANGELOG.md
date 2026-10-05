@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.39.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.38.0...ui-v3.39.0) (2026-10-05)
+
+
+### Features
+
+* **ChatEmbed:** add verifiedLabel for the verified badge ([#725](https://github.com/fanvue/fanv-ui/issues/725)) ([38122a8](https://github.com/fanvue/fanv-ui/commit/38122a893cf66c77df02e977d607f5613bd98f74))
+
 ## [3.38.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.37.1...ui-v3.38.0) (2026-10-05)
 
 
