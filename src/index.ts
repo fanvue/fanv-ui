@@ -143,10 +143,16 @@ export {
 } from "./components/Card/Card";
 export type {
   ChatEmbedProps,
+  ChatEmbedSkeletonProps,
   ChatEmbedSocialProof,
+  ChatEmbedUnavailableProps,
   ChatEmbedVariant,
 } from "./components/ChatEmbed/ChatEmbed";
-export { ChatEmbed } from "./components/ChatEmbed/ChatEmbed";
+export {
+  ChatEmbed,
+  ChatEmbedSkeleton,
+  ChatEmbedUnavailable,
+} from "./components/ChatEmbed/ChatEmbed";
 export type {
   ChatInputAttachmentItem,
   ChatInputProps,

@@ -11,8 +11,6 @@ describe("LiveStatus", () => {
       expect(screen.getByText("LIVE")).toBeInTheDocument();
       rerender(<LiveStatus variant="ended" />);
       expect(screen.getByText("LIVE ended")).toBeInTheDocument();
-      rerender(<LiveStatus variant="game" />);
-      expect(screen.getByText("Game")).toBeInTheDocument();
     });
 
     it("lets children override the label", () => {
@@ -21,11 +19,9 @@ describe("LiveStatus", () => {
       expect(screen.queryByText("LIVE")).not.toBeInTheDocument();
     });
 
-    it("hides the dot indicator from assistive tech and omits it for games", () => {
-      const { container, rerender } = render(<LiveStatus />);
+    it("hides the dot indicator from assistive tech", () => {
+      const { container } = render(<LiveStatus />);
       expect(container.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
-      rerender(<LiveStatus variant="game" />);
-      expect(container.querySelector('[aria-hidden="true"]')).not.toBeInTheDocument();
     });
 
     it("applies the live glow only to the live variant", () => {
@@ -48,7 +44,6 @@ describe("LiveStatus", () => {
         <div>
           <LiveStatus />
           <LiveStatus variant="ended" />
-          <LiveStatus variant="game" />
         </div>,
       );
       expect(await axe(container)).toHaveNoViolations();

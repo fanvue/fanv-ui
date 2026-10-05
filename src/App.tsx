@@ -63,6 +63,8 @@ import {
   CardTitle,
   ChartIcon,
   ChatEmbed,
+  ChatEmbedSkeleton,
+  ChatEmbedUnavailable,
   ChatInput,
   Checkbox,
   CheckCircleIcon,
@@ -5708,7 +5710,7 @@ function ChatEmbedDemo() {
     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop",
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop",
   ].map((src) => ({ src, alt: "" }));
-  const socialProof = { avatars: watchers, name: "Jane Doe", label: "+2 watching" };
+  const creatorAvatar = { src: avatar, alt: "Jane Doe", fallback: "JD" };
 
   return (
     <div id="chat-embed" className="flex scroll-mt-20 flex-col gap-4">
@@ -5718,13 +5720,13 @@ function ChatEmbedDemo() {
       <div className="flex gap-2">
         <LiveStatus variant="live" />
         <LiveStatus variant="ended" />
-        <LiveStatus variant="game" />
       </div>
 
       <h3 className="typography-body-default-16px-semibold mt-4">Creator</h3>
       <ChatEmbed
+        href="https://www.fanvue.com"
         media={<img src={cover} alt="" loading="lazy" />}
-        avatar={{ src: avatar, alt: "Jane Doe", fallback: "JD" }}
+        avatar={creatorAvatar}
         title="Jane Doe"
         subtitle="@jane_doe"
         verified
@@ -5740,13 +5742,29 @@ function ChatEmbedDemo() {
       <div className="flex flex-col gap-2">
         <ChatEmbed
           variant="experience"
-          status="live"
-          meta="842 watching"
+          href="https://www.fanvue.com"
+          media={<img src={cover} alt="" loading="lazy" />}
+          avatar={creatorAvatar}
+          title="Launch your page"
+          subtitle="Made by @jane_doe"
+          verified
+          action={
+            <Button variant="white" size="32">
+              Open
+            </Button>
+          }
+        />
+        <ChatEmbed
+          variant="experience"
+          href="https://www.fanvue.com"
+          badge={<LiveStatus variant="live" />}
+          category="Audio"
           media={<img src={stream} alt="" loading="lazy" />}
-          avatar={{ src: avatar, alt: "Jane Doe", fallback: "JD" }}
+          avatar={creatorAvatar}
           title="Friday night Q&A"
-          subtitle="@jane_doe"
-          socialProof={socialProof}
+          subtitle="Made by @jane_doe"
+          verified
+          socialProof={{ avatars: watchers, label: "+3 watching" }}
           action={
             <Button variant="white" size="32">
               Join
@@ -5755,12 +5773,14 @@ function ChatEmbedDemo() {
         />
         <ChatEmbed
           variant="experience"
-          status="ended"
+          href="https://www.fanvue.com"
+          badge={<LiveStatus variant="ended" />}
           meta="2 hours ago"
+          inactive
           media={<img src={stream} alt="" loading="lazy" />}
-          avatar={{ src: avatar, alt: "Jane Doe", fallback: "JD" }}
+          avatar={creatorAvatar}
           title="Friday night Q&A"
-          subtitle="@jane_doe"
+          subtitle="Made by @jane_doe"
           action={
             <Button variant="white" size="32">
               Follow
@@ -5769,18 +5789,20 @@ function ChatEmbedDemo() {
         />
         <ChatEmbed
           variant="experience"
-          status="game"
+          href="https://www.fanvue.com"
+          category="Game"
           media={<img src={game} alt="" loading="lazy" />}
-          avatar={{ src: avatar, alt: "Jane Doe", fallback: "JD" }}
+          avatar={creatorAvatar}
           title="Neon Run"
           subtitle="Made by @jane_doe"
-          socialProof={socialProof}
           action={
             <Button variant="white" size="32">
               Play Now
             </Button>
           }
         />
+        <ChatEmbedSkeleton variant="experience" />
+        <ChatEmbedUnavailable variant="experience" icon={<InfoCircleIcon className="size-6" />} />
       </div>
     </div>
   );

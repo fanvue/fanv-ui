@@ -1,6 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import type * as React from "react";
 import { Button } from "../Button/Button";
-import { ChatEmbed } from "./ChatEmbed";
+import { InfoCircleIcon } from "../Icons/InfoCircleIcon";
+import { LiveStatus } from "../LiveStatus/LiveStatus";
+import {
+  ChatEmbed,
+  type ChatEmbedProps,
+  ChatEmbedSkeleton,
+  type ChatEmbedSocialProof,
+  ChatEmbedUnavailable,
+  type ChatEmbedVariant,
+} from "./ChatEmbed";
+
+type ChatEmbedStoryArgs = Omit<ChatEmbedProps, "variant" | "socialProof"> & {
+  variant?: ChatEmbedVariant;
+  socialProof?: ChatEmbedSocialProof;
+};
 
 const COVER = "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&h=320&fit=crop";
 const STREAM = "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&h=480&fit=crop";
@@ -16,7 +31,7 @@ const WATCHERS = [
 
 const meta = {
   title: "Components/ChatEmbed",
-  component: ChatEmbed,
+  component: ChatEmbed as React.ComponentType<ChatEmbedStoryArgs>,
   parameters: {
     layout: "centered",
     design: {
@@ -27,7 +42,7 @@ const meta = {
   tags: ["autodocs"],
   argTypes: {
     variant: { control: "select", options: ["creator", "experience"] },
-    status: { control: "select", options: [undefined, "live", "ended", "game"] },
+    inactive: { control: "boolean" },
   },
   decorators: [
     (Story) => (
@@ -37,6 +52,7 @@ const meta = {
     ),
   ],
   args: {
+    href: "https://www.fanvue.com",
     media: <img src={COVER} alt="" />,
     avatar: { src: AVATAR, alt: "Jane Doe", fallback: "JD" },
     title: "Display Name",
@@ -49,27 +65,83 @@ const meta = {
       </Button>
     ),
   },
-} satisfies Meta<typeof ChatEmbed>;
+} satisfies Meta<ChatEmbedStoryArgs>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<ChatEmbedStoryArgs>;
 
 export const Creator: Story = {};
 
 const experienceArgs = {
   variant: "experience",
-  verified: false,
+  verified: true,
   aiDisclosure: false,
   media: <img src={STREAM} alt="" />,
   title: "Friday night Q&A",
-  subtitle: "@jane_doe",
-  socialProof: { avatars: WATCHERS, name: "Jane Doe", label: "+2 watching" },
+  subtitle: "Made by @jane_doe",
 } as const;
+
+export const Generic: Story = {
+  args: {
+    ...experienceArgs,
+    title: "Launch your page",
+    action: (
+      <Button variant="white" size="32">
+        Open
+      </Button>
+    ),
+  },
+};
+
+const OPEN = (
+  <Button variant="white" size="32">
+    Open
+  </Button>
+);
+
+const CATEGORIES: Array<{ key: string; args: Partial<ChatEmbedStoryArgs> }> = [
+  { key: "live-stream", args: { title: "Friday night Q&A", category: "Live stream" } },
+  { key: "live-audio", args: { title: "Late night chat", category: "Live audio" } },
+  {
+    key: "video",
+    args: {
+      title: "Behind the scenes",
+      category: "Video",
+      media: <img src={PORTRAIT} alt="" />,
+      verticalMedia: true,
+    },
+  },
+  {
+    key: "audio",
+    args: { title: "Morning meditation", category: "Audio", media: <img src={COVER} alt="" /> },
+  },
+  { key: "game", args: { title: "Neon Run", category: "Game", media: <img src={GAME} alt="" /> } },
+  {
+    key: "challenge",
+    args: { title: "30 day glow up", category: "Challenge", media: <img src={COVER} alt="" /> },
+  },
+  { key: "quiz", args: { title: "How well do you know me?", category: "Quiz", media: undefined } },
+  { key: "event", args: { title: "Fan meetup", category: "Event", meta: "Sat 12 Dec" } },
+  { key: "other", args: { title: "Launch your page" } },
+];
+
+export const Categories: Story = {
+  render: (args) => (
+    <div className="flex flex-col gap-3">
+      {CATEGORIES.map((item) => (
+        <ChatEmbed
+          key={item.key}
+          {...({ ...args, ...experienceArgs, action: OPEN, ...item.args } as ChatEmbedProps)}
+        />
+      ))}
+    </div>
+  ),
+};
 
 export const Live: Story = {
   args: {
     ...experienceArgs,
-    status: "live",
+    badge: <LiveStatus variant="live" />,
     action: (
       <Button variant="white" size="32">
         Join
@@ -78,16 +150,16 @@ export const Live: Story = {
   },
 };
 
-export const LiveWithMeta: Story = {
-  args: { ...Live.args, meta: "842 watching" },
+export const LiveAudio: Story = {
+  args: { ...Live.args, category: "Audio" },
 };
 
 export const LiveEnded: Story = {
   args: {
     ...experienceArgs,
-    status: "ended",
+    badge: <LiveStatus variant="ended" />,
     meta: "2 hours ago",
-    socialProof: undefined,
+    inactive: true,
     action: (
       <Button variant="white" size="32">
         Follow
@@ -99,10 +171,9 @@ export const LiveEnded: Story = {
 export const Game: Story = {
   args: {
     ...experienceArgs,
-    status: "game",
+    category: "Game",
     media: <img src={GAME} alt="" />,
     title: "Neon Run",
-    subtitle: "Made by @jane_doe",
     action: (
       <Button variant="white" size="32">
         Play Now
@@ -111,10 +182,31 @@ export const Game: Story = {
   },
 };
 
+export const WithSocialProof: Story = {
+  args: {
+    ...Live.args,
+    socialProof: { avatars: WATCHERS, label: "+3 watching" },
+  },
+};
+
+export const WithoutMedia: Story = {
+  args: { ...Game.args, media: undefined },
+};
+
 export const VerticalMedia: Story = {
   args: {
     ...Live.args,
     media: <img src={PORTRAIT} alt="" />,
     verticalMedia: true,
   },
+};
+
+export const Loading: Story = {
+  render: () => <ChatEmbedSkeleton variant="experience" />,
+};
+
+export const Unavailable: Story = {
+  render: () => (
+    <ChatEmbedUnavailable variant="experience" icon={<InfoCircleIcon className="size-6" />} />
+  ),
 };

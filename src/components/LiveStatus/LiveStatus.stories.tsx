@@ -13,7 +13,7 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    variant: { control: "select", options: ["live", "ended", "game"] },
+    variant: { control: "select", options: ["live", "ended"] },
   },
 } satisfies Meta<typeof LiveStatus>;
 
@@ -23,7 +23,5 @@ type Story = StoryObj<typeof meta>;
 export const Live: Story = { args: { variant: "live" } };
 
 export const Ended: Story = { args: { variant: "ended" } };
-
-export const Game: Story = { args: { variant: "game" } };
 
 export const CustomLabel: Story = { args: { variant: "live", children: "EN DIRECT" } };

@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 
 /** State shown by the live status badge. */
-export type LiveStatusVariant = "live" | "ended" | "game";
+export type LiveStatusVariant = "live" | "ended";
 
 export interface LiveStatusProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** State shown by the badge. @default "live" */
@@ -12,13 +12,12 @@ export interface LiveStatusProps extends React.HTMLAttributes<HTMLSpanElement> {
 const DEFAULT_LABELS: Record<LiveStatusVariant, string> = {
   live: "LIVE",
   ended: "LIVE ended",
-  game: "Game",
 };
 
 /**
- * Status badge for experience embeds. `live` uses the live gradient and glow,
- * `ended` and `game` use flat surfaces. A dot indicator is shown for `live` and
- * `ended`. The label defaults per variant; pass `children` to localise it.
+ * Live state badge for experience embeds, typically passed to the `badge` slot of
+ * {@link ChatEmbed}. `live` uses the live gradient and glow, `ended` a flat
+ * surface. The label defaults per variant; pass `children` to localise it.
  *
  * @example
  * ```tsx
@@ -35,16 +34,13 @@ export const LiveStatus = React.forwardRef<HTMLSpanElement, LiveStatusProps>(
           variant === "live" &&
             "bg-[linear-gradient(205deg,var(--color-live-gradient-start)_-70%,var(--color-live-gradient-end)_81%)] text-content-always-white shadow-live-glow",
           variant === "ended" && "bg-live-ended-background text-live-ended-content",
-          variant === "game" && "bg-buttons-always-white-default text-content-always-black",
           className,
         )}
         {...props}
       >
-        {variant !== "game" && (
-          <span aria-hidden="true" className="flex pl-0.5">
-            <span className="size-1 rounded-full bg-current" />
-          </span>
-        )}
+        <span aria-hidden="true" className="flex pl-0.5">
+          <span className="size-1 rounded-full bg-current" />
+        </span>
         {children ?? DEFAULT_LABELS[variant]}
       </span>
     );
