@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { useDragToDismiss } from "../../utils/useDragToDismiss";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
 import { CloseIcon } from "../Icons/CloseIcon";
@@ -234,6 +235,11 @@ export const DrawerContent = React.forwardRef<
   ) => {
     const ctx = React.useContext(DrawerContext);
     const overlay = overlayProp ?? ctx.overlay;
+    const closeRef = React.useRef<HTMLButtonElement>(null);
+    const contentProps = useDragToDismiss(
+      { enabled: position === "bottom", onDismiss: () => closeRef.current?.click() },
+      props,
+    );
     const isHorizontal = position === "left" || position === "right";
     const sizeClass = isHorizontal
       ? (
@@ -279,8 +285,9 @@ export const DrawerContent = React.forwardRef<
             variant === "menu" && MENU_CLASSES,
             className,
           )}
-          {...props}
+          {...contentProps}
         >
+          <DialogPrimitive.Close ref={closeRef} hidden tabIndex={-1} aria-hidden="true" />
           {children}
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
