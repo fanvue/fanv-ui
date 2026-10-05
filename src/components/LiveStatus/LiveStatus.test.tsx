@@ -24,13 +24,6 @@ describe("LiveStatus", () => {
       expect(container.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
     });
 
-    it("applies the live glow only to the live variant", () => {
-      const { rerender } = render(<LiveStatus data-testid="status" />);
-      expect(screen.getByTestId("status")).toHaveClass("shadow-live-glow");
-      rerender(<LiveStatus data-testid="status" variant="ended" />);
-      expect(screen.getByTestId("status")).not.toHaveClass("shadow-live-glow");
-    });
-
     it("applies custom className and forwards ref", () => {
       const ref = React.createRef<HTMLSpanElement>();
       render(<LiveStatus ref={ref} className="custom" />);

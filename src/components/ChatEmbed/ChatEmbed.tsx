@@ -8,14 +8,11 @@ import { UserDisplayName } from "../UserDisplayName/UserDisplayName";
 /** Layout of the embed: a creator profile card or a fan experience card. */
 export type ChatEmbedVariant = "creator" | "experience";
 
-/**
- * Overlapping avatars and copy showing who else is taking part. Shown to everyone
- * in the chat, so prefer a count over naming other fans.
- */
+/** Overlapping avatars and copy showing who else is taking part. */
 export interface ChatEmbedSocialProof {
   /** Avatars shown in the overlapping stack, left to right. */
   avatars: AvatarProps[];
-  /** Name shown in bold before the label, truncated at 120px. Only name people who have opted in to being shown. */
+  /** Name shown in bold before the label, truncated at 120px. */
   name?: React.ReactNode;
   /** Copy shown after the name, e.g. "+2 watching". */
   label: React.ReactNode;
@@ -23,11 +20,11 @@ export interface ChatEmbedSocialProof {
 
 interface ChatEmbedBaseProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "onClick"> {
-  /** Media filling the card, typically an `img` or `video`. Falls back to a dark surface when omitted. */
+  /** Media filling the card, typically an `img` or `video`, over a dark surface. */
   media?: React.ReactNode;
-  /** Still image used for the blurred backdrop of `verticalMedia`. Pass a poster frame when `media` is a video so it is not decoded twice. Defaults to `media`. */
+  /** Still image blurred behind `verticalMedia`, e.g. the same image or a video's poster frame. */
   mediaBackdrop?: React.ReactNode;
-  /** Frame portrait media in a centred 9:16 column over a blurred copy of itself. @default false */
+  /** Frame portrait media in a centred 9:16 column over `mediaBackdrop`. @default false */
   verticalMedia?: boolean;
   /** Avatar shown at the start of the profile row. */
   avatar?: AvatarProps;
@@ -35,13 +32,13 @@ interface ChatEmbedBaseProps
   title: React.ReactNode;
   /** Secondary line under the title, e.g. a handle or "Made by @jane_doe". */
   subtitle?: React.ReactNode;
-  /** The creator is verified. Shown after the creator's name: the title on `creator`, the subtitle on `experience`. @default false */
+  /** Show the verified badge on the creator line. @default false */
   verified?: boolean;
-  /** The creator is AI. Shows the EU AI-disclosure badge next to the verified badge. @default false */
+  /** Show the EU AI-disclosure badge on the creator line. @default false */
   aiDisclosure?: boolean;
   /** Accessible label for the AI-disclosure badge. @default "AI creator" */
   aiDisclosureLabel?: string;
-  /** Action at the end of the profile row, typically a `Button` with `variant="white"` and `size="32"`. Sits above the card's link so it stays separately clickable. */
+  /** Action at the end of the profile row, typically a `Button` with `variant="white"` and `size="32"`. */
   action?: React.ReactNode;
   /** Badge in the top-left corner, typically a {@link LiveStatus}. */
   badge?: React.ReactNode;
@@ -51,11 +48,23 @@ interface ChatEmbedBaseProps
   meta?: React.ReactNode;
   /** Renders the media in greyscale, e.g. once a live has ended. @default false */
   inactive?: boolean;
-  /** Makes the whole card a link to this URL. The title is used as its accessible name. */
-  href?: string;
-  /** Where to open `href`. `rel="noopener noreferrer"` is added for `"_blank"`. */
+}
+
+interface ChatEmbedLinkProps {
+  /** Makes the whole card a link to this URL, named by the title. */
+  href: string;
+  /** Where to open `href`; `"_blank"` adds `rel="noopener noreferrer"`. */
   target?: React.HTMLAttributeAnchorTarget;
-  /** Makes the whole card a button, e.g. to open the experience in a dialog. Ignored when `href` is set. */
+  /** Not available with `href`. */
+  onOpen?: never;
+}
+
+interface ChatEmbedButtonProps {
+  /** Not available with `onOpen`. */
+  href?: never;
+  /** Not available with `onOpen`. */
+  target?: never;
+  /** Makes the whole card a button named by the title, e.g. to open a dialog. */
   onOpen?: () => void;
 }
 
@@ -67,19 +76,20 @@ interface ChatEmbedCreatorProps extends ChatEmbedBaseProps {
 }
 
 interface ChatEmbedExperienceProps extends ChatEmbedBaseProps {
-  /** Layout of the embed. @default "creator" */
+  /** Layout of the embed. */
   variant: "experience";
   /** Social proof row shown above the profile row. */
   socialProof?: ChatEmbedSocialProof;
 }
 
-/** Props for {@link ChatEmbed}. `socialProof` is only accepted on the `experience` variant. */
-export type ChatEmbedProps = ChatEmbedCreatorProps | ChatEmbedExperienceProps;
+/** Props for {@link ChatEmbed}. `socialProof` is only accepted on `experience`, and `href` and `onOpen` are exclusive. */
+export type ChatEmbedProps = (ChatEmbedCreatorProps | ChatEmbedExperienceProps) &
+  (ChatEmbedLinkProps | ChatEmbedButtonProps);
 
-export interface ChatEmbedSkeletonProps extends React.HTMLAttributes<HTMLOutputElement> {
+export interface ChatEmbedSkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Layout to match while the embed loads. @default "creator" */
   variant?: ChatEmbedVariant;
-  /** Accessible label announced while loading. @default "Loading" */
+  /** Visually hidden text read by screen readers in place of the placeholder. @default "Loading" */
   label?: string;
 }
 
@@ -126,7 +136,8 @@ function SocialProof({ avatars, name, label }: ChatEmbedSocialProof) {
       <div className="flex shrink-0">
         {avatars.map((avatar, index) => (
           <span
-            key={avatar.src ?? index}
+            // biome-ignore lint/suspicious/noArrayIndexKey: avatars can share a src and the stack never reorders
+            key={index}
             className={cn(
               "flex",
               index < avatars.length - 1 && "-mr-2",
@@ -159,9 +170,7 @@ function Media({
   vertical: boolean;
   greyscale: boolean;
 }) {
-  if (media === undefined || media === null) {
-    return <div className="absolute inset-0 bg-content-always-black" />;
-  }
+  if (!media) return null;
 
   return (
     <div className="pointer-events-none absolute inset-0 select-none">
@@ -174,7 +183,7 @@ function Media({
               MEDIA_FILL,
             )}
           >
-            {backdrop ?? media}
+            {backdrop}
           </div>
           <div
             className={cn(
@@ -209,27 +218,29 @@ function Scrim({ experience }: { experience: boolean }) {
   );
 }
 
-function CreatorBadges({
+function CreatorName({
   verified,
   aiDisclosure,
   aiDisclosureLabel,
+  nameId,
   className,
   children,
 }: {
   verified: boolean;
   aiDisclosure: boolean;
   aiDisclosureLabel: string;
+  nameId?: string;
   className: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
     <div className="flex min-w-0 items-center gap-1">
       <UserDisplayName
         component="p"
         verified={verified}
-        className={cn("m-0 [&>[role=img]]:ml-1", className)}
+        className={cn("m-0 [&>[role=img]]:ml-1 [&>span:empty+[role=img]]:ml-0", className)}
       >
-        {children}
+        {children && <span id={nameId}>{children}</span>}
       </UserDisplayName>
       {aiDisclosure && (
         <AiDisclosureBadge
@@ -253,13 +264,13 @@ function TopRow({
     <div className="relative flex items-center justify-between gap-2 px-3 pt-3">
       <div className="flex min-w-0 items-center gap-1">
         {badge}
-        {category != null && (
+        {category && (
           <span className="typography-description-12px-semibold whitespace-nowrap rounded-xs bg-buttons-always-white-default px-2 py-1 text-content-always-black">
             {category}
           </span>
         )}
       </div>
-      {meta != null && (
+      {meta && (
         <span className="typography-description-12px-semibold whitespace-nowrap rounded-full bg-background-overlay-default px-2 py-1 text-center text-content-always-white backdrop-blur-[10px]">
           {meta}
         </span>
@@ -273,8 +284,13 @@ function OpenOverlay({
   target,
   onOpen,
   labelledBy,
-}: Pick<ChatEmbedBaseProps, "href" | "target" | "onOpen"> & { labelledBy: string }) {
-  if (href !== undefined) {
+}: {
+  href?: string;
+  target?: React.HTMLAttributeAnchorTarget;
+  onOpen?: () => void;
+  labelledBy: string;
+}) {
+  if (href) {
     return (
       // biome-ignore lint/a11y/useAnchorContent: Named by the visible title via aria-labelledby
       <a
@@ -302,7 +318,10 @@ function OpenOverlay({
  * {@link ChatEmbedUnavailable} when the shared item no longer exists.
  *
  * Give `media` meaningful alt text when it conveys content, or `alt=""` when the
- * title already describes it.
+ * title already describes it. When `media` is a video with `verticalMedia`, pass
+ * its poster frame as `mediaBackdrop` so the video is not decoded twice.
+ * `socialProof` is shown to everyone in the chat, so prefer a count over naming
+ * other fans.
  *
  * @example
  * ```tsx
@@ -348,7 +367,7 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
   ) => {
     const titleId = React.useId();
     const isExperience = variant === "experience";
-    const hasTopRow = badge != null || category != null || meta != null;
+    const hasTopRow = Boolean(badge || category || meta);
     const badges = { verified, aiDisclosure, aiDisclosureLabel };
 
     return (
@@ -357,6 +376,7 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
         className={cn(
           FRAME,
           HEIGHT[variant],
+          "bg-content-always-black",
           hasTopRow ? "justify-between" : "justify-end",
           className,
         )}
@@ -392,19 +412,21 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
                     <p id={titleId} className="typography-body-default-16px-semibold m-0 truncate">
                       {title}
                     </p>
-                    {subtitle && (
-                      <CreatorBadges {...badges} className="typography-body-small-14px-regular">
+                    {(subtitle || verified || aiDisclosure) && (
+                      <CreatorName {...badges} className="typography-body-small-14px-regular">
                         {subtitle}
-                      </CreatorBadges>
+                      </CreatorName>
                     )}
                   </>
                 ) : (
                   <>
-                    <div id={titleId} className="min-w-0">
-                      <CreatorBadges {...badges} className="typography-body-default-16px-semibold">
-                        {title}
-                      </CreatorBadges>
-                    </div>
+                    <CreatorName
+                      {...badges}
+                      nameId={titleId}
+                      className="typography-body-default-16px-semibold"
+                    >
+                      {title}
+                    </CreatorName>
                     {subtitle && (
                       <p className="typography-body-small-14px-regular m-0 truncate">{subtitle}</p>
                     )}
@@ -431,16 +453,16 @@ ChatEmbed.displayName = "ChatEmbed";
  * <ChatEmbedSkeleton variant="experience" />
  * ```
  */
-export const ChatEmbedSkeleton = React.forwardRef<HTMLOutputElement, ChatEmbedSkeletonProps>(
+export const ChatEmbedSkeleton = React.forwardRef<HTMLDivElement, ChatEmbedSkeletonProps>(
   ({ variant = "creator", label = "Loading", className, ...props }, ref) => {
     return (
-      <output
+      <div
         ref={ref}
         aria-busy="true"
-        aria-label={label}
         className={cn(FRAME, HEIGHT[variant], "justify-end bg-surface-secondary", className)}
         {...props}
       >
+        <span className="sr-only">{label}</span>
         <div className="relative flex items-center gap-3 p-3">
           <Skeleton variant="circular" width={40} height={40} className="shrink-0" />
           <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -448,7 +470,7 @@ export const ChatEmbedSkeleton = React.forwardRef<HTMLOutputElement, ChatEmbedSk
             <Skeleton width="30%" height={14} />
           </div>
         </div>
-      </output>
+      </div>
     );
   },
 );

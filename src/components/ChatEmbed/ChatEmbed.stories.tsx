@@ -81,23 +81,19 @@ const experienceArgs = {
   subtitle: "Made by @jane_doe",
 } as const;
 
-export const Generic: Story = {
-  args: {
-    ...experienceArgs,
-    title: "Launch your page",
-    action: (
-      <Button variant="white" size="32">
-        Open
-      </Button>
-    ),
-  },
-};
-
 const OPEN = (
   <Button variant="white" size="32">
     Open
   </Button>
 );
+
+export const Generic: Story = {
+  args: {
+    ...experienceArgs,
+    title: "Launch your page",
+    action: OPEN,
+  },
+};
 
 const CATEGORIES: Array<{ key: string; args: Partial<ChatEmbedStoryArgs> }> = [
   { key: "live-stream", args: { title: "Friday night Q&A", category: "Live stream" } },
@@ -108,6 +104,7 @@ const CATEGORIES: Array<{ key: string; args: Partial<ChatEmbedStoryArgs> }> = [
       title: "Behind the scenes",
       category: "Video",
       media: <img src={PORTRAIT} alt="" />,
+      mediaBackdrop: <img src={PORTRAIT} alt="" />,
       verticalMedia: true,
     },
   },
@@ -197,6 +194,7 @@ export const VerticalMedia: Story = {
   args: {
     ...Live.args,
     media: <img src={PORTRAIT} alt="" />,
+    mediaBackdrop: <img src={PORTRAIT} alt="" />,
     verticalMedia: true,
   },
 };

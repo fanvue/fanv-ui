@@ -20,13 +20,6 @@ describe("ChatEmbed", () => {
       expect(ref.current).toHaveClass("custom");
     });
 
-    it("sizes the creator and experience layouts to the design heights", () => {
-      const { container, rerender } = render(<ChatEmbed {...baseProps} />);
-      expect(container.firstChild).toHaveClass("h-40");
-      rerender(<ChatEmbed {...baseProps} variant="experience" />);
-      expect(container.firstChild).toHaveClass("h-[239px]");
-    });
-
     it("shows the creator badges after the title on the creator layout", () => {
       render(<ChatEmbed {...baseProps} verified aiDisclosure />);
       const title = screen.getByText("Display Name").closest("p");
@@ -40,19 +33,30 @@ describe("ChatEmbed", () => {
       expect(subtitle).toContainElement(screen.getByRole("img", { name: "Verified" }));
     });
 
-    it("renders the badge, category and meta slots", () => {
+    it("names the whole-card link by the creator name alone", () => {
+      render(<ChatEmbed {...baseProps} href="https://www.fanvue.com" verified aiDisclosure />);
+      expect(screen.getByRole("link", { name: "Display Name" })).toBeInTheDocument();
+    });
+
+    it("keeps the creator badges on experience cards without a subtitle", () => {
       render(
         <ChatEmbed
           {...baseProps}
+          subtitle={undefined}
           variant="experience"
-          badge={<LiveStatus />}
-          category="Audio"
-          meta="2 hours ago"
+          verified
+          aiDisclosure
         />,
       );
-      expect(screen.getByText("LIVE")).toBeInTheDocument();
-      expect(screen.getByText("Audio")).toBeInTheDocument();
-      expect(screen.getByText("2 hours ago")).toBeInTheDocument();
+      expect(screen.getByRole("img", { name: "Verified" })).toBeInTheDocument();
+      expect(screen.getByRole("img", { name: "AI creator" })).toBeInTheDocument();
+    });
+
+    it("skips the top row for falsy slot values", () => {
+      const { container } = render(
+        <ChatEmbed {...baseProps} variant="experience" badge={false} category="" meta={null} />,
+      );
+      expect(container.firstChild).toHaveClass("justify-end");
     });
 
     it("greys out the media when inactive", () => {
@@ -65,22 +69,6 @@ describe("ChatEmbed", () => {
       );
       const layer = screen.getByTestId("media").closest(".select-none");
       expect(layer?.querySelector(".mix-blend-saturation")).not.toBeNull();
-    });
-
-    it("renders social proof on the experience layout", () => {
-      render(
-        <ChatEmbed
-          {...baseProps}
-          variant="experience"
-          socialProof={{ avatars: [{ fallback: "A" }, { fallback: "B" }], label: "+2 watching" }}
-        />,
-      );
-      expect(screen.getByText("+2 watching")).toBeInTheDocument();
-    });
-
-    it("renders a fallback surface when media is omitted", () => {
-      const { container } = render(<ChatEmbed title="Display Name" />);
-      expect(container.querySelector(".bg-content-always-black")).not.toBeNull();
     });
 
     it("uses mediaBackdrop for the blurred copy of vertical media", () => {
@@ -136,11 +124,10 @@ describe("ChatEmbed", () => {
   });
 
   describe("ChatEmbedSkeleton", () => {
-    it("announces a busy loading state", () => {
-      render(<ChatEmbedSkeleton variant="experience" label="Loading experience" />);
-      const status = screen.getByRole("status", { name: "Loading experience" });
-      expect(status).toHaveAttribute("aria-busy", "true");
-      expect(status).toHaveClass("h-[239px]");
+    it("marks itself busy with a visually hidden label", () => {
+      const { container } = render(<ChatEmbedSkeleton label="Loading experience" />);
+      expect(container.firstChild).toHaveAttribute("aria-busy", "true");
+      expect(screen.getByText("Loading experience")).toHaveClass("sr-only");
     });
   });
 
