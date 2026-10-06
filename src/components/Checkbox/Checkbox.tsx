@@ -9,31 +9,80 @@ import { MinusIcon } from "../Icons/MinusIcon";
  *
  * - `"20"` (default) — 20px box, body-lg label.
  * - `"16"` — 16px box, body-md label, used in compact contexts like data tables.
+ * - `"24"` — 24px box with an 8px radius (Figma V2 Checkbox Size=24px), 12px gap to the label.
  * - `"default"` and `"small"` are legacy aliases retained for back-compat
  *   (`"default"` → `"20"`, `"small"` → `"20"` with smaller label typography).
  */
 export type CheckboxSize =
   | "20"
   | "16"
+  | "24"
   /** @deprecated Use `"20"` instead. */
   | "default"
   /** @deprecated Use `"20"` (the smaller-typography variant remains via `"small"`). */
   | "small";
 
-const BOX_SIZE_CLASS: Record<"20" | "16", string> = {
+type BoxSize = "20" | "16" | "24";
+
+const BOX_SIZE_CLASS: Record<BoxSize, string> = {
   "20": "size-5",
   "16": "size-4",
+  "24": "size-6",
 };
 
-const INDICATOR_SIZE_CLASS: Record<"20" | "16", string> = {
+const BOX_RADIUS_CLASS: Record<BoxSize, string> = {
+  "20": "rounded",
+  "16": "rounded",
+  "24": "rounded-xs",
+};
+
+const INDICATOR_SIZE_CLASS: Record<BoxSize, string> = {
   "20": "size-3",
   "16": "size-2.5",
+  "24": "size-4",
 };
+
+const LABEL_GAP_CLASS: Record<BoxSize, string> = {
+  "20": "gap-2",
+  "16": "gap-2",
+  "24": "gap-3",
+};
+
+/** Helper text indent that lines it up under the label: box width + gap. */
+const HELPER_INDENT_CLASS: Record<BoxSize, string> = {
+  "20": "ml-7",
+  "16": "ml-7",
+  "24": "ml-9",
+};
+
+/** Trailing placement has the box after the label, so the helper needs no indent. */
+const getHelperIndentClass = (boxSize: BoxSize, isTrailing: boolean) =>
+  isTrailing ? "" : HELPER_INDENT_CLASS[boxSize];
+
+/** Vertical offset of the box against the first label line. The 24px box matches the 24px line height. */
+const BOX_OFFSET_CLASS: Record<BoxSize, { withHelper: string; plain: string }> = {
+  "20": { withHelper: "mt-1", plain: "mt-0.5" },
+  "16": { withHelper: "mt-1", plain: "mt-0.5" },
+  "24": { withHelper: "", plain: "" },
+};
+
+/** Legacy `"default"` / `"small"` sizes render the 20px box. */
+const resolveBoxSize = (size: CheckboxSize): BoxSize =>
+  size === "16" || size === "24" ? size : "20";
+
+/** Where the label sits relative to the box. */
+export type CheckboxLabelPlacement = "leading" | "trailing";
 
 export interface CheckboxProps
   extends Omit<React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>, "asChild"> {
   /** Size variant. @default "20" */
   size?: CheckboxSize;
+  /**
+   * Which side of the label the box sits on. `"leading"` puts the box before the
+   * label (the existing behaviour), `"trailing"` puts it after.
+   * @default "leading"
+   */
+  labelPlacement?: CheckboxLabelPlacement;
   /** Label text displayed next to the checkbox. */
   label?: string;
   /** Descriptive text displayed below the label. */
@@ -55,11 +104,15 @@ export interface CheckboxProps
  * ```
  */
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ className, size = "20", label, helperText, disabled, name, ...props }, ref) => {
+  (
+    { className, size = "20", labelPlacement, label, helperText, disabled, name, ...props },
+    ref,
+  ) => {
     const id = React.useId();
     const helperTextId = helperText ? `${id}-helper` : undefined;
     const hasLabel = Boolean(label || helperText);
-    const boxSize: "20" | "16" = size === "16" ? "16" : "20";
+    const boxSize = resolveBoxSize(size);
+    const isTrailing = labelPlacement === "trailing";
     const useSmallLabelTypography = size === "small";
 
     if (
@@ -92,7 +145,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           "relative inline-flex shrink-0",
           BOX_SIZE_CLASS[boxSize],
           // Alignment when used with label
-          label && (helperText ? "mt-1" : "mt-0.5"),
+          label && BOX_OFFSET_CLASS[boxSize][helperText ? "withHelper" : "plain"],
         )}
       >
         <input
@@ -115,7 +168,8 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           onCheckedChange={handleCheckedChange}
           className={cn(
             // Base styles
-            "flex items-center justify-center rounded border",
+            "flex items-center justify-center border",
+            BOX_RADIUS_CLASS[boxSize],
             BOX_SIZE_CLASS[boxSize],
             "transition-[border-color,background-color,color,box-shadow] duration-150",
             // Default state
@@ -161,7 +215,13 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           className,
         )}
       >
-        <div className="group inline-flex items-start gap-2">
+        <div
+          className={cn(
+            "group inline-flex items-start",
+            LABEL_GAP_CLASS[boxSize],
+            isTrailing && "flex-row-reverse",
+          )}
+        >
           {checkboxElement}
           {label && (
             <label
@@ -182,7 +242,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <span
             id={helperTextId}
             className={cn(
-              "ml-7 text-content-secondary",
+              "text-content-secondary",
+              // Align the helper under the label: box width + gap (leading only)
+              getHelperIndentClass(boxSize, isTrailing),
               "in-[.is-disabled]:cursor-not-allowed in-[.is-disabled]:text-content-tertiary",
               useSmallLabelTypography
                 ? "typography-description-12px-regular"
