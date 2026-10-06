@@ -142,6 +142,18 @@ export {
   CardTitle,
 } from "./components/Card/Card";
 export type {
+  ChatEmbedProps,
+  ChatEmbedSkeletonProps,
+  ChatEmbedSocialProof,
+  ChatEmbedUnavailableProps,
+  ChatEmbedVariant,
+} from "./components/ChatEmbed/ChatEmbed";
+export {
+  ChatEmbed,
+  ChatEmbedSkeleton,
+  ChatEmbedUnavailable,
+} from "./components/ChatEmbed/ChatEmbed";
+export type {
   ChatInputAttachmentItem,
   ChatInputProps,
   ChatInputSelectOption,
@@ -639,6 +651,8 @@ export type {
 export { InlineEdit } from "./components/InlineEdit/InlineEdit";
 export type { LinkProps, LinkSize, LinkVariant } from "./components/Link/Link";
 export { Link } from "./components/Link/Link";
+export type { LiveStatusProps, LiveStatusVariant } from "./components/LiveStatus/LiveStatus";
+export { LiveStatus } from "./components/LiveStatus/LiveStatus";
 export type { LoaderProps } from "./components/Loader/Loader";
 export { Loader } from "./components/Loader/Loader";
 export type {
@@ -813,6 +827,7 @@ export type {
 } from "./components/SwitchButton/SwitchButton";
 export { SwitchButton } from "./components/SwitchButton/SwitchButton";
 export type {
+  SwitchFieldLabelWeight,
   SwitchFieldOrientation,
   SwitchFieldProps,
 } from "./components/SwitchField/SwitchField";

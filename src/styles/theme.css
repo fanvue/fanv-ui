@@ -20,6 +20,7 @@
   --shadow-blur-menu: 0px 6px 12px 0px #0000001a;
   --shadow-blur-floating: 0px 12px 40px 2px #00000026;
   --shadow-ai-button-glow: -1px 1px 4px 0px #49f2643d, -4px 4px 12px 0px #49f26429, -8px 2px 24px 0px #49f2640a;
+  --shadow-live-glow: -2px 2px 16px 0px var(--color-live-glow-red), 2px -2px 16px 0px var(--color-live-glow-pink);
   --shadow-focus-ring: inset 0 0 0 2px var(--fv-focus-ring-color);
   --radius-3xs: 2px;
   --radius-2xs: 4px;
@@ -259,7 +260,7 @@
   --color-messages-user-callout: var(--primitives-color-green-800);
   --color-tab-active: var(--color-buttons-primary-default);
   --color-tab-inactive-hover: var(--color-buttons-secondary-hover);
-  --color-modal-stroke: var(--color-border-strong);
+  --color-modal-stroke: var(--primitives-color-gray-300);
   --color-modal-background: var(--color-background-secondary);
   --color-modal-padding-desktop: var(--spacing-global-lg);
   --color-modal-padding-mobile: var(--spacing-global-md);
@@ -308,6 +309,12 @@
   --color-creator-agent-mesh-gradient-2: var(--primitives-color-green-200);
   --color-creator-agent-mesh-gradient-3: var(--primitives-color-green-300);
   --color-creator-agent-mesh-gradient-background: var(--color-background-secondary);
+  --color-live-gradient-start: #f47bffff;
+  --color-live-gradient-end: #f01932ff;
+  --color-live-glow-pink: #f8a8ff29;
+  --color-live-glow-red: #f019323d;
+  --color-live-ended-background: var(--primitives-color-gray-150);
+  --color-live-ended-content: var(--primitives-color-gray-600);
   --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);
@@ -727,7 +734,7 @@
   --color-messages-user-callout: var(--primitives-color-green-800);
   --color-tab-active: var(--color-buttons-primary-default);
   --color-tab-inactive-hover: var(--color-buttons-secondary-hover);
-  --color-modal-stroke: var(--color-border-strong);
+  --color-modal-stroke: var(--primitives-color-gray-300);
   --color-modal-background: var(--color-background-secondary);
   --color-modal-padding-desktop: var(--spacing-global-lg);
   --color-modal-padding-mobile: var(--spacing-global-md);
@@ -776,6 +783,12 @@
   --color-creator-agent-mesh-gradient-2: var(--primitives-color-green-200);
   --color-creator-agent-mesh-gradient-3: var(--primitives-color-green-300);
   --color-creator-agent-mesh-gradient-background: var(--color-background-secondary);
+  --color-live-gradient-start: #f47bffff;
+  --color-live-gradient-end: #f01932ff;
+  --color-live-glow-pink: #f8a8ff29;
+  --color-live-glow-red: #f019323d;
+  --color-live-ended-background: var(--primitives-color-gray-150);
+  --color-live-ended-content: var(--primitives-color-gray-600);
   --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);
@@ -1067,6 +1080,12 @@
   --color-creator-agent-mesh-gradient-2: var(--primitives-color-green-700);
   --color-creator-agent-mesh-gradient-3: var(--primitives-color-green-600);
   --color-creator-agent-mesh-gradient-background: var(--color-background-secondary);
+  --color-live-gradient-start: #f47bffff;
+  --color-live-gradient-end: #f01932ff;
+  --color-live-glow-pink: #f8a8ff29;
+  --color-live-glow-red: #f019323d;
+  --color-live-ended-background: var(--primitives-color-gray-850);
+  --color-live-ended-content: var(--primitives-color-gray-400);
   --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);

@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event";
 import { createRef } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { Pause2Icon } from "../Icons/Pause2Icon";
+import { Play2Icon } from "../Icons/Play2Icon";
 import { VoiceNote } from "./VoiceNote";
 
 function getAudioElement(container: HTMLElement): HTMLAudioElement {
@@ -61,6 +63,20 @@ describe("VoiceNote", () => {
   });
 
   describe("playback control", () => {
+    it("renders the bare play triangle, not the circled play glyph", () => {
+      render(<VoiceNote time="0:05" />);
+      const buttonGlyph = screen.getByRole("button", { name: "Play" }).querySelector("svg");
+      const { container: bareGlyph } = render(<Play2Icon filled />);
+      expect(buttonGlyph?.innerHTML).toBe(bareGlyph.querySelector("svg")?.innerHTML);
+    });
+
+    it("renders the bare pause bars, not the circled pause glyph", () => {
+      render(<VoiceNote time="0:05" playing />);
+      const buttonGlyph = screen.getByRole("button", { name: "Pause" }).querySelector("svg");
+      const { container: bareGlyph } = render(<Pause2Icon filled />);
+      expect(buttonGlyph?.innerHTML).toBe(bareGlyph.querySelector("svg")?.innerHTML);
+    });
+
     it("toggles the icon/label and calls onPlayPause when uncontrolled", () => {
       const onPlayPause = vi.fn();
       render(<VoiceNote time="0:05" onPlayPause={onPlayPause} />);

@@ -1,5 +1,44 @@
 # Changelog
 
+## [3.39.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.38.0...ui-v3.39.0) (2026-10-05)
+
+
+### Features
+
+* **ChatEmbed:** add verifiedLabel for the verified badge ([#725](https://github.com/fanvue/fanv-ui/issues/725)) ([38122a8](https://github.com/fanvue/fanv-ui/commit/38122a893cf66c77df02e977d607f5613bd98f74))
+
+## [3.38.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.37.1...ui-v3.38.0) (2026-10-05)
+
+
+### Features
+
+* **ChatEmbed:** add chat embed cards and the LiveStatus badge ([#719](https://github.com/fanvue/fanv-ui/issues/719)) ([8774371](https://github.com/fanvue/fanv-ui/commit/877437182b52f13c185f22f5ce397736094b60c1))
+* **DropdownMenu:** align the menu, modal stroke and switch label with the v2 design ([#720](https://github.com/fanvue/fanv-ui/issues/720)) ([404a44f](https://github.com/fanvue/fanv-ui/commit/404a44f311ff0ea6b4001c4558917a99a54b70c5))
+
+
+### Bug Fixes
+
+* **deps:** bump lint-staged and style-dictionary to drop vulnerable braces ([#722](https://github.com/fanvue/fanv-ui/issues/722)) ([790e1ab](https://github.com/fanvue/fanv-ui/commit/790e1aba9ce1fdf8d9a335d2bc8414c87ea6a38c))
+
+## [3.37.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.37.0...ui-v3.37.1) (2026-09-27)
+
+
+### Bug Fixes
+
+* **VoiceNote:** use bare play/pause glyphs to match the V2 Waveform design ([#716](https://github.com/fanvue/fanv-ui/issues/716)) ([cbe6b83](https://github.com/fanvue/fanv-ui/commit/cbe6b832785f02b14a21e44c47dc0d95bbdfd63e))
+
+## [3.37.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.36.0...ui-v3.37.0) (2026-09-23)
+
+
+### Features
+
+* **SearchField:** allow overriding the clear button label ([#715](https://github.com/fanvue/fanv-ui/issues/715)) ([e4f060e](https://github.com/fanvue/fanv-ui/commit/e4f060e0426585c649089c9583ee87526b0f468e))
+
+
+### Bug Fixes
+
+* **AudioPlayer:** use bare play/pause glyphs and scale the waveform to the clip ([#702](https://github.com/fanvue/fanv-ui/issues/702)) ([b05cb86](https://github.com/fanvue/fanv-ui/commit/b05cb860869d1eed90aad88ff4920c33146d3adf))
+
 ## [3.36.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.35.0...ui-v3.36.0) (2026-09-17)
 
 

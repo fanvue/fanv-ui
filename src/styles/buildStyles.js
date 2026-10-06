@@ -212,7 +212,8 @@ const getOpacityVars = (opacityTokens) => {
 const getEffectTokens = (effectTokens) => {
   let output = "";
 
-  const shadowValue = (s) => `${s.offsetX}px ${s.offsetY}px ${s.radius}px ${s.spread}px ${s.color}`;
+  const shadowValue = (s) =>
+    `${s.offsetX}px ${s.offsetY}px ${s.radius}px ${s.spread}px ${resolveValue(s.color)}`;
 
   const processShadowGroup = (group, prefix) => {
     for (const [name, entry] of Object.entries(group)) {
@@ -243,6 +244,7 @@ const getEffectTokens = (effectTokens) => {
   if (effectTokens.blurShadow) processShadowGroup(effectTokens.blurShadow, "blur-");
   if (effectTokens.aiButtonGlow)
     processShadowGroup({ aiButtonGlow: effectTokens.aiButtonGlow }, "");
+  if (effectTokens.liveGlow) processShadowGroup({ liveGlow: effectTokens.liveGlow }, "");
 
   // Focus ring colour is mode-aware via --fv-focus-ring-color (set in :root and .dark):
   // violet on light backgrounds, white on dark ones, so the ring stays visible either way.
