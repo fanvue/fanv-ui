@@ -41,6 +41,7 @@ type ActiveDrag = {
   lastTime: number;
   velocity: number;
   dragging: boolean;
+  stopBlockingTouchScroll: () => void;
 };
 
 export interface UseDragToDismissOptions {
@@ -61,6 +62,21 @@ function isScrolledAwayFromTop(target: EventTarget | null, container: HTMLElemen
   return container.scrollTop > 0;
 }
 
+function blockTouchScrollWhileDragging(
+  element: HTMLElement,
+  getDrag: () => ActiveDrag | null,
+): () => void {
+  const onTouchMove = (event: TouchEvent) => {
+    const drag = getDrag();
+    const touch = event.touches[0];
+    if (!drag || !touch) return;
+    const offset = touch.clientY - drag.startY;
+    if (drag.dragging || offset > Math.abs(touch.clientX - drag.startX)) event.preventDefault();
+  };
+  element.addEventListener("touchmove", onTouchMove, { passive: false });
+  return () => element.removeEventListener("touchmove", onTouchMove);
+}
+
 /**
  * Composes the consumer's pointer handlers with drag-down-to-dismiss for a
  * bottom sheet. The sheet follows the pointer downwards, and on release either
@@ -75,16 +91,26 @@ export function useDragToDismiss<P extends DragHandlers>(
   const dragRef = React.useRef<ActiveDrag | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
+  const snapBack = (element: HTMLDivElement) => {
+    element.style.transition = prefersReducedMotion ? "" : SNAP_BACK_TRANSITION;
+    element.style.transform = "";
+  };
+
   const release = (drag: ActiveDrag, dismiss: boolean) => {
     dragRef.current = null;
+    drag.stopBlockingTouchScroll();
     drag.element.releasePointerCapture?.(drag.pointerId);
     if (!drag.dragging) return;
-    if (dismiss) {
-      onDismiss();
+    if (!dismiss) {
+      snapBack(drag.element);
       return;
     }
-    drag.element.style.transition = prefersReducedMotion ? "" : SNAP_BACK_TRANSITION;
-    drag.element.style.transform = "";
+    onDismiss();
+    requestAnimationFrame(() => {
+      if (drag.element.isConnected && drag.element.dataset.state !== "closed") {
+        snapBack(drag.element);
+      }
+    });
   };
 
   return {
@@ -97,15 +123,17 @@ export function useDragToDismiss<P extends DragHandlers>(
       const target = event.target instanceof Element ? event.target : null;
       if (target?.closest(NON_DRAGGABLE_TARGETS)) return;
       if (isScrolledAwayFromTop(event.target, event.currentTarget)) return;
+      const element = event.currentTarget;
       dragRef.current = {
         pointerId: event.pointerId,
-        element: event.currentTarget,
+        element,
         startY: event.clientY,
         startX: event.clientX,
         lastY: event.clientY,
         lastTime: event.timeStamp,
         velocity: 0,
         dragging: false,
+        stopBlockingTouchScroll: blockTouchScrollWhileDragging(element, () => dragRef.current),
       };
     },
     onPointerMove(event) {
@@ -117,7 +145,7 @@ export function useDragToDismiss<P extends DragHandlers>(
         const dx = Math.abs(event.clientX - drag.startX);
         if (Math.max(Math.abs(offset), dx) < DRAG_START_THRESHOLD_PX) return;
         if (offset <= dx) {
-          dragRef.current = null;
+          release(drag, false);
           return;
         }
         drag.dragging = true;

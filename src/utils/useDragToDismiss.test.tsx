@@ -24,10 +24,18 @@ describe("shouldDismissDrag", () => {
   });
 });
 
-function Probe({ onDismiss, scrollTop = 0 }: { onDismiss: () => void; scrollTop?: number }) {
+function Probe({
+  onDismiss,
+  scrollTop = 0,
+  state,
+}: {
+  onDismiss: () => void;
+  scrollTop?: number;
+  state?: "open" | "closed";
+}) {
   const handlers = useDragToDismiss({ enabled: true, onDismiss }, {});
   return (
-    <div data-testid="sheet" {...handlers}>
+    <div data-testid="sheet" data-state={state} {...handlers}>
       <div
         data-testid="scroller"
         ref={(node) => {
@@ -58,6 +66,14 @@ function timedDrag(sheet: HTMLElement, holdBeforeReleaseMs: number) {
   vi.advanceTimersByTime(holdBeforeReleaseMs);
   fireEvent.pointerUp(sheet, { pointerId: 1, clientX: 0, clientY: 40 });
   vi.useRealTimers();
+}
+
+function nextFrame() {
+  return new Promise((resolve) => requestAnimationFrame(resolve));
+}
+
+function touchMove(sheet: HTMLElement, clientY: number) {
+  return fireEvent.touchMove(sheet, { touches: [{ clientX: 0, clientY }] });
 }
 
 function mockHeight(element: HTMLElement, height: number) {
@@ -118,5 +134,53 @@ describe("useDragToDismiss", () => {
     mockHeight(sheet, 400);
     drag(screen.getByLabelText("field"), sheet, 300);
     expect(onDismiss).not.toHaveBeenCalled();
+  });
+
+  it("snaps back when the sheet stays open after a dismiss", async () => {
+    render(<Probe onDismiss={vi.fn()} state="open" />);
+    const sheet = screen.getByTestId("sheet");
+    mockHeight(sheet, 400);
+    drag(sheet, sheet, 150);
+    await nextFrame();
+    expect(sheet.style.transform).toBe("");
+  });
+
+  it("keeps its offset while the sheet closes after a dismiss", async () => {
+    render(<Probe onDismiss={vi.fn()} state="closed" />);
+    const sheet = screen.getByTestId("sheet");
+    mockHeight(sheet, 400);
+    drag(sheet, sheet, 150);
+    await nextFrame();
+    expect(sheet.style.transform).toBe("translate3d(0, 150px, 0)");
+  });
+
+  it("blocks native scrolling on a downward touch move", () => {
+    render(<Probe onDismiss={vi.fn()} />);
+    const sheet = screen.getByTestId("sheet");
+    fireEvent.pointerDown(sheet, { pointerId: 1, button: 0, clientX: 0, clientY: 0 });
+    expect(touchMove(sheet, 20)).toBe(false);
+  });
+
+  it("leaves an upward touch move to native scrolling", () => {
+    render(<Probe onDismiss={vi.fn()} />);
+    const sheet = screen.getByTestId("sheet");
+    fireEvent.pointerDown(sheet, { pointerId: 1, button: 0, clientX: 0, clientY: 0 });
+    expect(touchMove(sheet, -20)).toBe(true);
+  });
+
+  it("stops blocking native scrolling once the pointer is released", () => {
+    render(<Probe onDismiss={vi.fn()} />);
+    const sheet = screen.getByTestId("sheet");
+    fireEvent.pointerDown(sheet, { pointerId: 1, button: 0, clientX: 0, clientY: 0 });
+    fireEvent.pointerUp(sheet, { pointerId: 1, clientX: 0, clientY: 0 });
+    expect(touchMove(sheet, 20)).toBe(true);
+  });
+
+  it("stops blocking native scrolling after a sideways drag", () => {
+    render(<Probe onDismiss={vi.fn()} />);
+    const sheet = screen.getByTestId("sheet");
+    fireEvent.pointerDown(sheet, { pointerId: 1, button: 0, clientX: 0, clientY: 0 });
+    fireEvent.pointerMove(sheet, { pointerId: 1, clientX: 40, clientY: 10 });
+    expect(touchMove(sheet, 20)).toBe(true);
   });
 });
