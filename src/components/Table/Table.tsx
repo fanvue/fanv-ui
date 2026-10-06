@@ -487,6 +487,7 @@ export type TableSortDirection = "asc" | "desc" | null;
 /** Props for the static (non-interactive) {@link TableSortLabel}, rendered as a `<span>`. */
 export interface TableSortLabelProps
   extends Omit<React.HTMLAttributes<HTMLSpanElement>, "onClick"> {
+  /** The column header label. */
   children: React.ReactNode;
   /**
    * Visual indicator of the column's sort state. When set to `"asc"` or
@@ -501,6 +502,7 @@ export interface TableSortLabelProps
 /** Props for the interactive {@link TableSortLabel}, rendered as a native `<button type="button">`. */
 export interface TableSortLabelButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "type"> {
+  /** The column header label. */
   children: React.ReactNode;
   /**
    * Visual indicator of the column's sort state. When set to `"asc"` or
