@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.40.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.39.0...ui-v3.40.0) (2026-10-06)
+
+
+### Features
+
+* **Dialog,Drawer:** drag bottom sheets down to dismiss ([#724](https://github.com/fanvue/fanv-ui/issues/724)) ([962528d](https://github.com/fanvue/fanv-ui/commit/962528d16309756b894d26eb88aaa7e24949b2de))
+
+
+### Bug Fixes
+
+* chat inbox design QA for SearchField, Chip, Checkbox and DropdownMenu ([#723](https://github.com/fanvue/fanv-ui/issues/723)) ([dd12a50](https://github.com/fanvue/fanv-ui/commit/dd12a5040f8738c65242ad0d04bf15a3ae7df001))
+* **deps:** override source-map-js to &gt;=1.2.2 ([#733](https://github.com/fanvue/fanv-ui/issues/733)) ([4b9ecab](https://github.com/fanvue/fanv-ui/commit/4b9ecab9e27dcb798bbc32c90ff349ad472f2d2a))
+
 ## [3.39.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.38.0...ui-v3.39.0) (2026-10-05)
 
 
