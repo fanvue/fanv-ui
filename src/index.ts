@@ -167,7 +167,6 @@ export type {
 } from "./components/ChatMessage/ChatMessage";
 export { ChatMessage } from "./components/ChatMessage/ChatMessage";
 export type {
-  CheckboxLabelPlacement,
   CheckboxProps,
   CheckboxSize,
 } from "./components/Checkbox/Checkbox";

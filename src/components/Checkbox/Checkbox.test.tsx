@@ -94,18 +94,6 @@ describe("Checkbox", () => {
       expect(screen.getByText("Helper")).toHaveClass("ml-9");
       expect(screen.getByText("Label").parentElement).toHaveClass("gap-3");
     });
-
-    it("places the box before the label by default", () => {
-      render(<Checkbox label="Label" />);
-      expect(screen.getByText("Label").parentElement).not.toHaveClass("flex-row-reverse");
-    });
-
-    it("places the box after the label when labelPlacement is 'trailing'", () => {
-      render(<Checkbox size="24" labelPlacement="trailing" label="Label" helperText="Helper" />);
-      expect(screen.getByText("Label").parentElement).toHaveClass("flex-row-reverse");
-      expect(screen.getByText("Helper")).not.toHaveClass("ml-9");
-      expect(screen.getByRole("checkbox")).toBeInTheDocument();
-    });
   });
 
   describe("accessibility", () => {

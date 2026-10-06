@@ -55,10 +55,6 @@ const HELPER_INDENT_CLASS: Record<BoxSize, string> = {
   "24": "ml-9",
 };
 
-/** Trailing placement has the box after the label, so the helper needs no indent. */
-const getHelperIndentClass = (boxSize: BoxSize, isTrailing: boolean) =>
-  isTrailing ? "" : HELPER_INDENT_CLASS[boxSize];
-
 /** Vertical offset of the box against the first label line. The 24px box matches the 24px line height. */
 const BOX_OFFSET_CLASS: Record<BoxSize, { withHelper: string; plain: string }> = {
   "20": { withHelper: "mt-1", plain: "mt-0.5" },
@@ -70,19 +66,10 @@ const BOX_OFFSET_CLASS: Record<BoxSize, { withHelper: string; plain: string }> =
 const resolveBoxSize = (size: CheckboxSize): BoxSize =>
   size === "16" || size === "24" ? size : "20";
 
-/** Where the label sits relative to the box. */
-export type CheckboxLabelPlacement = "leading" | "trailing";
-
 export interface CheckboxProps
   extends Omit<React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>, "asChild"> {
   /** Size variant. @default "20" */
   size?: CheckboxSize;
-  /**
-   * Which side of the label the box sits on. `"leading"` puts the box before the
-   * label (the existing behaviour), `"trailing"` puts it after.
-   * @default "leading"
-   */
-  labelPlacement?: CheckboxLabelPlacement;
   /** Label text displayed next to the checkbox. */
   label?: string;
   /** Descriptive text displayed below the label. */
@@ -104,15 +91,11 @@ export interface CheckboxProps
  * ```
  */
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
-  (
-    { className, size = "20", labelPlacement, label, helperText, disabled, name, ...props },
-    ref,
-  ) => {
+  ({ className, size = "20", label, helperText, disabled, name, ...props }, ref) => {
     const id = React.useId();
     const helperTextId = helperText ? `${id}-helper` : undefined;
     const hasLabel = Boolean(label || helperText);
     const boxSize = resolveBoxSize(size);
-    const isTrailing = labelPlacement === "trailing";
     const useSmallLabelTypography = size === "small";
 
     if (
@@ -215,13 +198,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           className,
         )}
       >
-        <div
-          className={cn(
-            "group inline-flex items-start",
-            LABEL_GAP_CLASS[boxSize],
-            isTrailing && "flex-row-reverse",
-          )}
-        >
+        <div className={cn("group inline-flex items-start", LABEL_GAP_CLASS[boxSize])}>
           {checkboxElement}
           {label && (
             <label
@@ -243,8 +220,8 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             id={helperTextId}
             className={cn(
               "text-content-secondary",
-              // Align the helper under the label: box width + gap (leading only)
-              getHelperIndentClass(boxSize, isTrailing),
+              // Align the helper under the label: box width + gap
+              HELPER_INDENT_CLASS[boxSize],
               "in-[.is-disabled]:cursor-not-allowed in-[.is-disabled]:text-content-tertiary",
               useSmallLabelTypography
                 ? "typography-description-12px-regular"
