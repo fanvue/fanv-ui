@@ -90,10 +90,12 @@ export interface DialogContentProps
    * - `"sheet"` — bottom sheet pinned to the viewport bottom edge (default)
    * - `"card"` — centered floating card per the v2-modal confirmation spec:
    *   16px side margins, 24px padding, 32px radius on all corners, no pull handle
+   * - `"menu"` — floating card inset 16px from the sides and bottom, for action and
+   *   selection lists built from {@link DialogItem}
    *
    * @default "sheet"
    */
-  mobilePresentation?: "sheet" | "card";
+  mobilePresentation?: "sheet" | "card" | "menu";
   /** Props forwarded to the default {@link DialogOverlay} when `overlay` is `true`. */
   overlayProps?: DialogOverlayProps;
 }
@@ -171,7 +173,7 @@ export const DialogContent = React.forwardRef<
             (e.currentTarget as HTMLElement).focus();
           }}
           className={cn(
-            "fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
+            "group/dialog fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
             "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
             mobilePresentation === "card"
@@ -181,20 +183,28 @@ export const DialogContent = React.forwardRef<
                   "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
                   "sm:inset-x-auto",
                 )
-              : // Bottom sheet pinned to the viewport bottom edge
-                cn(
-                  "dialog-max-h-dynamic inset-x-0 bottom-0 w-full rounded-t-xl p-4 pt-3",
-                  "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
-                  "data-[state=open]:slide-in-from-bottom-full",
-                  "data-[state=closed]:slide-out-to-bottom-full",
-                  "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
-                  "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
-                ),
+              : mobilePresentation === "menu"
+                ? // Floating action menu (v2-modal): 16px off the sides and bottom, 32px radius
+                  cn(
+                    "dialog-max-h-dynamic inset-x-4 bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] rounded-xl p-4",
+                    "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
+                    "sm:inset-x-auto",
+                  )
+                : // Bottom sheet pinned to the viewport bottom edge
+                  cn(
+                    "dialog-max-h-dynamic inset-x-0 bottom-0 w-full rounded-t-xl p-4 pt-3",
+                    "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
+                    "data-[state=open]:slide-in-from-bottom-full",
+                    "data-[state=closed]:slide-out-to-bottom-full",
+                    "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
+                    "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
+                  ),
             "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
             "duration-200",
             SIZE_CLASSES[size],
             className,
           )}
+          data-mobile-presentation={mobilePresentation}
           {...props}
         >
           {showMobileHandle && mobilePresentation === "sheet" && (
@@ -335,10 +345,19 @@ export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
 /**
  * Scrollable content area (slot) between the header and footer.
  * Grows to fill available space and scrolls when content overflows.
+ * Holds the {@link DialogItem} rows of a `menu` presentation.
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex-1 overflow-y-auto py-4", className)} {...props} />
+    <div
+      ref={ref}
+      // In a menu the panel padding already closes the bottom edge.
+      className={cn(
+        "flex-1 overflow-y-auto py-4 group-data-[mobile-presentation=menu]/dialog:pb-0",
+        className,
+      )}
+      {...props}
+    />
   ),
 );
 DialogBody.displayName = "DialogBody";
@@ -359,3 +378,100 @@ export const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
   ),
 );
 DialogFooter.displayName = "DialogFooter";
+
+/**
+ * Props for {@link DialogItem}, a V2 modal action row.
+ *
+ * Standard is the default. `selected` marks the current value. `disabled` greys
+ * the row when the action is unavailable. `destructive` is the error treatment
+ * for irreversible actions such as delete.
+ */
+export interface DialogItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Icon rendered before the label. */
+  leadingIcon?: React.ReactNode;
+  /** Icon rendered after the label. */
+  trailingIcon?: React.ReactNode;
+  /** Applies the error treatment. Use only for irreversible actions. @default false */
+  destructive?: boolean;
+  /** Marks the row as the current selection. @default false */
+  selected?: boolean;
+  /** Close the dialog when the row is chosen. @default true */
+  closeOnSelect?: boolean;
+}
+
+/**
+ * A single action row, usually inside a `mobilePresentation="menu"` dialog.
+ *
+ * 40px min height, 12px horizontal padding, 16px label, optional leading icon.
+ * Hover, selected, disabled, and error follow the V2 modal item states.
+ *
+ * @example
+ * ```tsx
+ * <DialogContent mobilePresentation="menu">
+ *   <DialogHeader>
+ *     <DialogTitle>Top Spenders</DialogTitle>
+ *   </DialogHeader>
+ *   <DialogBody>
+ *     <DialogItem leadingIcon={<EditIcon size={16} filled />}>Edit List</DialogItem>
+ *     <DialogItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
+ *       Delete List
+ *     </DialogItem>
+ *   </DialogBody>
+ * </DialogContent>
+ * ```
+ */
+export const DialogItem = React.forwardRef<HTMLButtonElement, DialogItemProps>(
+  (
+    {
+      className,
+      children,
+      leadingIcon,
+      trailingIcon,
+      destructive = false,
+      selected = false,
+      closeOnSelect = true,
+      disabled,
+      type = "button",
+      ...props
+    },
+    ref,
+  ) => {
+    const item = (
+      <button
+        ref={ref}
+        type={type}
+        disabled={disabled}
+        aria-pressed={selected || undefined}
+        className={cn(
+          "flex min-h-10 w-full cursor-pointer items-center gap-2 rounded-sm px-3 py-2 text-start outline-none",
+          "typography-body-default-16px-regular text-content-primary",
+          "hover:bg-neutral-alphas-50 focus-visible:bg-neutral-alphas-50",
+          "disabled:cursor-not-allowed disabled:text-content-disabled disabled:hover:bg-transparent",
+          selected && "bg-neutral-alphas-100",
+          destructive && "text-error-content",
+          className,
+        )}
+        {...props}
+      >
+        {leadingIcon ? (
+          <span className="inline-flex size-4 shrink-0 items-center justify-center">
+            {leadingIcon}
+          </span>
+        ) : null}
+        <span className="min-w-0 flex-1">{children}</span>
+        {trailingIcon ? (
+          <span className="inline-flex size-4 shrink-0 items-center justify-center">
+            {trailingIcon}
+          </span>
+        ) : null}
+      </button>
+    );
+
+    if (closeOnSelect && !disabled) {
+      return <DialogPrimitive.Close asChild>{item}</DialogPrimitive.Close>;
+    }
+
+    return item;
+  },
+);
+DialogItem.displayName = "DialogItem";
