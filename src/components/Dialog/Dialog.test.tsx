@@ -381,4 +381,59 @@ describe("Dialog", () => {
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
   });
+
+  describe("drag to dismiss", () => {
+    function dragDown(element: HTMLElement, distance: number) {
+      vi.spyOn(element, "getBoundingClientRect").mockReturnValue({ height: 400 } as DOMRect);
+      vi.useFakeTimers();
+      fireEvent.pointerDown(element, { pointerId: 1, button: 0, clientX: 0, clientY: 0 });
+      vi.advanceTimersByTime(200);
+      fireEvent.pointerMove(element, { pointerId: 1, clientX: 0, clientY: distance });
+      vi.advanceTimersByTime(200);
+      fireEvent.pointerUp(element, { pointerId: 1, clientX: 0, clientY: distance });
+      vi.useRealTimers();
+    }
+
+    function renderControlled(mobilePresentation: "sheet" | "card") {
+      const onOpenChange = vi.fn();
+      render(
+        <Dialog open onOpenChange={onOpenChange}>
+          <DialogContent mobilePresentation={mobilePresentation} aria-describedby={undefined}>
+            <DialogTitle>Sheet</DialogTitle>
+          </DialogContent>
+        </Dialog>,
+      );
+      return onOpenChange;
+    }
+
+    it("closes a mobile sheet dragged past the threshold", () => {
+      const onOpenChange = renderControlled("sheet");
+      dragDown(screen.getByRole("dialog"), 150);
+      expect(onOpenChange).toHaveBeenCalledWith(false);
+    });
+
+    it("snaps a mobile sheet back on a short drag", () => {
+      const onOpenChange = renderControlled("sheet");
+      dragDown(screen.getByRole("dialog"), 40);
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    it("does not drag the card presentation", () => {
+      const onOpenChange = renderControlled("card");
+      dragDown(screen.getByRole("dialog"), 150);
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    it("does not drag at the desktop breakpoint", () => {
+      vi.stubGlobal("matchMedia", (query: string) => ({
+        matches: !query.includes("max-width"),
+        addEventListener: () => {},
+        removeEventListener: () => {},
+      }));
+      const onOpenChange = renderControlled("sheet");
+      dragDown(screen.getByRole("dialog"), 150);
+      expect(onOpenChange).not.toHaveBeenCalled();
+      vi.unstubAllGlobals();
+    });
+  });
 });

@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { useDragToDismiss } from "../../utils/useDragToDismiss";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
 import { ArrowLeftIcon } from "../Icons/ArrowLeftIcon";
@@ -156,6 +157,15 @@ export const DialogContent = React.forwardRef<
     },
     ref,
   ) => {
+    const closeRef = React.useRef<HTMLButtonElement>(null);
+    const contentProps = useDragToDismiss(
+      {
+        enabled: mobilePresentation === "sheet",
+        media: "(max-width: 639.98px)",
+        onDismiss: () => closeRef.current?.click(),
+      },
+      props,
+    );
     const content = (
       <>
         {overlay && <DialogOverlay {...overlayProps} />}
@@ -195,8 +205,9 @@ export const DialogContent = React.forwardRef<
             SIZE_CLASSES[size],
             className,
           )}
-          {...props}
+          {...contentProps}
         >
+          <DialogPrimitive.Close ref={closeRef} hidden tabIndex={-1} aria-hidden="true" />
           {showMobileHandle && mobilePresentation === "sheet" && (
             <div
               aria-hidden="true"

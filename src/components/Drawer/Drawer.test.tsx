@@ -425,4 +425,43 @@ describe("Drawer", () => {
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
   });
+
+  describe("drag to dismiss", () => {
+    function dragDown(element: HTMLElement, distance: number) {
+      vi.spyOn(element, "getBoundingClientRect").mockReturnValue({ height: 400 } as DOMRect);
+      vi.useFakeTimers();
+      fireEvent.pointerDown(element, { pointerId: 1, button: 0, clientX: 0, clientY: 0 });
+      vi.advanceTimersByTime(200);
+      fireEvent.pointerMove(element, { pointerId: 1, clientX: 0, clientY: distance });
+      vi.advanceTimersByTime(200);
+      fireEvent.pointerUp(element, { pointerId: 1, clientX: 0, clientY: distance });
+      vi.useRealTimers();
+    }
+
+    it("closes a bottom drawer dragged past the threshold", async () => {
+      const onOpenChange = vi.fn();
+      render(
+        <Drawer open onOpenChange={onOpenChange}>
+          <DrawerContent position="bottom" aria-describedby={undefined}>
+            <DrawerTitle>Sheet</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      dragDown(screen.getByRole("dialog"), 150);
+      expect(onOpenChange).toHaveBeenCalledWith(false);
+    });
+
+    it("does not close a side drawer on a downward drag", () => {
+      const onOpenChange = vi.fn();
+      render(
+        <Drawer open onOpenChange={onOpenChange}>
+          <DrawerContent position="right" aria-describedby={undefined}>
+            <DrawerTitle>Panel</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      dragDown(screen.getByRole("dialog"), 150);
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+  });
 });
