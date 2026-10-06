@@ -238,6 +238,7 @@ import {
   TableCell,
   TableCellContent,
   TableCellGroup,
+  TableFavouriteCell,
   TableHead,
   TableHeader,
   TableLineClamp,
@@ -3964,6 +3965,7 @@ function TableDemo() {
   const [pageLg, setPageLg] = useState(1);
   const [pageDesk, setPageDesk] = useState(2);
   const [pageMob, setPageMob] = useState(2);
+  const [favouriteRows, setFavouriteRows] = useState<Record<string, boolean>>({ "VIP fans": true });
 
   return (
     <div id="table" className="flex scroll-mt-20 flex-col gap-4">
@@ -4172,6 +4174,38 @@ function TableDemo() {
               }
               summary="1–10 of 48 rows"
             />
+          </TableCard>
+        </div>
+
+        <div>
+          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
+            Favourite cell
+          </h3>
+          <TableCard>
+            <TableScrollArea>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead intent="leading">
+                      <span className="sr-only">Favourite</span>
+                    </TableHead>
+                    <TableHead>List</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {["VIP fans", "New subscribers"].map((name) => (
+                    <TableRow key={name}>
+                      <TableFavouriteCell
+                        favourite={!!favouriteRows[name]}
+                        onToggle={(next) => setFavouriteRows((r) => ({ ...r, [name]: next }))}
+                        label={`Favourite ${name}`}
+                      />
+                      <TableCell>{name}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableScrollArea>
           </TableCard>
         </div>
 

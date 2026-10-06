@@ -862,6 +862,8 @@ export {
   TableStatusDot,
   TableToolbar,
 } from "./components/Table/Table";
+export type { TableFavouriteCellProps } from "./components/Table/TableFavouriteCell";
+export { TableFavouriteCell } from "./components/Table/TableFavouriteCell";
 export type {
   TablePaginationLayout,
   TablePaginationProps,

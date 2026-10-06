@@ -35,6 +35,7 @@ import {
   TableStatusDot,
   TableToolbar,
 } from "./Table";
+import { TableFavouriteCell } from "./TableFavouriteCell";
 import { TablePagination } from "./TablePagination";
 
 const TABLE_MEDIA_SRC =
@@ -656,5 +657,51 @@ export const PaginationMobile: Story = {
         summary="20–30 of 100 rows"
       />
     );
+  },
+};
+
+const FAVOURITE_FIGMA_URL =
+  "https://www.figma.com/design/23x2vofTPkLpbcJyRdDa55/?node-id=9011-56916";
+
+export const FavouriteCell: Story = {
+  name: "Favourite cell",
+  parameters: { design: { type: "figma", url: FAVOURITE_FIGMA_URL } },
+  render: () => {
+    const Demo = () => {
+      const [favourites, setFavourites] = React.useState<Record<string, boolean>>({
+        "VIP fans": true,
+      });
+      const rows = ["VIP fans", "New subscribers", "Top spenders"];
+      return (
+        <TableCard className="max-w-lg">
+          <TableScrollArea>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead intent="leading">
+                    <span className="sr-only">Favourite</span>
+                  </TableHead>
+                  <TableHead>List</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rows.map((name, index) => (
+                  <TableRow key={name}>
+                    <TableFavouriteCell
+                      favourite={!!favourites[name]}
+                      onToggle={(next) => setFavourites((f) => ({ ...f, [name]: next }))}
+                      label={`Favourite ${name}`}
+                      disabled={index === 2}
+                    />
+                    <TableCell>{name}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+        </TableCard>
+      );
+    };
+    return <Demo />;
   },
 };
