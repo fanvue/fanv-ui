@@ -12,6 +12,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogItem,
   DialogTitle,
   DialogTrigger,
 } from "./Dialog";
@@ -380,5 +381,98 @@ describe("Dialog", () => {
       fireEvent.click(trigger);
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
+  });
+});
+
+function renderMenu(items: React.ReactNode) {
+  return render(
+    <Dialog defaultOpen>
+      <DialogContent mobilePresentation="menu">
+        <DialogHeader>
+          <DialogTitle>Top Spenders</DialogTitle>
+        </DialogHeader>
+        <DialogBody>{items}</DialogBody>
+      </DialogContent>
+    </Dialog>,
+  );
+}
+
+describe("Dialog menu presentation", () => {
+  it("floats the panel off the bottom edge without a pull handle", () => {
+    renderMenu(<DialogItem>Edit List</DialogItem>);
+
+    const dialog = screen.getByRole("dialog");
+    expect(dialog).toHaveAttribute("data-mobile-presentation", "menu");
+    expect(dialog).toHaveClass("inset-x-4");
+    expect(dialog).toHaveClass("rounded-xl");
+    expect(dialog).toHaveClass("bottom-[calc(1rem+env(safe-area-inset-bottom,0px))]");
+    expect(dialog).not.toHaveClass("top-1/2");
+    expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
+  });
+});
+
+describe("DialogItem", () => {
+  it("renders the label and leading icon", () => {
+    renderMenu(<DialogItem leadingIcon={<span data-testid="icon" />}>Edit List</DialogItem>);
+
+    expect(screen.getByRole("button", { name: "Edit List" })).toBeInTheDocument();
+    expect(screen.getByTestId("icon")).toBeInTheDocument();
+  });
+
+  it("applies the error treatment", () => {
+    renderMenu(<DialogItem destructive>Delete List</DialogItem>);
+
+    expect(screen.getByRole("button", { name: "Delete List" })).toHaveClass("text-error-content");
+  });
+
+  it("marks the selected row", () => {
+    renderMenu(<DialogItem selected>Add to Favourites</DialogItem>);
+
+    const item = screen.getByRole("button", { name: "Add to Favourites" });
+    expect(item).toHaveAttribute("aria-pressed", "true");
+    expect(item).toHaveClass("bg-neutral-alphas-100");
+  });
+
+  it("does not fire or close when disabled", async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    renderMenu(
+      <DialogItem disabled onClick={onClick}>
+        Message List
+      </DialogItem>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Message List" }));
+    expect(onClick).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("calls onClick and closes the dialog", async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    renderMenu(<DialogItem onClick={onClick}>Duplicate</DialogItem>);
+
+    await user.click(screen.getByRole("button", { name: "Duplicate" }));
+    expect(onClick).toHaveBeenCalledOnce();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("stays open when closeOnSelect is false", async () => {
+    const user = userEvent.setup();
+    renderMenu(<DialogItem closeOnSelect={false}>Add to Favourites</DialogItem>);
+
+    await user.click(screen.getByRole("button", { name: "Add to Favourites" }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("has no accessibility violations", async () => {
+    const { container } = renderMenu(
+      <>
+        <DialogItem>Message List</DialogItem>
+        <DialogItem destructive>Delete List</DialogItem>
+      </>,
+    );
+
+    expect(await axe(container)).toHaveNoViolations();
   });
 });

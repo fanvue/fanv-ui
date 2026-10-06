@@ -96,6 +96,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogItem,
   DialogTitle,
   DialogTrigger,
   DiamondIcon,
@@ -174,14 +175,6 @@ import {
   MicrophoneIcon,
   MinusIcon,
   MobileStepper,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalItem,
-  ModalTitle,
-  ModalTrigger,
   MoonIcon,
   MoreIcon,
   MoreVerticalIcon,
@@ -5386,50 +5379,31 @@ function DialogDemo() {
   );
 }
 
-function ModalDemo() {
+function DialogMenuDemo() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div id="modal" className="flex scroll-mt-20 flex-col gap-4">
-      <h2 className="typography-header-heading-xs mb-4">Modal</h2>
-      <Modal open={open} onOpenChange={setOpen}>
-        <ModalTrigger asChild>
+    <div id="dialog-menu" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-xs mb-4">Dialog menu</h2>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
           <Button variant="secondary">List actions</Button>
-        </ModalTrigger>
-        <ModalContent>
-          <ModalHeader>
-            <ModalTitle>Top Spenders</ModalTitle>
-          </ModalHeader>
-          <ModalBody>
-            <ModalItem leadingIcon={<MessageIcon size={16} filled />}>Message List</ModalItem>
-            <ModalItem leadingIcon={<StarIcon size={16} filled />}>Add to Favourites</ModalItem>
-            <ModalItem leadingIcon={<EditIcon size={16} filled />}>Edit List</ModalItem>
-            <ModalItem leadingIcon={<CopyIcon size={16} filled />}>Duplicate</ModalItem>
-            <ModalItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
+        </DialogTrigger>
+        <DialogContent mobilePresentation="menu">
+          <DialogHeader>
+            <DialogTitle>Top Spenders</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <DialogItem leadingIcon={<MessageIcon size={16} filled />}>Message List</DialogItem>
+            <DialogItem leadingIcon={<StarIcon size={16} filled />}>Add to Favourites</DialogItem>
+            <DialogItem leadingIcon={<EditIcon size={16} filled />}>Edit List</DialogItem>
+            <DialogItem leadingIcon={<CopyIcon size={16} filled />}>Duplicate</DialogItem>
+            <DialogItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
               Delete List
-            </ModalItem>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-      <Modal>
-        <ModalTrigger asChild>
-          <Button variant="secondary">Filter sheet</Button>
-        </ModalTrigger>
-        <ModalContent variant="sheet">
-          <ModalHeader>
-            <ModalTitle>Apply Filters</ModalTitle>
-          </ModalHeader>
-          <ModalBody>
-            <p className="typography-body-default-16px-regular text-content-primary">
-              Filter fields scroll here while the footer stays pinned.
-            </p>
-          </ModalBody>
-          <ModalFooter>
-            <Button variant="secondary">Reset</Button>
-            <Button>Apply</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+            </DialogItem>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -5989,7 +5963,7 @@ function App() {
     { id: "cycling-text", label: "Cycling Text" },
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
-    { id: "modal", label: "Modal" },
+    { id: "dialog-menu", label: "Dialog menu" },
     { id: "divider", label: "Divider" },
     { id: "empty-state", label: "Empty State" },
     { id: "dropdownmenu", label: "Dropdown menu" },
@@ -6322,8 +6296,8 @@ function App() {
             {/* Dialog */}
             <DialogDemo />
 
-            {/* Modal */}
-            <ModalDemo />
+            {/* Dialog menu */}
+            <DialogMenuDemo />
 
             {/* Bottom Navigation */}
             <BottomNavigationDemo />
