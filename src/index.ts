@@ -867,6 +867,18 @@ export type {
   TablePaginationProps,
 } from "./components/Table/TablePagination";
 export { TablePagination } from "./components/Table/TablePagination";
+export type {
+  TableTabActionButtonProps,
+  TableTabActionPosition,
+  TableTabActionSearchProps,
+  TableTabActionStatus,
+  TableTabActionsProps,
+} from "./components/TableTabActions/TableTabActions";
+export {
+  TableTabActionButton,
+  TableTabActionSearch,
+  TableTabActions,
+} from "./components/TableTabActions/TableTabActions";
 export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";
