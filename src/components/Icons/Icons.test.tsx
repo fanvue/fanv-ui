@@ -439,3 +439,31 @@ describe("Icons", () => {
     });
   }
 });
+
+describe("StarIcon favourite", () => {
+  it("fills the filled layer with the favourite gradient", () => {
+    const { container } = render(<StarIcon size={16} filled favourite />);
+    const gradient = container.querySelector("linearGradient");
+    expect(gradient).toBeInTheDocument();
+    const filledPath = container.querySelector("g:last-of-type path");
+    expect(filledPath).toHaveAttribute("fill", `url(#${gradient?.id})`);
+    expect(container.querySelector("g:first-of-type path")).toHaveAttribute("fill", "currentColor");
+  });
+
+  it("uses currentColor and no gradient by default", () => {
+    const { container } = render(<StarIcon size={16} filled />);
+    expect(container.querySelector("linearGradient")).not.toBeInTheDocument();
+    expect(container.querySelector("g:last-of-type path")).toHaveAttribute("fill", "currentColor");
+  });
+
+  it("gives each instance its own gradient id", () => {
+    const { container } = render(
+      <>
+        <StarIcon filled favourite />
+        <StarIcon filled favourite />
+      </>,
+    );
+    const ids = [...container.querySelectorAll("linearGradient")].map((g) => g.id);
+    expect(new Set(ids).size).toBe(2);
+  });
+});
