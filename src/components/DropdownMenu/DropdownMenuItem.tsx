@@ -168,7 +168,7 @@ export const DropdownMenuItem = React.forwardRef<
     const itemClassName = cn(
       // `text-start` because the sheet variant renders the row as a <button>,
       // whose UA-centred text misaligned it from the popper variant's rows.
-      "group flex w-full cursor-pointer gap-2 rounded-xs px-3 text-start outline-none",
+      "group flex w-full cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
       hasDescription ? "items-start" : "items-center",
       // The sheet's header runs the full width of the panel, so its rows have to
       // come in off the edge themselves — 12px here on the panel's own 4px is the
