@@ -803,6 +803,35 @@ describe("DropdownMenuHeader", () => {
     });
   });
 
+  describe("layout", () => {
+    it("pulls the header out by the popper panel's extra 4px of padding", () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader title="Sort by" data-testid="header" />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      expect(screen.getByTestId("header")).toHaveClass("-mx-1", "-mt-1");
+    });
+
+    it("leaves the sheet header on the sheet's own padding", async () => {
+      const user = userEvent.setup();
+      render(
+        <DropdownMenu variant="sheet" defaultOpen={false}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuHeader title="Sort by" data-testid="header" />
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      await user.click(screen.getByText("trigger"));
+      const header = screen.getByTestId("header");
+      expect(header).not.toHaveClass("-mx-1");
+      expect(header).not.toHaveClass("-mt-1");
+    });
+  });
+
   describe("API", () => {
     it("renders the title when type is default", () => {
       renderMenu(
