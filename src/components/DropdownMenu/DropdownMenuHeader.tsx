@@ -255,7 +255,9 @@ function SearchInput({
     <label
       data-dropdown-menu-tab-stops=""
       className={cn(
-        "flex min-w-0 flex-1 items-center gap-2 rounded-xs border border-border-primary",
+        // 16px, like the rows: the field sits 8px in from the panel's 24px
+        // corner, so 24 − 8 keeps the two curves concentric.
+        "flex min-w-0 flex-1 items-center gap-2 rounded-md border border-border-primary",
         "bg-inputs-inputs-primary px-3 py-1 text-content-primary",
         "focus-within:shadow-focus-ring focus-within:outline-none",
       )}

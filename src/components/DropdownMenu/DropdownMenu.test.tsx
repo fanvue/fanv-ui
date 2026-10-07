@@ -814,6 +814,18 @@ describe("DropdownMenuHeader", () => {
       expect(screen.getByTestId("header")).toHaveClass("-mx-1", "-mt-1");
     });
 
+    it("gives the search field the 16px radius, concentric with the panel", () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader type="search" searchProps={{ placeholder: "Find" }} />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      const field = screen.getByPlaceholderText("Find").closest("label");
+      expect(field).toHaveClass("rounded-md");
+      expect(field).not.toHaveClass("rounded-xs");
+    });
+
     it("leaves the sheet header on the sheet's own padding", async () => {
       const user = userEvent.setup();
       render(
