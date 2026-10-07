@@ -124,13 +124,13 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             "data-[state=checked]:border-content-primary data-[state=checked]:bg-content-primary data-[state=checked]:text-content-primary-inverted",
             // Indeterminate state
             "data-[state=indeterminate]:border-content-primary data-[state=indeterminate]:bg-content-primary data-[state=indeterminate]:text-content-primary-inverted",
-            // Hover & active state
-            "hover:ring-2 hover:ring-brand-primary-default group-hover:ring-2 group-hover:ring-brand-primary-default",
-            "not-disabled:active:ring-2 not-disabled:active:ring-brand-primary-default",
-            // Focus state
-            "focus-visible:shadow-focus-ring focus-visible:outline-none",
+            // Hover & active state (inset, like the focus ring, so overflow containers can't clip it)
+            "hover:inset-ring-2 hover:inset-ring-brand-primary-default group-hover:inset-ring-2 group-hover:inset-ring-brand-primary-default",
+            "not-disabled:active:inset-ring-2 not-disabled:active:inset-ring-brand-primary-default",
+            // Focus state (drops the hover ring, which would otherwise paint over the focus ring)
+            "focus-visible:inset-ring-0 focus-visible:shadow-focus-ring focus-visible:outline-none",
             // Disabled state
-            "disabled:cursor-not-allowed disabled:border-neutral-alphas-600 disabled:ring-0 disabled:group-hover:ring-0",
+            "disabled:inset-ring-0 disabled:cursor-not-allowed disabled:border-neutral-alphas-600 disabled:group-hover:inset-ring-0",
             "disabled:data-[state=checked]:border-neutral-alphas-600 disabled:data-[state=checked]:bg-neutral-alphas-600 disabled:data-[state=checked]:text-content-tertiary",
             !hasLabel && className,
           )}
