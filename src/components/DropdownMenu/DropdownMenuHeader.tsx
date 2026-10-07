@@ -139,6 +139,10 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
         ref={ref}
         className={cn(
           "mb-1 flex flex-col px-1 pt-1",
+          // The insets in this header and its rule are measured against the
+          // sheet's 4px panel padding. The popper panel pads 8px, so pull the
+          // header back out by the extra 4px to land on the same positions.
+          variant !== "sheet" && "-mx-1 -mt-1",
           // Search needs an 8px gap between the input and the divider; the
           // default (title) variant uses 4px because the title baseline sits
           // closer to the divider naturally.
@@ -215,7 +219,8 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
         {/*
          * Full-bleed, as the design draws it: the rule runs the panel's whole
          * width rather than stopping at the text. `-mx-2` cancels both insets it
-         * sits inside — this header's own `px-1` and the content panel's `p-1`.
+         * sits inside — this header's own `px-1` and the 4px of panel padding
+         * left over after the header's `-mx-1` (or the sheet's own `p-1`).
          *
          * `Border/Primary` is the token the design binds to this rule. The
          * separator's own default is `neutral-alphas-200`, which in the dark theme
@@ -250,7 +255,9 @@ function SearchInput({
     <label
       data-dropdown-menu-tab-stops=""
       className={cn(
-        "flex min-w-0 flex-1 items-center gap-2 rounded-xs border border-border-primary",
+        // 16px, like the rows: the field sits 8px in from the panel's 24px
+        // corner, so 24 − 8 keeps the two curves concentric.
+        "flex min-w-0 flex-1 items-center gap-2 rounded-md border border-border-primary",
         "bg-inputs-inputs-primary px-3 py-1 text-content-primary",
         "focus-within:shadow-focus-ring focus-within:outline-none",
       )}
