@@ -132,20 +132,3 @@ export const AllStates: Story = {
     layout: "padded",
   },
 };
-
-// Checkboxes flush against the edge of a scroll container, as in a filters modal body.
-// The hover, active and focus rings must stay fully visible here.
-export const InScrollContainer: Story = {
-  render: () => (
-    <div className="flex h-32 w-64 flex-col gap-4 overflow-y-auto border-error-content border-l border-dashed py-2">
-      <Checkbox label="Subscribers" checked />
-      <Checkbox label="New subscribers" />
-      <Checkbox label="Followers" />
-      <Checkbox label="Expired subscribers" />
-      <Checkbox label="Blocked" disabled />
-    </div>
-  ),
-  parameters: {
-    layout: "padded",
-  },
-};
