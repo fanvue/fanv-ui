@@ -301,7 +301,8 @@ export const DropdownMenuContent = React.forwardRef<
             // Panel tokens come from `V2 Menu Dropdown` (product file node
             // `7393:62008`): `rounded-lg` (24px) over `Background/Secondary`, a
             // `Border/Strong` stroke, 8px of padding, and the `blur + shadow/menu`
-            // effect. The 12px `rounded-sm` is the row radius, not the panel's.
+            // effect. Rows inside it are 16px `rounded-md`: the panel's 24px less its
+            // 8px padding, so a highlighted row's corners sit concentric with it.
             //
             // `backdrop-blur-[4px]` is the CSS equivalent of that effect's
             // BACKGROUND_BLUR radius 8, which Figma halves on export. It is not a

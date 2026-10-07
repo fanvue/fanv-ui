@@ -78,12 +78,12 @@ describe("DropdownMenu", () => {
       expect(screen.getByText("12")).not.toHaveClass("h-[18px]");
     });
 
-    it("gives the panel the 24px menu radius, not the 12px row radius", () => {
+    it("gives the panel the 24px menu radius, not the 16px row radius", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const panel = screen.getByRole("menu");
       expect(panel).toHaveClass("rounded-lg");
+      expect(panel).not.toHaveClass("rounded-md");
       expect(panel).not.toHaveClass("rounded-sm");
-      expect(panel).not.toHaveClass("rounded-xs");
     });
 
     it("gives the panel the V2 Menu Dropdown surface, padding, stroke and shadow", () => {
@@ -97,11 +97,11 @@ describe("DropdownMenu", () => {
 
     // Each of these three drifted from the design unnoticed, so they are asserted
     // rather than left to the eye. Node references are in the component.
-    it("gives a menu item the 12px row radius", () => {
+    it("gives a menu item the 16px row radius, concentric with the panel", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const item = screen.getByRole("menuitem");
-      expect(item).toHaveClass("rounded-sm");
-      expect(item).not.toHaveClass("rounded-xs");
+      expect(item).toHaveClass("rounded-md");
+      expect(item).not.toHaveClass("rounded-sm");
     });
 
     it("keeps the 8px radius on a radio item, which the design draws differently", () => {
