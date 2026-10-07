@@ -75,7 +75,7 @@ function ReorderGhost({
        * treatment the panel itself gets) — so what the ghost passes over
        * smears through it.
        */}
-      <div className="overflow-hidden rounded-sm bg-surface-primary/65 backdrop-blur-[20px]">
+      <div className="overflow-hidden rounded-md bg-surface-primary/65 backdrop-blur-[20px]">
         <div className="typography-body-small-14px-regular flex min-h-10 items-center gap-2 bg-neutral-alphas-100 py-2 pr-6 pl-3 text-content-primary">
           <DragHandleDots className="size-4 shrink-0 text-icons-tertiary" />
           {children}
@@ -185,7 +185,7 @@ export const DropdownMenuReorderItem = React.forwardRef<
         ref={setElement}
         data-dragging={isLifted || undefined}
         className={cn(
-          "typography-body-small-14px-regular group relative flex min-h-10 w-full select-none items-center gap-2 rounded-sm px-3 py-2 text-content-primary",
+          "typography-body-small-14px-regular group relative flex min-h-10 w-full select-none items-center gap-2 rounded-md px-3 py-2 text-content-primary",
           variant === "sheet" && "mx-3 w-auto",
           rowStateClasses,
           className,

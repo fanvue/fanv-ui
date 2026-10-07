@@ -104,15 +104,22 @@ describe("DropdownMenu", () => {
       expect(item).not.toHaveClass("rounded-sm");
     });
 
-    it("keeps the 8px radius on a radio item, which the design draws differently", () => {
+    it("gives a radio item the same 16px row radius", () => {
       renderMenu(
         <DropdownMenuRadioGroup value="a">
           <DropdownMenuRadioItem value="a">A</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>,
       );
       const item = screen.getByRole("menuitemradio");
-      expect(item).toHaveClass("rounded-xs");
-      expect(item).not.toHaveClass("rounded-sm");
+      expect(item).toHaveClass("rounded-md");
+      expect(item).not.toHaveClass("rounded-xs");
+    });
+
+    it("gives a checkbox item the same 16px row radius", () => {
+      renderMenu(<DropdownMenuCheckboxItem>A</DropdownMenuCheckboxItem>);
+      const item = screen.getByRole("menuitemcheckbox");
+      expect(item).toHaveClass("rounded-md");
+      expect(item).not.toHaveClass("rounded-xs");
     });
 
     it("indents a radio item the same as any other row", () => {
