@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.40.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.40.0...ui-v3.40.1) (2026-10-07)
+
+
+### Bug Fixes
+
+* **DropdownMenu:** restore the v2 panel and make rows and search concentric with it ([#734](https://github.com/fanvue/fanv-ui/issues/734)) ([18bff94](https://github.com/fanvue/fanv-ui/commit/18bff94b2cb36b03ad195cf9bbf93ef8e88548a9))
+
 ## [3.40.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.39.0...ui-v3.40.0) (2026-10-06)
 
 
