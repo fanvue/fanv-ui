@@ -111,6 +111,7 @@ import { CloseIcon } from "../components/Icons/CloseIcon";
 import { CodeIcon } from "../components/Icons/CodeIcon";
 import { CogIcon } from "../components/Icons/CogIcon";
 import { CoinIcon } from "../components/Icons/CoinIcon";
+import { CommentIcon } from "../components/Icons/CommentIcon";
 import { CompassIcon } from "../components/Icons/CompassIcon";
 import { CopyIcon } from "../components/Icons/CopyIcon";
 import { CrossCircleIcon } from "../components/Icons/CrossCircleIcon";
@@ -552,6 +553,13 @@ const icons: IconEntry[] = [
     component: CoinIcon,
     animated: AnimatedCoinIcon,
     tags: ["coin", "money", "currency", "star"],
+    propBased: true,
+  },
+  {
+    name: "CommentIcon",
+    component: CommentIcon,
+    animated: null,
+    tags: ["comment", "reply", "speech bubble", "conversation", "discussion"],
     propBased: true,
   },
   {

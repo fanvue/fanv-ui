@@ -6,6 +6,7 @@
   "CardIcon": ["card", "credit", "payment", "wallet"],
   "CheckBoxOffIcon": ["checkbox", "unchecked", "empty", "square", "off"],
   "CheckBoxOnIcon": ["checkbox", "checked", "ticked", "on"],
+  "CommentIcon": ["comment", "reply", "speech bubble", "conversation", "discussion"],
   "EyeOffIcon": ["eye", "off", "hidden", "invisible", "hide"],
   "GameIcon": ["game", "controller", "play", "joystick"],
   "HealthIcon": ["health", "medical", "heart", "pulse"],

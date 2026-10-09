@@ -385,6 +385,8 @@ export type { CogIconProps } from "./components/Icons/CogIcon";
 export { CogIcon } from "./components/Icons/CogIcon";
 export type { CoinIconProps } from "./components/Icons/CoinIcon";
 export { CoinIcon } from "./components/Icons/CoinIcon";
+export type { CommentIconProps } from "./components/Icons/CommentIcon";
+export { CommentIcon } from "./components/Icons/CommentIcon";
 export type { CompassIconProps } from "./components/Icons/CompassIcon";
 export { CompassIcon } from "./components/Icons/CompassIcon";
 export type { CopyIconProps } from "./components/Icons/CopyIcon";
