@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.41.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.40.1...ui-v3.41.0) (2026-10-09)
+
+
+### Features
+
+* **icons:** add CommentIcon from Figma ([#738](https://github.com/fanvue/fanv-ui/issues/738)) ([5facbf8](https://github.com/fanvue/fanv-ui/commit/5facbf8b0c44ea0b7797f78d0fe031975f19aec9))
+
+
+### Bug Fixes
+
+* **Checkbox:** draw the hover ring inset so overflow containers can't clip it (ENG-15599) ([#735](https://github.com/fanvue/fanv-ui/issues/735)) ([9e68d9e](https://github.com/fanvue/fanv-ui/commit/9e68d9ec3c23bd62acb91f9fd8bd7e29a25e7e14))
+
 ## [3.40.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.40.0...ui-v3.40.1) (2026-10-07)
 
 
