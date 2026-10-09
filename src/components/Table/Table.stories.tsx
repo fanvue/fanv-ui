@@ -269,16 +269,18 @@ export const Sortable: Story = {
       const [direction, setDirection] = React.useState<Direction>("asc");
       const next: Record<NonNullable<Direction>, Direction> = { asc: "desc", desc: null };
       const cycle = () => setDirection((d) => (d == null ? "asc" : next[d]));
+      const ariaSort =
+        direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none";
       return (
         <TableCard className="max-w-2xl">
           <TableScrollArea>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>
-                    <button type="button" onClick={cycle} className="cursor-pointer">
-                      <TableSortLabel direction={direction}>Title</TableSortLabel>
-                    </button>
+                  <TableHead aria-sort={ariaSort}>
+                    <TableSortLabel direction={direction} onClick={cycle}>
+                      Title
+                    </TableSortLabel>
                   </TableHead>
                   <TableHead>Owner</TableHead>
                   <TableHead>Status</TableHead>
