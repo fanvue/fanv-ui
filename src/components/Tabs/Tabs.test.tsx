@@ -400,6 +400,108 @@ describe("Tabs", () => {
     });
   });
 
+  describe("pill appearance", () => {
+    function renderPill(defaultValue = "tab1") {
+      return render(
+        <Tabs defaultValue={defaultValue}>
+          <TabsList appearance="pill" aria-label="Categories">
+            <TabsTrigger value="tab1">All</TabsTrigger>
+            <TabsTrigger value="tab2">Promotions</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>,
+      );
+    }
+
+    it("hugs its tabs inside a rounded track without the underline border", () => {
+      renderPill();
+      const tablist = screen.getByRole("tablist");
+      expect(tablist).toHaveClass(
+        "inline-flex",
+        "w-fit",
+        "rounded-full",
+        "bg-background-secondary",
+      );
+      expect(tablist).not.toHaveClass("w-full");
+      expect(tablist.className).not.toContain("shadow-[inset_0_-1px_0_0");
+    });
+
+    it("ignores the underline layout props", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList appearance="pill" variant="fill" alignLeft>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      const tablist = screen.getByRole("tablist");
+      expect(tablist).not.toHaveClass("w-full");
+      expect(tablist).toHaveClass("w-fit");
+    });
+
+    it("styles its triggers as pills with inverted text on the active one", () => {
+      renderPill();
+      const active = screen.getByRole("tab", { name: "All" });
+      const inactive = screen.getByRole("tab", { name: "Promotions" });
+      expect(active).toHaveClass(
+        "rounded-full",
+        "data-[state=active]:text-content-primary-inverted",
+      );
+      expect(inactive).toHaveAttribute("data-state", "inactive");
+    });
+
+    it("lays an icon beside its label in a pill tab", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList appearance="pill">
+            <TabsTrigger value="t">
+              <svg data-testid="icon" />
+              All
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByTestId("icon").parentElement).toHaveClass("flex", "items-center", "gap-2");
+    });
+
+    it("fills the active tab's box with the indicator", () => {
+      Object.defineProperties(HTMLElement.prototype, {
+        offsetLeft: { configurable: true, get: () => 92 },
+        offsetTop: { configurable: true, get: () => 4 },
+        offsetWidth: { configurable: true, get: () => 120 },
+        offsetHeight: { configurable: true, get: () => 32 },
+      });
+      try {
+        const { container } = renderPill("tab2");
+        const indicator = container.querySelector<HTMLElement>(
+          '[role="tablist"] > span:not([role])',
+        );
+        expect(indicator?.style.width).toBe("120px");
+        expect(indicator?.style.height).toBe("32px");
+        expect(indicator?.style.transform).toBe("translate(92px, 4px)");
+        expect(indicator?.style.background).toBe("var(--color-content-primary)");
+      } finally {
+        for (const key of ["offsetLeft", "offsetTop", "offsetWidth", "offsetHeight"]) {
+          Reflect.deleteProperty(HTMLElement.prototype, key);
+        }
+      }
+    });
+
+    it("moves selection with the arrow keys", async () => {
+      const user = userEvent.setup();
+      renderPill();
+      screen.getByRole("tab", { name: "All" }).focus();
+      await user.keyboard("{ArrowRight}");
+      expect(screen.getByRole("tab", { name: "Promotions" })).toHaveFocus();
+    });
+
+    it("has no accessibility violations", async () => {
+      const { container } = renderPill();
+      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = renderTabs();

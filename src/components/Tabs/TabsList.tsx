@@ -5,6 +5,11 @@ import { cn } from "../../utils/cn";
 /** Breakpoint values for responsive props. */
 type Breakpoint = "sm" | "md" | "lg" | "xl";
 
+/** Visual style of a {@link TabsList}. */
+export type TabsListAppearance = "underline" | "pill";
+
+export const TabsAppearanceContext = React.createContext<TabsListAppearance>("underline");
+
 const alignLeftClasses: Record<Breakpoint | "always", string> = {
   always: "[&>[role=tab]]:flex-initial",
   sm: "[&>[role=tab]]:sm:flex-initial",
@@ -64,6 +69,14 @@ export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.
    * @default false
    */
   scrollable?: boolean;
+  /**
+   * `"underline"` marks the active tab with a line under the row. `"pill"` sits
+   * the tabs in a rounded track, sized to its tabs, and slides a filled pill
+   * behind the active one. A pill list is horizontal and ignores `fullWidth`,
+   * `alignLeft`, `variant` and `flushLeft`; it scrolls when it doesn't fit.
+   * @default "underline"
+   */
+  appearance?: TabsListAppearance;
 };
 
 /** Container for {@link TabsTrigger} elements. Renders a sliding active-tab indicator that animates between tabs. */
@@ -80,6 +93,7 @@ export const TabsList = React.forwardRef<
       variant,
       flushLeft = false,
       scrollable = false,
+      appearance = "underline",
       ...props
     },
     ref,
@@ -104,7 +118,13 @@ export const TabsList = React.forwardRef<
 
       indicator.style.opacity = "1";
 
-      if (isVertical) {
+      if (appearance === "pill") {
+        indicator.style.background = "var(--color-content-primary)";
+        indicator.style.inset = "0 auto auto 0";
+        indicator.style.width = `${activeTab.offsetWidth}px`;
+        indicator.style.height = `${activeTab.offsetHeight}px`;
+        indicator.style.transform = `translate(${activeTab.offsetLeft}px, ${activeTab.offsetTop}px)`;
+      } else if (isVertical) {
         indicator.style.background =
           "linear-gradient(180deg, var(--color-buttons-tertiary-default) 0%, var(--color-tab-active) 50%, var(--color-buttons-tertiary-default) 100%)";
         indicator.style.inset = `0 -1px auto auto`;
@@ -119,7 +139,7 @@ export const TabsList = React.forwardRef<
         indicator.style.width = `${activeTab.offsetWidth}px`;
         indicator.style.transform = `translateX(${activeTab.offsetLeft}px)`;
       }
-    }, []);
+    }, [appearance]);
 
     // Radix scrolls a tab into view when it takes focus, and mount is not focus, so
     // URL-driven state can land on a tab that is off to the right with nothing on
@@ -130,12 +150,13 @@ export const TabsList = React.forwardRef<
     // yanking the row back from wherever the user has since dragged it.
     const revealActiveTab = React.useCallback(() => {
       const list = innerRef.current;
-      if (!list || !scrollable || list.dataset.orientation === "vertical") return;
+      const scrolls = scrollable || appearance === "pill";
+      if (!list || !scrolls || list.dataset.orientation === "vertical") return;
       const activeTab = list.querySelector<HTMLElement>('[data-state="active"]');
       if (!activeTab) return;
       const overshoot = activeTab.offsetLeft + activeTab.offsetWidth - list.clientWidth;
       if (overshoot > list.scrollLeft) list.scrollLeft = overshoot;
-    }, [scrollable]);
+    }, [scrollable, appearance]);
 
     React.useLayoutEffect(() => {
       const list = innerRef.current;
@@ -177,39 +198,50 @@ export const TabsList = React.forwardRef<
       };
     }, [updateIndicator, revealActiveTab]);
 
+    const isPill = appearance === "pill";
+
     return (
-      <TabsPrimitive.List
-        ref={innerRef}
-        className={cn(
-          // `isolate` scopes the active indicator's `z-10` to a local stacking
-          // context. Without it, `relative` alone creates no stacking context, so
-          // the indicator escapes and paints above page chrome (e.g. the header).
-          "relative isolate",
-          getLayoutClass(variant, fullWidth, alignLeft),
-          // Horizontal only: in the vertical orientation the leading padding is
-          // the row's left inset, not a label offset, so zeroing it would pull
-          // the first label out of line with the others.
-          flushLeft && "data-[orientation=horizontal]:[&>[role=tab]:first-child]:pl-0",
-          // `flex-none` is what stops the tabs compressing — without it they
-          // share the row and never overflow, so there is nothing to scroll.
-          // The scrollbar is hidden in both engines: Firefox reads
-          // `scrollbar-width`, WebKit and Blink the pseudo-element.
-          scrollable &&
-            "data-[orientation=horizontal]:overflow-x-auto data-[orientation=horizontal]:[scrollbar-width:none] data-[orientation=horizontal]:[&::-webkit-scrollbar]:hidden data-[orientation=horizontal]:[&>[role=tab]]:flex-none",
-          "data-[orientation=horizontal]:items-center data-[orientation=horizontal]:shadow-[inset_0_-1px_0_0_var(--color-border-primary)]",
-          "data-[orientation=vertical]:flex-col data-[orientation=vertical]:shadow-[inset_-1px_0_0_0_var(--color-border-primary)]",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-        <span
-          ref={indicatorRef}
-          aria-hidden
-          className="pointer-events-none absolute z-10 rounded-full motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out"
-          style={{ opacity: 0 }}
-        />
-      </TabsPrimitive.List>
+      <TabsAppearanceContext.Provider value={appearance}>
+        <TabsPrimitive.List
+          ref={innerRef}
+          className={cn(
+            // `isolate` scopes the active indicator's `z-10` to a local stacking
+            // context. Without it, `relative` alone creates no stacking context, so
+            // the indicator escapes and paints above page chrome (e.g. the header).
+            "relative isolate",
+            isPill
+              ? "inline-flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full bg-background-secondary p-1 shadow-md [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              : [
+                  getLayoutClass(variant, fullWidth, alignLeft),
+                  // Horizontal only: in the vertical orientation the leading padding is
+                  // the row's left inset, not a label offset, so zeroing it would pull
+                  // the first label out of line with the others.
+                  flushLeft && "data-[orientation=horizontal]:[&>[role=tab]:first-child]:pl-0",
+                  // `flex-none` is what stops the tabs compressing — without it they
+                  // share the row and never overflow, so there is nothing to scroll.
+                  // The scrollbar is hidden in both engines: Firefox reads
+                  // `scrollbar-width`, WebKit and Blink the pseudo-element.
+                  scrollable &&
+                    "data-[orientation=horizontal]:overflow-x-auto data-[orientation=horizontal]:[scrollbar-width:none] data-[orientation=horizontal]:[&::-webkit-scrollbar]:hidden data-[orientation=horizontal]:[&>[role=tab]]:flex-none",
+                  "data-[orientation=horizontal]:items-center data-[orientation=horizontal]:shadow-[inset_0_-1px_0_0_var(--color-border-primary)]",
+                  "data-[orientation=vertical]:flex-col data-[orientation=vertical]:shadow-[inset_-1px_0_0_0_var(--color-border-primary)]",
+                ],
+            className,
+          )}
+          {...props}
+        >
+          {children}
+          <span
+            ref={indicatorRef}
+            aria-hidden
+            className={cn(
+              "pointer-events-none absolute rounded-full motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out",
+              isPill ? "z-0" : "z-10",
+            )}
+            style={{ opacity: 0 }}
+          />
+        </TabsPrimitive.List>
+      </TabsAppearanceContext.Provider>
     );
   },
 );

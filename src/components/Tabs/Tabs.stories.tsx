@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { BellIcon } from "../Icons/BellIcon";
+import { DiscountIcon } from "../Icons/DiscountIcon";
 import { Tabs } from "./Tabs";
 import { TabsContent } from "./TabsContent";
 import { TabsList } from "./TabsList";
@@ -385,5 +387,40 @@ export const AsLinks: Story = {
         </TabsTrigger>
       </TabsList>
     </Tabs>
+  ),
+};
+
+export const Pill: Story = {
+  render: () => (
+    <Tabs defaultValue="all">
+      <TabsList appearance="pill" aria-label="Notification categories">
+        <TabsTrigger value="all">
+          <BellIcon size={16} />
+          All
+        </TabsTrigger>
+        <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
+        <TabsTrigger value="tips">Tips</TabsTrigger>
+        <TabsTrigger value="purchases">Purchases</TabsTrigger>
+      </TabsList>
+    </Tabs>
+  ),
+};
+
+export const PillFewTabs: Story = {
+  render: () => (
+    <div className="w-full max-w-2xl">
+      <Tabs defaultValue="all">
+        <TabsList appearance="pill" aria-label="Notification categories">
+          <TabsTrigger value="all">
+            <BellIcon size={16} />
+            All
+          </TabsTrigger>
+          <TabsTrigger value="promotions">
+            <DiscountIcon size={16} />
+            Promotions
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </div>
   ),
 };
