@@ -1,5 +1,7 @@
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import type * as React from "react";
+import * as React from "react";
+
+export const OVERFLOW_TAB_VALUE = "fanvue-ui-tabs-overflow";
 
 /** Props for the {@link Tabs} root component. Extends Radix `Tabs.Root` props. */
 export type TabsProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>;
@@ -22,4 +24,16 @@ export type TabsProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root
  * </Tabs>
  * ```
  */
-export const Tabs = TabsPrimitive.Root;
+export const Tabs = React.forwardRef<React.ComponentRef<typeof TabsPrimitive.Root>, TabsProps>(
+  ({ onValueChange, ...props }, ref) => (
+    <TabsPrimitive.Root
+      ref={ref}
+      onValueChange={(next) => {
+        if (next !== OVERFLOW_TAB_VALUE) onValueChange?.(next);
+      }}
+      {...props}
+    />
+  ),
+);
+
+Tabs.displayName = "Tabs";

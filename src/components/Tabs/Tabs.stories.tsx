@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import * as React from "react";
+import { expect, screen, userEvent, waitFor, within } from "storybook/test";
 import { BellIcon } from "../Icons/BellIcon";
 import { DiscountIcon } from "../Icons/DiscountIcon";
 import { Tabs } from "./Tabs";
 import { TabsContent } from "./TabsContent";
 import { TabsList } from "./TabsList";
+import { TabsOverflow, TabsOverflowItem } from "./TabsOverflow";
 import { TabsTrigger } from "./TabsTrigger";
 
 const meta = {
@@ -423,4 +426,45 @@ export const PillFewTabs: Story = {
       </Tabs>
     </div>
   ),
+};
+
+function PillWithOverflowDemo() {
+  const [tab, setTab] = React.useState("all");
+  return (
+    <Tabs value={tab} onValueChange={setTab} activationMode="manual">
+      <TabsList appearance="pill" aria-label="Notification categories">
+        <TabsTrigger value="all">
+          <BellIcon size={16} />
+          All
+        </TabsTrigger>
+        <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
+        <TabsTrigger value="tips">Tips</TabsTrigger>
+        <TabsOverflow label="More" value={tab} onValueChange={setTab}>
+          <TabsOverflowItem value="purchases">Purchases</TabsOverflowItem>
+          <TabsOverflowItem value="followers">Followers</TabsOverflowItem>
+          <TabsOverflowItem value="promotions">Promotions</TabsOverflowItem>
+        </TabsOverflow>
+      </TabsList>
+    </Tabs>
+  );
+}
+
+export const PillWithOverflow: Story = {
+  render: () => <PillWithOverflowDemo />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("tab", { name: "Tips" }));
+    await userEvent.keyboard("{ArrowRight}");
+    const more = canvas.getByRole("tab", { name: "More" });
+    await expect(more).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await expect(await screen.findByRole("menu")).toBeVisible();
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(screen.queryByRole("menu")).toBeNull());
+    await expect(more).toHaveFocus();
+    await expect(canvas.getByRole("tab", { name: "Tips" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+  },
 };

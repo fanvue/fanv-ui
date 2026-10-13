@@ -879,6 +879,8 @@ export type {
   TabsListProps,
 } from "./components/Tabs/TabsList";
 export { TabsList } from "./components/Tabs/TabsList";
+export type { TabsOverflowItemProps, TabsOverflowProps } from "./components/Tabs/TabsOverflow";
+export { TabsOverflow, TabsOverflowItem } from "./components/Tabs/TabsOverflow";
 export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
 export type {
