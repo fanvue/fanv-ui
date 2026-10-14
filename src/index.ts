@@ -873,8 +873,14 @@ export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";
 export { TabsContent } from "./components/Tabs/TabsContent";
-export type { TabsListProps } from "./components/Tabs/TabsList";
+export type {
+  TabsListAppearance,
+  TabsListPillSize,
+  TabsListProps,
+} from "./components/Tabs/TabsList";
 export { TabsList } from "./components/Tabs/TabsList";
+export type { TabsOverflowItemProps, TabsOverflowProps } from "./components/Tabs/TabsOverflow";
+export { TabsOverflow, TabsOverflowItem } from "./components/Tabs/TabsOverflow";
 export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
 export type {
