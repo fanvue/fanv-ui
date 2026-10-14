@@ -86,6 +86,55 @@ describe("TabsOverflow", () => {
       expect(onValueChange).not.toHaveBeenCalled();
     });
 
+    it("stays closed when a consumer prevents the key", async () => {
+      const user = userEvent.setup();
+      render(
+        <Tabs value="a" onValueChange={() => {}} activationMode="manual">
+          <TabsList>
+            <TabsTrigger value="a">A</TabsTrigger>
+            <TabsOverflow
+              label="More"
+              value="a"
+              onValueChange={() => {}}
+              onKeyDown={(event) => event.preventDefault()}
+            >
+              <TabsOverflowItem value="b">B</TabsOverflowItem>
+            </TabsOverflow>
+          </TabsList>
+        </Tabs>,
+      );
+      screen.getByRole("tab", { name: "More" }).focus();
+      await user.keyboard("{Enter}");
+      expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    });
+
+    it("does not focus More after a second click closes its menu", async () => {
+      const user = userEvent.setup({ pointerEventsCheck: 0 });
+      const onPointerDown = vi.fn();
+      render(
+        <Tabs value="a" onValueChange={() => {}}>
+          <TabsList>
+            <TabsTrigger value="a">A</TabsTrigger>
+            <TabsOverflow
+              label="More"
+              value="a"
+              onValueChange={() => {}}
+              onPointerDown={onPointerDown}
+            >
+              <TabsOverflowItem value="b">B</TabsOverflowItem>
+            </TabsOverflow>
+          </TabsList>
+        </Tabs>,
+      );
+      const more = screen.getByRole("tab", { name: "More" });
+      await user.click(more);
+      await screen.findByRole("menu");
+      await user.click(more);
+      await waitFor(() => expect(screen.queryByRole("menu")).not.toBeInTheDocument());
+      expect(onPointerDown).toHaveBeenCalled();
+      expect(more).not.toHaveFocus();
+    });
+
     it("does not select anything when automatic activation focuses it", async () => {
       const user = userEvent.setup();
       const onValueChange = vi.fn();

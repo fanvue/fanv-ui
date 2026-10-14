@@ -109,12 +109,9 @@ export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProp
             onMouseDown?.(event);
             event.preventDefault();
           }}
-          onPointerDown={(event) => {
-            props.onPointerDown?.(event);
-            lastInput.current = "pointer";
-          }}
           onKeyDown={(event) => {
             onKeyDown?.(event);
+            if (event.defaultPrevented) return;
             if (OPEN_KEYS.has(event.key)) {
               lastInput.current = "keyboard";
               event.preventDefault();
