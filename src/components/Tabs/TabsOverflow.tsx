@@ -1,15 +1,11 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { DropdownMenuItem, type DropdownMenuItemProps } from "../DropdownMenu/DropdownMenuItem";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../DropdownMenu/DropdownMenuRoot";
-import {
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  type DropdownMenuRadioItemProps,
-} from "../DropdownMenu/DropdownMenuSelectionItems";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { OVERFLOW_TAB_VALUE } from "./Tabs";
 import { TabsTrigger, type TabsTriggerProps } from "./TabsTrigger";
@@ -29,12 +25,36 @@ export interface TabsOverflowProps
   children?: React.ReactNode;
 }
 
-/** Props for the {@link TabsOverflowItem} component. */
-export type TabsOverflowItemProps = DropdownMenuRadioItemProps;
+const OverflowSelectionContext = React.createContext<{
+  value: string | undefined;
+  select: (value: string) => void;
+}>({ value: undefined, select: () => {} });
 
-/** A tab listed in a {@link TabsOverflow} menu. */
+/** Props for the {@link TabsOverflowItem} component. */
+export type TabsOverflowItemProps = Omit<DropdownMenuItemProps, "selected" | "onSelect"> & {
+  /** The tab's value, as on a {@link TabsTrigger}. */
+  value: string;
+};
+
+/**
+ * A tab listed in a {@link TabsOverflow} menu. The active one takes the menu's
+ * selected style and is announced as the checked option.
+ */
 export const TabsOverflowItem = React.forwardRef<HTMLDivElement, TabsOverflowItemProps>(
-  (props, ref) => <DropdownMenuRadioItem ref={ref} {...props} />,
+  ({ value, ...props }, ref) => {
+    const selection = React.useContext(OverflowSelectionContext);
+    const isActive = selection.value === value;
+    return (
+      <DropdownMenuItem
+        ref={ref}
+        role="menuitemradio"
+        aria-checked={isActive}
+        selected={isActive}
+        onSelect={() => selection.select(value)}
+        {...props}
+      />
+    );
+  },
 );
 
 TabsOverflowItem.displayName = "TabsOverflowItem";
@@ -63,6 +83,36 @@ TabsOverflowItem.displayName = "TabsOverflowItem";
 export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProps>(
   ({ label, value, onValueChange, children, className, onKeyDown, onMouseDown, ...props }, ref) => {
     const [open, setOpen] = React.useState(false);
+    const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+    const contentRef = React.useRef<HTMLSpanElement>(null);
+    const setButtonRef = (node: HTMLButtonElement | null) => {
+      buttonRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    };
+
+    React.useLayoutEffect(() => {
+      const button = buttonRef.current;
+      const content = contentRef.current;
+      if (!button || !content) return;
+      let placed = false;
+      const fitWidth = () => {
+        const style = getComputedStyle(button);
+        const padding =
+          Number.parseFloat(style.paddingLeft) + Number.parseFloat(style.paddingRight);
+        if (!placed) button.style.transitionDuration = "0s";
+        button.style.width = `${content.offsetWidth + padding}px`;
+        if (!placed) {
+          button.getBoundingClientRect();
+          button.style.transitionDuration = "";
+          placed = true;
+        }
+      };
+      fitWidth();
+      const observer = new ResizeObserver(fitWidth);
+      observer.observe(content);
+      return () => observer.disconnect();
+    });
     const items = React.Children.toArray(children).filter(
       (child): child is React.ReactElement<TabsOverflowItemProps> => React.isValidElement(child),
     );
@@ -77,11 +127,14 @@ export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProp
     return (
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <TabsTrigger
-          ref={ref}
+          ref={setButtonRef}
           asChild
           value={activeItem ? activeItem.props.value : OVERFLOW_TAB_VALUE}
           {...(!activeItem && { "aria-controls": undefined })}
-          className={className}
+          className={cn(
+            "overflow-hidden motion-safe:transition-[width,color] motion-safe:duration-200",
+            className,
+          )}
           onMouseDown={(event) => {
             onMouseDown?.(event);
             event.preventDefault();
@@ -96,7 +149,7 @@ export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProp
           {...props}
         >
           <DropdownMenuTrigger>
-            <span className="flex items-center gap-2">
+            <span ref={contentRef} className="flex shrink-0 items-center gap-2 whitespace-nowrap">
               {activeItem ? activeItem.props.children : label}
               <ChevronDownIcon
                 size={16}
@@ -106,9 +159,9 @@ export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProp
           </DropdownMenuTrigger>
         </TabsTrigger>
         <DropdownMenuContent align="end" aria-label={typeof label === "string" ? label : undefined}>
-          <DropdownMenuRadioGroup value={value} onValueChange={onValueChange}>
+          <OverflowSelectionContext.Provider value={{ value, select: onValueChange }}>
             {children}
-          </DropdownMenuRadioGroup>
+          </OverflowSelectionContext.Provider>
         </DropdownMenuContent>
       </DropdownMenu>
     );

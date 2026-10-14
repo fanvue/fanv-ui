@@ -124,6 +124,7 @@ export const TabsList = React.forwardRef<
     React.useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
 
     const tabBoxes = React.useRef(new Map<Element, TabBox>());
+    const resizeObserverRef = React.useRef<ResizeObserver | null>(null);
     const hoveredTab = React.useRef<HTMLElement | null>(null);
 
     const placePill = React.useCallback((tab: HTMLElement) => {
@@ -162,6 +163,7 @@ export const TabsList = React.forwardRef<
         indicator.style.inset = "0 auto auto 0";
         tabBoxes.current.clear();
         for (const tab of list.querySelectorAll<HTMLElement>('[role="tab"]')) {
+          resizeObserverRef.current?.observe(tab);
           tabBoxes.current.set(tab, {
             left: tab.offsetLeft,
             top: tab.offsetTop,
@@ -230,6 +232,10 @@ export const TabsList = React.forwardRef<
       const indicator = indicatorRef.current;
       if (!list || !indicator) return;
 
+      const resizeObserver = new ResizeObserver(updateIndicator);
+      resizeObserver.observe(list);
+      resizeObserverRef.current = resizeObserver;
+
       indicator.style.transitionDuration = "0s";
       updateIndicator();
       indicator.getBoundingClientRect();
@@ -243,9 +249,6 @@ export const TabsList = React.forwardRef<
         childList: true,
         subtree: true,
       });
-
-      const resizeObserver = new ResizeObserver(updateIndicator);
-      resizeObserver.observe(list);
 
       let cancelled = false;
       if (document.fonts?.status !== "loaded") {
@@ -262,6 +265,7 @@ export const TabsList = React.forwardRef<
         cancelled = true;
         mutationObserver.disconnect();
         resizeObserver.disconnect();
+        resizeObserverRef.current = null;
       };
     }, [updateIndicator, revealActiveTab]);
 
