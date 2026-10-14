@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -495,6 +495,92 @@ describe("Tabs", () => {
         </Tabs>,
       );
       expect(screen.getByRole("tab")).toHaveClass("h-9");
+    });
+
+    describe("when a tab resizes", () => {
+      type Box = { left: number; width: number };
+      function withLayout(boxes: Map<string, Box>, listWidth: { value: number }) {
+        const read = (el: HTMLElement, key: keyof Box) =>
+          el.getAttribute("role") === "tablist"
+            ? key === "width"
+              ? listWidth.value
+              : 0
+            : (boxes.get(el.textContent ?? "")?.[key] ?? 0);
+        Object.defineProperties(HTMLElement.prototype, {
+          offsetLeft: {
+            configurable: true,
+            get(this: HTMLElement) {
+              return read(this, "left");
+            },
+          },
+          offsetWidth: {
+            configurable: true,
+            get(this: HTMLElement) {
+              return read(this, "width");
+            },
+          },
+          offsetTop: { configurable: true, get: () => 0 },
+          offsetHeight: { configurable: true, get: () => 32 },
+        });
+        return () => {
+          for (const key of ["offsetLeft", "offsetWidth", "offsetTop", "offsetHeight"]) {
+            Reflect.deleteProperty(HTMLElement.prototype, key);
+          }
+        };
+      }
+
+      function Row({ value }: { value: string }) {
+        return (
+          <Tabs value={value}>
+            <TabsList appearance="pill">
+              <TabsTrigger value="a">A</TabsTrigger>
+              <TabsTrigger value="b">B</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        );
+      }
+
+      it("slides the tabs that moved from where they were, in step with the pill", async () => {
+        const boxes = new Map([
+          ["A", { left: 0, width: 60 }],
+          ["B", { left: 64, width: 60 }],
+        ]);
+        const listWidth = { value: 300 };
+        const restore = withLayout(boxes, listWidth);
+        try {
+          const { rerender } = render(<Row value="a" />);
+          boxes.set("A", { left: 0, width: 100 });
+          boxes.set("B", { left: 104, width: 60 });
+          rerender(<Row value="b" />);
+          const moved = screen.getByRole("tab", { name: "B" });
+          await waitFor(() => expect(moved.style.transition).toContain("transform"));
+          expect(moved.style.transform).toBe("");
+        } finally {
+          restore();
+        }
+      });
+
+      it("leaves the tabs alone when the row itself resizes", async () => {
+        const boxes = new Map([
+          ["A", { left: 0, width: 60 }],
+          ["B", { left: 64, width: 60 }],
+        ]);
+        const listWidth = { value: 300 };
+        const restore = withLayout(boxes, listWidth);
+        try {
+          const { rerender } = render(<Row value="a" />);
+          listWidth.value = 500;
+          boxes.set("B", { left: 120, width: 60 });
+          rerender(<Row value="b" />);
+          await waitFor(() =>
+            expect(screen.getByRole("tab", { name: "B" })).toHaveAttribute("data-state", "active"),
+          );
+          await new Promise((resolve) => setTimeout(resolve, 0));
+          expect(screen.getByRole("tab", { name: "B" }).style.transition).toBe("");
+        } finally {
+          restore();
+        }
+      });
     });
 
     describe("followHover", () => {

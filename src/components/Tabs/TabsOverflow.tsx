@@ -83,52 +83,8 @@ TabsOverflowItem.displayName = "TabsOverflowItem";
 export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProps>(
   ({ label, value, onValueChange, children, className, onKeyDown, onMouseDown, ...props }, ref) => {
     const [open, setOpen] = React.useState(false);
-    const buttonRef = React.useRef<HTMLButtonElement | null>(null);
-    const contentRef = React.useRef<HTMLSpanElement | null>(null);
-    const setButtonRef = (node: HTMLButtonElement | null) => {
-      buttonRef.current = node;
-      if (typeof ref === "function") ref(node);
-      else if (ref) ref.current = node;
-    };
 
-    const placedRef = React.useRef(false);
-    const fitWidth = React.useCallback(() => {
-      const button = buttonRef.current;
-      const content = contentRef.current;
-      if (!button || !content) {
-        placedRef.current = false;
-        return;
-      }
-      const style = getComputedStyle(button);
-      const padding = Number.parseFloat(style.paddingLeft) + Number.parseFloat(style.paddingRight);
-      const width = `${content.offsetWidth + padding}px`;
-      if (button.style.width === width) return;
-      if (placedRef.current) {
-        button.style.width = width;
-        return;
-      }
-      button.style.transitionDuration = "0s";
-      button.style.width = width;
-      button.getBoundingClientRect();
-      button.style.transitionDuration = "";
-      placedRef.current = true;
-    }, []);
-
-    React.useLayoutEffect(fitWidth);
-
-    const resizeObserverRef = React.useRef<ResizeObserver | null>(null);
-    const setContentRef = React.useCallback(
-      (node: HTMLSpanElement | null) => {
-        resizeObserverRef.current?.disconnect();
-        resizeObserverRef.current = null;
-        contentRef.current = node;
-        if (!node) return;
-        const observer = new ResizeObserver(fitWidth);
-        observer.observe(node);
-        resizeObserverRef.current = observer;
-      },
-      [fitWidth],
-    );
+    const lastInput = React.useRef<"pointer" | "keyboard">("keyboard");
 
     const items = React.Children.toArray(children).filter(
       (child): child is React.ReactElement<TabsOverflowItemProps> => React.isValidElement(child),
@@ -144,21 +100,23 @@ export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProp
     return (
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <TabsTrigger
-          ref={setButtonRef}
+          ref={ref}
           asChild
           value={activeItem ? activeItem.props.value : OVERFLOW_TAB_VALUE}
           {...(!activeItem && { "aria-controls": undefined })}
-          className={cn(
-            "overflow-hidden motion-safe:transition-[width,color] motion-safe:duration-200",
-            className,
-          )}
+          className={className}
           onMouseDown={(event) => {
             onMouseDown?.(event);
             event.preventDefault();
           }}
+          onPointerDown={(event) => {
+            props.onPointerDown?.(event);
+            lastInput.current = "pointer";
+          }}
           onKeyDown={(event) => {
             onKeyDown?.(event);
             if (OPEN_KEYS.has(event.key)) {
+              lastInput.current = "keyboard";
               event.preventDefault();
               setOpen(true);
             }
@@ -166,10 +124,7 @@ export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProp
           {...props}
         >
           <DropdownMenuTrigger>
-            <span
-              ref={setContentRef}
-              className="flex shrink-0 items-center gap-2 whitespace-nowrap"
-            >
+            <span className="flex items-center gap-2">
               {activeItem ? activeItem.props.children : label}
               <ChevronDownIcon
                 size={16}
@@ -178,7 +133,22 @@ export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProp
             </span>
           </DropdownMenuTrigger>
         </TabsTrigger>
-        <DropdownMenuContent align="end" aria-label={typeof label === "string" ? label : undefined}>
+        <DropdownMenuContent
+          align="end"
+          aria-label={typeof label === "string" ? label : undefined}
+          onPointerDownCapture={() => {
+            lastInput.current = "pointer";
+          }}
+          onKeyDownCapture={() => {
+            lastInput.current = "keyboard";
+          }}
+          onPointerDownOutside={() => {
+            lastInput.current = "pointer";
+          }}
+          onCloseAutoFocus={(event) => {
+            if (lastInput.current === "pointer") event.preventDefault();
+          }}
+        >
           <OverflowSelectionContext.Provider value={{ value, select: onValueChange }}>
             {children}
           </OverflowSelectionContext.Provider>

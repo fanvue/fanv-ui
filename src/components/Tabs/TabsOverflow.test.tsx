@@ -116,6 +116,27 @@ describe("TabsOverflow", () => {
       );
     });
 
+    it("leaves focus off the tab after a pointer pick, so no focus ring shows", async () => {
+      const user = userEvent.setup();
+      render(<OverflowTabs />);
+      await user.click(screen.getByRole("tab", { name: "More" }));
+      await user.click(await screen.findByRole("menuitemradio", { name: "Purchases" }));
+      await waitFor(() => expect(screen.queryByRole("menu")).not.toBeInTheDocument());
+      expect(screen.getByRole("tab", { name: "More" })).not.toHaveFocus();
+    });
+
+    it("returns focus to the tab after a keyboard pick", async () => {
+      const user = userEvent.setup();
+      render(<OverflowTabs activationMode="manual" />);
+      const more = screen.getByRole("tab", { name: "More" });
+      more.focus();
+      await user.keyboard("{Enter}");
+      await screen.findByRole("menu");
+      await user.keyboard("{ArrowDown}{Enter}");
+      await waitFor(() => expect(screen.queryByRole("menu")).not.toBeInTheDocument());
+      expect(more).toHaveFocus();
+    });
+
     it("returns focus to the tab when Escape closes the menu", async () => {
       const user = userEvent.setup();
       render(<OverflowTabs activationMode="manual" />);
@@ -126,23 +147,6 @@ describe("TabsOverflow", () => {
       await user.keyboard("{Escape}");
       await waitFor(() => expect(screen.queryByRole("menu")).not.toBeInTheDocument());
       expect(more).toHaveFocus();
-    });
-
-    it("animates to a new label's width instead of snapping", () => {
-      const { rerender } = render(<OverflowTabs value="all" />);
-      const more = screen.getByRole("tab", { name: "More" });
-      const writes: string[] = [];
-      const observer = new MutationObserver(() => {});
-      observer.observe(more, {
-        attributes: true,
-        attributeFilter: ["style"],
-        attributeOldValue: true,
-      });
-      rerender(<OverflowTabs value="tips" />);
-      for (const record of observer.takeRecords()) writes.push(record.oldValue ?? "");
-      writes.push(more.getAttribute("style") ?? "");
-      observer.disconnect();
-      expect(writes.some((style) => style.includes("transition-duration: 0s"))).toBe(false);
     });
 
     it("renders nothing when there are no overflow items", () => {

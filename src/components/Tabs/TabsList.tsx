@@ -18,6 +18,38 @@ export const TabsAppearanceContext = React.createContext<{
 
 type TabBox = { left: number; top: number; width: number; height: number };
 
+const PILL_SLIDE = "200ms ease-in-out";
+
+const prefersReducedMotion = () =>
+  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
+function slideFromPrevious(
+  list: HTMLElement,
+  previous: Map<Element, TabBox>,
+  next: Map<Element, TabBox>,
+) {
+  const moved: HTMLElement[] = [];
+  for (const [tab, box] of next) {
+    const before = previous.get(tab);
+    if (!before || before.left === box.left || !(tab instanceof HTMLElement)) continue;
+    tab.style.transition = "none";
+    tab.style.transform = `translateX(${before.left - box.left}px)`;
+    moved.push(tab);
+  }
+  if (moved.length === 0) return;
+  list.getBoundingClientRect();
+  for (const tab of moved) {
+    tab.style.transition = `transform ${PILL_SLIDE}`;
+    tab.style.transform = "";
+    const settle = (event: TransitionEvent) => {
+      if (event.propertyName !== "transform") return;
+      tab.style.transition = "";
+      tab.removeEventListener("transitionend", settle);
+    };
+    tab.addEventListener("transitionend", settle);
+  }
+}
+
 const alignLeftClasses: Record<Breakpoint | "always", string> = {
   always: "[&>[role=tab]]:flex-initial",
   sm: "[&>[role=tab]]:sm:flex-initial",
@@ -125,6 +157,7 @@ export const TabsList = React.forwardRef<
 
     const tabBoxes = React.useRef(new Map<Element, TabBox>());
     const resizeObserverRef = React.useRef<ResizeObserver | null>(null);
+    const listWidth = React.useRef<number | null>(null);
     const hoveredTab = React.useRef<HTMLElement | null>(null);
 
     const placePill = React.useCallback((tab: HTMLElement) => {
@@ -161,6 +194,9 @@ export const TabsList = React.forwardRef<
       if (appearance === "pill") {
         indicator.style.background = "var(--color-content-primary)";
         indicator.style.inset = "0 auto auto 0";
+        const previous = new Map(tabBoxes.current);
+        const rowResized = listWidth.current !== null && listWidth.current !== list.offsetWidth;
+        listWidth.current = list.offsetWidth;
         tabBoxes.current.clear();
         for (const tab of list.querySelectorAll<HTMLElement>('[role="tab"]')) {
           resizeObserverRef.current?.observe(tab);
@@ -170,6 +206,9 @@ export const TabsList = React.forwardRef<
             width: tab.offsetWidth,
             height: tab.offsetHeight,
           });
+        }
+        if (!rowResized && previous.size > 0 && !prefersReducedMotion()) {
+          slideFromPrevious(list, previous, tabBoxes.current);
         }
         const hovered = hoveredTab.current;
         placePill(hovered?.isConnected ? hovered : activeTab);
@@ -195,7 +234,7 @@ export const TabsList = React.forwardRef<
     const handlePointerOver = (event: React.PointerEvent<HTMLDivElement>) => {
       onPointerOver?.(event);
       if (!followsHover || event.pointerType !== "mouse") return;
-      if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+      if (prefersReducedMotion()) return;
       const tab = (event.target as Element).closest<HTMLElement>('[role="tab"]');
       if (!tab || tab === hoveredTab.current || !event.currentTarget.contains(tab)) return;
       hoveredTab.current = tab;
