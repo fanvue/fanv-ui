@@ -21,7 +21,7 @@ export const TabsTrigger = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
 >(({ className, children, asChild, ...props }, ref) => {
-  const appearance = React.useContext(TabsAppearanceContext);
+  const { appearance, size } = React.useContext(TabsAppearanceContext);
   const labelClassName = cn("min-w-0 truncate", appearance === "pill" && "flex items-center gap-2");
   const label = <span className={labelClassName}>{children}</span>;
 
@@ -52,12 +52,12 @@ export const TabsTrigger = React.forwardRef<
         "focus-visible:shadow-focus-ring focus-visible:outline-none",
         appearance === "pill"
           ? [
-              "relative z-10 h-8 shrink-0 gap-2 rounded-full px-4",
+              "relative z-10 shrink-0 gap-2 rounded-full px-4",
+              size === "36" ? "h-9" : "h-8",
               "typography-body-small-14px-semibold",
               "motion-safe:duration-200",
-              "data-[state=active]:text-content-primary-inverted",
-              "data-[state=inactive]:text-content-secondary",
-              "data-[state=inactive]:hover:text-content-primary",
+              "text-content-secondary data-pill:text-content-primary-inverted",
+              "not-data-pill:hover:text-content-primary",
               "data-disabled:data-[state=inactive]:text-neutral-alphas-200",
             ]
           : [

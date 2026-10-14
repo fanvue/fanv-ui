@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Tabs } from "./Tabs";
 import { TabsContent } from "./TabsContent";
@@ -444,11 +444,9 @@ describe("Tabs", () => {
       renderPill();
       const active = screen.getByRole("tab", { name: "All" });
       const inactive = screen.getByRole("tab", { name: "Promotions" });
-      expect(active).toHaveClass(
-        "rounded-full",
-        "data-[state=active]:text-content-primary-inverted",
-      );
-      expect(inactive).toHaveAttribute("data-state", "inactive");
+      expect(active).toHaveClass("rounded-full", "data-pill:text-content-primary-inverted");
+      expect(active).toHaveAttribute("data-pill");
+      expect(inactive).not.toHaveAttribute("data-pill");
     });
 
     it("lays an icon beside its label in a pill tab", () => {
@@ -486,6 +484,87 @@ describe("Tabs", () => {
           Reflect.deleteProperty(HTMLElement.prototype, key);
         }
       }
+    });
+
+    it("sizes its tabs to 36px when asked", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList appearance="pill" size="36">
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tab")).toHaveClass("h-9");
+    });
+
+    describe("followHover", () => {
+      function renderFollowing() {
+        return render(
+          <Tabs defaultValue="tab1">
+            <TabsList appearance="pill" followHover aria-label="Categories">
+              <TabsTrigger value="tab1">All</TabsTrigger>
+              <TabsTrigger value="tab2">Promotions</TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+      }
+
+      it("moves the pill to the hovered tab and back to the selected one on leave", () => {
+        renderFollowing();
+        const all = screen.getByRole("tab", { name: "All" });
+        const promotions = screen.getByRole("tab", { name: "Promotions" });
+
+        fireEvent.pointerOver(promotions, { pointerType: "mouse" });
+        expect(promotions).toHaveAttribute("data-pill");
+        expect(all).not.toHaveAttribute("data-pill");
+        expect(all).toHaveAttribute("aria-selected", "true");
+
+        fireEvent.pointerLeave(screen.getByRole("tablist"));
+        expect(all).toHaveAttribute("data-pill");
+        expect(promotions).not.toHaveAttribute("data-pill");
+      });
+
+      it("ignores touch", () => {
+        renderFollowing();
+        const promotions = screen.getByRole("tab", { name: "Promotions" });
+        fireEvent.pointerOver(promotions, { pointerType: "touch" });
+        expect(promotions).not.toHaveAttribute("data-pill");
+      });
+
+      it("reads no layout while following the pointer", () => {
+        renderFollowing();
+        const tabs = screen.getAllByRole("tab");
+        let reads = 0;
+        const keys = ["offsetLeft", "offsetTop", "offsetWidth", "offsetHeight"];
+        for (const key of keys) {
+          Object.defineProperty(HTMLElement.prototype, key, {
+            configurable: true,
+            get() {
+              reads += 1;
+              return 0;
+            },
+          });
+        }
+        const rectSpy = vi.spyOn(Element.prototype, "getBoundingClientRect");
+        try {
+          for (const tab of [...tabs, ...tabs]) {
+            fireEvent.pointerOver(tab, { pointerType: "mouse" });
+          }
+          fireEvent.pointerLeave(screen.getByRole("tablist"));
+          expect(reads).toBe(0);
+          expect(rectSpy).not.toHaveBeenCalled();
+        } finally {
+          for (const key of keys) Reflect.deleteProperty(HTMLElement.prototype, key);
+          rectSpy.mockRestore();
+        }
+      });
+
+      it("does nothing unless asked", () => {
+        renderPill();
+        const promotions = screen.getByRole("tab", { name: "Promotions" });
+        fireEvent.pointerOver(promotions, { pointerType: "mouse" });
+        expect(promotions).not.toHaveAttribute("data-pill");
+      });
     });
 
     it("moves selection with the arrow keys", async () => {

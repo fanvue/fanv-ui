@@ -8,7 +8,15 @@ type Breakpoint = "sm" | "md" | "lg" | "xl";
 /** Visual style of a {@link TabsList}. */
 export type TabsListAppearance = "underline" | "pill";
 
-export const TabsAppearanceContext = React.createContext<TabsListAppearance>("underline");
+/** Height in pixels of each tab in a pill {@link TabsList}. */
+export type TabsListPillSize = "32" | "36";
+
+export const TabsAppearanceContext = React.createContext<{
+  appearance: TabsListAppearance;
+  size: TabsListPillSize;
+}>({ appearance: "underline", size: "32" });
+
+type TabBox = { left: number; top: number; width: number; height: number };
 
 const alignLeftClasses: Record<Breakpoint | "always", string> = {
   always: "[&>[role=tab]]:flex-initial",
@@ -77,6 +85,14 @@ export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.
    * @default "underline"
    */
   appearance?: TabsListAppearance;
+  /** Height of each tab in a pill list. Ignored by the underline appearance. @default "32" */
+  size?: TabsListPillSize;
+  /**
+   * Pill only: the pill follows the mouse across the tabs and settles back on the
+   * selected one when the pointer leaves. Mouse only, and off when the user prefers
+   * reduced motion. @default false
+   */
+  followHover?: boolean;
 };
 
 /** Container for {@link TabsTrigger} elements. Renders a sliding active-tab indicator that animates between tabs. */
@@ -94,6 +110,10 @@ export const TabsList = React.forwardRef<
       flushLeft = false,
       scrollable = false,
       appearance = "underline",
+      size = "32",
+      followHover = false,
+      onPointerOver,
+      onPointerLeave,
       ...props
     },
     ref,
@@ -103,6 +123,24 @@ export const TabsList = React.forwardRef<
 
     React.useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
 
+    const tabBoxes = React.useRef(new Map<Element, TabBox>());
+    const hoveredTab = React.useRef<HTMLElement | null>(null);
+
+    const placePill = React.useCallback((tab: HTMLElement) => {
+      const list = innerRef.current;
+      const indicator = indicatorRef.current;
+      if (!list || !indicator) return;
+      const box = tabBoxes.current.get(tab);
+      if (!box) return;
+      indicator.style.width = `${box.width}px`;
+      indicator.style.height = `${box.height}px`;
+      indicator.style.transform = `translate(${box.left}px, ${box.top}px)`;
+      for (const marked of list.querySelectorAll("[data-pill]")) {
+        if (marked !== tab) marked.removeAttribute("data-pill");
+      }
+      tab.setAttribute("data-pill", "");
+    }, []);
+
     const updateIndicator = React.useCallback(() => {
       const list = innerRef.current;
       const indicator = indicatorRef.current;
@@ -111,6 +149,7 @@ export const TabsList = React.forwardRef<
       const activeTab = list.querySelector<HTMLElement>('[data-state="active"]');
       if (!activeTab) {
         indicator.style.opacity = "0";
+        list.querySelector("[data-pill]")?.removeAttribute("data-pill");
         return;
       }
 
@@ -121,9 +160,17 @@ export const TabsList = React.forwardRef<
       if (appearance === "pill") {
         indicator.style.background = "var(--color-content-primary)";
         indicator.style.inset = "0 auto auto 0";
-        indicator.style.width = `${activeTab.offsetWidth}px`;
-        indicator.style.height = `${activeTab.offsetHeight}px`;
-        indicator.style.transform = `translate(${activeTab.offsetLeft}px, ${activeTab.offsetTop}px)`;
+        tabBoxes.current.clear();
+        for (const tab of list.querySelectorAll<HTMLElement>('[role="tab"]')) {
+          tabBoxes.current.set(tab, {
+            left: tab.offsetLeft,
+            top: tab.offsetTop,
+            width: tab.offsetWidth,
+            height: tab.offsetHeight,
+          });
+        }
+        const hovered = hoveredTab.current;
+        placePill(hovered?.isConnected ? hovered : activeTab);
       } else if (isVertical) {
         indicator.style.background =
           "linear-gradient(180deg, var(--color-buttons-tertiary-default) 0%, var(--color-tab-active) 50%, var(--color-buttons-tertiary-default) 100%)";
@@ -139,7 +186,27 @@ export const TabsList = React.forwardRef<
         indicator.style.width = `${activeTab.offsetWidth}px`;
         indicator.style.transform = `translateX(${activeTab.offsetLeft}px)`;
       }
-    }, [appearance]);
+    }, [appearance, placePill]);
+
+    const followsHover = appearance === "pill" && followHover;
+
+    const handlePointerOver = (event: React.PointerEvent<HTMLDivElement>) => {
+      onPointerOver?.(event);
+      if (!followsHover || event.pointerType !== "mouse") return;
+      if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+      const tab = (event.target as Element).closest<HTMLElement>('[role="tab"]');
+      if (!tab || tab === hoveredTab.current || !event.currentTarget.contains(tab)) return;
+      hoveredTab.current = tab;
+      placePill(tab);
+    };
+
+    const handlePointerLeave = (event: React.PointerEvent<HTMLDivElement>) => {
+      onPointerLeave?.(event);
+      if (!hoveredTab.current) return;
+      hoveredTab.current = null;
+      const activeTab = innerRef.current?.querySelector<HTMLElement>('[data-state="active"]');
+      if (activeTab) placePill(activeTab);
+    };
 
     // Radix scrolls a tab into view when it takes focus, and mount is not focus, so
     // URL-driven state can land on a tab that is off to the right with nothing on
@@ -201,9 +268,11 @@ export const TabsList = React.forwardRef<
     const isPill = appearance === "pill";
 
     return (
-      <TabsAppearanceContext.Provider value={appearance}>
+      <TabsAppearanceContext.Provider value={{ appearance, size }}>
         <TabsPrimitive.List
           ref={innerRef}
+          onPointerOver={handlePointerOver}
+          onPointerLeave={handlePointerLeave}
           className={cn(
             // `isolate` scopes the active indicator's `z-10` to a local stacking
             // context. Without it, `relative` alone creates no stacking context, so
