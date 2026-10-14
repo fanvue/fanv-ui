@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.42.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.41.0...ui-v3.42.0) (2026-10-14)
+
+
+### Features
+
+* **Tabs:** add a pill appearance and overflow menu to TabsList ([#739](https://github.com/fanvue/fanv-ui/issues/739)) ([54c605e](https://github.com/fanvue/fanv-ui/commit/54c605e04fbd83e95440287fab669dff2b8e5159))
+
+
+### Bug Fixes
+
+* **Dialog:** let the closing animation play, and ignore clicks while it does ([#740](https://github.com/fanvue/fanv-ui/issues/740)) ([8a3c57e](https://github.com/fanvue/fanv-ui/commit/8a3c57e2c3b677f4cbefa98f1dc325548035b2e3))
+
 ## [3.41.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.40.1...ui-v3.41.0) (2026-10-09)
 
 
