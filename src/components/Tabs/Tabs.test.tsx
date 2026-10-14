@@ -449,6 +449,14 @@ describe("Tabs", () => {
       expect(inactive).not.toHaveAttribute("data-pill");
     });
 
+    it("slides the pill over the labels it passes and keeps only its own tab's label on top", () => {
+      const { container } = renderPill();
+      const indicator = container.querySelector<HTMLElement>('[role="tablist"] > span:not([role])');
+      const tab = screen.getByRole("tab", { name: "Promotions" });
+      expect(indicator).toHaveClass("z-5");
+      expect(tab).toHaveClass("z-0", "data-pill:z-10");
+    });
+
     it("lays an icon beside its label in a pill tab", () => {
       render(
         <Tabs defaultValue="t">

@@ -407,7 +407,7 @@ export const TabsList = React.forwardRef<
             className={cn(
               "pointer-events-none absolute rounded-full motion-safe:transition-[transform,width,height]",
               isPill
-                ? "z-0 motion-safe:duration-(--pill-slide) motion-safe:ease-(--pill-ease)"
+                ? "z-5 motion-safe:duration-(--pill-slide) motion-safe:ease-(--pill-ease)"
                 : "z-10 motion-safe:duration-200 motion-safe:ease-in-out",
             )}
             style={{ opacity: 0 }}

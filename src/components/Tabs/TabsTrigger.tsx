@@ -52,7 +52,7 @@ export const TabsTrigger = React.forwardRef<
         "focus-visible:shadow-focus-ring focus-visible:outline-none",
         appearance === "pill"
           ? [
-              "relative z-10 shrink-0 gap-2 rounded-full px-4",
+              "relative z-0 shrink-0 gap-2 rounded-full px-4 data-pill:z-10",
               size === "36" ? "h-9" : "h-8",
               "typography-body-small-14px-semibold",
               "motion-safe:duration-[160ms] data-pill:motion-safe:delay-(--pill-arrive)",
