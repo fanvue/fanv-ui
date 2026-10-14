@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -147,6 +147,44 @@ describe("TabsOverflow", () => {
       await user.keyboard("{Escape}");
       await waitFor(() => expect(screen.queryByRole("menu")).not.toBeInTheDocument());
       expect(more).toHaveFocus();
+    });
+
+    it("holds the pill on More while its menu is open, then hands it back on close", async () => {
+      const user = userEvent.setup();
+      render(
+        <Tabs value="all" onValueChange={() => {}}>
+          <TabsList appearance="pill" followHover aria-label="Categories">
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsOverflow label="More" value="all" onValueChange={() => {}}>
+              <TabsOverflowItem value="tips">Tips</TabsOverflowItem>
+            </TabsOverflow>
+          </TabsList>
+        </Tabs>,
+      );
+      const all = screen.getByRole("tab", { name: "All" });
+      const more = screen.getByRole("tab", { name: "More" });
+
+      fireEvent.pointerOver(more, { pointerType: "mouse" });
+      await user.click(more);
+      await screen.findByRole("menu");
+      fireEvent.pointerLeave(screen.getByRole("tablist", { hidden: true }));
+      await waitFor(() => expect(more).toHaveAttribute("data-pill"));
+      expect(all).not.toHaveAttribute("data-pill");
+
+      await user.keyboard("{Escape}");
+      await waitFor(() => expect(screen.queryByRole("menu")).not.toBeInTheDocument());
+      fireEvent.pointerLeave(screen.getByRole("tablist"));
+      await waitFor(() => expect(all).toHaveAttribute("data-pill"));
+    });
+
+    it("holds the pill on More when its menu opens from the keyboard", async () => {
+      const user = userEvent.setup();
+      render(<OverflowTabs activationMode="manual" />);
+      const more = screen.getByRole("tab", { name: "More" });
+      more.focus();
+      await user.keyboard("{Enter}");
+      await screen.findByRole("menu");
+      await waitFor(() => expect(more).toHaveAttribute("data-pill"));
     });
 
     it("renders nothing when there are no overflow items", () => {

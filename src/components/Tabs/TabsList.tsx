@@ -38,6 +38,13 @@ function pillSlideMs(distance: number, canHover: boolean) {
 const prefersReducedMotion = () =>
   window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
 
+function pillTarget(list: HTMLElement, hovered: HTMLElement | null, activeTab: HTMLElement) {
+  return (
+    list.querySelector<HTMLElement>('[role="tab"][aria-expanded="true"]') ??
+    (hovered?.isConnected ? hovered : activeTab)
+  );
+}
+
 function measureTabs(list: HTMLElement, observer: ResizeObserver | null) {
   const boxes = new Map<Element, TabBox>();
   const order = new Map<Element, number>();
@@ -233,8 +240,7 @@ export const TabsList = React.forwardRef<
         if (!rowResized && previous.size > 0 && !prefersReducedMotion()) {
           slideFromPrevious(list, previous, boxes, pillStepMs(canHover.current));
         }
-        const hovered = hoveredTab.current;
-        placePill(hovered?.isConnected ? hovered : activeTab);
+        placePill(pillTarget(list, hoveredTab.current, activeTab));
       },
       [placePill],
     );
@@ -283,15 +289,16 @@ export const TabsList = React.forwardRef<
       const tab = (event.target as Element).closest<HTMLElement>('[role="tab"]');
       if (!tab || tab === hoveredTab.current || !event.currentTarget.contains(tab)) return;
       hoveredTab.current = tab;
-      placePill(tab);
+      placePill(pillTarget(event.currentTarget, tab, tab));
     };
 
     const handlePointerLeave = (event: React.PointerEvent<HTMLDivElement>) => {
       onPointerLeave?.(event);
       if (!hoveredTab.current) return;
       hoveredTab.current = null;
-      const activeTab = innerRef.current?.querySelector<HTMLElement>('[data-state="active"]');
-      if (activeTab) placePill(activeTab);
+      const list = innerRef.current;
+      const activeTab = list?.querySelector<HTMLElement>('[data-state="active"]');
+      if (list && activeTab) placePill(pillTarget(list, null, activeTab));
     };
 
     // Radix scrolls a tab into view when it takes focus, and mount is not focus, so
@@ -331,7 +338,7 @@ export const TabsList = React.forwardRef<
       const mutationObserver = new MutationObserver(updateIndicator);
       mutationObserver.observe(list, {
         attributes: true,
-        attributeFilter: ["data-state"],
+        attributeFilter: ["data-state", "aria-expanded"],
         childList: true,
         subtree: true,
       });
