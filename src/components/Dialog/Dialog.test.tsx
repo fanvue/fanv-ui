@@ -254,6 +254,27 @@ describe("Dialog", () => {
       expect(overlay).toHaveClass("backdrop-blur-xl");
     });
 
+    it("closes without an animation by default", () => {
+      const { baseElement } = renderDialog();
+      expect(screen.getByRole("dialog")).not.toHaveClass("data-[state=closed]:animate-out");
+      expect(baseElement.querySelector(".bg-background-overlay-default")).not.toHaveClass(
+        "data-[state=closed]:animate-out",
+      );
+    });
+
+    it("animates the panel and overlay out when animateClose is set", () => {
+      const { baseElement } = renderDialog({
+        animateClose: true,
+        overlayProps: { className: "backdrop-blur-xl" },
+      });
+      expect(screen.getByRole("dialog")).toHaveClass(
+        "data-[state=closed]:animate-out",
+        "data-[state=closed]:slide-out-to-bottom-full",
+      );
+      const overlay = baseElement.querySelector(".bg-background-overlay-default");
+      expect(overlay).toHaveClass("data-[state=closed]:animate-out", "backdrop-blur-xl");
+    });
+
     it("renders inline when portal is false", () => {
       render(
         <div data-testid="dialog-host">

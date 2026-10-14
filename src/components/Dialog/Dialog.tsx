@@ -97,6 +97,13 @@ export interface DialogContentProps
   mobilePresentation?: "sheet" | "card";
   /** Props forwarded to the default {@link DialogOverlay} when `overlay` is `true`. */
   overlayProps?: DialogOverlayProps;
+  /**
+   * Plays the closing animation (fade and zoom out, or slide down for the mobile
+   * sheet) on the panel and its default overlay before the dialog unmounts.
+   * Off by default, so the dialog disappears as soon as it closes.
+   * @default false
+   */
+  animateClose?: boolean;
 }
 
 const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
@@ -116,9 +123,9 @@ const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
  * render a centered floating card instead (used for small confirmation dialogs).
  * On larger viewports it renders centered with full border radius.
  *
- * It animates in and closes without an exit animation. To animate out, pass
- * `data-[state=closed]:` animation classes in `className` (and
- * `overlayProps.className`); the dialog stays mounted until they finish.
+ * It animates in, and closes instantly unless `animateClose` is set. A custom
+ * closing animation can instead be passed as `data-[state=closed]:` classes in
+ * `className`; the dialog stays mounted until it finishes.
  *
  * @example
  * ```tsx
@@ -155,6 +162,7 @@ export const DialogContent = React.forwardRef<
       showMobileHandle = true,
       mobilePresentation = "sheet",
       overlayProps,
+      animateClose = false,
       style,
       onOpenAutoFocus,
       ...props
@@ -185,11 +193,13 @@ export const DialogContent = React.forwardRef<
         className={cn(
           "fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
           "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
+          animateClose && "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
           mobilePresentation === "card"
             ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
               cn(
                 "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
                 "data-[state=open]:zoom-in-95",
+                animateClose && "data-[state=closed]:zoom-out-95",
                 "sm:inset-x-auto",
               )
             : // Bottom sheet pinned to the viewport bottom edge
@@ -198,6 +208,8 @@ export const DialogContent = React.forwardRef<
                 "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
                 "data-[state=open]:slide-in-from-bottom-full",
                 "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
+                animateClose &&
+                  "data-[state=closed]:slide-out-to-bottom-full sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
               ),
           "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
           "duration-200",
@@ -216,7 +228,15 @@ export const DialogContent = React.forwardRef<
         {children}
       </DialogPrimitive.Content>
     );
-    const overlayElement = overlay ? <DialogOverlay {...overlayProps} /> : null;
+    const overlayElement = overlay ? (
+      <DialogOverlay
+        {...overlayProps}
+        className={cn(
+          animateClose && "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
+          overlayProps?.className,
+        )}
+      />
+    ) : null;
 
     if (!portal) {
       return (
