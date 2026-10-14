@@ -439,7 +439,7 @@ function PillWithOverflowDemo() {
         </TabsTrigger>
         <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
         <TabsTrigger value="tips">Tips</TabsTrigger>
-        <TabsOverflow label="More" value={tab} onValueChange={setTab}>
+        <TabsOverflow label="More">
           <TabsOverflowItem value="purchases">Purchases</TabsOverflowItem>
           <TabsOverflowItem value="followers">Followers</TabsOverflowItem>
           <TabsOverflowItem value="promotions">Promotions</TabsOverflowItem>

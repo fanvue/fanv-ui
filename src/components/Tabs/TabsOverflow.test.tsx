@@ -27,7 +27,7 @@ function OverflowTabs({
       <TabsList appearance="pill" aria-label="Categories">
         <TabsTrigger value="all">All</TabsTrigger>
         <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
-        <TabsOverflow label="More" value={value} onValueChange={onValueChange}>
+        <TabsOverflow label="More">
           {overflow.map((item) => (
             <TabsOverflowItem key={item} value={item}>
               {item === "tips" ? "Tips" : "Purchases"}
@@ -92,12 +92,7 @@ describe("TabsOverflow", () => {
         <Tabs value="a" onValueChange={() => {}} activationMode="manual">
           <TabsList>
             <TabsTrigger value="a">A</TabsTrigger>
-            <TabsOverflow
-              label="More"
-              value="a"
-              onValueChange={() => {}}
-              onKeyDown={(event) => event.preventDefault()}
-            >
+            <TabsOverflow label="More" onKeyDown={(event) => event.preventDefault()}>
               <TabsOverflowItem value="b">B</TabsOverflowItem>
             </TabsOverflow>
           </TabsList>
@@ -115,12 +110,7 @@ describe("TabsOverflow", () => {
         <Tabs value="a" onValueChange={() => {}}>
           <TabsList>
             <TabsTrigger value="a">A</TabsTrigger>
-            <TabsOverflow
-              label="More"
-              value="a"
-              onValueChange={() => {}}
-              onPointerDown={onPointerDown}
-            >
+            <TabsOverflow label="More" onPointerDown={onPointerDown}>
               <TabsOverflowItem value="b">B</TabsOverflowItem>
             </TabsOverflow>
           </TabsList>
@@ -143,6 +133,46 @@ describe("TabsOverflow", () => {
       await user.keyboard("{ArrowRight}");
       expect(screen.getByRole("tab", { name: "More" })).toHaveFocus();
       expect(onValueChange).not.toHaveBeenCalled();
+    });
+
+    it("keeps the selected tab and its panel when an uncontrolled Tabs focuses it", async () => {
+      const user = userEvent.setup();
+      render(
+        <Tabs defaultValue="all">
+          <TabsList appearance="pill">
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsOverflow label="More">
+              <TabsOverflowItem value="tips">Tips</TabsOverflowItem>
+            </TabsOverflow>
+          </TabsList>
+          <TabsContent value="all">All panel</TabsContent>
+          <TabsContent value="tips">Tips panel</TabsContent>
+        </Tabs>,
+      );
+      screen.getByRole("tab", { name: "All" }).focus();
+      await user.keyboard("{ArrowRight}");
+      expect(screen.getByRole("tab", { name: "All" })).toHaveAttribute("aria-selected", "true");
+      expect(screen.getByRole("tabpanel")).toHaveTextContent("All panel");
+    });
+
+    it("selects an overflow item in an uncontrolled Tabs", async () => {
+      const user = userEvent.setup();
+      render(
+        <Tabs defaultValue="all">
+          <TabsList appearance="pill">
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsOverflow label="More">
+              <TabsOverflowItem value="tips">Tips</TabsOverflowItem>
+            </TabsOverflow>
+          </TabsList>
+          <TabsContent value="all">All panel</TabsContent>
+          <TabsContent value="tips">Tips panel</TabsContent>
+        </Tabs>,
+      );
+      await user.click(screen.getByRole("tab", { name: "More" }));
+      await user.click(await screen.findByRole("menuitemradio", { name: "Tips" }));
+      expect(screen.getByRole("tab", { name: "Tips" })).toHaveAttribute("aria-selected", "true");
+      expect(screen.getByRole("tabpanel")).toHaveTextContent("Tips panel");
     });
 
     it("selects an item and closes the menu", async () => {
@@ -204,7 +234,7 @@ describe("TabsOverflow", () => {
         <Tabs value="all" onValueChange={() => {}}>
           <TabsList appearance="pill" followHover aria-label="Categories">
             <TabsTrigger value="all">All</TabsTrigger>
-            <TabsOverflow label="More" value="all" onValueChange={() => {}}>
+            <TabsOverflow label="More">
               <TabsOverflowItem value="tips">Tips</TabsOverflowItem>
             </TabsOverflow>
           </TabsList>
@@ -260,7 +290,7 @@ describe("TabsOverflow", () => {
         <Tabs value="a">
           <TabsList>
             <TabsTrigger value="a">A</TabsTrigger>
-            <TabsOverflow ref={ref} label="More" value="a" onValueChange={() => {}}>
+            <TabsOverflow ref={ref} label="More">
               <TabsOverflowItem value="b">B</TabsOverflowItem>
             </TabsOverflow>
           </TabsList>
@@ -274,12 +304,7 @@ describe("TabsOverflow", () => {
         <Tabs value="a">
           <TabsList>
             <TabsTrigger value="a">A</TabsTrigger>
-            <TabsOverflow
-              className="custom-overflow"
-              label="More"
-              value="a"
-              onValueChange={() => {}}
-            >
+            <TabsOverflow className="custom-overflow" label="More">
               <TabsOverflowItem value="b">B</TabsOverflowItem>
             </TabsOverflow>
           </TabsList>
@@ -295,7 +320,7 @@ describe("TabsOverflow", () => {
         <Tabs value="all">
           <TabsList appearance="pill" aria-label="Categories">
             <TabsTrigger value="all">All</TabsTrigger>
-            <TabsOverflow label="More" value="all" onValueChange={() => {}}>
+            <TabsOverflow label="More">
               <TabsOverflowItem value="tips">Tips</TabsOverflowItem>
             </TabsOverflow>
           </TabsList>
