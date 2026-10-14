@@ -128,6 +128,23 @@ describe("TabsOverflow", () => {
       expect(more).toHaveFocus();
     });
 
+    it("animates to a new label's width instead of snapping", () => {
+      const { rerender } = render(<OverflowTabs value="all" />);
+      const more = screen.getByRole("tab", { name: "More" });
+      const writes: string[] = [];
+      const observer = new MutationObserver(() => {});
+      observer.observe(more, {
+        attributes: true,
+        attributeFilter: ["style"],
+        attributeOldValue: true,
+      });
+      rerender(<OverflowTabs value="tips" />);
+      for (const record of observer.takeRecords()) writes.push(record.oldValue ?? "");
+      writes.push(more.getAttribute("style") ?? "");
+      observer.disconnect();
+      expect(writes.some((style) => style.includes("transition-duration: 0s"))).toBe(false);
+    });
+
     it("renders nothing when there are no overflow items", () => {
       render(<OverflowTabs overflow={[]} />);
       expect(screen.queryByRole("tab", { name: "More" })).not.toBeInTheDocument();
