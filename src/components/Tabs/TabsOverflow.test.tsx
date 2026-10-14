@@ -219,6 +219,25 @@ describe("TabsOverflow", () => {
       );
       expect(ref.current).toHaveAttribute("role", "tab");
     });
+
+    it("applies custom className to the tab", () => {
+      render(
+        <Tabs value="a">
+          <TabsList>
+            <TabsTrigger value="a">A</TabsTrigger>
+            <TabsOverflow
+              className="custom-overflow"
+              label="More"
+              value="a"
+              onValueChange={() => {}}
+            >
+              <TabsOverflowItem value="b">B</TabsOverflowItem>
+            </TabsOverflow>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tab", { name: "More" })).toHaveClass("custom-overflow");
+    });
   });
 
   describe("accessibility", () => {
