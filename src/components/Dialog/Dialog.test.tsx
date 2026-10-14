@@ -254,6 +254,22 @@ describe("Dialog", () => {
       expect(overlay).toHaveClass("backdrop-blur-xl");
     });
 
+    it("animates the panel and overlay out when it closes", () => {
+      const { baseElement } = renderDialog();
+      expect(screen.getByRole("dialog")).toHaveClass(
+        "data-[state=closed]:animate-out",
+        "data-[state=closed]:slide-out-to-bottom-full",
+      );
+      expect(baseElement.querySelector(".bg-background-overlay-default")).toHaveClass(
+        "data-[state=closed]:animate-out",
+      );
+    });
+
+    it("ignores pointer input on the panel while it closes", () => {
+      renderDialog({ style: { pointerEvents: "auto" } });
+      expect(screen.getByRole("dialog")).toHaveClass("data-[state=closed]:pointer-events-none!");
+    });
+
     it("renders inline when portal is false", () => {
       render(
         <div data-testid="dialog-host">
