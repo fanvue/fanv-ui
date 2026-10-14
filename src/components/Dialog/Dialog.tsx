@@ -56,7 +56,7 @@ export const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "data-[state=open]:fade-in-0 fixed inset-0 bg-background-overlay-default data-[state=open]:animate-in",
+      "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 fixed inset-0 bg-background-overlay-default data-[state=closed]:animate-out data-[state=open]:animate-in",
       className,
     )}
     style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
@@ -97,13 +97,6 @@ export interface DialogContentProps
   mobilePresentation?: "sheet" | "card";
   /** Props forwarded to the default {@link DialogOverlay} when `overlay` is `true`. */
   overlayProps?: DialogOverlayProps;
-  /**
-   * Plays the closing animation (fade and zoom out, or slide down for the mobile
-   * sheet) on the panel and its default overlay before the dialog unmounts.
-   * Off by default, so the dialog disappears as soon as it closes.
-   * @default false
-   */
-  animateClose?: boolean;
 }
 
 const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
@@ -123,9 +116,8 @@ const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
  * render a centered floating card instead (used for small confirmation dialogs).
  * On larger viewports it renders centered with full border radius.
  *
- * It animates in, and closes instantly unless `animateClose` is set. A custom
- * closing animation can instead be passed as `data-[state=closed]:` classes in
- * `className`; the dialog stays mounted until it finishes.
+ * It animates in and out. While the closing animation plays the panel stays
+ * mounted but ignores pointer input, so a second click can't act on it.
  *
  * @example
  * ```tsx
@@ -162,7 +154,6 @@ export const DialogContent = React.forwardRef<
       showMobileHandle = true,
       mobilePresentation = "sheet",
       overlayProps,
-      animateClose = false,
       style,
       onOpenAutoFocus,
       ...props
@@ -193,13 +184,13 @@ export const DialogContent = React.forwardRef<
         className={cn(
           "fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
           "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
-          animateClose && "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
+          "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
+          "data-[state=closed]:pointer-events-none!",
           mobilePresentation === "card"
             ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
               cn(
                 "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
-                "data-[state=open]:zoom-in-95",
-                animateClose && "data-[state=closed]:zoom-out-95",
+                "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
                 "sm:inset-x-auto",
               )
             : // Bottom sheet pinned to the viewport bottom edge
@@ -207,9 +198,9 @@ export const DialogContent = React.forwardRef<
                 "dialog-max-h-dynamic inset-x-0 bottom-0 w-full rounded-t-xl p-4 pt-3",
                 "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
                 "data-[state=open]:slide-in-from-bottom-full",
+                "data-[state=closed]:slide-out-to-bottom-full",
                 "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
-                animateClose &&
-                  "data-[state=closed]:slide-out-to-bottom-full sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
+                "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
               ),
           "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
           "duration-200",
@@ -228,15 +219,7 @@ export const DialogContent = React.forwardRef<
         {children}
       </DialogPrimitive.Content>
     );
-    const overlayElement = overlay ? (
-      <DialogOverlay
-        {...overlayProps}
-        className={cn(
-          animateClose && "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
-          overlayProps?.className,
-        )}
-      />
-    ) : null;
+    const overlayElement = overlay ? <DialogOverlay {...overlayProps} /> : null;
 
     if (!portal) {
       return (

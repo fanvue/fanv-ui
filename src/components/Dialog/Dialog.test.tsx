@@ -254,25 +254,20 @@ describe("Dialog", () => {
       expect(overlay).toHaveClass("backdrop-blur-xl");
     });
 
-    it("closes without an animation by default", () => {
+    it("animates the panel and overlay out when it closes", () => {
       const { baseElement } = renderDialog();
-      expect(screen.getByRole("dialog")).not.toHaveClass("data-[state=closed]:animate-out");
-      expect(baseElement.querySelector(".bg-background-overlay-default")).not.toHaveClass(
-        "data-[state=closed]:animate-out",
-      );
-    });
-
-    it("animates the panel and overlay out when animateClose is set", () => {
-      const { baseElement } = renderDialog({
-        animateClose: true,
-        overlayProps: { className: "backdrop-blur-xl" },
-      });
       expect(screen.getByRole("dialog")).toHaveClass(
         "data-[state=closed]:animate-out",
         "data-[state=closed]:slide-out-to-bottom-full",
       );
-      const overlay = baseElement.querySelector(".bg-background-overlay-default");
-      expect(overlay).toHaveClass("data-[state=closed]:animate-out", "backdrop-blur-xl");
+      expect(baseElement.querySelector(".bg-background-overlay-default")).toHaveClass(
+        "data-[state=closed]:animate-out",
+      );
+    });
+
+    it("ignores pointer input on the panel while it closes", () => {
+      renderDialog({ style: { pointerEvents: "auto" } });
+      expect(screen.getByRole("dialog")).toHaveClass("data-[state=closed]:pointer-events-none!");
     });
 
     it("renders inline when portal is false", () => {
