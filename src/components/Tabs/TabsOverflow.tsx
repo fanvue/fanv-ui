@@ -81,19 +81,32 @@ TabsOverflowItem.displayName = "TabsOverflowItem";
  * ```
  */
 export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProps>(
-  ({ label, value, onValueChange, children, className, onKeyDown, onMouseDown, ...props }, ref) => {
-    const [open, setOpen] = React.useState(false);
-
-    const lastInput = React.useRef<"pointer" | "keyboard">("keyboard");
-
+  ({ children, ...props }, ref) => {
     const items = React.Children.toArray(children).filter(
       (child): child is React.ReactElement<TabsOverflowItemProps> => React.isValidElement(child),
     );
+    if (items.length === 0) return null;
+    return (
+      <OverflowMenu ref={ref} items={items} {...props}>
+        {children}
+      </OverflowMenu>
+    );
+  },
+);
 
-    if (items.length === 0) {
-      if (open) setOpen(false);
-      return null;
-    }
+TabsOverflow.displayName = "TabsOverflow";
+
+const OverflowMenu = React.forwardRef<
+  HTMLButtonElement,
+  TabsOverflowProps & { items: React.ReactElement<TabsOverflowItemProps>[] }
+>(
+  (
+    { items, label, value, onValueChange, children, className, onKeyDown, onMouseDown, ...props },
+    ref,
+  ) => {
+    const [open, setOpen] = React.useState(false);
+
+    const lastInput = React.useRef<"pointer" | "keyboard">("keyboard");
 
     const activeItem = items.find((item) => item.props.value === value);
 
@@ -155,4 +168,4 @@ export const TabsOverflow = React.forwardRef<HTMLButtonElement, TabsOverflowProp
   },
 );
 
-TabsOverflow.displayName = "TabsOverflow";
+OverflowMenu.displayName = "OverflowMenu";

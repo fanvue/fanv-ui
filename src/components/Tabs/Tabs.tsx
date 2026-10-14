@@ -1,6 +1,11 @@
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
 
+/**
+ * Value a {@link TabsOverflow} tab carries while none of its items is active.
+ * {@link Tabs} never reports it, so focusing More under automatic activation
+ * selects nothing.
+ */
 export const OVERFLOW_TAB_VALUE = "fanvue-ui-tabs-overflow";
 
 /** Props for the {@link Tabs} root component. Extends Radix `Tabs.Root` props. */
