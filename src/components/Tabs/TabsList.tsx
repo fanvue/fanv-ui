@@ -23,6 +23,8 @@ const PILL_STEP_MS = 360;
 const PILL_STEP_MS_TOUCH = 200;
 const PILL_EXTRA_STEP_MS = 220;
 const PILL_MAX_MS = 1000;
+/** Share of a slide by which the eased pill has covered 80% of the way, so the label recolours under it. */
+const PILL_ARRIVAL_SHARE = 0.27;
 
 function pillStepMs(canHover: boolean) {
   return canHover ? PILL_STEP_MS : PILL_STEP_MS_TOUCH;
@@ -208,7 +210,7 @@ export const TabsList = React.forwardRef<
           : 0;
       const slideMs = pillSlideMs(distance, canHover.current);
       list.style.setProperty("--pill-slide", `${slideMs}ms`);
-      list.style.setProperty("--pill-arrive", `${slideMs - pillStepMs(canHover.current)}ms`);
+      list.style.setProperty("--pill-arrive", `${Math.round(slideMs * PILL_ARRIVAL_SHARE)}ms`);
       indicator.style.width = `${box.width}px`;
       indicator.style.height = `${box.height}px`;
       indicator.style.transform = `translate(${box.left}px, ${box.top}px)`;

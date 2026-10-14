@@ -610,7 +610,7 @@ describe("Tabs", () => {
         expect(promotions).not.toHaveAttribute("data-pill");
       });
 
-      it("gives longer jumps more time and lands the label colour with the pill", () => {
+      it("gives longer jumps more time and recolours the label as the pill covers it", () => {
         const original = window.matchMedia;
         window.matchMedia = ((query: string) =>
           ({ matches: query === "(hover: hover)" }) as MediaQueryList) as typeof window.matchMedia;
@@ -629,11 +629,11 @@ describe("Tabs", () => {
 
           fireEvent.pointerOver(screen.getByRole("tab", { name: "B" }), { pointerType: "mouse" });
           expect(list.style.getPropertyValue("--pill-slide")).toBe("360ms");
-          expect(list.style.getPropertyValue("--pill-arrive")).toBe("0ms");
+          expect(list.style.getPropertyValue("--pill-arrive")).toBe("97ms");
 
           fireEvent.pointerOver(screen.getByRole("tab", { name: "D" }), { pointerType: "mouse" });
           expect(list.style.getPropertyValue("--pill-slide")).toBe("580ms");
-          expect(list.style.getPropertyValue("--pill-arrive")).toBe("220ms");
+          expect(list.style.getPropertyValue("--pill-arrive")).toBe("157ms");
         } finally {
           window.matchMedia = original;
         }
@@ -660,7 +660,7 @@ describe("Tabs", () => {
         );
         const list = screen.getByRole("tablist");
         await waitFor(() => expect(list.style.getPropertyValue("--pill-slide")).toBe("200ms"));
-        expect(list.style.getPropertyValue("--pill-arrive")).toBe("0ms");
+        expect(list.style.getPropertyValue("--pill-arrive")).toBe("54ms");
       });
 
       it("ignores touch", () => {
