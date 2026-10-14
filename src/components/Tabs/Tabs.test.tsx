@@ -610,6 +610,59 @@ describe("Tabs", () => {
         expect(promotions).not.toHaveAttribute("data-pill");
       });
 
+      it("gives longer jumps more time and lands the label colour with the pill", () => {
+        const original = window.matchMedia;
+        window.matchMedia = ((query: string) =>
+          ({ matches: query === "(hover: hover)" }) as MediaQueryList) as typeof window.matchMedia;
+        try {
+          render(
+            <Tabs defaultValue="a">
+              <TabsList appearance="pill" followHover>
+                <TabsTrigger value="a">A</TabsTrigger>
+                <TabsTrigger value="b">B</TabsTrigger>
+                <TabsTrigger value="c">C</TabsTrigger>
+                <TabsTrigger value="d">D</TabsTrigger>
+              </TabsList>
+            </Tabs>,
+          );
+          const list = screen.getByRole("tablist");
+
+          fireEvent.pointerOver(screen.getByRole("tab", { name: "B" }), { pointerType: "mouse" });
+          expect(list.style.getPropertyValue("--pill-slide")).toBe("360ms");
+          expect(list.style.getPropertyValue("--pill-arrive")).toBe("0ms");
+
+          fireEvent.pointerOver(screen.getByRole("tab", { name: "D" }), { pointerType: "mouse" });
+          expect(list.style.getPropertyValue("--pill-slide")).toBe("580ms");
+          expect(list.style.getPropertyValue("--pill-arrive")).toBe("220ms");
+        } finally {
+          window.matchMedia = original;
+        }
+      });
+
+      it("takes a single quick step on touch screens", async () => {
+        const { rerender } = render(
+          <Tabs value="a">
+            <TabsList appearance="pill">
+              <TabsTrigger value="a">A</TabsTrigger>
+              <TabsTrigger value="b">B</TabsTrigger>
+              <TabsTrigger value="c">C</TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+        rerender(
+          <Tabs value="c">
+            <TabsList appearance="pill">
+              <TabsTrigger value="a">A</TabsTrigger>
+              <TabsTrigger value="b">B</TabsTrigger>
+              <TabsTrigger value="c">C</TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+        const list = screen.getByRole("tablist");
+        await waitFor(() => expect(list.style.getPropertyValue("--pill-slide")).toBe("200ms"));
+        expect(list.style.getPropertyValue("--pill-arrive")).toBe("0ms");
+      });
+
       it("ignores touch", () => {
         renderFollowing();
         const promotions = screen.getByRole("tab", { name: "Promotions" });

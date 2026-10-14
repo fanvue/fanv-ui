@@ -18,15 +18,45 @@ export const TabsAppearanceContext = React.createContext<{
 
 type TabBox = { left: number; top: number; width: number; height: number };
 
-const PILL_SLIDE = "200ms ease-in-out";
+const PILL_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+const PILL_STEP_MS = 360;
+const PILL_STEP_MS_TOUCH = 200;
+const PILL_EXTRA_STEP_MS = 220;
+const PILL_MAX_MS = 1000;
+
+function pillStepMs(canHover: boolean) {
+  return canHover ? PILL_STEP_MS : PILL_STEP_MS_TOUCH;
+}
+
+function pillSlideMs(distance: number, canHover: boolean) {
+  if (!canHover) return PILL_STEP_MS_TOUCH;
+  return Math.min(PILL_STEP_MS + Math.max(distance - 1, 0) * PILL_EXTRA_STEP_MS, PILL_MAX_MS);
+}
 
 const prefersReducedMotion = () =>
   window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
+function measureTabs(list: HTMLElement, observer: ResizeObserver | null) {
+  const boxes = new Map<Element, TabBox>();
+  const order = new Map<Element, number>();
+  for (const tab of list.querySelectorAll<HTMLElement>('[role="tab"]')) {
+    observer?.observe(tab);
+    order.set(tab, order.size);
+    boxes.set(tab, {
+      left: tab.offsetLeft,
+      top: tab.offsetTop,
+      width: tab.offsetWidth,
+      height: tab.offsetHeight,
+    });
+  }
+  return { boxes, order };
+}
 
 function slideFromPrevious(
   list: HTMLElement,
   previous: Map<Element, TabBox>,
   next: Map<Element, TabBox>,
+  durationMs: number,
 ) {
   const moved: HTMLElement[] = [];
   for (const [tab, box] of next) {
@@ -39,7 +69,7 @@ function slideFromPrevious(
   if (moved.length === 0) return;
   list.getBoundingClientRect();
   for (const tab of moved) {
-    tab.style.transition = `transform ${PILL_SLIDE}`;
+    tab.style.transition = `transform ${durationMs}ms var(--pill-ease)`;
     tab.style.transform = "";
     const settle = (event: TransitionEvent) => {
       if (event.propertyName !== "transform") return;
@@ -146,6 +176,7 @@ export const TabsList = React.forwardRef<
       followHover = false,
       onPointerOver,
       onPointerLeave,
+      style,
       ...props
     },
     ref,
@@ -159,6 +190,9 @@ export const TabsList = React.forwardRef<
     const resizeObserverRef = React.useRef<ResizeObserver | null>(null);
     const listWidth = React.useRef<number | null>(null);
     const hoveredTab = React.useRef<HTMLElement | null>(null);
+    const pillTab = React.useRef<HTMLElement | null>(null);
+    const tabOrder = React.useRef(new Map<Element, number>());
+    const canHover = React.useRef(false);
 
     const placePill = React.useCallback((tab: HTMLElement) => {
       const list = innerRef.current;
@@ -166,6 +200,15 @@ export const TabsList = React.forwardRef<
       if (!list || !indicator) return;
       const box = tabBoxes.current.get(tab);
       if (!box) return;
+      const from = pillTab.current;
+      pillTab.current = tab;
+      const distance =
+        from && from !== tab
+          ? Math.abs((tabOrder.current.get(tab) ?? 0) - (tabOrder.current.get(from) ?? 0))
+          : 0;
+      const slideMs = pillSlideMs(distance, canHover.current);
+      list.style.setProperty("--pill-slide", `${slideMs}ms`);
+      list.style.setProperty("--pill-arrive", `${slideMs - pillStepMs(canHover.current)}ms`);
       indicator.style.width = `${box.width}px`;
       indicator.style.height = `${box.height}px`;
       indicator.style.transform = `translate(${box.left}px, ${box.top}px)`;
@@ -174,6 +217,25 @@ export const TabsList = React.forwardRef<
       }
       tab.setAttribute("data-pill", "");
     }, []);
+
+    const layoutPill = React.useCallback(
+      (list: HTMLElement, indicator: HTMLElement, activeTab: HTMLElement) => {
+        indicator.style.background = "var(--color-content-primary)";
+        indicator.style.inset = "0 auto auto 0";
+        const previous = tabBoxes.current;
+        const rowResized = listWidth.current !== null && listWidth.current !== list.offsetWidth;
+        listWidth.current = list.offsetWidth;
+        const { boxes, order } = measureTabs(list, resizeObserverRef.current);
+        tabBoxes.current = boxes;
+        tabOrder.current = order;
+        if (!rowResized && previous.size > 0 && !prefersReducedMotion()) {
+          slideFromPrevious(list, previous, boxes, pillStepMs(canHover.current));
+        }
+        const hovered = hoveredTab.current;
+        placePill(hovered?.isConnected ? hovered : activeTab);
+      },
+      [placePill],
+    );
 
     const updateIndicator = React.useCallback(() => {
       const list = innerRef.current;
@@ -192,26 +254,7 @@ export const TabsList = React.forwardRef<
       indicator.style.opacity = "1";
 
       if (appearance === "pill") {
-        indicator.style.background = "var(--color-content-primary)";
-        indicator.style.inset = "0 auto auto 0";
-        const previous = new Map(tabBoxes.current);
-        const rowResized = listWidth.current !== null && listWidth.current !== list.offsetWidth;
-        listWidth.current = list.offsetWidth;
-        tabBoxes.current.clear();
-        for (const tab of list.querySelectorAll<HTMLElement>('[role="tab"]')) {
-          resizeObserverRef.current?.observe(tab);
-          tabBoxes.current.set(tab, {
-            left: tab.offsetLeft,
-            top: tab.offsetTop,
-            width: tab.offsetWidth,
-            height: tab.offsetHeight,
-          });
-        }
-        if (!rowResized && previous.size > 0 && !prefersReducedMotion()) {
-          slideFromPrevious(list, previous, tabBoxes.current);
-        }
-        const hovered = hoveredTab.current;
-        placePill(hovered?.isConnected ? hovered : activeTab);
+        layoutPill(list, indicator, activeTab);
       } else if (isVertical) {
         indicator.style.background =
           "linear-gradient(180deg, var(--color-buttons-tertiary-default) 0%, var(--color-tab-active) 50%, var(--color-buttons-tertiary-default) 100%)";
@@ -227,7 +270,7 @@ export const TabsList = React.forwardRef<
         indicator.style.width = `${activeTab.offsetWidth}px`;
         indicator.style.transform = `translateX(${activeTab.offsetLeft}px)`;
       }
-    }, [appearance, placePill]);
+    }, [appearance, layoutPill]);
 
     const followsHover = appearance === "pill" && followHover;
 
@@ -271,6 +314,8 @@ export const TabsList = React.forwardRef<
       const indicator = indicatorRef.current;
       if (!list || !indicator) return;
 
+      canHover.current = window.matchMedia?.("(hover: hover)").matches ?? false;
+
       const resizeObserver = new ResizeObserver(updateIndicator);
       resizeObserver.observe(list);
       resizeObserverRef.current = resizeObserver;
@@ -309,6 +354,9 @@ export const TabsList = React.forwardRef<
     }, [updateIndicator, revealActiveTab]);
 
     const isPill = appearance === "pill";
+    const listStyle: React.CSSProperties & { "--pill-ease"?: string } = isPill
+      ? { "--pill-ease": PILL_EASE, ...style }
+      : { ...style };
 
     return (
       <TabsAppearanceContext.Provider value={{ appearance, size }}>
@@ -316,6 +364,7 @@ export const TabsList = React.forwardRef<
           ref={innerRef}
           onPointerOver={handlePointerOver}
           onPointerLeave={handlePointerLeave}
+          style={listStyle}
           className={cn(
             // `isolate` scopes the active indicator's `z-10` to a local stacking
             // context. Without it, `relative` alone creates no stacking context, so
@@ -347,8 +396,10 @@ export const TabsList = React.forwardRef<
             ref={indicatorRef}
             aria-hidden
             className={cn(
-              "pointer-events-none absolute rounded-full motion-safe:transition-[transform,width,height] motion-safe:duration-200 motion-safe:ease-in-out",
-              isPill ? "z-0" : "z-10",
+              "pointer-events-none absolute rounded-full motion-safe:transition-[transform,width,height]",
+              isPill
+                ? "z-0 motion-safe:duration-(--pill-slide) motion-safe:ease-(--pill-ease)"
+                : "z-10 motion-safe:duration-200 motion-safe:ease-in-out",
             )}
             style={{ opacity: 0 }}
           />
