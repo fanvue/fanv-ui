@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Tabs } from "./Tabs";
 import { TabsContent } from "./TabsContent";
@@ -37,6 +37,32 @@ function OverflowTabs({
       </TabsList>
     </Tabs>
   );
+}
+
+function simulateMenuExitAnimation() {
+  const getComputedStyle = window.getComputedStyle.bind(window);
+  const spy = vi.spyOn(window, "getComputedStyle").mockImplementation((element, pseudo) => {
+    const styles = getComputedStyle(element, pseudo);
+    if (!(element instanceof HTMLElement) || element.getAttribute("role") !== "menu") {
+      return styles;
+    }
+    return new Proxy(styles, {
+      get: (target, property) => {
+        if (property === "animationName") {
+          return element.dataset.state === "closed" ? "exit" : "enter";
+        }
+        const value = Reflect.get(target, property);
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+    });
+  });
+  onTestFinished(() => spy.mockRestore());
+}
+
+function finishMenuExitAnimation(menu: HTMLElement) {
+  const event = new Event("animationend", { bubbles: true });
+  Object.defineProperty(event, "animationName", { value: "exit" });
+  fireEvent(menu, event);
 }
 
 describe("TabsOverflow", () => {
@@ -183,6 +209,64 @@ describe("TabsOverflow", () => {
       await user.click(await screen.findByRole("menuitemradio", { name: "Purchases" }));
       expect(onValueChange).toHaveBeenCalledWith("purchases");
       await waitFor(() => expect(screen.queryByRole("menu")).not.toBeInTheDocument());
+    });
+
+    it("keeps its label until the menu has finished closing after a pick", async () => {
+      simulateMenuExitAnimation();
+      const user = userEvent.setup();
+      render(
+        <Tabs defaultValue="all">
+          <TabsList appearance="pill">
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsOverflow label="More">
+              <TabsOverflowItem value="tips">Tips</TabsOverflowItem>
+              <TabsOverflowItem value="purchases">Purchases</TabsOverflowItem>
+            </TabsOverflow>
+          </TabsList>
+        </Tabs>,
+      );
+      await user.click(screen.getByRole("tab", { name: "More" }));
+      await user.click(await screen.findByRole("menuitemradio", { name: "Purchases" }));
+
+      const menu = screen.getByRole("menu", { hidden: true });
+      expect(menu).toHaveAttribute("data-state", "closed");
+      expect(screen.getByRole("tab", { name: "More", hidden: true })).toHaveAttribute(
+        "aria-selected",
+        "true",
+      );
+
+      finishMenuExitAnimation(menu);
+      await waitFor(() => expect(screen.queryByRole("menu", { hidden: true })).toBeNull());
+      expect(screen.getByRole("tab", { name: "Purchases" })).toHaveAttribute(
+        "aria-selected",
+        "true",
+      );
+    });
+
+    it("keeps the previous item's label while the menu closes after switching items", async () => {
+      simulateMenuExitAnimation();
+      const user = userEvent.setup();
+      render(
+        <Tabs defaultValue="tips">
+          <TabsList appearance="pill">
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsOverflow label="More">
+              <TabsOverflowItem value="tips">Tips</TabsOverflowItem>
+              <TabsOverflowItem value="purchases">Purchases</TabsOverflowItem>
+            </TabsOverflow>
+          </TabsList>
+        </Tabs>,
+      );
+      await user.click(screen.getByRole("tab", { name: "Tips" }));
+      await user.click(await screen.findByRole("menuitemradio", { name: "Purchases" }));
+
+      const menu = screen.getByRole("menu", { hidden: true });
+      expect(screen.getByRole("tab", { name: "Tips", hidden: true })).toBeInTheDocument();
+
+      finishMenuExitAnimation(menu);
+      await waitFor(() =>
+        expect(screen.getByRole("tab", { name: "Purchases" })).toBeInTheDocument(),
+      );
     });
 
     it("marks the active item in the menu", async () => {
