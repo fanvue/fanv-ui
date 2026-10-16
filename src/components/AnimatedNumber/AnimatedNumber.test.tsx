@@ -95,6 +95,21 @@ describe("AnimatedNumber", () => {
       expect(strips[1]).toHaveAttribute("style", expect.stringContaining("translateY(-20%)"));
     });
 
+    it("sits separators on the same baseline as the digit columns", () => {
+      const { container } = render(
+        <AnimatedNumber value={1234} format={formatPrice} variant="roll" />,
+      );
+      const characters = Array.from(
+        container.querySelectorAll<HTMLElement>('[aria-hidden="true"] > span'),
+      );
+      const boxes = characters.map((node) => [node.style.height, node.style.lineHeight]);
+
+      expect(boxes).toHaveLength(6);
+      expect(boxes.every(([height, lineHeight]) => height === "1em" && lineHeight === "1em")).toBe(
+        true,
+      );
+    });
+
     it("leaves separators as static characters rather than columns", () => {
       const { container } = render(
         <AnimatedNumber value={1234} format={formatPrice} variant="roll" />,
