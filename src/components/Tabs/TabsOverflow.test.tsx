@@ -243,6 +243,40 @@ describe("TabsOverflow", () => {
       );
     });
 
+    it("keeps its label until the menu has finished closing under StrictMode", async () => {
+      simulateMenuExitAnimation();
+      const user = userEvent.setup();
+      render(
+        <React.StrictMode>
+          <Tabs defaultValue="all">
+            <TabsList appearance="pill">
+              <TabsTrigger value="all">All</TabsTrigger>
+              <TabsOverflow label="More">
+                <TabsOverflowItem value="tips">Tips</TabsOverflowItem>
+                <TabsOverflowItem value="purchases">Purchases</TabsOverflowItem>
+              </TabsOverflow>
+            </TabsList>
+          </Tabs>
+        </React.StrictMode>,
+      );
+      await user.click(screen.getByRole("tab", { name: "More" }));
+      await user.click(await screen.findByRole("menuitemradio", { name: "Purchases" }));
+
+      const menu = screen.getByRole("menu", { hidden: true });
+      expect(menu).toHaveAttribute("data-state", "closed");
+      expect(screen.getByRole("tab", { name: "More", hidden: true })).toHaveAttribute(
+        "aria-selected",
+        "true",
+      );
+
+      finishMenuExitAnimation(menu);
+      await waitFor(() => expect(screen.queryByRole("menu", { hidden: true })).toBeNull());
+      expect(screen.getByRole("tab", { name: "Purchases" })).toHaveAttribute(
+        "aria-selected",
+        "true",
+      );
+    });
+
     it("keeps the previous item's label while the menu closes after switching items", async () => {
       simulateMenuExitAnimation();
       const user = userEvent.setup();
