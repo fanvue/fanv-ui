@@ -93,13 +93,24 @@ const OverflowMenu = React.forwardRef<
 >(({ items, label, children, className, onKeyDown, onMouseDown, ...props }, ref) => {
   const { value } = React.useContext(TabsValueContext);
   const [open, setOpen] = React.useState(false);
+  const isOpen = React.useRef(false);
+  const [labelValue, setLabelValue] = React.useState<{ value: string | undefined } | null>(null);
 
   const lastInput = React.useRef<"pointer" | "keyboard">("keyboard");
 
   const activeItem = items.find((item) => item.props.value === value);
+  const labelItem = labelValue
+    ? items.find((item) => item.props.value === labelValue.value)
+    : activeItem;
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (nextOpen && !open) setLabelValue({ value });
+    isOpen.current = nextOpen;
+    setOpen(nextOpen);
+  };
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
+    <DropdownMenu open={open} onOpenChange={handleOpenChange}>
       <TabsTrigger
         ref={ref}
         asChild
@@ -116,14 +127,14 @@ const OverflowMenu = React.forwardRef<
           if (OPEN_KEYS.has(event.key)) {
             lastInput.current = "keyboard";
             event.preventDefault();
-            setOpen(true);
+            handleOpenChange(true);
           }
         }}
         {...props}
       >
         <DropdownMenuTrigger>
           <span className="flex items-center gap-2">
-            {activeItem ? activeItem.props.children : label}
+            {labelItem ? labelItem.props.children : label}
             <ChevronDownIcon
               size={16}
               className={cn("motion-safe:transition-transform", open && "rotate-180")}
@@ -147,6 +158,7 @@ const OverflowMenu = React.forwardRef<
           if (lastInput.current === "pointer") event.preventDefault();
         }}
       >
+        <ReleaseOnUnmount release={setLabelValue} isOpen={isOpen} />
         {children}
       </DropdownMenuContent>
     </DropdownMenu>
@@ -154,3 +166,26 @@ const OverflowMenu = React.forwardRef<
 });
 
 OverflowMenu.displayName = "OverflowMenu";
+
+/**
+ * Hands the trigger's label back to the live selection once the menu content
+ * unmounts, which Radix delays until its exit animation has finished. Holding
+ * the label until then keeps the trigger's width, so the closing menu, anchored
+ * to it, doesn't shift as it fades. Only a closed menu releases it: StrictMode
+ * also unmounts the content once while the menu is still open.
+ */
+function ReleaseOnUnmount({
+  release,
+  isOpen,
+}: {
+  release: React.Dispatch<React.SetStateAction<{ value: string | undefined } | null>>;
+  isOpen: React.RefObject<boolean>;
+}) {
+  React.useEffect(
+    () => () => {
+      if (!isOpen.current) release(null);
+    },
+    [release, isOpen],
+  );
+  return null;
+}
