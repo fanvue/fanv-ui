@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.42.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.0...ui-v3.42.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* **TabsOverflow:** keep the trigger's label until its menu has closed ([#743](https://github.com/fanvue/fanv-ui/issues/743)) ([82dfc2a](https://github.com/fanvue/fanv-ui/commit/82dfc2a70b188b8d3a28a62d4a45addd564020a9))
+
 ## [3.42.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.41.0...ui-v3.42.0) (2026-10-14)
 
 
