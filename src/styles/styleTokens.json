@@ -4636,7 +4636,7 @@
             "background": {
               "description": "",
               "type": "color",
-              "value": "{semantic.light.color.neutral-alphas.50}",
+              "value": "#15151513",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Light",

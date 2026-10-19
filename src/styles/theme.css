@@ -254,7 +254,7 @@
   --color-messages-background-receiver: var(--primitives-color-gray-150);
   --color-messages-background-sender-stroke: var(--primitives-color-green-200);
   --color-messages-background-receiver-stroke: var(--primitives-color-gray-300);
-  --color-messages-reply-background: var(--color-neutral-alphas-50);
+  --color-messages-reply-background: #15151513;
   --color-messages-reply-accent: var(--color-neutral-alphas-300);
   --color-messages-read: var(--primitives-color-blue-600);
   --color-messages-user-callout: var(--primitives-color-green-800);
@@ -728,7 +728,7 @@
   --color-messages-background-receiver: var(--primitives-color-gray-150);
   --color-messages-background-sender-stroke: var(--primitives-color-green-200);
   --color-messages-background-receiver-stroke: var(--primitives-color-gray-300);
-  --color-messages-reply-background: var(--color-neutral-alphas-50);
+  --color-messages-reply-background: #15151513;
   --color-messages-reply-accent: var(--color-neutral-alphas-300);
   --color-messages-read: var(--primitives-color-blue-600);
   --color-messages-user-callout: var(--primitives-color-green-800);
