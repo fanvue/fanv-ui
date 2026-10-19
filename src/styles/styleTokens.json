@@ -1187,6 +1187,11 @@
               }
             }
           },
+          "75": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.light.color.blackalpha.75}"
+          },
           "100": {
             "description": "",
             "type": "color",
@@ -4636,7 +4641,7 @@
             "background": {
               "description": "",
               "type": "color",
-              "value": "#15151513",
+              "value": "{semantic.light.color.neutral-alphas.75}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Light",
@@ -5997,6 +6002,11 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "75": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.dark.color.whitealpha.75}"
           },
           "100": {
             "description": "",
@@ -12159,6 +12169,11 @@
               }
             }
           },
+          "75": {
+            "type": "color",
+            "value": "#15151513",
+            "blendMode": "normal"
+          },
           "100": {
             "type": "color",
             "value": "#1515151a",
@@ -12340,6 +12355,11 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "75": {
+            "type": "color",
+            "value": "#ffffff13",
+            "blendMode": "normal"
           },
           "100": {
             "type": "color",
@@ -14649,6 +14669,11 @@
               }
             }
           },
+          "75": {
+            "type": "color",
+            "value": "#15151513",
+            "blendMode": "normal"
+          },
           "100": {
             "type": "color",
             "value": "#1515151a",
@@ -14830,6 +14855,11 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "75": {
+            "type": "color",
+            "value": "#ffffff13",
+            "blendMode": "normal"
           },
           "100": {
             "type": "color",
