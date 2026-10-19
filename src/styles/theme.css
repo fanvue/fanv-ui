@@ -33,6 +33,7 @@
   --radius-full: 9999px;
 
   --color-neutral-alphas-50: var(--primitives-color-blackalpha-50);
+  --color-neutral-alphas-75: var(--primitives-color-blackalpha-75);
   --color-neutral-alphas-100: var(--primitives-color-blackalpha-100);
   --color-neutral-alphas-150: #15151526;
   --color-neutral-alphas-200: var(--primitives-color-blackalpha-200);
@@ -254,7 +255,7 @@
   --color-messages-background-receiver: var(--primitives-color-gray-150);
   --color-messages-background-sender-stroke: var(--primitives-color-green-200);
   --color-messages-background-receiver-stroke: var(--primitives-color-gray-300);
-  --color-messages-reply-background: var(--color-neutral-alphas-50);
+  --color-messages-reply-background: var(--color-neutral-alphas-75);
   --color-messages-reply-accent: var(--color-neutral-alphas-300);
   --color-messages-read: var(--primitives-color-blue-600);
   --color-messages-user-callout: var(--primitives-color-green-800);
@@ -458,6 +459,7 @@
   --primitives-color-blue-950: #030e26ff;
   --primitives-color-blackalpha-0: #15151500;
   --primitives-color-blackalpha-50: #1515150d;
+  --primitives-color-blackalpha-75: #15151513;
   --primitives-color-blackalpha-100: #1515151a;
   --primitives-color-blackalpha-200: #15151533;
   --primitives-color-blackalpha-300: #1515154d;
@@ -470,6 +472,7 @@
   --primitives-color-blackalpha-950: #151515f2;
   --primitives-color-whitealpha-0: #ffffff00;
   --primitives-color-whitealpha-50: #ffffff0d;
+  --primitives-color-whitealpha-75: #ffffff13;
   --primitives-color-whitealpha-100: #ffffff1a;
   --primitives-color-whitealpha-200: #ffffff33;
   --primitives-color-whitealpha-300: #ffffff4d;
@@ -507,6 +510,7 @@
   /* Light-mode semantic tokens must also live in :root because @theme
      cannot resolve var() references to :root primitives at build time. */
   --color-neutral-alphas-50: var(--primitives-color-blackalpha-50);
+  --color-neutral-alphas-75: var(--primitives-color-blackalpha-75);
   --color-neutral-alphas-100: var(--primitives-color-blackalpha-100);
   --color-neutral-alphas-150: #15151526;
   --color-neutral-alphas-200: var(--primitives-color-blackalpha-200);
@@ -728,7 +732,7 @@
   --color-messages-background-receiver: var(--primitives-color-gray-150);
   --color-messages-background-sender-stroke: var(--primitives-color-green-200);
   --color-messages-background-receiver-stroke: var(--primitives-color-gray-300);
-  --color-messages-reply-background: var(--color-neutral-alphas-50);
+  --color-messages-reply-background: var(--color-neutral-alphas-75);
   --color-messages-reply-accent: var(--color-neutral-alphas-300);
   --color-messages-read: var(--primitives-color-blue-600);
   --color-messages-user-callout: var(--primitives-color-green-800);
@@ -804,6 +808,7 @@
 
 .dark {
   --color-neutral-alphas-50: var(--primitives-color-whitealpha-100);
+  --color-neutral-alphas-75: var(--primitives-color-whitealpha-75);
   --color-neutral-alphas-100: var(--primitives-color-whitealpha-100);
   --color-neutral-alphas-150: #ffffffcc;
   --color-neutral-alphas-200: var(--primitives-color-whitealpha-200);
