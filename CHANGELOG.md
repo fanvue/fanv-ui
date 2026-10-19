@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.42.2](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.1...ui-v3.42.2) (2026-10-19)
+
+
+### Bug Fixes
+
+* **tokens:** match the light reply quote background to Figma ([#746](https://github.com/fanvue/fanv-ui/issues/746)) ([e914729](https://github.com/fanvue/fanv-ui/commit/e9147299ffda6e57871602cd1c483e21e6b6c3c0))
+
 ## [3.42.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.0...ui-v3.42.1) (2026-10-16)
 
 
