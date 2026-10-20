@@ -78,40 +78,48 @@ describe("DropdownMenu", () => {
       expect(screen.getByText("12")).not.toHaveClass("h-[18px]");
     });
 
-    it("gives the panel the 24px menu radius, not the 12px row radius", () => {
+    it("gives the panel the 24px menu radius, not the 16px row radius", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const panel = screen.getByRole("menu");
       expect(panel).toHaveClass("rounded-lg");
+      expect(panel).not.toHaveClass("rounded-md");
       expect(panel).not.toHaveClass("rounded-sm");
-      expect(panel).not.toHaveClass("rounded-xs");
     });
 
-    it("gives the panel the V2 Menu Dropdown surface, padding and stroke", () => {
+    it("gives the panel the V2 Menu Dropdown surface, padding, stroke and shadow", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const panel = screen.getByRole("menu");
       expect(panel).toHaveClass("bg-background-secondary");
       expect(panel).toHaveClass("border-border-strong");
       expect(panel).toHaveClass("p-2");
+      expect(panel).toHaveClass("shadow-blur-menu");
     });
 
     // Each of these three drifted from the design unnoticed, so they are asserted
     // rather than left to the eye. Node references are in the component.
-    it("gives a menu item the 12px row radius", () => {
+    it("gives a menu item the 16px row radius, concentric with the panel", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const item = screen.getByRole("menuitem");
-      expect(item).toHaveClass("rounded-sm");
-      expect(item).not.toHaveClass("rounded-xs");
+      expect(item).toHaveClass("rounded-md");
+      expect(item).not.toHaveClass("rounded-sm");
     });
 
-    it("keeps the 8px radius on a radio item, which the design draws differently", () => {
+    it("gives a radio item the same 16px row radius", () => {
       renderMenu(
         <DropdownMenuRadioGroup value="a">
           <DropdownMenuRadioItem value="a">A</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>,
       );
       const item = screen.getByRole("menuitemradio");
-      expect(item).toHaveClass("rounded-xs");
-      expect(item).not.toHaveClass("rounded-sm");
+      expect(item).toHaveClass("rounded-md");
+      expect(item).not.toHaveClass("rounded-xs");
+    });
+
+    it("gives a checkbox item the same 16px row radius", () => {
+      renderMenu(<DropdownMenuCheckboxItem>A</DropdownMenuCheckboxItem>);
+      const item = screen.getByRole("menuitemcheckbox");
+      expect(item).toHaveClass("rounded-md");
+      expect(item).not.toHaveClass("rounded-xs");
     });
 
     it("indents a radio item the same as any other row", () => {
@@ -623,54 +631,50 @@ describe("DropdownMenuItem", () => {
       expect(screen.getByTestId("item")).toHaveClass("min-h-10");
     });
 
-    it("renders selected state with the subtle highlight treatment", () => {
+    it("renders the selected state as a filled row with semibold inverted text", () => {
       renderMenu(
         <DropdownMenuItem selected data-testid="item">
           Item
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass("bg-neutral-alphas-100");
-      expect(item).not.toHaveClass("text-content-primary-inverted");
+      expect(item).toHaveClass(
+        "bg-buttons-primary-default",
+        "text-content-primary-inverted",
+        "typography-body-default-16px-semibold",
+      );
     });
 
-    it("keeps a distinct selected highlight when the item is also keyboard/mouse-highlighted", () => {
-      // Regression guard: bg-interaction-hover aliases to the same token as the
-      // plain hover background (data-[highlighted]:bg-neutral-alphas-50), so a
-      // selected+highlighted row must use a darker step of the neutral-alphas
-      // ramp or it becomes visually indistinguishable from an unselected hover.
+    it("uses the 14px semibold title on a selected 32 row", () => {
+      renderMenu(
+        <DropdownMenuItem selected size="32" data-testid="item">
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByTestId("item")).toHaveClass("typography-body-small-14px-semibold");
+    });
+
+    it("keeps the selected fill when the item is also highlighted", () => {
       renderMenu(
         <DropdownMenuItem selected data-testid="item">
           Item
         </DropdownMenuItem>,
       );
-      const item = screen.getByTestId("item");
-      expect(item.className).toContain("data-[highlighted]:bg-neutral-alphas-200");
-      expect(item.className).not.toContain("data-[highlighted]:bg-neutral-alphas-50");
-    });
-
-    it("renders a check indicator on the selected item, not just a background change", () => {
-      // Regression guard: a background-only signal for "selected" isn't
-      // guaranteed to read as distinct from the hover background in every
-      // theme/contrast combination — pair it with an explicit indicator, same
-      // as SelectItem and DropdownMenuRadioItem already do.
-      renderMenu(
-        <>
-          <DropdownMenuItem selected data-testid="selected-item">
-            Selected
-          </DropdownMenuItem>
-          <DropdownMenuItem data-testid="unselected-item">Unselected</DropdownMenuItem>
-        </>,
+      expect(screen.getByTestId("item").className).toContain(
+        "data-[highlighted]:bg-buttons-primary-default",
       );
-      expect(screen.getByTestId("selected-item").querySelector("svg")).toBeInTheDocument();
-      expect(screen.getByTestId("unselected-item").querySelector("svg")).not.toBeInTheDocument();
     });
 
-    it("renders a caller-supplied trailingIcon instead of the built-in check indicator when selected", () => {
-      // Regression guard: a caller may pass its own trailing icon to signal
-      // selection (e.g. ChatInput's themed tick). That custom icon must win
-      // the trailing slot rather than being silently replaced by the
-      // built-in SelectedCheckIndicator.
+    it("renders no check indicator on the selected item", () => {
+      renderMenu(
+        <DropdownMenuItem selected data-testid="item">
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByTestId("item").querySelector("svg")).not.toBeInTheDocument();
+    });
+
+    it("renders a caller-supplied trailingIcon on a selected item", () => {
       renderMenu(
         <DropdownMenuItem
           selected
@@ -680,9 +684,7 @@ describe("DropdownMenuItem", () => {
           Item
         </DropdownMenuItem>,
       );
-      const item = screen.getByTestId("item");
       expect(screen.getByTestId("caller-trailing-icon")).toBeInTheDocument();
-      expect(item.querySelectorAll("svg")).toHaveLength(0);
     });
 
     it("renders leading and trailing icons", () => {
@@ -805,6 +807,47 @@ describe("DropdownMenuHeader", () => {
         </>,
       );
       expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  describe("layout", () => {
+    it("pulls the header out by the popper panel's extra 4px of padding", () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader title="Sort by" data-testid="header" />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      expect(screen.getByTestId("header")).toHaveClass("-mx-1", "-mt-1");
+    });
+
+    it("gives the search field the 16px radius, concentric with the panel", () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader type="search" searchProps={{ placeholder: "Find" }} />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      const field = screen.getByPlaceholderText("Find").closest("label");
+      expect(field).toHaveClass("rounded-md");
+      expect(field).not.toHaveClass("rounded-xs");
+    });
+
+    it("leaves the sheet header on the sheet's own padding", async () => {
+      const user = userEvent.setup();
+      render(
+        <DropdownMenu variant="sheet" defaultOpen={false}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuHeader title="Sort by" data-testid="header" />
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      await user.click(screen.getByText("trigger"));
+      const header = screen.getByTestId("header");
+      expect(header).not.toHaveClass("-mx-1");
+      expect(header).not.toHaveClass("-mt-1");
     });
   });
 

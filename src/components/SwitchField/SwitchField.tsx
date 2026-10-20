@@ -7,6 +7,20 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Too
 /** Side on which the switch toggle is positioned relative to the label. */
 export type SwitchFieldOrientation = "right" | "left";
 
+/** Font weight of the {@link SwitchField} label. */
+export type SwitchFieldLabelWeight = "semibold" | "regular";
+
+const LABEL_TYPOGRAPHY: Record<SwitchSize, Record<SwitchFieldLabelWeight, string>> = {
+  default: {
+    semibold: "typography-body-default-16px-semibold",
+    regular: "typography-body-default-16px-regular",
+  },
+  small: {
+    semibold: "typography-body-small-14px-semibold",
+    regular: "typography-body-small-14px-regular",
+  },
+};
+
 export interface SwitchFieldProps
   extends Omit<React.ComponentPropsWithoutRef<typeof Switch>, "size" | "className"> {
   /** Side on which the switch is placed relative to the label. @default "right" */
@@ -15,6 +29,8 @@ export interface SwitchFieldProps
   size?: SwitchSize;
   /** Label text displayed next to the switch. */
   label?: string;
+  /** Font weight of the label. Settings rows use `"regular"`. @default "semibold" */
+  labelWeight?: SwitchFieldLabelWeight;
   /** Descriptive text displayed below the label. */
   helperText?: string;
   /** Tooltip text shown when hovering the info icon next to the label. */
@@ -48,6 +64,7 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
       orientation = "right",
       size = "default",
       label,
+      labelWeight = "semibold",
       helperText,
       infoText,
       infoLabel = "More information",
@@ -86,9 +103,7 @@ export const SwitchField = React.forwardRef<React.ComponentRef<typeof Switch>, S
               className={cn(
                 "cursor-pointer select-none text-content-primary",
                 disabled && "cursor-not-allowed text-content-tertiary",
-                size === "default"
-                  ? "typography-body-default-16px-semibold"
-                  : "typography-body-small-14px-semibold",
+                LABEL_TYPOGRAPHY[size][labelWeight],
               )}
             >
               {label}
