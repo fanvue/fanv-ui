@@ -142,6 +142,18 @@ export {
   CardTitle,
 } from "./components/Card/Card";
 export type {
+  ChatEmbedProps,
+  ChatEmbedSkeletonProps,
+  ChatEmbedSocialProof,
+  ChatEmbedUnavailableProps,
+  ChatEmbedVariant,
+} from "./components/ChatEmbed/ChatEmbed";
+export {
+  ChatEmbed,
+  ChatEmbedSkeleton,
+  ChatEmbedUnavailable,
+} from "./components/ChatEmbed/ChatEmbed";
+export type {
   ChatInputAttachmentItem,
   ChatInputProps,
   ChatInputSelectOption,
@@ -373,6 +385,8 @@ export type { CogIconProps } from "./components/Icons/CogIcon";
 export { CogIcon } from "./components/Icons/CogIcon";
 export type { CoinIconProps } from "./components/Icons/CoinIcon";
 export { CoinIcon } from "./components/Icons/CoinIcon";
+export type { CommentIconProps } from "./components/Icons/CommentIcon";
+export { CommentIcon } from "./components/Icons/CommentIcon";
 export type { CompassIconProps } from "./components/Icons/CompassIcon";
 export { CompassIcon } from "./components/Icons/CompassIcon";
 export type { CopyIconProps } from "./components/Icons/CopyIcon";
@@ -639,6 +653,8 @@ export type {
 export { InlineEdit } from "./components/InlineEdit/InlineEdit";
 export type { LinkProps, LinkSize, LinkVariant } from "./components/Link/Link";
 export { Link } from "./components/Link/Link";
+export type { LiveStatusProps, LiveStatusVariant } from "./components/LiveStatus/LiveStatus";
+export { LiveStatus } from "./components/LiveStatus/LiveStatus";
 export type { LoaderProps } from "./components/Loader/Loader";
 export { Loader } from "./components/Loader/Loader";
 export type {
@@ -787,6 +803,7 @@ export type {
 } from "./components/SwitchButton/SwitchButton";
 export { SwitchButton } from "./components/SwitchButton/SwitchButton";
 export type {
+  SwitchFieldLabelWeight,
   SwitchFieldOrientation,
   SwitchFieldProps,
 } from "./components/SwitchField/SwitchField";
@@ -857,8 +874,14 @@ export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";
 export { TabsContent } from "./components/Tabs/TabsContent";
-export type { TabsListProps } from "./components/Tabs/TabsList";
+export type {
+  TabsListAppearance,
+  TabsListPillSize,
+  TabsListProps,
+} from "./components/Tabs/TabsList";
 export { TabsList } from "./components/Tabs/TabsList";
+export type { TabsOverflowItemProps, TabsOverflowProps } from "./components/Tabs/TabsOverflow";
+export { TabsOverflow, TabsOverflowItem } from "./components/Tabs/TabsOverflow";
 export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
 export type {

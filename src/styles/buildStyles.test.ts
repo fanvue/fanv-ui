@@ -54,6 +54,12 @@ describe("getEffectTokens", () => {
     expect(glow.split(",")).toHaveLength(3);
   });
 
+  it("emits the live glow from the live colour tokens, red layer on top", () => {
+    expect(css).toContain(
+      "--shadow-live-glow: -2px 2px 16px 0px var(--color-live-glow-red), 2px -2px 16px 0px var(--color-live-glow-pink);",
+    );
+  });
+
   it("drives the focus ring through the mode-aware colour var", () => {
     expect(css).toContain("--shadow-focus-ring: inset 0 0 0 2px var(--fv-focus-ring-color)");
   });

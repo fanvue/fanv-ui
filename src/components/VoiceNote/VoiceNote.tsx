@@ -7,8 +7,8 @@ import { useWaveformPeaks } from "@/utils/useWaveformPeaks";
 import { useWaveformSeek } from "@/utils/useWaveformSeek";
 import { IconButton, type IconButtonSize } from "../IconButton/IconButton";
 import { CloseIcon } from "../Icons/CloseIcon";
-import { PauseIcon } from "../Icons/PauseIcon";
-import { PlayIcon } from "../Icons/PlayIcon";
+import { Pause2Icon } from "../Icons/Pause2Icon";
+import { Play2Icon } from "../Icons/Play2Icon";
 
 /** Visual style of the waveform. */
 export type VoiceNoteVariant = "default" | "flat";
@@ -279,7 +279,7 @@ export const VoiceNote = React.forwardRef<HTMLDivElement, VoiceNoteProps>(
             variant="secondary"
             size={CONTROL_SIZE[size]}
             negative={negative}
-            icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
+            icon={isPlaying ? <Pause2Icon filled /> : <Play2Icon filled />}
             aria-label={controlLabel}
             onClick={handlePlayPause}
           />
