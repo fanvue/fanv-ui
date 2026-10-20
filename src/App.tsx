@@ -4404,6 +4404,12 @@ function TabsDemo() {
             <p className="pt-4 text-neutral-alphas-400 text-sm">Posts content</p>
           </TabsContent>
         </Tabs>
+        <Tabs defaultValue="all">
+          <TabsList appearance="pill" aria-label="Categories">
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="promotions">Promotions</TabsTrigger>
+          </TabsList>
+        </Tabs>
         <Tabs defaultValue="tab1">
           <TabsList>
             <TabsTrigger value="tab1">Active</TabsTrigger>

@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { useDragToDismiss } from "../../utils/useDragToDismiss";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
 import { ArrowLeftIcon } from "../Icons/ArrowLeftIcon";
@@ -115,6 +116,9 @@ const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
  * render a centered floating card instead (used for small confirmation dialogs).
  * On larger viewports it renders centered with full border radius.
  *
+ * It animates in and out. While the closing animation plays the panel stays
+ * mounted but ignores pointer input, so a second click can't act on it.
+ *
  * @example
  * ```tsx
  * <Dialog>
@@ -156,59 +160,81 @@ export const DialogContent = React.forwardRef<
     },
     ref,
   ) => {
-    const content = (
-      <>
-        {overlay && <DialogOverlay {...overlayProps} />}
-        <DialogPrimitive.Content
-          ref={ref}
-          style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
-          onOpenAutoFocus={(e) => {
-            if (onOpenAutoFocus) {
-              onOpenAutoFocus(e);
-              return;
-            }
-            e.preventDefault();
-            (e.currentTarget as HTMLElement).focus();
-          }}
-          className={cn(
-            "fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
-            "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
-            "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
-            mobilePresentation === "card"
-              ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
-                cn(
-                  "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
-                  "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
-                  "sm:inset-x-auto",
-                )
-              : // Bottom sheet pinned to the viewport bottom edge
-                cn(
-                  "dialog-max-h-dynamic inset-x-0 bottom-0 w-full rounded-t-xl p-4 pt-3",
-                  "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
-                  "data-[state=open]:slide-in-from-bottom-full",
-                  "data-[state=closed]:slide-out-to-bottom-full",
-                  "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
-                  "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
-                ),
-            "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
-            "duration-200",
-            SIZE_CLASSES[size],
-            className,
-          )}
-          {...props}
-        >
-          {showMobileHandle && mobilePresentation === "sheet" && (
-            <div
-              aria-hidden="true"
-              className="mb-3 h-1 w-8 shrink-0 self-center rounded-full bg-icons-tertiary sm:hidden"
-            />
-          )}
-          {children}
-        </DialogPrimitive.Content>
-      </>
+    const closeRef = React.useRef<HTMLButtonElement>(null);
+    const contentProps = useDragToDismiss(
+      {
+        enabled: mobilePresentation === "sheet",
+        media: "(max-width: 639.98px)",
+        onDismiss: () => closeRef.current?.click(),
+      },
+      props,
     );
+    const content = (
+      <DialogPrimitive.Content
+        ref={ref}
+        style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
+        onOpenAutoFocus={(e) => {
+          if (onOpenAutoFocus) {
+            onOpenAutoFocus(e);
+            return;
+          }
+          e.preventDefault();
+          (e.currentTarget as HTMLElement).focus();
+        }}
+        className={cn(
+          "fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
+          "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
+          "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
+          "data-[state=closed]:pointer-events-none!",
+          mobilePresentation === "card"
+            ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
+              cn(
+                "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
+                "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
+                "sm:inset-x-auto",
+              )
+            : // Bottom sheet pinned to the viewport bottom edge
+              cn(
+                "dialog-max-h-dynamic inset-x-0 bottom-0 w-full rounded-t-xl p-4 pt-3",
+                "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
+                "data-[state=open]:slide-in-from-bottom-full",
+                "data-[state=closed]:slide-out-to-bottom-full",
+                "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
+                "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
+              ),
+          "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
+          "duration-200",
+          SIZE_CLASSES[size],
+          className,
+        )}
+        {...contentProps}
+      >
+        <DialogPrimitive.Close ref={closeRef} hidden tabIndex={-1} aria-hidden="true" />
+        {showMobileHandle && mobilePresentation === "sheet" && (
+          <div
+            aria-hidden="true"
+            className="mb-3 h-1 w-8 shrink-0 self-center rounded-full bg-icons-tertiary sm:hidden"
+          />
+        )}
+        {children}
+      </DialogPrimitive.Content>
+    );
+    const overlayElement = overlay ? <DialogOverlay {...overlayProps} /> : null;
 
-    return portal ? <DialogPrimitive.Portal>{content}</DialogPrimitive.Portal> : content;
+    if (!portal) {
+      return (
+        <>
+          {overlayElement}
+          {content}
+        </>
+      );
+    }
+    return (
+      <DialogPrimitive.Portal>
+        {overlayElement}
+        {content}
+      </DialogPrimitive.Portal>
+    );
   },
 );
 DialogContent.displayName = "DialogContent";
