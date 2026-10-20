@@ -3136,7 +3136,10 @@ function DropdownMenuDemo() {
               <DropdownMenuHeader
                 type="search"
                 title="Creators"
-                searchProps={{ autoFocus: true, placeholder: "Search creators" }}
+                searchProps={{
+                  autoFocus: true,
+                  placeholder: "Search creators",
+                }}
               />
               {["Jane Doe", "Alex Kim", "Sam Patel"].map((name) => (
                 <DropdownMenuCheckboxItem
@@ -6132,7 +6135,6 @@ function App() {
             {/* Accordion */}
             <AccordionDemo />
 
-            {/* Action Input */}
             <ActionInputDemo />
 
             {/* Alert */}
