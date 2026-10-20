@@ -49,8 +49,6 @@ export const DropdownMenuAvatarItem = React.forwardRef<
     ref={ref}
     asChild
     selected={selected}
-    // `V2 Menu Avatar Item` is a 52px row with a 12px radius, not the 40px
-    // item's 16px type and xs radius, so the size classes are overridden here.
     className={cn("min-h-0 gap-3 rounded-sm py-2", className)}
     {...props}
   >

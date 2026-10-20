@@ -32,7 +32,6 @@ describe("DropdownMenuAvatarItem", () => {
     const item = screen.getByRole("menuitem");
     expect(item).toHaveTextContent("Maya Chen");
     expect(item).toHaveTextContent("@mayachen");
-    // Avatar's fallback mounts on the next tick (delayMs 0).
     await waitFor(() => expect(item).toHaveTextContent("MC"));
   });
 
