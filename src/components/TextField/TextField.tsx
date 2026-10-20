@@ -21,6 +21,8 @@ export interface TextFieldProps
   validated?: boolean;
   /** Icon element displayed at the left side of the input. */
   leftIcon?: React.ReactNode;
+  /** Size in pixels of the slot that holds `leftIcon`. @default "16" */
+  leftIconSize?: "16" | "24";
   /** Icon element displayed at the right side of the input. */
   rightIcon?: React.ReactNode;
   /** Fixed, non-editable label pinned inside the left edge of the field — for a prefix such as a currency symbol or country code. */
@@ -90,10 +92,21 @@ function getContainerClassName(
   );
 }
 
-function LeadingIcon({ children }: { children?: React.ReactNode }) {
+function LeadingIcon({
+  size = "16",
+  children,
+}: {
+  size?: "16" | "24";
+  children?: React.ReactNode;
+}) {
   if (!children) return null;
   return (
-    <span className="pointer-events-none flex size-4 shrink-0 items-center justify-center text-content-secondary">
+    <span
+      className={cn(
+        "pointer-events-none flex shrink-0 items-center justify-center text-content-secondary",
+        size === "24" ? "size-6" : "size-4",
+      )}
+    >
       {children}
     </span>
   );
@@ -222,6 +235,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       errorMessage,
       validated = false,
       leftIcon,
+      leftIconSize,
       rightIcon,
       leftLabel,
       rightLabel,
@@ -293,7 +307,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           className={getContainerClassName(size, error, disabled, action != null)}
           onMouseDown={handleContainerMouseDown}
         >
-          <LeadingIcon>{leftIcon}</LeadingIcon>
+          <LeadingIcon size={leftIconSize}>{leftIcon}</LeadingIcon>
           <SideLabel id={leftLabelId} size={size} align="left">
             {leftLabel}
           </SideLabel>

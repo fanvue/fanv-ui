@@ -298,14 +298,16 @@ export const DropdownMenuContent = React.forwardRef<
           sideOffset={sideOffset}
           collisionPadding={collisionPadding}
           className={cn(
-            // Panel tokens come from `V2 Menu Dropdown`: `rounded-sm` (12px) over
-            // `Surface/Primary`, a `Border/Primary` stroke, 4px of padding, and the
-            // `blur + shadow/floating` effect.
+            // Panel tokens come from `V2 Menu Dropdown` (product file node
+            // `7393:62008`): `rounded-lg` (24px) over `Background/Secondary`, a
+            // `Border/Strong` stroke, 8px of padding, and the `blur + shadow/menu`
+            // effect. Rows inside it are 16px `rounded-md`: the panel's 24px less its
+            // 8px padding, so a highlighted row's corners sit concentric with it.
             //
             // `backdrop-blur-[4px]` is the CSS equivalent of that effect's
             // BACKGROUND_BLUR radius 8, which Figma halves on export. It is not a
             // 4-against-8 mismatch.
-            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-sm border border-border-primary bg-surface-primary p-1 text-content-primary shadow-blur-floating backdrop-blur-[4px]",
+            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-lg border border-border-strong bg-background-secondary p-2 text-content-primary shadow-blur-menu backdrop-blur-[4px]",
             "data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:animate-out",
             "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",

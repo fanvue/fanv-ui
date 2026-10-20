@@ -49,8 +49,9 @@ export const DropdownMenuRadioItem = React.forwardRef<
       className={cn(
         // `px-3` (12px), not 16px: `V2 Menu Radio Item` is `px-[12px] py-[8px]`
         // (node `7393:62008`), and at 16px a radio row indented 4px further than a
-        // `DropdownMenuCheckboxItem` in the same menu.
-        "group flex w-full cursor-pointer items-start gap-3 rounded-xs px-3 py-2 outline-none",
+        // `DropdownMenuCheckboxItem` in the same menu. 16px radius like
+        // `DropdownMenuItem`, so the highlight sits concentric with the panel.
+        "group flex w-full cursor-pointer items-start gap-3 rounded-md px-3 py-2 outline-none",
         "data-[highlighted]:bg-neutral-alphas-50",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
         // See DropdownMenuItem above: bg-interaction-hover aliases to the same
@@ -126,7 +127,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
     <DropdownMenuPrimitive.CheckboxItem
       ref={ref}
       className={cn(
-        "group flex w-full cursor-pointer items-center gap-3 rounded-xs px-3 py-2 outline-none",
+        "group flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 outline-none",
         // Checked state is carried by the tick alone. A background here would
         // leave every selected row shaded, which reads as "all highlighted" on
         // a menu that starts fully selected.

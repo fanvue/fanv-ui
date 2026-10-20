@@ -42,6 +42,20 @@ describe("SearchField", () => {
       expect(container?.querySelector("svg")).toBeInTheDocument();
     });
 
+    it("renders the search icon at 24px", () => {
+      render(<SearchField placeholder="Search" size="40" />);
+      const icon = screen.getByPlaceholderText("Search").closest("div")?.querySelector("svg");
+      expect(icon).toHaveAttribute("viewBox", "0 0 24 24");
+      expect(icon?.parentElement).toHaveClass("size-6");
+    });
+
+    it("renders the search icon at 16px in the 32px field", () => {
+      render(<SearchField placeholder="Search" size="32" />);
+      const icon = screen.getByPlaceholderText("Search").closest("div")?.querySelector("svg");
+      expect(icon).toHaveAttribute("viewBox", "0 0 16 16");
+      expect(icon?.parentElement).toHaveClass("size-4");
+    });
+
     it("shows clear button when onClear is provided and field has value", () => {
       render(
         <SearchField value="test" onChange={vi.fn()} onClear={vi.fn()} placeholder="Search" />,
