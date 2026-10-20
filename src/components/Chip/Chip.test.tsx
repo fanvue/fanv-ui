@@ -12,6 +12,14 @@ describe("Chip", () => {
       expect(chip).toHaveClass("custom-class");
     });
 
+    it.each([
+      ["32", "min-w-12"],
+      ["40", "min-w-14"],
+    ] as const)("applies the design min-width at size %s", (size, minWidth) => {
+      render(<Chip size={size}>All</Chip>);
+      expect(screen.getByTestId("chip")).toHaveClass(minWidth);
+    });
+
     it("renders as a span by default (static)", () => {
       render(<Chip>Static</Chip>);
       const chip = screen.getByTestId("chip");

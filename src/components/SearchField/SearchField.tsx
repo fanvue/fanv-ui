@@ -6,7 +6,8 @@ import { TextField, type TextFieldProps } from "../TextField/TextField";
 
 export type SearchFieldSize = "48" | "40" | "32";
 
-export interface SearchFieldProps extends Omit<TextFieldProps, "type" | "leftIcon"> {
+export interface SearchFieldProps
+  extends Omit<TextFieldProps, "type" | "leftIcon" | "leftIconSize"> {
   /** Size variant of the search field. @default "48" */
   size?: SearchFieldSize;
   /** Callback fired when the clear button is clicked. If provided, a clear button appears when the field has a value. */
@@ -44,6 +45,7 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       minChars,
       onChange,
       clearAriaLabel = "Clear search",
+      size = "48",
       ...props
     },
     ref,
@@ -96,7 +98,8 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
     }, [onClear]);
 
     const displayValue = debounceMs || minChars ? internalValue : value;
-    const leftIcon = <SearchIcon />;
+    const isCompact = size === "32";
+    const leftIcon = <SearchIcon size={isCompact ? 16 : 24} />;
 
     const showClearButton = onClear && displayValue !== undefined && displayValue !== "";
 
@@ -115,8 +118,10 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       <TextField
         ref={ref}
         type="search"
+        size={size}
         disabled={disabled}
         leftIcon={leftIcon}
+        leftIconSize={isCompact ? "16" : "24"}
         rightIcon={rightIcon}
         value={displayValue}
         onChange={handleChange}

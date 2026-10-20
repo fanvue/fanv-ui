@@ -1,5 +1,63 @@
 # Changelog
 
+## [3.42.2](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.1...ui-v3.42.2) (2026-10-19)
+
+
+### Bug Fixes
+
+* **tokens:** match the light reply quote background to Figma ([#746](https://github.com/fanvue/fanv-ui/issues/746)) ([e914729](https://github.com/fanvue/fanv-ui/commit/e9147299ffda6e57871602cd1c483e21e6b6c3c0))
+
+## [3.42.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.0...ui-v3.42.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* **TabsOverflow:** keep the trigger's label until its menu has closed ([#743](https://github.com/fanvue/fanv-ui/issues/743)) ([82dfc2a](https://github.com/fanvue/fanv-ui/commit/82dfc2a70b188b8d3a28a62d4a45addd564020a9))
+
+## [3.42.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.41.0...ui-v3.42.0) (2026-10-14)
+
+
+### Features
+
+* **Tabs:** add a pill appearance and overflow menu to TabsList ([#739](https://github.com/fanvue/fanv-ui/issues/739)) ([54c605e](https://github.com/fanvue/fanv-ui/commit/54c605e04fbd83e95440287fab669dff2b8e5159))
+
+
+### Bug Fixes
+
+* **Dialog:** let the closing animation play, and ignore clicks while it does ([#740](https://github.com/fanvue/fanv-ui/issues/740)) ([8a3c57e](https://github.com/fanvue/fanv-ui/commit/8a3c57e2c3b677f4cbefa98f1dc325548035b2e3))
+
+## [3.41.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.40.1...ui-v3.41.0) (2026-10-09)
+
+
+### Features
+
+* **icons:** add CommentIcon from Figma ([#738](https://github.com/fanvue/fanv-ui/issues/738)) ([5facbf8](https://github.com/fanvue/fanv-ui/commit/5facbf8b0c44ea0b7797f78d0fe031975f19aec9))
+
+
+### Bug Fixes
+
+* **Checkbox:** draw the hover ring inset so overflow containers can't clip it (ENG-15599) ([#735](https://github.com/fanvue/fanv-ui/issues/735)) ([9e68d9e](https://github.com/fanvue/fanv-ui/commit/9e68d9ec3c23bd62acb91f9fd8bd7e29a25e7e14))
+
+## [3.40.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.40.0...ui-v3.40.1) (2026-10-07)
+
+
+### Bug Fixes
+
+* **DropdownMenu:** restore the v2 panel and make rows and search concentric with it ([#734](https://github.com/fanvue/fanv-ui/issues/734)) ([18bff94](https://github.com/fanvue/fanv-ui/commit/18bff94b2cb36b03ad195cf9bbf93ef8e88548a9))
+
+## [3.40.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.39.0...ui-v3.40.0) (2026-10-06)
+
+
+### Features
+
+* **Dialog,Drawer:** drag bottom sheets down to dismiss ([#724](https://github.com/fanvue/fanv-ui/issues/724)) ([962528d](https://github.com/fanvue/fanv-ui/commit/962528d16309756b894d26eb88aaa7e24949b2de))
+
+
+### Bug Fixes
+
+* chat inbox design QA for SearchField, Chip, Checkbox and DropdownMenu ([#723](https://github.com/fanvue/fanv-ui/issues/723)) ([dd12a50](https://github.com/fanvue/fanv-ui/commit/dd12a5040f8738c65242ad0d04bf15a3ae7df001))
+* **deps:** override source-map-js to &gt;=1.2.2 ([#733](https://github.com/fanvue/fanv-ui/issues/733)) ([4b9ecab](https://github.com/fanvue/fanv-ui/commit/4b9ecab9e27dcb798bbc32c90ff349ad472f2d2a))
+
 ## [3.39.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.38.0...ui-v3.39.0) (2026-10-05)
 
 

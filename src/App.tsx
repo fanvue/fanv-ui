@@ -3098,7 +3098,10 @@ function DropdownMenuDemo() {
               <DropdownMenuHeader
                 type="search"
                 title="Creators"
-                searchProps={{ autoFocus: true, placeholder: "Search creators" }}
+                searchProps={{
+                  autoFocus: true,
+                  placeholder: "Search creators",
+                }}
               />
               {["Jane Doe", "Alex Kim", "Sam Patel"].map((name) => (
                 <DropdownMenuCheckboxItem
@@ -4377,6 +4380,12 @@ function TabsDemo() {
           <TabsContent value="tab3">
             <p className="pt-4 text-neutral-alphas-400 text-sm">Posts content</p>
           </TabsContent>
+        </Tabs>
+        <Tabs defaultValue="all">
+          <TabsList appearance="pill" aria-label="Categories">
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="promotions">Promotions</TabsTrigger>
+          </TabsList>
         </Tabs>
         <Tabs defaultValue="tab1">
           <TabsList>
@@ -6296,7 +6305,6 @@ function App() {
             {/* Dialog */}
             <DialogDemo />
 
-            {/* Dialog menu */}
             <DialogMenuDemo />
 
             {/* Bottom Navigation */}
