@@ -43,6 +43,7 @@ import { CloseIcon } from "./CloseIcon";
 import { CodeIcon } from "./CodeIcon";
 import { CogIcon } from "./CogIcon";
 import { CoinIcon } from "./CoinIcon";
+import { CommentIcon } from "./CommentIcon";
 import { CompassIcon } from "./CompassIcon";
 import { CopyIcon } from "./CopyIcon";
 import { CrossCircleIcon } from "./CrossCircleIcon";
@@ -248,6 +249,7 @@ const propBasedIcons = [
   { name: "CodeIcon", Component: CodeIcon, hasFilled: true },
   { name: "CogIcon", Component: CogIcon, hasFilled: true },
   { name: "CoinIcon", Component: CoinIcon, hasFilled: true },
+  { name: "CommentIcon", Component: CommentIcon, hasFilled: true },
   { name: "CompassIcon", Component: CompassIcon, hasFilled: true },
   { name: "CopyIcon", Component: CopyIcon, hasFilled: true },
   { name: "CrossCircleIcon", Component: CrossCircleIcon, hasFilled: true },
