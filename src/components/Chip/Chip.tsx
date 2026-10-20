@@ -140,8 +140,8 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           // Shape
           variant === "square" ? "rounded-xs" : "rounded-full",
           // Size (32px uses 12px text, 40px uses 14px text per the design spec)
-          size === "32" && "typography-description-12px-semibold h-8 py-1",
-          size === "40" && "typography-body-small-14px-semibold h-10 py-2.5",
+          size === "32" && "typography-description-12px-semibold h-8 min-w-12 py-1",
+          size === "40" && "typography-body-small-14px-semibold h-10 min-w-14 py-2.5",
           // Variant colors
           isDark && "bg-neutral-alphas-600 text-content-always-white",
           (isSolid || isOutlined) &&

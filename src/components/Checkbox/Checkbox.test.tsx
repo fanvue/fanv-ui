@@ -79,14 +79,14 @@ describe("Checkbox", () => {
       const { container } = render(<Checkbox size="24" aria-label="V2 size" />);
       const checkbox = container.querySelector('[data-testid="checkbox"]');
       expect(checkbox).toHaveClass("size-6", "rounded-xs");
-      expect(checkbox).not.toHaveClass("size-5", "size-4", "rounded");
+      expect(checkbox).not.toHaveClass("size-5", "size-4", "rounded-2xs");
     });
 
-    it("keeps the 4px radius on the 20 and 16 sizes", () => {
+    it("keeps the 2xs radius on the 20 and 16 sizes", () => {
       const { container, rerender } = render(<Checkbox aria-label="Default" />);
-      expect(container.querySelector('[data-testid="checkbox"]')).toHaveClass("rounded");
+      expect(container.querySelector('[data-testid="checkbox"]')).toHaveClass("rounded-2xs");
       rerender(<Checkbox size="16" aria-label="Compact" />);
-      expect(container.querySelector('[data-testid="checkbox"]')).toHaveClass("rounded");
+      expect(container.querySelector('[data-testid="checkbox"]')).toHaveClass("rounded-2xs");
     });
 
     it("uses a 12px gap and aligned helper text at size 24", () => {
