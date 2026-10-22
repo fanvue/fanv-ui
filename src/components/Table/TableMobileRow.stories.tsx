@@ -46,6 +46,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const WithoutBadge: Story = {
+  args: { badge: undefined, actions: undefined },
+};
+
 export const List: Story = {
   render: (args) => (
     <div className="flex flex-col gap-4">
