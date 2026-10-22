@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.43.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.2...ui-v3.43.0) (2026-10-22)
+
+
+### Features
+
+* **Table:** add the V2 Table Mobile row ([#748](https://github.com/fanvue/fanv-ui/issues/748)) ([10fd139](https://github.com/fanvue/fanv-ui/commit/10fd139b406d2d1835560ea675556ad1a6a9c234))
+
 ## [3.42.2](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.1...ui-v3.42.2) (2026-10-19)
 
 
