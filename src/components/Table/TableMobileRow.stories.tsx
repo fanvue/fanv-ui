@@ -26,16 +26,6 @@ const meta = {
   args: {
     title: "Top Spenders",
     description: "320 members",
-  },
-} satisfies Meta<typeof TableMobileRow>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const Default: Story = {};
-
-export const WithBadgeAndActions: Story = {
-  args: {
     badge: <Pill variant="green">Dynamic</Pill>,
     actions: (
       <>
@@ -49,12 +39,17 @@ export const WithBadgeAndActions: Story = {
       </>
     ),
   },
-};
+} satisfies Meta<typeof TableMobileRow>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
 
 export const List: Story = {
   render: (args) => (
     <div className="flex flex-col gap-4">
-      <TableMobileRow {...args} badge={<Pill variant="green">Dynamic</Pill>} />
+      <TableMobileRow {...args} />
       <TableMobileRow
         {...args}
         title="Free trial"
