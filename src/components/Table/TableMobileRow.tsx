@@ -1,0 +1,57 @@
+import * as React from "react";
+import { cn } from "../../utils/cn";
+
+export interface TableMobileRowProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+  /** Status or type label above the title, typically a {@link Pill}. */
+  badge?: React.ReactNode;
+  /** Primary line (semibold body). */
+  title: React.ReactNode;
+  /** Secondary line beneath the title (muted). */
+  description?: React.ReactNode;
+  /** Trailing controls on the badge line, such as a favourite toggle and a navigation {@link IconButton}. */
+  actions?: React.ReactNode;
+}
+
+/**
+ * Stacked row that stands in for a table row on narrow screens (Figma `V2 Table Mobile`):
+ * a badge and actions line, then a title with a description, closed by a divider.
+ *
+ * @example
+ * ```tsx
+ * <TableMobileRow
+ *   badge={<Pill variant="green">Dynamic</Pill>}
+ *   title="Top Spenders"
+ *   description="320 members"
+ *   actions={<IconButton aria-label="Open list" icon={<ChevronRightIcon />} />}
+ * />
+ * ```
+ */
+export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowProps>(
+  ({ className, badge, title, description, actions, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn("flex w-full flex-col gap-4 border-border-primary border-b py-4", className)}
+        {...props}
+      >
+        {(badge || actions) && (
+          <div className="flex min-h-6 items-center justify-between gap-2">
+            <div className="flex min-w-0 items-center">{badge}</div>
+            {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
+          </div>
+        )}
+        <div className="flex min-w-0 flex-col">
+          <p className="typography-body-default-16px-semibold truncate text-content-primary">
+            {title}
+          </p>
+          {description && (
+            <p className="typography-body-small-14px-regular truncate text-content-tertiary">
+              {description}
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  },
+);
+TableMobileRow.displayName = "TableMobileRow";

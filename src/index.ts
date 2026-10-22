@@ -864,6 +864,8 @@ export {
   TableStatusDot,
   TableToolbar,
 } from "./components/Table/Table";
+export type { TableMobileRowProps } from "./components/Table/TableMobileRow";
+export { TableMobileRow } from "./components/Table/TableMobileRow";
 export type {
   TablePaginationLayout,
   TablePaginationProps,
