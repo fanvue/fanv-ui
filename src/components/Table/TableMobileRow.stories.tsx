@@ -52,7 +52,7 @@ export const WithoutBadge: Story = {
 
 export const List: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       <TableMobileRow {...args} />
       <TableMobileRow
         {...args}

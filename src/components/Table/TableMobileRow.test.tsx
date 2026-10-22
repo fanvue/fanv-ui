@@ -28,13 +28,6 @@ describe("TableMobileRow", () => {
       expect(container.firstChild?.childNodes).toHaveLength(1);
     });
 
-    it("pads the top only when there is no badge or actions line", () => {
-      const { container, rerender } = render(<TableMobileRow title="Top Spenders" />);
-      expect(container.firstChild).toHaveClass("pt-4");
-      rerender(<TableMobileRow title="Top Spenders" badge={<span>Dynamic</span>} />);
-      expect(container.firstChild).not.toHaveClass("pt-4");
-    });
-
     it("omits the description when it is not given", () => {
       const { container } = render(<TableMobileRow title="Top Spenders" />);
       expect(container.querySelectorAll("p")).toHaveLength(1);

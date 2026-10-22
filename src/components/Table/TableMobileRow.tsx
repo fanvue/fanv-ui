@@ -28,20 +28,13 @@ export interface TableMobileRowProps extends Omit<React.HTMLAttributes<HTMLDivEl
  */
 export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowProps>(
   ({ className, badge, title, description, actions, ...props }, ref) => {
-    const hasHeader = Boolean(badge || actions);
-
     return (
       <div
         ref={ref}
-        className={cn(
-          "relative flex w-full flex-col gap-4 pb-4 after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-border-primary",
-          // Without the badge line the title is the first thing in the row, so it gets the same 16px above as below.
-          !hasHeader && "pt-4",
-          className,
-        )}
+        className={cn("flex w-full flex-col gap-4 border-border-primary border-b py-4", className)}
         {...props}
       >
-        {hasHeader && (
+        {(badge || actions) && (
           <div className="flex min-h-6 items-center justify-between gap-2">
             <div className="flex min-w-0 items-center">{badge}</div>
             {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
