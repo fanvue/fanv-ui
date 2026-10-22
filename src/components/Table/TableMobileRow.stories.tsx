@@ -9,7 +9,7 @@ const meta = {
   title: "Components/Table/TableMobileRow",
   component: TableMobileRow,
   parameters: {
-    layout: "centered",
+    layout: "padded",
     design: {
       type: "figma",
       url: "https://www.figma.com/design/23x2vofTPkLpbcJyRdDa55/Creator---Management--Teams?node-id=9076-75776",
@@ -18,7 +18,7 @@ const meta = {
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <div className="w-[361px]">
+      <div className="w-full max-w-[361px]">
         <Story />
       </div>
     ),
