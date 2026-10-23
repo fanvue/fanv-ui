@@ -42,18 +42,44 @@ const VARIANTS: IconVariants = {
 };
 
 /** Props for {@link StarIcon}. See {@link BaseIconProps} for the shared shape. */
-export type StarIconProps = BaseIconProps;
+export interface StarIconProps extends BaseIconProps {
+  /** Paint the filled star with the Buttons/Favourite gradient instead of `currentColor`. @default false */
+  favourite?: boolean;
+}
 
 /**
  * Star icon. Renders at sizes 16, 24, or 32 px with outlined and filled variants.
+ * Set `favourite` for the gold favourite star; the outlined state keeps `currentColor`.
  *
  * @example
  * ```tsx
  * <StarIcon size={24} filled />
+ * <StarIcon size={16} filled={isFavourite} favourite />
  * ```
  */
-export const StarIcon = React.forwardRef<SVGSVGElement, StarIconProps>((props, ref) => (
-  <BaseIcon ref={ref} variants={VARIANTS} {...props} />
-));
+export const StarIcon = React.forwardRef<SVGSVGElement, StarIconProps>(
+  ({ favourite = false, ...props }, ref) => {
+    const gradientId = `${React.useId()}-favourite`;
+
+    if (!favourite) {
+      return <BaseIcon ref={ref} variants={VARIANTS} {...props} />;
+    }
+
+    return (
+      <BaseIcon
+        ref={ref}
+        variants={VARIANTS}
+        filledFill={`url(#${gradientId})`}
+        defs={
+          <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style={{ stopColor: "var(--color-buttons-favourite-start)" }} />
+            <stop offset="1" style={{ stopColor: "var(--color-buttons-favourite-end)" }} />
+          </linearGradient>
+        }
+        {...props}
+      />
+    );
+  },
+);
 
 StarIcon.displayName = "StarIcon";
