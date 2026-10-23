@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 import * as React from "react";
 import { cn } from "@/utils/cn";
 import { ICON_SIZE_CLASS } from "../Icons/iconSizeClass";
+import type { IconSize } from "../Icons/types";
 import type { AnimatedIconHandle, AnimatedIconProps } from "./types";
 import { useIconAnimation } from "./useIconAnimation";
 
@@ -20,6 +21,12 @@ const PATH_VARIANTS: Variants = {
   animate: { x: [0, 1.5, 0] },
 };
 
+const STROKE_WIDTH: Record<IconSize, number> = {
+  16: 1.5,
+  24: 1.2,
+  32: 1.125,
+};
+
 /** Props for {@link MenuOpenIcon}. See {@link AnimatedIconProps} for the shared shape. */
 export type MenuOpenIconProps = AnimatedIconProps;
 
@@ -30,7 +37,7 @@ export type MenuOpenIconHandle = AnimatedIconHandle;
  * Animated MenuOpen icon — the animated twin of `MenuOpenIcon` from
  * `@fanvue/ui`. Plays on hover, or on demand through `controlRef`, and stays
  * still when the user has asked for reduced motion.
- * Renders at sizes 16, 24, or 32 px — the same box as the static icon.
+ * Renders at sizes 16, 24, or 32 px — the same box and stroke weight as the static icon.
  *
  * @example
  * ```tsx
@@ -60,7 +67,7 @@ export const MenuOpenIcon = React.forwardRef<SVGSVGElement, MenuOpenIconProps>(
         strokeLinecap="round"
         strokeLinejoin="round"
         viewBox="0 0 24 24"
-        strokeWidth="2"
+        strokeWidth={STROKE_WIDTH[size]}
         className={cn(ICON_SIZE_CLASS[size], className)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
