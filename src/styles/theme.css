@@ -868,7 +868,7 @@
   --color-buttons-disabled-default: var(--primitives-color-gray-800);
   --color-buttons-disabled-negative: var(--primitives-color-gray-200);
   --color-buttons-secondary-default: var(--color-neutral-alphas-50);
-  --color-buttons-secondary-hover: var(--color-neutral-alphas-300);
+  --color-buttons-secondary-hover: var(--color-neutral-alphas-200);
   --color-buttons-secondary-negative-default: var(--primitives-color-blackalpha-100);
   --color-buttons-secondary-negative-hover: var(--primitives-color-blackalpha-200);
   --color-buttons-tertiary-default: #ffffff00;
