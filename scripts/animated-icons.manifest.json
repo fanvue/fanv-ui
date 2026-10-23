@@ -174,14 +174,6 @@
         "sha256": "7d7bffe30960806b1577d4efb475bcbcc425d27113164a99e166c56725d2381b",
         "fetchedAt": "2026-08-20T14:48:18.543Z"
       },
-      "panel-left-close": {
-        "sha256": "8b76bc33f8b3ccf47824ca76dc4c02b42a91e25811eef33220fac6262956866d",
-        "fetchedAt": "2026-08-20T14:48:18.542Z"
-      },
-      "panel-left-open": {
-        "sha256": "84d8a35a21bf22aaf1f2b0e04f7480ae6d489ddc602dcfcece6e54d49aa2b7d2",
-        "fetchedAt": "2026-08-20T14:48:18.542Z"
-      },
       "phone": {
         "sha256": "69f7fac179b512fcd0346f42ea428c1e22e341f37b732f3c9bd230f505668304",
         "fetchedAt": "2026-08-20T14:48:18.545Z"
@@ -461,7 +453,8 @@
     },
     {
       "name": "MenuCloseIcon",
-      "slug": "panel-left-close",
+      "slug": "menu-close",
+      "local": true,
       "propBased": true
     },
     {
@@ -471,7 +464,8 @@
     },
     {
       "name": "MenuOpenIcon",
-      "slug": "panel-left-open",
+      "slug": "menu-open",
+      "local": true,
       "propBased": true
     },
     {
