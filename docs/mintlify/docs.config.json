@@ -99,6 +99,7 @@
   ],
   "categories": {
     "Accordion": "Data Display",
+    "ActionInput": "Forms & Inputs",
     "AiButton": "Actions",
     "AiDisclosureBadge": "Feedback & Status",
     "AiDisclosureLabel": "Feedback & Status",
