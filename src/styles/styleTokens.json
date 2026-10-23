@@ -6916,7 +6916,7 @@
             "default": {
               "description": "",
               "type": "color",
-              "value": "{semantic.dark.color.neutral-alphas.200}",
+              "value": "{semantic.dark.color.neutral-alphas.50}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Dark",
