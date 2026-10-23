@@ -6916,7 +6916,7 @@
             "default": {
               "description": "",
               "type": "color",
-              "value": "{semantic.dark.color.neutral-alphas.200}",
+              "value": "{semantic.dark.color.neutral-alphas.50}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Dark",
@@ -6931,7 +6931,7 @@
             "hover": {
               "description": "",
               "type": "color",
-              "value": "{semantic.dark.color.neutral-alphas.300}",
+              "value": "{semantic.dark.color.neutral-alphas.200}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Dark",
@@ -7236,7 +7236,7 @@
             "default": {
               "description": "",
               "type": "color",
-              "value": "{semantic.dark.color.neutral-alphas.200}",
+              "value": "{semantic.dark.color.neutral-alphas.100}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Dark",
@@ -7251,7 +7251,7 @@
             "hover": {
               "description": "",
               "type": "color",
-              "value": "{semantic.dark.color.neutral-alphas.300}",
+              "value": "{semantic.dark.color.neutral-alphas.200}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Dark",

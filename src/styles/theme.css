@@ -867,8 +867,8 @@
   --color-buttons-brand-muted: var(--color-brand-primary-muted);
   --color-buttons-disabled-default: var(--primitives-color-gray-800);
   --color-buttons-disabled-negative: var(--primitives-color-gray-200);
-  --color-buttons-secondary-default: var(--color-neutral-alphas-200);
-  --color-buttons-secondary-hover: var(--color-neutral-alphas-300);
+  --color-buttons-secondary-default: var(--color-neutral-alphas-50);
+  --color-buttons-secondary-hover: var(--color-neutral-alphas-200);
   --color-buttons-secondary-negative-default: var(--primitives-color-blackalpha-100);
   --color-buttons-secondary-negative-hover: var(--primitives-color-blackalpha-200);
   --color-buttons-tertiary-default: #ffffff00;
@@ -887,8 +887,8 @@
   --color-buttons-always-black-hover: var(--primitives-color-gray-600);
   --color-buttons-switch-hover: var(--color-neutral-alphas-100);
   --color-buttons-switch-active: var(--color-buttons-primary-default);
-  --color-buttons-chip-default: var(--color-neutral-alphas-200);
-  --color-buttons-chip-hover: var(--color-neutral-alphas-300);
+  --color-buttons-chip-default: var(--color-neutral-alphas-100);
+  --color-buttons-chip-hover: var(--color-neutral-alphas-200);
   --color-buttons-chip-active: var(--primitives-color-gray-white);
   --color-buttons-chip-disabled: var(--color-buttons-disabled-default);
   --color-buttons-chip-dotted-default: var(--color-neutral-alphas-400);
