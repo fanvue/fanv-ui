@@ -17,7 +17,7 @@ const meta = {
   argTypes: {
     size: {
       control: "select",
-      options: ["20", "16", "default", "small"],
+      options: ["20", "16", "24", "default", "small"],
     },
     checked: {
       control: "select",
@@ -122,6 +122,8 @@ export const AllStates: Story = {
         <Checkbox label="With helper text" helperText="Helper" />
       </div>
       <div className="flex flex-col gap-4">
+        <Checkbox size="24" label="V2 (24px)" helperText="8px radius, 12px gap" />
+        <Checkbox size="24" checked label="V2 (24px) checked" />
         <Checkbox size="16" label="Compact (16px)" helperText="Dense surfaces like data tables" />
         <Checkbox size="small" label="Small text size" helperText="Smaller label and helper" />
         <Checkbox size="default" label="Default text size" helperText="Default label and helper" />
