@@ -17,7 +17,8 @@
       "!**/*.min.js",
       "!**/*.css",
       "!**/tsconfig*.json",
-      "!**/pnpm-lock.yaml"
+      "!**/pnpm-lock.yaml",
+      "!scripts/animated-local"
     ]
   },
   "assist": {
