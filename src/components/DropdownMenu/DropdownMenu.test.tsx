@@ -1244,6 +1244,27 @@ describe("DropdownMenu sheet variant", () => {
     expect(screen.getByTestId("separator").tagName).toBe("HR");
   });
 
+  it("resets the native <hr> border so the sheet separator draws a single line", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+          <DropdownMenuSeparator data-testid="separator" />
+          <DropdownMenuItem>Item 2</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    // Preflight gives every <hr> a currentColor border-top on top of the bg fill.
+    expect(screen.getByTestId("separator")).toHaveClass(
+      "border-0",
+      "h-px",
+      "bg-neutral-alphas-200",
+    );
+  });
+
   it("renders a plain title (not a Radix label) without requiring menu context", async () => {
     const user = userEvent.setup();
     render(
