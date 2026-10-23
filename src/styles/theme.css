@@ -887,8 +887,8 @@
   --color-buttons-always-black-hover: var(--primitives-color-gray-600);
   --color-buttons-switch-hover: var(--color-neutral-alphas-100);
   --color-buttons-switch-active: var(--color-buttons-primary-default);
-  --color-buttons-chip-default: var(--color-neutral-alphas-200);
-  --color-buttons-chip-hover: var(--color-neutral-alphas-300);
+  --color-buttons-chip-default: var(--color-neutral-alphas-100);
+  --color-buttons-chip-hover: var(--color-neutral-alphas-200);
   --color-buttons-chip-active: var(--primitives-color-gray-white);
   --color-buttons-chip-disabled: var(--color-buttons-disabled-default);
   --color-buttons-chip-dotted-default: var(--color-neutral-alphas-400);
