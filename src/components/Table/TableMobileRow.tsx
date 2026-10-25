@@ -10,6 +10,8 @@ export interface TableMobileRowProps extends Omit<React.HTMLAttributes<HTMLDivEl
   description?: React.ReactNode;
   /** Trailing controls on the badge line, such as a favourite toggle and a navigation {@link IconButton}. */
   actions?: React.ReactNode;
+  /** When `true`, the title and description wrap onto more lines instead of truncating. @default false */
+  wrap?: boolean;
 }
 
 /**
@@ -27,7 +29,7 @@ export interface TableMobileRowProps extends Omit<React.HTMLAttributes<HTMLDivEl
  * ```
  */
 export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowProps>(
-  ({ className, badge, title, description, actions, ...props }, ref) => {
+  ({ className, badge, title, description, actions, wrap = false, ...props }, ref) => {
     return (
       <div
         ref={ref}
@@ -41,11 +43,21 @@ export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowPro
           </div>
         )}
         <div className="flex min-w-0 flex-col">
-          <p className="typography-body-default-16px-semibold truncate text-content-primary">
+          <p
+            className={cn(
+              "typography-body-default-16px-semibold text-content-primary",
+              wrap ? "break-words" : "truncate",
+            )}
+          >
             {title}
           </p>
           {description && (
-            <p className="typography-body-small-14px-regular truncate text-content-tertiary">
+            <p
+              className={cn(
+                "typography-body-small-14px-regular text-content-tertiary",
+                wrap ? "break-words" : "truncate",
+              )}
+            >
               {description}
             </p>
           )}
