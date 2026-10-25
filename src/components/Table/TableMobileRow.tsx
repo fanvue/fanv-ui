@@ -30,6 +30,8 @@ export interface TableMobileRowProps extends Omit<React.HTMLAttributes<HTMLDivEl
   avatar?: React.ReactNode;
   /** Up to three label and value columns rendered under the main content. */
   subContent?: TableMobileRowSubContentItem[];
+  /** When `true`, the title and description wrap onto more lines instead of truncating. @default false */
+  wrap?: boolean;
 }
 
 /**
@@ -60,6 +62,7 @@ export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowPro
       media,
       avatar,
       subContent,
+      wrap = false,
       ...props
     },
     ref,
@@ -78,7 +81,8 @@ export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowPro
       >
         <p
           className={cn(
-            "truncate text-content-primary",
+            "text-content-primary",
+            wrap ? "break-words" : "truncate",
             labelFirst
               ? "typography-body-default-16px-regular"
               : "typography-body-default-16px-semibold",
@@ -89,7 +93,8 @@ export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowPro
         {description && (
           <p
             className={cn(
-              "truncate text-content-tertiary",
+              "text-content-tertiary",
+              wrap ? "break-words" : "truncate",
               labelFirst
                 ? "typography-body-small-14px-semibold"
                 : "typography-body-small-14px-regular",

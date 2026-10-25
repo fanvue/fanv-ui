@@ -108,6 +108,14 @@ export const WithoutBadge: Story = {
   args: { badge: undefined, actions: undefined },
 };
 
+export const Wrap: Story = {
+  args: {
+    wrap: true,
+    title: "Subscribers who renewed in the last thirty days and opened a message",
+    description: "A longer description that needs a second line to stay readable on phones",
+  },
+};
+
 export const List: Story = {
   render: (args) => (
     <div className="flex flex-col">
