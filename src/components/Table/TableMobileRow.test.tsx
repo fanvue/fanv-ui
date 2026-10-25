@@ -33,6 +33,19 @@ describe("TableMobileRow", () => {
       expect(container.querySelectorAll("p")).toHaveLength(1);
     });
 
+    it("truncates the title and description by default", () => {
+      render(<TableMobileRow title="Top Spenders" description="320 members" />);
+      expect(screen.getByText("Top Spenders")).toHaveClass("truncate");
+      expect(screen.getByText("320 members")).toHaveClass("truncate");
+    });
+
+    it("wraps the title and description when wrap is true", () => {
+      render(<TableMobileRow title="Top Spenders" description="320 members" wrap />);
+      expect(screen.getByText("Top Spenders")).not.toHaveClass("truncate");
+      expect(screen.getByText("320 members")).not.toHaveClass("truncate");
+      expect(screen.getByText("320 members")).toHaveClass("break-words");
+    });
+
     it("applies a custom className", () => {
       const { container } = render(<TableMobileRow title="Top Spenders" className="custom" />);
       expect(container.firstChild).toHaveClass("custom");
