@@ -171,7 +171,12 @@ export type {
   CheckboxSize,
 } from "./components/Checkbox/Checkbox";
 export { Checkbox } from "./components/Checkbox/Checkbox";
-export type { ChipProps, ChipSize, ChipVariant } from "./components/Chip/Chip";
+export type {
+  ChipNotificationSize,
+  ChipProps,
+  ChipSize,
+  ChipVariant,
+} from "./components/Chip/Chip";
 export { Chip } from "./components/Chip/Chip";
 export type {
   CountProps,
