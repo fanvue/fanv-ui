@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.44.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.43.0...ui-v3.44.0) (2026-10-26)
+
+
+### Features
+
+* **Chip:** add a 36px size and a 16px notification count ([#759](https://github.com/fanvue/fanv-ui/issues/759)) ([808b4c8](https://github.com/fanvue/fanv-ui/commit/808b4c873f260dfb64ad7a5f72ca61a9c1d2e642))
+* **Icons:** update the Menu Open and Menu Close artwork ([#752](https://github.com/fanvue/fanv-ui/issues/752)) ([cd4ef2e](https://github.com/fanvue/fanv-ui/commit/cd4ef2e4dc9eaa888b7abf2ecbe61f285b47d7f8))
+* **Table:** add a wrap prop to TableMobileRow ([#758](https://github.com/fanvue/fanv-ui/issues/758)) ([3222f78](https://github.com/fanvue/fanv-ui/commit/3222f781563c763d9e6902cb6fa6b036b253ba11))
+
+
+### Bug Fixes
+
+* **deps:** bump storybook to 10.6.3 and vite to 7.3.7 (ENG-16911) ([#754](https://github.com/fanvue/fanv-ui/issues/754)) ([2c64d03](https://github.com/fanvue/fanv-ui/commit/2c64d03559f9f05a28ac2a728796707694500e65))
+* **tokens:** lighten the dark secondary button and chip backgrounds to match Figma ([#753](https://github.com/fanvue/fanv-ui/issues/753)) ([963f713](https://github.com/fanvue/fanv-ui/commit/963f713033c06716b2b4e6f580ac00c02fa2c9ba))
+
 ## [3.43.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.2...ui-v3.43.0) (2026-10-22)
 
 
