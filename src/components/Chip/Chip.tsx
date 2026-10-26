@@ -6,7 +6,9 @@ import { Count, type CountVariant } from "../Count/Count";
 /** Visual variant of the chip. */
 export type ChipVariant = "rounded" | "square" | "dark";
 /** Height of the chip in pixels. */
-export type ChipSize = "32" | "40";
+export type ChipSize = "32" | "36" | "40";
+/** Height of the notification badge in pixels. */
+export type ChipNotificationSize = "16" | "20";
 
 export interface ChipProps extends React.HTMLAttributes<HTMLElement> {
   /** Visual variant of the chip. @default "rounded" */
@@ -47,6 +49,12 @@ export interface ChipProps extends React.HTMLAttributes<HTMLElement> {
   notificationMax?: number;
   /** Colour variant of the notification badge. @default "brand" */
   notificationVariant?: CountVariant;
+  /**
+   * Height of the notification badge. `"20"` is the V2 Notification Count, a
+   * rounded square; `"16"` is a circle for dense rows such as page tab chips.
+   * @default "20"
+   */
+  notificationSize?: ChipNotificationSize;
   /** Click handler — when provided, the chip renders as a `<button>` for accessibility. */
   onClick?: React.MouseEventHandler<HTMLElement>;
   /** Merge props onto a child element instead of rendering a wrapper. @default false */
@@ -80,6 +88,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
       notificationCount,
       notificationMax,
       notificationVariant = "brand",
+      notificationSize = "20",
       onClick,
       asChild = false,
       children,
@@ -121,7 +130,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         <rect
           x="0.5"
           y="0.5"
-          rx={variant === "square" ? 7.5 : size === "40" ? 19.5 : 15.5}
+          rx={variant === "square" ? 7.5 : size === "40" ? 19.5 : size === "36" ? 17.5 : 15.5}
           fill="none"
           stroke="currentColor"
           strokeWidth="1"
@@ -141,6 +150,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
           variant === "square" ? "rounded-xs" : "rounded-full",
           // Size (32px uses 12px text, 40px uses 14px text per the design spec)
           size === "32" && "typography-description-12px-semibold h-8 min-w-12 py-1",
+          size === "36" && "typography-body-small-14px-semibold h-9 min-w-14 py-2",
           size === "40" && "typography-body-small-14px-semibold h-10 min-w-14 py-2.5",
           // Variant colors
           isDark && "bg-neutral-alphas-600 text-content-always-white",
@@ -246,13 +256,16 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
             {(notificationCount != null || notificationLabel) && (
               <Count
                 variant={notificationVariant}
-                size="32"
+                size={notificationSize === "16" ? "24" : "32"}
                 className={cn(
                   // V2 Notification Count: 20px high/min-width, caption 12,
                   // 4px horizontal and 2px vertical padding, rounded-md.
-                  "absolute top-[-4px] rounded-md px-1 py-0.5",
+                  notificationSize === "20" && "absolute top-[-4px] rounded-md px-1 py-0.5",
+                  notificationSize === "16" && "absolute top-[-6px] rounded-full",
                   // Anchor the leading edge so wider values grow away from the label.
-                  size === "40" ? "left-[calc(100%_-_16px)]" : "left-[calc(100%_-_11px)]",
+                  size === "40" && "left-[calc(100%_-_16px)]",
+                  size === "36" && "left-[calc(100%_-_14px)]",
+                  size === "32" && "left-[calc(100%_-_11px)]",
                 )}
                 value={notificationCount ?? 0}
                 max={notificationMax}
