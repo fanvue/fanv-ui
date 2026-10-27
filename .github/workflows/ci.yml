@@ -66,7 +66,9 @@ jobs:
 
   test:
     name: Unit & Storybook Tests
-    runs-on: ubuntu-latest
+    # Playwright 1.58 has no build for ubuntu-26.04, which ubuntu-latest now
+    # resolves to. Unpin once Playwright supports it.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -132,7 +134,9 @@ jobs:
 
   e2e:
     name: E2E Tests
-    runs-on: ubuntu-latest
+    # Playwright 1.58 has no build for ubuntu-26.04, which ubuntu-latest now
+    # resolves to. Unpin once Playwright supports it.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
