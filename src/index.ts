@@ -184,8 +184,6 @@ export type {
   CountVariant,
 } from "./components/Count/Count";
 export { Count } from "./components/Count/Count";
-export type { CreatorCardProps } from "./components/CreatorCard/CreatorCard";
-export { CreatorCard } from "./components/CreatorCard/CreatorCard";
 export type {
   CreatorCoverProps,
   CreatorCoverSlot,
