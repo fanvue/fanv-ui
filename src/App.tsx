@@ -81,6 +81,7 @@ import {
   CompassIcon,
   CopyIcon,
   Count,
+  CreatorCard,
   CreatorCover,
   CreatorTile,
   CriticalBanner,
@@ -5650,6 +5651,61 @@ function CardDemo() {
   );
 }
 
+function CreatorCardDemo() {
+  const background = <img src="/.storybook/public/creator-card/banner.jpg" alt="" loading="lazy" />;
+  const avatar = { src: "/.storybook/public/creator-card/avatar.png", fallback: "AL" };
+  const shared = {
+    background,
+    avatar,
+    pill: { variant: "contrast" as const, children: "Popular this week" },
+    name: "Aitana Lopez",
+    verified: true,
+    tagline: "Fitness · 412 posts",
+    content: "$9.99 / month",
+  };
+
+  return (
+    <div id="creator-card" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-xs mb-4">Creator Card</h2>
+      <h3 className="typography-body-default-16px-semibold">States</h3>
+      <div className="flex flex-wrap items-start gap-6">
+        <CreatorCard
+          {...shared}
+          className="w-40 rounded-2xl"
+          action={
+            <Button variant="primary" size="32" fullWidth>
+              Subscribe
+            </Button>
+          }
+        />
+        <CreatorCard
+          {...shared}
+          className="w-40 rounded-2xl"
+          action={
+            <Button variant="secondary" size="32" fullWidth>
+              Subscribed
+            </Button>
+          }
+        />
+      </div>
+      <h3 className="typography-body-default-16px-semibold">Width, rounding and optional slots</h3>
+      <div className="flex flex-wrap items-start gap-6">
+        <CreatorCard
+          {...shared}
+          className="w-64 rounded-md"
+          pill={{ variant: "brand", children: "New creator" }}
+          action={
+            <Button variant="brand" size="32" fullWidth>
+              Subscribe
+            </Button>
+          }
+        />
+        <CreatorCard {...shared} className="w-40 rounded-none" pill={undefined} />
+      </div>
+    </div>
+  );
+}
+
 function ChatEmbedDemo() {
   const cover = "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&h=320&fit=crop";
   const stream =
@@ -5878,6 +5934,7 @@ function App() {
     { id: "chip", label: "Chip" },
     { id: "count", label: "Count" },
     { id: "fan-follower-count", label: "Fan & Follower Count" },
+    { id: "creator-card", label: "Creator Card" },
     { id: "creator-cover", label: "Creator Cover" },
     { id: "creator-tile", label: "Creator Tile" },
     { id: "chat-embed", label: "Chat Embed" },
@@ -6051,6 +6108,9 @@ function App() {
 
             {/* Creator Cover */}
             <CreatorCoverDemo />
+
+            {/* Creator Card */}
+            <CreatorCardDemo />
 
             {/* Creator Tile */}
             <CreatorTileDemo />
