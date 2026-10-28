@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.45.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.44.0...ui-v3.45.0) (2026-10-28)
+
+
+### Features
+
+* **CreatorCard:** replace with new banner card design (GRWT-944) ([#760](https://github.com/fanvue/fanv-ui/issues/760)) ([938eb07](https://github.com/fanvue/fanv-ui/commit/938eb0762816bbfb9b54dcd220dd03bb574db700))
+
 ## [3.44.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.43.0...ui-v3.44.0) (2026-10-26)
 
 
