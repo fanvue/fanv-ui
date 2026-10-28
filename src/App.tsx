@@ -5652,16 +5652,25 @@ function CardDemo() {
 }
 
 function CreatorCardDemo() {
-  const background = <img src="/.storybook/public/creator-card/banner.jpg" alt="" loading="lazy" />;
-  const avatar = { src: "/.storybook/public/creator-card/avatar.png", fallback: "AL" };
+  const background = (
+    <img
+      src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=320&h=352&fit=crop"
+      alt=""
+      loading="lazy"
+    />
+  );
+  const avatar = {
+    src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop",
+    fallback: "JD",
+  };
   const shared = {
     background,
     avatar,
     pill: { variant: "contrast" as const, children: "Popular this week" },
-    name: "Aitana Lopez",
+    name: "Jane Doe",
     verified: true,
     tagline: "412 posts",
-    content: "$9.99 / month",
+    content: <span className="block truncate">$9.99 / month</span>,
   };
 
   return (

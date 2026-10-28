@@ -14,14 +14,14 @@ const baseProps = {
       data-testid="background-image"
     />
   ),
-  name: "Aitana Lopez",
+  name: "Jane Doe",
 };
 
 describe("CreatorCard", () => {
   describe("API", () => {
     it("renders the name, tagline and content", () => {
       render(<CreatorCard {...baseProps} tagline="412 posts" content="$9.99 / month" />);
-      expect(screen.getByText("Aitana Lopez")).toBeInTheDocument();
+      expect(screen.getByText("Jane Doe")).toBeInTheDocument();
       expect(screen.getByText("412 posts")).toBeInTheDocument();
       expect(screen.getByText("$9.99 / month")).toBeInTheDocument();
     });
@@ -35,6 +35,11 @@ describe("CreatorCard", () => {
     it("renders ReactNode content", () => {
       render(<CreatorCard {...baseProps} content={<strong data-testid="price">$4.99</strong>} />);
       expect(screen.getByTestId("price")).toHaveTextContent("$4.99");
+    });
+
+    it("does not truncate content by default", () => {
+      render(<CreatorCard {...baseProps} content="$9.99 / month" />);
+      expect(screen.getByText("$9.99 / month")).not.toHaveClass("truncate");
     });
 
     it("renders the pill with the contrast variant by default", () => {
@@ -70,10 +75,10 @@ describe("CreatorCard", () => {
 
     it("forwards avatar props to the inner Avatar", async () => {
       render(
-        <CreatorCard {...baseProps} avatar={{ fallback: "AL", className: "custom-avatar" }} />,
+        <CreatorCard {...baseProps} avatar={{ fallback: "JD", className: "custom-avatar" }} />,
       );
       expect(screen.getByTestId("avatar")).toHaveClass("custom-avatar");
-      expect(await screen.findByText("AL")).toBeInTheDocument();
+      expect(await screen.findByText("JD")).toBeInTheDocument();
     });
 
     it("renders the action element", () => {
@@ -119,7 +124,7 @@ describe("CreatorCard", () => {
         <CreatorCard
           {...baseProps}
           pill={{ children: "Popular this week" }}
-          avatar={{ fallback: "AL" }}
+          avatar={{ fallback: "JD" }}
           verified
           tagline="412 posts"
           content="$9.99 / month"

@@ -22,7 +22,10 @@ export interface CreatorCardProps extends Omit<React.HTMLAttributes<HTMLDivEleme
   verifiedLabel?: string;
   /** Optional secondary line shown under the name (e.g. post count). */
   tagline?: React.ReactNode;
-  /** Optional content shown under the creator details (e.g. the subscription price). */
+  /**
+   * Optional content shown under the creator details (e.g. the subscription
+   * price). It wraps by default; pass a `truncate` element to keep it on one line.
+   */
   content?: React.ReactNode;
   /**
    * Action element rendered full-width at the bottom of the card (e.g. a
@@ -46,11 +49,11 @@ export interface CreatorCardProps extends Omit<React.HTMLAttributes<HTMLDivEleme
  *   className="w-40 rounded-md"
  *   background={<img src="/banner.jpg" alt="" />}
  *   pill={{ variant: "contrast", children: "Popular this week" }}
- *   avatar={{ src: "/avatar.jpg", fallback: "AL" }}
- *   name="Aitana Lopez"
+ *   avatar={{ src: "/avatar.jpg", fallback: "JD" }}
+ *   name="Jane Doe"
  *   verified
  *   tagline="412 posts"
- *   content="$9.99 / month"
+ *   content={<span className="block truncate">$9.99 / month</span>}
  *   action={<Button variant="primary" size="32" fullWidth>Subscribe</Button>}
  * />
  * ```
@@ -125,7 +128,7 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
             </div>
           </div>
           {content ? (
-            <div className="typography-body-small-14px-semibold min-w-0 truncate text-content-primary">
+            <div className="typography-body-small-14px-semibold min-w-0 text-content-primary">
               {content}
             </div>
           ) : null}

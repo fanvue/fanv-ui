@@ -2,8 +2,10 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "../Button/Button";
 import { CreatorCard } from "./CreatorCard";
 
-const SAMPLE_BACKGROUND = "/creator-card/banner.jpg";
-const SAMPLE_AVATAR = "/creator-card/avatar.png";
+const SAMPLE_BACKGROUND =
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=320&h=352&fit=crop";
+const SAMPLE_AVATAR =
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
 
 const meta = {
   title: "Components/CreatorCard",
@@ -20,11 +22,11 @@ const meta = {
     className: "w-40 rounded-md",
     background: <img src={SAMPLE_BACKGROUND} alt="" loading="lazy" />,
     pill: { variant: "contrast", children: "Popular this week" },
-    avatar: { src: SAMPLE_AVATAR, fallback: "AL" },
-    name: "Aitana Lopez",
+    avatar: { src: SAMPLE_AVATAR, fallback: "JD" },
+    name: "Jane Doe",
     verified: true,
     tagline: "412 posts",
-    content: "$9.99 / month",
+    content: <span className="block truncate">$9.99 / month</span>,
     action: (
       <Button variant="primary" size="32" fullWidth>
         Subscribe
