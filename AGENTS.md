@@ -14,6 +14,12 @@ This is **`@fanvue/ui`**, a publicly published npm package (Apache 2.0) consumed
 - **Breaking changes affect real users** — treat the exported API surface (`src/index.ts`) with care; additions are fine, removals/renames need a migration path
 - **Bundle size matters** — consumers tree-shake this library; avoid unnecessary dependencies and side effects
 
+### Breaking Changes (Major Releases)
+
+A commit marked as breaking — a `!` after the type/scope (e.g. `feat(Button)!: ...`) or a `BREAKING CHANGE:` footer — makes release-please cut a **major** version for every consumer of the package.
+
+**Before making a breaking-change commit, an agent must confirm with the user that a major release is genuinely what they want.** If you are not sure, do not make the breaking commit. Ask the user to raise it in **#design-system** on Slack first, and use a non-breaking commit type until it is agreed.
+
 ## AI Agent Workflow (Figma MCP)
 
 **You have Figma MCP tools available** to fetch component data programmatically:
