@@ -20,7 +20,7 @@ export interface CreatorCardProps extends Omit<React.HTMLAttributes<HTMLDivEleme
   verified?: boolean;
   /** Accessible label for the verified badge. @default "Verified" */
   verifiedLabel?: string;
-  /** Optional secondary line shown under the name (e.g. category and post count). */
+  /** Optional secondary line shown under the name (e.g. post count). */
   tagline?: React.ReactNode;
   /** Optional content shown under the creator details (e.g. the subscription price). */
   content?: React.ReactNode;
@@ -37,19 +37,19 @@ export interface CreatorCardProps extends Omit<React.HTMLAttributes<HTMLDivEleme
  * and an optional action.
  *
  * The card has no fixed width or corner radius: set both through `className`
- * (e.g. `className="w-40 rounded-2xl"`). The banner keeps a 10:11 ratio at any
+ * (e.g. `className="w-40 rounded-md"`). The banner keeps a 10:11 ratio at any
  * width.
  *
  * @example
  * ```tsx
  * <CreatorCard
- *   className="w-40 rounded-2xl"
+ *   className="w-40 rounded-md"
  *   background={<img src="/banner.jpg" alt="" />}
  *   pill={{ variant: "contrast", children: "Popular this week" }}
  *   avatar={{ src: "/avatar.jpg", fallback: "AL" }}
  *   name="Aitana Lopez"
  *   verified
- *   tagline="Fitness · 412 posts"
+ *   tagline="412 posts"
  *   content="$9.99 / month"
  *   action={<Button variant="primary" size="32" fullWidth>Subscribe</Button>}
  * />

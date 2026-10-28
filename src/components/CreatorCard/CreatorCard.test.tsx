@@ -20,9 +20,9 @@ const baseProps = {
 describe("CreatorCard", () => {
   describe("API", () => {
     it("renders the name, tagline and content", () => {
-      render(<CreatorCard {...baseProps} tagline="Fitness · 412 posts" content="$9.99 / month" />);
+      render(<CreatorCard {...baseProps} tagline="412 posts" content="$9.99 / month" />);
       expect(screen.getByText("Aitana Lopez")).toBeInTheDocument();
-      expect(screen.getByText("Fitness · 412 posts")).toBeInTheDocument();
+      expect(screen.getByText("412 posts")).toBeInTheDocument();
       expect(screen.getByText("$9.99 / month")).toBeInTheDocument();
     });
 
@@ -96,9 +96,9 @@ describe("CreatorCard", () => {
     });
 
     it("applies custom className to the root", () => {
-      render(<CreatorCard {...baseProps} data-testid="card" className="w-40 rounded-2xl" />);
+      render(<CreatorCard {...baseProps} data-testid="card" className="w-40 rounded-md" />);
       const card = screen.getByTestId("card");
-      expect(card).toHaveClass("w-40", "rounded-2xl", "overflow-hidden");
+      expect(card).toHaveClass("w-40", "rounded-md", "overflow-hidden");
     });
 
     it("forwards ref correctly", () => {
@@ -121,7 +121,7 @@ describe("CreatorCard", () => {
           pill={{ children: "Popular this week" }}
           avatar={{ fallback: "AL" }}
           verified
-          tagline="Fitness · 412 posts"
+          tagline="412 posts"
           content="$9.99 / month"
           action={
             <Button variant="primary" size="32" fullWidth>

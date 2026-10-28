@@ -5660,7 +5660,7 @@ function CreatorCardDemo() {
     pill: { variant: "contrast" as const, children: "Popular this week" },
     name: "Aitana Lopez",
     verified: true,
-    tagline: "Fitness · 412 posts",
+    tagline: "412 posts",
     content: "$9.99 / month",
   };
 
@@ -5671,7 +5671,7 @@ function CreatorCardDemo() {
       <div className="flex flex-wrap items-start gap-6">
         <CreatorCard
           {...shared}
-          className="w-40 rounded-2xl"
+          className="w-40 rounded-md"
           action={
             <Button variant="primary" size="32" fullWidth>
               Subscribe
@@ -5680,7 +5680,7 @@ function CreatorCardDemo() {
         />
         <CreatorCard
           {...shared}
-          className="w-40 rounded-2xl"
+          className="w-40 rounded-md"
           action={
             <Button variant="secondary" size="32" fullWidth>
               Subscribed
@@ -5688,7 +5688,7 @@ function CreatorCardDemo() {
           }
         />
       </div>
-      <h3 className="typography-body-default-16px-semibold">Width, rounding and optional slots</h3>
+      <h3 className="typography-body-default-16px-semibold">Width and optional slots</h3>
       <div className="flex flex-wrap items-start gap-6">
         <CreatorCard
           {...shared}
@@ -5700,7 +5700,7 @@ function CreatorCardDemo() {
             </Button>
           }
         />
-        <CreatorCard {...shared} className="w-40 rounded-none" pill={undefined} />
+        <CreatorCard {...shared} className="w-40 rounded-md" pill={undefined} />
       </div>
     </div>
   );

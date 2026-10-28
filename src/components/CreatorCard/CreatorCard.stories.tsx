@@ -17,13 +17,13 @@ const meta = {
   },
   tags: ["autodocs"],
   args: {
-    className: "w-40 rounded-2xl",
+    className: "w-40 rounded-md",
     background: <img src={SAMPLE_BACKGROUND} alt="" loading="lazy" />,
     pill: { variant: "contrast", children: "Popular this week" },
     avatar: { src: SAMPLE_AVATAR, fallback: "AL" },
     name: "Aitana Lopez",
     verified: true,
-    tagline: "Fitness · 412 posts",
+    tagline: "412 posts",
     content: "$9.99 / month",
     action: (
       <Button variant="primary" size="32" fullWidth>
