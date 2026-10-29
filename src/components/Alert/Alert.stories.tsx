@@ -342,3 +342,17 @@ export const TitleOnly: Story = {
     title: "Your changes have been saved",
   },
 };
+
+/**
+ * Static content that is part of the page, such as terms shown on load, opts out
+ * of the `role="alert"` live region so screen readers read it in document order
+ * instead of announcing it on render.
+ */
+export const WithoutLiveRegion: Story = {
+  args: {
+    variant: "info",
+    title: "Includes 8% revenue share",
+    liveRegion: false,
+    children: "The app collects this share only on sales made through it.",
+  },
+};

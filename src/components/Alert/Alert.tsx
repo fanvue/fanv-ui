@@ -77,6 +77,13 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
    * in place, so pass `sm:` variants too.
    */
   ctaProps?: Omit<ButtonProps, "children" | "asChild">;
+  /**
+   * Whether the title and description form a `role="alert"` live region, which
+   * screen readers announce as soon as it renders. Pass `false` for static
+   * content that is part of the page, such as terms shown on load, so it is read
+   * in document order instead. @default true
+   */
+  liveRegion?: boolean;
 }
 
 /**
@@ -187,7 +194,8 @@ function AlertCta({
  *
  * Only the title and description live inside the `role="alert"` live region.
  * The icon, `action`, and close button are rendered outside it so interactive
- * controls are announced and navigated consistently by screen readers.
+ * controls are announced and navigated consistently by screen readers. Set
+ * `liveRegion={false}` to render the message without the live region.
  *
  * @example
  * ```tsx
@@ -244,6 +252,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
       layout = "under",
       ctaLabel,
       ctaProps,
+      liveRegion = true,
       children,
       ...props
     },
@@ -289,7 +298,10 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
               isTrailing ? "items-center gap-6" : "flex-col gap-3",
             )}
           >
-            <div role="alert" className={cn("flex flex-col gap-1", isTrailing && "min-w-0 flex-1")}>
+            <div
+              role={liveRegion ? "alert" : undefined}
+              className={cn("flex flex-col gap-1", isTrailing && "min-w-0 flex-1")}
+            >
               {title && (
                 <div
                   className={cn("typography-body-small-14px-semibold", MESSAGE_CLASSES[variant])}
