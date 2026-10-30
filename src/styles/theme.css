@@ -192,6 +192,7 @@
   --color-brand-secondary-hover: var(--primitives-color-purple-400);
   --color-surface-primary: var(--primitives-color-gray-75);
   --color-surface-secondary: var(--primitives-color-gray-150);
+  --color-surface-table-row: var(--primitives-color-gray-150);
   --color-surface-primary-inverted: var(--primitives-color-gray-900);
   --color-surface-tertiary: var(--primitives-color-gray-300);
   --color-surface-purple-muted: var(--color-brand-secondary-muted);
@@ -669,6 +670,7 @@
   --color-brand-secondary-hover: var(--primitives-color-purple-400);
   --color-surface-primary: var(--primitives-color-gray-75);
   --color-surface-secondary: var(--primitives-color-gray-150);
+  --color-surface-table-row: var(--primitives-color-gray-150);
   --color-surface-primary-inverted: var(--primitives-color-gray-900);
   --color-surface-tertiary: var(--primitives-color-gray-300);
   --color-surface-purple-muted: var(--color-brand-secondary-muted);
@@ -967,6 +969,7 @@
   --color-brand-secondary-hover: var(--primitives-color-purple-400);
   --color-surface-primary: var(--primitives-color-gray-900);
   --color-surface-secondary: var(--primitives-color-gray-850);
+  --color-surface-table-row: #1d1d1dff;
   --color-surface-primary-inverted: var(--primitives-color-gray-75);
   --color-surface-tertiary: var(--primitives-color-gray-600);
   --color-surface-purple-muted: var(--color-brand-secondary-muted);
