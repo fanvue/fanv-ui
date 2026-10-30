@@ -354,6 +354,8 @@ export type { BellOffIconProps } from "./components/Icons/BellOffIcon";
 export { BellOffIcon } from "./components/Icons/BellOffIcon";
 export type { BoltIconProps } from "./components/Icons/BoltIcon";
 export { BoltIcon } from "./components/Icons/BoltIcon";
+export type { BookmarkIconProps } from "./components/Icons/BookmarkIcon";
+export { BookmarkIcon } from "./components/Icons/BookmarkIcon";
 export type { BulbIconProps } from "./components/Icons/BulbIcon";
 export { BulbIcon } from "./components/Icons/BulbIcon";
 export type { Calendar2IconProps } from "./components/Icons/Calendar2Icon";

@@ -23,6 +23,7 @@ import { BankIcon } from "./BankIcon";
 import { BellIcon } from "./BellIcon";
 import { BellOffIcon } from "./BellOffIcon";
 import { BoltIcon } from "./BoltIcon";
+import { BookmarkIcon } from "./BookmarkIcon";
 import { BulbIcon } from "./BulbIcon";
 import { Calendar2Icon } from "./Calendar2Icon";
 import { CalendarIcon } from "./CalendarIcon";
@@ -233,6 +234,7 @@ const propBasedIcons = [
   { name: "BellIcon", Component: BellIcon, hasFilled: true },
   { name: "BellOffIcon", Component: BellOffIcon, hasFilled: true },
   { name: "BoltIcon", Component: BoltIcon, hasFilled: true },
+  { name: "BookmarkIcon", Component: BookmarkIcon, hasFilled: true },
   { name: "BulbIcon", Component: BulbIcon, hasFilled: true },
   { name: "Calendar2Icon", Component: Calendar2Icon, hasFilled: true },
   { name: "CalendarIcon", Component: CalendarIcon, hasFilled: true },

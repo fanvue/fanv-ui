@@ -37,6 +37,7 @@
   "BellIcon": ["bell", "notification", "alarm"],
   "BellOffIcon": ["bell", "off", "mute", "notification"],
   "BoltIcon": ["bolt", "lightning", "power", "energy"],
+  "BookmarkIcon": ["bookmark", "save", "saved", "favourite"],
   "BulbIcon": ["bulb", "light", "idea", "lamp"],
   "Calendar2Icon": ["calendar", "date", "schedule", "simple"],
   "CalendarIcon": ["calendar", "date", "schedule"],
