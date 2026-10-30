@@ -6,13 +6,14 @@ import { Button } from "../Button/Button";
 import { Checkbox } from "../Checkbox/Checkbox";
 import { Chip } from "../Chip/Chip";
 import { IconButton } from "../IconButton/IconButton";
+import { AISettingsIcon } from "../Icons/AISettingsIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { MoreVerticalIcon } from "../Icons/MoreVerticalIcon";
+import { SettingsIcon } from "../Icons/SettingsIcon";
 import { ShareIcon } from "../Icons/ShareIcon";
 import { TrashBinIcon } from "../Icons/TrashBinIcon";
 import { UsersIcon } from "../Icons/UsersIcon";
-import { Pagination } from "../Pagination/Pagination";
 import { Pill } from "../Pill/Pill";
 import {
   Table,
@@ -23,19 +24,20 @@ import {
   TableCellGroup,
   TableHead,
   TableHeader,
-  TableLineClamp,
   TableMediaThumbnail,
+  TableMediaTile,
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
-  TableRowsPerPageSelect,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
-  TableStatusDot,
   TableToolbar,
+  TableToolbarAction,
+  TableToolbarButton,
+  TableToolbarSearch,
 } from "./Table";
-import { TablePagination } from "./TablePagination";
+import { TableCardPagination } from "./TablePagination";
 
 const TABLE_MEDIA_SRC =
   "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=112&h=160&fit=crop";
@@ -165,100 +167,128 @@ export const WithScrollIndicator: Story = {
 };
 
 export const WithToolbar: Story = {
-  name: "With toolbar (bulk select)",
+  name: "With toolbar and pagination",
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/Iq9ctjP7rhIKI3PGSbduNL/Fanvue-Exploration?node-id=9561-6318",
+    },
+  },
   render: function WithToolbarStory() {
-    const [page, setPage] = React.useState(2);
+    const [query, setQuery] = React.useState("");
+    const [advanced, setAdvanced] = React.useState(false);
+    const [page, setPage] = React.useState(1);
+    const [pageSize, setPageSize] = React.useState(10);
     return (
-      <TableCard className="max-w-4xl">
-        <TableToolbar>
-          <span className="typography-description-12px-regular text-content-primary">
-            2 selected
-          </span>
-          <div className="flex flex-wrap gap-1">
-            <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
-              Assign to creators
-            </Button>
-            <Button
-              variant="tertiaryDestructive"
-              size="32"
-              leftIcon={<TrashBinIcon className="size-3.5" />}
-            >
-              Delete
-            </Button>
-          </div>
+      <div className="flex max-w-4xl flex-col gap-2">
+        <TableToolbar
+          search={
+            <TableToolbarSearch
+              value={query}
+              onValueChange={setQuery}
+              placeholder="Search"
+              clearLabel="Clear search"
+            />
+          }
+        >
+          <TableToolbarAction>All</TableToolbarAction>
+          <TableToolbarAction
+            active={advanced}
+            aria-pressed={advanced}
+            icon={<AISettingsIcon />}
+            onClick={() => setAdvanced((value) => !value)}
+          >
+            Advanced
+          </TableToolbarAction>
+          <TableToolbarAction icon={<SettingsIcon />}>Filters</TableToolbarAction>
+          <TableToolbarButton>Create New</TableToolbarButton>
         </TableToolbar>
-        <TableScrollArea>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead intent="checkbox">
-                  <Checkbox size="16" aria-label="Select all rows" />
-                </TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Preview</TableHead>
-                <TableHead>Channel</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {["Feb 18, 2025, 4:19 PM", "Feb 17, 2025, 2:00 PM", "Feb 16, 2025, 9:30 AM"].map(
-                (date) => (
-                  <TableRow key={date}>
+        <TableCard>
+          <TableScrollArea>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead intent="checkbox">
+                    <Checkbox size="16" aria-label="Select all rows" />
+                  </TableHead>
+                  <TableHead>
+                    <TableSortLabel direction="asc">Name</TableSortLabel>
+                  </TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {PRODUCT_ROWS.map((row, index) => (
+                  <TableRow key={`${row.name}-${index}`}>
                     <TableCell intent="checkbox">
-                      <Checkbox size="16" aria-label={`Select row ${date}`} />
+                      <Checkbox size="16" aria-label={`Select ${row.name} ${index + 1}`} />
                     </TableCell>
-                    <TableCell>{date}</TableCell>
-                    <TableCell intent="multiline">
-                      <TableLineClamp>
-                        Placeholder description text for this row.{" "}
-                        <button type="button" className="typography-description-12px-semibold">
-                          Read more
-                        </button>
-                      </TableLineClamp>
-                    </TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell nowrap>{row.created}</TableCell>
+                    <TableCell nowrap>{row.price}</TableCell>
                     <TableCell>
-                      <TableCellGroup>
-                        <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" />
-                        <span>5</span>
-                        <ChevronDownIcon
-                          className="size-4 shrink-0 text-content-primary"
-                          aria-hidden
-                        />
-                      </TableCellGroup>
-                    </TableCell>
-                    <TableCell>
-                      <TableCellGroup>
-                        <span
-                          className="inline-block size-5 shrink-0 rounded bg-gradient-to-br from-pink-500 via-purple-500 to-orange-400"
-                          aria-hidden
-                        />
-                        <span>5</span>
-                        <ChevronDownIcon
-                          className="size-4 shrink-0 text-content-primary"
-                          aria-hidden
-                        />
-                      </TableCellGroup>
-                    </TableCell>
-                    <TableCell>
-                      <TableStatusDot aria-hidden />
+                      <Pill variant={row.status.variant}>{row.status.label}</Pill>
                     </TableCell>
                   </TableRow>
-                ),
-              )}
-            </TableBody>
-          </Table>
-        </TableScrollArea>
-        <TablePagination
-          leadingSlot={<TableRowsPerPageSelect />}
-          paginationSlot={
-            <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
-          }
-          summary="20–30 of 100 rows"
-        />
-      </TableCard>
+                ))}
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+          <TableCardPagination
+            page={page}
+            pageCount={12}
+            onPageChange={setPage}
+            pageSize={pageSize}
+            pageSizeOptions={[10, 25, 50]}
+            onPageSizeChange={setPageSize}
+          />
+        </TableCard>
+      </div>
     );
   },
+};
+
+export const WithMedia: Story = {
+  name: "With media",
+  render: () => (
+    <TableCard className="max-w-3xl">
+      <TableScrollArea>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Media</TableHead>
+              <TableHead>Source</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Date</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {PRODUCT_ROWS.map((row, index) => (
+              <TableRow key={`${row.name}-${index}`}>
+                <TableCell>
+                  <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" />
+                </TableCell>
+                <TableCell>
+                  <TableCellGroup className="gap-2">
+                    <TableMediaTile>
+                      <ShareIcon size={16} />
+                    </TableMediaTile>
+                    <TableCellContent primary="Link" secondary={row.created} />
+                  </TableCellGroup>
+                </TableCell>
+                <TableCell>
+                  <Pill variant={row.status.variant}>{row.status.label}</Pill>
+                </TableCell>
+                <TableCell>{row.created}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+    </TableCard>
+  ),
 };
 
 export const Sortable: Story = {
@@ -310,7 +340,7 @@ export const Sortable: Story = {
 };
 
 export const LargeRows: Story = {
-  name: "Variant — lg (80px rows)",
+  name: "Variant — lg (56px rows)",
   render: function LargeRowsStory() {
     const [page, setPage] = React.useState(1);
     return (
@@ -345,12 +375,13 @@ export const LargeRows: Story = {
             </TableBody>
           </Table>
         </TableScrollArea>
-        <TablePagination
-          leadingSlot={<TableRowsPerPageSelect id="lg-rows" />}
-          paginationSlot={
-            <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
-          }
-          summary="1–10 of 48 rows"
+        <TableCardPagination
+          page={page}
+          pageCount={5}
+          onPageChange={setPage}
+          pageSize={10}
+          pageSizeOptions={[10, 25, 50]}
+          onPageSizeChange={() => {}}
         />
       </TableCard>
     );
@@ -514,147 +545,109 @@ export const AllStatesV2: Story = {
   render: function AllStatesV2Story() {
     const [page, setPage] = React.useState(2);
     return (
-      <TableCard className="max-w-5xl">
-        <TableToolbar>
-          <span className="typography-description-12px-regular text-content-primary">
-            2 selected
-          </span>
-          <div className="flex flex-wrap gap-1">
-            <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
-              Assign
-            </Button>
-            <Button
-              variant="tertiaryDestructive"
-              size="32"
-              leftIcon={<TrashBinIcon className="size-3.5" />}
-            >
-              Delete
-            </Button>
-          </div>
+      <div className="flex max-w-5xl flex-col gap-2">
+        <TableToolbar
+          search={
+            <span className="typography-description-12px-regular text-content-primary">
+              2 selected
+            </span>
+          }
+        >
+          <TableToolbarAction icon={<UsersIcon />}>Assign</TableToolbarAction>
+          <TableToolbarAction icon={<TrashBinIcon />} className="text-error-content">
+            Delete
+          </TableToolbarAction>
         </TableToolbar>
-        <TableScrollArea>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead intent="checkbox">
-                  <Checkbox size="16" aria-label="Select all rows" />
-                </TableHead>
-                <TableHead>
-                  <TableSortLabel direction="asc">Product</TableSortLabel>
-                </TableHead>
-                <TableHead>Owner</TableHead>
-                <TableHead>Thumbnail</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Progress</TableHead>
-                <TableHead>
-                  <span className="sr-only">Actions</span>
-                </TableHead>
-                <TableHead intent="checkbox">
-                  <span className="sr-only">More</span>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {[
-                { status: "Active" as const, variant: "green" as const, progress: 80 },
-                { status: "Warning" as const, variant: "gold" as const, progress: 40 },
-                { status: "Inactive" as const, variant: "red" as const, progress: 10 },
-              ].map((row, idx) => (
-                <TableRow key={row.status}>
-                  <TableCell intent="checkbox">
-                    <Checkbox size="16" aria-label={`Select ${row.status}`} />
-                  </TableCell>
-                  <TableCell intent="stacked">
-                    <TableCellContent primary="Product Name" secondary="SKU-00321" />
-                  </TableCell>
-                  <TableCell>
-                    <TableCellGroup>
-                      <Avatar src={TABLE_MEDIA_SRC} alt="" fallback={`U${idx}`} size={24} />
-                      <span>@jane_doe</span>
-                    </TableCellGroup>
-                  </TableCell>
-                  <TableCell>
-                    <TableCellGroup>
-                      <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" />
-                      <ChevronDownIcon
-                        className="size-4 shrink-0 text-content-primary"
-                        aria-hidden
-                      />
-                    </TableCellGroup>
-                  </TableCell>
-                  <TableCell>16 May, 01:15 AM</TableCell>
-                  <TableCell>
-                    <Pill variant={row.variant}>{row.status}</Pill>
-                  </TableCell>
-                  <TableCell cellVariant="pillProgress">
-                    <TablePillProgressLayout>
-                      <Badge variant="special">{row.progress}%</Badge>
-                      <TableProgressTrack value={row.progress} />
-                    </TablePillProgressLayout>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="secondary" size="32">
-                      Copy
-                    </Button>
-                  </TableCell>
-                  <TableCell intent="checkbox">
-                    <IconButton
-                      variant="tertiary"
-                      size="32"
-                      icon={<MoreVerticalIcon />}
-                      aria-label="Row actions"
-                    />
-                  </TableCell>
+        <TableCard>
+          <TableScrollArea>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead intent="checkbox">
+                    <Checkbox size="16" aria-label="Select all rows" />
+                  </TableHead>
+                  <TableHead>
+                    <TableSortLabel direction="asc">Product</TableSortLabel>
+                  </TableHead>
+                  <TableHead>Owner</TableHead>
+                  <TableHead>Thumbnail</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Progress</TableHead>
+                  <TableHead>
+                    <span className="sr-only">Actions</span>
+                  </TableHead>
+                  <TableHead intent="checkbox">
+                    <span className="sr-only">More</span>
+                  </TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableScrollArea>
-        <TablePagination
-          leadingSlot={<TableRowsPerPageSelect id="v2-rows" />}
-          paginationSlot={
-            <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
-          }
-          summary="20–30 of 100 rows"
-        />
-      </TableCard>
-    );
-  },
-};
-
-export const PaginationDesktop: Story = {
-  name: "Pagination — desktop",
-  render: function PaginationDesktopStory() {
-    const [page, setPage] = React.useState(2);
-    return (
-      <div className="w-full max-w-[628px] rounded-3xl border border-border-strong">
-        <TablePagination
-          leadingSlot={<TableRowsPerPageSelect id="desk-rows" />}
-          paginationSlot={
-            <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
-          }
-          summary="20–30 of 100 rows"
-        />
+              </TableHeader>
+              <TableBody>
+                {[
+                  { status: "Active" as const, variant: "green" as const, progress: 80 },
+                  { status: "Warning" as const, variant: "gold" as const, progress: 40 },
+                  { status: "Inactive" as const, variant: "red" as const, progress: 10 },
+                ].map((row, idx) => (
+                  <TableRow key={row.status}>
+                    <TableCell intent="checkbox">
+                      <Checkbox size="16" aria-label={`Select ${row.status}`} />
+                    </TableCell>
+                    <TableCell nowrap>
+                      <TableCellContent primary="Product Name" secondary="SKU-00321" />
+                    </TableCell>
+                    <TableCell nowrap>
+                      <TableCellGroup>
+                        <Avatar src={TABLE_MEDIA_SRC} alt="" fallback={`U${idx}`} size={24} />
+                        <span>@jane_doe</span>
+                      </TableCellGroup>
+                    </TableCell>
+                    <TableCell>
+                      <TableCellGroup>
+                        <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" />
+                        <ChevronDownIcon
+                          className="size-4 shrink-0 text-content-primary"
+                          aria-hidden
+                        />
+                      </TableCellGroup>
+                    </TableCell>
+                    <TableCell nowrap>16 May, 01:15 AM</TableCell>
+                    <TableCell>
+                      <Pill variant={row.variant}>{row.status}</Pill>
+                    </TableCell>
+                    <TableCell cellVariant="pillProgress">
+                      <TablePillProgressLayout>
+                        <Badge variant="special">{row.progress}%</Badge>
+                        <TableProgressTrack value={row.progress} />
+                      </TablePillProgressLayout>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="secondary" size="24">
+                        Copy
+                      </Button>
+                    </TableCell>
+                    <TableCell intent="checkbox">
+                      <IconButton
+                        variant="tertiary"
+                        size="24"
+                        icon={<MoreVerticalIcon />}
+                        aria-label="Row actions"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+          <TableCardPagination
+            page={page}
+            pageCount={5}
+            onPageChange={setPage}
+            pageSize={10}
+            pageSizeOptions={[10, 25, 50]}
+            onPageSizeChange={() => {}}
+          />
+        </TableCard>
       </div>
-    );
-  },
-};
-
-export const PaginationMobile: Story = {
-  name: "Pagination — mobile",
-  render: function PaginationMobileStory() {
-    const [page, setPage] = React.useState(2);
-    return (
-      <TablePagination
-        layout="mobile"
-        className="max-w-sm rounded-3xl border border-border-strong"
-        leadingSlot={<TableRowsPerPageSelect id="mob-rows" />}
-        paginationSlot={
-          <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
-        }
-        summary="20–30 of 100 rows"
-      />
     );
   },
 };

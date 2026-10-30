@@ -235,6 +235,7 @@ import {
   Table,
   TableBody,
   TableCard,
+  TableCardPagination,
   TableCell,
   TableCellContent,
   TableCellGroup,
@@ -242,16 +243,17 @@ import {
   TableHeader,
   TableLineClamp,
   TableMediaThumbnail,
-  TablePagination,
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
-  TableRowsPerPageSelect,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
   TableStatusDot,
   TableToolbar,
+  TableToolbarAction,
+  TableToolbarButton,
+  TableToolbarSearch,
   Tabs,
   TabsContent,
   TabsList,
@@ -3961,9 +3963,9 @@ const TABLE_DEMO_MEDIA =
 
 function TableDemo() {
   const [pageMd, setPageMd] = useState(2);
+  const [tableQuery, setTableQuery] = useState("");
+  const [tablePageSize, setTablePageSize] = useState(10);
   const [pageLg, setPageLg] = useState(1);
-  const [pageDesk, setPageDesk] = useState(2);
-  const [pageMob, setPageMob] = useState(2);
 
   return (
     <div id="table" className="flex scroll-mt-20 flex-col gap-4">
@@ -4038,24 +4040,21 @@ function TableDemo() {
           <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
             Table — default (v2)
           </h3>
+          <TableToolbar
+            className="mb-2"
+            search={
+              <TableToolbarSearch
+                value={tableQuery}
+                onValueChange={setTableQuery}
+                placeholder="Search"
+                clearLabel="Clear search"
+              />
+            }
+          >
+            <TableToolbarAction>All</TableToolbarAction>
+            <TableToolbarButton>Create New</TableToolbarButton>
+          </TableToolbar>
           <TableCard>
-            <TableToolbar>
-              <span className="typography-description-12px-regular text-content-primary">
-                2 selected
-              </span>
-              <div className="flex flex-wrap gap-1">
-                <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
-                  Assign to creators
-                </Button>
-                <Button
-                  variant="tertiaryDestructive"
-                  size="32"
-                  leftIcon={<TrashBinIcon className="size-3.5" />}
-                >
-                  Delete
-                </Button>
-              </div>
-            </TableToolbar>
             <TableScrollArea>
               <Table>
                 <TableHeader>
@@ -4112,17 +4111,13 @@ function TableDemo() {
                 </TableBody>
               </Table>
             </TableScrollArea>
-            <TablePagination
-              leadingSlot={<TableRowsPerPageSelect id="app-table-md-rows" />}
-              paginationSlot={
-                <Pagination
-                  className="pb-0"
-                  totalPages={5}
-                  currentPage={pageMd}
-                  onPageChange={setPageMd}
-                />
-              }
-              summary="20–30 of 100 rows"
+            <TableCardPagination
+              page={pageMd}
+              pageCount={5}
+              onPageChange={setPageMd}
+              pageSize={tablePageSize}
+              pageSizeOptions={[10, 25, 50]}
+              onPageSizeChange={setTablePageSize}
             />
           </TableCard>
         </div>
@@ -4160,17 +4155,13 @@ function TableDemo() {
                 </TableBody>
               </Table>
             </TableScrollArea>
-            <TablePagination
-              leadingSlot={<TableRowsPerPageSelect id="app-table-lg-rows" />}
-              paginationSlot={
-                <Pagination
-                  className="pb-0"
-                  totalPages={5}
-                  currentPage={pageLg}
-                  onPageChange={setPageLg}
-                />
-              }
-              summary="1–10 of 48 rows"
+            <TableCardPagination
+              page={pageLg}
+              pageCount={5}
+              onPageChange={setPageLg}
+              pageSize={tablePageSize}
+              pageSizeOptions={[10, 25, 50]}
+              onPageSizeChange={setTablePageSize}
             />
           </TableCard>
         </div>
@@ -4310,46 +4301,6 @@ function TableDemo() {
               </Table>
             </TableScrollArea>
           </TableCard>
-        </div>
-
-        <div>
-          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
-            Pagination — desktop
-          </h3>
-          <div className="max-w-[628px] rounded-3xl border border-border-strong">
-            <TablePagination
-              leadingSlot={<TableRowsPerPageSelect id="app-table-pag-desk" />}
-              paginationSlot={
-                <Pagination
-                  className="pb-0"
-                  totalPages={5}
-                  currentPage={pageDesk}
-                  onPageChange={setPageDesk}
-                />
-              }
-              summary="20–30 of 100 rows"
-            />
-          </div>
-        </div>
-
-        <div>
-          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
-            Pagination — mobile
-          </h3>
-          <TablePagination
-            layout="mobile"
-            className="max-w-sm rounded-3xl border border-border-strong"
-            leadingSlot={<TableRowsPerPageSelect id="app-table-pag-mob" />}
-            paginationSlot={
-              <Pagination
-                className="pb-0"
-                totalPages={5}
-                currentPage={pageMob}
-                onPageChange={setPageMob}
-              />
-            }
-            summary="20–30 of 100 rows"
-          />
         </div>
       </div>
     </div>

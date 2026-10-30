@@ -3660,6 +3660,20 @@
               }
             }
           },
+          "tableRow": {
+            "description": "Header, footer and toolbar fill of data tables.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.150}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "exportKey": "variables"
+              }
+            }
+          },
           "primaryInverted": {
             "description": "",
             "type": "color",
@@ -8472,6 +8486,20 @@
                 "collection": "Semantic",
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:13938:45765",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "tableRow": {
+            "description": "Header, footer and toolbar fill of data tables.",
+            "type": "color",
+            "value": "#1d1d1dff",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "exportKey": "variables"
               }
             }

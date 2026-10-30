@@ -1,8 +1,9 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
-import { ArrowDownIcon } from "../Icons/ArrowDownIcon";
-import { ArrowUpIcon } from "../Icons/ArrowUpIcon";
-import { Select, SelectContent, SelectItem } from "../Select/Select";
+import { Button, type ButtonProps } from "../Button/Button";
+import { CloseIcon } from "../Icons/CloseIcon";
+import { SearchIcon } from "../Icons/SearchIcon";
+import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
 
 /**
  * Row density for body cells.
@@ -28,9 +29,10 @@ function useTableSize(): TableSize {
 }
 
 /**
- * Surface wrapper for data tables: rounded 24px container with a strong
- * outer border, inner spacing, and size context for {@link TableCell}
- * descendants. Compose with {@link TableScrollArea}, {@link Table},
+ * Surface wrapper for data tables: 12px-radius container with a 0.5px
+ * hairline border and no inner padding, so the header, rows and
+ * {@link TableCardPagination} footer run edge to edge. Provides the size
+ * context for {@link TableCell} descendants. Compose with {@link TableScrollArea}, {@link Table},
  * {@link TableHeader}, {@link TableBody}, {@link TableRow},
  * {@link TableHead}, and {@link TableCell}.
  *
@@ -61,7 +63,7 @@ export const TableCard = React.forwardRef<HTMLDivElement, TableCardProps>(
         <div
           ref={ref}
           className={cn(
-            "isolate flex flex-col gap-2 overflow-hidden rounded-3xl border border-border-strong px-3 py-1",
+            "isolate flex flex-col overflow-hidden rounded-sm border-[0.5px] border-border-primary",
             className,
           )}
           {...props}
@@ -72,23 +74,154 @@ export const TableCard = React.forwardRef<HTMLDivElement, TableCardProps>(
 );
 TableCard.displayName = "TableCard";
 
-export interface TableToolbarProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface TableToolbarProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Left slot, usually a {@link TableToolbarSearch}. */
+  search?: React.ReactNode;
+}
 
 /**
- * Optional toolbar row above the table (e.g. bulk selection actions).
+ * 40px action bar above a {@link TableCard}: search on the left, every other
+ * control (menus, toggles, buttons) on the right, 24px apart. On phones
+ * {@link TableToolbarAction} controls go icon-only so the bar fits.
+ *
+ * @example
+ * ```tsx
+ * <TableToolbar search={<TableToolbarSearch value={q} onValueChange={setQ} placeholder="Search" clearLabel="Clear search" />}>
+ *   <TableToolbarAction icon={<SettingsIcon />}>Filters</TableToolbarAction>
+ *   <TableToolbarButton>Create</TableToolbarButton>
+ * </TableToolbar>
+ * ```
  */
 export const TableToolbar = React.forwardRef<HTMLDivElement, TableToolbarProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, search, children, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={cn("flex flex-wrap items-center gap-4 px-4 py-3", className)}
+        className={cn(
+          "flex h-10 w-full min-w-0 items-center gap-4 rounded-sm border-[0.5px] border-border-strong bg-surface-table-row pr-2 pl-4",
+          className,
+        )}
+        {...props}
+      >
+        <div className="flex min-w-24 flex-1 items-center">{search}</div>
+        {children != null && (
+          <div className="flex min-w-0 items-center gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {children}
+          </div>
+        )}
+      </div>
+    );
+  },
+);
+TableToolbar.displayName = "TableToolbar";
+
+export interface TableToolbarSearchProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "type"> {
+  /** Current query. */
+  value: string;
+  /** Called with the new query, and with `""` when cleared. */
+  onValueChange: (value: string) => void;
+  /** Accessible name of the clear button. */
+  clearLabel: string;
+}
+
+/**
+ * Borderless search field for the left slot of {@link TableToolbar}:
+ * 16px search icon, 12px text and a clear button once there is a query.
+ */
+export const TableToolbarSearch = React.forwardRef<HTMLInputElement, TableToolbarSearchProps>(
+  ({ className, value, onValueChange, clearLabel, placeholder, ...props }, ref) => {
+    return (
+      <label className={cn("flex h-6 w-full min-w-0 cursor-text items-center gap-2", className)}>
+        <SearchIcon size={16} className="shrink-0 text-icons-secondary" aria-hidden />
+        <input
+          ref={ref}
+          type="search"
+          value={value}
+          onChange={(event) => onValueChange(event.target.value)}
+          placeholder={placeholder}
+          aria-label={props["aria-label"] ?? placeholder}
+          className="typography-description-12px-regular min-w-0 flex-1 border-none bg-transparent p-0 text-content-primary outline-none placeholder:text-content-secondary [&::-webkit-search-cancel-button]:hidden"
+          {...props}
+        />
+        {value !== "" && (
+          <button
+            type="button"
+            aria-label={clearLabel}
+            onClick={() => onValueChange("")}
+            className="inline-flex size-4 shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0 text-icons-secondary hover:text-icons-primary"
+          >
+            <CloseIcon size={16} />
+          </button>
+        )}
+      </label>
+    );
+  },
+);
+TableToolbarSearch.displayName = "TableToolbarSearch";
+
+export interface TableToolbarActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** 16px icon after the label. @default up/down arrows, for a menu trigger showing its current value */
+  icon?: React.ReactNode;
+  /** Tints the icon with the brand colour while a toggle or filter is on. @default false */
+  active?: boolean;
+}
+
+/**
+ * Labelled control for {@link TableToolbar}: 12px label followed by a 16px
+ * icon. Below the `md` breakpoint only the icon shows, and the label stays as
+ * the accessible name, so a full bar still fits a phone. Works as a plain
+ * button or as a `DropdownMenuTrigger` child.
+ */
+export const TableToolbarAction = React.forwardRef<HTMLButtonElement, TableToolbarActionProps>(
+  ({ className, children, icon, active = false, type = "button", ...props }, ref) => {
+    return (
+      <button
+        ref={ref}
+        type={type}
+        className={cn(
+          "typography-description-12px-regular inline-flex h-6 shrink-0 cursor-pointer items-center gap-2 whitespace-nowrap rounded-xs border-none bg-transparent p-0 text-content-secondary outline-none",
+          "hover:text-content-primary focus-visible:shadow-focus-ring disabled:cursor-default disabled:opacity-40",
+          className,
+        )}
+        {...props}
+      >
+        <span className="max-md:sr-only">{children}</span>
+        <span
+          aria-hidden
+          className={cn(
+            "inline-flex size-4 shrink-0 items-center justify-center [&>svg]:size-4",
+            active ? "text-brand-primary-default" : "text-icons-secondary",
+          )}
+        >
+          {icon ?? <TranscationArrowIcon size={16} />}
+        </span>
+      </button>
+    );
+  },
+);
+TableToolbarAction.displayName = "TableToolbarAction";
+
+export interface TableToolbarButtonProps extends Omit<ButtonProps, "size"> {}
+
+/**
+ * Call to action for {@link TableToolbar} (e.g. "Create New"): a 24px
+ * {@link Button} squared to the toolbar's 8px radius with 12px semibold type,
+ * so it sits 8px from the bar's edges. Elsewhere use {@link Button}.
+ */
+export const TableToolbarButton = React.forwardRef<HTMLButtonElement, TableToolbarButtonProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <Button
+        ref={ref}
+        size="24"
+        className={cn("typography-description-12px-semibold rounded-xs", className)}
         {...props}
       />
     );
   },
 );
-TableToolbar.displayName = "TableToolbar";
+TableToolbarButton.displayName = "TableToolbarButton";
 
 export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -188,9 +321,15 @@ TableFooter.displayName = "TableFooter";
 
 export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {}
 
+/**
+ * Table row. A body row holding a {@link TableMediaThumbnail} or
+ * {@link TableMediaTile} grows from 40px to 56px to keep 8px around it.
+ */
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, ...props }, ref) => {
-    return <tr ref={ref} className={cn(className)} {...props} />;
+    return (
+      <tr ref={ref} className={cn("[&:has([data-table-media])>td]:h-14", className)} {...props} />
+    );
   },
 );
 TableRow.displayName = "TableRow";
@@ -200,10 +339,12 @@ export type TableHeadIntent = "default" | "checkbox" | "sort" | "leading";
 
 const HEAD_INTENT_CLASSES: Record<TableHeadIntent, string> = {
   default: "text-left",
-  checkbox: "w-12 min-w-12 max-w-12 text-center",
+  checkbox: "w-px pr-0 text-left",
   sort: "text-right",
   leading: "min-w-0 w-2/5 text-left",
 };
+
+const CELL_GUTTERS = "px-5 first:pl-4 last:pr-4";
 
 export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
   /** Layout preset for common column types. @default "default" */
@@ -211,22 +352,19 @@ export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElem
 }
 
 /**
- * Header cell. v2: transparent background, 48px min height, tertiary text,
- * `border-border-primary` bottom rule. Uses 16px semibold type, or 14px when
- * the parent {@link TableCard} is `size="condensed"`.
+ * Header cell: 32px tall on `surface-table-row`, 12px secondary text and a
+ * 0.5px bottom rule. Columns sit at least 40px apart, with 16px against the
+ * card edges.
  */
 export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ({ className, intent = "default", scope = "col", ...props }, ref) => {
-    const size = useTableSize();
     return (
       <th
         ref={ref}
         scope={scope}
         className={cn(
-          size === "condensed"
-            ? "typography-body-small-14px-semibold"
-            : "typography-body-default-16px-semibold",
-          "box-border h-12 min-h-12 border-border-primary border-b px-4 py-3 align-middle text-content-tertiary",
+          "typography-description-12px-regular box-border h-8 whitespace-nowrap border-border-primary border-b-[0.5px] bg-surface-table-row py-0 align-middle font-normal text-content-secondary",
+          CELL_GUTTERS,
           HEAD_INTENT_CLASSES[intent],
           className,
         )}
@@ -238,19 +376,19 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
 TableHead.displayName = "TableHead";
 
 const CELL_MIN_HEIGHT: Record<TableSize, string> = {
-  md: "h-16 min-h-16",
-  default: "h-16 min-h-16",
-  condensed: "h-12 min-h-12 py-1",
-  lg: "h-20 min-h-20",
+  md: "h-10",
+  default: "h-10",
+  condensed: "h-10",
+  lg: "h-14",
 };
 
 /** Bottom border and padding preset for body cells (Figma table cell component). */
 export type TableCellVariant = "default" | "chip" | "pillProgress";
 
 const CELL_VARIANT_CLASSES: Record<TableCellVariant, string> = {
-  default: "border-b border-border-primary px-4 py-3",
-  chip: "border-b border-border-primary px-4 py-3",
-  pillProgress: "border-b border-border-primary px-4 py-3",
+  default: "border-b-[0.5px] border-border-primary py-0",
+  chip: "border-b-[0.5px] border-border-primary py-0",
+  pillProgress: "border-b-[0.5px] border-border-primary py-1",
 };
 
 /** Layout / typography preset for {@link TableCell} (orthogonal to {@link TableCellVariant}). */
@@ -258,8 +396,8 @@ export type TableCellIntent = "default" | "checkbox" | "stacked" | "multiline" |
 
 const CELL_INTENT_CLASSES: Record<TableCellIntent, string> = {
   default: "",
-  checkbox: "w-12 min-w-12 max-w-12 text-center",
-  stacked: "align-top",
+  checkbox: "w-px pr-0 text-left",
+  stacked: "align-top py-2",
   multiline: "max-w-[240px]",
   sideLabel: "",
 };
@@ -269,27 +407,31 @@ export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElem
   cellVariant?: TableCellVariant;
   /** Alignment and typography preset for common cell types. @default "default" */
   intent?: TableCellIntent;
+  /** Keeps the content on one line, for short values (dates, amounts, statuses). @default false */
+  nowrap?: boolean;
 }
 
 /**
- * Body cell. v2: `h-16` (or `h-20` when the parent {@link TableCard} uses
- * `size="lg"`), `px-4 py-3` padding, body-sm typography, and a single
- * `border-border-primary` rule that is zeroed by {@link TableBody} for the
- * final row.
+ * Body cell: 40px rows (56px when the parent {@link TableCard} uses
+ * `size="lg"` or the row holds media), 12px type, transparent background and
+ * a 0.5px rule that {@link TableBody} drops on the final row. Long text wraps
+ * and the row grows; set `nowrap` on short columns to keep them on one line.
  */
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ className, cellVariant = "default", intent = "default", ...props }, ref) => {
+  ({ className, cellVariant = "default", intent = "default", nowrap = false, ...props }, ref) => {
     const size = useTableSize();
     const typo =
       intent === "sideLabel"
-        ? "typography-body-small-14px-semibold"
-        : "typography-body-small-14px-regular";
+        ? "typography-description-12px-semibold"
+        : "typography-description-12px-regular";
     return (
       <td
         ref={ref}
         className={cn(
           typo,
           "align-middle text-content-primary",
+          nowrap && "whitespace-nowrap",
+          CELL_GUTTERS,
           CELL_VARIANT_CLASSES[cellVariant],
           CELL_MIN_HEIGHT[size],
           CELL_INTENT_CLASSES[intent],
@@ -329,9 +471,9 @@ export interface TableCellContentProps {
 }
 
 /**
- * Two-line content slot matching Figma `V2 Table Content` — primary line
- * (semibold) over an optional secondary line (regular, muted) with a 2px
- * gap. Use inside {@link TableCell} for the common stacked-text pattern.
+ * Two-line content slot matching Figma `V2 Table Content` — 12px primary line
+ * (semibold) over an optional 12px secondary line (regular, muted), so both
+ * fit a 40px row. Use inside {@link TableCell} for the common stacked-text pattern.
  */
 export function TableCellContent({
   primary,
@@ -341,15 +483,15 @@ export function TableCellContent({
   className,
 }: TableCellContentProps) {
   return (
-    <div className={cn("flex flex-col gap-0.5", className)}>
+    <div className={cn("flex flex-col", className)}>
       <div className="flex items-center gap-1">
-        <span className="typography-body-small-14px-semibold text-content-primary">{primary}</span>
+        <span className="typography-description-12px-semibold text-content-primary">{primary}</span>
         {primaryAdornment}
       </div>
       {(secondary != null || secondaryAdornment != null) && (
         <div className="flex items-center gap-1">
           {secondary != null && (
-            <span className="typography-body-small-14px-regular text-content-secondary">
+            <span className="typography-description-12px-regular text-content-secondary">
               {secondary}
             </span>
           )}
@@ -362,7 +504,7 @@ export function TableCellContent({
 TableCellContent.displayName = "TableCellContent";
 
 /** Pixel size of the square {@link TableMediaThumbnail}. */
-export type TableMediaThumbnailSize = "48" | "32";
+export type TableMediaThumbnailSize = "48" | "40" | "32";
 
 export interface TableMediaThumbnailProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
@@ -374,24 +516,27 @@ export interface TableMediaThumbnailProps
   blurred?: boolean;
   /** `center` uses the fixed media column width from the lg spec. @default "start" */
   align?: "start" | "center";
-  /** Pixel size of the square thumbnail; `"32"` matches the current Figma `V2 Media Thumbnail Item`. @default "48" */
+  /** Pixel size of the square thumbnail. At 40 or 48 its row grows to 56px; 32 fits a 40px row. @default "40" */
   size?: TableMediaThumbnailSize;
 }
 
 /**
- * Square thumbnail used inside {@link TableCell} for media columns
- * (Figma `V2 Media Thumbnail Item`).
+ * Square photo that fills its frame, used inside {@link TableCell} for media
+ * columns. At the 40px and 48px sizes its row grows to 56px; the 32px size
+ * fits a regular 40px row.
  */
 export const TableMediaThumbnail = React.forwardRef<HTMLDivElement, TableMediaThumbnailProps>(
-  ({ className, src, alt = "", blurred, align = "start", size = "48", ...props }, ref) => {
+  ({ className, src, alt = "", blurred, align = "start", size = "40", ...props }, ref) => {
     const frame = cn(
       "overflow-hidden bg-neutral-alphas-200",
       size === "48" && "size-12 rounded-sm",
+      size === "40" && "size-10 rounded-xs",
       size === "32" && "size-8 rounded-xs",
     );
     return (
       <div
         ref={ref}
+        data-table-media={size === "32" ? undefined : ""}
         className={cn(
           align === "center" && "flex w-16 shrink-0 justify-center",
           align === "start" && "inline-flex shrink-0",
@@ -405,6 +550,39 @@ export const TableMediaThumbnail = React.forwardRef<HTMLDivElement, TableMediaTh
   },
 );
 TableMediaThumbnail.displayName = "TableMediaThumbnail";
+
+export interface TableMediaTileProps extends React.HTMLAttributes<HTMLSpanElement> {
+  /** Logo or icon centred on the tile, or edge-to-edge media when `fill` is set. */
+  children: React.ReactNode;
+  /** Lets the child fill the tile edge to edge (e.g. a video preview) with no border or fill. @default false */
+  fill?: boolean;
+}
+
+/**
+ * 40px tile for a {@link TableCell}: a logo or icon (e.g. a social platform)
+ * centred on `surface-table-row` with a 0.5px border, or, with `fill`, custom
+ * media that fills it. Its row grows to 56px. For a plain image URL use
+ * {@link TableMediaThumbnail}.
+ */
+export const TableMediaTile = React.forwardRef<HTMLSpanElement, TableMediaTileProps>(
+  ({ className, fill = false, ...props }, ref) => {
+    return (
+      <span
+        ref={ref}
+        data-table-media=""
+        className={cn(
+          "inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-xs",
+          fill
+            ? "[&>*]:size-full"
+            : "border-[0.5px] border-border-primary bg-surface-table-row text-icons-secondary",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
+TableMediaTile.displayName = "TableMediaTile";
 
 export interface TableStatusDotProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -488,29 +666,58 @@ export interface TableSortLabelProps extends React.HTMLAttributes<HTMLSpanElemen
   children: React.ReactNode;
   /**
    * Visual indicator of the column's sort state. When set to `"asc"` or
-   * `"desc"`, a 1px underline accent appears beneath the label and a small
-   * directional arrow is shown next to it. @default null
+   * `"desc"`, the label turns primary and the Arrow Sort Up / Down chevrons
+   * appear next to it, the active direction highlighted. @default null
    */
   direction?: TableSortDirection;
 }
 
+function SortArrows({ direction }: { direction: "asc" | "desc" }) {
+  return (
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+      className="shrink-0"
+    >
+      <path
+        d="M5 6L8 3L11 6"
+        strokeWidth={1.2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={direction === "asc" ? "stroke-current" : "stroke-icons-tertiary"}
+      />
+      <path
+        d="M11 10L8 13L5 10"
+        strokeWidth={1.2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={direction === "desc" ? "stroke-current" : "stroke-icons-tertiary"}
+      />
+    </svg>
+  );
+}
+
 /**
- * Sortable column label. v2 expresses the sort state with a 1px underline
- * beneath the label plus a directional arrow when sorted.
+ * Sortable column label. A sorted column reads primary with the Arrow Sort
+ * Up / Down chevrons; an unsorted one keeps the header colour.
  */
 export const TableSortLabel = React.forwardRef<HTMLSpanElement, TableSortLabelProps>(
   ({ className, children, direction = null, ...props }, ref) => {
-    const Icon = direction === "desc" ? ArrowDownIcon : ArrowUpIcon;
     return (
       <span
         ref={ref}
-        className={cn("inline-flex items-center gap-1 text-content-primary", className)}
+        className={cn(
+          "inline-flex items-center gap-1",
+          direction != null && "text-content-primary",
+          className,
+        )}
         {...props}
       >
-        <span className={cn(direction != null && "border-content-primary border-b pb-px")}>
-          {children}
-        </span>
-        {direction != null && <Icon className="size-4 shrink-0" aria-hidden />}
+        {children}
+        {direction != null && <SortArrows direction={direction} />}
       </span>
     );
   },
@@ -561,33 +768,3 @@ export const TableLineClamp = React.forwardRef<HTMLDivElement, TableLineClampPro
   },
 );
 TableLineClamp.displayName = "TableLineClamp";
-
-export interface TableRowsPerPageSelectProps {
-  /** Passed to the trigger for forms and labels. */
-  id?: string;
-  /** Accessible name for the trigger when no visible label. @default "Rows per page" */
-  "aria-label"?: string;
-}
-
-/**
- * Rows-per-page {@link Select} styled for {@link TablePagination}. v2 uses a
- * subtle pill trigger with the table's secondary-surface background.
- */
-export function TableRowsPerPageSelect(props: TableRowsPerPageSelectProps) {
-  const { id, "aria-label": ariaLabel = "Rows per page" } = props;
-  return (
-    <Select
-      defaultValue="10"
-      size="32"
-      aria-label={ariaLabel}
-      className="w-[154px] [&_button]:rounded-sm [&_button]:border-transparent [&_button]:bg-inputs-inputs-primary"
-      id={id}
-    >
-      <SelectContent>
-        <SelectItem value="10">10 rows per page</SelectItem>
-        <SelectItem value="25">25 rows per page</SelectItem>
-        <SelectItem value="50">50 rows per page</SelectItem>
-      </SelectContent>
-    </Select>
-  );
-}

@@ -836,18 +836,21 @@ export type {
   TableLineClampProps,
   TableMediaThumbnailProps,
   TableMediaThumbnailSize,
+  TableMediaTileProps,
   TablePillProgressLayoutProps,
   TableProgressTrackProps,
   TableProps,
   TableRowProps,
-  TableRowsPerPageSelectProps,
   TableScrollAreaProps,
   TableSize,
   TableSortDirection,
   TableSortLabelProps,
   TableStackedTextProps,
   TableStatusDotProps,
+  TableToolbarActionProps,
+  TableToolbarButtonProps,
   TableToolbarProps,
+  TableToolbarSearchProps,
 } from "./components/Table/Table";
 export {
   Table,
@@ -861,23 +864,23 @@ export {
   TableHeader,
   TableLineClamp,
   TableMediaThumbnail,
+  TableMediaTile,
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
-  TableRowsPerPageSelect,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
   TableStatusDot,
   TableToolbar,
+  TableToolbarAction,
+  TableToolbarButton,
+  TableToolbarSearch,
 } from "./components/Table/Table";
 export type { TableMobileRowProps } from "./components/Table/TableMobileRow";
 export { TableMobileRow } from "./components/Table/TableMobileRow";
-export type {
-  TablePaginationLayout,
-  TablePaginationProps,
-} from "./components/Table/TablePagination";
-export { TablePagination } from "./components/Table/TablePagination";
+export type { TableCardPaginationProps } from "./components/Table/TablePagination";
+export { TableCardPagination } from "./components/Table/TablePagination";
 export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";
