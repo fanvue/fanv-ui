@@ -36,6 +36,7 @@ import {
   TableStackedText,
   TableToolbar,
   TableToolbarAction,
+  TableToolbarButton,
   TableToolbarSearch,
 } from "./Table";
 import { TableCardPagination, TablePagination } from "./TablePagination";
@@ -202,7 +203,7 @@ export const WithToolbar: Story = {
             Advanced
           </TableToolbarAction>
           <TableToolbarAction icon={<SettingsIcon />}>Filters</TableToolbarAction>
-          <Button size="24">Create New</Button>
+          <TableToolbarButton>Create New</TableToolbarButton>
         </TableToolbar>
         <TableCard>
           <TableScrollArea>

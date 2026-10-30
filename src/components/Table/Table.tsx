@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { Button, type ButtonProps } from "../Button/Button";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
@@ -88,7 +89,7 @@ export interface TableToolbarProps extends React.HTMLAttributes<HTMLDivElement> 
  * ```tsx
  * <TableToolbar search={<TableToolbarSearch value={q} onValueChange={setQ} placeholder="Search" clearLabel="Clear search" />}>
  *   <TableToolbarAction icon={<SettingsIcon />}>Filters</TableToolbarAction>
- *   <Button size="24">Create</Button>
+ *   <TableToolbarButton>Create</TableToolbarButton>
  * </TableToolbar>
  * ```
  */
@@ -201,6 +202,27 @@ export const TableToolbarAction = React.forwardRef<HTMLButtonElement, TableToolb
   },
 );
 TableToolbarAction.displayName = "TableToolbarAction";
+
+export interface TableToolbarButtonProps extends Omit<ButtonProps, "size"> {}
+
+/**
+ * Call to action for {@link TableToolbar} (e.g. "Create New"): a 24px
+ * {@link Button} squared to the toolbar's 8px radius with 12px semibold type,
+ * so it sits 8px from the bar's edges. Elsewhere use {@link Button}.
+ */
+export const TableToolbarButton = React.forwardRef<HTMLButtonElement, TableToolbarButtonProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <Button
+        ref={ref}
+        size="24"
+        className={cn("typography-description-12px-semibold rounded-xs", className)}
+        {...props}
+      />
+    );
+  },
+);
+TableToolbarButton.displayName = "TableToolbarButton";
 
 export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
   /**

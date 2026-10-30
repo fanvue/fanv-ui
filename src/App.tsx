@@ -254,6 +254,7 @@ import {
   TableStatusDot,
   TableToolbar,
   TableToolbarAction,
+  TableToolbarButton,
   TableToolbarSearch,
   Tabs,
   TabsContent,
@@ -4055,7 +4056,7 @@ function TableDemo() {
             }
           >
             <TableToolbarAction>All</TableToolbarAction>
-            <Button size="24">Create New</Button>
+            <TableToolbarButton>Create New</TableToolbarButton>
           </TableToolbar>
           <TableCard>
             <TableScrollArea>

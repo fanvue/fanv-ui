@@ -17,6 +17,7 @@ import {
   TableSortLabel,
   TableToolbar,
   TableToolbarAction,
+  TableToolbarButton,
   TableToolbarSearch,
 } from "./Table";
 
@@ -327,6 +328,15 @@ describe("Table", () => {
       render(<TableToolbarAction>Filters</TableToolbarAction>);
       expect(screen.getByText("Filters")).toHaveClass("max-md:sr-only");
       expect(screen.getByRole("button", { name: "Filters" })).toBeInTheDocument();
+    });
+
+    it("squares the toolbar button to 24px with 12px type", () => {
+      render(<TableToolbarButton>Create New</TableToolbarButton>);
+      const button = screen.getByRole("button", { name: "Create New" });
+      expect(button).toHaveClass("h-6");
+      expect(button).toHaveClass("rounded-xs");
+      expect(button).not.toHaveClass("rounded-full");
+      expect(button).toHaveClass("typography-description-12px-semibold");
     });
 
     it("tints the action icon only while active", () => {

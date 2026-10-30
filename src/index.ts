@@ -849,6 +849,7 @@ export type {
   TableStackedTextProps,
   TableStatusDotProps,
   TableToolbarActionProps,
+  TableToolbarButtonProps,
   TableToolbarProps,
   TableToolbarSearchProps,
 } from "./components/Table/Table";
@@ -875,6 +876,7 @@ export {
   TableStatusDot,
   TableToolbar,
   TableToolbarAction,
+  TableToolbarButton,
   TableToolbarSearch,
 } from "./components/Table/Table";
 export type { TableMobileRowProps } from "./components/Table/TableMobileRow";
