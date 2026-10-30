@@ -6,6 +6,17 @@ import { Button, type ButtonVariant } from "./Button";
 
 describe("Button", () => {
   describe("API", () => {
+    it("squares the 24px size with 12px type, keeping larger sizes round", () => {
+      const { rerender } = render(<Button size="24">Create</Button>);
+      const small = screen.getByRole("button", { name: "Create" });
+      expect(small).toHaveClass("rounded-xs");
+      expect(small).not.toHaveClass("rounded-full");
+      expect(small).toHaveClass("typography-description-12px-semibold");
+
+      rerender(<Button size="40">Create</Button>);
+      expect(screen.getByRole("button", { name: "Create" })).toHaveClass("rounded-full");
+    });
+
     it("applies custom className", () => {
       render(<Button className="custom-class">Custom</Button>);
       const button = screen.getByRole("button", { name: "Custom" });

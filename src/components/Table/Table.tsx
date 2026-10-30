@@ -98,7 +98,7 @@ export const TableToolbar = React.forwardRef<HTMLDivElement, TableToolbarProps>(
       <div
         ref={ref}
         className={cn(
-          "flex h-10 w-full min-w-0 items-center gap-4 rounded-sm border-[0.5px] border-border-strong bg-surface-table-row px-4",
+          "flex h-10 w-full min-w-0 items-center gap-4 rounded-sm border-[0.5px] border-border-strong bg-surface-table-row pr-2 pl-4",
           className,
         )}
         {...props}

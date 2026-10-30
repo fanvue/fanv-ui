@@ -62,7 +62,7 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
   "48": "h-12 px-6 py-3 typography-body-default-16px-semibold",
   "40": "h-10 px-4 py-2 typography-body-default-16px-semibold",
   "32": "h-8 px-3 py-[7px] typography-body-small-14px-semibold",
-  "24": "h-6 px-2 py-1 typography-body-small-14px-semibold",
+  "24": "h-6 rounded-xs px-2 py-1 typography-description-12px-semibold",
 };
 
 const ICON_SIDE_PADDING_CLASSES: Record<ButtonSize, { left: string; right: string }> = {
