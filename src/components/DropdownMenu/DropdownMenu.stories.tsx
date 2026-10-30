@@ -14,6 +14,7 @@ import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
 import { TrashBinIcon } from "../Icons/TrashBinIcon";
 import {
   DropdownMenu,
+  DropdownMenuAvatarItem,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -786,4 +787,31 @@ export const AllStatesV2: Story = {
     };
     return <Demo />;
   },
+};
+
+export const AvatarItems: Story = {
+  play: openMenu,
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/23x2vofTPkLpbcJyRdDa55?node-id=9023-61919",
+    },
+  },
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>Open Menu</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-80">
+        <DropdownMenuAvatarItem
+          name="Maya Chen"
+          handle="@mayachen"
+          trailing={<MoreIcon className="size-4" />}
+        />
+        <DropdownMenuAvatarItem name="Jordan Ellis" handle="@jordanellis" selected />
+        <DropdownMenuAvatarItem name="Ava Patel" handle="@avapatel" disabled />
+        <DropdownMenuAvatarItem name="Sam Rivera" />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
 };

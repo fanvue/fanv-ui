@@ -196,7 +196,7 @@
     "Chart": "The Recharts building blocks on @fanvue/ui/charts: ChartContainer and ChartStyle for theming, ChartTooltip, ChartLegend and ChartCard for the chrome, plus loading and skeleton states.",
     "Dialog": "A modal dialog, a centred card on desktop and a bottom sheet on mobile, built from DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogBody and DialogFooter.",
     "Drawer": "A panel that slides in from the edge of the viewport, built from DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription and DrawerFooter.",
-    "DropdownMenu": "A menu anchored to a trigger, built from DropdownMenuTrigger, DropdownMenuContent and its item, checkbox, radio, group, label and separator parts.",
+    "DropdownMenu": "A menu anchored to a trigger, built from DropdownMenuTrigger, DropdownMenuContent and its item, avatar item, checkbox, radio, group, label and separator parts.",
     "EmptyState": "A placeholder for a view with nothing in it yet: media or icon, title, description and up to two actions, in five title and five media sizes.",
     "InfoBox": "An explanatory popover anchored to a trigger, built from InfoBoxTrigger and InfoBoxContent.",
     "PasswordField": "A password input with a show/hide toggle, in three sizes, taking the rest of its API from TextField.",

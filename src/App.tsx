@@ -113,6 +113,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
   DropdownMenu,
+  DropdownMenuAvatarItem,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuHeader,
@@ -3034,6 +3035,24 @@ function DropdownMenuDemo() {
               <DropdownMenuItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
                 Delete
               </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="typography-description-12px-semibold text-content-secondary">
+            Avatar items
+          </span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="40" rightIcon={<ChevronDownIcon />}>
+                Switch account
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-72">
+              <DropdownMenuAvatarItem name="Maya Chen" handle="@mayachen" />
+              <DropdownMenuAvatarItem name="Jordan Ellis" handle="@jordanellis" selected />
+              <DropdownMenuAvatarItem name="Ava Patel" handle="@avapatel" disabled />
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
