@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.46.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.45.0...ui-v3.46.0) (2026-10-30)
+
+
+### Features
+
+* **Icons:** add BookmarkIcon ([#766](https://github.com/fanvue/fanv-ui/issues/766)) ([272d3b9](https://github.com/fanvue/fanv-ui/commit/272d3b9b08bb819b464707d5dad633714dc5b107))
+* **Table:** compact table with toolbar, card pagination and media tiles ([#768](https://github.com/fanvue/fanv-ui/issues/768)) ([9c65860](https://github.com/fanvue/fanv-ui/commit/9c6586084d31cffb53936a08e149fb19b120aa22))
+
 ## [3.45.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.44.0...ui-v3.45.0) (2026-10-28)
 
 
