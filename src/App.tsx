@@ -251,6 +251,9 @@ import {
   TableSortLabel,
   TableStackedText,
   TableStatusDot,
+  TableTabActionButton,
+  TableTabActionSearch,
+  TableTabActions,
   TableToolbar,
   Tabs,
   TabsContent,
@@ -4356,6 +4359,30 @@ function TableDemo() {
   );
 }
 
+function TableTabActionsDemo() {
+  const [sort, setSort] = useState("newest");
+  return (
+    <div id="table-tab-actions" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-h3 mb-4">Table Tab Actions</h2>
+      <TableTabActions aria-label="Table actions" className="max-w-[480px]">
+        <TableTabActionSearch />
+        <TableTabActionButton rightIcon={<SettingsIcon />}>Filter</TableTabActionButton>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <TableTabActionButton rightIcon={<ChevronDownIcon />}>Sort By</TableTabActionButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
+              <DropdownMenuRadioItem value="newest">Newest</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="oldest">Oldest</DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableTabActions>
+    </div>
+  );
+}
+
 function TabsDemo() {
   return (
     <div id="tabs" className="flex scroll-mt-20 flex-col gap-4">
@@ -5982,6 +6009,7 @@ function App() {
     { id: "switchtoggle", label: "Switch Toggle" },
     { id: "tabs", label: "Tabs" },
     { id: "table", label: "Table" },
+    { id: "table-tab-actions", label: "Table Tab Actions" },
     { id: "textarea", label: "Text Area" },
     { id: "textfield", label: "Text Field" },
     { id: "toast", label: "Toast" },
@@ -6228,6 +6256,7 @@ function App() {
 
             {/* Table */}
             <TableDemo />
+            <TableTabActionsDemo />
 
             {/* Slider */}
             <SliderDemo />
