@@ -420,6 +420,24 @@ describe("Alert", () => {
     });
   });
 
+  describe("live region", () => {
+    it("announces the title and description as an alert by default", () => {
+      render(<Alert title="Saved">Your changes have been saved.</Alert>);
+      const region = screen.getByRole("alert");
+      expect(region).toHaveTextContent("SavedYour changes have been saved.");
+    });
+
+    it("renders the message without the alert role when liveRegion is false", () => {
+      render(
+        <Alert title="Terms" liveRegion={false}>
+          Static terms shown on load.
+        </Alert>,
+      );
+      expect(screen.getByText("Static terms shown on load.")).toBeInTheDocument();
+      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(<Alert>Accessible alert</Alert>);
@@ -441,6 +459,16 @@ describe("Alert", () => {
       const { container } = render(
         <Alert variant="neutral" title="Heads up" action={<a href="/details">Learn more</a>}>
           Neutral alert with an action
+        </Alert>,
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations without the live region", async () => {
+      const { container } = render(
+        <Alert title="Terms" liveRegion={false}>
+          Static terms shown on load.
         </Alert>,
       );
       const results = await axe(container);
