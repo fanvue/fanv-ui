@@ -227,8 +227,8 @@ export const WithToolbar: Story = {
                       <Checkbox size="16" aria-label={`Select ${row.name} ${index + 1}`} />
                     </TableCell>
                     <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.created}</TableCell>
-                    <TableCell>{row.price}</TableCell>
+                    <TableCell nowrap>{row.created}</TableCell>
+                    <TableCell nowrap>{row.price}</TableCell>
                     <TableCell>
                       <Pill variant={row.status.variant}>{row.status.label}</Pill>
                     </TableCell>

@@ -81,8 +81,8 @@ export interface TableToolbarProps extends React.HTMLAttributes<HTMLDivElement> 
 
 /**
  * 40px action bar above a {@link TableCard}: search on the left, every other
- * control (menus, toggles, buttons) on the right, 24px apart. On narrow
- * screens the controls scroll sideways instead of overflowing the bar.
+ * control (menus, toggles, buttons) on the right, 24px apart. On phones
+ * {@link TableToolbarAction} controls go icon-only so the bar fits.
  *
  * @example
  * ```tsx
@@ -169,7 +169,9 @@ export interface TableToolbarActionProps extends React.ButtonHTMLAttributes<HTML
 
 /**
  * Labelled control for {@link TableToolbar}: 12px label followed by a 16px
- * icon. Works as a plain button or as a `DropdownMenuTrigger` child.
+ * icon. Below the `md` breakpoint only the icon shows, and the label stays as
+ * the accessible name, so a full bar still fits a phone. Works as a plain
+ * button or as a `DropdownMenuTrigger` child.
  */
 export const TableToolbarAction = React.forwardRef<HTMLButtonElement, TableToolbarActionProps>(
   ({ className, children, icon, active = false, type = "button", ...props }, ref) => {
@@ -184,7 +186,7 @@ export const TableToolbarAction = React.forwardRef<HTMLButtonElement, TableToolb
         )}
         {...props}
       >
-        {children}
+        <span className="max-md:sr-only">{children}</span>
         <span
           aria-hidden
           className={cn(
@@ -375,7 +377,7 @@ const CELL_INTENT_CLASSES: Record<TableCellIntent, string> = {
   default: "",
   checkbox: "w-px pr-0 text-left",
   stacked: "align-top py-2",
-  multiline: "max-w-[240px] whitespace-normal",
+  multiline: "max-w-[240px]",
   sideLabel: "",
 };
 
@@ -384,16 +386,18 @@ export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElem
   cellVariant?: TableCellVariant;
   /** Alignment and typography preset for common cell types. @default "default" */
   intent?: TableCellIntent;
+  /** Keeps the content on one line, for short values (dates, amounts, statuses). @default false */
+  nowrap?: boolean;
 }
 
 /**
  * Body cell: 40px rows (56px when the parent {@link TableCard} uses
  * `size="lg"` or the row holds media), 12px type, transparent background and
- * a 0.5px rule that {@link TableBody} drops on the final row. Content does
- * not wrap, so a wide table scrolls sideways inside {@link TableScrollArea}.
+ * a 0.5px rule that {@link TableBody} drops on the final row. Long text wraps
+ * and the row grows; set `nowrap` on short columns to keep them on one line.
  */
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ className, cellVariant = "default", intent = "default", ...props }, ref) => {
+  ({ className, cellVariant = "default", intent = "default", nowrap = false, ...props }, ref) => {
     const size = useTableSize();
     const typo =
       intent === "sideLabel"
@@ -404,7 +408,8 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
         ref={ref}
         className={cn(
           typo,
-          "whitespace-nowrap align-middle text-content-primary",
+          "align-middle text-content-primary",
+          nowrap && "whitespace-nowrap",
           CELL_GUTTERS,
           CELL_VARIANT_CLASSES[cellVariant],
           CELL_MIN_HEIGHT[size],

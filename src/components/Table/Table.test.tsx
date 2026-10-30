@@ -154,6 +154,22 @@ describe("Table", () => {
       expect(th).toHaveClass("h-8");
     });
 
+    it("wraps cell text by default and keeps it on one line with nowrap", () => {
+      const { container } = render(
+        <table>
+          <tbody>
+            <TableRow>
+              <TableCell>Long reason text</TableCell>
+              <TableCell nowrap>Jun 11, 2026</TableCell>
+            </TableRow>
+          </tbody>
+        </table>,
+      );
+      const [wrapping, single] = Array.from(container.querySelectorAll("td"));
+      expect(wrapping).not.toHaveClass("whitespace-nowrap");
+      expect(single).toHaveClass("whitespace-nowrap");
+    });
+
     it("zeroes the bottom border on cells in the final body row", () => {
       const { container } = render(
         <TableCard>
@@ -299,9 +315,16 @@ describe("Table", () => {
       expect(onValueChange).toHaveBeenLastCalledWith("");
     });
 
+    it("keeps the action label as its name while hiding it below md", () => {
+      render(<TableToolbarAction>Filters</TableToolbarAction>);
+      expect(screen.getByText("Filters")).toHaveClass("max-md:sr-only");
+      expect(screen.getByRole("button", { name: "Filters" })).toBeInTheDocument();
+    });
+
     it("tints the action icon only while active", () => {
       const { rerender } = render(<TableToolbarAction>Advanced</TableToolbarAction>);
-      const icon = () => screen.getByRole("button", { name: "Advanced" }).querySelector("span");
+      const icon = () =>
+        screen.getByRole("button", { name: "Advanced" }).querySelector("span[aria-hidden]");
       expect(icon()).toHaveClass("text-icons-secondary");
 
       rerender(<TableToolbarAction active>Advanced</TableToolbarAction>);
