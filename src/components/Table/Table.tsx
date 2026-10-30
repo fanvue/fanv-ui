@@ -4,7 +4,6 @@ import { Button, type ButtonProps } from "../Button/Button";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
-import { Select, SelectContent, SelectItem } from "../Select/Select";
 
 /**
  * Row density for body cells.
@@ -769,33 +768,3 @@ export const TableLineClamp = React.forwardRef<HTMLDivElement, TableLineClampPro
   },
 );
 TableLineClamp.displayName = "TableLineClamp";
-
-export interface TableRowsPerPageSelectProps {
-  /** Passed to the trigger for forms and labels. */
-  id?: string;
-  /** Accessible name for the trigger when no visible label. @default "Rows per page" */
-  "aria-label"?: string;
-}
-
-/**
- * Rows-per-page {@link Select} styled for {@link TablePagination}. v2 uses a
- * subtle pill trigger with the table's secondary-surface background.
- */
-export function TableRowsPerPageSelect(props: TableRowsPerPageSelectProps) {
-  const { id, "aria-label": ariaLabel = "Rows per page" } = props;
-  return (
-    <Select
-      defaultValue="10"
-      size="32"
-      aria-label={ariaLabel}
-      className="w-[154px] [&_button]:rounded-sm [&_button]:border-transparent [&_button]:bg-inputs-inputs-primary"
-      id={id}
-    >
-      <SelectContent>
-        <SelectItem value="10">10 rows per page</SelectItem>
-        <SelectItem value="25">25 rows per page</SelectItem>
-        <SelectItem value="50">50 rows per page</SelectItem>
-      </SelectContent>
-    </Select>
-  );
-}

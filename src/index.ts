@@ -841,7 +841,6 @@ export type {
   TableProgressTrackProps,
   TableProps,
   TableRowProps,
-  TableRowsPerPageSelectProps,
   TableScrollAreaProps,
   TableSize,
   TableSortDirection,
@@ -869,7 +868,6 @@ export {
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
-  TableRowsPerPageSelect,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
@@ -881,12 +879,8 @@ export {
 } from "./components/Table/Table";
 export type { TableMobileRowProps } from "./components/Table/TableMobileRow";
 export { TableMobileRow } from "./components/Table/TableMobileRow";
-export type {
-  TableCardPaginationProps,
-  TablePaginationLayout,
-  TablePaginationProps,
-} from "./components/Table/TablePagination";
-export { TableCardPagination, TablePagination } from "./components/Table/TablePagination";
+export type { TableCardPaginationProps } from "./components/Table/TablePagination";
+export { TableCardPagination } from "./components/Table/TablePagination";
 export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";

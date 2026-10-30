@@ -243,11 +243,9 @@ import {
   TableHeader,
   TableLineClamp,
   TableMediaThumbnail,
-  TablePagination,
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
-  TableRowsPerPageSelect,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
@@ -3968,8 +3966,6 @@ function TableDemo() {
   const [tableQuery, setTableQuery] = useState("");
   const [tablePageSize, setTablePageSize] = useState(10);
   const [pageLg, setPageLg] = useState(1);
-  const [pageDesk, setPageDesk] = useState(2);
-  const [pageMob, setPageMob] = useState(2);
 
   return (
     <div id="table" className="flex scroll-mt-20 flex-col gap-4">
@@ -4159,17 +4155,13 @@ function TableDemo() {
                 </TableBody>
               </Table>
             </TableScrollArea>
-            <TablePagination
-              leadingSlot={<TableRowsPerPageSelect id="app-table-lg-rows" />}
-              paginationSlot={
-                <Pagination
-                  className="pb-0"
-                  totalPages={5}
-                  currentPage={pageLg}
-                  onPageChange={setPageLg}
-                />
-              }
-              summary="1–10 of 48 rows"
+            <TableCardPagination
+              page={pageLg}
+              pageCount={5}
+              onPageChange={setPageLg}
+              pageSize={tablePageSize}
+              pageSizeOptions={[10, 25, 50]}
+              onPageSizeChange={setTablePageSize}
             />
           </TableCard>
         </div>
@@ -4309,46 +4301,6 @@ function TableDemo() {
               </Table>
             </TableScrollArea>
           </TableCard>
-        </div>
-
-        <div>
-          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
-            Pagination — desktop
-          </h3>
-          <div className="max-w-[628px] rounded-3xl border border-border-strong">
-            <TablePagination
-              leadingSlot={<TableRowsPerPageSelect id="app-table-pag-desk" />}
-              paginationSlot={
-                <Pagination
-                  className="pb-0"
-                  totalPages={5}
-                  currentPage={pageDesk}
-                  onPageChange={setPageDesk}
-                />
-              }
-              summary="20–30 of 100 rows"
-            />
-          </div>
-        </div>
-
-        <div>
-          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
-            Pagination — mobile
-          </h3>
-          <TablePagination
-            layout="mobile"
-            className="max-w-sm rounded-3xl border border-border-strong"
-            leadingSlot={<TableRowsPerPageSelect id="app-table-pag-mob" />}
-            paginationSlot={
-              <Pagination
-                className="pb-0"
-                totalPages={5}
-                currentPage={pageMob}
-                onPageChange={setPageMob}
-              />
-            }
-            summary="20–30 of 100 rows"
-          />
         </div>
       </div>
     </div>

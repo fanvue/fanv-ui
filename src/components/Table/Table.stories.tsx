@@ -14,7 +14,6 @@ import { SettingsIcon } from "../Icons/SettingsIcon";
 import { ShareIcon } from "../Icons/ShareIcon";
 import { TrashBinIcon } from "../Icons/TrashBinIcon";
 import { UsersIcon } from "../Icons/UsersIcon";
-import { Pagination } from "../Pagination/Pagination";
 import { Pill } from "../Pill/Pill";
 import {
   Table,
@@ -30,7 +29,6 @@ import {
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
-  TableRowsPerPageSelect,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
@@ -39,7 +37,7 @@ import {
   TableToolbarButton,
   TableToolbarSearch,
 } from "./Table";
-import { TableCardPagination, TablePagination } from "./TablePagination";
+import { TableCardPagination } from "./TablePagination";
 
 const TABLE_MEDIA_SRC =
   "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=112&h=160&fit=crop";
@@ -342,7 +340,7 @@ export const Sortable: Story = {
 };
 
 export const LargeRows: Story = {
-  name: "Variant — lg (80px rows)",
+  name: "Variant — lg (56px rows)",
   render: function LargeRowsStory() {
     const [page, setPage] = React.useState(1);
     return (
@@ -377,12 +375,13 @@ export const LargeRows: Story = {
             </TableBody>
           </Table>
         </TableScrollArea>
-        <TablePagination
-          leadingSlot={<TableRowsPerPageSelect id="lg-rows" />}
-          paginationSlot={
-            <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
-          }
-          summary="1–10 of 48 rows"
+        <TableCardPagination
+          page={page}
+          pageCount={5}
+          onPageChange={setPage}
+          pageSize={10}
+          pageSizeOptions={[10, 25, 50]}
+          onPageSizeChange={() => {}}
         />
       </TableCard>
     );
@@ -546,147 +545,109 @@ export const AllStatesV2: Story = {
   render: function AllStatesV2Story() {
     const [page, setPage] = React.useState(2);
     return (
-      <TableCard className="max-w-5xl">
-        <TableToolbar>
-          <span className="typography-description-12px-regular text-content-primary">
-            2 selected
-          </span>
-          <div className="flex flex-wrap gap-1">
-            <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
-              Assign
-            </Button>
-            <Button
-              variant="tertiaryDestructive"
-              size="32"
-              leftIcon={<TrashBinIcon className="size-3.5" />}
-            >
-              Delete
-            </Button>
-          </div>
+      <div className="flex max-w-5xl flex-col gap-2">
+        <TableToolbar
+          search={
+            <span className="typography-description-12px-regular text-content-primary">
+              2 selected
+            </span>
+          }
+        >
+          <TableToolbarAction icon={<UsersIcon />}>Assign</TableToolbarAction>
+          <TableToolbarAction icon={<TrashBinIcon />} className="text-error-content">
+            Delete
+          </TableToolbarAction>
         </TableToolbar>
-        <TableScrollArea>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead intent="checkbox">
-                  <Checkbox size="16" aria-label="Select all rows" />
-                </TableHead>
-                <TableHead>
-                  <TableSortLabel direction="asc">Product</TableSortLabel>
-                </TableHead>
-                <TableHead>Owner</TableHead>
-                <TableHead>Thumbnail</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Progress</TableHead>
-                <TableHead>
-                  <span className="sr-only">Actions</span>
-                </TableHead>
-                <TableHead intent="checkbox">
-                  <span className="sr-only">More</span>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {[
-                { status: "Active" as const, variant: "green" as const, progress: 80 },
-                { status: "Warning" as const, variant: "gold" as const, progress: 40 },
-                { status: "Inactive" as const, variant: "red" as const, progress: 10 },
-              ].map((row, idx) => (
-                <TableRow key={row.status}>
-                  <TableCell intent="checkbox">
-                    <Checkbox size="16" aria-label={`Select ${row.status}`} />
-                  </TableCell>
-                  <TableCell intent="stacked">
-                    <TableCellContent primary="Product Name" secondary="SKU-00321" />
-                  </TableCell>
-                  <TableCell>
-                    <TableCellGroup>
-                      <Avatar src={TABLE_MEDIA_SRC} alt="" fallback={`U${idx}`} size={24} />
-                      <span>@jane_doe</span>
-                    </TableCellGroup>
-                  </TableCell>
-                  <TableCell>
-                    <TableCellGroup>
-                      <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" />
-                      <ChevronDownIcon
-                        className="size-4 shrink-0 text-content-primary"
-                        aria-hidden
-                      />
-                    </TableCellGroup>
-                  </TableCell>
-                  <TableCell>16 May, 01:15 AM</TableCell>
-                  <TableCell>
-                    <Pill variant={row.variant}>{row.status}</Pill>
-                  </TableCell>
-                  <TableCell cellVariant="pillProgress">
-                    <TablePillProgressLayout>
-                      <Badge variant="special">{row.progress}%</Badge>
-                      <TableProgressTrack value={row.progress} />
-                    </TablePillProgressLayout>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="secondary" size="32">
-                      Copy
-                    </Button>
-                  </TableCell>
-                  <TableCell intent="checkbox">
-                    <IconButton
-                      variant="tertiary"
-                      size="32"
-                      icon={<MoreVerticalIcon />}
-                      aria-label="Row actions"
-                    />
-                  </TableCell>
+        <TableCard>
+          <TableScrollArea>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead intent="checkbox">
+                    <Checkbox size="16" aria-label="Select all rows" />
+                  </TableHead>
+                  <TableHead>
+                    <TableSortLabel direction="asc">Product</TableSortLabel>
+                  </TableHead>
+                  <TableHead>Owner</TableHead>
+                  <TableHead>Thumbnail</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Progress</TableHead>
+                  <TableHead>
+                    <span className="sr-only">Actions</span>
+                  </TableHead>
+                  <TableHead intent="checkbox">
+                    <span className="sr-only">More</span>
+                  </TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableScrollArea>
-        <TablePagination
-          leadingSlot={<TableRowsPerPageSelect id="v2-rows" />}
-          paginationSlot={
-            <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
-          }
-          summary="20–30 of 100 rows"
-        />
-      </TableCard>
-    );
-  },
-};
-
-export const PaginationDesktop: Story = {
-  name: "Pagination — desktop",
-  render: function PaginationDesktopStory() {
-    const [page, setPage] = React.useState(2);
-    return (
-      <div className="w-full max-w-[628px] rounded-3xl border border-border-strong">
-        <TablePagination
-          leadingSlot={<TableRowsPerPageSelect id="desk-rows" />}
-          paginationSlot={
-            <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
-          }
-          summary="20–30 of 100 rows"
-        />
+              </TableHeader>
+              <TableBody>
+                {[
+                  { status: "Active" as const, variant: "green" as const, progress: 80 },
+                  { status: "Warning" as const, variant: "gold" as const, progress: 40 },
+                  { status: "Inactive" as const, variant: "red" as const, progress: 10 },
+                ].map((row, idx) => (
+                  <TableRow key={row.status}>
+                    <TableCell intent="checkbox">
+                      <Checkbox size="16" aria-label={`Select ${row.status}`} />
+                    </TableCell>
+                    <TableCell nowrap>
+                      <TableCellContent primary="Product Name" secondary="SKU-00321" />
+                    </TableCell>
+                    <TableCell nowrap>
+                      <TableCellGroup>
+                        <Avatar src={TABLE_MEDIA_SRC} alt="" fallback={`U${idx}`} size={24} />
+                        <span>@jane_doe</span>
+                      </TableCellGroup>
+                    </TableCell>
+                    <TableCell>
+                      <TableCellGroup>
+                        <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" />
+                        <ChevronDownIcon
+                          className="size-4 shrink-0 text-content-primary"
+                          aria-hidden
+                        />
+                      </TableCellGroup>
+                    </TableCell>
+                    <TableCell nowrap>16 May, 01:15 AM</TableCell>
+                    <TableCell>
+                      <Pill variant={row.variant}>{row.status}</Pill>
+                    </TableCell>
+                    <TableCell cellVariant="pillProgress">
+                      <TablePillProgressLayout>
+                        <Badge variant="special">{row.progress}%</Badge>
+                        <TableProgressTrack value={row.progress} />
+                      </TablePillProgressLayout>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="secondary" size="24">
+                        Copy
+                      </Button>
+                    </TableCell>
+                    <TableCell intent="checkbox">
+                      <IconButton
+                        variant="tertiary"
+                        size="24"
+                        icon={<MoreVerticalIcon />}
+                        aria-label="Row actions"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+          <TableCardPagination
+            page={page}
+            pageCount={5}
+            onPageChange={setPage}
+            pageSize={10}
+            pageSizeOptions={[10, 25, 50]}
+            onPageSizeChange={() => {}}
+          />
+        </TableCard>
       </div>
-    );
-  },
-};
-
-export const PaginationMobile: Story = {
-  name: "Pagination — mobile",
-  render: function PaginationMobileStory() {
-    const [page, setPage] = React.useState(2);
-    return (
-      <TablePagination
-        layout="mobile"
-        className="max-w-sm rounded-3xl border border-border-strong"
-        leadingSlot={<TableRowsPerPageSelect id="mob-rows" />}
-        paginationSlot={
-          <Pagination className="pb-0" totalPages={5} currentPage={page} onPageChange={setPage} />
-        }
-        summary="20–30 of 100 rows"
-      />
     );
   },
 };
