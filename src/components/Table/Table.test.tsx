@@ -257,6 +257,14 @@ describe("Table", () => {
       expect(screen.getByText("X")).toHaveClass("[&>*]:size-full");
     });
 
+    it("keeps the row at 40px for a 32px thumbnail", () => {
+      const { container } = render(
+        <TableMediaThumbnail size="32" src="https://example.com/image.jpg" alt="" />,
+      );
+      expect(container.querySelector(".size-8")).not.toBeNull();
+      expect(container.querySelector("[data-table-media]")).toBeNull();
+    });
+
     it("renders TableMediaThumbnail at 32px with the small radius", () => {
       const { container } = render(
         <TableMediaThumbnail size="32" src="https://example.com/image.jpg" alt="" />,

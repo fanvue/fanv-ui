@@ -495,13 +495,14 @@ export interface TableMediaThumbnailProps
   blurred?: boolean;
   /** `center` uses the fixed media column width from the lg spec. @default "start" */
   align?: "start" | "center";
-  /** Pixel size of the square thumbnail. A row holding one grows to 56px. @default "40" */
+  /** Pixel size of the square thumbnail. At 40 or 48 its row grows to 56px; 32 fits a 40px row. @default "40" */
   size?: TableMediaThumbnailSize;
 }
 
 /**
  * Square photo that fills its frame, used inside {@link TableCell} for media
- * columns. Its row grows to 56px.
+ * columns. At the 40px and 48px sizes its row grows to 56px; the 32px size
+ * fits a regular 40px row.
  */
 export const TableMediaThumbnail = React.forwardRef<HTMLDivElement, TableMediaThumbnailProps>(
   ({ className, src, alt = "", blurred, align = "start", size = "40", ...props }, ref) => {
@@ -514,7 +515,7 @@ export const TableMediaThumbnail = React.forwardRef<HTMLDivElement, TableMediaTh
     return (
       <div
         ref={ref}
-        data-table-media=""
+        data-table-media={size === "32" ? undefined : ""}
         className={cn(
           align === "center" && "flex w-16 shrink-0 justify-center",
           align === "start" && "inline-flex shrink-0",

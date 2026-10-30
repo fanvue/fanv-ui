@@ -115,7 +115,7 @@ export interface TableCardPaginationProps
   previousLabel?: string;
   /** Accessible name of the next-page button. @default "Next page" */
   nextLabel?: string;
-  /** Accessible name of the rows-per-page menu trigger. @default "Rows per page" */
+  /** Accessible name of the rows-per-page menu trigger, followed by the current choice (e.g. "Rows per page, 10 rows"). @default "Rows per page" */
   pageSizeLabel?: string;
 }
 
@@ -196,7 +196,7 @@ export const TableCardPagination = React.forwardRef<HTMLDivElement, TableCardPag
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              aria-label={pageSizeLabel}
+              aria-label={`${pageSizeLabel}, ${formatPageSize(pageSize)}`}
               className="typography-description-12px-regular inline-flex cursor-pointer items-center gap-2 whitespace-nowrap border-none bg-transparent p-0 text-content-primary"
             >
               {formatPageSize(pageSize)}

@@ -93,7 +93,7 @@ describe("TableCardPagination", () => {
     const onPageSizeChange = vi.fn();
     renderPagination(1, vi.fn(), onPageSizeChange);
 
-    await user.click(screen.getByRole("button", { name: "Rows per page" }));
+    await user.click(screen.getByRole("button", { name: "Rows per page, 10 rows" }));
     await user.click(await screen.findByRole("menuitem", { name: "25 rows" }));
     expect(onPageSizeChange).toHaveBeenCalledWith(25);
   });
