@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.47.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.46.0...ui-v3.47.0) (2026-11-02)
+
+
+### Features
+
+* **Table:** add TableRowButton and TableTruncatedText for row actions and long text ([#770](https://github.com/fanvue/fanv-ui/issues/770)) ([920d19b](https://github.com/fanvue/fanv-ui/commit/920d19b04ac1e17236845fbfbc90ed7c064ba147))
+
 ## [3.46.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.45.0...ui-v3.46.0) (2026-10-30)
 
 
