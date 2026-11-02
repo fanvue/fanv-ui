@@ -98,7 +98,9 @@ export const TooltipContent = React.forwardRef<
           collisionPadding={8}
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
           className={cn(
-            "typography-description-12px-semibold max-w-[320px] rounded-sm bg-surface-primary-inverted px-4 py-2 text-content-primary-inverted shadow-[0px_1px_4px_0px_rgba(0,0,0,0.06),0px_1px_3px_0px_rgba(0,0,0,0.05)]",
+            // Same-mode surface rather than an inverted one: a dark tooltip in dark
+            // mode, a light one in light mode, set off by the hairline border.
+            "typography-description-12px-semibold max-w-[320px] rounded-xs border-[0.5px] border-border-strong bg-surface-secondary px-4 py-2 text-content-primary shadow-sm",
             className,
           )}
           {...props}
