@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
+import { expect, within } from "storybook/test";
 import { Avatar } from "../Avatar/Avatar";
 import { Badge } from "../Badge/Badge";
 import { Button } from "../Button/Button";
@@ -8,6 +9,7 @@ import { Chip } from "../Chip/Chip";
 import { IconButton } from "../IconButton/IconButton";
 import { AISettingsIcon } from "../Icons/AISettingsIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
+import { CopyIcon } from "../Icons/CopyIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { MoreVerticalIcon } from "../Icons/MoreVerticalIcon";
 import { SettingsIcon } from "../Icons/SettingsIcon";
@@ -29,6 +31,7 @@ import {
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
+  TableRowButton,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
@@ -36,6 +39,7 @@ import {
   TableToolbarAction,
   TableToolbarButton,
   TableToolbarSearch,
+  TableTruncatedText,
 } from "./Table";
 import { TableCardPagination } from "./TablePagination";
 
@@ -262,6 +266,8 @@ export const WithMedia: Story = {
               <TableHead>Source</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Date</TableHead>
+              <TableHead>Note</TableHead>
+              <TableHead aria-label="Actions" />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -282,6 +288,14 @@ export const WithMedia: Story = {
                   <Pill variant={row.status.variant}>{row.status.label}</Pill>
                 </TableCell>
                 <TableCell>{row.created}</TableCell>
+                <TableCell nowrap>
+                  <TableTruncatedText>
+                    Weekend special: 50% off my full gallery for the next 24 hours
+                  </TableTruncatedText>
+                </TableCell>
+                <TableCell nowrap>
+                  <TableRowButton leftIcon={<CopyIcon size={16} filled />}>Copy</TableRowButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -289,6 +303,55 @@ export const WithMedia: Story = {
       </TableScrollArea>
     </TableCard>
   ),
+};
+
+export const RowActions: Story = {
+  name: "Row actions",
+  render: () => (
+    <TableCard className="max-w-3xl">
+      <TableScrollArea>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Note</TableHead>
+              <TableHead aria-label="Actions" />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell nowrap>Main link</TableCell>
+              <TableCell nowrap>
+                <TableTruncatedText>
+                  Weekend special: 50% off my full gallery for the next 24 hours
+                </TableTruncatedText>
+              </TableCell>
+              <TableCell nowrap>
+                <TableRowButton leftIcon={<CopyIcon filled />}>Copy</TableRowButton>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell nowrap>Trial</TableCell>
+              <TableCell nowrap>
+                <TableTruncatedText>Short note</TableTruncatedText>
+              </TableCell>
+              <TableCell nowrap>
+                <TableRowButton leftIcon={<CopyIcon filled />}>Copy</TableRowButton>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+    </TableCard>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const icon = canvas.getAllByRole("button", { name: "Copy" }).at(0)?.querySelector("svg");
+    await expect(icon?.getBoundingClientRect().width).toBe(16);
+    await expect(icon?.getBoundingClientRect().height).toBe(16);
+    await expect(canvas.getByText(/^Weekend special/)).toHaveAttribute("tabindex", "0");
+    await expect(canvas.getByText("Short note")).not.toHaveAttribute("tabindex");
+  },
 };
 
 export const Sortable: Story = {

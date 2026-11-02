@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import {
   Table,
@@ -13,13 +13,30 @@ import {
   TableMediaThumbnail,
   TableMediaTile,
   TableRow,
+  TableRowButton,
   TableScrollArea,
   TableSortLabel,
   TableToolbar,
   TableToolbarAction,
   TableToolbarButton,
   TableToolbarSearch,
+  TableTruncatedText,
 } from "./Table";
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
+const mockTextWidths = ({
+  scrollWidth,
+  clientWidth,
+}: {
+  scrollWidth: number;
+  clientWidth: number;
+}) => {
+  vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(scrollWidth);
+  vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(clientWidth);
+};
 
 describe("Table", () => {
   describe("API", () => {
@@ -337,6 +354,46 @@ describe("Table", () => {
       expect(button).toHaveClass("rounded-xs");
       expect(button).not.toHaveClass("rounded-full");
       expect(button).toHaveClass("typography-description-12px-semibold");
+    });
+
+    it("renders the row button as a 24px squared secondary button", () => {
+      render(<TableRowButton>Copy</TableRowButton>);
+      const button = screen.getByRole("button", { name: "Copy" });
+      expect(button).toHaveClass("h-6");
+      expect(button).toHaveClass("rounded-xs");
+      expect(button).not.toHaveClass("rounded-full");
+      expect(button).toHaveClass("bg-buttons-secondary-default");
+      expect(button).toHaveClass("typography-description-12px-semibold");
+    });
+
+    it("leaves text that fits as plain text with no tab stop", () => {
+      mockTextWidths({ scrollWidth: 80, clientWidth: 80 });
+      render(<TableTruncatedText>Short name</TableTruncatedText>);
+      const text = screen.getByText("Short name");
+      expect(text).toHaveClass("truncate");
+      expect(text).not.toHaveAttribute("tabindex");
+    });
+
+    it("shows cut text whole in a tooltip on hover", async () => {
+      mockTextWidths({ scrollWidth: 400, clientWidth: 160 });
+      const user = userEvent.setup();
+      const long = "Weekend special: 50% off my full gallery for the next 24 hours";
+      render(<TableTruncatedText maxChars={20}>{long}</TableTruncatedText>);
+      const text = screen.getByText(long);
+      expect(text).toHaveStyle({ maxWidth: "20ch" });
+      expect(text).toHaveAttribute("tabindex", "0");
+      await user.hover(text);
+      expect(await screen.findByRole("tooltip")).toHaveTextContent(long);
+    });
+
+    it("offers the tooltip for short text cut by a narrow column", async () => {
+      mockTextWidths({ scrollWidth: 120, clientWidth: 60 });
+      const user = userEvent.setup();
+      render(<TableTruncatedText>WWWWWWWWWW</TableTruncatedText>);
+      const text = screen.getByText("WWWWWWWWWW");
+      expect(text).toHaveAttribute("tabindex", "0");
+      await user.hover(text);
+      expect(await screen.findByRole("tooltip")).toHaveTextContent("WWWWWWWWWW");
     });
 
     it("tints the action icon only while active", () => {

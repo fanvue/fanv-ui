@@ -4,6 +4,7 @@ import { Button, type ButtonProps } from "../Button/Button";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Tooltip/Tooltip";
 
 /**
  * Row density for body cells.
@@ -222,6 +223,97 @@ export const TableToolbarButton = React.forwardRef<HTMLButtonElement, TableToolb
   },
 );
 TableToolbarButton.displayName = "TableToolbarButton";
+
+export interface TableRowButtonProps extends Omit<ButtonProps, "size"> {}
+
+/**
+ * Action inside a table row (e.g. "Copy", "View"): a 24px squared secondary
+ * {@link Button} with 12px semibold type, so it fits a 40px row. Pass 16px
+ * filled icons; they take the secondary icon colour.
+ */
+export const TableRowButton = React.forwardRef<HTMLButtonElement, TableRowButtonProps>(
+  ({ className, variant = "secondary", ...props }, ref) => {
+    return (
+      <Button
+        ref={ref}
+        size="24"
+        variant={variant}
+        className={cn(
+          "typography-description-12px-semibold rounded-xs [&_svg]:size-4! [&_svg]:text-icons-secondary",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
+TableRowButton.displayName = "TableRowButton";
+
+export interface TableTruncatedTextProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
+  /** Full text; shown whole in a tooltip whenever it does not fit. */
+  children: string;
+  /** Widest the text may grow, in characters, before it ends in an ellipsis. @default 25 */
+  maxChars?: number;
+}
+
+/**
+ * One-line text for a {@link TableCell} that ends in an ellipsis once it no
+ * longer fits, either past `maxChars` or in a narrower column. The tooltip and
+ * the tab stop appear only when the text is actually cut, measured on mount and
+ * on every resize, so short text stays plain and out of the tab order. It
+ * mounts its own {@link TooltipProvider} so it works in apps without one.
+ */
+export const TableTruncatedText = React.forwardRef<HTMLSpanElement, TableTruncatedTextProps>(
+  ({ className, children, maxChars = 25, style, ...props }, ref) => {
+    const innerRef = React.useRef<HTMLSpanElement>(null);
+    const [isTruncated, setIsTruncated] = React.useState(false);
+    React.useImperativeHandle(ref, () => innerRef.current as HTMLSpanElement);
+
+    const measure = React.useCallback(() => {
+      const element = innerRef.current;
+      if (element) {
+        setIsTruncated(element.scrollWidth > element.clientWidth);
+      }
+    }, []);
+
+    React.useLayoutEffect(measure);
+
+    React.useLayoutEffect(() => {
+      const element = innerRef.current;
+      if (!element || typeof ResizeObserver === "undefined") {
+        return;
+      }
+      const observer = new ResizeObserver(measure);
+      observer.observe(element);
+      return () => observer.disconnect();
+    }, [measure]);
+
+    const text = (
+      <span
+        ref={innerRef}
+        className={cn("block truncate", className)}
+        style={{ maxWidth: `${maxChars}ch`, ...style }}
+        tabIndex={isTruncated ? 0 : undefined}
+        {...props}
+      >
+        {children}
+      </span>
+    );
+    if (!isTruncated) {
+      return text;
+    }
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>{text}</TooltipTrigger>
+          <TooltipContent className="max-w-xs whitespace-pre-line">{children}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  },
+);
+TableTruncatedText.displayName = "TableTruncatedText";
 
 export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
