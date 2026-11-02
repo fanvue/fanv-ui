@@ -246,6 +246,7 @@ import {
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
+  TableRowButton,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
@@ -254,6 +255,7 @@ import {
   TableToolbarAction,
   TableToolbarButton,
   TableToolbarSearch,
+  TableTruncatedText,
   Tabs,
   TabsContent,
   TabsList,
@@ -4119,6 +4121,47 @@ function TableDemo() {
               pageSizeOptions={[10, 25, 50]}
               onPageSizeChange={setTablePageSize}
             />
+          </TableCard>
+        </div>
+
+        <div>
+          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
+            Row actions and long text
+          </h3>
+          <TableCard>
+            <TableScrollArea>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Note</TableHead>
+                    <TableHead aria-label="Actions" />
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell nowrap>Main link</TableCell>
+                    <TableCell nowrap>
+                      <TableTruncatedText>
+                        Weekend special: 50% off my full gallery for the next 24 hours
+                      </TableTruncatedText>
+                    </TableCell>
+                    <TableCell nowrap>
+                      <TableRowButton leftIcon={<CopyIcon filled />}>Copy</TableRowButton>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell nowrap>Trial</TableCell>
+                    <TableCell nowrap>
+                      <TableTruncatedText>Short note</TableTruncatedText>
+                    </TableCell>
+                    <TableCell nowrap>
+                      <TableRowButton leftIcon={<CopyIcon filled />}>Copy</TableRowButton>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableScrollArea>
           </TableCard>
         </div>
 

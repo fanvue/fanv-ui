@@ -14,8 +14,9 @@ const DEFAULT_DELAY_DURATION = 200;
  * reads as unresponsive on the short hint labels this library uses tooltips for.
  * Pass `delayDuration` to override.
  *
- * Note that `TooltipLabel`, `ChartCard` and `SwitchField` each mount their own
- * provider internally, so they take this default but not an app-level override.
+ * Note that `TooltipLabel`, `ChartCard`, `SwitchField` and `TableTruncatedText`
+ * each mount their own provider internally, so they take this default but not an
+ * app-level override.
  */
 export const TooltipProvider = ({
   delayDuration = DEFAULT_DELAY_DURATION,
