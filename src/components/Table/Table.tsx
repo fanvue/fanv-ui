@@ -4,7 +4,7 @@ import { Button, type ButtonProps } from "../Button/Button";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../Tooltip/Tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Tooltip/Tooltip";
 
 /**
  * Row density for body cells.
@@ -277,11 +277,14 @@ export const TableTruncatedText = React.forwardRef<HTMLSpanElement, TableTruncat
     if (children.length <= maxChars) {
       return text;
     }
+    // Own provider, so the cell works whether or not the app mounts one.
     return (
-      <Tooltip>
-        <TooltipTrigger asChild>{React.cloneElement(text, { tabIndex: 0 })}</TooltipTrigger>
-        <TooltipContent className="max-w-xs whitespace-pre-line">{children}</TooltipContent>
-      </Tooltip>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>{React.cloneElement(text, { tabIndex: 0 })}</TooltipTrigger>
+          <TooltipContent className="max-w-xs whitespace-pre-line">{children}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     );
   },
 );

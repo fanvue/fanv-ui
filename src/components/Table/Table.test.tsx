@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
-import { TooltipProvider } from "../Tooltip/Tooltip";
 import {
   Table,
   TableBody,
@@ -362,11 +361,7 @@ describe("Table", () => {
     it("truncates long text and shows it whole in a tooltip on hover", async () => {
       const user = userEvent.setup();
       const long = "Weekend special: 50% off my full gallery for the next 24 hours";
-      render(
-        <TooltipProvider>
-          <TableTruncatedText maxChars={20}>{long}</TableTruncatedText>
-        </TooltipProvider>,
-      );
+      render(<TableTruncatedText maxChars={20}>{long}</TableTruncatedText>);
       const text = screen.getByText(long);
       expect(text).toHaveStyle({ maxWidth: "20ch" });
       expect(text).toHaveAttribute("tabindex", "0");
