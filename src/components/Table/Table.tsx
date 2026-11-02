@@ -4,6 +4,7 @@ import { Button, type ButtonProps } from "../Button/Button";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../Tooltip/Tooltip";
 
 /**
  * Row density for body cells.
@@ -222,6 +223,69 @@ export const TableToolbarButton = React.forwardRef<HTMLButtonElement, TableToolb
   },
 );
 TableToolbarButton.displayName = "TableToolbarButton";
+
+export interface TableRowButtonProps extends Omit<ButtonProps, "size"> {}
+
+/**
+ * Action inside a table row (e.g. "Copy", "View"): a 24px squared secondary
+ * {@link Button} with 12px semibold type, so it fits a 40px row. Pass 16px
+ * filled icons; they take the secondary icon colour.
+ */
+export const TableRowButton = React.forwardRef<HTMLButtonElement, TableRowButtonProps>(
+  ({ className, variant = "secondary", ...props }, ref) => {
+    return (
+      <Button
+        ref={ref}
+        size="24"
+        variant={variant}
+        className={cn(
+          "typography-description-12px-semibold rounded-xs [&_svg]:size-4 [&_svg]:text-icons-secondary",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
+TableRowButton.displayName = "TableRowButton";
+
+export interface TableTruncatedTextProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
+  /** Full text; shown whole in a tooltip when it is longer than `maxChars`. */
+  children: string;
+  /** Width of the visible text, in characters, before it ends in an ellipsis. @default 25 */
+  maxChars?: number;
+}
+
+/**
+ * One-line text for a {@link TableCell} that ends in an ellipsis after
+ * `maxChars` characters, with the full text in a {@link Tooltip} on hover and
+ * focus, so long values never make a row taller.
+ */
+export const TableTruncatedText = React.forwardRef<HTMLSpanElement, TableTruncatedTextProps>(
+  ({ className, children, maxChars = 25, style, ...props }, ref) => {
+    const text = (
+      <span
+        ref={ref}
+        className={cn("block truncate", className)}
+        style={{ maxWidth: `${maxChars}ch`, ...style }}
+        {...props}
+      >
+        {children}
+      </span>
+    );
+    if (children.length <= maxChars) {
+      return text;
+    }
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{React.cloneElement(text, { tabIndex: 0 })}</TooltipTrigger>
+        <TooltipContent className="max-w-xs whitespace-pre-line">{children}</TooltipContent>
+      </Tooltip>
+    );
+  },
+);
+TableTruncatedText.displayName = "TableTruncatedText";
 
 export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
   /**

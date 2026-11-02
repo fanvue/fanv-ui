@@ -840,6 +840,7 @@ export type {
   TablePillProgressLayoutProps,
   TableProgressTrackProps,
   TableProps,
+  TableRowButtonProps,
   TableRowProps,
   TableScrollAreaProps,
   TableSize,
@@ -851,6 +852,7 @@ export type {
   TableToolbarButtonProps,
   TableToolbarProps,
   TableToolbarSearchProps,
+  TableTruncatedTextProps,
 } from "./components/Table/Table";
 export {
   Table,
@@ -868,6 +870,7 @@ export {
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
+  TableRowButton,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
@@ -876,6 +879,7 @@ export {
   TableToolbarAction,
   TableToolbarButton,
   TableToolbarSearch,
+  TableTruncatedText,
 } from "./components/Table/Table";
 export type { TableMobileRowProps } from "./components/Table/TableMobileRow";
 export { TableMobileRow } from "./components/Table/TableMobileRow";

@@ -8,6 +8,7 @@ import { Chip } from "../Chip/Chip";
 import { IconButton } from "../IconButton/IconButton";
 import { AISettingsIcon } from "../Icons/AISettingsIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
+import { CopyIcon } from "../Icons/CopyIcon";
 import { MoreIcon } from "../Icons/MoreIcon";
 import { MoreVerticalIcon } from "../Icons/MoreVerticalIcon";
 import { SettingsIcon } from "../Icons/SettingsIcon";
@@ -29,6 +30,7 @@ import {
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
+  TableRowButton,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
@@ -36,6 +38,7 @@ import {
   TableToolbarAction,
   TableToolbarButton,
   TableToolbarSearch,
+  TableTruncatedText,
 } from "./Table";
 import { TableCardPagination } from "./TablePagination";
 
@@ -262,6 +265,8 @@ export const WithMedia: Story = {
               <TableHead>Source</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Date</TableHead>
+              <TableHead>Note</TableHead>
+              <TableHead aria-label="Actions" />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -282,6 +287,14 @@ export const WithMedia: Story = {
                   <Pill variant={row.status.variant}>{row.status.label}</Pill>
                 </TableCell>
                 <TableCell>{row.created}</TableCell>
+                <TableCell nowrap>
+                  <TableTruncatedText>
+                    Weekend special: 50% off my full gallery for the next 24 hours
+                  </TableTruncatedText>
+                </TableCell>
+                <TableCell nowrap>
+                  <TableRowButton leftIcon={<CopyIcon size={16} filled />}>Copy</TableRowButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
