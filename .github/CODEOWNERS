@@ -6,13 +6,8 @@
 # table. Change both together. Code-owner review is not required by branch
 # protection, so a request here is a routing hint, not a merge gate.
 
-# Default: the kit maintainers.
+# Default: the library DRI, with the engineering manager as the second pair of eyes.
 * @simonstaton @alfonsovo-fv
-
-# Design tokens, theme and Tailwind setup.
-/src/styles/                                @simonstaton @lorenzoperniciaro-collab
-/postcss.config.ts                          @simonstaton @lorenzoperniciaro-collab
-/.storybook/FanvueTheme.ts                  @simonstaton @lorenzoperniciaro-collab
 
 # Icons, animated icons and flags, including the generation pipeline.
 /src/components/Icons/                      @simon-fanvue @simonstaton
@@ -24,17 +19,10 @@
 /scripts/extract-icons-from-figma.mjs       @simon-fanvue @simonstaton
 /scripts/generate-flags.mjs                 @simon-fanvue @simonstaton
 /scripts/import-animated-icons.mjs          @simon-fanvue @simonstaton
-/scripts/svgo.config.mjs                           @simon-fanvue @simonstaton
+/scripts/svgo.config.mjs                    @simon-fanvue @simonstaton
 
-# Tables and pagination.
-/src/components/Table/                      @lorenzoperniciaro-collab @simonstaton
-/src/components/Pagination/                 @lorenzoperniciaro-collab @simonstaton
-/src/components/PageSelector/               @lorenzoperniciaro-collab @simonstaton
-
-# Tabs, segmented control and logo.
-/src/components/Tabs/                       @jacksonford-07 @simonstaton
-/src/components/SegmentedControl/           @simon-fanvue @jacksonford-07
-/src/components/Logo/                       @jacksonford-07 @simonstaton
+# Segmented control.
+/src/components/SegmentedControl/           @simon-fanvue @simonstaton
 
 # Audio, media and chat primitives.
 /src/components/AudioPlayer/                @morrid0 @simonstaton
@@ -63,10 +51,6 @@
 /src/components/ProfileOnlineStatus/        @hronchetti @simonstaton
 /src/components/LiveStatus/                 @hronchetti @simonstaton
 /src/components/OnlineBlinkingIcon/         @hronchetti @simonstaton
-
-# Charts.
-/src/components/Chart/                      @simonstaton @jacksonford-07
-/src/charts.ts                              @simonstaton @jacksonford-07
 
 # Docs site and its generator.
 /docs/                                      @simonstaton @hronchetti
