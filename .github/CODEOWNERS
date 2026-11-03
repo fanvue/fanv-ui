@@ -1,1 +1,58 @@
-* @alfonsovo-fv @simonstaton
+# Code owners are requested for review automatically when a pull request
+# touches the paths below. GitHub applies the LAST matching rule per file, so
+# the default comes first and narrower paths override it below.
+#
+# docs/review-routing.md carries the reasons, the fallbacks and the people
+# table. Change both together. Code-owner review is not required by branch
+# protection, so a request here is a routing hint, not a merge gate.
+
+# Default: the library DRI, with the engineering manager as the second pair of eyes.
+* @simonstaton @alfonsovo-fv
+
+# Icons, animated icons and flags, including the generation pipeline.
+/src/components/Icons/                      @simon-fanvue @simonstaton
+/src/components/AnimatedIcons/              @simon-fanvue @simonstaton
+/src/components/CountryFlag/                @simon-fanvue @simonstaton
+/src/flags.ts                               @simon-fanvue @simonstaton
+/src/animated-icons.ts                      @simon-fanvue @simonstaton
+/scripts/generate-icons*                    @simon-fanvue @simonstaton
+/scripts/extract-icons-from-figma.mjs       @simon-fanvue @simonstaton
+/scripts/generate-flags.mjs                 @simon-fanvue @simonstaton
+/scripts/import-animated-icons.mjs          @simon-fanvue @simonstaton
+/scripts/svgo.config.mjs                    @simon-fanvue @simonstaton
+
+# Segmented control.
+/src/components/SegmentedControl/           @simon-fanvue @simonstaton
+
+# Audio, media and chat primitives.
+/src/components/AudioPlayer/                @morrid0 @simonstaton
+/src/components/AudioRecordButton/          @morrid0 @simonstaton
+/src/components/AudioUpload/                @morrid0 @simonstaton
+/src/components/VoiceNote/                  @morrid0 @simonstaton
+/src/components/ChatInput/                  @morrid0 @simonstaton
+/src/components/ChatMessage/                @morrid0 @simonstaton
+/src/components/ChatEmbed/                  @morrid0 @simonstaton
+/src/components/MediaStatusIndicator/       @morrid0 @simonstaton
+/src/components/DropdownMenu/               @morrid0 @simonstaton
+/src/components/AiButton/                   @morrid0 @simonstaton
+/src/utils/audioWaveform*                   @morrid0 @simonstaton
+/src/utils/useAudioPlayback*                @morrid0 @simonstaton
+/src/utils/useWaveform*                     @morrid0 @simonstaton
+/src/utils/useFittedBarCount*               @morrid0 @simonstaton
+
+# Creator cards and profile status.
+/src/components/CreatorCard/                @hronchetti @simonstaton
+/src/components/CreatorTile/                @hronchetti @simonstaton
+/src/components/ReviewCard/                 @hronchetti @simonstaton
+/src/components/RatingSummary/              @hronchetti @simonstaton
+/src/components/Demographics/               @hronchetti @simonstaton
+/src/components/FanFollowerCount/           @hronchetti @simonstaton
+/src/components/ProfileStatus/              @hronchetti @simonstaton
+/src/components/ProfileOnlineStatus/        @hronchetti @simonstaton
+/src/components/LiveStatus/                 @hronchetti @simonstaton
+/src/components/OnlineBlinkingIcon/         @hronchetti @simonstaton
+
+# Docs site and its generator.
+/docs/                                      @simonstaton @hronchetti
+/scripts/docs-generator/                    @simonstaton @hronchetti
+/scripts/generate-docs.mjs                  @simonstaton @hronchetti
