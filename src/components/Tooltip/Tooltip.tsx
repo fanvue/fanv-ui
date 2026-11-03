@@ -69,6 +69,11 @@ export interface TooltipContentProps
   title?: React.ReactNode;
 }
 
+/**
+ * The floating tooltip panel. It sits on a same-mode surface rather than an
+ * inverted one, so it is dark in dark mode and light in light mode, set off by
+ * a hairline border.
+ */
 export const TooltipContent = React.forwardRef<
   React.ComponentRef<typeof TooltipPrimitive.Content>,
   TooltipContentProps
@@ -98,8 +103,6 @@ export const TooltipContent = React.forwardRef<
           collisionPadding={8}
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
           className={cn(
-            // Same-mode surface rather than an inverted one: a dark tooltip in dark
-            // mode, a light one in light mode, set off by the hairline border.
             "typography-description-12px-semibold max-w-[320px] rounded-xs border-[0.5px] border-border-strong bg-surface-secondary px-4 py-2 text-content-primary shadow-sm",
             className,
           )}
