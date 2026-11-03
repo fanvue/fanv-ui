@@ -5,9 +5,11 @@ review bot in `#hackers-support` reads this file to pick the human reviewer,
 and `.github/CODEOWNERS` mirrors the path rules so GitHub requests the same
 people.
 
-Simon Staton built this library and is its DRI. Every row below is a
+Simon Staton built this library and is its DRI. The reviewer pool is Simon
+Staton, Alfonso Olmedo, Luiz Cavalcanti, Harry Ronchetti and Simon Madine.
+Every row below is a
 delegation from him for an area someone else knows well; anything not listed
-is his. Only engineers review: designers open PRs here but are never
+is his. Nobody outside the pool reviews here: designers and QA open PRs but are never
 requested.
 
 Last reviewed: 2026-11-03. Built from commits and reviews since August 2026.
