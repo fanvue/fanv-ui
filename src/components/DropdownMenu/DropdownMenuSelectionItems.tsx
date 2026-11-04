@@ -51,7 +51,10 @@ export const DropdownMenuRadioItem = React.forwardRef<
         // (node `7393:62008`), and at 16px a radio row indented 4px further than a
         // `DropdownMenuCheckboxItem` in the same menu. 12px radius and a 40px
         // minimum height, like `DropdownMenuItem`.
-        "group flex min-h-10 w-full cursor-pointer items-start gap-3 rounded-sm px-3 py-2 outline-none",
+        "group flex min-h-10 w-full cursor-pointer gap-3 rounded-sm px-3 py-2 outline-none",
+        // A helper line makes it a two-line row aligned to its title; a single
+        // line centres in the 40px row like the checkbox and DropdownMenuItem.
+        helper ? "items-start" : "items-center",
         "data-[highlighted]:bg-neutral-alphas-50",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
         // See DropdownMenuItem above: bg-interaction-hover aliases to the same
@@ -65,8 +68,9 @@ export const DropdownMenuRadioItem = React.forwardRef<
     >
       <span
         className={cn(
-          // `mt-px` centres the 16px circle on the 18px title line.
-          "mt-px flex size-4 shrink-0 items-center justify-center rounded-full border border-icons-primary",
+          // In a two-line row `mt-px` centres the 16px circle on the 18px title line.
+          helper && "mt-px",
+          "flex size-4 shrink-0 items-center justify-center rounded-full border border-icons-primary",
           "group-data-[disabled]:border-content-disabled",
         )}
         aria-hidden="true"

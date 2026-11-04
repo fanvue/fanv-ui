@@ -8,6 +8,8 @@ interface MenuRowIconProps {
   children: React.ReactNode;
   /** Keep the row's own colour (e.g. a destructive row's error red) instead of `Icons/Secondary`. */
   inheritColor?: boolean;
+  /** Centre the icon on an 18px title line, for two-line rows aligned to their title. */
+  alignToTitle?: boolean;
   className?: string;
 }
 
@@ -18,11 +20,12 @@ interface MenuRowIconProps {
  * `data-disabled`, a native `disabled` button and `aria-disabled`. Internal to
  * the package.
  */
-export function MenuRowIcon({ children, inheritColor, className }: MenuRowIconProps) {
+export function MenuRowIcon({ children, inheritColor, alignToTitle, className }: MenuRowIconProps) {
   return (
     <span
       className={cn(
         "flex shrink-0 items-center [&>svg]:size-4",
+        alignToTitle && "h-4.5",
         !inheritColor && [
           "text-icons-secondary",
           "group-data-[disabled]:text-icons-disabled group-disabled:text-icons-disabled group-aria-disabled:text-icons-disabled",

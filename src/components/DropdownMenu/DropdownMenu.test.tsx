@@ -65,8 +65,8 @@ describe("DropdownMenu", () => {
         </DropdownMenuItem>,
       );
       // 18px is the title's leading; a `pt-1` nudge would sit them 3px low.
-      expect(screen.getByTestId("avatar").parentElement).toHaveClass("h-[18px]");
-      expect(screen.getByText("12")).toHaveClass("h-[18px]");
+      expect(screen.getByTestId("avatar").parentElement).toHaveClass("h-4.5");
+      expect(screen.getByText("12")).toHaveClass("h-4.5");
       expect(screen.getByText("12")).not.toHaveClass("pt-1");
     });
 
@@ -76,8 +76,8 @@ describe("DropdownMenu", () => {
           Alex Smith
         </DropdownMenuItem>,
       );
-      expect(screen.getByTestId("avatar").parentElement).not.toHaveClass("h-[18px]");
-      expect(screen.getByText("12")).not.toHaveClass("h-[18px]");
+      expect(screen.getByTestId("avatar").parentElement).not.toHaveClass("h-4.5");
+      expect(screen.getByText("12")).not.toHaveClass("h-4.5");
     });
 
     it("gives the panel the 16px menu radius, not the 12px row radius", () => {
@@ -122,6 +122,19 @@ describe("DropdownMenu", () => {
       const item = screen.getByRole("menuitemcheckbox");
       expect(item).toHaveClass("rounded-sm");
       expect(item).not.toHaveClass("rounded-xs");
+    });
+
+    it("centres a single-line radio item and top-aligns one with a helper", () => {
+      renderMenu(
+        <DropdownMenuRadioGroup value="a">
+          <DropdownMenuRadioItem value="a">Single</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="b" helper="Helper line">
+            Double
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      expect(screen.getByRole("menuitemradio", { name: "Single" })).toHaveClass("items-center");
+      expect(screen.getByRole("menuitemradio", { name: /Double/ })).toHaveClass("items-start");
     });
 
     it("gives radio and checkbox items the 40px minimum row height", () => {
@@ -769,6 +782,30 @@ describe("DropdownMenuItem", () => {
         "viewBox",
         "0 0 24 24",
       );
+    });
+
+    it("puts an asChild row's trailing icon at the row's end", () => {
+      renderMenu(
+        <DropdownMenuItem asChild trailingIcon={<EditIcon data-icon="trailing" />}>
+          <a href="/settings">Settings</a>
+        </DropdownMenuItem>,
+      );
+      const link = screen.getByRole("menuitem", { name: "Settings" });
+      const trailing = link.querySelector('[data-icon="trailing"]')?.parentElement;
+      expect(link.lastElementChild).toBe(trailing);
+      expect(trailing).toHaveClass("ms-auto");
+    });
+
+    it("leaves aria-current off a selected item that sets aria-checked itself", () => {
+      renderMenu(
+        <DropdownMenuItem selected role="menuitemradio" aria-checked>
+          Likes
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByRole("menuitemradio", { name: "Likes" });
+      expect(item).toHaveAttribute("aria-checked", "true");
+      expect(item).toHaveAttribute("data-selected", "");
+      expect(item).not.toHaveAttribute("aria-current");
     });
 
     it("renders no check indicator on the selected item", () => {

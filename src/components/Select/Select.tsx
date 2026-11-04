@@ -359,9 +359,7 @@ export const SelectItem = React.forwardRef<
       ) : (
         hasLeadingIcon && (
           // In the two-line row the icon centres on the 18px title line, as in DropdownMenuItem.
-          <MenuRowIcon className={hasDescription ? "h-[18px]" : undefined}>
-            {leadingIcon}
-          </MenuRowIcon>
+          <MenuRowIcon alignToTitle={hasDescription}>{leadingIcon}</MenuRowIcon>
         )
       )}
 
@@ -389,7 +387,7 @@ export const SelectItem = React.forwardRef<
       <SelectPrimitive.ItemIndicator
         className={cn(
           "ml-auto flex w-4 shrink-0 items-center justify-center",
-          hasDescription ? "h-[18px] self-start" : "h-4",
+          hasDescription ? "h-4.5 self-start" : "h-4",
         )}
       >
         <CheckIcon className="size-4 text-content-primary group-data-[disabled]:text-content-disabled" />

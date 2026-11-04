@@ -194,8 +194,13 @@ export const DropdownMenuItem = React.forwardRef<
     );
     // The selected row shares the hover fill, so it also carries the state in the
     // markup: `aria-current` for assistive tech and `data-selected` for styling.
+    // A consumer that already exposes the state (e.g. `menuitemradio` with
+    // `aria-checked`) keeps it, without a second `aria-current` on top.
     const selectedProps = selected
-      ? { "aria-current": "true" as const, "data-selected": "" }
+      ? {
+          ...(props["aria-checked"] === undefined && { "aria-current": "true" as const }),
+          "data-selected": "",
+        }
       : undefined;
 
     // In the two-line (description) layout everything beside the title sits on
@@ -205,7 +210,7 @@ export const DropdownMenuItem = React.forwardRef<
     // `typography-body-small-14px-semibold`; a `pt-*` nudge cannot do this because
     // the correct offset differs per sibling, and the previous `pt-1` was computed
     // against the single-line title's 24px leading, leaving all four 3px low.
-    const iconAlignClassName = hasDescription ? "flex h-[18px] shrink-0 items-center" : null;
+    const iconAlignClassName = hasDescription ? "flex h-4.5 shrink-0 items-center" : null;
 
     const countNode = count != null && (
       <span
@@ -222,14 +227,17 @@ export const DropdownMenuItem = React.forwardRef<
     );
 
     // Destructive rows keep the row's error colour on their icons.
-    const renderIcon = (icon: React.ReactNode) => (
-      <MenuRowIcon inheritColor={destructive} className={iconAlignClassName ?? undefined}>
+    const renderIcon = (icon: React.ReactNode, className?: string) => (
+      <MenuRowIcon inheritColor={destructive} alignToTitle={hasDescription} className={className}>
         {icon}
       </MenuRowIcon>
     );
     const leadingNode = leadingIcon != null && renderIcon(leadingIcon);
 
-    const trailingNode = trailingIcon != null && renderIcon(trailingIcon);
+    // In an asChild row the consumer's children have no flex-1 wrapper, so `ms-auto`
+    // pushes the trailing icon to the row's end.
+    const trailingNode =
+      trailingIcon != null && renderIcon(trailingIcon, asChild ? "ms-auto" : undefined);
 
     const itemChildren = (
       <>

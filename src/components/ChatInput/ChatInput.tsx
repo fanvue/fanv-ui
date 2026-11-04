@@ -546,9 +546,7 @@ function InlineSelect({
                   )}
                 >
                   {option.icon && (
-                    <MenuRowIcon className={hasDescription ? "h-[18px]" : undefined}>
-                      {option.icon}
-                    </MenuRowIcon>
+                    <MenuRowIcon alignToTitle={hasDescription}>{option.icon}</MenuRowIcon>
                   )}
                   <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                     <span
@@ -566,9 +564,7 @@ function InlineSelect({
                     )}
                   </span>
                   {isSelected && (
-                    <span
-                      className={cn("flex shrink-0 items-center", hasDescription && "h-[18px]")}
-                    >
+                    <span className={cn("flex shrink-0 items-center", hasDescription && "h-4.5")}>
                       <SelectedTick />
                     </span>
                   )}
