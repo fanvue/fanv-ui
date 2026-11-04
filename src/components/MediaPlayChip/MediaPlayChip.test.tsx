@@ -6,15 +6,28 @@ import { formatPlayChipDuration, MediaPlayChip } from "./MediaPlayChip";
 
 describe("MediaPlayChip", () => {
   describe("API", () => {
-    it("uses the dark status-property surface", () => {
+    it("is white on a translucent white fill on every theme", () => {
       const { container } = render(<MediaPlayChip />);
       expect(container.firstElementChild).toHaveClass(
-        "dark",
+        "inline-flex",
         "h-8",
         "rounded-full",
-        "bg-buttons-status-property-default",
-        "text-icons-primary",
+        "bg-[var(--primitives-color-whitealpha-100)]",
+        "text-icons-always-white",
         "backdrop-blur-[20px]",
+      );
+    });
+
+    it("sets no dark scope, so a host's dark: classes follow the page", () => {
+      const { container } = render(<MediaPlayChip duration={42} />);
+      expect(container.querySelector(".dark")).not.toBeInTheDocument();
+    });
+
+    it("lets the length inherit the chip's colour", () => {
+      const { container } = render(<MediaPlayChip duration={42} className="text-error-content" />);
+      expect(container.firstElementChild).toHaveClass("text-error-content");
+      expect(container.querySelector("span span")?.className).not.toMatch(
+        /\btext-(content|icons)-/,
       );
     });
 
@@ -64,6 +77,10 @@ describe("formatPlayChipDuration", () => {
     [5, "00:05"],
     [61, "01:01"],
     [600, "10:00"],
+    [3599, "59:59"],
+    [3600, "01:00:00"],
+    [3725, "01:02:05"],
+    [42.9, "00:42"],
   ])("formats %ss as %s", (duration, expected) => {
     expect(formatPlayChipDuration(duration)).toBe(expected);
   });
@@ -71,5 +88,9 @@ describe("formatPlayChipDuration", () => {
   it("returns nothing without a length", () => {
     expect(formatPlayChipDuration(undefined)).toBeUndefined();
     expect(formatPlayChipDuration(0)).toBeUndefined();
+  });
+
+  it.each([0.5, -5, Number.POSITIVE_INFINITY, Number.NaN])("returns nothing for %s", (duration) => {
+    expect(formatPlayChipDuration(duration)).toBeUndefined();
   });
 });

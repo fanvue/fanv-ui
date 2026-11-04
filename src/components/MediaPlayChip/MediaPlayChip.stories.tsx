@@ -38,3 +38,34 @@ export const IconOnly: Story = {};
 export const LongVideo: Story = {
   args: { duration: 3725 },
 };
+
+/** Over a bright photo, where the translucent fill is at its weakest. */
+export const OnLightMedia: Story = {
+  args: { duration: 42 },
+  decorators: [
+    (Story) => (
+      <div className="relative h-40 w-72 overflow-hidden rounded-sm bg-surface-primary">
+        <img
+          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop"
+          alt=""
+          className="absolute inset-0 size-full object-cover"
+        />
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+/** The host names the tile, including the length, since the chip is hidden from assistive tech. */
+export const OnSelectableTile: Story = {
+  args: { duration: 42 },
+  render: (args) => (
+    <button
+      type="button"
+      aria-label={["Beach video", "00:42"].join(", ")}
+      className="absolute inset-0 cursor-pointer"
+    >
+      <MediaPlayChip {...args} />
+    </button>
+  ),
+};
