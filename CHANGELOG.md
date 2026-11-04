@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.48.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.47.0...ui-v3.48.0) (2026-11-04)
+
+
+### Features
+
+* **Tooltip:** use same-mode secondary surface with hairline border ([#769](https://github.com/fanvue/fanv-ui/issues/769)) ([0bb92ea](https://github.com/fanvue/fanv-ui/commit/0bb92ea2fa8e460b3279d3dad6150af295059ac0))
+* **UndoAlertPrompt:** add V2 Undo Alert Prompt component ([#718](https://github.com/fanvue/fanv-ui/issues/718)) ([766f645](https://github.com/fanvue/fanv-ui/commit/766f6454eb721b131d4702d07f116c5e97292b3d))
+
+
+### Bug Fixes
+
+* **Tabs:** give the pill track a raised surface that shows in dark mode ([#774](https://github.com/fanvue/fanv-ui/issues/774)) ([b29e12e](https://github.com/fanvue/fanv-ui/commit/b29e12e504402d1685b58819eea636d8ee6760b1))
+
 ## [3.47.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.46.0...ui-v3.47.0) (2026-11-02)
 
 
