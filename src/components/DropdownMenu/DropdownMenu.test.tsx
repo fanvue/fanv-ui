@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { EditIcon } from "../Icons/EditIcon";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -640,6 +641,61 @@ describe("DropdownMenuItem", () => {
       const item = screen.getByTestId("item");
       expect(item).toHaveClass("bg-interaction-hover", "typography-body-small-14px-regular");
       expect(item).not.toHaveClass("typography-body-small-14px-semibold");
+    });
+
+    it("renders leading and trailing icons at 16px in the secondary icon colour", () => {
+      renderMenu(
+        <DropdownMenuItem
+          leadingIcon={<svg data-icon="leading" />}
+          trailingIcon={<svg data-icon="trailing" />}
+        >
+          Item
+        </DropdownMenuItem>,
+      );
+      for (const name of ["leading", "trailing"]) {
+        const wrapper = document.querySelector(`[data-icon="${name}"]`)?.parentElement;
+        expect(wrapper).toHaveClass("text-icons-secondary", "[&>svg]:size-4");
+      }
+    });
+
+    it("draws an icon filled at 16px unless the icon sets its own props", () => {
+      renderMenu(
+        <>
+          <DropdownMenuItem leadingIcon={<EditIcon data-icon="default" />}>Edit</DropdownMenuItem>
+          <DropdownMenuItem leadingIcon={<EditIcon data-icon="outlined" filled={false} />}>
+            Edit
+          </DropdownMenuItem>
+        </>,
+      );
+      const layers = (name: string) =>
+        document.querySelector(`[data-icon="${name}"]`)?.querySelectorAll("g") ?? [];
+      const icon = document.querySelector('[data-icon="default"]');
+      expect(icon).toHaveAttribute("viewBox", "0 0 16 16");
+      expect(layers("default")[1]).toHaveClass("opacity-100");
+      expect(layers("outlined")[0]).toHaveClass("opacity-100");
+      expect(layers("outlined")[1]).toHaveClass("opacity-0");
+    });
+
+    it("keeps the error colour on a destructive item's icon", () => {
+      renderMenu(
+        <DropdownMenuItem destructive leadingIcon={<svg data-icon="leading" />}>
+          Delete
+        </DropdownMenuItem>,
+      );
+      const wrapper = document.querySelector('[data-icon="leading"]')?.parentElement;
+      expect(wrapper).toHaveClass("[&>svg]:size-4");
+      expect(wrapper).not.toHaveClass("text-icons-secondary");
+      expect(screen.getByRole("menuitem")).toHaveClass("text-error-content");
+    });
+
+    it("keeps the count tertiary on a selected item", () => {
+      renderMenu(
+        <DropdownMenuItem selected count="12">
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByText("12")).toHaveClass("text-content-tertiary");
+      expect(screen.getByText("12")).not.toHaveClass("text-content-primary-inverted");
     });
 
     it("renders no check indicator on the selected item", () => {

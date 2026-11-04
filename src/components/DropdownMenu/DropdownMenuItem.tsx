@@ -2,6 +2,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { type IconDefaults, IconDefaultsContext } from "../Icons/IconDefaults";
 import { DropdownMenuVariantContext, ToggleOpenContext } from "./context";
 
 /** Vertical placement of a {@link DropdownMenuLabel} within its group. */
@@ -54,6 +55,9 @@ export type DropdownMenuItemSize =
   | "sm"
   /** @deprecated Use `"40"` instead. */
   | "md";
+
+// Menu rows draw their icons filled at 16px unless the icon sets its own props.
+const MENU_ICON_DEFAULTS: IconDefaults = { filled: true, size: 16 };
 
 const SIZE_NORMALIZED: Record<DropdownMenuItemSize, "40" | "32"> = {
   "40": "40",
@@ -196,6 +200,13 @@ export const DropdownMenuItem = React.forwardRef<
     // the correct offset differs per sibling, and the previous `pt-1` was computed
     // against the single-line title's 24px leading, leaving all four 3px low.
     const iconAlignClassName = hasDescription ? "flex h-[18px] shrink-0 items-center" : null;
+    // Leading and trailing icons are 16px in `Icons/Secondary`; destructive rows
+    // keep the row's error colour on their icons.
+    const iconClassName = cn(
+      "flex shrink-0 items-center [&>svg]:size-4",
+      iconAlignClassName,
+      !destructive && "text-icons-secondary group-data-[disabled]:text-content-disabled",
+    );
 
     const countNode = count != null && (
       <span
@@ -203,11 +214,7 @@ export const DropdownMenuItem = React.forwardRef<
           "shrink-0 tabular-nums",
           iconAlignClassName,
           ITEM_COUNT_TYPOGRAPHY[normalizedSize],
-          destructive
-            ? "text-error-content"
-            : selected
-              ? "text-content-primary-inverted"
-              : "text-content-tertiary",
+          destructive ? "text-error-content" : "text-content-tertiary",
           "group-data-[disabled]:text-content-disabled",
         )}
       >
@@ -215,21 +222,22 @@ export const DropdownMenuItem = React.forwardRef<
       </span>
     );
 
-    const trailingNode =
-      trailingIcon != null &&
-      (hasDescription ? <span className={iconAlignClassName!}>{trailingIcon}</span> : trailingIcon);
+    const renderIcon = (icon: React.ReactNode) => (
+      <span className={iconClassName}>
+        <IconDefaultsContext.Provider value={MENU_ICON_DEFAULTS}>
+          {icon}
+        </IconDefaultsContext.Provider>
+      </span>
+    );
+
+    const trailingNode = trailingIcon != null && renderIcon(trailingIcon);
 
     const itemChildren = (
       <>
         {avatar != null ? (
           <span className={cn("shrink-0", iconAlignClassName)}>{avatar}</span>
         ) : (
-          leadingIcon != null &&
-          (hasDescription ? (
-            <span className={iconAlignClassName!}>{leadingIcon}</span>
-          ) : (
-            leadingIcon
-          ))
+          leadingIcon != null && renderIcon(leadingIcon)
         )}
         {hasDescription ? (
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">

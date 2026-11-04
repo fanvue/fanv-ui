@@ -4,6 +4,7 @@ import { cn } from "@/utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
+import { type IconDefaults, IconDefaultsContext } from "../Icons/IconDefaults";
 
 /** Select field height in pixels. */
 export type SelectSize = "48" | "40" | "32";
@@ -273,6 +274,10 @@ SelectContent.displayName = "SelectContent";
 /** Dropdown row height in pixels, matching the V2 Menu Item spec. */
 export type SelectItemSize = "40" | "32";
 
+// Option rows draw their icons filled at 16px, like menu rows, unless the icon
+// sets its own props.
+const ITEM_ICON_DEFAULTS: IconDefaults = { filled: true, size: 16 };
+
 const ITEM_SIZE_CLASSES: Record<SelectItemSize, string> = {
   "40": "min-h-10 py-2 typography-body-small-14px-regular",
   "32": "min-h-8 py-[7px] typography-body-small-14px-regular",
@@ -350,9 +355,17 @@ export const SelectItem = React.forwardRef<
       ) : (
         hasLeadingIcon &&
         (hasDescription ? (
-          <span className="flex shrink-0 items-center pt-0.5 [&>svg]:size-4">{leadingIcon}</span>
+          <span className="flex shrink-0 items-center pt-0.5 text-icons-secondary [&>svg]:size-4">
+            <IconDefaultsContext.Provider value={ITEM_ICON_DEFAULTS}>
+              {leadingIcon}
+            </IconDefaultsContext.Provider>
+          </span>
         ) : (
-          <span className="flex shrink-0 items-center [&>svg]:size-4">{leadingIcon}</span>
+          <span className="flex shrink-0 items-center text-icons-secondary [&>svg]:size-4">
+            <IconDefaultsContext.Provider value={ITEM_ICON_DEFAULTS}>
+              {leadingIcon}
+            </IconDefaultsContext.Provider>
+          </span>
         ))
       )}
 

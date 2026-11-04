@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { IconDefaultsContext } from "./IconDefaults";
 import { ICON_SIZE_CLASS } from "./iconSizeClass";
 import type { BaseIconProps, IconPath, IconVariants } from "./types";
 
@@ -41,7 +42,10 @@ const renderPath = (p: IconPath) =>
  * remount.
  */
 export const BaseIcon = React.forwardRef<SVGSVGElement, InternalBaseIconProps>(
-  ({ variants, size = 24, filled, className, ...props }, ref) => {
+  ({ variants, size: sizeProp, filled: filledProp, className, ...props }, ref) => {
+    const defaults = React.useContext(IconDefaultsContext);
+    const size = sizeProp ?? defaults.size ?? 24;
+    const filled = filledProp ?? defaults.filled;
     const v = variants[size];
     const outlined = v?.outlined ?? [];
     const filledPaths = v?.filled;
