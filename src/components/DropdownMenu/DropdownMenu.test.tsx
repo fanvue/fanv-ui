@@ -78,11 +78,11 @@ describe("DropdownMenu", () => {
       expect(screen.getByText("12")).not.toHaveClass("h-[18px]");
     });
 
-    it("gives the panel the 24px menu radius, not the 16px row radius", () => {
+    it("gives the panel the 16px menu radius, not the 12px row radius", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const panel = screen.getByRole("menu");
-      expect(panel).toHaveClass("rounded-lg");
-      expect(panel).not.toHaveClass("rounded-md");
+      expect(panel).toHaveClass("rounded-md");
+      expect(panel).not.toHaveClass("rounded-lg");
       expect(panel).not.toHaveClass("rounded-sm");
     });
 
@@ -97,28 +97,28 @@ describe("DropdownMenu", () => {
 
     // Each of these three drifted from the design unnoticed, so they are asserted
     // rather than left to the eye. Node references are in the component.
-    it("gives a menu item the 16px row radius, concentric with the panel", () => {
+    it("gives a menu item the 12px row radius", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const item = screen.getByRole("menuitem");
-      expect(item).toHaveClass("rounded-md");
-      expect(item).not.toHaveClass("rounded-sm");
+      expect(item).toHaveClass("rounded-sm");
+      expect(item).not.toHaveClass("rounded-md");
     });
 
-    it("gives a radio item the same 16px row radius", () => {
+    it("gives a radio item the same 12px row radius", () => {
       renderMenu(
         <DropdownMenuRadioGroup value="a">
           <DropdownMenuRadioItem value="a">A</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>,
       );
       const item = screen.getByRole("menuitemradio");
-      expect(item).toHaveClass("rounded-md");
+      expect(item).toHaveClass("rounded-sm");
       expect(item).not.toHaveClass("rounded-xs");
     });
 
-    it("gives a checkbox item the same 16px row radius", () => {
+    it("gives a checkbox item the same 12px row radius", () => {
       renderMenu(<DropdownMenuCheckboxItem>A</DropdownMenuCheckboxItem>);
       const item = screen.getByRole("menuitemcheckbox");
-      expect(item).toHaveClass("rounded-md");
+      expect(item).toHaveClass("rounded-sm");
       expect(item).not.toHaveClass("rounded-xs");
     });
 
@@ -631,38 +631,15 @@ describe("DropdownMenuItem", () => {
       expect(screen.getByTestId("item")).toHaveClass("min-h-10");
     });
 
-    it("renders the selected state as a filled row with semibold inverted text", () => {
+    it("renders the selected state with the regular-weight hover highlight", () => {
       renderMenu(
         <DropdownMenuItem selected data-testid="item">
           Item
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass(
-        "bg-buttons-primary-default",
-        "text-content-primary-inverted",
-        "typography-body-default-16px-semibold",
-      );
-    });
-
-    it("uses the 14px semibold title on a selected 32 row", () => {
-      renderMenu(
-        <DropdownMenuItem selected size="32" data-testid="item">
-          Item
-        </DropdownMenuItem>,
-      );
-      expect(screen.getByTestId("item")).toHaveClass("typography-body-small-14px-semibold");
-    });
-
-    it("keeps the selected fill when the item is also highlighted", () => {
-      renderMenu(
-        <DropdownMenuItem selected data-testid="item">
-          Item
-        </DropdownMenuItem>,
-      );
-      expect(screen.getByTestId("item").className).toContain(
-        "data-[highlighted]:bg-buttons-primary-default",
-      );
+      expect(item).toHaveClass("bg-interaction-hover", "typography-body-small-14px-regular");
+      expect(item).not.toHaveClass("typography-body-small-14px-semibold");
     });
 
     it("renders no check indicator on the selected item", () => {

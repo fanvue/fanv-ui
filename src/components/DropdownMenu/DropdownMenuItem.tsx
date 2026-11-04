@@ -63,7 +63,7 @@ const SIZE_NORMALIZED: Record<DropdownMenuItemSize, "40" | "32"> = {
 };
 
 const ITEM_SIZE_CLASSES: Record<"40" | "32", string> = {
-  "40": "min-h-10 py-2 typography-body-default-16px-regular",
+  "40": "min-h-10 py-2 typography-body-small-14px-regular",
   "32": "min-h-8 py-[7px] typography-body-small-14px-regular",
 };
 
@@ -80,11 +80,6 @@ const ITEM_SIZE_CLASSES: Record<"40" | "32", string> = {
 const ITEM_COUNT_TYPOGRAPHY: Record<"40" | "32", string> = {
   "40": "typography-body-small-14px-regular",
   "32": "typography-body-small-14px-regular",
-};
-
-const ITEM_SELECTED_TYPOGRAPHY: Record<"40" | "32", string> = {
-  "40": "typography-body-default-16px-semibold",
-  "32": "typography-body-small-14px-semibold",
 };
 
 export interface DropdownMenuItemProps
@@ -168,18 +163,18 @@ export const DropdownMenuItem = React.forwardRef<
     const itemClassName = cn(
       // `text-start` because the sheet variant renders the row as a <button>,
       // whose UA-centred text misaligned it from the popper variant's rows.
-      "group flex w-full cursor-pointer gap-2 rounded-md px-3 text-start outline-none",
+      "group flex w-full cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
       hasDescription ? "items-start" : "items-center",
       // The sheet's header runs the full width of the panel, so its rows have to
-      // come in off the edge themselves — 12px here on the panel's own 4px is the
-      // design's 16px. `w-auto` lets the column stretch them to the space left
-      // over; `w-full` plus a margin would overflow.
-      variant === "sheet" && "mx-3 w-auto",
+      // come in off the edge themselves — 4px here on the panel's own 4px gives the
+      // same 8px inset as the popper panel. `w-auto` lets the column stretch them
+      // to the space left over; `w-full` plus a margin would overflow.
+      variant === "sheet" && "mx-1 w-auto",
       ITEM_SIZE_CLASSES[normalizedSize],
       // A 24px avatar would push the compact 32px row past its height with the
       // default padding; tighten it so the avatar variant keeps the 32px contract.
       hasAvatar && !hasDescription && normalizedSize === "32" && "py-1",
-      "data-[highlighted]:bg-neutral-alphas-50",
+      "data-[highlighted]:bg-interaction-hover",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
       "disabled:cursor-not-allowed disabled:text-content-disabled",
       // Sheet-variant asChild items are marked disabled via aria-disabled
@@ -187,13 +182,9 @@ export const DropdownMenuItem = React.forwardRef<
       // data-disabled — neither selector above matches them.
       "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
       destructive && "text-error-content",
-      // `V2 Menu Item` Selected: a `Buttons/Primary/Default` fill with semibold
-      // `Content/Primary Inverted` text. The highlighted override keeps the fill
-      // when the row is also hovered or keyboard-focused.
-      selected && [
-        "bg-buttons-primary-default text-content-primary-inverted data-[highlighted]:bg-buttons-primary-default",
-        !hasDescription && ITEM_SELECTED_TYPOGRAPHY[normalizedSize],
-      ],
+      // Selected: the same `Interaction/Hover` fill as a highlighted row (library
+      // node `23452:13432`), so the current value reads as the resting highlight.
+      selected && "bg-interaction-hover",
       className,
     );
 

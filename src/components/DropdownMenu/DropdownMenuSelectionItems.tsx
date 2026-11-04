@@ -51,7 +51,7 @@ export const DropdownMenuRadioItem = React.forwardRef<
         // (node `7393:62008`), and at 16px a radio row indented 4px further than a
         // `DropdownMenuCheckboxItem` in the same menu. 16px radius like
         // `DropdownMenuItem`, so the highlight sits concentric with the panel.
-        "group flex w-full cursor-pointer items-start gap-3 rounded-md px-3 py-2 outline-none",
+        "group flex w-full cursor-pointer items-start gap-3 rounded-sm px-3 py-2 outline-none",
         "data-[highlighted]:bg-neutral-alphas-50",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
         // See DropdownMenuItem above: bg-interaction-hover aliases to the same
@@ -75,7 +75,7 @@ export const DropdownMenuRadioItem = React.forwardRef<
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       <span className="flex min-w-0 flex-1 flex-col gap-1">
-        <span className="typography-body-default-16px-semibold truncate">{children}</span>
+        <span className="typography-body-small-14px-semibold truncate">{children}</span>
         {helper && (
           <span
             className={cn(
@@ -127,7 +127,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
     <DropdownMenuPrimitive.CheckboxItem
       ref={ref}
       className={cn(
-        "group flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2 outline-none",
+        "group flex w-full cursor-pointer items-center gap-3 rounded-sm px-3 py-2 outline-none",
         // Checked state is carried by the tick alone. A background here would
         // leave every selected row shaded, which reads as "all highlighted" on
         // a menu that starts fully selected.
@@ -151,7 +151,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
       </span>
       {avatar && <span className="shrink-0">{avatar}</span>}
       <span className="flex min-w-0 flex-1 flex-col gap-1">
-        <span className="typography-body-default-16px-semibold truncate">{children}</span>
+        <span className="typography-body-small-14px-semibold truncate">{children}</span>
         {helper && (
           <span
             className={cn(

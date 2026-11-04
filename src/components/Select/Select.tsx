@@ -251,7 +251,7 @@ export const SelectContent = React.forwardRef<
         collisionPadding={collisionPadding}
         style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
         className={cn(
-          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-background-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-md border border-border-strong bg-background-secondary text-content-primary shadow-blur-menu backdrop-blur-[4px]",
           "data-[state=closed]:animate-out data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -260,7 +260,7 @@ export const SelectContent = React.forwardRef<
         )}
         {...props}
       >
-        <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-1">
+        <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-2">
           {children}
         </SelectPrimitive.Viewport>
       </SelectPrimitive.Content>
@@ -274,7 +274,7 @@ SelectContent.displayName = "SelectContent";
 export type SelectItemSize = "40" | "32";
 
 const ITEM_SIZE_CLASSES: Record<SelectItemSize, string> = {
-  "40": "min-h-10 py-2 typography-body-default-16px-regular",
+  "40": "min-h-10 py-2 typography-body-small-14px-regular",
   "32": "min-h-8 py-[7px] typography-body-small-14px-regular",
 };
 
@@ -335,11 +335,11 @@ export const SelectItem = React.forwardRef<
     <SelectPrimitive.Item
       ref={ref}
       className={cn(
-        "group relative flex w-full cursor-pointer select-none gap-2 rounded-xs px-3 text-content-primary outline-none",
+        "group relative flex w-full cursor-pointer select-none gap-2 rounded-sm px-3 text-content-primary outline-none",
         hasDescription ? "items-start" : "items-center",
         ITEM_SIZE_CLASSES[itemSize],
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",
-        "focus:bg-neutral-alphas-50 data-highlighted:bg-neutral-alphas-50",
+        "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}
