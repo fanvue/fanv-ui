@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { MediaPlayChip } from "./MediaPlayChip";
+import { formatPlayChipDuration, MediaPlayChip } from "./MediaPlayChip";
 
 const meta = {
   title: "Components/MediaPlayChip",
@@ -62,7 +62,7 @@ export const OnSelectableTile: Story = {
   render: (args) => (
     <button
       type="button"
-      aria-label={["Beach video", "00:42"].join(", ")}
+      aria-label={["Beach video", formatPlayChipDuration(args.duration)].filter(Boolean).join(", ")}
       className="absolute inset-0 cursor-pointer"
     >
       <MediaPlayChip {...args} />

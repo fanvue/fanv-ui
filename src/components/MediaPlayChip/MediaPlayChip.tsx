@@ -4,7 +4,10 @@ import { Play2Icon } from "../Icons/Play2Icon";
 
 export interface MediaPlayChipProps
   extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
-  /** Length of the video in seconds, shown as mm:ss next to the icon. */
+  /**
+   * Length of the video in seconds, shown next to the icon as mm:ss, or
+   * hh:mm:ss from an hour. Lengths under a second are not shown.
+   */
   duration?: number;
 }
 
