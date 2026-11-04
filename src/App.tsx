@@ -165,6 +165,7 @@ import {
   Logo,
   LogoutIcon,
   LoveIcon,
+  MediaPlayChip,
   MediaStatusIndicator,
   MegaphoneIcon,
   MenuCloseIcon,
@@ -1000,6 +1001,27 @@ function UndoAlertPromptDemo() {
         open={open.removed}
         onOpenChange={(value: boolean) => setOpen((prev) => ({ ...prev, removed: value }))}
       />
+    </div>
+  );
+}
+
+function MediaPlayChipDemo() {
+  return (
+    <div id="mediaplaychip" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Media Play Chip</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        {[42, undefined].map((duration) => (
+          <div
+            key={duration ?? "icon-only"}
+            className="relative h-40 w-72 overflow-hidden rounded-sm bg-neutral-800"
+          >
+            <MediaPlayChip
+              duration={duration}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -5999,6 +6021,7 @@ function App() {
     { id: "link", label: "Link" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
+    { id: "mediaplaychip", label: "Media Play Chip" },
     { id: "mediastatusindicator", label: "Media Status Indicator" },
     { id: "stepper", label: "Stepper" },
     { id: "mobilestepper", label: "Mobile Stepper" },
@@ -6125,6 +6148,9 @@ function App() {
           <section className="space-y-8">
             {/* Logo */}
             <LogoDemo />
+
+            {/* Media Play Chip */}
+            <MediaPlayChipDemo />
 
             {/* Media Status Indicator */}
             <MediaStatusIndicatorDemo />
