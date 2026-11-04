@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react";
+import type * as React from "react";
 import { createRef } from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { AddCircleIcon } from "./AddCircleIcon";
 import { AddIcon } from "./AddIcon";
@@ -85,6 +86,7 @@ import { HeartIcon } from "./HeartIcon";
 import { HelpIcon } from "./HelpIcon";
 import { HomeIcon } from "./HomeIcon";
 import { HourglassIcon } from "./HourglassIcon";
+import { IconDefaultsContext } from "./IconDefaults";
 import { ImageIcon } from "./ImageIcon";
 import { ImageUploadIcon } from "./ImageUploadIcon";
 import { InboxIcon } from "./InboxIcon";
@@ -442,4 +444,43 @@ describe("Icons", () => {
       }
     });
   }
+});
+
+describe("IconDefaultsContext", () => {
+  const withDefaults = (ui: React.ReactNode) =>
+    render(
+      <IconDefaultsContext.Provider value={{ filled: true, size: 16 }}>
+        {ui}
+      </IconDefaultsContext.Provider>,
+    );
+  const layers = (svg: Element | null) => svg?.querySelectorAll("g") ?? [];
+
+  it("draws an icon at the default size and filled", () => {
+    const { container } = withDefaults(<EditIcon />);
+    const svg = container.querySelector("svg");
+    expect(svg).toHaveAttribute("viewBox", "0 0 16 16");
+    expect(layers(svg)[1]).toHaveClass("opacity-100");
+  });
+
+  it("lets the icon's own props beat the defaults", () => {
+    const { container } = withDefaults(<EditIcon size={24} filled={false} />);
+    const svg = container.querySelector("svg");
+    expect(svg).toHaveAttribute("viewBox", "0 0 24 24");
+    expect(layers(svg)[0]).toHaveClass("opacity-100");
+  });
+
+  it("skips a default size the icon has no artwork for", () => {
+    const { container } = withDefaults(<AICallIcon />);
+    const svg = container.querySelector("svg");
+    expect(svg).toHaveAttribute("viewBox", "0 0 24 24");
+    expect(svg?.querySelectorAll("path").length).toBeGreaterThan(0);
+  });
+
+  it("skips the filled default when the icon has no filled artwork", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { container } = withDefaults(<AddIcon />);
+    expect(container.querySelector("svg")).toHaveAttribute("viewBox", "0 0 16 16");
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
 });

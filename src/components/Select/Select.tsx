@@ -4,7 +4,8 @@ import { cn } from "@/utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
-import { type IconDefaults, IconDefaultsContext } from "../Icons/IconDefaults";
+import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
+import { MenuRowIcon } from "../Icons/MenuRowIcon";
 
 /** Select field height in pixels. */
 export type SelectSize = "48" | "40" | "32";
@@ -252,7 +253,7 @@ export const SelectContent = React.forwardRef<
         collisionPadding={collisionPadding}
         style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
         className={cn(
-          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-md border border-border-strong bg-background-secondary text-content-primary shadow-blur-menu backdrop-blur-[4px]",
+          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-md border border-border-strong bg-background-secondary text-content-primary shadow-blur-menu backdrop-blur-xs",
           "data-[state=closed]:animate-out data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -262,7 +263,10 @@ export const SelectContent = React.forwardRef<
         {...props}
       >
         <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-2">
-          {children}
+          {/* A select opened from inside a menu row must not inherit that row's icon defaults. */}
+          <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
+            {children}
+          </IconDefaultsContext.Provider>
         </SelectPrimitive.Viewport>
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
@@ -273,10 +277,6 @@ SelectContent.displayName = "SelectContent";
 
 /** Dropdown row height in pixels, matching the V2 Menu Item spec. */
 export type SelectItemSize = "40" | "32";
-
-// Option rows draw their icons filled at 16px, like menu rows, unless the icon
-// sets its own props.
-const ITEM_ICON_DEFAULTS: IconDefaults = { filled: true, size: 16 };
 
 const ITEM_SIZE_CLASSES: Record<SelectItemSize, string> = {
   "40": "min-h-10 py-2 typography-body-small-14px-regular",
@@ -292,7 +292,11 @@ export interface SelectItemProps
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {
   /** Row height. Defaults to the parent {@link Select} size (`48`/`40` → `40`, `32` → `32`). */
   size?: SelectItemSize;
-  /** Icon (or other node) rendered before the label. Ignored when {@link SelectItemProps.avatar} is set. */
+  /**
+   * Icon (or other node) rendered before the label. Ignored when {@link SelectItemProps.avatar} is set.
+   * Treated like `DropdownMenuItem`'s icons: a 16px box in `Icons/Secondary`, prop-based icons filled at 16px
+   * unless they set `filled` or `size` themselves.
+   */
   leadingIcon?: React.ReactNode;
   /**
    * Leading avatar rendered in place of {@link SelectItemProps.leadingIcon}, for rows
@@ -353,25 +357,18 @@ export const SelectItem = React.forwardRef<
       {hasAvatar ? (
         <span className="shrink-0">{avatar}</span>
       ) : (
-        hasLeadingIcon &&
-        (hasDescription ? (
-          <span className="flex shrink-0 items-center pt-0.5 text-icons-secondary [&>svg]:size-4">
-            <IconDefaultsContext.Provider value={ITEM_ICON_DEFAULTS}>
-              {leadingIcon}
-            </IconDefaultsContext.Provider>
-          </span>
-        ) : (
-          <span className="flex shrink-0 items-center text-icons-secondary [&>svg]:size-4">
-            <IconDefaultsContext.Provider value={ITEM_ICON_DEFAULTS}>
-              {leadingIcon}
-            </IconDefaultsContext.Provider>
-          </span>
-        ))
+        hasLeadingIcon && (
+          // In the two-line row the icon centres on the 18px title line, as in DropdownMenuItem.
+          <MenuRowIcon className={hasDescription ? "h-[18px]" : undefined}>
+            {leadingIcon}
+          </MenuRowIcon>
+        )
       )}
 
       {hasDescription ? (
         <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className="truncate">
+          {/* A 14px semibold title over the regular description, matching DropdownMenuItem's two-line row. */}
+          <span className="typography-body-small-14px-semibold truncate">
             <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
           </span>
           <span
@@ -391,8 +388,8 @@ export const SelectItem = React.forwardRef<
 
       <SelectPrimitive.ItemIndicator
         className={cn(
-          "ml-auto flex size-4 shrink-0 items-center justify-center",
-          hasDescription && "self-start",
+          "ml-auto flex w-4 shrink-0 items-center justify-center",
+          hasDescription ? "h-[18px] self-start" : "h-4",
         )}
       >
         <CheckIcon className="size-4 text-content-primary group-data-[disabled]:text-content-disabled" />
@@ -444,7 +441,7 @@ export const SelectSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-neutral-alphas-200", className)}
+    className={cn("my-1 h-px bg-neutral-alphas-200", className)}
     {...props}
   />
 ));

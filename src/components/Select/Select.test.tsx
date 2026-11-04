@@ -258,6 +258,29 @@ describe("Select", () => {
       expect(screen.getByText("Secondary line")).toBeInTheDocument();
     });
 
+    it("sets a two-line option's title in 14px semibold over the regular description", () => {
+      renderOpen(
+        <SelectItem value="a" description="Secondary line">
+          Option A
+        </SelectItem>,
+      );
+      expect(screen.getByText("Option A").closest("span.truncate")).toHaveClass(
+        "typography-body-small-14px-semibold",
+      );
+      expect(screen.getByText("Secondary line")).toHaveClass("typography-body-small-14px-regular");
+    });
+
+    it("greys a disabled option's icon with the disabled icon colour", () => {
+      renderOpen(
+        <SelectItem value="a" disabled leadingIcon={<HomeIcon data-testid="lead" />}>
+          Option A
+        </SelectItem>,
+      );
+      expect(screen.getByTestId("lead").parentElement).toHaveClass(
+        "group-data-[disabled]:text-icons-disabled",
+      );
+    });
+
     it("treats a false avatar as absent and keeps the leading icon", () => {
       renderOpen(
         <SelectItem value="a" avatar={false} leadingIcon={<HomeIcon data-testid="lead" />}>

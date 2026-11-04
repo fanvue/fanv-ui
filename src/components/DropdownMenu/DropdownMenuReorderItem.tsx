@@ -1,6 +1,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../utils/cn";
+import { MenuRowIcon } from "../Icons/MenuRowIcon";
 import { DropdownMenuVariantContext } from "./context";
 import {
   DragHandleDots,
@@ -40,7 +41,7 @@ function ReorderRowContent({
 }: Pick<DropdownMenuReorderItemProps, "leadingIcon" | "trailing" | "children">) {
   return (
     <>
-      {leadingIcon != null && <span className="shrink-0">{leadingIcon}</span>}
+      {leadingIcon != null && <MenuRowIcon>{leadingIcon}</MenuRowIcon>}
       <span className="min-w-0 flex-1 truncate">{children}</span>
       {trailing != null && <span className="shrink-0">{trailing}</span>}
     </>

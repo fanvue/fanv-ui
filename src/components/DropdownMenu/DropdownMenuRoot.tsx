@@ -4,6 +4,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
 import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer/Drawer";
+import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
 import { type DropdownMenuVariant, DropdownMenuVariantContext, ToggleOpenContext } from "./context";
 
 // Movement, in CSS px, above which a touch press-and-release counts as a drag.
@@ -273,7 +274,10 @@ export const DropdownMenuContent = React.forwardRef<
           onKeyDown={onKeyDown}
           {...props}
         >
-          {children}
+          {/* A menu opened from inside another menu's row must not inherit that row's icon defaults. */}
+          <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
+            {children}
+          </IconDefaultsContext.Provider>
         </DrawerContent>
       );
     }
@@ -303,10 +307,10 @@ export const DropdownMenuContent = React.forwardRef<
             // stroke, 8px of padding, and the `blur + shadow/menu` effect. Rows
             // inside it are 12px `rounded-sm`, the library's `V2 Menu Item` radius.
             //
-            // `backdrop-blur-[4px]` is the CSS equivalent of that effect's
+            // `backdrop-blur-xs` (4px) is the CSS equivalent of that effect's
             // BACKGROUND_BLUR radius 8, which Figma halves on export. It is not a
             // 4-against-8 mismatch.
-            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-md border border-border-strong bg-background-secondary p-2 text-content-primary shadow-blur-menu backdrop-blur-[4px]",
+            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-md border border-border-strong bg-background-secondary p-2 text-content-primary shadow-blur-menu backdrop-blur-xs",
             "data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:animate-out",
             "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
@@ -320,7 +324,9 @@ export const DropdownMenuContent = React.forwardRef<
           }}
           {...props}
         >
-          {children}
+          <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
+            {children}
+          </IconDefaultsContext.Provider>
         </DropdownMenuPrimitive.Content>
       </DropdownMenuPrimitive.Portal>
     );

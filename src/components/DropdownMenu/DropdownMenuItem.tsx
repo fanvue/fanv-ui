@@ -1,8 +1,8 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { Slot } from "@radix-ui/react-slot";
+import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { type IconDefaults, IconDefaultsContext } from "../Icons/IconDefaults";
+import { MenuRowIcon } from "../Icons/MenuRowIcon";
 import { DropdownMenuVariantContext, ToggleOpenContext } from "./context";
 
 /** Vertical placement of a {@link DropdownMenuLabel} within its group. */
@@ -56,9 +56,6 @@ export type DropdownMenuItemSize =
   /** @deprecated Use `"40"` instead. */
   | "md";
 
-// Menu rows draw their icons filled at 16px unless the icon sets its own props.
-const MENU_ICON_DEFAULTS: IconDefaults = { filled: true, size: 16 };
-
 const SIZE_NORMALIZED: Record<DropdownMenuItemSize, "40" | "32"> = {
   "40": "40",
   md: "40",
@@ -92,7 +89,11 @@ export interface DropdownMenuItemProps
   size?: DropdownMenuItemSize;
   /** Applies the destructive (error) treatment. Use for irreversible actions. @default false */
   destructive?: boolean;
-  /** Icon (or other node) rendered before the label. Ignored when {@link DropdownMenuItemProps.avatar} is set. */
+  /**
+   * Icon (or other node) rendered before the label. Ignored when {@link DropdownMenuItemProps.avatar} is set.
+   * Icons sit in a 16px box in `Icons/Secondary`, and prop-based icons draw filled at 16px unless they set
+   * `filled` or `size` themselves (`filled={false}` opts out). Legacy icons such as `TrashBinIcon` stay outlined.
+   */
   leadingIcon?: React.ReactNode;
   /**
    * Leading avatar rendered in place of {@link DropdownMenuItemProps.leadingIcon},
@@ -101,7 +102,7 @@ export interface DropdownMenuItemProps
    */
   avatar?: React.ReactNode;
   /**
-   * Icon (or other node) rendered after the label.
+   * Icon (or other node) rendered after the label. Treated like {@link DropdownMenuItemProps.leadingIcon}.
    */
   trailingIcon?: React.ReactNode;
   /** Trailing count or number (e.g. an unread total) rendered before {@link DropdownMenuItemProps.trailingIcon}. */
@@ -191,6 +192,11 @@ export const DropdownMenuItem = React.forwardRef<
       selected && "bg-interaction-hover",
       className,
     );
+    // The selected row shares the hover fill, so it also carries the state in the
+    // markup: `aria-current` for assistive tech and `data-selected` for styling.
+    const selectedProps = selected
+      ? { "aria-current": "true" as const, "data-selected": "" }
+      : undefined;
 
     // In the two-line (description) layout everything beside the title sits on
     // the title's line, not the centre of the two-line block. A box the height of
@@ -200,13 +206,6 @@ export const DropdownMenuItem = React.forwardRef<
     // the correct offset differs per sibling, and the previous `pt-1` was computed
     // against the single-line title's 24px leading, leaving all four 3px low.
     const iconAlignClassName = hasDescription ? "flex h-[18px] shrink-0 items-center" : null;
-    // Leading and trailing icons are 16px in `Icons/Secondary`; destructive rows
-    // keep the row's error colour on their icons.
-    const iconClassName = cn(
-      "flex shrink-0 items-center [&>svg]:size-4",
-      iconAlignClassName,
-      !destructive && "text-icons-secondary group-data-[disabled]:text-content-disabled",
-    );
 
     const countNode = count != null && (
       <span
@@ -222,13 +221,13 @@ export const DropdownMenuItem = React.forwardRef<
       </span>
     );
 
+    // Destructive rows keep the row's error colour on their icons.
     const renderIcon = (icon: React.ReactNode) => (
-      <span className={iconClassName}>
-        <IconDefaultsContext.Provider value={MENU_ICON_DEFAULTS}>
-          {icon}
-        </IconDefaultsContext.Provider>
-      </span>
+      <MenuRowIcon inheritColor={destructive} className={iconAlignClassName ?? undefined}>
+        {icon}
+      </MenuRowIcon>
     );
+    const leadingNode = leadingIcon != null && renderIcon(leadingIcon);
 
     const trailingNode = trailingIcon != null && renderIcon(trailingIcon);
 
@@ -237,7 +236,7 @@ export const DropdownMenuItem = React.forwardRef<
         {avatar != null ? (
           <span className={cn("shrink-0", iconAlignClassName)}>{avatar}</span>
         ) : (
-          leadingIcon != null && renderIcon(leadingIcon)
+          leadingNode
         )}
         {hasDescription ? (
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -245,16 +244,11 @@ export const DropdownMenuItem = React.forwardRef<
              * The two-line row sets its own title type rather than inheriting the
              * row's: `V2 Menu Item` pairs a 14px semibold title with the 14px
              * regular description below it, where a single-line row's title is the
-             * size's own 16px regular. It also settles the row's height — 18 + 2 +
+             * size's own 14px regular. It also settles the row's height — 18 + 2 +
              * 18 of text inside `py-2` is the design's 54px.
              */}
             <span className="typography-body-small-14px-semibold truncate">{children}</span>
-            <span
-              className={cn(
-                "typography-body-small-14px-regular truncate",
-                selected ? "text-content-primary-inverted" : "text-content-secondary",
-              )}
-            >
+            <span className="typography-body-small-14px-regular truncate text-content-secondary">
               {description}
             </span>
           </span>
@@ -292,6 +286,7 @@ export const DropdownMenuItem = React.forwardRef<
           {...sheetSpecificProps}
           role="option"
           aria-selected={selected}
+          data-selected={selected ? "" : undefined}
           className={itemClassName}
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
             // A native <button disabled> already blocks its click event, but
@@ -313,7 +308,9 @@ export const DropdownMenuItem = React.forwardRef<
             if (!event.nativeEvent.defaultPrevented) toggleOpen?.(() => false);
           }}
         >
-          {asChild ? children : itemChildren}
+          {asChild
+            ? [leadingNode, <Slottable key="children">{children}</Slottable>, trailingNode]
+            : itemChildren}
         </Comp>
       );
     }
@@ -326,9 +323,15 @@ export const DropdownMenuItem = React.forwardRef<
           className={itemClassName}
           disabled={disabled}
           onSelect={onSelect}
+          {...selectedProps}
           {...props}
         >
-          {children}
+          {/* The icons slot into the consumer's element (e.g. a link) around its own children. */}
+          <Slot>
+            {leadingNode}
+            <Slottable>{children}</Slottable>
+            {trailingNode}
+          </Slot>
         </DropdownMenuPrimitive.Item>
       );
     }
@@ -339,6 +342,7 @@ export const DropdownMenuItem = React.forwardRef<
         className={itemClassName}
         disabled={disabled}
         onSelect={onSelect}
+        {...selectedProps}
         {...props}
       >
         {itemChildren}

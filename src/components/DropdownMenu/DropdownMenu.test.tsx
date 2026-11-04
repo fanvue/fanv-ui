@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { IconButton } from "../IconButton/IconButton";
 import { EditIcon } from "../Icons/EditIcon";
 import {
   DropdownMenu,
@@ -121,6 +122,19 @@ describe("DropdownMenu", () => {
       const item = screen.getByRole("menuitemcheckbox");
       expect(item).toHaveClass("rounded-sm");
       expect(item).not.toHaveClass("rounded-xs");
+    });
+
+    it("gives radio and checkbox items the 40px minimum row height", () => {
+      renderMenu(
+        <>
+          <DropdownMenuRadioGroup value="a">
+            <DropdownMenuRadioItem value="a">A</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+          <DropdownMenuCheckboxItem>B</DropdownMenuCheckboxItem>
+        </>,
+      );
+      expect(screen.getByRole("menuitemradio")).toHaveClass("min-h-10");
+      expect(screen.getByRole("menuitemcheckbox")).toHaveClass("min-h-10");
     });
 
     it("indents a radio item the same as any other row", () => {
@@ -696,6 +710,65 @@ describe("DropdownMenuItem", () => {
       );
       expect(screen.getByText("12")).toHaveClass("text-content-tertiary");
       expect(screen.getByText("12")).not.toHaveClass("text-content-primary-inverted");
+    });
+
+    it("marks the selected item with aria-current and data-selected", () => {
+      renderMenu(
+        <>
+          <DropdownMenuItem selected>Current</DropdownMenuItem>
+          <DropdownMenuItem>Other</DropdownMenuItem>
+        </>,
+      );
+      const current = screen.getByRole("menuitem", { name: "Current" });
+      expect(current).toHaveAttribute("aria-current", "true");
+      expect(current).toHaveAttribute("data-selected", "");
+      expect(screen.getByRole("menuitem", { name: "Other" })).not.toHaveAttribute("aria-current");
+    });
+
+    it("keeps a selected item's description in the secondary colour", () => {
+      renderMenu(
+        <DropdownMenuItem selected description="Secondary line">
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByText("Secondary line")).toHaveClass("text-content-secondary");
+      expect(screen.getByText("Secondary line")).not.toHaveClass("text-content-primary-inverted");
+    });
+
+    it("greys a disabled item's icon with the disabled icon colour", () => {
+      renderMenu(
+        <DropdownMenuItem disabled leadingIcon={<svg data-icon="leading" />}>
+          Item
+        </DropdownMenuItem>,
+      );
+      const wrapper = document.querySelector('[data-icon="leading"]')?.parentElement;
+      expect(wrapper).toHaveClass("group-data-[disabled]:text-icons-disabled");
+    });
+
+    it("renders the icons inside an asChild element", () => {
+      renderMenu(
+        <DropdownMenuItem asChild leadingIcon={<EditIcon data-icon="leading" />}>
+          <a href="/settings">Settings</a>
+        </DropdownMenuItem>,
+      );
+      const link = screen.getByRole("menuitem", { name: "Settings" });
+      expect(link.tagName).toBe("A");
+      const icon = link.querySelector('[data-icon="leading"]');
+      expect(icon).toHaveAttribute("viewBox", "0 0 16 16");
+    });
+
+    it("leaves an IconButton's icon at its own size inside a row", () => {
+      renderMenu(
+        <DropdownMenuItem
+          trailingIcon={<IconButton aria-label="More" icon={<EditIcon data-icon="button" />} />}
+        >
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(document.querySelector('[data-icon="button"]')).toHaveAttribute(
+        "viewBox",
+        "0 0 24 24",
+      );
     });
 
     it("renders no check indicator on the selected item", () => {
