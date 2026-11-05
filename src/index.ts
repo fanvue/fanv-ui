@@ -671,6 +671,8 @@ export type {
   LogoVariant,
 } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
+export type { MediaPlayChipProps } from "./components/MediaPlayChip/MediaPlayChip";
+export { formatPlayChipDuration, MediaPlayChip } from "./components/MediaPlayChip/MediaPlayChip";
 export type {
   MediaStatusIndicatorProps,
   MediaStatusIndicatorStatus,
