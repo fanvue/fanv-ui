@@ -6,6 +6,7 @@ import { axe } from "vitest-axe";
 import { Tabs } from "./Tabs";
 import { TabsContent } from "./TabsContent";
 import { TabsList } from "./TabsList";
+import { TabsListSkeleton } from "./TabsListSkeleton";
 import { TabsTrigger } from "./TabsTrigger";
 
 function renderTabs(props?: { defaultValue?: string; disabled?: boolean }) {
@@ -725,6 +726,36 @@ describe("Tabs", () => {
     it("has no accessibility violations", async () => {
       const { container } = renderPill();
       expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  describe("TabsListSkeleton", () => {
+    it("renders the pill track and hides it from assistive tech", () => {
+      render(
+        <TabsListSkeleton data-testid="skeleton" className="custom">
+          <span>placeholder</span>
+        </TabsListSkeleton>,
+      );
+      const track = screen.getByTestId("skeleton");
+      expect(track).toHaveAttribute("aria-hidden", "true");
+      expect(track).toHaveClass("rounded-full", "bg-background-secondary", "custom");
+      expect(track).toHaveTextContent("placeholder");
+    });
+
+    it("shares the track classes of the pill TabsList", () => {
+      render(
+        <>
+          <TabsListSkeleton data-testid="skeleton" />
+          <Tabs defaultValue="a">
+            <TabsList appearance="pill" aria-label="Pill">
+              <TabsTrigger value="a">A</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </>,
+      );
+      const skeletonClasses = screen.getByTestId("skeleton").className.split(" ");
+      const listClasses = screen.getByRole("tablist").className.split(" ");
+      expect(listClasses).toEqual(expect.arrayContaining(skeletonClasses));
     });
   });
 

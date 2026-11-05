@@ -2,11 +2,19 @@ import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
-/** Visual style variant of the link. */
-export type LinkVariant = "primary" | "brand";
+/**
+ * Visual style variant of the link. `inherit` takes the colour of the
+ * surrounding text, for links inside tooltips, alerts and other copy that sets
+ * its own colour.
+ */
+export type LinkVariant = "primary" | "brand" | "inherit";
 
-/** Text size of the link in pixels. */
-export type LinkSize = "16" | "14";
+/**
+ * Text size of the link in pixels. `inherit` keeps the font size and weight of
+ * the surrounding text, for a link that sits inside a sentence. Without icons it
+ * renders inline, so a long link wraps with the sentence.
+ */
+export type LinkSize = "16" | "14" | "inherit";
 
 export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   /** Visual style variant of the link. @default "primary" */
@@ -26,11 +34,13 @@ export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>
 const SIZE_CLASSES: Record<LinkSize, string> = {
   "16": "typography-body-default-16px-semibold",
   "14": "typography-body-small-14px-semibold",
+  inherit: "",
 };
 
 const VARIANT_CLASSES: Record<LinkVariant, string> = {
   primary: "text-buttons-link-primary-default hover:text-buttons-link-primary-hover",
   brand: "text-buttons-link-brand-default hover:text-buttons-link-brand-hover",
+  inherit: "text-inherit hover:opacity-80",
 };
 
 const ICON_WRAPPER = "flex shrink-0 items-center justify-center [&>svg]:size-4";
@@ -38,7 +48,9 @@ const ICON_WRAPPER = "flex shrink-0 items-center justify-center [&>svg]:size-4";
 /**
  * An inline text link for navigating to a related page or section without
  * using a button. Use `primary` for standard navigation and `brand` for the
- * Fanvue green accent on calls to action within content.
+ * Fanvue green accent on calls to action within content. Use `inherit` with
+ * `size="inherit"` for a link inside copy that sets its own colour and type,
+ * such as a tooltip.
  *
  * Renders an underlined `<a>` by default. Pass `asChild` to compose with a
  * router link (e.g. Next.js `Link`). When rendering without a visible label,
@@ -104,7 +116,11 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
         href={disabled ? undefined : href}
         onClick={handleClick}
         className={cn(
-          "inline-flex items-center gap-2 rounded-2xs transition-colors",
+          size === "inherit" && !leftIcon && !rightIcon
+            ? "inline"
+            : "inline-flex items-center gap-2",
+          "rounded-2xs",
+          variant === "inherit" ? "transition-opacity" : "transition-colors",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           disabled
             ? "pointer-events-none cursor-not-allowed text-content-disabled"
