@@ -4152,6 +4152,21 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "floatingGlass": {
+            "description": "Tint under liquid glass that floats over the page (e.g. the mobile tab bar), dense enough that content does not read through it.",
+            "type": "color",
+            "value": "{primitives.light.color.whitealpha.500}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:23533:5",
+                "exportKey": "variables"
+              }
+            }
           }
         },
         "border": {
@@ -8977,6 +8992,21 @@
                 "collection": "Semantic",
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:17839:2551",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "floatingGlass": {
+            "description": "Tint under liquid glass that floats over the page (e.g. the mobile tab bar), dense enough that content does not read through it.",
+            "type": "color",
+            "value": "{primitives.dark.color.blackalpha.700}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:23533:5",
                 "exportKey": "variables"
               }
             }
