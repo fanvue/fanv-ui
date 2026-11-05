@@ -21,11 +21,11 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "brand"],
+      options: ["primary", "brand", "inherit"],
     },
     size: {
       control: "select",
-      options: ["16", "14"],
+      options: ["16", "14", "inherit"],
     },
     disabled: { control: "boolean" },
   },
@@ -50,6 +50,17 @@ export const Small: Story = {
   args: {
     size: "14",
   },
+};
+
+export const Inherit: Story = {
+  render: (args) => (
+    <p className="typography-description-12px-regular max-w-xs text-content-secondary">
+      A flat fee applies to every crypto payout.{" "}
+      <Link {...args} variant="inherit" size="inherit">
+        Learn more about payout fees
+      </Link>
+    </p>
+  ),
 };
 
 export const Disabled: Story = {
