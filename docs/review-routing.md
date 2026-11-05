@@ -1,9 +1,10 @@
 # Review routing
 
-Who reviews a pull request in `@fanvue/ui`, by the area it touches. The Claude
-review bot in `#hackers-support` reads this file to pick the human reviewer,
-and `.github/CODEOWNERS` mirrors the path rules so GitHub requests the same
-people.
+Who reviews a pull request in `@fanvue/ui`, by the area it touches. This file
+is the single source for who reviews what: the Claude review bot in
+`#hackers-support` reads it and requests one human reviewer per PR.
+`.github/CODEOWNERS` keeps only its default rule (Simon Staton and Alfonso
+Olmedo) and does not mirror the delegations below.
 
 Simon Staton built this library and is its DRI. The reviewer pool is Simon
 Staton, Alfonso Olmedo, Luiz Cavalcanti, Harry Ronchetti and Simon Madine.
@@ -12,7 +13,7 @@ delegation from him for an area someone else knows well; anything not listed
 is his. Nobody outside the pool reviews here: designers and QA open PRs but are never
 requested.
 
-Last reviewed: 2026-11-03. Built from commits and reviews since August 2026.
+Last reviewed: 2026-11-05. Built from commits and reviews since August 2026.
 Re-check it each quarter or whenever someone joins, leaves or changes team.
 
 ## How to pick the reviewer
@@ -25,7 +26,8 @@ Re-check it each quarter or whenever someone joins, leaves or changes team.
 3. A breaking change (a `feat(X)!:` or `fix(X)!:` title, or a removed or renamed
    export) always gets the DRI plus one more engineer, because every consumer
    rebuilds.
-4. If no row matches, use the DRI row.
+4. Anything not listed is the DRI's: request @simonstaton. If Simon wrote the
+   PR, request @alfonsovo-fv, then the rest of the pool.
 5. Never request the PR author, a bot, or anyone missing from the people table.
 
 ## Areas
@@ -53,7 +55,8 @@ Designers who open PRs here but are not reviewers: Lorenzo Perniciaro (tables, V
 
 ## Keeping this file right
 
-- Change `.github/CODEOWNERS` in the same PR whenever a row changes.
+- Changing a row here is enough; `.github/CODEOWNERS` holds only the default
+  rule and never lists the delegations.
 - A handle must have write access to the repo or GitHub ignores it. Check with
   `gh api repos/fanvue/fanv-ui/collaborators/<handle>/permission`.
 - To regenerate the evidence for a row, run
