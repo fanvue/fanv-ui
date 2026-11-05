@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { IconDefaultsContext } from "./IconDefaults";
 import { ICON_SIZE_CLASS } from "./iconSizeClass";
 import type { BaseIconProps, IconPath, IconVariants } from "./types";
 
@@ -41,7 +42,13 @@ const renderPath = (p: IconPath) =>
  * remount.
  */
 export const BaseIcon = React.forwardRef<SVGSVGElement, InternalBaseIconProps>(
-  ({ variants, size = 24, filled, className, ...props }, ref) => {
+  ({ variants, size: sizeProp, filled: filledProp, className, ...props }, ref) => {
+    const defaults = React.useContext(IconDefaultsContext);
+    // A container default only applies when the icon has artwork for it, so an
+    // icon drawn at 24/32 only, or without a filled 16, keeps its own look.
+    const size =
+      sizeProp ?? (defaults.size !== undefined && variants[defaults.size] ? defaults.size : 24);
+    const filled = filledProp ?? (defaults.filled && variants[size]?.filled ? true : undefined);
     const v = variants[size];
     const outlined = v?.outlined ?? [];
     const filledPaths = v?.filled;

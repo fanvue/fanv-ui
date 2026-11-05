@@ -444,7 +444,7 @@ export const Reorderable: Story = {
           <DropdownMenuTrigger asChild>
             <Button>{lastMove ?? "Reorder folders"}</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-60 rounded-lg border-border-strong">
+          <DropdownMenuContent className="w-60">
             <DropdownMenuHeader
               title="All Folders"
               showClose={false}
@@ -499,7 +499,7 @@ export const ReorderableScrolling: Story = {
           <DropdownMenuTrigger asChild>
             <Button>Reorder long list</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="max-h-80 w-60 rounded-lg border-border-strong">
+          <DropdownMenuContent className="max-h-80 w-60">
             <DropdownMenuHeader
               title="Folders"
               showClose={false}
@@ -580,7 +580,7 @@ export const VaultFolders: Story = {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="start"
-            className="w-60 rounded-lg"
+            className="w-60"
             onInteractOutside={(event) => {
               if (actionsFor !== null) event.preventDefault();
             }}
@@ -692,7 +692,6 @@ export const VaultFolders: Story = {
                           side="right"
                           align="start"
                           sideOffset={12}
-                          className="rounded-lg"
                           // Reorganise/Delete unmount this menu's trigger, so
                           // Radix must not try to hand focus back to it; the
                           // reorder group then claims focus for its handles.

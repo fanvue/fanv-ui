@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { Count, type CountSize } from "../Count/Count";
+import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
 
 /**
  * Visual style variant of the icon button.
@@ -287,7 +288,10 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           className={cn("flex shrink-0 items-center justify-center", iconSizeVariants[size])}
           aria-hidden="true"
         >
-          {icon}
+          {/* A button sizes its own icon, so a menu row's icon defaults stop here. */}
+          <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
+            {icon}
+          </IconDefaultsContext.Provider>
         </span>
 
         {counterValue !== undefined && (
