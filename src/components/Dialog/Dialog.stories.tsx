@@ -16,6 +16,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogItem,
   DialogTitle,
   DialogTrigger,
 } from "./Dialog";
@@ -648,6 +649,40 @@ export const MobileSheet: Story = {
           </DialogClose>
           <Button>Accept</Button>
         </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: openDialog,
+};
+
+export const MobileMenu: Story = {
+  name: "Mobile Menu (375px)",
+  tags: ["!autodocs"],
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+    chromatic: {
+      modes: {
+        "light-mobile": { theme: "light", viewport: 375 },
+      },
+    },
+  },
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent mobilePresentation="menu">
+        <DialogHeader>
+          <DialogTitle>Top Spenders</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <DialogItem leadingIcon={<CheckIcon className="size-4" />} selected>
+            Selected
+          </DialogItem>
+          <DialogItem>Standard</DialogItem>
+          <DialogItem disabled>Disabled</DialogItem>
+          <DialogItem destructive>Delete List</DialogItem>
+        </DialogBody>
       </DialogContent>
     </Dialog>
   ),
