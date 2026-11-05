@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.49.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.48.0...ui-v3.49.0) (2026-11-05)
+
+
+### Features
+
+* **DropdownMenu,Select:** align menus to the V2 Menu Dropdown spec ([#777](https://github.com/fanvue/fanv-ui/issues/777)) ([62ed5e1](https://github.com/fanvue/fanv-ui/commit/62ed5e1756eed4929f46ba2f660a0608a3b05fc4))
+* **MediaPlayChip:** add the feed's play chip for video tiles ([#776](https://github.com/fanvue/fanv-ui/issues/776)) ([7399d66](https://github.com/fanvue/fanv-ui/commit/7399d668061fb95896aa95950ea01898cbefe56c))
+
 ## [3.48.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.47.0...ui-v3.48.0) (2026-11-04)
 
 
