@@ -224,6 +224,7 @@
   --color-background-secondary: var(--primitives-color-gray-50);
   --color-background-avatar: var(--primitives-color-gray-300);
   --color-background-ai-agent: #ffffff80;
+  --color-background-floating-glass: var(--primitives-color-whitealpha-500);
   --color-border-primary: var(--primitives-color-gray-200);
   --color-border-strong: var(--primitives-color-gray-350);
   --color-border-error: var(--primitives-color-red-450);
@@ -702,6 +703,7 @@
   --color-background-secondary: var(--primitives-color-gray-50);
   --color-background-avatar: var(--primitives-color-gray-300);
   --color-background-ai-agent: #ffffff80;
+  --color-background-floating-glass: var(--primitives-color-whitealpha-500);
   --color-border-primary: var(--primitives-color-gray-200);
   --color-border-strong: var(--primitives-color-gray-350);
   --color-border-error: var(--primitives-color-red-450);
@@ -1001,6 +1003,7 @@
   --color-background-secondary: var(--primitives-color-gray-950);
   --color-background-avatar: var(--primitives-color-gray-700);
   --color-background-ai-agent: #1515151a;
+  --color-background-floating-glass: var(--primitives-color-blackalpha-700);
   --color-border-primary: var(--primitives-color-gray-800);
   --color-border-strong: var(--primitives-color-gray-700);
   --color-border-error: var(--primitives-color-red-450);
