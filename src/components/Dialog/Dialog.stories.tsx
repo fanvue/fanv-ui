@@ -654,6 +654,58 @@ export const MobileSheet: Story = {
   play: openDialog,
 };
 
+export const MobileCard: Story = {
+  name: "Mobile Card (375px)",
+  tags: ["!autodocs"],
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=18109-67102&m=dev",
+    },
+    chromatic: {
+      modes: {
+        "light-mobile": { theme: "light", viewport: 375 },
+      },
+    },
+  },
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent mobilePresentation="card">
+        <DialogHeader>
+          <DialogTitle>Title goes here</DialogTitle>
+          <DialogDescription>
+            On mobile viewports, the card floats 16px off the bottom and side edges.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="secondary">Cancel</Button>
+          </DialogClose>
+          <Button>Accept</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: async (context) => {
+    await openDialog(context);
+    const dialog = await screen.findByRole("dialog");
+    await waitFor(() => {
+      const rect = dialog.getBoundingClientRect();
+      const viewportWidth = document.documentElement.clientWidth;
+      if (viewportWidth < 640) {
+        expect(Math.round(rect.left)).toBe(16);
+        expect(Math.round(viewportWidth - rect.right)).toBe(16);
+        expect(Math.round(window.innerHeight - rect.bottom)).toBe(16);
+      }
+      expect(getComputedStyle(dialog).borderTopLeftRadius).toBe("32px");
+    });
+  },
+};
+
 export const MobileSheetTallContent: Story = {
   name: "Mobile Sheet — Tall Content (ENG-12221)",
   tags: ["!autodocs"],

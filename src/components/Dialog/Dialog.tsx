@@ -89,8 +89,9 @@ export interface DialogContentProps
   /**
    * How the dialog presents below the `sm` breakpoint.
    * - `"sheet"` — bottom sheet pinned to the viewport bottom edge (default)
-   * - `"card"` — centered floating card per the v2-modal confirmation spec:
-   *   16px side margins, 24px padding, 32px radius on all corners, no pull handle
+   * - `"card"` — floating card per the v2-modal spec: anchored 16px off the
+   *   bottom and side edges (plus the safe-area inset), 16px padding, 32px
+   *   radius on all corners, no pull handle
    *
    * @default "sheet"
    */
@@ -113,8 +114,9 @@ const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
  *
  * On mobile viewports (<640px), the dialog slides up from the bottom as a sheet
  * with top-only border radius by default; pass `mobilePresentation="card"` to
- * render a centered floating card instead (used for small confirmation dialogs).
- * On larger viewports it renders centered with full border radius.
+ * render a floating card anchored near the bottom edge instead (used for small
+ * confirmation dialogs). On larger viewports it renders centered with the 32px
+ * modal radius (`--color-modal-radius`).
  *
  * It animates in and out. While the closing animation plays the panel stays
  * mounted but ignores pointer input, so a second click can't act on it.
@@ -187,9 +189,9 @@ export const DialogContent = React.forwardRef<
           "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
           "data-[state=closed]:pointer-events-none!",
           mobilePresentation === "card"
-            ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
+            ? // Floating confirmation card (v2-modal): 16px off the bottom and sides, 16px padding, 32px radius
               cn(
-                "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
+                "dialog-max-h-dynamic inset-x-4 bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] rounded-[var(--color-modal-radius)] p-[var(--color-modal-padding-mobile)]",
                 "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
                 "sm:inset-x-auto",
               )
@@ -202,7 +204,7 @@ export const DialogContent = React.forwardRef<
                 "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
                 "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
               ),
-          "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
+          "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[var(--color-modal-radius)] sm:p-6",
           "duration-200",
           SIZE_CLASSES[size],
           className,
