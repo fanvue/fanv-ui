@@ -11,7 +11,8 @@ export type LinkVariant = "primary" | "brand" | "inherit";
 
 /**
  * Text size of the link in pixels. `inherit` keeps the font size and weight of
- * the surrounding text, for a link that sits inside a sentence.
+ * the surrounding text, for a link that sits inside a sentence. Without icons it
+ * renders inline, so a long link wraps with the sentence.
  */
 export type LinkSize = "16" | "14" | "inherit";
 
@@ -115,7 +116,11 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
         href={disabled ? undefined : href}
         onClick={handleClick}
         className={cn(
-          "inline-flex items-center gap-2 rounded-2xs transition-colors",
+          size === "inherit" && !leftIcon && !rightIcon
+            ? "inline"
+            : "inline-flex items-center gap-2",
+          "rounded-2xs",
+          variant === "inherit" ? "transition-opacity" : "transition-colors",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           disabled
             ? "pointer-events-none cursor-not-allowed text-content-disabled"
