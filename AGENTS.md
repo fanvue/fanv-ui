@@ -241,7 +241,8 @@ describe("Badge", () => {
 ## Project Stack
 
 - **Framework**: React 19, TypeScript, Vite
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS 4
+- **Linting and formatting**: Biome
 - **Testing**: Vitest, Testing Library, Playwright
 - **Documentation**: Storybook with Chromatic
 - **Design System**: [Figma Library](https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library)
@@ -253,7 +254,7 @@ describe("Badge", () => {
 
 **Pattern**: Use `forwardRef` → Define type unions → Apply classes with `cn()` using inline conditionals in order: base → variants → className override. Use `pnpm lint:fix` to auto-sort Tailwind classes.
 
-> **Note:** Use the typography classes defined in `@src/styles/theme.css` (e.g., `.typography-body-1-semibold`) instead of Tailwind's default typography utility classes for text styles.
+> **Note:** Use the typography classes defined in `@src/styles/theme.css` (e.g., `.typography-body-default-16px-semibold`) instead of Tailwind's default typography utility classes for text styles.
 
 ```typescript
 import * as React from "react";
@@ -286,9 +287,9 @@ export const ComponentName = React.forwardRef<HTMLDivElement, ComponentNameProps
       <div
         ref={ref}
         className={cn(
-          "inline-flex items-center gap-2 rounded typography-body-1-semibold",
-          variant === "default" && "bg-neutral-100 text-neutral-400",
-          variant === "primary" && "bg-brand-purple-500 text-body-600",
+          "inline-flex items-center gap-2 rounded typography-body-default-16px-semibold",
+          variant === "default" && "bg-buttons-secondary-default text-content-primary",
+          variant === "primary" && "bg-brand-primary-default text-content-always-black",
           size === "sm" && "text-xs px-2 py-1",
           size === "md" && "text-sm px-3 py-1.5",
           className,
