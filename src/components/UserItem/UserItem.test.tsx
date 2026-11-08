@@ -73,6 +73,36 @@ describe("UserItem", () => {
     });
   });
 
+  describe("padding", () => {
+    it("defaults to px-2 py-1", () => {
+      render(<UserItem user={baseUser} data-testid="item" />);
+      expect(screen.getByTestId("item")).toHaveClass("px-2", "py-1");
+    });
+
+    it("tightens only the leading edge when compact", () => {
+      render(<UserItem user={baseUser} padding="compact" data-testid="item" />);
+      const item = screen.getByTestId("item");
+      expect(item).toHaveClass("py-1", "pl-1", "pr-2");
+      expect(item).not.toHaveClass("px-2");
+    });
+
+    it("removes all padding when none", () => {
+      render(<UserItem user={baseUser} padding="none" data-testid="item" />);
+      const item = screen.getByTestId("item");
+      expect(item).not.toHaveClass("px-2");
+      expect(item).not.toHaveClass("py-1");
+      expect(item).not.toHaveClass("pl-1");
+      expect(item).not.toHaveClass("pr-2");
+    });
+
+    it("lets className override the preset", () => {
+      render(<UserItem user={baseUser} padding="compact" className="p-0" data-testid="item" />);
+      const item = screen.getByTestId("item");
+      expect(item).toHaveClass("p-0");
+      expect(item).not.toHaveClass("pl-1");
+    });
+  });
+
   describe("muted indicator", () => {
     it("is hidden by default", () => {
       const { container } = render(<UserItem user={baseUser} />);

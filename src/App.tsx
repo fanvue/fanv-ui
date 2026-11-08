@@ -2595,6 +2595,14 @@ function UserItemTrailingDemo() {
           showHandle={false}
           trailing={<UserItemTrailing value="$980.00" meta="3 purchases" />}
         />
+        {(["default", "compact", "none"] as const).map((padding) => (
+          <UserItem
+            key={padding}
+            padding={padding}
+            user={{ displayName: "Jane Doe", handle: "jane_doe" }}
+            avatarSize={32}
+          />
+        ))}
       </div>
     </section>
   );

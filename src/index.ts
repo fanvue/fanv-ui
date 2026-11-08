@@ -948,6 +948,7 @@ export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
 export type { UserHandleProps } from "./components/UserHandle/UserHandle";
 export { UserHandle } from "./components/UserHandle/UserHandle";
 export type {
+  UserItemPadding,
   UserItemProps,
   UserItemUser,
 } from "./components/UserItem/UserItem";

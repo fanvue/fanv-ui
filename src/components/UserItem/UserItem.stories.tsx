@@ -23,6 +23,10 @@ const meta = {
       control: "select",
       options: [16, 24, 32, 40, 48, 64, 88, 148],
     },
+    padding: {
+      control: "select",
+      options: ["default", "compact", "none"],
+    },
     aiDisclosure: { control: "boolean" },
     isMuted: { control: "boolean" },
     isOnline: { control: "boolean" },
@@ -138,6 +142,35 @@ export const States: Story = {
       <UserItem {...args} showHandle={false} />
       <UserItem {...args} showAvatar={false} />
       <UserItem {...args} user={{ ...sampleUser, nickname: "Aitana" }} />
+    </div>
+  ),
+};
+
+export const PaddingDefault: Story = {
+  args: { padding: "default" },
+};
+
+export const PaddingCompact: Story = {
+  args: { padding: "compact" },
+};
+
+export const PaddingNone: Story = {
+  args: { padding: "none" },
+};
+
+export const Paddings: Story = {
+  render: (args) => (
+    <div className="flex w-72 flex-col gap-4">
+      {(["default", "compact", "none"] as const).map((padding) => (
+        <div key={padding} className="flex flex-col gap-1">
+          <div className="bg-surface-secondary">
+            <UserItem {...args} padding={padding} />
+          </div>
+          <p className="typography-description-12px-regular text-content-secondary">
+            padding={padding}
+          </p>
+        </div>
+      ))}
     </div>
   ),
 };

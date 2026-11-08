@@ -23,9 +23,20 @@ export type UserItemUser = {
   nickname?: string;
 };
 
+/**
+ * Padding preset for the row.
+ * - `"default"`: `px-2 py-1`.
+ * - `"compact"`: tightens only the leading edge (`pl-1`), so the avatar sits closer
+ *   to the row's start while the trailing edge keeps `pr-2`.
+ * - `"none"`: no padding, for rows that sit inside a container that already insets them.
+ */
+export type UserItemPadding = "default" | "compact" | "none";
+
 export interface UserItemProps extends React.HTMLAttributes<HTMLDivElement> {
   /** The user to display. */
   user: UserItemUser;
+  /** Padding preset for the row. See {@link UserItemPadding}. @default "default" */
+  padding?: UserItemPadding;
   /** Desired avatar size in px; snapped to the nearest supported token. @default 48 */
   avatarSize?: number;
   /** Show the muted indicator in the bottom-left corner. @default false */
@@ -96,6 +107,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
   (
     {
       user,
+      padding = "default",
       avatarSize,
       isOnline = false,
       isMuted = false,
@@ -117,7 +129,12 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
     return (
       <div
         ref={ref}
-        className={cn("relative flex w-full items-center justify-start px-2 py-1", className)}
+        className={cn(
+          "relative flex w-full items-center justify-start",
+          padding === "default" && "px-2 py-1",
+          padding === "compact" && "py-1 pr-2 pl-1",
+          className,
+        )}
         {...props}
       >
         {isMuted && (
