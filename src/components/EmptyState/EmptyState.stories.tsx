@@ -24,6 +24,12 @@ const meta = {
       description: "Size of the title heading — xs through xl, mapping to bold heading tokens.",
       table: { defaultValue: { summary: "lg" } },
     },
+    titleAs: {
+      control: "select",
+      options: ["h1", "h2", "h3"],
+      description: "Heading element rendered for a string title.",
+      table: { defaultValue: { summary: "h2" } },
+    },
     mediaSize: {
       control: "select",
       options: ["xs", "sm", "md", "lg", "xl"],
@@ -84,6 +90,14 @@ export const SmallTitleSize: Story = {
     variant: "default",
     ...defaultArgs,
     titleSize: "sm",
+  },
+};
+
+export const PageHeading: Story = {
+  args: {
+    variant: "centered",
+    ...defaultArgs,
+    titleAs: "h1",
   },
 };
 

@@ -2032,6 +2032,12 @@ function EmptyStateDemo() {
           primaryAction={<Button variant="brand">Add Media to Vault</Button>}
           secondaryAction={<Button variant="secondary">Learn more</Button>}
         />
+        <EmptyState
+          variant="centered"
+          title="Page-level empty state"
+          titleAs="h1"
+          description="A whole-page state renders its string title as an h1."
+        />
       </div>
       <h3 className="typography-header-heading-xs mt-6 text-content-secondary">String slots</h3>
       <p className="typography-body-small-14px-regular max-w-xl text-content-secondary">
