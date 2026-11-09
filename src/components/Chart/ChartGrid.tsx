@@ -12,27 +12,23 @@ export type ChartGridProps = Omit<
   "stroke" | "strokeOpacity" | "strokeDasharray"
 >;
 
+const GRID_STROKE = "var(--color-neutral-alphas-200)";
+const BASELINE_STROKE = "var(--color-border-strong)";
+
 const zeroRow: HorizontalCoordinatesGenerator = ({ yAxis }) => {
   const y = yAxis?.scale?.map(0);
   return typeof y === "number" && Number.isFinite(y) ? [y] : [];
 };
 
 /**
- * The design-system grid for cartesian charts: solid horizontal lines and one stronger
- * solid baseline at value 0. Render it as a direct child of a Recharts `<LineChart>`,
- * `<AreaChart>` or `<BarChart>`.
+ * The design-system grid for cartesian charts: faint solid horizontal lines
+ * (`neutral-alphas-200` at 40%) and a stronger `border-strong` baseline at value 0.
+ * Render it as a direct child of a Recharts `<LineChart>`, `<AreaChart>` or `<BarChart>`,
+ * and leave `<YAxis domain>` at its default.
  *
- * Grid lines use `neutral-alphas-200` at 40% opacity, the look of a Recharts default grid
- * with `strokeOpacity={0.4}` inside `ChartContainer`. The baseline uses `border-strong`
- * and sits above the chart's series, at the same layer as Recharts' `ReferenceLine`.
- *
- * The baseline is a one-row grid placed by the y-axis scale rather than a `ReferenceLine`,
- * because a `ReferenceLine` needs an x-axis scale and Recharts has none while `data` is
- * empty. The row skips Recharts' tick-label collision check, which would drop a zero row
- * sitting on the chart's top edge. The hidden `ReferenceLine` only extends the y-axis
- * domain to include zero, so the baseline stays visible when every value is negative.
- * Leave `<YAxis domain>` at its default: the axis then starts at zero, or at the lowest
- * value when the data goes below zero.
+ * The baseline is a one-row grid placed by the y scale, not a visible `ReferenceLine`,
+ * because Recharts draws no `ReferenceLine` while `data` is empty (there is no x scale).
+ * The hidden `ReferenceLine` only keeps 0 inside the y domain when every value is negative.
  *
  * @example
  * ```tsx
@@ -46,30 +42,25 @@ const zeroRow: HorizontalCoordinatesGenerator = ({ yAxis }) => {
  * </ChartContainer>
  * ```
  */
-export function ChartGrid(props: ChartGridProps) {
+export function ChartGrid({ xAxisId, yAxisId, ...props }: ChartGridProps) {
+  const axes = { xAxisId, yAxisId };
   return (
     <>
       <CartesianGrid
         vertical={false}
+        {...axes}
         {...props}
-        stroke="var(--color-neutral-alphas-200)"
+        stroke={GRID_STROKE}
         strokeOpacity={0.4}
       />
       <CartesianGrid
         vertical={false}
+        {...axes}
         horizontalCoordinatesGenerator={zeroRow}
-        xAxisId={props.xAxisId}
-        yAxisId={props.yAxisId}
-        stroke="var(--color-border-strong)"
+        stroke={BASELINE_STROKE}
         zIndex={DefaultZIndexes.line}
       />
-      <ReferenceLine
-        y={0}
-        xAxisId={props.xAxisId}
-        yAxisId={props.yAxisId}
-        stroke="none"
-        ifOverflow="extendDomain"
-      />
+      <ReferenceLine {...axes} y={0} stroke="none" ifOverflow="extendDomain" />
     </>
   );
 }
