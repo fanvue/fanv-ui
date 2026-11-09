@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Line, LineChart, XAxis, YAxis } from "recharts";
 import { ChartContainer } from "./ChartContainer";
-import { ChartGrid, chartGridYDomain } from "./ChartGrid";
+import { ChartGrid } from "./ChartGrid";
 import { ChartTooltip, ChartTooltipContent } from "./ChartTooltip";
 import type { ChartConfig } from "./types";
 
@@ -27,7 +27,7 @@ function NetEarningsChart({ values }: { values: number[] }) {
       <LineChart accessibilityLayer data={values.map((net, i) => ({ day: DAYS[i], net }))}>
         <ChartGrid />
         <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
-        <YAxis domain={chartGridYDomain} tickLine={false} axisLine={false} tickMargin={8} />
+        <YAxis tickLine={false} axisLine={false} tickMargin={8} />
         <ChartTooltip content={<ChartTooltipContent />} />
         <Line type="monotone" dataKey="net" stroke="var(--color-net)" strokeWidth={2} dot={false} />
       </LineChart>

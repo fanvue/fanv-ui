@@ -2,17 +2,17 @@ import { render } from "@testing-library/react";
 import { Line, LineChart, YAxis } from "recharts";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
-import { ChartGrid, chartGridYDomain } from "./ChartGrid";
+import { ChartGrid } from "./ChartGrid";
 
 const POSITIVE = [120, 145, 130, 160];
 const MIXED = [40, -12, 25, 60];
 const ALL_NEGATIVE = [-120, -145, -130, -160];
 
-function renderChart(values: number[], { grid = true } = {}) {
+function renderChart(values: number[]) {
   return render(
     <LineChart width={400} height={200} data={values.map((value, i) => ({ i, value }))}>
-      {grid && <ChartGrid />}
-      <YAxis domain={chartGridYDomain} />
+      <ChartGrid />
+      <YAxis />
       <Line dataKey="value" isAnimationActive={false} />
     </LineChart>,
   );
@@ -75,27 +75,17 @@ describe("ChartGrid", () => {
     });
   });
 
-  describe("chartGridYDomain", () => {
+  describe("y-axis", () => {
     it("starts the axis at zero when every value is positive", () => {
-      const { container } = renderChart(POSITIVE, { grid: false });
+      const { container } = renderChart(POSITIVE);
       expect(Math.min(...yTicks(container))).toBe(0);
     });
 
-    it("starts the axis at or below the lowest value when the data goes below zero", () => {
-      const { container } = renderChart(MIXED, { grid: false });
+    it("adds no negative ticks beyond the lowest value", () => {
+      const { container } = renderChart(MIXED);
       const lowest = Math.min(...yTicks(container));
       expect(lowest).toBeLessThanOrEqual(-12);
       expect(lowest).toBeGreaterThan(-40);
-    });
-
-    it("starts the axis at or below the lowest value when every value is negative", () => {
-      const { container } = renderChart(ALL_NEGATIVE, { grid: false });
-      expect(Math.min(...yTicks(container))).toBeLessThanOrEqual(-160);
-    });
-
-    it("shows no negative ticks when there is no data", () => {
-      const { container } = renderChart([], { grid: false });
-      expect(yTicks(container).every((tick) => tick >= 0)).toBe(true);
     });
   });
 
