@@ -14,6 +14,9 @@ const titleSizeClass: Record<EmptyStateTitleSize, string> = {
   xl: "typography-header-heading-xl",
 };
 
+/** Heading element rendered for a string title. */
+export type EmptyStateTitleAs = "h1" | "h2" | "h3";
+
 export type EmptyStateMediaSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 const mediaSizeClass: Record<EmptyStateMediaSize, string> = {
@@ -50,10 +53,18 @@ export interface EmptyStateProps extends Omit<React.HTMLAttributes<HTMLElement>,
   /** Main heading. Strings use library heading styles; pass a node for full control. */
   title?: EmptyStateSlot;
   /**
-   * Size of the title heading — mapped internally to bold heading typography tokens.
+   * How large the title looks, mapped to bold heading typography tokens. Independent of
+   * `titleAs`, which sets the heading level.
    * @default "lg"
    */
   titleSize?: EmptyStateTitleSize;
+  /**
+   * Heading level of a string title, for screen readers and the page's heading outline
+   * (for example `"h1"` on a whole-page state). Does not change how the title looks; use
+   * `titleSize` for that. Ignored when `title` is a node.
+   * @default "h2"
+   */
+  titleAs?: EmptyStateTitleAs;
   /** Supporting body copy. Strings use library body styles; pass a node for rich text. */
   description?: EmptyStateSlot;
   /**
@@ -85,6 +96,7 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       variant = "default",
       title,
       titleSize = "lg",
+      titleAs: TitleTag = "h2",
       description,
       media,
       mediaSize = "lg",
@@ -127,9 +139,12 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       title === null ||
       title === false ||
       title === "" ? null : isNonEmptyString(title) ? (
-        <h2 id={titleId} className={cn("m-0 text-content-primary", titleSizeClass[titleSize])}>
+        <TitleTag
+          id={titleId}
+          className={cn("m-0 text-content-primary", titleSizeClass[titleSize])}
+        >
           {title}
-        </h2>
+        </TitleTag>
       ) : (
         <div
           id={titleId}

@@ -300,6 +300,7 @@ export {
 export type {
   EmptyStateProps,
   EmptyStateSlot,
+  EmptyStateTitleAs,
   EmptyStateVariant,
 } from "./components/EmptyState/EmptyState";
 export { EmptyState } from "./components/EmptyState/EmptyState";
