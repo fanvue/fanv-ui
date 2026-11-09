@@ -2604,6 +2604,23 @@ function UserItemTrailingDemo() {
           trailing={<UserItemTrailing value="$980.00" meta="3 purchases" />}
         />
       </div>
+      <h3 className="typography-body-default-16px-semibold mt-4 mb-2">UserItem padding</h3>
+      <div className="flex max-w-sm flex-col gap-2">
+        {(["md", "none"] as const).map((padding) => (
+          <div key={padding} className="flex flex-col gap-1">
+            <div className="bg-surface-secondary">
+              <UserItem
+                padding={padding}
+                user={{ displayName: "Jane Doe", handle: "jane_doe" }}
+                avatarSize={32}
+              />
+            </div>
+            <p className="typography-description-12px-regular text-content-secondary">
+              padding={padding}
+            </p>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
