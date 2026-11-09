@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Line, LineChart, XAxis, YAxis } from "recharts";
+import { expect, waitFor } from "storybook/test";
 import { ChartContainer } from "./ChartContainer";
 import { ChartGrid } from "./ChartGrid";
 import { ChartTooltip, ChartTooltipContent } from "./ChartTooltip";
@@ -35,14 +36,33 @@ function NetEarningsChart({ values }: { values: number[] }) {
   );
 }
 
+async function expectSolidGridWithZeroLine({ canvasElement }: { canvasElement: HTMLElement }) {
+  await waitFor(() =>
+    expect(
+      canvasElement.querySelectorAll('.recharts-surface line[stroke="var(--color-border-strong)"]'),
+    ).toHaveLength(1),
+  );
+  await expect(
+    canvasElement.querySelector(".recharts-cartesian-grid [stroke-dasharray]"),
+  ).toBeNull();
+}
+
 export const PositiveValues: Story = {
   render: () => <NetEarningsChart values={[142, 189, 234, 178, 295, 312, 267]} />,
+  play: expectSolidGridWithZeroLine,
 };
 
 export const MixedValues: Story = {
   render: () => <NetEarningsChart values={[42, 18, -24, -61, 12, 75, 38]} />,
+  play: expectSolidGridWithZeroLine,
 };
 
 export const AllNegative: Story = {
   render: () => <NetEarningsChart values={[-120, -145, -130, -160, -138, -152, -125]} />,
+  play: expectSolidGridWithZeroLine,
+};
+
+export const EmptyData: Story = {
+  render: () => <NetEarningsChart values={[]} />,
+  play: expectSolidGridWithZeroLine,
 };
