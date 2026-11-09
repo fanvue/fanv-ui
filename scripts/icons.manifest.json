@@ -96,6 +96,11 @@
       "hasFilled": true
     },
     {
+      "name": "BookmarkIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "BoltIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -177,6 +182,11 @@
     },
     {
       "name": "CoinIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "CommentIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },
@@ -456,6 +466,11 @@
       "hasFilled": true
     },
     {
+      "name": "Pause2Icon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "PauseIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -477,6 +492,11 @@
     },
     {
       "name": "PinIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "Play2Icon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },

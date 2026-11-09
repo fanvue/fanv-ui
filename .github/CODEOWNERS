@@ -1,1 +1,5 @@
+# Reviewer routing lives in docs/review-routing.md, which the Claude review
+# bot in #hackers-support reads to request one human per pull request.
+# Only the default rule stays here, so GitHub does not request every delegate
+# of every touched path the moment a pull request opens.
 * @alfonsovo-fv @simonstaton

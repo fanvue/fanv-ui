@@ -2,6 +2,8 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { Pause2Icon } from "../Icons/Pause2Icon";
+import { Play2Icon } from "../Icons/Play2Icon";
 import { AudioPlayer } from "./AudioPlayer";
 
 function getAudioElement(container: HTMLElement): HTMLAudioElement {
@@ -81,6 +83,22 @@ describe("AudioPlayer", () => {
   });
 
   describe("play/pause", () => {
+    it("renders the bare play triangle, not the circled play glyph", () => {
+      render(<AudioPlayer src="https://example.com/clip.mp3" duration={5} />);
+      const { container: bareGlyph } = render(<Play2Icon size={16} filled />);
+      const buttonGlyph = screen.getByRole("button", { name: "Play" }).querySelector("svg");
+      expect(buttonGlyph?.innerHTML).toBe(bareGlyph.querySelector("svg")?.innerHTML);
+    });
+
+    it("renders the bare pause bars, not the circled pause glyph", async () => {
+      const user = userEvent.setup();
+      render(<AudioPlayer src="https://example.com/clip.mp3" duration={5} />);
+      await user.click(screen.getByRole("button", { name: "Play" }));
+      const { container: bareGlyph } = render(<Pause2Icon size={16} filled />);
+      const buttonGlyph = screen.getByRole("button", { name: "Pause" }).querySelector("svg");
+      expect(buttonGlyph?.innerHTML).toBe(bareGlyph.querySelector("svg")?.innerHTML);
+    });
+
     it("toggles play state, calls onPlay/onPause, and drives the media element (uncontrolled)", async () => {
       const user = userEvent.setup();
       const onPlay = vi.fn();

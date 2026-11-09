@@ -1135,6 +1135,37 @@
           }
         }
       }
+    },
+    "liveGlow": {
+      "0": {
+        "type": "custom-shadow",
+        "value": {
+          "shadowType": "dropShadow",
+          "radius": 16,
+          "color": "{semantic.light.color.live.glowRed}",
+          "offsetX": -2,
+          "offsetY": 2,
+          "spread": 0
+        }
+      },
+      "1": {
+        "type": "custom-shadow",
+        "value": {
+          "shadowType": "dropShadow",
+          "radius": 16,
+          "color": "{semantic.light.color.live.glowPink}",
+          "offsetX": 2,
+          "offsetY": -2,
+          "spread": 0
+        }
+      },
+      "description": null,
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:e1e7d44ed02e93841364bb7bcbdbc4fc38cb5b58,",
+          "exportKey": "effect"
+        }
+      }
     }
   },
   "semantic": {
@@ -1155,6 +1186,11 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "75": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.light.color.blackalpha.75}"
           },
           "100": {
             "description": "",
@@ -3624,6 +3660,20 @@
               }
             }
           },
+          "tableRow": {
+            "description": "Header, footer and toolbar fill of data tables.",
+            "type": "color",
+            "value": "{primitives.light.color.gray.150}",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "exportKey": "variables"
+              }
+            }
+          },
           "primaryInverted": {
             "description": "",
             "type": "color",
@@ -4605,7 +4655,7 @@
             "background": {
               "description": "",
               "type": "color",
-              "value": "{semantic.light.color.neutral-alphas.50}",
+              "value": "{semantic.light.color.neutral-alphas.75}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Light",
@@ -4700,7 +4750,7 @@
           "stroke": {
             "description": "",
             "type": "color",
-            "value": "{semantic.light.color.border.strong}",
+            "value": "{primitives.light.color.gray.300}",
             "extensions": {
               "org.lukasoppermann.figmaDesignTokens": {
                 "mode": "Light",
@@ -5474,6 +5524,98 @@
               }
             }
           }
+        },
+        "live": {
+          "gradientStart": {
+            "type": "color",
+            "value": "#f47bffff",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22812:2",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "gradientEnd": {
+            "type": "color",
+            "value": "#f01932ff",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22812:3",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "glowPink": {
+            "type": "color",
+            "value": "#f8a8ff29",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22812:4",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "glowRed": {
+            "type": "color",
+            "value": "#f019323d",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22812:5",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "endedBackground": {
+            "type": "color",
+            "value": "{primitives.light.color.gray.150}",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22824:2",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "endedContent": {
+            "type": "color",
+            "value": "{primitives.light.color.gray.600}",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Light",
+                "modeId": "4:0",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22824:3",
+                "exportKey": "variables"
+              }
+            }
+          }
         }
       },
       "spacing": {
@@ -5874,6 +6016,11 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "75": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.dark.color.whitealpha.75}"
           },
           "100": {
             "description": "",
@@ -6783,7 +6930,7 @@
             "default": {
               "description": "",
               "type": "color",
-              "value": "{semantic.dark.color.neutral-alphas.200}",
+              "value": "{semantic.dark.color.neutral-alphas.50}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Dark",
@@ -6798,7 +6945,7 @@
             "hover": {
               "description": "",
               "type": "color",
-              "value": "{semantic.dark.color.neutral-alphas.300}",
+              "value": "{semantic.dark.color.neutral-alphas.200}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Dark",
@@ -7103,7 +7250,7 @@
             "default": {
               "description": "",
               "type": "color",
-              "value": "{semantic.dark.color.neutral-alphas.200}",
+              "value": "{semantic.dark.color.neutral-alphas.100}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Dark",
@@ -7118,7 +7265,7 @@
             "hover": {
               "description": "",
               "type": "color",
-              "value": "{semantic.dark.color.neutral-alphas.300}",
+              "value": "{semantic.dark.color.neutral-alphas.200}",
               "extensions": {
                 "org.lukasoppermann.figmaDesignTokens": {
                   "mode": "Dark",
@@ -8339,6 +8486,20 @@
                 "collection": "Semantic",
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "variableId": "VariableID:13938:45765",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "tableRow": {
+            "description": "Header, footer and toolbar fill of data tables.",
+            "type": "color",
+            "value": "#1d1d1dff",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                 "exportKey": "variables"
               }
             }
@@ -10191,6 +10352,98 @@
               }
             }
           }
+        },
+        "live": {
+          "gradientStart": {
+            "type": "color",
+            "value": "#f47bffff",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22812:2",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "gradientEnd": {
+            "type": "color",
+            "value": "#f01932ff",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22812:3",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "glowPink": {
+            "type": "color",
+            "value": "#f8a8ff29",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22812:4",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "glowRed": {
+            "type": "color",
+            "value": "#f019323d",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22812:5",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "endedBackground": {
+            "type": "color",
+            "value": "{primitives.dark.color.gray.850}",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22824:2",
+                "exportKey": "variables"
+              }
+            }
+          },
+          "endedContent": {
+            "type": "color",
+            "value": "{primitives.dark.color.gray.400}",
+            "blendMode": "normal",
+            "extensions": {
+              "org.lukasoppermann.figmaDesignTokens": {
+                "mode": "Dark",
+                "modeId": "4:1",
+                "collection": "Semantic",
+                "scopes": [],
+                "variableId": "VariableID:22824:3",
+                "exportKey": "variables"
+              }
+            }
+          }
         }
       },
       "spacing": {
@@ -11944,6 +12197,11 @@
               }
             }
           },
+          "75": {
+            "type": "color",
+            "value": "#15151513",
+            "blendMode": "normal"
+          },
           "100": {
             "type": "color",
             "value": "#1515151a",
@@ -12125,6 +12383,11 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "75": {
+            "type": "color",
+            "value": "#ffffff13",
+            "blendMode": "normal"
           },
           "100": {
             "type": "color",
@@ -14434,6 +14697,11 @@
               }
             }
           },
+          "75": {
+            "type": "color",
+            "value": "#15151513",
+            "blendMode": "normal"
+          },
           "100": {
             "type": "color",
             "value": "#1515151a",
@@ -14615,6 +14883,11 @@
                 "exportKey": "variables"
               }
             }
+          },
+          "75": {
+            "type": "color",
+            "value": "#ffffff13",
+            "blendMode": "normal"
           },
           "100": {
             "type": "color",

@@ -37,6 +37,20 @@ describe("SwitchField", () => {
       expect(switchEl.getAttribute("aria-describedby")).toBe(helperText.getAttribute("id"));
     });
 
+    it("renders the label semibold by default", () => {
+      render(<SwitchField label="Notifications" />);
+      expect(screen.getByText("Notifications")).toHaveClass(
+        "typography-body-default-16px-semibold",
+      );
+    });
+
+    it("renders a regular-weight label at each size", () => {
+      const { rerender } = render(<SwitchField label="Notifications" labelWeight="regular" />);
+      expect(screen.getByText("Notifications")).toHaveClass("typography-body-default-16px-regular");
+      rerender(<SwitchField label="Notifications" labelWeight="regular" size="small" />);
+      expect(screen.getByText("Notifications")).toHaveClass("typography-body-small-14px-regular");
+    });
+
     it("forwards ref", () => {
       const ref = React.createRef<HTMLButtonElement>();
       render(<SwitchField ref={ref} label="Toggle" />);

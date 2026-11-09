@@ -6,7 +6,8 @@ import { TextField, type TextFieldProps } from "../TextField/TextField";
 
 export type SearchFieldSize = "48" | "40" | "32";
 
-export interface SearchFieldProps extends Omit<TextFieldProps, "type" | "leftIcon"> {
+export interface SearchFieldProps
+  extends Omit<TextFieldProps, "type" | "leftIcon" | "leftIconSize"> {
   /** Size variant of the search field. @default "48" */
   size?: SearchFieldSize;
   /** Callback fired when the clear button is clicked. If provided, a clear button appears when the field has a value. */
@@ -15,6 +16,8 @@ export interface SearchFieldProps extends Omit<TextFieldProps, "type" | "leftIco
   debounceMs?: number;
   /** Minimum number of characters required before onChange fires. The input still updates visually, but onChange is suppressed until the threshold is met. Clearing always fires onClear regardless. */
   minChars?: number;
+  /** Accessible name for the clear button. @default "Clear search" */
+  clearAriaLabel?: string;
 }
 
 /**
@@ -33,7 +36,20 @@ export interface SearchFieldProps extends Omit<TextFieldProps, "type" | "leftIco
  * ```
  */
 export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
-  ({ disabled, onClear, value, debounceMs, minChars, onChange, ...props }, ref) => {
+  (
+    {
+      disabled,
+      onClear,
+      value,
+      debounceMs,
+      minChars,
+      onChange,
+      clearAriaLabel = "Clear search",
+      size = "48",
+      ...props
+    },
+    ref,
+  ) => {
     const [internalValue, setInternalValue] = React.useState(value ?? "");
     const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -82,7 +98,8 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
     }, [onClear]);
 
     const displayValue = debounceMs || minChars ? internalValue : value;
-    const leftIcon = <SearchIcon />;
+    const isCompact = size === "32";
+    const leftIcon = <SearchIcon size={isCompact ? 16 : 24} />;
 
     const showClearButton = onClear && displayValue !== undefined && displayValue !== "";
 
@@ -91,7 +108,7 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
         variant="tertiary"
         size="24"
         icon={<CloseIcon />}
-        aria-label="Clear search"
+        aria-label={clearAriaLabel}
         disabled={disabled}
         onClick={handleClear}
       />
@@ -101,8 +118,10 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       <TextField
         ref={ref}
         type="search"
+        size={size}
         disabled={disabled}
         leftIcon={leftIcon}
+        leftIconSize={isCompact ? "16" : "24"}
         rightIcon={rightIcon}
         value={displayValue}
         onChange={handleChange}

@@ -1,5 +1,180 @@
 # Changelog
 
+## [3.48.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.47.0...ui-v3.48.0) (2026-11-04)
+
+
+### Features
+
+* **Tooltip:** use same-mode secondary surface with hairline border ([#769](https://github.com/fanvue/fanv-ui/issues/769)) ([0bb92ea](https://github.com/fanvue/fanv-ui/commit/0bb92ea2fa8e460b3279d3dad6150af295059ac0))
+* **UndoAlertPrompt:** add V2 Undo Alert Prompt component ([#718](https://github.com/fanvue/fanv-ui/issues/718)) ([766f645](https://github.com/fanvue/fanv-ui/commit/766f6454eb721b131d4702d07f116c5e97292b3d))
+
+
+### Bug Fixes
+
+* **Tabs:** give the pill track a raised surface that shows in dark mode ([#774](https://github.com/fanvue/fanv-ui/issues/774)) ([b29e12e](https://github.com/fanvue/fanv-ui/commit/b29e12e504402d1685b58819eea636d8ee6760b1))
+
+## [3.47.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.46.0...ui-v3.47.0) (2026-11-02)
+
+
+### Features
+
+* **Table:** add TableRowButton and TableTruncatedText for row actions and long text ([#770](https://github.com/fanvue/fanv-ui/issues/770)) ([920d19b](https://github.com/fanvue/fanv-ui/commit/920d19b04ac1e17236845fbfbc90ed7c064ba147))
+
+## [3.46.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.45.0...ui-v3.46.0) (2026-10-30)
+
+
+### Features
+
+* **Icons:** add BookmarkIcon ([#766](https://github.com/fanvue/fanv-ui/issues/766)) ([272d3b9](https://github.com/fanvue/fanv-ui/commit/272d3b9b08bb819b464707d5dad633714dc5b107))
+* **Table:** compact table with toolbar, card pagination and media tiles ([#768](https://github.com/fanvue/fanv-ui/issues/768)) ([9c65860](https://github.com/fanvue/fanv-ui/commit/9c6586084d31cffb53936a08e149fb19b120aa22))
+
+## [3.45.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.44.0...ui-v3.45.0) (2026-10-28)
+
+
+### Features
+
+* **CreatorCard:** replace with new banner card design (GRWT-944) ([#760](https://github.com/fanvue/fanv-ui/issues/760)) ([938eb07](https://github.com/fanvue/fanv-ui/commit/938eb0762816bbfb9b54dcd220dd03bb574db700))
+
+## [3.44.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.43.0...ui-v3.44.0) (2026-10-26)
+
+
+### Features
+
+* **Chip:** add a 36px size and a 16px notification count ([#759](https://github.com/fanvue/fanv-ui/issues/759)) ([808b4c8](https://github.com/fanvue/fanv-ui/commit/808b4c873f260dfb64ad7a5f72ca61a9c1d2e642))
+* **Icons:** update the Menu Open and Menu Close artwork ([#752](https://github.com/fanvue/fanv-ui/issues/752)) ([cd4ef2e](https://github.com/fanvue/fanv-ui/commit/cd4ef2e4dc9eaa888b7abf2ecbe61f285b47d7f8))
+* **Table:** add a wrap prop to TableMobileRow ([#758](https://github.com/fanvue/fanv-ui/issues/758)) ([3222f78](https://github.com/fanvue/fanv-ui/commit/3222f781563c763d9e6902cb6fa6b036b253ba11))
+
+
+### Bug Fixes
+
+* **deps:** bump storybook to 10.6.3 and vite to 7.3.7 (ENG-16911) ([#754](https://github.com/fanvue/fanv-ui/issues/754)) ([2c64d03](https://github.com/fanvue/fanv-ui/commit/2c64d03559f9f05a28ac2a728796707694500e65))
+* **tokens:** lighten the dark secondary button and chip backgrounds to match Figma ([#753](https://github.com/fanvue/fanv-ui/issues/753)) ([963f713](https://github.com/fanvue/fanv-ui/commit/963f713033c06716b2b4e6f580ac00c02fa2c9ba))
+
+## [3.43.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.2...ui-v3.43.0) (2026-10-22)
+
+
+### Features
+
+* **Table:** add the V2 Table Mobile row ([#748](https://github.com/fanvue/fanv-ui/issues/748)) ([10fd139](https://github.com/fanvue/fanv-ui/commit/10fd139b406d2d1835560ea675556ad1a6a9c234))
+
+## [3.42.2](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.1...ui-v3.42.2) (2026-10-19)
+
+
+### Bug Fixes
+
+* **tokens:** match the light reply quote background to Figma ([#746](https://github.com/fanvue/fanv-ui/issues/746)) ([e914729](https://github.com/fanvue/fanv-ui/commit/e9147299ffda6e57871602cd1c483e21e6b6c3c0))
+
+## [3.42.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.0...ui-v3.42.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* **TabsOverflow:** keep the trigger's label until its menu has closed ([#743](https://github.com/fanvue/fanv-ui/issues/743)) ([82dfc2a](https://github.com/fanvue/fanv-ui/commit/82dfc2a70b188b8d3a28a62d4a45addd564020a9))
+
+## [3.42.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.41.0...ui-v3.42.0) (2026-10-14)
+
+
+### Features
+
+* **Tabs:** add a pill appearance and overflow menu to TabsList ([#739](https://github.com/fanvue/fanv-ui/issues/739)) ([54c605e](https://github.com/fanvue/fanv-ui/commit/54c605e04fbd83e95440287fab669dff2b8e5159))
+
+
+### Bug Fixes
+
+* **Dialog:** let the closing animation play, and ignore clicks while it does ([#740](https://github.com/fanvue/fanv-ui/issues/740)) ([8a3c57e](https://github.com/fanvue/fanv-ui/commit/8a3c57e2c3b677f4cbefa98f1dc325548035b2e3))
+
+## [3.41.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.40.1...ui-v3.41.0) (2026-10-09)
+
+
+### Features
+
+* **icons:** add CommentIcon from Figma ([#738](https://github.com/fanvue/fanv-ui/issues/738)) ([5facbf8](https://github.com/fanvue/fanv-ui/commit/5facbf8b0c44ea0b7797f78d0fe031975f19aec9))
+
+
+### Bug Fixes
+
+* **Checkbox:** draw the hover ring inset so overflow containers can't clip it (ENG-15599) ([#735](https://github.com/fanvue/fanv-ui/issues/735)) ([9e68d9e](https://github.com/fanvue/fanv-ui/commit/9e68d9ec3c23bd62acb91f9fd8bd7e29a25e7e14))
+
+## [3.40.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.40.0...ui-v3.40.1) (2026-10-07)
+
+
+### Bug Fixes
+
+* **DropdownMenu:** restore the v2 panel and make rows and search concentric with it ([#734](https://github.com/fanvue/fanv-ui/issues/734)) ([18bff94](https://github.com/fanvue/fanv-ui/commit/18bff94b2cb36b03ad195cf9bbf93ef8e88548a9))
+
+## [3.40.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.39.0...ui-v3.40.0) (2026-10-06)
+
+
+### Features
+
+* **Dialog,Drawer:** drag bottom sheets down to dismiss ([#724](https://github.com/fanvue/fanv-ui/issues/724)) ([962528d](https://github.com/fanvue/fanv-ui/commit/962528d16309756b894d26eb88aaa7e24949b2de))
+
+
+### Bug Fixes
+
+* chat inbox design QA for SearchField, Chip, Checkbox and DropdownMenu ([#723](https://github.com/fanvue/fanv-ui/issues/723)) ([dd12a50](https://github.com/fanvue/fanv-ui/commit/dd12a5040f8738c65242ad0d04bf15a3ae7df001))
+* **deps:** override source-map-js to &gt;=1.2.2 ([#733](https://github.com/fanvue/fanv-ui/issues/733)) ([4b9ecab](https://github.com/fanvue/fanv-ui/commit/4b9ecab9e27dcb798bbc32c90ff349ad472f2d2a))
+
+## [3.39.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.38.0...ui-v3.39.0) (2026-10-05)
+
+
+### Features
+
+* **ChatEmbed:** add verifiedLabel for the verified badge ([#725](https://github.com/fanvue/fanv-ui/issues/725)) ([38122a8](https://github.com/fanvue/fanv-ui/commit/38122a893cf66c77df02e977d607f5613bd98f74))
+
+## [3.38.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.37.1...ui-v3.38.0) (2026-10-05)
+
+
+### Features
+
+* **ChatEmbed:** add chat embed cards and the LiveStatus badge ([#719](https://github.com/fanvue/fanv-ui/issues/719)) ([8774371](https://github.com/fanvue/fanv-ui/commit/877437182b52f13c185f22f5ce397736094b60c1))
+* **DropdownMenu:** align the menu, modal stroke and switch label with the v2 design ([#720](https://github.com/fanvue/fanv-ui/issues/720)) ([404a44f](https://github.com/fanvue/fanv-ui/commit/404a44f311ff0ea6b4001c4558917a99a54b70c5))
+
+
+### Bug Fixes
+
+* **deps:** bump lint-staged and style-dictionary to drop vulnerable braces ([#722](https://github.com/fanvue/fanv-ui/issues/722)) ([790e1ab](https://github.com/fanvue/fanv-ui/commit/790e1aba9ce1fdf8d9a335d2bc8414c87ea6a38c))
+
+## [3.37.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.37.0...ui-v3.37.1) (2026-09-27)
+
+
+### Bug Fixes
+
+* **VoiceNote:** use bare play/pause glyphs to match the V2 Waveform design ([#716](https://github.com/fanvue/fanv-ui/issues/716)) ([cbe6b83](https://github.com/fanvue/fanv-ui/commit/cbe6b832785f02b14a21e44c47dc0d95bbdfd63e))
+
+## [3.37.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.36.0...ui-v3.37.0) (2026-09-23)
+
+
+### Features
+
+* **SearchField:** allow overriding the clear button label ([#715](https://github.com/fanvue/fanv-ui/issues/715)) ([e4f060e](https://github.com/fanvue/fanv-ui/commit/e4f060e0426585c649089c9583ee87526b0f468e))
+
+
+### Bug Fixes
+
+* **AudioPlayer:** use bare play/pause glyphs and scale the waveform to the clip ([#702](https://github.com/fanvue/fanv-ui/issues/702)) ([b05cb86](https://github.com/fanvue/fanv-ui/commit/b05cb860869d1eed90aad88ff4920c33146d3adf))
+
+## [3.36.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.35.0...ui-v3.36.0) (2026-09-17)
+
+
+### Features
+
+* **icons:** add Play2Icon and Pause2Icon from Figma ([#705](https://github.com/fanvue/fanv-ui/issues/705)) ([62180ff](https://github.com/fanvue/fanv-ui/commit/62180ff91568f17aa60dfdba05d757c359a93431))
+
+## [3.35.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.34.1...ui-v3.35.0) (2026-09-17)
+
+
+### Features
+
+* **Select:** add the filled trigger variant for table tab actions (ENG-14747) ([#703](https://github.com/fanvue/fanv-ui/issues/703)) ([0fd0829](https://github.com/fanvue/fanv-ui/commit/0fd08299145025a2787272c5548f4209d10ac2cc))
+
+
+### Bug Fixes
+
+* **AiButton:** fill the resting pill with the AI surface tokens ([#696](https://github.com/fanvue/fanv-ui/issues/696)) ([69957d5](https://github.com/fanvue/fanv-ui/commit/69957d5d147d5cf7ffe7c02c08427142e6433c70))
+* **AudioPlayer:** keep the timer a fixed width so the waveform never reflows ([#700](https://github.com/fanvue/fanv-ui/issues/700)) ([07b08cc](https://github.com/fanvue/fanv-ui/commit/07b08cc2dfea38d0c37bf3d29ccbeac176cd54f9))
+* **CogIcon:** centre the gear glyph in its viewBox (ENG-14521) ([#697](https://github.com/fanvue/fanv-ui/issues/697)) ([0e40991](https://github.com/fanvue/fanv-ui/commit/0e409914234fbef3b2ddf44b7043a8ce5f9f0ba9))
+
 ## [3.34.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.34.0...ui-v3.34.1) (2026-09-09)
 
 

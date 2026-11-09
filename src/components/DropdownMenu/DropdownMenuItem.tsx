@@ -1,8 +1,8 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { Slot } from "@radix-ui/react-slot";
+import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { CheckIcon } from "../Icons/CheckIcon";
+import { MenuRowIcon } from "../Icons/MenuRowIcon";
 import { DropdownMenuVariantContext, ToggleOpenContext } from "./context";
 
 /** Vertical placement of a {@link DropdownMenuLabel} within its group. */
@@ -64,7 +64,7 @@ const SIZE_NORMALIZED: Record<DropdownMenuItemSize, "40" | "32"> = {
 };
 
 const ITEM_SIZE_CLASSES: Record<"40" | "32", string> = {
-  "40": "min-h-10 py-2 typography-body-default-16px-regular",
+  "40": "min-h-10 py-2 typography-body-small-14px-regular",
   "32": "min-h-8 py-[7px] typography-body-small-14px-regular",
 };
 
@@ -83,33 +83,17 @@ const ITEM_COUNT_TYPOGRAPHY: Record<"40" | "32", string> = {
   "32": "typography-body-small-14px-regular",
 };
 
-// Background alone can't reliably tell "selected" apart from a
-// hovered-but-unselected row across every theme/contrast combination (see the
-// neutral-alphas fix on itemClassName below) — pair it with an explicit
-// indicator, matching SelectItem's check indicator for the same V2 Menu Item
-// spec.
-function SelectedCheckIndicator({ hasDescription }: { hasDescription: boolean }) {
-  return (
-    <CheckIcon
-      className={cn(
-        "size-4 shrink-0 text-content-primary",
-        // The two-line layout switches the row to `items-start`, which would hang
-        // the tick off the title's line. A leading icon or avatar belongs there —
-        // it labels the title — but the tick is a property of the whole row, so it
-        // centres against both lines. {@link SelectItem} already does this.
-        hasDescription && "self-center",
-      )}
-    />
-  );
-}
-
 export interface DropdownMenuItemProps
   extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> {
   /** Height of the menu item row. @default "40" */
   size?: DropdownMenuItemSize;
   /** Applies the destructive (error) treatment. Use for irreversible actions. @default false */
   destructive?: boolean;
-  /** Icon (or other node) rendered before the label. Ignored when {@link DropdownMenuItemProps.avatar} is set. */
+  /**
+   * Icon (or other node) rendered before the label. Ignored when {@link DropdownMenuItemProps.avatar} is set.
+   * Icons sit in a 16px box in `Icons/Secondary`, and prop-based icons draw filled at 16px unless they set
+   * `filled` or `size` themselves (`filled={false}` opts out). Legacy icons such as `TrashBinIcon` stay outlined.
+   */
   leadingIcon?: React.ReactNode;
   /**
    * Leading avatar rendered in place of {@link DropdownMenuItemProps.leadingIcon},
@@ -118,11 +102,7 @@ export interface DropdownMenuItemProps
    */
   avatar?: React.ReactNode;
   /**
-   * Icon (or other node) rendered after the label. When
-   * {@link DropdownMenuItemProps.selected} is true and no `trailingIcon` is
-   * given, the built-in selected check indicator renders in this slot
-   * instead — pass a `trailingIcon` to use a custom selected indicator (e.g.
-   * a themed tick) rather than the default one.
+   * Icon (or other node) rendered after the label. Treated like {@link DropdownMenuItemProps.leadingIcon}.
    */
   trailingIcon?: React.ReactNode;
   /** Trailing count or number (e.g. an unread total) rendered before {@link DropdownMenuItemProps.trailingIcon}. */
@@ -191,15 +171,15 @@ export const DropdownMenuItem = React.forwardRef<
       "group flex w-full cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
       hasDescription ? "items-start" : "items-center",
       // The sheet's header runs the full width of the panel, so its rows have to
-      // come in off the edge themselves — 12px here on the panel's own 4px is the
-      // design's 16px. `w-auto` lets the column stretch them to the space left
-      // over; `w-full` plus a margin would overflow.
-      variant === "sheet" && "mx-3 w-auto",
+      // come in off the edge themselves — 4px here on the panel's own 4px gives the
+      // same 8px inset as the popper panel. `w-auto` lets the column stretch them
+      // to the space left over; `w-full` plus a margin would overflow.
+      variant === "sheet" && "mx-1 w-auto",
       ITEM_SIZE_CLASSES[normalizedSize],
       // A 24px avatar would push the compact 32px row past its height with the
       // default padding; tighten it so the avatar variant keeps the 32px contract.
       hasAvatar && !hasDescription && normalizedSize === "32" && "py-1",
-      "data-[highlighted]:bg-neutral-alphas-50",
+      "data-[highlighted]:bg-interaction-hover",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
       "disabled:cursor-not-allowed disabled:text-content-disabled",
       // Sheet-variant asChild items are marked disabled via aria-disabled
@@ -207,13 +187,21 @@ export const DropdownMenuItem = React.forwardRef<
       // data-disabled — neither selector above matches them.
       "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
       destructive && "text-error-content",
-      // bg-interaction-hover aliases to the same token as the plain hover
-      // background above, so a selected row would be indistinguishable from a
-      // hovered-but-unselected one. Use the next step up the neutral-alphas
-      // ramp instead (still a subtle overlay, not the heavy filled style).
-      selected && ["bg-neutral-alphas-100", "data-[highlighted]:bg-neutral-alphas-200"],
+      // Selected: the same `Interaction/Hover` fill as a highlighted row (library
+      // node `23452:13432`), so the current value reads as the resting highlight.
+      selected && "bg-interaction-hover",
       className,
     );
+    // The selected row shares the hover fill, so it also carries the state in the
+    // markup: `aria-current` for assistive tech and `data-selected` for styling.
+    // A consumer that already exposes the state (e.g. `menuitemradio` with
+    // `aria-checked`) keeps it, without a second `aria-current` on top.
+    const selectedProps = selected
+      ? {
+          ...(props["aria-checked"] === undefined && { "aria-current": "true" as const }),
+          "data-selected": "",
+        }
+      : undefined;
 
     // In the two-line (description) layout everything beside the title sits on
     // the title's line, not the centre of the two-line block. A box the height of
@@ -222,7 +210,7 @@ export const DropdownMenuItem = React.forwardRef<
     // `typography-body-small-14px-semibold`; a `pt-*` nudge cannot do this because
     // the correct offset differs per sibling, and the previous `pt-1` was computed
     // against the single-line title's 24px leading, leaving all four 3px low.
-    const iconAlignClassName = hasDescription ? "flex h-[18px] shrink-0 items-center" : null;
+    const iconAlignClassName = hasDescription ? "flex h-4.5 shrink-0 items-center" : null;
 
     const countNode = count != null && (
       <span
@@ -238,32 +226,25 @@ export const DropdownMenuItem = React.forwardRef<
       </span>
     );
 
-    // A caller-supplied trailingIcon always wins the trailing slot — some
-    // consumers pass their own selected indicator (e.g. a themed tick) and
-    // rely on it being shown as-is rather than replaced. Only fall back to
-    // the built-in check indicator when selected and no trailingIcon is given.
+    // Destructive rows keep the row's error colour on their icons.
+    const renderIcon = (icon: React.ReactNode, className?: string) => (
+      <MenuRowIcon inheritColor={destructive} alignToTitle={hasDescription} className={className}>
+        {icon}
+      </MenuRowIcon>
+    );
+    const leadingNode = leadingIcon != null && renderIcon(leadingIcon);
+
+    // In an asChild row the consumer's children have no flex-1 wrapper, so `ms-auto`
+    // pushes the trailing icon to the row's end.
     const trailingNode =
-      trailingIcon != null ? (
-        hasDescription ? (
-          <span className={iconAlignClassName!}>{trailingIcon}</span>
-        ) : (
-          trailingIcon
-        )
-      ) : (
-        selected && <SelectedCheckIndicator hasDescription={hasDescription} />
-      );
+      trailingIcon != null && renderIcon(trailingIcon, asChild ? "ms-auto" : undefined);
 
     const itemChildren = (
       <>
         {avatar != null ? (
           <span className={cn("shrink-0", iconAlignClassName)}>{avatar}</span>
         ) : (
-          leadingIcon != null &&
-          (hasDescription ? (
-            <span className={iconAlignClassName!}>{leadingIcon}</span>
-          ) : (
-            leadingIcon
-          ))
+          leadingNode
         )}
         {hasDescription ? (
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -271,7 +252,7 @@ export const DropdownMenuItem = React.forwardRef<
              * The two-line row sets its own title type rather than inheriting the
              * row's: `V2 Menu Item` pairs a 14px semibold title with the 14px
              * regular description below it, where a single-line row's title is the
-             * size's own 16px regular. It also settles the row's height — 18 + 2 +
+             * size's own 14px regular. It also settles the row's height — 18 + 2 +
              * 18 of text inside `py-2` is the design's 54px.
              */}
             <span className="typography-body-small-14px-semibold truncate">{children}</span>
@@ -313,6 +294,7 @@ export const DropdownMenuItem = React.forwardRef<
           {...sheetSpecificProps}
           role="option"
           aria-selected={selected}
+          data-selected={selected ? "" : undefined}
           className={itemClassName}
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
             // A native <button disabled> already blocks its click event, but
@@ -334,7 +316,9 @@ export const DropdownMenuItem = React.forwardRef<
             if (!event.nativeEvent.defaultPrevented) toggleOpen?.(() => false);
           }}
         >
-          {asChild ? children : itemChildren}
+          {asChild
+            ? [leadingNode, <Slottable key="children">{children}</Slottable>, trailingNode]
+            : itemChildren}
         </Comp>
       );
     }
@@ -347,9 +331,15 @@ export const DropdownMenuItem = React.forwardRef<
           className={itemClassName}
           disabled={disabled}
           onSelect={onSelect}
+          {...selectedProps}
           {...props}
         >
-          {children}
+          {/* The icons slot into the consumer's element (e.g. a link) around its own children. */}
+          <Slot>
+            {leadingNode}
+            <Slottable>{children}</Slottable>
+            {trailingNode}
+          </Slot>
         </DropdownMenuPrimitive.Item>
       );
     }
@@ -360,6 +350,7 @@ export const DropdownMenuItem = React.forwardRef<
         className={itemClassName}
         disabled={disabled}
         onSelect={onSelect}
+        {...selectedProps}
         {...props}
       >
         {itemChildren}

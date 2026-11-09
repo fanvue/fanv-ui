@@ -142,6 +142,18 @@ export {
   CardTitle,
 } from "./components/Card/Card";
 export type {
+  ChatEmbedProps,
+  ChatEmbedSkeletonProps,
+  ChatEmbedSocialProof,
+  ChatEmbedUnavailableProps,
+  ChatEmbedVariant,
+} from "./components/ChatEmbed/ChatEmbed";
+export {
+  ChatEmbed,
+  ChatEmbedSkeleton,
+  ChatEmbedUnavailable,
+} from "./components/ChatEmbed/ChatEmbed";
+export type {
   ChatInputAttachmentItem,
   ChatInputProps,
   ChatInputSelectOption,
@@ -159,7 +171,12 @@ export type {
   CheckboxSize,
 } from "./components/Checkbox/Checkbox";
 export { Checkbox } from "./components/Checkbox/Checkbox";
-export type { ChipProps, ChipSize, ChipVariant } from "./components/Chip/Chip";
+export type {
+  ChipNotificationSize,
+  ChipProps,
+  ChipSize,
+  ChipVariant,
+} from "./components/Chip/Chip";
 export { Chip } from "./components/Chip/Chip";
 export type {
   CountProps,
@@ -337,6 +354,8 @@ export type { BellOffIconProps } from "./components/Icons/BellOffIcon";
 export { BellOffIcon } from "./components/Icons/BellOffIcon";
 export type { BoltIconProps } from "./components/Icons/BoltIcon";
 export { BoltIcon } from "./components/Icons/BoltIcon";
+export type { BookmarkIconProps } from "./components/Icons/BookmarkIcon";
+export { BookmarkIcon } from "./components/Icons/BookmarkIcon";
 export type { BulbIconProps } from "./components/Icons/BulbIcon";
 export { BulbIcon } from "./components/Icons/BulbIcon";
 export type { Calendar2IconProps } from "./components/Icons/Calendar2Icon";
@@ -373,6 +392,8 @@ export type { CogIconProps } from "./components/Icons/CogIcon";
 export { CogIcon } from "./components/Icons/CogIcon";
 export type { CoinIconProps } from "./components/Icons/CoinIcon";
 export { CoinIcon } from "./components/Icons/CoinIcon";
+export type { CommentIconProps } from "./components/Icons/CommentIcon";
+export { CommentIcon } from "./components/Icons/CommentIcon";
 export type { CompassIconProps } from "./components/Icons/CompassIcon";
 export { CompassIcon } from "./components/Icons/CompassIcon";
 export type { CopyIconProps } from "./components/Icons/CopyIcon";
@@ -495,6 +516,8 @@ export { MoreVerticalIcon } from "./components/Icons/MoreVerticalIcon";
 export type { NewMessageIconProps } from "./components/Icons/NewMessageIcon";
 export { NewMessageIcon } from "./components/Icons/NewMessageIcon";
 export { OpenIcon } from "./components/Icons/OpenIcon";
+export type { Pause2IconProps } from "./components/Icons/Pause2Icon";
+export { Pause2Icon } from "./components/Icons/Pause2Icon";
 export type { PauseIconProps } from "./components/Icons/PauseIcon";
 export { PauseIcon } from "./components/Icons/PauseIcon";
 export { PeopleIcon } from "./components/Icons/PeopleIcon";
@@ -506,6 +529,8 @@ export type { Pin2IconProps } from "./components/Icons/Pin2Icon";
 export { Pin2Icon } from "./components/Icons/Pin2Icon";
 export type { PinIconProps } from "./components/Icons/PinIcon";
 export { PinIcon } from "./components/Icons/PinIcon";
+export type { Play2IconProps } from "./components/Icons/Play2Icon";
+export { Play2Icon } from "./components/Icons/Play2Icon";
 export type { PlayIconProps } from "./components/Icons/PlayIcon";
 export { PlayIcon } from "./components/Icons/PlayIcon";
 export { PlusIcon } from "./components/Icons/PlusIcon";
@@ -635,6 +660,8 @@ export type {
 export { InlineEdit } from "./components/InlineEdit/InlineEdit";
 export type { LinkProps, LinkSize, LinkVariant } from "./components/Link/Link";
 export { Link } from "./components/Link/Link";
+export type { LiveStatusProps, LiveStatusVariant } from "./components/LiveStatus/LiveStatus";
+export { LiveStatus } from "./components/LiveStatus/LiveStatus";
 export type { LoaderProps } from "./components/Loader/Loader";
 export { Loader } from "./components/Loader/Loader";
 export type {
@@ -644,6 +671,8 @@ export type {
   LogoVariant,
 } from "./components/Logo/Logo";
 export { Logo } from "./components/Logo/Logo";
+export type { MediaPlayChipProps } from "./components/MediaPlayChip/MediaPlayChip";
+export { formatPlayChipDuration, MediaPlayChip } from "./components/MediaPlayChip/MediaPlayChip";
 export type {
   MediaStatusIndicatorProps,
   MediaStatusIndicatorStatus,
@@ -783,6 +812,7 @@ export type {
 } from "./components/SwitchButton/SwitchButton";
 export { SwitchButton } from "./components/SwitchButton/SwitchButton";
 export type {
+  SwitchFieldLabelWeight,
   SwitchFieldOrientation,
   SwitchFieldProps,
 } from "./components/SwitchField/SwitchField";
@@ -808,18 +838,23 @@ export type {
   TableLineClampProps,
   TableMediaThumbnailProps,
   TableMediaThumbnailSize,
+  TableMediaTileProps,
   TablePillProgressLayoutProps,
   TableProgressTrackProps,
   TableProps,
+  TableRowButtonProps,
   TableRowProps,
-  TableRowsPerPageSelectProps,
   TableScrollAreaProps,
   TableSize,
   TableSortDirection,
   TableSortLabelProps,
   TableStackedTextProps,
   TableStatusDotProps,
+  TableToolbarActionProps,
+  TableToolbarButtonProps,
   TableToolbarProps,
+  TableToolbarSearchProps,
+  TableTruncatedTextProps,
 } from "./components/Table/Table";
 export {
   Table,
@@ -833,27 +868,37 @@ export {
   TableHeader,
   TableLineClamp,
   TableMediaThumbnail,
+  TableMediaTile,
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
-  TableRowsPerPageSelect,
+  TableRowButton,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
   TableStatusDot,
   TableToolbar,
+  TableToolbarAction,
+  TableToolbarButton,
+  TableToolbarSearch,
+  TableTruncatedText,
 } from "./components/Table/Table";
-export type {
-  TablePaginationLayout,
-  TablePaginationProps,
-} from "./components/Table/TablePagination";
-export { TablePagination } from "./components/Table/TablePagination";
+export type { TableMobileRowProps } from "./components/Table/TableMobileRow";
+export { TableMobileRow } from "./components/Table/TableMobileRow";
+export type { TableCardPaginationProps } from "./components/Table/TablePagination";
+export { TableCardPagination } from "./components/Table/TablePagination";
 export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";
 export { TabsContent } from "./components/Tabs/TabsContent";
-export type { TabsListProps } from "./components/Tabs/TabsList";
+export type {
+  TabsListAppearance,
+  TabsListPillSize,
+  TabsListProps,
+} from "./components/Tabs/TabsList";
 export { TabsList } from "./components/Tabs/TabsList";
+export type { TabsOverflowItemProps, TabsOverflowProps } from "./components/Tabs/TabsOverflow";
+export { TabsOverflow, TabsOverflowItem } from "./components/Tabs/TabsOverflow";
 export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
 export type {
@@ -893,6 +938,11 @@ export type {
   TrendPillProps,
 } from "./components/TrendPill/TrendPill";
 export { TrendPill } from "./components/TrendPill/TrendPill";
+export type {
+  UndoAlertPromptProps,
+  UndoAlertPromptType,
+} from "./components/UndoAlertPrompt/UndoAlertPrompt";
+export { UndoAlertPrompt } from "./components/UndoAlertPrompt/UndoAlertPrompt";
 export type { UserDisplayNameProps } from "./components/UserDisplayName/UserDisplayName";
 export { UserDisplayName } from "./components/UserDisplayName/UserDisplayName";
 export type { UserHandleProps } from "./components/UserHandle/UserHandle";

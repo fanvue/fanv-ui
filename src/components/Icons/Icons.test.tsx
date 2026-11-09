@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react";
+import type * as React from "react";
 import { createRef } from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { AddCircleIcon } from "./AddCircleIcon";
 import { AddIcon } from "./AddIcon";
@@ -23,6 +24,7 @@ import { BankIcon } from "./BankIcon";
 import { BellIcon } from "./BellIcon";
 import { BellOffIcon } from "./BellOffIcon";
 import { BoltIcon } from "./BoltIcon";
+import { BookmarkIcon } from "./BookmarkIcon";
 import { BulbIcon } from "./BulbIcon";
 import { Calendar2Icon } from "./Calendar2Icon";
 import { CalendarIcon } from "./CalendarIcon";
@@ -43,6 +45,7 @@ import { CloseIcon } from "./CloseIcon";
 import { CodeIcon } from "./CodeIcon";
 import { CogIcon } from "./CogIcon";
 import { CoinIcon } from "./CoinIcon";
+import { CommentIcon } from "./CommentIcon";
 import { CompassIcon } from "./CompassIcon";
 import { CopyIcon } from "./CopyIcon";
 import { CrossCircleIcon } from "./CrossCircleIcon";
@@ -83,6 +86,7 @@ import { HeartIcon } from "./HeartIcon";
 import { HelpIcon } from "./HelpIcon";
 import { HomeIcon } from "./HomeIcon";
 import { HourglassIcon } from "./HourglassIcon";
+import { IconDefaultsContext } from "./IconDefaults";
 import { ImageIcon } from "./ImageIcon";
 import { ImageUploadIcon } from "./ImageUploadIcon";
 import { InboxIcon } from "./InboxIcon";
@@ -110,12 +114,14 @@ import { MoreIcon } from "./MoreIcon";
 import { MoreVerticalIcon } from "./MoreVerticalIcon";
 import { NewMessageIcon } from "./NewMessageIcon";
 import { OpenIcon } from "./OpenIcon";
+import { Pause2Icon } from "./Pause2Icon";
 import { PauseIcon } from "./PauseIcon";
 import { PeopleIcon } from "./PeopleIcon";
 import { PhoneIcon } from "./PhoneIcon";
 import { PhoneOffIcon } from "./PhoneOffIcon";
 import { Pin2Icon } from "./Pin2Icon";
 import { PinIcon } from "./PinIcon";
+import { Play2Icon } from "./Play2Icon";
 import { PlayIcon } from "./PlayIcon";
 import { PlusIcon } from "./PlusIcon";
 import { PrivacyIcon } from "./PrivacyIcon";
@@ -230,6 +236,7 @@ const propBasedIcons = [
   { name: "BellIcon", Component: BellIcon, hasFilled: true },
   { name: "BellOffIcon", Component: BellOffIcon, hasFilled: true },
   { name: "BoltIcon", Component: BoltIcon, hasFilled: true },
+  { name: "BookmarkIcon", Component: BookmarkIcon, hasFilled: true },
   { name: "BulbIcon", Component: BulbIcon, hasFilled: true },
   { name: "Calendar2Icon", Component: Calendar2Icon, hasFilled: true },
   { name: "CalendarIcon", Component: CalendarIcon, hasFilled: true },
@@ -246,6 +253,7 @@ const propBasedIcons = [
   { name: "CodeIcon", Component: CodeIcon, hasFilled: true },
   { name: "CogIcon", Component: CogIcon, hasFilled: true },
   { name: "CoinIcon", Component: CoinIcon, hasFilled: true },
+  { name: "CommentIcon", Component: CommentIcon, hasFilled: true },
   { name: "CompassIcon", Component: CompassIcon, hasFilled: true },
   { name: "CopyIcon", Component: CopyIcon, hasFilled: true },
   { name: "CrossCircleIcon", Component: CrossCircleIcon, hasFilled: true },
@@ -301,11 +309,13 @@ const propBasedIcons = [
   { name: "MoreIcon", Component: MoreIcon, hasFilled: false },
   { name: "MoreVerticalIcon", Component: MoreVerticalIcon, hasFilled: false },
   { name: "NewMessageIcon", Component: NewMessageIcon, hasFilled: true },
+  { name: "Pause2Icon", Component: Pause2Icon, hasFilled: true },
   { name: "PauseIcon", Component: PauseIcon, hasFilled: true },
   { name: "PhoneIcon", Component: PhoneIcon, hasFilled: true },
   { name: "PhoneOffIcon", Component: PhoneOffIcon, hasFilled: true },
   { name: "Pin2Icon", Component: Pin2Icon, hasFilled: true },
   { name: "PinIcon", Component: PinIcon, hasFilled: true },
+  { name: "Play2Icon", Component: Play2Icon, hasFilled: true },
   { name: "PlayIcon", Component: PlayIcon, hasFilled: true },
   { name: "PrivacyIcon", Component: PrivacyIcon, hasFilled: true },
   { name: "ProgrammingArrowIcon", Component: ProgrammingArrowIcon, hasFilled: true },
@@ -434,4 +444,43 @@ describe("Icons", () => {
       }
     });
   }
+});
+
+describe("IconDefaultsContext", () => {
+  const withDefaults = (ui: React.ReactNode) =>
+    render(
+      <IconDefaultsContext.Provider value={{ filled: true, size: 16 }}>
+        {ui}
+      </IconDefaultsContext.Provider>,
+    );
+  const layers = (svg: Element | null) => svg?.querySelectorAll("g") ?? [];
+
+  it("draws an icon at the default size and filled", () => {
+    const { container } = withDefaults(<EditIcon />);
+    const svg = container.querySelector("svg");
+    expect(svg).toHaveAttribute("viewBox", "0 0 16 16");
+    expect(layers(svg)[1]).toHaveClass("opacity-100");
+  });
+
+  it("lets the icon's own props beat the defaults", () => {
+    const { container } = withDefaults(<EditIcon size={24} filled={false} />);
+    const svg = container.querySelector("svg");
+    expect(svg).toHaveAttribute("viewBox", "0 0 24 24");
+    expect(layers(svg)[0]).toHaveClass("opacity-100");
+  });
+
+  it("skips a default size the icon has no artwork for", () => {
+    const { container } = withDefaults(<AICallIcon />);
+    const svg = container.querySelector("svg");
+    expect(svg).toHaveAttribute("viewBox", "0 0 24 24");
+    expect(svg?.querySelectorAll("path").length).toBeGreaterThan(0);
+  });
+
+  it("skips the filled default when the icon has no filled artwork", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { container } = withDefaults(<AddIcon />);
+    expect(container.querySelector("svg")).toHaveAttribute("viewBox", "0 0 16 16");
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
 });

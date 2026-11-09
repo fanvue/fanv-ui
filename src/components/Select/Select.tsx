@@ -4,9 +4,18 @@ import { cn } from "@/utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
+import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
+import { MenuRowIcon } from "../Icons/MenuRowIcon";
 
 /** Select field height in pixels. */
 export type SelectSize = "48" | "40" | "32";
+
+/**
+ * Trigger surface. `"default"` is the bordered input field; `"filled"` is the
+ * V2 Table Tab Actions pill: a `background-secondary` fill with no border and a
+ * centred `content-tertiary` label, for filters that sit beside a table or chart.
+ */
+export type SelectVariant = "default" | "filled";
 
 type SelectContextValue = {
   size: SelectSize;
@@ -54,6 +63,8 @@ export interface SelectProps extends Omit<SelectPrimitive.SelectProps, "dir"> {
   helperText?: string;
   /** Height of the select field in pixels. @default "48" */
   size?: SelectSize;
+  /** Trigger surface. See {@link SelectVariant}. @default "default" */
+  variant?: SelectVariant;
   /** Whether the field is in an error state. @default false */
   error?: boolean;
   /** Error message displayed below the trigger. Shown instead of `helperText` when `error` is `true`. */
@@ -95,6 +106,7 @@ export const Select = React.forwardRef<
       label,
       helperText,
       size = "48",
+      variant = "default",
       error = false,
       errorMessage,
       placeholder,
@@ -114,6 +126,7 @@ export const Select = React.forwardRef<
     const triggerId = id ?? generatedId;
     const helperTextId = `${triggerId}-helper`;
     const bottomText = error && errorMessage ? errorMessage : helperText;
+    const isFilled = variant === "filled";
 
     return (
       <SelectContext.Provider value={{ size, error, disabled }}>
@@ -140,15 +153,24 @@ export const Select = React.forwardRef<
               aria-describedby={bottomText ? helperTextId : undefined}
               aria-invalid={error || undefined}
               className={cn(
-                "flex w-full cursor-pointer items-center justify-between rounded-sm border bg-inputs-inputs-primary outline-none focus-visible:shadow-focus-ring motion-safe:transition-colors",
+                "flex w-full cursor-pointer items-center rounded-sm border outline-none focus-visible:shadow-focus-ring motion-safe:transition-colors",
                 TRIGGER_HEIGHT[size],
-                TRIGGER_PADDING_X[size],
+                isFilled ? "px-2" : TRIGGER_PADDING_X[size],
                 TRIGGER_GAP[size],
                 TRIGGER_TYPOGRAPHY[size],
-                error ? "border-error-content" : "border-border-primary",
+                isFilled
+                  ? "justify-center bg-background-secondary text-content-tertiary"
+                  : "justify-between bg-inputs-inputs-primary",
+                error
+                  ? "border-error-content"
+                  : isFilled
+                    ? "border-transparent"
+                    : "border-border-primary",
                 !disabled &&
                   !error &&
-                  "hover:border-neutral-alphas-400 data-[state=open]:border-neutral-alphas-400",
+                  (isFilled
+                    ? "hover:bg-neutral-alphas-100 data-[state=open]:bg-neutral-alphas-100"
+                    : "hover:border-neutral-alphas-400 data-[state=open]:border-neutral-alphas-400"),
                 disabled && "cursor-not-allowed opacity-50",
               )}
             >
@@ -161,13 +183,20 @@ export const Select = React.forwardRef<
                     {leftIcon}
                   </span>
                 )}
-                <span className="min-w-0 flex-1 truncate text-left text-content-primary [&>[data-placeholder]]:text-content-tertiary">
+                <span
+                  className={cn(
+                    "min-w-0 flex-1 truncate [&>[data-placeholder]]:text-content-tertiary",
+                    isFilled
+                      ? "text-center text-content-tertiary"
+                      : "text-left text-content-primary",
+                  )}
+                >
                   <SelectPrimitive.Value placeholder={placeholder} />
                 </span>
               </div>
 
               <SelectPrimitive.Icon asChild>
-                <ChevronDownIcon />
+                <ChevronDownIcon size={isFilled ? 16 : 24} className="shrink-0" />
               </SelectPrimitive.Icon>
             </SelectPrimitive.Trigger>
 
@@ -224,7 +253,7 @@ export const SelectContent = React.forwardRef<
         collisionPadding={collisionPadding}
         style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
         className={cn(
-          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-background-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-md border border-border-strong bg-background-secondary text-content-primary shadow-blur-menu backdrop-blur-xs",
           "data-[state=closed]:animate-out data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -233,8 +262,11 @@ export const SelectContent = React.forwardRef<
         )}
         {...props}
       >
-        <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-1">
-          {children}
+        <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-2">
+          {/* A select opened from inside a menu row must not inherit that row's icon defaults. */}
+          <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
+            {children}
+          </IconDefaultsContext.Provider>
         </SelectPrimitive.Viewport>
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
@@ -247,7 +279,7 @@ SelectContent.displayName = "SelectContent";
 export type SelectItemSize = "40" | "32";
 
 const ITEM_SIZE_CLASSES: Record<SelectItemSize, string> = {
-  "40": "min-h-10 py-2 typography-body-default-16px-regular",
+  "40": "min-h-10 py-2 typography-body-small-14px-regular",
   "32": "min-h-8 py-[7px] typography-body-small-14px-regular",
 };
 
@@ -260,7 +292,11 @@ export interface SelectItemProps
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {
   /** Row height. Defaults to the parent {@link Select} size (`48`/`40` → `40`, `32` → `32`). */
   size?: SelectItemSize;
-  /** Icon (or other node) rendered before the label. Ignored when {@link SelectItemProps.avatar} is set. */
+  /**
+   * Icon (or other node) rendered before the label. Ignored when {@link SelectItemProps.avatar} is set.
+   * Treated like `DropdownMenuItem`'s icons: a 16px box in `Icons/Secondary`, prop-based icons filled at 16px
+   * unless they set `filled` or `size` themselves.
+   */
   leadingIcon?: React.ReactNode;
   /**
    * Leading avatar rendered in place of {@link SelectItemProps.leadingIcon}, for rows
@@ -308,11 +344,11 @@ export const SelectItem = React.forwardRef<
     <SelectPrimitive.Item
       ref={ref}
       className={cn(
-        "group relative flex w-full cursor-pointer select-none gap-2 rounded-xs px-3 text-content-primary outline-none",
+        "group relative flex w-full cursor-pointer select-none gap-2 rounded-sm px-3 text-content-primary outline-none",
         hasDescription ? "items-start" : "items-center",
         ITEM_SIZE_CLASSES[itemSize],
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",
-        "focus:bg-neutral-alphas-50 data-highlighted:bg-neutral-alphas-50",
+        "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}
@@ -321,17 +357,16 @@ export const SelectItem = React.forwardRef<
       {hasAvatar ? (
         <span className="shrink-0">{avatar}</span>
       ) : (
-        hasLeadingIcon &&
-        (hasDescription ? (
-          <span className="flex shrink-0 items-center pt-0.5 [&>svg]:size-4">{leadingIcon}</span>
-        ) : (
-          <span className="flex shrink-0 items-center [&>svg]:size-4">{leadingIcon}</span>
-        ))
+        hasLeadingIcon && (
+          // In the two-line row the icon centres on the 18px title line, as in DropdownMenuItem.
+          <MenuRowIcon alignToTitle={hasDescription}>{leadingIcon}</MenuRowIcon>
+        )
       )}
 
       {hasDescription ? (
         <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className="truncate">
+          {/* A 14px semibold title over the regular description, matching DropdownMenuItem's two-line row. */}
+          <span className="typography-body-small-14px-semibold truncate">
             <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
           </span>
           <span
@@ -351,8 +386,8 @@ export const SelectItem = React.forwardRef<
 
       <SelectPrimitive.ItemIndicator
         className={cn(
-          "ml-auto flex size-4 shrink-0 items-center justify-center",
-          hasDescription && "self-start",
+          "ml-auto flex w-4 shrink-0 items-center justify-center",
+          hasDescription ? "h-4.5 self-start" : "h-4",
         )}
       >
         <CheckIcon className="size-4 text-content-primary group-data-[disabled]:text-content-disabled" />
@@ -404,7 +439,7 @@ export const SelectSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-neutral-alphas-200", className)}
+    className={cn("my-1 h-px bg-neutral-alphas-200", className)}
     {...props}
   />
 ));

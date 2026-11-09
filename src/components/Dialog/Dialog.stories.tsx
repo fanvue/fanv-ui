@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { userEvent, within } from "storybook/test";
+import { expect, screen, userEvent, waitFor, within } from "storybook/test";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { Chip } from "../Chip/Chip";
@@ -795,4 +795,36 @@ export const RemoveMembers: Story = {
     </Dialog>
   ),
   play: openDialog,
+};
+
+export const ClosesWithExitAnimation: Story = {
+  render: () => (
+    <Dialog>
+      <style>
+        {"@keyframes story-dialog-out { to { opacity: 0; transform: translateY(8px); } }"}
+      </style>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent className="data-[state=closed]:[animation:story-dialog-out_200ms_ease-in_forwards]">
+        <DialogHeader>
+          <DialogTitle>Dialog Title</DialogTitle>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="secondary">Cancel</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: async ({ canvasElement }) => {
+    await openDialog({ canvasElement } as Parameters<NonNullable<Story["play"]>>[0]);
+    const dialog = await screen.findByRole("dialog");
+    await waitFor(() => expect(dialog).toHaveAttribute("data-state", "open"));
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await expect(dialog).toBeInTheDocument();
+    await expect(dialog).toHaveAttribute("data-state", "closed");
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+  },
 };

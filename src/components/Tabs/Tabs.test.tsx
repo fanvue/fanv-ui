@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Tabs } from "./Tabs";
 import { TabsContent } from "./TabsContent";
@@ -397,6 +397,334 @@ describe("Tabs", () => {
         </Tabs>,
       );
       expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    });
+  });
+
+  describe("pill appearance", () => {
+    function renderPill(defaultValue = "tab1") {
+      return render(
+        <Tabs defaultValue={defaultValue}>
+          <TabsList appearance="pill" aria-label="Categories">
+            <TabsTrigger value="tab1">All</TabsTrigger>
+            <TabsTrigger value="tab2">Promotions</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1">Content 1</TabsContent>
+          <TabsContent value="tab2">Content 2</TabsContent>
+        </Tabs>,
+      );
+    }
+
+    it("hugs its tabs inside a rounded track without the underline border", () => {
+      renderPill();
+      const tablist = screen.getByRole("tablist");
+      expect(tablist).toHaveClass(
+        "inline-flex",
+        "w-fit",
+        "rounded-full",
+        "bg-background-secondary",
+      );
+      expect(tablist).not.toHaveClass("w-full");
+      expect(tablist.className).not.toContain("shadow-[inset_0_-1px_0_0");
+    });
+
+    it("ignores the underline layout props", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList appearance="pill" variant="fill" alignLeft>
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      const tablist = screen.getByRole("tablist");
+      expect(tablist).not.toHaveClass("w-full");
+      expect(tablist).toHaveClass("w-fit");
+    });
+
+    it("styles its triggers as pills with inverted text on the active one", () => {
+      renderPill();
+      const active = screen.getByRole("tab", { name: "All" });
+      const inactive = screen.getByRole("tab", { name: "Promotions" });
+      expect(active).toHaveClass("rounded-full", "data-pill:text-content-primary-inverted");
+      expect(active).toHaveAttribute("data-pill");
+      expect(inactive).not.toHaveAttribute("data-pill");
+    });
+
+    it("slides the pill over the labels it passes and keeps only its own tab's label on top", () => {
+      const { container } = renderPill();
+      const indicator = container.querySelector<HTMLElement>('[role="tablist"] > span:not([role])');
+      const tab = screen.getByRole("tab", { name: "Promotions" });
+      expect(indicator).toHaveClass("z-5");
+      expect(tab).toHaveClass("z-0", "data-pill:z-10");
+    });
+
+    it("lays an icon beside its label in a pill tab", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList appearance="pill">
+            <TabsTrigger value="t">
+              <svg data-testid="icon" />
+              All
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByTestId("icon").parentElement).toHaveClass("flex", "items-center", "gap-2");
+    });
+
+    it("fills the active tab's box with the indicator", () => {
+      Object.defineProperties(HTMLElement.prototype, {
+        offsetLeft: { configurable: true, get: () => 92 },
+        offsetTop: { configurable: true, get: () => 4 },
+        offsetWidth: { configurable: true, get: () => 120 },
+        offsetHeight: { configurable: true, get: () => 32 },
+      });
+      try {
+        const { container } = renderPill("tab2");
+        const indicator = container.querySelector<HTMLElement>(
+          '[role="tablist"] > span:not([role])',
+        );
+        expect(indicator?.style.width).toBe("120px");
+        expect(indicator?.style.height).toBe("32px");
+        expect(indicator?.style.transform).toBe("translate(92px, 4px)");
+        expect(indicator?.style.background).toBe("var(--color-content-primary)");
+      } finally {
+        for (const key of ["offsetLeft", "offsetTop", "offsetWidth", "offsetHeight"]) {
+          Reflect.deleteProperty(HTMLElement.prototype, key);
+        }
+      }
+    });
+
+    it("sizes its tabs to 36px when asked", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList appearance="pill" size="36">
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tab")).toHaveClass("h-9");
+    });
+
+    describe("when a tab resizes", () => {
+      type Box = { left: number; width: number };
+      function withLayout(boxes: Map<string, Box>, listWidth: { value: number }) {
+        const read = (el: HTMLElement, key: keyof Box) =>
+          el.getAttribute("role") === "tablist"
+            ? key === "width"
+              ? listWidth.value
+              : 0
+            : (boxes.get(el.textContent ?? "")?.[key] ?? 0);
+        Object.defineProperties(HTMLElement.prototype, {
+          offsetLeft: {
+            configurable: true,
+            get(this: HTMLElement) {
+              return read(this, "left");
+            },
+          },
+          offsetWidth: {
+            configurable: true,
+            get(this: HTMLElement) {
+              return read(this, "width");
+            },
+          },
+          offsetTop: { configurable: true, get: () => 0 },
+          offsetHeight: { configurable: true, get: () => 32 },
+        });
+        return () => {
+          for (const key of ["offsetLeft", "offsetWidth", "offsetTop", "offsetHeight"]) {
+            Reflect.deleteProperty(HTMLElement.prototype, key);
+          }
+        };
+      }
+
+      function Row({ value }: { value: string }) {
+        return (
+          <Tabs value={value}>
+            <TabsList appearance="pill">
+              <TabsTrigger value="a">A</TabsTrigger>
+              <TabsTrigger value="b">B</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        );
+      }
+
+      it("slides the tabs that moved from where they were, in step with the pill", async () => {
+        const boxes = new Map([
+          ["A", { left: 0, width: 60 }],
+          ["B", { left: 64, width: 60 }],
+        ]);
+        const listWidth = { value: 300 };
+        const restore = withLayout(boxes, listWidth);
+        try {
+          const { rerender } = render(<Row value="a" />);
+          boxes.set("A", { left: 0, width: 100 });
+          boxes.set("B", { left: 104, width: 60 });
+          rerender(<Row value="b" />);
+          const moved = screen.getByRole("tab", { name: "B" });
+          await waitFor(() => expect(moved.style.transition).toContain("transform"));
+          expect(moved.style.transform).toBe("");
+        } finally {
+          restore();
+        }
+      });
+
+      it("leaves the tabs alone when the row itself resizes", async () => {
+        const boxes = new Map([
+          ["A", { left: 0, width: 60 }],
+          ["B", { left: 64, width: 60 }],
+        ]);
+        const listWidth = { value: 300 };
+        const restore = withLayout(boxes, listWidth);
+        try {
+          const { rerender } = render(<Row value="a" />);
+          listWidth.value = 500;
+          boxes.set("B", { left: 120, width: 60 });
+          rerender(<Row value="b" />);
+          await waitFor(() =>
+            expect(screen.getByRole("tab", { name: "B" })).toHaveAttribute("data-state", "active"),
+          );
+          await new Promise((resolve) => setTimeout(resolve, 0));
+          expect(screen.getByRole("tab", { name: "B" }).style.transition).toBe("");
+        } finally {
+          restore();
+        }
+      });
+    });
+
+    describe("followHover", () => {
+      function renderFollowing() {
+        return render(
+          <Tabs defaultValue="tab1">
+            <TabsList appearance="pill" followHover aria-label="Categories">
+              <TabsTrigger value="tab1">All</TabsTrigger>
+              <TabsTrigger value="tab2">Promotions</TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+      }
+
+      it("moves the pill to the hovered tab and back to the selected one on leave", () => {
+        renderFollowing();
+        const all = screen.getByRole("tab", { name: "All" });
+        const promotions = screen.getByRole("tab", { name: "Promotions" });
+
+        fireEvent.pointerOver(promotions, { pointerType: "mouse" });
+        expect(promotions).toHaveAttribute("data-pill");
+        expect(all).not.toHaveAttribute("data-pill");
+        expect(all).toHaveAttribute("aria-selected", "true");
+
+        fireEvent.pointerLeave(screen.getByRole("tablist"));
+        expect(all).toHaveAttribute("data-pill");
+        expect(promotions).not.toHaveAttribute("data-pill");
+      });
+
+      it("gives longer jumps more time and recolours the label as the pill covers it", () => {
+        const original = window.matchMedia;
+        window.matchMedia = ((query: string) =>
+          ({ matches: query === "(hover: hover)" }) as MediaQueryList) as typeof window.matchMedia;
+        try {
+          render(
+            <Tabs defaultValue="a">
+              <TabsList appearance="pill" followHover>
+                <TabsTrigger value="a">A</TabsTrigger>
+                <TabsTrigger value="b">B</TabsTrigger>
+                <TabsTrigger value="c">C</TabsTrigger>
+                <TabsTrigger value="d">D</TabsTrigger>
+              </TabsList>
+            </Tabs>,
+          );
+          const list = screen.getByRole("tablist");
+
+          fireEvent.pointerOver(screen.getByRole("tab", { name: "B" }), { pointerType: "mouse" });
+          expect(list.style.getPropertyValue("--pill-slide")).toBe("360ms");
+          expect(list.style.getPropertyValue("--pill-arrive")).toBe("97ms");
+
+          fireEvent.pointerOver(screen.getByRole("tab", { name: "D" }), { pointerType: "mouse" });
+          expect(list.style.getPropertyValue("--pill-slide")).toBe("580ms");
+          expect(list.style.getPropertyValue("--pill-arrive")).toBe("157ms");
+        } finally {
+          window.matchMedia = original;
+        }
+      });
+
+      it("takes a single quick step on touch screens", async () => {
+        const { rerender } = render(
+          <Tabs value="a">
+            <TabsList appearance="pill">
+              <TabsTrigger value="a">A</TabsTrigger>
+              <TabsTrigger value="b">B</TabsTrigger>
+              <TabsTrigger value="c">C</TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+        rerender(
+          <Tabs value="c">
+            <TabsList appearance="pill">
+              <TabsTrigger value="a">A</TabsTrigger>
+              <TabsTrigger value="b">B</TabsTrigger>
+              <TabsTrigger value="c">C</TabsTrigger>
+            </TabsList>
+          </Tabs>,
+        );
+        const list = screen.getByRole("tablist");
+        await waitFor(() => expect(list.style.getPropertyValue("--pill-slide")).toBe("200ms"));
+        expect(list.style.getPropertyValue("--pill-arrive")).toBe("54ms");
+      });
+
+      it("ignores touch", () => {
+        renderFollowing();
+        const promotions = screen.getByRole("tab", { name: "Promotions" });
+        fireEvent.pointerOver(promotions, { pointerType: "touch" });
+        expect(promotions).not.toHaveAttribute("data-pill");
+      });
+
+      it("reads no layout while following the pointer", () => {
+        renderFollowing();
+        const tabs = screen.getAllByRole("tab");
+        let reads = 0;
+        const keys = ["offsetLeft", "offsetTop", "offsetWidth", "offsetHeight"];
+        for (const key of keys) {
+          Object.defineProperty(HTMLElement.prototype, key, {
+            configurable: true,
+            get() {
+              reads += 1;
+              return 0;
+            },
+          });
+        }
+        const rectSpy = vi.spyOn(Element.prototype, "getBoundingClientRect");
+        try {
+          for (const tab of [...tabs, ...tabs]) {
+            fireEvent.pointerOver(tab, { pointerType: "mouse" });
+          }
+          fireEvent.pointerLeave(screen.getByRole("tablist"));
+          expect(reads).toBe(0);
+          expect(rectSpy).not.toHaveBeenCalled();
+        } finally {
+          for (const key of keys) Reflect.deleteProperty(HTMLElement.prototype, key);
+          rectSpy.mockRestore();
+        }
+      });
+
+      it("does nothing unless asked", () => {
+        renderPill();
+        const promotions = screen.getByRole("tab", { name: "Promotions" });
+        fireEvent.pointerOver(promotions, { pointerType: "mouse" });
+        expect(promotions).not.toHaveAttribute("data-pill");
+      });
+    });
+
+    it("moves selection with the arrow keys", async () => {
+      const user = userEvent.setup();
+      renderPill();
+      screen.getByRole("tab", { name: "All" }).focus();
+      await user.keyboard("{ArrowRight}");
+      expect(screen.getByRole("tab", { name: "Promotions" })).toHaveFocus();
+    });
+
+    it("has no accessibility violations", async () => {
+      const { container } = renderPill();
+      expect(await axe(container)).toHaveNoViolations();
     });
   });
 

@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { IconButton } from "../IconButton/IconButton";
+import { EditIcon } from "../Icons/EditIcon";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -63,8 +65,8 @@ describe("DropdownMenu", () => {
         </DropdownMenuItem>,
       );
       // 18px is the title's leading; a `pt-1` nudge would sit them 3px low.
-      expect(screen.getByTestId("avatar").parentElement).toHaveClass("h-[18px]");
-      expect(screen.getByText("12")).toHaveClass("h-[18px]");
+      expect(screen.getByTestId("avatar").parentElement).toHaveClass("h-4.5");
+      expect(screen.getByText("12")).toHaveClass("h-4.5");
       expect(screen.getByText("12")).not.toHaveClass("pt-1");
     });
 
@@ -74,24 +76,25 @@ describe("DropdownMenu", () => {
           Alex Smith
         </DropdownMenuItem>,
       );
-      expect(screen.getByTestId("avatar").parentElement).not.toHaveClass("h-[18px]");
-      expect(screen.getByText("12")).not.toHaveClass("h-[18px]");
+      expect(screen.getByTestId("avatar").parentElement).not.toHaveClass("h-4.5");
+      expect(screen.getByText("12")).not.toHaveClass("h-4.5");
     });
 
-    it("gives the panel the 24px menu radius, not the 12px row radius", () => {
+    it("gives the panel the 16px menu radius, not the 12px row radius", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const panel = screen.getByRole("menu");
-      expect(panel).toHaveClass("rounded-lg");
+      expect(panel).toHaveClass("rounded-md");
+      expect(panel).not.toHaveClass("rounded-lg");
       expect(panel).not.toHaveClass("rounded-sm");
-      expect(panel).not.toHaveClass("rounded-xs");
     });
 
-    it("gives the panel the V2 Menu Dropdown surface, padding and stroke", () => {
+    it("gives the panel the V2 Menu Dropdown surface, padding, stroke and shadow", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const panel = screen.getByRole("menu");
       expect(panel).toHaveClass("bg-background-secondary");
       expect(panel).toHaveClass("border-border-strong");
       expect(panel).toHaveClass("p-2");
+      expect(panel).toHaveClass("shadow-blur-menu");
     });
 
     // Each of these three drifted from the design unnoticed, so they are asserted
@@ -100,18 +103,51 @@ describe("DropdownMenu", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const item = screen.getByRole("menuitem");
       expect(item).toHaveClass("rounded-sm");
-      expect(item).not.toHaveClass("rounded-xs");
+      expect(item).not.toHaveClass("rounded-md");
     });
 
-    it("keeps the 8px radius on a radio item, which the design draws differently", () => {
+    it("gives a radio item the same 12px row radius", () => {
       renderMenu(
         <DropdownMenuRadioGroup value="a">
           <DropdownMenuRadioItem value="a">A</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>,
       );
       const item = screen.getByRole("menuitemradio");
-      expect(item).toHaveClass("rounded-xs");
-      expect(item).not.toHaveClass("rounded-sm");
+      expect(item).toHaveClass("rounded-sm");
+      expect(item).not.toHaveClass("rounded-xs");
+    });
+
+    it("gives a checkbox item the same 12px row radius", () => {
+      renderMenu(<DropdownMenuCheckboxItem>A</DropdownMenuCheckboxItem>);
+      const item = screen.getByRole("menuitemcheckbox");
+      expect(item).toHaveClass("rounded-sm");
+      expect(item).not.toHaveClass("rounded-xs");
+    });
+
+    it("centres a single-line radio item and top-aligns one with a helper", () => {
+      renderMenu(
+        <DropdownMenuRadioGroup value="a">
+          <DropdownMenuRadioItem value="a">Single</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="b" helper="Helper line">
+            Double
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      expect(screen.getByRole("menuitemradio", { name: "Single" })).toHaveClass("items-center");
+      expect(screen.getByRole("menuitemradio", { name: /Double/ })).toHaveClass("items-start");
+    });
+
+    it("gives radio and checkbox items the 40px minimum row height", () => {
+      renderMenu(
+        <>
+          <DropdownMenuRadioGroup value="a">
+            <DropdownMenuRadioItem value="a">A</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+          <DropdownMenuCheckboxItem>B</DropdownMenuCheckboxItem>
+        </>,
+      );
+      expect(screen.getByRole("menuitemradio")).toHaveClass("min-h-10");
+      expect(screen.getByRole("menuitemcheckbox")).toHaveClass("min-h-10");
     });
 
     it("indents a radio item the same as any other row", () => {
@@ -623,54 +659,165 @@ describe("DropdownMenuItem", () => {
       expect(screen.getByTestId("item")).toHaveClass("min-h-10");
     });
 
-    it("renders selected state with the subtle highlight treatment", () => {
+    it("renders the selected state with the regular-weight hover highlight", () => {
       renderMenu(
         <DropdownMenuItem selected data-testid="item">
           Item
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass("bg-neutral-alphas-100");
-      expect(item).not.toHaveClass("text-content-primary-inverted");
+      expect(item).toHaveClass("bg-interaction-hover", "typography-body-small-14px-regular");
+      expect(item).not.toHaveClass("typography-body-small-14px-semibold");
     });
 
-    it("keeps a distinct selected highlight when the item is also keyboard/mouse-highlighted", () => {
-      // Regression guard: bg-interaction-hover aliases to the same token as the
-      // plain hover background (data-[highlighted]:bg-neutral-alphas-50), so a
-      // selected+highlighted row must use a darker step of the neutral-alphas
-      // ramp or it becomes visually indistinguishable from an unselected hover.
+    it("renders leading and trailing icons at 16px in the secondary icon colour", () => {
       renderMenu(
-        <DropdownMenuItem selected data-testid="item">
+        <DropdownMenuItem
+          leadingIcon={<svg data-icon="leading" />}
+          trailingIcon={<svg data-icon="trailing" />}
+        >
           Item
         </DropdownMenuItem>,
       );
-      const item = screen.getByTestId("item");
-      expect(item.className).toContain("data-[highlighted]:bg-neutral-alphas-200");
-      expect(item.className).not.toContain("data-[highlighted]:bg-neutral-alphas-50");
+      for (const name of ["leading", "trailing"]) {
+        const wrapper = document.querySelector(`[data-icon="${name}"]`)?.parentElement;
+        expect(wrapper).toHaveClass("text-icons-secondary", "[&>svg]:size-4");
+      }
     });
 
-    it("renders a check indicator on the selected item, not just a background change", () => {
-      // Regression guard: a background-only signal for "selected" isn't
-      // guaranteed to read as distinct from the hover background in every
-      // theme/contrast combination — pair it with an explicit indicator, same
-      // as SelectItem and DropdownMenuRadioItem already do.
+    it("draws an icon filled at 16px unless the icon sets its own props", () => {
       renderMenu(
         <>
-          <DropdownMenuItem selected data-testid="selected-item">
-            Selected
+          <DropdownMenuItem leadingIcon={<EditIcon data-icon="default" />}>Edit</DropdownMenuItem>
+          <DropdownMenuItem leadingIcon={<EditIcon data-icon="outlined" filled={false} />}>
+            Edit
           </DropdownMenuItem>
-          <DropdownMenuItem data-testid="unselected-item">Unselected</DropdownMenuItem>
         </>,
       );
-      expect(screen.getByTestId("selected-item").querySelector("svg")).toBeInTheDocument();
-      expect(screen.getByTestId("unselected-item").querySelector("svg")).not.toBeInTheDocument();
+      const layers = (name: string) =>
+        document.querySelector(`[data-icon="${name}"]`)?.querySelectorAll("g") ?? [];
+      const icon = document.querySelector('[data-icon="default"]');
+      expect(icon).toHaveAttribute("viewBox", "0 0 16 16");
+      expect(layers("default")[1]).toHaveClass("opacity-100");
+      expect(layers("outlined")[0]).toHaveClass("opacity-100");
+      expect(layers("outlined")[1]).toHaveClass("opacity-0");
     });
 
-    it("renders a caller-supplied trailingIcon instead of the built-in check indicator when selected", () => {
-      // Regression guard: a caller may pass its own trailing icon to signal
-      // selection (e.g. ChatInput's themed tick). That custom icon must win
-      // the trailing slot rather than being silently replaced by the
-      // built-in SelectedCheckIndicator.
+    it("keeps the error colour on a destructive item's icon", () => {
+      renderMenu(
+        <DropdownMenuItem destructive leadingIcon={<svg data-icon="leading" />}>
+          Delete
+        </DropdownMenuItem>,
+      );
+      const wrapper = document.querySelector('[data-icon="leading"]')?.parentElement;
+      expect(wrapper).toHaveClass("[&>svg]:size-4");
+      expect(wrapper).not.toHaveClass("text-icons-secondary");
+      expect(screen.getByRole("menuitem")).toHaveClass("text-error-content");
+    });
+
+    it("keeps the count tertiary on a selected item", () => {
+      renderMenu(
+        <DropdownMenuItem selected count="12">
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByText("12")).toHaveClass("text-content-tertiary");
+      expect(screen.getByText("12")).not.toHaveClass("text-content-primary-inverted");
+    });
+
+    it("marks the selected item with aria-current and data-selected", () => {
+      renderMenu(
+        <>
+          <DropdownMenuItem selected>Current</DropdownMenuItem>
+          <DropdownMenuItem>Other</DropdownMenuItem>
+        </>,
+      );
+      const current = screen.getByRole("menuitem", { name: "Current" });
+      expect(current).toHaveAttribute("aria-current", "true");
+      expect(current).toHaveAttribute("data-selected", "");
+      expect(screen.getByRole("menuitem", { name: "Other" })).not.toHaveAttribute("aria-current");
+    });
+
+    it("keeps a selected item's description in the secondary colour", () => {
+      renderMenu(
+        <DropdownMenuItem selected description="Secondary line">
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByText("Secondary line")).toHaveClass("text-content-secondary");
+      expect(screen.getByText("Secondary line")).not.toHaveClass("text-content-primary-inverted");
+    });
+
+    it("greys a disabled item's icon with the disabled icon colour", () => {
+      renderMenu(
+        <DropdownMenuItem disabled leadingIcon={<svg data-icon="leading" />}>
+          Item
+        </DropdownMenuItem>,
+      );
+      const wrapper = document.querySelector('[data-icon="leading"]')?.parentElement;
+      expect(wrapper).toHaveClass("group-data-[disabled]:text-icons-disabled");
+    });
+
+    it("renders the icons inside an asChild element", () => {
+      renderMenu(
+        <DropdownMenuItem asChild leadingIcon={<EditIcon data-icon="leading" />}>
+          <a href="/settings">Settings</a>
+        </DropdownMenuItem>,
+      );
+      const link = screen.getByRole("menuitem", { name: "Settings" });
+      expect(link.tagName).toBe("A");
+      const icon = link.querySelector('[data-icon="leading"]');
+      expect(icon).toHaveAttribute("viewBox", "0 0 16 16");
+    });
+
+    it("leaves an IconButton's icon at its own size inside a row", () => {
+      renderMenu(
+        <DropdownMenuItem
+          trailingIcon={<IconButton aria-label="More" icon={<EditIcon data-icon="button" />} />}
+        >
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(document.querySelector('[data-icon="button"]')).toHaveAttribute(
+        "viewBox",
+        "0 0 24 24",
+      );
+    });
+
+    it("puts an asChild row's trailing icon at the row's end", () => {
+      renderMenu(
+        <DropdownMenuItem asChild trailingIcon={<EditIcon data-icon="trailing" />}>
+          <a href="/settings">Settings</a>
+        </DropdownMenuItem>,
+      );
+      const link = screen.getByRole("menuitem", { name: "Settings" });
+      const trailing = link.querySelector('[data-icon="trailing"]')?.parentElement;
+      expect(link.lastElementChild).toBe(trailing);
+      expect(trailing).toHaveClass("ms-auto");
+    });
+
+    it("leaves aria-current off a selected item that sets aria-checked itself", () => {
+      renderMenu(
+        <DropdownMenuItem selected role="menuitemradio" aria-checked>
+          Likes
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByRole("menuitemradio", { name: "Likes" });
+      expect(item).toHaveAttribute("aria-checked", "true");
+      expect(item).toHaveAttribute("data-selected", "");
+      expect(item).not.toHaveAttribute("aria-current");
+    });
+
+    it("renders no check indicator on the selected item", () => {
+      renderMenu(
+        <DropdownMenuItem selected data-testid="item">
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByTestId("item").querySelector("svg")).not.toBeInTheDocument();
+    });
+
+    it("renders a caller-supplied trailingIcon on a selected item", () => {
       renderMenu(
         <DropdownMenuItem
           selected
@@ -680,9 +827,7 @@ describe("DropdownMenuItem", () => {
           Item
         </DropdownMenuItem>,
       );
-      const item = screen.getByTestId("item");
       expect(screen.getByTestId("caller-trailing-icon")).toBeInTheDocument();
-      expect(item.querySelectorAll("svg")).toHaveLength(0);
     });
 
     it("renders leading and trailing icons", () => {
@@ -805,6 +950,47 @@ describe("DropdownMenuHeader", () => {
         </>,
       );
       expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  describe("layout", () => {
+    it("pulls the header out by the popper panel's extra 4px of padding", () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader title="Sort by" data-testid="header" />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      expect(screen.getByTestId("header")).toHaveClass("-mx-1", "-mt-1");
+    });
+
+    it("gives the search field the 16px radius, concentric with the panel", () => {
+      renderMenu(
+        <>
+          <DropdownMenuHeader type="search" searchProps={{ placeholder: "Find" }} />
+          <DropdownMenuItem>Item</DropdownMenuItem>
+        </>,
+      );
+      const field = screen.getByPlaceholderText("Find").closest("label");
+      expect(field).toHaveClass("rounded-md");
+      expect(field).not.toHaveClass("rounded-xs");
+    });
+
+    it("leaves the sheet header on the sheet's own padding", async () => {
+      const user = userEvent.setup();
+      render(
+        <DropdownMenu variant="sheet" defaultOpen={false}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuHeader title="Sort by" data-testid="header" />
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      await user.click(screen.getByText("trigger"));
+      const header = screen.getByTestId("header");
+      expect(header).not.toHaveClass("-mx-1");
+      expect(header).not.toHaveClass("-mt-1");
     });
   });
 

@@ -50,6 +50,35 @@ describe("audioWaveform", () => {
       const data = new Float32Array([0, -0.5, 0.25, 1, -0.75, 0.1]);
       expect(computePeaksFromChannelData(data, 3)).toEqual([0.5, 1, 0.75]);
     });
+
+    it("scales a quietly recorded clip up to the full 0-1 range", () => {
+      const peaks = computePeaksFromChannelData(new Float32Array([0.05, 0.1, 0.2, -0.15]), 4);
+      expect(peaks).toHaveLength(4);
+      for (const [index, expected] of [0.25, 0.5, 1, 0.75].entries()) {
+        expect(peaks[index]).toBeCloseTo(expected, 5);
+      }
+    });
+
+    it("keeps the relative shape of the waveform when scaling", () => {
+      const loud = computePeaksFromChannelData(new Float32Array([0.2, 0.8, 0.4, 1]), 4);
+      const quiet = computePeaksFromChannelData(new Float32Array([0.02, 0.08, 0.04, 0.1]), 4);
+      for (const [index, peak] of quiet.entries()) {
+        expect(peak).toBeCloseTo(loud[index] ?? 0, 5);
+      }
+    });
+
+    it("leaves a silent clip flat instead of dividing by zero", () => {
+      const peaks = computePeaksFromChannelData(new Float32Array([0, 0, 0, 0]), 4);
+      expect(peaks).toEqual([0, 0, 0, 0]);
+    });
+
+    it("does not amplify near-silent noise to full height", () => {
+      const peaks = computePeaksFromChannelData(new Float32Array([0.0001, 0.002, 0, 0.001]), 4);
+      for (const peak of peaks) {
+        expect(Number.isFinite(peak)).toBe(true);
+        expect(peak).toBeLessThan(0.01);
+      }
+    });
   });
 
   describe("resamplePeaks", () => {
