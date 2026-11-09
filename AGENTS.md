@@ -287,11 +287,11 @@ export const ComponentName = React.forwardRef<HTMLDivElement, ComponentNameProps
       <div
         ref={ref}
         className={cn(
-          "inline-flex items-center gap-2 rounded typography-body-default-16px-semibold",
+          "inline-flex items-center gap-2 rounded",
           variant === "default" && "bg-buttons-secondary-default text-content-primary",
           variant === "primary" && "bg-brand-primary-default text-content-always-black",
-          size === "sm" && "text-xs px-2 py-1",
-          size === "md" && "text-sm px-3 py-1.5",
+          size === "sm" && "typography-description-12px-semibold px-2 py-1",
+          size === "md" && "typography-body-small-14px-semibold px-3 py-1.5",
           className,
         )}
         {...props}
