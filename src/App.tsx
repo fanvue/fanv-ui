@@ -97,6 +97,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogItem,
   DialogTitle,
   DialogTrigger,
   DiamondIcon,
@@ -3167,7 +3168,10 @@ function DropdownMenuDemo() {
               <DropdownMenuHeader
                 type="search"
                 title="Creators"
-                searchProps={{ autoFocus: true, placeholder: "Search creators" }}
+                searchProps={{
+                  autoFocus: true,
+                  placeholder: "Search creators",
+                }}
               />
               {["Jane Doe", "Alex Kim", "Sam Patel"].map((name) => (
                 <DropdownMenuCheckboxItem
@@ -5444,6 +5448,35 @@ function DialogDemo() {
   );
 }
 
+function DialogMenuDemo() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div id="dialog-menu" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-xs mb-4">Dialog menu</h2>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button variant="secondary">List actions</Button>
+        </DialogTrigger>
+        <DialogContent mobilePresentation="menu">
+          <DialogHeader>
+            <DialogTitle>Top Spenders</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <DialogItem leadingIcon={<MessageIcon size={16} filled />}>Message List</DialogItem>
+            <DialogItem leadingIcon={<StarIcon size={16} filled />}>Add to Favourites</DialogItem>
+            <DialogItem leadingIcon={<EditIcon size={16} filled />}>Edit List</DialogItem>
+            <DialogItem leadingIcon={<CopyIcon size={16} filled />}>Duplicate</DialogItem>
+            <DialogItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
+              Delete List
+            </DialogItem>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
 function BottomNavigationDemo() {
   const [navValue, setNavValue] = React.useState("home");
   return (
@@ -6010,6 +6043,7 @@ function App() {
     { id: "cycling-text", label: "Cycling Text" },
     { id: "datepicker", label: "Date Picker" },
     { id: "dialog", label: "Dialog" },
+    { id: "dialog-menu", label: "Dialog menu" },
     { id: "divider", label: "Divider" },
     { id: "empty-state", label: "Empty State" },
     { id: "dropdownmenu", label: "Dropdown menu" },
@@ -6349,6 +6383,8 @@ function App() {
 
             {/* Dialog */}
             <DialogDemo />
+
+            <DialogMenuDemo />
 
             {/* Bottom Navigation */}
             <BottomNavigationDemo />
