@@ -62,6 +62,7 @@ describe("EmptyState", () => {
   it("does not render a heading for a node title regardless of titleAs", () => {
     render(<EmptyState title={<span>Custom title</span>} titleAs="h1" />);
 
+    expect(screen.getByRole("region", { name: "Custom title" })).toBeInTheDocument();
     expect(screen.queryByRole("heading")).not.toBeInTheDocument();
   });
 
