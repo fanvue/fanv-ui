@@ -5,6 +5,7 @@ import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import {
   ChartCard,
   ChartContainer,
+  ChartGrid,
   ChartLoadingOverlay,
   ChartSeriesToggle,
   ChartTooltip,
@@ -6406,7 +6407,7 @@ function ChartsDemo() {
       >
         <ChartContainer config={simpleLineConfig} className="h-48 w-full">
           <LineChart accessibilityLayer data={simpleLineData}>
-            <CartesianGrid vertical={false} strokeDasharray="5 3" />
+            <ChartGrid />
             <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
             <ChartTooltip content={<ChartTooltipContent />} />
             <Line
