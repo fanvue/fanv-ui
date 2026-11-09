@@ -2598,7 +2598,7 @@ function UserItemTrailingDemo() {
       </div>
       <h3 className="typography-body-default-16px-semibold mt-4 mb-2">UserItem padding</h3>
       <div className="flex max-w-sm flex-col gap-2">
-        {(["normal", "compact"] as const).map((padding) => (
+        {(["md", "none"] as const).map((padding) => (
           <div key={padding} className="flex flex-col gap-1">
             <div className="bg-surface-secondary">
               <UserItem

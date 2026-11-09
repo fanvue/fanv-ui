@@ -25,7 +25,7 @@ const meta = {
     },
     padding: {
       control: "select",
-      options: ["normal", "compact"],
+      options: ["md", "none"],
     },
     aiDisclosure: { control: "boolean" },
     isMuted: { control: "boolean" },
@@ -149,7 +149,7 @@ export const States: Story = {
 export const Paddings: Story = {
   render: (args) => (
     <div className="flex w-72 flex-col gap-4">
-      {(["normal", "compact"] as const).map((padding) => (
+      {(["md", "none"] as const).map((padding) => (
         <div key={padding} className="flex flex-col gap-1">
           <div className="bg-surface-secondary">
             <UserItem {...args} padding={padding} />

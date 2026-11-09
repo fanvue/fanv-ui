@@ -79,8 +79,8 @@ describe("UserItem", () => {
       expect(screen.getByTestId("item")).toHaveClass("px-2", "py-1");
     });
 
-    it("drops the inset when compact", () => {
-      render(<UserItem user={baseUser} padding="compact" data-testid="item" />);
+    it("drops the inset when padding is none", () => {
+      render(<UserItem user={baseUser} padding="none" data-testid="item" />);
       const item = screen.getByTestId("item");
       expect(item).not.toHaveClass("px-2");
       expect(item).not.toHaveClass("py-1");

@@ -24,15 +24,15 @@ export type UserItemUser = {
 };
 
 /**
- * Padding of the row. `"normal"` insets it by 8px left and right and 4px top and bottom;
- * `"compact"` removes the inset so the row aligns with its container's content edge.
+ * Padding of the row. `"md"` insets it by 8px left and right and 4px top and bottom;
+ * `"none"` removes the inset so the row aligns with its container's content edge.
  */
-export type UserItemPadding = "normal" | "compact";
+export type UserItemPadding = "none" | "md";
 
 export interface UserItemProps extends React.HTMLAttributes<HTMLDivElement> {
   /** The user to display. */
   user: UserItemUser;
-  /** Padding of the row. @default "normal" */
+  /** Padding of the row. @default "md" */
   padding?: UserItemPadding;
   /** Desired avatar size in px; snapped to the nearest supported token. @default 48 */
   avatarSize?: number;
@@ -104,7 +104,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
   (
     {
       user,
-      padding = "normal",
+      padding = "md",
       avatarSize,
       isOnline = false,
       isMuted = false,
@@ -128,7 +128,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
         ref={ref}
         className={cn(
           "relative flex w-full items-center justify-start",
-          padding === "normal" && "px-2 py-1",
+          padding === "md" && "px-2 py-1",
           className,
         )}
         {...props}
