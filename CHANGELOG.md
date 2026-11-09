@@ -1,5 +1,24 @@
 # Changelog
 
+## [3.49.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.48.0...ui-v3.49.0) (2026-11-09)
+
+
+### Features
+
+* **ChartGrid:** add the design-system chart grid with a zero baseline ([#787](https://github.com/fanvue/fanv-ui/issues/787)) ([c3182be](https://github.com/fanvue/fanv-ui/commit/c3182becf9d3e728ae2ff0a6b29a6abbec23bc0b))
+* **ChartGrid:** add the design-system chart grid with a zero baseline (ENG-17717) ([c3182be](https://github.com/fanvue/fanv-ui/commit/c3182becf9d3e728ae2ff0a6b29a6abbec23bc0b))
+* **DropdownMenu,Select:** align menus to the V2 Menu Dropdown spec ([#777](https://github.com/fanvue/fanv-ui/issues/777)) ([62ed5e1](https://github.com/fanvue/fanv-ui/commit/62ed5e1756eed4929f46ba2f660a0608a3b05fc4))
+* **EmptyState:** add titleAs prop to pick the string title heading level ([#786](https://github.com/fanvue/fanv-ui/issues/786)) ([2e19ce6](https://github.com/fanvue/fanv-ui/commit/2e19ce61ea0b538166547ca95ca658993a28e791))
+* **Link, Tabs:** add inherit Link variant and TabsListSkeleton ([#780](https://github.com/fanvue/fanv-ui/issues/780)) ([10387f2](https://github.com/fanvue/fanv-ui/commit/10387f2e4c7555a8daf9727b6657f60a96a04fe9))
+* **MediaPlayChip:** add the feed's play chip for video tiles ([#776](https://github.com/fanvue/fanv-ui/issues/776)) ([7399d66](https://github.com/fanvue/fanv-ui/commit/7399d668061fb95896aa95950ea01898cbefe56c))
+* **UserItem:** add a padding prop (none, md) ([#785](https://github.com/fanvue/fanv-ui/issues/785)) ([da792e2](https://github.com/fanvue/fanv-ui/commit/da792e27634b7464a0b8c34b27bf08c5de46290a))
+
+
+### Bug Fixes
+
+* **AnimatedNumber:** sit rolling separators on the digits' baseline ([#701](https://github.com/fanvue/fanv-ui/issues/701)) ([71cc52e](https://github.com/fanvue/fanv-ui/commit/71cc52ea318a44d995676625980d7c8db6f872ff))
+* **ChartGrid:** drop the no-op y-domain helper and fix the grid style (ENG-17717) ([#788](https://github.com/fanvue/fanv-ui/issues/788)) ([ee21d08](https://github.com/fanvue/fanv-ui/commit/ee21d088e16078e7fb0afa35d5999674e79b24ca))
+
 ## [3.48.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.47.0...ui-v3.48.0) (2026-11-04)
 
 
