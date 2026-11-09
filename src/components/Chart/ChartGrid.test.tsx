@@ -24,22 +24,44 @@ function yTicks(container: HTMLElement) {
   );
 }
 
-function zeroLine(container: HTMLElement) {
-  return container.querySelector(".recharts-reference-line line");
+const GRID_STROKE = "var(--color-neutral-alphas-200)";
+const ZERO_STROKE = "var(--color-border-strong)";
+
+function horizontalLines(container: HTMLElement) {
+  return [...container.querySelectorAll(".recharts-cartesian-grid-horizontal line")];
+}
+
+function gridLines(container: HTMLElement) {
+  return horizontalLines(container).filter((line) => line.getAttribute("stroke") === GRID_STROKE);
+}
+
+function zeroLines(container: HTMLElement) {
+  return [...container.querySelectorAll(`.recharts-surface line[stroke="${ZERO_STROKE}"]`)];
+}
+
+function zeroTickY(container: HTMLElement) {
+  const tick = [...container.querySelectorAll(".recharts-cartesian-axis-tick-value")].find(
+    (node) => node.textContent === "0",
+  );
+  return Number(tick?.getAttribute("y"));
 }
 
 describe("ChartGrid", () => {
   describe("grid", () => {
-    it("draws solid horizontal lines in the ChartContainer grid colour at 40% opacity, and no vertical lines", () => {
+    it("draws solid horizontal lines in neutral-alphas-200 at 40% opacity, and no vertical lines", () => {
       const { container } = renderChart(POSITIVE);
-      const lines = container.querySelectorAll(".recharts-cartesian-grid-horizontal line");
+      const lines = gridLines(container);
       expect(lines.length).toBeGreaterThan(1);
       for (const line of lines) {
-        expect(line).toHaveAttribute("stroke", "var(--color-neutral-alphas-200)");
         expect(line).toHaveAttribute("stroke-opacity", "0.4");
-        expect(line).not.toHaveAttribute("stroke-dasharray");
       }
       expect(container.querySelector(".recharts-cartesian-grid-vertical")).toBeNull();
+    });
+
+    it("draws no dashed line anywhere in the grid", () => {
+      const { container } = renderChart(MIXED);
+      expect(horizontalLines(container).length).toBeGreaterThan(1);
+      expect(container.querySelector("[stroke-dasharray]")).toBeNull();
     });
 
     it("lets the consumer add vertical grid lines", () => {
@@ -57,22 +79,25 @@ describe("ChartGrid", () => {
   describe("zero baseline", () => {
     it("draws one solid baseline in border-strong at value 0", () => {
       const { container } = renderChart(MIXED);
-      const lines = container.querySelectorAll(".recharts-reference-line line");
+      const lines = zeroLines(container);
       expect(lines).toHaveLength(1);
-      expect(lines[0]).toHaveAttribute("stroke", "var(--color-border-strong)");
       expect(lines[0]).not.toHaveAttribute("stroke-dasharray");
-      expect(yTicks(container)).toContain(0);
+      expect(Number(lines[0]?.getAttribute("y1"))).toBe(zeroTickY(container));
     });
 
     it("stays visible when every value is negative", () => {
       const { container } = renderChart(ALL_NEGATIVE);
-      expect(zeroLine(container)).not.toBeNull();
+      const lines = zeroLines(container);
+      expect(lines).toHaveLength(1);
       expect(Math.max(...yTicks(container))).toBe(0);
+      expect(Number(lines[0]?.getAttribute("y1"))).toBe(zeroTickY(container));
     });
 
-    it("is not drawn when there is no data", () => {
+    it("is still drawn at value 0 when there is no data", () => {
       const { container } = renderChart([]);
-      expect(zeroLine(container)).toBeNull();
+      const lines = zeroLines(container);
+      expect(lines).toHaveLength(1);
+      expect(Number(lines[0]?.getAttribute("y1"))).toBe(zeroTickY(container));
     });
   });
 
