@@ -21,13 +21,13 @@ const meta = {
     titleSize: {
       control: "select",
       options: ["xs", "sm", "md", "lg", "xl"],
-      description: "Size of the title heading — xs through xl, mapping to bold heading tokens.",
+      description: "How large the title looks (xs to xl). Independent of the heading level.",
       table: { defaultValue: { summary: "lg" } },
     },
     titleAs: {
       control: "select",
       options: ["h1", "h2", "h3"],
-      description: "Heading element rendered for a string title.",
+      description: "Heading level of a string title, for screen readers. Does not change the look.",
       table: { defaultValue: { summary: "h2" } },
     },
     mediaSize: {

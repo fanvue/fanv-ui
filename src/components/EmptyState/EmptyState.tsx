@@ -53,14 +53,15 @@ export interface EmptyStateProps extends Omit<React.HTMLAttributes<HTMLElement>,
   /** Main heading. Strings use library heading styles; pass a node for full control. */
   title?: EmptyStateSlot;
   /**
-   * Size of the title heading — mapped internally to bold heading typography tokens.
+   * How large the title looks, mapped to bold heading typography tokens. Independent of
+   * `titleAs`, which sets the heading level.
    * @default "lg"
    */
   titleSize?: EmptyStateTitleSize;
   /**
-   * Heading element used when `title` is a string, so the state fits the page's
-   * heading outline (for example `"h1"` on a whole-page state). Ignored when
-   * `title` is a node.
+   * Heading level of a string title, for screen readers and the page's heading outline
+   * (for example `"h1"` on a whole-page state). Does not change how the title looks; use
+   * `titleSize` for that. Ignored when `title` is a node.
    * @default "h2"
    */
   titleAs?: EmptyStateTitleAs;
