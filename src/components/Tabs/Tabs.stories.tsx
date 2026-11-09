@@ -3,9 +3,11 @@ import * as React from "react";
 import { expect, screen, userEvent, waitFor, within } from "storybook/test";
 import { BellIcon } from "../Icons/BellIcon";
 import { DiscountIcon } from "../Icons/DiscountIcon";
+import { Skeleton } from "../Skeleton/Skeleton";
 import { Tabs } from "./Tabs";
 import { TabsContent } from "./TabsContent";
 import { TabsList } from "./TabsList";
+import { TabsListSkeleton } from "./TabsListSkeleton";
 import { TabsOverflow, TabsOverflowItem } from "./TabsOverflow";
 import { TabsTrigger } from "./TabsTrigger";
 
@@ -406,6 +408,27 @@ export const Pill: Story = {
         <TabsTrigger value="purchases">Purchases</TabsTrigger>
       </TabsList>
     </Tabs>
+  ),
+};
+
+export const PillSkeleton: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <TabsListSkeleton>
+        <Skeleton variant="rounded" width={56} height={32} className="rounded-full" />
+        <Skeleton variant="rounded" width={88} height={32} className="rounded-full" />
+        <Skeleton variant="rounded" width={64} height={32} className="rounded-full" />
+        <Skeleton variant="rounded" width={80} height={32} className="rounded-full" />
+      </TabsListSkeleton>
+      <Tabs defaultValue="all">
+        <TabsList appearance="pill" aria-label="Notification categories">
+          <TabsTrigger value="all">All</TabsTrigger>
+          <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
+          <TabsTrigger value="tips">Tips</TabsTrigger>
+          <TabsTrigger value="purchases">Purchases</TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </div>
   ),
 };
 

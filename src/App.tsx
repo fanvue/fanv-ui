@@ -261,6 +261,7 @@ import {
   Tabs,
   TabsContent,
   TabsList,
+  TabsListSkeleton,
   TabsTrigger,
   TagIcon,
   TaskIcon,
@@ -2384,6 +2385,12 @@ function LinkDemo() {
             </Link>
           </div>
         ))}
+        <p className="typography-description-12px-regular max-w-xs text-content-secondary">
+          A flat fee applies to every crypto payout.{" "}
+          <Link href="#" variant="inherit" size="inherit">
+            Learn more about payout fees
+          </Link>
+        </p>
       </div>
     </div>
   );
@@ -4437,6 +4444,10 @@ function TabsDemo() {
             <p className="pt-4 text-neutral-alphas-400 text-sm">Posts content</p>
           </TabsContent>
         </Tabs>
+        <TabsListSkeleton>
+          <Skeleton variant="rounded" width={40} height={32} className="rounded-full" />
+          <Skeleton variant="rounded" width={96} height={32} className="rounded-full" />
+        </TabsListSkeleton>
         <Tabs defaultValue="all">
           <TabsList appearance="pill" aria-label="Categories">
             <TabsTrigger value="all">All</TabsTrigger>

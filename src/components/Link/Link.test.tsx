@@ -74,6 +74,40 @@ describe("Link", () => {
   });
 
   describe("accessibility", () => {
+    it("inherits colour and type from its surroundings with the inherit variant and size", () => {
+      render(
+        <Link href="#" variant="inherit" size="inherit">
+          Label
+        </Link>,
+      );
+      const link = screen.getByRole("link", { name: /Label/i });
+      expect(link).toHaveClass("text-inherit");
+      expect(link).not.toHaveClass("text-buttons-link-primary-default");
+      expect(link.firstElementChild).toHaveClass("underline");
+      expect(link.firstElementChild?.className).not.toMatch(/typography-/);
+    });
+
+    it("renders inline so it wraps with the sentence when size is inherit", () => {
+      render(
+        <Link href="#" variant="inherit" size="inherit">
+          Label
+        </Link>,
+      );
+      const link = screen.getByRole("link", { name: /Label/i });
+      expect(link).toHaveClass("inline", "transition-opacity");
+      expect(link).not.toHaveClass("inline-flex");
+    });
+
+    it("keeps the flex layout for icons when size is inherit", () => {
+      render(
+        <Link href="#" size="inherit" leftIcon={<svg />}>
+          Label
+        </Link>,
+      );
+      const link = screen.getByRole("link", { name: /Label/i });
+      expect(link).toHaveClass("inline-flex", "transition-colors");
+    });
+
     it("has no accessibility violations", async () => {
       const { container } = render(<Link href="/pricing">Pricing</Link>);
       expect(await axe(container)).toHaveNoViolations();
