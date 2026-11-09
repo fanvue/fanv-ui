@@ -2,10 +2,14 @@ import type * as React from "react";
 import { CartesianGrid, ReferenceLine } from "recharts";
 
 /**
- * Props for {@link ChartGrid}. Forwarded to Recharts' `CartesianGrid`, after the defaults;
- * `xAxisId` and `yAxisId` also place the zero baseline.
+ * Props for {@link ChartGrid}. Forwarded to Recharts' `CartesianGrid`; `xAxisId` and
+ * `yAxisId` also place the zero baseline. The line colour and dash are fixed by the
+ * design system, so `stroke` and `strokeDasharray` are not accepted.
  */
-export type ChartGridProps = React.ComponentProps<typeof CartesianGrid>;
+export type ChartGridProps = Omit<
+  React.ComponentProps<typeof CartesianGrid>,
+  "stroke" | "strokeDasharray"
+>;
 
 /**
  * The design-system grid for cartesian charts: dotted horizontal lines and one solid
@@ -36,9 +40,9 @@ export function ChartGrid(props: ChartGridProps) {
     <>
       <CartesianGrid
         vertical={false}
+        {...props}
         stroke="var(--color-neutral-alphas-200)"
         strokeDasharray="2 4"
-        {...props}
       />
       <ReferenceLine
         y={0}

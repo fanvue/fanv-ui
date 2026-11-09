@@ -41,7 +41,7 @@ describe("ChartGrid", () => {
       expect(container.querySelector(".recharts-cartesian-grid-vertical")).toBeNull();
     });
 
-    it("lets the consumer override the grid's defaults", () => {
+    it("lets the consumer add vertical grid lines", () => {
       const { container } = render(
         <LineChart width={400} height={200} data={POSITIVE.map((value, i) => ({ i, value }))}>
           <ChartGrid vertical />
