@@ -1,27 +1,34 @@
 import type * as React from "react";
-import { CartesianGrid, ReferenceLine } from "recharts";
+import { CartesianGrid, DefaultZIndexes, ReferenceLine } from "recharts";
+import type { HorizontalCoordinatesGenerator } from "recharts/types/cartesian/CartesianGrid";
 
 /**
  * Props for {@link ChartGrid}. Forwarded to Recharts' `CartesianGrid`; `xAxisId` and
- * `yAxisId` also place the zero baseline. The line colour and dash are fixed by the
- * design system, so `stroke` and `strokeDasharray` are not accepted.
+ * `yAxisId` also place the zero baseline. The line colour, opacity and dash are fixed by
+ * the design system, so `stroke`, `strokeOpacity` and `strokeDasharray` are not accepted.
  */
 export type ChartGridProps = Omit<
   React.ComponentProps<typeof CartesianGrid>,
-  "stroke" | "strokeDasharray"
+  "stroke" | "strokeOpacity" | "strokeDasharray"
 >;
 
+const GRID_STROKE = "var(--color-neutral-alphas-200)";
+const BASELINE_STROKE = "var(--color-border-strong)";
+
+const zeroRow: HorizontalCoordinatesGenerator = ({ yAxis }) => {
+  const y = yAxis?.scale?.map(0);
+  return typeof y === "number" && Number.isFinite(y) ? [y] : [];
+};
+
 /**
- * The design-system grid for cartesian charts: dotted horizontal lines and one solid
- * baseline at value 0, above and below which every other line stays dotted. Render
- * it as a direct child of a Recharts `<LineChart>`, `<AreaChart>` or `<BarChart>`.
+ * The design-system grid for cartesian charts: faint solid horizontal lines
+ * (`neutral-alphas-200` at 40%) and a stronger `border-strong` baseline at value 0.
+ * Render it as a direct child of a Recharts `<LineChart>`, `<AreaChart>` or `<BarChart>`,
+ * and leave `<YAxis domain>` at its default.
  *
- * Grid lines use `neutral-alphas-200`, the colour `ChartContainer` gives Recharts'
- * default grid. The baseline uses `border-strong`.
- *
- * The baseline extends the y-axis domain to include zero, so it stays visible when
- * every value is negative. Leave `<YAxis domain>` at its default: the axis then starts
- * at zero, or at the lowest value when the data goes below zero.
+ * The baseline is a one-row grid placed by the y scale, not a visible `ReferenceLine`,
+ * because Recharts draws no `ReferenceLine` while `data` is empty (there is no x scale).
+ * The hidden `ReferenceLine` only keeps 0 inside the y domain when every value is negative.
  *
  * @example
  * ```tsx
@@ -35,22 +42,25 @@ export type ChartGridProps = Omit<
  * </ChartContainer>
  * ```
  */
-export function ChartGrid(props: ChartGridProps) {
+export function ChartGrid({ xAxisId, yAxisId, ...props }: ChartGridProps) {
+  const axes = { xAxisId, yAxisId };
   return (
     <>
       <CartesianGrid
         vertical={false}
+        {...axes}
         {...props}
-        stroke="var(--color-neutral-alphas-200)"
-        strokeDasharray="2 4"
+        stroke={GRID_STROKE}
+        strokeOpacity={0.4}
       />
-      <ReferenceLine
-        y={0}
-        xAxisId={props.xAxisId}
-        yAxisId={props.yAxisId}
-        stroke="var(--color-border-strong)"
-        ifOverflow="extendDomain"
+      <CartesianGrid
+        vertical={false}
+        {...axes}
+        horizontalCoordinatesGenerator={zeroRow}
+        stroke={BASELINE_STROKE}
+        zIndex={DefaultZIndexes.line}
       />
+      <ReferenceLine {...axes} y={0} stroke="none" ifOverflow="extendDomain" />
     </>
   );
 }
