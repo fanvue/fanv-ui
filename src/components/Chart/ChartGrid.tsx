@@ -2,32 +2,26 @@ import type * as React from "react";
 import { CartesianGrid, ReferenceLine } from "recharts";
 
 /**
- * Props for {@link ChartGrid}. Forwarded to Recharts' `CartesianGrid`, after the defaults;
- * `xAxisId` and `yAxisId` also place the zero baseline.
+ * Props for {@link ChartGrid}. Forwarded to Recharts' `CartesianGrid`; `xAxisId` and
+ * `yAxisId` also place the zero baseline. The line colour and dash are fixed by the
+ * design system, so `stroke` and `strokeDasharray` are not accepted.
  */
-export type ChartGridProps = React.ComponentProps<typeof CartesianGrid>;
-
-/**
- * The y-axis domain that goes with {@link ChartGrid}: the axis starts at zero, or at
- * the lowest value when the data goes below zero, so a chart never shows negative
- * ticks its data does not have. Pass it to `<YAxis domain>`.
- */
-export const chartGridYDomain: [(dataMin: number) => number, "auto"] = [
-  (dataMin) => Math.min(0, dataMin),
-  "auto",
-];
+export type ChartGridProps = Omit<
+  React.ComponentProps<typeof CartesianGrid>,
+  "stroke" | "strokeDasharray"
+>;
 
 /**
  * The design-system grid for cartesian charts: dotted horizontal lines and one solid
  * baseline at value 0, above and below which every other line stays dotted. Render
- * it as a direct child of a Recharts `<LineChart>`, `<AreaChart>` or `<BarChart>`,
- * and pair it with {@link chartGridYDomain} on the `<YAxis>`.
+ * it as a direct child of a Recharts `<LineChart>`, `<AreaChart>` or `<BarChart>`.
  *
  * Grid lines use `neutral-alphas-200`, the colour `ChartContainer` gives Recharts'
  * default grid. The baseline uses `border-strong`.
  *
  * The baseline extends the y-axis domain to include zero, so it stays visible when
- * every value is negative.
+ * every value is negative. Leave `<YAxis domain>` at its default: the axis then starts
+ * at zero, or at the lowest value when the data goes below zero.
  *
  * @example
  * ```tsx
@@ -35,7 +29,7 @@ export const chartGridYDomain: [(dataMin: number) => number, "auto"] = [
  *   <LineChart data={data}>
  *     <ChartGrid />
  *     <XAxis dataKey="day" />
- *     <YAxis domain={chartGridYDomain} />
+ *     <YAxis />
  *     <Line dataKey="net" stroke="var(--color-net)" />
  *   </LineChart>
  * </ChartContainer>
@@ -46,9 +40,9 @@ export function ChartGrid(props: ChartGridProps) {
     <>
       <CartesianGrid
         vertical={false}
+        {...props}
         stroke="var(--color-neutral-alphas-200)"
         strokeDasharray="2 4"
-        {...props}
       />
       <ReferenceLine
         y={0}
