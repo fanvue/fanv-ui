@@ -25,7 +25,7 @@ const meta = {
     },
     padding: {
       control: "select",
-      options: ["default", "compact", "none"],
+      options: ["normal", "compact"],
     },
     aiDisclosure: { control: "boolean" },
     isMuted: { control: "boolean" },
@@ -146,22 +146,10 @@ export const States: Story = {
   ),
 };
 
-export const PaddingDefault: Story = {
-  args: { padding: "default" },
-};
-
-export const PaddingCompact: Story = {
-  args: { padding: "compact" },
-};
-
-export const PaddingNone: Story = {
-  args: { padding: "none" },
-};
-
 export const Paddings: Story = {
   render: (args) => (
     <div className="flex w-72 flex-col gap-4">
-      {(["default", "compact", "none"] as const).map((padding) => (
+      {(["normal", "compact"] as const).map((padding) => (
         <div key={padding} className="flex flex-col gap-1">
           <div className="bg-surface-secondary">
             <UserItem {...args} padding={padding} />

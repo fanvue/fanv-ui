@@ -2595,7 +2595,7 @@ function UserItemTrailingDemo() {
           showHandle={false}
           trailing={<UserItemTrailing value="$980.00" meta="3 purchases" />}
         />
-        {(["default", "compact", "none"] as const).map((padding) => (
+        {(["normal", "compact"] as const).map((padding) => (
           <UserItem
             key={padding}
             padding={padding}
