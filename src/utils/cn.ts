@@ -7,7 +7,7 @@ import { extendTailwindMerge } from "tailwind-merge";
  * consumer's `typography-*` replace a component's default instead of both
  * applying and leaving the result to stylesheet order.
  */
-const twMerge = extendTailwindMerge({
+const twMerge = extendTailwindMerge<"typography">({
   extend: { classGroups: { typography: [{ typography: [() => true] }] } },
 });
 
