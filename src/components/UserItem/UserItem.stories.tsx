@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect, within } from "storybook/test";
 import { UserItem } from "./UserItem";
 import { UserItemTrailing } from "./UserItemTrailing";
 
@@ -135,6 +136,19 @@ export const AvatarSizes: Story = {
       ))}
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const blocks = within(canvasElement)
+      .getAllByText("Aitana Lopez")
+      .map((name) => (name.parentElement as HTMLElement).parentElement as HTMLElement);
+    const heights = blocks.map((block) => block.getBoundingClientRect().height);
+    const lineHeights = blocks.map((block) =>
+      [...block.children].reduce(
+        (sum, line) => sum + Number.parseFloat(getComputedStyle(line).lineHeight),
+        0,
+      ),
+    );
+    await expect(heights).toEqual(lineHeights);
+  },
 };
 
 export const States: Story = {

@@ -188,7 +188,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
               aiDisclosureLabel={aiDisclosureLabel}
               verified={verified}
               verifiedLabel={verifiedLabel}
-              className={text.name}
+              className={cn("flex", text.name)}
             >
               {user.nickname || user.displayName}
             </UserDisplayName>
