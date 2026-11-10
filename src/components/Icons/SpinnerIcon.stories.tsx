@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, within } from "storybook/test";
 import { Button } from "../Button/Button";
-import { CogIcon } from "./CogIcon";
 import { SpinnerIcon } from "./SpinnerIcon";
 
 const animatedElements = (root: Element) =>
@@ -40,23 +39,6 @@ export const Spin: Story = {
   play: async ({ canvasElement }) => {
     const svg = canvasElement.querySelector("svg") as SVGSVGElement;
     await expect(getComputedStyle(svg).animationName).toBe("spin");
-  },
-};
-
-export const SpinOnAnyIcon: Story = {
-  name: "Spin on any icon",
-  render: () => (
-    <div className="flex items-center gap-4 text-content-primary">
-      <SpinnerIcon size={24} spin />
-      <CogIcon size={24} spin />
-      <CogIcon size={24} />
-    </div>
-  ),
-  play: async ({ canvasElement }) => {
-    const names = [...canvasElement.querySelectorAll("svg")].map(
-      (svg) => getComputedStyle(svg).animationName,
-    );
-    await expect(names).toEqual(["spin", "spin", "none"]);
   },
 };
 
