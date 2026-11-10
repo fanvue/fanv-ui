@@ -841,11 +841,7 @@ export const FullScreenMedia: Story = {
       <DialogTrigger asChild>
         <Button>Open Dialog</Button>
       </DialogTrigger>
-      <DialogContent
-        size="full"
-        aria-describedby={undefined}
-        className="dark bg-background-primary"
-      >
+      <DialogContent size="full" aria-describedby={undefined} className="bg-background-primary">
         <DialogTitle className="sr-only">Photo</DialogTitle>
         <img src={STORY_PHOTO_URL} alt="" className="size-full object-contain" />
         <DialogClose asChild>
