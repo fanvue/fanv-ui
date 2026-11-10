@@ -407,35 +407,53 @@ export const Stop72: Story = {
 const OVERLAY_STORY_PHOTO_URL =
   "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&h=400&fit=crop";
 
+const OVERLAY_FRAMES = [
+  { id: "photo", surface: "" },
+  { id: "white", surface: "bg-white" },
+  { id: "black", surface: "bg-black" },
+] as const;
+
+/** Overlay buttons on a photo, and on near-white and solid-black frames, the weakest backgrounds. */
 export const OverlayOnMedia: Story = {
   args: { icon: <CloseIcon />, "aria-label": "Close" },
   render: () => (
-    <div className="relative h-[200px] w-[300px] overflow-hidden rounded-md">
-      <img src={OVERLAY_STORY_PHOTO_URL} alt="" className="size-full object-cover" />
-      <div className="absolute inset-x-0 top-3 flex items-center justify-center gap-3">
-        {(["24", "32", "40", "48"] as const).map((size) => (
-          <IconButton
-            key={size}
-            variant="overlay"
-            size={size}
-            icon={<CloseIcon />}
-            aria-label={`Close ${size}`}
-          />
-        ))}
-        <IconButton
-          variant="overlay"
-          size="40"
-          icon={<CloseIcon />}
-          aria-label="Close disabled"
-          disabled
-        />
-      </div>
-      <div className="absolute inset-y-0 left-3 flex items-center">
-        <IconButton variant="overlay" size="40" icon={<ChevronLeftIcon />} aria-label="Previous" />
-      </div>
-      <div className="absolute inset-y-0 right-3 flex items-center">
-        <IconButton variant="overlay" size="40" icon={<ChevronRightIcon />} aria-label="Next" />
-      </div>
+    <div className="flex flex-wrap gap-4">
+      {OVERLAY_FRAMES.map(({ id, surface }) => (
+        <div key={id} className={`relative h-50 w-75 overflow-hidden rounded-md ${surface}`}>
+          {id === "photo" && (
+            <img src={OVERLAY_STORY_PHOTO_URL} alt="" className="size-full object-cover" />
+          )}
+          <div className="absolute inset-x-0 top-3 flex items-center justify-center gap-3">
+            {(["24", "32", "40", "48"] as const).map((size) => (
+              <IconButton
+                key={size}
+                variant="overlay"
+                size={size}
+                icon={<CloseIcon />}
+                aria-label={`Close ${size}`}
+              />
+            ))}
+            <IconButton
+              variant="overlay"
+              size="40"
+              icon={<CloseIcon />}
+              aria-label="Close disabled"
+              disabled
+            />
+          </div>
+          <div className="absolute inset-y-0 left-3 flex items-center">
+            <IconButton
+              variant="overlay"
+              size="40"
+              icon={<ChevronLeftIcon />}
+              aria-label="Previous"
+            />
+          </div>
+          <div className="absolute inset-y-0 right-3 flex items-center">
+            <IconButton variant="overlay" size="40" icon={<ChevronRightIcon />} aria-label="Next" />
+          </div>
+        </div>
+      ))}
     </div>
   ),
 };

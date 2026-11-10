@@ -12,8 +12,9 @@ import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
  * and `outline` also honour the {@link IconButtonProps.negative} prop.
  *
  * `overlay` is a translucent dark fill with a backdrop blur, for buttons that sit
- * on photos or video; it looks the same in light and dark themes and takes the
- * same size-driven shape as the standard variants.
+ * on photos or video. Its fill and icon look the same in light and dark themes, while
+ * the keyboard focus ring still follows the theme. It takes the same size-driven
+ * shape as the standard variants.
  *
  * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop` and
  * `microphone` are bespoke variants that stay circular at every size.
