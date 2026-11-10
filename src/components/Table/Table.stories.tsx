@@ -24,6 +24,7 @@ import {
   TableCell,
   TableCellContent,
   TableCellGroup,
+  TableFooter,
   TableHead,
   TableHeader,
   TableMediaThumbnail,
@@ -713,4 +714,171 @@ export const AllStatesV2: Story = {
       </div>
     );
   },
+};
+
+type EarningsRow = { name: string; posts: string; earnings: string; ghost?: boolean };
+
+const EARNINGS_ROWS: EarningsRow[] = [
+  { name: "@jane_doe", posts: "12", earnings: "$1,204.50" },
+  { name: "@user123", posts: "8", earnings: "$96.00" },
+  { name: "@former_member", posts: "3", earnings: "$11.25", ghost: true },
+];
+
+export const Alignment: Story = {
+  name: "Alignment",
+  render: () => (
+    <TableCard className="max-w-xl">
+      <TableScrollArea>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead align="start">Start</TableHead>
+              <TableHead align="center">Center</TableHead>
+              <TableHead align="end">End</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {["Short", "A longer value"].map((value) => (
+              <TableRow key={value}>
+                <TableCell align="start">{value}</TableCell>
+                <TableCell align="center">{value}</TableCell>
+                <TableCell align="end">{value}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+    </TableCard>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(
+      getComputedStyle(canvas.getByRole("columnheader", { name: "End" })).textAlign,
+    ).toBe("end");
+    await expect(
+      getComputedStyle(canvas.getByRole("columnheader", { name: "Center" })).textAlign,
+    ).toBe("center");
+  },
+};
+
+export const Numeric: Story = {
+  name: "Numeric",
+  render: () => (
+    <TableCard className="max-w-xl">
+      <TableScrollArea>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Creator</TableHead>
+              <TableHead numeric>Posts</TableHead>
+              <TableHead numeric>Earnings</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {EARNINGS_ROWS.map((row) => (
+              <TableRow key={row.name}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell numeric>{row.posts}</TableCell>
+                <TableCell numeric>{row.earnings}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+    </TableCard>
+  ),
+  play: async ({ canvasElement }) => {
+    const cell = within(canvasElement).getByRole("cell", { name: "$1,204.50" });
+    await expect(getComputedStyle(cell).textAlign).toBe("end");
+    await expect(getComputedStyle(cell).fontVariantNumeric).toBe("tabular-nums");
+  },
+};
+
+export const Tones: Story = {
+  name: "Tones",
+  render: () => (
+    <TableCard className="max-w-xl">
+      <TableScrollArea>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead tone="primary">Primary head</TableHead>
+              <TableHead>Secondary head (default)</TableHead>
+              <TableHead tone="tertiary">Tertiary head</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>Primary cell (default)</TableCell>
+              <TableCell tone="secondary">Secondary cell</TableCell>
+              <TableCell tone="tertiary">Tertiary cell</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+    </TableCard>
+  ),
+};
+
+export const MutedRow: Story = {
+  name: "Muted row",
+  render: () => (
+    <TableCard className="max-w-xl">
+      <TableScrollArea>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Creator</TableHead>
+              <TableHead numeric>Posts</TableHead>
+              <TableHead numeric>Earnings</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {EARNINGS_ROWS.map((row) => (
+              <TableRow key={row.name} tone={row.ghost ? "tertiary" : undefined}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell numeric>{row.posts}</TableCell>
+                <TableCell numeric>{row.earnings}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+    </TableCard>
+  ),
+};
+
+export const TotalsRow: Story = {
+  name: "Totals row",
+  render: () => (
+    <TableCard className="max-w-xl">
+      <TableScrollArea>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Creator</TableHead>
+              <TableHead numeric>Posts</TableHead>
+              <TableHead numeric>Earnings</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {EARNINGS_ROWS.map((row) => (
+              <TableRow key={row.name}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell numeric>{row.posts}</TableCell>
+                <TableCell numeric>{row.earnings}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell>Total</TableCell>
+              <TableCell numeric>23</TableCell>
+              <TableCell numeric>$1,311.75</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableScrollArea>
+    </TableCard>
+  ),
 };

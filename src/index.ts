@@ -825,11 +825,13 @@ export type {
 } from "./components/SwitchToggle/SwitchToggle";
 export { SwitchToggle } from "./components/SwitchToggle/SwitchToggle";
 export type {
+  TableAlign,
   TableBodyProps,
   TableCardProps,
   TableCellContentProps,
   TableCellGroupProps,
   TableCellIntent,
+  TableCellLayoutProps,
   TableCellProps,
   TableCellVariant,
   TableFooterProps,
@@ -851,6 +853,7 @@ export type {
   TableSortLabelProps,
   TableStackedTextProps,
   TableStatusDotProps,
+  TableTone,
   TableToolbarActionProps,
   TableToolbarButtonProps,
   TableToolbarProps,

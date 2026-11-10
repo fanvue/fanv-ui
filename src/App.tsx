@@ -241,6 +241,7 @@ import {
   TableCell,
   TableCellContent,
   TableCellGroup,
+  TableFooter,
   TableHead,
   TableHeader,
   TableLineClamp,
@@ -4082,7 +4083,7 @@ function TableDemo() {
                     <TableHead>Thumbnail</TableHead>
                     <TableHead>Created</TableHead>
                     <TableHead>Price</TableHead>
-                    <TableHead>Purchases</TableHead>
+                    <TableHead numeric>Purchases</TableHead>
                     <TableHead>Status</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -4122,13 +4123,20 @@ function TableDemo() {
                       </TableCell>
                       <TableCell>16 May, 01:15 AM</TableCell>
                       <TableCell>$5.99 / month</TableCell>
-                      <TableCell>{row.purchases}</TableCell>
+                      <TableCell numeric>{row.purchases}</TableCell>
                       <TableCell>
                         <Pill variant={row.variant}>{row.status}</Pill>
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={4}>Total</TableCell>
+                    <TableCell numeric>$156.25</TableCell>
+                    <TableCell />
+                  </TableRow>
+                </TableFooter>
               </Table>
             </TableScrollArea>
           </TableCard>

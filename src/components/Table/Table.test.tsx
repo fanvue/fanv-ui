@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import type * as React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import {
@@ -8,6 +9,7 @@ import {
   TableCard,
   TableCell,
   TableCellContent,
+  TableFooter,
   TableHead,
   TableHeader,
   TableMediaThumbnail,
@@ -290,6 +292,157 @@ describe("Table", () => {
       const frame = container.querySelector(".size-8");
       expect(frame).not.toBeNull();
       expect(frame).toHaveClass("rounded-xs");
+    });
+  });
+
+  describe("align, numeric and tone", () => {
+    const renderRow = (
+      cells: React.ReactNode,
+      { head, row }: { head?: React.ReactNode; row?: React.ComponentProps<typeof TableRow> } = {},
+    ) =>
+      render(
+        <Table>
+          {head != null && (
+            <TableHeader>
+              <TableRow {...row}>{head}</TableRow>
+            </TableHeader>
+          )}
+          <TableBody>
+            <TableRow {...row}>{cells}</TableRow>
+          </TableBody>
+        </Table>,
+      );
+
+    it("keeps primary cells and secondary heads with no alignment class by default", () => {
+      renderRow(<TableCell>Cell</TableCell>, { head: <TableHead>Head</TableHead> });
+      const cell = screen.getByRole("cell", { name: "Cell" });
+      const head = screen.getByRole("columnheader", { name: "Head" });
+      expect(cell).toHaveClass("text-content-primary");
+      expect(head).toHaveClass("text-content-secondary", "text-left");
+      for (const element of [cell, head]) {
+        expect(element).not.toHaveClass("text-start", "text-center", "text-end", "tabular-nums");
+      }
+    });
+
+    it.each([
+      ["start", "text-start"],
+      ["center", "text-center"],
+      ["end", "text-end"],
+    ] as const)("aligns cells and heads to %s", (align, className) => {
+      renderRow(<TableCell align={align}>Cell</TableCell>, {
+        head: <TableHead align={align}>Head</TableHead>,
+      });
+      expect(screen.getByRole("cell", { name: "Cell" })).toHaveClass(className);
+      expect(screen.getByRole("columnheader", { name: "Head" })).toHaveClass(className);
+    });
+
+    it("lets align override the head intent alignment", () => {
+      renderRow(<TableCell>Cell</TableCell>, {
+        head: (
+          <TableHead intent="sort" align="start">
+            Head
+          </TableHead>
+        ),
+      });
+      const head = screen.getByRole("columnheader", { name: "Head" });
+      expect(head).toHaveClass("text-start");
+      expect(head).not.toHaveClass("text-right");
+    });
+
+    it("sets tabular figures and end alignment for numeric columns", () => {
+      renderRow(<TableCell numeric>$5.99</TableCell>, {
+        head: <TableHead numeric>Price</TableHead>,
+      });
+      expect(screen.getByRole("cell", { name: "$5.99" })).toHaveClass("tabular-nums", "text-end");
+      expect(screen.getByRole("columnheader", { name: "Price" })).toHaveClass(
+        "tabular-nums",
+        "text-end",
+      );
+    });
+
+    it("lets an explicit align or className win over numeric", () => {
+      renderRow(
+        <>
+          <TableCell numeric align="center">
+            Centered
+          </TableCell>
+          <TableCell numeric className="text-left">
+            Overridden
+          </TableCell>
+        </>,
+      );
+      const centered = screen.getByRole("cell", { name: "Centered" });
+      expect(centered).toHaveClass("tabular-nums", "text-center");
+      expect(centered).not.toHaveClass("text-end");
+      const overridden = screen.getByRole("cell", { name: "Overridden" });
+      expect(overridden).toHaveClass("text-left");
+      expect(overridden).not.toHaveClass("text-end");
+    });
+
+    it("applies tone to cells and heads", () => {
+      renderRow(<TableCell tone="tertiary">Cell</TableCell>, {
+        head: <TableHead tone="primary">Head</TableHead>,
+      });
+      const cell = screen.getByRole("cell", { name: "Cell" });
+      expect(cell).toHaveClass("text-content-tertiary");
+      expect(cell).not.toHaveClass("text-content-primary");
+      const head = screen.getByRole("columnheader", { name: "Head" });
+      expect(head).toHaveClass("text-content-primary");
+      expect(head).not.toHaveClass("text-content-secondary");
+    });
+
+    it("passes a row tone to every cell and head, and a cell tone wins", () => {
+      renderRow(
+        <>
+          <TableCell>Muted</TableCell>
+          <TableCell tone="primary">Own tone</TableCell>
+        </>,
+        { head: <TableHead>Head</TableHead>, row: { tone: "tertiary" } },
+      );
+      expect(screen.getByRole("cell", { name: "Muted" })).toHaveClass("text-content-tertiary");
+      expect(screen.getByRole("columnheader", { name: "Head" })).toHaveClass(
+        "text-content-tertiary",
+      );
+      expect(screen.getByRole("cell", { name: "Own tone" })).toHaveClass("text-content-primary");
+    });
+  });
+
+  describe("TableFooter", () => {
+    const renderTotals = (totals: React.ReactNode) =>
+      render(
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell>Row</TableCell>
+            </TableRow>
+          </TableBody>
+          <TableFooter>
+            <TableRow>{totals}</TableRow>
+          </TableFooter>
+        </Table>,
+      );
+
+    it("styles footer cells as the totals row", () => {
+      renderTotals(<TableCell>Total</TableCell>);
+      const total = screen.getByRole("cell", { name: "Total" });
+      expect(total).toHaveClass(
+        "border-t",
+        "border-border-strong",
+        "border-b-0",
+        "bg-background-secondary",
+        "text-content-secondary",
+      );
+      expect(total).not.toHaveClass("border-border-primary", "text-content-primary");
+      const row = screen.getByRole("cell", { name: "Row" });
+      expect(row).not.toHaveClass("border-t", "bg-background-secondary");
+      expect(row).toHaveClass("text-content-primary");
+    });
+
+    it("lets a cell tone override the totals text colour", () => {
+      renderTotals(<TableCell tone="primary">Total</TableCell>);
+      const total = screen.getByRole("cell", { name: "Total" });
+      expect(total).toHaveClass("text-content-primary", "bg-background-secondary");
+      expect(total).not.toHaveClass("text-content-secondary");
     });
   });
 

@@ -402,25 +402,86 @@ export const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProp
 );
 TableBody.displayName = "TableBody";
 
+/** Horizontal alignment of a {@link TableCell} or {@link TableHead}, in reading direction. */
+export type TableAlign = "start" | "center" | "end";
+
+const ALIGN_CLASSES: Record<TableAlign, string> = {
+  start: "text-start",
+  center: "text-center",
+  end: "text-end",
+};
+
+/** Text colour of a {@link TableCell}, {@link TableHead} or whole {@link TableRow}. */
+export type TableTone = "primary" | "secondary" | "tertiary";
+
+const TONE_CLASSES: Record<TableTone, string> = {
+  primary: "text-content-primary",
+  secondary: "text-content-secondary",
+  tertiary: "text-content-tertiary",
+};
+
+const TableFooterContext = React.createContext(false);
+
+const TableRowToneContext = React.createContext<TableTone | undefined>(undefined);
+
+/** Alignment, figure style and colour shared by {@link TableCell} and {@link TableHead}. */
+export interface TableCellLayoutProps {
+  /** Horizontal alignment. Overrides the `intent` alignment. @default "end" when `numeric`, otherwise the intent's */
+  align?: TableAlign;
+  /** For numbers and amounts: tabular figures and end alignment, so digits line up down the column. @default false */
+  numeric?: boolean;
+  /** Text colour. Overrides the parent {@link TableRow} `tone`. */
+  tone?: TableTone;
+}
+
+function layoutClasses(align: TableAlign | undefined, numeric: boolean) {
+  const resolved = align ?? (numeric ? "end" : undefined);
+  return cn(numeric && "tabular-nums", resolved && ALIGN_CLASSES[resolved]);
+}
+
 export interface TableFooterProps extends React.HTMLAttributes<HTMLTableSectionElement> {}
 
+/**
+ * `<tfoot>` for a totals row. Its {@link TableCell}s get a strong top rule, a
+ * `background-secondary` fill and secondary text; a cell or row `tone` still
+ * overrides the colour.
+ *
+ * @example
+ * ```tsx
+ * <TableFooter>
+ *   <TableRow>
+ *     <TableCell>Total</TableCell>
+ *     <TableCell numeric>$1,280.00</TableCell>
+ *   </TableRow>
+ * </TableFooter>
+ * ```
+ */
 export const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooterProps>(
   ({ className, ...props }, ref) => {
-    return <tfoot ref={ref} className={cn(className)} {...props} />;
+    return (
+      <TableFooterContext.Provider value={true}>
+        <tfoot ref={ref} className={cn(className)} {...props} />
+      </TableFooterContext.Provider>
+    );
   },
 );
 TableFooter.displayName = "TableFooter";
 
-export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {}
+export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+  /** Text colour for every {@link TableCell} and {@link TableHead} in the row, e.g. `"tertiary"` for a muted row. A cell's own `tone` wins. */
+  tone?: TableTone;
+}
 
 /**
  * Table row. A body row holding a {@link TableMediaThumbnail} or
  * {@link TableMediaTile} grows from 40px to 56px to keep 8px around it.
  */
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, tone, ...props }, ref) => {
     return (
-      <tr ref={ref} className={cn("[&:has([data-table-media])>td]:h-14", className)} {...props} />
+      <TableRowToneContext.Provider value={tone}>
+        <tr ref={ref} className={cn("[&:has([data-table-media])>td]:h-14", className)} {...props} />
+      </TableRowToneContext.Provider>
     );
   },
 );
@@ -438,7 +499,9 @@ const HEAD_INTENT_CLASSES: Record<TableHeadIntent, string> = {
 
 const CELL_GUTTERS = "px-5 first:pl-4 last:pr-4";
 
-export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
+export interface TableHeadProps
+  extends Omit<React.ThHTMLAttributes<HTMLTableCellElement>, "align">,
+    TableCellLayoutProps {
   /** Layout preset for common column types. @default "default" */
   intent?: TableHeadIntent;
 }
@@ -446,18 +509,30 @@ export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElem
 /**
  * Header cell: 32px tall on `surface-table-row`, 12px secondary text and a
  * 0.5px bottom rule. Columns sit at least 40px apart, with 16px against the
- * card edges.
+ * card edges. Set `align`, `numeric` and `tone` to match the column's
+ * {@link TableCell}s.
+ *
+ * @example
+ * ```tsx
+ * <TableHead numeric>Earnings</TableHead>
+ * ```
  */
 export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
-  ({ className, intent = "default", scope = "col", ...props }, ref) => {
+  (
+    { className, intent = "default", scope = "col", align, numeric = false, tone, ...props },
+    ref,
+  ) => {
+    const rowTone = React.useContext(TableRowToneContext);
     return (
       <th
         ref={ref}
         scope={scope}
         className={cn(
-          "typography-description-12px-regular box-border h-8 whitespace-nowrap border-border-primary border-b-[0.5px] bg-surface-table-row py-0 align-middle font-normal text-content-secondary",
+          "typography-description-12px-regular box-border h-8 whitespace-nowrap border-border-primary border-b-[0.5px] bg-surface-table-row py-0 align-middle font-normal",
           CELL_GUTTERS,
           HEAD_INTENT_CLASSES[intent],
+          layoutClasses(align, numeric),
+          TONE_CLASSES[tone ?? rowTone ?? "secondary"],
           className,
         )}
         {...props}
@@ -494,7 +569,9 @@ const CELL_INTENT_CLASSES: Record<TableCellIntent, string> = {
   sideLabel: "",
 };
 
-export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
+export interface TableCellProps
+  extends Omit<React.TdHTMLAttributes<HTMLTableCellElement>, "align">,
+    TableCellLayoutProps {
   /** Padding preset for the cell. v2 uses identical padding across variants; values are kept for back-compat. @default "default" */
   cellVariant?: TableCellVariant;
   /** Alignment and typography preset for common cell types. @default "default" */
@@ -508,10 +585,30 @@ export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElem
  * `size="lg"` or the row holds media), 12px type, transparent background and
  * a 0.5px rule that {@link TableBody} drops on the final row. Long text wraps
  * and the row grows; set `nowrap` on short columns to keep them on one line.
+ * Inside {@link TableFooter} it renders as a totals cell.
+ *
+ * @example
+ * ```tsx
+ * <TableCell numeric tone="secondary">$5.99</TableCell>
+ * ```
  */
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ className, cellVariant = "default", intent = "default", nowrap = false, ...props }, ref) => {
+  (
+    {
+      className,
+      cellVariant = "default",
+      intent = "default",
+      nowrap = false,
+      align,
+      numeric = false,
+      tone,
+      ...props
+    },
+    ref,
+  ) => {
     const size = useTableSize();
+    const inFooter = React.useContext(TableFooterContext);
+    const rowTone = React.useContext(TableRowToneContext);
     const typo =
       intent === "sideLabel"
         ? "typography-description-12px-semibold"
@@ -521,12 +618,15 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
         ref={ref}
         className={cn(
           typo,
-          "align-middle text-content-primary",
+          "align-middle",
           nowrap && "whitespace-nowrap",
           CELL_GUTTERS,
           CELL_VARIANT_CLASSES[cellVariant],
+          inFooter && "border-border-strong border-t border-b-0 bg-background-secondary",
           CELL_MIN_HEIGHT[size],
           CELL_INTENT_CLASSES[intent],
+          layoutClasses(align, numeric),
+          TONE_CLASSES[tone ?? rowTone ?? (inFooter ? "secondary" : "primary")],
           className,
         )}
         {...props}
