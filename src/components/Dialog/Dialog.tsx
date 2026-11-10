@@ -65,17 +65,23 @@ export const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = "DialogOverlay";
 
+/** Size preset of {@link DialogContent}. */
+export type DialogContentSize = "sm" | "md" | "lg" | "full";
+
 export interface DialogContentProps
   extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   /**
-   * Width preset for the dialog.
+   * Size preset for the dialog.
    * - `"sm"` — 400px max-width (confirmations, simple forms)
    * - `"md"` — 440px max-width (default, standard dialogs)
    * - `"lg"` — 600px max-width (complex content, tables)
+   * - `"full"` — edge to edge with no border, radius, padding, background or pull handle,
+   *   for media viewers. Its height follows `--visual-viewport-h` when the page sets it
+   *   (to track the on-screen keyboard) and falls back to `100dvh`.
    *
    * @default "md"
    */
-  size?: "sm" | "md" | "lg";
+  size?: DialogContentSize;
   /** When true, renders overlay automatically. @default true */
   overlay?: boolean;
   /**
@@ -99,11 +105,14 @@ export interface DialogContentProps
   overlayProps?: DialogOverlayProps;
 }
 
-const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
+const SIZE_CLASSES: Record<Exclude<DialogContentSize, "full">, string> = {
   sm: "sm:max-w-[400px]",
   md: "sm:max-w-[440px]",
   lg: "sm:max-w-[600px]",
 };
+
+const FULL_CLASSES =
+  "inset-x-0 top-[var(--visual-viewport-top,0px)] h-[var(--visual-viewport-h,100dvh)] w-screen";
 
 /**
  * The dialog panel. Includes the overlay by default and portals to `document.body` by default.
@@ -115,6 +124,7 @@ const SIZE_CLASSES: Record<NonNullable<DialogContentProps["size"]>, string> = {
  * with top-only border radius by default; pass `mobilePresentation="card"` to
  * render a centered floating card instead (used for small confirmation dialogs).
  * On larger viewports it renders centered with full border radius.
+ * `size="full"` skips both and fills the viewport with no chrome.
  *
  * It animates in and out. While the closing animation plays the panel stays
  * mounted but ignores pointer input, so a second click can't act on it.
@@ -161,9 +171,10 @@ export const DialogContent = React.forwardRef<
     ref,
   ) => {
     const closeRef = React.useRef<HTMLButtonElement>(null);
+    const isFull = size === "full";
     const contentProps = useDragToDismiss(
       {
-        enabled: mobilePresentation === "sheet",
+        enabled: !isFull && mobilePresentation === "sheet",
         media: "(max-width: 639.98px)",
         onDismiss: () => closeRef.current?.click(),
       },
@@ -182,35 +193,40 @@ export const DialogContent = React.forwardRef<
           (e.currentTarget as HTMLElement).focus();
         }}
         className={cn(
-          "fixed flex flex-col overflow-hidden border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px] focus:outline-none",
+          "fixed flex flex-col overflow-hidden focus:outline-none",
           "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
           "data-[state=closed]:pointer-events-none!",
-          mobilePresentation === "card"
-            ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
-              cn(
-                "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
-                "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
-                "sm:inset-x-auto",
-              )
-            : // Bottom sheet pinned to the viewport bottom edge
-              cn(
-                "dialog-max-h-dynamic inset-x-0 bottom-0 w-full rounded-t-xl p-4 pt-3",
-                "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
-                "data-[state=open]:slide-in-from-bottom-full",
-                "data-[state=closed]:slide-out-to-bottom-full",
-                "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
-                "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
-              ),
-          "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
           "duration-200",
-          SIZE_CLASSES[size],
+          isFull
+            ? FULL_CLASSES
+            : cn(
+                "border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px]",
+                mobilePresentation === "card"
+                  ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
+                    cn(
+                      "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
+                      "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
+                      "sm:inset-x-auto",
+                    )
+                  : // Bottom sheet pinned to the viewport bottom edge
+                    cn(
+                      "dialog-max-h-dynamic inset-x-0 bottom-0 w-full rounded-t-xl p-4 pt-3",
+                      "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
+                      "data-[state=open]:slide-in-from-bottom-full",
+                      "data-[state=closed]:slide-out-to-bottom-full",
+                      "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
+                      "sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=closed]:zoom-out-95",
+                    ),
+                "sm:dialog-max-h-dynamic sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
+                SIZE_CLASSES[size],
+              ),
           className,
         )}
         {...contentProps}
       >
         <DialogPrimitive.Close ref={closeRef} hidden tabIndex={-1} aria-hidden="true" />
-        {showMobileHandle && mobilePresentation === "sheet" && (
+        {!isFull && showMobileHandle && mobilePresentation === "sheet" && (
           <div
             aria-hidden="true"
             className="mb-3 h-1 w-8 shrink-0 self-center rounded-full bg-icons-tertiary sm:hidden"
@@ -356,15 +372,54 @@ export const DialogDescription = React.forwardRef<
 ));
 DialogDescription.displayName = "DialogDescription";
 
-export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
+/** Spacing step for {@link DialogBody}: 0, 12, 16 or 24px, matching the global spacing tokens. */
+export type DialogBodySpacing = "none" | "sm" | "md" | "lg";
+
+export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Top and bottom padding. Side padding comes from {@link DialogContent}. @default "md" */
+  padding?: DialogBodySpacing;
+  /** Gap between children. Setting it also stacks the children in a column. */
+  gap?: DialogBodySpacing;
+}
+
+const BODY_PADDING_CLASSES: Record<DialogBodySpacing, string> = {
+  none: "py-0",
+  sm: "py-3",
+  md: "py-4",
+  lg: "py-6",
+};
+
+const BODY_GAP_CLASSES: Record<DialogBodySpacing, string> = {
+  none: "gap-0",
+  sm: "gap-3",
+  md: "gap-4",
+  lg: "gap-6",
+};
 
 /**
  * Scrollable content area (slot) between the header and footer.
  * Grows to fill available space and scrolls when content overflows.
+ *
+ * @example
+ * ```tsx
+ * <DialogBody gap="md" padding="sm">
+ *   <Alert variant="warning">Check the details below.</Alert>
+ *   <TextField label="Name" />
+ * </DialogBody>
+ * ```
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex-1 overflow-y-auto py-4", className)} {...props} />
+  ({ className, padding = "md", gap, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(
+        "flex-1 overflow-y-auto",
+        BODY_PADDING_CLASSES[padding],
+        gap && cn("flex flex-col", BODY_GAP_CLASSES[gap]),
+        className,
+      )}
+      {...props}
+    />
   ),
 );
 DialogBody.displayName = "DialogBody";

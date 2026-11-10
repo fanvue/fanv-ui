@@ -210,8 +210,10 @@ export type { DemographicsProps } from "./components/Demographics/Demographics";
 export { Demographics } from "./components/Demographics/Demographics";
 export type {
   DialogBodyProps,
+  DialogBodySpacing,
   DialogCloseProps,
   DialogContentProps,
+  DialogContentSize,
   DialogDescriptionProps,
   DialogFooterProps,
   DialogHeaderProps,

@@ -5414,8 +5414,9 @@ function DialogDemo() {
             <DialogHeader onBack={() => setBackOpen(false)}>
               <DialogTitle>Step 2</DialogTitle>
             </DialogHeader>
-            <DialogBody>
+            <DialogBody gap="md">
               <DialogDescription>This dialog has a back button in the header.</DialogDescription>
+              <DialogDescription>The body stacks its children with a 16px gap.</DialogDescription>
             </DialogBody>
             <DialogFooter>
               <DialogClose asChild>

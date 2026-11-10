@@ -154,6 +154,19 @@ describe("Dialog", () => {
       expect(screen.getByRole("dialog").className).toContain("sm:max-w-[600px]");
     });
 
+    it("fills the viewport with no chrome when size is full", () => {
+      renderDialog({ size: "full" });
+      const dialog = screen.getByRole("dialog");
+      expect(dialog).toHaveClass("w-screen");
+      expect(dialog).toHaveClass("h-[var(--visual-viewport-h,100dvh)]");
+      expect(dialog).not.toHaveClass("border-modal-stroke");
+      expect(dialog).not.toHaveClass("bg-modal-background");
+      expect(dialog).not.toHaveClass("rounded-t-xl");
+      expect(dialog).not.toHaveClass("p-4");
+      expect(dialog).not.toHaveClass("sm:max-w-[440px]");
+      expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
+    });
+
     it("applies v2 surface treatment", () => {
       renderDialog();
       const dialog = screen.getByRole("dialog");
@@ -305,6 +318,36 @@ describe("Dialog", () => {
     it("shows back button automatically when onBack is provided", () => {
       renderDialog({}, { onBack: vi.fn() });
       expect(screen.getByRole("button", { name: "Go back" })).toBeInTheDocument();
+    });
+  });
+
+  describe("DialogBody", () => {
+    it("pads 16px top and bottom by default and steps with padding", () => {
+      const { rerender } = render(<DialogBody data-testid="body" />);
+      expect(screen.getByTestId("body")).toHaveClass("py-4");
+
+      rerender(<DialogBody data-testid="body" padding="none" />);
+      expect(screen.getByTestId("body")).toHaveClass("py-0");
+      expect(screen.getByTestId("body")).not.toHaveClass("py-4");
+
+      rerender(<DialogBody data-testid="body" padding="lg" />);
+      expect(screen.getByTestId("body")).toHaveClass("py-6");
+    });
+
+    it("stacks children in a column only when gap is set", () => {
+      const { rerender } = render(<DialogBody data-testid="body" />);
+      expect(screen.getByTestId("body")).not.toHaveClass("flex");
+
+      rerender(<DialogBody data-testid="body" gap="sm" />);
+      expect(screen.getByTestId("body")).toHaveClass("flex", "flex-col", "gap-3");
+
+      rerender(<DialogBody data-testid="body" gap="none" />);
+      expect(screen.getByTestId("body")).toHaveClass("flex", "flex-col", "gap-0");
+    });
+
+    it("lets className override the padding step", () => {
+      render(<DialogBody data-testid="body" className="p-0" />);
+      expect(screen.getByTestId("body")).not.toHaveClass("py-4");
     });
   });
 
