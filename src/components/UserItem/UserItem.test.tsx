@@ -259,4 +259,18 @@ describe("UserItem", () => {
       expect(await axe(container)).toHaveNoViolations();
     });
   });
+
+  describe("text scale", () => {
+    it.each([
+      [24, "typography-description-12px-semibold", "typography-description-12px-regular"],
+      [48, "typography-body-small-14px-semibold", "typography-body-small-14px-regular"],
+      [64, "typography-body-default-16px-semibold", "typography-body-small-14px-regular"],
+    ])("sizes the name and handle for a %ipx avatar", (avatarSize, name, handle) => {
+      render(<UserItem user={baseUser} avatarSize={avatarSize} />);
+      expect(screen.getByText("Jane Doe").parentElement).toHaveClass(name);
+      const handleElement = screen.getByText("@jane_doe");
+      expect(handleElement).toHaveClass(handle);
+      expect(handleElement.className.match(/typography-/g)).toHaveLength(1);
+    });
+  });
 });
