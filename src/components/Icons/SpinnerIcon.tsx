@@ -6,15 +6,15 @@ import type { BaseIconProps, IconProps, IconSize } from "./types";
 
 /** Props for {@link SpinnerIcon}. */
 export interface SpinnerIconProps extends Omit<IconProps, "size">, Pick<BaseIconProps, "spin"> {
-  /** Pixel size of the spinner. Omit it to keep the original 20px box. */
+  /** Pixel size of the spinner. Defaults to 20px when omitted. */
   size?: IconSize;
 }
 
 /**
  * A circular spinner glyph for loading states. It is a plain icon: pass `spin`
- * to turn it, as with any other icon. The older `animate-spin` class still works
- * and never doubles the speed when combined with `spin`. For a full-area loading
- * state use the `Loader` component.
+ * to turn it, as with any other prop-based icon. Prefer `spin`: a raw `animate-spin`
+ * class keeps rotating under reduced motion. Combining the two never doubles the
+ * speed. For a full-area loading state use the `Loader` component.
  *
  * @example
  * ```tsx
