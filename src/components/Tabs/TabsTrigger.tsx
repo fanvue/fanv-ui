@@ -46,6 +46,7 @@ export const TabsTrigger = React.forwardRef<
     <TabsPrimitive.Trigger
       ref={ref}
       asChild={asChild}
+      data-size={appearance === "underline" ? size : undefined}
       className={cn(
         "inline-flex min-w-0 cursor-pointer items-center justify-center",
         "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",

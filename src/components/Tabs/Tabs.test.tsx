@@ -402,17 +402,14 @@ describe("Tabs", () => {
   });
 
   describe("underline size", () => {
-    it("pads tabs 12px top and bottom by default", () => {
+    it("exposes md density on tabs by default", () => {
       renderTabs();
       for (const tab of screen.getAllByRole("tab")) {
-        expect(tab).toHaveClass(
-          "data-[orientation=horizontal]:px-4",
-          "data-[orientation=horizontal]:py-3",
-        );
+        expect(tab).toHaveAttribute("data-size", "md");
       }
     });
 
-    it("pads tabs 8px top and bottom when size is sm", () => {
+    it("exposes sm density on tabs when size is sm", () => {
       render(
         <Tabs defaultValue="t">
           <TabsList size="sm">
@@ -420,12 +417,18 @@ describe("Tabs", () => {
           </TabsList>
         </Tabs>,
       );
-      const tab = screen.getByRole("tab");
-      expect(tab).toHaveClass(
-        "data-[orientation=horizontal]:px-4",
-        "data-[orientation=horizontal]:py-2",
+      expect(screen.getByRole("tab")).toHaveAttribute("data-size", "sm");
+    });
+
+    it("does not expose underline density on pill tabs", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList appearance="pill" size="36">
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
       );
-      expect(tab).not.toHaveClass("data-[orientation=horizontal]:py-3");
+      expect(screen.getByRole("tab")).not.toHaveAttribute("data-size");
     });
   });
 

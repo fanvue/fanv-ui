@@ -175,13 +175,7 @@ export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.
         size?: TabsListUnderlineSize;
       }
     | {
-        /**
-         * `"underline"` marks the active tab with a line under the row. `"pill"` sits
-         * the tabs in a rounded track, sized to its tabs, and slides a filled pill
-         * behind the active one. A pill list is horizontal and ignores `fullWidth`,
-         * `alignLeft`, `variant` and `flushLeft`; it scrolls when it doesn't fit.
-         * @default "underline"
-         */
+        /** Pill appearance. See the `"underline"` arm for how the two differ. */
         appearance: "pill";
         /** Height of each tab in a pill list. @default "32" */
         size?: TabsListPillSize;
