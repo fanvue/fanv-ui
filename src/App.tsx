@@ -2469,6 +2469,7 @@ function IconButtonDemo() {
           <div className="flex flex-wrap items-center gap-4">
             <IconButton variant="contrast" icon={<HomeIcon />} aria-label="Home" />
             <IconButton variant="messaging" icon={<PlusIcon />} aria-label="Add" />
+            <IconButton variant="overlay" icon={<CrossIcon />} aria-label="Close" />
           </div>
         </div>
 

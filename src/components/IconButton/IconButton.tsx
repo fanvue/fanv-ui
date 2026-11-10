@@ -11,8 +11,10 @@ import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
  * `24` size, circular otherwise). Of these, `primary`, `secondary`, `tertiary`
  * and `outline` also honour the {@link IconButtonProps.negative} prop.
  *
- * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop` and
- * `microphone` are bespoke variants that stay circular at every size.
+ * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
+ * `microphone` and `overlay` are bespoke variants that stay circular at every size.
+ * `overlay` is a translucent dark fill with a backdrop blur, for buttons that sit
+ * on photos or video; it looks the same in light and dark themes.
  */
 export type IconButtonVariant =
   | "primary"
@@ -29,6 +31,7 @@ export type IconButtonVariant =
   | "tertiaryDestructive"
   | "stop"
   | "microphone"
+  | "overlay"
   | "field";
 
 /** Icon button size in pixels. */
@@ -186,6 +189,11 @@ const VARIANT_CLASSES: Record<IconButtonVariant, VariantClasses> = {
       "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black",
     disabled: DISABLED_OPACITY,
   },
+  overlay: {
+    default:
+      "bg-buttons-overlay-default text-content-always-white backdrop-blur-sm not-disabled:hover:bg-buttons-overlay-hover not-disabled:active:bg-buttons-overlay-hover",
+    disabled: DISABLED_OPACITY,
+  },
   // Carries the input surface rather than a button one, so an icon-only action can
   // sit flush in a row of fields (Figma draws these as a `V2 Input Fields` instance
   // with only an icon inside). Border and hover match the Select trigger it lines up
@@ -229,7 +237,7 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * Shape is size-driven for the standard variants: the `24` size is squared
  * (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
  * `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
- * `microphone`) stay circular at all sizes. `field` is the exception that is
+ * `microphone`, `overlay`) stay circular at all sizes. `field` is the exception that is
  * never circular — it takes the inputs' `rounded-sm` so it matches the fields it
  * sits beside. Use it at `32`, `40` or `48`: those are the sizes `Select` offers,
  * and the variant only earns its surface when it lines up with one.

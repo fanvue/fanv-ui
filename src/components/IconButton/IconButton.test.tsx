@@ -73,6 +73,16 @@ describe("IconButton", () => {
       expect(screen.getByTestId("icon-button")).toHaveClass("rounded-full");
     });
 
+    it("gives the overlay variant a translucent dark fill with a backdrop blur, circular at every size", () => {
+      render(<IconButton icon={<HomeIcon />} variant="overlay" size="24" aria-label="Close" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass(
+        "bg-buttons-overlay-default",
+        "text-content-always-white",
+        "backdrop-blur-sm",
+        "rounded-full",
+      );
+    });
+
     it("applies the negative treatment on negative-aware variants", () => {
       render(<IconButton icon={<HomeIcon />} variant="primary" negative aria-label="Home" />);
       expect(screen.getByTestId("icon-button")).toHaveClass("bg-buttons-primary-negative-default");
