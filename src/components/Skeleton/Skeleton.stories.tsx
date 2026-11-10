@@ -15,7 +15,7 @@ const meta = {
     },
     radius: {
       control: "select",
-      options: [undefined, "none", "sm", "md", "lg"],
+      options: [undefined, "sm", "md", "lg"],
     },
     animation: {
       control: "select",
@@ -56,16 +56,11 @@ export const Radius: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <div className="flex flex-wrap gap-4">
-      <Skeleton variant="rectangular" radius="none" width={160} height={120} />
       <Skeleton variant="rectangular" radius="sm" width={160} height={120} />
       <Skeleton variant="rectangular" radius="md" width={160} height={120} />
       <Skeleton variant="rectangular" radius="lg" width={160} height={120} />
     </div>
   ),
-};
-
-export const RadiusNone: Story = {
-  args: { variant: "rectangular", radius: "none", width: 240, height: 120 },
 };
 
 export const RadiusSm: Story = {

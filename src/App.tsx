@@ -5604,8 +5604,8 @@ function SkeletonDemo() {
       </div>
 
       <h3 className="typography-body-default-16px-semibold mt-4">Radius</h3>
-      <div className="grid grid-cols-4 gap-4">
-        {(["none", "sm", "md", "lg"] as const).map((radius) => (
+      <div className="grid grid-cols-3 gap-4">
+        {(["sm", "md", "lg"] as const).map((radius) => (
           <div key={radius}>
             <p className="typography-description-12px-regular mb-1 text-content-tertiary">
               radius={radius}

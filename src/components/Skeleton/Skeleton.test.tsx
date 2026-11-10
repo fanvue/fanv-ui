@@ -66,7 +66,6 @@ describe("Skeleton", () => {
     });
 
     it.each([
-      ["none", "rounded-none"],
       ["sm", "rounded-sm"],
       ["md", "rounded-md"],
       ["lg", "rounded-lg"],
@@ -86,7 +85,7 @@ describe("Skeleton", () => {
       const { container } = render(<Skeleton variant="circular" width={40} height={40} />);
       const el = getSkeleton(container);
       expect(el).toHaveClass("rounded-full");
-      expect(el.className).not.toMatch(/rounded-(none|sm|md|lg)\b/);
+      expect(el.className).not.toMatch(/rounded-(sm|md|lg)\b/);
     });
 
     it("applies pulse animation by default", () => {

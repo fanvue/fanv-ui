@@ -5,7 +5,7 @@ import { cn } from "../../utils/cn";
 export type SkeletonVariant = "text" | "circular" | "rectangular" | "rounded";
 
 /** Corner radius of the skeleton, on the kit radius scale. */
-export type SkeletonRadius = "none" | "sm" | "md" | "lg";
+export type SkeletonRadius = "sm" | "md" | "lg";
 
 /** Animation style of the skeleton. `false` disables animation. */
 export type SkeletonAnimation = "pulse" | "wave" | false;
@@ -25,7 +25,6 @@ export interface SkeletonProps extends React.HTMLAttributes<HTMLSpanElement> {
    * Corner radius on the kit scale, so a skeleton can match the corners of the
    * surface it stands in for. Overrides the radius the `variant` sets.
    *
-   * - `none` – square corners
    * - `sm` – `--radius-sm` (12px)
    * - `md` – `--radius-md` (16px)
    * - `lg` – `--radius-lg` (24px)
@@ -49,7 +48,6 @@ const VARIANT_CLASSES: Record<SkeletonVariant, string> = {
 };
 
 const RADIUS_CLASSES: Record<SkeletonRadius, string> = {
-  none: "rounded-none",
   sm: "rounded-sm",
   md: "rounded-md",
   lg: "rounded-lg",
