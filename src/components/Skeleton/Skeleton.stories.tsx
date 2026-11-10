@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect } from "storybook/test";
 import { Skeleton } from "./Skeleton";
 
 const meta = {
@@ -51,28 +52,44 @@ export const Default: Story = {
   },
 };
 
-/** Every `radius` value on a rectangular skeleton. Unset keeps the variant's own radius. */
+const RADIUS_CASES = [
+  { id: "unset", radius: undefined, className: undefined, expected: "0px" },
+  { id: "sm", radius: "sm", className: undefined, expected: "12px" },
+  { id: "md", radius: "md", className: undefined, expected: "16px" },
+  { id: "lg", radius: "lg", className: undefined, expected: "24px" },
+  { id: "sm-class-xl", radius: "sm", className: "rounded-xl", expected: "32px" },
+] as const;
+
+/**
+ * Every `radius` value on a rectangular skeleton, with an unset baseline. A consumer `className`
+ * radius still wins over `radius`.
+ */
 export const Radius: Story = {
   parameters: { layout: "padded" },
   render: () => (
     <div className="flex flex-wrap gap-4">
-      <Skeleton variant="rectangular" radius="sm" width={160} height={120} />
-      <Skeleton variant="rectangular" radius="md" width={160} height={120} />
-      <Skeleton variant="rectangular" radius="lg" width={160} height={120} />
+      {RADIUS_CASES.map(({ id, radius, className }) => (
+        <Skeleton
+          key={id}
+          data-testid={`skeleton-${id}`}
+          variant="rectangular"
+          radius={radius}
+          className={className}
+          width={160}
+          height={120}
+        />
+      ))}
     </div>
   ),
-};
-
-export const RadiusSm: Story = {
-  args: { variant: "rectangular", radius: "sm", width: 240, height: 120 },
-};
-
-export const RadiusMd: Story = {
-  args: { variant: "rectangular", radius: "md", width: 240, height: 120 },
-};
-
-export const RadiusLg: Story = {
-  args: { variant: "rectangular", radius: "lg", width: 240, height: 120 },
+  play: async ({ canvasElement }) => {
+    for (const { id, expected } of RADIUS_CASES) {
+      const el = canvasElement.querySelector(`[data-testid="skeleton-${id}"]`);
+      expect(el).not.toBeNull();
+      if (el) {
+        expect(getComputedStyle(el).borderTopLeftRadius).toBe(expected);
+      }
+    }
+  },
 };
 
 export const AvatarWithText: Story = {
