@@ -27,21 +27,34 @@ const STATUS_POSITIONS: Record<
   148: { top: 15, right: 15, indicatorSize: "size-3", borderSize: "border" },
 };
 
+const CIRCLE_RING_MASK: React.CSSProperties = {
+  WebkitMask: "radial-gradient(circle closest-side, transparent 96%, black 96%)",
+  mask: "radial-gradient(circle closest-side, transparent 96%, black 96%)",
+};
+
+const SQUARE_RING_MASK: React.CSSProperties = {
+  padding: "2%",
+  WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+  WebkitMaskComposite: "xor",
+  mask: "linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0)",
+};
+
 /** Shared avatar styling props. */
 interface AvatarStyleProps {
   /** Pixel size of the avatar. @default 40 */
   size?: AvatarSize;
   /**
    * Outline of the avatar. `square` rounds the corners to `--radius-xs` (8px), for
-   * rows where avatars sit beside square app or media tiles. The online indicator
-   * and platinum ring are drawn for the circle.
+   * rows where avatars sit beside square app or media tiles. The platinum ring
+   * follows the same radius and the online indicator sits on the top-right corner.
+   * At size 16 the 8px radius is half the avatar, so `square` looks like `circle`.
    *
    * @default "circle"
    */
   shape?: AvatarShape;
-  /** Whether to show the online-status indicator dot. @default false */
+  /** Whether to show the online-status indicator dot. On `square` avatars it sits on the top-right corner. @default false */
   onlineIndicator?: boolean;
-  /** Whether to show the platinum gradient border ring. @default false */
+  /** Whether to show the platinum gradient border ring. It follows the avatar `shape`. @default false */
   platinumShow?: boolean;
   /** Whether to apply the NSFW blur filter over the image. @default false */
   NSFWShow?: boolean;
@@ -85,8 +98,7 @@ const AvatarRoot = React.forwardRef<
             data-testid="avatar"
             className={cn(
               "relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-background-avatar",
-              shape === "circle" && "rounded-full",
-              shape === "square" && "rounded-xs",
+              shape === "square" ? "rounded-xs" : "rounded-full",
               size === 16 && "size-4 text-2xs",
               size === 24 && "size-6 text-xs",
               size === 32 && "size-8 text-xs",
@@ -103,11 +115,13 @@ const AvatarRoot = React.forwardRef<
           </AvatarPrimitive.Root>
           {platinumShow && (
             <span
-              className="pointer-events-none absolute inset-0 rounded-full"
+              className={cn(
+                "pointer-events-none absolute inset-0",
+                shape === "square" ? "rounded-xs" : "rounded-full",
+              )}
               style={{
                 background: `linear-gradient(143deg, #504F54 0%, #B1B1B1 20.3154%, #13181C 37.3727%, #C6C6C8 58.8154%, #FFFFFF 69.3154%, #0C0F14 81.3154%, #696A6E 100%)`,
-                WebkitMask: "radial-gradient(circle closest-side, transparent 96%, black 96%)",
-                mask: "radial-gradient(circle closest-side, transparent 96%, black 96%)",
+                ...(shape === "square" ? SQUARE_RING_MASK : CIRCLE_RING_MASK),
               }}
               aria-hidden="true"
             />
@@ -118,11 +132,13 @@ const AvatarRoot = React.forwardRef<
                 "absolute rounded-full border-surface-primary bg-brand-primary-default",
                 statusPosition.borderSize,
                 statusPosition.indicatorSize,
+                shape === "square" && "-top-0.5 -right-0.5",
               )}
-              style={{
-                top: `${statusPosition.top}px`,
-                right: `${statusPosition.right}px`,
-              }}
+              style={
+                shape === "square"
+                  ? undefined
+                  : { top: `${statusPosition.top}px`, right: `${statusPosition.right}px` }
+              }
               aria-hidden="true"
             />
           )}

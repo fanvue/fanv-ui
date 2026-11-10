@@ -62,7 +62,8 @@ export interface UserItemProps extends React.HTMLAttributes<HTMLDivElement> {
   avatarSize?: number;
   /**
    * Outline of the avatar, passed to {@link Avatar}'s `shape`. Use `square` when the
-   * row sits in a list beside square app or media tiles. @default "circle"
+   * row sits in a list beside square app or media tiles. The platinum ring follows
+   * the shape and the online dot moves to the top-right corner. @default "circle"
    */
   avatarShape?: AvatarShape;
   /** Show the muted indicator in the bottom-left corner. @default false */

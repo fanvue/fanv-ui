@@ -79,7 +79,7 @@ export const AllSizes: Story = {
 /**
  * The three decorations — online indicator, platinum gradient border and NSFW blur —
  * against each content type, at a small, default and large size so the indicator
- * scaling is covered.
+ * scaling is covered. The trailing square avatars cover the ring and dot on `shape="square"`.
  */
 export const AllDecorations: Story = {
   parameters: { layout: "padded" },
@@ -105,6 +105,17 @@ export const AllDecorations: Story = {
               <Avatar key={`initials-${size}`} size={size} fallback="AB" {...props} />
             ))}
             <Avatar size={40} fallback={<CheckCircleIcon />} {...props} />
+            {([24, 40, 88] as AvatarSize[]).map((size) => (
+              <Avatar
+                key={`square-${size}`}
+                size={size}
+                shape="square"
+                src={SRC}
+                alt="User avatar"
+                fallback="JD"
+                {...props}
+              />
+            ))}
           </Row>
         ))}
       </div>

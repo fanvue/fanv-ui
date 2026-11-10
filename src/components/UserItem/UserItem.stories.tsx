@@ -167,10 +167,6 @@ export const Paddings: Story = {
   ),
 };
 
-export const AvatarShapeCircle: Story = {
-  args: { avatarShape: "circle", avatarSize: 24, padding: "none" },
-};
-
 export const AvatarShapeSquare: Story = {
   args: { avatarShape: "square", avatarSize: 24, padding: "none" },
 };
