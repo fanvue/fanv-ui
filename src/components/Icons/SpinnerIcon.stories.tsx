@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, within } from "storybook/test";
 import { Button } from "../Button/Button";
-import { RefreshArrowIcon } from "./RefreshArrowIcon";
+import { CogIcon } from "./CogIcon";
 import { SpinnerIcon } from "./SpinnerIcon";
 
 const animatedElements = (root: Element) =>
@@ -48,8 +48,8 @@ export const SpinOnAnyIcon: Story = {
   render: () => (
     <div className="flex items-center gap-4 text-content-primary">
       <SpinnerIcon size={24} spin />
-      <RefreshArrowIcon size={24} spin />
-      <RefreshArrowIcon size={24} />
+      <CogIcon size={24} spin />
+      <CogIcon size={24} />
     </div>
   ),
   play: async ({ canvasElement }) => {
