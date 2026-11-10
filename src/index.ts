@@ -781,6 +781,8 @@ export { Skeleton } from "./components/Skeleton/Skeleton";
 export type {
   SliderLabelPosition,
   SliderProps,
+  SliderSize,
+  SliderTone,
 } from "./components/Slider/Slider";
 export { Slider } from "./components/Slider/Slider";
 export type {

@@ -39,6 +39,36 @@ describe("Slider", () => {
       expect(thumb).toHaveAttribute("data-disabled");
     });
 
+    it.each([
+      ["sm", "h-2", "size-4"],
+      ["md", "h-3", "size-6"],
+      ["lg", "h-4", "size-8"],
+    ] as const)("sizes the track and thumb for size %s", (size, trackClass, thumbClass) => {
+      const { container } = render(<Slider defaultValue={[50]} size={size} aria-label="Test" />);
+      const track = container.firstElementChild?.firstElementChild;
+      expect(track).toHaveClass(trackClass);
+      expect(screen.getByRole("slider")).toHaveClass(thumbClass);
+    });
+
+    it("uses the brand range and a dotted thumb by default", () => {
+      const { container } = render(<Slider defaultValue={[50]} aria-label="Test" />);
+      const track = container.firstElementChild?.firstElementChild;
+      expect(track?.firstElementChild).toHaveClass("bg-brand-primary-default");
+      const thumb = screen.getByRole("slider");
+      expect(thumb).toHaveClass("bg-background-primary");
+      expect(thumb.firstElementChild).toHaveClass("bg-brand-primary-default");
+    });
+
+    it("renders a neutral range and a solid thumb when tone is neutral", () => {
+      const { container } = render(<Slider defaultValue={[50]} tone="neutral" aria-label="Test" />);
+      const track = container.firstElementChild?.firstElementChild;
+      expect(track).toHaveClass("bg-[var(--primitives-color-gray-200)]");
+      expect(track?.firstElementChild).toHaveClass("bg-inputs-slider-active");
+      const thumb = screen.getByRole("slider");
+      expect(thumb).toHaveClass("bg-inputs-slider-active", "border-transparent");
+      expect(thumb.firstElementChild).toBeNull();
+    });
+
     it("forwards ref", () => {
       const ref = React.createRef<HTMLSpanElement>();
       render(<Slider ref={ref} defaultValue={[50]} />);

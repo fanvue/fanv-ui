@@ -1,11 +1,31 @@
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import type { SliderSize, SliderTone } from "./Slider";
+
+const THUMB_SIZE_CLASSES: Record<SliderSize, { thumb: string; dot: string }> = {
+  sm: { thumb: "size-4", dot: "size-2" },
+  md: { thumb: "size-6", dot: "size-3" },
+  lg: { thumb: "size-8", dot: "size-4" },
+};
+
+const THUMB_TONE_CLASSES: Record<SliderTone, string> = {
+  brand: cn(
+    "border-border-primary bg-background-primary",
+    "hover:ring-brand-primary-default not-data-disabled:active:ring-brand-primary-default",
+  ),
+  neutral: cn(
+    "border-transparent bg-inputs-slider-active",
+    "hover:ring-inputs-slider-active not-data-disabled:active:ring-inputs-slider-active",
+  ),
+};
 
 interface SliderThumbProps {
   showTooltip: boolean;
   formatTooltip?: (value: number) => string;
   index: number;
+  size: SliderSize;
+  tone: SliderTone;
   "aria-label"?: string;
   "aria-labelledby"?: string;
 }
@@ -14,6 +34,8 @@ export function SliderThumb({
   showTooltip,
   formatTooltip,
   index,
+  size,
+  tone,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
 }: SliderThumbProps) {
@@ -43,15 +65,23 @@ export function SliderThumb({
         }
       }}
       className={cn(
-        "flex size-6 items-center justify-center rounded-full border border-border-primary bg-background-primary shadow-sm",
+        "flex items-center justify-center rounded-full border shadow-sm",
         "transition-shadow duration-150",
-        "hover:ring-2 hover:ring-brand-primary-default",
-        "not-data-disabled:active:ring-2 not-data-disabled:active:ring-brand-primary-default",
+        "hover:ring-2 not-data-disabled:active:ring-2",
+        THUMB_SIZE_CLASSES[size].thumb,
+        THUMB_TONE_CLASSES[tone],
         "focus-visible:shadow-focus-ring focus-visible:outline-none",
         "data-disabled:cursor-not-allowed",
       )}
     >
-      <span className="block size-3 rounded-full bg-brand-primary-default shadow-[inset_0px_1px_2px_0px_rgba(0,0,0,0.1)]" />
+      {tone === "brand" && (
+        <span
+          className={cn(
+            "block rounded-full bg-brand-primary-default shadow-[inset_0px_1px_2px_0px_rgba(0,0,0,0.1)]",
+            THUMB_SIZE_CLASSES[size].dot,
+          )}
+        />
+      )}
 
       {showTooltip && (
         <span

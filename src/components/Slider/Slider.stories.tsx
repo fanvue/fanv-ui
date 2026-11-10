@@ -19,6 +19,14 @@ const meta: Meta<typeof Slider> = {
       control: "select",
       options: ["top", "left"],
     },
+    size: {
+      control: "select",
+      options: ["sm", "md", "lg"],
+    },
+    tone: {
+      control: "select",
+      options: ["brand", "neutral"],
+    },
     disabled: {
       control: "boolean",
     },
@@ -84,6 +92,41 @@ export const Default: Story = {
  * appearance is covered there, so they do not take a snapshot. Renaming or removing
  * one of these will fail the E2E job.
  */
+/** Every `size` and `tone` pair. */
+export const SizesAndTones: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-col gap-6">
+      <Slider size="sm" defaultValue={[40]} aria-label="Small brand" />
+      <Slider size="md" defaultValue={[40]} aria-label="Medium brand" />
+      <Slider size="lg" defaultValue={[40]} aria-label="Large brand" />
+      <Slider size="sm" tone="neutral" defaultValue={[40]} aria-label="Small neutral" />
+      <Slider size="md" tone="neutral" defaultValue={[40]} aria-label="Medium neutral" />
+      <Slider size="lg" tone="neutral" defaultValue={[20, 60]} aria-label="Large neutral" />
+    </div>
+  ),
+};
+
+export const SizeSmall: Story = {
+  args: { size: "sm", defaultValue: [50], "aria-label": "Small" },
+};
+
+export const SizeMedium: Story = {
+  args: { size: "md", defaultValue: [50], "aria-label": "Medium" },
+};
+
+export const SizeLarge: Story = {
+  args: { size: "lg", defaultValue: [50], "aria-label": "Large" },
+};
+
+export const ToneBrand: Story = {
+  args: { tone: "brand", defaultValue: [50], "aria-label": "Brand" },
+};
+
+export const ToneNeutral: Story = {
+  args: { tone: "neutral", size: "lg", defaultValue: [50], "aria-label": "Neutral" },
+};
+
 export const NoLabels: Story = {
   parameters: E2E_FIXTURE_PARAMETERS,
   args: { defaultValue: [50] },

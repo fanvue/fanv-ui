@@ -390,6 +390,10 @@ function SliderShowcase() {
         maxLabel="100"
       />
       <Slider defaultValue={[60]} label="Speed" labelPosition="left" />
+      <Slider size="sm" defaultValue={[40]} aria-label="Small slider" />
+      <Slider size="lg" defaultValue={[40]} aria-label="Large slider" />
+      <Slider size="lg" tone="neutral" defaultValue={[40]} label="Neutral" />
+      <Slider size="lg" tone="neutral" defaultValue={[20, 60]} aria-label="Neutral range" />
     </div>
   );
 }

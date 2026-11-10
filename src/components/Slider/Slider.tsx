@@ -7,6 +7,28 @@ import { SliderThumb } from "./SliderThumb";
 /** Position of the slider label relative to the track. */
 export type SliderLabelPosition = "top" | "left";
 
+/** Size preset for the track and thumb. */
+export type SliderSize = "sm" | "md" | "lg";
+
+/** Colour of the filled range and thumb. */
+export type SliderTone = "brand" | "neutral";
+
+const TRACK_SIZE_CLASSES: Record<SliderSize, string> = {
+  sm: "h-2",
+  md: "h-3",
+  lg: "h-4",
+};
+
+const TRACK_TONE_CLASSES: Record<SliderTone, string> = {
+  brand: "bg-surface-secondary",
+  neutral: "bg-[var(--primitives-color-gray-200)] dark:bg-surface-secondary",
+};
+
+const RANGE_TONE_CLASSES: Record<SliderTone, string> = {
+  brand: "bg-brand-primary-default",
+  neutral: "bg-inputs-slider-active",
+};
+
 export interface SliderProps
   extends Omit<
     React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>,
@@ -20,6 +42,27 @@ export interface SliderProps
   minLabel?: string;
   /** Text shown at the maximum end of the track. */
   maxLabel?: string;
+  /**
+   * Size of the track and thumb.
+   *
+   * - `sm` – 8px track, 16px thumb
+   * - `md` – 12px track, 24px thumb
+   * - `lg` – 16px track, 32px thumb
+   *
+   * @default "md"
+   */
+  size?: SliderSize;
+  /**
+   * Colour of the filled range and thumb.
+   *
+   * - `brand` – brand green range, white thumb with a green dot
+   * - `neutral` – range and solid thumb in the primary button colour (black in
+   *   light mode, white in dark mode), on a grey track that stays visible on
+   *   dialog surfaces
+   *
+   * @default "brand"
+   */
+  tone?: SliderTone;
   /** Whether to show a tooltip with the current value above the thumb. @default false */
   showTooltip?: boolean;
   /** Custom formatter for the tooltip value (e.g. to add units or format numbers). */
@@ -41,6 +84,7 @@ export interface SliderProps
  *   defaultValue={[50]}
  *   showTooltip
  * />
+ * <Slider size="lg" tone="neutral" aria-label="Delay" defaultValue={[30]} />
  * ```
  */
 export const Slider = React.forwardRef<
@@ -52,6 +96,8 @@ export const Slider = React.forwardRef<
       className,
       label,
       labelPosition = "top",
+      size = "md",
+      tone = "brand",
       minLabel,
       maxLabel,
       showTooltip = false,
@@ -85,8 +131,16 @@ export const Slider = React.forwardRef<
         )}
         {...props}
       >
-        <SliderPrimitive.Track className="relative h-3 w-full overflow-hidden rounded-full border border-border-primary bg-surface-secondary">
-          <SliderPrimitive.Range className="absolute h-full rounded-full bg-brand-primary-default" />
+        <SliderPrimitive.Track
+          className={cn(
+            "relative w-full overflow-hidden rounded-full border border-border-primary",
+            TRACK_SIZE_CLASSES[size],
+            TRACK_TONE_CLASSES[tone],
+          )}
+        >
+          <SliderPrimitive.Range
+            className={cn("absolute h-full rounded-full", RANGE_TONE_CLASSES[tone])}
+          />
         </SliderPrimitive.Track>
 
         {Array.from({ length: thumbCount }, (_, i) => (
@@ -96,6 +150,8 @@ export const Slider = React.forwardRef<
             showTooltip={showTooltip}
             formatTooltip={formatTooltip}
             index={i}
+            size={size}
+            tone={tone}
             aria-label={resolvedAriaLabel}
             aria-labelledby={resolvedLabelledBy}
           />
