@@ -268,7 +268,7 @@ Any surface using success / error / warning / info / brand-green colours shifts 
 
 The v3 Figma export sets `neutral-alphas-150` (dark) to `#ffffffcc` (white 80%), where light is `#15151526` (15% alpha) and v2 used a dark surface (`#232323cc`). The rest of the dark `neutral-alphas` ramp is a faint white tint, so 80% white is out of line with it.
 
-`@fanvue/ui` now ships dark `--color-neutral-alphas-150` as `#ffffff26` (15% white, the same alpha as light). This is a deliberate code-side correction of the Figma export, guarded by `src/styles/buildStyles.test.ts`. The Figma variable still holds the old value and design still needs to fix it; there is no ticket yet. Until then, a token re-import that restores `#ffffffcc` fails that test.
+`@fanvue/ui` now ships dark `--color-neutral-alphas-150` as `#ffffff26` (15% white, the same alpha as light). This is a deliberate code-side correction of the Figma export, guarded by `src/styles/buildStyles.test.ts`. The Figma variable still holds the old value; updating it is tracked in ENG-17721. Until it is updated, a token re-import that restores `#ffffffcc` fails that test.
 
 Any `dark:` text, icon or border colour picked to sit on the old near-white fill will lose contrast on the new faint tint. Kit components do not use step 150, so the visible change inside the kit is the dark Neutral 150 swatch in Foundations/Colors.
 
