@@ -11,9 +11,15 @@ const renderSpinner = (props: React.ComponentProps<typeof SpinnerIcon> = {}) => 
 
 describe("SpinnerIcon", () => {
   describe("API", () => {
-    it("spins with motion allowed and pulses under reduced motion", () => {
-      const svg = renderSpinner();
-      expect(svg).toHaveClass("motion-safe:animate-spin", "motion-reduce:animate-pulse");
+    it("is a still icon unless spin is set", () => {
+      expect(renderSpinner().getAttribute("class")).not.toMatch(/animate-/);
+    });
+
+    it("spins with motion allowed and pulses under reduced motion when spin is set", () => {
+      expect(renderSpinner({ spin: true })).toHaveClass(
+        "motion-safe:animate-spin",
+        "motion-reduce:animate-pulse",
+      );
     });
 
     it("keeps the 20px box when no size is given", () => {
@@ -39,7 +45,7 @@ describe("SpinnerIcon", () => {
 
   describe("accessibility", () => {
     it("is hidden from assistive tech and has no axe violations", async () => {
-      const { container } = render(<SpinnerIcon />);
+      const { container } = render(<SpinnerIcon spin />);
       expect(container.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
       expect(await axe(container)).toHaveNoViolations();
     });

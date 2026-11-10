@@ -3521,7 +3521,7 @@ function CyclingTextDemo() {
       <div className="flex flex-col gap-2">
         <h3 className="typography-header-heading-xs text-content-secondary">In a status row</h3>
         <div className="inline-flex items-center gap-2 text-content-tertiary">
-          <SpinnerIcon size={24} />
+          <SpinnerIcon size={24} spin />
           <CyclingText items={CYCLING_TEXT_STAGES} />
         </div>
       </div>
@@ -3529,9 +3529,9 @@ function CyclingTextDemo() {
       <div className="flex flex-col gap-2">
         <h3 className="typography-header-heading-xs text-content-secondary">Sized to current</h3>
         <div className="inline-flex items-center gap-2 text-content-tertiary">
-          <SpinnerIcon size={24} />
+          <SpinnerIcon size={24} spin />
           <CyclingText items={CYCLING_TEXT_STAGES} sizing="current" />
-          <SpinnerIcon size={24} />
+          <SpinnerIcon size={24} spin />
         </div>
       </div>
 

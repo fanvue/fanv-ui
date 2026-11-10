@@ -56,7 +56,7 @@ export const Loader = React.forwardRef<HTMLDivElement, LoaderProps>(
           )}
           aria-label={ariaLabel ?? "loading"}
         >
-          <SpinnerIcon className="size-9 text-content-secondary" />
+          <SpinnerIcon spin className="size-9 text-content-secondary" />
         </output>
       </div>
     );

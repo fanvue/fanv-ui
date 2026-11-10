@@ -2,6 +2,7 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import { IconDefaultsContext } from "./IconDefaults";
 import { ICON_SIZE_CLASS } from "./iconSizeClass";
+import { ICON_SPIN_CLASS } from "./iconSpinClass";
 import type { BaseIconProps, IconPath, IconVariants } from "./types";
 
 const LAYER_TRANSITION =
@@ -42,7 +43,7 @@ const renderPath = (p: IconPath) =>
  * remount.
  */
 export const BaseIcon = React.forwardRef<SVGSVGElement, InternalBaseIconProps>(
-  ({ variants, size: sizeProp, filled: filledProp, className, ...props }, ref) => {
+  ({ variants, size: sizeProp, filled: filledProp, spin = false, className, ...props }, ref) => {
     const defaults = React.useContext(IconDefaultsContext);
     // A container default only applies when the icon has artwork for it, so an
     // icon drawn at 24/32 only, or without a filled 16, keeps its own look.
@@ -66,7 +67,7 @@ export const BaseIcon = React.forwardRef<SVGSVGElement, InternalBaseIconProps>(
         viewBox={`0 0 ${size} ${size}`}
         fill="none"
         aria-hidden="true"
-        className={cn(ICON_SIZE_CLASS[size], className)}
+        className={cn(ICON_SIZE_CLASS[size], spin && ICON_SPIN_CLASS, className)}
         {...props}
       >
         <g className={cn(LAYER_TRANSITION, showFilled ? "opacity-0" : "opacity-100")}>
