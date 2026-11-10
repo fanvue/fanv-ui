@@ -5,6 +5,9 @@ import { cn } from "../../utils/cn";
 /** Allowed pixel sizes for the avatar. */
 export type AvatarSize = 16 | 24 | 32 | 40 | 48 | 64 | 88 | 148;
 
+/** Outline of the avatar. */
+export type AvatarShape = "circle" | "square";
+
 const AvatarContext = React.createContext<{ size: AvatarSize; NSFWShow: boolean }>({
   size: 40,
   NSFWShow: false,
@@ -28,6 +31,14 @@ const STATUS_POSITIONS: Record<
 interface AvatarStyleProps {
   /** Pixel size of the avatar. @default 40 */
   size?: AvatarSize;
+  /**
+   * Outline of the avatar. `square` rounds the corners to `--radius-xs` (8px), for
+   * rows where avatars sit beside square app or media tiles. The online indicator
+   * and platinum ring are drawn for the circle.
+   *
+   * @default "circle"
+   */
+  shape?: AvatarShape;
   /** Whether to show the online-status indicator dot. @default false */
   onlineIndicator?: boolean;
   /** Whether to show the platinum gradient border ring. @default false */
@@ -55,6 +66,7 @@ const AvatarRoot = React.forwardRef<
     {
       className,
       size = 40,
+      shape = "circle",
       onlineIndicator = false,
       platinumShow = false,
       NSFWShow = false,
@@ -72,7 +84,9 @@ const AvatarRoot = React.forwardRef<
             ref={ref}
             data-testid="avatar"
             className={cn(
-              "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-background-avatar",
+              "relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-background-avatar",
+              shape === "circle" && "rounded-full",
+              shape === "square" && "rounded-xs",
               size === 16 && "size-4 text-2xs",
               size === 24 && "size-6 text-xs",
               size === 32 && "size-8 text-xs",
@@ -194,6 +208,7 @@ export const Avatar = React.forwardRef<
     {
       className,
       size = 40,
+      shape = "circle",
       src,
       alt,
       fallback,
@@ -208,6 +223,7 @@ export const Avatar = React.forwardRef<
     const rootProps = {
       ref,
       size,
+      shape,
       onlineIndicator,
       platinumShow,
       NSFWShow,

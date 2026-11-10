@@ -35,6 +35,18 @@ describe("UserItem", () => {
       expect(screen.queryByText("Jane Doe")).not.toBeInTheDocument();
     });
 
+    it("renders a circular avatar by default", () => {
+      render(<UserItem user={baseUser} />);
+      expect(screen.getByTestId("avatar")).toHaveClass("rounded-full");
+    });
+
+    it("passes avatarShape through to the avatar", () => {
+      render(<UserItem user={baseUser} avatarShape="square" />);
+      const avatar = screen.getByTestId("avatar");
+      expect(avatar).toHaveClass("rounded-xs");
+      expect(avatar).not.toHaveClass("rounded-full");
+    });
+
     it("hides the handle when showHandle is false", () => {
       render(<UserItem user={baseUser} showHandle={false} />);
       expect(screen.queryByText("@jane_doe")).not.toBeInTheDocument();

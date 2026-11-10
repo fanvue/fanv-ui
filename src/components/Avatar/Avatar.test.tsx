@@ -23,6 +23,20 @@ describe("Avatar", () => {
       expect(screen.getByTestId("avatar")).toHaveClass("bg-background-avatar");
     });
 
+    it("is a circle by default", () => {
+      render(<Avatar fallback="AB" />);
+      const root = screen.getByTestId("avatar");
+      expect(root).toHaveClass("rounded-full");
+      expect(root).not.toHaveClass("rounded-xs");
+    });
+
+    it("rounds the corners to the xs radius when shape is square", () => {
+      render(<Avatar fallback="AB" shape="square" />);
+      const root = screen.getByTestId("avatar");
+      expect(root).toHaveClass("rounded-xs");
+      expect(root).not.toHaveClass("rounded-full");
+    });
+
     it("renders fallback when image fails to load", async () => {
       render(<Avatar src="https://invalid-url.com/avatar.jpg" fallback="AB" />);
       const fallback = await screen.findByText("AB");

@@ -25,6 +25,10 @@ const meta = {
         defaultValue: { summary: "40" },
       },
     },
+    shape: {
+      control: "select",
+      options: ["circle", "square"],
+    },
     onlineIndicator: { control: "boolean" },
     platinumShow: { control: "boolean" },
     NSFWShow: { control: "boolean" },
@@ -106,6 +110,25 @@ export const AllDecorations: Story = {
       </div>
     );
   },
+};
+
+/** Both `shape` values at every size. */
+export const Shapes: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-col gap-6">
+      <Row label="circle">
+        {SIZES.map((size) => (
+          <Avatar key={size} size={size} shape="circle" src={SRC} alt="Jane Doe" fallback="JD" />
+        ))}
+      </Row>
+      <Row label="square">
+        {SIZES.map((size) => (
+          <Avatar key={size} size={size} shape="square" src={SRC} alt="Jane Doe" fallback="JD" />
+        ))}
+      </Row>
+    </div>
+  ),
 };
 
 export const Default: Story = {

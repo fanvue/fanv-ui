@@ -2627,6 +2627,20 @@ function UserItemTrailingDemo() {
           </div>
         ))}
       </div>
+      <h3 className="typography-body-default-16px-semibold mt-4 mb-2">UserItem avatarShape</h3>
+      <div className="flex max-w-sm flex-col gap-2">
+        {(["circle", "square"] as const).map((avatarShape) => (
+          <UserItem
+            key={avatarShape}
+            avatarShape={avatarShape}
+            padding="none"
+            user={{ displayName: "Jane Doe", handle: "jane_doe" }}
+            avatarSize={24}
+            secondary={`avatarShape=${avatarShape}`}
+            showHandle={false}
+          />
+        ))}
+      </div>
     </section>
   );
 }
