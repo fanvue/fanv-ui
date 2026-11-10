@@ -13,7 +13,6 @@ import { TextField } from "../TextField/TextField";
 import {
   Dialog,
   DialogBody,
-  type DialogBodySpacing,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -858,48 +857,4 @@ export const FullScreenMedia: Story = {
     </Dialog>
   ),
   play: openDialog,
-};
-
-const BODY_SPACING_STEPS: DialogBodySpacing[] = ["none", "sm", "md", "lg"];
-
-const SpacingSwatch = () => <div className="h-6 rounded-xs bg-brand-primary-default" />;
-
-export const BodyGap: Story = {
-  name: "Body gap",
-  parameters: { layout: "padded" },
-  render: () => (
-    <div className="grid grid-cols-4 gap-4">
-      {BODY_SPACING_STEPS.map((gap) => (
-        <div key={gap} className="flex flex-col gap-2">
-          <span className="typography-body-small-14px-semibold text-content-secondary">
-            gap="{gap}"
-          </span>
-          <DialogBody gap={gap} padding="none" className="rounded-sm border border-modal-stroke">
-            <SpacingSwatch />
-            <SpacingSwatch />
-            <SpacingSwatch />
-          </DialogBody>
-        </div>
-      ))}
-    </div>
-  ),
-};
-
-export const BodyPadding: Story = {
-  name: "Body padding",
-  parameters: { layout: "padded" },
-  render: () => (
-    <div className="grid grid-cols-4 gap-4">
-      {BODY_SPACING_STEPS.map((padding) => (
-        <div key={padding} className="flex flex-col gap-2">
-          <span className="typography-body-small-14px-semibold text-content-secondary">
-            padding="{padding}"
-          </span>
-          <DialogBody padding={padding} className="rounded-sm border border-modal-stroke">
-            <SpacingSwatch />
-          </DialogBody>
-        </div>
-      ))}
-    </div>
-  ),
 };

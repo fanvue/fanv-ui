@@ -372,54 +372,15 @@ export const DialogDescription = React.forwardRef<
 ));
 DialogDescription.displayName = "DialogDescription";
 
-/** Spacing step for {@link DialogBody}: 0, 12, 16 or 24px, matching the global spacing tokens. */
-export type DialogBodySpacing = "none" | "sm" | "md" | "lg";
-
-export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Top and bottom padding. Side padding comes from {@link DialogContent}. @default "md" */
-  padding?: DialogBodySpacing;
-  /** Gap between children. Setting it also stacks the children in a column. */
-  gap?: DialogBodySpacing;
-}
-
-const BODY_PADDING_CLASSES: Record<DialogBodySpacing, string> = {
-  none: "py-0",
-  sm: "py-3",
-  md: "py-4",
-  lg: "py-6",
-};
-
-const BODY_GAP_CLASSES: Record<DialogBodySpacing, string> = {
-  none: "gap-0",
-  sm: "gap-3",
-  md: "gap-4",
-  lg: "gap-6",
-};
+export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 /**
  * Scrollable content area (slot) between the header and footer.
  * Grows to fill available space and scrolls when content overflows.
- *
- * @example
- * ```tsx
- * <DialogBody gap="md" padding="sm">
- *   <Alert variant="warning">Check the details below.</Alert>
- *   <TextField label="Name" />
- * </DialogBody>
- * ```
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
-  ({ className, padding = "md", gap, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        "flex-1 overflow-y-auto",
-        BODY_PADDING_CLASSES[padding],
-        gap && cn("flex flex-col", BODY_GAP_CLASSES[gap]),
-        className,
-      )}
-      {...props}
-    />
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("flex-1 overflow-y-auto py-4", className)} {...props} />
   ),
 );
 DialogBody.displayName = "DialogBody";
