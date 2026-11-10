@@ -563,6 +563,7 @@ export type { ShareIconProps } from "./components/Icons/ShareIcon";
 export { ShareIcon } from "./components/Icons/ShareIcon";
 export type { SoundIconProps } from "./components/Icons/SoundIcon";
 export { SoundIcon } from "./components/Icons/SoundIcon";
+export type { SpinnerIconProps } from "./components/Icons/SpinnerIcon";
 export { SpinnerIcon } from "./components/Icons/SpinnerIcon";
 export type { StarIconProps } from "./components/Icons/StarIcon";
 export { StarIcon } from "./components/Icons/StarIcon";

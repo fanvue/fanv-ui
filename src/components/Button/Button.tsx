@@ -217,7 +217,7 @@ function getTextContent(node: React.ReactNode): string | undefined {
 
 const LoadingSpinner = ({ size }: { size: ButtonSize }) => {
   return (
-    <span className="animate-spin" aria-hidden="true">
+    <span aria-hidden="true">
       <SpinnerIcon className={ICON_SIZE_CLASS[size]}>
         <title>Loading</title>
       </SpinnerIcon>
