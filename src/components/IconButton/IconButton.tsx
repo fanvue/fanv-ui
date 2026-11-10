@@ -11,10 +11,12 @@ import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
  * `24` size, circular otherwise). Of these, `primary`, `secondary`, `tertiary`
  * and `outline` also honour the {@link IconButtonProps.negative} prop.
  *
- * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
- * `microphone` and `overlay` are bespoke variants that stay circular at every size.
  * `overlay` is a translucent dark fill with a backdrop blur, for buttons that sit
- * on photos or video; it looks the same in light and dark themes.
+ * on photos or video; it looks the same in light and dark themes and takes the
+ * same size-driven shape as the standard variants.
+ *
+ * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop` and
+ * `microphone` are bespoke variants that stay circular at every size.
  */
 export type IconButtonVariant =
   | "primary"
@@ -77,6 +79,7 @@ const SIZE_DRIVEN_SHAPE_VARIANTS = new Set<IconButtonVariant>([
   "error",
   "white",
   "black",
+  "overlay",
 ]);
 
 /** Variants that honour the `negative` (dark-surface) treatment. */
@@ -234,10 +237,10 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * icon alone (e.g. close, send). Always pair with an `aria-label` for
  * accessibility.
  *
- * Shape is size-driven for the standard variants: the `24` size is squared
- * (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
+ * Shape is size-driven for the standard variants and `overlay`: the `24` size is
+ * squared (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
  * `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
- * `microphone`, `overlay`) stay circular at all sizes. `field` is the exception that is
+ * `microphone`) stay circular at all sizes. `field` is the exception that is
  * never circular — it takes the inputs' `rounded-sm` so it matches the fields it
  * sits beside. Use it at `32`, `40` or `48`: those are the sizes `Select` offers,
  * and the variant only earns its surface when it lines up with one.

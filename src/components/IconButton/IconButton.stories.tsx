@@ -413,7 +413,7 @@ export const OverlayOnMedia: Story = {
     <div className="relative h-[200px] w-[300px] overflow-hidden rounded-md">
       <img src={OVERLAY_STORY_PHOTO_URL} alt="" className="size-full object-cover" />
       <div className="absolute inset-x-0 top-3 flex items-center justify-center gap-3">
-        {(["32", "40", "48"] as const).map((size) => (
+        {(["24", "32", "40", "48"] as const).map((size) => (
           <IconButton
             key={size}
             variant="overlay"
