@@ -896,6 +896,7 @@ export type {
   TabsListAppearance,
   TabsListPillSize,
   TabsListProps,
+  TabsListUnderlineSize,
 } from "./components/Tabs/TabsList";
 export { TabsList } from "./components/Tabs/TabsList";
 export type { TabsListSkeletonProps } from "./components/Tabs/TabsListSkeleton";

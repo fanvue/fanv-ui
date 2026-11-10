@@ -401,6 +401,34 @@ describe("Tabs", () => {
     });
   });
 
+  describe("underline size", () => {
+    it("pads tabs 12px top and bottom by default", () => {
+      renderTabs();
+      for (const tab of screen.getAllByRole("tab")) {
+        expect(tab).toHaveClass(
+          "data-[orientation=horizontal]:px-4",
+          "data-[orientation=horizontal]:py-3",
+        );
+      }
+    });
+
+    it("pads tabs 8px top and bottom when size is sm", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList size="sm">
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      const tab = screen.getByRole("tab");
+      expect(tab).toHaveClass(
+        "data-[orientation=horizontal]:px-4",
+        "data-[orientation=horizontal]:py-2",
+      );
+      expect(tab).not.toHaveClass("data-[orientation=horizontal]:py-3");
+    });
+  });
+
   describe("pill appearance", () => {
     function renderPill(defaultValue = "tab1") {
       return render(
