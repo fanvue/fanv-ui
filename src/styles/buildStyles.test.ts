@@ -132,6 +132,8 @@ describe("buildThemeCss", () => {
     const dark = rawTokens.semantic.dark.color.neutralAlphas;
     const alphaOf = (hex: string) => Number.parseInt(hex.slice(7, 9), 16);
 
+    expect(dark["150"].value).toMatch(/^#[0-9a-f]{8}$/i);
+    expect(light["150"].value).toMatch(/^#[0-9a-f]{8}$/i);
     expect(alphaOf(dark["150"].value)).toBe(alphaOf(light["150"].value));
     expect(css).toMatch(/\.dark \{[^}]*--color-neutral-alphas-150: #ffffff26;/);
   });

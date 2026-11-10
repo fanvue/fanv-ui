@@ -239,7 +239,7 @@ Radius and spacing primitive values are unchanged. **Several status/brand colour
 
 ## Value changes (not just renames)
 
-These are **intentional value changes** in the v3 Figma source (plus one Figma bug we worked around). Unlike the renames above, they alter rendered output, so the "screenshot diff should be empty" assumption does **not** hold for components that use them. QA these specifically.
+These are **intentional value changes** in the v3 Figma source (plus one deliberate code-side correction of the Figma export). Unlike the renames above, they alter rendered output, so the "screenshot diff should be empty" assumption does **not** hold for components that use them. QA these specifically.
 
 ### Status / brand primitives re-valued
 
@@ -264,9 +264,13 @@ Any surface using success / error / warning / info / brand-green colours shifts 
 
 `--opacity-disabled` is `0.6`; migrating `opacity-40` call-sites to it dims more than before. See [Opacity](#6-opacity-new).
 
-### Known Figma regression — `neutral-alphas-150` (dark)
+### Dark `neutral-alphas-150` corrected to 15% white
 
-The v3 export sets `neutral-alphas-150` (dark) to `#ffffffcc` (white 80%), where v2 used a dark surface (`#232323cc`). The rest of the dark `neutral-alphas` ramp is white-based, so this looks like an unintended normalisation in Figma — but the build emits the Figma value verbatim (Figma is the single source of truth; tokens are not patched in code). With this value the dark Chip/Badge render light-on-light. **Action for design:** correct the `neutral-alphas-150` dark variable in Figma and re-export — that is the only place to fix it.
+The v3 Figma export sets `neutral-alphas-150` (dark) to `#ffffffcc` (white 80%), where light is `#15151526` (15% alpha) and v2 used a dark surface (`#232323cc`). The rest of the dark `neutral-alphas` ramp is a faint white tint, so 80% white is out of line with it.
+
+`@fanvue/ui` now ships dark `--color-neutral-alphas-150` as `#ffffff26` (15% white, the same alpha as light). This is a deliberate code-side correction of the Figma export, guarded by `src/styles/buildStyles.test.ts`. The Figma variable still holds the old value and design still needs to fix it; there is no ticket yet. Until then, a token re-import that restores `#ffffffcc` fails that test.
+
+Any `dark:` text, icon or border colour picked to sit on the old near-white fill will lose contrast on the new faint tint. Kit components do not use step 150, so the visible change inside the kit is the dark Neutral 150 swatch in Foundations/Colors.
 
 ---
 
