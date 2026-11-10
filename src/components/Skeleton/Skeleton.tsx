@@ -4,6 +4,9 @@ import { cn } from "../../utils/cn";
 /** Shape variant of the skeleton placeholder. */
 export type SkeletonVariant = "text" | "circular" | "rectangular" | "rounded";
 
+/** Corner radius of the skeleton, on the kit radius scale. */
+export type SkeletonRadius = "none" | "sm" | "md" | "lg";
+
 /** Animation style of the skeleton. `false` disables animation. */
 export type SkeletonAnimation = "pulse" | "wave" | false;
 
@@ -18,6 +21,18 @@ export interface SkeletonProps extends React.HTMLAttributes<HTMLSpanElement> {
    * @default "text"
    */
   variant?: SkeletonVariant;
+  /**
+   * Corner radius on the kit scale, so a skeleton can match the corners of the
+   * surface it stands in for. Overrides the radius the `variant` sets.
+   *
+   * - `none` – square corners
+   * - `sm` – `--radius-sm` (12px)
+   * - `md` – `--radius-md` (16px)
+   * - `lg` – `--radius-lg` (24px)
+   *
+   * Leave unset to keep the variant's own radius.
+   */
+  radius?: SkeletonRadius;
   /** Animation style. Set to `false` to disable animation. @default "pulse" */
   animation?: SkeletonAnimation;
   /** Width of the skeleton. Accepts a CSS value (number is treated as `px`). */
@@ -33,6 +48,13 @@ const VARIANT_CLASSES: Record<SkeletonVariant, string> = {
   rounded: "rounded-xs",
 };
 
+const RADIUS_CLASSES: Record<SkeletonRadius, string> = {
+  none: "rounded-none",
+  sm: "rounded-sm",
+  md: "rounded-md",
+  lg: "rounded-lg",
+};
+
 /**
  * A placeholder preview of content before data is loaded, reducing perceived
  * load time. Mirrors common MUI Skeleton props for easy migration.
@@ -45,11 +67,22 @@ const VARIANT_CLASSES: Record<SkeletonVariant, string> = {
  * <Skeleton variant="text" width={200} />
  * <Skeleton variant="circular" width={40} height={40} />
  * <Skeleton variant="rectangular" width="100%" height={120} />
+ * <Skeleton variant="rectangular" radius="lg" width="100%" height={240} />
  * ```
  */
 export const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(
   (
-    { className, variant = "text", animation = "pulse", width, height, style, children, ...props },
+    {
+      className,
+      variant = "text",
+      radius,
+      animation = "pulse",
+      width,
+      height,
+      style,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const hasChildren = React.Children.count(children) > 0;
@@ -70,6 +103,7 @@ export const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(
         className={cn(
           "block bg-[color-mix(in_srgb,var(--color-content-primary)_11%,var(--color-background-primary))]",
           VARIANT_CLASSES[variant],
+          radius && RADIUS_CLASSES[radius],
           variant === "text" && !height && !hasChildren && "h-[1em]",
           animation === "pulse" && "animate-pulse",
           animation === "wave" && "fv-skeleton-wave",

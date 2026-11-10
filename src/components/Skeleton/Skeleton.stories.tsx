@@ -13,6 +13,10 @@ const meta = {
       control: "select",
       options: ["text", "circular", "rectangular", "rounded"],
     },
+    radius: {
+      control: "select",
+      options: [undefined, "none", "sm", "md", "lg"],
+    },
     animation: {
       control: "select",
       options: ["pulse", "wave", false],
@@ -45,6 +49,35 @@ export const Default: Story = {
     width: 200,
     height: 20,
   },
+};
+
+/** Every `radius` value on a rectangular skeleton. Unset keeps the variant's own radius. */
+export const Radius: Story = {
+  parameters: { layout: "padded" },
+  render: () => (
+    <div className="flex flex-wrap gap-4">
+      <Skeleton variant="rectangular" radius="none" width={160} height={120} />
+      <Skeleton variant="rectangular" radius="sm" width={160} height={120} />
+      <Skeleton variant="rectangular" radius="md" width={160} height={120} />
+      <Skeleton variant="rectangular" radius="lg" width={160} height={120} />
+    </div>
+  ),
+};
+
+export const RadiusNone: Story = {
+  args: { variant: "rectangular", radius: "none", width: 240, height: 120 },
+};
+
+export const RadiusSm: Story = {
+  args: { variant: "rectangular", radius: "sm", width: 240, height: 120 },
+};
+
+export const RadiusMd: Story = {
+  args: { variant: "rectangular", radius: "md", width: 240, height: 120 },
+};
+
+export const RadiusLg: Story = {
+  args: { variant: "rectangular", radius: "lg", width: 240, height: 120 },
 };
 
 export const AvatarWithText: Story = {

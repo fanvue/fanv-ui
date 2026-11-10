@@ -775,6 +775,7 @@ export {
 export type {
   SkeletonAnimation,
   SkeletonProps,
+  SkeletonRadius,
   SkeletonVariant,
 } from "./components/Skeleton/Skeleton";
 export { Skeleton } from "./components/Skeleton/Skeleton";
