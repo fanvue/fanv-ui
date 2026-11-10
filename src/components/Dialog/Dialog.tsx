@@ -75,9 +75,11 @@ export interface DialogContentProps
    * - `"sm"` — 400px max-width (confirmations, simple forms)
    * - `"md"` — 440px max-width (default, standard dialogs)
    * - `"lg"` — 600px max-width (complex content, tables)
-   * - `"full"` — edge to edge with no border, radius, padding, background or pull handle,
-   *   for media viewers. Its height follows `--visual-viewport-h` when the page sets it
-   *   (to track the on-screen keyboard) and falls back to `100dvh`.
+   * - `"full"` — edge to edge with no border, radius, padding or pull handle, on the
+   *   theme's `bg-background-primary` surface, for media viewers. A viewer that wants a
+   *   black stage passes its own surface through `className`. Its height follows
+   *   `--visual-viewport-h` when the page sets it (to track the on-screen keyboard)
+   *   and falls back to `100dvh`.
    *
    * @default "md"
    */
@@ -112,7 +114,7 @@ const SIZE_CLASSES: Record<Exclude<DialogContentSize, "full">, string> = {
 };
 
 const FULL_CLASSES =
-  "inset-x-0 top-[var(--visual-viewport-top,0px)] h-[var(--visual-viewport-h,100dvh)] w-screen";
+  "inset-x-0 top-[var(--visual-viewport-top,0px)] h-[var(--visual-viewport-h,100dvh)] w-screen bg-background-primary";
 
 /**
  * The dialog panel. Includes the overlay by default and portals to `document.body` by default.
@@ -229,6 +231,7 @@ export const DialogContent = React.forwardRef<
         {!isFull && showMobileHandle && mobilePresentation === "sheet" && (
           <div
             aria-hidden="true"
+            data-slot="dialog-handle"
             className="mb-3 h-1 w-8 shrink-0 self-center rounded-full bg-icons-tertiary sm:hidden"
           />
         )}

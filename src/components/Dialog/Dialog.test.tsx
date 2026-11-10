@@ -161,10 +161,11 @@ describe("Dialog", () => {
       expect(dialog).toHaveClass("h-[var(--visual-viewport-h,100dvh)]");
       expect(dialog).not.toHaveClass("border-modal-stroke");
       expect(dialog).not.toHaveClass("bg-modal-background");
+      expect(dialog).toHaveClass("bg-background-primary");
       expect(dialog).not.toHaveClass("rounded-t-xl");
       expect(dialog).not.toHaveClass("p-4");
       expect(dialog).not.toHaveClass("sm:max-w-[440px]");
-      expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
+      expect(document.querySelector('[data-slot="dialog-handle"]')).not.toBeInTheDocument();
     });
 
     it("applies v2 surface treatment", () => {
@@ -182,12 +183,12 @@ describe("Dialog", () => {
 
     it("renders the mobile sheet handle by default", () => {
       renderDialog();
-      expect(document.querySelector(".bg-icons-tertiary")).toBeInTheDocument();
+      expect(document.querySelector('[data-slot="dialog-handle"]')).toBeInTheDocument();
     });
 
     it("hides the mobile sheet handle when showMobileHandle is false", () => {
       renderDialog({ showMobileHandle: false });
-      expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
+      expect(document.querySelector('[data-slot="dialog-handle"]')).not.toBeInTheDocument();
     });
 
     it("renders as a floating card on mobile when mobilePresentation is card", () => {
@@ -198,7 +199,7 @@ describe("Dialog", () => {
       expect(dialog).toHaveClass("p-6");
       expect(dialog).not.toHaveClass("bottom-0");
       expect(dialog).not.toHaveClass("rounded-t-xl");
-      expect(document.querySelector(".bg-icons-tertiary")).not.toBeInTheDocument();
+      expect(document.querySelector('[data-slot="dialog-handle"]')).not.toBeInTheDocument();
     });
 
     // ENG-12221: iOS in-app browsers (e.g. Instagram) report a `vh` taller than
@@ -423,11 +424,15 @@ describe("Dialog", () => {
       vi.useRealTimers();
     }
 
-    function renderControlled(mobilePresentation: "sheet" | "card") {
+    function renderControlled(mobilePresentation: "sheet" | "card", size?: "full") {
       const onOpenChange = vi.fn();
       render(
         <Dialog open onOpenChange={onOpenChange}>
-          <DialogContent mobilePresentation={mobilePresentation} aria-describedby={undefined}>
+          <DialogContent
+            mobilePresentation={mobilePresentation}
+            size={size}
+            aria-describedby={undefined}
+          >
             <DialogTitle>Sheet</DialogTitle>
           </DialogContent>
         </Dialog>,
@@ -449,6 +454,12 @@ describe("Dialog", () => {
 
     it("does not drag the card presentation", () => {
       const onOpenChange = renderControlled("card");
+      dragDown(screen.getByRole("dialog"), 150);
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    it("does not drag when size is full", () => {
+      const onOpenChange = renderControlled("sheet", "full");
       dragDown(screen.getByRole("dialog"), 150);
       expect(onOpenChange).not.toHaveBeenCalled();
     });
