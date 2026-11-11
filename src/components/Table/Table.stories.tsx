@@ -715,7 +715,7 @@ export const AllStatesV2: Story = {
   },
 };
 
-/** Media in a cell sits centred in its 56px row, whether it holds a photo, a placeholder or initials. */
+/** Media in a cell sits centred in its row, whether it holds a photo, a placeholder or initials, wrapped or bare. */
 export const MediaVerticalCentering: Story = {
   render: () => (
     <TableCard>
@@ -751,6 +751,18 @@ export const MediaVerticalCentering: Story = {
                 <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" />
               </TableCell>
               <TableCell>Thumbnail</TableCell>
+            </TableRow>
+            <TableRow data-media-row="">
+              <TableCell>
+                <Avatar size={40} src={TABLE_MEDIA_SRC} alt="" />
+              </TableCell>
+              <TableCell>Bare photo avatar</TableCell>
+            </TableRow>
+            <TableRow data-media-row="">
+              <TableCell>
+                <Avatar size={24} src={TABLE_MEDIA_SRC} alt="" />
+              </TableCell>
+              <TableCell>Bare 24px avatar</TableCell>
             </TableRow>
           </TableBody>
         </Table>
