@@ -65,9 +65,12 @@ describe("Button", () => {
       expect(button).not.toHaveClass("bg-buttons-disabled-default");
     });
 
-    it("squares the 24 size and keeps larger sizes a pill", () => {
+    it("squares the 24 size with 12px text and keeps larger sizes a pill", () => {
       const { rerender } = render(<Button size="24">Label</Button>);
-      expect(screen.getByRole("button", { name: "Label" })).toHaveClass("rounded-xs");
+      expect(screen.getByRole("button", { name: "Label" })).toHaveClass(
+        "rounded-xs",
+        "typography-description-12px-semibold",
+      );
       expect(screen.getByRole("button", { name: "Label" })).not.toHaveClass("rounded-full");
 
       rerender(<Button size="32">Label</Button>);
