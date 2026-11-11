@@ -212,6 +212,7 @@ export type {
   DialogBodyProps,
   DialogCloseProps,
   DialogContentProps,
+  DialogContentSize,
   DialogDescriptionProps,
   DialogFooterProps,
   DialogHeaderProps,

@@ -3,8 +3,10 @@ import { expect, screen, userEvent, waitFor, within } from "storybook/test";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { Chip } from "../Chip/Chip";
+import { IconButton } from "../IconButton/IconButton";
 import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
 import { CheckIcon } from "../Icons/CheckIcon";
+import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchField } from "../SearchField/SearchField";
 import { TextArea } from "../TextArea/TextArea";
 import { TextField } from "../TextField/TextField";
@@ -827,4 +829,32 @@ export const ClosesWithExitAnimation: Story = {
     await expect(dialog).toHaveAttribute("data-state", "closed");
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
   },
+};
+
+const STORY_PHOTO_URL =
+  "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1200&h=1800&fit=crop";
+
+export const FullScreenMedia: Story = {
+  name: "Full screen (media viewer)",
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent size="full" aria-describedby={undefined}>
+        <DialogTitle className="sr-only">Photo</DialogTitle>
+        <img src={STORY_PHOTO_URL} alt="" className="size-full object-contain" />
+        <DialogClose asChild>
+          <IconButton
+            variant="secondary"
+            size="40"
+            icon={<CloseIcon />}
+            aria-label="Close"
+            className="absolute top-4 right-4"
+          />
+        </DialogClose>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: openDialog,
 };
