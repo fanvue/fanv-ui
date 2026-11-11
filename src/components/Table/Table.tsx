@@ -631,7 +631,7 @@ export const TableMediaThumbnail = React.forwardRef<HTMLDivElement, TableMediaTh
         data-table-media={size === "32" ? undefined : ""}
         className={cn(
           align === "center" && "flex w-16 shrink-0 justify-center",
-          align === "start" && "inline-flex shrink-0",
+          align === "start" && "inline-flex shrink-0 align-middle",
         )}
       >
         <div className={cn(frame, blurred && "blur-[2px]", className)} {...props}>
@@ -663,7 +663,7 @@ export const TableMediaTile = React.forwardRef<HTMLSpanElement, TableMediaTilePr
         ref={ref}
         data-table-media=""
         className={cn(
-          "inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-xs",
+          "inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-xs align-middle",
           fill
             ? "[&>*]:size-full"
             : "border-[0.5px] border-border-primary bg-surface-table-row text-icons-secondary",

@@ -714,3 +714,60 @@ export const AllStatesV2: Story = {
     );
   },
 };
+
+/** Media in a cell sits centred in its 56px row, whether it holds a photo, a placeholder or initials. */
+export const MediaVerticalCentering: Story = {
+  render: () => (
+    <TableCard>
+      <TableScrollArea>
+        <Table>
+          <TableBody>
+            <TableRow data-media-row="">
+              <TableCell>
+                <TableMediaTile fill>
+                  <Avatar size={40} src={TABLE_MEDIA_SRC} alt="" />
+                </TableMediaTile>
+              </TableCell>
+              <TableCell>Photo avatar</TableCell>
+            </TableRow>
+            <TableRow data-media-row="">
+              <TableCell>
+                <TableMediaTile fill>
+                  <div className="bg-surface-secondary" />
+                </TableMediaTile>
+              </TableCell>
+              <TableCell>Placeholder</TableCell>
+            </TableRow>
+            <TableRow data-media-row="">
+              <TableCell>
+                <TableMediaTile fill>
+                  <Avatar size={40} fallback="SF" />
+                </TableMediaTile>
+              </TableCell>
+              <TableCell>Initials avatar</TableCell>
+            </TableRow>
+            <TableRow data-media-row="">
+              <TableCell>
+                <TableMediaThumbnail src={TABLE_MEDIA_SRC} alt="" />
+              </TableCell>
+              <TableCell>Thumbnail</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+    </TableCard>
+  ),
+  play: async ({ canvasElement }) => {
+    const gaps = [...canvasElement.querySelectorAll("[data-media-row]")].map((row) => {
+      const cell = row.querySelector("td") as HTMLElement;
+      const media = cell.firstElementChild as HTMLElement;
+      const cellBox = cell.getBoundingClientRect();
+      const mediaBox = media.getBoundingClientRect();
+      const border = Number.parseFloat(getComputedStyle(cell).borderBottomWidth);
+      return Math.abs(mediaBox.top - cellBox.top - (cellBox.bottom - border - mediaBox.bottom));
+    });
+    for (const gap of gaps) {
+      await expect(gap).toBeLessThanOrEqual(0.5);
+    }
+  },
+};
