@@ -487,6 +487,8 @@ describe("Dialog", () => {
 
     it.each([
       "p-0",
+      "px-1",
+      "!px-1",
       "px-6",
       "!p-0",
       "p-0!",
@@ -496,7 +498,7 @@ describe("Dialog", () => {
       const body = screen.getByTestId("body");
       expect(body).toHaveClass(padding);
       expect(body).not.toHaveClass("-mx-1");
-      expect(body).not.toHaveClass("px-1");
+      expect(body).not.toHaveClass("group-data-[size=full]/dialog:px-0");
     });
 
     it("keeps the clearance when the consumer sets only vertical padding or layout", () => {
