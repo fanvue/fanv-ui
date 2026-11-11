@@ -378,19 +378,23 @@ DialogDescription.displayName = "DialogDescription";
 
 export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
 
+function setsInlinePadding(className?: string) {
+  const merged = cn("px-1 !px-1", className).split(" ");
+  return !merged.includes("px-1") || !merged.includes("!px-1");
+}
+
 /**
  * Scrollable content area (slot) between the header and footer.
  * Grows to fill available space and scrolls when content overflows.
- * Its scroll edge sits 4px outside the content, so focus and hover rings on
- * controls at the edge are not clipped.
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
-        "-mx-1 flex-1 overflow-y-auto px-1 py-4",
-        "group-data-[size=full]/dialog:mx-0 group-data-[size=full]/dialog:px-0",
+        "flex-1 overflow-y-auto py-4",
+        !setsInlinePadding(className) &&
+          "-mx-1 px-1 group-data-[size=full]/dialog:mx-0 group-data-[size=full]/dialog:px-0",
         className,
       )}
       {...props}
