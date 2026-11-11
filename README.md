@@ -105,7 +105,7 @@ Not every icon has a twin — an icon is only mapped once its animated artwork h
 been compared against ours — so a missing export means the pair was rejected or
 upstream has no equivalent. `SpinnerIcon` is deliberately absent: a loading
 indicator must not wait for a hover. Keep using the static one with
-`animate-spin`, or `Loader`.
+`<SpinnerIcon spin />`, which respects reduced motion, or `Loader`.
 
 Nothing animates when the user has asked for reduced motion
 (`prefers-reduced-motion: reduce`), including animations you start yourself

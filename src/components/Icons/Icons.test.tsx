@@ -484,3 +484,25 @@ describe("IconDefaultsContext", () => {
     warn.mockRestore();
   });
 });
+
+describe("spin prop", () => {
+  const svgOf = (ui: React.ReactElement) => render(ui).container.querySelector("svg");
+
+  it("stays still by default", () => {
+    expect(svgOf(<RefreshArrowIcon />)?.getAttribute("class")).not.toMatch(/animate-/);
+  });
+
+  it("spins with motion allowed and pulses under reduced motion", () => {
+    expect(svgOf(<RefreshArrowIcon spin />)).toHaveClass(
+      "motion-safe:animate-spin",
+      "motion-reduce:animate-pulse",
+    );
+  });
+
+  it("spins the same way on SpinnerIcon", () => {
+    expect(svgOf(<SpinnerIcon spin />)).toHaveClass(
+      "motion-safe:animate-spin",
+      "motion-reduce:animate-pulse",
+    );
+  });
+});
