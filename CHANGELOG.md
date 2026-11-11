@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.50.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.49.0...ui-v3.50.0) (2026-11-11)
+
+
+### Features
+
+* **Dialog:** add size="full" for edge-to-edge media (ENG-17733) ([#795](https://github.com/fanvue/fanv-ui/issues/795)) ([239bce4](https://github.com/fanvue/fanv-ui/commit/239bce438f665c3d5293704fa27218eeed90eb04))
+* **IconButton:** add an overlay variant for buttons on photos and video (ENG-17733) ([#796](https://github.com/fanvue/fanv-ui/issues/796)) ([b124a58](https://github.com/fanvue/fanv-ui/commit/b124a585df580083328e65f6daba22549ee8da5d))
+* **icons:** add a motion-safe spin to any icon and a size prop to SpinnerIcon (ENG-17733) ([#798](https://github.com/fanvue/fanv-ui/issues/798)) ([80c87ab](https://github.com/fanvue/fanv-ui/commit/80c87ab0b6b8bdc77a64f2e59d61f1cbe1d90e9e))
+* **Skeleton:** add a radius prop on the kit radius scale ([#792](https://github.com/fanvue/fanv-ui/issues/792)) ([a5ea238](https://github.com/fanvue/fanv-ui/commit/a5ea238a2c3a8435a7b16ba1afdd1eeb4a884107))
+
+
+### Bug Fixes
+
+* **Alert:** centre the icon with a one-line message when the CTA trails ([#802](https://github.com/fanvue/fanv-ui/issues/802)) ([7298a0d](https://github.com/fanvue/fanv-ui/commit/7298a0dfbde184b7a644fd79699dada4a4354914))
+* **ChartGrid:** draw solid grid lines and keep the zero line on empty data ([#789](https://github.com/fanvue/fanv-ui/issues/789)) ([74306e3](https://github.com/fanvue/fanv-ui/commit/74306e3bb859e50693a673e902acaa1b3e366539))
+
 ## [3.49.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.48.0...ui-v3.49.0) (2026-11-09)
 
 
