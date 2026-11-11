@@ -77,11 +77,11 @@ export const Brand: Story = {
 };
 
 /**
- * Figma "Upsell": the green radial fill, glowing ring and a highlight that circles
- * the rim. The highlight holds still when the viewer prefers reduced motion; the
- * disabled state drops the glow.
+ * The `brand` variant (Figma "Upsell") at every size, then disabled: the green
+ * radial fill, glowing ring and a highlight that circles the rim. The highlight
+ * holds still when the viewer prefers reduced motion; disabled drops the glow.
  */
-export const BrandUpsell: Story = {
+export const BrandAllSizes: Story = {
   parameters: {
     design: {
       type: "figma",
