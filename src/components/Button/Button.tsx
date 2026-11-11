@@ -148,7 +148,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, VariantClasses> = {
   },
   brand: {
     default:
-      "bg-buttons-brand-default text-content-always-black hover:bg-buttons-brand-hover hover:text-content-always-black active:bg-buttons-brand-hover active:text-content-always-black",
+      "fv-upsell fv-upsell-shine bg-buttons-brand-default text-content-always-black hover:[--fv-upsell-end:var(--color-buttons-brand-hover)] active:[--fv-upsell-end:var(--color-buttons-brand-hover)]",
     disabled: DISABLED_FILL,
   },
   destructive: {
@@ -318,6 +318,10 @@ function renderContent({
  *
  * Pass `negative` when rendering on a dark surface to opt into the inverted
  * treatment for `primary`, `secondary`, `tertiary`, and `outline` variants.
+ *
+ * The `brand` variant is the Figma "Upsell" button: a green radial fill with a
+ * glowing ring and a highlight that circles the rim. The highlight holds still
+ * when the user prefers reduced motion. Keep it for upgrade and purchase prompts.
  *
  * The `ai` variant ships with the AI sparkle icon baked in (locked at 16px
  * regardless of button size); pass `leftIcon` to override the default sparkle.

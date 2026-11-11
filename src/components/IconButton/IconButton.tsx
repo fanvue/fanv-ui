@@ -11,6 +11,11 @@ import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
  * `24` size, circular otherwise). Of these, `primary`, `secondary`, `tertiary`
  * and `outline` also honour the {@link IconButtonProps.negative} prop.
  *
+ * `upsell` is the Figma "Upsell" icon button and matches `Button`'s `brand`
+ * variant: a green radial fill, a glowing ring and a highlight that circles the
+ * rim, held still when the user prefers reduced motion. It takes the same
+ * size-driven shape as the standard variants.
+ *
  * `overlay` is a translucent dark fill with a backdrop blur, for buttons that sit
  * on photos or video. Its fill and icon look the same in light and dark themes, while
  * the keyboard focus ring still follows the theme. It takes the same size-driven
@@ -28,6 +33,7 @@ export type IconButtonVariant =
   | "white"
   | "black"
   | "brand"
+  | "upsell"
   | "contrast"
   | "messaging"
   | "navTray"
@@ -80,6 +86,7 @@ const SIZE_DRIVEN_SHAPE_VARIANTS = new Set<IconButtonVariant>([
   "error",
   "white",
   "black",
+  "upsell",
   "overlay",
 ]);
 
@@ -163,6 +170,11 @@ const VARIANT_CLASSES: Record<IconButtonVariant, VariantClasses> = {
       "bg-content-always-black text-brand-primary-default hover:bg-brand-primary-default hover:text-content-always-black not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-always-black",
     disabled: DISABLED_OPACITY,
   },
+  upsell: {
+    default:
+      "fv-upsell fv-upsell-shine bg-buttons-brand-default text-content-always-black not-disabled:hover:[--fv-upsell-end:var(--color-buttons-brand-hover)] not-disabled:active:[--fv-upsell-end:var(--color-buttons-brand-hover)]",
+    disabled: DISABLED_FILL,
+  },
   contrast: {
     default:
       "bg-transparent text-content-always-white hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted",
@@ -238,7 +250,7 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * icon alone (e.g. close, send). Always pair with an `aria-label` for
  * accessibility.
  *
- * Shape is size-driven for the standard variants and `overlay`: the `24` size is
+ * Shape is size-driven for the standard variants, `upsell` and `overlay`: the `24` size is
  * squared (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
  * `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
  * `microphone`) stay circular at all sizes. `field` is the exception that is

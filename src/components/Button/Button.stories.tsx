@@ -76,6 +76,39 @@ export const Brand: Story = {
   args: { variant: "brand", size: "48", children: "Label" },
 };
 
+/**
+ * Figma "Upsell": the green radial fill, glowing ring and a highlight that circles
+ * the rim. The highlight holds still when the viewer prefers reduced motion; the
+ * disabled state drops the glow.
+ */
+export const BrandUpsell: Story = {
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16800-1155&m=dev",
+    },
+  },
+  render: () => (
+    <div className="flex w-[361px] flex-col items-start gap-4 bg-surface-primary p-6">
+      <Button variant="brand" size="48" fullWidth>
+        Unlock 4 more for $12
+      </Button>
+      <Button variant="brand" size="40">
+        Unlock for $12
+      </Button>
+      <Button variant="brand" size="32">
+        Unlock for $12
+      </Button>
+      <Button variant="brand" size="24">
+        Unlock
+      </Button>
+      <Button variant="brand" size="40" disabled>
+        Unlock for $12
+      </Button>
+    </div>
+  ),
+};
+
 export const Destructive: Story = {
   parameters: E2E_FIXTURE_PARAMETERS,
   args: { variant: "destructive", size: "48", children: "Label" },

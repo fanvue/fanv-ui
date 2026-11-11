@@ -148,6 +148,7 @@ const meta = {
         "white",
         "black",
         "brand",
+        "upsell",
         "contrast",
         "messaging",
         "navTray",
@@ -301,6 +302,34 @@ export const BrandDisabled: Story = {
     icon: <HomeIcon />,
     disabled: true,
   },
+};
+
+/**
+ * Figma "Upsell": the icon-only twin of `Button`'s `brand` variant. The highlight
+ * circles the rim unless the viewer prefers reduced motion.
+ */
+export const Upsell: Story = {
+  args: { icon: <WalletIcon />, "aria-label": "Unlock" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16800-8275&m=dev",
+    },
+  },
+  render: () => (
+    <div className="flex items-center gap-4 bg-surface-primary p-6">
+      {v2Sizes.map((size) => (
+        <IconButton
+          key={size}
+          variant="upsell"
+          size={size}
+          icon={<WalletIcon />}
+          aria-label={`Unlock ${size}`}
+        />
+      ))}
+      <IconButton variant="upsell" size="40" icon={<WalletIcon />} aria-label="Unlock" disabled />
+    </div>
+  ),
 };
 
 // Contrast variants

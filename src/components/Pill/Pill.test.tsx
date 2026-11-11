@@ -29,6 +29,13 @@ describe("Pill", () => {
       expect(screen.getByTestId("pill")).toHaveClass("bg-buttons-primary-default");
     });
 
+    it("gives the brand variant the upsell glow without the moving rim highlight", () => {
+      render(<Pill variant="brand">New</Pill>);
+      const pill = screen.getByTestId("pill");
+      expect(pill).toHaveClass("fv-upsell", "text-content-always-black");
+      expect(pill).not.toHaveClass("fv-upsell-shine");
+    });
+
     it("applies the inverted treatment for the negative variant", () => {
       render(<Pill variant="negative">Negative</Pill>);
       const pill = screen.getByTestId("pill");

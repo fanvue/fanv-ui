@@ -12,7 +12,7 @@ const pillVariants = {
     base: "bg-surface-primary-inverted text-content-primary-inverted",
     contrast: "bg-buttons-primary-default text-content-primary-inverted",
     negative: "bg-buttons-secondary-negative-default text-content-primary-inverted",
-    brand: "bg-brand-primary-default text-content-always-black",
+    brand: "fv-upsell bg-brand-primary-default text-content-always-black",
     brandLight: "bg-brand-primary-muted text-content-primary",
     beta: "bg-brand-secondary-default text-content-always-black",
     error: "bg-error-content text-error-surface",
