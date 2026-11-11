@@ -15,26 +15,6 @@ const getNearestAvatarSize = (size: number): AvatarSizeToken =>
     Math.abs(curr - size) < Math.abs(prev - size) ? curr : prev,
   );
 
-/** Name and handle typography for an avatar size, so the text block stays in proportion to the avatar. */
-const getTextClasses = (size: AvatarSizeToken) => {
-  if (size <= 24) {
-    return {
-      name: "typography-description-12px-semibold",
-      handle: "typography-description-12px-regular",
-    };
-  }
-  if (size >= 64) {
-    return {
-      name: "typography-body-default-16px-semibold",
-      handle: "typography-body-small-14px-regular",
-    };
-  }
-  return {
-    name: "typography-body-small-14px-semibold",
-    handle: "typography-body-small-14px-regular",
-  };
-};
-
 /** Minimal user shape consumed by {@link UserItem}. */
 export type UserItemUser = {
   avatarUri?: { url: string; url2x?: string };
@@ -54,11 +34,7 @@ export interface UserItemProps extends React.HTMLAttributes<HTMLDivElement> {
   user: UserItemUser;
   /** Padding of the row. @default "md" */
   padding?: UserItemPadding;
-  /**
-   * Desired avatar size in px; snapped to the nearest supported token. The name and
-   * handle scale with it: 12px at 24 and below, 14px from 32 to 48, and a 16px name
-   * from 64 up. @default 48
-   */
+  /** Desired avatar size in px; snapped to the nearest supported token. @default 48 */
   avatarSize?: number;
   /**
    * Outline of the avatar, passed to {@link Avatar}'s `shape`. Use `square` when the
@@ -154,8 +130,6 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
     },
     ref,
   ) => {
-    const resolvedAvatarSize = getNearestAvatarSize(avatarSize || 48);
-    const text = getTextClasses(resolvedAvatarSize);
     return (
       <div
         ref={ref}
@@ -173,7 +147,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
         )}
         {showAvatar && (
           <Avatar
-            size={resolvedAvatarSize}
+            size={getNearestAvatarSize(avatarSize || 48)}
             shape={avatarShape}
             src={user.avatarUri?.url}
             alt={user.displayName}
@@ -188,7 +162,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
               aiDisclosureLabel={aiDisclosureLabel}
               verified={verified}
               verifiedLabel={verifiedLabel}
-              className={cn("flex", text.name)}
+              className="typography-body-small-14px-semibold"
             >
               {user.nickname || user.displayName}
             </UserDisplayName>
@@ -198,7 +172,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
               {secondary}
             </p>
           )}
-          {showHandle && <UserHandle className={text.handle}>{user.handle}</UserHandle>}
+          {showHandle && <UserHandle>{user.handle}</UserHandle>}
         </div>
         {trailing && <div className="shrink-0 pl-2">{trailing}</div>}
       </div>

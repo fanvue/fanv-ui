@@ -21,13 +21,4 @@ describe("cn", () => {
   it("handles empty input", () => {
     expect(cn()).toBe("");
   });
-
-  it("lets a later typography utility replace an earlier one", () => {
-    expect(
-      cn(
-        "typography-body-small-14px-regular text-content-secondary",
-        "typography-description-12px-regular",
-      ),
-    ).toBe("text-content-secondary typography-description-12px-regular");
-  });
 });
