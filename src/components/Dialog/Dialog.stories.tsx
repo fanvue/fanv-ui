@@ -639,6 +639,76 @@ export const EdgeControls: Story = {
   play: openDialog,
 };
 
+const BODY_PADDING_CASES = [
+  "",
+  "px-1",
+  "px-6",
+  "p-0",
+  "!p-0",
+  "p-0!",
+  "pl-4",
+  "pr-4",
+  "sm:px-2",
+  "md:px-4",
+] as const;
+
+function measureBody(body: HTMLElement) {
+  const dialog = body.closest<HTMLElement>("[role='dialog']");
+  if (!dialog) throw new Error("DialogBody is outside a dialog");
+  const style = getComputedStyle(dialog);
+  const box = dialog.getBoundingClientRect();
+  const rect = body.getBoundingClientRect();
+  return {
+    left: rect.left - (box.left + dialog.clientLeft + Number.parseFloat(style.paddingLeft)),
+    right: box.right - dialog.clientLeft - Number.parseFloat(style.paddingRight) - rect.right,
+  };
+}
+
+export const BodyPaddingOverrides: Story = {
+  name: "Body Padding Overrides",
+  tags: ["!dev", "!autodocs"],
+  render: () => (
+    <Dialog defaultOpen>
+      <DialogContent aria-describedby={undefined}>
+        <DialogTitle>Padding overrides</DialogTitle>
+        {BODY_PADDING_CASES.map((padding) => (
+          <DialogBody
+            key={padding}
+            data-testid={`body-${padding || "default"}`}
+            className={padding}
+          >
+            {padding || "default"}
+          </DialogBody>
+        ))}
+      </DialogContent>
+    </Dialog>
+  ),
+  play: async () => {
+    for (const padding of BODY_PADDING_CASES) {
+      const edge = measureBody(await screen.findByTestId(`body-${padding || "default"}`));
+      const expected = padding === "" ? -4 : 0;
+      await expect({ padding, ...edge }).toEqual({ padding, left: expected, right: expected });
+    }
+  },
+};
+
+export const FullBodyClearance: Story = {
+  name: "Full Body Clearance",
+  tags: ["!dev", "!autodocs"],
+  render: () => (
+    <Dialog defaultOpen>
+      <DialogContent size="full" aria-describedby={undefined}>
+        <DialogTitle className="sr-only">Full screen</DialogTitle>
+        <DialogBody data-testid="full-body">Edge to edge</DialogBody>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: async () => {
+    const edge = measureBody(await screen.findByTestId("full-body"));
+    await expect(edge).toEqual({ left: 0, right: 0 });
+  },
+};
+
 export const SingleAction: Story = {
   name: "Single Action",
   render: () => (

@@ -127,6 +127,7 @@ const FULL_CLASSES =
  * render a centered floating card instead (used for small confirmation dialogs).
  * On larger viewports it renders centered with full border radius.
  * `size="full"` skips both and fills the viewport with no chrome.
+ * The panel carries its size as `data-size`, for styling its children.
  *
  * It animates in and out. While the closing animation plays the panel stays
  * mounted but ignores pointer input, so a second click can't act on it.
@@ -378,17 +379,18 @@ DialogDescription.displayName = "DialogDescription";
 
 export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const PADDING_PROBE = "px-(--dialog-body-probe)";
-const IMPORTANT_PADDING_PROBE = "!px-(--dialog-body-probe)";
+const INLINE_PADDING = /^!?(p|px|pl|pr|ps|pe)-/;
 
 function setsInlinePadding(className?: string) {
-  const merged = cn(IMPORTANT_PADDING_PROBE, PADDING_PROBE, className).split(" ");
-  return !merged.includes(PADDING_PROBE) || !merged.includes(IMPORTANT_PADDING_PROBE);
+  return (className ?? "")
+    .split(/\s+/)
+    .some((token) => INLINE_PADDING.test(token.split(":").at(-1) ?? ""));
 }
 
 /**
  * Scrollable content area (slot) between the header and footer.
  * Grows to fill available space and scrolls when content overflows.
+ * Unless `className` sets horizontal padding, its clip edge sits 4px outside the content so rings on edge controls show.
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ className, ...props }, ref) => (

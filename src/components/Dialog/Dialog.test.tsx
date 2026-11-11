@@ -477,38 +477,8 @@ describe("Dialog", () => {
     });
   });
 
-  describe("body edge clearance", () => {
-    it("moves the scroll edge 4px outside the content by default", () => {
-      render(<DialogBody data-testid="body">Content</DialogBody>);
-      const body = screen.getByTestId("body");
-      expect(body).toHaveClass("-mx-1");
-      expect(body).toHaveClass("px-1");
-    });
-
-    it.each([
-      "p-0",
-      "px-1",
-      "!px-1",
-      "px-6",
-      "!p-0",
-      "p-0!",
-      "!px-6",
-    ])("keeps the consumer's own %s padding exactly", (padding) => {
-      render(<DialogBody data-testid="body" className={padding} />);
-      const body = screen.getByTestId("body");
-      expect(body).toHaveClass(padding);
-      expect(body).not.toHaveClass("-mx-1");
-      expect(body).not.toHaveClass("group-data-[size=full]/dialog:px-0");
-    });
-
-    it("keeps the clearance when the consumer sets only vertical padding or layout", () => {
-      render(<DialogBody data-testid="body" className="!pt-1 !pb-5 flex flex-col gap-4" />);
-      const body = screen.getByTestId("body");
-      expect(body).toHaveClass("-mx-1");
-      expect(body).toHaveClass("!pt-1");
-    });
-
-    it("marks its size so a full screen body drops the clearance", () => {
+  describe("size attribute", () => {
+    it("exposes its size as data-size", () => {
       renderDialog({ size: "full" });
       expect(screen.getByRole("dialog")).toHaveAttribute("data-size", "full");
     });
