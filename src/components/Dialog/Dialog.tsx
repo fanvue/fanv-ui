@@ -194,8 +194,9 @@ export const DialogContent = React.forwardRef<
           e.preventDefault();
           (e.currentTarget as HTMLElement).focus();
         }}
+        data-size={size}
         className={cn(
-          "fixed flex flex-col overflow-hidden focus:outline-none",
+          "group/dialog fixed flex flex-col overflow-hidden focus:outline-none",
           "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
           "data-[state=closed]:pointer-events-none!",
@@ -380,10 +381,20 @@ export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
 /**
  * Scrollable content area (slot) between the header and footer.
  * Grows to fill available space and scrolls when content overflows.
+ * Its scroll edge sits 4px outside the content, so focus and hover rings on
+ * controls at the edge are not clipped.
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex-1 overflow-y-auto py-4", className)} {...props} />
+    <div
+      ref={ref}
+      className={cn(
+        "-mx-1 flex-1 overflow-y-auto px-1 py-4",
+        "group-data-[size=full]/dialog:mx-0 group-data-[size=full]/dialog:px-0",
+        className,
+      )}
+      {...props}
+    />
   ),
 );
 DialogBody.displayName = "DialogBody";
