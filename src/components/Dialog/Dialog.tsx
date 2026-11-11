@@ -381,10 +381,20 @@ export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const INLINE_PADDING = /^!?(p|px|pl|pr|ps|pe)-/;
 
+function utilityOf(token: string) {
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < token.length; i++) {
+    const char = token[i];
+    if (char === "[" || char === "(") depth++;
+    else if (char === "]" || char === ")") depth--;
+    else if (char === ":" && depth === 0) start = i + 1;
+  }
+  return token.slice(start);
+}
+
 function setsInlinePadding(className?: string) {
-  return (className ?? "")
-    .split(/\s+/)
-    .some((token) => INLINE_PADDING.test(token.split(":").at(-1) ?? ""));
+  return (className ?? "").split(/\s+/).some((token) => INLINE_PADDING.test(utilityOf(token)));
 }
 
 /**

@@ -650,6 +650,8 @@ const BODY_PADDING_CASES = [
   "pr-4",
   "sm:px-2",
   "md:px-4",
+  "px-[length:24px]",
+  "data-[state=open]:pl-2",
 ] as const;
 
 function measureBody(body: HTMLElement) {
