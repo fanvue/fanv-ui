@@ -379,7 +379,7 @@ DialogDescription.displayName = "DialogDescription";
 export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function setsInlinePadding(className?: string) {
-  const merged = cn("px-1 !px-1", className).split(" ");
+  const merged = cn("!px-1 px-1", className).split(" ");
   return !merged.includes("px-1") || !merged.includes("!px-1");
 }
 

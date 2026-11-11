@@ -500,7 +500,7 @@ describe("Dialog", () => {
     });
 
     it("keeps the clearance when the consumer sets only vertical padding or layout", () => {
-      render(<DialogBody data-testid="body" className="flex flex-col gap-4 !pt-1 !pb-5" />);
+      render(<DialogBody data-testid="body" className="!pt-1 !pb-5 flex flex-col gap-4" />);
       const body = screen.getByTestId("body");
       expect(body).toHaveClass("-mx-1");
       expect(body).toHaveClass("!pt-1");
