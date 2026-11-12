@@ -42,6 +42,15 @@ describe("Avatar", () => {
       expect(statusDot).toHaveClass("size-2", "border");
       expect(statusDot).toHaveStyle({ top: "5px", right: "2px" });
     });
+
+    it("renders the 80px size used by the v2 modal graphic heading", async () => {
+      const { container } = render(<Avatar size={80} fallback="AB" onlineIndicator={true} />);
+      await screen.findByText("AB");
+      expect(screen.getByTestId("avatar")).toHaveClass("size-20", "text-2xl");
+      const statusDot = container.querySelector('span[aria-hidden="true"]');
+      expect(statusDot).toHaveClass("size-3");
+      expect(statusDot).toHaveStyle({ top: "7px", right: "5px" });
+    });
   });
 
   describe("individual component exports", () => {
