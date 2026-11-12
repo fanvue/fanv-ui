@@ -476,4 +476,11 @@ describe("Dialog", () => {
       vi.unstubAllGlobals();
     });
   });
+
+  describe("size attribute", () => {
+    it("exposes its size as data-size", () => {
+      renderDialog({ size: "full" });
+      expect(screen.getByRole("dialog")).toHaveAttribute("data-size", "full");
+    });
+  });
 });

@@ -127,6 +127,7 @@ const FULL_CLASSES =
  * render a centered floating card instead (used for small confirmation dialogs).
  * On larger viewports it renders centered with full border radius.
  * `size="full"` skips both and fills the viewport with no chrome.
+ * The panel carries its size as `data-size`, for styling its children.
  *
  * It animates in and out. While the closing animation plays the panel stays
  * mounted but ignores pointer input, so a second click can't act on it.
@@ -194,8 +195,9 @@ export const DialogContent = React.forwardRef<
           e.preventDefault();
           (e.currentTarget as HTMLElement).focus();
         }}
+        data-size={size}
         className={cn(
-          "fixed flex flex-col overflow-hidden focus:outline-none",
+          "group/dialog fixed flex flex-col overflow-hidden focus:outline-none",
           "data-[state=open]:fade-in-0 data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=closed]:animate-out",
           "data-[state=closed]:pointer-events-none!",
@@ -377,13 +379,41 @@ DialogDescription.displayName = "DialogDescription";
 
 export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
 
+const INLINE_PADDING = /^!?(p|px|pl|pr|ps|pe)-/;
+
+function utilityOf(token: string) {
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < token.length; i++) {
+    const char = token[i];
+    if (char === "[" || char === "(") depth++;
+    else if (char === "]" || char === ")") depth--;
+    else if (char === ":" && depth === 0) start = i + 1;
+  }
+  return token.slice(start);
+}
+
+function setsInlinePadding(className?: string) {
+  return (className ?? "").split(/\s+/).some((token) => INLINE_PADDING.test(utilityOf(token)));
+}
+
 /**
  * Scrollable content area (slot) between the header and footer.
  * Grows to fill available space and scrolls when content overflows.
+ * Unless `className` sets horizontal padding, its clip edge sits 4px outside the content so rings on edge controls show.
  */
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex-1 overflow-y-auto py-4", className)} {...props} />
+    <div
+      ref={ref}
+      className={cn(
+        "flex-1 overflow-y-auto py-4",
+        !setsInlinePadding(className) &&
+          "-mx-1 px-1 group-data-[size=full]/dialog:mx-0 group-data-[size=full]/dialog:px-0",
+        className,
+      )}
+      {...props}
+    />
   ),
 );
 DialogBody.displayName = "DialogBody";

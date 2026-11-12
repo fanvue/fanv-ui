@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
 import { expect, screen, userEvent, waitFor, within } from "storybook/test";
+import { cn } from "../../utils/cn";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { Chip } from "../Chip/Chip";
@@ -587,6 +589,126 @@ export const ScrollableContent: Story = {
     </Dialog>
   ),
   play: openDialog,
+};
+
+const PLANS = ["Monthly", "Yearly"] as const;
+
+function EdgeControlsDialog() {
+  const [plan, setPlan] = useState<(typeof PLANS)[number]>("Monthly");
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent size="sm">
+        <DialogHeader>
+          <DialogTitle>Choose a plan</DialogTitle>
+        </DialogHeader>
+        <DialogBody className="flex flex-col gap-3">
+          {PLANS.map((name) => (
+            <button
+              key={name}
+              type="button"
+              aria-pressed={plan === name}
+              onClick={() => setPlan(name)}
+              className={cn(
+                "typography-body-default-16px-semibold rounded-md border border-border-primary p-4 text-left text-content-primary",
+                "hover:ring-2 hover:ring-border-primary focus-visible:outline-none",
+                plan === name &&
+                  "ring-2 ring-brand-primary-default hover:ring-brand-primary-default",
+              )}
+            >
+              {name}
+            </button>
+          ))}
+        </DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="secondary">Cancel</Button>
+          </DialogClose>
+          <Button>Continue</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export const EdgeControls: Story = {
+  name: "Edge Controls",
+  render: () => <EdgeControlsDialog />,
+  play: openDialog,
+};
+
+const BODY_PADDING_CASES = [
+  "",
+  "px-1",
+  "px-6",
+  "p-0",
+  "!p-0",
+  "p-0!",
+  "pl-4",
+  "pr-4",
+  "sm:px-2",
+  "md:px-4",
+  "px-[length:24px]",
+  "data-[state=open]:pl-2",
+] as const;
+
+function measureBody(body: HTMLElement) {
+  const dialog = body.closest<HTMLElement>("[role='dialog']");
+  if (!dialog) throw new Error("DialogBody is outside a dialog");
+  const style = getComputedStyle(dialog);
+  const box = dialog.getBoundingClientRect();
+  const rect = body.getBoundingClientRect();
+  return {
+    left: rect.left - (box.left + dialog.clientLeft + Number.parseFloat(style.paddingLeft)),
+    right: box.right - dialog.clientLeft - Number.parseFloat(style.paddingRight) - rect.right,
+  };
+}
+
+export const BodyPaddingOverrides: Story = {
+  name: "Body Padding Overrides",
+  tags: ["!dev", "!autodocs"],
+  render: () => (
+    <Dialog defaultOpen>
+      <DialogContent aria-describedby={undefined}>
+        <DialogTitle>Padding overrides</DialogTitle>
+        {BODY_PADDING_CASES.map((padding) => (
+          <DialogBody
+            key={padding}
+            data-testid={`body-${padding || "default"}`}
+            className={padding}
+          >
+            {padding || "default"}
+          </DialogBody>
+        ))}
+      </DialogContent>
+    </Dialog>
+  ),
+  play: async () => {
+    for (const padding of BODY_PADDING_CASES) {
+      const edge = measureBody(await screen.findByTestId(`body-${padding || "default"}`));
+      const expected = padding === "" ? -4 : 0;
+      await expect({ padding, ...edge }).toEqual({ padding, left: expected, right: expected });
+    }
+  },
+};
+
+export const FullBodyClearance: Story = {
+  name: "Full Body Clearance",
+  tags: ["!dev", "!autodocs"],
+  render: () => (
+    <Dialog defaultOpen>
+      <DialogContent size="full" aria-describedby={undefined}>
+        <DialogTitle className="sr-only">Full screen</DialogTitle>
+        <DialogBody data-testid="full-body">Edge to edge</DialogBody>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: async () => {
+    const edge = measureBody(await screen.findByTestId("full-body"));
+    await expect(edge).toEqual({ left: 0, right: 0 });
+  },
 };
 
 export const SingleAction: Story = {
