@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { Count, type CountSize } from "../Count/Count";
+import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
 
 /**
  * Visual style variant of the icon button.
@@ -9,6 +10,11 @@ import { Count, type CountSize } from "../Count/Count";
  * use the shared button colour tokens and a size-driven shape (squared at the
  * `24` size, circular otherwise). Of these, `primary`, `secondary`, `tertiary`
  * and `outline` also honour the {@link IconButtonProps.negative} prop.
+ *
+ * `overlay` is a translucent dark fill with a backdrop blur, for buttons that sit
+ * on photos or video. Its fill and icon look the same in light and dark themes, while
+ * the keyboard focus ring still follows the theme. It takes the same size-driven
+ * shape as the standard variants.
  *
  * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop` and
  * `microphone` are bespoke variants that stay circular at every size.
@@ -28,6 +34,7 @@ export type IconButtonVariant =
   | "tertiaryDestructive"
   | "stop"
   | "microphone"
+  | "overlay"
   | "field";
 
 /** Icon button size in pixels. */
@@ -73,6 +80,7 @@ const SIZE_DRIVEN_SHAPE_VARIANTS = new Set<IconButtonVariant>([
   "error",
   "white",
   "black",
+  "overlay",
 ]);
 
 /** Variants that honour the `negative` (dark-surface) treatment. */
@@ -185,6 +193,11 @@ const VARIANT_CLASSES: Record<IconButtonVariant, VariantClasses> = {
       "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black",
     disabled: DISABLED_OPACITY,
   },
+  overlay: {
+    default:
+      "bg-buttons-overlay-default text-content-always-white backdrop-blur-sm not-disabled:hover:bg-buttons-overlay-hover not-disabled:active:bg-buttons-overlay-hover",
+    disabled: DISABLED_OPACITY,
+  },
   // Carries the input surface rather than a button one, so an icon-only action can
   // sit flush in a row of fields (Figma draws these as a `V2 Input Fields` instance
   // with only an icon inside). Border and hover match the Select trigger it lines up
@@ -225,8 +238,8 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * icon alone (e.g. close, send). Always pair with an `aria-label` for
  * accessibility.
  *
- * Shape is size-driven for the standard variants: the `24` size is squared
- * (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
+ * Shape is size-driven for the standard variants and `overlay`: the `24` size is
+ * squared (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
  * `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
  * `microphone`) stay circular at all sizes. `field` is the exception that is
  * never circular — it takes the inputs' `rounded-sm` so it matches the fields it
@@ -287,7 +300,10 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           className={cn("flex shrink-0 items-center justify-center", iconSizeVariants[size])}
           aria-hidden="true"
         >
-          {icon}
+          {/* A button sizes its own icon, so a menu row's icon defaults stop here. */}
+          <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
+            {icon}
+          </IconDefaultsContext.Provider>
         </span>
 
         {counterValue !== undefined && (

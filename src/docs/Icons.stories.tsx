@@ -91,6 +91,7 @@ import { BankIcon } from "../components/Icons/BankIcon";
 import { BellIcon } from "../components/Icons/BellIcon";
 import { BellOffIcon } from "../components/Icons/BellOffIcon";
 import { BoltIcon } from "../components/Icons/BoltIcon";
+import { BookmarkIcon } from "../components/Icons/BookmarkIcon";
 import { BulbIcon } from "../components/Icons/BulbIcon";
 import { Calendar2Icon } from "../components/Icons/Calendar2Icon";
 import { CalendarIcon } from "../components/Icons/CalendarIcon";
@@ -413,6 +414,13 @@ const icons: IconEntry[] = [
     component: BoltIcon,
     animated: AnimatedBoltIcon,
     tags: ["bolt", "lightning", "power", "energy"],
+    propBased: true,
+  },
+  {
+    name: "BookmarkIcon",
+    component: BookmarkIcon,
+    animated: null,
+    tags: ["bookmark", "save", "saved", "favourite"],
     propBased: true,
   },
   {

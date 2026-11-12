@@ -5,6 +5,8 @@ export type { ChartCenterLabelProps } from "./components/Chart/ChartCenterLabel"
 export { ChartCenterLabel } from "./components/Chart/ChartCenterLabel";
 export type { ChartContainerProps } from "./components/Chart/ChartContainer";
 export { ChartContainer } from "./components/Chart/ChartContainer";
+export type { ChartGridProps } from "./components/Chart/ChartGrid";
+export { ChartGrid } from "./components/Chart/ChartGrid";
 export type { ChartLegendContentProps } from "./components/Chart/ChartLegend";
 export { ChartLegend, ChartLegendContent } from "./components/Chart/ChartLegend";
 export type { ChartLoadingOverlayProps } from "./components/Chart/ChartLoadingOverlay";

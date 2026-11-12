@@ -333,6 +333,19 @@ export const TrailingButtonCta: Story = {
 };
 
 /**
+ * A one-line message is shorter than the 32px button, so the icon and message
+ * centre together against it.
+ */
+export const TrailingButtonCtaSingleLine: Story = {
+  args: {
+    variant: "error",
+    layout: "trailing",
+    children: "Something went wrong. Please try again.",
+    ctaLabel: "Try again",
+  },
+};
+
+/**
  * The description is optional — a title on its own renders without an empty
  * body element beneath it.
  */

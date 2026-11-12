@@ -208,6 +208,23 @@ describe("Chip", () => {
     });
   });
 
+  describe("size 36", () => {
+    it("renders 36px high with 14px semibold text", () => {
+      render(<Chip size="36">Test</Chip>);
+      expect(screen.getByTestId("chip")).toHaveClass("h-9", "typography-body-small-14px-semibold");
+    });
+
+    it("rounds the dashed border to the 36px height", () => {
+      render(
+        <Chip dotted size="36">
+          New folder
+        </Chip>,
+      );
+      const rect = screen.getByTestId("chip").querySelector("rect");
+      expect(rect).toHaveAttribute("rx", "17.5");
+    });
+  });
+
   describe("dotted", () => {
     it("renders a dashed svg border when dotted is true", () => {
       render(<Chip dotted>New folder</Chip>);
@@ -301,6 +318,26 @@ describe("Chip", () => {
       expect(badge).toHaveClass("rounded-md");
       expect(badge).toHaveClass("px-1");
       expect(badge).toHaveClass("py-0.5");
+    });
+
+    it("draws a 16px circle when notificationSize is 16", () => {
+      render(
+        <Chip notificationCount={3} notificationSize="16">
+          Test
+        </Chip>,
+      );
+      const badge = screen.getByText("3");
+      expect(badge).toHaveClass("h-4", "min-w-4", "rounded-full");
+      expect(badge).not.toHaveClass("rounded-md", "h-5");
+    });
+
+    it("anchors the badge to the 36px chip's corner", () => {
+      render(
+        <Chip size="36" notificationCount={3} notificationSize="16">
+          Test
+        </Chip>,
+      );
+      expect(screen.getByText("3")).toHaveClass("left-[calc(100%_-_14px)]");
     });
 
     it("does not change chip padding when a badge is present", () => {

@@ -65,6 +65,29 @@ describe("Skeleton", () => {
       expect(getSkeleton(container)).toHaveClass("rounded-xs");
     });
 
+    it.each([
+      ["sm", "rounded-sm"],
+      ["md", "rounded-md"],
+      ["lg", "rounded-lg"],
+    ] as const)("applies the %s radius token", (radius, expected) => {
+      const { container } = render(<Skeleton variant="rectangular" radius={radius} />);
+      expect(getSkeleton(container)).toHaveClass(expected);
+    });
+
+    it("lets radius replace the variant radius", () => {
+      const { container } = render(<Skeleton variant="rounded" radius="lg" />);
+      const el = getSkeleton(container);
+      expect(el).toHaveClass("rounded-lg");
+      expect(el).not.toHaveClass("rounded-xs");
+    });
+
+    it("keeps the variant radius when radius is unset", () => {
+      const { container } = render(<Skeleton variant="circular" width={40} height={40} />);
+      const el = getSkeleton(container);
+      expect(el).toHaveClass("rounded-full");
+      expect(el.className).not.toMatch(/rounded-(sm|md|lg)\b/);
+    });
+
     it("applies pulse animation by default", () => {
       const { container } = render(<Skeleton />);
       expect(getSkeleton(container)).toHaveClass("animate-pulse");

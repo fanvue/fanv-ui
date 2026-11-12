@@ -96,6 +96,11 @@
       "hasFilled": true
     },
     {
+      "name": "BookmarkIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "BoltIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true

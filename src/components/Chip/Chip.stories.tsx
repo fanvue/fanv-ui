@@ -33,7 +33,11 @@ const meta = {
     },
     size: {
       control: "select",
-      options: ["32", "40"],
+      options: ["32", "36", "40"],
+    },
+    notificationSize: {
+      control: "select",
+      options: ["20", "16"],
     },
     selected: { control: "boolean" },
     disabled: { control: "boolean" },
@@ -55,6 +59,7 @@ type StateColumn = (typeof STATE_COLUMNS)[number];
 
 const MATRIX_ROWS: { label: string; size: ChipSize; dotted: boolean }[] = [
   { label: "40px", size: "40", dotted: false },
+  { label: "36px", size: "36", dotted: false },
   { label: "32px", size: "32", dotted: false },
   { label: "40px · dotted", size: "40", dotted: true },
   { label: "32px · dotted", size: "32", dotted: true },
@@ -197,6 +202,17 @@ export const WithNotificationOverflow: Story = {
     notificationCount: 12,
     notificationMax: 9,
     children: "Chip",
+  },
+};
+
+/** Dense tab rows: a 36px outlined chip with the 16px circular count. */
+export const WithSmallNotification: Story = {
+  args: {
+    size: "36",
+    outlined: true,
+    notificationCount: 2,
+    notificationSize: "16",
+    children: "Subscriptions",
   },
 };
 

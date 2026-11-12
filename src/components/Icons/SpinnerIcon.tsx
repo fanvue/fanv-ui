@@ -1,16 +1,34 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
-import type { IconProps } from "./types";
+import { ICON_SIZE_CLASS } from "./iconSizeClass";
+import { ICON_SPIN_CLASS } from "./iconSpinClass";
+import type { BaseIconProps, IconProps, IconSize } from "./types";
 
-/** A circular spinner icon for loading states (20 × 20). Pair with a CSS `animate-spin` class or use the `Loader` component. */
-export const SpinnerIcon = React.forwardRef<SVGSVGElement, IconProps>(
-  ({ className, ...props }, ref) => (
+/** Props for {@link SpinnerIcon}. */
+export interface SpinnerIconProps extends Omit<IconProps, "size">, Pick<BaseIconProps, "spin"> {
+  /** Pixel size of the spinner. Defaults to 20px when omitted. */
+  size?: IconSize;
+}
+
+/**
+ * A circular spinner glyph for loading states. It is a plain icon: pass `spin`
+ * to turn it, as with any other prop-based icon. Prefer `spin`: a raw `animate-spin`
+ * class keeps rotating under reduced motion. Combining the two never doubles the
+ * speed. For a full-area loading state use the `Loader` component.
+ *
+ * @example
+ * ```tsx
+ * <SpinnerIcon size={16} spin />
+ * ```
+ */
+export const SpinnerIcon = React.forwardRef<SVGSVGElement, SpinnerIconProps>(
+  ({ className, size, spin = false, ...props }, ref) => (
     <svg
       ref={ref}
       viewBox="0 0 20 20"
       fill="none"
       aria-hidden="true"
-      className={cn("size-5", className)}
+      className={cn(size ? ICON_SIZE_CLASS[size] : "size-5", spin && ICON_SPIN_CLASS, className)}
       {...props}
     >
       <circle cx="10" cy="10" r="8" stroke="currentColor" strokeOpacity=".25" strokeWidth="2" />

@@ -73,6 +73,20 @@ describe("UserItem", () => {
     });
   });
 
+  describe("padding", () => {
+    it("insets the row by default", () => {
+      render(<UserItem user={baseUser} data-testid="item" />);
+      expect(screen.getByTestId("item")).toHaveClass("px-2", "py-1");
+    });
+
+    it("drops the inset when padding is none", () => {
+      render(<UserItem user={baseUser} padding="none" data-testid="item" />);
+      const item = screen.getByTestId("item");
+      expect(item).not.toHaveClass("px-2");
+      expect(item).not.toHaveClass("py-1");
+    });
+  });
+
   describe("muted indicator", () => {
     it("is hidden by default", () => {
       const { container } = render(<UserItem user={baseUser} />);

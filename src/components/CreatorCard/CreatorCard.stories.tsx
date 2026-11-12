@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "../Button/Button";
 import { CreatorCard } from "./CreatorCard";
 
-const SAMPLE_IMAGE =
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=580&h=900&fit=crop";
+const SAMPLE_BACKGROUND =
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=320&h=352&fit=crop";
 const SAMPLE_AVATAR =
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
 
@@ -14,105 +14,70 @@ const meta = {
     layout: "centered",
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/Iq9ctjP7rhIKI3PGSbduNL/Fanvue-Exploration?node-id=2379-76229",
+      url: "https://www.figma.com/design/fEiyjeC3EyobaMp0nReSS6/Growth---Experiments?node-id=8639-75",
     },
   },
   tags: ["autodocs"],
   args: {
-    background: <img src={SAMPLE_IMAGE} alt="" loading="lazy" />,
+    className: "w-40 rounded-md",
+    background: <img src={SAMPLE_BACKGROUND} alt="" loading="lazy" />,
+    pill: { variant: "contrast", children: "Popular this week" },
+    avatar: { src: SAMPLE_AVATAR, fallback: "JD" },
     name: "Jane Doe",
-    description: "MODEL & PODCASTER",
-    avatar: {
-      src: SAMPLE_AVATAR,
-      alt: "Jane Doe",
-      fallback: "JD",
-    },
+    verified: true,
+    tagline: "412 posts",
+    content: <span className="block truncate">$9.99 / month</span>,
+    action: (
+      <Button variant="primary" size="32" fullWidth>
+        Subscribe
+      </Button>
+    ),
   },
 } satisfies Meta<typeof CreatorCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const TwoButtons: Story = {
-  args: {
-    actions: (
-      <>
-        <Button variant="brand" size="32" fullWidth>
-          Join for free for 3 days
-        </Button>
-        <Button variant="primary" size="32" fullWidth>
-          Follow for Free
-        </Button>
-      </>
-    ),
-  },
-};
+export const Default: Story = {};
 
-export const OneButton: Story = {
+export const Subscribed: Story = {
   args: {
-    actions: (
-      <Button variant="primary" size="32" fullWidth>
-        Follow for Free
+    action: (
+      <Button variant="secondary" size="32" fullWidth>
+        Subscribed
       </Button>
     ),
   },
 };
 
-export const NoButtons: Story = {};
-
-export const AvatarOptions: Story = {
+export const WithoutAction: Story = {
   args: {
-    avatar: {
-      src: SAMPLE_AVATAR,
-      alt: "Jane Doe",
-      fallback: "JD",
-      onlineIndicator: true,
-      platinumShow: true,
-    },
-    actions: (
-      <Button variant="primary" size="32" fullWidth>
-        Follow for Free
-      </Button>
+    action: undefined,
+  },
+};
+
+export const WithoutPill: Story = {
+  args: {
+    pill: undefined,
+  },
+};
+
+export const CustomContent: Story = {
+  args: {
+    content: (
+      <span className="flex items-baseline gap-1">
+        $4.99
+        <span className="typography-body-small-14px-regular text-content-secondary line-through">
+          $9.99
+        </span>
+      </span>
     ),
   },
 };
 
-export const ContainerScaling: Story = {
+export const Wide: Story = {
   args: {
-    actions: (
-      <Button variant="primary" size="32" fullWidth>
-        Follow for Free
-      </Button>
-    ),
-  },
-  render: (args) => (
-    <div className="flex flex-wrap items-start gap-6">
-      {[
-        { label: "160px", className: "w-40" },
-        { label: "240px", className: "w-60" },
-        { label: "320px", className: "w-80" },
-        { label: "420px max", className: "w-[420px] max-w-[calc(100vw-2rem)]" },
-      ].map((container) => (
-        <div key={container.label} className="flex flex-col gap-2">
-          <div className={container.className}>
-            <CreatorCard {...args} />
-          </div>
-          <p className="typography-description-12px-regular text-content-secondary">
-            {container.label}
-          </p>
-        </div>
-      ))}
-    </div>
-  ),
-};
-
-export const WithoutDescription: Story = {
-  args: {
-    description: undefined,
-    actions: (
-      <Button variant="primary" size="32" fullWidth>
-        Follow for Free
-      </Button>
-    ),
+    className: "w-72 rounded-md",
+    pill: { variant: "brand", children: "New creator" },
   },
 };

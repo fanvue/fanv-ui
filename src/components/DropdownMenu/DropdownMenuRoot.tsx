@@ -4,6 +4,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
 import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer/Drawer";
+import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
 import { type DropdownMenuVariant, DropdownMenuVariantContext, ToggleOpenContext } from "./context";
 
 // Movement, in CSS px, above which a touch press-and-release counts as a drag.
@@ -256,10 +257,10 @@ export const DropdownMenuContent = React.forwardRef<
           // visible at all. Scoped here rather than on DrawerOverlay so only menus
           // shown this way blur the page behind them.
           overlayProps={{ className: "backdrop-blur-[8px]" }}
-          // `pb-4` gives the design's 16px below the last row. The rows inset
-          // themselves horizontally (see the item's `mx-3`) rather than the panel
-          // padding doing it, so the header and its rule can still run full width.
-          className={cn("flex flex-col gap-1 p-1 pb-4", className)}
+          // `pb-2` gives 8px below the last row, matching the popper panel. The rows
+          // inset themselves horizontally (see the item's `mx-1`) rather than the
+          // panel padding doing it, so the header and its rule can still run full width.
+          className={cn("flex flex-col gap-1 p-1 pb-2", className)}
           style={style}
           // Both are destructured above for the popper branch's focus-ring
           // handling, which takes them out of `props` — so the sheet branch has
@@ -273,7 +274,10 @@ export const DropdownMenuContent = React.forwardRef<
           onKeyDown={onKeyDown}
           {...props}
         >
-          {children}
+          {/* A menu opened from inside another menu's row must not inherit that row's icon defaults. */}
+          <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
+            {children}
+          </IconDefaultsContext.Provider>
         </DrawerContent>
       );
     }
@@ -298,16 +302,15 @@ export const DropdownMenuContent = React.forwardRef<
           sideOffset={sideOffset}
           collisionPadding={collisionPadding}
           className={cn(
-            // Panel tokens come from `V2 Menu Dropdown` (product file node
-            // `7393:62008`): `rounded-lg` (24px) over `Background/Secondary`, a
-            // `Border/Strong` stroke, 8px of padding, and the `blur + shadow/menu`
-            // effect. Rows inside it are 16px `rounded-md`: the panel's 24px less its
-            // 8px padding, so a highlighted row's corners sit concentric with it.
+            // Panel tokens come from `V2 Menu Dropdown` (library node `17245:2317`):
+            // `rounded-md` (16px) over `Background/Secondary`, a `Border/Strong`
+            // stroke, 8px of padding, and the `blur + shadow/menu` effect. Rows
+            // inside it are 12px `rounded-sm`, the library's `V2 Menu Item` radius.
             //
-            // `backdrop-blur-[4px]` is the CSS equivalent of that effect's
+            // `backdrop-blur-xs` (4px) is the CSS equivalent of that effect's
             // BACKGROUND_BLUR radius 8, which Figma halves on export. It is not a
             // 4-against-8 mismatch.
-            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-lg border border-border-strong bg-background-secondary p-2 text-content-primary shadow-blur-menu backdrop-blur-[4px]",
+            "w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) overflow-y-auto rounded-md border border-border-strong bg-background-secondary p-2 text-content-primary shadow-blur-menu backdrop-blur-xs",
             "data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:animate-out",
             "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
@@ -321,7 +324,9 @@ export const DropdownMenuContent = React.forwardRef<
           }}
           {...props}
         >
-          {children}
+          <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
+            {children}
+          </IconDefaultsContext.Provider>
         </DropdownMenuPrimitive.Content>
       </DropdownMenuPrimitive.Portal>
     );

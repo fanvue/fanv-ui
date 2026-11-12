@@ -51,7 +51,7 @@ export const InsideAButton: Story = {
   parameters: NON_VISUAL_STORY_PARAMETERS,
   render: (args) => (
     <Button variant="secondary">
-      <SpinnerIcon className="mr-2 size-4 animate-spin" />
+      <SpinnerIcon size={16} spin className="mr-2" />
       <CyclingText {...args} />
     </Button>
   ),
@@ -64,7 +64,7 @@ export const InsideAStatusRow: Story = {
   parameters: NON_VISUAL_STORY_PARAMETERS,
   render: (args) => (
     <div className="inline-flex items-center gap-2 text-content-tertiary">
-      <SpinnerIcon className="size-4 animate-spin" />
+      <SpinnerIcon size={16} spin />
       <CyclingText {...args} />
     </div>
   ),

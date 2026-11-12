@@ -1,5 +1,90 @@
 # Changelog
 
+## [3.50.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.49.0...ui-v3.50.0) (2026-11-11)
+
+
+### Features
+
+* **Dialog:** add size="full" for edge-to-edge media (ENG-17733) ([#795](https://github.com/fanvue/fanv-ui/issues/795)) ([239bce4](https://github.com/fanvue/fanv-ui/commit/239bce438f665c3d5293704fa27218eeed90eb04))
+* **IconButton:** add an overlay variant for buttons on photos and video (ENG-17733) ([#796](https://github.com/fanvue/fanv-ui/issues/796)) ([b124a58](https://github.com/fanvue/fanv-ui/commit/b124a585df580083328e65f6daba22549ee8da5d))
+* **icons:** add a motion-safe spin to any icon and a size prop to SpinnerIcon (ENG-17733) ([#798](https://github.com/fanvue/fanv-ui/issues/798)) ([80c87ab](https://github.com/fanvue/fanv-ui/commit/80c87ab0b6b8bdc77a64f2e59d61f1cbe1d90e9e))
+* **Skeleton:** add a radius prop on the kit radius scale ([#792](https://github.com/fanvue/fanv-ui/issues/792)) ([a5ea238](https://github.com/fanvue/fanv-ui/commit/a5ea238a2c3a8435a7b16ba1afdd1eeb4a884107))
+
+
+### Bug Fixes
+
+* **Alert:** centre the icon with a one-line message when the CTA trails ([#802](https://github.com/fanvue/fanv-ui/issues/802)) ([7298a0d](https://github.com/fanvue/fanv-ui/commit/7298a0dfbde184b7a644fd79699dada4a4354914))
+* **ChartGrid:** draw solid grid lines and keep the zero line on empty data ([#789](https://github.com/fanvue/fanv-ui/issues/789)) ([74306e3](https://github.com/fanvue/fanv-ui/commit/74306e3bb859e50693a673e902acaa1b3e366539))
+
+## [3.49.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.48.0...ui-v3.49.0) (2026-11-09)
+
+
+### Features
+
+* **ChartGrid:** add the design-system chart grid with a zero baseline ([#787](https://github.com/fanvue/fanv-ui/issues/787)) ([c3182be](https://github.com/fanvue/fanv-ui/commit/c3182becf9d3e728ae2ff0a6b29a6abbec23bc0b))
+* **ChartGrid:** add the design-system chart grid with a zero baseline (ENG-17717) ([c3182be](https://github.com/fanvue/fanv-ui/commit/c3182becf9d3e728ae2ff0a6b29a6abbec23bc0b))
+* **DropdownMenu,Select:** align menus to the V2 Menu Dropdown spec ([#777](https://github.com/fanvue/fanv-ui/issues/777)) ([62ed5e1](https://github.com/fanvue/fanv-ui/commit/62ed5e1756eed4929f46ba2f660a0608a3b05fc4))
+* **EmptyState:** add titleAs prop to pick the string title heading level ([#786](https://github.com/fanvue/fanv-ui/issues/786)) ([2e19ce6](https://github.com/fanvue/fanv-ui/commit/2e19ce61ea0b538166547ca95ca658993a28e791))
+* **Link, Tabs:** add inherit Link variant and TabsListSkeleton ([#780](https://github.com/fanvue/fanv-ui/issues/780)) ([10387f2](https://github.com/fanvue/fanv-ui/commit/10387f2e4c7555a8daf9727b6657f60a96a04fe9))
+* **MediaPlayChip:** add the feed's play chip for video tiles ([#776](https://github.com/fanvue/fanv-ui/issues/776)) ([7399d66](https://github.com/fanvue/fanv-ui/commit/7399d668061fb95896aa95950ea01898cbefe56c))
+* **UserItem:** add a padding prop (none, md) ([#785](https://github.com/fanvue/fanv-ui/issues/785)) ([da792e2](https://github.com/fanvue/fanv-ui/commit/da792e27634b7464a0b8c34b27bf08c5de46290a))
+
+
+### Bug Fixes
+
+* **AnimatedNumber:** sit rolling separators on the digits' baseline ([#701](https://github.com/fanvue/fanv-ui/issues/701)) ([71cc52e](https://github.com/fanvue/fanv-ui/commit/71cc52ea318a44d995676625980d7c8db6f872ff))
+* **ChartGrid:** drop the no-op y-domain helper and fix the grid style (ENG-17717) ([#788](https://github.com/fanvue/fanv-ui/issues/788)) ([ee21d08](https://github.com/fanvue/fanv-ui/commit/ee21d088e16078e7fb0afa35d5999674e79b24ca))
+
+## [3.48.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.47.0...ui-v3.48.0) (2026-11-04)
+
+
+### Features
+
+* **Tooltip:** use same-mode secondary surface with hairline border ([#769](https://github.com/fanvue/fanv-ui/issues/769)) ([0bb92ea](https://github.com/fanvue/fanv-ui/commit/0bb92ea2fa8e460b3279d3dad6150af295059ac0))
+* **UndoAlertPrompt:** add V2 Undo Alert Prompt component ([#718](https://github.com/fanvue/fanv-ui/issues/718)) ([766f645](https://github.com/fanvue/fanv-ui/commit/766f6454eb721b131d4702d07f116c5e97292b3d))
+
+
+### Bug Fixes
+
+* **Tabs:** give the pill track a raised surface that shows in dark mode ([#774](https://github.com/fanvue/fanv-ui/issues/774)) ([b29e12e](https://github.com/fanvue/fanv-ui/commit/b29e12e504402d1685b58819eea636d8ee6760b1))
+
+## [3.47.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.46.0...ui-v3.47.0) (2026-11-02)
+
+
+### Features
+
+* **Table:** add TableRowButton and TableTruncatedText for row actions and long text ([#770](https://github.com/fanvue/fanv-ui/issues/770)) ([920d19b](https://github.com/fanvue/fanv-ui/commit/920d19b04ac1e17236845fbfbc90ed7c064ba147))
+
+## [3.46.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.45.0...ui-v3.46.0) (2026-10-30)
+
+
+### Features
+
+* **Icons:** add BookmarkIcon ([#766](https://github.com/fanvue/fanv-ui/issues/766)) ([272d3b9](https://github.com/fanvue/fanv-ui/commit/272d3b9b08bb819b464707d5dad633714dc5b107))
+* **Table:** compact table with toolbar, card pagination and media tiles ([#768](https://github.com/fanvue/fanv-ui/issues/768)) ([9c65860](https://github.com/fanvue/fanv-ui/commit/9c6586084d31cffb53936a08e149fb19b120aa22))
+
+## [3.45.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.44.0...ui-v3.45.0) (2026-10-28)
+
+
+### Features
+
+* **CreatorCard:** replace with new banner card design (GRWT-944) ([#760](https://github.com/fanvue/fanv-ui/issues/760)) ([938eb07](https://github.com/fanvue/fanv-ui/commit/938eb0762816bbfb9b54dcd220dd03bb574db700))
+
+## [3.44.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.43.0...ui-v3.44.0) (2026-10-26)
+
+
+### Features
+
+* **Chip:** add a 36px size and a 16px notification count ([#759](https://github.com/fanvue/fanv-ui/issues/759)) ([808b4c8](https://github.com/fanvue/fanv-ui/commit/808b4c873f260dfb64ad7a5f72ca61a9c1d2e642))
+* **Icons:** update the Menu Open and Menu Close artwork ([#752](https://github.com/fanvue/fanv-ui/issues/752)) ([cd4ef2e](https://github.com/fanvue/fanv-ui/commit/cd4ef2e4dc9eaa888b7abf2ecbe61f285b47d7f8))
+* **Table:** add a wrap prop to TableMobileRow ([#758](https://github.com/fanvue/fanv-ui/issues/758)) ([3222f78](https://github.com/fanvue/fanv-ui/commit/3222f781563c763d9e6902cb6fa6b036b253ba11))
+
+
+### Bug Fixes
+
+* **deps:** bump storybook to 10.6.3 and vite to 7.3.7 (ENG-16911) ([#754](https://github.com/fanvue/fanv-ui/issues/754)) ([2c64d03](https://github.com/fanvue/fanv-ui/commit/2c64d03559f9f05a28ac2a728796707694500e65))
+* **tokens:** lighten the dark secondary button and chip backgrounds to match Figma ([#753](https://github.com/fanvue/fanv-ui/issues/753)) ([963f713](https://github.com/fanvue/fanv-ui/commit/963f713033c06716b2b4e6f580ac00c02fa2c9ba))
+
 ## [3.43.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.42.2...ui-v3.43.0) (2026-10-22)
 
 

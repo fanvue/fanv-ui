@@ -18,6 +18,10 @@ export const TabsAppearanceContext = React.createContext<{
 
 type TabBox = { left: number; top: number; width: number; height: number };
 
+/** Track styling shared by the pill {@link TabsList} and {@link TabsListSkeleton}. */
+export const PILL_TRACK_CLASS =
+  "bg-(image:--fv-raised-control-fill) inline-flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full bg-background-secondary p-1 shadow-(--fv-raised-control-shadow) [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
+
 const PILL_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 const PILL_STEP_MS = 360;
 const PILL_STEP_MS_TOUCH = 200;
@@ -380,7 +384,7 @@ export const TabsList = React.forwardRef<
             // the indicator escapes and paints above page chrome (e.g. the header).
             "relative isolate",
             isPill
-              ? "inline-flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full bg-background-secondary p-1 shadow-md [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              ? PILL_TRACK_CLASS
               : [
                   getLayoutClass(variant, fullWidth, alignLeft),
                   // Horizontal only: in the vertical orientation the leading padding is
@@ -407,7 +411,7 @@ export const TabsList = React.forwardRef<
             className={cn(
               "pointer-events-none absolute rounded-full motion-safe:transition-[transform,width,height]",
               isPill
-                ? "z-5 motion-safe:duration-(--pill-slide) motion-safe:ease-(--pill-ease)"
+                ? "z-5 shadow-(--fv-raised-control-thumb-shadow) motion-safe:duration-(--pill-slide) motion-safe:ease-(--pill-ease)"
                 : "z-10 motion-safe:duration-200 motion-safe:ease-in-out",
             )}
             style={{ opacity: 0 }}

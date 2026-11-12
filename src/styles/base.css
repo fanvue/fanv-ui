@@ -384,12 +384,35 @@
   line-height: 0.75rem;
 }
 
+/*
+ * Raised control surface: the track of a pill TabsList and its sliding pill.
+ * Themed here because the generated --shadow-* tokens are black at 5–10% in
+ * both modes, which vanishes on a dark page. Dark lifts the control with a lit
+ * fill and a heavier drop instead of an edge highlight, which reads as a hard
+ * line. Consumers recolouring the track need `bg-none` to drop the fill.
+ */
 :root {
   --color-special-bottom-nav-highlight: var(--primitives-color-green-500);
   --color-content-disabled: var(--primitives-color-gray-450);
+  --fv-raised-control-fill: linear-gradient(
+    to bottom,
+    var(--primitives-color-gray-white),
+    var(--primitives-color-gray-50)
+  );
+  --fv-raised-control-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.04), 0 1px 2px 0 rgb(0 0 0 / 0.045), 0 4px 12px -6px rgb(0 0 0 / 0.08);
+  --fv-raised-control-thumb-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 4px -1px rgb(0 0 0 / 0.07);
 }
 
 .dark {
   --color-special-bottom-nav-highlight: var(--primitives-color-gray-white);
   --color-content-disabled: var(--primitives-color-gray-450);
+  --fv-raised-control-fill: linear-gradient(
+    to bottom,
+    var(--primitives-color-gray-900),
+    var(--primitives-color-gray-950)
+  );
+  --fv-raised-control-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.025), 0 1px 2px 0 rgb(0 0 0 / 0.4), 0 6px 16px -6px rgb(0 0 0 / 0.45);
+  --fv-raised-control-thumb-shadow: 0 1px 2px rgb(0 0 0 / 0.35), 0 2px 6px -2px rgb(0 0 0 / 0.4);
 }
