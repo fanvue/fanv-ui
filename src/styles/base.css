@@ -334,7 +334,7 @@
   isolation: isolate;
   background-image: radial-gradient(
     58.1% 100% at 50% 100%,
-    var(--primitives-color-green-300),
+    var(--fv-upsell-pool),
     var(--fv-upsell-end)
   );
 
@@ -345,10 +345,7 @@
     z-index: -1;
     border-radius: inherit;
     pointer-events: none;
-    box-shadow:
-      0 0 0 2px var(--color-surface-primary),
-      0 0 4px var(--primitives-color-green-800),
-      0 0 16px var(--primitives-color-green-900);
+    box-shadow: var(--fv-upsell-glow);
   }
 
   &:disabled {
@@ -389,7 +386,7 @@
     background: conic-gradient(
       from var(--fv-upsell-angle),
       transparent 0deg,
-      var(--primitives-color-whitealpha-900) 40deg,
+      var(--fv-upsell-shine-color) 40deg,
       transparent 100deg,
       transparent 360deg
     );
@@ -409,7 +406,7 @@
 
   @media (prefers-reduced-motion: no-preference) {
     &::after {
-      animation: fv-upsell-spin 3s linear infinite;
+      animation: fv-upsell-spin var(--fv-upsell-shine-duration) var(--fv-upsell-shine-easing) infinite;
     }
   }
 }
@@ -511,4 +508,22 @@
   --fv-raised-control-shadow:
     inset 0 0 0 1px rgb(255 255 255 / 0.025), 0 1px 2px 0 rgb(0 0 0 / 0.4), 0 6px 16px -6px rgb(0 0 0 / 0.45);
   --fv-raised-control-thumb-shadow: 0 1px 2px rgb(0 0 0 / 0.35), 0 2px 6px -2px rgb(0 0 0 / 0.4);
+}
+
+/*
+ * Upsell surface tokens, read by the `fv-upsell` and `fv-upsell-shine`
+ * utilities. Figma's `Upsell` button (Fanvue Library, node 16650:1558) fills
+ * from `Color/Green/300` into `Color/Buttons/Brand/Default`, ringed by
+ * `Color/Background/Primary` and lit by `Green/800` / `Green/900` glows. One
+ * set serves both modes: the button is brand green on either page, and the
+ * ring already follows the page through `--color-surface-primary`.
+ */
+:root {
+  --fv-upsell-pool: var(--primitives-color-green-300);
+  --fv-upsell-glow:
+    0 0 0 2px var(--color-surface-primary), 0 0 4px var(--primitives-color-green-800),
+    0 0 16px var(--primitives-color-green-900);
+  --fv-upsell-shine-color: var(--primitives-color-whitealpha-900);
+  --fv-upsell-shine-duration: 3s;
+  --fv-upsell-shine-easing: linear;
 }

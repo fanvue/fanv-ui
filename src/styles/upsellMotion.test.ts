@@ -27,4 +27,12 @@ describe("upsell motion", () => {
   it("keeps the static upsell surface free of animation", () => {
     expect(utilityBlock("fv-upsell")).not.toMatch(/animation|transition/);
   });
+
+  it("reads its colours, glow and timing from upsell tokens rather than primitives", () => {
+    for (const name of ["fv-upsell", "fv-upsell-shine"]) {
+      const block = utilityBlock(name);
+      expect(block).toMatch(/var\(--fv-upsell-/);
+      expect(block).not.toMatch(/--primitives-/);
+    }
+  });
 });
