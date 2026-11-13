@@ -67,7 +67,7 @@ const AvatarRoot = React.forwardRef<
 
     return (
       <AvatarContext.Provider value={{ size, NSFWShow }}>
-        <span className="relative inline-flex">
+        <span className="relative inline-flex align-middle">
           <AvatarPrimitive.Root
             ref={ref}
             data-testid="avatar"
