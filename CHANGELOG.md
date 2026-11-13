@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.51.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.50.0...ui-v3.51.0) (2026-11-13)
+
+
+### Features
+
+* **Icons:** add EpisodesIcon and ShortsIcon ([#808](https://github.com/fanvue/fanv-ui/issues/808)) ([f533029](https://github.com/fanvue/fanv-ui/commit/f533029be590ce01aac8943eb8c09bcdd941bacf))
+
+
+### Bug Fixes
+
+* **Dialog:** stop the body cutting off rings at its side edges (ENG-13911) ([#803](https://github.com/fanvue/fanv-ui/issues/803)) ([5867c56](https://github.com/fanvue/fanv-ui/commit/5867c56039ab29e464046bf60367e5e4bb7a6693))
+
 ## [3.50.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.49.0...ui-v3.50.0) (2026-11-11)
 
 
