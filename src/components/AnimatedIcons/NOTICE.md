@@ -8,7 +8,7 @@ Every `*.tsx` file in this directory is **generated** by
 
 ## Where the artwork comes from
 
-The animations and SVG paths are imported from the
+Icons imported from the registry take their animations and SVG paths from the
 [lucide-animated](https://lucide-animated.com) registry
 ([pqoqubbw/icons](https://github.com/pqoqubbw/icons)), which is built on
 [Lucide](https://lucide.dev) and [Motion](https://motion.dev):
@@ -36,6 +36,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+Icons listed under `local` in `scripts/animated-icons.map.json` (for example the
+Menu icons) are the exception: their artwork is drawn by Fanvue and covered by
+the package licence (Apache-2.0). Only their motion is adapted from the MIT
+licensed upstream above.
 
 Lucide itself is ISC licensed (© Lucide Icons and Contributors), and some of its
 icons derive from Feather (MIT, © Cole Bemis).
