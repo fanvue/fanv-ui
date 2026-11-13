@@ -903,6 +903,54 @@ describe("DropdownMenuItem", () => {
     });
   });
 
+  describe("trailingAction", () => {
+    it("draws the action at the end of the row, after the trailing icon", () => {
+      renderMenu(
+        <DropdownMenuItem
+          trailingIcon={<EditIcon data-testid="trailing-icon" />}
+          trailingAction={<span data-testid="action">Download</span>}
+        >
+          Earnings Report
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByRole("menuitem");
+      expect(item).toHaveTextContent("Earnings Report");
+      const action = screen.getByTestId("action");
+      expect(item).toContainElement(action);
+      expect(
+        screen.getByTestId("trailing-icon").compareDocumentPosition(action) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+    });
+
+    it("selects the row when the action is clicked", async () => {
+      const onSelect = vi.fn();
+      renderMenu(
+        <DropdownMenuItem onSelect={onSelect} trailingAction={<span>Download</span>}>
+          Earnings Report
+        </DropdownMenuItem>,
+      );
+      await userEvent.click(screen.getByText("Download"));
+      expect(onSelect).toHaveBeenCalledTimes(1);
+    });
+
+    it("pushes the action to the end of an asChild row", () => {
+      renderMenu(
+        <DropdownMenuItem asChild trailingAction={<span data-testid="action">Open</span>}>
+          <a href="/reports">Reports</a>
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByRole("menuitem")).toHaveAttribute("href", "/reports");
+      expect(screen.getByTestId("action").parentElement).toHaveClass("ms-auto");
+    });
+
+    it("renders nothing extra without an action", () => {
+      renderMenu(<DropdownMenuItem>Earnings Report</DropdownMenuItem>);
+      expect(screen.getByRole("menuitem", { name: "Earnings Report" })).toBeInTheDocument();
+      expect(screen.getByRole("menuitem").querySelector(".ms-auto")).toBeNull();
+    });
+  });
+
   describe("asChild", () => {
     it("renders child element with menuitem props", () => {
       renderMenu(
