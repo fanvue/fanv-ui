@@ -413,6 +413,8 @@ export type { DiscordIconProps } from "./components/Icons/DiscordIcon";
 export { DiscordIcon } from "./components/Icons/DiscordIcon";
 export type { DiscountIconProps } from "./components/Icons/DiscountIcon";
 export { DiscountIcon } from "./components/Icons/DiscountIcon";
+export type { DocumentIconProps } from "./components/Icons/DocumentIcon";
+export { DocumentIcon } from "./components/Icons/DocumentIcon";
 export type { DonateIconProps } from "./components/Icons/DonateIcon";
 export { DonateIcon } from "./components/Icons/DonateIcon";
 export type { DoubleTickIconProps } from "./components/Icons/DoubleTickIcon";

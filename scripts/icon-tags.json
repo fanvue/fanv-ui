@@ -62,6 +62,7 @@
   "DiamondIcon": ["diamond", "gem", "premium"],
   "DiscountIcon": ["discount", "sale", "percent"],
   "DonateIcon": ["donate", "gift", "give"],
+  "DocumentIcon": ["document", "file", "tax", "vat", "form", "paper"],
   "DoubleTickIcon": ["double", "tick", "check", "read"],
   "DownloadIcon": ["download", "save", "file"],
   "EditIcon": ["edit", "pen", "write", "modify"],
