@@ -27,6 +27,10 @@ const meta = {
       control: "select",
       options: ["md", "none"],
     },
+    avatarShape: {
+      control: "select",
+      options: ["circle", "square"],
+    },
     aiDisclosure: { control: "boolean" },
     isMuted: { control: "boolean" },
     isOnline: { control: "boolean" },
@@ -156,6 +160,27 @@ export const Paddings: Story = {
           </div>
           <p className="typography-description-12px-regular text-content-secondary">
             padding={padding}
+          </p>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const AvatarShapeSquare: Story = {
+  args: { avatarShape: "square", avatarSize: 24, padding: "none" },
+};
+
+/** Both `avatarShape` values in a 24px list row, the command palette layout. */
+export const AvatarShapes: Story = {
+  render: (args) => (
+    <div className="flex w-72 flex-col gap-4">
+      {(["circle", "square"] as const).map((avatarShape) => (
+        <div key={avatarShape} className="flex flex-col gap-1">
+          <UserItem {...args} avatarShape={avatarShape} avatarSize={24} padding="none" />
+          <UserItem {...args} avatarShape={avatarShape} avatarSize={48} />
+          <p className="typography-description-12px-regular text-content-secondary">
+            avatarShape={avatarShape}
           </p>
         </div>
       ))}
