@@ -15,7 +15,8 @@ export type TabsTriggerProps = React.ComponentPropsWithoutRef<typeof TabsPrimiti
  * the tab itself (receiving `role="tab"` and focus management), so the tab
  * stays a single interactive control rather than nesting one inside the other.
  *
- * Inside a `TabsList appearance="pill"` the tab takes the pill styling.
+ * Inside a `TabsList appearance="pill"` the tab takes the pill styling, and
+ * inside an underline `TabsList size="sm"` it drops to 8px top and bottom padding.
  */
 export const TabsTrigger = React.forwardRef<
   React.ComponentRef<typeof TabsPrimitive.Trigger>,
@@ -45,6 +46,7 @@ export const TabsTrigger = React.forwardRef<
     <TabsPrimitive.Trigger
       ref={ref}
       asChild={asChild}
+      data-size={appearance === "underline" ? size : undefined}
       className={cn(
         "inline-flex min-w-0 cursor-pointer items-center justify-center",
         "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
@@ -62,8 +64,10 @@ export const TabsTrigger = React.forwardRef<
             ]
           : [
               "typography-body-default-16px-semibold",
-              "data-[orientation=horizontal]:px-4 data-[orientation=horizontal]:py-3",
-              "data-[orientation=vertical]:justify-start data-[orientation=vertical]:px-4 data-[orientation=vertical]:py-3",
+              "data-[orientation=vertical]:justify-start data-[orientation=horizontal]:px-4 data-[orientation=vertical]:px-4",
+              size === "sm"
+                ? "data-[orientation=horizontal]:py-2 data-[orientation=vertical]:py-2"
+                : "data-[orientation=horizontal]:py-3 data-[orientation=vertical]:py-3",
               "data-[state=active]:text-content-primary",
               "data-[state=inactive]:text-content-tertiary",
               "data-[state=active]:hover:text-content-primary/70",

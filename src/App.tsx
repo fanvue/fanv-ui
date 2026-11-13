@@ -4468,6 +4468,12 @@ function TabsDemo() {
             <p className="pt-4 text-neutral-alphas-400 text-sm">Posts content</p>
           </TabsContent>
         </Tabs>
+        <Tabs defaultValue="earnings">
+          <TabsList size="sm">
+            <TabsTrigger value="earnings">Earnings</TabsTrigger>
+            <TabsTrigger value="payouts">Payouts</TabsTrigger>
+          </TabsList>
+        </Tabs>
         <TabsListSkeleton>
           <Skeleton variant="rounded" width={40} height={32} className="rounded-full" />
           <Skeleton variant="rounded" width={96} height={32} className="rounded-full" />

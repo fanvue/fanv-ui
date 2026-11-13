@@ -48,6 +48,23 @@ export const Default: Story = {
   ),
 };
 
+export const UnderlineSmall: Story = {
+  render: () => (
+    <Tabs defaultValue="tab1">
+      <TabsList size="sm">
+        <TabsTrigger value="tab1">Earnings</TabsTrigger>
+        <TabsTrigger value="tab2">Payouts</TabsTrigger>
+      </TabsList>
+      <TabsContent value="tab1">
+        <p className="pt-4 text-content-tertiary text-sm">Earnings content</p>
+      </TabsContent>
+      <TabsContent value="tab2">
+        <p className="pt-4 text-content-tertiary text-sm">Payouts content</p>
+      </TabsContent>
+    </Tabs>
+  ),
+};
+
 export const WithDisabledTab: Story = {
   render: () => (
     <Tabs defaultValue="tab1">

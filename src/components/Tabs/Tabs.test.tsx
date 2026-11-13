@@ -401,6 +401,37 @@ describe("Tabs", () => {
     });
   });
 
+  describe("underline size", () => {
+    it("exposes md density on tabs by default", () => {
+      renderTabs();
+      for (const tab of screen.getAllByRole("tab")) {
+        expect(tab).toHaveAttribute("data-size", "md");
+      }
+    });
+
+    it("exposes sm density on tabs when size is sm", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList size="sm">
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tab")).toHaveAttribute("data-size", "sm");
+    });
+
+    it("does not expose underline density on pill tabs", () => {
+      render(
+        <Tabs defaultValue="t">
+          <TabsList appearance="pill" size="36">
+            <TabsTrigger value="t">T</TabsTrigger>
+          </TabsList>
+        </Tabs>,
+      );
+      expect(screen.getByRole("tab")).not.toHaveAttribute("data-size");
+    });
+  });
+
   describe("pill appearance", () => {
     function renderPill(defaultValue = "tab1") {
       return render(
