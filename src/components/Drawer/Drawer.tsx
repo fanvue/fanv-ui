@@ -23,8 +23,12 @@ export type DrawerSize = "sm" | "md" | "lg" | "full";
  *   it: inset from all three sides and rounded on every corner. Shares the modal
  *   surface with `"sheet"`; only the shape differs. Intended for
  *   `position="bottom"`.
+ * - `"modal"` — the V2 Modal: a card floating 8px clear of the viewport edges,
+ *   with the modal surface and stroke and a 32px radius, over the heavy overlay.
+ *   Beside the page (`position="left"` or `"right"`) it is 440px wide with 24px
+ *   padding; from the bottom it is the mobile modal, with 16px padding.
  */
-export type DrawerVariant = "panel" | "sheet" | "menu";
+export type DrawerVariant = "panel" | "sheet" | "menu" | "modal";
 
 /**
  * Shared surface classes for the `"sheet"` variant. Mirrors the mobile sheet
@@ -44,6 +48,27 @@ const SHEET_CLASSES =
  */
 const MENU_CLASSES =
   "inset-x-4 bottom-4 w-auto rounded-lg border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px]";
+
+/**
+ * Surface of the `"modal"` variant (the V2 Modal): the modal background and stroke,
+ * floating 8px clear of the viewport edges with every corner rounded.
+ */
+const MODAL_CLASSES =
+  "rounded-xl border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px]";
+
+/**
+ * Shape of the `"modal"` variant per position. The insets restate position on
+ * purpose — they override `SLIDE_CLASSES`, which pin a panel flush to its edge.
+ * Beside the page it is the 440px desktop modal with 24px padding, which wins
+ * over the `size` preset; from the bottom it is the mobile modal, 8px in from
+ * both sides and the bottom with 16px padding, its height left to `size`.
+ */
+const MODAL_POSITION_CLASSES: Record<DrawerPosition, string> = {
+  right: "inset-y-2 right-2 h-auto w-[calc(100%-1rem)] max-w-[440px] p-6",
+  left: "inset-y-2 left-2 h-auto w-[calc(100%-1rem)] max-w-[440px] p-6",
+  bottom: "inset-x-2 bottom-[calc(0.5rem+env(safe-area-inset-bottom,0px))] w-auto p-4",
+  top: "inset-x-2 top-2 w-auto p-4",
+};
 
 /**
  * Props for the {@link Drawer} root component.
@@ -191,8 +216,9 @@ export interface DrawerContentProps
   size?: DrawerSize;
   /**
    * Visual treatment of the panel. Use `"sheet"` (with `position="bottom"`) for
-   * a bottom sheet with the modal surface treatment, or `"menu"` for a floating
-   * inset menu carrying the dropdown surface. @default "panel"
+   * a bottom sheet with the modal surface treatment, `"menu"` for a floating
+   * inset menu carrying the dropdown surface, or `"modal"` for the V2 Modal: beside
+   * the page on desktop, from the bottom on mobile. @default "panel"
    */
   variant?: DrawerVariant;
   /**
@@ -261,7 +287,15 @@ export const DrawerContent = React.forwardRef<
 
     return (
       <DialogPrimitive.Portal>
-        {overlay && <DrawerOverlay {...overlayProps} />}
+        {overlay && (
+          <DrawerOverlay
+            {...overlayProps}
+            className={cn(
+              variant === "modal" && "bg-background-overlay-heavy",
+              overlayProps?.className,
+            )}
+          />
+        )}
         <DialogPrimitive.Content
           ref={ref}
           style={{
@@ -283,6 +317,7 @@ export const DrawerContent = React.forwardRef<
             sizeClass,
             variant === "sheet" && SHEET_CLASSES,
             variant === "menu" && MENU_CLASSES,
+            variant === "modal" && cn(MODAL_CLASSES, MODAL_POSITION_CLASSES[position]),
             className,
           )}
           {...contentProps}
