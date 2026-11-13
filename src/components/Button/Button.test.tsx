@@ -323,3 +323,17 @@ describe("Button", () => {
     });
   });
 });
+
+describe("Button corners", () => {
+  it("squares the 24px size with 8px corners", () => {
+    render(<Button size="24">CTA</Button>);
+    const button = screen.getByRole("button", { name: "CTA" });
+    expect(button).toHaveClass("rounded-xs");
+    expect(button).not.toHaveClass("rounded-full");
+  });
+
+  it("keeps the larger sizes a pill", () => {
+    render(<Button size="32">CTA</Button>);
+    expect(screen.getByRole("button", { name: "CTA" })).toHaveClass("rounded-full");
+  });
+});

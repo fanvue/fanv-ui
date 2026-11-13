@@ -55,6 +55,7 @@ import { DenseGridViewIcon } from "./DenseGridViewIcon";
 import { DiamondIcon } from "./DiamondIcon";
 import { DiscordIcon } from "./DiscordIcon";
 import { DiscountIcon } from "./DiscountIcon";
+import { DocumentIcon } from "./DocumentIcon";
 import { DonateIcon } from "./DonateIcon";
 import { DoubleTickIcon } from "./DoubleTickIcon";
 import { DownloadIcon } from "./DownloadIcon";
@@ -262,6 +263,7 @@ const propBasedIcons = [
   { name: "DiamondIcon", Component: DiamondIcon, hasFilled: true },
   { name: "DiscordIcon", Component: DiscordIcon, hasFilled: true },
   { name: "DiscountIcon", Component: DiscountIcon, hasFilled: true },
+  { name: "DocumentIcon", Component: DocumentIcon, hasFilled: true },
   { name: "DonateIcon", Component: DonateIcon, hasFilled: true },
   { name: "DoubleTickIcon", Component: DoubleTickIcon, hasFilled: true },
   { name: "DownloadIcon", Component: DownloadIcon, hasFilled: true },

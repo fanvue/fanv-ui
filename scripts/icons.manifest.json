@@ -96,12 +96,12 @@
       "hasFilled": true
     },
     {
-      "name": "BookmarkIcon",
+      "name": "BoltIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },
     {
-      "name": "BoltIcon",
+      "name": "BookmarkIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },
@@ -227,6 +227,11 @@
     },
     {
       "name": "DiscountIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "DocumentIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },

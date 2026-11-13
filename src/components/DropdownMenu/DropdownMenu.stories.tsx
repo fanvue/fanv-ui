@@ -81,6 +81,33 @@ export const WithIcons: Story = {
   ),
 };
 
+/**
+ * `trailingAction` draws a small action at the row's end. The whole row performs
+ * it, so the button is a visual: a 24px `Button` rendered `asChild` as a span.
+ */
+export const WithTrailingAction: Story = {
+  play: openMenu,
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>Open Menu</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem
+          leadingIcon={<EditIcon />}
+          trailingAction={
+            <Button asChild size="24" variant="primary">
+              <span aria-hidden>Download</span>
+            </Button>
+          }
+        >
+          Earnings Report
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
+};
+
 export const WithGroupsAndLabels: Story = {
   play: openMenu,
   render: () => (

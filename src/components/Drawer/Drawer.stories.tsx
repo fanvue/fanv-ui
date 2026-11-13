@@ -23,6 +23,10 @@ const meta: Meta<typeof DrawerContent> = {
   },
   tags: ["autodocs"],
   argTypes: {
+    variant: {
+      control: "select",
+      options: ["panel", "sheet", "menu", "modal"],
+    },
     position: {
       control: "select",
       options: ["left", "right", "top", "bottom"],
@@ -196,6 +200,48 @@ export const BottomMenu: Story = {
         <div className="p-4 pt-0">
           <p>Inset from all three edges, rounded on every corner.</p>
         </div>
+      </DrawerContent>
+    </Drawer>
+  ),
+};
+
+/**
+ * `variant="modal"` is the V2 side modal: a 440px card floating 8px clear of the
+ * viewport edges, on the modal surface over the heavy overlay. The panel carries
+ * its own 24px padding, so the header and footer drop theirs.
+ */
+export const SideModal: Story = {
+  args: { position: "right", variant: "modal" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/FWL1kdZB4CdBS0grWchMo4/Creator---Earnings---Wallet---Checkout?node-id=3316-42174",
+    },
+  },
+  play: openDrawer,
+  render: (args) => (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button>Open Side Modal</Button>
+      </DrawerTrigger>
+      <DrawerContent {...args}>
+        <DrawerHeader>
+          <DrawerTitle className="typography-header-heading-xs">Add Payout Method</DrawerTitle>
+          <DrawerDescription>Choose how you want to get paid.</DrawerDescription>
+        </DrawerHeader>
+        <div className="flex-1 overflow-y-auto py-6">
+          <p>Floats 8px clear of the top, bottom and side edges.</p>
+        </div>
+        <DrawerFooter className="flex-row">
+          <DrawerClose asChild>
+            <Button variant="outline" size="48" fullWidth>
+              Cancel
+            </Button>
+          </DrawerClose>
+          <Button size="48" fullWidth>
+            Continue
+          </Button>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   ),

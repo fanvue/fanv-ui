@@ -23,8 +23,12 @@ export type DrawerSize = "sm" | "md" | "lg" | "full";
  *   it: inset from all three sides and rounded on every corner. Shares the modal
  *   surface with `"sheet"`; only the shape differs. Intended for
  *   `position="bottom"`.
+ * - `"modal"` — the V2 Modal: a card floating 8px clear of the viewport edges,
+ *   with the modal surface and stroke and a 32px radius, over the heavy overlay.
+ *   Beside the page (`position="left"` or `"right"`) it is 440px wide with 24px
+ *   padding; from the top or bottom it is the mobile modal, with 16px padding.
  */
-export type DrawerVariant = "panel" | "sheet" | "menu";
+export type DrawerVariant = "panel" | "sheet" | "menu" | "modal";
 
 /**
  * Shared surface classes for the `"sheet"` variant. Mirrors the mobile sheet
@@ -44,6 +48,34 @@ const SHEET_CLASSES =
  */
 const MENU_CLASSES =
   "inset-x-4 bottom-4 w-auto rounded-lg border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px]";
+
+/**
+ * Surface of the `"modal"` variant (the V2 Modal): the modal background and stroke,
+ * floating 8px clear of the viewport edges with every corner rounded.
+ */
+const MODAL_CLASSES =
+  "rounded-xl border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-xs";
+
+/**
+ * Shape of the `"modal"` variant per position. The insets restate position on
+ * purpose — they override `SLIDE_CLASSES`, which pin a panel flush to its edge.
+ * Beside the page it is the 440px desktop modal with 24px padding, which wins
+ * over the `size` preset; from the top or bottom it is the mobile modal, 8px in
+ * from both sides and its edge (clear of the safe area) with 16px padding, its
+ * height left to `size`.
+ */
+const MODAL_POSITION_CLASSES: Record<DrawerPosition, string> = {
+  right: "inset-y-2 right-2 h-auto w-[calc(100%-1rem)] max-w-110 p-6",
+  left: "inset-y-2 left-2 h-auto w-[calc(100%-1rem)] max-w-110 p-6",
+  bottom: "inset-x-2 bottom-[calc(0.5rem+env(safe-area-inset-bottom,0px))] w-auto p-4",
+  top: "inset-x-2 top-[calc(0.5rem+env(safe-area-inset-top,0px))] w-auto p-4",
+};
+
+/**
+ * A full-height top or bottom modal stops 8px short of the opposite edge too, so
+ * the inset on its own side does not push it off the screen.
+ */
+const MODAL_FULL_HEIGHT_CLASS = "max-h-[calc(100%-1rem)]";
 
 /**
  * Props for the {@link Drawer} root component.
@@ -73,6 +105,12 @@ export interface DrawerProps extends React.ComponentPropsWithoutRef<typeof Dialo
 const DrawerContext = React.createContext<{ overlay: boolean }>({
   overlay: true,
 });
+
+/**
+ * The open panel's variant, so {@link DrawerHeader} and {@link DrawerFooter} drop
+ * their own padding inside a `"modal"`, whose panel already pads its content.
+ */
+const DrawerVariantContext = React.createContext<DrawerVariant>("panel");
 
 /**
  * Root component that manages open/close state for a drawer.
@@ -191,8 +229,9 @@ export interface DrawerContentProps
   size?: DrawerSize;
   /**
    * Visual treatment of the panel. Use `"sheet"` (with `position="bottom"`) for
-   * a bottom sheet with the modal surface treatment, or `"menu"` for a floating
-   * inset menu carrying the dropdown surface. @default "panel"
+   * a bottom sheet with the modal surface treatment, `"menu"` for a floating
+   * inset menu carrying the dropdown surface, or `"modal"` for the V2 Modal: beside
+   * the page on desktop, from the bottom on mobile. @default "panel"
    */
   variant?: DrawerVariant;
   /**
@@ -261,7 +300,15 @@ export const DrawerContent = React.forwardRef<
 
     return (
       <DialogPrimitive.Portal>
-        {overlay && <DrawerOverlay {...overlayProps} />}
+        {overlay && (
+          <DrawerOverlay
+            {...overlayProps}
+            className={cn(
+              variant === "modal" && "bg-background-overlay-heavy",
+              overlayProps?.className,
+            )}
+          />
+        )}
         <DialogPrimitive.Content
           ref={ref}
           style={{
@@ -283,12 +330,18 @@ export const DrawerContent = React.forwardRef<
             sizeClass,
             variant === "sheet" && SHEET_CLASSES,
             variant === "menu" && MENU_CLASSES,
+            variant === "modal" &&
+              cn(
+                MODAL_CLASSES,
+                MODAL_POSITION_CLASSES[position],
+                !isHorizontal && size === "full" && MODAL_FULL_HEIGHT_CLASS,
+              ),
             className,
           )}
           {...contentProps}
         >
           <DialogPrimitive.Close ref={closeRef} hidden tabIndex={-1} aria-hidden="true" />
-          {children}
+          <DrawerVariantContext.Provider value={variant}>{children}</DrawerVariantContext.Provider>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     );
@@ -306,36 +359,55 @@ export interface DrawerHeaderProps extends React.HTMLAttributes<HTMLDivElement> 
 
 /**
  * A semantic header area for the drawer, typically containing a title and description.
- * Renders a built-in close button by default.
+ * Renders a built-in close button by default. Inside a `"modal"` drawer it carries
+ * no padding of its own, since the panel pads its content.
  */
 export const DrawerHeader = React.forwardRef<HTMLDivElement, DrawerHeaderProps>(
-  ({ className, showClose = true, closeLabel = "Close drawer", children, ...props }, ref) => (
-    <div ref={ref} className={cn("flex items-center gap-2 p-4", className)} {...props}>
-      <div className="flex min-w-0 flex-1 flex-col gap-1.5">{children}</div>
-      {showClose && (
-        <DialogPrimitive.Close asChild>
-          <IconButton
-            icon={<CloseIcon />}
-            aria-label={closeLabel}
-            variant="secondary"
-            size="32"
-            className="shrink-0"
-          />
-        </DialogPrimitive.Close>
-      )}
-    </div>
-  ),
+  ({ className, showClose = true, closeLabel = "Close drawer", children, ...props }, ref) => {
+    const variant = React.useContext(DrawerVariantContext);
+    return (
+      <div
+        ref={ref}
+        className={cn("flex items-center gap-2", variant !== "modal" && "p-4", className)}
+        {...props}
+      >
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5">{children}</div>
+        {showClose && (
+          <DialogPrimitive.Close asChild>
+            <IconButton
+              icon={<CloseIcon />}
+              aria-label={closeLabel}
+              variant="secondary"
+              size="32"
+              className="shrink-0"
+            />
+          </DialogPrimitive.Close>
+        )}
+      </div>
+    );
+  },
 );
 DrawerHeader.displayName = "DrawerHeader";
 
 /** Props for the {@link DrawerFooter} component. */
 export interface DrawerFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-/** A semantic footer area for the drawer, typically containing action buttons. */
+/**
+ * A semantic footer area for the drawer, typically containing action buttons.
+ * Inside a `"modal"` drawer it carries no padding of its own, since the panel pads
+ * its content.
+ */
 export const DrawerFooter = React.forwardRef<HTMLDivElement, DrawerFooterProps>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex flex-col gap-2 p-4", className)} {...props} />
-  ),
+  ({ className, ...props }, ref) => {
+    const variant = React.useContext(DrawerVariantContext);
+    return (
+      <div
+        ref={ref}
+        className={cn("flex flex-col gap-2", variant !== "modal" && "p-4", className)}
+        {...props}
+      />
+    );
+  },
 );
 DrawerFooter.displayName = "DrawerFooter";
 
