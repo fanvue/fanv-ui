@@ -122,6 +122,7 @@ import { DenseGridViewIcon } from "../components/Icons/DenseGridViewIcon";
 import { DiamondIcon } from "../components/Icons/DiamondIcon";
 import { DiscordIcon } from "../components/Icons/DiscordIcon";
 import { DiscountIcon } from "../components/Icons/DiscountIcon";
+import { DocumentIcon } from "../components/Icons/DocumentIcon";
 import { DonateIcon } from "../components/Icons/DonateIcon";
 import { DoubleTickIcon } from "../components/Icons/DoubleTickIcon";
 import { DownloadIcon } from "../components/Icons/DownloadIcon";
@@ -638,6 +639,13 @@ const icons: IconEntry[] = [
     component: DonateIcon,
     animated: null,
     tags: ["donate", "gift", "give"],
+    propBased: true,
+  },
+  {
+    name: "DocumentIcon",
+    component: DocumentIcon,
+    animated: null,
+    tags: ["document", "file", "tax", "vat", "form", "paper"],
     propBased: true,
   },
   {
