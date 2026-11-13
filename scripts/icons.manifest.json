@@ -251,6 +251,11 @@
       "hasFilled": true
     },
     {
+      "name": "EpisodesIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "ExclamationMarkIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -567,6 +572,11 @@
     },
     {
       "name": "ShareIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ShortsIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },
