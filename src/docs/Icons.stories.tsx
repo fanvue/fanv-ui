@@ -127,6 +127,7 @@ import { DoubleTickIcon } from "../components/Icons/DoubleTickIcon";
 import { DownloadIcon } from "../components/Icons/DownloadIcon";
 import { EditIcon } from "../components/Icons/EditIcon";
 import { EmojiIcon } from "../components/Icons/EmojiIcon";
+import { EpisodesIcon } from "../components/Icons/EpisodesIcon";
 import { ErrorCircleIcon } from "../components/Icons/ErrorCircleIcon";
 import { ErrorIcon } from "../components/Icons/ErrorIcon";
 import { ExclamationMarkIcon } from "../components/Icons/ExclamationMarkIcon";
@@ -203,6 +204,7 @@ import { SearchIcon } from "../components/Icons/SearchIcon";
 import { SendIcon } from "../components/Icons/SendIcon";
 import { SettingsIcon } from "../components/Icons/SettingsIcon";
 import { ShareIcon } from "../components/Icons/ShareIcon";
+import { ShortsIcon } from "../components/Icons/ShortsIcon";
 import { SoundIcon } from "../components/Icons/SoundIcon";
 import { SpinnerIcon } from "../components/Icons/SpinnerIcon";
 import { StarIcon } from "../components/Icons/StarIcon";
@@ -667,6 +669,13 @@ const icons: IconEntry[] = [
     animated: AnimatedEmojiIcon,
     tags: ["emoji", "smiley", "face", "happy"],
     propBased: false,
+  },
+  {
+    name: "EpisodesIcon",
+    component: EpisodesIcon,
+    animated: null,
+    tags: ["episodes", "series", "playlist", "video", "list"],
+    propBased: true,
   },
   {
     name: "ErrorCircleIcon",
@@ -1180,6 +1189,13 @@ const icons: IconEntry[] = [
     component: ShareIcon,
     animated: null,
     tags: ["share", "social", "send"],
+    propBased: true,
+  },
+  {
+    name: "ShortsIcon",
+    component: ShortsIcon,
+    animated: null,
+    tags: ["shorts", "reels", "clip", "vertical", "video"],
     propBased: true,
   },
   {

@@ -60,6 +60,7 @@ import { DoubleTickIcon } from "./DoubleTickIcon";
 import { DownloadIcon } from "./DownloadIcon";
 import { EditIcon } from "./EditIcon";
 import { EmojiIcon } from "./EmojiIcon";
+import { EpisodesIcon } from "./EpisodesIcon";
 import { ErrorCircleIcon } from "./ErrorCircleIcon";
 import { ErrorIcon } from "./ErrorIcon";
 import { ExclamationMarkIcon } from "./ExclamationMarkIcon";
@@ -137,6 +138,7 @@ import { SearchIcon } from "./SearchIcon";
 import { SendIcon } from "./SendIcon";
 import { SettingsIcon } from "./SettingsIcon";
 import { ShareIcon } from "./ShareIcon";
+import { ShortsIcon } from "./ShortsIcon";
 import { SoundIcon } from "./SoundIcon";
 import { SpinnerIcon } from "./SpinnerIcon";
 import { StarIcon } from "./StarIcon";
@@ -266,6 +268,7 @@ const propBasedIcons = [
   { name: "DoubleTickIcon", Component: DoubleTickIcon, hasFilled: true },
   { name: "DownloadIcon", Component: DownloadIcon, hasFilled: true },
   { name: "EditIcon", Component: EditIcon, hasFilled: true },
+  { name: "EpisodesIcon", Component: EpisodesIcon, hasFilled: true },
   { name: "ExclamationMarkIcon", Component: ExclamationMarkIcon, hasFilled: true },
   { name: "ExpandIcon", Component: ExpandIcon, hasFilled: true },
   { name: "EyeIcon", Component: EyeIcon, hasFilled: true },
@@ -330,6 +333,7 @@ const propBasedIcons = [
   { name: "SendIcon", Component: SendIcon, hasFilled: true },
   { name: "SettingsIcon", Component: SettingsIcon, hasFilled: true },
   { name: "ShareIcon", Component: ShareIcon, hasFilled: true },
+  { name: "ShortsIcon", Component: ShortsIcon, hasFilled: true },
   { name: "SoundIcon", Component: SoundIcon, hasFilled: false },
   { name: "StarIcon", Component: StarIcon, hasFilled: true },
   { name: "StopIcon", Component: StopIcon, hasFilled: true },
