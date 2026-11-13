@@ -3,7 +3,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 
 /** Allowed pixel sizes for the avatar. */
-export type AvatarSize = 16 | 24 | 32 | 40 | 48 | 64 | 88 | 148;
+export type AvatarSize = 16 | 24 | 32 | 40 | 48 | 64 | 80 | 88 | 148;
 
 const AvatarContext = React.createContext<{ size: AvatarSize; NSFWShow: boolean }>({
   size: 40,
@@ -20,6 +20,7 @@ const STATUS_POSITIONS: Record<
   40: { top: 2, right: 2, indicatorSize: "size-2", borderSize: "border" },
   48: { top: 5, right: 2, indicatorSize: "size-2", borderSize: "border" },
   64: { top: 5, right: 1, indicatorSize: "size-3", borderSize: "border" },
+  80: { top: 7, right: 5, indicatorSize: "size-3", borderSize: "border" },
   88: { top: 8, right: 6, indicatorSize: "size-3", borderSize: "border" },
   148: { top: 15, right: 15, indicatorSize: "size-3", borderSize: "border" },
 };
@@ -79,6 +80,7 @@ const AvatarRoot = React.forwardRef<
               size === 40 && "size-10 text-sm",
               size === 48 && "size-12 text-base",
               size === 64 && "size-16 text-xl",
+              size === 80 && "size-20 text-2xl",
               size === 88 && "size-22 text-2xl",
               size === 148 && "size-37 text-4xl",
               className,
