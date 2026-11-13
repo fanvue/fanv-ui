@@ -93,6 +93,26 @@ describe("IconButton", () => {
       expect(screen.getByTestId("icon-button")).toHaveClass("rounded-full");
     });
 
+    it("gives the upsell variant the upsell glow, rim highlight and disabled fallback", () => {
+      render(<IconButton icon={<HomeIcon />} variant="upsell" aria-label="Unlock" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass(
+        "fv-upsell",
+        "fv-upsell-shine",
+        "text-content-always-black",
+        "disabled:bg-buttons-disabled-default",
+      );
+    });
+
+    it("gives the upsell variant the same size-driven radius as the standard variants", () => {
+      const { rerender } = render(
+        <IconButton icon={<HomeIcon />} variant="upsell" size="24" aria-label="Unlock" />,
+      );
+      expect(screen.getByTestId("icon-button")).toHaveClass("rounded-xs");
+
+      rerender(<IconButton icon={<HomeIcon />} variant="upsell" size="40" aria-label="Unlock" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass("rounded-full");
+    });
+
     it("applies the negative treatment on negative-aware variants", () => {
       render(<IconButton icon={<HomeIcon />} variant="primary" negative aria-label="Home" />);
       expect(screen.getByTestId("icon-button")).toHaveClass("bg-buttons-primary-negative-default");

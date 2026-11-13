@@ -319,6 +319,114 @@
   }
 }
 /*
+ * Upsell (brand) surface: the Figma `Upsell` button. A radial pool of
+ * `Green/300` rising from the bottom edge into the brand fill, ringed by
+ * `Surface/Primary` and lit by two green glows.
+ *
+ * The ring and glows sit on `::before` rather than on the element's own
+ * box-shadow, so the inset `focus-visible:shadow-focus-ring` can still draw
+ * without wiping them out. `--fv-upsell-end` is the outer gradient stop, so a
+ * consumer moves the whole pool to the hover fill by swapping one property.
+ * `--fv-upsell-ring` is set on the element so it follows the surface the button
+ * sits on, including themed subtrees; on an inverted surface, point it at the
+ * inverted fill.
+ *
+ * A loading button is natively disabled but keeps the look, so the disabled
+ * resets skip `aria-busy`.
+ */
+@utility fv-upsell {
+  --fv-upsell-end: var(--color-buttons-brand-default);
+  --fv-upsell-ring: var(--color-surface-primary);
+  position: relative;
+  isolation: isolate;
+  background-image: radial-gradient(
+    58.1% 100% at 50% 100%,
+    var(--fv-upsell-pool),
+    var(--fv-upsell-end)
+  );
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow:
+      0 0 0 2px var(--fv-upsell-ring),
+      var(--fv-upsell-glow);
+  }
+
+  &:disabled:not([aria-busy="true"]) {
+    background-image: none;
+  }
+
+  &:disabled:not([aria-busy="true"])::before {
+    content: none;
+  }
+}
+
+@property --fv-upsell-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes fv-upsell-spin {
+  to {
+    --fv-upsell-angle: 360deg;
+  }
+}
+
+/*
+ * A white highlight that travels once round the rim of an `fv-upsell` button,
+ * then rests. It is a conic gradient masked to a 1.5px ring, turned by
+ * animating a registered angle. A single pass keeps the motion under the five
+ * seconds after which WCAG 2.2.2 asks for a pause control, and stops the
+ * per-frame repaint once it lands. It only moves for users who have not asked
+ * for reduced motion; for everyone else it rests at the top right.
+ *
+ * The rim hides while the button has keyboard focus, so the focus ring stays
+ * whole.
+ */
+@utility fv-upsell-shine {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    pointer-events: none;
+    background: conic-gradient(
+      from var(--fv-upsell-angle),
+      transparent 0deg,
+      var(--fv-upsell-shine-color) 40deg,
+      transparent 100deg,
+      transparent 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  &:disabled:not([aria-busy="true"])::after,
+  &:focus-visible::after {
+    content: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &::after {
+      animation: fv-upsell-spin var(--fv-upsell-shine-duration) var(--fv-upsell-shine-easing) 1;
+    }
+  }
+}
+
+/*
  * Animate `height` between 0 and the panel's measured height
  * (`--radix-accordion-content-height`, which Radix sets from a getBoundingClientRect
  * in a useLayoutEffect). This is the canonical Radix/Collapsible pattern and keeps the
@@ -415,4 +523,21 @@
   --fv-raised-control-shadow:
     inset 0 0 0 1px rgb(255 255 255 / 0.025), 0 1px 2px 0 rgb(0 0 0 / 0.4), 0 6px 16px -6px rgb(0 0 0 / 0.45);
   --fv-raised-control-thumb-shadow: 0 1px 2px rgb(0 0 0 / 0.35), 0 2px 6px -2px rgb(0 0 0 / 0.4);
+}
+
+/*
+ * Upsell surface tokens, read by the `fv-upsell` and `fv-upsell-shine`
+ * utilities. Figma's `Upsell` button (Fanvue Library, node 16650:1558) fills
+ * from `Color/Green/300` into `Color/Buttons/Brand/Default` and is lit by
+ * `Green/800` / `Green/900` glows. One set serves both modes: the button is
+ * brand green on either page. Its ring, Figma's `Color/Background/Primary`
+ * (`--color-surface-primary` in code), is `--fv-upsell-ring`, set by the
+ * utility on each button so it follows the surface underneath.
+ */
+:root {
+  --fv-upsell-pool: var(--primitives-color-green-300);
+  --fv-upsell-glow: 0 0 4px var(--primitives-color-green-800), 0 0 16px var(--primitives-color-green-900);
+  --fv-upsell-shine-color: var(--primitives-color-whitealpha-900);
+  --fv-upsell-shine-duration: 3s;
+  --fv-upsell-shine-easing: linear;
 }

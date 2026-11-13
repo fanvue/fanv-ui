@@ -2461,6 +2461,7 @@ function IconButtonDemo() {
 
         <div className="flex flex-wrap items-center gap-4">
           <IconButton variant="brand" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="upsell" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} aria-label="Close" />
           <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
         </div>

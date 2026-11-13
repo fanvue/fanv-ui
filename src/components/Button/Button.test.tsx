@@ -73,6 +73,25 @@ describe("Button", () => {
       );
       const button = screen.getByRole("button", { name: "Disabled" });
       expect(button).toHaveClass("bg-buttons-disabled-default", "text-content-disabled");
+      expect(button).not.toHaveClass("fv-upsell");
+      expect(button).not.toHaveClass("fv-upsell-shine");
+    });
+
+    it("gives the brand variant the upsell glow, rim highlight and hover fill", () => {
+      render(<Button variant="brand">Unlock</Button>);
+      expect(screen.getByRole("button", { name: "Unlock" })).toHaveClass(
+        "fv-upsell",
+        "fv-upsell-shine",
+        "text-content-always-black",
+        "hover:[--fv-upsell-end:var(--color-buttons-brand-hover)]",
+      );
+    });
+
+    it("keeps the upsell glow off other variants", () => {
+      render(<Button variant="primary">Continue</Button>);
+      const button = screen.getByRole("button", { name: "Continue" });
+      expect(button).toHaveClass("bg-buttons-primary-default");
+      expect(button).not.toHaveClass("fv-upsell");
     });
 
     it("hides icons when loading is true", () => {
