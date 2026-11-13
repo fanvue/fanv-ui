@@ -84,7 +84,7 @@ export const UndoAlertPrompt = React.forwardRef<
             negative
             size="24"
             onClick={onUndo}
-            className="typography-description-12px-semibold shrink-0 rounded-xs"
+            className="typography-description-12px-semibold shrink-0"
           >
             {undoLabel}
           </Button>

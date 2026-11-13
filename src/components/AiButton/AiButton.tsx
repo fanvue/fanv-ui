@@ -114,8 +114,9 @@ const ShimmerLabel: React.FC<{ text: string; shimmer: boolean }> = ({ text, shim
  * follows it across the button. On focus each letter blooms once before the shimmer
  * resumes. The lit rim and sheen come from the `fv-ai-button` utility in `base.css`.
  *
- * It shares {@link Button}'s geometry — `rounded-full`, the same heights and label
- * typography — so it sits alongside one without looking foreign. Both labels are
+ * It shares {@link Button}'s heights and label typography so it sits alongside one
+ * without looking foreign. It stays `rounded-full` at every size, where Button
+ * squares its 24px size. Both labels are
  * rendered stacked in a single grid cell, so swapping to `active` crossfades
  * without the button changing width.
  *

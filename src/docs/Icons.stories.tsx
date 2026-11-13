@@ -635,17 +635,17 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   {
-    name: "DonateIcon",
-    component: DonateIcon,
-    animated: null,
-    tags: ["donate", "gift", "give"],
-    propBased: true,
-  },
-  {
     name: "DocumentIcon",
     component: DocumentIcon,
     animated: null,
     tags: ["document", "file", "tax", "vat", "form", "paper"],
+    propBased: true,
+  },
+  {
+    name: "DonateIcon",
+    component: DonateIcon,
+    animated: null,
+    tags: ["donate", "gift", "give"],
     propBased: true,
   },
   {

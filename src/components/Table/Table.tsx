@@ -207,7 +207,7 @@ export interface TableToolbarButtonProps extends Omit<ButtonProps, "size"> {}
 
 /**
  * Call to action for {@link TableToolbar} (e.g. "Create New"): a 24px
- * {@link Button} squared to the toolbar's 8px radius with 12px semibold type,
+ * The 24px {@link Button}, squared to the toolbar's 8px radius, with 12px semibold type,
  * so it sits 8px from the bar's edges. Elsewhere use {@link Button}.
  */
 export const TableToolbarButton = React.forwardRef<HTMLButtonElement, TableToolbarButtonProps>(
@@ -216,7 +216,7 @@ export const TableToolbarButton = React.forwardRef<HTMLButtonElement, TableToolb
       <Button
         ref={ref}
         size="24"
-        className={cn("typography-description-12px-semibold rounded-xs", className)}
+        className={cn("typography-description-12px-semibold", className)}
         {...props}
       />
     );
