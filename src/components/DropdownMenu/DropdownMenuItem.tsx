@@ -108,6 +108,12 @@ export interface DropdownMenuItemProps
   /** Trailing count or number (e.g. an unread total) rendered before {@link DropdownMenuItemProps.trailingIcon}. */
   count?: React.ReactNode;
   /**
+   * A small action drawn at the row's end, after everything else — typically a 24px
+   * `Button` rendered `asChild` as an `aria-hidden` span. The whole row performs the
+   * action through `onSelect`, so pass a visual, never a second interactive control.
+   */
+  trailingAction?: React.ReactNode;
+  /**
    * Optional secondary text rendered on a second line below the label. When
    * provided, the row switches to a two-line layout and the leading/trailing
    * icons align to the title line (top) rather than the row's vertical centre.
@@ -149,6 +155,7 @@ export const DropdownMenuItem = React.forwardRef<
       avatar,
       trailingIcon,
       count,
+      trailingAction,
       description,
       selected,
       className,
@@ -238,6 +245,17 @@ export const DropdownMenuItem = React.forwardRef<
     // pushes the trailing icon to the row's end.
     const trailingNode =
       trailingIcon != null && renderIcon(trailingIcon, asChild ? "ms-auto" : undefined);
+    const trailingActionNode = trailingAction != null && (
+      <span
+        className={cn(
+          "flex shrink-0 items-center",
+          iconAlignClassName,
+          asChild && trailingIcon == null && "ms-auto",
+        )}
+      >
+        {trailingAction}
+      </span>
+    );
 
     const itemChildren = (
       <>
@@ -265,6 +283,7 @@ export const DropdownMenuItem = React.forwardRef<
         )}
         {countNode}
         {trailingNode}
+        {trailingActionNode}
       </>
     );
 
@@ -317,7 +336,12 @@ export const DropdownMenuItem = React.forwardRef<
           }}
         >
           {asChild
-            ? [leadingNode, <Slottable key="children">{children}</Slottable>, trailingNode]
+            ? [
+                leadingNode,
+                <Slottable key="children">{children}</Slottable>,
+                trailingNode,
+                trailingActionNode,
+              ]
             : itemChildren}
         </Comp>
       );
@@ -339,6 +363,7 @@ export const DropdownMenuItem = React.forwardRef<
             {leadingNode}
             <Slottable>{children}</Slottable>
             {trailingNode}
+            {trailingActionNode}
           </Slot>
         </DropdownMenuPrimitive.Item>
       );
