@@ -78,8 +78,9 @@ export const Brand: Story = {
 
 /**
  * The `brand` variant (Figma "Upsell") at every size, then disabled: the green
- * radial fill, glowing ring and a highlight that circles the rim. The highlight
- * holds still when the viewer prefers reduced motion; disabled drops the glow.
+ * radial fill, glowing ring and a highlight that circles the rim once. The
+ * highlight holds still when the viewer prefers reduced motion; disabled drops
+ * the glow.
  */
 export const BrandAllSizes: Story = {
   parameters: {
@@ -107,6 +108,11 @@ export const BrandAllSizes: Story = {
       </Button>
     </div>
   ),
+};
+
+/** A loading `brand` button keeps the upsell look while its spinner shows. */
+export const BrandLoading: Story = {
+  args: { variant: "brand", size: "48", loading: true, children: "Label" },
 };
 
 export const Destructive: Story = {

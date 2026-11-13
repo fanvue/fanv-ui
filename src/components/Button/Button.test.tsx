@@ -73,7 +73,8 @@ describe("Button", () => {
       );
       const button = screen.getByRole("button", { name: "Disabled" });
       expect(button).toHaveClass("bg-buttons-disabled-default", "text-content-disabled");
-      expect(button).not.toHaveClass("fv-upsell", "fv-upsell-shine");
+      expect(button).not.toHaveClass("fv-upsell");
+      expect(button).not.toHaveClass("fv-upsell-shine");
     });
 
     it("gives the brand variant the upsell glow, rim highlight and hover fill", () => {

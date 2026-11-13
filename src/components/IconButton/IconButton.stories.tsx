@@ -306,7 +306,7 @@ export const BrandDisabled: Story = {
 
 /**
  * Figma "Upsell": the icon-only twin of `Button`'s `brand` variant. The highlight
- * circles the rim unless the viewer prefers reduced motion.
+ * circles the rim once unless the viewer prefers reduced motion.
  */
 export const Upsell: Story = {
   args: { icon: <WalletIcon />, "aria-label": "Unlock" },

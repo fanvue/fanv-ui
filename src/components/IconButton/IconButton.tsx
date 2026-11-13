@@ -13,7 +13,7 @@ import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
  *
  * `upsell` is the Figma "Upsell" icon button and matches `Button`'s `brand`
  * variant: a green radial fill, a glowing ring and a highlight that circles the
- * rim, held still when the user prefers reduced motion. It takes the same
+ * rim once, held still when the user prefers reduced motion. It takes the same
  * size-driven shape as the standard variants.
  *
  * `overlay` is a translucent dark fill with a backdrop blur, for buttons that sit
@@ -323,7 +323,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
             value={counterValue}
             variant="alert"
             size={countSizeMap[size]}
-            className="absolute -top-0.5 -right-0.5"
+            className="absolute -top-0.5 -right-0.5 z-10"
           />
         )}
       </button>

@@ -320,8 +320,10 @@ function renderContent({
  * treatment for `primary`, `secondary`, `tertiary`, and `outline` variants.
  *
  * The `brand` variant is the Figma "Upsell" button: a green radial fill with a
- * glowing ring and a highlight that circles the rim. The highlight holds still
- * when the user prefers reduced motion. Keep it for upgrade and purchase prompts.
+ * glowing ring and a highlight that circles the rim once. The highlight holds
+ * still when the user prefers reduced motion. Keep it for upgrade and purchase
+ * prompts. The fill is a gradient, so a `bg-*` class sits under it: recolour it
+ * through `--fv-upsell-end`, or pair the class with `bg-none`.
  *
  * The `ai` variant ships with the AI sparkle icon baked in (locked at 16px
  * regardless of button size); pass `leftIcon` to override the default sparkle.

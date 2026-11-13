@@ -327,9 +327,16 @@
  * box-shadow, so the inset `focus-visible:shadow-focus-ring` can still draw
  * without wiping them out. `--fv-upsell-end` is the outer gradient stop, so a
  * consumer moves the whole pool to the hover fill by swapping one property.
+ * `--fv-upsell-ring` is set on the element so it follows the surface the button
+ * sits on, including themed subtrees; on an inverted surface, point it at the
+ * inverted fill.
+ *
+ * A loading button is natively disabled but keeps the look, so the disabled
+ * resets skip `aria-busy`.
  */
 @utility fv-upsell {
   --fv-upsell-end: var(--color-buttons-brand-default);
+  --fv-upsell-ring: var(--color-surface-primary);
   position: relative;
   isolation: isolate;
   background-image: radial-gradient(
@@ -345,14 +352,16 @@
     z-index: -1;
     border-radius: inherit;
     pointer-events: none;
-    box-shadow: var(--fv-upsell-glow);
+    box-shadow:
+      0 0 0 2px var(--fv-upsell-ring),
+      var(--fv-upsell-glow);
   }
 
-  &:disabled {
+  &:disabled:not([aria-busy="true"]) {
     background-image: none;
   }
 
-  &:disabled::before {
+  &:disabled:not([aria-busy="true"])::before {
     content: none;
   }
 }
@@ -370,10 +379,15 @@
 }
 
 /*
- * A white highlight that travels round the rim of an `fv-upsell` button. It is
- * a conic gradient masked to a 1.5px ring, turned by animating a registered
- * angle. It only moves for users who have not asked for reduced motion; for
- * everyone else it rests at the top edge.
+ * A white highlight that travels once round the rim of an `fv-upsell` button,
+ * then rests. It is a conic gradient masked to a 1.5px ring, turned by
+ * animating a registered angle. A single pass keeps the motion under the five
+ * seconds after which WCAG 2.2.2 asks for a pause control, and stops the
+ * per-frame repaint once it lands. It only moves for users who have not asked
+ * for reduced motion; for everyone else it rests at the top right.
+ *
+ * The rim hides while the button has keyboard focus, so the focus ring stays
+ * whole.
  */
 @utility fv-upsell-shine {
   &::after {
@@ -400,13 +414,14 @@
     mask-composite: exclude;
   }
 
-  &:disabled::after {
+  &:disabled:not([aria-busy="true"])::after,
+  &:focus-visible::after {
     content: none;
   }
 
   @media (prefers-reduced-motion: no-preference) {
     &::after {
-      animation: fv-upsell-spin var(--fv-upsell-shine-duration) var(--fv-upsell-shine-easing) infinite;
+      animation: fv-upsell-spin var(--fv-upsell-shine-duration) var(--fv-upsell-shine-easing) 1;
     }
   }
 }
@@ -513,16 +528,15 @@
 /*
  * Upsell surface tokens, read by the `fv-upsell` and `fv-upsell-shine`
  * utilities. Figma's `Upsell` button (Fanvue Library, node 16650:1558) fills
- * from `Color/Green/300` into `Color/Buttons/Brand/Default`, ringed by
- * `Color/Background/Primary` and lit by `Green/800` / `Green/900` glows. One
- * set serves both modes: the button is brand green on either page, and the
- * ring already follows the page through `--color-surface-primary`.
+ * from `Color/Green/300` into `Color/Buttons/Brand/Default` and is lit by
+ * `Green/800` / `Green/900` glows. One set serves both modes: the button is
+ * brand green on either page. Its ring, Figma's `Color/Background/Primary`
+ * (`--color-surface-primary` in code), is `--fv-upsell-ring`, set by the
+ * utility on each button so it follows the surface underneath.
  */
 :root {
   --fv-upsell-pool: var(--primitives-color-green-300);
-  --fv-upsell-glow:
-    0 0 0 2px var(--color-surface-primary), 0 0 4px var(--primitives-color-green-800),
-    0 0 16px var(--primitives-color-green-900);
+  --fv-upsell-glow: 0 0 4px var(--primitives-color-green-800), 0 0 16px var(--primitives-color-green-900);
   --fv-upsell-shine-color: var(--primitives-color-whitealpha-900);
   --fv-upsell-shine-duration: 3s;
   --fv-upsell-shine-easing: linear;
