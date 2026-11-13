@@ -212,6 +212,12 @@ export const BottomMenu: Story = {
  */
 export const SideModal: Story = {
   args: { position: "right", variant: "modal" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/FWL1kdZB4CdBS0grWchMo4/Creator---Earnings---Wallet---Checkout?node-id=3316-42174",
+    },
+  },
   play: openDrawer,
   render: (args) => (
     <Drawer>
@@ -219,13 +225,14 @@ export const SideModal: Story = {
         <Button>Open Side Modal</Button>
       </DrawerTrigger>
       <DrawerContent {...args}>
-        <DrawerHeader className="p-0">
+        <DrawerHeader>
           <DrawerTitle className="typography-header-heading-xs">Add Payout Method</DrawerTitle>
+          <DrawerDescription>Choose how you want to get paid.</DrawerDescription>
         </DrawerHeader>
         <div className="flex-1 overflow-y-auto py-6">
           <p>Floats 8px clear of the top, bottom and side edges.</p>
         </div>
-        <DrawerFooter className="flex-row p-0">
+        <DrawerFooter className="flex-row">
           <DrawerClose asChild>
             <Button variant="outline" size="48" fullWidth>
               Cancel

@@ -322,13 +322,12 @@ describe("Drawer", () => {
         "inset-y-2",
         "right-2",
         "h-auto",
-        "max-w-[440px]",
+        "max-w-110",
         "rounded-xl",
         "p-6",
         "shadow-blur-menu",
+        "backdrop-blur-xs",
       );
-      // The classes `position="right"` and the default `size` emit, which the variant
-      // has to win over; a plain right drawer carries every one of them.
       expect(content).not.toHaveClass("inset-y-0");
       expect(content).not.toHaveClass("right-0");
       expect(content).not.toHaveClass("h-full");
@@ -357,14 +356,45 @@ describe("Drawer", () => {
         "rounded-xl",
         "p-4",
       );
-      // What `position="bottom"` emits for a plain drawer, which the variant overrides.
       expect(content).not.toHaveClass("inset-x-0");
       expect(content).not.toHaveClass("bottom-0");
       expect(content).not.toHaveClass("w-full");
       expect(content).not.toHaveClass("rounded-t-xs");
-      // The desktop modal's width and padding stay beside the page.
-      expect(content).not.toHaveClass("max-w-[440px]");
+      expect(content).not.toHaveClass("max-w-110");
       expect(content).not.toHaveClass("p-6");
+    });
+
+    it("floats the top modal 8px clear of both sides and the top", async () => {
+      const user = userEvent.setup();
+      render(
+        <Drawer>
+          <DrawerTrigger>Open modal</DrawerTrigger>
+          <DrawerContent position="top" variant="modal" aria-describedby={undefined}>
+            <DrawerTitle>Title</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open modal" }));
+      const content = screen.getByRole("dialog");
+      expect(content).toHaveClass("inset-x-2", "w-auto", "rounded-xl", "p-4");
+      expect(content).not.toHaveClass("inset-x-0");
+      expect(content).not.toHaveClass("top-0");
+      expect(content).not.toHaveClass("w-full");
+    });
+
+    it("keeps a full-height bottom modal 8px short of the top edge", async () => {
+      const user = userEvent.setup();
+      render(
+        <Drawer>
+          <DrawerTrigger>Open modal</DrawerTrigger>
+          <DrawerContent position="bottom" size="full" variant="modal" aria-describedby={undefined}>
+            <DrawerTitle>Title</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open modal" }));
+      expect(screen.getByRole("dialog")).toHaveClass("max-h-[calc(100%-1rem)]");
+      expect(screen.getByRole("dialog")).not.toHaveClass("max-h-full");
     });
 
     it("insets a left modal from the left edge", async () => {
@@ -382,12 +412,86 @@ describe("Drawer", () => {
       expect(screen.getByRole("dialog")).not.toHaveClass("left-0");
     });
 
-    it("keeps the default overlay off every other variant", async () => {
+    it("drops the header and footer padding inside a modal, which pads itself", async () => {
       const user = userEvent.setup();
-      renderDrawer();
+      render(
+        <Drawer>
+          <DrawerTrigger>Open modal</DrawerTrigger>
+          <DrawerContent position="right" variant="modal" aria-describedby={undefined}>
+            <DrawerHeader data-testid="header">
+              <DrawerTitle>Title</DrawerTitle>
+            </DrawerHeader>
+            <DrawerFooter data-testid="footer">
+              <DrawerClose>Done</DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open modal" }));
+      expect(screen.getByTestId("header")).toHaveClass("flex", "items-center");
+      expect(screen.getByTestId("header")).not.toHaveClass("p-4");
+      expect(screen.getByTestId("footer")).toHaveClass("flex", "flex-col");
+      expect(screen.getByTestId("footer")).not.toHaveClass("p-4");
+    });
+
+    it("keeps the header and footer padding on every other variant", async () => {
+      const user = userEvent.setup();
+      render(
+        <Drawer>
+          <DrawerTrigger>Open panel</DrawerTrigger>
+          <DrawerContent aria-describedby={undefined}>
+            <DrawerHeader data-testid="header">
+              <DrawerTitle>Title</DrawerTitle>
+            </DrawerHeader>
+            <DrawerFooter data-testid="footer">
+              <DrawerClose>Done</DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open panel" }));
+      expect(screen.getByTestId("header")).toHaveClass("p-4");
+      expect(screen.getByTestId("footer")).toHaveClass("p-4");
+    });
+
+    it.each([
+      "panel",
+      "sheet",
+      "menu",
+    ] as const)("keeps the default overlay on the %s variant", async (variant) => {
+      const user = userEvent.setup();
+      render(
+        <Drawer>
+          <DrawerTrigger>Open drawer</DrawerTrigger>
+          <DrawerContent position="bottom" variant={variant} aria-describedby={undefined}>
+            <DrawerTitle>Title</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
       await user.click(screen.getByRole("button", { name: "Open drawer" }));
-      expect(screen.getByRole("dialog")).toHaveClass("inset-y-0", "right-0", "h-full", "max-w-sm");
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
       expect(document.querySelector(".bg-background-overlay-default")).toBeInTheDocument();
+      expect(document.querySelector(".bg-background-overlay-heavy")).not.toBeInTheDocument();
+    });
+
+    it("lets overlayProps.className win over the modal's heavy overlay", async () => {
+      const user = userEvent.setup();
+      render(
+        <Drawer>
+          <DrawerTrigger>Open modal</DrawerTrigger>
+          <DrawerContent
+            position="right"
+            variant="modal"
+            overlayProps={{ className: "bg-background-overlay-light" }}
+            aria-describedby={undefined}
+          >
+            <DrawerTitle>Title</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open modal" }));
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+      expect(document.querySelector(".bg-background-overlay-light")).toBeInTheDocument();
       expect(document.querySelector(".bg-background-overlay-heavy")).not.toBeInTheDocument();
     });
 
