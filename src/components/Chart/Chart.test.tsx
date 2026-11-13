@@ -266,6 +266,27 @@ describe("Chart", () => {
       expect(card).not.toHaveClass("shadow-sm");
     });
 
+    it("stretches to its container and gives the content the height left under the header with fullHeight", () => {
+      const { container } = render(
+        <ChartCard title="Countries" fullHeight>
+          <span>Legend</span>
+        </ChartCard>,
+      );
+      expect(container.firstElementChild).toHaveClass("h-full");
+      expect(screen.getByText("Legend").parentElement).toHaveClass("min-h-0", "flex-1");
+    });
+
+    it("sizes to its content without fullHeight", () => {
+      const { container } = render(
+        <ChartCard title="Countries">
+          <span>Legend</span>
+        </ChartCard>,
+      );
+      expect(screen.getByText("Legend")).toBeInTheDocument();
+      expect(container.firstElementChild).not.toHaveClass("h-full");
+      expect(screen.getByText("Legend").parentElement).not.toHaveClass("flex-1");
+    });
+
     it("renders the title in the secondary content colour at regular weight", () => {
       render(<ChartCard title="Revenue" />);
       const title = screen.getByText("Revenue");
