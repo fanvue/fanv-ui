@@ -152,6 +152,7 @@ export const Select = React.forwardRef<
               aria-labelledby={ariaLabelledby}
               aria-describedby={bottomText ? helperTextId : undefined}
               aria-invalid={error || undefined}
+              translate="no"
               className={cn(
                 "flex w-full cursor-pointer items-center rounded-sm border outline-none focus-visible:shadow-focus-ring motion-safe:transition-colors",
                 TRIGGER_HEIGHT[size],
@@ -251,6 +252,7 @@ export const SelectContent = React.forwardRef<
         position={position}
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
+        translate="no"
         style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
         className={cn(
           "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-md border border-border-strong bg-background-secondary text-content-primary shadow-blur-menu backdrop-blur-xs",

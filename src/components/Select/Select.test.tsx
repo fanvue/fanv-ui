@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { beforeAll, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { HomeIcon } from "../Icons/HomeIcon";
 import { Select, SelectContent, SelectItem } from "./Select";
@@ -14,6 +15,24 @@ function renderSelect(props: Partial<React.ComponentProps<typeof Select>> = {}) 
       </SelectContent>
     </Select>,
   );
+}
+
+function wrapTextNodesLikePageTranslation(root: Node) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const textNodes: Text[] = [];
+  while (walker.nextNode()) {
+    textNodes.push(walker.currentNode as Text);
+  }
+  for (const node of textNodes) {
+    if (!node.data.trim() || node.parentElement?.closest("[translate='no'], font")) {
+      continue;
+    }
+    const outer = document.createElement("font");
+    const inner = document.createElement("font");
+    inner.textContent = node.data;
+    outer.appendChild(inner);
+    node.replaceWith(outer);
+  }
 }
 
 describe("Select", () => {
@@ -335,6 +354,51 @@ describe("Select", () => {
         </SelectItem>,
       );
       expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  describe("browser page translation", () => {
+    const pageTranslation = new MutationObserver(() =>
+      wrapTextNodesLikePageTranslation(document.body),
+    );
+
+    beforeAll(() => {
+      Element.prototype.scrollIntoView = vi.fn();
+      Element.prototype.hasPointerCapture = vi.fn(() => false);
+      Element.prototype.releasePointerCapture = vi.fn();
+      Element.prototype.setPointerCapture = vi.fn();
+    });
+
+    afterEach(() => pageTranslation.disconnect());
+
+    it("lets a user pick an option while page translation is on", async () => {
+      const user = userEvent.setup();
+      pageTranslation.observe(document.body, { childList: true, subtree: true });
+      render(
+        <Select label="Country" helperText="You can change this later" defaultValue="a">
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b">Option B</SelectItem>
+          </SelectContent>
+        </Select>,
+      );
+      wrapTextNodesLikePageTranslation(document.body);
+
+      for (const text of ["Country", "You can change this later"]) {
+        const translated = screen.getByText(text);
+        expect(translated.tagName).toBe("FONT");
+        expect(translated.closest("[translate='no']")).toBeNull();
+      }
+
+      await user.click(screen.getByRole("combobox", { name: "Country" }));
+      const option = await screen.findByRole("option", { name: "Option B" });
+      wrapTextNodesLikePageTranslation(document.body);
+      expect(option.querySelector("font")).toBeNull();
+      await user.click(option);
+
+      await waitFor(() =>
+        expect(screen.getByRole("combobox", { name: "Country" })).toHaveTextContent("Option B"),
+      );
     });
   });
 });
