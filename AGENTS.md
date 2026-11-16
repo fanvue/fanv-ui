@@ -167,6 +167,16 @@ under `scripts/animated-registry/` and hash-verified on every run, so a
 regeneration is offline and reproducible; `--refresh` re-fetches. A run in which
 any icon fails writes nothing at all.
 
+To add a **locally drawn** animated icon (Fanvue artwork with no upstream
+equivalent), write `scripts/animated-local/<slug>.tsx` in the same shape as a
+registry component, add `"OurIconName": "<slug>"` under `local` in
+`scripts/animated-icons.map.json`, and run `pnpm icons:animated`. It goes through
+the same rewrite as imported icons, so box and stroke parity still apply. Its
+generated header reads `@license Apache-2.0 AND MIT` (artwork under the package
+licence, motion adapted from the MIT-licensed lucide-animated), while imported
+icons keep their `@license MIT` header. The docs gallery lists local icons as
+"Fanvue artwork" instead of an upstream slug.
+
 ## Testing Strategy
 
 We use a **two-layer testing approach** to maximize coverage while minimizing duplication:

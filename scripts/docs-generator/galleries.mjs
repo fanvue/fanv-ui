@@ -119,9 +119,10 @@ export function renderAnimatedIconsPage(context) {
   const manifest = context.readJson("scripts/animated-icons.manifest.json");
   const icons = manifest.icons.slice().sort((a, b) => a.name.localeCompare(b.name));
   const propBased = icons.filter((icon) => icon.propBased).length;
+  const localCount = icons.filter((icon) => icon.local).length;
   const rows = icons.map(
     (icon) =>
-      `| \`${icon.name}\` | \`${icon.slug}\` | ${icon.propBased ? "`size={16 \\| 24 \\| 32}`" : "`className`"} |`,
+      `| \`${icon.name}\` | ${icon.local ? "Fanvue artwork" : `\`${icon.slug}\``} | ${icon.propBased ? "`size={16 \\| 24 \\| 32}`" : "`className`"} |`,
   );
 
   return [
@@ -194,6 +195,12 @@ export function renderAnimatedIconsPage(context) {
     ...rows,
     "",
     "Artwork and animations from [lucide-animated](https://lucide-animated.com) (MIT).",
+    ...(localCount > 0
+      ? [
+          "",
+          `The ${localCount} icons marked "Fanvue artwork" have no upstream slug: the artwork is drawn by Fanvue (Apache-2.0, like the rest of the package) and only the motion is adapted from lucide-animated (MIT).`,
+        ]
+      : []),
     "",
     ...setupFooter(context, true),
   ].join("\n");

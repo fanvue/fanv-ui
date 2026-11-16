@@ -63,9 +63,10 @@ const REGISTRY_URL = (slug) => `${REGISTRY_HOST}/r/${slug}.json`;
 const ATTRIBUTION = "lucide-animated (MIT, (c) 2024-2026 pqoqubbw) — https://lucide-animated.com";
 /**
  * Locally drawn icons: the artwork is Fanvue's, under the package licence
- * (Apache-2.0); only the motion is adapted from the MIT-licensed upstream.
+ * (Apache-2.0); only the motion is adapted from the MIT-licensed upstream, so the
+ * SPDX expression is `Apache-2.0 AND MIT`.
  */
-const LOCAL_HEADER_TEXT = `Animated icon artwork by Fanvue, licensed under the package licence (@license Apache-2.0). Motion adapted from ${ATTRIBUTION}, licensed under MIT.`;
+const LOCAL_HEADER_TEXT = `Animated icon artwork by Fanvue, licensed under the package licence (@license Apache-2.0 AND MIT). Motion adapted from ${ATTRIBUTION}, licensed under MIT.`;
 
 /** Registry slugs are used as both a URL segment and a filename. */
 const SLUG_PATTERN = /^[a-z0-9-]+$/;
