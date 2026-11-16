@@ -904,6 +904,8 @@ describe("DropdownMenuItem", () => {
   });
 
   describe("trailingAction", () => {
+    // The browser separates the action's text from the label because the slot is a flex
+    // box; jsdom applies no layout, so the names below allow the words to run together.
     it("draws the action at the end of the row, after the trailing icon", () => {
       renderMenu(
         <DropdownMenuItem
@@ -934,20 +936,57 @@ describe("DropdownMenuItem", () => {
       expect(onSelect).toHaveBeenCalledTimes(1);
     });
 
-    it("pushes the action to the end of an asChild row", () => {
+    it("names the row with both its label and the action's", () => {
       renderMenu(
-        <DropdownMenuItem asChild trailingAction={<span data-testid="action">Open</span>}>
+        <DropdownMenuItem trailingAction={<span>Download</span>}>Earnings Report</DropdownMenuItem>,
+      );
+      expect(
+        screen.getByRole("menuitem", { name: /^Earnings Report ?Download$/ }),
+      ).toBeInTheDocument();
+    });
+
+    it("draws the action last inside an asChild row", () => {
+      renderMenu(
+        <DropdownMenuItem
+          asChild
+          leadingIcon={<EditIcon data-testid="leading-icon" />}
+          trailingAction={<span data-testid="action">Open</span>}
+        >
           <a href="/reports">Reports</a>
         </DropdownMenuItem>,
       );
-      expect(screen.getByRole("menuitem")).toHaveAttribute("href", "/reports");
-      expect(screen.getByTestId("action").parentElement).toHaveClass("ms-auto");
+      const item = screen.getByRole("menuitem", { name: /^Reports ?Open$/ });
+      expect(item).toHaveAttribute("href", "/reports");
+      expect(item.lastElementChild).toContainElement(screen.getByTestId("action"));
     });
 
     it("renders nothing extra without an action", () => {
       renderMenu(<DropdownMenuItem>Earnings Report</DropdownMenuItem>);
       expect(screen.getByRole("menuitem", { name: "Earnings Report" })).toBeInTheDocument();
-      expect(screen.getByRole("menuitem").querySelector(".ms-auto")).toBeNull();
+    });
+
+    it("draws the action at the end of a sheet row, which the action also selects", async () => {
+      const user = userEvent.setup();
+      const onSelect = vi.fn();
+      render(
+        <DropdownMenu variant="sheet" defaultOpen={false}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onSelect={onSelect}
+              trailingAction={<span data-testid="action">Download</span>}
+            >
+              Earnings Report
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      await user.click(screen.getByText("trigger"));
+      const row = screen.getByRole("option", { name: /^Earnings Report ?Download$/ });
+      expect(row.lastElementChild).toContainElement(screen.getByTestId("action"));
+
+      await user.click(screen.getByTestId("action"));
+      expect(onSelect).toHaveBeenCalledTimes(1);
     });
   });
 

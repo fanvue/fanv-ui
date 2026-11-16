@@ -109,8 +109,9 @@ export interface DropdownMenuItemProps
   count?: React.ReactNode;
   /**
    * A small action drawn at the row's end, after everything else — typically a 24px
-   * `Button` rendered `asChild` as an `aria-hidden` span. The whole row performs the
-   * action through `onSelect`, so pass a visual, never a second interactive control.
+   * `Button` rendered `asChild` as a span. The whole row performs the action through
+   * `onSelect`, so pass a visual, never a second interactive control. Its text joins the
+   * row's accessible name, so the label people see is also the one they can speak.
    */
   trailingAction?: React.ReactNode;
   /**
