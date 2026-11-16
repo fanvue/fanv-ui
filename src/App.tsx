@@ -4153,7 +4153,7 @@ function TableDemo() {
             <TableToolbarAction>All</TableToolbarAction>
             <TableToolbarButton>Create New</TableToolbarButton>
           </TableToolbar>
-          <TableCard>
+          <TableCard size="comfortable">
             <TableScrollArea>
               <Table>
                 <TableHeader>
@@ -4171,7 +4171,7 @@ function TableDemo() {
                 <TableBody>
                   {["Feb 18, 2025, 4:19 PM", "Feb 17, 2025, 2:00 PM", "Feb 16, 2025, 9:30 AM"].map(
                     (date) => (
-                      <TableRow key={date}>
+                      <TableRow key={date} interactive>
                         <TableCell intent="checkbox">
                           <Checkbox size="16" aria-label={`Select row ${date}`} />
                         </TableCell>

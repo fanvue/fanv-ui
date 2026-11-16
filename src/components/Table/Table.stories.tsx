@@ -104,7 +104,13 @@ const PRODUCT_ROWS: ProductRow[] = [
   },
 ];
 
-function ProductTable({ showScrollbar = false }: { showScrollbar?: boolean }) {
+function ProductTable({
+  showScrollbar = false,
+  interactive = false,
+}: {
+  showScrollbar?: boolean;
+  interactive?: boolean;
+}) {
   return (
     <TableCard size="condensed" className="max-w-[1050px]">
       <TableScrollArea showScrollbar={showScrollbar}>
@@ -121,7 +127,7 @@ function ProductTable({ showScrollbar = false }: { showScrollbar?: boolean }) {
           </TableHeader>
           <TableBody>
             {PRODUCT_ROWS.map((row, index) => (
-              <TableRow key={`${row.name}-${index}`}>
+              <TableRow key={`${row.name}-${index}`} interactive={interactive}>
                 <TableCell intent="sideLabel">{row.name}</TableCell>
                 <TableCell>
                   <TableCellGroup>
@@ -153,6 +159,11 @@ export const Default: Story = {
     },
   },
   render: () => <ProductTable />,
+};
+
+export const InteractiveRows: Story = {
+  name: "Interactive rows",
+  render: () => <ProductTable interactive />,
 };
 
 export const WithScrollIndicator: Story = {
@@ -400,6 +411,41 @@ export const Sortable: Story = {
     };
     return <Demo />;
   },
+};
+
+export const ComfortableRows: Story = {
+  name: "Variant — comfortable (48px rows)",
+  render: () => (
+    <TableCard size="comfortable" className="max-w-3xl">
+      <TableScrollArea>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Contact</TableHead>
+              <TableHead>User type</TableHead>
+              <TableHead>Total spent</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {["Ava Hart", "Noah Reed", "Mia Cole"].map((name) => (
+              <TableRow key={name} interactive>
+                <TableCell>
+                  <TableCellGroup>
+                    <Avatar size={32} fallback={name.slice(0, 1)} alt={name} />
+                    <TableCellContent primary={name} secondary="@handle" />
+                  </TableCellGroup>
+                </TableCell>
+                <TableCell>
+                  <Pill variant="green">Subscriber</Pill>
+                </TableCell>
+                <TableCell>$0.00</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableScrollArea>
+    </TableCard>
+  ),
 };
 
 export const LargeRows: Story = {

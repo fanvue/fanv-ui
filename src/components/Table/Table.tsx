@@ -16,10 +16,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Too
  * `"default"` is the v2 numeric-token equivalent of `"md"` and is preferred
  * for new code.
  */
-export type TableSize = "md" | "lg" | "condensed" | "default";
+export type TableSize = "md" | "lg" | "condensed" | "comfortable" | "default";
 
 export interface TableCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Row density applied to {@link TableCell} descendants. @default "md" */
+  /**
+   * Row density applied to {@link TableCell} descendants: 40px rows for `md`,
+   * `default` and `condensed`, 48px for `comfortable`, 56px for `lg`.
+   * @default "md"
+   */
   size?: TableSize;
 }
 
@@ -411,16 +415,33 @@ export const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooter
 );
 TableFooter.displayName = "TableFooter";
 
-export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {}
+export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+  /**
+   * Marks a body row that opens or expands into more content. The row shows a
+   * pointer cursor and eases to `background-secondary` while hovered.
+   * @default false
+   */
+  interactive?: boolean;
+}
 
 /**
  * Table row. A body row holding a {@link TableMediaThumbnail} or
  * {@link TableMediaTile} grows from 40px to 56px to keep 8px around it.
+ * Set `interactive` on rows that open or expand so they respond to hover.
  */
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, interactive = false, ...props }, ref) => {
     return (
-      <tr ref={ref} className={cn("[&:has([data-table-media])>td]:h-14", className)} {...props} />
+      <tr
+        ref={ref}
+        className={cn(
+          "[&:has([data-table-media])>td]:h-14",
+          interactive &&
+            "cursor-pointer transition-colors duration-200 ease-in-out hover:bg-background-secondary motion-reduce:transition-none",
+          className,
+        )}
+        {...props}
+      />
     );
   },
 );
@@ -471,6 +492,7 @@ const CELL_MIN_HEIGHT: Record<TableSize, string> = {
   md: "h-10",
   default: "h-10",
   condensed: "h-10",
+  comfortable: "h-12",
   lg: "h-14",
 };
 
