@@ -147,9 +147,78 @@ describe("Table", () => {
           </Table>
         </TableScrollArea>,
       );
-      const scrollport = container.querySelector(".overflow-x-auto");
+      const scrollport = container.querySelector("[data-table-scrollport]");
       expect(scrollport).toHaveClass("[scrollbar-width:thin]");
-      expect(scrollport).toHaveClass("pb-3");
+      expect(scrollport).toHaveClass("overflow-auto");
+    });
+
+    it("reserves scrollbar room only while the table is wider than its card", () => {
+      const area = (
+        <TableScrollArea showScrollbar>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>Value</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableScrollArea>
+      );
+      const narrow = render(area);
+      const narrowScrollport = narrow.container.querySelector("[data-table-scrollport]");
+      expect(narrowScrollport).toHaveClass("[scrollbar-width:thin]");
+      expect(narrowScrollport).not.toHaveClass("pb-3");
+      narrow.unmount();
+
+      const scrollWidth = vi
+        .spyOn(HTMLElement.prototype, "scrollWidth", "get")
+        .mockReturnValue(900);
+      const clientWidth = vi
+        .spyOn(HTMLElement.prototype, "clientWidth", "get")
+        .mockReturnValue(400);
+      const wide = render(area);
+      expect(wide.container.querySelector("[data-table-scrollport]")).toHaveClass("pb-3");
+      scrollWidth.mockRestore();
+      clientWidth.mockRestore();
+    });
+
+    it("pins header cells to the top of the scroll area", () => {
+      const { container } = render(
+        <TableCard>
+          <TableScrollArea>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Column</TableHead>
+                </TableRow>
+              </TableHeader>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      expect(container.querySelector("th")).toHaveClass("sticky", "top-0");
+    });
+
+    it("lets the scroll area take the card's height and scroll vertically", () => {
+      const { container } = render(
+        <TableCard>
+          <TableScrollArea data-testid="area">
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Value</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      expect(screen.getByTestId("area")).toHaveClass("min-h-0", "flex-auto");
+      expect(container.querySelector("[data-table-scrollport]")).toHaveClass(
+        "min-h-0",
+        "flex-auto",
+        "overflow-auto",
+      );
     });
 
     it("fills the 32px header with the table row surface and secondary text", () => {

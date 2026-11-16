@@ -170,6 +170,50 @@ export const WithScrollIndicator: Story = {
   ),
 };
 
+export const FixedHeight: Story = {
+  name: "Fixed height (rows scroll under the header)",
+  render: function FixedHeightStory() {
+    const [page, setPage] = React.useState(1);
+    const rows = [...PRODUCT_ROWS, ...PRODUCT_ROWS, ...PRODUCT_ROWS];
+    return (
+      <TableCard size="condensed" className="h-80 max-w-3xl">
+        <TableScrollArea showScrollbar>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Product</TableHead>
+                <TableHead>Created</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {rows.map((row, index) => (
+                <TableRow key={`${row.name}-${index}`}>
+                  <TableCell intent="sideLabel">{row.name}</TableCell>
+                  <TableCell>{row.created}</TableCell>
+                  <TableCell>{row.price}</TableCell>
+                  <TableCell>
+                    <Pill variant={row.status.variant}>{row.status.label}</Pill>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableScrollArea>
+        <TableCardPagination
+          page={page}
+          pageCount={3}
+          onPageChange={setPage}
+          pageSize={12}
+          pageSizeOptions={[12, 25, 50]}
+          onPageSizeChange={() => {}}
+        />
+      </TableCard>
+    );
+  },
+};
+
 export const WithToolbar: Story = {
   name: "With toolbar and pagination",
   parameters: {

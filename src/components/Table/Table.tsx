@@ -325,28 +325,55 @@ export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElemen
   roundTop?: boolean;
   /**
    * Shows a slim horizontal scrollbar beneath the table when the content
-   * overflows (Figma `V2 Scroll Bar`). @default false
+   * overflows (Figma `V2 Scroll Bar`), with room reserved for it only while
+   * the table is wider than its card. @default false
    */
   showScrollbar?: boolean;
 }
 
 /**
- * Horizontal scroll container for wide tables. The inner scrollport keeps
- * `border-collapse` styles intact when the table wraps.
+ * Scroll container for the table. Wide tables scroll sideways. When its
+ * {@link TableCard} has a bounded height (a flex child of a full-height page,
+ * or a set height), the rows scroll inside the card under a pinned header
+ * and the card's footer stays in view.
  */
 export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaProps>(
   ({ className, children, roundTop: _roundTop, showScrollbar = false, ...props }, ref) => {
+    const scrollportRef = React.useRef<HTMLDivElement>(null);
+    const [overflowsX, setOverflowsX] = React.useState(false);
+
+    React.useLayoutEffect(() => {
+      const scrollport = scrollportRef.current;
+      if (!showScrollbar || !scrollport || typeof ResizeObserver === "undefined") {
+        return;
+      }
+      const measure = () => setOverflowsX(scrollport.scrollWidth > scrollport.clientWidth);
+      measure();
+      const observer = new ResizeObserver(measure);
+      observer.observe(scrollport);
+      if (scrollport.firstElementChild) {
+        observer.observe(scrollport.firstElementChild);
+      }
+      return () => observer.disconnect();
+    }, [showScrollbar]);
+
     return (
       <div
         ref={ref}
-        className={cn("relative w-full min-w-0 overflow-hidden", className)}
+        className={cn(
+          "relative flex min-h-0 w-full min-w-0 flex-auto flex-col overflow-hidden",
+          className,
+        )}
         {...props}
       >
         <div
+          ref={scrollportRef}
+          data-table-scrollport=""
           className={cn(
-            "overflow-x-auto",
+            "min-h-0 flex-auto overflow-auto",
             showScrollbar &&
-              "pb-3 [scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]",
+              "[scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]",
+            showScrollbar && overflowsX && "pb-3",
           )}
         >
           {children}
@@ -445,7 +472,7 @@ export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElem
 
 /**
  * Header cell: 32px tall on `surface-table-row`, 12px secondary text and a
- * 0.5px bottom rule. Columns sit at least 40px apart, with 16px against the
+ * 0.5px bottom rule. It stays pinned to the top while rows scroll beneath it. Columns sit at least 40px apart, with 16px against the
  * card edges.
  */
 export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
@@ -455,7 +482,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         ref={ref}
         scope={scope}
         className={cn(
-          "typography-description-12px-regular box-border h-8 whitespace-nowrap border-border-primary border-b-[0.5px] bg-surface-table-row py-0 align-middle font-normal text-content-secondary",
+          "typography-description-12px-regular sticky top-0 z-10 box-border h-8 whitespace-nowrap border-border-primary border-b-[0.5px] bg-surface-table-row py-0 align-middle font-normal text-content-secondary",
           CELL_GUTTERS,
           HEAD_INTENT_CLASSES[intent],
           className,
