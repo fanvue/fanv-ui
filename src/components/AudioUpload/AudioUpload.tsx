@@ -252,7 +252,7 @@ export const AudioUpload = React.forwardRef<HTMLDivElement, AudioUploadProps>(
               aria-label="Recording time"
               className="typography-body-default-16px-regular text-content-primary"
             >
-              {formattedElapsed} / {formatAudioTime(maxRecordingDuration * 1000)}
+              {`${formattedElapsed} / ${formatAudioTime(maxRecordingDuration * 1000)}`}
             </p>
           </div>
 

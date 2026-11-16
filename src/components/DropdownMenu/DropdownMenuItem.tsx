@@ -2,6 +2,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderSlottedText } from "../../utils/renderTextChildren";
 import { MenuRowIcon } from "../Icons/MenuRowIcon";
 import { DropdownMenuVariantContext, ToggleOpenContext } from "./context";
 
@@ -317,7 +318,11 @@ export const DropdownMenuItem = React.forwardRef<
           }}
         >
           {asChild
-            ? [leadingNode, <Slottable key="children">{children}</Slottable>, trailingNode]
+            ? [
+                leadingNode,
+                <Slottable key="children">{renderSlottedText(children)}</Slottable>,
+                trailingNode,
+              ]
             : itemChildren}
         </Comp>
       );
@@ -337,7 +342,7 @@ export const DropdownMenuItem = React.forwardRef<
           {/* The icons slot into the consumer's element (e.g. a link) around its own children. */}
           <Slot>
             {leadingNode}
-            <Slottable>{children}</Slottable>
+            <Slottable>{renderSlottedText(children)}</Slottable>
             {trailingNode}
           </Slot>
         </DropdownMenuPrimitive.Item>

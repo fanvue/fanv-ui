@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { translateTextNodes } from "../../test/pageTranslation";
 import { AudioUpload } from "./AudioUpload";
 import { useAudioRecorder } from "./useAudioRecorder";
 
@@ -287,5 +288,25 @@ describe("AudioUpload", () => {
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
+  });
+});
+
+describe("page translation", () => {
+  it("updates the recording timer after its text has been translated", () => {
+    mockUseAudioRecorder.mockReturnValue({
+      ...defaultRecorderReturn,
+      isRecording: true,
+      elapsedMs: 1000,
+    });
+    const { rerender } = render(<AudioUpload />);
+    translateTextNodes(document.body);
+    expect(screen.getByRole("timer").querySelector("font")).not.toBeNull();
+    mockUseAudioRecorder.mockReturnValue({
+      ...defaultRecorderReturn,
+      isRecording: true,
+      elapsedMs: 2000,
+    });
+    rerender(<AudioUpload />);
+    expect(screen.getByRole("timer")).toHaveTextContent("0:02 / 0:30");
   });
 });

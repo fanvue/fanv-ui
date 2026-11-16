@@ -25,8 +25,14 @@ export const UserHandle = React.forwardRef<HTMLSpanElement, UserHandleProps>(
         )}
         {...props}
       >
-        {HANDLE_SYMBOL}
-        {children}
+        {typeof children === "string" || typeof children === "number" ? (
+          `${HANDLE_SYMBOL}${children}`
+        ) : (
+          <>
+            <span>{HANDLE_SYMBOL}</span>
+            <span>{children}</span>
+          </>
+        )}
       </span>
     );
   },

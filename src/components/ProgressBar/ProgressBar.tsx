@@ -158,7 +158,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
                   isSmall ? "typography-header-heading-sm" : "typography-header-heading-xl",
                 )}
               >
-                {Math.round(clampedValue)}%
+                {`${Math.round(clampedValue)}%`}
               </span>
             )}
             {stepsLabel != null && (

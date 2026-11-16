@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { useDragToDismiss } from "../../utils/useDragToDismiss";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
@@ -237,7 +238,7 @@ export const DialogContent = React.forwardRef<
             className="mb-3 h-1 w-8 shrink-0 self-center rounded-full bg-icons-tertiary sm:hidden"
           />
         )}
-        {children}
+        {renderTextChildren(children)}
       </DialogPrimitive.Content>
     );
     const overlayElement = overlay ? <DialogOverlay {...overlayProps} /> : null;

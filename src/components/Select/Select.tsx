@@ -152,7 +152,6 @@ export const Select = React.forwardRef<
               aria-labelledby={ariaLabelledby}
               aria-describedby={bottomText ? helperTextId : undefined}
               aria-invalid={error || undefined}
-              translate="no"
               className={cn(
                 "flex w-full cursor-pointer items-center rounded-sm border outline-none focus-visible:shadow-focus-ring motion-safe:transition-colors",
                 TRIGGER_HEIGHT[size],
@@ -192,7 +191,7 @@ export const Select = React.forwardRef<
                       : "text-left text-content-primary",
                   )}
                 >
-                  <SelectPrimitive.Value placeholder={placeholder} />
+                  <SelectPrimitive.Value placeholder={placeholder && <span>{placeholder}</span>} />
                 </span>
               </div>
 
@@ -252,7 +251,6 @@ export const SelectContent = React.forwardRef<
         position={position}
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
-        translate="no"
         style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
         className={cn(
           "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-md border border-border-strong bg-background-secondary text-content-primary shadow-blur-menu backdrop-blur-xs",
@@ -369,7 +367,9 @@ export const SelectItem = React.forwardRef<
         <span className="flex min-w-0 flex-1 flex-col gap-0.5">
           {/* A 14px semibold title over the regular description, matching DropdownMenuItem's two-line row. */}
           <span className="typography-body-small-14px-semibold truncate">
-            <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+            <SelectPrimitive.ItemText>
+              <span>{children}</span>
+            </SelectPrimitive.ItemText>
           </span>
           <span
             className={cn(
@@ -382,7 +382,9 @@ export const SelectItem = React.forwardRef<
         </span>
       ) : (
         <span className="min-w-0 flex-1 truncate">
-          <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+          <SelectPrimitive.ItemText>
+            <span>{children}</span>
+          </SelectPrimitive.ItemText>
         </span>
       )}
 

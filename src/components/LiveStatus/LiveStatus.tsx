@@ -41,7 +41,7 @@ export const LiveStatus = React.forwardRef<HTMLSpanElement, LiveStatusProps>(
         <span aria-hidden="true" className="flex pl-0.5">
           <span className="size-1 rounded-full bg-current" />
         </span>
-        {children ?? DEFAULT_LABELS[variant]}
+        <span>{children ?? DEFAULT_LABELS[variant]}</span>
       </span>
     );
   },

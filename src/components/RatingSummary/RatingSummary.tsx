@@ -129,7 +129,7 @@ export const RatingSummary = React.forwardRef<HTMLDivElement, RatingSummaryProps
               {averageLabel}
             </span>
             <span className="typography-body-small-14px-regular text-content-tertiary">
-              ({formatCount(totalCount)})
+              {`(${formatCount(totalCount)})`}
             </span>
           </span>
         </div>
@@ -160,7 +160,7 @@ export const RatingSummary = React.forwardRef<HTMLDivElement, RatingSummaryProps
                     {rating}
                   </span>
                   <span className="typography-body-small-14px-regular text-content-tertiary">
-                    ({formatCount(count)})
+                    {`(${formatCount(count)})`}
                   </span>
                 </span>
               </div>

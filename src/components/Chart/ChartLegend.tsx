@@ -62,7 +62,7 @@ export const ChartLegendContent = React.forwardRef<HTMLDivElement, ChartLegendCo
                   style={{ backgroundColor: item.color }}
                 />
               )}
-              {itemConfig?.label}
+              <span>{itemConfig?.label}</span>
             </div>
           );
         })}

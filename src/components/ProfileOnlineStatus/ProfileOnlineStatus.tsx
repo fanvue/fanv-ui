@@ -22,7 +22,7 @@ export const ProfileOnlineStatus = React.forwardRef<HTMLSpanElement, ProfileOnli
       {...props}
     >
       <OnlineBlinkingIcon />
-      {label}
+      <span>{label}</span>
     </span>
   ),
 );

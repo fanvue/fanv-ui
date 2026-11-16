@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { Button, type ButtonProps } from "../Button/Button";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
@@ -578,7 +579,7 @@ export function TableCellContent({
     <div className={cn("flex flex-col", className)}>
       <div className="flex items-center gap-1">
         <span className="typography-description-12px-semibold text-content-primary">{primary}</span>
-        {primaryAdornment}
+        {renderTextChildren(primaryAdornment)}
       </div>
       {(secondary != null || secondaryAdornment != null) && (
         <div className="flex items-center gap-1">
@@ -587,7 +588,7 @@ export function TableCellContent({
               {secondary}
             </span>
           )}
-          {secondaryAdornment}
+          {renderTextChildren(secondaryAdornment)}
         </div>
       )}
     </div>
@@ -808,7 +809,7 @@ export const TableSortLabel = React.forwardRef<HTMLSpanElement, TableSortLabelPr
         )}
         {...props}
       >
-        {children}
+        {renderTextChildren(children)}
         {direction != null && <SortArrows direction={direction} />}
       </span>
     );

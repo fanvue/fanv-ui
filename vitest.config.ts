@@ -37,6 +37,20 @@ export default defineConfig({
           globals: true,
         },
       },
+      {
+        extends: true,
+        test: {
+          name: "translation",
+          include: ["src/test/pageTranslation.browser.tsx"],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            headless: true,
+            instances: [{ browser: "chromium" }],
+          },
+          setupFiles: ["./src/test/setup.ts"],
+        },
+      },
       // Storybook tests
       {
         extends: true,

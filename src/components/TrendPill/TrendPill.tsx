@@ -53,7 +53,7 @@ export const TrendPill = React.forwardRef<HTMLSpanElement, TrendPillProps>(
          * the point of a trend.
          */}
         <span className="sr-only">{isPositive ? increaseLabel : decreaseLabel}</span>
-        {label}
+        <span>{label}</span>
       </Pill>
     );
   },

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { AiDisclosureBadge } from "../AiDisclosureBadge/AiDisclosureBadge";
 import { Avatar, type AvatarProps } from "../Avatar/Avatar";
 import { Skeleton } from "../Skeleton/Skeleton";
@@ -268,7 +269,7 @@ function TopRow({
   return (
     <div className="relative flex items-center justify-between gap-2 px-3 pt-3">
       <div className="flex min-w-0 items-center gap-1">
-        {badge}
+        {renderTextChildren(badge)}
         {category && (
           <span className="typography-description-12px-semibold whitespace-nowrap rounded-xs bg-buttons-always-white-default px-2 py-1 text-content-always-black">
             {category}

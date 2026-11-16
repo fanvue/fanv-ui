@@ -134,7 +134,7 @@ const OverflowMenu = React.forwardRef<
       >
         <DropdownMenuTrigger>
           <span className="flex items-center gap-2">
-            {labelItem ? labelItem.props.children : label}
+            <span>{labelItem ? labelItem.props.children : label}</span>
             <ChevronDownIcon
               size={16}
               className={cn("motion-safe:transition-transform", open && "rotate-180")}

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { Badge, type BadgeVariant } from "../Badge/Badge";
 import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
@@ -190,7 +191,7 @@ function BannerGuideBody({
       {description !== undefined && description !== null && description !== false && (
         <p className="typography-body-small-14px-regular text-content-secondary">{description}</p>
       )}
-      {textAction}
+      {renderTextChildren(textAction)}
     </>
   );
 }
@@ -238,7 +239,7 @@ function BannerFeatureBody({
         {description !== undefined && description !== null && description !== false && (
           <p className="typography-body-small-14px-regular text-content-secondary">{description}</p>
         )}
-        {textAction}
+        {renderTextChildren(textAction)}
       </div>
     </>
   );

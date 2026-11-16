@@ -43,7 +43,14 @@ export const ReviewCard = React.forwardRef<HTMLDivElement, ReviewCardProps>(
           </span>
           {author != null && (
             <span className="typography-body-small-14px-regular text-content-tertiary">
-              by {author}
+              {typeof author === "string" || typeof author === "number" ? (
+                `by ${author}`
+              ) : (
+                <>
+                  <span>by </span>
+                  <span>{author}</span>
+                </>
+              )}
             </span>
           )}
         </div>

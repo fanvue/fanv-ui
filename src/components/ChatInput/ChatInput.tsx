@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "../Drawer/Drawer";
 import {
   DropdownMenu,
@@ -400,7 +401,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
           </div>
 
           <div className="flex items-center gap-1">
-            {resolvedToolbarRight}
+            {renderTextChildren(resolvedToolbarRight)}
             <IconButton
               variant="primary"
               size="32"
@@ -464,7 +465,7 @@ const SelectTriggerButton = React.forwardRef<HTMLButtonElement, SelectTriggerBut
       {selectedOption?.icon && (
         <span className="flex shrink-0 items-center [&>svg]:size-4">{selectedOption.icon}</span>
       )}
-      {selectedOption?.label ?? fallbackLabel ?? "Select"}
+      <span>{selectedOption?.label ?? fallbackLabel ?? "Select"}</span>
       <ChevronDownIcon
         className={cn("size-4 motion-safe:transition-transform", open && "rotate-180")}
       />

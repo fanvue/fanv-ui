@@ -63,3 +63,5 @@ Thumbs.db
 
 # Icon migration scratch (temporary during icon regeneration)
 .icon-migration
+
+src/test/__screenshots__/

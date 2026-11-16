@@ -1,6 +1,7 @@
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Props for the {@link TooltipProvider}. Wraps Radix `Tooltip.Provider`. */
 export type TooltipProviderProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Provider>;
@@ -115,7 +116,7 @@ export const TooltipContent = React.forwardRef<
               <span className="typography-description-12px-regular">{children}</span>
             </span>
           ) : (
-            children
+            renderTextChildren(children)
           )}
         </TooltipPrimitive.Content>
       </TooltipPrimitive.Portal>

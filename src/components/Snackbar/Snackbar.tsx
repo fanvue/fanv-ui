@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
@@ -168,8 +169,8 @@ function WelcomeContent({
       </div>
       {showActions && (primary || secondary) && (
         <div className="flex w-full flex-col gap-4 px-8 sm:flex-row sm:*:flex-1">
-          {secondary}
-          {primary}
+          {renderTextChildren(secondary)}
+          {renderTextChildren(primary)}
         </div>
       )}
     </>
@@ -212,8 +213,8 @@ function DefaultContent({
       </div>
       {showActions && (primary || secondary) && (
         <div className="flex shrink-0 items-start gap-2">
-          {primary}
-          {secondary}
+          {renderTextChildren(primary)}
+          {renderTextChildren(secondary)}
         </div>
       )}
     </>
