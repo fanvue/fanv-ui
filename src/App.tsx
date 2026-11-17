@@ -4153,7 +4153,7 @@ function TableDemo() {
             <TableToolbarAction>All</TableToolbarAction>
             <TableToolbarButton>Create New</TableToolbarButton>
           </TableToolbar>
-          <TableCard size="comfortable">
+          <TableCard>
             <TableScrollArea>
               <Table>
                 <TableHeader>
@@ -4223,9 +4223,9 @@ function TableDemo() {
 
         <div>
           <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
-            Row actions and long text
+            Row actions and long text — comfortable
           </h3>
-          <TableCard>
+          <TableCard size="comfortable">
             <TableScrollArea>
               <Table>
                 <TableHeader>

@@ -9,9 +9,13 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Too
 /**
  * Row density for body cells.
  *
- * - `"md"` (default) → 64px Figma `V2 Table Cell` Default.
- * - `"condensed"` → 48px Figma `V2 Table Cell` Condensed.
- * - `"lg"` → 80px rows; no longer in Figma, kept for back-compat.
+ * - `"md"` (default) → 40px rows, Figma `V2 Table Cell` Default.
+ * - `"condensed"` → 40px rows, Figma `V2 Table Cell` Condensed.
+ * - `"comfortable"` → 48px rows, for a 32px avatar with 8px above and below.
+ * - `"lg"` → 56px rows; no longer in Figma, kept for back-compat.
+ *
+ * A row holding a {@link TableMediaThumbnail} (above 32px) or {@link TableMediaTile} is 56px at
+ * any size.
  *
  * `"default"` is the v2 numeric-token equivalent of `"md"` and is preferred
  * for new code.
