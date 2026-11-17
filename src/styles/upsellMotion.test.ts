@@ -66,6 +66,12 @@ describe("upsell motion", () => {
     expect(dark).toMatch(/--fv-upsell-glow-negative: var\(--fv-upsell-glow-on-light\);/);
   });
 
+  it("swaps the glow inside anything painted with the inverted surface", () => {
+    expect(block("  .bg-surface-primary-inverted {")).toMatch(
+      /--fv-upsell-glow: var\(--fv-upsell-glow-negative\);/,
+    );
+  });
+
   it("glows in lit green on light pages and deep green on dark", () => {
     const light = block(":root {\n  --fv-upsell-pool");
     expect(light).toMatch(/--fv-upsell-glow-on-light:[^;]*green-600[^;]*green-600/);

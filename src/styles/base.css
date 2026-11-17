@@ -363,10 +363,21 @@
 
 /*
  * An `fv-upsell` button on an inverted surface, such as a dark panel on a light
- * page: it takes the other theme's glow, the glow made for that surface.
+ * page: it takes the other theme's glow, the glow made for that surface. Put it
+ * on the button (`negative`) or on any container; the glow is inherited.
+ *
+ * Elements painted with the inverted surface token do this for every upsell
+ * button inside them, so InfoBox, Toast, Banner and app surfaces using
+ * `bg-surface-primary-inverted` need no prop.
  */
 @utility fv-upsell-negative {
   --fv-upsell-glow: var(--fv-upsell-glow-negative);
+}
+
+@layer utilities {
+  .bg-surface-primary-inverted {
+    --fv-upsell-glow: var(--fv-upsell-glow-negative);
+  }
 }
 
 @property --fv-upsell-angle {
