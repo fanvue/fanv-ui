@@ -127,6 +127,17 @@ describe("buildThemeCss", () => {
     expect(bySelector.get(":root")).not.toBe(bySelector.get(".dark"));
   });
 
+  it("gives neutral-alphas-150 the same alpha in both themes", () => {
+    const light = rawTokens.semantic.light.color.neutralAlphas;
+    const dark = rawTokens.semantic.dark.color.neutralAlphas;
+    const alphaOf = (hex: string) => Number.parseInt(hex.slice(7, 9), 16);
+
+    expect(dark["150"].value).toMatch(/^#[0-9a-f]{8}$/i);
+    expect(light["150"].value).toMatch(/^#[0-9a-f]{8}$/i);
+    expect(alphaOf(dark["150"].value)).toBe(alphaOf(light["150"].value));
+    expect(css).toMatch(/\.dark \{[^}]*--color-neutral-alphas-150: #ffffff26;/);
+  });
+
   it("keeps every renamed-away colour var working as an alias", () => {
     for (const [legacy, current] of Object.entries(LEGACY_COLOR_ALIASES)) {
       expect(css).toContain(`${legacy}: var(${current});`);
