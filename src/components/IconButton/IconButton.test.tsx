@@ -113,6 +113,15 @@ describe("IconButton", () => {
       expect(screen.getByTestId("icon-button")).toHaveClass("rounded-full");
     });
 
+    it("gives a negative upsell icon button the other theme's glow", () => {
+      render(<IconButton icon={<HomeIcon />} variant="upsell" negative aria-label="Unlock" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass(
+        "fv-upsell",
+        "fv-upsell-negative",
+        "disabled:bg-buttons-disabled-negative",
+      );
+    });
+
     it("applies the negative treatment on negative-aware variants", () => {
       render(<IconButton icon={<HomeIcon />} variant="primary" negative aria-label="Home" />);
       expect(screen.getByTestId("icon-button")).toHaveClass("bg-buttons-primary-negative-default");

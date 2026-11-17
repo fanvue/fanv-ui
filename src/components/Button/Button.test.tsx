@@ -87,6 +87,23 @@ describe("Button", () => {
       );
     });
 
+    it("gives a negative brand button the other theme's glow, keeping the upsell look", () => {
+      render(
+        <>
+          <Button variant="brand">Unlock</Button>
+          <Button variant="brand" negative>
+            Unlock negative
+          </Button>
+        </>,
+      );
+      expect(screen.getByRole("button", { name: "Unlock" })).not.toHaveClass("fv-upsell-negative");
+      expect(screen.getByRole("button", { name: "Unlock negative" })).toHaveClass(
+        "fv-upsell",
+        "fv-upsell-shine",
+        "fv-upsell-negative",
+      );
+    });
+
     it("keeps the upsell glow off other variants", () => {
       render(<Button variant="primary">Continue</Button>);
       const button = screen.getByRole("button", { name: "Continue" });
@@ -296,7 +313,13 @@ describe("Button", () => {
   });
 
   describe("negative prop", () => {
-    const NEGATIVE_AWARE: ButtonVariant[] = ["primary", "secondary", "tertiary", "outline"];
+    const NEGATIVE_AWARE: ButtonVariant[] = [
+      "primary",
+      "secondary",
+      "tertiary",
+      "outline",
+      "brand",
+    ];
 
     it.each(NEGATIVE_AWARE)("changes className for variant %s when negative=true", (variant) => {
       const { rerender } = render(
@@ -315,7 +338,6 @@ describe("Button", () => {
     });
 
     const NON_NEGATIVE_AWARE: ButtonVariant[] = [
-      "brand",
       "destructive",
       "white",
       "alwaysBlack",

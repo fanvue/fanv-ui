@@ -361,6 +361,14 @@
   }
 }
 
+/*
+ * An `fv-upsell` button on an inverted surface, such as a dark panel on a light
+ * page: it takes the other theme's glow, the glow made for that surface.
+ */
+@utility fv-upsell-negative {
+  --fv-upsell-glow: var(--fv-upsell-glow-negative);
+}
+
 @property --fv-upsell-angle {
   syntax: "<angle>";
   inherits: false;
@@ -530,17 +538,23 @@
  * black, the `Green/800` / `Green/900` glows read as lit green. On a light page
  * those same greens read as a grey shadow, so light mode draws the glow in the
  * green they appear as on black (`Green/600`, translucent) to keep the look.
+ * `--fv-upsell-glow-negative` is the other theme's glow, for a button on an
+ * inverted surface (`fv-upsell-negative`).
  */
 :root {
   --fv-upsell-pool: var(--primitives-color-green-300);
-  --fv-upsell-glow:
+  --fv-upsell-glow-on-light:
     0 0 4px color-mix(in srgb, var(--primitives-color-green-600) 60%, transparent),
     0 0 16px color-mix(in srgb, var(--primitives-color-green-600) 30%, transparent);
+  --fv-upsell-glow-on-dark: 0 0 4px var(--primitives-color-green-800), 0 0 16px var(--primitives-color-green-900);
+  --fv-upsell-glow: var(--fv-upsell-glow-on-light);
+  --fv-upsell-glow-negative: var(--fv-upsell-glow-on-dark);
   --fv-upsell-shine-color: var(--primitives-color-whitealpha-900);
   --fv-upsell-shine-duration: 3s;
   --fv-upsell-shine-easing: linear;
 }
 
 .dark {
-  --fv-upsell-glow: 0 0 4px var(--primitives-color-green-800), 0 0 16px var(--primitives-color-green-900);
+  --fv-upsell-glow: var(--fv-upsell-glow-on-dark);
+  --fv-upsell-glow-negative: var(--fv-upsell-glow-on-light);
 }

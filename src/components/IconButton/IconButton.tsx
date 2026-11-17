@@ -9,10 +9,11 @@ import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
  * `primary`, `secondary`, `tertiary`, `outline`, `error`, `white` and `black`
  * use the shared button colour tokens and a size-driven shape (squared at the
  * `24` size, circular otherwise). Of these, `primary`, `secondary`, `tertiary`
- * and `outline` also honour the {@link IconButtonProps.negative} prop.
+ * and `outline` also honour the {@link IconButtonProps.negative} prop, as does
+ * `upsell`, which takes the other theme's glow.
  *
  * `upsell` is the Figma "Upsell" icon button and matches `Button`'s `brand`
- * variant: a green radial fill, a glowing ring and a highlight that circles the
+ * variant: a green radial fill, a green glow and a highlight that circles the
  * rim once, held still when the user prefers reduced motion. It takes the same
  * size-driven shape as the standard variants.
  *
@@ -96,11 +97,14 @@ const NEGATIVE_AWARE_VARIANTS = new Set<IconButtonVariant>([
   "secondary",
   "tertiary",
   "outline",
+  "upsell",
 ]);
 
 const DISABLED_FILL = "disabled:bg-buttons-disabled-default disabled:text-content-disabled";
 const DISABLED_FILL_NEGATIVE =
   "disabled:bg-buttons-disabled-negative disabled:text-content-disabled";
+const UPSELL =
+  "fv-upsell fv-upsell-shine bg-buttons-brand-default text-content-always-black not-disabled:hover:[--fv-upsell-end:var(--color-buttons-brand-hover)] not-disabled:active:[--fv-upsell-end:var(--color-buttons-brand-hover)]";
 const DISABLED_TRANSPARENT = "disabled:text-content-disabled";
 const DISABLED_OPACITY = "disabled:opacity-50";
 
@@ -171,9 +175,10 @@ const VARIANT_CLASSES: Record<IconButtonVariant, VariantClasses> = {
     disabled: DISABLED_OPACITY,
   },
   upsell: {
-    default:
-      "fv-upsell fv-upsell-shine bg-buttons-brand-default text-content-always-black not-disabled:hover:[--fv-upsell-end:var(--color-buttons-brand-hover)] not-disabled:active:[--fv-upsell-end:var(--color-buttons-brand-hover)]",
+    default: UPSELL,
+    negative: `${UPSELL} fv-upsell-negative`,
     disabled: DISABLED_FILL,
+    negativeDisabled: DISABLED_FILL_NEGATIVE,
   },
   contrast: {
     default:
