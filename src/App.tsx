@@ -1790,6 +1790,24 @@ function DrawerDemo() {
 
         <Drawer>
           <DrawerTrigger asChild>
+            <Button>Side modal</Button>
+          </DrawerTrigger>
+          <DrawerContent position="right" variant="modal">
+            <DrawerHeader>
+              <DrawerTitle>Payout Methods</DrawerTitle>
+              <DrawerDescription>The V2 modal, 8px clear of the viewport edges.</DrawerDescription>
+            </DrawerHeader>
+            <div className="flex-1">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <Button className="w-full">Continue</Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
             <Button variant="secondary">Without Overlay</Button>
           </DrawerTrigger>
           <DrawerContent position="right" overlay={false}>
@@ -3134,6 +3152,29 @@ function DropdownMenuDemo() {
               <DropdownMenuSeparator />
               <DropdownMenuItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
                 Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="typography-description-12px-semibold text-content-secondary">
+            Row with a trailing action
+          </span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary">Settings</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem
+                leadingIcon={<DownloadIcon className="size-4" />}
+                trailingAction={
+                  <Button asChild size="24" variant="primary">
+                    <span>Download</span>
+                  </Button>
+                }
+              >
+                Earnings Report
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
