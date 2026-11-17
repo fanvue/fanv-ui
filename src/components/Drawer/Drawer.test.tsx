@@ -393,8 +393,26 @@ describe("Drawer", () => {
         </Drawer>,
       );
       await user.click(screen.getByRole("button", { name: "Open modal" }));
-      expect(screen.getByRole("dialog")).toHaveClass("max-h-[calc(100%-1rem)]");
+      expect(screen.getByRole("dialog")).toHaveClass(
+        "max-h-[calc(100%-1rem-env(safe-area-inset-bottom,0px))]",
+      );
       expect(screen.getByRole("dialog")).not.toHaveClass("max-h-full");
+    });
+
+    it("keeps a full-height top modal clear of the top safe area too", async () => {
+      const user = userEvent.setup();
+      render(
+        <Drawer>
+          <DrawerTrigger>Open modal</DrawerTrigger>
+          <DrawerContent position="top" size="full" variant="modal" aria-describedby={undefined}>
+            <DrawerTitle>Title</DrawerTitle>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open modal" }));
+      expect(screen.getByRole("dialog")).toHaveClass(
+        "max-h-[calc(100%-1rem-env(safe-area-inset-top,0px))]",
+      );
     });
 
     it("insets a left modal from the left edge", async () => {

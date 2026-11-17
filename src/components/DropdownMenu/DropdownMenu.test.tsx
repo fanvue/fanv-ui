@@ -51,6 +51,13 @@ describe("DropdownMenu", () => {
       );
       expect(await axe(container)).toHaveNoViolations();
     });
+
+    it("item with a trailing action has no a11y violations", async () => {
+      const { container } = renderMenu(
+        <DropdownMenuItem trailingAction={<span>Download</span>}>Earnings Report</DropdownMenuItem>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
   });
 
   describe("API", () => {
@@ -904,8 +911,6 @@ describe("DropdownMenuItem", () => {
   });
 
   describe("trailingAction", () => {
-    // The browser separates the action's text from the label because the slot is a flex
-    // box; jsdom applies no layout, so the names below allow the words to run together.
     it("draws the action at the end of the row, after the trailing icon", () => {
       renderMenu(
         <DropdownMenuItem
@@ -958,6 +963,17 @@ describe("DropdownMenuItem", () => {
       const item = screen.getByRole("menuitem", { name: /^Reports ?Open$/ });
       expect(item).toHaveAttribute("href", "/reports");
       expect(item.lastElementChild).toContainElement(screen.getByTestId("action"));
+    });
+
+    it("tightens padding so a 24px action keeps the 32px row height", () => {
+      renderMenu(
+        <DropdownMenuItem size="32" trailingAction={<span>Download</span>} data-testid="item">
+          Earnings Report
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByTestId("item");
+      expect(item).toHaveClass("min-h-8", "py-1");
+      expect(item).not.toHaveClass("py-[7px]");
     });
 
     it("renders nothing extra without an action", () => {

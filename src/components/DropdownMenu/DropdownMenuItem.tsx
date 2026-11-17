@@ -112,6 +112,8 @@ export interface DropdownMenuItemProps
    * `Button` rendered `asChild` as a span. The whole row performs the action through
    * `onSelect`, so pass a visual, never a second interactive control. Its text joins the
    * row's accessible name, so the label people see is also the one they can speak.
+   * The row does not restyle it: when the row is `disabled`, disable the visual too
+   * (or show its `loading` state) so it does not look live.
    */
   trailingAction?: React.ReactNode;
   /**
@@ -184,9 +186,9 @@ export const DropdownMenuItem = React.forwardRef<
       // to the space left over; `w-full` plus a margin would overflow.
       variant === "sheet" && "mx-1 w-auto",
       ITEM_SIZE_CLASSES[normalizedSize],
-      // A 24px avatar would push the compact 32px row past its height with the
-      // default padding; tighten it so the avatar variant keeps the 32px contract.
-      hasAvatar && !hasDescription && normalizedSize === "32" && "py-1",
+      // A 24px avatar or trailing action would push the compact 32px row past its
+      // height with the default padding; tighten it so the row keeps the 32px contract.
+      (hasAvatar || trailingAction != null) && !hasDescription && normalizedSize === "32" && "py-1",
       "data-[highlighted]:bg-interaction-hover",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
       "disabled:cursor-not-allowed disabled:text-content-disabled",

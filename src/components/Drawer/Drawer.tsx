@@ -72,10 +72,14 @@ const MODAL_POSITION_CLASSES: Record<DrawerPosition, string> = {
 };
 
 /**
- * A full-height top or bottom modal stops 8px short of the opposite edge too, so
- * the inset on its own side does not push it off the screen.
+ * A full-height top or bottom modal stops 8px short of the opposite edge too, and
+ * its cap also gives up the safe area its own edge clears, so the inset on that
+ * side never pushes it off the screen.
  */
-const MODAL_FULL_HEIGHT_CLASS = "max-h-[calc(100%-1rem)]";
+const MODAL_FULL_HEIGHT_CLASSES: Partial<Record<DrawerPosition, string>> = {
+  bottom: "max-h-[calc(100%-1rem-env(safe-area-inset-bottom,0px))]",
+  top: "max-h-[calc(100%-1rem-env(safe-area-inset-top,0px))]",
+};
 
 /**
  * Props for the {@link Drawer} root component.
@@ -224,6 +228,7 @@ export interface DrawerContentProps
   /**
    * Controls the maximum extent of the drawer panel.
    * For left/right drawers this sets `max-width`; for top/bottom it sets `max-height`.
+   * Ignored by a left/right `variant="modal"`, which is always the 440px modal.
    * @default "sm"
    */
   size?: DrawerSize;
@@ -334,7 +339,7 @@ export const DrawerContent = React.forwardRef<
               cn(
                 MODAL_CLASSES,
                 MODAL_POSITION_CLASSES[position],
-                !isHorizontal && size === "full" && MODAL_FULL_HEIGHT_CLASS,
+                size === "full" && MODAL_FULL_HEIGHT_CLASSES[position],
               ),
             className,
           )}
