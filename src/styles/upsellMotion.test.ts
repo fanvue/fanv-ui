@@ -49,12 +49,8 @@ describe("upsell motion", () => {
     );
   });
 
-  it("starts the glow 2px out with nothing painted in the gap", () => {
-    const before = block(
-      '  &::before {\n    content: "";\n    position: absolute;\n    inset: -2px;',
-    );
-    expect(before).toMatch(/box-shadow: var\(--fv-upsell-glow\);/);
-    expect(before).not.toMatch(/background/);
+  it("glows from the button's edge with no ring", () => {
+    expect(utilityBlock("fv-upsell")).toMatch(/inset: 0;[^}]*box-shadow: var\(--fv-upsell-glow\);/);
     expect(css).not.toMatch(/--fv-upsell-(ring|gap)/);
   });
 
