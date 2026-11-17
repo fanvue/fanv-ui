@@ -327,16 +327,16 @@
  * box-shadow, so the inset `focus-visible:shadow-focus-ring` can still draw
  * without wiping them out. `--fv-upsell-end` is the outer gradient stop, so a
  * consumer moves the whole pool to the hover fill by swapping one property.
- * `--fv-upsell-ring` is set on the element so it follows the surface the button
- * sits on, including themed subtrees; on an inverted surface, point it at the
- * inverted fill.
+ * The ring falls back to `--color-surface-primary`, resolved at the button so
+ * it follows the surface it sits on, including themed subtrees. Set
+ * `--fv-upsell-ring` on the button or any ancestor to change it: the inverted
+ * fill on an inverted surface, `transparent` over imagery.
  *
  * A loading button is natively disabled but keeps the look, so the disabled
  * resets skip `aria-busy`.
  */
 @utility fv-upsell {
   --fv-upsell-end: var(--color-buttons-brand-default);
-  --fv-upsell-ring: var(--color-surface-primary);
   position: relative;
   isolation: isolate;
   background-image: radial-gradient(
@@ -353,7 +353,7 @@
     border-radius: inherit;
     pointer-events: none;
     box-shadow:
-      0 0 0 2px var(--fv-upsell-ring),
+      0 0 0 2px var(--fv-upsell-ring, var(--color-surface-primary)),
       var(--fv-upsell-glow);
   }
 
@@ -387,7 +387,9 @@
  * for reduced motion; for everyone else it rests at the top right.
  *
  * The rim hides while the button has keyboard focus, so the focus ring stays
- * whole.
+ * whole. It hides with `visibility` rather than `content: none`, which would
+ * remove the pseudo-element and replay the pass when it comes back, so the
+ * shine plays once per mount.
  */
 @utility fv-upsell-shine {
   &::after {
@@ -416,7 +418,7 @@
 
   &:disabled:not([aria-busy="true"])::after,
   &:focus-visible::after {
-    content: none;
+    visibility: hidden;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -531,8 +533,8 @@
  * from `Color/Green/300` into `Color/Buttons/Brand/Default` and is lit by
  * `Green/800` / `Green/900` glows. One set serves both modes: the button is
  * brand green on either page. Its ring, Figma's `Color/Background/Primary`
- * (`--color-surface-primary` in code), is `--fv-upsell-ring`, set by the
- * utility on each button so it follows the surface underneath.
+ * (`--color-surface-primary` in code), is the `--fv-upsell-ring` fallback,
+ * resolved at each button so it follows the surface underneath.
  */
 :root {
   --fv-upsell-pool: var(--primitives-color-green-300);

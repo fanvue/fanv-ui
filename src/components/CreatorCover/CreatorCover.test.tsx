@@ -82,6 +82,25 @@ describe("CreatorCover", () => {
       expect(button).toBeInTheDocument();
     });
 
+    it("clears the upsell ring on the tag and action, which sit over the photo", () => {
+      render(
+        <CreatorCover
+          {...baseProps}
+          tag="New Joiner"
+          action={
+            <Button variant="brand" fullWidth>
+              Subscribe
+            </Button>
+          }
+        />,
+      );
+      const button = screen.getByRole("button", { name: "Subscribe" });
+      expect(button).toHaveClass("fv-upsell");
+      expect(button.closest(".\\[--fv-upsell-ring\\:transparent\\]")).toContainElement(
+        screen.getByText("New Joiner"),
+      );
+    });
+
     it("applies custom className", () => {
       const { container } = render(<CreatorCover {...baseProps} className="custom-class" />);
       expect(container.firstChild).toHaveClass("custom-class");

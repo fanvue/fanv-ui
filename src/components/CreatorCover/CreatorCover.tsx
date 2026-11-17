@@ -79,7 +79,12 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
           <div className="absolute inset-0 bg-linear-to-b from-white/30 to-white/15 dark:from-background-primary/30 dark:to-background-primary/15" />
           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-b from-transparent to-white dark:to-background-primary" />
         </div>
-        <div className={cn("mx-auto flex max-w-90 flex-col items-center gap-4 px-4 pt-17 pb-16")}>
+        {/* The tag and action sit over the photo, so upsell rings stay transparent. */}
+        <div
+          className={cn(
+            "mx-auto flex max-w-90 flex-col items-center gap-4 px-4 pt-17 pb-16 [--fv-upsell-ring:transparent]",
+          )}
+        >
           <div className="relative">
             <img
               src={imageSrc}

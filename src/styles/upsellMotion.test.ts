@@ -31,8 +31,10 @@ describe("upsell motion", () => {
     expect(utilityBlock("fv-upsell")).not.toMatch(/animation|transition/);
   });
 
-  it("hides the rim highlight while the button has keyboard focus", () => {
-    expect(utilityBlock("fv-upsell-shine")).toMatch(/&:focus-visible::after\s*\{\s*content: none;/);
+  it("hides the rim highlight while focused or disabled without replaying it afterwards", () => {
+    const shine = utilityBlock("fv-upsell-shine");
+    expect(shine).toMatch(/&:focus-visible::after\s*\{\s*visibility: hidden;/);
+    expect(shine).not.toMatch(/content: none/);
   });
 
   it("drops the look when disabled but keeps it on a loading button", () => {
@@ -47,10 +49,11 @@ describe("upsell motion", () => {
     );
   });
 
-  it("rings the button with the surface it sits on", () => {
+  it("rings the button with the surface it sits on, overridable from an ancestor", () => {
     const upsell = utilityBlock("fv-upsell");
-    expect(upsell).toContain("--fv-upsell-ring: var(--color-surface-primary);");
-    expect(upsell).toMatch(/0 0 0 2px var\(--fv-upsell-ring\)/);
+    expect(upsell).toMatch(/0 0 0 2px var\(--fv-upsell-ring, var\(--color-surface-primary\)\)/);
+    // Set on the element, it would shadow a value inherited from a wrapper.
+    expect(upsell).not.toMatch(/--fv-upsell-ring:/);
   });
 
   it("reads its colours, glow and timing from upsell tokens rather than primitives", () => {
