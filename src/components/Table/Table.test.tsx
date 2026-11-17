@@ -228,7 +228,7 @@ describe("Table", () => {
       expect(tbody).toHaveClass("[&_tr:last-child_td]:border-b-0");
     });
 
-    it("gives interactive rows a hover fill and leaves other rows flat", () => {
+    it("gives interactive rows a hover and keyboard-focus fill and leaves other rows flat", () => {
       render(
         <TableCard>
           <TableScrollArea>
@@ -246,10 +246,16 @@ describe("Table", () => {
         </TableCard>,
       );
       expect(screen.getByTestId("interactive")).toHaveClass("hover:bg-background-secondary");
+      expect(screen.getByTestId("interactive")).toHaveClass(
+        "has-[:focus-visible]:bg-background-secondary",
+      );
       expect(screen.getByTestId("interactive")).toHaveClass("cursor-pointer");
       expect(screen.getByTestId("interactive")).toHaveClass("duration-200", "ease-in-out");
       expect(screen.getByTestId("static")).toBeInTheDocument();
       expect(screen.getByTestId("static")).not.toHaveClass("hover:bg-background-secondary");
+      expect(screen.getByTestId("static")).not.toHaveClass(
+        "has-[:focus-visible]:bg-background-secondary",
+      );
     });
 
     it("applies checkbox column preset on TableHead when intent is checkbox", () => {

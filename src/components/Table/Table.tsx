@@ -422,7 +422,9 @@ TableFooter.displayName = "TableFooter";
 export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
   /**
    * Marks a body row that opens or expands into more content. The row shows a
-   * pointer cursor and eases to `background-secondary` while hovered.
+   * pointer cursor and eases to `background-secondary` while hovered, or while
+   * a control inside it has keyboard focus. The row itself is not focusable, so
+   * its action must also be on a button or link inside it.
    * @default false
    */
   interactive?: boolean;
@@ -441,7 +443,7 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
         className={cn(
           "[&:has([data-table-media])>td]:h-14",
           interactive &&
-            "cursor-pointer transition-colors duration-200 ease-in-out hover:bg-background-secondary motion-reduce:transition-none",
+            "cursor-pointer transition-colors duration-200 ease-in-out hover:bg-background-secondary has-[:focus-visible]:bg-background-secondary motion-reduce:transition-none",
           className,
         )}
         {...props}
