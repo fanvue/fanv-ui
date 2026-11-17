@@ -49,11 +49,13 @@ describe("upsell motion", () => {
     );
   });
 
-  it("rings the button with the surface it sits on, overridable from an ancestor", () => {
-    const upsell = utilityBlock("fv-upsell");
-    expect(upsell).toMatch(/0 0 0 2px var\(--fv-upsell-ring, var\(--color-surface-primary\)\)/);
-    // Set on the element, it would shadow a value inherited from a wrapper.
-    expect(upsell).not.toMatch(/--fv-upsell-ring:/);
+  it("glows without a ring, in brand green on light pages and deep green on dark", () => {
+    expect(utilityBlock("fv-upsell")).toMatch(/box-shadow: var\(--fv-upsell-glow\);/);
+    expect(css).not.toMatch(/--fv-upsell-ring/);
+    expect(block(":root {\n  --fv-upsell-pool")).toMatch(/--fv-upsell-glow:[^;]*green-500/);
+    expect(block(".dark {\n  --fv-upsell-glow")).toMatch(
+      /--fv-upsell-glow:[^;]*green-800[^;]*green-900/,
+    );
   });
 
   it("reads its colours, glow and timing from upsell tokens rather than primitives", () => {

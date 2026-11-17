@@ -62,7 +62,7 @@ export interface InfoBoxContentProps
 }
 
 const ACTION_CLASSES: Record<"brand" | "tertiary", string> = {
-  brand: "[--fv-upsell-ring:var(--color-surface-primary-inverted)]",
+  brand: "",
   tertiary:
     "text-content-primary-inverted hover:text-content-primary-inverted hover:bg-content-primary-inverted/10",
 };
