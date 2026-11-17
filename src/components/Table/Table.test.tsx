@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
@@ -180,6 +180,60 @@ describe("Table", () => {
       expect(wide.container.querySelector("[data-table-scrollport]")).toHaveClass("pb-3");
       scrollWidth.mockRestore();
       clientWidth.mockRestore();
+    });
+
+    it("adds and removes scrollbar room when the table is resized", () => {
+      const callbacks: ResizeObserverCallback[] = [];
+      vi.stubGlobal(
+        "ResizeObserver",
+        class {
+          constructor(callback: ResizeObserverCallback) {
+            callbacks.push(callback);
+          }
+          observe() {}
+          unobserve() {}
+          disconnect() {}
+        },
+      );
+      const scrollWidth = vi
+        .spyOn(HTMLElement.prototype, "scrollWidth", "get")
+        .mockReturnValue(400);
+      const clientWidth = vi
+        .spyOn(HTMLElement.prototype, "clientWidth", "get")
+        .mockReturnValue(400);
+      const resize = (width: number) => {
+        scrollWidth.mockReturnValue(width);
+        act(() => {
+          for (const callback of callbacks) {
+            callback([], {} as ResizeObserver);
+          }
+        });
+      };
+
+      const { container } = render(
+        <TableScrollArea showScrollbar>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>Value</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableScrollArea>,
+      );
+      const scrollport = container.querySelector("[data-table-scrollport]");
+      expect(scrollport).toHaveClass("[scrollbar-width:thin]");
+      expect(scrollport).not.toHaveClass("pb-3");
+
+      resize(900);
+      expect(scrollport).toHaveClass("pb-3");
+
+      resize(400);
+      expect(scrollport).not.toHaveClass("pb-3");
+
+      scrollWidth.mockRestore();
+      clientWidth.mockRestore();
+      vi.unstubAllGlobals();
     });
 
     it("pins header cells to the top of the scroll area", () => {

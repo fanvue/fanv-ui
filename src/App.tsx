@@ -4074,7 +4074,7 @@ function TableDemo() {
           <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
             Table — condensed
           </h3>
-          <TableCard size="condensed" className="max-h-64">
+          <TableCard size="condensed" className="max-h-40">
             <TableScrollArea showScrollbar>
               <Table className="min-w-[820px]">
                 <TableHeader>

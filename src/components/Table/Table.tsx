@@ -335,7 +335,8 @@ export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElemen
  * Scroll container for the table. Wide tables scroll sideways. When its
  * {@link TableCard} has a bounded height (a flex child of a full-height page,
  * or a set height), the rows scroll inside the card under a pinned header
- * and the card's footer stays in view.
+ * and the card's footer stays in view. The area fills the card's height, so
+ * in a card taller than its rows the footer sits at the bottom of the card.
  */
 export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaProps>(
   ({ className, children, roundTop: _roundTop, showScrollbar = false, ...props }, ref) => {
