@@ -49,13 +49,20 @@ describe("upsell motion", () => {
     );
   });
 
-  it("glows without a ring, in brand green on light pages and deep green on dark", () => {
-    expect(utilityBlock("fv-upsell")).toMatch(/box-shadow: var\(--fv-upsell-glow\);/);
-    expect(css).not.toMatch(/--fv-upsell-ring/);
-    expect(block(":root {\n  --fv-upsell-pool")).toMatch(/--fv-upsell-glow:[^;]*green-500/);
-    expect(block(".dark {\n  --fv-upsell-glow")).toMatch(
-      /--fv-upsell-glow:[^;]*green-800[^;]*green-900/,
+  it("starts the glow 2px out with nothing painted in the gap", () => {
+    const before = block(
+      '  &::before {\n    content: "";\n    position: absolute;\n    inset: -2px;',
     );
+    expect(before).toMatch(/box-shadow: var\(--fv-upsell-glow\);/);
+    expect(before).not.toMatch(/background/);
+    expect(css).not.toMatch(/--fv-upsell-(ring|gap)/);
+  });
+
+  it("glows in lit green on light pages and deep green on dark", () => {
+    const light = block(":root {\n  --fv-upsell-pool");
+    const dark = block(".dark {\n  --fv-upsell-glow");
+    expect(light).toMatch(/--fv-upsell-glow:[^;]*green-600[^;]*green-600/);
+    expect(dark).toMatch(/--fv-upsell-glow:[^;]*green-800[^;]*green-900/);
   });
 
   it("reads its colours, glow and timing from upsell tokens rather than primitives", () => {

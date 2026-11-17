@@ -321,12 +321,15 @@
 /*
  * Upsell (brand) surface: the Figma `Upsell` button. A radial pool of
  * `Green/300` rising from the bottom edge into the brand fill, lit by two
- * green glows.
+ * green glows that start 2px out from the edge.
  *
- * The glows sit on `::before` rather than on the element's own box-shadow, so
- * the inset `focus-visible:shadow-focus-ring` can still draw without wiping
- * them out. `--fv-upsell-end` is the outer gradient stop, so a consumer moves
- * the whole pool to the hover fill by swapping one property.
+ * The glows are the outer box-shadow of a `::before` set 2px outside the
+ * button. An outer shadow never paints under its own box, so that 2px stays
+ * transparent and shows whatever the button sits on, page, card or photo,
+ * without a ring colour to match. Keeping them off the element's own
+ * box-shadow also leaves room for the inset `focus-visible:shadow-focus-ring`.
+ * `--fv-upsell-end` is the outer gradient stop, so a consumer moves the whole
+ * pool to the hover fill by swapping one property.
  *
  * A loading button is natively disabled but keeps the look, so the disabled
  * resets skip `aria-busy`.
@@ -344,7 +347,7 @@
   &::before {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: -2px;
     z-index: -1;
     border-radius: inherit;
     pointer-events: none;
@@ -525,15 +528,16 @@
  * Upsell surface tokens, read by the `fv-upsell` and `fv-upsell-shine`
  * utilities. Figma's `Upsell` button (Fanvue Library, node 16650:1558) fills
  * from `Color/Green/300` into `Color/Buttons/Brand/Default`. The button is
- * brand green on either page, so only the glow changes with the theme: a
- * translucent brand green on a light page, where the darker greens read as a
- * grey shadow, and `Green/800` / `Green/900` on a dark one.
+ * brand green in both themes; only the glow changes with the page. On
+ * black, the `Green/800` / `Green/900` glows read as lit green. On a light page
+ * those same greens read as a grey shadow, so light mode draws the glow in the
+ * green they appear as on black (`Green/600`, translucent) to keep the look.
  */
 :root {
   --fv-upsell-pool: var(--primitives-color-green-300);
   --fv-upsell-glow:
-    0 0 4px color-mix(in srgb, var(--primitives-color-green-500) 45%, transparent),
-    0 0 16px color-mix(in srgb, var(--primitives-color-green-500) 35%, transparent);
+    0 0 4px color-mix(in srgb, var(--primitives-color-green-600) 60%, transparent),
+    0 0 16px color-mix(in srgb, var(--primitives-color-green-600) 30%, transparent);
   --fv-upsell-shine-color: var(--primitives-color-whitealpha-900);
   --fv-upsell-shine-duration: 3s;
   --fv-upsell-shine-easing: linear;
