@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, within } from "storybook/test";
 import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
 import { ArrowUpRightIcon } from "../Icons/ArrowUpRightIcon";
 import { WalletIcon } from "../Icons/WalletIcon";
@@ -67,8 +66,7 @@ export const Inherit: Story = {
 
 /**
  * The `subtle` variant with an arrow: secondary text at rest, 32px tall so it sits level with a
- * 32px control. On hover the text turns primary and underlines, and the arrow moves 2px. Hover it
- * to see: the play function checks the resting state only.
+ * 32px control. On hover the text turns primary and underlines, and the arrow moves 2px.
  */
 export const Subtle: Story = {
   args: {
@@ -76,17 +74,6 @@ export const Subtle: Story = {
     size: "14",
     children: "Open full page",
     rightIcon: <ArrowRightIcon />,
-  },
-  play: async ({ canvasElement }) => {
-    const link = within(canvasElement).getByRole("link", { name: "Open full page" });
-    const label = within(link).getByText("Open full page");
-
-    await expect(link.getBoundingClientRect().height).toBe(32);
-    await expect(getComputedStyle(link).columnGap).toBe("4px");
-    await expect(getComputedStyle(link).paddingLeft).toBe("4px");
-    await expect(getComputedStyle(label).textDecorationLine).toBe("none");
-    await expect(getComputedStyle(label).textUnderlineOffset).toBe("4px");
-    await expect(getComputedStyle(label).fontSize).toBe("14px");
   },
 };
 
@@ -104,11 +91,14 @@ export const SubtleWithoutIcon: Story = {
  * stands alone: for a link inside a sentence use `inherit`, which stays underlined at rest.
  */
 export const SubtleInheritSize: Story = {
+  args: {
+    variant: "subtle",
+    size: "inherit",
+    children: "View all campaigns",
+  },
   render: (args) => (
     <div className="typography-description-12px-regular">
-      <Link {...args} variant="subtle" size="inherit">
-        View all campaigns
-      </Link>
+      <Link {...args} />
     </div>
   ),
 };

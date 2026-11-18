@@ -25,8 +25,13 @@ test.describe("Link", () => {
       const link = page.getByRole("link", { name: "Open full page" });
       await expect(link).toBeVisible();
       expect((await link.boundingBox())?.height).toBe(32);
-      expect(await link.getByText("Open full page").evaluate(textDecoration)).not.toContain(
-        "underline",
+      expect(await link.evaluate((element) => getComputedStyle(element).columnGap)).toBe("4px");
+      expect(await link.evaluate((element) => getComputedStyle(element).paddingLeft)).toBe("4px");
+      const label = link.getByText("Open full page");
+      expect(await label.evaluate(textDecoration)).not.toContain("underline");
+      expect(await label.evaluate((element) => getComputedStyle(element).fontSize)).toBe("14px");
+      expect(await label.evaluate((element) => getComputedStyle(element).textUnderlineOffset)).toBe(
+        "4px",
       );
     });
 
