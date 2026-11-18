@@ -1808,6 +1808,21 @@ function DrawerDemo() {
 
         <Drawer>
           <DrawerTrigger asChild>
+            <Button>Page</Button>
+          </DrawerTrigger>
+          <DrawerContent variant="page">
+            <DrawerHeader>
+              <DrawerTitle>Summer launch</DrawerTitle>
+              <DrawerDescription>A detail page that rises over this one.</DrawerDescription>
+            </DrawerHeader>
+            <div className="min-h-0 flex-1 overflow-y-auto p-4 pt-0">
+              <p>Content area.</p>
+            </div>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
             <Button variant="secondary">Without Overlay</Button>
           </DrawerTrigger>
           <DrawerContent position="right" overlay={false}>
