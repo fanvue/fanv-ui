@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Table, TableBody, TableCell, TableRow } from "./Table";
@@ -178,6 +179,51 @@ describe("TableRowLink", () => {
 
       expect(onOpen).not.toHaveBeenCalled();
       window.getSelection()?.removeAllRanges();
+    });
+
+    it("keeps opening its own link when another row link is portalled out of the row", async () => {
+      const user = userEvent.setup();
+      const onOpen = vi.fn((event: React.MouseEvent) => event.preventDefault());
+      const onPortalledOpen = vi.fn((event: React.MouseEvent) => event.preventDefault());
+      function Row() {
+        const [showPopover, setShowPopover] = React.useState(true);
+        return (
+          <TableRow interactive>
+            <TableCell>
+              <TableRowLink href="/campaigns/summer" onClick={onOpen}>
+                Summer launch
+              </TableRowLink>
+              {showPopover &&
+                createPortal(
+                  <TableRowLink href="/campaigns/other" onClick={onPortalledOpen}>
+                    Other campaign
+                  </TableRowLink>,
+                  document.body,
+                )}
+            </TableCell>
+            <TableCell>1,204 clicks</TableCell>
+            <TableCell>
+              <button type="button" onClick={() => setShowPopover(false)}>
+                Close popover
+              </button>
+            </TableCell>
+          </TableRow>
+        );
+      }
+      render(
+        <Table>
+          <TableBody>
+            <Row />
+          </TableBody>
+        </Table>,
+      );
+
+      await user.click(screen.getByText("1,204 clicks"));
+      await user.click(screen.getByRole("button", { name: "Close popover" }));
+      await user.click(screen.getByText("1,204 clicks"));
+
+      expect(onOpen).toHaveBeenCalledTimes(2);
+      expect(onPortalledOpen).not.toHaveBeenCalled();
     });
 
     it("leaves a click with a modifier key alone", async () => {

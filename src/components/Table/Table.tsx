@@ -5,7 +5,7 @@ import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Tooltip/Tooltip";
-import { openTableRowLink, TableRowLinkContext } from "./TableRowLink";
+import { openTableRowLink } from "./TableRowLink";
 
 /**
  * Row density for body cells.
@@ -440,36 +440,33 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
  */
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, interactive = false, onClick, ...props }, ref) => {
-    const rowLink = React.useRef<HTMLAnchorElement>(null);
     const openingRowLink = React.useRef(false);
     return (
-      <TableRowLinkContext.Provider value={rowLink}>
-        <tr
-          ref={ref}
-          className={cn(
-            "[&:has([data-table-media])>td]:h-14",
-            interactive &&
-              "cursor-pointer transition-colors duration-200 ease-in-out hover:bg-background-secondary has-[:focus-visible]:bg-background-secondary motion-reduce:transition-none",
-            className,
-          )}
-          onClick={(event) => {
-            if (openingRowLink.current) {
-              event.stopPropagation();
-              return;
+      <tr
+        ref={ref}
+        className={cn(
+          "[&:has([data-table-media])>td]:h-14",
+          interactive &&
+            "cursor-pointer transition-colors duration-200 ease-in-out hover:bg-background-secondary has-[:focus-visible]:bg-background-secondary motion-reduce:transition-none",
+          className,
+        )}
+        onClick={(event) => {
+          if (openingRowLink.current) {
+            event.stopPropagation();
+            return;
+          }
+          onClick?.(event);
+          if (interactive && !event.defaultPrevented) {
+            openingRowLink.current = true;
+            try {
+              openTableRowLink(event);
+            } finally {
+              openingRowLink.current = false;
             }
-            onClick?.(event);
-            if (interactive && !event.defaultPrevented) {
-              openingRowLink.current = true;
-              try {
-                openTableRowLink(event, rowLink);
-              } finally {
-                openingRowLink.current = false;
-              }
-            }
-          }}
-          {...props}
-        />
-      </TableRowLinkContext.Provider>
+          }
+        }}
+        {...props}
+      />
     );
   },
 );
