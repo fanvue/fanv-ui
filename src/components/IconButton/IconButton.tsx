@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { Count, type CountSize } from "../Count/Count";
+import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
 
 /**
  * Visual style variant of the icon button.
@@ -8,7 +9,18 @@ import { Count, type CountSize } from "../Count/Count";
  * `primary`, `secondary`, `tertiary`, `outline`, `error`, `white` and `black`
  * use the shared button colour tokens and a size-driven shape (squared at the
  * `24` size, circular otherwise). Of these, `primary`, `secondary`, `tertiary`
- * and `outline` also honour the {@link IconButtonProps.negative} prop.
+ * and `outline` also honour the {@link IconButtonProps.negative} prop, as does
+ * `upsell`, which takes the other theme's glow.
+ *
+ * `upsell` is the Figma "Upsell" icon button and matches `Button`'s `brand`
+ * variant: a green radial fill, a green glow and a highlight that circles the
+ * rim once, held still when the user prefers reduced motion. It takes the same
+ * size-driven shape as the standard variants.
+ *
+ * `overlay` is a translucent dark fill with a backdrop blur, for buttons that sit
+ * on photos or video. Its fill and icon look the same in light and dark themes, while
+ * the keyboard focus ring still follows the theme. It takes the same size-driven
+ * shape as the standard variants.
  *
  * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop` and
  * `microphone` are bespoke variants that stay circular at every size.
@@ -22,12 +34,14 @@ export type IconButtonVariant =
   | "white"
   | "black"
   | "brand"
+  | "upsell"
   | "contrast"
   | "messaging"
   | "navTray"
   | "tertiaryDestructive"
   | "stop"
   | "microphone"
+  | "overlay"
   | "field";
 
 /** Icon button size in pixels. */
@@ -73,6 +87,8 @@ const SIZE_DRIVEN_SHAPE_VARIANTS = new Set<IconButtonVariant>([
   "error",
   "white",
   "black",
+  "upsell",
+  "overlay",
 ]);
 
 /** Variants that honour the `negative` (dark-surface) treatment. */
@@ -81,11 +97,14 @@ const NEGATIVE_AWARE_VARIANTS = new Set<IconButtonVariant>([
   "secondary",
   "tertiary",
   "outline",
+  "upsell",
 ]);
 
 const DISABLED_FILL = "disabled:bg-buttons-disabled-default disabled:text-content-disabled";
 const DISABLED_FILL_NEGATIVE =
   "disabled:bg-buttons-disabled-negative disabled:text-content-disabled";
+const UPSELL =
+  "fv-upsell fv-upsell-shine bg-buttons-brand-default text-content-always-black not-disabled:hover:[--fv-upsell-end:var(--color-buttons-brand-hover)] not-disabled:active:[--fv-upsell-end:var(--color-buttons-brand-hover)]";
 const DISABLED_TRANSPARENT = "disabled:text-content-disabled";
 const DISABLED_OPACITY = "disabled:opacity-50";
 
@@ -155,6 +174,12 @@ const VARIANT_CLASSES: Record<IconButtonVariant, VariantClasses> = {
       "bg-content-always-black text-brand-primary-default hover:bg-brand-primary-default hover:text-content-always-black not-disabled:active:bg-brand-primary-default not-disabled:active:text-content-always-black",
     disabled: DISABLED_OPACITY,
   },
+  upsell: {
+    default: UPSELL,
+    negative: `${UPSELL} fv-upsell-negative`,
+    disabled: DISABLED_FILL,
+    negativeDisabled: DISABLED_FILL_NEGATIVE,
+  },
   contrast: {
     default:
       "bg-transparent text-content-always-white hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted",
@@ -183,6 +208,11 @@ const VARIANT_CLASSES: Record<IconButtonVariant, VariantClasses> = {
   microphone: {
     default:
       "bg-buttons-primary-default text-content-primary-inverted hover:bg-buttons-brand-default hover:text-content-always-black not-disabled:active:bg-buttons-brand-default not-disabled:active:text-content-always-black",
+    disabled: DISABLED_OPACITY,
+  },
+  overlay: {
+    default:
+      "bg-buttons-overlay-default text-content-always-white backdrop-blur-sm not-disabled:hover:bg-buttons-overlay-hover not-disabled:active:bg-buttons-overlay-hover",
     disabled: DISABLED_OPACITY,
   },
   // Carries the input surface rather than a button one, so an icon-only action can
@@ -225,8 +255,8 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * icon alone (e.g. close, send). Always pair with an `aria-label` for
  * accessibility.
  *
- * Shape is size-driven for the standard variants: the `24` size is squared
- * (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
+ * Shape is size-driven for the standard variants, `upsell` and `overlay`: the `24` size is
+ * squared (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
  * `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
  * `microphone`) stay circular at all sizes. `field` is the exception that is
  * never circular — it takes the inputs' `rounded-sm` so it matches the fields it
@@ -287,7 +317,10 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           className={cn("flex shrink-0 items-center justify-center", iconSizeVariants[size])}
           aria-hidden="true"
         >
-          {icon}
+          {/* A button sizes its own icon, so a menu row's icon defaults stop here. */}
+          <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
+            {icon}
+          </IconDefaultsContext.Provider>
         </span>
 
         {counterValue !== undefined && (
@@ -295,7 +328,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
             value={counterValue}
             variant="alert"
             size={countSizeMap[size]}
-            className="absolute -top-0.5 -right-0.5"
+            className="absolute -top-0.5 -right-0.5 z-10"
           />
         )}
       </button>

@@ -57,7 +57,8 @@ interface AnimatedIconBaseProps {
 
 /**
  * Props for animated twins of prop-based icons. Mirrors `BaseIconProps` minus
- * `filled` — the animated artwork is stroke-only, so there is no filled variant.
+ * `filled` and `spin` — the animated artwork is stroke-only, so there is no filled
+ * variant, and it already animates on its own.
  *
  * `size` selects the same box as the static icon of the same name, so swapping
  * `@fanvue/ui` for `@fanvue/ui/animated-icons` never changes layout.
@@ -73,6 +74,8 @@ export interface AnimatedIconProps
    * through a wrapper's spread fails to compile instead of reaching the DOM.
    */
   filled?: never;
+  /** Not available on animated icons, which animate on their own. Typed as `never` so a spread prop bag cannot leak it onto the `<svg>`. */
+  spin?: never;
 }
 
 /**

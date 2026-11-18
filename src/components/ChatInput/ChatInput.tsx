@@ -12,6 +12,7 @@ import { AddIcon } from "../Icons/AddIcon";
 import { ArrowUpIcon } from "../Icons/ArrowUpIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
+import { MenuRowIcon } from "../Icons/MenuRowIcon";
 import { TickIcon } from "../Icons/TickIcon";
 
 /** A single image thumbnail in the built-in attachment strip. */
@@ -519,11 +520,12 @@ function InlineSelect({
               {menuTitle ?? "Select an option"}
             </DrawerTitle>
           </DrawerHeader>
-          {/* Mirrors DropdownMenuItem's two-line layout, which can't be reused
-              here because it requires a DropdownMenu (Radix Menu) context. */}
-          <div className="flex flex-col gap-1 overflow-y-auto px-4 pb-4" role="listbox">
+          {/* Mirrors DropdownMenuItem's rows, which can't be reused here because
+              they require a DropdownMenu (Radix Menu) context. */}
+          <div className="flex flex-col gap-1 overflow-y-auto px-2 pb-2" role="listbox">
             {options.map((option) => {
               const isSelected = option.value === value;
+              const hasDescription = !!option.description;
               return (
                 <button
                   key={option.value}
@@ -535,30 +537,34 @@ function InlineSelect({
                     setOpen(false);
                   }}
                   className={cn(
-                    "flex w-full items-start gap-2 rounded-sm px-3 py-2 text-left outline-none",
+                    "group flex min-h-10 w-full gap-2 rounded-sm px-3 py-2 text-left outline-none",
+                    hasDescription ? "items-start" : "items-center",
                     "focus-visible:shadow-focus-ring",
-                    "typography-body-default-16px-regular text-content-primary hover:bg-neutral-alphas-50",
-                    // bg-interaction-hover aliases to the same token as the
-                    // plain hover background above, so it can't distinguish
-                    // the selected option from a hovered-but-unselected one.
-                    isSelected && ["bg-neutral-alphas-100", "hover:bg-neutral-alphas-200"],
+                    "typography-body-small-14px-regular text-content-primary hover:bg-interaction-hover",
+                    // The selected option shares the hover fill, as in DropdownMenuItem.
+                    isSelected && "bg-interaction-hover",
                   )}
                 >
                   {option.icon && (
-                    <span className="flex shrink-0 items-center pt-1 [&>svg]:size-4">
-                      {option.icon}
-                    </span>
+                    <MenuRowIcon alignToTitle={hasDescription}>{option.icon}</MenuRowIcon>
                   )}
                   <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                    <span className="truncate">{option.menuLabel ?? option.label}</span>
-                    {option.description && (
+                    <span
+                      className={cn(
+                        "truncate",
+                        hasDescription && "typography-body-small-14px-semibold",
+                      )}
+                    >
+                      {option.menuLabel ?? option.label}
+                    </span>
+                    {hasDescription && (
                       <span className="typography-body-small-14px-regular truncate text-content-secondary">
                         {option.description}
                       </span>
                     )}
                   </span>
                   {isSelected && (
-                    <span className="flex shrink-0 items-center pt-1">
+                    <span className={cn("flex shrink-0 items-center", hasDescription && "h-4.5")}>
                       <SelectedTick />
                     </span>
                   )}

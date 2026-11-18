@@ -45,4 +45,9 @@ export interface BaseIconProps extends Omit<React.SVGAttributes<SVGSVGElement>, 
   size?: IconSize;
   /** Render the filled variant when available; falls back to outlined. @default false */
   filled?: boolean;
+  /**
+   * Rotate the icon continuously, for loading and busy states. Under
+   * `prefers-reduced-motion` it pulses in place instead. @default false
+   */
+  spin?: boolean;
 }

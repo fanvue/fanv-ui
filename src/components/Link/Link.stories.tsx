@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
 import { ArrowUpRightIcon } from "../Icons/ArrowUpRightIcon";
 import { WalletIcon } from "../Icons/WalletIcon";
 import { Link } from "./Link";
@@ -21,11 +22,11 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "brand"],
+      options: ["primary", "brand", "inherit", "subtle"],
     },
     size: {
       control: "select",
-      options: ["16", "14"],
+      options: ["16", "14", "inherit"],
     },
     disabled: { control: "boolean" },
   },
@@ -50,6 +51,56 @@ export const Small: Story = {
   args: {
     size: "14",
   },
+};
+
+export const Inherit: Story = {
+  render: (args) => (
+    <p className="typography-description-12px-regular max-w-xs text-content-secondary">
+      A flat fee applies to every crypto payout.{" "}
+      <Link {...args} variant="inherit" size="inherit">
+        Learn more about payout fees
+      </Link>
+    </p>
+  ),
+};
+
+/**
+ * The `subtle` variant with an arrow: secondary text at rest, 32px tall so it sits level with a
+ * 32px control. On hover the text turns primary and underlines, and the arrow moves 2px.
+ */
+export const Subtle: Story = {
+  args: {
+    variant: "subtle",
+    size: "14",
+    children: "Open full page",
+    rightIcon: <ArrowRightIcon />,
+  },
+};
+
+/** Without an icon, `subtle` keeps the line height of its text so it can sit inside a row of copy. */
+export const SubtleWithoutIcon: Story = {
+  args: {
+    variant: "subtle",
+    size: "14",
+    children: "View all campaigns",
+  },
+};
+
+/**
+ * `subtle` with `size="inherit"` takes its type from the container, here a 12px caption row. It
+ * stands alone: for a link inside a sentence use `inherit`, which stays underlined at rest.
+ */
+export const SubtleInheritSize: Story = {
+  args: {
+    variant: "subtle",
+    size: "inherit",
+    children: "View all campaigns",
+  },
+  render: (args) => (
+    <div className="typography-description-12px-regular">
+      <Link {...args} />
+    </div>
+  ),
 };
 
 export const Disabled: Story = {

@@ -107,7 +107,7 @@ const config: ChartConfig = {
 };
 ```
 
-Alongside the container the subpath exports `ChartCard`, `ChartLegend`, `ChartLegendContent`, `ChartPieLegend`, `ChartCenterLabel`, `ChartMetricTrend`, `ChartSeriesToggle`, `ChartSkeleton`, `ChartLoadingOverlay`, `ChartStyle`, and the `useChart` hook.
+Alongside the container the subpath exports `ChartCard`, `ChartGrid`, `ChartLegend`, `ChartLegendContent`, `ChartPieLegend`, `ChartCenterLabel`, `ChartMetricTrend`, `ChartSeriesToggle`, `ChartSkeleton`, `ChartLoadingOverlay`, `ChartStyle`, and the `useChart` hook.
 
 ## `@fanvue/ui/date-picker`
 
@@ -158,7 +158,7 @@ import { HeartIcon } from "@fanvue/ui/animated-icons";  // animates on hover
 
 Four things to know before you use them:
 
-- **Not every icon has a twin.** 69 of the static icons are mapped. A missing export means no equivalent was accepted, not a bug. `SpinnerIcon` is deliberately absent, because a loading indicator must not wait for a hover; use the static one with `animate-spin`, or `Loader`.
+- **Not every icon has a twin.** 69 of the static icons are mapped. A missing export means no equivalent was accepted, not a bug. `SpinnerIcon` is deliberately absent, because a loading indicator must not wait for a hover; use the static one with `<SpinnerIcon spin />` (it respects reduced motion), or `Loader`.
 - **Reduced motion is respected.** Nothing animates under `prefers-reduced-motion: reduce`, including animations you start yourself through `controlRef`.
 - **Drive the animation from a parent for icons inside buttons.** Passing `controlRef` turns the built-in hover trigger off and hands you `startAnimation` and `stopAnimation`. Wire focus as well as hover: the `<svg>` is not focusable, so a keyboard user reaching the button gets nothing from hover alone.
 - **The artwork is stroke-only.** These icons take no `filled` prop, and passing one is a type error rather than a silent no-op.

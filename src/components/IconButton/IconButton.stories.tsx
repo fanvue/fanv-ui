@@ -148,12 +148,14 @@ const meta = {
         "white",
         "black",
         "brand",
+        "upsell",
         "contrast",
         "messaging",
         "navTray",
         "tertiaryDestructive",
         "stop",
         "microphone",
+        "overlay",
         "field",
       ],
     },
@@ -302,6 +304,34 @@ export const BrandDisabled: Story = {
   },
 };
 
+/**
+ * Figma "Upsell": the icon-only twin of `Button`'s `brand` variant. The highlight
+ * circles the rim once unless the viewer prefers reduced motion.
+ */
+export const Upsell: Story = {
+  args: { icon: <WalletIcon />, "aria-label": "Unlock" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16800-8275&m=dev",
+    },
+  },
+  render: () => (
+    <div className="flex items-center gap-4 bg-surface-primary p-6">
+      {v2Sizes.map((size) => (
+        <IconButton
+          key={size}
+          variant="upsell"
+          size={size}
+          icon={<WalletIcon />}
+          aria-label={`Unlock ${size}`}
+        />
+      ))}
+      <IconButton variant="upsell" size="40" icon={<WalletIcon />} aria-label="Unlock" disabled />
+    </div>
+  ),
+};
+
 // Contrast variants
 export const Contrast24: Story = {
   args: {
@@ -401,6 +431,43 @@ export const Stop72: Story = {
     size: "72",
     icon: <StopIcon />,
   },
+};
+
+const OVERLAY_STORY_PHOTO_URL =
+  "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&h=400&fit=crop";
+
+/** Overlay buttons on a photo, the surface the variant is for. */
+export const OverlayOnMedia: Story = {
+  args: { icon: <CloseIcon />, "aria-label": "Close" },
+  render: () => (
+    <div className="relative h-50 w-75 overflow-hidden rounded-md">
+      <img src={OVERLAY_STORY_PHOTO_URL} alt="" className="size-full object-cover" />
+      <div className="absolute inset-x-0 top-3 flex items-center justify-center gap-3">
+        {(["24", "32", "40", "48"] as const).map((size) => (
+          <IconButton
+            key={size}
+            variant="overlay"
+            size={size}
+            icon={<CloseIcon />}
+            aria-label={`Close ${size}`}
+          />
+        ))}
+        <IconButton
+          variant="overlay"
+          size="40"
+          icon={<CloseIcon />}
+          aria-label="Close disabled"
+          disabled
+        />
+      </div>
+      <div className="absolute inset-y-0 left-3 flex items-center">
+        <IconButton variant="overlay" size="40" icon={<ChevronLeftIcon />} aria-label="Previous" />
+      </div>
+      <div className="absolute inset-y-0 right-3 flex items-center">
+        <IconButton variant="overlay" size="40" icon={<ChevronRightIcon />} aria-label="Next" />
+      </div>
+    </div>
+  ),
 };
 
 // All icons in IconButton for visual regression
