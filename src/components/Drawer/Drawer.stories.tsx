@@ -25,7 +25,7 @@ const meta: Meta<typeof DrawerContent> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["panel", "sheet", "menu", "modal"],
+      options: ["panel", "sheet", "menu", "modal", "page"],
     },
     position: {
       control: "select",
@@ -199,6 +199,58 @@ export const BottomMenu: Story = {
         </DrawerHeader>
         <div className="p-4 pt-0">
           <p>Inset from all three edges, rounded on every corner.</p>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  ),
+};
+
+/**
+ * `variant="page"` is a detail page that rises over the one behind it. It sits on
+ * the opaque page background, 16px below the top edge so the page behind stays in
+ * view, and always runs to the bottom edge. Its rise is slower than its fall. It always
+ * rises from the bottom, whatever `position` is.
+ */
+export const Page: Story = {
+  args: { variant: "page" },
+  play: openDrawer,
+  render: (args) => (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button>Open Page</Button>
+      </DrawerTrigger>
+      <DrawerContent {...args}>
+        <DrawerHeader>
+          <DrawerTitle className="typography-header-heading-xs">Summer launch</DrawerTitle>
+          <DrawerDescription>1 Jun to 31 Aug</DrawerDescription>
+        </DrawerHeader>
+        <div className="min-h-0 flex-1 overflow-y-auto p-4 pt-0">
+          <p>The page variant uses the page background and a 16px top radius.</p>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  ),
+};
+
+/**
+ * A `"page"` panel spans the full width by default. Inset it with `style` or
+ * `className` to cover one column and leave navigation beside it in view.
+ */
+export const PageOverColumn: Story = {
+  args: { variant: "page", style: { left: 72, right: 8 } },
+  play: openDrawer,
+  render: (args) => (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button>Open Page Over Column</Button>
+      </DrawerTrigger>
+      <DrawerContent {...args}>
+        <DrawerHeader>
+          <DrawerTitle className="typography-header-heading-xs">Summer launch</DrawerTitle>
+          <DrawerDescription>1 Jun to 31 Aug</DrawerDescription>
+        </DrawerHeader>
+        <div className="min-h-0 flex-1 overflow-y-auto p-4 pt-0">
+          <p>Inset 72px from the left and 8px from the right.</p>
         </div>
       </DrawerContent>
     </Drawer>
