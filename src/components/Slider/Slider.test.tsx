@@ -33,6 +33,25 @@ describe("Slider", () => {
       expect(onValueChange).toHaveBeenCalled();
     });
 
+    it("updates the tooltip text after a key press", async () => {
+      const user = userEvent.setup();
+      render(
+        <Slider
+          defaultValue={[50]}
+          max={100}
+          step={1}
+          showTooltip
+          formatTooltip={(value) => `${value}%`}
+        />,
+      );
+      const thumb = screen.getByRole("slider");
+
+      thumb.focus();
+      await user.keyboard("{ArrowRight}");
+
+      await vi.waitFor(() => expect(screen.getByRole("tooltip")).toHaveTextContent("51%"));
+    });
+
     it("supports disabled state", () => {
       render(<Slider defaultValue={[50]} disabled aria-label="Test" />);
       const thumb = screen.getByRole("slider");
