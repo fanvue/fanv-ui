@@ -108,6 +108,15 @@ describe("Link", () => {
       expect(link).toHaveClass("inline-flex", "transition-colors");
     });
 
+    it("has no accessibility violations with the subtle variant and an icon", async () => {
+      const { container } = render(
+        <Link href="#" variant="subtle" size="14" rightIcon={<svg data-testid="arrow" />}>
+          Open full page
+        </Link>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
     it("has no accessibility violations", async () => {
       const { container } = render(<Link href="/pricing">Pricing</Link>);
       expect(await axe(container)).toHaveNoViolations();
