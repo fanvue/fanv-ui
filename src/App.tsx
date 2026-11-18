@@ -209,6 +209,7 @@ import {
   ReviewCard,
   SearchField,
   SearchIcon,
+  SegmentedControl,
   Select,
   SelectContent,
   SelectGroup,
@@ -1024,6 +1025,31 @@ function MediaPlayChipDemo() {
             />
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function SegmentedControlDemo() {
+  const [range, setRange] = useState("30");
+  return (
+    <div id="segmentedcontrol" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Segmented Control</h2>
+      <div className="flex flex-wrap items-center gap-2">
+        <SegmentedControl
+          appearance="squared"
+          options={[
+            { label: "7 days", value: "7" },
+            { label: "30 days", value: "30" },
+            { label: "90 days", value: "90" },
+          ]}
+          value={range}
+          onChange={setRange}
+          aria-label="Date range"
+        />
+        <Button variant="secondary" size="32">
+          Edit
+        </Button>
       </div>
     </div>
   );
@@ -6139,6 +6165,7 @@ function App() {
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
     { id: "mediaplaychip", label: "Media Play Chip" },
+    { id: "segmentedcontrol", label: "Segmented Control" },
     { id: "mediastatusindicator", label: "Media Status Indicator" },
     { id: "stepper", label: "Stepper" },
     { id: "mobilestepper", label: "Mobile Stepper" },
@@ -6268,6 +6295,8 @@ function App() {
 
             {/* Media Play Chip */}
             <MediaPlayChipDemo />
+
+            <SegmentedControlDemo />
 
             {/* Media Status Indicator */}
             <MediaStatusIndicatorDemo />
