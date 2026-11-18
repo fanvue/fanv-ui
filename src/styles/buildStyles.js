@@ -132,6 +132,33 @@ const getColorSections = (rawTokens) => {
   return { themeVars, lightVars, darkVars, primitivesVars };
 };
 
+// Figma binds these Regular weights to a mode-aware variable, but the token export only carries
+// the light value, so the dark weight lives here. Light text on a dark surface reads thinner than
+// the same weight on light, and the heavier weight evens that out.
+const DARK_FONT_WEIGHTS = {
+  "typography-body-default-16px-regular": 450,
+  "typography-body-small-14px-regular": 450,
+  "typography-description-12px-regular": 500,
+};
+
+const fontWeightVarName = (className) => `--${className}-font-weight`;
+
+const getTypographyWeightVars = (typographyTokens) => {
+  let lightVars = "";
+  let darkVars = "";
+
+  for (const [weight, styles] of Object.entries(typographyTokens)) {
+    for (const [styleName, props] of Object.entries(styles)) {
+      const className = `typography-${toKebab(weight)}-${toKebab(styleName)}`;
+      if (!(className in DARK_FONT_WEIGHTS)) continue;
+      lightVars += `  ${fontWeightVarName(className)}: ${props.fontWeight.value};\n`;
+      darkVars += `  ${fontWeightVarName(className)}: ${DARK_FONT_WEIGHTS[className]};\n`;
+    }
+  }
+
+  return { lightVars, darkVars };
+};
+
 const getTypographyClasses = (typographyTokens) => {
   let output = "";
 
@@ -146,6 +173,10 @@ const getTypographyClasses = (typographyTokens) => {
           if (propObj.value && propObj.value !== "none") {
             output += `  text-transform: ${propObj.value};\n`;
           }
+          continue;
+        }
+        if (propName === "fontWeight" && className in DARK_FONT_WEIGHTS) {
+          output += `  font-weight: var(${fontWeightVarName(className)});\n`;
           continue;
         }
         const kebabProp = toKebab(propName);
@@ -308,6 +339,7 @@ const buildThemeCss = (rawTokens) => {
   const spacingVars = getSpacingVars(rawTokens.semantic.light.spacing);
   const opacityVars = getOpacityVars(rawTokens.semantic.light.opacity);
   const typographyClasses = getTypographyClasses(rawTokens.typography);
+  const typographyWeightVars = getTypographyWeightVars(rawTokens.typography);
 
   const output = [
     `/* AUTO-GENERATED — do not edit. Run \`node src/styles/buildStyles.js\` to regenerate. */`,
@@ -354,11 +386,15 @@ const buildThemeCss = (rawTokens) => {
     `  /* Focus-ring colour, consumed by --shadow-focus-ring. Violet on light`,
     `     backgrounds; overridden to white in .dark so the ring stays visible. */`,
     `  --fv-focus-ring-color: var(--color-interaction-focus);`,
+    ``,
+    typographyWeightVars.lightVars.trimEnd(),
     `}`,
     ``,
     `.dark {`,
     darkVars.trimEnd(),
     `  --fv-focus-ring-color: var(--color-content-always-white);`,
+    ``,
+    typographyWeightVars.darkVars.trimEnd(),
     `}`,
     typographyClasses,
   ].join("\n");

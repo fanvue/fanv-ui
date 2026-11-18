@@ -91,6 +91,7 @@ import { BankIcon } from "../components/Icons/BankIcon";
 import { BellIcon } from "../components/Icons/BellIcon";
 import { BellOffIcon } from "../components/Icons/BellOffIcon";
 import { BoltIcon } from "../components/Icons/BoltIcon";
+import { BookmarkIcon } from "../components/Icons/BookmarkIcon";
 import { BulbIcon } from "../components/Icons/BulbIcon";
 import { Calendar2Icon } from "../components/Icons/Calendar2Icon";
 import { CalendarIcon } from "../components/Icons/CalendarIcon";
@@ -121,11 +122,13 @@ import { DenseGridViewIcon } from "../components/Icons/DenseGridViewIcon";
 import { DiamondIcon } from "../components/Icons/DiamondIcon";
 import { DiscordIcon } from "../components/Icons/DiscordIcon";
 import { DiscountIcon } from "../components/Icons/DiscountIcon";
+import { DocumentIcon } from "../components/Icons/DocumentIcon";
 import { DonateIcon } from "../components/Icons/DonateIcon";
 import { DoubleTickIcon } from "../components/Icons/DoubleTickIcon";
 import { DownloadIcon } from "../components/Icons/DownloadIcon";
 import { EditIcon } from "../components/Icons/EditIcon";
 import { EmojiIcon } from "../components/Icons/EmojiIcon";
+import { EpisodesIcon } from "../components/Icons/EpisodesIcon";
 import { ErrorCircleIcon } from "../components/Icons/ErrorCircleIcon";
 import { ErrorIcon } from "../components/Icons/ErrorIcon";
 import { ExclamationMarkIcon } from "../components/Icons/ExclamationMarkIcon";
@@ -202,6 +205,7 @@ import { SearchIcon } from "../components/Icons/SearchIcon";
 import { SendIcon } from "../components/Icons/SendIcon";
 import { SettingsIcon } from "../components/Icons/SettingsIcon";
 import { ShareIcon } from "../components/Icons/ShareIcon";
+import { ShortsIcon } from "../components/Icons/ShortsIcon";
 import { SoundIcon } from "../components/Icons/SoundIcon";
 import { SpinnerIcon } from "../components/Icons/SpinnerIcon";
 import { StarIcon } from "../components/Icons/StarIcon";
@@ -416,6 +420,13 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   {
+    name: "BookmarkIcon",
+    component: BookmarkIcon,
+    animated: null,
+    tags: ["bookmark", "save", "saved", "favourite"],
+    propBased: true,
+  },
+  {
     name: "BulbIcon",
     component: BulbIcon,
     animated: null,
@@ -626,6 +637,13 @@ const icons: IconEntry[] = [
     propBased: true,
   },
   {
+    name: "DocumentIcon",
+    component: DocumentIcon,
+    animated: null,
+    tags: ["document", "file", "tax", "vat", "form", "paper"],
+    propBased: true,
+  },
+  {
     name: "DonateIcon",
     component: DonateIcon,
     animated: null,
@@ -659,6 +677,13 @@ const icons: IconEntry[] = [
     animated: AnimatedEmojiIcon,
     tags: ["emoji", "smiley", "face", "happy"],
     propBased: false,
+  },
+  {
+    name: "EpisodesIcon",
+    component: EpisodesIcon,
+    animated: null,
+    tags: ["episodes", "series", "playlist", "video", "list"],
+    propBased: true,
   },
   {
     name: "ErrorCircleIcon",
@@ -1172,6 +1197,13 @@ const icons: IconEntry[] = [
     component: ShareIcon,
     animated: null,
     tags: ["share", "social", "send"],
+    propBased: true,
+  },
+  {
+    name: "ShortsIcon",
+    component: ShortsIcon,
+    animated: null,
+    tags: ["shorts", "reels", "clip", "vertical", "video"],
     propBased: true,
   },
   {
