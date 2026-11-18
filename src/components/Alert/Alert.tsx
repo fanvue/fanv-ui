@@ -271,45 +271,60 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
           button on the container's own 12px. It also puts 28px between the
           message and the close button (this 4px plus the container's 24px gap).
         */}
-        <div className="flex min-w-0 flex-1 items-start gap-3 py-1 pr-1">
-          {resolvedIcon && (
-            // The design's icon slot is 16px, but the default variant icons
-            // (InfoCircleIcon and friends) ship at `size-5`, so constrain the
-            // glyph here — the same way IconButton sizes its own icon. The 1px
-            // top nudge then lands it optically centred on the first 18px line,
-            // as in the design's icon-wrapper.
-            <span className="flex shrink-0 items-start pt-px [&>svg]:size-4" aria-hidden="true">
-              {resolvedIcon}
-            </span>
+        <div
+          className={cn(
+            "flex min-w-0 flex-1 py-1 pr-1",
+            isTrailing ? "items-center gap-6" : "items-start gap-3",
           )}
-
-          <div
-            className={cn(
-              "flex min-w-0 flex-1",
-              isTrailing ? "items-center gap-6" : "flex-col gap-3",
+        >
+          {/*
+            Trailing, the icon and message move as one group centred against
+            the CTA, so a one-line message shorter than the 32px button keeps
+            its icon on the text line instead of at the top of the row.
+          */}
+          <div className="flex min-w-0 flex-1 items-start gap-3">
+            {resolvedIcon && (
+              // The design's icon slot is 16px, but the default variant icons
+              // (InfoCircleIcon and friends) ship at `size-5`, so constrain the
+              // glyph here — the same way IconButton sizes its own icon. The 1px
+              // top nudge then lands it optically centred on the first 18px line,
+              // as in the design's icon-wrapper.
+              <span className="flex shrink-0 items-start pt-px [&>svg]:size-4" aria-hidden="true">
+                {resolvedIcon}
+              </span>
             )}
-          >
-            <div role="alert" className={cn("flex flex-col gap-1", isTrailing && "min-w-0 flex-1")}>
-              {title && (
-                <div
-                  className={cn("typography-body-small-14px-semibold", MESSAGE_CLASSES[variant])}
-                >
-                  {title}
-                </div>
+
+            <div className="flex min-w-0 flex-1 flex-col gap-3">
+              <div role="alert" className="flex flex-col gap-1">
+                {title && (
+                  <div
+                    className={cn("typography-body-small-14px-semibold", MESSAGE_CLASSES[variant])}
+                  >
+                    {title}
+                  </div>
+                )}
+                {children ? (
+                  <div
+                    className={cn("typography-body-small-14px-regular", MESSAGE_CLASSES[variant])}
+                  >
+                    {children}
+                  </div>
+                ) : null}
+              </div>
+              {!isTrailing && (
+                <AlertCta
+                  action={action}
+                  ctaLabel={ctaLabel}
+                  ctaProps={ctaProps}
+                  isTrailing={false}
+                />
               )}
-              {children ? (
-                <div className={cn("typography-body-small-14px-regular", MESSAGE_CLASSES[variant])}>
-                  {children}
-                </div>
-              ) : null}
             </div>
-            <AlertCta
-              action={action}
-              ctaLabel={ctaLabel}
-              ctaProps={ctaProps}
-              isTrailing={isTrailing}
-            />
           </div>
+
+          {isTrailing && (
+            <AlertCta action={action} ctaLabel={ctaLabel} ctaProps={ctaProps} isTrailing />
+          )}
         </div>
 
         {closable && (

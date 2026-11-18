@@ -293,7 +293,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
             </div>
 
             <div className="flex shrink-0 items-center gap-1">
-              {loading && <SpinnerIcon className="size-4 animate-spin text-content-secondary" />}
+              {loading && <SpinnerIcon size={16} spin className="text-content-secondary" />}
               {clearable && ac.hasClearableValue && !disabled && (
                 <button
                   type="button"

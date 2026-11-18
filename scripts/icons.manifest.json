@@ -101,6 +101,11 @@
       "hasFilled": true
     },
     {
+      "name": "BookmarkIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "BulbIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -226,6 +231,11 @@
       "hasFilled": true
     },
     {
+      "name": "DocumentIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "DonateIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
@@ -242,6 +252,11 @@
     },
     {
       "name": "EditIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "EpisodesIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },
@@ -562,6 +577,11 @@
     },
     {
       "name": "ShareIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
+      "name": "ShortsIcon",
       "sizes": [16, 24, 32],
       "hasFilled": true
     },
