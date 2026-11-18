@@ -9,7 +9,7 @@ import { cn } from "@/utils/cn";
  * opts out anything else, such as a custom control with no role of its own.
  */
 const ROW_CLICK_IGNORES =
-  "a, button, summary, input, select, textarea, label, [contenteditable='true'], [role='button'], [role='link'], [role='checkbox'], [role='radio'], [role='switch'], [role='slider'], [role='tab'], [role='combobox'], [role='option'], [role^='menu'], [data-table-row-click-ignore]";
+  "a, button, summary, input, select, textarea, label, [contenteditable]:not([contenteditable='false']), [role='button'], [role='link'], [role='checkbox'], [role='radio'], [role='switch'], [role='slider'], [role='tab'], [role='combobox'], [role='option'], [role^='menu'], [data-table-row-click-ignore]";
 
 /**
  * Holds the row's {@link TableRowLink}, so a click elsewhere on an interactive

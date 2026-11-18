@@ -112,25 +112,18 @@ describe("TableRowLink", () => {
       const user = userEvent.setup();
       const onParentClick = vi.fn();
       render(
-        // biome-ignore lint/a11y/noStaticElementInteractions: a delegated handler on a wrapper
-        // biome-ignore lint/a11y/useKeyWithClickEvents: a delegated handler on a wrapper
-        <div onClick={onParentClick}>
-          <Table>
-            <TableBody>
-              <TableRow interactive>
-                <TableCell>
-                  <TableRowLink
-                    href="/campaigns/summer"
-                    onClick={(event) => event.preventDefault()}
-                  >
-                    Summer launch
-                  </TableRowLink>
-                </TableCell>
-                <TableCell>1,204 clicks</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </div>,
+        <Table onClick={onParentClick}>
+          <TableBody>
+            <TableRow interactive>
+              <TableCell>
+                <TableRowLink href="/campaigns/summer" onClick={(event) => event.preventDefault()}>
+                  Summer launch
+                </TableRowLink>
+              </TableCell>
+              <TableCell>1,204 clicks</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
       );
 
       await user.click(screen.getByText("1,204 clicks"));
