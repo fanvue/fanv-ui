@@ -99,7 +99,7 @@ export const TableRowLink = React.forwardRef<HTMLAnchorElement, TableRowLinkProp
       <Comp
         ref={setRef}
         className={cn(
-          "text-content-primary no-underline underline-offset-2 hover:underline focus-visible:shadow-focus-ring focus-visible:outline-none",
+          "text-content-primary no-underline underline-offset-2 hover:underline focus-visible:shadow-focus-ring focus-visible:outline-hidden",
           className,
         )}
         {...props}
