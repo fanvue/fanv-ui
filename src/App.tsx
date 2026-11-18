@@ -2431,6 +2431,9 @@ function LinkDemo() {
             <Link href="#" variant="primary" size={size} disabled>
               Disabled
             </Link>
+            <Link href="#" variant="subtle" size={size} rightIcon={<ArrowRightIcon />}>
+              Subtle
+            </Link>
           </div>
         ))}
         <p className="typography-description-12px-regular max-w-xs text-content-secondary">
