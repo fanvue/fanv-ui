@@ -249,6 +249,7 @@ import {
   TableProgressTrack,
   TableRow,
   TableRowButton,
+  TableRowLink,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
@@ -4175,7 +4176,9 @@ function TableDemo() {
                         <TableCell intent="checkbox">
                           <Checkbox size="16" aria-label={`Select row ${date}`} />
                         </TableCell>
-                        <TableCell>{date}</TableCell>
+                        <TableCell>
+                          <TableRowLink href="#table">{date}</TableRowLink>
+                        </TableCell>
                         <TableCell intent="multiline">
                           <TableLineClamp>
                             Placeholder description.{" "}

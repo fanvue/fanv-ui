@@ -5,6 +5,7 @@ import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Tooltip/Tooltip";
+import { openTableRowLink, TableRowLinkContext } from "./TableRowLink";
 
 /**
  * Row density for body cells.
@@ -424,7 +425,9 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
    * Marks a body row that opens or expands into more content. The row shows a
    * pointer cursor and eases to `background-secondary` while hovered, or while
    * a control inside it has keyboard focus. The row itself is not focusable, so
-   * its action must also be on a button or link inside it.
+   * its action must also be on a button or link inside it. With a
+   * {@link TableRowLink} inside, a click anywhere on the row that is not on
+   * another control opens that link.
    * @default false
    */
   interactive?: boolean;
@@ -436,18 +439,36 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
  * Set `interactive` on rows that open or expand so they respond to hover.
  */
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ className, interactive = false, ...props }, ref) => {
+  ({ className, interactive = false, onClick, ...props }, ref) => {
+    const rowLink = React.useRef<HTMLAnchorElement>(null);
+    const openingRowLink = React.useRef(false);
     return (
-      <tr
-        ref={ref}
-        className={cn(
-          "[&:has([data-table-media])>td]:h-14",
-          interactive &&
-            "cursor-pointer transition-colors duration-200 ease-in-out hover:bg-background-secondary has-[:focus-visible]:bg-background-secondary motion-reduce:transition-none",
-          className,
-        )}
-        {...props}
-      />
+      <TableRowLinkContext.Provider value={rowLink}>
+        <tr
+          ref={ref}
+          className={cn(
+            "[&:has([data-table-media])>td]:h-14",
+            interactive &&
+              "cursor-pointer transition-colors duration-200 ease-in-out hover:bg-background-secondary has-[:focus-visible]:bg-background-secondary motion-reduce:transition-none",
+            className,
+          )}
+          onClick={(event) => {
+            if (openingRowLink.current) {
+              return;
+            }
+            onClick?.(event);
+            if (interactive && !event.defaultPrevented) {
+              openingRowLink.current = true;
+              try {
+                openTableRowLink(event, rowLink);
+              } finally {
+                openingRowLink.current = false;
+              }
+            }
+          }}
+          {...props}
+        />
+      </TableRowLinkContext.Provider>
     );
   },
 );
