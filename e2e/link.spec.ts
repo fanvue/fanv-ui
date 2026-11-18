@@ -79,6 +79,7 @@ test.describe("Link", () => {
       const arrow = link.locator("span[aria-hidden='true']");
       expect((await link.boundingBox())?.height).toBe(32);
       expect(await label.evaluate(textDecoration)).not.toContain("underline");
+      expect(await arrow.evaluate(translate)).toBe("none");
 
       await hoverAndPaint(page, link);
 
