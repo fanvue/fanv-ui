@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -106,6 +106,85 @@ describe("TableRowLink", () => {
 
       expect(onOpen).toHaveBeenCalledTimes(1);
       expect(onRowClick).toHaveBeenCalledTimes(1);
+    });
+
+    it("sends a parent's click handler one click for a click that opens the link", async () => {
+      const user = userEvent.setup();
+      const onParentClick = vi.fn();
+      render(
+        // biome-ignore lint/a11y/noStaticElementInteractions: a delegated handler on a wrapper
+        // biome-ignore lint/a11y/useKeyWithClickEvents: a delegated handler on a wrapper
+        <div onClick={onParentClick}>
+          <Table>
+            <TableBody>
+              <TableRow interactive>
+                <TableCell>
+                  <TableRowLink
+                    href="/campaigns/summer"
+                    onClick={(event) => event.preventDefault()}
+                  >
+                    Summer launch
+                  </TableRowLink>
+                </TableCell>
+                <TableCell>1,204 clicks</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>,
+      );
+
+      await user.click(screen.getByText("1,204 clicks"));
+
+      expect(onParentClick).toHaveBeenCalledTimes(1);
+    });
+
+    it("leaves a click on a custom control in the row to that control", async () => {
+      const user = userEvent.setup();
+      const onOpen = vi.fn((event: React.MouseEvent) => event.preventDefault());
+      render(
+        <Table>
+          <TableBody>
+            <TableRow interactive>
+              <TableCell>
+                <TableRowLink href="/campaigns/summer" onClick={onOpen}>
+                  Summer launch
+                </TableRowLink>
+              </TableCell>
+              <TableCell>
+                <div
+                  role="slider"
+                  tabIndex={0}
+                  aria-label="Volume"
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={40}
+                >
+                  Track
+                </div>
+                <span data-table-row-click-ignore>Opted out</span>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
+      );
+
+      await user.click(screen.getByRole("slider", { name: "Volume" }));
+      await user.click(screen.getByText("Opted out"));
+
+      expect(onOpen).not.toHaveBeenCalled();
+    });
+
+    it("leaves the click that ends a text selection alone", () => {
+      const { onOpen } = renderRow();
+      const cell = screen.getByText("1,204 clicks");
+      const range = document.createRange();
+      range.selectNodeContents(cell);
+      window.getSelection()?.addRange(range);
+
+      fireEvent.click(cell);
+
+      expect(onOpen).not.toHaveBeenCalled();
+      window.getSelection()?.removeAllRanges();
     });
 
     it("leaves a click with a modifier key alone", async () => {

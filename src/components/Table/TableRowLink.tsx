@@ -5,10 +5,11 @@ import { cn } from "@/utils/cn";
 /**
  * What a click on an interactive row leaves to the control it landed on. A
  * click on any of these, or on something portalled out of the row such as a
- * menu or dialog, does not open the row's link.
+ * menu or dialog, does not open the row's link. `data-table-row-click-ignore`
+ * opts out anything else, such as a custom control with no role of its own.
  */
 const ROW_CLICK_IGNORES =
-  "a, button, input, select, textarea, label, [contenteditable='true'], [role='checkbox'], [role^='menu']";
+  "a, button, input, select, textarea, label, [contenteditable='true'], [role='checkbox'], [role='radio'], [role='switch'], [role='slider'], [role='tab'], [role='combobox'], [role='option'], [role^='menu'], [data-table-row-click-ignore]";
 
 /**
  * Holds the row's {@link TableRowLink}, so a click elsewhere on an interactive
@@ -22,6 +23,7 @@ export const TableRowLinkContext =
  * the row but not on a control of its own, nor on a row of a table nested in it.
  * A click with a modifier key is left alone: the forwarded click could not carry
  * the modifier, so it would open in this tab what the user asked for in a new one.
+ * So is the click that ends a drag to select text.
  */
 export function openTableRowLink(
   event: React.MouseEvent<HTMLTableRowElement>,
@@ -35,7 +37,8 @@ export function openTableRowLink(
     event.shiftKey ||
     event.altKey ||
     target.closest("tr") !== event.currentTarget ||
-    target.closest(ROW_CLICK_IGNORES)
+    target.closest(ROW_CLICK_IGNORES) ||
+    window.getSelection()?.isCollapsed === false
   ) {
     return;
   }

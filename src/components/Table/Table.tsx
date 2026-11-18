@@ -454,6 +454,7 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
           )}
           onClick={(event) => {
             if (openingRowLink.current) {
+              event.stopPropagation();
               return;
             }
             onClick?.(event);
