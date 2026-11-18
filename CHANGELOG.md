@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.52.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.51.0...ui-v3.52.0) (2026-11-18)
+
+
+### Features
+
+* **Drawer:** add page variant (ENG-17762) ([#816](https://github.com/fanvue/fanv-ui/issues/816)) ([e54ba87](https://github.com/fanvue/fanv-ui/commit/e54ba87b058c6cb0971e054d0c51729e3751df3a))
+* **InlineEmptyState:** add a one-line empty state (ENG-17762) ([#815](https://github.com/fanvue/fanv-ui/issues/815)) ([bb519ec](https://github.com/fanvue/fanv-ui/commit/bb519eccae3f23cdcee2c3ed013c93e4089d716f))
+* **Link:** add subtle variant (ENG-17762) ([#814](https://github.com/fanvue/fanv-ui/issues/814)) ([98397fe](https://github.com/fanvue/fanv-ui/commit/98397fed1d1f60ecc4a4c705921300b46611ae76))
+* **SegmentedControl:** add squared appearance (ENG-17762) ([#813](https://github.com/fanvue/fanv-ui/issues/813)) ([dbdda56](https://github.com/fanvue/fanv-ui/commit/dbdda56a25e0b6de5ec2dae2e6d85487f42a7e2d))
+* **Table:** add interactive row hover and a comfortable row size ([#810](https://github.com/fanvue/fanv-ui/issues/810)) ([04f8ac5](https://github.com/fanvue/fanv-ui/commit/04f8ac592955466da8327f21bec6d9cba25add78))
+* **Table:** add TableRowLink (ENG-17762) ([#817](https://github.com/fanvue/fanv-ui/issues/817)) ([42cb7db](https://github.com/fanvue/fanv-ui/commit/42cb7dbb6b090e1ea2ab7887b62b2c4ecc25dab8))
+
 ## [3.51.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.50.0...ui-v3.51.0) (2026-11-17)
 
 
