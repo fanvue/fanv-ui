@@ -156,6 +156,7 @@ import {
   InfoCircleIcon,
   InfoIcon,
   InlineEdit,
+  InlineEmptyState,
   Link,
   LinkIcon,
   LiveStatus,
@@ -208,6 +209,7 @@ import {
   ReviewCard,
   SearchField,
   SearchIcon,
+  SegmentedControl,
   Select,
   SelectContent,
   SelectGroup,
@@ -1029,6 +1031,31 @@ function MediaPlayChipDemo() {
   );
 }
 
+function SegmentedControlDemo() {
+  const [range, setRange] = useState("30");
+  return (
+    <div id="segmentedcontrol" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Segmented Control</h2>
+      <div className="flex flex-wrap items-center gap-2">
+        <SegmentedControl
+          appearance="squared"
+          options={[
+            { label: "7 days", value: "7" },
+            { label: "30 days", value: "30" },
+            { label: "90 days", value: "90" },
+          ]}
+          value={range}
+          onChange={setRange}
+          aria-label="Date range"
+        />
+        <Button variant="secondary" size="32">
+          Edit
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 function MediaStatusIndicatorDemo() {
   return (
     <div id="mediastatusindicator" className="flex scroll-mt-20 flex-col gap-4">
@@ -1791,6 +1818,39 @@ function DrawerDemo() {
 
         <Drawer>
           <DrawerTrigger asChild>
+            <Button>Side modal</Button>
+          </DrawerTrigger>
+          <DrawerContent position="right" variant="modal">
+            <DrawerHeader>
+              <DrawerTitle>Payout Methods</DrawerTitle>
+              <DrawerDescription>The V2 modal, 8px clear of the viewport edges.</DrawerDescription>
+            </DrawerHeader>
+            <div className="flex-1">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <Button className="w-full">Continue</Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Page</Button>
+          </DrawerTrigger>
+          <DrawerContent variant="page">
+            <DrawerHeader>
+              <DrawerTitle>Summer launch</DrawerTitle>
+              <DrawerDescription>A detail page that rises over this one.</DrawerDescription>
+            </DrawerHeader>
+            <div className="min-h-0 flex-1 overflow-y-auto p-4 pt-0">
+              <p>Content area.</p>
+            </div>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
             <Button variant="secondary">Without Overlay</Button>
           </DrawerTrigger>
           <DrawerContent position="right" overlay={false}>
@@ -2056,6 +2116,14 @@ function EmptyStateDemo() {
           primaryAction="Primary action"
           secondaryAction="Secondary action"
         />
+      </div>
+      <h3 className="typography-header-heading-xs mt-6 text-content-secondary">Inline</h3>
+      <p className="typography-body-small-14px-regular max-w-xl text-content-secondary">
+        <code className="typography-body-small-14px-regular">InlineEmptyState</code> is one quiet
+        line for a card, table or panel that has nothing to show yet.
+      </p>
+      <div className="max-w-xl rounded-md border border-border-primary bg-surface-primary">
+        <InlineEmptyState>No links in this campaign yet.</InlineEmptyState>
       </div>
     </div>
   );
@@ -2390,6 +2458,9 @@ function LinkDemo() {
             <Link href="#" variant="primary" size={size} disabled>
               Disabled
             </Link>
+            <Link href="#" variant="subtle" size={size} rightIcon={<ArrowRightIcon />}>
+              Subtle
+            </Link>
           </div>
         ))}
         <p className="typography-description-12px-regular max-w-xs text-content-secondary">
@@ -2462,6 +2533,7 @@ function IconButtonDemo() {
 
         <div className="flex flex-wrap items-center gap-4">
           <IconButton variant="brand" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="upsell" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} aria-label="Close" />
           <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
         </div>
@@ -3135,6 +3207,29 @@ function DropdownMenuDemo() {
               <DropdownMenuSeparator />
               <DropdownMenuItem destructive leadingIcon={<TrashBinIcon className="size-4" />}>
                 Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="typography-description-12px-semibold text-content-secondary">
+            Row with a trailing action
+          </span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary">Settings</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem
+                leadingIcon={<DownloadIcon className="size-4" />}
+                trailingAction={
+                  <Button asChild size="24" variant="primary">
+                    <span>Download</span>
+                  </Button>
+                }
+              >
+                Earnings Report
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -6073,6 +6168,7 @@ function App() {
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
     { id: "mediaplaychip", label: "Media Play Chip" },
+    { id: "segmentedcontrol", label: "Segmented Control" },
     { id: "mediastatusindicator", label: "Media Status Indicator" },
     { id: "stepper", label: "Stepper" },
     { id: "mobilestepper", label: "Mobile Stepper" },
@@ -6202,6 +6298,8 @@ function App() {
 
             {/* Media Play Chip */}
             <MediaPlayChipDemo />
+
+            <SegmentedControlDemo />
 
             {/* Media Status Indicator */}
             <MediaStatusIndicatorDemo />

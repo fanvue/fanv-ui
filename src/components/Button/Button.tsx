@@ -56,13 +56,15 @@ const NEGATIVE_AWARE_VARIANTS = new Set<ButtonVariant>([
   "secondary",
   "tertiary",
   "outline",
+  "brand",
 ]);
 
+/** The `24` size is squared (`rounded-xs`) with 12px text, matching Figma; every larger size is a pill. */
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  "48": "h-12 px-6 py-3 typography-body-default-16px-semibold",
-  "40": "h-10 px-4 py-2 typography-body-default-16px-semibold",
-  "32": "h-8 px-3 py-[7px] typography-body-small-14px-semibold",
-  "24": "h-6 px-2 py-1 typography-body-small-14px-semibold",
+  "48": "h-12 rounded-full px-6 py-3 typography-body-default-16px-semibold",
+  "40": "h-10 rounded-full px-4 py-2 typography-body-default-16px-semibold",
+  "32": "h-8 rounded-full px-3 py-[7px] typography-body-small-14px-semibold",
+  "24": "h-6 rounded-xs px-2 py-1 typography-description-12px-semibold",
 };
 
 const ICON_SIDE_PADDING_CLASSES: Record<ButtonSize, { left: string; right: string }> = {
@@ -97,6 +99,8 @@ const AI_GRADIENT =
 
 const DISABLED_FILL = "bg-buttons-disabled-default text-content-disabled";
 const DISABLED_FILL_NEGATIVE = "bg-buttons-disabled-negative text-content-disabled";
+const BRAND_UPSELL =
+  "fv-upsell fv-upsell-shine bg-buttons-brand-default text-content-always-black hover:[--fv-upsell-end:var(--color-buttons-brand-hover)] active:[--fv-upsell-end:var(--color-buttons-brand-hover)]";
 const DISABLED_TRANSPARENT = "bg-transparent text-content-disabled";
 
 /**
@@ -147,9 +151,10 @@ const VARIANT_CLASSES: Record<ButtonVariant, VariantClasses> = {
       "border border-buttons-disabled-negative bg-transparent text-content-disabled",
   },
   brand: {
-    default:
-      "bg-buttons-brand-default text-content-always-black hover:bg-buttons-brand-hover hover:text-content-always-black active:bg-buttons-brand-hover active:text-content-always-black",
+    default: BRAND_UPSELL,
+    negative: `${BRAND_UPSELL} fv-upsell-negative`,
     disabled: DISABLED_FILL,
+    negativeDisabled: DISABLED_FILL_NEGATIVE,
   },
   destructive: {
     default:
@@ -316,8 +321,16 @@ function renderContent({
  * A versatile button component with multiple visual variants, sizes, icon
  * slots, loading state, and optional pricing display.
  *
- * Pass `negative` when rendering on a dark surface to opt into the inverted
- * treatment for `primary`, `secondary`, `tertiary`, and `outline` variants.
+ * Pass `negative` when rendering on an inverted surface to opt into the
+ * inverted treatment for `primary`, `secondary`, `tertiary`, `outline` and
+ * `brand` variants.
+ *
+ * The `brand` variant is the Figma "Upsell" button: a green radial fill with a
+ * green glow and a highlight that circles the rim once. With `negative` it takes
+ * the other theme's glow, made for the inverted surface. The highlight holds
+ * still when the user prefers reduced motion. Keep it for upgrade and purchase
+ * prompts. The fill is a gradient, so a `bg-*` class sits under it: recolour it
+ * through `--fv-upsell-end`, or pair the class with `bg-none`.
  *
  * The `ai` variant ships with the AI sparkle icon baked in (locked at 16px
  * regardless of button size); pass `leftIcon` to override the default sparkle.
@@ -391,7 +404,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         aria-busy={loading}
         {...loadingLabelProps}
         className={cn(
-          "inline-flex min-w-0 cursor-pointer items-center gap-2 whitespace-nowrap rounded-full transition-colors",
+          "inline-flex min-w-0 cursor-pointer items-center gap-2 whitespace-nowrap transition-colors",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           isInteractionDisabled && "pointer-events-none cursor-not-allowed",
           `${price ? "justify-between" : "justify-center"}`,

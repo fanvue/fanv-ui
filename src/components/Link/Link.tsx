@@ -5,9 +5,13 @@ import { cn } from "../../utils/cn";
 /**
  * Visual style variant of the link. `inherit` takes the colour of the
  * surrounding text, for links inside tooltips, alerts and other copy that sets
- * its own colour.
+ * its own colour. `subtle` is a quiet "go there" link for card headers, footers
+ * and toolbars: secondary text that turns primary and underlines on hover. With
+ * an icon it is at least 32px tall, so it sits level with a 32px control, and a
+ * `rightIcon` moves 2px towards the destination on hover unless the user asks
+ * for reduced motion.
  */
-export type LinkVariant = "primary" | "brand" | "inherit";
+export type LinkVariant = "primary" | "brand" | "inherit" | "subtle";
 
 /**
  * Text size of the link in pixels. `inherit` keeps the font size and weight of
@@ -41,16 +45,48 @@ const VARIANT_CLASSES: Record<LinkVariant, string> = {
   primary: "text-buttons-link-primary-default hover:text-buttons-link-primary-hover",
   brand: "text-buttons-link-brand-default hover:text-buttons-link-brand-hover",
   inherit: "text-inherit hover:opacity-80",
+  subtle: "text-content-secondary hover:text-content-primary",
 };
 
 const ICON_WRAPPER = "flex shrink-0 items-center justify-center [&>svg]:size-4";
+
+const UNDERLINE_STYLE = "decoration-from-font decoration-solid [text-underline-position:from-font]";
+
+/**
+ * Underline classes for the label. Every variant is underlined at rest except
+ * `subtle`, which underlines on hover only. The label is the root itself under
+ * `asChild` and a child `<span>` otherwise, so the hover is read from the root
+ * in both cases.
+ */
+function getUnderlineClassName(variant: LinkVariant, asChild: boolean) {
+  if (variant !== "subtle") return cn("underline", UNDERLINE_STYLE);
+  return cn(
+    "no-underline underline-offset-4",
+    asChild ? "hover:underline" : "group-hover/link:underline",
+    UNDERLINE_STYLE,
+  );
+}
+
+/**
+ * Layout classes for the root: inline for a link inside a sentence, and a flex
+ * row otherwise. `subtle` tightens the gap, and with an icon takes the minimum
+ * height and side padding of a 32px control, growing if its label wraps. A `subtle` root is always the hover
+ * group its label and icon read from, in both layouts.
+ */
+function getLayoutClassName(variant: LinkVariant, size: LinkSize, hasIcon: boolean) {
+  const hoverGroup = variant === "subtle" && "group/link";
+  if (size === "inherit" && !hasIcon) return cn("inline", hoverGroup);
+  if (variant !== "subtle") return "inline-flex items-center gap-2";
+  return cn(hoverGroup, "inline-flex items-center gap-1", hasIcon && "min-h-8 px-1");
+}
 
 /**
  * An inline text link for navigating to a related page or section without
  * using a button. Use `primary` for standard navigation and `brand` for the
  * Fanvue green accent on calls to action within content. Use `inherit` with
  * `size="inherit"` for a link inside copy that sets its own colour and type,
- * such as a tooltip.
+ * such as a tooltip. Use `subtle` for a quiet link beside controls, such as
+ * "Open full page" in a panel footer.
  *
  * Renders an underlined `<a>` by default. Pass `asChild` to compose with a
  * router link (e.g. Next.js `Link`). When rendering without a visible label,
@@ -59,6 +95,13 @@ const ICON_WRAPPER = "flex shrink-0 items-center justify-center [&>svg]:size-4";
  * @example
  * ```tsx
  * <Link href="/pricing" variant="brand">See our plans</Link>
+ * ```
+ *
+ * @example A quiet link with an arrow, level with a 32px control
+ * ```tsx
+ * <Link href="/campaigns/1" variant="subtle" size="14" rightIcon={<ArrowRightIcon />}>
+ *   Open full page
+ * </Link>
  * ```
  */
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
@@ -80,10 +123,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   ) => {
     const Comp = asChild ? Slot : "a";
 
-    const textClasses = cn(
-      SIZE_CLASSES[size],
-      "underline decoration-from-font decoration-solid [text-underline-position:from-font]",
-    );
+    const textClasses = cn(SIZE_CLASSES[size], getUnderlineClassName(variant, asChild));
 
     const disabledProps = disabled ? { "aria-disabled": true, tabIndex: -1 } : {};
 
@@ -105,7 +145,14 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       </span>
     );
     const rightIconNode = rightIcon && (
-      <span className={ICON_WRAPPER} aria-hidden="true">
+      <span
+        className={cn(
+          ICON_WRAPPER,
+          variant === "subtle" &&
+            "motion-safe:transition-transform motion-safe:group-hover/link:translate-x-0.5",
+        )}
+        aria-hidden="true"
+      >
         {rightIcon}
       </span>
     );
@@ -116,9 +163,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
         href={disabled ? undefined : href}
         onClick={handleClick}
         className={cn(
-          size === "inherit" && !leftIcon && !rightIcon
-            ? "inline"
-            : "inline-flex items-center gap-2",
+          getLayoutClassName(variant, size, Boolean(leftIcon || rightIcon)),
           "rounded-2xs",
           variant === "inherit" ? "transition-opacity" : "transition-colors",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
