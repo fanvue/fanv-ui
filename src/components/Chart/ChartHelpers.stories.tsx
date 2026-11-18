@@ -101,6 +101,24 @@ export const CardMetricTilesWithoutChildren: Story = {
   ),
 };
 
+export const CardFullHeight: Story = {
+  render: () => (
+    <div className="grid w-full max-w-3xl gap-4 sm:grid-cols-2">
+      <ChartCard
+        title="Total Earnings"
+        subtitle="$4,523"
+        trendChip={{ label: "12.5% vs prev", trend: "positive" }}
+        dateInfo="Mar 1 - Mar 14"
+      >
+        <SimpleLineChart config={simpleLineConfig} />
+      </ChartCard>
+      <ChartCard title="Earnings by country" fullHeight>
+        <div className="flex-1 rounded-sm border border-border-primary border-dashed" />
+      </ChartCard>
+    </div>
+  ),
+};
+
 export const LoadingOverlay: Story = {
   render: () => (
     <div className="w-full max-w-lg">

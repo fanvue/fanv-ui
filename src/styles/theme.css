@@ -192,6 +192,7 @@
   --color-brand-secondary-hover: var(--primitives-color-purple-400);
   --color-surface-primary: var(--primitives-color-gray-75);
   --color-surface-secondary: var(--primitives-color-gray-150);
+  --color-surface-table-row: var(--primitives-color-gray-150);
   --color-surface-primary-inverted: var(--primitives-color-gray-900);
   --color-surface-tertiary: var(--primitives-color-gray-300);
   --color-surface-purple-muted: var(--color-brand-secondary-muted);
@@ -669,6 +670,7 @@
   --color-brand-secondary-hover: var(--primitives-color-purple-400);
   --color-surface-primary: var(--primitives-color-gray-75);
   --color-surface-secondary: var(--primitives-color-gray-150);
+  --color-surface-table-row: var(--primitives-color-gray-150);
   --color-surface-primary-inverted: var(--primitives-color-gray-900);
   --color-surface-tertiary: var(--primitives-color-gray-300);
   --color-surface-purple-muted: var(--color-brand-secondary-muted);
@@ -804,6 +806,10 @@
   /* Focus-ring colour, consumed by --shadow-focus-ring. Violet on light
      backgrounds; overridden to white in .dark so the ring stays visible. */
   --fv-focus-ring-color: var(--color-interaction-focus);
+
+  --typography-body-default-16px-regular-font-weight: 400;
+  --typography-body-small-14px-regular-font-weight: 400;
+  --typography-description-12px-regular-font-weight: 400;
 }
 
 .dark {
@@ -867,8 +873,8 @@
   --color-buttons-brand-muted: var(--color-brand-primary-muted);
   --color-buttons-disabled-default: var(--primitives-color-gray-800);
   --color-buttons-disabled-negative: var(--primitives-color-gray-200);
-  --color-buttons-secondary-default: var(--color-neutral-alphas-200);
-  --color-buttons-secondary-hover: var(--color-neutral-alphas-300);
+  --color-buttons-secondary-default: var(--color-neutral-alphas-50);
+  --color-buttons-secondary-hover: var(--color-neutral-alphas-200);
   --color-buttons-secondary-negative-default: var(--primitives-color-blackalpha-100);
   --color-buttons-secondary-negative-hover: var(--primitives-color-blackalpha-200);
   --color-buttons-tertiary-default: #ffffff00;
@@ -887,8 +893,8 @@
   --color-buttons-always-black-hover: var(--primitives-color-gray-600);
   --color-buttons-switch-hover: var(--color-neutral-alphas-100);
   --color-buttons-switch-active: var(--color-buttons-primary-default);
-  --color-buttons-chip-default: var(--color-neutral-alphas-200);
-  --color-buttons-chip-hover: var(--color-neutral-alphas-300);
+  --color-buttons-chip-default: var(--color-neutral-alphas-100);
+  --color-buttons-chip-hover: var(--color-neutral-alphas-200);
   --color-buttons-chip-active: var(--primitives-color-gray-white);
   --color-buttons-chip-disabled: var(--color-buttons-disabled-default);
   --color-buttons-chip-dotted-default: var(--color-neutral-alphas-400);
@@ -967,6 +973,7 @@
   --color-brand-secondary-hover: var(--primitives-color-purple-400);
   --color-surface-primary: var(--primitives-color-gray-900);
   --color-surface-secondary: var(--primitives-color-gray-850);
+  --color-surface-table-row: #1d1d1dff;
   --color-surface-primary-inverted: var(--primitives-color-gray-75);
   --color-surface-tertiary: var(--primitives-color-gray-600);
   --color-surface-purple-muted: var(--color-brand-secondary-muted);
@@ -1099,6 +1106,10 @@
   --color-inputs-inputs-off: var(--color-inputs-inputs-disabled);
   --color-messages-background-receiver-2: var(--color-messages-background-receiver-stroke);
   --fv-focus-ring-color: var(--color-content-always-white);
+
+  --typography-body-default-16px-regular-font-weight: 450;
+  --typography-body-small-14px-regular-font-weight: 450;
+  --typography-description-12px-regular-font-weight: 500;
 }
 
 @utility typography-header-heading-xl {
@@ -1163,7 +1174,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.16px;
   line-height: 24px;
 }
 
@@ -1171,10 +1182,10 @@
   font-size: 16px;
   text-decoration: none;
   font-family: Inter;
-  font-weight: 400;
+  font-weight: var(--typography-body-default-16px-regular-font-weight);
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.16px;
   line-height: 24px;
 }
 
@@ -1185,7 +1196,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.035px;
   line-height: 18px;
 }
 
@@ -1193,10 +1204,10 @@
   font-size: 14px;
   text-decoration: none;
   font-family: Inter;
-  font-weight: 400;
+  font-weight: var(--typography-body-small-14px-regular-font-weight);
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.035px;
   line-height: 18px;
 }
 
@@ -1207,7 +1218,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 0.12px;
   line-height: 16px;
 }
 
@@ -1215,10 +1226,10 @@
   font-size: 12px;
   text-decoration: none;
   font-family: Inter;
-  font-weight: 400;
+  font-weight: var(--typography-description-12px-regular-font-weight);
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 0.12px;
   line-height: 16px;
 }
 
@@ -1252,7 +1263,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.16px;
   line-height: 22px;
 }
 
@@ -1263,7 +1274,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.035px;
   line-height: 18px;
 }
 
@@ -1274,6 +1285,6 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 0.12px;
   line-height: 16px;
 }
