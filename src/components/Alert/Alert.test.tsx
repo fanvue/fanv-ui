@@ -280,7 +280,7 @@ describe("Alert", () => {
 
     it("insets the content row so the message sits 16px in", () => {
       render(<Alert closable>Body</Alert>);
-      const row = screen.getByRole("alert").parentElement?.parentElement;
+      const row = screen.getByTestId("alert").firstElementChild;
       expect(row).toHaveClass("py-1", "pr-1", "gap-3");
     });
 
@@ -317,9 +317,22 @@ describe("Alert", () => {
           Body
         </Alert>,
       );
-      const column = screen.getByRole("alert").parentElement;
-      expect(column).toHaveClass("items-center", "gap-6");
-      expect(column).not.toHaveClass("flex-col");
+      const row = screen.getByTestId("alert").firstElementChild;
+      expect(row).toHaveClass("items-center", "gap-6");
+      expect(row).not.toHaveClass("flex-col");
+    });
+
+    it("centres the icon with the message, not the row, when trailing", () => {
+      render(
+        <Alert layout="trailing" action={<a href="/more">More</a>}>
+          Body
+        </Alert>,
+      );
+      const icon = screen.getByTestId("alert").querySelector('[aria-hidden="true"]');
+      const group = icon?.parentElement;
+      expect(group).toContainElement(screen.getByRole("alert"));
+      expect(group).not.toContainElement(screen.getByRole("link", { name: "More" }));
+      expect(group?.parentElement).toHaveClass("items-center");
     });
 
     it("lets the message flex and the cta hold its width when trailing", () => {
@@ -328,7 +341,8 @@ describe("Alert", () => {
           Body
         </Alert>,
       );
-      expect(screen.getByRole("alert")).toHaveClass("flex-1");
+      const icon = screen.getByTestId("alert").querySelector('[aria-hidden="true"]');
+      expect(icon?.parentElement).toHaveClass("flex-1");
       expect(screen.getByRole("link", { name: "More" })).toHaveClass("shrink-0");
     });
   });
