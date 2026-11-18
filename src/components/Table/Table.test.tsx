@@ -117,6 +117,25 @@ describe("Table", () => {
       expect(cell).toHaveClass("h-10");
     });
 
+    it("makes body cells 48px when TableCard size is comfortable", () => {
+      const { container } = render(
+        <TableCard size="comfortable">
+          <TableScrollArea>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Value</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      const cell = container.querySelector("td");
+      expect(cell).toHaveClass("h-12");
+      expect(cell).not.toHaveClass("h-10");
+    });
+
     it("uses 12px header typography at every size", () => {
       const { container } = render(
         <TableCard size="condensed">
@@ -207,6 +226,36 @@ describe("Table", () => {
       );
       const tbody = container.querySelector("tbody");
       expect(tbody).toHaveClass("[&_tr:last-child_td]:border-b-0");
+    });
+
+    it("gives interactive rows a hover and keyboard-focus fill and leaves other rows flat", () => {
+      render(
+        <TableCard>
+          <TableScrollArea>
+            <Table>
+              <TableBody>
+                <TableRow interactive data-testid="interactive">
+                  <TableCell>Opens</TableCell>
+                </TableRow>
+                <TableRow data-testid="static">
+                  <TableCell>Static</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      expect(screen.getByTestId("interactive")).toHaveClass("hover:bg-background-secondary");
+      expect(screen.getByTestId("interactive")).toHaveClass(
+        "has-[:focus-visible]:bg-background-secondary",
+      );
+      expect(screen.getByTestId("interactive")).toHaveClass("cursor-pointer");
+      expect(screen.getByTestId("interactive")).toHaveClass("duration-200", "ease-in-out");
+      expect(screen.getByTestId("static")).toBeInTheDocument();
+      expect(screen.getByTestId("static")).not.toHaveClass("hover:bg-background-secondary");
+      expect(screen.getByTestId("static")).not.toHaveClass(
+        "has-[:focus-visible]:bg-background-secondary",
+      );
     });
 
     it("applies checkbox column preset on TableHead when intent is checkbox", () => {

@@ -4266,7 +4266,7 @@ function TableDemo() {
                 <TableBody>
                   {["Feb 18, 2025, 4:19 PM", "Feb 17, 2025, 2:00 PM", "Feb 16, 2025, 9:30 AM"].map(
                     (date) => (
-                      <TableRow key={date}>
+                      <TableRow key={date} interactive>
                         <TableCell intent="checkbox">
                           <Checkbox size="16" aria-label={`Select row ${date}`} />
                         </TableCell>
@@ -4318,9 +4318,9 @@ function TableDemo() {
 
         <div>
           <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
-            Row actions and long text
+            Row actions and long text — comfortable
           </h3>
-          <TableCard>
+          <TableCard size="comfortable">
             <TableScrollArea>
               <Table>
                 <TableHeader>
