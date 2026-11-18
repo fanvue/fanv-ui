@@ -32,6 +32,40 @@ test.describe("SegmentedControl", () => {
       expect(await style(selected, "color")).not.toBe(await style(unselected, "color"));
     });
 
+    for (const [theme, system] of [
+      ["light", "dark"],
+      ["dark", "light"],
+    ] as const) {
+      test(`follows the ${theme} app theme on a ${system} system`, async ({ page }) => {
+        const surfaces = async (colorScheme: "light" | "dark") => {
+          await page.emulateMedia({ colorScheme });
+          await page.goto(`${getStoryUrl("SegmentedControl", "Squared")}&globals=theme:${theme}`);
+          const track = page.getByRole("radiogroup", { name: "Date range" });
+          await expect(track).toBeVisible();
+          return [
+            await style(track, "background-color"),
+            await style(page.getByRole("radio", { name: "30 days" }), "background-color"),
+          ];
+        };
+
+        const matching = await surfaces(theme);
+        const opposed = await surfaces(system);
+
+        expect(opposed).toEqual(matching);
+      });
+    }
+
+    test("uses different surfaces in the light and dark app themes", async ({ page }) => {
+      const track = page.getByRole("radiogroup", { name: "Date range" });
+      await page.goto(`${getStoryUrl("SegmentedControl", "Squared")}&globals=theme:light`);
+      await expect(track).toBeVisible();
+      const light = await style(track, "background-color");
+      await page.goto(`${getStoryUrl("SegmentedControl", "Squared")}&globals=theme:dark`);
+      await expect(track).toBeVisible();
+
+      expect(await style(track, "background-color")).not.toBe(light);
+    });
+
     test("moves the raised segment to the option that is clicked", async ({ page }) => {
       await page.goto(getStoryUrl("SegmentedControl", "Squared"));
 
