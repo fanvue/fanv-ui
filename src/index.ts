@@ -667,6 +667,8 @@ export type {
   InlineEditSize,
 } from "./components/InlineEdit/InlineEdit";
 export { InlineEdit } from "./components/InlineEdit/InlineEdit";
+export type { InlineEmptyStateProps } from "./components/InlineEmptyState/InlineEmptyState";
+export { InlineEmptyState } from "./components/InlineEmptyState/InlineEmptyState";
 export type { LinkProps, LinkSize, LinkVariant } from "./components/Link/Link";
 export { Link } from "./components/Link/Link";
 export type { LiveStatusProps, LiveStatusVariant } from "./components/LiveStatus/LiveStatus";

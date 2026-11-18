@@ -156,6 +156,7 @@ import {
   InfoCircleIcon,
   InfoIcon,
   InlineEdit,
+  InlineEmptyState,
   Link,
   LinkIcon,
   LiveStatus,
@@ -2073,6 +2074,14 @@ function EmptyStateDemo() {
           primaryAction="Primary action"
           secondaryAction="Secondary action"
         />
+      </div>
+      <h3 className="typography-header-heading-xs mt-6 text-content-secondary">Inline</h3>
+      <p className="typography-body-small-14px-regular max-w-xl text-content-secondary">
+        <code className="typography-body-small-14px-regular">InlineEmptyState</code> is one quiet
+        line for a card, table or panel that has nothing to show yet.
+      </p>
+      <div className="max-w-xl rounded-md border border-border-primary bg-surface-primary">
+        <InlineEmptyState>No links in this campaign yet.</InlineEmptyState>
       </div>
     </div>
   );
