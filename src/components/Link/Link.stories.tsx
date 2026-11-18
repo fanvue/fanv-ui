@@ -103,6 +103,19 @@ export const SubtleInheritSize: Story = {
   ),
 };
 
+/**
+ * `subtle` composed onto another link with `asChild`, as an app does with its router link. The
+ * rest and hover styles land on the child element.
+ */
+export const SubtleAsChild: Story = {
+  args: { children: undefined },
+  render: () => (
+    <Link asChild variant="subtle" size="14" rightIcon={<ArrowRightIcon />}>
+      <a href="/campaigns">Open all campaigns</a>
+    </Link>
+  ),
+};
+
 export const Disabled: Story = {
   args: {
     disabled: true,

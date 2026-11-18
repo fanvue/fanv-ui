@@ -1,6 +1,10 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { getRootClassName, getSquaredSegmentClassName } from "./segmentedControlClassNames";
+import {
+  getCollapsedButtonClassName,
+  getRootClassName,
+  getSegmentClassName,
+} from "./segmentedControlClassNames";
 
 /** Height of the segmented control in pixels. */
 export type SegmentedControlSize = "32" | "40" | "48";
@@ -100,13 +104,6 @@ export interface SegmentedControlProps
   collapsedIcon?: React.ReactNode;
 }
 
-/** Padding and typography per size. Combined with the container's `p-1` these hit the 32/40/48px heights. */
-const sizeClasses: Record<SegmentedControlSize, string> = {
-  "32": "px-2 py-1 typography-description-12px-semibold",
-  "40": "px-3 py-1.75 typography-body-small-14px-semibold",
-  "48": "px-4 py-2 typography-body-default-16px-semibold",
-};
-
 function warnMissingAccessibleName(ariaLabel?: string, ariaLabelledBy?: string) {
   if (process.env.NODE_ENV !== "production") {
     if (!ariaLabel && !ariaLabelledBy) {
@@ -145,100 +142,6 @@ function warnUnsupportedCollapsible(
       );
     }
   }
-}
-
-function getSegmentClassName({
-  appearance,
-  size,
-  variant,
-  isSelected,
-  isAiSegment,
-  disabled,
-}: {
-  appearance: SegmentedControlAppearance;
-  size: SegmentedControlSize;
-  variant: SegmentedControlVariant;
-  isSelected: boolean;
-  isAiSegment: boolean;
-  disabled: boolean;
-}) {
-  if (appearance === "squared") {
-    return getSquaredSegmentClassName({ size, variant, isSelected, disabled });
-  }
-  return cn(
-    "relative inline-flex min-w-0 cursor-pointer items-center justify-center rounded-full",
-    "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
-    "focus-visible:shadow-focus-ring focus-visible:outline-none",
-    variant === "fill" ? "flex-1" : "shrink-0",
-    appearance === "plain"
-      ? cn(
-          // Padding + negative margin enlarge the hit target without changing the
-          // visual footprint, which must stay glyph-only to match the design.
-          "-m-1 p-1",
-          isSelected ? "text-icons-primary" : "text-icons-tertiary hover:text-icons-primary",
-        )
-      : cn(
-          sizeClasses[size],
-          // brand renders icon + label together, so space them.
-          appearance === "brand" && "gap-1.5",
-          isSelected
-            ? appearance === "brand" && isAiSegment
-              ? // The AI segment: translucent AI fill plus the AI gradient stroke. Scoped to the
-                // segment marked `ai` rather than to whatever is selected, so a brand stroke never
-                // lands on a segment that should read as plain.
-                "fv-ai-stroke bg-buttons-ai-default text-content-primary"
-              : // Every other selected segment, `brand` included, takes the neutral pill. Its
-                // tokens invert with the theme, so this is a white pill on dark and a black one on
-                // light.
-                "bg-buttons-primary-default text-content-primary-inverted shadow-sm"
-            : "text-content-primary hover:bg-buttons-switch-hover",
-        ),
-    disabled && "pointer-events-none",
-  );
-}
-
-/**
- * Footprint of the collapsed toggle per size. A fixed square keeps the collapsed control the same
- * height as the expanded one, whose height comes from the segment padding plus the container's
- * `p-1` — padding the collapsed button alone would fall short of it by that container padding.
- */
-const collapsedSizeClasses: Record<SegmentedControlSize, string> = {
-  "32": "size-8",
-  "40": "size-10",
-  "48": "size-12",
-};
-
-/**
- * Classes for the single button shown while the control is collapsed. Unlike an expanded segment
- * (which carries asymmetric `px`/`py` padding and so reads slightly wider than tall), the collapsed
- * toggle is forced to a square via a fixed footprint and `aspect-square`, so with `rounded-full` the
- * icon-only control reads as a round button.
- */
-function getCollapsedButtonClassName({
-  appearance,
-  size,
-  disabled,
-}: {
-  appearance: SegmentedControlAppearance;
-  size: SegmentedControlSize;
-  disabled: boolean;
-}) {
-  return cn(
-    "relative inline-flex aspect-square shrink-0 cursor-pointer items-center justify-center rounded-full",
-    "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
-    "focus-visible:shadow-focus-ring focus-visible:outline-none",
-    appearance === "plain"
-      ? // Glyph-only: no pill, just the selected icon colour. The negative margin keeps the visual
-        // footprint icon-sized while the padding enlarges the hit target.
-        "-m-1 p-1 text-icons-primary"
-      : cn(
-          collapsedSizeClasses[size],
-          // Neutral circle rather than the brand pill: collapsed, the control is a switch
-          // affordance, not a preview of the selected segment.
-          "bg-surface-secondary text-icons-primary hover:bg-buttons-switch-hover",
-        ),
-    disabled && "pointer-events-none",
-  );
 }
 
 /**
