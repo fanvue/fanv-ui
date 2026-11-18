@@ -65,6 +65,18 @@ describe("Button", () => {
       expect(button).not.toHaveClass("bg-buttons-disabled-default");
     });
 
+    it("squares the 24 size with 12px text and keeps larger sizes a pill", () => {
+      const { rerender } = render(<Button size="24">Label</Button>);
+      expect(screen.getByRole("button", { name: "Label" })).toHaveClass(
+        "rounded-xs",
+        "typography-description-12px-semibold",
+      );
+      expect(screen.getByRole("button", { name: "Label" })).not.toHaveClass("rounded-full");
+
+      rerender(<Button size="32">Label</Button>);
+      expect(screen.getByRole("button", { name: "Label" })).toHaveClass("rounded-full");
+    });
+
     it("applies disabled styles when disabled", () => {
       render(
         <Button variant="brand" disabled>
@@ -73,6 +85,42 @@ describe("Button", () => {
       );
       const button = screen.getByRole("button", { name: "Disabled" });
       expect(button).toHaveClass("bg-buttons-disabled-default", "text-content-disabled");
+      expect(button).not.toHaveClass("fv-upsell");
+      expect(button).not.toHaveClass("fv-upsell-shine");
+    });
+
+    it("gives the brand variant the upsell glow, rim highlight and hover fill", () => {
+      render(<Button variant="brand">Unlock</Button>);
+      expect(screen.getByRole("button", { name: "Unlock" })).toHaveClass(
+        "fv-upsell",
+        "fv-upsell-shine",
+        "text-content-always-black",
+        "hover:[--fv-upsell-end:var(--color-buttons-brand-hover)]",
+      );
+    });
+
+    it("gives a negative brand button the other theme's glow, keeping the upsell look", () => {
+      render(
+        <>
+          <Button variant="brand">Unlock</Button>
+          <Button variant="brand" negative>
+            Unlock negative
+          </Button>
+        </>,
+      );
+      expect(screen.getByRole("button", { name: "Unlock" })).not.toHaveClass("fv-upsell-negative");
+      expect(screen.getByRole("button", { name: "Unlock negative" })).toHaveClass(
+        "fv-upsell",
+        "fv-upsell-shine",
+        "fv-upsell-negative",
+      );
+    });
+
+    it("keeps the upsell glow off other variants", () => {
+      render(<Button variant="primary">Continue</Button>);
+      const button = screen.getByRole("button", { name: "Continue" });
+      expect(button).toHaveClass("bg-buttons-primary-default");
+      expect(button).not.toHaveClass("fv-upsell");
     });
 
     it("hides icons when loading is true", () => {
@@ -277,7 +325,13 @@ describe("Button", () => {
   });
 
   describe("negative prop", () => {
-    const NEGATIVE_AWARE: ButtonVariant[] = ["primary", "secondary", "tertiary", "outline"];
+    const NEGATIVE_AWARE: ButtonVariant[] = [
+      "primary",
+      "secondary",
+      "tertiary",
+      "outline",
+      "brand",
+    ];
 
     it.each(NEGATIVE_AWARE)("changes className for variant %s when negative=true", (variant) => {
       const { rerender } = render(
@@ -296,7 +350,6 @@ describe("Button", () => {
     });
 
     const NON_NEGATIVE_AWARE: ButtonVariant[] = [
-      "brand",
       "destructive",
       "white",
       "alwaysBlack",

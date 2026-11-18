@@ -127,6 +127,33 @@ describe("buildThemeCss", () => {
     expect(bySelector.get(":root")).not.toBe(bySelector.get(".dark"));
   });
 
+  it("gives the Regular body and description styles a heavier weight in dark mode", () => {
+    const blockOf = (selector: string) =>
+      css.match(new RegExp(`^${selector} \\{\\n([\\s\\S]*?)^\\}`, "m"))?.[1] ?? "";
+    const weights = (block: string) =>
+      Object.fromEntries(
+        [...block.matchAll(/^\s*--(typography-[\w-]+)-font-weight: (\d+);/gm)].map((match) => [
+          match[1],
+          Number(match[2]),
+        ]),
+      );
+
+    expect(weights(blockOf(":root"))).toEqual({
+      "typography-body-default-16px-regular": 400,
+      "typography-body-small-14px-regular": 400,
+      "typography-description-12px-regular": 400,
+    });
+    expect(weights(blockOf("\\.dark"))).toEqual({
+      "typography-body-default-16px-regular": 450,
+      "typography-body-small-14px-regular": 450,
+      "typography-description-12px-regular": 500,
+    });
+    expect(css).toMatch(
+      /@utility typography-body-small-14px-regular \{[^}]*font-weight: var\(--typography-body-small-14px-regular-font-weight\);/,
+    );
+    expect(css).toMatch(/@utility typography-body-small-14px-semibold \{[^}]*font-weight: 600;/);
+  });
+
   it("keeps every renamed-away colour var working as an alias", () => {
     for (const [legacy, current] of Object.entries(LEGACY_COLOR_ALIASES)) {
       expect(css).toContain(`${legacy}: var(${current});`);

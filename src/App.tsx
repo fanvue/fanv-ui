@@ -5,6 +5,7 @@ import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import {
   ChartCard,
   ChartContainer,
+  ChartGrid,
   ChartLoadingOverlay,
   ChartSeriesToggle,
   ChartTooltip,
@@ -155,6 +156,7 @@ import {
   InfoCircleIcon,
   InfoIcon,
   InlineEdit,
+  InlineEmptyState,
   Link,
   LinkIcon,
   LiveStatus,
@@ -165,6 +167,7 @@ import {
   Logo,
   LogoutIcon,
   LoveIcon,
+  MediaPlayChip,
   MediaStatusIndicator,
   MegaphoneIcon,
   MenuCloseIcon,
@@ -206,6 +209,7 @@ import {
   ReviewCard,
   SearchField,
   SearchIcon,
+  SegmentedControl,
   Select,
   SelectContent,
   SelectGroup,
@@ -235,6 +239,7 @@ import {
   Table,
   TableBody,
   TableCard,
+  TableCardPagination,
   TableCell,
   TableCellContent,
   TableCellGroup,
@@ -242,19 +247,24 @@ import {
   TableHeader,
   TableLineClamp,
   TableMediaThumbnail,
-  TablePagination,
   TablePillProgressLayout,
   TableProgressTrack,
   TableRow,
-  TableRowsPerPageSelect,
+  TableRowButton,
+  TableRowLink,
   TableScrollArea,
   TableSortLabel,
   TableStackedText,
   TableStatusDot,
   TableToolbar,
+  TableToolbarAction,
+  TableToolbarButton,
+  TableToolbarSearch,
+  TableTruncatedText,
   Tabs,
   TabsContent,
   TabsList,
+  TabsListSkeleton,
   TabsTrigger,
   TagIcon,
   TaskIcon,
@@ -278,6 +288,7 @@ import {
   TrendPill,
   TrophyIcon,
   TwitterIcon,
+  UndoAlertPrompt,
   UploadIcon,
   UserCircleIcon,
   UserDisplayName,
@@ -953,6 +964,94 @@ function ToastDemo() {
         onOpenChange={(open: boolean) => !open && hideToast("messageToast")}
       />
       <ToastViewport />
+    </div>
+  );
+}
+
+function UndoAlertPromptDemo() {
+  const [open, setOpen] = useState({ positive: false, removed: false });
+  const [lastUndo, setLastUndo] = useState("");
+
+  return (
+    <div id="undoalertprompt" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Undo Alert Prompt</h2>
+      <div className="flex flex-wrap gap-3">
+        <Button
+          variant="primary"
+          size="40"
+          onClick={() => setOpen((prev) => ({ ...prev, positive: true }))}
+        >
+          Move Template
+        </Button>
+        <Button
+          variant="primary"
+          size="40"
+          onClick={() => setOpen((prev) => ({ ...prev, removed: true }))}
+        >
+          Delete Folder
+        </Button>
+      </div>
+      {lastUndo && <p className="typography-body-small-14px-regular">Undid: {lastUndo}</p>}
+      <UndoAlertPrompt
+        type="positive"
+        title="Template Moved"
+        onUndo={() => setLastUndo("Template Moved")}
+        open={open.positive}
+        onOpenChange={(value: boolean) => setOpen((prev) => ({ ...prev, positive: value }))}
+      />
+      <UndoAlertPrompt
+        type="removed"
+        title="Folder Deleted"
+        onUndo={() => setLastUndo("Folder Deleted")}
+        open={open.removed}
+        onOpenChange={(value: boolean) => setOpen((prev) => ({ ...prev, removed: value }))}
+      />
+    </div>
+  );
+}
+
+function MediaPlayChipDemo() {
+  return (
+    <div id="mediaplaychip" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Media Play Chip</h2>
+      <div className="flex flex-wrap items-center gap-4">
+        {[42, undefined].map((duration) => (
+          <div
+            key={duration ?? "icon-only"}
+            className="relative h-40 w-72 overflow-hidden rounded-sm bg-neutral-800"
+          >
+            <MediaPlayChip
+              duration={duration}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SegmentedControlDemo() {
+  const [range, setRange] = useState("30");
+  return (
+    <div id="segmentedcontrol" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Segmented Control</h2>
+      <div className="flex flex-wrap items-center gap-2">
+        <SegmentedControl
+          appearance="squared"
+          options={[
+            { label: "7 days", value: "7" },
+            { label: "30 days", value: "30" },
+            { label: "90 days", value: "90" },
+          ]}
+          value={range}
+          onChange={setRange}
+          aria-label="Date range"
+        />
+        <Button variant="secondary" size="32">
+          Edit
+        </Button>
+      </div>
     </div>
   );
 }
@@ -1719,6 +1818,39 @@ function DrawerDemo() {
 
         <Drawer>
           <DrawerTrigger asChild>
+            <Button>Side modal</Button>
+          </DrawerTrigger>
+          <DrawerContent position="right" variant="modal">
+            <DrawerHeader>
+              <DrawerTitle>Payout Methods</DrawerTitle>
+              <DrawerDescription>The V2 modal, 8px clear of the viewport edges.</DrawerDescription>
+            </DrawerHeader>
+            <div className="flex-1">
+              <p>Content area.</p>
+            </div>
+            <DrawerFooter>
+              <Button className="w-full">Continue</Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Page</Button>
+          </DrawerTrigger>
+          <DrawerContent variant="page">
+            <DrawerHeader>
+              <DrawerTitle>Summer launch</DrawerTitle>
+              <DrawerDescription>A detail page that rises over this one.</DrawerDescription>
+            </DrawerHeader>
+            <div className="min-h-0 flex-1 overflow-y-auto p-4 pt-0">
+              <p>Content area.</p>
+            </div>
+          </DrawerContent>
+        </Drawer>
+
+        <Drawer>
+          <DrawerTrigger asChild>
             <Button variant="secondary">Without Overlay</Button>
           </DrawerTrigger>
           <DrawerContent position="right" overlay={false}>
@@ -1963,6 +2095,12 @@ function EmptyStateDemo() {
           primaryAction={<Button variant="brand">Add Media to Vault</Button>}
           secondaryAction={<Button variant="secondary">Learn more</Button>}
         />
+        <EmptyState
+          variant="centered"
+          title="Page-level empty state"
+          titleAs="h1"
+          description="A whole-page state renders its string title as an h1."
+        />
       </div>
       <h3 className="typography-header-heading-xs mt-6 text-content-secondary">String slots</h3>
       <p className="typography-body-small-14px-regular max-w-xl text-content-secondary">
@@ -1978,6 +2116,14 @@ function EmptyStateDemo() {
           primaryAction="Primary action"
           secondaryAction="Secondary action"
         />
+      </div>
+      <h3 className="typography-header-heading-xs mt-6 text-content-secondary">Inline</h3>
+      <p className="typography-body-small-14px-regular max-w-xl text-content-secondary">
+        <code className="typography-body-small-14px-regular">InlineEmptyState</code> is one quiet
+        line for a card, table or panel that has nothing to show yet.
+      </p>
+      <div className="max-w-xl rounded-md border border-border-primary bg-surface-primary">
+        <InlineEmptyState>No links in this campaign yet.</InlineEmptyState>
       </div>
     </div>
   );
@@ -2312,8 +2458,17 @@ function LinkDemo() {
             <Link href="#" variant="primary" size={size} disabled>
               Disabled
             </Link>
+            <Link href="#" variant="subtle" size={size} rightIcon={<ArrowRightIcon />}>
+              Subtle
+            </Link>
           </div>
         ))}
+        <p className="typography-description-12px-regular max-w-xs text-content-secondary">
+          A flat fee applies to every crypto payout.{" "}
+          <Link href="#" variant="inherit" size="inherit">
+            Learn more about payout fees
+          </Link>
+        </p>
       </div>
     </div>
   );
@@ -2378,6 +2533,7 @@ function IconButtonDemo() {
 
         <div className="flex flex-wrap items-center gap-4">
           <IconButton variant="brand" icon={<HomeIcon />} aria-label="Home" />
+          <IconButton variant="upsell" icon={<HomeIcon />} aria-label="Home" />
           <IconButton variant="tertiaryDestructive" icon={<CrossIcon />} aria-label="Close" />
           <IconButton variant="navTray" icon={<HomeIcon />} aria-label="Home" />
         </div>
@@ -2386,6 +2542,7 @@ function IconButtonDemo() {
           <div className="flex flex-wrap items-center gap-4">
             <IconButton variant="contrast" icon={<HomeIcon />} aria-label="Home" />
             <IconButton variant="messaging" icon={<PlusIcon />} aria-label="Add" />
+            <IconButton variant="overlay" icon={<CrossIcon />} aria-label="Close" />
           </div>
         </div>
 
@@ -2526,6 +2683,23 @@ function UserItemTrailingDemo() {
           showHandle={false}
           trailing={<UserItemTrailing value="$980.00" meta="3 purchases" />}
         />
+      </div>
+      <h3 className="typography-body-default-16px-semibold mt-4 mb-2">UserItem padding</h3>
+      <div className="flex max-w-sm flex-col gap-2">
+        {(["md", "none"] as const).map((padding) => (
+          <div key={padding} className="flex flex-col gap-1">
+            <div className="bg-surface-secondary">
+              <UserItem
+                padding={padding}
+                user={{ displayName: "Jane Doe", handle: "jane_doe" }}
+                avatarSize={32}
+              />
+            </div>
+            <p className="typography-description-12px-regular text-content-secondary">
+              padding={padding}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -3040,6 +3214,29 @@ function DropdownMenuDemo() {
 
         <div className="flex flex-col gap-2">
           <span className="typography-description-12px-semibold text-content-secondary">
+            Row with a trailing action
+          </span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary">Settings</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem
+                leadingIcon={<DownloadIcon className="size-4" />}
+                trailingAction={
+                  <Button asChild size="24" variant="primary">
+                    <span>Download</span>
+                  </Button>
+                }
+              >
+                Earnings Report
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="typography-description-12px-semibold text-content-secondary">
             Drag-to-reorder with a Done header action
           </span>
           {/* Controlled so the header's Done action can close the menu. */}
@@ -3049,7 +3246,7 @@ function DropdownMenuDemo() {
                 Reorder folders
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-60 rounded-lg border-border-strong">
+            <DropdownMenuContent align="start" className="w-60">
               <DropdownMenuHeader
                 title="All Folders"
                 showClose={false}
@@ -3421,7 +3618,7 @@ function CyclingTextDemo() {
       <div className="flex flex-col gap-2">
         <h3 className="typography-header-heading-xs text-content-secondary">In a status row</h3>
         <div className="inline-flex items-center gap-2 text-content-tertiary">
-          <SpinnerIcon className="size-6 animate-spin" />
+          <SpinnerIcon size={24} spin />
           <CyclingText items={CYCLING_TEXT_STAGES} />
         </div>
       </div>
@@ -3429,9 +3626,9 @@ function CyclingTextDemo() {
       <div className="flex flex-col gap-2">
         <h3 className="typography-header-heading-xs text-content-secondary">Sized to current</h3>
         <div className="inline-flex items-center gap-2 text-content-tertiary">
-          <SpinnerIcon className="size-6 animate-spin" />
+          <SpinnerIcon size={24} spin />
           <CyclingText items={CYCLING_TEXT_STAGES} sizing="current" />
-          <SpinnerIcon className="size-6 animate-spin" />
+          <SpinnerIcon size={24} spin />
         </div>
       </div>
 
@@ -3961,9 +4158,9 @@ const TABLE_DEMO_MEDIA =
 
 function TableDemo() {
   const [pageMd, setPageMd] = useState(2);
+  const [tableQuery, setTableQuery] = useState("");
+  const [tablePageSize, setTablePageSize] = useState(10);
   const [pageLg, setPageLg] = useState(1);
-  const [pageDesk, setPageDesk] = useState(2);
-  const [pageMob, setPageMob] = useState(2);
 
   return (
     <div id="table" className="flex scroll-mt-20 flex-col gap-4">
@@ -4038,24 +4235,21 @@ function TableDemo() {
           <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
             Table — default (v2)
           </h3>
+          <TableToolbar
+            className="mb-2"
+            search={
+              <TableToolbarSearch
+                value={tableQuery}
+                onValueChange={setTableQuery}
+                placeholder="Search"
+                clearLabel="Clear search"
+              />
+            }
+          >
+            <TableToolbarAction>All</TableToolbarAction>
+            <TableToolbarButton>Create New</TableToolbarButton>
+          </TableToolbar>
           <TableCard>
-            <TableToolbar>
-              <span className="typography-description-12px-regular text-content-primary">
-                2 selected
-              </span>
-              <div className="flex flex-wrap gap-1">
-                <Button variant="tertiary" size="32" leftIcon={<UsersIcon className="size-3.5" />}>
-                  Assign to creators
-                </Button>
-                <Button
-                  variant="tertiaryDestructive"
-                  size="32"
-                  leftIcon={<TrashBinIcon className="size-3.5" />}
-                >
-                  Delete
-                </Button>
-              </div>
-            </TableToolbar>
             <TableScrollArea>
               <Table>
                 <TableHeader>
@@ -4073,11 +4267,13 @@ function TableDemo() {
                 <TableBody>
                   {["Feb 18, 2025, 4:19 PM", "Feb 17, 2025, 2:00 PM", "Feb 16, 2025, 9:30 AM"].map(
                     (date) => (
-                      <TableRow key={date}>
+                      <TableRow key={date} interactive>
                         <TableCell intent="checkbox">
                           <Checkbox size="16" aria-label={`Select row ${date}`} />
                         </TableCell>
-                        <TableCell>{date}</TableCell>
+                        <TableCell>
+                          <TableRowLink href="#table">{date}</TableRowLink>
+                        </TableCell>
                         <TableCell intent="multiline">
                           <TableLineClamp>
                             Placeholder description.{" "}
@@ -4112,18 +4308,55 @@ function TableDemo() {
                 </TableBody>
               </Table>
             </TableScrollArea>
-            <TablePagination
-              leadingSlot={<TableRowsPerPageSelect id="app-table-md-rows" />}
-              paginationSlot={
-                <Pagination
-                  className="pb-0"
-                  totalPages={5}
-                  currentPage={pageMd}
-                  onPageChange={setPageMd}
-                />
-              }
-              summary="20–30 of 100 rows"
+            <TableCardPagination
+              page={pageMd}
+              pageCount={5}
+              onPageChange={setPageMd}
+              pageSize={tablePageSize}
+              pageSizeOptions={[10, 25, 50]}
+              onPageSizeChange={setTablePageSize}
             />
+          </TableCard>
+        </div>
+
+        <div>
+          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
+            Row actions and long text — comfortable
+          </h3>
+          <TableCard size="comfortable">
+            <TableScrollArea>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Note</TableHead>
+                    <TableHead aria-label="Actions" />
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell nowrap>Main link</TableCell>
+                    <TableCell nowrap>
+                      <TableTruncatedText>
+                        Weekend special: 50% off my full gallery for the next 24 hours
+                      </TableTruncatedText>
+                    </TableCell>
+                    <TableCell nowrap>
+                      <TableRowButton leftIcon={<CopyIcon filled />}>Copy</TableRowButton>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell nowrap>Trial</TableCell>
+                    <TableCell nowrap>
+                      <TableTruncatedText>Short note</TableTruncatedText>
+                    </TableCell>
+                    <TableCell nowrap>
+                      <TableRowButton leftIcon={<CopyIcon filled />}>Copy</TableRowButton>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableScrollArea>
           </TableCard>
         </div>
 
@@ -4160,17 +4393,13 @@ function TableDemo() {
                 </TableBody>
               </Table>
             </TableScrollArea>
-            <TablePagination
-              leadingSlot={<TableRowsPerPageSelect id="app-table-lg-rows" />}
-              paginationSlot={
-                <Pagination
-                  className="pb-0"
-                  totalPages={5}
-                  currentPage={pageLg}
-                  onPageChange={setPageLg}
-                />
-              }
-              summary="1–10 of 48 rows"
+            <TableCardPagination
+              page={pageLg}
+              pageCount={5}
+              onPageChange={setPageLg}
+              pageSize={tablePageSize}
+              pageSizeOptions={[10, 25, 50]}
+              onPageSizeChange={setTablePageSize}
             />
           </TableCard>
         </div>
@@ -4311,46 +4540,6 @@ function TableDemo() {
             </TableScrollArea>
           </TableCard>
         </div>
-
-        <div>
-          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
-            Pagination — desktop
-          </h3>
-          <div className="max-w-[628px] rounded-3xl border border-border-strong">
-            <TablePagination
-              leadingSlot={<TableRowsPerPageSelect id="app-table-pag-desk" />}
-              paginationSlot={
-                <Pagination
-                  className="pb-0"
-                  totalPages={5}
-                  currentPage={pageDesk}
-                  onPageChange={setPageDesk}
-                />
-              }
-              summary="20–30 of 100 rows"
-            />
-          </div>
-        </div>
-
-        <div>
-          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
-            Pagination — mobile
-          </h3>
-          <TablePagination
-            layout="mobile"
-            className="max-w-sm rounded-3xl border border-border-strong"
-            leadingSlot={<TableRowsPerPageSelect id="app-table-pag-mob" />}
-            paginationSlot={
-              <Pagination
-                className="pb-0"
-                totalPages={5}
-                currentPage={pageMob}
-                onPageChange={setPageMob}
-              />
-            }
-            summary="20–30 of 100 rows"
-          />
-        </div>
       </div>
     </div>
   );
@@ -4377,6 +4566,10 @@ function TabsDemo() {
             <p className="pt-4 text-neutral-alphas-400 text-sm">Posts content</p>
           </TabsContent>
         </Tabs>
+        <TabsListSkeleton>
+          <Skeleton variant="rounded" width={40} height={32} className="rounded-full" />
+          <Skeleton variant="rounded" width={96} height={32} className="rounded-full" />
+        </TabsListSkeleton>
         <Tabs defaultValue="all">
           <TabsList appearance="pill" aria-label="Categories">
             <TabsTrigger value="all">All</TabsTrigger>
@@ -5509,6 +5702,18 @@ function SkeletonDemo() {
         </div>
       </div>
 
+      <h3 className="typography-body-default-16px-semibold mt-4">Radius</h3>
+      <div className="grid grid-cols-3 gap-4">
+        {(["sm", "md", "lg"] as const).map((radius) => (
+          <div key={radius}>
+            <p className="typography-description-12px-regular mb-1 text-content-tertiary">
+              radius={radius}
+            </p>
+            <Skeleton variant="rectangular" radius={radius} width="100%" height={80} />
+          </div>
+        ))}
+      </div>
+
       {/* Animations */}
       <h3 className="typography-body-default-16px-semibold mt-4">Animations</h3>
       <div className="flex flex-col gap-4">
@@ -5652,53 +5857,64 @@ function CardDemo() {
 }
 
 function CreatorCardDemo() {
-  const imageSrc =
-    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=580&h=900&fit=crop";
-  const avatarSrc =
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop";
-  const background = <img src={imageSrc} alt="" loading="lazy" />;
+  const background = (
+    <img
+      src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=320&h=352&fit=crop"
+      alt=""
+      loading="lazy"
+    />
+  );
+  const avatar = {
+    src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop",
+    fallback: "JD",
+  };
+  const shared = {
+    background,
+    avatar,
+    pill: { variant: "contrast" as const, children: "Popular this week" },
+    name: "Jane Doe",
+    verified: true,
+    tagline: "412 posts",
+    content: <span className="block truncate">$9.99 / month</span>,
+  };
 
   return (
     <div id="creator-card" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-xs mb-4">Creator Card</h2>
-      <h3 className="typography-body-default-16px-semibold">Button variants</h3>
+      <h3 className="typography-body-default-16px-semibold">States</h3>
       <div className="flex flex-wrap items-start gap-6">
         <CreatorCard
-          background={background}
-          name="Jane Doe"
-          description="MODEL & PODCASTER"
-          avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
-          actions={
-            <>
-              <Button variant="brand" size="32" fullWidth>
-                Join for free for 3 days
-              </Button>
-              <Button variant="primary" size="32" fullWidth>
-                Follow for Free
-              </Button>
-            </>
-          }
-          className="w-72 rounded-md"
-        />
-        <CreatorCard
-          background={background}
-          name="Jane Doe"
-          description="MODEL & PODCASTER"
-          avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
-          actions={
-            <Button variant="brand" size="32" fullWidth>
-              Follow for Free
+          {...shared}
+          className="w-40 rounded-md"
+          action={
+            <Button variant="primary" size="32" fullWidth>
+              Subscribe
             </Button>
           }
-          className="w-72 rounded-md"
         />
         <CreatorCard
-          background={background}
-          name="Jane Doe"
-          description="MODEL & PODCASTER"
-          avatar={{ src: avatarSrc, alt: "Jane Doe", fallback: "JD" }}
-          className="w-72 rounded-md"
+          {...shared}
+          className="w-40 rounded-md"
+          action={
+            <Button variant="secondary" size="32" fullWidth>
+              Subscribed
+            </Button>
+          }
         />
+      </div>
+      <h3 className="typography-body-default-16px-semibold">Width and optional slots</h3>
+      <div className="flex flex-wrap items-start gap-6">
+        <CreatorCard
+          {...shared}
+          className="w-64 rounded-md"
+          pill={{ variant: "brand", children: "New creator" }}
+          action={
+            <Button variant="brand" size="32" fullWidth>
+              Subscribe
+            </Button>
+          }
+        />
+        <CreatorCard {...shared} className="w-40 rounded-md" pill={undefined} />
       </div>
     </div>
   );
@@ -5951,6 +6167,8 @@ function App() {
     { id: "link", label: "Link" },
     { id: "loader", label: "Loader" },
     { id: "logo", label: "Logo" },
+    { id: "mediaplaychip", label: "Media Play Chip" },
+    { id: "segmentedcontrol", label: "Segmented Control" },
     { id: "mediastatusindicator", label: "Media Status Indicator" },
     { id: "stepper", label: "Stepper" },
     { id: "mobilestepper", label: "Mobile Stepper" },
@@ -5974,6 +6192,7 @@ function App() {
     { id: "textarea", label: "Text Area" },
     { id: "textfield", label: "Text Field" },
     { id: "toast", label: "Toast" },
+    { id: "undoalertprompt", label: "Undo Alert Prompt" },
     { id: "loader", label: "Loader" },
     { id: "breadcrumb", label: "Breadcrumb" },
     { id: "skeleton", label: "Skeleton" },
@@ -6076,6 +6295,11 @@ function App() {
           <section className="space-y-8">
             {/* Logo */}
             <LogoDemo />
+
+            {/* Media Play Chip */}
+            <MediaPlayChipDemo />
+
+            <SegmentedControlDemo />
 
             {/* Media Status Indicator */}
             <MediaStatusIndicatorDemo />
@@ -6268,6 +6492,9 @@ function App() {
             {/* Toast */}
             <ToastDemo />
 
+            {/* Undo Alert Prompt */}
+            <UndoAlertPromptDemo />
+
             {/* Dialog */}
             <DialogDemo />
 
@@ -6328,7 +6555,7 @@ function ChartsDemo() {
       >
         <ChartContainer config={simpleLineConfig} className="h-48 w-full">
           <LineChart accessibilityLayer data={simpleLineData}>
-            <CartesianGrid vertical={false} strokeDasharray="5 3" />
+            <ChartGrid />
             <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
             <ChartTooltip content={<ChartTooltipContent />} />
             <Line
