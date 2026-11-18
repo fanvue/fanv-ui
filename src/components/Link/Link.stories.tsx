@@ -108,9 +108,13 @@ export const SubtleInheritSize: Story = {
  * rest and hover styles land on the child element.
  */
 export const SubtleAsChild: Story = {
-  args: { children: undefined },
-  render: () => (
-    <Link asChild variant="subtle" size="14" rightIcon={<ArrowRightIcon />}>
+  args: {
+    variant: "subtle",
+    size: "14",
+    rightIcon: <ArrowRightIcon />,
+  },
+  render: ({ href, children, ...args }) => (
+    <Link {...args} asChild>
       <a href="/campaigns">Open all campaigns</a>
     </Link>
   ),
