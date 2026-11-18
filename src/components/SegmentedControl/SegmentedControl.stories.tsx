@@ -31,7 +31,7 @@ const meta = {
     },
     appearance: {
       control: "inline-radio",
-      options: ["pill", "plain", "brand"],
+      options: ["pill", "plain", "brand", "squared"],
     },
     disabled: {
       control: "boolean",
@@ -150,6 +150,47 @@ export const BrandNeutralSelected: Story = {
       url: "https://www.figma.com/design/fDlJj7bf7KXQlibPoujgaC/Creator---AI-Features?node-id=6470-48376",
     },
   },
+};
+
+const rangeOptions = [
+  { label: "7 days", value: "7" },
+  { label: "30 days", value: "30" },
+  { label: "90 days", value: "90" },
+];
+
+/**
+ * The `squared` appearance: a bordered, squared track with a raised selected segment and muted
+ * unselected labels, one fixed height per size so it sits level with a button of the same size.
+ */
+export const Squared: Story = {
+  args: {
+    appearance: "squared",
+    options: rangeOptions,
+    defaultValue: "30",
+    "aria-label": "Date range",
+  },
+};
+
+export const SquaredSizes: Story = {
+  args: {
+    appearance: "squared",
+    options: rangeOptions,
+    "aria-label": "Date range",
+  },
+  render: () => (
+    <div className="flex flex-col items-start gap-4">
+      {(["32", "40", "48"] as SegmentedControlSize[]).map((size) => (
+        <SegmentedControl
+          key={size}
+          appearance="squared"
+          size={size}
+          options={rangeOptions}
+          defaultValue="30"
+          aria-label={`Date range, size ${size}`}
+        />
+      ))}
+    </div>
+  ),
 };
 
 /**
