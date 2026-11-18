@@ -51,10 +51,10 @@ describe("DropdownMenuAvatarItem", () => {
     expect(screen.getByTestId("more")).toBeInTheDocument();
   });
 
-  it("applies the selected fill and inverts the handle", () => {
+  it("applies the selected fill and keeps the handle readable", () => {
     renderMenu(<DropdownMenuAvatarItem name="Maya Chen" handle="@mayachen" selected />);
-    expect(screen.getByRole("menuitem")).toHaveClass("bg-buttons-primary-default");
-    expect(screen.getByText("@mayachen")).toHaveClass("text-content-primary-inverted");
+    expect(screen.getByRole("menuitem")).toHaveClass("bg-interaction-hover");
+    expect(screen.getByText("@mayachen")).toHaveClass("text-content-tertiary");
   });
 
   it("uses the 12px radius and no fixed 40px height", () => {

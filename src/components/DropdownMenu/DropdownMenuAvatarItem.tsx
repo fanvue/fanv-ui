@@ -59,10 +59,8 @@ export const DropdownMenuAvatarItem = React.forwardRef<
         {handle != null && (
           <span
             className={cn(
-              "typography-body-small-14px-regular truncate",
-              selected
-                ? "text-content-primary-inverted"
-                : "text-content-tertiary group-data-[disabled]:text-content-disabled group-aria-disabled:text-content-disabled",
+              "typography-body-small-14px-regular truncate text-content-tertiary",
+              "group-data-[disabled]:text-content-disabled group-aria-disabled:text-content-disabled",
             )}
           >
             {handle}
