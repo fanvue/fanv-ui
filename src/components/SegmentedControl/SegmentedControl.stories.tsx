@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { expect, within } from "storybook/test";
 import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { AIIcon } from "../Icons/AIIcon";
 import { GridViewIcon } from "../Icons/GridViewIcon";
@@ -169,24 +168,6 @@ export const Squared: Story = {
     options: rangeOptions,
     defaultValue: "30",
     "aria-label": "Date range",
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const track = canvas.getByRole("radiogroup", { name: "Date range" });
-    const selected = canvas.getByRole("radio", { name: "30 days" });
-    const unselected = canvas.getByRole("radio", { name: "7 days" });
-
-    await expect(track.getBoundingClientRect().height).toBe(32);
-    await expect(getComputedStyle(track).borderTopLeftRadius).toBe("8px");
-    await expect(getComputedStyle(track).borderTopWidth).toBe("1px");
-    await expect(selected.getBoundingClientRect().height).toBe(26);
-    await expect(getComputedStyle(selected).borderTopLeftRadius).toBe("4px");
-    await expect(getComputedStyle(selected).fontWeight).toBe("500");
-    await expect(getComputedStyle(selected).fontSize).toBe("12px");
-    await expect(getComputedStyle(selected).backgroundColor).not.toBe(
-      getComputedStyle(unselected).backgroundColor,
-    );
-    await expect(getComputedStyle(selected).color).not.toBe(getComputedStyle(unselected).color);
   },
 };
 

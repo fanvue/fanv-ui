@@ -30,7 +30,7 @@ export type SegmentedControlAppearance = "pill" | "plain" | "brand" | "squared";
 /** Describes one selectable segment. */
 export interface SegmentedControlOption {
   /**
-   * Display label for the segment. In `pill`/`plain` appearances, when `icon` is provided the
+   * Display label for the segment. In `pill`/`plain`/`squared` appearances, when `icon` is provided the
    * segment renders icon-only and this value becomes its accessible name (applied as `aria-label`)
    * instead of visible text. In the `brand` appearance the label is always rendered as visible text
    * (alongside the icon when present).
@@ -39,7 +39,7 @@ export interface SegmentedControlOption {
   /** Value identifier returned via `onChange`. */
   value: string;
   /**
-   * Icon to render for the segment. In `pill`/`plain` appearances the segment renders icon-only and
+   * Icon to render for the segment. In `pill`/`plain`/`squared` appearances the segment renders icon-only and
    * `label` becomes required as its accessible name (applied as `aria-label`, no visible text). In
    * the `brand` appearance the icon renders alongside the visible `label`. Required for every option
    * when `collapsible` is set unless a `collapsedIcon` is given, since the collapsed control
