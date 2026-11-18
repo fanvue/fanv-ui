@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { expect, within } from "storybook/test";
 import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { AIIcon } from "../Icons/AIIcon";
 import { GridViewIcon } from "../Icons/GridViewIcon";
@@ -31,7 +32,7 @@ const meta = {
     },
     appearance: {
       control: "inline-radio",
-      options: ["pill", "plain", "brand"],
+      options: ["pill", "plain", "brand", "squared"],
     },
     disabled: {
       control: "boolean",
@@ -150,6 +151,65 @@ export const BrandNeutralSelected: Story = {
       url: "https://www.figma.com/design/fDlJj7bf7KXQlibPoujgaC/Creator---AI-Features?node-id=6470-48376",
     },
   },
+};
+
+const rangeOptions = [
+  { label: "7 days", value: "7" },
+  { label: "30 days", value: "30" },
+  { label: "90 days", value: "90" },
+];
+
+/**
+ * The `squared` appearance: a bordered, squared track with a raised selected segment and muted
+ * unselected labels, one fixed height per size so it sits level with a button of the same size.
+ */
+export const Squared: Story = {
+  args: {
+    appearance: "squared",
+    options: rangeOptions,
+    defaultValue: "30",
+    "aria-label": "Date range",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const track = canvas.getByRole("radiogroup", { name: "Date range" });
+    const selected = canvas.getByRole("radio", { name: "30 days" });
+    const unselected = canvas.getByRole("radio", { name: "7 days" });
+
+    await expect(track.getBoundingClientRect().height).toBe(32);
+    await expect(getComputedStyle(track).borderTopLeftRadius).toBe("8px");
+    await expect(getComputedStyle(track).borderTopWidth).toBe("1px");
+    await expect(selected.getBoundingClientRect().height).toBe(26);
+    await expect(getComputedStyle(selected).borderTopLeftRadius).toBe("4px");
+    await expect(getComputedStyle(selected).fontWeight).toBe("500");
+    await expect(getComputedStyle(selected).fontSize).toBe("12px");
+    await expect(getComputedStyle(selected).backgroundColor).not.toBe(
+      getComputedStyle(unselected).backgroundColor,
+    );
+    await expect(getComputedStyle(selected).color).not.toBe(getComputedStyle(unselected).color);
+  },
+};
+
+export const SquaredSizes: Story = {
+  args: {
+    appearance: "squared",
+    options: rangeOptions,
+    "aria-label": "Date range",
+  },
+  render: () => (
+    <div className="flex flex-col items-start gap-4">
+      {(["32", "40", "48"] as SegmentedControlSize[]).map((size) => (
+        <SegmentedControl
+          key={size}
+          appearance="squared"
+          size={size}
+          options={rangeOptions}
+          defaultValue="30"
+          aria-label={`Date range, size ${size}`}
+        />
+      ))}
+    </div>
+  ),
 };
 
 /**
