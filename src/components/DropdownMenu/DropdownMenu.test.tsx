@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { IconButton } from "../IconButton/IconButton";
+import { EditIcon } from "../Icons/EditIcon";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -49,6 +51,13 @@ describe("DropdownMenu", () => {
       );
       expect(await axe(container)).toHaveNoViolations();
     });
+
+    it("item with a trailing action has no a11y violations", async () => {
+      const { container } = renderMenu(
+        <DropdownMenuItem trailingAction={<span>Download</span>}>Earnings Report</DropdownMenuItem>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
   });
 
   describe("API", () => {
@@ -63,8 +72,8 @@ describe("DropdownMenu", () => {
         </DropdownMenuItem>,
       );
       // 18px is the title's leading; a `pt-1` nudge would sit them 3px low.
-      expect(screen.getByTestId("avatar").parentElement).toHaveClass("h-[18px]");
-      expect(screen.getByText("12")).toHaveClass("h-[18px]");
+      expect(screen.getByTestId("avatar").parentElement).toHaveClass("h-4.5");
+      expect(screen.getByText("12")).toHaveClass("h-4.5");
       expect(screen.getByText("12")).not.toHaveClass("pt-1");
     });
 
@@ -74,15 +83,15 @@ describe("DropdownMenu", () => {
           Alex Smith
         </DropdownMenuItem>,
       );
-      expect(screen.getByTestId("avatar").parentElement).not.toHaveClass("h-[18px]");
-      expect(screen.getByText("12")).not.toHaveClass("h-[18px]");
+      expect(screen.getByTestId("avatar").parentElement).not.toHaveClass("h-4.5");
+      expect(screen.getByText("12")).not.toHaveClass("h-4.5");
     });
 
-    it("gives the panel the 24px menu radius, not the 16px row radius", () => {
+    it("gives the panel the 16px menu radius, not the 12px row radius", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const panel = screen.getByRole("menu");
-      expect(panel).toHaveClass("rounded-lg");
-      expect(panel).not.toHaveClass("rounded-md");
+      expect(panel).toHaveClass("rounded-md");
+      expect(panel).not.toHaveClass("rounded-lg");
       expect(panel).not.toHaveClass("rounded-sm");
     });
 
@@ -97,29 +106,55 @@ describe("DropdownMenu", () => {
 
     // Each of these three drifted from the design unnoticed, so they are asserted
     // rather than left to the eye. Node references are in the component.
-    it("gives a menu item the 16px row radius, concentric with the panel", () => {
+    it("gives a menu item the 12px row radius", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const item = screen.getByRole("menuitem");
-      expect(item).toHaveClass("rounded-md");
-      expect(item).not.toHaveClass("rounded-sm");
+      expect(item).toHaveClass("rounded-sm");
+      expect(item).not.toHaveClass("rounded-md");
     });
 
-    it("gives a radio item the same 16px row radius", () => {
+    it("gives a radio item the same 12px row radius", () => {
       renderMenu(
         <DropdownMenuRadioGroup value="a">
           <DropdownMenuRadioItem value="a">A</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>,
       );
       const item = screen.getByRole("menuitemradio");
-      expect(item).toHaveClass("rounded-md");
+      expect(item).toHaveClass("rounded-sm");
       expect(item).not.toHaveClass("rounded-xs");
     });
 
-    it("gives a checkbox item the same 16px row radius", () => {
+    it("gives a checkbox item the same 12px row radius", () => {
       renderMenu(<DropdownMenuCheckboxItem>A</DropdownMenuCheckboxItem>);
       const item = screen.getByRole("menuitemcheckbox");
-      expect(item).toHaveClass("rounded-md");
+      expect(item).toHaveClass("rounded-sm");
       expect(item).not.toHaveClass("rounded-xs");
+    });
+
+    it("centres a single-line radio item and top-aligns one with a helper", () => {
+      renderMenu(
+        <DropdownMenuRadioGroup value="a">
+          <DropdownMenuRadioItem value="a">Single</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="b" helper="Helper line">
+            Double
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      expect(screen.getByRole("menuitemradio", { name: "Single" })).toHaveClass("items-center");
+      expect(screen.getByRole("menuitemradio", { name: /Double/ })).toHaveClass("items-start");
+    });
+
+    it("gives radio and checkbox items the 40px minimum row height", () => {
+      renderMenu(
+        <>
+          <DropdownMenuRadioGroup value="a">
+            <DropdownMenuRadioItem value="a">A</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+          <DropdownMenuCheckboxItem>B</DropdownMenuCheckboxItem>
+        </>,
+      );
+      expect(screen.getByRole("menuitemradio")).toHaveClass("min-h-10");
+      expect(screen.getByRole("menuitemcheckbox")).toHaveClass("min-h-10");
     });
 
     it("indents a radio item the same as any other row", () => {
@@ -631,38 +666,153 @@ describe("DropdownMenuItem", () => {
       expect(screen.getByTestId("item")).toHaveClass("min-h-10");
     });
 
-    it("renders the selected state as a filled row with semibold inverted text", () => {
+    it("renders the selected state with the regular-weight hover highlight", () => {
       renderMenu(
         <DropdownMenuItem selected data-testid="item">
           Item
         </DropdownMenuItem>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass(
-        "bg-buttons-primary-default",
-        "text-content-primary-inverted",
-        "typography-body-default-16px-semibold",
-      );
+      expect(item).toHaveClass("bg-interaction-hover", "typography-body-small-14px-regular");
+      expect(item).not.toHaveClass("typography-body-small-14px-semibold");
     });
 
-    it("uses the 14px semibold title on a selected 32 row", () => {
+    it("renders leading and trailing icons at 16px in the secondary icon colour", () => {
       renderMenu(
-        <DropdownMenuItem selected size="32" data-testid="item">
+        <DropdownMenuItem
+          leadingIcon={<svg data-icon="leading" />}
+          trailingIcon={<svg data-icon="trailing" />}
+        >
           Item
         </DropdownMenuItem>,
       );
-      expect(screen.getByTestId("item")).toHaveClass("typography-body-small-14px-semibold");
+      for (const name of ["leading", "trailing"]) {
+        const wrapper = document.querySelector(`[data-icon="${name}"]`)?.parentElement;
+        expect(wrapper).toHaveClass("text-icons-secondary", "[&>svg]:size-4");
+      }
     });
 
-    it("keeps the selected fill when the item is also highlighted", () => {
+    it("draws an icon filled at 16px unless the icon sets its own props", () => {
       renderMenu(
-        <DropdownMenuItem selected data-testid="item">
+        <>
+          <DropdownMenuItem leadingIcon={<EditIcon data-icon="default" />}>Edit</DropdownMenuItem>
+          <DropdownMenuItem leadingIcon={<EditIcon data-icon="outlined" filled={false} />}>
+            Edit
+          </DropdownMenuItem>
+        </>,
+      );
+      const layers = (name: string) =>
+        document.querySelector(`[data-icon="${name}"]`)?.querySelectorAll("g") ?? [];
+      const icon = document.querySelector('[data-icon="default"]');
+      expect(icon).toHaveAttribute("viewBox", "0 0 16 16");
+      expect(layers("default")[1]).toHaveClass("opacity-100");
+      expect(layers("outlined")[0]).toHaveClass("opacity-100");
+      expect(layers("outlined")[1]).toHaveClass("opacity-0");
+    });
+
+    it("keeps the error colour on a destructive item's icon", () => {
+      renderMenu(
+        <DropdownMenuItem destructive leadingIcon={<svg data-icon="leading" />}>
+          Delete
+        </DropdownMenuItem>,
+      );
+      const wrapper = document.querySelector('[data-icon="leading"]')?.parentElement;
+      expect(wrapper).toHaveClass("[&>svg]:size-4");
+      expect(wrapper).not.toHaveClass("text-icons-secondary");
+      expect(screen.getByRole("menuitem")).toHaveClass("text-error-content");
+    });
+
+    it("keeps the count tertiary on a selected item", () => {
+      renderMenu(
+        <DropdownMenuItem selected count="12">
           Item
         </DropdownMenuItem>,
       );
-      expect(screen.getByTestId("item").className).toContain(
-        "data-[highlighted]:bg-buttons-primary-default",
+      expect(screen.getByText("12")).toHaveClass("text-content-tertiary");
+      expect(screen.getByText("12")).not.toHaveClass("text-content-primary-inverted");
+    });
+
+    it("marks the selected item with aria-current and data-selected", () => {
+      renderMenu(
+        <>
+          <DropdownMenuItem selected>Current</DropdownMenuItem>
+          <DropdownMenuItem>Other</DropdownMenuItem>
+        </>,
       );
+      const current = screen.getByRole("menuitem", { name: "Current" });
+      expect(current).toHaveAttribute("aria-current", "true");
+      expect(current).toHaveAttribute("data-selected", "");
+      expect(screen.getByRole("menuitem", { name: "Other" })).not.toHaveAttribute("aria-current");
+    });
+
+    it("keeps a selected item's description in the secondary colour", () => {
+      renderMenu(
+        <DropdownMenuItem selected description="Secondary line">
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(screen.getByText("Secondary line")).toHaveClass("text-content-secondary");
+      expect(screen.getByText("Secondary line")).not.toHaveClass("text-content-primary-inverted");
+    });
+
+    it("greys a disabled item's icon with the disabled icon colour", () => {
+      renderMenu(
+        <DropdownMenuItem disabled leadingIcon={<svg data-icon="leading" />}>
+          Item
+        </DropdownMenuItem>,
+      );
+      const wrapper = document.querySelector('[data-icon="leading"]')?.parentElement;
+      expect(wrapper).toHaveClass("group-data-[disabled]:text-icons-disabled");
+    });
+
+    it("renders the icons inside an asChild element", () => {
+      renderMenu(
+        <DropdownMenuItem asChild leadingIcon={<EditIcon data-icon="leading" />}>
+          <a href="/settings">Settings</a>
+        </DropdownMenuItem>,
+      );
+      const link = screen.getByRole("menuitem", { name: "Settings" });
+      expect(link.tagName).toBe("A");
+      const icon = link.querySelector('[data-icon="leading"]');
+      expect(icon).toHaveAttribute("viewBox", "0 0 16 16");
+    });
+
+    it("leaves an IconButton's icon at its own size inside a row", () => {
+      renderMenu(
+        <DropdownMenuItem
+          trailingIcon={<IconButton aria-label="More" icon={<EditIcon data-icon="button" />} />}
+        >
+          Item
+        </DropdownMenuItem>,
+      );
+      expect(document.querySelector('[data-icon="button"]')).toHaveAttribute(
+        "viewBox",
+        "0 0 24 24",
+      );
+    });
+
+    it("puts an asChild row's trailing icon at the row's end", () => {
+      renderMenu(
+        <DropdownMenuItem asChild trailingIcon={<EditIcon data-icon="trailing" />}>
+          <a href="/settings">Settings</a>
+        </DropdownMenuItem>,
+      );
+      const link = screen.getByRole("menuitem", { name: "Settings" });
+      const trailing = link.querySelector('[data-icon="trailing"]')?.parentElement;
+      expect(link.lastElementChild).toBe(trailing);
+      expect(trailing).toHaveClass("ms-auto");
+    });
+
+    it("leaves aria-current off a selected item that sets aria-checked itself", () => {
+      renderMenu(
+        <DropdownMenuItem selected role="menuitemradio" aria-checked>
+          Likes
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByRole("menuitemradio", { name: "Likes" });
+      expect(item).toHaveAttribute("aria-checked", "true");
+      expect(item).toHaveAttribute("data-selected", "");
+      expect(item).not.toHaveAttribute("aria-current");
     });
 
     it("renders no check indicator on the selected item", () => {
@@ -756,6 +906,102 @@ describe("DropdownMenuItem", () => {
         </DropdownMenuItem>,
       );
       await user.click(screen.getByTestId("item"));
+      expect(onSelect).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("trailingAction", () => {
+    it("draws the action at the end of the row, after the trailing icon", () => {
+      renderMenu(
+        <DropdownMenuItem
+          trailingIcon={<EditIcon data-testid="trailing-icon" />}
+          trailingAction={<span data-testid="action">Download</span>}
+        >
+          Earnings Report
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByRole("menuitem");
+      expect(item).toHaveTextContent("Earnings Report");
+      const action = screen.getByTestId("action");
+      expect(item).toContainElement(action);
+      expect(
+        screen.getByTestId("trailing-icon").compareDocumentPosition(action) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+    });
+
+    it("selects the row when the action is clicked", async () => {
+      const onSelect = vi.fn();
+      renderMenu(
+        <DropdownMenuItem onSelect={onSelect} trailingAction={<span>Download</span>}>
+          Earnings Report
+        </DropdownMenuItem>,
+      );
+      await userEvent.click(screen.getByText("Download"));
+      expect(onSelect).toHaveBeenCalledTimes(1);
+    });
+
+    it("names the row with both its label and the action's", () => {
+      renderMenu(
+        <DropdownMenuItem trailingAction={<span>Download</span>}>Earnings Report</DropdownMenuItem>,
+      );
+      expect(
+        screen.getByRole("menuitem", { name: /^Earnings Report ?Download$/ }),
+      ).toBeInTheDocument();
+    });
+
+    it("draws the action last inside an asChild row", () => {
+      renderMenu(
+        <DropdownMenuItem
+          asChild
+          leadingIcon={<EditIcon data-testid="leading-icon" />}
+          trailingAction={<span data-testid="action">Open</span>}
+        >
+          <a href="/reports">Reports</a>
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByRole("menuitem", { name: /^Reports ?Open$/ });
+      expect(item).toHaveAttribute("href", "/reports");
+      expect(item.lastElementChild).toContainElement(screen.getByTestId("action"));
+    });
+
+    it("tightens padding so a 24px action keeps the 32px row height", () => {
+      renderMenu(
+        <DropdownMenuItem size="32" trailingAction={<span>Download</span>} data-testid="item">
+          Earnings Report
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByTestId("item");
+      expect(item).toHaveClass("min-h-8", "py-1");
+      expect(item).not.toHaveClass("py-[7px]");
+    });
+
+    it("renders nothing extra without an action", () => {
+      renderMenu(<DropdownMenuItem>Earnings Report</DropdownMenuItem>);
+      expect(screen.getByRole("menuitem", { name: "Earnings Report" })).toBeInTheDocument();
+    });
+
+    it("draws the action at the end of a sheet row, which the action also selects", async () => {
+      const user = userEvent.setup();
+      const onSelect = vi.fn();
+      render(
+        <DropdownMenu variant="sheet" defaultOpen={false}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onSelect={onSelect}
+              trailingAction={<span data-testid="action">Download</span>}
+            >
+              Earnings Report
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      await user.click(screen.getByText("trigger"));
+      const row = screen.getByRole("option", { name: /^Earnings Report ?Download$/ });
+      expect(row.lastElementChild).toContainElement(screen.getByTestId("action"));
+
+      await user.click(screen.getByTestId("action"));
       expect(onSelect).toHaveBeenCalledTimes(1);
     });
   });
@@ -1242,6 +1488,27 @@ describe("DropdownMenu sheet variant", () => {
     );
     await user.click(screen.getByText("trigger"));
     expect(screen.getByTestId("separator").tagName).toBe("HR");
+  });
+
+  it("resets the native <hr> border so the sheet separator draws a single line", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+          <DropdownMenuSeparator data-testid="separator" />
+          <DropdownMenuItem>Item 2</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    // Preflight gives every <hr> a currentColor border-top on top of the bg fill.
+    expect(screen.getByTestId("separator")).toHaveClass(
+      "border-0",
+      "h-px",
+      "bg-neutral-alphas-200",
+    );
   });
 
   it("renders a plain title (not a Radix label) without requiring menu context", async () => {

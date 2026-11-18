@@ -65,9 +65,9 @@
   &:autofill {
     font-size: 16px !important;
     font-family: Inter !important;
-    font-weight: 400 !important;
+    font-weight: var(--typography-body-default-16px-regular-font-weight) !important;
     line-height: 24px !important;
-    letter-spacing: 0px !important;
+    letter-spacing: -0.16px !important;
   }
 }
 
@@ -77,9 +77,9 @@
   &:autofill {
     font-size: 14px !important;
     font-family: Inter !important;
-    font-weight: 400 !important;
+    font-weight: var(--typography-body-small-14px-regular-font-weight) !important;
     line-height: 18px !important;
-    letter-spacing: 0px !important;
+    letter-spacing: -0.035px !important;
   }
 }
 
@@ -319,6 +319,130 @@
   }
 }
 /*
+ * Upsell (brand) surface: the Figma `Upsell` button. A radial pool of
+ * `Green/300` rising from the bottom edge into the brand fill, lit by two
+ * green glows from its edge.
+ *
+ * The glows sit on `::before` rather than on the element's own box-shadow, so
+ * the inset `focus-visible:shadow-focus-ring` can still draw without wiping
+ * them out.
+ * `--fv-upsell-end` is the outer gradient stop, so a consumer moves the whole
+ * pool to the hover fill by swapping one property.
+ *
+ * A loading button is natively disabled but keeps the look, so the disabled
+ * resets skip `aria-busy`.
+ */
+@utility fv-upsell {
+  --fv-upsell-end: var(--color-buttons-brand-default);
+  position: relative;
+  isolation: isolate;
+  background-image: radial-gradient(
+    58.1% 100% at 50% 100%,
+    var(--fv-upsell-pool),
+    var(--fv-upsell-end)
+  );
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: var(--fv-upsell-glow);
+  }
+
+  &:disabled:not([aria-busy="true"]) {
+    background-image: none;
+  }
+
+  &:disabled:not([aria-busy="true"])::before {
+    content: none;
+  }
+}
+
+/*
+ * An `fv-upsell` button on an inverted surface, such as a dark panel on a light
+ * page: it takes the other theme's glow, the glow made for that surface. Put it
+ * on the button (`negative`) or on any container; the glow is inherited.
+ *
+ * Elements painted with the inverted surface token do this for every upsell
+ * button inside them, so InfoBox, Toast, Banner and app surfaces using
+ * `bg-surface-primary-inverted` need no prop.
+ */
+@utility fv-upsell-negative {
+  --fv-upsell-glow: var(--fv-upsell-glow-negative);
+}
+
+@layer utilities {
+  .bg-surface-primary-inverted {
+    --fv-upsell-glow: var(--fv-upsell-glow-negative);
+  }
+}
+
+@property --fv-upsell-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes fv-upsell-spin {
+  to {
+    --fv-upsell-angle: 360deg;
+  }
+}
+
+/*
+ * A white highlight that travels once round the rim of an `fv-upsell` button,
+ * then rests. It is a conic gradient masked to a 1.5px ring, turned by
+ * animating a registered angle. A single pass keeps the motion under the five
+ * seconds after which WCAG 2.2.2 asks for a pause control, and stops the
+ * per-frame repaint once it lands. It only moves for users who have not asked
+ * for reduced motion; for everyone else it rests at the top right.
+ *
+ * The rim hides while the button has keyboard focus, so the focus ring stays
+ * whole. It hides with `visibility` rather than `content: none`, which would
+ * remove the pseudo-element and replay the pass when it comes back, so the
+ * shine plays once per mount.
+ */
+@utility fv-upsell-shine {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    pointer-events: none;
+    background: conic-gradient(
+      from var(--fv-upsell-angle),
+      transparent 0deg,
+      var(--fv-upsell-shine-color) 40deg,
+      transparent 100deg,
+      transparent 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  &:disabled:not([aria-busy="true"])::after,
+  &:focus-visible::after {
+    visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &::after {
+      animation: fv-upsell-spin var(--fv-upsell-shine-duration) var(--fv-upsell-shine-easing) 1;
+    }
+  }
+}
+
+/*
  * Animate `height` between 0 and the panel's measured height
  * (`--radix-accordion-content-height`, which Radix sets from a getBoundingClientRect
  * in a useLayoutEffect). This is the canonical Radix/Collapsible pattern and keeps the
@@ -384,12 +508,64 @@
   line-height: 0.75rem;
 }
 
+/*
+ * Raised control surface: the track of a pill TabsList and its sliding pill.
+ * Themed here because the generated --shadow-* tokens are black at 5–10% in
+ * both modes, which vanishes on a dark page. Dark lifts the control with a lit
+ * fill and a heavier drop instead of an edge highlight, which reads as a hard
+ * line. Consumers recolouring the track need `bg-none` to drop the fill.
+ */
 :root {
   --color-special-bottom-nav-highlight: var(--primitives-color-green-500);
   --color-content-disabled: var(--primitives-color-gray-450);
+  --fv-raised-control-fill: linear-gradient(
+    to bottom,
+    var(--primitives-color-gray-white),
+    var(--primitives-color-gray-50)
+  );
+  --fv-raised-control-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.04), 0 1px 2px 0 rgb(0 0 0 / 0.045), 0 4px 12px -6px rgb(0 0 0 / 0.08);
+  --fv-raised-control-thumb-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 4px -1px rgb(0 0 0 / 0.07);
 }
 
 .dark {
   --color-special-bottom-nav-highlight: var(--primitives-color-gray-white);
   --color-content-disabled: var(--primitives-color-gray-450);
+  --fv-raised-control-fill: linear-gradient(
+    to bottom,
+    var(--primitives-color-gray-900),
+    var(--primitives-color-gray-950)
+  );
+  --fv-raised-control-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.025), 0 1px 2px 0 rgb(0 0 0 / 0.4), 0 6px 16px -6px rgb(0 0 0 / 0.45);
+  --fv-raised-control-thumb-shadow: 0 1px 2px rgb(0 0 0 / 0.35), 0 2px 6px -2px rgb(0 0 0 / 0.4);
+}
+
+/*
+ * Upsell surface tokens, read by the `fv-upsell` and `fv-upsell-shine`
+ * utilities. Figma's `Upsell` button (Fanvue Library, node 16650:1558) fills
+ * from `Color/Green/300` into `Color/Buttons/Brand/Default`. The button is
+ * brand green in both themes; only the glow changes with the page. On
+ * black, the `Green/800` / `Green/900` glows read as lit green. On a light page
+ * those same greens read as a grey shadow, so light mode draws the glow in the
+ * green they appear as on black (`Green/600`, translucent) to keep the look.
+ * `--fv-upsell-glow-negative` is the other theme's glow, for a button on an
+ * inverted surface (`fv-upsell-negative`).
+ */
+:root {
+  --fv-upsell-pool: var(--primitives-color-green-300);
+  --fv-upsell-glow-on-light:
+    0 0 4px color-mix(in srgb, var(--primitives-color-green-600) 60%, transparent),
+    0 0 16px color-mix(in srgb, var(--primitives-color-green-600) 30%, transparent);
+  --fv-upsell-glow-on-dark: 0 0 4px var(--primitives-color-green-800), 0 0 16px var(--primitives-color-green-900);
+  --fv-upsell-glow: var(--fv-upsell-glow-on-light);
+  --fv-upsell-glow-negative: var(--fv-upsell-glow-on-dark);
+  --fv-upsell-shine-color: var(--primitives-color-whitealpha-900);
+  --fv-upsell-shine-duration: 3s;
+  --fv-upsell-shine-easing: linear;
+}
+
+.dark {
+  --fv-upsell-glow: var(--fv-upsell-glow-on-dark);
+  --fv-upsell-glow-negative: var(--fv-upsell-glow-on-light);
 }

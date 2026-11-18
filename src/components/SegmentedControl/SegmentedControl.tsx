@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { getRootClassName, getSquaredSegmentClassName } from "./segmentedControlClassNames";
 
 /** Height of the segmented control in pixels. */
 export type SegmentedControlSize = "32" | "40" | "48";
@@ -20,13 +21,16 @@ export type SegmentedControlVariant = "hug" | "fill";
  *   A selected segment takes the neutral selected pill, except the one marked `ai`, which takes the
  *   AI fill and gradient stroke. Designed for prominent toggles such as the Home/Agent navigation
  *   switch.
+ * - `"squared"`: a bordered track with squared corners, where the selected segment is a raised
+ *   surface rather than a filled pill and unselected labels are muted. Designed for quiet
+ *   in-page controls that sit beside buttons of the same height, such as a date-range picker.
  */
-export type SegmentedControlAppearance = "pill" | "plain" | "brand";
+export type SegmentedControlAppearance = "pill" | "plain" | "brand" | "squared";
 
 /** Describes one selectable segment. */
 export interface SegmentedControlOption {
   /**
-   * Display label for the segment. In `pill`/`plain` appearances, when `icon` is provided the
+   * Display label for the segment. In `pill`/`plain`/`squared` appearances, when `icon` is provided the
    * segment renders icon-only and this value becomes its accessible name (applied as `aria-label`)
    * instead of visible text. In the `brand` appearance the label is always rendered as visible text
    * (alongside the icon when present).
@@ -35,7 +39,7 @@ export interface SegmentedControlOption {
   /** Value identifier returned via `onChange`. */
   value: string;
   /**
-   * Icon to render for the segment. In `pill`/`plain` appearances the segment renders icon-only and
+   * Icon to render for the segment. In `pill`/`plain`/`squared` appearances the segment renders icon-only and
    * `label` becomes required as its accessible name (applied as `aria-label`, no visible text). In
    * the `brand` appearance the icon renders alongside the visible `label`. Required for every option
    * when `collapsible` is set unless a `collapsedIcon` is given, since the collapsed control
@@ -131,7 +135,7 @@ function warnUnsupportedCollapsible(
   hasCollapsedIcon: boolean,
 ) {
   if (process.env.NODE_ENV !== "production") {
-    if (appearance === "pill") {
+    if (appearance === "pill" || appearance === "squared") {
       console.warn(
         'SegmentedControl: `collapsible` is only supported for the "plain" and "brand" appearances; ignoring it.',
       );
@@ -158,6 +162,9 @@ function getSegmentClassName({
   isAiSegment: boolean;
   disabled: boolean;
 }) {
+  if (appearance === "squared") {
+    return getSquaredSegmentClassName({ size, variant, isSelected, disabled });
+  }
   return cn(
     "relative inline-flex min-w-0 cursor-pointer items-center justify-center rounded-full",
     "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
@@ -345,6 +352,21 @@ function useAutoCollapse(
  * />
  * ```
  *
+ * @example A quiet squared control beside buttons of the same height (e.g. a date-range picker)
+ * ```tsx
+ * <SegmentedControl
+ *   appearance="squared"
+ *   options={[
+ *     { label: "7 days", value: "7" },
+ *     { label: "30 days", value: "30" },
+ *     { label: "90 days", value: "90" },
+ *   ]}
+ *   value={range}
+ *   onChange={setRange}
+ *   aria-label="Date range"
+ * />
+ * ```
+ *
  * @example A collapsed toggle that shows one switch glyph instead of the selected icon
  * ```tsx
  * <SegmentedControl
@@ -519,17 +541,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
         ref={setRootRef}
         role={isCollapsed ? "group" : "radiogroup"}
         className={cn(
-          "relative items-center rounded-full",
-          variant === "fill" ? "flex w-full" : "inline-flex",
-          isCollapsed
-            ? // Collapsed, the toggle itself carries the surface, so the container drops its own
-              // chrome and centres the button instead of pinning it to the start of a full-width
-              // row — in a narrow rail that offset is the whole width of the column.
-              "justify-center"
-            : appearance === "plain"
-              ? "gap-2"
-              : "bg-surface-tertiary p-1",
-          disabled && "cursor-not-allowed opacity-50",
+          getRootClassName({ appearance, variant, size, isCollapsed, disabled }),
           className,
         )}
         {...props}

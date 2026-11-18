@@ -46,6 +46,26 @@ describe("EmptyState", () => {
     expect(screen.getByRole("heading", { level: 2, name: "No media yet" })).toBeInTheDocument();
   });
 
+  it.each(["h1", "h2", "h3"] as const)("renders a string title as %s via titleAs", (titleAs) => {
+    render(<EmptyState title="No media yet" titleAs={titleAs} />);
+
+    const level = Number(titleAs.slice(1));
+    expect(screen.getByRole("heading", { level, name: "No media yet" })).toBeInTheDocument();
+  });
+
+  it("keeps the region labelled by the title when titleAs changes", () => {
+    render(<EmptyState title="No media yet" titleAs="h1" />);
+
+    expect(screen.getByRole("region", { name: "No media yet" })).toBeInTheDocument();
+  });
+
+  it("does not render a heading for a node title regardless of titleAs", () => {
+    render(<EmptyState title={<span>Custom title</span>} titleAs="h1" />);
+
+    expect(screen.getByRole("region", { name: "Custom title" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+  });
+
   it("applies the titleSize token class to the heading", () => {
     const { container } = render(<EmptyState title="No media yet" titleSize="sm" />);
     const heading = container.querySelector("h2");
