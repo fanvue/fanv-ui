@@ -9,7 +9,7 @@ import { cn } from "@/utils/cn";
  * opts out anything else, such as a custom control with no role of its own.
  */
 const ROW_CLICK_IGNORES =
-  "a, button, input, select, textarea, label, [contenteditable='true'], [role='checkbox'], [role='radio'], [role='switch'], [role='slider'], [role='tab'], [role='combobox'], [role='option'], [role^='menu'], [data-table-row-click-ignore]";
+  "a, button, summary, input, select, textarea, label, [contenteditable='true'], [role='button'], [role='link'], [role='checkbox'], [role='radio'], [role='switch'], [role='slider'], [role='tab'], [role='combobox'], [role='option'], [role^='menu'], [data-table-row-click-ignore]";
 
 /**
  * Holds the row's {@link TableRowLink}, so a click elsewhere on an interactive
@@ -78,24 +78,19 @@ export const TableRowLink = React.forwardRef<HTMLAnchorElement, TableRowLinkProp
         if (rowLink) {
           rowLink.current = node;
         }
-        let cleanup: ReturnType<React.RefCallback<HTMLAnchorElement>>;
         if (typeof ref === "function") {
-          cleanup = ref(node);
+          const cleanup = ref(node);
+          if (typeof cleanup === "function") {
+            return () => {
+              if (rowLink) {
+                rowLink.current = null;
+              }
+              cleanup();
+            };
+          }
         } else if (ref) {
           ref.current = node;
         }
-        return () => {
-          if (rowLink) {
-            rowLink.current = null;
-          }
-          if (typeof cleanup === "function") {
-            cleanup();
-          } else if (typeof ref === "function") {
-            ref(null);
-          } else if (ref) {
-            ref.current = null;
-          }
-        };
       },
       [rowLink, ref],
     );
