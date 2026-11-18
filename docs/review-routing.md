@@ -13,7 +13,7 @@ delegation from him for an area someone else knows well; anything not listed
 is his. Nobody outside the pool reviews here: designers and QA open PRs but are never
 requested.
 
-Last reviewed: 2026-11-05. Built from commits and reviews since August 2026.
+Last reviewed: 2026-11-18. Built from commits and reviews since August 2026.
 Re-check it each quarter or whenever someone joins, leaves or changes team.
 
 ## How to pick the reviewer
@@ -51,7 +51,7 @@ Re-check it each quarter or whenever someone joins, leaves or changes team.
 | @simon-fanvue | Simon Madine | Icons, flags, SegmentedControl. |
 | @simonstaton | Simon Staton | DRI. Everything not delegated above. |
 
-Designers who open PRs here but are not reviewers: Lorenzo Perniciaro (tables, V2 styles), Jackson George (Tabs, Logo), Caspian Reynolds.
+Hackers (designers and anyone else outside engineering) open PRs here but are not reviewers. Only people in the table above can be requested.
 
 ## Keeping this file right
 
