@@ -899,6 +899,8 @@ export type { TableMobileRowProps } from "./components/Table/TableMobileRow";
 export { TableMobileRow } from "./components/Table/TableMobileRow";
 export type { TableCardPaginationProps } from "./components/Table/TablePagination";
 export { TableCardPagination } from "./components/Table/TablePagination";
+export type { TableRowLinkProps } from "./components/Table/TableRowLink";
+export { TableRowLink } from "./components/Table/TableRowLink";
 export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";
