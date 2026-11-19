@@ -108,7 +108,7 @@ function LeadingIcon({
         size === "24" ? "size-6" : "size-4",
       )}
     >
-      {children}
+      {renderContainedText(children)}
     </span>
   );
 }
@@ -151,7 +151,7 @@ function TrailingAdornment({
     <span className="flex shrink-0 items-center gap-2 text-content-secondary">
       {rightIcon ? (
         <span data-tf-interactive="" className="flex size-4 shrink-0 items-center justify-center">
-          {rightIcon}
+          {renderContainedText(rightIcon)}
         </span>
       ) : (
         renderTextChildren(rightIcon)
@@ -182,7 +182,7 @@ function TextFieldHelperText({
         error ? "text-error-content" : "text-content-tertiary",
       )}
     >
-      {children}
+      {renderContainedText(children)}
     </p>
   );
 }
@@ -335,7 +335,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           <TrailingAdornment rightIcon={rightIcon} validated={validated} />
           {action != null && (
             <span data-tf-interactive="" className="flex shrink-0 items-center">
-              {action}
+              {renderContainedText(action)}
             </span>
           )}
         </div>

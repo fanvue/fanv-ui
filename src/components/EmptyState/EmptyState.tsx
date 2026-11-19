@@ -201,7 +201,7 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       >
         {showMedia && (
           <div className={cn("w-full overflow-hidden rounded-md", mediaSizeClass[mediaSize])}>
-            {renderedMedia}
+            {renderContainedText(renderedMedia)}
           </div>
         )}
 

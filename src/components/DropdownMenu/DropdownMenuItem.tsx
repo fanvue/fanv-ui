@@ -243,7 +243,7 @@ export const DropdownMenuItem = React.forwardRef<
     const itemChildren = (
       <>
         {avatar != null ? (
-          <span className={cn("shrink-0", iconAlignClassName)}>{avatar}</span>
+          <span className={cn("shrink-0", iconAlignClassName)}>{renderContainedText(avatar)}</span>
         ) : (
           leadingNode
         )}

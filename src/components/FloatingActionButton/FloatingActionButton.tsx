@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 export interface FloatingActionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Icon to render inside the button. Pass an icon component (e.g. `<AddIcon />`). */
@@ -54,7 +55,7 @@ export const FloatingActionButton = React.forwardRef<HTMLButtonElement, Floating
         {...props}
       >
         <span className="flex size-6 shrink-0 items-center justify-center" aria-hidden="true">
-          {children}
+          {renderContainedText(children)}
         </span>
       </button>
     );

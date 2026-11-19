@@ -6,6 +6,7 @@ const HELPERS = new Set(["renderTextChildren", "renderContainedText", "renderSlo
 const SKIPPED_FILES = /\.(test|stories)\.tsx$|\/(Icons|AnimatedIcons|Flags)\//;
 const TEXT_FLAGS = ts.TypeFlags.StringLike | ts.TypeFlags.NumberLike | ts.TypeFlags.BigIntLike;
 const MAX_DEPTH = 5;
+const SVG_TEXT_TAGS = new Set(["text", "tspan", "title", "desc"]);
 
 const HOW_TO_FIX = [
   "Text that shares a parent with other nodes breaks under browser page translation (ENG-18326).",
@@ -51,10 +52,23 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
     return (type.flags & TEXT_FLAGS) !== 0;
   };
 
-  const mayBeNumber = (type: ts.Type): boolean =>
-    type.isUnion()
-      ? type.types.some(mayBeNumber)
-      : (type.flags & (ts.TypeFlags.NumberLike | ts.TypeFlags.BigIntLike)) !== 0;
+  const mayBeZero = (type: ts.Type): boolean => {
+    if (type.isUnion()) return type.types.some(mayBeZero);
+    if (type.isNumberLiteral()) return type.value === 0;
+    return (type.flags & (ts.TypeFlags.NumberLike | ts.TypeFlags.BigIntLike)) !== 0;
+  };
+
+  const isElementType = (type: ts.Type) =>
+    checker.getPropertyOfType(type, "props") !== undefined &&
+    checker.getPropertyOfType(type, "key") !== undefined;
+
+  const mayHoldText = (type: ts.Type): boolean => {
+    if (type.isUnion()) return type.types.some(mayHoldText);
+    if (!(type.flags & ts.TypeFlags.Object) || isElementType(type)) return false;
+    if (!checker.isArrayType(type)) return true;
+    const [item] = checker.getTypeArguments(type as ts.TypeReference);
+    return item === undefined || mayBeText(item) || mayHoldText(item);
+  };
 
   const isFragmentElement = (node: ts.Node): node is ts.JsxElement =>
     ts.isJsxElement(node) && /^(React\.)?Fragment$/.test(node.openingElement.tagName.getText());
@@ -96,6 +110,7 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
     while (
       ts.isParenthesizedExpression(node) ||
       ts.isAsExpression(node) ||
+      ts.isSatisfiesExpression(node) ||
       ts.isNonNullExpression(node)
     ) {
       node = node.expression;
@@ -131,12 +146,12 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
   const leavesZero = (node: ts.Expression) =>
     ts.isBinaryExpression(node) &&
     node.operatorToken.kind === ts.SyntaxKind.AmpersandAmpersandToken &&
-    mayBeNumber(checker.getTypeAtLocation(node.left));
+    mayBeZero(checker.getTypeAtLocation(node.left));
 
   const isUnguardedHelper = (node: ts.CallExpression, helper: string, alone: boolean) => {
     if (helper !== "renderContainedText" || alone) return false;
     const argument = node.arguments[0];
-    return !argument || isUnguarded(argument, false);
+    return !argument || mayBeText(checker.getTypeAtLocation(argument));
   };
 
   const isUnguardedValue = (node: ts.Expression, alone: boolean, depth: number): boolean => {
@@ -146,7 +161,8 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
     }
     const resolved = depth < MAX_DEPTH ? resolveLocally(node) : undefined;
     if (resolved) return resolved.some((next) => isUnguarded(next, alone, depth + 1));
-    return !alone && mayBeText(checker.getTypeAtLocation(node));
+    const type = checker.getTypeAtLocation(node);
+    return mayHoldText(type) || (!alone && mayBeText(type));
   };
 
   const isUnguarded = (expression: ts.Expression, alone: boolean, depth = 0): boolean => {
@@ -195,6 +211,7 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
   const placesChildrenInHost = (parent: ts.JsxElement | ts.JsxFragment) => {
     if (ts.isJsxFragment(parent)) return true;
     const tag = parent.openingElement.tagName;
+    if (ts.isIdentifier(tag) && SVG_TEXT_TAGS.has(tag.text)) return false;
     if (!ts.isIdentifier(tag) || /^[a-z]/.test(tag.text)) return true;
     const declaration = checker.getSymbolAtLocation(tag)?.declarations?.[0];
     return declaration ? isHostVariable(declaration, parent.getSourceFile()) : false;
@@ -243,12 +260,24 @@ const FLAGGED: [string, string][] = [
   ["a count guard beside an element", "<div>{count && <b />}<i /></div>"],
   ["an array variable with a string", "<div>{items}</div>"],
   ["an array in a conditional branch", '<div>{shown ? [label, <b key="b" />] : null}</div>'],
+  ["a computed array beside an element", "<div>{[1, 2].map(String)}<i /></div>"],
+  [
+    "a typed array beside an element",
+    '<div>{[label, <b key="b" />] satisfies React.ReactNode[]}<i /></div>',
+  ],
+  ["a ReactNode as the only child", "<p>{node}</p>"],
   ["a string in an explicit fragment", "<div><React.Fragment>{label}</React.Fragment><i /></div>"],
 ];
 
 const ACCEPTED: [string, string][] = [
   ["one combined string as the only child", "<p>{label + count}</p>"],
-  ["a ReactNode as the only child", "<p>{node}</p>"],
+  ["a string as the only child", "<p>{label}</p>"],
+  ["an element list as the only child", "<ul>{[1, 2].map((id) => <li key={id} />)}</ul>"],
+  ["a guard that is never zero", "<div>{state && <b />}<i /></div>"],
+  [
+    "contained mixed content beside an element",
+    '<div>{renderContainedText([label, <b key="b" />])}<i /></div>',
+  ],
   ["text in its own span", "<p><span>{label}</span><b /></p>"],
   ["a helper call", "<div>{renderTextChildren(node)}<b /></div>"],
   ["an element-typed value", "<div>{element}<b /></div>"],
@@ -278,6 +307,7 @@ function scanSnippets(bodies: string[]) {
         "declare const node: React.ReactNode;",
         "declare const element: React.ReactElement | null;",
         "declare const shown: boolean;",
+        "declare const state: 1 | 2 | undefined;",
         "const guard = renderTextChildren;",
         `export const sample = ${body};`,
       ].join("\n"),

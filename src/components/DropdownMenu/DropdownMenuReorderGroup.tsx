@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { DropdownMenuVariantContext } from "./context";
 import {
   type DropdownMenuReorderDetail,
@@ -594,7 +595,9 @@ export const DropdownMenuReorderGroup = React.forwardRef<
         {...props}
       >
         <ReorderActionsContext.Provider value={actions}>
-          <ReorderLiftedContext.Provider value={lifted}>{children}</ReorderLiftedContext.Provider>
+          <ReorderLiftedContext.Provider value={lifted}>
+            {renderContainedText(children)}
+          </ReorderLiftedContext.Provider>
         </ReorderActionsContext.Provider>
         {showDropIndicator && (
           <div

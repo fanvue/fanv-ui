@@ -106,14 +106,14 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
 
     const leftIconNode = leftIcon ? (
       <span className={ICON_WRAPPER} aria-hidden="true">
-        {leftIcon}
+        {renderContainedText(leftIcon)}
       </span>
     ) : (
       renderTextChildren(leftIcon)
     );
     const rightIconNode = rightIcon ? (
       <span className={ICON_WRAPPER} aria-hidden="true">
-        {rightIcon}
+        {renderContainedText(rightIcon)}
       </span>
     ) : (
       renderTextChildren(rightIcon)

@@ -277,20 +277,22 @@ function renderContent({
           className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
           aria-hidden="true"
         >
-          {leftIcon}
+          {renderContainedText(leftIcon)}
         </span>
       ) : (
         renderTextChildren(leftIcon)
       )}
-      {React.Children.map(children, (child) =>
-        typeof child === "string" ? (
-          child.trim() ? (
+      {renderTextChildren(
+        React.Children.map(children, (child) =>
+          typeof child === "string" ? (
+            child.trim() ? (
+              <span className="min-w-0 truncate">{child}</span>
+            ) : null
+          ) : typeof child === "number" || typeof child === "bigint" ? (
             <span className="min-w-0 truncate">{child}</span>
-          ) : null
-        ) : typeof child === "number" || typeof child === "bigint" ? (
-          <span className="min-w-0 truncate">{child}</span>
-        ) : (
-          renderTextChildren(child)
+          ) : (
+            renderTextChildren(child)
+          ),
         ),
       )}
       {rightIcon ? (
@@ -298,7 +300,7 @@ function renderContent({
           className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
           aria-hidden="true"
         >
-          {rightIcon}
+          {renderContainedText(rightIcon)}
         </span>
       ) : (
         renderTextChildren(rightIcon)
@@ -412,7 +414,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {...props}
       >
-        {content}
+        {renderContainedText(content)}
       </Comp>
     );
   },

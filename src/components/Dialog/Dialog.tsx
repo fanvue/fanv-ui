@@ -1,7 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderTextChildren } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { useDragToDismiss } from "../../utils/useDragToDismiss";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
@@ -324,7 +324,7 @@ export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
             aria-label={backLabel}
           />
         )}
-        <div className="flex min-w-0 flex-1 flex-col gap-1.5">{children}</div>
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5">{renderContainedText(children)}</div>
         {showClose && (
           <DialogPrimitive.Close asChild>
             <IconButton

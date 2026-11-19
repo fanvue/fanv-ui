@@ -97,7 +97,7 @@ export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
       >
         {leftIcon ? (
           <span className="flex [&>svg]:size-3" aria-hidden="true">
-            {leftIcon}
+            {renderContainedText(leftIcon)}
           </span>
         ) : (
           renderTextChildren(leftIcon)
@@ -109,7 +109,7 @@ export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
         )}
         {rightIcon ? (
           <span className="flex [&>svg]:size-3" aria-hidden="true">
-            {rightIcon}
+            {renderContainedText(rightIcon)}
           </span>
         ) : (
           renderTextChildren(rightIcon)

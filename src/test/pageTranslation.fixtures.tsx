@@ -988,4 +988,36 @@ export const translationCases: [string, (changed: boolean) => ReactElement][] = 
       </Button>
     ),
   ],
+  [
+    "TableMobileRow status beside an action changes",
+    (changed) => (
+      <TableMobileRow
+        title="Invoice"
+        actions={[
+          changed ? "Saved" : "Saving",
+          <button key="edit" type="button">
+            Edit
+          </button>,
+        ]}
+      />
+    ),
+  ],
+  [
+    "TableMobileRow status beside an action clears",
+    (changed) => (
+      <TableMobileRow
+        title="Invoice"
+        actions={[
+          changed ? null : "Saving",
+          <button key="edit" type="button">
+            Edit
+          </button>,
+        ]}
+      />
+    ),
+  ],
+  [
+    "Button icon slot count changes",
+    (changed) => <Button leftIcon={[changed ? "6" : "5", <svg key="icon" />]}>Inbox</Button>,
+  ],
 ];

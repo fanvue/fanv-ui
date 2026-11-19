@@ -134,7 +134,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
             className="flex shrink-0 items-center justify-center [&>svg]:size-2.5"
             aria-hidden="true"
           >
-            {leftIcon}
+            {renderContainedText(leftIcon)}
           </span>
         ) : (
           renderTextChildren(leftIcon)
@@ -157,7 +157,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
             className="flex shrink-0 items-center justify-center [&>svg]:size-2.5"
             aria-hidden="true"
           >
-            {rightIcon}
+            {renderContainedText(rightIcon)}
           </span>
         ) : (
           renderTextChildren(rightIcon)

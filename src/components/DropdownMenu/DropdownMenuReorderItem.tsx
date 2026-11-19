@@ -44,7 +44,7 @@ function ReorderRowContent({
     <>
       {leadingIcon != null && <MenuRowIcon>{leadingIcon}</MenuRowIcon>}
       <span className="min-w-0 flex-1 truncate">{renderContainedText(children)}</span>
-      {trailing != null && <span className="shrink-0">{trailing}</span>}
+      {trailing != null && <span className="shrink-0">{renderContainedText(trailing)}</span>}
     </>
   );
 }

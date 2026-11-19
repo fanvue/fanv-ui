@@ -87,7 +87,7 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
       >
         <div className="relative aspect-10/11 w-full shrink-0 overflow-hidden">
           <div className="pointer-events-none absolute inset-0 select-none *:h-full *:w-full [&>img]:object-cover [&>video]:object-cover">
-            {background}
+            {renderContainedText(background)}
           </div>
           {pill ? (
             <Pill
@@ -130,10 +130,10 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
           </div>
           {content ? (
             <div className="typography-body-small-14px-semibold min-w-0 text-content-primary">
-              {content}
+              {renderContainedText(content)}
             </div>
           ) : null}
-          {action ? <div className="flex w-full">{action}</div> : null}
+          {action ? <div className="flex w-full">{renderContainedText(action)}</div> : null}
         </div>
       </div>
     );

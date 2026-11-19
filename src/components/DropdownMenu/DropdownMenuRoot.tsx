@@ -3,6 +3,7 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer/Drawer";
 import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
 import { type DropdownMenuVariant, DropdownMenuVariantContext, ToggleOpenContext } from "./context";
@@ -99,7 +100,7 @@ export function DropdownMenu({
     <DropdownMenuVariantContext.Provider value="menu">
       <ToggleOpenContext.Provider value={setOpen}>
         <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen} {...props}>
-          {children}
+          {renderContainedText(children)}
         </DropdownMenuPrimitive.Root>
       </ToggleOpenContext.Provider>
     </DropdownMenuVariantContext.Provider>
@@ -276,7 +277,7 @@ export const DropdownMenuContent = React.forwardRef<
         >
           {/* A menu opened from inside another menu's row must not inherit that row's icon defaults. */}
           <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
-            {children}
+            {renderContainedText(children)}
           </IconDefaultsContext.Provider>
         </DrawerContent>
       );
@@ -325,7 +326,7 @@ export const DropdownMenuContent = React.forwardRef<
           {...props}
         >
           <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
-            {children}
+            {renderContainedText(children)}
           </IconDefaultsContext.Provider>
         </DropdownMenuPrimitive.Content>
       </DropdownMenuPrimitive.Portal>

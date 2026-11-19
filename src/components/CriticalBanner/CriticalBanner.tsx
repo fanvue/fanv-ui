@@ -109,7 +109,7 @@ export const CriticalBanner = React.forwardRef<HTMLDivElement, CriticalBannerPro
 
     const iconNode = (
       <span className="shrink-0 text-alerts-critical-banner-icons" aria-hidden="true">
-        {icon ?? <WarningIcon filled size={32} />}
+        {renderContainedText(icon ?? <WarningIcon filled size={32} />)}
       </span>
     );
 
@@ -138,7 +138,7 @@ export const CriticalBanner = React.forwardRef<HTMLDivElement, CriticalBannerPro
           {iconNode}
           <div className="flex min-w-0 flex-1 flex-col items-start gap-6">
             {textColumn}
-            {cta !== null && <div className="shrink-0">{cta}</div>}
+            {cta !== null && <div className="shrink-0">{renderContainedText(cta)}</div>}
           </div>
         </div>
       );
@@ -158,7 +158,7 @@ export const CriticalBanner = React.forwardRef<HTMLDivElement, CriticalBannerPro
           {iconNode}
           {textColumn}
         </div>
-        {cta !== null && <div className="shrink-0">{cta}</div>}
+        {cta !== null && <div className="shrink-0">{renderContainedText(cta)}</div>}
       </div>
     );
   },

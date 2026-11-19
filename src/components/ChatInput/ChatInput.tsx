@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderTextChildren } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "../Drawer/Drawer";
 import {
   DropdownMenu,
@@ -355,7 +355,7 @@ export const ChatInput = React.forwardRef<HTMLTextAreaElement, ChatInputProps>(
         <div className="flex flex-col">
           {hasAttachmentStrip ? (
             <div className="flex gap-2 overflow-x-auto px-4 pt-4 pb-2 [scrollbar-width:thin]">
-              {resolvedAttachmentStrip}
+              {renderContainedText(resolvedAttachmentStrip)}
             </div>
           ) : null}
           <textarea
@@ -463,10 +463,10 @@ const SelectTriggerButton = React.forwardRef<HTMLButtonElement, SelectTriggerBut
       {...props}
     >
       {selectedOption?.icon ? (
-        <span className="flex shrink-0 items-center [&>svg]:size-4">{selectedOption.icon}</span>
-      ) : (
-        renderTextChildren(selectedOption?.icon)
-      )}
+        <span className="flex shrink-0 items-center [&>svg]:size-4">
+          {renderContainedText(selectedOption.icon)}
+        </span>
+      ) : null}
       <span>{selectedOption?.label ?? fallbackLabel ?? "Select"}</span>
       <ChevronDownIcon
         className={cn("size-4 motion-safe:transition-transform", open && "rotate-180")}
@@ -550,9 +550,7 @@ function InlineSelect({
                 >
                   {option.icon ? (
                     <MenuRowIcon alignToTitle={hasDescription}>{option.icon}</MenuRowIcon>
-                  ) : (
-                    renderTextChildren(option.icon)
-                  )}
+                  ) : null}
                   <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                     <span
                       className={cn(
@@ -596,7 +594,9 @@ function InlineSelect({
               description={option.description}
               leadingIcon={
                 option.icon ? (
-                  <span className="flex size-4 items-center [&>svg]:size-4">{option.icon}</span>
+                  <span className="flex size-4 items-center [&>svg]:size-4">
+                    {renderContainedText(option.icon)}
+                  </span>
                 ) : undefined
               }
               trailingIcon={isSelected ? <SelectedTick /> : undefined}

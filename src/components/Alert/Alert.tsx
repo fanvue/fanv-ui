@@ -291,7 +291,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
               // top nudge then lands it optically centred on the first 18px line,
               // as in the design's icon-wrapper.
               <span className="flex shrink-0 items-start pt-px [&>svg]:size-4" aria-hidden="true">
-                {resolvedIcon}
+                {renderContainedText(resolvedIcon)}
               </span>
             ) : (
               renderTextChildren(resolvedIcon)

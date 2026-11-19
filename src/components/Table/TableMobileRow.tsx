@@ -39,9 +39,9 @@ export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowPro
       >
         {badge || actions ? (
           <div className="flex min-h-6 items-center justify-between gap-2">
-            <div className="flex min-w-0 items-center">{badge}</div>
+            <div className="flex min-w-0 items-center">{renderContainedText(badge)}</div>
             {actions ? (
-              <div className="flex shrink-0 items-center gap-2">{actions}</div>
+              <div className="flex shrink-0 items-center gap-2">{renderContainedText(actions)}</div>
             ) : (
               renderTextChildren(actions)
             )}

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
 
 /** Display variant for the step indicator. */
@@ -96,7 +97,9 @@ export const MobileStepper = React.forwardRef<HTMLElement, MobileStepperProps>(
 
     const content = (
       <>
-        {backButton != null && <div className="flex shrink-0">{backButton}</div>}
+        {backButton != null && (
+          <div className="flex shrink-0">{renderContainedText(backButton)}</div>
+        )}
 
         <div className="flex min-w-0 flex-1 items-center justify-center overflow-hidden">
           {variant === "dots" && (
@@ -153,7 +156,9 @@ export const MobileStepper = React.forwardRef<HTMLElement, MobileStepperProps>(
           )}
         </div>
 
-        {nextButton != null && <div className="flex shrink-0">{nextButton}</div>}
+        {nextButton != null && (
+          <div className="flex shrink-0">{renderContainedText(nextButton)}</div>
+        )}
       </>
     );
 

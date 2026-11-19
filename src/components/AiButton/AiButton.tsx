@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { AIIcon } from "../Icons/AIIcon";
 import type { IconSize } from "../Icons/types";
 
@@ -204,7 +205,7 @@ export const AiButton = React.forwardRef<HTMLButtonElement, AiButtonProps>(
             "motion-reduce:[animation:none]",
           )}
         >
-          {icon ?? <AIIcon size={iconSizeVariants[size]} filled />}
+          {renderContainedText(icon ?? <AIIcon size={iconSizeVariants[size]} filled />)}
         </span>
         {/* Both labels occupy one grid cell so the button keeps the width of the
             longer of the two and the swap never reflows the row around it. */}

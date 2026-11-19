@@ -6,7 +6,7 @@ import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
 
 function renderWelcomeSlot(slot: React.ReactNode) {
-  return typeof slot === "string" || typeof slot === "number" ? (
+  return typeof slot === "number" || (typeof slot === "string" && slot.trim()) ? (
     <span className="sm:flex-none!">{slot}</span>
   ) : (
     renderTextChildren(slot)
@@ -116,7 +116,7 @@ function VipEarnContent({
     <>
       {icon ? (
         <span className="flex shrink-0" aria-hidden="true">
-          {icon}
+          {renderContainedText(icon)}
         </span>
       ) : (
         renderTextChildren(icon)
@@ -139,7 +139,7 @@ function VipEarnContent({
           )}
         </div>
         {showActions && primary ? (
-          <div className="self-start">{primary}</div>
+          <div className="self-start">{renderContainedText(primary)}</div>
         ) : (
           renderTextChildren(showActions && primary)
         )}
@@ -239,7 +239,7 @@ function DefaultContent({
   return (
     <>
       <div className="typography-body-default-16px-regular flex min-w-0 flex-1 items-center self-stretch text-content-primary">
-        {children}
+        {renderContainedText(children)}
       </div>
       {showActions && (primary || secondary) ? (
         <div className="flex shrink-0 items-start gap-2">

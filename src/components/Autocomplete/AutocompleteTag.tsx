@@ -1,4 +1,5 @@
 import type * as React from "react";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { CloseIcon } from "../Icons/CloseIcon";
 import type { AutocompleteOption } from "./Autocomplete";
 import { getLabel } from "./constants";
@@ -15,7 +16,7 @@ export function AutocompleteTag({
   renderTag?: (option: AutocompleteOption, onRemove: () => void) => React.ReactNode;
 }) {
   if (renderTag) {
-    return <span>{renderTag(option, onRemove)}</span>;
+    return <span>{renderContainedText(renderTag(option, onRemove))}</span>;
   }
 
   return (

@@ -43,7 +43,9 @@ export const Demographics = React.forwardRef<HTMLDivElement, DemographicsProps>(
       <div className="flex w-full items-center justify-between gap-2">
         <span className="flex min-w-0 items-center gap-2">
           {icon ? (
-            <span className="flex size-5 shrink-0 items-center justify-center">{icon}</span>
+            <span className="flex size-5 shrink-0 items-center justify-center">
+              {renderContainedText(icon)}
+            </span>
           ) : (
             renderTextChildren(icon)
           )}

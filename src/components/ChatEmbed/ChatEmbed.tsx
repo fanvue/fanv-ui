@@ -192,7 +192,7 @@ function Media({
               MEDIA_FILL,
             )}
           >
-            {backdrop}
+            {renderContainedText(backdrop)}
           </div>
           <div
             className={cn(
@@ -200,11 +200,11 @@ function Media({
               MEDIA_FILL,
             )}
           >
-            {media}
+            {renderContainedText(media)}
           </div>
         </>
       ) : (
-        <div className={cn("absolute inset-0", MEDIA_FILL)}>{media}</div>
+        <div className={cn("absolute inset-0", MEDIA_FILL)}>{renderContainedText(media)}</div>
       )}
       {greyscale && (
         <div className="absolute inset-0 bg-content-always-black mix-blend-saturation" />
@@ -458,7 +458,7 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
               </div>
             </div>
             {action ? (
-              <div className="relative z-[2] shrink-0">{action}</div>
+              <div className="relative z-[2] shrink-0">{renderContainedText(action)}</div>
             ) : (
               renderTextChildren(action)
             )}
@@ -529,7 +529,7 @@ export const ChatEmbedUnavailable = React.forwardRef<HTMLDivElement, ChatEmbedUn
       >
         {icon ? (
           <span aria-hidden="true" className="flex">
-            {icon}
+            {renderContainedText(icon)}
           </span>
         ) : (
           renderTextChildren(icon)

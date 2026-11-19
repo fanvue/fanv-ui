@@ -114,7 +114,7 @@ function TooltipRow({
         </div>
         {item.value !== undefined && (
           <span className="font-medium font-mono text-content-primary tabular-nums">
-            {formatValue(item.value)}
+            {renderContainedText(formatValue(item.value))}
           </span>
         )}
       </div>

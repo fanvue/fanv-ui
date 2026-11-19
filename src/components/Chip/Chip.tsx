@@ -245,7 +245,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
               )}
               {leftIcon ? (
                 <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
-                  {leftIcon}
+                  {renderContainedText(leftIcon)}
                 </span>
               ) : (
                 renderTextChildren(leftIcon)
@@ -256,7 +256,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
                   className="flex size-5 shrink-0 items-center justify-center"
                   aria-hidden="true"
                 >
-                  {rightIcon}
+                  {renderContainedText(rightIcon)}
                 </span>
               ) : (
                 renderTextChildren(rightIcon)

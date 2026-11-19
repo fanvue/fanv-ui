@@ -195,7 +195,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
             <div className="flex items-center gap-1">
               {leftIcon != null && (
                 <span className="flex size-5 items-center justify-center" aria-hidden="true">
-                  {leftIcon}
+                  {renderContainedText(leftIcon)}
                 </span>
               )}
               {helperLeft != null && (

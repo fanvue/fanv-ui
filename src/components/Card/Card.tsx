@@ -140,7 +140,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
           )}
           {...props}
         >
-          {children}
+          {renderContainedText(children)}
         </div>
       </CardContext.Provider>
     );
@@ -156,8 +156,12 @@ export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, action, children, ...props }, ref) => {
     return (
       <div ref={ref} className={cn("flex min-h-8 items-center gap-2", className)} {...props}>
-        <div className="min-w-0 flex-1">{children}</div>
-        {action ? <div className="shrink-0">{action}</div> : renderTextChildren(action)}
+        <div className="min-w-0 flex-1">{renderContainedText(children)}</div>
+        {action ? (
+          <div className="shrink-0">{renderContainedText(action)}</div>
+        ) : (
+          renderTextChildren(action)
+        )}
       </div>
     );
   },
@@ -214,7 +218,7 @@ export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
     const padding = type === "container" ? undefined : type === "header-only" ? "pt-6" : "py-6";
     return (
       <div ref={ref} className={cn("flex-1", padding, className)} {...props}>
-        {children}
+        {renderContainedText(children)}
       </div>
     );
   },

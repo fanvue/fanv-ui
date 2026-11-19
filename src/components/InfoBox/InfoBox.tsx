@@ -133,7 +133,11 @@ export const InfoBoxContent = React.forwardRef<
           <div className="flex flex-col gap-3">
             {hasHeader && (
               <div className="flex items-center gap-3">
-                {icon ? <div className="size-5 shrink-0">{icon}</div> : renderTextChildren(icon)}
+                {icon ? (
+                  <div className="size-5 shrink-0">{renderContainedText(icon)}</div>
+                ) : (
+                  renderTextChildren(icon)
+                )}
                 {heading ? (
                   <p
                     id={headingId}
@@ -144,7 +148,11 @@ export const InfoBoxContent = React.forwardRef<
                 ) : (
                   renderTextChildren(heading)
                 )}
-                {pill ? <div className="shrink-0">{pill}</div> : renderTextChildren(pill)}
+                {pill ? (
+                  <div className="shrink-0">{renderContainedText(pill)}</div>
+                ) : (
+                  renderTextChildren(pill)
+                )}
               </div>
             )}
             {children ? (

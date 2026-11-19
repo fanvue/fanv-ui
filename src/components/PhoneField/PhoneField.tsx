@@ -92,7 +92,7 @@ function PhoneFieldHelperText({
         error ? "text-error-content" : "text-content-tertiary",
       )}
     >
-      {children}
+      {renderContainedText(children)}
     </p>
   );
 }
@@ -201,7 +201,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
           >
             {flag != null && (
               <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full">
-                {flag}
+                {renderContainedText(flag)}
               </span>
             )}
             <ChevronDownIcon size={16} className="shrink-0 text-content-secondary" />

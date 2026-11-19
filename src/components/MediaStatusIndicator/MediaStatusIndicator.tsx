@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { EyeOffIcon } from "../Icons/EyeOffIcon";
 import { FlagIcon } from "../Icons/FlagIcon";
@@ -72,7 +73,7 @@ export const MediaStatusIndicator = React.forwardRef<HTMLSpanElement, MediaStatu
         )}
         {...props}
       >
-        {config.icon}
+        {renderContainedText(config.icon)}
       </span>
     );
   },

@@ -181,7 +181,7 @@ export const Select = React.forwardRef<
                     className="flex size-5 shrink-0 items-center justify-center text-content-secondary"
                     data-testid="left-icon"
                   >
-                    {leftIcon}
+                    {renderContainedText(leftIcon)}
                   </span>
                 ) : (
                   renderTextChildren(leftIcon)
@@ -268,7 +268,7 @@ export const SelectContent = React.forwardRef<
         <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-2">
           {/* A select opened from inside a menu row must not inherit that row's icon defaults. */}
           <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
-            {children}
+            {renderContainedText(children)}
           </IconDefaultsContext.Provider>
         </SelectPrimitive.Viewport>
       </SelectPrimitive.Content>
@@ -358,7 +358,7 @@ export const SelectItem = React.forwardRef<
       {...props}
     >
       {hasAvatar ? (
-        <span className="shrink-0">{avatar}</span>
+        <span className="shrink-0">{renderContainedText(avatar)}</span>
       ) : (
         hasLeadingIcon && (
           // In the two-line row the icon centres on the 18px title line, as in DropdownMenuItem.

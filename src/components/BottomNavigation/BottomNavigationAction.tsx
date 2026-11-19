@@ -1,7 +1,11 @@
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderSlottedText, renderTextChildren } from "../../utils/renderTextChildren";
+import {
+  renderContainedText,
+  renderSlottedText,
+  renderTextChildren,
+} from "../../utils/renderTextChildren";
 import { useBottomNavigationContext } from "./BottomNavigation";
 
 export interface BottomNavigationActionProps
@@ -60,7 +64,7 @@ export const BottomNavigationAction = React.forwardRef<
             {icon}
           </span>
           {badge ? (
-            <span className="absolute -end-1 -top-2.5">{badge}</span>
+            <span className="absolute -end-1 -top-2.5">{renderContainedText(badge)}</span>
           ) : (
             renderTextChildren(badge)
           )}
@@ -102,7 +106,7 @@ export const BottomNavigationAction = React.forwardRef<
           {icon}
         </span>
         {badge ? (
-          <span className="absolute -end-1 -top-2.5">{badge}</span>
+          <span className="absolute -end-1 -top-2.5">{renderContainedText(badge)}</span>
         ) : (
           renderTextChildren(badge)
         )}

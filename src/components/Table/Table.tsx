@@ -105,10 +105,10 @@ export const TableToolbar = React.forwardRef<HTMLDivElement, TableToolbarProps>(
         )}
         {...props}
       >
-        <div className="flex min-w-24 flex-1 items-center">{search}</div>
+        <div className="flex min-w-24 flex-1 items-center">{renderContainedText(search)}</div>
         {children != null && (
           <div className="flex min-w-0 items-center gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {children}
+            {renderContainedText(children)}
           </div>
         )}
       </div>
@@ -196,7 +196,7 @@ export const TableToolbarAction = React.forwardRef<HTMLButtonElement, TableToolb
             active ? "text-brand-primary-default" : "text-icons-secondary",
           )}
         >
-          {icon ?? <TranscationArrowIcon size={16} />}
+          {renderContainedText(icon ?? <TranscationArrowIcon size={16} />)}
         </span>
       </button>
     );
@@ -350,7 +350,7 @@ export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaP
               "pb-3 [scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]",
           )}
         >
-          {children}
+          {renderContainedText(children)}
         </div>
       </div>
     );

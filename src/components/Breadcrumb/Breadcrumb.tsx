@@ -77,7 +77,7 @@ export const BreadcrumbList = React.forwardRef<HTMLOListElement, BreadcrumbListP
     return (
       <BreadcrumbSizeContext.Provider value={size}>
         <ol ref={ref} className={cn("flex flex-wrap items-center gap-2", className)} {...props}>
-          {withSeparators}
+          {renderContainedText(withSeparators)}
         </ol>
       </BreadcrumbSizeContext.Provider>
     );

@@ -51,7 +51,7 @@ export const AccordionTrigger = React.forwardRef<
         <span className="flex min-w-0 flex-1 items-center gap-3">
           {avatar ? (
             <span className="flex shrink-0 items-center" aria-hidden="true">
-              {avatar}
+              {renderContainedText(avatar)}
             </span>
           ) : (
             renderTextChildren(avatar)
@@ -59,7 +59,7 @@ export const AccordionTrigger = React.forwardRef<
           <span className="flex min-w-0 flex-1 items-start gap-2 text-left">
             {leadingIcon ? (
               <span className="flex shrink-0 items-center pt-px [&>svg]:size-4" aria-hidden="true">
-                {leadingIcon}
+                {renderContainedText(leadingIcon)}
               </span>
             ) : (
               renderTextChildren(leadingIcon)
@@ -80,7 +80,7 @@ export const AccordionTrigger = React.forwardRef<
         </span>
         {showIcon && (
           <span className="shrink-0 motion-safe:transition-transform motion-safe:duration-200 [[data-state=open]>&]:rotate-180">
-            {iconElement}
+            {renderContainedText(iconElement)}
           </span>
         )}
       </AccordionPrimitive.Trigger>

@@ -153,7 +153,7 @@ const BannerSection = React.forwardRef<HTMLElement, BannerSectionProps>(
       className={className}
       {...rest}
     >
-      {children}
+      {renderContainedText(children)}
     </section>
   ),
 );
@@ -224,7 +224,7 @@ function BannerFeatureBody({
     <>
       {media !== undefined && media !== null && (
         <div className={cn(mediaWrap, layout === "vertical" && "w-full [&>*]:mx-auto")}>
-          {media}
+          {renderContainedText(media)}
         </div>
       )}
       <div
@@ -275,11 +275,15 @@ function BannerSubtleBody({
   const mediaSizeDefault = "size-12 shrink-0 overflow-hidden rounded-xl";
   return (
     <>
-      {media !== undefined && media !== null && <div className={mediaSizeDefault}>{media}</div>}
+      {media !== undefined && media !== null && (
+        <div className={mediaSizeDefault}>{renderContainedText(media)}</div>
+      )}
       <div className="flex min-w-0 flex-1 items-end gap-3">
         <div className="flex min-w-0 flex-1 flex-col gap-4">
           {leadBadge !== undefined && leadBadge !== null && (
-            <div className="flex flex-wrap items-center gap-2">{leadBadge}</div>
+            <div className="flex flex-wrap items-center gap-2">
+              {renderContainedText(leadBadge)}
+            </div>
           )}
           <div className="flex flex-col gap-1">
             {title !== undefined && title !== null && title !== false && (
@@ -301,14 +305,18 @@ function BannerSubtleBody({
             </div>
           </div>
           {stackedAction !== undefined && stackedAction !== null && (
-            <div className="flex flex-col items-end self-start">{stackedAction}</div>
+            <div className="flex flex-col items-end self-start">
+              {renderContainedText(stackedAction)}
+            </div>
           )}
           {statusRow !== undefined && statusRow !== null && (
-            <div className="flex flex-wrap items-center gap-2">{statusRow}</div>
+            <div className="flex flex-wrap items-center gap-2">
+              {renderContainedText(statusRow)}
+            </div>
           )}
         </div>
         {primaryAction !== undefined && primaryAction !== null && (
-          <div className="shrink-0 self-center">{primaryAction}</div>
+          <div className="shrink-0 self-center">{renderContainedText(primaryAction)}</div>
         )}
       </div>
     </>
@@ -358,18 +366,22 @@ function BannerInverseBody({
 
   return (
     <>
-      {media !== undefined && media !== null && <div className={mediaSizeDefault}>{media}</div>}
+      {media !== undefined && media !== null && (
+        <div className={mediaSizeDefault}>{renderContainedText(media)}</div>
+      )}
       {layout === "horizontal" ? (
         <div className="flex min-w-0 flex-1 items-end gap-3">
           {textColumn}
           {primaryAction !== undefined && primaryAction !== null && (
-            <div className="shrink-0">{primaryAction}</div>
+            <div className="shrink-0">{renderContainedText(primaryAction)}</div>
           )}
         </div>
       ) : (
         <div className="flex min-w-0 flex-1 flex-col gap-3">
           {textColumn}
-          {primaryAction !== undefined && primaryAction !== null && <div>{primaryAction}</div>}
+          {primaryAction !== undefined && primaryAction !== null && (
+            <div>{renderContainedText(primaryAction)}</div>
+          )}
         </div>
       )}
       {dismissSlot}
