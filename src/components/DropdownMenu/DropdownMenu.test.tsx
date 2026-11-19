@@ -51,6 +51,13 @@ describe("DropdownMenu", () => {
       );
       expect(await axe(container)).toHaveNoViolations();
     });
+
+    it("item with a trailing action has no a11y violations", async () => {
+      const { container } = renderMenu(
+        <DropdownMenuItem trailingAction={<span>Download</span>}>Earnings Report</DropdownMenuItem>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
   });
 
   describe("API", () => {
@@ -903,6 +910,102 @@ describe("DropdownMenuItem", () => {
     });
   });
 
+  describe("trailingAction", () => {
+    it("draws the action at the end of the row, after the trailing icon", () => {
+      renderMenu(
+        <DropdownMenuItem
+          trailingIcon={<EditIcon data-testid="trailing-icon" />}
+          trailingAction={<span data-testid="action">Download</span>}
+        >
+          Earnings Report
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByRole("menuitem");
+      expect(item).toHaveTextContent("Earnings Report");
+      const action = screen.getByTestId("action");
+      expect(item).toContainElement(action);
+      expect(
+        screen.getByTestId("trailing-icon").compareDocumentPosition(action) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+    });
+
+    it("selects the row when the action is clicked", async () => {
+      const onSelect = vi.fn();
+      renderMenu(
+        <DropdownMenuItem onSelect={onSelect} trailingAction={<span>Download</span>}>
+          Earnings Report
+        </DropdownMenuItem>,
+      );
+      await userEvent.click(screen.getByText("Download"));
+      expect(onSelect).toHaveBeenCalledTimes(1);
+    });
+
+    it("names the row with both its label and the action's", () => {
+      renderMenu(
+        <DropdownMenuItem trailingAction={<span>Download</span>}>Earnings Report</DropdownMenuItem>,
+      );
+      expect(
+        screen.getByRole("menuitem", { name: /^Earnings Report ?Download$/ }),
+      ).toBeInTheDocument();
+    });
+
+    it("draws the action last inside an asChild row", () => {
+      renderMenu(
+        <DropdownMenuItem
+          asChild
+          leadingIcon={<EditIcon data-testid="leading-icon" />}
+          trailingAction={<span data-testid="action">Open</span>}
+        >
+          <a href="/reports">Reports</a>
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByRole("menuitem", { name: /^Reports ?Open$/ });
+      expect(item).toHaveAttribute("href", "/reports");
+      expect(item.lastElementChild).toContainElement(screen.getByTestId("action"));
+    });
+
+    it("tightens padding so a 24px action keeps the 32px row height", () => {
+      renderMenu(
+        <DropdownMenuItem size="32" trailingAction={<span>Download</span>} data-testid="item">
+          Earnings Report
+        </DropdownMenuItem>,
+      );
+      const item = screen.getByTestId("item");
+      expect(item).toHaveClass("min-h-8", "py-1");
+      expect(item).not.toHaveClass("py-[7px]");
+    });
+
+    it("renders nothing extra without an action", () => {
+      renderMenu(<DropdownMenuItem>Earnings Report</DropdownMenuItem>);
+      expect(screen.getByRole("menuitem", { name: "Earnings Report" })).toBeInTheDocument();
+    });
+
+    it("draws the action at the end of a sheet row, which the action also selects", async () => {
+      const user = userEvent.setup();
+      const onSelect = vi.fn();
+      render(
+        <DropdownMenu variant="sheet" defaultOpen={false}>
+          <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onSelect={onSelect}
+              trailingAction={<span data-testid="action">Download</span>}
+            >
+              Earnings Report
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>,
+      );
+      await user.click(screen.getByText("trigger"));
+      const row = screen.getByRole("option", { name: /^Earnings Report ?Download$/ });
+      expect(row.lastElementChild).toContainElement(screen.getByTestId("action"));
+
+      await user.click(screen.getByTestId("action"));
+      expect(onSelect).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe("asChild", () => {
     it("renders child element with menuitem props", () => {
       renderMenu(
@@ -1385,6 +1488,27 @@ describe("DropdownMenu sheet variant", () => {
     );
     await user.click(screen.getByText("trigger"));
     expect(screen.getByTestId("separator").tagName).toBe("HR");
+  });
+
+  it("resets the native <hr> border so the sheet separator draws a single line", async () => {
+    const user = userEvent.setup();
+    render(
+      <DropdownMenu variant="sheet" defaultOpen={false}>
+        <DropdownMenuTrigger>trigger</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Item 1</DropdownMenuItem>
+          <DropdownMenuSeparator data-testid="separator" />
+          <DropdownMenuItem>Item 2</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByText("trigger"));
+    // Preflight gives every <hr> a currentColor border-top on top of the bg fill.
+    expect(screen.getByTestId("separator")).toHaveClass(
+      "border-0",
+      "h-px",
+      "bg-neutral-alphas-200",
+    );
   });
 
   it("renders a plain title (not a Radix label) without requiring menu context", async () => {

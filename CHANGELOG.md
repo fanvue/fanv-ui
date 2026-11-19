@@ -1,5 +1,35 @@
 # Changelog
 
+## [3.52.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.51.0...ui-v3.52.0) (2026-11-18)
+
+
+### Features
+
+* **Drawer:** add page variant (ENG-17762) ([#816](https://github.com/fanvue/fanv-ui/issues/816)) ([e54ba87](https://github.com/fanvue/fanv-ui/commit/e54ba87b058c6cb0971e054d0c51729e3751df3a))
+* **InlineEmptyState:** add a one-line empty state (ENG-17762) ([#815](https://github.com/fanvue/fanv-ui/issues/815)) ([bb519ec](https://github.com/fanvue/fanv-ui/commit/bb519eccae3f23cdcee2c3ed013c93e4089d716f))
+* **Link:** add subtle variant (ENG-17762) ([#814](https://github.com/fanvue/fanv-ui/issues/814)) ([98397fe](https://github.com/fanvue/fanv-ui/commit/98397fed1d1f60ecc4a4c705921300b46611ae76))
+* **SegmentedControl:** add squared appearance (ENG-17762) ([#813](https://github.com/fanvue/fanv-ui/issues/813)) ([dbdda56](https://github.com/fanvue/fanv-ui/commit/dbdda56a25e0b6de5ec2dae2e6d85487f42a7e2d))
+* **Table:** add interactive row hover and a comfortable row size ([#810](https://github.com/fanvue/fanv-ui/issues/810)) ([04f8ac5](https://github.com/fanvue/fanv-ui/commit/04f8ac592955466da8327f21bec6d9cba25add78))
+* **Table:** add TableRowLink (ENG-17762) ([#817](https://github.com/fanvue/fanv-ui/issues/817)) ([42cb7db](https://github.com/fanvue/fanv-ui/commit/42cb7dbb6b090e1ea2ab7887b62b2c4ecc25dab8))
+
+## [3.51.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.50.0...ui-v3.51.0) (2026-11-17)
+
+
+### Features
+
+* **Button:** give brand buttons the glowing upsell look ([#804](https://github.com/fanvue/fanv-ui/issues/804)) ([392a9d1](https://github.com/fanvue/fanv-ui/commit/392a9d14f953d1b48245e98200daa548656e0e22))
+* **ChartCard:** add fullHeight (ENG-16990) ([#778](https://github.com/fanvue/fanv-ui/issues/778)) ([45aca1a](https://github.com/fanvue/fanv-ui/commit/45aca1ae35c2e88ab57c44af368ada9e27e127fe))
+* **Icons:** add EpisodesIcon and ShortsIcon ([#808](https://github.com/fanvue/fanv-ui/issues/808)) ([f533029](https://github.com/fanvue/fanv-ui/commit/f533029be590ce01aac8943eb8c09bcdd941bacf))
+* **typography:** tune tracking and add heavier dark-mode Regular weights ([#775](https://github.com/fanvue/fanv-ui/issues/775)) ([ce6ac09](https://github.com/fanvue/fanv-ui/commit/ce6ac0966afc763be66d8597bd444e2acbe8b0a2))
+* V2 side modal Drawer variant, DocumentIcon and DropdownMenuItem trailingAction (DES-1048) ([#807](https://github.com/fanvue/fanv-ui/issues/807)) ([5219b10](https://github.com/fanvue/fanv-ui/commit/5219b108522ace31d6c7a7e6071de795ce192af6))
+
+
+### Bug Fixes
+
+* **Button:** match Figma's 24 size corner and label ([#805](https://github.com/fanvue/fanv-ui/issues/805)) ([2d0a1dd](https://github.com/fanvue/fanv-ui/commit/2d0a1dda8c9009531951d4c141ad5fb635e3fdaa))
+* **Dialog:** stop the body cutting off rings at its side edges (ENG-13911) ([#803](https://github.com/fanvue/fanv-ui/issues/803)) ([5867c56](https://github.com/fanvue/fanv-ui/commit/5867c56039ab29e464046bf60367e5e4bb7a6693))
+* **DropdownMenu:** drop the native hr border on the sheet separator ([#755](https://github.com/fanvue/fanv-ui/issues/755)) ([4b3da6c](https://github.com/fanvue/fanv-ui/commit/4b3da6cba0fac35832d816bb92969c7771fb7ca4))
+
 ## [3.50.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.49.0...ui-v3.50.0) (2026-11-11)
 
 

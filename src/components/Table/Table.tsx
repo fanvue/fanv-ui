@@ -6,21 +6,30 @@ import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Tooltip/Tooltip";
+import { openTableRowLink } from "./TableRowLink";
 
 /**
  * Row density for body cells.
  *
- * - `"md"` (default) → 64px Figma `V2 Table Cell` Default.
- * - `"condensed"` → 48px Figma `V2 Table Cell` Condensed.
- * - `"lg"` → 80px rows; no longer in Figma, kept for back-compat.
+ * - `"md"` (default) → 40px rows, Figma `V2 Table Cell` Default.
+ * - `"condensed"` → 40px rows, Figma `V2 Table Cell` Condensed.
+ * - `"comfortable"` → 48px rows, for a 32px avatar with 8px above and below.
+ * - `"lg"` → 56px rows; no longer in Figma, kept for back-compat.
+ *
+ * A row holding a {@link TableMediaThumbnail} (above 32px) or {@link TableMediaTile} is 56px at
+ * any size.
  *
  * `"default"` is the v2 numeric-token equivalent of `"md"` and is preferred
  * for new code.
  */
-export type TableSize = "md" | "lg" | "condensed" | "default";
+export type TableSize = "md" | "lg" | "condensed" | "comfortable" | "default";
 
 export interface TableCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Row density applied to {@link TableCell} descendants. @default "md" */
+  /**
+   * Row density applied to {@link TableCell} descendants: 40px rows for `md`,
+   * `default` and `condensed`, 48px for `comfortable`, 56px for `lg`.
+   * @default "md"
+   */
   size?: TableSize;
 }
 
@@ -426,16 +435,53 @@ export const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooter
 );
 TableFooter.displayName = "TableFooter";
 
-export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {}
+export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+  /**
+   * Marks a body row that opens or expands into more content. The row shows a
+   * pointer cursor and eases to `background-secondary` while hovered, or while
+   * a control inside it has keyboard focus. The row itself is not focusable, so
+   * its action must also be on a button or link inside it. With a
+   * {@link TableRowLink} inside, a click anywhere on the row that is not on
+   * another control opens that link.
+   * @default false
+   */
+  interactive?: boolean;
+}
 
 /**
  * Table row. A body row holding a {@link TableMediaThumbnail} or
  * {@link TableMediaTile} grows from 40px to 56px to keep 8px around it.
+ * Set `interactive` on rows that open or expand so they respond to hover.
  */
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, interactive = false, onClick, ...props }, ref) => {
+    const openingRowLink = React.useRef(false);
     return (
-      <tr ref={ref} className={cn("[&:has([data-table-media])>td]:h-14", className)} {...props}>
+      <tr
+        ref={ref}
+        className={cn(
+          "[&:has([data-table-media])>td]:h-14",
+          interactive &&
+            "cursor-pointer transition-colors duration-200 ease-in-out hover:bg-background-secondary has-[:focus-visible]:bg-background-secondary motion-reduce:transition-none",
+          className,
+        )}
+        onClick={(event) => {
+          if (openingRowLink.current) {
+            event.stopPropagation();
+            return;
+          }
+          onClick?.(event);
+          if (interactive && !event.defaultPrevented) {
+            openingRowLink.current = true;
+            try {
+              openTableRowLink(event);
+            } finally {
+              openingRowLink.current = false;
+            }
+          }
+        }}
+        {...props}
+      >
         {renderContainedText(props.children)}
       </tr>
     );
@@ -490,6 +536,7 @@ const CELL_MIN_HEIGHT: Record<TableSize, string> = {
   md: "h-10",
   default: "h-10",
   condensed: "h-10",
+  comfortable: "h-12",
   lg: "h-14",
 };
 

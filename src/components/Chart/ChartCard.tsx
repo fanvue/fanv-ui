@@ -38,6 +38,13 @@ export interface ChartCardProps extends Omit<React.HTMLAttributes<HTMLDivElement
   };
   /** Show loading skeleton instead of content. @default false */
   loading?: boolean;
+  /**
+   * Stretch the card to its container's height (e.g. a grid row shared with a
+   * taller card) and let the chart content take the height left under the
+   * header. Content that needs to scroll in that space should do so itself.
+   * @default false
+   */
+  fullHeight?: boolean;
   /** Chart content rendered below the header. */
   children?: React.ReactNode;
 }
@@ -85,6 +92,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
       dateInfo,
       trendChip,
       loading = false,
+      fullHeight = false,
       children,
       ...props
     },
@@ -95,10 +103,10 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
         ref={ref}
         hierarchy={hierarchy}
         noPadding
-        className={cn(SURFACE_CLASSES[hierarchy], className)}
+        className={cn(SURFACE_CLASSES[hierarchy], fullHeight && "h-full", className)}
         {...props}
       >
-        <div className="flex flex-col gap-2 p-4">
+        <div className={cn("flex flex-col gap-2 p-4", fullHeight && "min-h-0 flex-1")}>
           {loading ? (
             <>
               <Skeleton animation="wave" variant="rounded" className="h-4 w-32" />
@@ -167,7 +175,9 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
             </>
           )}
           {children ? (
-            <div className="mt-auto">{renderContainedText(children)}</div>
+            <div className={cn("mt-auto", fullHeight && "flex min-h-0 flex-1 flex-col")}>
+              {renderContainedText(children)}
+            </div>
           ) : (
             renderTextChildren(children)
           )}

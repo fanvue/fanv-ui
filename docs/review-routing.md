@@ -3,17 +3,17 @@
 Who reviews a pull request in `@fanvue/ui`, by the area it touches. This file
 is the single source for who reviews what: the Claude review bot in
 `#hackers-support` reads it and requests one human reviewer per PR.
-`.github/CODEOWNERS` keeps only its default rule (Simon Staton and Alfonso
-Olmedo) and does not mirror the delegations below.
+`.github/CODEOWNERS` keeps only its default rule and does not mirror the
+delegations below.
 
 Simon Staton built this library and is its DRI. The reviewer pool is Simon
-Staton, Alfonso Olmedo, Luiz Cavalcanti, Harry Ronchetti and Simon Madine.
+Staton, Luiz Cavalcanti, Harry Ronchetti and Simon Madine.
 Every row below is a
 delegation from him for an area someone else knows well; anything not listed
 is his. Nobody outside the pool reviews here: designers and QA open PRs but are never
 requested.
 
-Last reviewed: 2026-11-05. Built from commits and reviews since August 2026.
+Last reviewed: 2026-11-18. Built from commits and reviews since August 2026.
 Re-check it each quarter or whenever someone joins, leaves or changes team.
 
 ## How to pick the reviewer
@@ -22,19 +22,19 @@ Re-check it each quarter or whenever someone joins, leaves or changes team.
    the first row that matches. The row with the most files is the PR's area.
 2. Request the row's **primary**. If the primary wrote the PR, is out of office
    or already reviewed it, request the **secondary**. If both are unavailable,
-   request the DRI, or when the DRI is the author, @alfonsovo-fv.
+   request the DRI, or when the DRI is the author, @morrid0.
 3. A breaking change (a `feat(X)!:` or `fix(X)!:` title, or a removed or renamed
    export) always gets the DRI plus one more engineer, because every consumer
    rebuilds.
 4. Anything not listed is the DRI's: request @simonstaton. If Simon wrote the
-   PR, request @alfonsovo-fv, then the rest of the pool.
+   PR, request @morrid0, then the rest of the pool.
 5. Never request the PR author, a bot, or anyone missing from the people table.
 
 ## Areas
 
 | Area | Paths | Primary | Secondary | Why |
 | --- | --- | --- | --- | --- |
-| DRI (default) | everything not listed below: tokens and theme (`src/styles/`, `postcss.config.ts`), buttons, forms, dialogs, navigation, tables, tabs, charts, feedback components, `.github/`, `package.json`, `release-please-config.json`, `vite.config.ts`, `biome.json`, `src/index.ts`, tests and Storybook config | @simonstaton | @alfonsovo-fv | Simon built the library, its token pipeline, charts and release tooling and is the DRI. Alfonso is the engineering manager and the second pair of eyes. When Simon is the author, Alfonso reviews, with @morrid0 or @simon-fanvue as the alternate. |
+| DRI (default) | everything not listed below: tokens and theme (`src/styles/`, `postcss.config.ts`), buttons, forms, dialogs, navigation, tables, tabs, charts, feedback components, `.github/`, `package.json`, `release-please-config.json`, `vite.config.ts`, `biome.json`, `src/index.ts`, tests and Storybook config | @simonstaton | @morrid0 | Simon built the library, its token pipeline, charts and release tooling and is the DRI. When Simon is the author, Luiz reviews, with @simon-fanvue as the alternate. |
 | Icons, animated icons and flags | `src/components/{Icons,AnimatedIcons,CountryFlag}/`, `src/flags.ts`, `src/animated-icons.ts`, `scripts/generate-icons*`, `scripts/extract-icons-from-figma.mjs`, `scripts/generate-flags.mjs`, `scripts/import-animated-icons.mjs`, `scripts/svgo.config.mjs` | @simon-fanvue | @simonstaton | Simon Madine owns the icon set and its Figma import scripts. |
 | Segmented control | `src/components/SegmentedControl/` | @simon-fanvue | @simonstaton | Simon Madine wrote the current SegmentedControl. |
 | Audio, media and chat primitives | `src/components/{AudioPlayer,AudioRecordButton,AudioUpload,VoiceNote,ChatInput,ChatMessage,ChatEmbed,MediaStatusIndicator,DropdownMenu,AiButton}/`, the audio hooks in `src/utils/` | @morrid0 | @simonstaton | Luiz is Chats Lead and wrote the audio player, voice note, dropdown and AI button work this quarter. |
@@ -45,13 +45,12 @@ Re-check it each quarter or whenever someone joins, leaves or changes team.
 
 | Handle | Name | Owns here |
 | --- | --- | --- |
-| @alfonsovo-fv | Alfonso Olmedo | Engineering manager, second pair of eyes on the DRI's own PRs. |
 | @hronchetti | Harry Ronchetti | Creator cards, docs secondary. |
-| @morrid0 | Luiz Cavalcanti | Audio, media and chat primitives. |
+| @morrid0 | Luiz Cavalcanti | Audio, media and chat primitives. Second pair of eyes on the DRI's own PRs. |
 | @simon-fanvue | Simon Madine | Icons, flags, SegmentedControl. |
 | @simonstaton | Simon Staton | DRI. Everything not delegated above. |
 
-Designers who open PRs here but are not reviewers: Lorenzo Perniciaro (tables, V2 styles), Jackson George (Tabs, Logo), Caspian Reynolds.
+Hackers (designers and anyone else outside engineering) open PRs here but are not reviewers. Only people in the table above can be requested.
 
 ## Keeping this file right
 

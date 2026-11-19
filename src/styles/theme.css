@@ -806,6 +806,10 @@
   /* Focus-ring colour, consumed by --shadow-focus-ring. Violet on light
      backgrounds; overridden to white in .dark so the ring stays visible. */
   --fv-focus-ring-color: var(--color-interaction-focus);
+
+  --typography-body-default-16px-regular-font-weight: 400;
+  --typography-body-small-14px-regular-font-weight: 400;
+  --typography-description-12px-regular-font-weight: 400;
 }
 
 .dark {
@@ -1102,6 +1106,10 @@
   --color-inputs-inputs-off: var(--color-inputs-inputs-disabled);
   --color-messages-background-receiver-2: var(--color-messages-background-receiver-stroke);
   --fv-focus-ring-color: var(--color-content-always-white);
+
+  --typography-body-default-16px-regular-font-weight: 450;
+  --typography-body-small-14px-regular-font-weight: 450;
+  --typography-description-12px-regular-font-weight: 500;
 }
 
 @utility typography-header-heading-xl {
@@ -1166,7 +1174,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.16px;
   line-height: 24px;
 }
 
@@ -1174,10 +1182,10 @@
   font-size: 16px;
   text-decoration: none;
   font-family: Inter;
-  font-weight: 400;
+  font-weight: var(--typography-body-default-16px-regular-font-weight);
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.16px;
   line-height: 24px;
 }
 
@@ -1188,7 +1196,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.035px;
   line-height: 18px;
 }
 
@@ -1196,10 +1204,10 @@
   font-size: 14px;
   text-decoration: none;
   font-family: Inter;
-  font-weight: 400;
+  font-weight: var(--typography-body-small-14px-regular-font-weight);
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.035px;
   line-height: 18px;
 }
 
@@ -1210,7 +1218,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 0.12px;
   line-height: 16px;
 }
 
@@ -1218,10 +1226,10 @@
   font-size: 12px;
   text-decoration: none;
   font-family: Inter;
-  font-weight: 400;
+  font-weight: var(--typography-description-12px-regular-font-weight);
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 0.12px;
   line-height: 16px;
 }
 
@@ -1255,7 +1263,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.16px;
   line-height: 22px;
 }
 
@@ -1266,7 +1274,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: -0.035px;
   line-height: 18px;
 }
 
@@ -1277,6 +1285,6 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 0.12px;
   line-height: 16px;
 }

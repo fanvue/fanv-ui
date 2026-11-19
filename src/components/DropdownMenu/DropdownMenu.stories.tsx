@@ -81,6 +81,34 @@ export const WithIcons: Story = {
   ),
 };
 
+/**
+ * `trailingAction` draws a small action at the row's end. The whole row performs
+ * it, so the button is a visual: a 24px `Button` rendered `asChild` as a span, whose
+ * label joins the row's accessible name ("Earnings Report Download").
+ */
+export const WithTrailingAction: Story = {
+  play: openMenu,
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>Open Menu</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem
+          leadingIcon={<EditIcon />}
+          trailingAction={
+            <Button asChild size="24" variant="primary">
+              <span>Download</span>
+            </Button>
+          }
+        >
+          Earnings Report
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
+};
+
 export const WithGroupsAndLabels: Story = {
   play: openMenu,
   render: () => (
@@ -122,6 +150,36 @@ export const WithSeparator: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
+};
+
+/**
+ * The sheet variant renders the separator as a native `<hr>`. It and the
+ * header divider each draw a single line, in the light and dark themes.
+ */
+export const SheetWithSeparator: Story = {
+  play: openMenu,
+  render: () => {
+    const Demo = () => {
+      const [open, setOpen] = React.useState(false);
+      return (
+        <DropdownMenu variant="sheet" open={open} onOpenChange={setOpen}>
+          <DropdownMenuTrigger asChild>
+            <Button>Open Sheet</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuHeader title="Folders" onClose={() => setOpen(false)} />
+            <DropdownMenuItem>Rename</DropdownMenuItem>
+            <DropdownMenuItem>Duplicate</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem destructive leadingIcon={<TrashBinIcon />}>
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    };
+    return <Demo />;
+  },
 };
 
 export const AsChildLink: Story = {

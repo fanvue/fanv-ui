@@ -413,6 +413,8 @@ export type { DiscordIconProps } from "./components/Icons/DiscordIcon";
 export { DiscordIcon } from "./components/Icons/DiscordIcon";
 export type { DiscountIconProps } from "./components/Icons/DiscountIcon";
 export { DiscountIcon } from "./components/Icons/DiscountIcon";
+export type { DocumentIconProps } from "./components/Icons/DocumentIcon";
+export { DocumentIcon } from "./components/Icons/DocumentIcon";
 export type { DonateIconProps } from "./components/Icons/DonateIcon";
 export { DonateIcon } from "./components/Icons/DonateIcon";
 export type { DoubleTickIconProps } from "./components/Icons/DoubleTickIcon";
@@ -665,6 +667,8 @@ export type {
   InlineEditSize,
 } from "./components/InlineEdit/InlineEdit";
 export { InlineEdit } from "./components/InlineEdit/InlineEdit";
+export type { InlineEmptyStateProps } from "./components/InlineEmptyState/InlineEmptyState";
+export { InlineEmptyState } from "./components/InlineEmptyState/InlineEmptyState";
 export type { LinkProps, LinkSize, LinkVariant } from "./components/Link/Link";
 export { Link } from "./components/Link/Link";
 export type { LiveStatusProps, LiveStatusVariant } from "./components/LiveStatus/LiveStatus";
@@ -895,6 +899,8 @@ export type { TableMobileRowProps } from "./components/Table/TableMobileRow";
 export { TableMobileRow } from "./components/Table/TableMobileRow";
 export type { TableCardPaginationProps } from "./components/Table/TablePagination";
 export { TableCardPagination } from "./components/Table/TablePagination";
+export type { TableRowLinkProps } from "./components/Table/TableRowLink";
+export { TableRowLink } from "./components/Table/TableRowLink";
 export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";

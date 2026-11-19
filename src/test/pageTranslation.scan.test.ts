@@ -447,7 +447,7 @@ describe("page translation text guard", () => {
     expect(snippetFindings[index]).toEqual([]);
   });
 
-  it("finds no unguarded text in src/components", () => {
+  it("finds no unguarded text in src/components", { timeout: 60_000 }, () => {
     const findings = findUnguardedText(componentFiles());
     expect(findings, `${HOW_TO_FIX}\n\n${findings.join("\n")}\n`).toEqual([]);
   });

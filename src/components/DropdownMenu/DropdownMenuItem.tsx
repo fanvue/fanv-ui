@@ -117,6 +117,15 @@ export interface DropdownMenuItemProps
   /** Trailing count or number (e.g. an unread total) rendered before {@link DropdownMenuItemProps.trailingIcon}. */
   count?: React.ReactNode;
   /**
+   * A small action drawn at the row's end, after everything else — typically a 24px
+   * `Button` rendered `asChild` as a span. The whole row performs the action through
+   * `onSelect`, so pass a visual, never a second interactive control. Its text joins the
+   * row's accessible name, so the label people see is also the one they can speak.
+   * The row does not restyle it: when the row is `disabled`, disable the visual too
+   * (or show its `loading` state) so it does not look live.
+   */
+  trailingAction?: React.ReactNode;
+  /**
    * Optional secondary text rendered on a second line below the label. When
    * provided, the row switches to a two-line layout and the leading/trailing
    * icons align to the title line (top) rather than the row's vertical centre.
@@ -158,6 +167,7 @@ export const DropdownMenuItem = React.forwardRef<
       avatar,
       trailingIcon,
       count,
+      trailingAction,
       description,
       selected,
       className,
@@ -185,9 +195,9 @@ export const DropdownMenuItem = React.forwardRef<
       // to the space left over; `w-full` plus a margin would overflow.
       variant === "sheet" && "mx-1 w-auto",
       ITEM_SIZE_CLASSES[normalizedSize],
-      // A 24px avatar would push the compact 32px row past its height with the
-      // default padding; tighten it so the avatar variant keeps the 32px contract.
-      hasAvatar && !hasDescription && normalizedSize === "32" && "py-1",
+      // A 24px avatar or trailing action would push the compact 32px row past its
+      // height with the default padding; tighten it so the row keeps the 32px contract.
+      (hasAvatar || trailingAction != null) && !hasDescription && normalizedSize === "32" && "py-1",
       "data-[highlighted]:bg-interaction-hover",
       "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
       "disabled:cursor-not-allowed disabled:text-content-disabled",
@@ -247,6 +257,17 @@ export const DropdownMenuItem = React.forwardRef<
     // pushes the trailing icon to the row's end.
     const trailingNode =
       trailingIcon != null && renderIcon(trailingIcon, asChild ? "ms-auto" : undefined);
+    const trailingActionNode = trailingAction != null && (
+      <span
+        className={cn(
+          "flex shrink-0 items-center",
+          iconAlignClassName,
+          asChild && trailingIcon == null && "ms-auto",
+        )}
+      >
+        {renderContainedText(trailingAction)}
+      </span>
+    );
 
     const itemChildren = (
       <>
@@ -276,6 +297,7 @@ export const DropdownMenuItem = React.forwardRef<
         )}
         {countNode}
         {trailingNode}
+        {trailingActionNode}
       </>
     );
 
@@ -332,6 +354,7 @@ export const DropdownMenuItem = React.forwardRef<
                 leadingNode,
                 <Slottable key="children">{renderSlottedText(children)}</Slottable>,
                 trailingNode,
+                trailingActionNode,
               ]
             : itemChildren}
         </Comp>
@@ -354,6 +377,7 @@ export const DropdownMenuItem = React.forwardRef<
             {leadingNode}
             <Slottable>{renderSlottedText(children)}</Slottable>
             {trailingNode}
+            {trailingActionNode}
           </Slot>
         </DropdownMenuPrimitive.Item>
       );
@@ -385,7 +409,9 @@ export const DropdownMenuSeparator = React.forwardRef<
   DropdownMenuSeparatorProps
 >(({ className, ...props }, ref) => {
   const variant = React.useContext(DropdownMenuVariantContext);
-  const separatorClassName = cn("my-1 h-px bg-neutral-alphas-200", className);
+  // border-0 resets the currentColor border-top that preflight gives <hr>,
+  // which would otherwise draw a second line on the sheet variant.
+  const separatorClassName = cn("my-1 h-px border-0 bg-neutral-alphas-200", className);
 
   // DropdownMenuPrimitive.Separator requires Radix menu context, unavailable
   // when the sheet variant renders inside a Drawer (Dialog) instead. <hr> is a

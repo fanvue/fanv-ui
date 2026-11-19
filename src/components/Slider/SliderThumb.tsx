@@ -39,7 +39,8 @@ export function SliderThumb({
       }}
       onKeyDown={(e) => {
         if (showTooltip) {
-          requestAnimationFrame(() => syncTooltipText(e.currentTarget, formatTooltip));
+          const thumb = e.currentTarget;
+          requestAnimationFrame(() => syncTooltipText(thumb, formatTooltip));
         }
       }}
       className={cn(
