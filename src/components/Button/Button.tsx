@@ -264,7 +264,7 @@ function renderContent({
     );
   }
 
-  if (asChild) return renderSlottedText(children);
+  if (asChild) return renderSlottedText(children, false);
 
   return (
     <>
@@ -281,7 +281,7 @@ function renderContent({
           child.trim() ? (
             <span className="min-w-0 truncate">{child}</span>
           ) : null
-        ) : typeof child === "number" ? (
+        ) : typeof child === "number" || typeof child === "bigint" ? (
           <span className="min-w-0 truncate">{child}</span>
         ) : (
           child

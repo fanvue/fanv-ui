@@ -12,7 +12,7 @@ import { BottomNavigation } from "../components/BottomNavigation/BottomNavigatio
 import { BottomNavigationAction } from "../components/BottomNavigation/BottomNavigationAction";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList } from "../components/Breadcrumb/Breadcrumb";
 import { Button } from "../components/Button/Button";
-import { Card, CardDescription, CardTitle } from "../components/Card/Card";
+import { Card, CardDescription, CardFooter, CardTitle } from "../components/Card/Card";
 import { ChartCard } from "../components/Chart/ChartCard";
 import { ChartLegendContent } from "../components/Chart/ChartLegend";
 import { ChartLoadingOverlay } from "../components/Chart/ChartLoadingOverlay";
@@ -911,5 +911,46 @@ export const translationCases: [string, (changed: boolean) => ReactElement][] = 
         renderGroupHeading={() => richLabel(changed)}
       />
     ),
+  ],
+  [
+    "BottomNavigation text beside an action clears",
+    (changed) => (
+      <BottomNavigation value="a">
+        {changed ? null : "Quick links"}
+        <BottomNavigationAction icon={<svg />} value="a" label="First" />
+      </BottomNavigation>
+    ),
+  ],
+  [
+    "ChartCard zero subtitle becomes an amount",
+    (changed) => <ChartCard title="Revenue" subtitle={changed ? "$100" : 0} />,
+  ],
+  [
+    "ChartCard content value changes beside markup",
+    (changed) => (
+      <ChartCard title="Revenue">{[changed ? "200" : "100", <b key="unit">USD</b>]}</ChartCard>
+    ),
+  ],
+  [
+    "CardFooter value changes beside markup",
+    (changed) => (
+      <Card>
+        <CardFooter>{[changed ? "200" : "100", <b key="unit">USD</b>]}</CardFooter>
+      </Card>
+    ),
+  ],
+  [
+    "UserItem trailing value changes beside markup",
+    (changed) => (
+      <UserItem
+        user={{ displayName: "Jane Doe", handle: "jane_doe" }}
+        showAvatar={false}
+        trailing={[changed ? "200" : "100", <b key="unit">USD</b>]}
+      />
+    ),
+  ],
+  [
+    "Button bigint label changes beside an icon",
+    (changed) => <Button rightIcon={<svg />}>{changed ? 6n : 5n}</Button>,
   ],
 ];

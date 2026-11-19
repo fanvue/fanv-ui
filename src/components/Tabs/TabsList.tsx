@@ -391,7 +391,7 @@ export const TabsList = React.forwardRef<
                   // Horizontal only: in the vertical orientation the leading padding is
                   // the row's left inset, not a label offset, so zeroing it would pull
                   // the first label out of line with the others.
-                  flushLeft && "data-[orientation=horizontal]:[&>[role=tab]:first-child]:pl-0",
+                  flushLeft && "data-[orientation=horizontal]:[&>:nth-child(1_of_[role=tab])]:pl-0",
                   // `flex-none` is what stops the tabs compressing — without it they
                   // share the row and never overflow, so there is nothing to scroll.
                   // The scrollbar is hidden in both engines: Firefox reads

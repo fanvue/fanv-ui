@@ -157,6 +157,11 @@ describe("renderSlottedText", () => {
     expect(renderSlottedText(option)).toBe(option);
   });
 
+  it("leaves plain text unchanged when the slot adds no siblings", () => {
+    const link = <a href="/open">Open</a>;
+    expect(renderSlottedText(link, false)).toBe(link);
+  });
+
   it("leaves a custom component's children unchanged", () => {
     const Upper = ({ children }: { children: string }) => <a href="/plans">{children}</a>;
     const child = <Upper>Plans</Upper>;

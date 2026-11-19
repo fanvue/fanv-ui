@@ -128,7 +128,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                   </TooltipProvider>
                 )}
               </div>
-              {subtitle && (
+              {subtitle != null && subtitle !== false && subtitle !== "" && (
                 <div className="flex flex-wrap items-end gap-2">
                   <span className="typography-header-heading-sm text-content-primary">
                     {renderContainedText(subtitle)}
@@ -160,7 +160,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
               )}
             </>
           )}
-          {children && <div className="mt-auto">{children}</div>}
+          {children && <div className="mt-auto">{renderContainedText(children)}</div>}
         </div>
       </Card>
     );

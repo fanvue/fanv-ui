@@ -169,7 +169,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
           )}
           {showHandle && <UserHandle>{user.handle}</UserHandle>}
         </div>
-        {trailing && <div className="shrink-0 pl-2">{trailing}</div>}
+        {trailing && <div className="shrink-0 pl-2">{renderContainedText(trailing)}</div>}
       </div>
     );
   },

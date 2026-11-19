@@ -129,7 +129,7 @@ export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
         )}
         {...props}
       >
-        {asChild ? renderSlottedText(content) : renderContainedText(content)}
+        {asChild ? renderSlottedText(content, false) : renderContainedText(content)}
       </Comp>
     );
   },

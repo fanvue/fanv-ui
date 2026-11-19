@@ -56,7 +56,7 @@ export function renderContainedText(children: ReactNode): ReactNode {
   return renderTextChildren(children);
 }
 
-export function renderSlottedText(children: ReactNode): ReactNode {
+export function renderSlottedText(children: ReactNode, hasSiblings = true): ReactNode {
   if (
     !isValidElement<{ children?: ReactNode }>(children) ||
     typeof children.type !== "string" ||
@@ -66,5 +66,6 @@ export function renderSlottedText(children: ReactNode): ReactNode {
   }
   const content = children.props.children;
   if (content == null) return children;
-  return cloneElement(children, undefined, renderTextChildren(content));
+  const guarded = hasSiblings ? renderTextChildren(content) : renderContainedText(content);
+  return guarded === content ? children : cloneElement(children, undefined, guarded);
 }

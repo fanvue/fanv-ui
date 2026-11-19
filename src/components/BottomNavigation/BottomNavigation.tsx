@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderTextChildren } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 
 export interface BottomNavigationProps extends React.HTMLAttributes<HTMLElement> {
   /** The currently selected action value. */
@@ -116,7 +116,7 @@ export const BottomNavigation = React.forwardRef<HTMLElement, BottomNavigationPr
           style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...props.style }}
           {...props}
         >
-          {children}
+          {renderContainedText(children)}
         </nav>
       </BottomNavigationContext.Provider>
     );

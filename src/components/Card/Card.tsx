@@ -226,7 +226,7 @@ export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
   ({ className, children, ...props }, ref) => {
     return (
       <div ref={ref} className={cn("flex w-full items-center gap-2", className)} {...props}>
-        {children}
+        {renderContainedText(children)}
       </div>
     );
   },
