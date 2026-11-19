@@ -11,10 +11,13 @@ export type TabsListAppearance = "underline" | "pill";
 /** Height in pixels of each tab in a pill {@link TabsList}. */
 export type TabsListPillSize = "32" | "36";
 
-export const TabsAppearanceContext = React.createContext<{
-  appearance: TabsListAppearance;
-  size: TabsListPillSize;
-}>({ appearance: "underline", size: "32" });
+/** Density of each tab in an underline {@link TabsList}: `"md"` is 12px top and bottom padding, `"sm"` is 8px. */
+export type TabsListUnderlineSize = "sm" | "md";
+
+export const TabsAppearanceContext = React.createContext<
+  | { appearance: "underline"; size: TabsListUnderlineSize }
+  | { appearance: "pill"; size: TabsListPillSize }
+>({ appearance: "underline", size: "md" });
 
 type TabBox = { left: number; top: number; width: number; height: number };
 
@@ -153,22 +156,31 @@ export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.
    */
   scrollable?: boolean;
   /**
-   * `"underline"` marks the active tab with a line under the row. `"pill"` sits
-   * the tabs in a rounded track, sized to its tabs, and slides a filled pill
-   * behind the active one. A pill list is horizontal and ignores `fullWidth`,
-   * `alignLeft`, `variant` and `flushLeft`; it scrolls when it doesn't fit.
-   * @default "underline"
-   */
-  appearance?: TabsListAppearance;
-  /** Height of each tab in a pill list. Ignored by the underline appearance. @default "32" */
-  size?: TabsListPillSize;
-  /**
    * Pill only: the pill follows the mouse across the tabs and settles back on the
    * selected one when the pointer leaves. Mouse only, and off when the user prefers
    * reduced motion. @default false
    */
   followHover?: boolean;
-};
+} & (
+    | {
+        /**
+         * `"underline"` marks the active tab with a line under the row. `"pill"` sits
+         * the tabs in a rounded track, sized to its tabs, and slides a filled pill
+         * behind the active one. A pill list is horizontal and ignores `fullWidth`,
+         * `alignLeft`, `variant` and `flushLeft`; it scrolls when it doesn't fit.
+         * @default "underline"
+         */
+        appearance?: "underline";
+        /** Density of each underline tab. `"sm"` suits tabs inside cards and panels. @default "md" */
+        size?: TabsListUnderlineSize;
+      }
+    | {
+        /** Pill appearance. See the `"underline"` arm for how the two differ. */
+        appearance: "pill";
+        /** Height of each tab in a pill list. @default "32" */
+        size?: TabsListPillSize;
+      }
+  );
 
 /** Container for {@link TabsTrigger} elements. Renders a sliding active-tab indicator that animates between tabs. */
 export const TabsList = React.forwardRef<
@@ -184,8 +196,8 @@ export const TabsList = React.forwardRef<
       variant,
       flushLeft = false,
       scrollable = false,
-      appearance = "underline",
-      size = "32",
+      appearance,
+      size,
       followHover = false,
       onPointerOver,
       onPointerLeave,
@@ -367,12 +379,16 @@ export const TabsList = React.forwardRef<
     }, [updateIndicator, revealActiveTab]);
 
     const isPill = appearance === "pill";
+    const appearanceContext: React.ContextType<typeof TabsAppearanceContext> =
+      appearance === "pill"
+        ? { appearance, size: size ?? "32" }
+        : { appearance: "underline", size: size ?? "md" };
     const listStyle: React.CSSProperties & { "--pill-ease"?: string } = isPill
       ? { "--pill-ease": PILL_EASE, ...style }
       : { ...style };
 
     return (
-      <TabsAppearanceContext.Provider value={{ appearance, size }}>
+      <TabsAppearanceContext.Provider value={appearanceContext}>
         <TabsPrimitive.List
           ref={innerRef}
           onPointerOver={handlePointerOver}
