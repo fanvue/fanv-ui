@@ -2,7 +2,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderSlottedText } from "../../utils/renderTextChildren";
+import { renderContainedText, renderSlottedText } from "../../utils/renderTextChildren";
 import { MenuRowIcon } from "../Icons/MenuRowIcon";
 import { DropdownMenuVariantContext, ToggleOpenContext } from "./context";
 
@@ -256,13 +256,15 @@ export const DropdownMenuItem = React.forwardRef<
              * size's own 14px regular. It also settles the row's height — 18 + 2 +
              * 18 of text inside `py-2` is the design's 54px.
              */}
-            <span className="typography-body-small-14px-semibold truncate">{children}</span>
+            <span className="typography-body-small-14px-semibold truncate">
+              {renderContainedText(children)}
+            </span>
             <span className="typography-body-small-14px-regular truncate text-content-secondary">
-              {description}
+              {renderContainedText(description)}
             </span>
           </span>
         ) : (
-          <span className="min-w-0 flex-1 truncate">{children}</span>
+          <span className="min-w-0 flex-1 truncate">{renderContainedText(children)}</span>
         )}
         {countNode}
         {trailingNode}

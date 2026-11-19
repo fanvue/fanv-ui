@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
-import { Fragment } from "react";
+import { createElement, Fragment } from "react";
+import { createPortal } from "react-dom";
 import { describe, expect, it } from "vitest";
 import { renderContainedText, renderSlottedText, renderTextChildren } from "./renderTextChildren";
 
@@ -25,7 +26,54 @@ describe("renderTextChildren", () => {
   });
 
   it("renders nothing for empty text", () => {
-    expect(renderTextChildren(["", null, false])).toEqual([]);
+    const { container } = render(<p>{renderTextChildren(["", null, false])}</p>);
+    expect(container.querySelector("p")?.innerHTML).toBe("");
+  });
+
+  it("renders a portal passed as a child", () => {
+    const target = document.createElement("div");
+    render(<p>{renderTextChildren([createPortal(<i>Away</i>, target), "Here"])}</p>);
+    expect(target.innerHTML).toBe("<i>Away</i>");
+  });
+
+  it("keeps state apart for equal keys in separate lists", () => {
+    const view = (first: boolean) => (
+      <p>
+        {renderTextChildren([
+          first ? [<input key="one" aria-label="A" />] : [],
+          [<input key="one" aria-label="B" />],
+        ])}
+      </p>
+    );
+    const { getByLabelText, rerender } = render(view(true));
+    const second = getByLabelText("B");
+    rerender(view(false));
+    expect(getByLabelText("B")).toBe(second);
+  });
+
+  it("keeps a child's node when it gains a fragment wrapper", () => {
+    const { getByLabelText, rerender } = render(
+      <p>{renderTextChildren(<input key="field" aria-label="Field" />)}</p>,
+    );
+    const field = getByLabelText("Field");
+    rerender(
+      <p>
+        {renderTextChildren(
+          createElement(Fragment, null, <input key="field" aria-label="Field" />),
+        )}
+      </p>,
+    );
+    expect(getByLabelText("Field")).toBe(field);
+  });
+
+  it("keeps a label's node when an empty string appears before it", () => {
+    const view = (lead: string | null) => (
+      <p>{renderTextChildren([lead, <i key="i" />, "Loading"])}</p>
+    );
+    const { container, rerender } = render(view(null));
+    const label = container.querySelector("span");
+    rerender(view(""));
+    expect(container.querySelector("span")).toBe(label);
   });
 });
 

@@ -1,56 +1,59 @@
-import { Children, cloneElement, Fragment, isValidElement, type ReactNode } from "react";
+import { cloneElement, Fragment, isValidElement, type ReactNode } from "react";
 
 type TextChild = string | number | bigint;
-
-type FlatChild = { key: string; node: ReactNode };
 
 function isText(node: unknown): node is TextChild {
   return typeof node === "string" || typeof node === "number" || typeof node === "bigint";
 }
 
-function keySegment(id: string) {
-  return `${id.length}:${id}`;
+function isEmptySlot(node: unknown) {
+  return node == null || typeof node === "boolean";
 }
 
-function flattenFragments(children: ReactNode, prefix: string, out: FlatChild[]) {
-  Children.forEach(children, (child, index) => {
-    if (!isValidElement<{ children?: ReactNode }>(child)) {
-      if (isText(child)) out.push({ key: prefix + keySegment(`#${index}`), node: child });
+function renderSlots(slots: readonly ReactNode[]): ReactNode[] {
+  const out: ReactNode[] = [];
+  let runStart = -1;
+  let runText = "";
+  const closeRun = () => {
+    if (runStart < 0) return;
+    if (runText.trim()) out[runStart] = <span key={`text:${runStart}`}>{runText}</span>;
+    else if (runText) out[runStart] = runText;
+    runStart = -1;
+    runText = "";
+  };
+  slots.forEach((slot, index) => {
+    if (isText(slot) || isEmptySlot(slot)) {
+      out.push(null);
+      if (isText(slot) && String(slot)) {
+        if (runStart < 0) runStart = index;
+        runText += String(slot);
+      }
       return;
     }
-    const key = prefix + keySegment(child.key == null ? `#${index}` : `$${child.key}`);
-    if (child.type === Fragment) flattenFragments(child.props.children, key, out);
-    else out.push({ key, node: cloneElement(child, { key }) });
+    closeRun();
+    out.push(renderTextChildren(slot));
   });
+  closeRun();
+  return out;
 }
 
-export function renderTextChildren(children: ReactNode): ReactNode[] {
-  const flat: FlatChild[] = [];
-  flattenFragments(children, "", flat);
-  const nodes: ReactNode[] = [];
-  let run: FlatChild[] = [];
-  const flushRun = () => {
-    const text = run.map(({ node }) => String(node)).join("");
-    if (text.trim()) nodes.push(<span key={`text:${run[0]?.key}`}>{text}</span>);
-    else if (text) nodes.push(text);
-    run = [];
-  };
-  for (const item of flat) {
-    if (isText(item.node)) {
-      run.push(item);
-    } else {
-      flushRun();
-      nodes.push(item.node);
-    }
+export function renderTextChildren(children: ReactNode): ReactNode {
+  if (isText(children)) return String(children).trim() ? <span>{children}</span> : children;
+  if (Array.isArray(children)) return renderSlots(children);
+  if (isValidElement<{ children?: ReactNode }>(children) && children.type === Fragment) {
+    const content = children.props.children;
+    return Array.isArray(content)
+      ? cloneElement(children, undefined, ...renderSlots(content))
+      : cloneElement(children, undefined, renderTextChildren(content));
   }
-  flushRun();
-  return nodes;
+  return children;
 }
 
 export function renderContainedText(children: ReactNode): ReactNode {
-  const flat: FlatChild[] = [];
-  flattenFragments(children, "", flat);
-  if (flat.every(({ node }) => isText(node))) return flat.map(({ node }) => String(node)).join("");
+  if (isText(children)) return children;
+  if (Array.isArray(children) && children.every((slot) => isText(slot) || isEmptySlot(slot))) {
+    return children.filter(isText).join("");
+  }
   return renderTextChildren(children);
 }
 
@@ -60,5 +63,7 @@ export function renderSlottedText(children: ReactNode): ReactNode {
   }
   const content = children.props.children;
   if (content == null) return children;
-  return cloneElement(children, undefined, renderTextChildren(content));
+  return Array.isArray(content)
+    ? cloneElement(children, undefined, ...renderSlots(content))
+    : cloneElement(children, undefined, renderTextChildren(content));
 }

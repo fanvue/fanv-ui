@@ -57,6 +57,13 @@ const RouterLink = forwardRef<HTMLAnchorElement, AnchorHTMLAttributes<HTMLAnchor
   (props, ref) => <a ref={ref} {...props} />,
 );
 
+const richLabel = (changed: boolean) => (
+  <Fragment key="rich">
+    Details{changed ? null : " (2)"}
+    <b>!</b>
+  </Fragment>
+);
+
 export const translationCases: [string, (changed: boolean) => ReactElement][] = [
   [
     "DatePicker changes month",
@@ -482,5 +489,25 @@ export const translationCases: [string, (changed: boolean) => ReactElement][] = 
         </Fragment>
       </UserHandle>
     ),
+  ],
+  [
+    "DropdownMenuItem rich label drops its count",
+    (changed) => (
+      <DropdownMenu open>
+        <DropdownMenuContent>
+          <DropdownMenuItem>{richLabel(changed)}</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
+  ],
+  [
+    "LiveStatus rich label drops its count",
+    (changed) => <LiveStatus>{richLabel(changed)}</LiveStatus>,
+  ],
+  ["Badge rich label drops its count", (changed) => <Badge>{richLabel(changed)}</Badge>],
+  ["Pill rich label drops its count", (changed) => <Pill>{richLabel(changed)}</Pill>],
+  [
+    "ReviewCard rich author drops its count",
+    (changed) => <ReviewCard rating={4} author={richLabel(changed)} />,
   ],
 ];

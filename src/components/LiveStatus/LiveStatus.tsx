@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** State shown by the live status badge. */
 export type LiveStatusVariant = "live" | "ended";
@@ -41,7 +42,7 @@ export const LiveStatus = React.forwardRef<HTMLSpanElement, LiveStatusProps>(
         <span aria-hidden="true" className="flex pl-0.5">
           <span className="size-1 rounded-full bg-current" />
         </span>
-        <span>{children ?? DEFAULT_LABELS[variant]}</span>
+        <span>{renderContainedText(children ?? DEFAULT_LABELS[variant])}</span>
       </span>
     );
   },
