@@ -2,6 +2,8 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { renderContainedText } from "../../utils/renderTextChildren";
 
+const STACK_TEXT_PROPS = { className: "flex-none!" };
+
 /** Layout orientation of the buttons within a {@link ButtonStack}. */
 export type ButtonStackDirection = "horizontal" | "vertical";
 
@@ -47,7 +49,7 @@ export const ButtonStack = React.forwardRef<HTMLDivElement, ButtonStackProps>(
         )}
         {...props}
       >
-        {renderContainedText(children)}
+        {renderContainedText(children, STACK_TEXT_PROPS)}
       </div>
     );
   },

@@ -433,6 +433,8 @@ DialogBody.displayName = "DialogBody";
 
 export interface DialogFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
 
+const FOOTER_TEXT_PROPS = { className: "flex-none!" };
+
 /**
  * Footer bar for the dialog. Typically contains action buttons.
  * Children are laid out in a horizontal row with equal flex-basis.
@@ -444,7 +446,7 @@ export const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
       className={cn("flex shrink-0 items-center gap-2", "[&>*]:min-w-0 [&>*]:flex-1", className)}
       {...props}
     >
-      {renderContainedText(props.children)}
+      {renderContainedText(props.children, FOOTER_TEXT_PROPS)}
     </div>
   ),
 );

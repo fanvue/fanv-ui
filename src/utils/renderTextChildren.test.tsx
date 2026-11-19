@@ -8,7 +8,7 @@ describe("renderTextChildren", () => {
   it("merges adjacent text into one span", () => {
     const count = 2;
     const { container } = render(<p>{renderTextChildren(["Cart (", count, ")"])}</p>);
-    expect(container.querySelector("p")?.innerHTML).toBe('<span class="contents">Cart (2)</span>');
+    expect(container.querySelector("p")?.innerHTML).toBe("<span>Cart (2)</span>");
   });
 
   it("wraps text inside fragments and keeps element siblings", () => {
@@ -22,9 +22,7 @@ describe("renderTextChildren", () => {
         )}
       </p>,
     );
-    expect(container.querySelector("p")?.innerHTML).toBe(
-      '<span class="contents">Loading</span><b>!</b>',
-    );
+    expect(container.querySelector("p")?.innerHTML).toBe("<span>Loading</span><b>!</b>");
   });
 
   it("renders nothing for empty text", () => {
@@ -153,7 +151,7 @@ describe("renderTextChildren nested text", () => {
       <p>{renderTextChildren(["Updated ", [2, " days ago"], <b key="edit">Edit</b>])}</p>,
     );
     expect(container.querySelector("p")?.innerHTML).toBe(
-      '<span class="contents">Updated 2 days ago</span><b>Edit</b>',
+      "<span>Updated 2 days ago</span><b>Edit</b>",
     );
   });
 });

@@ -37,9 +37,8 @@ function textOf(slot: ReactNode): string | null {
 }
 
 function textSpan(text: ReactNode, textProps?: TextProps, key?: string) {
-  const className = textProps?.className ? `contents ${textProps.className}` : "contents";
   return (
-    <span key={key} {...textProps} className={className}>
+    <span key={key} {...textProps}>
       {text}
     </span>
   );
@@ -89,12 +88,12 @@ export function renderTextChildren(children: ReactNode, textProps?: TextProps): 
   return children;
 }
 
-export function renderContainedText(children: ReactNode): ReactNode {
+export function renderContainedText(children: ReactNode, textProps?: TextProps): ReactNode {
   if (isText(children)) return children;
   if (Array.isArray(children) && children.every((slot) => isText(slot) || isEmptySlot(slot))) {
     return children.filter(isText).join("");
   }
-  return renderTextChildren(children);
+  return renderTextChildren(children, textProps);
 }
 
 export function renderSlottedText(children: ReactNode, hasSiblings = true): ReactNode {
