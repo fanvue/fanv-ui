@@ -5,8 +5,6 @@ import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
 
-const WELCOME_TEXT_PROPS = { className: "sm:flex-none!" };
-
 /** Layout variant of the snackbar. */
 export type SnackbarVariant = "default" | "vipEarn" | "welcome";
 
@@ -191,8 +189,8 @@ function WelcomeContent({
       </div>
       {showActions && (primary || secondary) ? (
         <div className="flex w-full flex-col gap-4 px-8 sm:flex-row sm:*:flex-1">
-          {renderTextChildren(secondary, WELCOME_TEXT_PROPS)}
-          {renderTextChildren(primary, WELCOME_TEXT_PROPS)}
+          {renderTextChildren(secondary)}
+          {renderTextChildren(primary)}
         </div>
       ) : (
         renderTextChildren(showActions && (primary || secondary))

@@ -8,6 +8,7 @@ const TEXT_ONLY_ELEMENTS = new Set([
   "title",
   "text",
   "tspan",
+  "textPath",
 ]);
 
 type TextChild = string | number | bigint;
@@ -35,19 +36,23 @@ function textOf(slot: ReactNode): string | null {
   return text;
 }
 
-function renderSlots(slots: readonly ReactNode[], textProps?: TextProps): ReactNode[] {
-  const out: ReactNode[] = new Array(slots.length).fill(null);
+function textSpan(text: ReactNode, textProps?: TextProps, key?: string) {
+  const className = textProps?.className ? `contents ${textProps.className}` : "contents";
+  return (
+    <span key={key} {...textProps} className={className}>
+      {text}
+    </span>
+  );
+}
+
+function renderSlots(slots: readonly ReactNode[], textProps?: TextProps): readonly ReactNode[] {
+  const out: ReactNode[] = Array.from(slots);
+  let changed = false;
   let runStart = -1;
   let runText = "";
   const closeRun = () => {
     if (runStart < 0) return;
-    out[runStart] = runText.trim()
-      ? [
-          <span key="text" {...textProps}>
-            {runText}
-          </span>,
-        ]
-      : runText;
+    out[runStart] = runText.trim() ? [textSpan(runText, textProps, "text")] : runText;
     runStart = -1;
     runText = "";
   };
@@ -56,26 +61,30 @@ function renderSlots(slots: readonly ReactNode[], textProps?: TextProps): ReactN
     const text = textOf(slot);
     if (text !== null) {
       if (text) {
+        changed = true;
+        out[index] = null;
         if (runStart < 0) runStart = index;
         runText += text;
       }
     } else if (!isEmptySlot(slot)) {
       closeRun();
       out[index] = renderTextChildren(slot, textProps);
+      changed ||= out[index] !== slot;
     }
   }
   closeRun();
-  return out;
+  return changed ? out : slots;
 }
 
 export function renderTextChildren(children: ReactNode, textProps?: TextProps): ReactNode {
   if (isText(children)) {
-    return String(children).trim() ? <span {...textProps}>{children}</span> : children;
+    return String(children).trim() ? textSpan(children, textProps) : children;
   }
   if (Array.isArray(children)) return renderSlots(children, textProps);
   if (isValidElement<{ children?: ReactNode }>(children) && children.type === Fragment) {
     const content = children.props.children;
-    return cloneElement(children, undefined, renderTextChildren(content, textProps));
+    const guarded = renderTextChildren(content, textProps);
+    return guarded === content ? children : cloneElement(children, undefined, guarded);
   }
   return children;
 }

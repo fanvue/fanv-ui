@@ -89,18 +89,6 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
     return items.length === 0 || items.some((item) => mayBeText(item) || mayHoldText(item));
   };
 
-  const isTextOnly = (type: ts.Type): boolean => {
-    if (type.isUnion()) return type.types.every(isTextOnly);
-    if (
-      type.flags &
-      (TEXT_FLAGS | ts.TypeFlags.Null | ts.TypeFlags.Undefined | ts.TypeFlags.BooleanLike)
-    ) {
-      return true;
-    }
-    if (!checker.isArrayType(type) && !checker.isTupleType(type)) return false;
-    return checker.getTypeArguments(type as ts.TypeReference).every(isTextOnly);
-  };
-
   const isFragmentElement = (node: ts.Node): node is ts.JsxElement =>
     ts.isJsxElement(node) && /^(React\.)?Fragment$/.test(node.openingElement.tagName.getText());
 
@@ -179,10 +167,18 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
     node.operatorToken.kind === ts.SyntaxKind.AmpersandAmpersandToken &&
     mayBeZero(checker.getTypeAtLocation(node.left));
 
+  const isScalarText = (type: ts.Type): boolean =>
+    type.isUnion()
+      ? type.types.every(isScalarText)
+      : (type.flags &
+          (TEXT_FLAGS | ts.TypeFlags.Null | ts.TypeFlags.Undefined | ts.TypeFlags.BooleanLike)) !==
+        0;
+
   const isTextOnlyList = (type: ts.Type): boolean =>
     type.isUnion()
       ? type.types.some(isTextOnlyList)
-      : (checker.isArrayType(type) || checker.isTupleType(type)) && isTextOnly(type);
+      : (checker.isArrayType(type) || checker.isTupleType(type)) &&
+        checker.getTypeArguments(type as ts.TypeReference).every(isScalarText);
 
   const isUnguardedHelper = (node: ts.CallExpression, helper: string, alone: boolean) => {
     if (helper !== "renderContainedText" || alone) return false;
@@ -271,37 +267,51 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
       const alone = ts.isJsxElement(parent) && !passesChildrenOn(parent.openingElement.tagName);
       for (const child of unguardedChildren(parent.children, alone)) report(parent, child);
     };
-    const hasOwnChildren = (element: ts.JsxOpeningLikeElement) =>
-      (ts.isJsxOpeningElement(element) &&
-        element.parent.children.some(
-          (child) => !ts.isJsxText(child) || child.text.trim() !== "",
-        )) ||
-      element.attributes.properties.some(
-        (attribute) => ts.isJsxAttribute(attribute) && attribute.name.getText() === "children",
+    const isRealChild = (child: ts.JsxChild) =>
+      ts.isJsxText(child)
+        ? child.text.trim() !== ""
+        : !ts.isJsxExpression(child) || child.expression !== undefined;
+    const childrenAttribute = (element: ts.JsxOpeningLikeElement) =>
+      element.attributes.properties.find(
+        (attribute): attribute is ts.JsxAttribute =>
+          ts.isJsxAttribute(attribute) && attribute.name.getText() === "children",
       );
-    const spreadsText = (attribute: ts.JsxAttributeLike) => {
+    const hasOwnChildren = (element: ts.JsxOpeningLikeElement) =>
+      (ts.isJsxOpeningElement(element) && element.parent.children.some(isRealChild)) ||
+      childrenAttribute(element) !== undefined;
+    const spreadsText = (attribute: ts.JsxAttributeLike, passesOn: boolean) => {
       if (!ts.isJsxSpreadAttribute(attribute)) return false;
       const children = checker.getTypeAtLocation(attribute.expression).getProperty("children");
-      return (
-        children !== undefined &&
-        mayHoldText(checker.getTypeOfSymbolAtLocation(children, attribute.expression))
-      );
+      if (children === undefined) return false;
+      const type = checker.getTypeOfSymbolAtLocation(children, attribute.expression);
+      return mayHoldText(type) || (passesOn && mayBeText(type));
     };
-    const checkSpread = (element: ts.JsxOpeningLikeElement) => {
+    const reportElement = (element: ts.JsxOpeningLikeElement, snippet: string) => {
+      const { line } = sourceFile.getLineAndCharacterOfPosition(element.getStart());
+      const file = path.relative(process.cwd(), sourceFile.fileName);
+      findings.push(`${file}:${line + 1}  <${element.tagName.getText()}>  ${snippet}`);
+    };
+    const namedChildrenUnguarded = (element: ts.JsxOpeningLikeElement, passesOn: boolean) => {
+      const named = childrenAttribute(element)?.initializer;
+      const expression = named && ts.isJsxExpression(named) ? named.expression : undefined;
+      return expression !== undefined && isUnguarded(expression, !passesOn);
+    };
+    const checkAttributes = (element: ts.JsxOpeningLikeElement) => {
       const tag = element.tagName.getText();
       if (VOID_OR_SVG_TAGS.has(tag) || !tagPlacesChildrenInHost(element.tagName)) return;
+      const passesOn = passesChildrenOn(element.tagName);
+      if (namedChildrenUnguarded(element, passesOn)) reportElement(element, "children={…}");
       if (hasOwnChildren(element)) return;
-      for (const attribute of element.attributes.properties.filter(spreadsText)) {
-        const { line } = sourceFile.getLineAndCharacterOfPosition(element.getStart());
-        const file = path.relative(process.cwd(), sourceFile.fileName);
-        findings.push(`${file}:${line + 1}  <${tag}>  ${attribute.getText()}`);
-      }
+      const spreads = element.attributes.properties.filter((attribute) =>
+        spreadsText(attribute, passesOn),
+      );
+      for (const attribute of spreads) reportElement(element, attribute.getText());
     };
     const visit = (node: ts.Node) => {
       if ((ts.isJsxElement(node) || ts.isJsxFragment(node)) && placesChildrenInHost(node)) {
         check(node);
       }
-      if (ts.isJsxSelfClosingElement(node) || ts.isJsxOpeningElement(node)) checkSpread(node);
+      if (ts.isJsxSelfClosingElement(node) || ts.isJsxOpeningElement(node)) checkAttributes(node);
       ts.forEachChild(node, visit);
     };
     visit(sourceFile);
@@ -348,6 +358,15 @@ const FLAGGED: [string, string][] = [
     "a ReactNode alone in a provider",
     "<Ctx.Provider value={1}>{renderContainedText(node)}</Ctx.Provider>",
   ],
+  ["mixed content in a children attribute", '<div children={[label, <i key="icon" />]} />'],
+  [
+    "spread props beside a comment",
+    "((props: React.HTMLAttributes<HTMLDivElement>) => <div {...props}>{/* note */}</div>)",
+  ],
+  [
+    "spread text into a provider",
+    "((props: { children: string }) => <div><Ctx.Provider value={1} {...props} /><i /></div>)",
+  ],
   ["a string in an explicit fragment", "<div><React.Fragment>{label}</React.Fragment><i /></div>"],
 ];
 
@@ -363,6 +382,10 @@ const ACCEPTED: [string, string][] = [
   [
     "guarded text in a provider",
     "<Ctx.Provider value={1}>{renderTextChildren(node)}</Ctx.Provider>",
+  ],
+  [
+    "a guarded nested tuple",
+    "((parts: [string, [string, number]]) => <div>{renderContainedText(parts)}<i /></div>)",
   ],
   ["a guard that is never zero", "<div>{state && <b />}<i /></div>"],
   [
