@@ -1,6 +1,7 @@
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 
 /** Props for the {@link AccordionTrigger} button component. */
@@ -61,11 +62,11 @@ export const AccordionTrigger = React.forwardRef<
             )}
             <span className="flex min-w-0 flex-1 flex-col gap-1">
               <span className="typography-body-small-14px-semibold truncate text-content-primary">
-                {children}
+                {renderContainedText(children)}
               </span>
               {description && (
                 <span className="typography-description-12px-regular text-content-secondary">
-                  {description}
+                  {renderContainedText(description)}
                 </span>
               )}
             </span>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { Button, type ButtonProps } from "../Button/Button";
 import { WarningIcon } from "../Icons/WarningIcon";
 
@@ -114,8 +115,8 @@ export const CriticalBanner = React.forwardRef<HTMLDivElement, CriticalBannerPro
 
     const textColumn = (
       <div className="flex min-w-0 flex-col gap-1 break-words pt-1 text-alerts-critical-banner-content">
-        {title && <div className="typography-header-heading-xs">{title}</div>}
-        <div className="typography-body-default-16px-regular">{children}</div>
+        {title && <div className="typography-header-heading-xs">{renderContainedText(title)}</div>}
+        <div className="typography-body-default-16px-regular">{renderContainedText(children)}</div>
       </div>
     );
 

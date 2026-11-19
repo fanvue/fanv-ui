@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
 
 /** Props for {@link Demographics}. */
@@ -47,7 +48,7 @@ export const Demographics = React.forwardRef<HTMLDivElement, DemographicsProps>(
           </span>
         </span>
         <span className="typography-body-small-14px-regular shrink-0 text-content-primary">
-          {formattedValue}
+          {renderContainedText(formattedValue)}
         </span>
       </div>
       <ProgressBar variant="sky" size="medium" value={value} ariaLabel={label} />

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { Avatar } from "../Avatar/Avatar";
 import { VerifiedIcon } from "../Icons/VerifiedIcon";
 import { Pill, type PillProps } from "../Pill/Pill";
@@ -108,7 +109,7 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
             <div className="flex min-w-0 flex-1 flex-col">
               <div className="flex min-w-0 items-center gap-1">
                 <p className="typography-body-small-14px-semibold m-0 truncate text-content-primary">
-                  {name}
+                  {renderContainedText(name)}
                 </p>
                 {verified ? (
                   <span
@@ -122,7 +123,7 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
               </div>
               {tagline ? (
                 <p className="typography-body-small-14px-regular m-0 truncate text-content-secondary">
-                  {tagline}
+                  {renderContainedText(tagline)}
                 </p>
               ) : null}
             </div>

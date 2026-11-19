@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./Tooltip";
 
 /** Props for {@link TooltipLabel}. */
@@ -119,7 +120,7 @@ export const TooltipLabel = React.forwardRef<HTMLButtonElement, TooltipLabelProp
                * title-only insight card, that put the card over its designed height.
                */}
               <span className="bg-[length:8px_1px] bg-[linear-gradient(to_right,var(--color-icons-tertiary)_0_4px,transparent_4px_8px)] bg-bottom-left bg-repeat-x">
-                {children}
+                {renderContainedText(children)}
               </span>
             </button>
           </TooltipTrigger>
@@ -130,7 +131,9 @@ export const TooltipLabel = React.forwardRef<HTMLButtonElement, TooltipLabelProp
            * "Total EarningsTotal earnings for the selected period." It stays visible,
            * since the two-row block is the point of the design.
            */}
-          <TooltipContent title={<span aria-hidden>{children}</span>}>{tooltip}</TooltipContent>
+          <TooltipContent title={<span aria-hidden>{renderContainedText(children)}</span>}>
+            {tooltip}
+          </TooltipContent>
         </Tooltip>
       </TooltipProvider>
     );

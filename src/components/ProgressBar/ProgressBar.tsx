@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Track height — `"default"` (12px), `"medium"` (8px) or `"small"` (6px). */
 export type ProgressBarSize = "default" | "medium" | "small";
@@ -149,7 +150,9 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
         {showHeader && (
           <div className="flex w-full items-end justify-between">
             {title != null && (
-              <p className="typography-description-12px-semibold text-content-primary">{title}</p>
+              <p className="typography-description-12px-semibold text-content-primary">
+                {renderContainedText(title)}
+              </p>
             )}
             {showCompletion && (
               <span
@@ -163,7 +166,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
             )}
             {stepsLabel != null && (
               <span className="typography-description-12px-regular text-content-primary">
-                {stepsLabel}
+                {renderContainedText(stepsLabel)}
               </span>
             )}
           </div>
@@ -197,13 +200,13 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
               )}
               {helperLeft != null && (
                 <span className="typography-description-12px-regular text-content-primary">
-                  {helperLeft}
+                  {renderContainedText(helperLeft)}
                 </span>
               )}
             </div>
             {helperRight != null && (
               <span className="typography-description-12px-regular text-content-primary">
-                {helperRight}
+                {renderContainedText(helperRight)}
               </span>
             )}
           </div>

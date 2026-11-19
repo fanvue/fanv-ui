@@ -1,5 +1,6 @@
 import type * as React from "react";
 import { cn } from "@/utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
 import type { AutocompleteGroup, AutocompleteOption } from "./Autocomplete";
 import { AutocompleteOptionItem } from "./AutocompleteOptionItem";
@@ -35,7 +36,7 @@ interface AutocompleteDropdownContentProps {
 function DefaultGroupHeading({ children }: { children: React.ReactNode }) {
   return (
     <span className="typography-description-12px-semibold block px-3 pt-2 pb-1 text-content-secondary uppercase tracking-wide">
-      {children}
+      {renderContainedText(children)}
     </span>
   );
 }
@@ -130,7 +131,7 @@ export function AutocompleteDropdownContent({
           >
             <div role="presentation" id={headingId}>
               {renderGroupHeading ? (
-                headingNode
+                renderContainedText(headingNode)
               ) : (
                 <DefaultGroupHeading>{headingNode}</DefaultGroupHeading>
               )}

@@ -1,6 +1,7 @@
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Breakpoint values for responsive props. */
 type Breakpoint = "sm" | "md" | "lg" | "xl";
@@ -404,7 +405,7 @@ export const TabsList = React.forwardRef<
           )}
           {...props}
         >
-          {children}
+          {renderTextChildren(children)}
           <span
             ref={indicatorRef}
             aria-hidden

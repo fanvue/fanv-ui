@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { Avatar } from "../Avatar/Avatar";
 
 /** Width-to-height ratio preset for the tile. */
@@ -93,11 +94,11 @@ export const CreatorTile = React.forwardRef<HTMLDivElement, CreatorTileProps>(
             />
             <div className="flex min-w-0 flex-col">
               <p className="typography-body-default-16px-semibold m-0 truncate text-white">
-                {name}
+                {renderContainedText(name)}
               </p>
               {tagline ? (
                 <p className="typography-body-small-14px-semibold m-0 truncate text-white/50">
-                  {tagline}
+                  {renderContainedText(tagline)}
                 </p>
               ) : null}
             </div>

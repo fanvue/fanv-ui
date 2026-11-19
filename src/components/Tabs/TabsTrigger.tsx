@@ -1,6 +1,7 @@
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { TabsAppearanceContext } from "./TabsList";
 
 /** Props for the {@link TabsTrigger} button component. */
@@ -23,7 +24,7 @@ export const TabsTrigger = React.forwardRef<
 >(({ className, children, asChild, ...props }, ref) => {
   const { appearance, size } = React.useContext(TabsAppearanceContext);
   const labelClassName = cn("min-w-0 truncate", appearance === "pill" && "flex items-center gap-2");
-  const label = <span className={labelClassName}>{children}</span>;
+  const label = <span className={labelClassName}>{renderContainedText(children)}</span>;
 
   // The `min-w-0 truncate` span keeps long labels ellipsised. With `asChild`
   // the consumer's element becomes the tab, so wrap *its* children in that
@@ -36,7 +37,7 @@ export const TabsTrigger = React.forwardRef<
           children,
           undefined,
           <span className={labelClassName}>
-            {(children.props as { children?: React.ReactNode }).children}
+            {renderContainedText((children.props as { children?: React.ReactNode }).children)}
           </span>,
         )
       : label;

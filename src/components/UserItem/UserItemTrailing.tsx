@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Props for {@link UserItemTrailing}. */
 export interface UserItemTrailingProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -31,9 +32,13 @@ export const UserItemTrailing = React.forwardRef<HTMLDivElement, UserItemTrailin
   ({ value, meta, className, ...props }, ref) => {
     return (
       <div ref={ref} className={cn("flex flex-col items-end", className)} {...props}>
-        <span className="typography-body-small-14px-semibold text-content-primary">{value}</span>
+        <span className="typography-body-small-14px-semibold text-content-primary">
+          {renderContainedText(value)}
+        </span>
         {meta && (
-          <span className="typography-description-12px-regular text-content-secondary">{meta}</span>
+          <span className="typography-description-12px-regular text-content-secondary">
+            {renderContainedText(meta)}
+          </span>
         )}
       </div>
     );

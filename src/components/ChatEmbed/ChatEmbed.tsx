@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderTextChildren } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { AiDisclosureBadge } from "../AiDisclosureBadge/AiDisclosureBadge";
 import { Avatar, type AvatarProps } from "../Avatar/Avatar";
 import { Skeleton } from "../Skeleton/Skeleton";
@@ -154,9 +154,13 @@ function SocialProof({ avatars, name, label }: ChatEmbedSocialProof) {
       </div>
       <p className="m-0 flex min-w-0 items-center gap-1 whitespace-nowrap text-content-always-white">
         {name && (
-          <span className="typography-body-small-14px-semibold max-w-30 truncate">{name}</span>
+          <span className="typography-body-small-14px-semibold max-w-30 truncate">
+            {renderContainedText(name)}
+          </span>
         )}
-        <span className="typography-body-small-14px-regular shrink-0">{label}</span>
+        <span className="typography-body-small-14px-regular shrink-0">
+          {renderContainedText(label)}
+        </span>
       </p>
     </div>
   );
@@ -246,7 +250,7 @@ function CreatorName({
         verifiedLabel={verifiedLabel}
         className={cn("m-0 [&>[role=img]]:ml-1 [&>span:empty+[role=img]]:ml-0", className)}
       >
-        {children && <span id={nameId}>{children}</span>}
+        {children && <span id={nameId}>{renderContainedText(children)}</span>}
       </UserDisplayName>
       {aiDisclosure && (
         <AiDisclosureBadge
@@ -272,13 +276,13 @@ function TopRow({
         {renderTextChildren(badge)}
         {category && (
           <span className="typography-description-12px-semibold whitespace-nowrap rounded-xs bg-buttons-always-white-default px-2 py-1 text-content-always-black">
-            {category}
+            {renderContainedText(category)}
           </span>
         )}
       </div>
       {meta && (
         <span className="typography-description-12px-semibold whitespace-nowrap rounded-full bg-background-overlay-default px-2 py-1 text-center text-content-always-white backdrop-blur-[10px]">
-          {meta}
+          {renderContainedText(meta)}
         </span>
       )}
     </div>
@@ -417,7 +421,7 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
                 {isExperience ? (
                   <>
                     <p id={titleId} className="typography-body-default-16px-semibold m-0 truncate">
-                      {title}
+                      {renderContainedText(title)}
                     </p>
                     {(subtitle || verified || aiDisclosure) && (
                       <CreatorName {...badges} className="typography-body-small-14px-regular">
@@ -435,7 +439,9 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
                       {title}
                     </CreatorName>
                     {subtitle && (
-                      <p className="typography-body-small-14px-regular m-0 truncate">{subtitle}</p>
+                      <p className="typography-body-small-14px-regular m-0 truncate">
+                        {renderContainedText(subtitle)}
+                      </p>
                     )}
                   </>
                 )}
@@ -513,7 +519,7 @@ export const ChatEmbedUnavailable = React.forwardRef<HTMLDivElement, ChatEmbedUn
           </span>
         )}
         <p className="typography-body-small-14px-regular m-0">
-          {children ?? DEFAULT_UNAVAILABLE[variant]}
+          {renderContainedText(children ?? DEFAULT_UNAVAILABLE[variant])}
         </p>
       </div>
     );

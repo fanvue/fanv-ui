@@ -223,7 +223,7 @@ export const DropdownMenuItem = React.forwardRef<
           "group-data-[disabled]:text-content-disabled",
         )}
       >
-        {count}
+        {renderContainedText(count)}
       </span>
     );
 

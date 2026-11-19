@@ -1,6 +1,7 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { Button, type ButtonProps } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { AlertIcon } from "../Icons/AlertIcon";
@@ -307,7 +308,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
                   <div
                     className={cn("typography-body-small-14px-regular", MESSAGE_CLASSES[variant])}
                   >
-                    {children}
+                    {renderContainedText(children)}
                   </div>
                 ) : null}
               </div>

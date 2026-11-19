@@ -1,6 +1,7 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText, renderSlottedText } from "../../utils/renderTextChildren";
 import { AIIcon } from "../Icons/AIIcon";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
 
@@ -258,12 +259,12 @@ function renderContent({
     return (
       <>
         <LoadingSpinner size={size} />
-        <span className="sr-only">{children}</span>
+        <span className="sr-only">{renderContainedText(children)}</span>
       </>
     );
   }
 
-  if (asChild) return children;
+  if (asChild) return renderSlottedText(children);
 
   return (
     <>

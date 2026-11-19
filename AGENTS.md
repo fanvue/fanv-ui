@@ -642,6 +642,8 @@ return <button ref={ref} className={className} {...props}>{children}</button>;
 - Remind users to link components via Storybook Connect plugin (manual step)
 - Chromatic publishes Storybook automatically on PR/main
 
+**Keep text away from sibling nodes.** Browser page translation swaps each text node for a `<font>` element, and React then throws or shows stale text when it updates a text node that shares a parent with other nodes. In component markup, a string, a number or a `ReactNode` prop must be the only child of its element. When it has siblings, build one template string, wrap the text in its own `<span>`, or pass the prop through `renderTextChildren`, `renderContainedText` (a container that holds only that content) or `renderSlottedText` (`asChild` children) from `src/utils/renderTextChildren`. `src/test/pageTranslation.scan.test.ts` fails the unit run on a violation, and `src/test/pageTranslation.fixtures.tsx` holds the transitions that are tested under translation.
+
 ## Troubleshooting
 
 **Figma Issues:**

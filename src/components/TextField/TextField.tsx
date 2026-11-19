@@ -1,6 +1,7 @@
 import * as React from "react";
 import { CheckOutlineIcon } from "@/index";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Text field height in pixels. */
 export type TextFieldSize = "48" | "40" | "32";
@@ -133,7 +134,7 @@ function SideLabel({
         SIDE_LABEL_TYPOGRAPHY[size],
       )}
     >
-      {children}
+      {renderContainedText(children)}
     </span>
   );
 }

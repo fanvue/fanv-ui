@@ -188,7 +188,7 @@ export const TableToolbarAction = React.forwardRef<HTMLButtonElement, TableToolb
         )}
         {...props}
       >
-        <span className="max-md:sr-only">{children}</span>
+        <span className="max-md:sr-only">{renderContainedText(children)}</span>
         <span
           aria-hidden
           className={cn(

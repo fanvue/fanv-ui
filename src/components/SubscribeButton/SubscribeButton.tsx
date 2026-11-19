@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { Button, type ButtonProps } from "../Button/Button";
 
 /** Visual style variant of the subscribe button. Mirrors the V2 Subscribe Button "Type" set (`brand` is Figma's "Upsell"). */
@@ -66,7 +67,7 @@ export const SubscribeButton = React.forwardRef<HTMLButtonElement, SubscribeButt
 
     return (
       <Button ref={ref} variant={variant} size={size} {...props} aria-label={accessibleName}>
-        <span className="min-w-0 flex-1 truncate text-left">{children}</span>
+        <span className="min-w-0 flex-1 truncate text-left">{renderContainedText(children)}</span>
         <span className="flex shrink-0 items-center gap-2" aria-hidden="true">
           {discount && (
             <span className={cn(OLD_PRICE_TYPOGRAPHY[size], "line-through")}>{discount}</span>

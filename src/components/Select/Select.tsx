@@ -2,7 +2,7 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import * as React from "react";
 import { cn } from "@/utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
-import { renderContainedText } from "@/utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "@/utils/renderTextChildren";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
@@ -201,7 +201,7 @@ export const Select = React.forwardRef<
               </SelectPrimitive.Icon>
             </SelectPrimitive.Trigger>
 
-            {children}
+            {renderTextChildren(children)}
           </SelectPrimitive.Root>
 
           {bottomText && (

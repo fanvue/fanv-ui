@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 export interface TableMobileRowProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   /** Status or type label above the title, typically a {@link Pill}. */
@@ -49,7 +50,7 @@ export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowPro
               wrap ? "break-words" : "truncate",
             )}
           >
-            {title}
+            {renderContainedText(title)}
           </p>
           {description && (
             <p
@@ -58,7 +59,7 @@ export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowPro
                 wrap ? "break-words" : "truncate",
               )}
             >
-              {description}
+              {renderContainedText(description)}
             </p>
           )}
         </div>

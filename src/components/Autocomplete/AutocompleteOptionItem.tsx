@@ -1,5 +1,6 @@
 import type * as React from "react";
 import { cn } from "@/utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { CheckIcon } from "../Icons/CheckIcon";
 import type { AutocompleteOption } from "./Autocomplete";
 import { CREATE_PREFIX, getLabel } from "./constants";
@@ -55,7 +56,7 @@ export function AutocompleteOptionItem({
       }}
     >
       {renderOption ? (
-        renderOption(option, { selected: isSelected, active: isActive })
+        renderContainedText(renderOption(option, { selected: isSelected, active: isActive }))
       ) : (
         <>
           <span className="min-w-0 flex-1 truncate">{getLabel(option)}</span>

@@ -1,6 +1,7 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Text size preset controlling the typography of the whole breadcrumb trail. @default "12px" */
 export type BreadcrumbSize = "12px" | "14px" | "16px";
@@ -168,7 +169,7 @@ export const BreadcrumbSeparator = React.forwardRef<HTMLLIElement, BreadcrumbSep
         )}
         {...props}
       >
-        {children ?? "/"}
+        {renderContainedText(children ?? "/")}
       </li>
     );
   },

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Visual hierarchy of the card. Primary is for prominent, content-carrying cards; secondary for supporting cards within denser layouts. */
 export type CardHierarchy = "primary" | "secondary";
@@ -179,7 +180,7 @@ export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
         )}
         {...props}
       >
-        {children}
+        {renderContainedText(children)}
       </h3>
     );
   },
@@ -195,7 +196,7 @@ export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescri
         className={cn("typography-description-12px-regular text-content-secondary", className)}
         {...props}
       >
-        {children}
+        {renderContainedText(children)}
       </p>
     );
   },

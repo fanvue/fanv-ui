@@ -2,6 +2,7 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { Button } from "../Button/Button";
 
@@ -138,7 +139,7 @@ export const InfoBoxContent = React.forwardRef<
                     id={headingId}
                     className="typography-body-default-16px-semibold min-w-0 flex-1 text-content-primary-inverted"
                   >
-                    {heading}
+                    {renderContainedText(heading)}
                   </p>
                 )}
                 {pill && <div className="shrink-0">{pill}</div>}
@@ -146,7 +147,7 @@ export const InfoBoxContent = React.forwardRef<
             )}
             {children && (
               <div className="typography-body-small-14px-regular text-content-primary-inverted">
-                {children}
+                {renderContainedText(children)}
               </div>
             )}
             {hasActions && (

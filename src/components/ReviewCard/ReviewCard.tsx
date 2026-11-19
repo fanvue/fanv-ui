@@ -56,10 +56,14 @@ export const ReviewCard = React.forwardRef<HTMLDivElement, ReviewCardProps>(
           )}
         </div>
         {title != null && (
-          <p className="typography-body-default-16px-semibold text-content-primary">{title}</p>
+          <p className="typography-body-default-16px-semibold text-content-primary">
+            {renderContainedText(title)}
+          </p>
         )}
         {children != null && (
-          <p className="typography-body-small-14px-regular text-content-secondary">{children}</p>
+          <p className="typography-body-small-14px-regular text-content-secondary">
+            {renderContainedText(children)}
+          </p>
         )}
       </div>
     );

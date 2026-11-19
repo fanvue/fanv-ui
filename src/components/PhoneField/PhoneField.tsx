@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 
 /** Phone field height in pixels. */
@@ -214,7 +215,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
                 PREFIX_TYPOGRAPHY[size],
               )}
             >
-              {dialCode}
+              {renderContainedText(dialCode)}
             </span>
           )}
 

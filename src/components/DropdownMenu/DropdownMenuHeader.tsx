@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderTextChildren } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { IconButton } from "../IconButton/IconButton";
 import { ArrowLeftIcon } from "../Icons/ArrowLeftIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
@@ -191,7 +191,7 @@ export const DropdownMenuHeader = React.forwardRef<HTMLDivElement, DropdownMenuH
           )}
           {type === "default" ? (
             <div className={cn("min-w-0 flex-1 truncate text-content-primary", titleTypography)}>
-              {children ?? title}
+              {renderContainedText(children ?? title)}
             </div>
           ) : (
             <SearchInput {...searchProps} />

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import { Card, type CardHierarchy } from "../Card/Card";
 import { IconButton } from "../IconButton/IconButton";
 import { ArrowUpRightIcon } from "../Icons/ArrowUpRightIcon";
@@ -108,7 +109,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
             <>
               <div className="flex items-center gap-1">
                 <span className="typography-body-small-14px-regular text-content-secondary">
-                  {title}
+                  {renderContainedText(title)}
                 </span>
                 {tooltip && (
                   <TooltipProvider>
@@ -130,7 +131,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
               {subtitle && (
                 <div className="flex flex-wrap items-end gap-2">
                   <span className="typography-header-heading-sm text-content-primary">
-                    {subtitle}
+                    {renderContainedText(subtitle)}
                   </span>
                   {trendChip && (
                     <span
@@ -146,7 +147,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                         )}
                       />
                       <span className="typography-body-small-14px-regular whitespace-nowrap">
-                        {trendChip.label}
+                        {renderContainedText(trendChip.label)}
                       </span>
                     </span>
                   )}
@@ -154,7 +155,7 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
               )}
               {dateInfo && (
                 <span className="typography-description-12px-regular text-content-tertiary">
-                  {dateInfo}
+                  {renderContainedText(dateInfo)}
                 </span>
               )}
             </>

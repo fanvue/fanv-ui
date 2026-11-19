@@ -295,7 +295,7 @@ function BannerSubtleBody({
               )}
               {secondaryLine !== undefined && secondaryLine !== null && secondaryLine !== false && (
                 <p className="typography-description-12px-regular text-content-primary">
-                  {secondaryLine}
+                  {renderContainedText(secondaryLine)}
                 </p>
               )}
             </div>
@@ -321,7 +321,7 @@ type InverseBodyProps = Pick<
 > & {
   layout: BannerLayout;
   labelledBy?: string;
-  dismissSlot: React.ReactNode;
+  dismissSlot: React.ReactElement | null;
 };
 
 function BannerInverseBody({
@@ -340,7 +340,7 @@ function BannerInverseBody({
     <div className="flex min-w-0 flex-1 flex-col gap-1">
       {eyebrow !== undefined && eyebrow !== null && eyebrow !== false && (
         <p className="typography-description-12px-semibold text-content-primary-inverted">
-          {eyebrow}
+          {renderContainedText(eyebrow)}
         </p>
       )}
       {title !== undefined && title !== null && title !== false && (
