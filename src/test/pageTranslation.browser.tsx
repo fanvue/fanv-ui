@@ -1,28 +1,14 @@
-import { act, cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { Select, SelectContent, SelectItem } from "../components/Select/Select";
-import { renderedText, translateTextNodes } from "./pageTranslation";
+import { expectTranslatedTransitions, translateTextNodes } from "./pageTranslation";
 import { translationCases } from "./pageTranslation.fixtures";
 import "../../.storybook/preview.css";
 
 describe("page translation in Chromium", () => {
   it.each(translationCases)("%s", async (_name, fixture) => {
-    const { rerender } = render(fixture(false));
-    translateTextNodes(document.body);
-    expect(document.querySelector("font")).not.toBeNull();
-    await act(async () => rerender(fixture(true)));
-    const translatedResult = renderedText();
-    translateTextNodes(document.body);
-    await act(async () => rerender(fixture(false)));
-    translateTextNodes(document.body);
-    await act(async () => rerender(fixture(true)));
-    expect(renderedText()).toBe(translatedResult);
-    cleanup();
-    await act(async () => {
-      render(fixture(true));
-    });
-    expect(translatedResult).toBe(renderedText());
+    await expectTranslatedTransitions(fixture);
   });
 });
 
@@ -46,6 +32,7 @@ describe("translated Select interactions in Chromium", () => {
       );
       translateTextNodes(document.body);
       await page.getByRole("combobox", { name: "Country" }).click();
+      await expect.element(page.getByRole("option", { name: "Option B" })).toBeVisible();
       translateTextNodes(document.body);
       expect(document.querySelector('[role="option"] font')).not.toBeNull();
       await page.getByRole("option", { name: "Option B" }).click();

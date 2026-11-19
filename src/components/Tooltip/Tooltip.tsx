@@ -1,7 +1,7 @@
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderTextChildren } from "../../utils/renderTextChildren";
+import { renderSlottedText, renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Props for the {@link TooltipProvider}. Wraps Radix `Tooltip.Provider`. */
 export type TooltipProviderProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Provider>;
@@ -112,9 +112,13 @@ export const TooltipContent = React.forwardRef<
         >
           {title ? (
             <span className="flex flex-col gap-1">
-              <span>{title}</span>
-              <span className="typography-description-12px-regular">{children}</span>
+              <span>{renderTextChildren(title)}</span>
+              <span className="typography-description-12px-regular">
+                {renderTextChildren(children)}
+              </span>
             </span>
+          ) : props.asChild ? (
+            renderSlottedText(children)
           ) : (
             renderTextChildren(children)
           )}

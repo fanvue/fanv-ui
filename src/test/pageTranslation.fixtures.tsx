@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import { type AnchorHTMLAttributes, Fragment, forwardRef, type ReactElement } from "react";
 import { Accordion } from "../components/Accordion/Accordion";
 import { AccordionContent } from "../components/Accordion/AccordionContent";
 import { AccordionItem } from "../components/Accordion/AccordionItem";
@@ -27,6 +27,7 @@ import {
 import { DropdownMenuHeader } from "../components/DropdownMenu/DropdownMenuHeader";
 import { DropdownMenuReorderItem } from "../components/DropdownMenu/DropdownMenuReorderItem";
 import { EmptyState } from "../components/EmptyState/EmptyState";
+import { ArrowUpRightIcon } from "../components/Icons/ArrowUpRightIcon";
 import { Link } from "../components/Link/Link";
 import { LiveStatus } from "../components/LiveStatus/LiveStatus";
 import { Pill } from "../components/Pill/Pill";
@@ -34,6 +35,7 @@ import { ProfileOnlineStatus } from "../components/ProfileOnlineStatus/ProfileOn
 import { ProgressBar } from "../components/ProgressBar/ProgressBar";
 import { RatingSummary } from "../components/RatingSummary/RatingSummary";
 import { ReviewCard } from "../components/ReviewCard/ReviewCard";
+import { Select, SelectContent, SelectItem } from "../components/Select/Select";
 import { Snackbar } from "../components/Snackbar/Snackbar";
 import { TableCellContent, TableSortLabel } from "../components/Table/Table";
 import { TableCardPagination } from "../components/Table/TablePagination";
@@ -51,7 +53,10 @@ import {
 import { TrendPill } from "../components/TrendPill/TrendPill";
 import { UserHandle } from "../components/UserHandle/UserHandle";
 
-/** State transitions exercised after browser translation replaces the text nodes. */
+const RouterLink = forwardRef<HTMLAnchorElement, AnchorHTMLAttributes<HTMLAnchorElement>>(
+  (props, ref) => <a ref={ref} {...props} />,
+);
+
 export const translationCases: [string, (changed: boolean) => ReactElement][] = [
   [
     "DatePicker changes month",
@@ -374,6 +379,66 @@ export const translationCases: [string, (changed: boolean) => ReactElement][] = 
           </TabsOverflow>
         </TabsList>
       </Tabs>
+    ),
+  ],
+  [
+    "Select selected label drops its count",
+    (changed) => (
+      <Select label="Basket" defaultValue="cart">
+        <SelectContent>
+          <SelectItem value="cart">Cart{changed ? null : " (1)"}</SelectItem>
+        </SelectContent>
+      </Select>
+    ),
+  ],
+  [
+    "Select selected label count changes",
+    (changed) => (
+      <Select label="Basket" defaultValue="cart">
+        <SelectContent>
+          <SelectItem value="cart">Cart ({changed ? 2 : 1})</SelectItem>
+        </SelectContent>
+      </Select>
+    ),
+  ],
+  [
+    "ChartLoadingOverlay fragment text clears",
+    (changed) => (
+      <ChartLoadingOverlay>
+        <Fragment key="status">
+          Loading{changed ? null : " data"}
+          <b>!</b>
+        </Fragment>
+      </ChartLoadingOverlay>
+    ),
+  ],
+  [
+    "Pill asChild native label drops its count",
+    (changed) => (
+      <Pill asChild>
+        <a href="/items">Items{changed ? null : " (3)"}</a>
+      </Pill>
+    ),
+  ],
+  [
+    "Link asChild router link label becomes markup",
+    (changed) => (
+      <Link asChild rightIcon={<ArrowUpRightIcon />}>
+        <RouterLink href="/plans">{changed ? <b>Updated</b> : "See our plans"}</RouterLink>
+      </Link>
+    ),
+  ],
+  [
+    "TooltipContent asChild text clears",
+    (changed) => (
+      <TooltipProvider>
+        <Tooltip open>
+          <TooltipTrigger>Help</TooltipTrigger>
+          <TooltipContent asChild>
+            <div>Details{changed ? null : " (beta)"}</div>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     ),
   ],
 ];
