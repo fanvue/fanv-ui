@@ -152,6 +152,11 @@ describe("renderContainedText", () => {
 });
 
 describe("renderSlottedText", () => {
+  it("leaves a text-only element's children unchanged", () => {
+    const option = <option>Notes</option>;
+    expect(renderSlottedText(option)).toBe(option);
+  });
+
   it("leaves a custom component's children unchanged", () => {
     const Upper = ({ children }: { children: string }) => <a href="/plans">{children}</a>;
     const child = <Upper>Plans</Upper>;

@@ -5,6 +5,14 @@ import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
 
+function renderWelcomeSlot(slot: React.ReactNode) {
+  return typeof slot === "string" || typeof slot === "number" ? (
+    <span className="sm:flex-none!">{slot}</span>
+  ) : (
+    renderTextChildren(slot)
+  );
+}
+
 /** Layout variant of the snackbar. */
 export type SnackbarVariant = "default" | "vipEarn" | "welcome";
 
@@ -175,8 +183,8 @@ function WelcomeContent({
       </div>
       {showActions && (primary || secondary) && (
         <div className="flex w-full flex-col gap-4 px-8 sm:flex-row sm:*:flex-1">
-          {renderTextChildren(secondary)}
-          {renderTextChildren(primary)}
+          {renderWelcomeSlot(secondary)}
+          {renderWelcomeSlot(primary)}
         </div>
       )}
     </>

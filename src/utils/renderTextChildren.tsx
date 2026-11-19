@@ -1,5 +1,7 @@
 import { cloneElement, Fragment, isValidElement, type ReactNode } from "react";
 
+const TEXT_ONLY_ELEMENTS = new Set(["textarea", "option", "optgroup", "select", "title"]);
+
 type TextChild = string | number | bigint;
 
 function isText(node: unknown): node is TextChild {
@@ -55,7 +57,11 @@ export function renderContainedText(children: ReactNode): ReactNode {
 }
 
 export function renderSlottedText(children: ReactNode): ReactNode {
-  if (!isValidElement<{ children?: ReactNode }>(children) || typeof children.type !== "string") {
+  if (
+    !isValidElement<{ children?: ReactNode }>(children) ||
+    typeof children.type !== "string" ||
+    TEXT_ONLY_ELEMENTS.has(children.type)
+  ) {
     return children;
   }
   const content = children.props.children;
