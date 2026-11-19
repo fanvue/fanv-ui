@@ -1,7 +1,7 @@
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderSlottedText } from "../../utils/renderTextChildren";
+import { renderContainedText, renderSlottedText } from "../../utils/renderTextChildren";
 
 /**
  * Visual style variant of the link. `inherit` takes the colour of the
@@ -137,7 +137,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
         {asChild ? (
           <Slottable>{renderSlottedText(slotChild)}</Slottable>
         ) : (
-          <span className={textClasses}>{children}</span>
+          <span className={textClasses}>{renderContainedText(children)}</span>
         )}
         {rightIconNode}
       </Comp>

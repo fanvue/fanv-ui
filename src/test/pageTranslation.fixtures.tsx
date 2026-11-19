@@ -421,10 +421,12 @@ export const translationCases: [string, (changed: boolean) => ReactElement][] = 
     ),
   ],
   [
-    "Link asChild router link label becomes markup",
+    "Link asChild router link label span changes",
     (changed) => (
       <Link asChild rightIcon={<ArrowUpRightIcon />}>
-        <RouterLink href="/plans">{changed ? <b>Updated</b> : "See our plans"}</RouterLink>
+        <RouterLink href="/plans">
+          <span>{changed ? "See our plans" : "See our plans (new)"}</span>
+        </RouterLink>
       </Link>
     ),
   ],
@@ -439,6 +441,46 @@ export const translationCases: [string, (changed: boolean) => ReactElement][] = 
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+    ),
+  ],
+  [
+    "Select option description drops its count",
+    (changed) => (
+      <Select label="Plan" defaultValue="team">
+        <SelectContent>
+          <SelectItem
+            value="team"
+            description={
+              <Fragment key="seats">
+                Seats{changed ? null : " (2)"}
+                <b>!</b>
+              </Fragment>
+            }
+          >
+            Team
+          </SelectItem>
+        </SelectContent>
+      </Select>
+    ),
+  ],
+  [
+    "Link label drops its count",
+    (changed) => (
+      <Link href="/items">
+        Items{changed ? null : " (3)"}
+        <b>!</b>
+      </Link>
+    ),
+  ],
+  [
+    "UserHandle rich content drops its suffix",
+    (changed) => (
+      <UserHandle>
+        <Fragment key="handle">
+          jane{changed ? null : "_doe"}
+          <b>!</b>
+        </Fragment>
+      </UserHandle>
     ),
   ],
 ];

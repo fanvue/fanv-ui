@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 const HANDLE_SYMBOL = "@";
 
@@ -30,7 +31,7 @@ export const UserHandle = React.forwardRef<HTMLSpanElement, UserHandleProps>(
         ) : (
           <>
             <span>{HANDLE_SYMBOL}</span>
-            <span>{children}</span>
+            <span>{renderContainedText(children)}</span>
           </>
         )}
       </span>
