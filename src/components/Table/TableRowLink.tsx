@@ -1,7 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "@/utils/cn";
-import { renderContainedText } from "@/utils/renderTextChildren";
 
 /**
  * What a click on an interactive row leaves to the control it landed on. A
@@ -82,9 +81,7 @@ export const TableRowLink = React.forwardRef<HTMLAnchorElement, TableRowLinkProp
           className,
         )}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </Comp>
+      />
     );
   },
 );

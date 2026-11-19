@@ -3,32 +3,20 @@ import { Accordion } from "../components/Accordion/Accordion";
 import { AccordionContent } from "../components/Accordion/AccordionContent";
 import { AccordionItem } from "../components/Accordion/AccordionItem";
 import { AccordionTrigger } from "../components/Accordion/AccordionTrigger";
-import { Alert } from "../components/Alert/Alert";
 import { AudioPlayer } from "../components/AudioPlayer/AudioPlayer";
 import { Autocomplete } from "../components/Autocomplete/Autocomplete";
 import { Badge } from "../components/Badge/Badge";
 import { Banner } from "../components/Banner/Banner";
 import { BottomNavigation } from "../components/BottomNavigation/BottomNavigation";
 import { BottomNavigationAction } from "../components/BottomNavigation/BottomNavigationAction";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList } from "../components/Breadcrumb/Breadcrumb";
 import { Button } from "../components/Button/Button";
-import { Card, CardDescription, CardFooter, CardTitle } from "../components/Card/Card";
-import { ChartCard } from "../components/Chart/ChartCard";
 import { ChartLegendContent } from "../components/Chart/ChartLegend";
 import { ChartLoadingOverlay } from "../components/Chart/ChartLoadingOverlay";
-import { ChartPieLegend } from "../components/Chart/ChartPieLegend";
-import { ChartTooltipContent } from "../components/Chart/ChartTooltip";
 import { ChartContext } from "../components/Chart/useChart";
-import { ChatEmbed, ChatEmbedUnavailable } from "../components/ChatEmbed/ChatEmbed";
+import { ChatEmbed } from "../components/ChatEmbed/ChatEmbed";
 import { ChatInput } from "../components/ChatInput/ChatInput";
-import { ChatMessage } from "../components/ChatMessage/ChatMessage";
 import { Chip } from "../components/Chip/Chip";
-import { Count } from "../components/Count/Count";
-import { CreatorCard } from "../components/CreatorCard/CreatorCard";
-import { CreatorTile } from "../components/CreatorTile/CreatorTile";
-import { CriticalBanner } from "../components/CriticalBanner/CriticalBanner";
 import { DatePicker } from "../components/DatePicker/DatePicker";
-import { Demographics } from "../components/Demographics/Demographics";
 import { Dialog, DialogContent, DialogTitle } from "../components/Dialog/Dialog";
 import { Drawer, DrawerContent, DrawerTitle } from "../components/Drawer/Drawer";
 import {
@@ -38,17 +26,10 @@ import {
 } from "../components/DropdownMenu/DropdownMenu";
 import { DropdownMenuHeader } from "../components/DropdownMenu/DropdownMenuHeader";
 import { DropdownMenuReorderItem } from "../components/DropdownMenu/DropdownMenuReorderItem";
-import {
-  DropdownMenuCheckboxItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-} from "../components/DropdownMenu/DropdownMenuSelectionItems";
 import { EmptyState } from "../components/EmptyState/EmptyState";
 import { ArrowUpRightIcon } from "../components/Icons/ArrowUpRightIcon";
-import { InfoBox, InfoBoxContent, InfoBoxTrigger } from "../components/InfoBox/InfoBox";
 import { Link } from "../components/Link/Link";
 import { LiveStatus } from "../components/LiveStatus/LiveStatus";
-import { PhoneField } from "../components/PhoneField/PhoneField";
 import { Pill } from "../components/Pill/Pill";
 import { ProfileOnlineStatus } from "../components/ProfileOnlineStatus/ProfileOnlineStatus";
 import { ProgressBar } from "../components/ProgressBar/ProgressBar";
@@ -56,20 +37,12 @@ import { RatingSummary } from "../components/RatingSummary/RatingSummary";
 import { ReviewCard } from "../components/ReviewCard/ReviewCard";
 import { Select, SelectContent, SelectItem } from "../components/Select/Select";
 import { Snackbar } from "../components/Snackbar/Snackbar";
-import { SubscribeButton } from "../components/SubscribeButton/SubscribeButton";
-import {
-  TableCell,
-  TableCellContent,
-  TableSortLabel,
-  TableToolbarAction,
-} from "../components/Table/Table";
-import { TableMobileRow } from "../components/Table/TableMobileRow";
+import { TableCellContent, TableSortLabel } from "../components/Table/Table";
 import { TableCardPagination } from "../components/Table/TablePagination";
 import { Tabs } from "../components/Tabs/Tabs";
 import { TabsList } from "../components/Tabs/TabsList";
 import { TabsOverflow, TabsOverflowItem } from "../components/Tabs/TabsOverflow";
 import { TabsTrigger } from "../components/Tabs/TabsTrigger";
-import { TextField } from "../components/TextField/TextField";
 import { Toast, ToastProvider, ToastViewport } from "../components/Toast/Toast";
 import {
   Tooltip,
@@ -77,13 +50,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../components/Tooltip/Tooltip";
-import { TooltipLabel } from "../components/Tooltip/TooltipLabel";
 import { TrendPill } from "../components/TrendPill/TrendPill";
-import { UndoAlertPrompt } from "../components/UndoAlertPrompt/UndoAlertPrompt";
-import { UserDisplayName } from "../components/UserDisplayName/UserDisplayName";
 import { UserHandle } from "../components/UserHandle/UserHandle";
-import { UserItem } from "../components/UserItem/UserItem";
-import { UserItemTrailing } from "../components/UserItem/UserItemTrailing";
 
 const RouterLink = forwardRef<HTMLAnchorElement, AnchorHTMLAttributes<HTMLAnchorElement>>(
   (props, ref) => <a ref={ref} {...props} />,
@@ -558,496 +526,5 @@ export const translationCases: [string, (changed: boolean) => ReactElement][] = 
   [
     "Banner rich description drops its count",
     (changed) => <Banner variant="whatsNew" title="New" description={richLabel(changed)} />,
-  ],
-  [
-    "Button asChild mixed label enters loading",
-    (changed) => (
-      <Button asChild loading={changed}>
-        <a href="#example">Save{" changes"}</a>
-      </Button>
-    ),
-  ],
-  [
-    "Button loading rich label drops its count",
-    (changed) => <Button loading>{richLabel(changed)}</Button>,
-  ],
-  [
-    "TabsTrigger label drops its count",
-    (changed) => (
-      <Tabs defaultValue="a">
-        <TabsList>
-          <TabsTrigger value="a">Inbox{changed ? null : " (2)"}</TabsTrigger>
-        </TabsList>
-      </Tabs>
-    ),
-  ],
-  [
-    "TabsTrigger asChild label drops its count",
-    (changed) => (
-      <Tabs defaultValue="a">
-        <TabsList>
-          <TabsTrigger value="a" asChild>
-            <a href="#inbox">Inbox{changed ? null : " (2)"}</a>
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
-    ),
-  ],
-  [
-    "TabsList text child clears",
-    (changed) => (
-      <Tabs defaultValue="a">
-        <TabsList>
-          {changed ? null : "Loading"}
-          <TabsTrigger value="a">First</TabsTrigger>
-        </TabsList>
-      </Tabs>
-    ),
-  ],
-  [
-    "BottomNavigation text child clears",
-    (changed) => (
-      <BottomNavigation hasInformationArchitectureNav value="a">
-        {changed ? null : "Loading"}
-        <BottomNavigationAction icon={<svg />} value="a" label="First" />
-      </BottomNavigation>
-    ),
-  ],
-  [
-    "Select text child clears",
-    (changed) => (
-      <Select label="Country">
-        {changed ? null : "Loading"}
-        <SelectContent>
-          <SelectItem value="a">Option A</SelectItem>
-        </SelectContent>
-      </Select>
-    ),
-  ],
-  ["ChatMessage body drops a phrase", (changed) => <ChatMessage message={richLabel(changed)} />],
-  [
-    "ChartTooltip range becomes a single value",
-    (changed) => (
-      <ChartContext.Provider value={{ config: {} }}>
-        <ChartTooltipContent
-          active
-          payload={[{ graphicalItemId: "a", name: "a", dataKey: "a", value: changed ? 5 : [1, 2] }]}
-        />
-      </ChartContext.Provider>
-    ),
-  ],
-  [
-    "ChartTooltip config label drops its count",
-    (changed) => (
-      <ChartContext.Provider value={{ config: { a: { label: richLabel(changed) } } }}>
-        <ChartTooltipContent
-          active
-          payload={[{ graphicalItemId: "a", name: "a", dataKey: "a", value: 5 }]}
-        />
-      </ChartContext.Provider>
-    ),
-  ],
-  [
-    "ChartTooltip formatters drop their count",
-    (changed) => (
-      <ChartContext.Provider value={{ config: {} }}>
-        <ChartTooltipContent
-          active
-          payload={[{ graphicalItemId: "a", name: "a", dataKey: "a", value: 5 }]}
-          labelFormatter={() => richLabel(changed)}
-          formatter={() => richLabel(changed)}
-        />
-      </ChartContext.Provider>
-    ),
-  ],
-  [
-    "ChartPieLegend text icon becomes markup",
-    (changed) => (
-      <ChartPieLegend
-        items={[{ label: "Tips", value: 1, color: "red", icon: changed ? <b>*</b> : "T" }]}
-      />
-    ),
-  ],
-  [
-    "ChartPieLegend rich label drops its count",
-    (changed) => (
-      <ChartPieLegend
-        items={[
-          { label: richLabel(changed), value: 1, formattedValue: richLabel(changed), color: "red" },
-        ]}
-      />
-    ),
-  ],
-  [
-    "ChartCard rich text drops its count",
-    (changed) => (
-      <ChartCard
-        title={richLabel(changed)}
-        subtitle={richLabel(changed)}
-        dateInfo={richLabel(changed)}
-        trendChip={{ label: richLabel(changed), trend: "positive" }}
-      />
-    ),
-  ],
-  [
-    "Count rich content drops its count",
-    (changed) => <Count value={1}>{richLabel(changed)}</Count>,
-  ],
-  [
-    "Count asChild label drops its count",
-    (changed) => (
-      <Count asChild value={1}>
-        <a href="#new">New{changed ? null : " (2)"}</a>
-      </Count>
-    ),
-  ],
-  [
-    "EmptyState rich text drops its count",
-    (changed) => <EmptyState title={richLabel(changed)} description={richLabel(changed)} />,
-  ],
-  [
-    "EmptyState numeric action becomes markup",
-    (changed) => (
-      <EmptyState
-        title="Empty"
-        primaryAction={changed ? <button type="button">Continue</button> : 5}
-        secondaryAction="Later"
-      />
-    ),
-  ],
-  [
-    "UserItem primary text becomes markup",
-    (changed) => (
-      <UserItem
-        user={{ displayName: "Jane Doe", handle: "jane_doe" }}
-        showAvatar={false}
-        primary={changed ? <b>Jane</b> : "Jane"}
-        secondary="Online"
-      />
-    ),
-  ],
-  [
-    "UserItem rich secondary drops its count",
-    (changed) => (
-      <UserItem
-        user={{ displayName: "Jane Doe", handle: "jane_doe" }}
-        showAvatar={false}
-        secondary={richLabel(changed)}
-        trailing={<UserItemTrailing value={richLabel(changed)} meta={richLabel(changed)} />}
-      />
-    ),
-  ],
-  [
-    "UserDisplayName rich name drops its count",
-    (changed) => <UserDisplayName>{richLabel(changed)}</UserDisplayName>,
-  ],
-  [
-    "TooltipLabel rich label drops its count",
-    (changed) => <TooltipLabel tooltip="Help">{richLabel(changed)}</TooltipLabel>,
-  ],
-  [
-    "Accordion rich text drops its count",
-    (changed) => (
-      <Accordion type="single" defaultValue="a">
-        <AccordionItem value="a">
-          <AccordionTrigger description={richLabel(changed)}>{richLabel(changed)}</AccordionTrigger>
-          <AccordionContent>{richLabel(changed)}</AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    ),
-  ],
-  ["Alert rich message drops its count", (changed) => <Alert>{richLabel(changed)}</Alert>],
-  [
-    "Card rich title and description drop their count",
-    (changed) => (
-      <Card>
-        <CardTitle>{richLabel(changed)}</CardTitle>
-        <CardDescription>{richLabel(changed)}</CardDescription>
-      </Card>
-    ),
-  ],
-  [
-    "Banner rich secondary line drops its count",
-    (changed) => <Banner variant="Subtle" title="New" secondaryLine={richLabel(changed)} />,
-  ],
-  [
-    "Banner rich eyebrow drops its count",
-    (changed) => <Banner variant="Default" title="New" eyebrow={richLabel(changed)} />,
-  ],
-  [
-    "Breadcrumb rich separator drops its count",
-    (changed) => (
-      <Breadcrumb>
-        <BreadcrumbList separator={richLabel(changed)}>
-          <BreadcrumbItem>Home</BreadcrumbItem>
-          <BreadcrumbItem>Settings</BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-    ),
-  ],
-  [
-    "ChatEmbed rich text drops its count",
-    (changed) => (
-      <ChatEmbed
-        variant="experience"
-        title={richLabel(changed)}
-        subtitle={richLabel(changed)}
-        category={richLabel(changed)}
-        meta={richLabel(changed)}
-      />
-    ),
-  ],
-  [
-    "ChatEmbed creator rich text drops its count",
-    (changed) => (
-      <ChatEmbed variant="creator" title={richLabel(changed)} subtitle={richLabel(changed)} />
-    ),
-  ],
-  [
-    "ChatEmbedUnavailable rich message drops its count",
-    (changed) => <ChatEmbedUnavailable>{richLabel(changed)}</ChatEmbedUnavailable>,
-  ],
-  [
-    "DropdownMenu rich rows drop their count",
-    (changed) => (
-      <DropdownMenu open>
-        <DropdownMenuContent>
-          <DropdownMenuHeader>{richLabel(changed)}</DropdownMenuHeader>
-          <DropdownMenuItem count={richLabel(changed)}>Inbox</DropdownMenuItem>
-          <DropdownMenuCheckboxItem checked>{richLabel(changed)}</DropdownMenuCheckboxItem>
-          <DropdownMenuRadioGroup value="a">
-            <DropdownMenuRadioItem value="a">{richLabel(changed)}</DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
-  ],
-  [
-    "DropdownMenuReorderItem rich label drops its count",
-    (changed) => <DropdownMenuReorderItem value="a">{richLabel(changed)}</DropdownMenuReorderItem>,
-  ],
-  [
-    "CreatorCard rich text drops its count",
-    (changed) => (
-      <CreatorCard background={<div />} name={richLabel(changed)} tagline={richLabel(changed)} />
-    ),
-  ],
-  [
-    "CreatorTile rich text drops its count",
-    (changed) => (
-      <CreatorTile background={<div />} name={richLabel(changed)} tagline={richLabel(changed)} />
-    ),
-  ],
-  [
-    "CriticalBanner rich text drops its count",
-    (changed) => <CriticalBanner title={richLabel(changed)}>{richLabel(changed)}</CriticalBanner>,
-  ],
-  [
-    "ProgressBar rich text drops its count",
-    (changed) => (
-      <ProgressBar
-        value={50}
-        title={richLabel(changed)}
-        stepsLabel={richLabel(changed)}
-        helperLeft={richLabel(changed)}
-        helperRight={richLabel(changed)}
-      />
-    ),
-  ],
-  [
-    "Demographics rich value drops its count",
-    (changed) => <Demographics label="Italy" value={50} formattedValue={richLabel(changed)} />,
-  ],
-  [
-    "InfoBox rich text drops its count",
-    (changed) => (
-      <InfoBox open>
-        <InfoBoxTrigger>Open</InfoBoxTrigger>
-        <InfoBoxContent heading={richLabel(changed)}>{richLabel(changed)}</InfoBoxContent>
-      </InfoBox>
-    ),
-  ],
-  [
-    "PhoneField rich dial code drops its count",
-    (changed) => <PhoneField label="Phone" dialCode={richLabel(changed)} />,
-  ],
-  [
-    "TextField rich side label drops its count",
-    (changed) => <TextField label="Amount" leftLabel={richLabel(changed)} />,
-  ],
-  [
-    "ReviewCard rich text drops its count",
-    (changed) => (
-      <ReviewCard rating={4} title={richLabel(changed)}>
-        {richLabel(changed)}
-      </ReviewCard>
-    ),
-  ],
-  [
-    "SubscribeButton rich label drops its count",
-    (changed) => <SubscribeButton price="$9.99">{richLabel(changed)}</SubscribeButton>,
-  ],
-  [
-    "TableToolbarAction rich label drops its count",
-    (changed) => <TableToolbarAction>{richLabel(changed)}</TableToolbarAction>,
-  ],
-  [
-    "TableMobileRow rich text drops its count",
-    (changed) => <TableMobileRow title={richLabel(changed)} description={richLabel(changed)} />,
-  ],
-  [
-    "UndoAlertPrompt rich title drops its count",
-    (changed) => (
-      <ToastProvider>
-        <UndoAlertPrompt open title={richLabel(changed)} onUndo={() => {}} />
-        <ToastViewport />
-      </ToastProvider>
-    ),
-  ],
-  [
-    "Autocomplete custom rows drop their count",
-    (changed) => (
-      <Autocomplete
-        label="City"
-        open
-        options={[{ value: "a", label: "Alpha", groupId: "g" }]}
-        groups={[{ id: "g", label: "Group" }]}
-        renderOption={() => richLabel(changed)}
-        renderGroupHeading={() => richLabel(changed)}
-      />
-    ),
-  ],
-  [
-    "BottomNavigation text beside an action clears",
-    (changed) => (
-      <BottomNavigation value="a">
-        {changed ? null : "Quick links"}
-        <BottomNavigationAction icon={<svg />} value="a" label="First" />
-      </BottomNavigation>
-    ),
-  ],
-  [
-    "ChartCard zero subtitle becomes an amount",
-    (changed) => <ChartCard title="Revenue" subtitle={changed ? "$100" : 0} />,
-  ],
-  [
-    "ChartCard content value changes beside markup",
-    (changed) => (
-      <ChartCard title="Revenue">{[changed ? "200" : "100", <b key="unit">USD</b>]}</ChartCard>
-    ),
-  ],
-  [
-    "CardFooter value changes beside markup",
-    (changed) => (
-      <Card>
-        <CardFooter>{[changed ? "200" : "100", <b key="unit">USD</b>]}</CardFooter>
-      </Card>
-    ),
-  ],
-  [
-    "UserItem trailing value changes beside markup",
-    (changed) => (
-      <UserItem
-        user={{ displayName: "Jane Doe", handle: "jane_doe" }}
-        showAvatar={false}
-        trailing={[changed ? "200" : "100", <b key="unit">USD</b>]}
-      />
-    ),
-  ],
-  [
-    "Button bigint label changes beside an icon",
-    (changed) => <Button rightIcon={<svg />}>{changed ? 6n : 5n}</Button>,
-  ],
-  [
-    "UserItem zero secondary and trailing become text",
-    (changed) => (
-      <UserItem
-        user={{ displayName: "Jane Doe", handle: "jane_doe" }}
-        showAvatar={false}
-        secondary={changed ? "New" : 0}
-        trailing={changed ? "New" : 0}
-      />
-    ),
-  ],
-  [
-    "UserItemTrailing zero meta changes",
-    (changed) => <UserItemTrailing value="Total" meta={changed ? 1 : 0} />,
-  ],
-  [
-    "BottomNavigationAction zero badge changes",
-    (changed) => (
-      <BottomNavigation hasInformationArchitectureNav value="a">
-        <BottomNavigationAction icon={<svg />} value="a" label="First" badge={changed ? 1 : 0} />
-      </BottomNavigation>
-    ),
-  ],
-  [
-    "ChartCard zero content becomes markup",
-    (changed) => <ChartCard title="Revenue">{changed ? <b>Chart</b> : 0}</ChartCard>,
-  ],
-  [
-    "Button fragment label changes beside an icon",
-    (changed) => (
-      <Button rightIcon={<svg />}>
-        <Fragment key="label">{changed ? "Updated" : "Original"}</Fragment>
-      </Button>
-    ),
-  ],
-  [
-    "TableMobileRow status beside an action changes",
-    (changed) => (
-      <TableMobileRow
-        title="Invoice"
-        actions={[
-          changed ? "Saved" : "Saving",
-          <button key="edit" type="button">
-            Edit
-          </button>,
-        ]}
-      />
-    ),
-  ],
-  [
-    "TableMobileRow status beside an action clears",
-    (changed) => (
-      <TableMobileRow
-        title="Invoice"
-        actions={[
-          changed ? null : "Saving",
-          <button key="edit" type="button">
-            Edit
-          </button>,
-        ]}
-      />
-    ),
-  ],
-  [
-    "Button icon slot count changes",
-    (changed) => <Button leftIcon={[changed ? "6" : "5", <svg key="icon" />]}>Inbox</Button>,
-  ],
-  [
-    "TableCell count beside a badge clears",
-    (changed) => (
-      <table>
-        <tbody>
-          <tr>
-            <TableCell>
-              {changed ? null : 5}
-              <Badge>New</Badge>
-            </TableCell>
-          </tr>
-        </tbody>
-      </table>
-    ),
-  ],
-  [
-    "DropdownMenuContent loading text becomes an item",
-    (changed) => (
-      <DropdownMenu open>
-        <DropdownMenuContent>
-          {changed ? <DropdownMenuItem>First</DropdownMenuItem> : "Loading"}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
   ],
 ];

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
 
 /** Props for {@link Demographics}. */
@@ -42,19 +41,13 @@ export const Demographics = React.forwardRef<HTMLDivElement, DemographicsProps>(
     <div ref={ref} className={cn("flex w-full flex-col gap-2", className)} {...props}>
       <div className="flex w-full items-center justify-between gap-2">
         <span className="flex min-w-0 items-center gap-2">
-          {icon ? (
-            <span className="flex size-5 shrink-0 items-center justify-center">
-              {renderContainedText(icon)}
-            </span>
-          ) : (
-            renderTextChildren(icon)
-          )}
+          {icon && <span className="flex size-5 shrink-0 items-center justify-center">{icon}</span>}
           <span className="typography-body-small-14px-semibold truncate text-content-primary">
             {label}
           </span>
         </span>
         <span className="typography-body-small-14px-regular shrink-0 text-content-primary">
-          {renderContainedText(formattedValue)}
+          {formattedValue}
         </span>
       </div>
       <ProgressBar variant="sky" size="medium" value={value} ariaLabel={label} />

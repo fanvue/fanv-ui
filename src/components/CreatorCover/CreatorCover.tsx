@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { Pill } from "../Pill/Pill";
 
 /** Slot that accepts a string (rendered as default styling) or a node for full control. */
@@ -90,7 +89,7 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
             />
             {renderedTag ? (
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-                {renderContainedText(renderedTag)}
+                {renderedTag}
               </div>
             ) : null}
           </div>
@@ -104,7 +103,7 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
               </p>
             ) : null}
           </div>
-          {action ? <div className="w-full pt-2">{renderContainedText(action)}</div> : null}
+          {action ? <div className="w-full pt-2">{action}</div> : null}
         </div>
       </section>
     );

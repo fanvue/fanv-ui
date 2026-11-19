@@ -1,7 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderSlottedText } from "../../utils/renderTextChildren";
 
 /**
  * Colour variant for the count badge.
@@ -101,7 +100,6 @@ export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
 
     const Comp = asChild ? Slot : "span";
     const colors = variantClasses(variant);
-    const content = children ?? getDisplayValue(value, max);
 
     if (!showAmount) {
       return (
@@ -129,7 +127,7 @@ export const Count = React.forwardRef<HTMLSpanElement, CountProps>(
         )}
         {...props}
       >
-        {asChild ? renderSlottedText(content, false) : renderContainedText(content)}
+        {children ?? getDisplayValue(value, max)}
       </Comp>
     );
   },

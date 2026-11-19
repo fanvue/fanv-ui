@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { Avatar } from "../Avatar/Avatar";
 import { DoubleTickIcon } from "../Icons/DoubleTickIcon";
 import { TrashIcon } from "../Icons/TrashIcon";
@@ -279,7 +278,7 @@ export const ChatMessage = React.forwardRef<HTMLDivElement, ChatMessageProps>(
         <div className={cn(bubbleBase, "px-3 py-2")}>
           <div className="flex flex-wrap items-baseline justify-end gap-x-6 gap-y-2">
             <p className="typography-body-default-16px-regular m-0 min-w-0 break-words text-content-primary">
-              {renderContainedText(message)}
+              {message}
             </p>
             {hasMeta ? (
               <ChatMessageMeta

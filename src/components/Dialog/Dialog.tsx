@@ -1,7 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { useDragToDismiss } from "../../utils/useDragToDismiss";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
@@ -34,11 +34,7 @@ export type DialogTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPri
 export const DialogTrigger = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Trigger>,
   DialogTriggerProps
->((props, ref) => (
-  <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)}>
-    {renderContainedText(useSuppressClickAfterDrag(props).children)}
-  </DialogPrimitive.Trigger>
-));
+>((props, ref) => <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
 DialogTrigger.displayName = "DialogTrigger";
 
 /** Convenience alias for Radix `Dialog.Close`. Closes the dialog when clicked. */
@@ -66,9 +62,7 @@ export const DialogOverlay = React.forwardRef<
     )}
     style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
     {...props}
-  >
-    {renderContainedText(props.children)}
-  </DialogPrimitive.Overlay>
+  />
 ));
 DialogOverlay.displayName = "DialogOverlay";
 
@@ -330,7 +324,7 @@ export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
             aria-label={backLabel}
           />
         )}
-        <div className="flex min-w-0 flex-1 flex-col gap-1.5">{renderContainedText(children)}</div>
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5">{children}</div>
         {showClose && (
           <DialogPrimitive.Close asChild>
             <IconButton
@@ -362,9 +356,7 @@ export const DialogTitle = React.forwardRef<
     ref={ref}
     className={cn("typography-header-heading-xs text-content-primary", className)}
     {...props}
-  >
-    {renderContainedText(props.children)}
-  </DialogPrimitive.Title>
+  />
 ));
 DialogTitle.displayName = "DialogTitle";
 
@@ -382,9 +374,7 @@ export const DialogDescription = React.forwardRef<
     ref={ref}
     className={cn("typography-body-default-16px-regular text-content-secondary", className)}
     {...props}
-  >
-    {renderContainedText(props.children)}
-  </DialogPrimitive.Description>
+  />
 ));
 DialogDescription.displayName = "DialogDescription";
 
@@ -424,16 +414,12 @@ export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
         className,
       )}
       {...props}
-    >
-      {renderContainedText(props.children)}
-    </div>
+    />
   ),
 );
 DialogBody.displayName = "DialogBody";
 
 export interface DialogFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const FOOTER_TEXT_PROPS = { className: "flex-none!" };
 
 /**
  * Footer bar for the dialog. Typically contains action buttons.
@@ -445,9 +431,7 @@ export const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
       ref={ref}
       className={cn("flex shrink-0 items-center gap-2", "[&>*]:min-w-0 [&>*]:flex-1", className)}
       {...props}
-    >
-      {renderContainedText(props.children, FOOTER_TEXT_PROPS)}
-    </div>
+    />
   ),
 );
 DialogFooter.displayName = "DialogFooter";

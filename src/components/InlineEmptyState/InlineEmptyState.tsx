@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 
 export interface InlineEmptyStateProps
   extends Omit<React.HTMLAttributes<HTMLParagraphElement>, "dangerouslySetInnerHTML"> {
@@ -29,7 +28,7 @@ export const InlineEmptyState = React.forwardRef<HTMLParagraphElement, InlineEmp
         )}
         {...props}
       >
-        <span className="min-w-0 [overflow-wrap:anywhere]">{renderContainedText(children)}</span>
+        <span className="min-w-0 [overflow-wrap:anywhere]">{children}</span>
       </p>
     );
   },

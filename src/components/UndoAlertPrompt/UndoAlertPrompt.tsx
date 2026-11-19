@@ -1,7 +1,6 @@
 import * as ToastPrimitive from "@radix-ui/react-toast";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { Button } from "../Button/Button";
 import { TickCircleIcon } from "../Icons/TickCircleIcon";
 import { TrashIcon } from "../Icons/TrashIcon";
@@ -76,7 +75,7 @@ export const UndoAlertPrompt = React.forwardRef<
             <TypeIcon type={type} />
           </div>
           <ToastPrimitive.Title className="typography-body-small-14px-semibold min-w-0">
-            {renderContainedText(title)}
+            {title}
           </ToastPrimitive.Title>
         </div>
         <ToastPrimitive.Action altText={undoAltText ?? undoLabel} asChild>

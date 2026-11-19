@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderTextChildren } from "../../utils/renderTextChildren";
 import { Count, type CountSize } from "../Count/Count";
 import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
 
@@ -320,7 +319,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         >
           {/* A button sizes its own icon, so a menu row's icon defaults stop here. */}
           <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
-            {renderTextChildren(icon)}
+            {icon}
           </IconDefaultsContext.Provider>
         </span>
 

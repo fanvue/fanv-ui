@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Shape variant of the skeleton placeholder. */
 export type SkeletonVariant = "text" | "circular" | "rectangular" | "rounded";
@@ -112,7 +111,7 @@ export const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(
         style={sizeStyle}
         {...props}
       >
-        {renderContainedText(children)}
+        {children}
       </span>
     );
   },

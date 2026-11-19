@@ -1,11 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import {
-  renderContainedText,
-  renderSlottedText,
-  renderTextChildren,
-} from "../../utils/renderTextChildren";
 import { AIIcon } from "../Icons/AIIcon";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
 
@@ -268,47 +263,41 @@ function renderContent({
     return (
       <>
         <LoadingSpinner size={size} />
-        <span className="sr-only">{renderContainedText(children)}</span>
+        <span className="sr-only">{children}</span>
       </>
     );
   }
 
-  if (asChild) return renderSlottedText(children, false);
+  if (asChild) return children;
 
   return (
     <>
-      {leftIcon ? (
+      {leftIcon && (
         <span
           className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
           aria-hidden="true"
         >
-          {renderContainedText(leftIcon)}
+          {leftIcon}
         </span>
-      ) : (
-        renderTextChildren(leftIcon)
       )}
-      {renderTextChildren(
-        React.Children.map(children, (child) =>
-          typeof child === "string" ? (
-            child.trim() ? (
-              <span className="min-w-0 truncate">{child}</span>
-            ) : null
-          ) : typeof child === "number" || typeof child === "bigint" ? (
+      {React.Children.map(children, (child) =>
+        typeof child === "string" ? (
+          child.trim() ? (
             <span className="min-w-0 truncate">{child}</span>
-          ) : (
-            renderTextChildren(child)
-          ),
+          ) : null
+        ) : typeof child === "number" ? (
+          <span className="min-w-0 truncate">{child}</span>
+        ) : (
+          child
         ),
       )}
-      {rightIcon ? (
+      {rightIcon && (
         <span
           className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
           aria-hidden="true"
         >
-          {renderContainedText(rightIcon)}
+          {rightIcon}
         </span>
-      ) : (
-        renderTextChildren(rightIcon)
       )}
       {(price || discount) && (
         <div>
@@ -427,7 +416,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {...props}
       >
-        {renderContainedText(content)}
+        {content}
       </Comp>
     );
   },

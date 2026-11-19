@@ -1,7 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { useDragToDismiss } from "../../utils/useDragToDismiss";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
@@ -170,7 +170,7 @@ export function Drawer({ overlay = true, modal, children, ...props }: DrawerProp
   return (
     <DrawerContext.Provider value={{ overlay }}>
       <DialogPrimitive.Root modal={resolvedModal} {...props}>
-        {renderTextChildren(children)}
+        {children}
       </DialogPrimitive.Root>
     </DrawerContext.Provider>
   );
@@ -190,11 +190,7 @@ export type DrawerTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPri
 export const DrawerTrigger = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Trigger>,
   DrawerTriggerProps
->((props, ref) => (
-  <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)}>
-    {renderContainedText(useSuppressClickAfterDrag(props).children)}
-  </DialogPrimitive.Trigger>
-));
+>((props, ref) => <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
 DrawerTrigger.displayName = "DrawerTrigger";
 
 /** Props for the {@link DrawerClose} component. */
@@ -227,9 +223,7 @@ export const DrawerOverlay = React.forwardRef<
       className,
     )}
     {...props}
-  >
-    {renderContainedText(props.children)}
-  </DialogPrimitive.Overlay>
+  />
 ));
 DrawerOverlay.displayName = "DrawerOverlay";
 
@@ -423,7 +417,7 @@ export const DrawerHeader = React.forwardRef<HTMLDivElement, DrawerHeaderProps>(
         className={cn("flex items-center gap-2", variant !== "modal" && "p-4", className)}
         {...props}
       >
-        <div className="flex min-w-0 flex-1 flex-col gap-1.5">{renderContainedText(children)}</div>
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5">{children}</div>
         {showClose && (
           <DialogPrimitive.Close asChild>
             <IconButton
@@ -457,9 +451,7 @@ export const DrawerFooter = React.forwardRef<HTMLDivElement, DrawerFooterProps>(
         ref={ref}
         className={cn("flex flex-col gap-2", variant !== "modal" && "p-4", className)}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </div>
+      />
     );
   },
 );
@@ -478,9 +470,7 @@ export const DrawerTitle = React.forwardRef<
     ref={ref}
     className={cn("typography-body-default-16px-semibold truncate text-content-primary", className)}
     {...props}
-  >
-    {renderContainedText(props.children)}
-  </DialogPrimitive.Title>
+  />
 ));
 DrawerTitle.displayName = "DrawerTitle";
 
@@ -497,8 +487,6 @@ export const DrawerDescription = React.forwardRef<
     ref={ref}
     className={cn("typography-body-small-14px-regular text-content-secondary", className)}
     {...props}
-  >
-    {renderContainedText(props.children)}
-  </DialogPrimitive.Description>
+  />
 ));
 DrawerDescription.displayName = "DrawerDescription";

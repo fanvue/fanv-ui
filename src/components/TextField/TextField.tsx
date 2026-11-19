@@ -1,7 +1,6 @@
 import * as React from "react";
 import { CheckOutlineIcon } from "@/index";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Text field height in pixels. */
 export type TextFieldSize = "48" | "40" | "32";
@@ -108,7 +107,7 @@ function LeadingIcon({
         size === "24" ? "size-6" : "size-4",
       )}
     >
-      {renderContainedText(children)}
+      {children}
     </span>
   );
 }
@@ -134,7 +133,7 @@ function SideLabel({
         SIDE_LABEL_TYPOGRAPHY[size],
       )}
     >
-      {renderContainedText(children)}
+      {children}
     </span>
   );
 }
@@ -149,12 +148,10 @@ function TrailingAdornment({
   if (!rightIcon && !validated) return null;
   return (
     <span className="flex shrink-0 items-center gap-2 text-content-secondary">
-      {rightIcon ? (
+      {rightIcon && (
         <span data-tf-interactive="" className="flex size-4 shrink-0 items-center justify-center">
-          {renderContainedText(rightIcon)}
+          {rightIcon}
         </span>
-      ) : (
-        renderTextChildren(rightIcon)
       )}
       {validated && (
         <span className="pointer-events-none flex size-4 shrink-0 items-center justify-center">
@@ -182,7 +179,7 @@ function TextFieldHelperText({
         error ? "text-error-content" : "text-content-tertiary",
       )}
     >
-      {renderContainedText(children)}
+      {children}
     </p>
   );
 }
@@ -335,7 +332,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           <TrailingAdornment rightIcon={rightIcon} validated={validated} />
           {action != null && (
             <span data-tf-interactive="" className="flex shrink-0 items-center">
-              {renderContainedText(action)}
+              {action}
             </span>
           )}
         </div>

@@ -2,7 +2,6 @@ import * as Popover from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "@/utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
@@ -245,12 +244,10 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
             )}
             onClick={ac.handleContainerClick}
           >
-            {leftIcon ? (
+            {leftIcon && (
               <div className="flex size-5 shrink-0 items-center justify-center text-content-secondary">
-                {renderContainedText(leftIcon)}
+                {leftIcon}
               </div>
-            ) : (
-              renderTextChildren(leftIcon)
             )}
 
             <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { AIDisclosureIcon } from "../Icons/AIDisclosureIcon";
 import { VerifiedIcon } from "../Icons/VerifiedIcon";
 import { ProfileOnlineStatus } from "../ProfileOnlineStatus/ProfileOnlineStatus";
@@ -90,7 +89,7 @@ export const UserDisplayName = React.forwardRef<HTMLElement, UserDisplayNameProp
         className={cn("inline-flex max-w-full items-center", className)}
         {...props}
       >
-        <span className={cn("min-w-0", noWrap && "truncate")}>{renderContainedText(children)}</span>
+        <span className={cn("min-w-0", noWrap && "truncate")}>{children}</span>
         {badge && (
           <span
             role="img"

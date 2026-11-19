@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { AiDisclosureBadge } from "../AiDisclosureBadge/AiDisclosureBadge";
 import { Avatar, type AvatarProps } from "../Avatar/Avatar";
 import { Skeleton } from "../Skeleton/Skeleton";
@@ -153,16 +153,10 @@ function SocialProof({ avatars, name, label }: ChatEmbedSocialProof) {
         ))}
       </div>
       <p className="m-0 flex min-w-0 items-center gap-1 whitespace-nowrap text-content-always-white">
-        {name ? (
-          <span className="typography-body-small-14px-semibold max-w-30 truncate">
-            {renderContainedText(name)}
-          </span>
-        ) : (
-          renderTextChildren(name)
+        {name && (
+          <span className="typography-body-small-14px-semibold max-w-30 truncate">{name}</span>
         )}
-        <span className="typography-body-small-14px-regular shrink-0">
-          {renderContainedText(label)}
-        </span>
+        <span className="typography-body-small-14px-regular shrink-0">{label}</span>
       </p>
     </div>
   );
@@ -192,7 +186,7 @@ function Media({
               MEDIA_FILL,
             )}
           >
-            {renderContainedText(backdrop)}
+            {backdrop}
           </div>
           <div
             className={cn(
@@ -200,11 +194,11 @@ function Media({
               MEDIA_FILL,
             )}
           >
-            {renderContainedText(media)}
+            {media}
           </div>
         </>
       ) : (
-        <div className={cn("absolute inset-0", MEDIA_FILL)}>{renderContainedText(media)}</div>
+        <div className={cn("absolute inset-0", MEDIA_FILL)}>{media}</div>
       )}
       {greyscale && (
         <div className="absolute inset-0 bg-content-always-black mix-blend-saturation" />
@@ -252,7 +246,7 @@ function CreatorName({
         verifiedLabel={verifiedLabel}
         className={cn("m-0 [&>[role=img]]:ml-1 [&>span:empty+[role=img]]:ml-0", className)}
       >
-        {children && <span id={nameId}>{renderContainedText(children)}</span>}
+        {children && <span id={nameId}>{children}</span>}
       </UserDisplayName>
       {aiDisclosure && (
         <AiDisclosureBadge
@@ -276,20 +270,16 @@ function TopRow({
     <div className="relative flex items-center justify-between gap-2 px-3 pt-3">
       <div className="flex min-w-0 items-center gap-1">
         {renderTextChildren(badge)}
-        {category ? (
+        {category && (
           <span className="typography-description-12px-semibold whitespace-nowrap rounded-xs bg-buttons-always-white-default px-2 py-1 text-content-always-black">
-            {renderContainedText(category)}
+            {category}
           </span>
-        ) : (
-          renderTextChildren(category)
         )}
       </div>
-      {meta ? (
+      {meta && (
         <span className="typography-description-12px-semibold whitespace-nowrap rounded-full bg-background-overlay-default px-2 py-1 text-center text-content-always-white backdrop-blur-[10px]">
-          {renderContainedText(meta)}
+          {meta}
         </span>
-      ) : (
-        renderTextChildren(meta)
       )}
     </div>
   );
@@ -427,14 +417,12 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
                 {isExperience ? (
                   <>
                     <p id={titleId} className="typography-body-default-16px-semibold m-0 truncate">
-                      {renderContainedText(title)}
+                      {title}
                     </p>
-                    {subtitle || verified || aiDisclosure ? (
+                    {(subtitle || verified || aiDisclosure) && (
                       <CreatorName {...badges} className="typography-body-small-14px-regular">
                         {subtitle}
                       </CreatorName>
-                    ) : (
-                      renderTextChildren(subtitle || verified || aiDisclosure)
                     )}
                   </>
                 ) : (
@@ -446,22 +434,14 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
                     >
                       {title}
                     </CreatorName>
-                    {subtitle ? (
-                      <p className="typography-body-small-14px-regular m-0 truncate">
-                        {renderContainedText(subtitle)}
-                      </p>
-                    ) : (
-                      renderTextChildren(subtitle)
+                    {subtitle && (
+                      <p className="typography-body-small-14px-regular m-0 truncate">{subtitle}</p>
                     )}
                   </>
                 )}
               </div>
             </div>
-            {action ? (
-              <div className="relative z-[2] shrink-0">{renderContainedText(action)}</div>
-            ) : (
-              renderTextChildren(action)
-            )}
+            {action && <div className="relative z-[2] shrink-0">{action}</div>}
           </div>
         </div>
       </div>
@@ -527,15 +507,13 @@ export const ChatEmbedUnavailable = React.forwardRef<HTMLDivElement, ChatEmbedUn
         )}
         {...props}
       >
-        {icon ? (
+        {icon && (
           <span aria-hidden="true" className="flex">
-            {renderContainedText(icon)}
+            {icon}
           </span>
-        ) : (
-          renderTextChildren(icon)
         )}
         <p className="typography-body-small-14px-regular m-0">
-          {renderContainedText(children ?? DEFAULT_UNAVAILABLE[variant])}
+          {children ?? DEFAULT_UNAVAILABLE[variant]}
         </p>
       </div>
     );

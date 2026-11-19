@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Button, type ButtonProps } from "../Button/Button";
 import { WarningIcon } from "../Icons/WarningIcon";
 
@@ -109,18 +108,14 @@ export const CriticalBanner = React.forwardRef<HTMLDivElement, CriticalBannerPro
 
     const iconNode = (
       <span className="shrink-0 text-alerts-critical-banner-icons" aria-hidden="true">
-        {renderContainedText(icon ?? <WarningIcon filled size={32} />)}
+        {icon ?? <WarningIcon filled size={32} />}
       </span>
     );
 
     const textColumn = (
       <div className="flex min-w-0 flex-col gap-1 break-words pt-1 text-alerts-critical-banner-content">
-        {title ? (
-          <div className="typography-header-heading-xs">{renderContainedText(title)}</div>
-        ) : (
-          renderTextChildren(title)
-        )}
-        <div className="typography-body-default-16px-regular">{renderContainedText(children)}</div>
+        {title && <div className="typography-header-heading-xs">{title}</div>}
+        <div className="typography-body-default-16px-regular">{children}</div>
       </div>
     );
 
@@ -138,7 +133,7 @@ export const CriticalBanner = React.forwardRef<HTMLDivElement, CriticalBannerPro
           {iconNode}
           <div className="flex min-w-0 flex-1 flex-col items-start gap-6">
             {textColumn}
-            {cta !== null && <div className="shrink-0">{renderContainedText(cta)}</div>}
+            {cta !== null && <div className="shrink-0">{cta}</div>}
           </div>
         </div>
       );
@@ -158,7 +153,7 @@ export const CriticalBanner = React.forwardRef<HTMLDivElement, CriticalBannerPro
           {iconNode}
           {textColumn}
         </div>
-        {cta !== null && <div className="shrink-0">{renderContainedText(cta)}</div>}
+        {cta !== null && <div className="shrink-0">{cta}</div>}
       </div>
     );
   },

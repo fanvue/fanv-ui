@@ -35,18 +35,10 @@ export const DropdownMenuLabel = React.forwardRef<
   // DropdownMenuPrimitive.Label requires Radix menu context, unavailable when
   // the sheet variant renders inside a Drawer (Dialog) instead.
   if (variant === "sheet") {
-    return (
-      <div ref={ref} className={labelClassName} {...props}>
-        {renderContainedText(props.children)}
-      </div>
-    );
+    return <div ref={ref} className={labelClassName} {...props} />;
   }
 
-  return (
-    <DropdownMenuPrimitive.Label ref={ref} className={labelClassName} {...props}>
-      {renderContainedText(props.children)}
-    </DropdownMenuPrimitive.Label>
-  );
+  return <DropdownMenuPrimitive.Label ref={ref} className={labelClassName} {...props} />;
 });
 DropdownMenuLabel.displayName = "DropdownMenuLabel";
 
@@ -241,7 +233,7 @@ export const DropdownMenuItem = React.forwardRef<
           "group-data-[disabled]:text-content-disabled",
         )}
       >
-        {renderContainedText(count)}
+        {count}
       </span>
     );
 
@@ -265,14 +257,14 @@ export const DropdownMenuItem = React.forwardRef<
           asChild && trailingIcon == null && "ms-auto",
         )}
       >
-        {renderContainedText(trailingAction)}
+        {trailingAction}
       </span>
     );
 
     const itemChildren = (
       <>
         {avatar != null ? (
-          <span className={cn("shrink-0", iconAlignClassName)}>{renderContainedText(avatar)}</span>
+          <span className={cn("shrink-0", iconAlignClassName)}>{avatar}</span>
         ) : (
           leadingNode
         )}
@@ -420,10 +412,6 @@ export const DropdownMenuSeparator = React.forwardRef<
     return <hr ref={ref as React.Ref<HTMLHRElement>} className={separatorClassName} {...props} />;
   }
 
-  return (
-    <DropdownMenuPrimitive.Separator ref={ref} className={separatorClassName} {...props}>
-      {renderContainedText(props.children)}
-    </DropdownMenuPrimitive.Separator>
-  );
+  return <DropdownMenuPrimitive.Separator ref={ref} className={separatorClassName} {...props} />;
 });
 DropdownMenuSeparator.displayName = "DropdownMenuSeparator";

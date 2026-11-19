@@ -78,9 +78,7 @@ export const TableCard = React.forwardRef<HTMLDivElement, TableCardProps>(
             className,
           )}
           {...props}
-        >
-          {renderContainedText(props.children)}
-        </div>
+        />
       </TableSizeContext.Provider>
     );
   },
@@ -116,10 +114,10 @@ export const TableToolbar = React.forwardRef<HTMLDivElement, TableToolbarProps>(
         )}
         {...props}
       >
-        <div className="flex min-w-24 flex-1 items-center">{renderContainedText(search)}</div>
+        <div className="flex min-w-24 flex-1 items-center">{search}</div>
         {children != null && (
           <div className="flex min-w-0 items-center gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {renderContainedText(children)}
+            {children}
           </div>
         )}
       </div>
@@ -199,7 +197,7 @@ export const TableToolbarAction = React.forwardRef<HTMLButtonElement, TableToolb
         )}
         {...props}
       >
-        <span className="max-md:sr-only">{renderContainedText(children)}</span>
+        <span className="max-md:sr-only">{children}</span>
         <span
           aria-hidden
           className={cn(
@@ -207,7 +205,7 @@ export const TableToolbarAction = React.forwardRef<HTMLButtonElement, TableToolb
             active ? "text-brand-primary-default" : "text-icons-secondary",
           )}
         >
-          {renderContainedText(icon ?? <TranscationArrowIcon size={16} />)}
+          {icon ?? <TranscationArrowIcon size={16} />}
         </span>
       </button>
     );
@@ -361,7 +359,7 @@ export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaP
               "pb-3 [scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]",
           )}
         >
-          {renderContainedText(children)}
+          {children}
         </div>
       </div>
     );
@@ -384,9 +382,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
           className,
         )}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </table>
+      />
     );
   },
 );
@@ -396,11 +392,7 @@ export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionE
 
 export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   ({ className, ...props }, ref) => {
-    return (
-      <thead ref={ref} className={cn(className)} {...props}>
-        {renderContainedText(props.children)}
-      </thead>
-    );
+    return <thead ref={ref} className={cn(className)} {...props} />;
   },
 );
 TableHeader.displayName = "TableHeader";
@@ -414,9 +406,7 @@ export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionEle
 export const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ className, ...props }, ref) => {
     return (
-      <tbody ref={ref} className={cn("[&_tr:last-child_td]:border-b-0", className)} {...props}>
-        {renderContainedText(props.children)}
-      </tbody>
+      <tbody ref={ref} className={cn("[&_tr:last-child_td]:border-b-0", className)} {...props} />
     );
   },
 );
@@ -426,11 +416,7 @@ export interface TableFooterProps extends React.HTMLAttributes<HTMLTableSectionE
 
 export const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooterProps>(
   ({ className, ...props }, ref) => {
-    return (
-      <tfoot ref={ref} className={cn(className)} {...props}>
-        {renderContainedText(props.children)}
-      </tfoot>
-    );
+    return <tfoot ref={ref} className={cn(className)} {...props} />;
   },
 );
 TableFooter.displayName = "TableFooter";
@@ -481,9 +467,7 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
           }
         }}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </tr>
+      />
     );
   },
 );
@@ -524,9 +508,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
           className,
         )}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </th>
+      />
     );
   },
 );
@@ -596,9 +578,7 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
           className,
         )}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </td>
+      />
     );
   },
 );
@@ -612,11 +592,7 @@ export interface TableCellGroupProps extends React.HTMLAttributes<HTMLDivElement
  */
 export const TableCellGroup = React.forwardRef<HTMLDivElement, TableCellGroupProps>(
   ({ className, ...props }, ref) => {
-    return (
-      <div ref={ref} className={cn("flex items-center gap-1", className)} {...props}>
-        {renderContainedText(props.children)}
-      </div>
-    );
+    return <div ref={ref} className={cn("flex items-center gap-1", className)} {...props} />;
   },
 );
 TableCellGroup.displayName = "TableCellGroup";
@@ -744,9 +720,7 @@ export const TableMediaTile = React.forwardRef<HTMLSpanElement, TableMediaTilePr
           className,
         )}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </span>
+      />
     );
   },
 );
@@ -764,9 +738,7 @@ export const TableStatusDot = React.forwardRef<HTMLDivElement, TableStatusDotPro
         ref={ref}
         className={cn("size-2 shrink-0 rounded-full bg-info-content", className)}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </div>
+      />
     );
   },
 );
@@ -824,9 +796,7 @@ export const TablePillProgressLayout = React.forwardRef<
       ref={ref}
       className={cn("flex min-w-[120px] flex-col items-start gap-2", className)}
       {...props}
-    >
-      {renderContainedText(props.children)}
-    </div>
+    />
   );
 });
 TablePillProgressLayout.displayName = "TablePillProgressLayout";
@@ -935,9 +905,7 @@ export const TableLineClamp = React.forwardRef<HTMLDivElement, TableLineClampPro
           className,
         )}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </div>
+      />
     );
   },
 );

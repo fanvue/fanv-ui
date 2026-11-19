@@ -2,7 +2,7 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import * as React from "react";
 import { cn } from "@/utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
-import { renderContainedText, renderTextChildren } from "@/utils/renderTextChildren";
+import { renderContainedText } from "@/utils/renderTextChildren";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
@@ -176,15 +176,13 @@ export const Select = React.forwardRef<
               )}
             >
               <div className="flex min-w-0 items-center gap-2">
-                {leftIcon ? (
+                {leftIcon && (
                   <span
                     className="flex size-5 shrink-0 items-center justify-center text-content-secondary"
                     data-testid="left-icon"
                   >
-                    {renderContainedText(leftIcon)}
+                    {leftIcon}
                   </span>
-                ) : (
-                  renderTextChildren(leftIcon)
                 )}
                 <span
                   className={cn(
@@ -203,7 +201,7 @@ export const Select = React.forwardRef<
               </SelectPrimitive.Icon>
             </SelectPrimitive.Trigger>
 
-            {renderTextChildren(children)}
+            {children}
           </SelectPrimitive.Root>
 
           {bottomText && (
@@ -268,7 +266,7 @@ export const SelectContent = React.forwardRef<
         <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-2">
           {/* A select opened from inside a menu row must not inherit that row's icon defaults. */}
           <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
-            {renderTextChildren(children)}
+            {children}
           </IconDefaultsContext.Provider>
         </SelectPrimitive.Viewport>
       </SelectPrimitive.Content>
@@ -358,7 +356,7 @@ export const SelectItem = React.forwardRef<
       {...props}
     >
       {hasAvatar ? (
-        <span className="shrink-0">{renderContainedText(avatar)}</span>
+        <span className="shrink-0">{avatar}</span>
       ) : (
         hasLeadingIcon && (
           // In the two-line row the icon centres on the 18px title line, as in DropdownMenuItem.
@@ -431,9 +429,7 @@ export const SelectLabel = React.forwardRef<
       className,
     )}
     {...props}
-  >
-    {renderContainedText(props.children)}
-  </SelectPrimitive.Label>
+  />
 ));
 
 SelectLabel.displayName = "SelectLabel";
@@ -450,9 +446,7 @@ export const SelectSeparator = React.forwardRef<
     ref={ref}
     className={cn("my-1 h-px bg-neutral-alphas-200", className)}
     {...props}
-  >
-    {renderContainedText(props.children)}
-  </SelectPrimitive.Separator>
+  />
 ));
 
 SelectSeparator.displayName = "SelectSeparator";

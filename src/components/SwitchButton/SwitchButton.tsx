@@ -1,7 +1,6 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { AddIcon } from "../Icons/AddIcon";
 import { AIIcon } from "../Icons/AIIcon";
 
@@ -188,20 +187,16 @@ export const SwitchButton = React.forwardRef<HTMLButtonElement, SwitchButtonProp
         )}
         {...props}
       >
-        {leading ? (
+        {leading && (
           <span className={ICON_SLOT_CLASSES} aria-hidden="true">
-            {renderContainedText(leading)}
+            {leading}
           </span>
-        ) : (
-          renderTextChildren(leading)
         )}
         <span className="min-w-0 truncate">{label}</span>
-        {trailing ? (
+        {trailing && (
           <span className={ICON_SLOT_CLASSES} aria-hidden="true">
-            {renderContainedText(trailing)}
+            {trailing}
           </span>
-        ) : (
-          renderTextChildren(trailing)
         )}
       </button>
     );

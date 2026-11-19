@@ -1,7 +1,6 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { MenuRowIcon } from "../Icons/MenuRowIcon";
 import { DropdownMenuVariantContext } from "./context";
 import {
@@ -43,8 +42,8 @@ function ReorderRowContent({
   return (
     <>
       {leadingIcon != null && <MenuRowIcon>{leadingIcon}</MenuRowIcon>}
-      <span className="min-w-0 flex-1 truncate">{renderContainedText(children)}</span>
-      {trailing != null && <span className="shrink-0">{renderContainedText(trailing)}</span>}
+      <span className="min-w-0 flex-1 truncate">{children}</span>
+      {trailing != null && <span className="shrink-0">{trailing}</span>}
     </>
   );
 }
@@ -61,7 +60,7 @@ function ReorderGhost({
   lifted: ReorderLifted;
   registerGhost: ReorderActions["registerGhost"];
   container: Element;
-  children: React.ReactElement;
+  children: React.ReactNode;
 }) {
   return createPortal(
     <div

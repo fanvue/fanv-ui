@@ -1,7 +1,6 @@
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Props for the {@link AccordionItem} component. */
 export type AccordionItemProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>;
@@ -15,9 +14,7 @@ export const AccordionItem = React.forwardRef<
     ref={ref}
     className={cn("rounded-sm bg-surface-primary", "border border-border-primary", className)}
     {...props}
-  >
-    {renderContainedText(props.children)}
-  </AccordionPrimitive.Item>
+  />
 ));
 
 AccordionItem.displayName = "AccordionItem";

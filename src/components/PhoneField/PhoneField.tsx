@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 
 /** Phone field height in pixels. */
@@ -92,7 +91,7 @@ function PhoneFieldHelperText({
         error ? "text-error-content" : "text-content-tertiary",
       )}
     >
-      {renderContainedText(children)}
+      {children}
     </p>
   );
 }
@@ -201,7 +200,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
           >
             {flag != null && (
               <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full">
-                {renderContainedText(flag)}
+                {flag}
               </span>
             )}
             <ChevronDownIcon size={16} className="shrink-0 text-content-secondary" />
@@ -215,7 +214,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
                 PREFIX_TYPOGRAPHY[size],
               )}
             >
-              {renderContainedText(dialCode)}
+              {dialCode}
             </span>
           )}
 

@@ -2,7 +2,6 @@ import * as React from "react";
 import { Tooltip as RechartsTooltip } from "recharts";
 import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { filterVisiblePayload, resolveConfigEntry } from "./chartUtils";
 import type { ChartConfigEntry } from "./types";
 import { useChart } from "./useChart";
@@ -56,11 +55,6 @@ export interface ChartTooltipContentProps extends React.HTMLAttributes<HTMLDivEl
   color?: string;
 }
 
-function formatValue(value: ValueType) {
-  if (Array.isArray(value)) return value.join("");
-  return typeof value === "number" ? value.toLocaleString() : value;
-}
-
 function TooltipRow({
   item,
   itemConfig,
@@ -76,7 +70,7 @@ function TooltipRow({
   indicatorColor: unknown;
   hideIndicator: boolean;
   nestLabel: boolean;
-  tooltipLabel: React.ReactElement | null;
+  tooltipLabel: React.ReactNode;
 }) {
   return (
     <>
@@ -108,13 +102,11 @@ function TooltipRow({
       >
         <div className="grid gap-1.5">
           {nestLabel ? tooltipLabel : null}
-          <span className="text-content-tertiary">
-            {renderContainedText(itemConfig?.label || item.name)}
-          </span>
+          <span className="text-content-tertiary">{itemConfig?.label || item.name}</span>
         </div>
         {item.value !== undefined && (
           <span className="font-medium font-mono text-content-primary tabular-nums">
-            {renderContainedText(formatValue(item.value))}
+            {typeof item.value === "number" ? item.value.toLocaleString() : item.value}
           </span>
         )}
       </div>
@@ -170,13 +162,13 @@ export const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltip
       if (labelFormatter && payload) {
         return (
           <div className={cn("font-medium", labelClassName)}>
-            {renderContainedText(labelFormatter(value as string | number, payload))}
+            {labelFormatter(value as string | number, payload)}
           </div>
         );
       }
 
       if (!value) return null;
-      return <div className={cn("font-medium", labelClassName)}>{renderContainedText(value)}</div>;
+      return <div className={cn("font-medium", labelClassName)}>{value}</div>;
     }, [label, labelFormatter, payload, hideLabel, labelClassName, config, labelKey]);
 
     if (!active || !payload?.length) return null;
@@ -208,7 +200,7 @@ export const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltip
                 )}
               >
                 {formatter && item?.value !== undefined && item.name ? (
-                  renderContainedText(formatter(item.value, item.name, item, index, payload))
+                  formatter(item.value, item.name, item, index, payload)
                 ) : (
                   <TooltipRow
                     item={item}

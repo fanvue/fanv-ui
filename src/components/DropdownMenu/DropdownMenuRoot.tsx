@@ -3,7 +3,6 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer/Drawer";
 import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
 import { type DropdownMenuVariant, DropdownMenuVariantContext, ToggleOpenContext } from "./context";
@@ -100,7 +99,7 @@ export function DropdownMenu({
     <DropdownMenuVariantContext.Provider value="menu">
       <ToggleOpenContext.Provider value={setOpen}>
         <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen} {...props}>
-          {renderTextChildren(children)}
+          {children}
         </DropdownMenuPrimitive.Root>
       </ToggleOpenContext.Provider>
     </DropdownMenuVariantContext.Provider>
@@ -136,11 +135,7 @@ export const DropdownMenuTrigger = React.forwardRef<
 
   // Used outside our DropdownMenu wrapper — fall through to Radix defaults.
   if (toggleOpen === null) {
-    return (
-      <DropdownMenuPrimitive.Trigger {...props} ref={ref}>
-        {renderContainedText(props.children)}
-      </DropdownMenuPrimitive.Trigger>
-    );
+    return <DropdownMenuPrimitive.Trigger {...props} ref={ref} />;
   }
 
   return (
@@ -191,9 +186,7 @@ export const DropdownMenuTrigger = React.forwardRef<
           tapRef.current = null;
         }
       }}
-    >
-      {renderContainedText(props.children)}
-    </DropdownMenuPrimitive.Trigger>
+    />
   );
 });
 DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
@@ -283,7 +276,7 @@ export const DropdownMenuContent = React.forwardRef<
         >
           {/* A menu opened from inside another menu's row must not inherit that row's icon defaults. */}
           <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
-            {renderTextChildren(children)}
+            {children}
           </IconDefaultsContext.Provider>
         </DrawerContent>
       );
@@ -332,7 +325,7 @@ export const DropdownMenuContent = React.forwardRef<
           {...props}
         >
           <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
-            {renderTextChildren(children)}
+            {children}
           </IconDefaultsContext.Provider>
         </DropdownMenuPrimitive.Content>
       </DropdownMenuPrimitive.Portal>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { PILL_TRACK_CLASS } from "./TabsList";
 
 /** Props for the {@link TabsListSkeleton} component. */
@@ -25,7 +24,7 @@ export type TabsListSkeletonProps = React.HTMLAttributes<HTMLDivElement>;
 export const TabsListSkeleton = React.forwardRef<HTMLDivElement, TabsListSkeletonProps>(
   ({ className, children, ...props }, ref) => (
     <div ref={ref} aria-hidden="true" className={cn(PILL_TRACK_CLASS, className)} {...props}>
-      {renderContainedText(children)}
+      {children}
     </div>
   ),
 );

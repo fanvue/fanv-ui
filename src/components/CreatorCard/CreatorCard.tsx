@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { Avatar } from "../Avatar/Avatar";
 import { VerifiedIcon } from "../Icons/VerifiedIcon";
 import { Pill, type PillProps } from "../Pill/Pill";
@@ -87,7 +86,7 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
       >
         <div className="relative aspect-10/11 w-full shrink-0 overflow-hidden">
           <div className="pointer-events-none absolute inset-0 select-none *:h-full *:w-full [&>img]:object-cover [&>video]:object-cover">
-            {renderContainedText(background)}
+            {background}
           </div>
           {pill ? (
             <Pill
@@ -109,7 +108,7 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
             <div className="flex min-w-0 flex-1 flex-col">
               <div className="flex min-w-0 items-center gap-1">
                 <p className="typography-body-small-14px-semibold m-0 truncate text-content-primary">
-                  {renderContainedText(name)}
+                  {name}
                 </p>
                 {verified ? (
                   <span
@@ -123,17 +122,17 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
               </div>
               {tagline ? (
                 <p className="typography-body-small-14px-regular m-0 truncate text-content-secondary">
-                  {renderContainedText(tagline)}
+                  {tagline}
                 </p>
               ) : null}
             </div>
           </div>
           {content ? (
             <div className="typography-body-small-14px-semibold min-w-0 text-content-primary">
-              {renderContainedText(content)}
+              {content}
             </div>
           ) : null}
-          {action ? <div className="flex w-full">{renderContainedText(action)}</div> : null}
+          {action ? <div className="flex w-full">{action}</div> : null}
         </div>
       </div>
     );

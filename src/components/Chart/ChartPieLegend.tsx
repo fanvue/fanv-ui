@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 
 /** A single item in a {@link ChartPieLegend}. */
 export interface ChartPieLegendItem {
@@ -46,19 +45,17 @@ export const ChartPieLegend = React.forwardRef<HTMLDivElement, ChartPieLegendPro
         {items.map((item) => (
           <div key={`${item.color}-${item.value}`} className="flex flex-col gap-1.5">
             <div className="flex items-center gap-2">
-              {renderTextChildren(
-                item.icon ?? (
-                  <span
-                    className="size-2 shrink-0 rounded-full"
-                    style={{ backgroundColor: item.color }}
-                  />
-                ),
+              {item.icon ?? (
+                <span
+                  className="size-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: item.color }}
+                />
               )}
               <span className="typography-description-12px-regular min-w-0 flex-1 truncate text-content-secondary">
-                {renderContainedText(item.label)}
+                {item.label}
               </span>
               <span className="typography-body-small-14px-semibold text-content-primary tabular-nums">
-                {renderContainedText(item.formattedValue ?? item.value.toLocaleString())}
+                {item.formattedValue ?? item.value.toLocaleString()}
               </span>
             </div>
             <div

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Button } from "../Button/Button";
 
 export type EmptyStateVariant = "default" | "centered";
@@ -151,7 +150,7 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
           id={titleId}
           className={cn("w-full min-w-0 text-content-primary", titleSizeClass[titleSize])}
         >
-          {renderContainedText(title)}
+          {title}
         </div>
       );
 
@@ -165,7 +164,7 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
         </p>
       ) : (
         <div className="typography-body-default-16px-regular w-full min-w-0 text-content-secondary">
-          {renderContainedText(description)}
+          {description}
         </div>
       );
 
@@ -201,7 +200,7 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
       >
         {showMedia && (
           <div className={cn("w-full overflow-hidden rounded-md", mediaSizeClass[mediaSize])}>
-            {renderContainedText(renderedMedia)}
+            {renderedMedia}
           </div>
         )}
 
@@ -220,8 +219,8 @@ export const EmptyState = React.forwardRef<HTMLElement, EmptyStateProps>(
 
           {showActions ? (
             <div className={cn("flex flex-col gap-4", isCentered ? "items-center" : "items-start")}>
-              {renderTextChildren(renderedPrimary)}
-              {renderTextChildren(renderedSecondary)}
+              {renderedPrimary}
+              {renderedSecondary}
             </div>
           ) : null}
         </div>

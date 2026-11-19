@@ -1,7 +1,6 @@
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Allowed pixel sizes for the avatar. */
 export type AvatarSize = 16 | 24 | 32 | 40 | 48 | 64 | 88 | 148;
@@ -86,7 +85,7 @@ const AvatarRoot = React.forwardRef<
             )}
             {...props}
           >
-            {renderTextChildren(children)}
+            {children}
           </AvatarPrimitive.Root>
           {platinumShow && (
             <span
@@ -136,9 +135,7 @@ const AvatarImage = React.forwardRef<
       ref={ref}
       className={cn("size-full object-cover", NSFWShow && "blur-md", className)}
       {...props}
-    >
-      {renderContainedText(props.children)}
-    </AvatarPrimitive.Image>
+    />
   );
 });
 
@@ -162,7 +159,7 @@ const AvatarFallback = React.forwardRef<
     delayMs={0}
     {...props}
   >
-    {renderContainedText(children)}
+    {children}
   </AvatarPrimitive.Fallback>
 ));
 

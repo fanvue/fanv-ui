@@ -7,7 +7,7 @@ interface SliderLayoutProps {
   labelPosition: SliderLabelPosition;
   minLabel?: string;
   maxLabel?: string;
-  children: React.ReactElement;
+  children: React.ReactNode;
 }
 
 export function SliderLayout({

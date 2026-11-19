@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { IconButton } from "../IconButton/IconButton";
 import { CheckOutlineIcon } from "../Icons/CheckOutlineIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
@@ -109,7 +108,7 @@ function TextAreaHelperText({
         error ? "text-error-content" : "text-content-tertiary",
       )}
     >
-      {renderContainedText(children)}
+      {children}
     </p>
   );
 }

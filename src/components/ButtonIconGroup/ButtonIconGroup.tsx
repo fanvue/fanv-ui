@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Orientation of the icon button cluster. */
 export type ButtonIconGroupOrientation = "horizontal" | "vertical";
@@ -74,7 +73,7 @@ export const ButtonIconGroup = React.forwardRef<HTMLDivElement, ButtonIconGroupP
         )}
         {...props}
       >
-        {renderContainedText(children)}
+        {children}
       </div>
     );
   },

@@ -1,7 +1,6 @@
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Props for the {@link AccordionContent} panel component. */
 export type AccordionContentProps = React.ComponentPropsWithoutRef<
@@ -45,7 +44,7 @@ export const AccordionContent = React.forwardRef<
           !noPadding && "px-3 pt-2 pb-3",
         )}
       >
-        {renderContainedText(children)}
+        {children}
       </div>
     </div>
   </AccordionPrimitive.Content>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Card, type CardHierarchy } from "../Card/Card";
 import { IconButton } from "../IconButton/IconButton";
 import { ArrowUpRightIcon } from "../Icons/ArrowUpRightIcon";
@@ -117,9 +116,9 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
             <>
               <div className="flex items-center gap-1">
                 <span className="typography-body-small-14px-regular text-content-secondary">
-                  {renderContainedText(title)}
+                  {title}
                 </span>
-                {tooltip ? (
+                {tooltip && (
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -134,14 +133,12 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                       <TooltipContent>{tooltip}</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                ) : (
-                  renderTextChildren(tooltip)
                 )}
               </div>
-              {subtitle ? (
+              {subtitle && (
                 <div className="flex flex-wrap items-end gap-2">
                   <span className="typography-header-heading-sm text-content-primary">
-                    {renderContainedText(subtitle)}
+                    {subtitle}
                   </span>
                   {trendChip && (
                     <span
@@ -157,29 +154,23 @@ export const ChartCard = React.forwardRef<HTMLDivElement, ChartCardProps>(
                         )}
                       />
                       <span className="typography-body-small-14px-regular whitespace-nowrap">
-                        {renderContainedText(trendChip.label)}
+                        {trendChip.label}
                       </span>
                     </span>
                   )}
                 </div>
-              ) : (
-                renderTextChildren(subtitle)
               )}
-              {dateInfo ? (
+              {dateInfo && (
                 <span className="typography-description-12px-regular text-content-tertiary">
-                  {renderContainedText(dateInfo)}
+                  {dateInfo}
                 </span>
-              ) : (
-                renderTextChildren(dateInfo)
               )}
             </>
           )}
-          {children ? (
+          {children && (
             <div className={cn("mt-auto", fullHeight && "flex min-h-0 flex-1 flex-col")}>
-              {renderContainedText(children)}
+              {children}
             </div>
-          ) : (
-            renderTextChildren(children)
           )}
         </div>
       </Card>

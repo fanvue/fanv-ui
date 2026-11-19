@@ -1,7 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Text size preset controlling the typography of the whole breadcrumb trail. @default "12px" */
 export type BreadcrumbSize = "12px" | "14px" | "16px";
@@ -43,9 +42,7 @@ export interface BreadcrumbProps extends React.ComponentPropsWithoutRef<"nav"> {
  */
 export const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
   ({ "aria-label": ariaLabel = "breadcrumb", ...props }, ref) => (
-    <nav ref={ref} aria-label={ariaLabel} {...props}>
-      {renderContainedText(props.children)}
-    </nav>
+    <nav ref={ref} aria-label={ariaLabel} {...props} />
   ),
 );
 
@@ -79,7 +76,7 @@ export const BreadcrumbList = React.forwardRef<HTMLOListElement, BreadcrumbListP
     return (
       <BreadcrumbSizeContext.Provider value={size}>
         <ol ref={ref} className={cn("flex flex-wrap items-center gap-2", className)} {...props}>
-          {renderContainedText(withSeparators)}
+          {withSeparators}
         </ol>
       </BreadcrumbSizeContext.Provider>
     );
@@ -95,9 +92,7 @@ export interface BreadcrumbItemProps extends React.ComponentPropsWithoutRef<"li"
  */
 export const BreadcrumbItem = React.forwardRef<HTMLLIElement, BreadcrumbItemProps>(
   ({ className, ...props }, ref) => (
-    <li ref={ref} className={cn("inline-flex items-center gap-2", className)} {...props}>
-      {renderContainedText(props.children)}
-    </li>
+    <li ref={ref} className={cn("inline-flex items-center gap-2", className)} {...props} />
   ),
 );
 
@@ -125,9 +120,7 @@ export const BreadcrumbLink = React.forwardRef<HTMLAnchorElement, BreadcrumbLink
           className,
         )}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </Comp>
+      />
     );
   },
 );
@@ -148,9 +141,7 @@ export const BreadcrumbPage = React.forwardRef<HTMLSpanElement, BreadcrumbPagePr
         aria-current="page"
         className={cn(semiboldTypographyBySize[size], "text-content-primary", className)}
         {...props}
-      >
-        {renderContainedText(props.children)}
-      </span>
+      />
     );
   },
 );
@@ -177,7 +168,7 @@ export const BreadcrumbSeparator = React.forwardRef<HTMLLIElement, BreadcrumbSep
         )}
         {...props}
       >
-        {renderContainedText(children ?? "/")}
+        {children ?? "/"}
       </li>
     );
   },

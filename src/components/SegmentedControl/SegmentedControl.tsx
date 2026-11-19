@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { getRootClassName, getSquaredSegmentClassName } from "./segmentedControlClassNames";
 
 /** Height of the segmented control in pixels. */
@@ -484,11 +483,11 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
             disabled,
           })}
         >
-          {option.icon ? (
+          {option.icon && (
             <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
-              {renderContainedText(option.icon)}
+              {option.icon}
             </span>
-          ) : null}
+          )}
           {showLabelText && <span className="min-w-0 truncate">{option.label}</span>}
         </button>
       );
@@ -516,11 +515,11 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
             disabled,
           })}
         >
-          {option.icon ? (
+          {option.icon && (
             <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
-              {renderContainedText(option.icon)}
+              {option.icon}
             </span>
-          ) : null}
+          )}
           {showLabelText && <span className="min-w-0 truncate">{option.label}</span>}
         </button>
       );
@@ -557,7 +556,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
           >
             {(collapsedIcon ?? selectedOption.icon) && (
               <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
-                {renderContainedText(collapsedIcon ?? selectedOption.icon)}
+                {collapsedIcon ?? selectedOption.icon}
               </span>
             )}
           </button>

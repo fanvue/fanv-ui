@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Visual hierarchy of the card. Primary is for prominent, content-carrying cards; secondary for supporting cards within denser layouts. */
 export type CardHierarchy = "primary" | "secondary";
@@ -140,7 +139,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
           )}
           {...props}
         >
-          {renderContainedText(children)}
+          {children}
         </div>
       </CardContext.Provider>
     );
@@ -156,12 +155,8 @@ export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, action, children, ...props }, ref) => {
     return (
       <div ref={ref} className={cn("flex min-h-8 items-center gap-2", className)} {...props}>
-        <div className="min-w-0 flex-1">{renderContainedText(children)}</div>
-        {action ? (
-          <div className="shrink-0">{renderContainedText(action)}</div>
-        ) : (
-          renderTextChildren(action)
-        )}
+        <div className="min-w-0 flex-1">{children}</div>
+        {action && <div className="shrink-0">{action}</div>}
       </div>
     );
   },
@@ -184,7 +179,7 @@ export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
         )}
         {...props}
       >
-        {renderContainedText(children)}
+        {children}
       </h3>
     );
   },
@@ -200,7 +195,7 @@ export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescri
         className={cn("typography-description-12px-regular text-content-secondary", className)}
         {...props}
       >
-        {renderContainedText(children)}
+        {children}
       </p>
     );
   },
@@ -218,7 +213,7 @@ export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
     const padding = type === "container" ? undefined : type === "header-only" ? "pt-6" : "py-6";
     return (
       <div ref={ref} className={cn("flex-1", padding, className)} {...props}>
-        {renderContainedText(children)}
+        {children}
       </div>
     );
   },
@@ -230,7 +225,7 @@ export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
   ({ className, children, ...props }, ref) => {
     return (
       <div ref={ref} className={cn("flex w-full items-center gap-2", className)} {...props}>
-        {renderContainedText(children)}
+        {children}
       </div>
     );
   },

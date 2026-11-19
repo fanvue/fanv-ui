@@ -1,11 +1,7 @@
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "@/utils/cn.ts";
-import {
-  renderContainedText,
-  renderSlottedText,
-  renderTextChildren,
-} from "../../utils/renderTextChildren";
+import { renderContainedText, renderSlottedText } from "../../utils/renderTextChildren";
 
 const badgeVariants = {
   variant: {
@@ -129,15 +125,13 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         onClick={onClick}
         {...props}
       >
-        {leftIcon ? (
+        {leftIcon && (
           <span
             className="flex shrink-0 items-center justify-center [&>svg]:size-2.5"
             aria-hidden="true"
           >
-            {renderContainedText(leftIcon)}
+            {leftIcon}
           </span>
-        ) : (
-          renderTextChildren(leftIcon)
         )}
         {leftDot && (
           <span
@@ -152,15 +146,13 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
             {renderContainedText(children)}
           </span>
         )}
-        {rightIcon ? (
+        {rightIcon && (
           <span
             className="flex shrink-0 items-center justify-center [&>svg]:size-2.5"
             aria-hidden="true"
           >
-            {renderContainedText(rightIcon)}
+            {rightIcon}
           </span>
-        ) : (
-          renderTextChildren(rightIcon)
         )}
       </Comp>
     );

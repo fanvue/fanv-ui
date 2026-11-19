@@ -2,7 +2,6 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { Button } from "../Button/Button";
 
@@ -29,11 +28,7 @@ export type InfoBoxTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverP
 export const InfoBoxTrigger = React.forwardRef<
   React.ComponentRef<typeof PopoverPrimitive.Trigger>,
   InfoBoxTriggerProps
->((props, ref) => (
-  <PopoverPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)}>
-    {renderContainedText(useSuppressClickAfterDrag(props).children)}
-  </PopoverPrimitive.Trigger>
-));
+>((props, ref) => <PopoverPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
 InfoBoxTrigger.displayName = "InfoBoxTrigger";
 
 /** Action button with a label and click handler. */
@@ -137,34 +132,22 @@ export const InfoBoxContent = React.forwardRef<
           <div className="flex flex-col gap-3">
             {hasHeader && (
               <div className="flex items-center gap-3">
-                {icon ? (
-                  <div className="size-5 shrink-0">{renderContainedText(icon)}</div>
-                ) : (
-                  renderTextChildren(icon)
-                )}
-                {heading ? (
+                {icon && <div className="size-5 shrink-0">{icon}</div>}
+                {heading && (
                   <p
                     id={headingId}
                     className="typography-body-default-16px-semibold min-w-0 flex-1 text-content-primary-inverted"
                   >
-                    {renderContainedText(heading)}
+                    {heading}
                   </p>
-                ) : (
-                  renderTextChildren(heading)
                 )}
-                {pill ? (
-                  <div className="shrink-0">{renderContainedText(pill)}</div>
-                ) : (
-                  renderTextChildren(pill)
-                )}
+                {pill && <div className="shrink-0">{pill}</div>}
               </div>
             )}
-            {children ? (
+            {children && (
               <div className="typography-body-small-14px-regular text-content-primary-inverted">
-                {renderContainedText(children)}
+                {children}
               </div>
-            ) : (
-              renderTextChildren(children)
             )}
             {hasActions && (
               <div className="flex items-center gap-1">

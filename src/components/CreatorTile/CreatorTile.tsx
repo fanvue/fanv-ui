@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 import { Avatar } from "../Avatar/Avatar";
 
 /** Width-to-height ratio preset for the tile. */
@@ -79,7 +78,7 @@ export const CreatorTile = React.forwardRef<HTMLDivElement, CreatorTileProps>(
         {...props}
       >
         <div className="pointer-events-none absolute inset-0 select-none *:h-full *:w-full [&>img]:object-cover [&>video]:object-cover">
-          {renderContainedText(background)}
+          {background}
         </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-b-[inherit] bg-linear-to-t from-black/60 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 overflow-hidden rounded-b-[inherit] backdrop-blur-md [-webkit-mask-image:linear-gradient(to_top,black,transparent)] [mask-image:linear-gradient(to_top,black,transparent)]" />
@@ -94,16 +93,16 @@ export const CreatorTile = React.forwardRef<HTMLDivElement, CreatorTileProps>(
             />
             <div className="flex min-w-0 flex-col">
               <p className="typography-body-default-16px-semibold m-0 truncate text-white">
-                {renderContainedText(name)}
+                {name}
               </p>
               {tagline ? (
                 <p className="typography-body-small-14px-semibold m-0 truncate text-white/50">
-                  {renderContainedText(tagline)}
+                  {tagline}
                 </p>
               ) : null}
             </div>
           </div>
-          {action ? <div className="shrink-0">{renderContainedText(action)}</div> : null}
+          {action ? <div className="shrink-0">{action}</div> : null}
         </div>
       </div>
     );

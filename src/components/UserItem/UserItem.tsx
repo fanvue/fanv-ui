@@ -1,7 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { getInitials } from "../../utils/getInitials";
-import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Avatar } from "../Avatar/Avatar";
 import { BellOffIcon } from "../Icons/BellOffIcon";
 import { UserDisplayName } from "../UserDisplayName/UserDisplayName";
@@ -149,33 +148,25 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
           />
         )}
         <div className="flex-1 overflow-hidden pl-2">
-          {renderTextChildren(
-            primary ?? (
-              <UserDisplayName
-                aiDisclosure={aiDisclosure}
-                aiDisclosureLabel={aiDisclosureLabel}
-                verified={verified}
-                verifiedLabel={verifiedLabel}
-                className="typography-body-small-14px-semibold"
-              >
-                {user.nickname || user.displayName}
-              </UserDisplayName>
-            ),
+          {primary ?? (
+            <UserDisplayName
+              aiDisclosure={aiDisclosure}
+              aiDisclosureLabel={aiDisclosureLabel}
+              verified={verified}
+              verifiedLabel={verifiedLabel}
+              className="typography-body-small-14px-semibold"
+            >
+              {user.nickname || user.displayName}
+            </UserDisplayName>
           )}
-          {secondary ? (
+          {secondary && (
             <p className="typography-description-12px-regular truncate text-content-secondary">
-              {renderContainedText(secondary)}
+              {secondary}
             </p>
-          ) : (
-            renderTextChildren(secondary)
           )}
           {showHandle && <UserHandle>{user.handle}</UserHandle>}
         </div>
-        {trailing ? (
-          <div className="shrink-0 pl-2">{renderContainedText(trailing)}</div>
-        ) : (
-          renderTextChildren(trailing)
-        )}
+        {trailing && <div className="shrink-0 pl-2">{trailing}</div>}
       </div>
     );
   },

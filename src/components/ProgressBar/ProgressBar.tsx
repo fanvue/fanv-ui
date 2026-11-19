@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Track height — `"default"` (12px), `"medium"` (8px) or `"small"` (6px). */
 export type ProgressBarSize = "default" | "medium" | "small";
@@ -150,9 +149,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
         {showHeader && (
           <div className="flex w-full items-end justify-between">
             {title != null && (
-              <p className="typography-description-12px-semibold text-content-primary">
-                {renderContainedText(title)}
-              </p>
+              <p className="typography-description-12px-semibold text-content-primary">{title}</p>
             )}
             {showCompletion && (
               <span
@@ -166,7 +163,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
             )}
             {stepsLabel != null && (
               <span className="typography-description-12px-regular text-content-primary">
-                {renderContainedText(stepsLabel)}
+                {stepsLabel}
               </span>
             )}
           </div>
@@ -195,18 +192,18 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
             <div className="flex items-center gap-1">
               {leftIcon != null && (
                 <span className="flex size-5 items-center justify-center" aria-hidden="true">
-                  {renderContainedText(leftIcon)}
+                  {leftIcon}
                 </span>
               )}
               {helperLeft != null && (
                 <span className="typography-description-12px-regular text-content-primary">
-                  {renderContainedText(helperLeft)}
+                  {helperLeft}
                 </span>
               )}
             </div>
             {helperRight != null && (
               <span className="typography-description-12px-regular text-content-primary">
-                {renderContainedText(helperRight)}
+                {helperRight}
               </span>
             )}
           </div>
