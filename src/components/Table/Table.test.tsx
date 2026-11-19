@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
@@ -236,21 +236,82 @@ describe("Table", () => {
       vi.unstubAllGlobals();
     });
 
-    it("pins header cells to the top of the scroll area", () => {
-      const { container } = render(
+    it("pins the header row's cells, not row headers in the body", () => {
+      render(
         <TableCard>
           <TableScrollArea>
             <Table>
-              <TableHeader>
+              <TableHeader data-testid="header">
                 <TableRow>
                   <TableHead>Column</TableHead>
                 </TableRow>
               </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableHead scope="row">Row header</TableHead>
+                </TableRow>
+              </TableBody>
             </Table>
           </TableScrollArea>
         </TableCard>,
       );
-      expect(container.querySelector("th")).toHaveClass("sticky", "top-0");
+      expect(screen.getByTestId("header")).toHaveClass(
+        "[&_th]:sticky",
+        "[&_th]:top-0",
+        "[&_th]:z-10",
+      );
+      expect(screen.getByRole("columnheader", { name: "Column" })).toBeInTheDocument();
+      expect(screen.getByRole("rowheader", { name: "Row header" })).not.toHaveClass("sticky");
+    });
+
+    it("measures a table that replaces a placeholder after mount", async () => {
+      const observed = new Set<Element>();
+      vi.stubGlobal(
+        "ResizeObserver",
+        class {
+          observe(element: Element) {
+            observed.add(element);
+          }
+          unobserve() {}
+          disconnect() {
+            observed.clear();
+          }
+        },
+      );
+      const scrollWidth = vi
+        .spyOn(HTMLElement.prototype, "scrollWidth", "get")
+        .mockReturnValue(400);
+      const clientWidth = vi
+        .spyOn(HTMLElement.prototype, "clientWidth", "get")
+        .mockReturnValue(400);
+
+      const { container, rerender } = render(
+        <TableScrollArea showScrollbar>
+          <div>Loading</div>
+        </TableScrollArea>,
+      );
+      const scrollport = container.querySelector("[data-table-scrollport]");
+      expect(scrollport).not.toHaveClass("pb-3");
+
+      scrollWidth.mockReturnValue(900);
+      rerender(
+        <TableScrollArea showScrollbar>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>Value</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableScrollArea>,
+      );
+
+      await waitFor(() => expect(scrollport).toHaveClass("pb-3"));
+      expect(observed.has(container.querySelector("table") as Element)).toBe(true);
+
+      scrollWidth.mockRestore();
+      clientWidth.mockRestore();
+      vi.unstubAllGlobals();
     });
 
     it("lets the scroll area take the card's height and scroll vertically", () => {

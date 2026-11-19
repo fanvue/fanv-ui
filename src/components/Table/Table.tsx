@@ -349,13 +349,27 @@ export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaP
         return;
       }
       const measure = () => setOverflowsX(scrollport.scrollWidth > scrollport.clientWidth);
-      measure();
-      const observer = new ResizeObserver(measure);
-      observer.observe(scrollport);
-      if (scrollport.firstElementChild) {
-        observer.observe(scrollport.firstElementChild);
-      }
-      return () => observer.disconnect();
+      const resizeObserver = new ResizeObserver(measure);
+      // Content can be swapped after mount (a skeleton replaced by the table),
+      // so the observed elements are refreshed whenever the content changes.
+      const observeContent = () => {
+        resizeObserver.disconnect();
+        resizeObserver.observe(scrollport);
+        for (const element of [
+          ...Array.from(scrollport.children),
+          ...Array.from(scrollport.querySelectorAll("table")),
+        ]) {
+          resizeObserver.observe(element);
+        }
+        measure();
+      };
+      observeContent();
+      const mutationObserver = new MutationObserver(observeContent);
+      mutationObserver.observe(scrollport, { childList: true, subtree: true });
+      return () => {
+        mutationObserver.disconnect();
+        resizeObserver.disconnect();
+      };
     }, [showScrollbar]);
 
     return (
@@ -408,9 +422,20 @@ Table.displayName = "Table";
 
 export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionElement> {}
 
+/**
+ * `<thead>` wrapper. Its header cells stay pinned to the top while rows
+ * scroll beneath them. Row header cells in {@link TableBody} scroll with
+ * their rows.
+ */
 export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   ({ className, ...props }, ref) => {
-    return <thead ref={ref} className={cn(className)} {...props} />;
+    return (
+      <thead
+        ref={ref}
+        className={cn("[&_th]:sticky [&_th]:top-0 [&_th]:z-10", className)}
+        {...props}
+      />
+    );
   },
 );
 TableHeader.displayName = "TableHeader";
@@ -473,7 +498,7 @@ export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElem
 
 /**
  * Header cell: 32px tall on `surface-table-row`, 12px secondary text and a
- * 0.5px bottom rule. It stays pinned to the top while rows scroll beneath it. Columns sit at least 40px apart, with 16px against the
+ * 0.5px bottom rule. Columns sit at least 40px apart, with 16px against the
  * card edges.
  */
 export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
@@ -483,7 +508,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         ref={ref}
         scope={scope}
         className={cn(
-          "typography-description-12px-regular sticky top-0 z-10 box-border h-8 whitespace-nowrap border-border-primary border-b-[0.5px] bg-surface-table-row py-0 align-middle font-normal text-content-secondary",
+          "typography-description-12px-regular box-border h-8 whitespace-nowrap border-border-primary border-b-[0.5px] bg-surface-table-row py-0 align-middle font-normal text-content-secondary",
           CELL_GUTTERS,
           HEAD_INTENT_CLASSES[intent],
           className,
