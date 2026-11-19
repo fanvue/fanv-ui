@@ -14,6 +14,7 @@ import {
   type WeeksProps,
 } from "react-day-picker";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 import type { OmitDistributed } from "../../utils/types";
 import { Button } from "../Button/Button";
 import { ChevronLeftIcon } from "../Icons/ChevronLeftIcon";
@@ -56,7 +57,9 @@ function Day({ day, modifiers, className, ...divProps }: DayProps) {
         inRange && range_end && "rounded-r-sm",
       )}
       {...divProps}
-    />
+    >
+      {renderContainedText(divProps.children)}
+    </div>
   );
 }
 
@@ -90,7 +93,9 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
         modifiers.outside && "pointer-events-none text-content-disabled",
       )}
       {...buttonProps}
-    />
+    >
+      {renderContainedText(buttonProps.children)}
+    </button>
   );
 }
 
@@ -221,11 +226,31 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
              */
             Chevron: ({ orientation }: ChevronProps) =>
               orientation === "left" ? <ChevronLeftIcon /> : <ChevronRightIcon />,
-            MonthGrid: (props: MonthGridProps) => <div role="grid" {...props} />,
-            Weekdays: (props: WeekdaysProps) => <div role="row" {...props} />,
-            Weekday: (props: WeekdayProps) => <div role="columnheader" {...props} />,
-            Weeks: (props: WeeksProps) => <div role="rowgroup" {...props} />,
-            Week: ({ week, ...props }: WeekProps) => <div role="row" {...props} />,
+            MonthGrid: (props: MonthGridProps) => (
+              <div role="grid" {...props}>
+                {renderContainedText(props.children)}
+              </div>
+            ),
+            Weekdays: (props: WeekdaysProps) => (
+              <div role="row" {...props}>
+                {renderContainedText(props.children)}
+              </div>
+            ),
+            Weekday: (props: WeekdayProps) => (
+              <div role="columnheader" {...props}>
+                {renderContainedText(props.children)}
+              </div>
+            ),
+            Weeks: (props: WeeksProps) => (
+              <div role="rowgroup" {...props}>
+                {renderContainedText(props.children)}
+              </div>
+            ),
+            Week: ({ week, ...props }: WeekProps) => (
+              <div role="row" {...props}>
+                {renderContainedText(props.children)}
+              </div>
+            ),
             Day,
             DayButton,
           }}

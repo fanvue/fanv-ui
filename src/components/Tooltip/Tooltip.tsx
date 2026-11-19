@@ -26,7 +26,11 @@ const DEFAULT_DELAY_DURATION = 200;
 export const TooltipProvider = ({
   delayDuration = DEFAULT_DELAY_DURATION,
   ...props
-}: TooltipProviderProps) => <TooltipPrimitive.Provider delayDuration={delayDuration} {...props} />;
+}: TooltipProviderProps) => (
+  <TooltipPrimitive.Provider delayDuration={delayDuration} {...props}>
+    {renderTextChildren(props.children)}
+  </TooltipPrimitive.Provider>
+);
 TooltipProvider.displayName = "TooltipProvider";
 
 /** Props for the {@link Tooltip} root component. */

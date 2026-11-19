@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Colour mode for a progress bar item — brand green or theme-aware monochrome. */
 export type ProgressBarItemVariant = "brand" | "mono";
@@ -45,7 +46,9 @@ export const ProgressBarItem = React.forwardRef<HTMLDivElement, ProgressBarItemP
         className,
       )}
       {...props}
-    />
+    >
+      {renderContainedText(props.children)}
+    </div>
   ),
 );
 

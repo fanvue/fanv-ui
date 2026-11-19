@@ -34,7 +34,11 @@ export type DialogTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPri
 export const DialogTrigger = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Trigger>,
   DialogTriggerProps
->((props, ref) => <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
+>((props, ref) => (
+  <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)}>
+    {renderContainedText(useSuppressClickAfterDrag(props).children)}
+  </DialogPrimitive.Trigger>
+));
 DialogTrigger.displayName = "DialogTrigger";
 
 /** Convenience alias for Radix `Dialog.Close`. Closes the dialog when clicked. */
@@ -62,7 +66,9 @@ export const DialogOverlay = React.forwardRef<
     )}
     style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
     {...props}
-  />
+  >
+    {renderContainedText(props.children)}
+  </DialogPrimitive.Overlay>
 ));
 DialogOverlay.displayName = "DialogOverlay";
 
@@ -356,7 +362,9 @@ export const DialogTitle = React.forwardRef<
     ref={ref}
     className={cn("typography-header-heading-xs text-content-primary", className)}
     {...props}
-  />
+  >
+    {renderContainedText(props.children)}
+  </DialogPrimitive.Title>
 ));
 DialogTitle.displayName = "DialogTitle";
 
@@ -374,7 +382,9 @@ export const DialogDescription = React.forwardRef<
     ref={ref}
     className={cn("typography-body-default-16px-regular text-content-secondary", className)}
     {...props}
-  />
+  >
+    {renderContainedText(props.children)}
+  </DialogPrimitive.Description>
 ));
 DialogDescription.displayName = "DialogDescription";
 
@@ -414,7 +424,9 @@ export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
         className,
       )}
       {...props}
-    />
+    >
+      {renderContainedText(props.children)}
+    </div>
   ),
 );
 DialogBody.displayName = "DialogBody";
@@ -431,7 +443,9 @@ export const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
       ref={ref}
       className={cn("flex shrink-0 items-center gap-2", "[&>*]:min-w-0 [&>*]:flex-1", className)}
       {...props}
-    />
+    >
+      {renderContainedText(props.children)}
+    </div>
   ),
 );
 DialogFooter.displayName = "DialogFooter";

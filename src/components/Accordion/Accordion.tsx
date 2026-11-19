@@ -1,6 +1,7 @@
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Props for the {@link Accordion} root component. Extends Radix `Accordion.Root` props. */
 export type AccordionProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>;
@@ -29,7 +30,9 @@ export const Accordion = React.forwardRef<
   React.ComponentRef<typeof AccordionPrimitive.Root>,
   AccordionProps
 >(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Root ref={ref} className={cn("space-y-2", className)} {...props} />
+  <AccordionPrimitive.Root ref={ref} className={cn("space-y-2", className)} {...props}>
+    {renderTextChildren(props.children)}
+  </AccordionPrimitive.Root>
 ));
 
 Accordion.displayName = "Accordion";

@@ -1,5 +1,6 @@
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import * as React from "react";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Props for the {@link RadioGroup} component. Extends the Radix `RadioGroup.Root` props. */
 export type RadioGroupProps = React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>;
@@ -20,7 +21,11 @@ export const RadioGroup = React.forwardRef<
   React.ComponentRef<typeof RadioGroupPrimitive.Root>,
   RadioGroupProps
 >((props, ref) => {
-  return <RadioGroupPrimitive.Root ref={ref} {...props} />;
+  return (
+    <RadioGroupPrimitive.Root ref={ref} {...props}>
+      {renderTextChildren(props.children)}
+    </RadioGroupPrimitive.Root>
+  );
 });
 
 RadioGroup.displayName = "RadioGroup";

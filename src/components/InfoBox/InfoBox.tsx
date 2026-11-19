@@ -29,7 +29,11 @@ export type InfoBoxTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverP
 export const InfoBoxTrigger = React.forwardRef<
   React.ComponentRef<typeof PopoverPrimitive.Trigger>,
   InfoBoxTriggerProps
->((props, ref) => <PopoverPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
+>((props, ref) => (
+  <PopoverPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)}>
+    {renderContainedText(useSuppressClickAfterDrag(props).children)}
+  </PopoverPrimitive.Trigger>
+));
 InfoBoxTrigger.displayName = "InfoBoxTrigger";
 
 /** Action button with a label and click handler. */

@@ -57,7 +57,12 @@ import { ReviewCard } from "../components/ReviewCard/ReviewCard";
 import { Select, SelectContent, SelectItem } from "../components/Select/Select";
 import { Snackbar } from "../components/Snackbar/Snackbar";
 import { SubscribeButton } from "../components/SubscribeButton/SubscribeButton";
-import { TableCellContent, TableSortLabel, TableToolbarAction } from "../components/Table/Table";
+import {
+  TableCell,
+  TableCellContent,
+  TableSortLabel,
+  TableToolbarAction,
+} from "../components/Table/Table";
 import { TableMobileRow } from "../components/Table/TableMobileRow";
 import { TableCardPagination } from "../components/Table/TablePagination";
 import { Tabs } from "../components/Tabs/Tabs";
@@ -1019,5 +1024,30 @@ export const translationCases: [string, (changed: boolean) => ReactElement][] = 
   [
     "Button icon slot count changes",
     (changed) => <Button leftIcon={[changed ? "6" : "5", <svg key="icon" />]}>Inbox</Button>,
+  ],
+  [
+    "TableCell count beside a badge clears",
+    (changed) => (
+      <table>
+        <tbody>
+          <tr>
+            <TableCell>
+              {changed ? null : 5}
+              <Badge>New</Badge>
+            </TableCell>
+          </tr>
+        </tbody>
+      </table>
+    ),
+  ],
+  [
+    "DropdownMenuContent loading text becomes an item",
+    (changed) => (
+      <DropdownMenu open>
+        <DropdownMenuContent>
+          {changed ? <DropdownMenuItem>First</DropdownMenuItem> : "Loading"}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
   ],
 ];

@@ -101,7 +101,7 @@ export function Drawer({ overlay = true, modal, children, ...props }: DrawerProp
   return (
     <DrawerContext.Provider value={{ overlay }}>
       <DialogPrimitive.Root modal={resolvedModal} {...props}>
-        {renderContainedText(children)}
+        {renderTextChildren(children)}
       </DialogPrimitive.Root>
     </DrawerContext.Provider>
   );
@@ -121,7 +121,11 @@ export type DrawerTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPri
 export const DrawerTrigger = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Trigger>,
   DrawerTriggerProps
->((props, ref) => <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
+>((props, ref) => (
+  <DialogPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)}>
+    {renderContainedText(useSuppressClickAfterDrag(props).children)}
+  </DialogPrimitive.Trigger>
+));
 DrawerTrigger.displayName = "DrawerTrigger";
 
 /** Props for the {@link DrawerClose} component. */
@@ -154,7 +158,9 @@ export const DrawerOverlay = React.forwardRef<
       className,
     )}
     {...props}
-  />
+  >
+    {renderContainedText(props.children)}
+  </DialogPrimitive.Overlay>
 ));
 DrawerOverlay.displayName = "DrawerOverlay";
 
@@ -335,7 +341,9 @@ export interface DrawerFooterProps extends React.HTMLAttributes<HTMLDivElement> 
 /** A semantic footer area for the drawer, typically containing action buttons. */
 export const DrawerFooter = React.forwardRef<HTMLDivElement, DrawerFooterProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex flex-col gap-2 p-4", className)} {...props} />
+    <div ref={ref} className={cn("flex flex-col gap-2 p-4", className)} {...props}>
+      {renderContainedText(props.children)}
+    </div>
   ),
 );
 DrawerFooter.displayName = "DrawerFooter";
@@ -353,7 +361,9 @@ export const DrawerTitle = React.forwardRef<
     ref={ref}
     className={cn("typography-body-default-16px-semibold truncate text-content-primary", className)}
     {...props}
-  />
+  >
+    {renderContainedText(props.children)}
+  </DialogPrimitive.Title>
 ));
 DrawerTitle.displayName = "DrawerTitle";
 
@@ -370,6 +380,8 @@ export const DrawerDescription = React.forwardRef<
     ref={ref}
     className={cn("typography-body-small-14px-regular text-content-secondary", className)}
     {...props}
-  />
+  >
+    {renderContainedText(props.children)}
+  </DialogPrimitive.Description>
 ));
 DrawerDescription.displayName = "DrawerDescription";

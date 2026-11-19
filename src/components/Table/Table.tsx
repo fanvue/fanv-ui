@@ -69,7 +69,9 @@ export const TableCard = React.forwardRef<HTMLDivElement, TableCardProps>(
             className,
           )}
           {...props}
-        />
+        >
+          {renderContainedText(props.children)}
+        </div>
       </TableSizeContext.Provider>
     );
   },
@@ -373,7 +375,9 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
           className,
         )}
         {...props}
-      />
+      >
+        {renderContainedText(props.children)}
+      </table>
     );
   },
 );
@@ -383,7 +387,11 @@ export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionE
 
 export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   ({ className, ...props }, ref) => {
-    return <thead ref={ref} className={cn(className)} {...props} />;
+    return (
+      <thead ref={ref} className={cn(className)} {...props}>
+        {renderContainedText(props.children)}
+      </thead>
+    );
   },
 );
 TableHeader.displayName = "TableHeader";
@@ -397,7 +405,9 @@ export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionEle
 export const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ className, ...props }, ref) => {
     return (
-      <tbody ref={ref} className={cn("[&_tr:last-child_td]:border-b-0", className)} {...props} />
+      <tbody ref={ref} className={cn("[&_tr:last-child_td]:border-b-0", className)} {...props}>
+        {renderContainedText(props.children)}
+      </tbody>
     );
   },
 );
@@ -407,7 +417,11 @@ export interface TableFooterProps extends React.HTMLAttributes<HTMLTableSectionE
 
 export const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooterProps>(
   ({ className, ...props }, ref) => {
-    return <tfoot ref={ref} className={cn(className)} {...props} />;
+    return (
+      <tfoot ref={ref} className={cn(className)} {...props}>
+        {renderContainedText(props.children)}
+      </tfoot>
+    );
   },
 );
 TableFooter.displayName = "TableFooter";
@@ -421,7 +435,9 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, ...props }, ref) => {
     return (
-      <tr ref={ref} className={cn("[&:has([data-table-media])>td]:h-14", className)} {...props} />
+      <tr ref={ref} className={cn("[&:has([data-table-media])>td]:h-14", className)} {...props}>
+        {renderContainedText(props.children)}
+      </tr>
     );
   },
 );
@@ -462,7 +478,9 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
           className,
         )}
         {...props}
-      />
+      >
+        {renderContainedText(props.children)}
+      </th>
     );
   },
 );
@@ -531,7 +549,9 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
           className,
         )}
         {...props}
-      />
+      >
+        {renderContainedText(props.children)}
+      </td>
     );
   },
 );
@@ -545,7 +565,11 @@ export interface TableCellGroupProps extends React.HTMLAttributes<HTMLDivElement
  */
 export const TableCellGroup = React.forwardRef<HTMLDivElement, TableCellGroupProps>(
   ({ className, ...props }, ref) => {
-    return <div ref={ref} className={cn("flex items-center gap-1", className)} {...props} />;
+    return (
+      <div ref={ref} className={cn("flex items-center gap-1", className)} {...props}>
+        {renderContainedText(props.children)}
+      </div>
+    );
   },
 );
 TableCellGroup.displayName = "TableCellGroup";
@@ -673,7 +697,9 @@ export const TableMediaTile = React.forwardRef<HTMLSpanElement, TableMediaTilePr
           className,
         )}
         {...props}
-      />
+      >
+        {renderContainedText(props.children)}
+      </span>
     );
   },
 );
@@ -691,7 +717,9 @@ export const TableStatusDot = React.forwardRef<HTMLDivElement, TableStatusDotPro
         ref={ref}
         className={cn("size-2 shrink-0 rounded-full bg-info-content", className)}
         {...props}
-      />
+      >
+        {renderContainedText(props.children)}
+      </div>
     );
   },
 );
@@ -749,7 +777,9 @@ export const TablePillProgressLayout = React.forwardRef<
       ref={ref}
       className={cn("flex min-w-[120px] flex-col items-start gap-2", className)}
       {...props}
-    />
+    >
+      {renderContainedText(props.children)}
+    </div>
   );
 });
 TablePillProgressLayout.displayName = "TablePillProgressLayout";
@@ -858,7 +888,9 @@ export const TableLineClamp = React.forwardRef<HTMLDivElement, TableLineClampPro
           className,
         )}
         {...props}
-      />
+      >
+        {renderContainedText(props.children)}
+      </div>
     );
   },
 );

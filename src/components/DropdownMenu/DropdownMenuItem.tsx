@@ -35,10 +35,18 @@ export const DropdownMenuLabel = React.forwardRef<
   // DropdownMenuPrimitive.Label requires Radix menu context, unavailable when
   // the sheet variant renders inside a Drawer (Dialog) instead.
   if (variant === "sheet") {
-    return <div ref={ref} className={labelClassName} {...props} />;
+    return (
+      <div ref={ref} className={labelClassName} {...props}>
+        {renderContainedText(props.children)}
+      </div>
+    );
   }
 
-  return <DropdownMenuPrimitive.Label ref={ref} className={labelClassName} {...props} />;
+  return (
+    <DropdownMenuPrimitive.Label ref={ref} className={labelClassName} {...props}>
+      {renderContainedText(props.children)}
+    </DropdownMenuPrimitive.Label>
+  );
 });
 DropdownMenuLabel.displayName = "DropdownMenuLabel";
 
@@ -386,6 +394,10 @@ export const DropdownMenuSeparator = React.forwardRef<
     return <hr ref={ref as React.Ref<HTMLHRElement>} className={separatorClassName} {...props} />;
   }
 
-  return <DropdownMenuPrimitive.Separator ref={ref} className={separatorClassName} {...props} />;
+  return (
+    <DropdownMenuPrimitive.Separator ref={ref} className={separatorClassName} {...props}>
+      {renderContainedText(props.children)}
+    </DropdownMenuPrimitive.Separator>
+  );
 });
 DropdownMenuSeparator.displayName = "DropdownMenuSeparator";

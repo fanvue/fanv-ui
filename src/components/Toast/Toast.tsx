@@ -58,7 +58,9 @@ export const ToastViewport = React.forwardRef<
       className,
     )}
     {...props}
-  />
+  >
+    {renderContainedText(props.children)}
+  </ToastPrimitive.Viewport>
 ));
 
 ToastViewport.displayName = "ToastViewport";

@@ -268,7 +268,7 @@ export const SelectContent = React.forwardRef<
         <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-2">
           {/* A select opened from inside a menu row must not inherit that row's icon defaults. */}
           <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
-            {renderContainedText(children)}
+            {renderTextChildren(children)}
           </IconDefaultsContext.Provider>
         </SelectPrimitive.Viewport>
       </SelectPrimitive.Content>
@@ -431,7 +431,9 @@ export const SelectLabel = React.forwardRef<
       className,
     )}
     {...props}
-  />
+  >
+    {renderContainedText(props.children)}
+  </SelectPrimitive.Label>
 ));
 
 SelectLabel.displayName = "SelectLabel";
@@ -448,7 +450,9 @@ export const SelectSeparator = React.forwardRef<
     ref={ref}
     className={cn("my-1 h-px bg-neutral-alphas-200", className)}
     {...props}
-  />
+  >
+    {renderContainedText(props.children)}
+  </SelectPrimitive.Separator>
 ));
 
 SelectSeparator.displayName = "SelectSeparator";

@@ -1,6 +1,7 @@
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText } from "../../utils/renderTextChildren";
 
 /** Props for the {@link TabsContent} panel component. */
 export type TabsContentProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>;
@@ -14,7 +15,9 @@ export const TabsContent = React.forwardRef<
     ref={ref}
     className={cn("focus-visible:outline-none", className)}
     {...props}
-  />
+  >
+    {renderContainedText(props.children)}
+  </TabsPrimitive.Content>
 ));
 
 TabsContent.displayName = "TabsContent";

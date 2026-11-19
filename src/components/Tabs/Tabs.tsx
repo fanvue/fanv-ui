@@ -1,5 +1,6 @@
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 
 /**
  * Value a {@link TabsOverflow} tab carries while none of its items is active.
@@ -53,7 +54,9 @@ export const Tabs = React.forwardRef<React.ComponentRef<typeof TabsPrimitive.Roo
 
     return (
       <TabsValueContext.Provider value={context}>
-        <TabsPrimitive.Root ref={ref} value={value ?? ""} onValueChange={select} {...props} />
+        <TabsPrimitive.Root ref={ref} value={value ?? ""} onValueChange={select} {...props}>
+          {renderTextChildren(props.children)}
+        </TabsPrimitive.Root>
       </TabsValueContext.Provider>
     );
   },

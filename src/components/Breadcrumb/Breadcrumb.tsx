@@ -43,7 +43,9 @@ export interface BreadcrumbProps extends React.ComponentPropsWithoutRef<"nav"> {
  */
 export const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
   ({ "aria-label": ariaLabel = "breadcrumb", ...props }, ref) => (
-    <nav ref={ref} aria-label={ariaLabel} {...props} />
+    <nav ref={ref} aria-label={ariaLabel} {...props}>
+      {renderContainedText(props.children)}
+    </nav>
   ),
 );
 
@@ -93,7 +95,9 @@ export interface BreadcrumbItemProps extends React.ComponentPropsWithoutRef<"li"
  */
 export const BreadcrumbItem = React.forwardRef<HTMLLIElement, BreadcrumbItemProps>(
   ({ className, ...props }, ref) => (
-    <li ref={ref} className={cn("inline-flex items-center gap-2", className)} {...props} />
+    <li ref={ref} className={cn("inline-flex items-center gap-2", className)} {...props}>
+      {renderContainedText(props.children)}
+    </li>
   ),
 );
 
@@ -121,7 +125,9 @@ export const BreadcrumbLink = React.forwardRef<HTMLAnchorElement, BreadcrumbLink
           className,
         )}
         {...props}
-      />
+      >
+        {renderContainedText(props.children)}
+      </Comp>
     );
   },
 );
@@ -142,7 +148,9 @@ export const BreadcrumbPage = React.forwardRef<HTMLSpanElement, BreadcrumbPagePr
         aria-current="page"
         className={cn(semiboldTypographyBySize[size], "text-content-primary", className)}
         {...props}
-      />
+      >
+        {renderContainedText(props.children)}
+      </span>
     );
   },
 );

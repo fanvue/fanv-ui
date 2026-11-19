@@ -1,6 +1,7 @@
 import * as SeparatorPrimitive from "@radix-ui/react-separator";
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Orientation of the divider line. */
 export type DividerOrientation = "horizontal" | "vertical";
@@ -36,7 +37,9 @@ export const Divider = React.forwardRef<
           orientation="horizontal"
           className="h-px flex-1 bg-border-primary"
           {...props}
-        />
+        >
+          {renderTextChildren(props.children)}
+        </SeparatorPrimitive.Root>
         <span className="typography-body-small-14px-regular shrink-0 text-content-primary">
           {label}
         </span>
@@ -56,7 +59,9 @@ export const Divider = React.forwardRef<
       orientation="horizontal"
       className={cn(`mx-auto my-2 h-px w-full bg-border-primary`, className)}
       {...props}
-    />
+    >
+      {renderTextChildren(props.children)}
+    </SeparatorPrimitive.Root>
   );
 });
 

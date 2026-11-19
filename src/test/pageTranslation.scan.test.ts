@@ -7,6 +7,24 @@ const SKIPPED_FILES = /\.(test|stories)\.tsx$|\/(Icons|AnimatedIcons|Flags)\//;
 const TEXT_FLAGS = ts.TypeFlags.StringLike | ts.TypeFlags.NumberLike | ts.TypeFlags.BigIntLike;
 const MAX_DEPTH = 5;
 const SVG_TEXT_TAGS = new Set(["text", "tspan", "title", "desc"]);
+const VOID_OR_SVG_TAGS = new Set([
+  ...SVG_TEXT_TAGS,
+  "input",
+  "img",
+  "hr",
+  "br",
+  "textarea",
+  "select",
+  "option",
+  "svg",
+  "path",
+  "circle",
+  "rect",
+  "line",
+  "g",
+  "col",
+  "colgroup",
+]);
 
 const HOW_TO_FIX = [
   "Text that shares a parent with other nodes breaks under browser page translation (ENG-18326).",
@@ -15,7 +33,8 @@ const HOW_TO_FIX = [
   "  - wrap the text in its own <span>,",
   "  - pass a ReactNode prop through renderTextChildren / renderContainedText / renderSlottedText",
   "    from src/utils/renderTextChildren,",
-  "  - type a value that is always an element as React.ReactElement.",
+  "  - type a value that is always an element as React.ReactElement,",
+  "  - for {...props} on an element, add {renderContainedText(props.children)} as its child.",
 ].join("\n");
 
 function loadCompilerOptions() {
@@ -65,9 +84,21 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
   const mayHoldText = (type: ts.Type): boolean => {
     if (type.isUnion()) return type.types.some(mayHoldText);
     if (!(type.flags & ts.TypeFlags.Object) || isElementType(type)) return false;
-    if (!checker.isArrayType(type)) return true;
-    const [item] = checker.getTypeArguments(type as ts.TypeReference);
-    return item === undefined || mayBeText(item) || mayHoldText(item);
+    if (!checker.isArrayType(type) && !checker.isTupleType(type)) return true;
+    const items = checker.getTypeArguments(type as ts.TypeReference);
+    return items.length === 0 || items.some((item) => mayBeText(item) || mayHoldText(item));
+  };
+
+  const isTextOnly = (type: ts.Type): boolean => {
+    if (type.isUnion()) return type.types.every(isTextOnly);
+    if (
+      type.flags &
+      (TEXT_FLAGS | ts.TypeFlags.Null | ts.TypeFlags.Undefined | ts.TypeFlags.BooleanLike)
+    ) {
+      return true;
+    }
+    if (!checker.isArrayType(type) && !checker.isTupleType(type)) return false;
+    return checker.getTypeArguments(type as ts.TypeReference).every(isTextOnly);
   };
 
   const isFragmentElement = (node: ts.Node): node is ts.JsxElement =>
@@ -148,10 +179,17 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
     node.operatorToken.kind === ts.SyntaxKind.AmpersandAmpersandToken &&
     mayBeZero(checker.getTypeAtLocation(node.left));
 
+  const isTextOnlyList = (type: ts.Type): boolean =>
+    type.isUnion()
+      ? type.types.some(isTextOnlyList)
+      : (checker.isArrayType(type) || checker.isTupleType(type)) && isTextOnly(type);
+
   const isUnguardedHelper = (node: ts.CallExpression, helper: string, alone: boolean) => {
     if (helper !== "renderContainedText" || alone) return false;
     const argument = node.arguments[0];
-    return !argument || mayBeText(checker.getTypeAtLocation(argument));
+    if (!argument) return true;
+    const type = checker.getTypeAtLocation(argument);
+    return mayBeText(type) || (mayHoldText(type) && isTextOnlyList(type));
   };
 
   const isUnguardedValue = (node: ts.Expression, alone: boolean, depth: number): boolean => {
@@ -208,14 +246,18 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
     );
   };
 
-  const placesChildrenInHost = (parent: ts.JsxElement | ts.JsxFragment) => {
-    if (ts.isJsxFragment(parent)) return true;
-    const tag = parent.openingElement.tagName;
+  const tagPlacesChildrenInHost = (tag: ts.JsxTagNameExpression) => {
     if (ts.isIdentifier(tag) && SVG_TEXT_TAGS.has(tag.text)) return false;
     if (!ts.isIdentifier(tag) || /^[a-z]/.test(tag.text)) return true;
     const declaration = checker.getSymbolAtLocation(tag)?.declarations?.[0];
-    return declaration ? isHostVariable(declaration, parent.getSourceFile()) : false;
+    return declaration ? isHostVariable(declaration, tag.getSourceFile()) : false;
   };
+
+  const placesChildrenInHost = (parent: ts.JsxElement | ts.JsxFragment) =>
+    ts.isJsxFragment(parent) || tagPlacesChildrenInHost(parent.openingElement.tagName);
+
+  const passesChildrenOn = (tag: ts.JsxTagNameExpression) =>
+    /\.(Provider|Root|Portal)$/.test(tag.getText());
 
   const scanFile = (sourceFile: ts.SourceFile) => {
     const report = (parent: ts.JsxElement | ts.JsxFragment, child: ts.Node) => {
@@ -226,12 +268,40 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
       findings.push(`${file}:${line + 1}  <${tag}>  ${snippet}`);
     };
     const check = (parent: ts.JsxElement | ts.JsxFragment) => {
-      for (const child of unguardedChildren(parent.children, true)) report(parent, child);
+      const alone = ts.isJsxElement(parent) && !passesChildrenOn(parent.openingElement.tagName);
+      for (const child of unguardedChildren(parent.children, alone)) report(parent, child);
+    };
+    const hasOwnChildren = (element: ts.JsxOpeningLikeElement) =>
+      (ts.isJsxOpeningElement(element) &&
+        element.parent.children.some(
+          (child) => !ts.isJsxText(child) || child.text.trim() !== "",
+        )) ||
+      element.attributes.properties.some(
+        (attribute) => ts.isJsxAttribute(attribute) && attribute.name.getText() === "children",
+      );
+    const spreadsText = (attribute: ts.JsxAttributeLike) => {
+      if (!ts.isJsxSpreadAttribute(attribute)) return false;
+      const children = checker.getTypeAtLocation(attribute.expression).getProperty("children");
+      return (
+        children !== undefined &&
+        mayHoldText(checker.getTypeOfSymbolAtLocation(children, attribute.expression))
+      );
+    };
+    const checkSpread = (element: ts.JsxOpeningLikeElement) => {
+      const tag = element.tagName.getText();
+      if (VOID_OR_SVG_TAGS.has(tag) || !tagPlacesChildrenInHost(element.tagName)) return;
+      if (hasOwnChildren(element)) return;
+      for (const attribute of element.attributes.properties.filter(spreadsText)) {
+        const { line } = sourceFile.getLineAndCharacterOfPosition(element.getStart());
+        const file = path.relative(process.cwd(), sourceFile.fileName);
+        findings.push(`${file}:${line + 1}  <${tag}>  ${attribute.getText()}`);
+      }
     };
     const visit = (node: ts.Node) => {
       if ((ts.isJsxElement(node) || ts.isJsxFragment(node)) && placesChildrenInHost(node)) {
         check(node);
       }
+      if (ts.isJsxSelfClosingElement(node) || ts.isJsxOpeningElement(node)) checkSpread(node);
       ts.forEachChild(node, visit);
     };
     visit(sourceFile);
@@ -266,6 +336,18 @@ const FLAGGED: [string, string][] = [
     '<div>{[label, <b key="b" />] satisfies React.ReactNode[]}<i /></div>',
   ],
   ["a ReactNode as the only child", "<p>{node}</p>"],
+  [
+    "an all-text list in contained text beside an element",
+    "<div>{renderContainedText([label, label])}<i /></div>",
+  ],
+  [
+    "spread props that carry children",
+    "((props: React.HTMLAttributes<HTMLDivElement>) => <div {...props} />)",
+  ],
+  [
+    "a ReactNode alone in a provider",
+    "<Ctx.Provider value={1}>{renderContainedText(node)}</Ctx.Provider>",
+  ],
   ["a string in an explicit fragment", "<div><React.Fragment>{label}</React.Fragment><i /></div>"],
 ];
 
@@ -273,6 +355,15 @@ const ACCEPTED: [string, string][] = [
   ["one combined string as the only child", "<p>{label + count}</p>"],
   ["a string as the only child", "<p>{label}</p>"],
   ["an element list as the only child", "<ul>{[1, 2].map((id) => <li key={id} />)}</ul>"],
+  ["a pair of elements", "((pair: [React.ReactElement, React.ReactElement]) => <div>{pair}</div>)"],
+  [
+    "spread props with guarded children",
+    "((props: React.HTMLAttributes<HTMLDivElement>) => <div {...props}>{renderContainedText(props.children)}</div>)",
+  ],
+  [
+    "guarded text in a provider",
+    "<Ctx.Provider value={1}>{renderTextChildren(node)}</Ctx.Provider>",
+  ],
   ["a guard that is never zero", "<div>{state && <b />}<i /></div>"],
   [
     "contained mixed content beside an element",
@@ -300,6 +391,7 @@ function scanSnippets(bodies: string[]) {
         'import * as React from "react";',
         'import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";',
         'const Host = "div";',
+        "const Ctx = React.createContext(0);",
         'const ConstHost = "div" as const;',
         'const items = [label, <b key="b" />];',
         "declare const label: string;",

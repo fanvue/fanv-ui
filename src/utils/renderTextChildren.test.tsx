@@ -145,6 +145,17 @@ describe("renderTextChildren structure", () => {
   });
 });
 
+describe("renderTextChildren nested text", () => {
+  it("merges text across a text-only nested list", () => {
+    const { container } = render(
+      <p>{renderTextChildren(["Updated ", [2, " days ago"], <b key="edit">Edit</b>])}</p>,
+    );
+    expect(container.querySelector("p")?.innerHTML).toBe(
+      "<span>Updated 2 days ago</span><b>Edit</b>",
+    );
+  });
+});
+
 describe("renderContainedText", () => {
   it("returns plain text as one string", () => {
     expect(renderContainedText(["Cart (", 2, ")"])).toBe("Cart (2)");
@@ -160,6 +171,15 @@ describe("renderSlottedText", () => {
   it("leaves plain text unchanged when the slot adds no siblings", () => {
     const link = <a href="/open">Open</a>;
     expect(renderSlottedText(link, false)).toBe(link);
+  });
+
+  it("leaves SVG text unchanged", () => {
+    const label = (
+      <text>
+        Open<tspan> now</tspan>
+      </text>
+    );
+    expect(renderSlottedText(label)).toBe(label);
   });
 
   it("leaves a custom component's children unchanged", () => {

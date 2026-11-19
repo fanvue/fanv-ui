@@ -1,10 +1,18 @@
 import { cloneElement, Fragment, isValidElement, type ReactNode } from "react";
 
-const TEXT_ONLY_ELEMENTS = new Set(["textarea", "option", "optgroup", "select", "title"]);
+const TEXT_ONLY_ELEMENTS = new Set([
+  "textarea",
+  "option",
+  "optgroup",
+  "select",
+  "title",
+  "text",
+  "tspan",
+]);
 
 type TextChild = string | number | bigint;
 
-type TextProps = Record<`data-${string}`, string>;
+type TextProps = { className?: string } & Record<`data-${string}`, string>;
 
 function isText(node: unknown): node is TextChild {
   return typeof node === "string" || typeof node === "number" || typeof node === "bigint";
@@ -12,6 +20,19 @@ function isText(node: unknown): node is TextChild {
 
 function isEmptySlot(node: unknown) {
   return node == null || typeof node === "boolean";
+}
+
+function textOf(slot: ReactNode): string | null {
+  if (isText(slot)) return String(slot);
+  if (!Array.isArray(slot)) return null;
+  let text = "";
+  for (const item of slot) {
+    if (isEmptySlot(item)) continue;
+    const part = textOf(item);
+    if (part === null) return null;
+    text += part;
+  }
+  return text;
 }
 
 function renderSlots(slots: readonly ReactNode[], textProps?: TextProps): ReactNode[] {
@@ -32,10 +53,11 @@ function renderSlots(slots: readonly ReactNode[], textProps?: TextProps): ReactN
   };
   for (let index = 0; index < slots.length; index++) {
     const slot = slots[index];
-    if (isText(slot)) {
-      if (String(slot)) {
+    const text = textOf(slot);
+    if (text !== null) {
+      if (text) {
         if (runStart < 0) runStart = index;
-        runText += String(slot);
+        runText += text;
       }
     } else if (!isEmptySlot(slot)) {
       closeRun();
