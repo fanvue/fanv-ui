@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Visual hierarchy of the card. Primary is for prominent, content-carrying cards; secondary for supporting cards within denser layouts. */
 export type CardHierarchy = "primary" | "secondary";
@@ -157,7 +157,7 @@ export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
     return (
       <div ref={ref} className={cn("flex min-h-8 items-center gap-2", className)} {...props}>
         <div className="min-w-0 flex-1">{children}</div>
-        {action && <div className="shrink-0">{action}</div>}
+        {action ? <div className="shrink-0">{action}</div> : renderTextChildren(action)}
       </div>
     );
   },

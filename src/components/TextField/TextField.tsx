@@ -1,7 +1,7 @@
 import * as React from "react";
 import { CheckOutlineIcon } from "@/index";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Text field height in pixels. */
 export type TextFieldSize = "48" | "40" | "32";
@@ -149,10 +149,12 @@ function TrailingAdornment({
   if (!rightIcon && !validated) return null;
   return (
     <span className="flex shrink-0 items-center gap-2 text-content-secondary">
-      {rightIcon && (
+      {rightIcon ? (
         <span data-tf-interactive="" className="flex size-4 shrink-0 items-center justify-center">
           {rightIcon}
         </span>
+      ) : (
+        renderTextChildren(rightIcon)
       )}
       {validated && (
         <span className="pointer-events-none flex size-4 shrink-0 items-center justify-center">

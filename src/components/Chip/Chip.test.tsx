@@ -6,6 +6,15 @@ import { Chip } from "./Chip";
 
 describe("Chip", () => {
   describe("API", () => {
+    it("keeps a plain-text asChild link free of extra elements", () => {
+      render(
+        <Chip asChild>
+          <a href="/details">Details</a>
+        </Chip>,
+      );
+      expect(screen.getByRole("link", { name: "Details" }).children).toHaveLength(0);
+    });
+
     it("applies custom className", () => {
       render(<Chip className="custom-class">Test</Chip>);
       const chip = screen.getByTestId("chip");

@@ -462,8 +462,10 @@ const SelectTriggerButton = React.forwardRef<HTMLButtonElement, SelectTriggerBut
       )}
       {...props}
     >
-      {selectedOption?.icon && (
+      {selectedOption?.icon ? (
         <span className="flex shrink-0 items-center [&>svg]:size-4">{selectedOption.icon}</span>
+      ) : (
+        renderTextChildren(selectedOption?.icon)
       )}
       <span>{selectedOption?.label ?? fallbackLabel ?? "Select"}</span>
       <ChevronDownIcon
@@ -546,8 +548,10 @@ function InlineSelect({
                     isSelected && "bg-interaction-hover",
                   )}
                 >
-                  {option.icon && (
+                  {option.icon ? (
                     <MenuRowIcon alignToTitle={hasDescription}>{option.icon}</MenuRowIcon>
+                  ) : (
+                    renderTextChildren(option.icon)
                   )}
                   <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                     <span

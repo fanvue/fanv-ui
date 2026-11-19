@@ -1,7 +1,7 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { TickIcon } from "../Icons/TickIcon";
 
 /** Props for the {@link DropdownMenuRadioGroup} component. */
@@ -157,7 +157,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
           <TickIcon className="size-4 text-content-primary-inverted" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
-      {avatar && <span className="shrink-0">{avatar}</span>}
+      {avatar ? <span className="shrink-0">{avatar}</span> : renderTextChildren(avatar)}
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span className="typography-body-small-14px-semibold truncate">
           {renderContainedText(children)}

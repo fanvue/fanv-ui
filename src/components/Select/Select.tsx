@@ -176,13 +176,15 @@ export const Select = React.forwardRef<
               )}
             >
               <div className="flex min-w-0 items-center gap-2">
-                {leftIcon && (
+                {leftIcon ? (
                   <span
                     className="flex size-5 shrink-0 items-center justify-center text-content-secondary"
                     data-testid="left-icon"
                   >
                     {leftIcon}
                   </span>
+                ) : (
+                  renderTextChildren(leftIcon)
                 )}
                 <span
                   className={cn(

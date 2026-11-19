@@ -48,12 +48,16 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
   const mayBeText = (type: ts.Type): boolean => {
     if (type.isUnion()) return type.types.some(mayBeText);
     if (type.isStringLiteral()) return type.value.trim() !== "";
-    if (type.isNumberLiteral()) return type.value !== 0;
-    if (type.flags & ts.TypeFlags.BigIntLiteral) {
-      return (type as ts.BigIntLiteralType).value.base10Value !== "0";
-    }
     return (type.flags & TEXT_FLAGS) !== 0;
   };
+
+  const mayBeNumber = (type: ts.Type): boolean =>
+    type.isUnion()
+      ? type.types.some(mayBeNumber)
+      : (type.flags & (ts.TypeFlags.NumberLike | ts.TypeFlags.BigIntLike)) !== 0;
+
+  const isFragmentElement = (node: ts.Node): node is ts.JsxElement =>
+    ts.isJsxElement(node) && /^(React\.)?Fragment$/.test(node.openingElement.tagName.getText());
 
   const returnedExpressions = (body: ts.Node) => {
     const returned: ts.Expression[] = [];
@@ -124,25 +128,40 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
   const calledHelper = (node: ts.Expression) =>
     ts.isCallExpression(node) ? helperName(unwrap(node.expression)) : undefined;
 
-  const isUnguardedText = (node: ts.Expression, depth: number): boolean => {
+  const leavesZero = (node: ts.Expression) =>
+    ts.isBinaryExpression(node) &&
+    node.operatorToken.kind === ts.SyntaxKind.AmpersandAmpersandToken &&
+    mayBeNumber(checker.getTypeAtLocation(node.left));
+
+  const isUnguardedHelper = (node: ts.CallExpression, helper: string, alone: boolean) => {
+    if (helper !== "renderContainedText" || alone) return false;
+    const argument = node.arguments[0];
+    return !argument || isUnguarded(argument, false);
+  };
+
+  const isUnguardedValue = (node: ts.Expression, alone: boolean, depth: number): boolean => {
     const parts = branches(node);
-    if (parts) return parts.some((part) => isUnguarded(part, false, depth));
-    if (!mayBeText(checker.getTypeAtLocation(node))) return false;
+    if (parts) {
+      return (!alone && leavesZero(node)) || parts.some((part) => isUnguarded(part, alone, depth));
+    }
     const resolved = depth < MAX_DEPTH ? resolveLocally(node) : undefined;
-    return resolved ? resolved.some((next) => isUnguarded(next, false, depth + 1)) : true;
+    if (resolved) return resolved.some((next) => isUnguarded(next, alone, depth + 1));
+    return !alone && mayBeText(checker.getTypeAtLocation(node));
   };
 
   const isUnguarded = (expression: ts.Expression, alone: boolean, depth = 0): boolean => {
     const node = unwrap(expression);
+    if (ts.isJsxFragment(node) || isFragmentElement(node)) {
+      return unguardedChildren(node.children, alone).length > 0;
+    }
     if (ts.isJsxElement(node) || ts.isJsxSelfClosingElement(node)) return false;
-    if (ts.isJsxFragment(node)) return unguardedChildren(node.children, alone).length > 0;
     if (ts.isArrayLiteralExpression(node)) {
       const single = alone && node.elements.length < 2;
       return node.elements.some((element) => isUnguarded(element, single, depth));
     }
     const helper = calledHelper(node);
-    if (helper) return helper === "renderContainedText" && !alone;
-    return alone ? false : isUnguardedText(node, depth);
+    if (helper && ts.isCallExpression(node)) return isUnguardedHelper(node, helper, alone);
+    return isUnguardedValue(node, alone, depth);
   };
 
   const unguardedChildren = (nodes: readonly ts.JsxChild[], alone: boolean): ts.Node[] => {
@@ -154,7 +173,9 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
     const single = alone && children.length < 2;
     return children.filter((child) => {
       if (ts.isJsxText(child)) return !single;
-      if (ts.isJsxFragment(child)) return unguardedChildren(child.children, single).length > 0;
+      if (ts.isJsxFragment(child) || isFragmentElement(child)) {
+        return unguardedChildren(child.children, single).length > 0;
+      }
       return ts.isJsxExpression(child) && child.expression
         ? isUnguarded(child.expression, single)
         : false;
@@ -166,7 +187,9 @@ function findUnguardedText(files: string[], virtualFiles = new Map<string, strin
     if (!ts.isVariableDeclaration(declaration)) return false;
     if (declaration.getSourceFile() !== sourceFile) return false;
     const isLocal = !ts.isSourceFile(declaration.parent.parent.parent);
-    return isLocal || (!!declaration.initializer && ts.isStringLiteral(declaration.initializer));
+    return (
+      isLocal || (!!declaration.initializer && ts.isStringLiteral(unwrap(declaration.initializer)))
+    );
   };
 
   const placesChildrenInHost = (parent: ts.JsxElement | ts.JsxFragment) => {
@@ -215,6 +238,12 @@ const FLAGGED: [string, string][] = [
   ["a string in a nested fragment beside an element", "<div><>{label}</><i /></div>"],
   ["contained text beside an element", "<div>{renderContainedText(label)}<i /></div>"],
   ["a string beside an element in an aliased host", "<Host>{label}<i /></Host>"],
+  ["a string beside an element in a const host", "<ConstHost>{label}<i /></ConstHost>"],
+  ["a zero beside an element", "<div>{0}<i /></div>"],
+  ["a count guard beside an element", "<div>{count && <b />}<i /></div>"],
+  ["an array variable with a string", "<div>{items}</div>"],
+  ["an array in a conditional branch", '<div>{shown ? [label, <b key="b" />] : null}</div>'],
+  ["a string in an explicit fragment", "<div><React.Fragment>{label}</React.Fragment><i /></div>"],
 ];
 
 const ACCEPTED: [string, string][] = [
@@ -227,6 +256,7 @@ const ACCEPTED: [string, string][] = [
   ["a whitespace literal", '<p><i />{" "}<b /></p>'],
   ["an aliased helper call", "<div>{guard(node)}<b /></div>"],
   ["contained text as the only child", "<div>{renderContainedText(node)}</div>"],
+  ["contained markup beside an element", "<div>{renderContainedText(<b />)}<i /></div>"],
 ];
 
 function snippetFile(index: number) {
@@ -238,9 +268,11 @@ function scanSnippets(bodies: string[]) {
     bodies.map((body, index) => [
       snippetFile(index),
       [
-        'import type * as React from "react";',
+        'import * as React from "react";',
         'import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";',
         'const Host = "div";',
+        'const ConstHost = "div" as const;',
+        'const items = [label, <b key="b" />];',
         "declare const label: string;",
         "declare const count: number;",
         "declare const node: React.ReactNode;",

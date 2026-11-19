@@ -63,7 +63,7 @@ describe("Tabs", () => {
         </Tabs>,
       );
       expect(screen.getByRole("tablist")).not.toHaveClass(
-        "data-[orientation=horizontal]:[&>:nth-child(1_of_[role=tab])]:pl-0",
+        "data-[orientation=horizontal]:[&>[role=tab]:first-child]:pl-0",
       );
     });
 
@@ -78,7 +78,7 @@ describe("Tabs", () => {
         </Tabs>,
       );
       expect(screen.getByRole("tablist")).toHaveClass(
-        "data-[orientation=horizontal]:[&>:nth-child(1_of_[role=tab])]:pl-0",
+        "data-[orientation=horizontal]:[&>[role=tab]:first-child]:pl-0",
       );
     });
 

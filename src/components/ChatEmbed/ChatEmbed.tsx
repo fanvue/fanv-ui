@@ -153,10 +153,12 @@ function SocialProof({ avatars, name, label }: ChatEmbedSocialProof) {
         ))}
       </div>
       <p className="m-0 flex min-w-0 items-center gap-1 whitespace-nowrap text-content-always-white">
-        {name && (
+        {name ? (
           <span className="typography-body-small-14px-semibold max-w-30 truncate">
             {renderContainedText(name)}
           </span>
+        ) : (
+          renderTextChildren(name)
         )}
         <span className="typography-body-small-14px-regular shrink-0">
           {renderContainedText(label)}
@@ -274,16 +276,20 @@ function TopRow({
     <div className="relative flex items-center justify-between gap-2 px-3 pt-3">
       <div className="flex min-w-0 items-center gap-1">
         {renderTextChildren(badge)}
-        {category && (
+        {category ? (
           <span className="typography-description-12px-semibold whitespace-nowrap rounded-xs bg-buttons-always-white-default px-2 py-1 text-content-always-black">
             {renderContainedText(category)}
           </span>
+        ) : (
+          renderTextChildren(category)
         )}
       </div>
-      {meta && (
+      {meta ? (
         <span className="typography-description-12px-semibold whitespace-nowrap rounded-full bg-background-overlay-default px-2 py-1 text-center text-content-always-white backdrop-blur-[10px]">
           {renderContainedText(meta)}
         </span>
+      ) : (
+        renderTextChildren(meta)
       )}
     </div>
   );
@@ -423,10 +429,12 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
                     <p id={titleId} className="typography-body-default-16px-semibold m-0 truncate">
                       {renderContainedText(title)}
                     </p>
-                    {(subtitle || verified || aiDisclosure) && (
+                    {subtitle || verified || aiDisclosure ? (
                       <CreatorName {...badges} className="typography-body-small-14px-regular">
                         {subtitle}
                       </CreatorName>
+                    ) : (
+                      renderTextChildren(subtitle || verified || aiDisclosure)
                     )}
                   </>
                 ) : (
@@ -438,16 +446,22 @@ export const ChatEmbed = React.forwardRef<HTMLDivElement, ChatEmbedProps>(
                     >
                       {title}
                     </CreatorName>
-                    {subtitle && (
+                    {subtitle ? (
                       <p className="typography-body-small-14px-regular m-0 truncate">
                         {renderContainedText(subtitle)}
                       </p>
+                    ) : (
+                      renderTextChildren(subtitle)
                     )}
                   </>
                 )}
               </div>
             </div>
-            {action && <div className="relative z-[2] shrink-0">{action}</div>}
+            {action ? (
+              <div className="relative z-[2] shrink-0">{action}</div>
+            ) : (
+              renderTextChildren(action)
+            )}
           </div>
         </div>
       </div>
@@ -513,10 +527,12 @@ export const ChatEmbedUnavailable = React.forwardRef<HTMLDivElement, ChatEmbedUn
         )}
         {...props}
       >
-        {icon && (
+        {icon ? (
           <span aria-hidden="true" className="flex">
             {icon}
           </span>
+        ) : (
+          renderTextChildren(icon)
         )}
         <p className="typography-body-small-14px-regular m-0">
           {renderContainedText(children ?? DEFAULT_UNAVAILABLE[variant])}

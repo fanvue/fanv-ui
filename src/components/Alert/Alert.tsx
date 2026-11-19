@@ -1,7 +1,7 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Button, type ButtonProps } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { AlertIcon } from "../Icons/AlertIcon";
@@ -284,7 +284,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             its icon on the text line instead of at the top of the row.
           */}
           <div className="flex min-w-0 flex-1 items-start gap-3">
-            {resolvedIcon && (
+            {resolvedIcon ? (
               // The design's icon slot is 16px, but the default variant icons
               // (InfoCircleIcon and friends) ship at `size-5`, so constrain the
               // glyph here — the same way IconButton sizes its own icon. The 1px
@@ -293,6 +293,8 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
               <span className="flex shrink-0 items-start pt-px [&>svg]:size-4" aria-hidden="true">
                 {resolvedIcon}
               </span>
+            ) : (
+              renderTextChildren(resolvedIcon)
             )}
 
             <div className="flex min-w-0 flex-1 flex-col gap-3">

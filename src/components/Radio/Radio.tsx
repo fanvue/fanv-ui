@@ -1,6 +1,7 @@
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Placement of the radio button relative to its label. */
 export type RadioLayout = "leading" | "trailing";
@@ -79,10 +80,12 @@ export const Radio = React.forwardRef<
           centerWithAvatar ? "items-center" : "items-start",
         )}
       >
-        {avatar && (
+        {avatar ? (
           <span className="shrink-0 group-has-disabled:opacity-60" aria-hidden="true">
             {avatar}
           </span>
+        ) : (
+          renderTextChildren(avatar)
         )}
         {(label || helperText) && (
           <div className={cn("flex flex-col gap-0.5", avatar && !centerWithAvatar && "pt-1")}>

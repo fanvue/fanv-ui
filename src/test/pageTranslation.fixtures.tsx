@@ -953,4 +953,39 @@ export const translationCases: [string, (changed: boolean) => ReactElement][] = 
     "Button bigint label changes beside an icon",
     (changed) => <Button rightIcon={<svg />}>{changed ? 6n : 5n}</Button>,
   ],
+  [
+    "UserItem zero secondary and trailing become text",
+    (changed) => (
+      <UserItem
+        user={{ displayName: "Jane Doe", handle: "jane_doe" }}
+        showAvatar={false}
+        secondary={changed ? "New" : 0}
+        trailing={changed ? "New" : 0}
+      />
+    ),
+  ],
+  [
+    "UserItemTrailing zero meta changes",
+    (changed) => <UserItemTrailing value="Total" meta={changed ? 1 : 0} />,
+  ],
+  [
+    "BottomNavigationAction zero badge changes",
+    (changed) => (
+      <BottomNavigation hasInformationArchitectureNav value="a">
+        <BottomNavigationAction icon={<svg />} value="a" label="First" badge={changed ? 1 : 0} />
+      </BottomNavigation>
+    ),
+  ],
+  [
+    "ChartCard zero content becomes markup",
+    (changed) => <ChartCard title="Revenue">{changed ? <b>Chart</b> : 0}</ChartCard>,
+  ],
+  [
+    "Button fragment label changes beside an icon",
+    (changed) => (
+      <Button rightIcon={<svg />}>
+        <Fragment key="label">{changed ? "Updated" : "Original"}</Fragment>
+      </Button>
+    ),
+  ],
 ];

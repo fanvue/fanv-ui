@@ -114,25 +114,35 @@ function VipEarnContent({
 
   return (
     <>
-      {icon && (
+      {icon ? (
         <span className="flex shrink-0" aria-hidden="true">
           {icon}
         </span>
+      ) : (
+        renderTextChildren(icon)
       )}
       <div className="flex min-w-0 flex-1 flex-col gap-4">
         <div className="flex flex-col">
-          {title && (
+          {title ? (
             <p className="typography-body-default-16px-semibold text-content-primary leading-6">
               {renderContainedText(title)}
             </p>
+          ) : (
+            renderTextChildren(title)
           )}
-          {description && (
+          {description ? (
             <p className="typography-body-small-14px-regular text-content-secondary">
               {renderContainedText(description)}
             </p>
+          ) : (
+            renderTextChildren(description)
           )}
         </div>
-        {showActions && primary && <div className="self-start">{primary}</div>}
+        {showActions && primary ? (
+          <div className="self-start">{primary}</div>
+        ) : (
+          renderTextChildren(showActions && primary)
+        )}
       </div>
     </>
   );
@@ -170,22 +180,28 @@ function WelcomeContent({
   return (
     <>
       <div className="flex flex-col items-center gap-2 px-8 text-center text-content-primary">
-        {title && (
+        {title ? (
           <p className="typography-header-heading-xs text-content-primary">
             {renderContainedText(title)}
           </p>
+        ) : (
+          renderTextChildren(title)
         )}
-        {description && (
+        {description ? (
           <p className="typography-body-small-14px-regular text-content-secondary">
             {renderContainedText(description)}
           </p>
+        ) : (
+          renderTextChildren(description)
         )}
       </div>
-      {showActions && (primary || secondary) && (
+      {showActions && (primary || secondary) ? (
         <div className="flex w-full flex-col gap-4 px-8 sm:flex-row sm:*:flex-1">
           {renderWelcomeSlot(secondary)}
           {renderWelcomeSlot(primary)}
         </div>
+      ) : (
+        renderTextChildren(showActions && (primary || secondary))
       )}
     </>
   );
@@ -225,11 +241,13 @@ function DefaultContent({
       <div className="typography-body-default-16px-regular flex min-w-0 flex-1 items-center self-stretch text-content-primary">
         {children}
       </div>
-      {showActions && (primary || secondary) && (
+      {showActions && (primary || secondary) ? (
         <div className="flex shrink-0 items-start gap-2">
           {renderTextChildren(primary)}
           {renderTextChildren(secondary)}
         </div>
+      ) : (
+        renderTextChildren(showActions && (primary || secondary))
       )}
     </>
   );

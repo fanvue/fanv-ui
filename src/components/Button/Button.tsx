@@ -1,7 +1,11 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderSlottedText } from "../../utils/renderTextChildren";
+import {
+  renderContainedText,
+  renderSlottedText,
+  renderTextChildren,
+} from "../../utils/renderTextChildren";
 import { AIIcon } from "../Icons/AIIcon";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
 
@@ -268,13 +272,15 @@ function renderContent({
 
   return (
     <>
-      {leftIcon && (
+      {leftIcon ? (
         <span
           className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
           aria-hidden="true"
         >
           {leftIcon}
         </span>
+      ) : (
+        renderTextChildren(leftIcon)
       )}
       {React.Children.map(children, (child) =>
         typeof child === "string" ? (
@@ -284,16 +290,18 @@ function renderContent({
         ) : typeof child === "number" || typeof child === "bigint" ? (
           <span className="min-w-0 truncate">{child}</span>
         ) : (
-          child
+          renderTextChildren(child)
         ),
       )}
-      {rightIcon && (
+      {rightIcon ? (
         <span
           className={cn("flex shrink-0 items-center justify-center", iconSizeClass)}
           aria-hidden="true"
         >
           {rightIcon}
         </span>
+      ) : (
+        renderTextChildren(rightIcon)
       )}
       {(price || discount) && (
         <div>

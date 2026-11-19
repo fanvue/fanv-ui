@@ -133,10 +133,12 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
                   {renderContainedText(title)}
                 </ToastPrimitive.Title>
               )}
-              {description && (
+              {description ? (
                 <ToastPrimitive.Description className="typography-body-small-14px-regular">
                   {renderContainedText(description)}
                 </ToastPrimitive.Description>
+              ) : (
+                renderTextChildren(description)
               )}
               {renderTextChildren(children)}
             </div>

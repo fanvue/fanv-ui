@@ -4,6 +4,8 @@ const TEXT_ONLY_ELEMENTS = new Set(["textarea", "option", "optgroup", "select", 
 
 type TextChild = string | number | bigint;
 
+type TextProps = Record<`data-${string}`, string>;
+
 function isText(node: unknown): node is TextChild {
   return typeof node === "string" || typeof node === "number" || typeof node === "bigint";
 }
@@ -12,13 +14,19 @@ function isEmptySlot(node: unknown) {
   return node == null || typeof node === "boolean";
 }
 
-function renderSlots(slots: readonly ReactNode[]): ReactNode[] {
+function renderSlots(slots: readonly ReactNode[], textProps?: TextProps): ReactNode[] {
   const out: ReactNode[] = new Array(slots.length).fill(null);
   let runStart = -1;
   let runText = "";
   const closeRun = () => {
     if (runStart < 0) return;
-    out[runStart] = runText.trim() ? [<span key="text">{runText}</span>] : runText;
+    out[runStart] = runText.trim()
+      ? [
+          <span key="text" {...textProps}>
+            {runText}
+          </span>,
+        ]
+      : runText;
     runStart = -1;
     runText = "";
   };
@@ -31,19 +39,21 @@ function renderSlots(slots: readonly ReactNode[]): ReactNode[] {
       }
     } else if (!isEmptySlot(slot)) {
       closeRun();
-      out[index] = renderTextChildren(slot);
+      out[index] = renderTextChildren(slot, textProps);
     }
   }
   closeRun();
   return out;
 }
 
-export function renderTextChildren(children: ReactNode): ReactNode {
-  if (isText(children)) return String(children).trim() ? <span>{children}</span> : children;
-  if (Array.isArray(children)) return renderSlots(children);
+export function renderTextChildren(children: ReactNode, textProps?: TextProps): ReactNode {
+  if (isText(children)) {
+    return String(children).trim() ? <span {...textProps}>{children}</span> : children;
+  }
+  if (Array.isArray(children)) return renderSlots(children, textProps);
   if (isValidElement<{ children?: ReactNode }>(children) && children.type === Fragment) {
     const content = children.props.children;
-    return cloneElement(children, undefined, renderTextChildren(content));
+    return cloneElement(children, undefined, renderTextChildren(content, textProps));
   }
   return children;
 }

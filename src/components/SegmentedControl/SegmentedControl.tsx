@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Height of the segmented control in pixels. */
 export type SegmentedControlSize = "32" | "40" | "48";
@@ -461,10 +462,12 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
             disabled,
           })}
         >
-          {option.icon && (
+          {option.icon ? (
             <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
               {option.icon}
             </span>
+          ) : (
+            renderTextChildren(option.icon)
           )}
           {showLabelText && <span className="min-w-0 truncate">{option.label}</span>}
         </button>
@@ -493,10 +496,12 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
             disabled,
           })}
         >
-          {option.icon && (
+          {option.icon ? (
             <span className="flex shrink-0 items-center justify-center" aria-hidden="true">
               {option.icon}
             </span>
+          ) : (
+            renderTextChildren(option.icon)
           )}
           {showLabelText && <span className="min-w-0 truncate">{option.label}</span>}
         </button>

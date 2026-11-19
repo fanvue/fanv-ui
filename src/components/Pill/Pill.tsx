@@ -1,7 +1,11 @@
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderSlottedText } from "../../utils/renderTextChildren";
+import {
+  renderContainedText,
+  renderSlottedText,
+  renderTextChildren,
+} from "../../utils/renderTextChildren";
 
 const pillVariants = {
   variant: {
@@ -91,20 +95,24 @@ export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(
         onClick={onClick}
         {...props}
       >
-        {leftIcon && (
+        {leftIcon ? (
           <span className="flex [&>svg]:size-3" aria-hidden="true">
             {leftIcon}
           </span>
+        ) : (
+          renderTextChildren(leftIcon)
         )}
         {asChild ? (
           <Slottable>{renderSlottedText(children)}</Slottable>
         ) : (
           <span className="min-w-0 truncate">{renderContainedText(children)}</span>
         )}
-        {rightIcon && (
+        {rightIcon ? (
           <span className="flex [&>svg]:size-3" aria-hidden="true">
             {rightIcon}
           </span>
+        ) : (
+          renderTextChildren(rightIcon)
         )}
       </Comp>
     );

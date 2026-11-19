@@ -2,7 +2,7 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
-import { renderContainedText } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { Button } from "../Button/Button";
 
@@ -133,22 +133,26 @@ export const InfoBoxContent = React.forwardRef<
           <div className="flex flex-col gap-3">
             {hasHeader && (
               <div className="flex items-center gap-3">
-                {icon && <div className="size-5 shrink-0">{icon}</div>}
-                {heading && (
+                {icon ? <div className="size-5 shrink-0">{icon}</div> : renderTextChildren(icon)}
+                {heading ? (
                   <p
                     id={headingId}
                     className="typography-body-default-16px-semibold min-w-0 flex-1 text-content-primary-inverted"
                   >
                     {renderContainedText(heading)}
                   </p>
+                ) : (
+                  renderTextChildren(heading)
                 )}
-                {pill && <div className="shrink-0">{pill}</div>}
+                {pill ? <div className="shrink-0">{pill}</div> : renderTextChildren(pill)}
               </div>
             )}
-            {children && (
+            {children ? (
               <div className="typography-body-small-14px-regular text-content-primary-inverted">
                 {renderContainedText(children)}
               </div>
+            ) : (
+              renderTextChildren(children)
             )}
             {hasActions && (
               <div className="flex items-center gap-1">

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 
 /** Props for {@link UserItemTrailing}. */
 export interface UserItemTrailingProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -35,10 +35,12 @@ export const UserItemTrailing = React.forwardRef<HTMLDivElement, UserItemTrailin
         <span className="typography-body-small-14px-semibold text-content-primary">
           {renderContainedText(value)}
         </span>
-        {meta && (
+        {meta ? (
           <span className="typography-description-12px-regular text-content-secondary">
             {renderContainedText(meta)}
           </span>
+        ) : (
+          renderTextChildren(meta)
         )}
       </div>
     );

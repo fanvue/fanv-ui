@@ -162,14 +162,20 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
               </UserDisplayName>
             ),
           )}
-          {secondary && (
+          {secondary ? (
             <p className="typography-description-12px-regular truncate text-content-secondary">
               {renderContainedText(secondary)}
             </p>
+          ) : (
+            renderTextChildren(secondary)
           )}
           {showHandle && <UserHandle>{user.handle}</UserHandle>}
         </div>
-        {trailing && <div className="shrink-0 pl-2">{renderContainedText(trailing)}</div>}
+        {trailing ? (
+          <div className="shrink-0 pl-2">{renderContainedText(trailing)}</div>
+        ) : (
+          renderTextChildren(trailing)
+        )}
       </div>
     );
   },

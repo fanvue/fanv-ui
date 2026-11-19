@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 
 export interface TableMobileRowProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   /** Status or type label above the title, typically a {@link Pill}. */
@@ -37,11 +37,17 @@ export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowPro
         className={cn("flex w-full flex-col gap-4 border-border-primary border-b py-4", className)}
         {...props}
       >
-        {(badge || actions) && (
+        {badge || actions ? (
           <div className="flex min-h-6 items-center justify-between gap-2">
             <div className="flex min-w-0 items-center">{badge}</div>
-            {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
+            {actions ? (
+              <div className="flex shrink-0 items-center gap-2">{actions}</div>
+            ) : (
+              renderTextChildren(actions)
+            )}
           </div>
+        ) : (
+          renderTextChildren(badge || actions)
         )}
         <div className="flex min-w-0 flex-col">
           <p
@@ -52,7 +58,7 @@ export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowPro
           >
             {renderContainedText(title)}
           </p>
-          {description && (
+          {description ? (
             <p
               className={cn(
                 "typography-body-small-14px-regular text-content-tertiary",
@@ -61,6 +67,8 @@ export const TableMobileRow = React.forwardRef<HTMLDivElement, TableMobileRowPro
             >
               {renderContainedText(description)}
             </p>
+          ) : (
+            renderTextChildren(description)
           )}
         </div>
       </div>

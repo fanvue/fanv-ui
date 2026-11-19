@@ -1,7 +1,11 @@
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderContainedText, renderSlottedText } from "../../utils/renderTextChildren";
+import {
+  renderContainedText,
+  renderSlottedText,
+  renderTextChildren,
+} from "../../utils/renderTextChildren";
 
 /**
  * Visual style variant of the link. `inherit` takes the colour of the
@@ -100,15 +104,19 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       ? (event: React.MouseEvent<HTMLAnchorElement>) => event.preventDefault()
       : onClick;
 
-    const leftIconNode = leftIcon && (
+    const leftIconNode = leftIcon ? (
       <span className={ICON_WRAPPER} aria-hidden="true">
         {leftIcon}
       </span>
+    ) : (
+      renderTextChildren(leftIcon)
     );
-    const rightIconNode = rightIcon && (
+    const rightIconNode = rightIcon ? (
       <span className={ICON_WRAPPER} aria-hidden="true">
         {rightIcon}
       </span>
+    ) : (
+      renderTextChildren(rightIcon)
     );
 
     return (
