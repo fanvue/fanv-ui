@@ -510,4 +510,21 @@ export const translationCases: [string, (changed: boolean) => ReactElement][] = 
     "ReviewCard rich author drops its count",
     (changed) => <ReviewCard rating={4} author={richLabel(changed)} />,
   ],
+  [
+    "TableCellContent rich lines drop their count",
+    (changed) => <TableCellContent primary={richLabel(changed)} secondary={richLabel(changed)} />,
+  ],
+  [
+    "Toast rich description drops its count",
+    (changed) => (
+      <ToastProvider>
+        <Toast open title="Saved" description={richLabel(changed)} />
+        <ToastViewport />
+      </ToastProvider>
+    ),
+  ],
+  [
+    "Banner rich description drops its count",
+    (changed) => <Banner variant="whatsNew" title="New" description={richLabel(changed)} />,
+  ],
 ];

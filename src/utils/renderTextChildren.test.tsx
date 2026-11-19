@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { createElement, Fragment } from "react";
+import { createElement, Fragment, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { describe, expect, it } from "vitest";
 import { renderContainedText, renderSlottedText, renderTextChildren } from "./renderTextChildren";
@@ -103,6 +103,45 @@ describe("renderTextChildren keys", () => {
   it("leaves whitespace-only text unwrapped", () => {
     const { container } = render(<p>{renderTextChildren([<b key="more">More</b>, " "])}</p>);
     expect(container.querySelector("p")?.innerHTML).toBe("<b>More</b> ");
+  });
+});
+
+describe("renderTextChildren structure", () => {
+  it("keeps a nested group's node when a second group is added", () => {
+    const fields = [<input key="name" aria-label="Name" />];
+    const view = (extra: boolean) => (
+      <p>
+        {renderTextChildren(
+          createElement(Fragment, null, extra ? [fields, [<i key="more" />]] : [fields]),
+        )}
+      </p>
+    );
+    const { getByLabelText, rerender } = render(view(false));
+    const name = getByLabelText("Name");
+    rerender(view(true));
+    expect(getByLabelText("Name")).toBe(name);
+  });
+
+  it("keeps a consumer key that matches a generated one", () => {
+    const view = (show: boolean) => (
+      <p>{renderTextChildren([show && "Prefix", <b key="text">Name</b>])}</p>
+    );
+    const { container, rerender } = render(view(true));
+    rerender(view(false));
+    expect(container.querySelector("p")?.textContent).toBe("Name");
+  });
+
+  it("keeps a later group's node when a sparse slot is filled", () => {
+    const view = (filled: boolean) => {
+      const slots: ReactNode[] = new Array(3);
+      if (filled) slots[0] = "Lead";
+      slots[1] = [<input key="field" aria-label="Field" />];
+      return <p>{renderTextChildren(slots)}</p>;
+    };
+    const { getByLabelText, rerender } = render(view(false));
+    const field = getByLabelText("Field");
+    rerender(view(true));
+    expect(getByLabelText("Field")).toBe(field);
   });
 });
 

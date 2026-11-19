@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { renderTextChildren } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
@@ -115,12 +115,12 @@ function VipEarnContent({
         <div className="flex flex-col">
           {title && (
             <p className="typography-body-default-16px-semibold text-content-primary leading-6">
-              {title}
+              {renderContainedText(title)}
             </p>
           )}
           {description && (
             <p className="typography-body-small-14px-regular text-content-secondary">
-              {description}
+              {renderContainedText(description)}
             </p>
           )}
         </div>
@@ -162,9 +162,15 @@ function WelcomeContent({
   return (
     <>
       <div className="flex flex-col items-center gap-2 px-8 text-center text-content-primary">
-        {title && <p className="typography-header-heading-xs text-content-primary">{title}</p>}
+        {title && (
+          <p className="typography-header-heading-xs text-content-primary">
+            {renderContainedText(title)}
+          </p>
+        )}
         {description && (
-          <p className="typography-body-small-14px-regular text-content-secondary">{description}</p>
+          <p className="typography-body-small-14px-regular text-content-secondary">
+            {renderContainedText(description)}
+          </p>
         )}
       </div>
       {showActions && (primary || secondary) && (

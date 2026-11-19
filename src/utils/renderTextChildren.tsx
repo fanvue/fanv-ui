@@ -11,28 +11,27 @@ function isEmptySlot(node: unknown) {
 }
 
 function renderSlots(slots: readonly ReactNode[]): ReactNode[] {
-  const out: ReactNode[] = [];
+  const out: ReactNode[] = new Array(slots.length).fill(null);
   let runStart = -1;
   let runText = "";
   const closeRun = () => {
     if (runStart < 0) return;
-    if (runText.trim()) out[runStart] = <span key={`text:${runStart}`}>{runText}</span>;
-    else if (runText) out[runStart] = runText;
+    out[runStart] = runText.trim() ? [<span key="text">{runText}</span>] : runText;
     runStart = -1;
     runText = "";
   };
-  slots.forEach((slot, index) => {
-    if (isText(slot) || isEmptySlot(slot)) {
-      out.push(null);
-      if (isText(slot) && String(slot)) {
+  for (let index = 0; index < slots.length; index++) {
+    const slot = slots[index];
+    if (isText(slot)) {
+      if (String(slot)) {
         if (runStart < 0) runStart = index;
         runText += String(slot);
       }
-      return;
+    } else if (!isEmptySlot(slot)) {
+      closeRun();
+      out[index] = renderTextChildren(slot);
     }
-    closeRun();
-    out.push(renderTextChildren(slot));
-  });
+  }
   closeRun();
   return out;
 }
@@ -42,9 +41,7 @@ export function renderTextChildren(children: ReactNode): ReactNode {
   if (Array.isArray(children)) return renderSlots(children);
   if (isValidElement<{ children?: ReactNode }>(children) && children.type === Fragment) {
     const content = children.props.children;
-    return Array.isArray(content)
-      ? cloneElement(children, undefined, ...renderSlots(content))
-      : cloneElement(children, undefined, renderTextChildren(content));
+    return cloneElement(children, undefined, renderTextChildren(content));
   }
   return children;
 }
@@ -63,7 +60,5 @@ export function renderSlottedText(children: ReactNode): ReactNode {
   }
   const content = children.props.children;
   if (content == null) return children;
-  return Array.isArray(content)
-    ? cloneElement(children, undefined, ...renderSlots(content))
-    : cloneElement(children, undefined, renderTextChildren(content));
+  return cloneElement(children, undefined, renderTextChildren(content));
 }

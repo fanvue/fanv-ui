@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
-import { renderTextChildren } from "../../utils/renderTextChildren";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Button, type ButtonProps } from "../Button/Button";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
@@ -578,14 +578,16 @@ export function TableCellContent({
   return (
     <div className={cn("flex flex-col", className)}>
       <div className="flex items-center gap-1">
-        <span className="typography-description-12px-semibold text-content-primary">{primary}</span>
+        <span className="typography-description-12px-semibold text-content-primary">
+          {renderContainedText(primary)}
+        </span>
         {renderTextChildren(primaryAdornment)}
       </div>
       {(secondary != null || secondaryAdornment != null) && (
         <div className="flex items-center gap-1">
           {secondary != null && (
             <span className="typography-description-12px-regular text-content-secondary">
-              {secondary}
+              {renderContainedText(secondary)}
             </span>
           )}
           {renderTextChildren(secondaryAdornment)}
