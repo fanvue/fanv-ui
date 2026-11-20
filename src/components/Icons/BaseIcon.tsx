@@ -10,9 +10,13 @@ const LAYER_TRANSITION =
 
 interface InternalBaseIconProps extends BaseIconProps {
   variants: IconVariants;
+  /** Fill for the `filled` layer, e.g. a gradient `url(#id)`. @default "currentColor" */
+  filledLayerFill?: string;
+  /** Rendered inside `<defs>`, e.g. the gradient `filledLayerFill` points at. */
+  defs?: React.ReactNode;
 }
 
-const renderPath = (p: IconPath) =>
+const renderPath = (p: IconPath, fill = "currentColor") =>
   p.sw !== undefined ? (
     <path
       key={p.d}
@@ -26,7 +30,7 @@ const renderPath = (p: IconPath) =>
     <path
       key={p.d}
       d={p.d}
-      fill="currentColor"
+      fill={fill}
       fillRule={p.eo ? "evenodd" : undefined}
       clipRule={p.eo ? "evenodd" : undefined}
     />
@@ -43,7 +47,19 @@ const renderPath = (p: IconPath) =>
  * remount.
  */
 export const BaseIcon = React.forwardRef<SVGSVGElement, InternalBaseIconProps>(
-  ({ variants, size: sizeProp, filled: filledProp, spin = false, className, ...props }, ref) => {
+  (
+    {
+      variants,
+      size: sizeProp,
+      filled: filledProp,
+      filledLayerFill,
+      defs,
+      spin = false,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
     const defaults = React.useContext(IconDefaultsContext);
     // A container default only applies when the icon has artwork for it, so an
     // icon drawn at 24/32 only, or without a filled 16, keeps its own look.
@@ -70,12 +86,13 @@ export const BaseIcon = React.forwardRef<SVGSVGElement, InternalBaseIconProps>(
         className={cn(ICON_SIZE_CLASS[size], spin && ICON_SPIN_CLASS, className)}
         {...props}
       >
+        {defs && <defs>{defs}</defs>}
         <g className={cn(LAYER_TRANSITION, showFilled ? "opacity-0" : "opacity-100")}>
-          {outlined.map(renderPath)}
+          {outlined.map((p) => renderPath(p))}
         </g>
         {filledPaths && (
           <g className={cn(LAYER_TRANSITION, showFilled ? "opacity-100" : "opacity-0")}>
-            {filledPaths.map(renderPath)}
+            {filledPaths.map((p) => renderPath(p, filledLayerFill))}
           </g>
         )}
       </svg>
