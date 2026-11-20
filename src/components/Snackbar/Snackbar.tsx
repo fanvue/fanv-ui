@@ -1,8 +1,11 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
+
+const WELCOME_TEXT_PROPS = { className: "sm:flex-none!" };
 
 /** Layout variant of the snackbar. */
 export type SnackbarVariant = "default" | "vipEarn" | "welcome";
@@ -114,12 +117,12 @@ function VipEarnContent({
         <div className="flex flex-col">
           {title && (
             <p className="typography-body-default-16px-semibold text-content-primary leading-6">
-              {title}
+              {renderContainedText(title)}
             </p>
           )}
           {description && (
             <p className="typography-body-small-14px-regular text-content-secondary">
-              {description}
+              {renderContainedText(description)}
             </p>
           )}
         </div>
@@ -161,15 +164,21 @@ function WelcomeContent({
   return (
     <>
       <div className="flex flex-col items-center gap-2 px-8 text-center text-content-primary">
-        {title && <p className="typography-header-heading-xs text-content-primary">{title}</p>}
+        {title && (
+          <p className="typography-header-heading-xs text-content-primary">
+            {renderContainedText(title)}
+          </p>
+        )}
         {description && (
-          <p className="typography-body-small-14px-regular text-content-secondary">{description}</p>
+          <p className="typography-body-small-14px-regular text-content-secondary">
+            {renderContainedText(description)}
+          </p>
         )}
       </div>
       {showActions && (primary || secondary) && (
         <div className="flex w-full flex-col gap-4 px-8 sm:flex-row sm:*:flex-1">
-          {secondary}
-          {primary}
+          {renderTextChildren(secondary, WELCOME_TEXT_PROPS)}
+          {renderTextChildren(primary, WELCOME_TEXT_PROPS)}
         </div>
       )}
     </>
@@ -212,8 +221,8 @@ function DefaultContent({
       </div>
       {showActions && (primary || secondary) && (
         <div className="flex shrink-0 items-start gap-2">
-          {primary}
-          {secondary}
+          {renderTextChildren(primary)}
+          {renderTextChildren(secondary)}
         </div>
       )}
     </>

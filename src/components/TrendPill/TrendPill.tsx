@@ -1,4 +1,5 @@
 import * as React from "react";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { MinusIcon } from "../Icons/MinusIcon";
 import { PlusIcon } from "../Icons/PlusIcon";
 import { Pill } from "../Pill/Pill";
@@ -53,7 +54,7 @@ export const TrendPill = React.forwardRef<HTMLSpanElement, TrendPillProps>(
          * the point of a trend.
          */}
         <span className="sr-only">{isPositive ? increaseLabel : decreaseLabel}</span>
-        {label}
+        {renderTextChildren(label)}
       </Pill>
     );
   },

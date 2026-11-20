@@ -2,6 +2,7 @@ import * as React from "react";
 import { Legend as RechartsLegend } from "recharts";
 import type { LegendPayload } from "recharts/types/component/DefaultLegendContent";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { filterVisiblePayload, resolveConfigEntry } from "./chartUtils";
 import { useChart } from "./useChart";
 
@@ -62,7 +63,7 @@ export const ChartLegendContent = React.forwardRef<HTMLDivElement, ChartLegendCo
                   style={{ backgroundColor: item.color }}
                 />
               )}
-              {itemConfig?.label}
+              {renderTextChildren(itemConfig?.label)}
             </div>
           );
         })}

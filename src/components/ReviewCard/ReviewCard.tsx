@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/cn";
+import { renderContainedText } from "@/utils/renderTextChildren";
 import { StarIcon } from "../Icons/StarIcon";
 
 export interface ReviewCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
@@ -43,7 +44,14 @@ export const ReviewCard = React.forwardRef<HTMLDivElement, ReviewCardProps>(
           </span>
           {author != null && (
             <span className="typography-body-small-14px-regular text-content-tertiary">
-              by {author}
+              {typeof author === "string" || typeof author === "number" ? (
+                `by ${author}`
+              ) : (
+                <>
+                  <span>by </span>
+                  <span>{renderContainedText(author)}</span>
+                </>
+              )}
             </span>
           )}
         </div>

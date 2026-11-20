@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Badge, type BadgeVariant } from "../Badge/Badge";
 import { IconButton } from "../IconButton/IconButton";
 import { CrossIcon } from "../Icons/CrossIcon";
@@ -184,13 +185,15 @@ function BannerGuideBody({
       )}
       {title !== undefined && title !== null && title !== false && (
         <p id={labelledBy} className="typography-body-default-16px-semibold text-content-primary">
-          {title}
+          {renderContainedText(title)}
         </p>
       )}
       {description !== undefined && description !== null && description !== false && (
-        <p className="typography-body-small-14px-regular text-content-secondary">{description}</p>
+        <p className="typography-body-small-14px-regular text-content-secondary">
+          {renderContainedText(description)}
+        </p>
       )}
-      {textAction}
+      {renderTextChildren(textAction)}
     </>
   );
 }
@@ -232,13 +235,15 @@ function BannerFeatureBody({
       >
         {title !== undefined && title !== null && title !== false && (
           <div id={labelledBy} className={titleClass}>
-            {title}
+            {renderContainedText(title)}
           </div>
         )}
         {description !== undefined && description !== null && description !== false && (
-          <p className="typography-body-small-14px-regular text-content-secondary">{description}</p>
+          <p className="typography-body-small-14px-regular text-content-secondary">
+            {renderContainedText(description)}
+          </p>
         )}
-        {textAction}
+        {renderTextChildren(textAction)}
       </div>
     </>
   );
@@ -279,13 +284,13 @@ function BannerSubtleBody({
           <div className="flex flex-col gap-1">
             {title !== undefined && title !== null && title !== false && (
               <div id={labelledBy} className="typography-header-heading-xs text-content-primary">
-                {title}
+                {renderContainedText(title)}
               </div>
             )}
             <div className="flex flex-col gap-2">
               {description !== undefined && description !== null && description !== false && (
                 <p className="typography-body-small-14px-regular text-content-primary">
-                  {description}
+                  {renderContainedText(description)}
                 </p>
               )}
               {secondaryLine !== undefined && secondaryLine !== null && secondaryLine !== false && (
@@ -340,12 +345,12 @@ function BannerInverseBody({
       )}
       {title !== undefined && title !== null && title !== false && (
         <div id={labelledBy} className={titleClassInverse}>
-          {title}
+          {renderContainedText(title)}
         </div>
       )}
       {description !== undefined && description !== null && description !== false && (
         <p className="typography-body-small-14px-regular text-content-primary-inverted">
-          {description}
+          {renderContainedText(description)}
         </p>
       )}
     </div>

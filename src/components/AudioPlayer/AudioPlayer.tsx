@@ -336,7 +336,7 @@ export const AudioPlayer = React.forwardRef<HTMLDivElement, AudioPlayerProps>(
           <span className="typography-body-small-14px-semibold flex shrink-0 items-center gap-0.5 whitespace-nowrap tabular-nums">
             <span className="text-content-primary">{hasStarted ? elapsedLabel : totalLabel}</span>
             <span className={cn("text-content-secondary", !hasStarted && "invisible")}>
-              /{totalLabel}
+              {`/${totalLabel}`}
             </span>
           </span>
         </div>

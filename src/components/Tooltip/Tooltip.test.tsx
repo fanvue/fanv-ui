@@ -53,6 +53,20 @@ describe("Tooltip", () => {
   });
 
   describe("API", () => {
+    it("renders the slotted element when TooltipContent is asChild", () => {
+      render(
+        <TooltipProvider>
+          <Tooltip open>
+            <TooltipTrigger>Help</TooltipTrigger>
+            <TooltipContent asChild>
+              <div className="custom-content">Details</div>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>,
+      );
+      expect(document.querySelector(".custom-content")).toHaveTextContent("Details");
+    });
+
     it("renders tooltip content on hover", async () => {
       const user = userEvent.setup();
       renderTooltip();

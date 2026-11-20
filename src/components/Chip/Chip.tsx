@@ -1,6 +1,7 @@
-import { Slot, Slottable } from "@radix-ui/react-slot";
+import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText, renderSlottedText } from "../../utils/renderTextChildren";
 import { Count, type CountVariant } from "../Count/Count";
 
 /** Visual variant of the chip. */
@@ -230,7 +231,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         {...props}
       >
         {asChild ? (
-          <Slottable>{children}</Slottable>
+          renderSlottedText(children, false)
         ) : (
           <>
             {dottedBorder}
@@ -243,7 +244,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
                   {leftIcon}
                 </span>
               )}
-              <span className="min-w-0 truncate">{children}</span>
+              <span className="min-w-0 truncate">{renderContainedText(children)}</span>
               {rightIcon && (
                 <span
                   className="flex size-5 shrink-0 items-center justify-center"

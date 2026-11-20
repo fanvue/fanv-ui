@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { DropdownMenuItem, type DropdownMenuItemProps } from "../DropdownMenu/DropdownMenuItem";
 import {
   DropdownMenu,
@@ -134,7 +135,7 @@ const OverflowMenu = React.forwardRef<
       >
         <DropdownMenuTrigger>
           <span className="flex items-center gap-2">
-            {labelItem ? labelItem.props.children : label}
+            {renderTextChildren(labelItem ? labelItem.props.children : label)}
             <ChevronDownIcon
               size={16}
               className={cn("motion-safe:transition-transform", open && "rotate-180")}

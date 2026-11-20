@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { useDragToDismiss } from "../../utils/useDragToDismiss";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
@@ -384,7 +385,9 @@ export const DrawerContent = React.forwardRef<
           {...contentProps}
         >
           <DialogPrimitive.Close ref={closeRef} hidden tabIndex={-1} aria-hidden="true" />
-          <DrawerVariantContext.Provider value={variant}>{children}</DrawerVariantContext.Provider>
+          <DrawerVariantContext.Provider value={variant}>
+            {renderTextChildren(children)}
+          </DrawerVariantContext.Provider>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     );

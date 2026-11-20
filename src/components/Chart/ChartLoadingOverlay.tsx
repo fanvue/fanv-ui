@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderTextChildren } from "../../utils/renderTextChildren";
 import { Loader } from "../Loader/Loader";
 import { ChartSkeleton, type ChartSkeletonVariant } from "./ChartSkeleton";
 
@@ -55,7 +56,7 @@ export const ChartLoadingOverlay = React.forwardRef<HTMLDivElement, ChartLoading
   ) => {
     return (
       <div ref={ref} className={cn("relative", className)} {...props}>
-        {children}
+        {renderTextChildren(children)}
         {loading && (
           <div
             className={cn(
