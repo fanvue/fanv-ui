@@ -54,7 +54,7 @@ const VARIANTS: IconVariants = {
 export type VerifiedIconProps = BaseIconProps;
 
 /**
- * Verified badge icon. Renders at sizes 16, 24, or 32 px with outlined and filled variants.
+ * Verify icon. Renders at sizes 16, 24, or 32 px with outlined and filled variants.
  * Defaults to the filled variant.
  *
  * @example

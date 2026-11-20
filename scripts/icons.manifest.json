@@ -713,7 +713,8 @@
     {
       "name": "VerifiedIcon",
       "sizes": [16, 24, 32],
-      "hasFilled": true
+      "hasFilled": true,
+      "defaultsFilled": true
     },
     {
       "name": "VideoIcon",
