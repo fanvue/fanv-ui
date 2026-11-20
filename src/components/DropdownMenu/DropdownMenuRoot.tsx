@@ -3,6 +3,7 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
+import { capturePointer } from "../../utils/pointerCapture";
 import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer/Drawer";
 import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
 import { type DropdownMenuVariant, DropdownMenuVariantContext, ToggleOpenContext } from "./context";
@@ -147,7 +148,7 @@ export const DropdownMenuTrigger = React.forwardRef<
         if (event.pointerType === "mouse" || props.disabled) return;
         // Keep pointerup / pointercancel on this element if the finger drifts off.
         // Optional because jsdom (used in tests) doesn't implement it.
-        event.currentTarget.setPointerCapture?.(event.pointerId);
+        capturePointer(event.currentTarget, event.pointerId);
         tapRef.current = {
           pointerId: event.pointerId,
           x: event.clientX,

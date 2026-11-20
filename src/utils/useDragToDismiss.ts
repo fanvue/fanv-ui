@@ -1,4 +1,5 @@
 import * as React from "react";
+import { capturePointer, releasePointer } from "./pointerCapture";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 const DRAG_START_THRESHOLD_PX = 8;
@@ -99,7 +100,7 @@ export function useDragToDismiss<P extends DragHandlers>(
   const release = (drag: ActiveDrag, dismiss: boolean) => {
     dragRef.current = null;
     drag.stopBlockingTouchScroll();
-    drag.element.releasePointerCapture?.(drag.pointerId);
+    releasePointer(drag.element, drag.pointerId);
     if (!drag.dragging) return;
     if (!dismiss) {
       snapBack(drag.element);
@@ -149,7 +150,7 @@ export function useDragToDismiss<P extends DragHandlers>(
           return;
         }
         drag.dragging = true;
-        drag.element.setPointerCapture?.(event.pointerId);
+        capturePointer(drag.element, event.pointerId);
         drag.element.style.transition = "none";
       }
       const elapsed = event.timeStamp - drag.lastTime;
