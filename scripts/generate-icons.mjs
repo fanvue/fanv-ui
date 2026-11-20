@@ -27,7 +27,13 @@ const MANIFEST_PATH = path.join(__dirname, "icons.manifest.json");
 const NAME_OVERRIDES = {
   Ai: "AI",
   "Ai 2": "AI2",
+  // Figma names the badge "Verify"; the component has always been VerifiedIcon.
+  Verify: "Verified",
 };
+
+// Icons whose `filled` prop defaults to true. Recorded in the manifest so the
+// test generator requests the outlined variant explicitly.
+const DEFAULTS_FILLED = new Set(["VerifiedIcon"]);
 
 function toPascalCase(name) {
   return name
@@ -134,6 +140,7 @@ function formatPath(p) {
 
 function renderComponent(iconName, variants) {
   const componentName = toComponentName(iconName);
+  const defaultsFilled = DEFAULTS_FILLED.has(componentName);
   const sizes = [...new Set(Object.keys(variants).map((k) => Number(k.split("-")[0])))].sort(
     (a, b) => a - b,
   );
@@ -177,21 +184,27 @@ ${variantBody}
 export type ${componentName}Props = BaseIconProps;
 
 /**
- * ${iconName} icon. Renders at sizes 16, 24, or 32 px${hasFilled ? " with outlined and filled variants" : ""}.
+ * ${iconName} icon. Renders at sizes 16, 24, or 32 px${hasFilled ? " with outlined and filled variants" : ""}.${defaultsFilled ? "\n * Defaults to the filled variant." : ""}
  *
  * @example
  * \`\`\`tsx
- * <${componentName} size={24}${hasFilled ? " filled" : ""} />
+ * <${componentName} size={24}${hasFilled && !defaultsFilled ? " filled" : ""} />
  * \`\`\`
  */
 export const ${componentName} = React.forwardRef<SVGSVGElement, ${componentName}Props>(
-  (props, ref) => <BaseIcon ref={ref} variants={VARIANTS} {...props} />,
+${
+  defaultsFilled
+    ? `  ({ filled = true, ...props }, ref) => (
+    <BaseIcon ref={ref} variants={VARIANTS} filled={filled} {...props} />
+  ),`
+    : "  (props, ref) => <BaseIcon ref={ref} variants={VARIANTS} {...props} />,"
+}
 );
 
 ${componentName}.displayName = "${componentName}";
 `;
 
-  return { source: body, hasFilled, sizes };
+  return { source: body, hasFilled, sizes, defaultsFilled };
 }
 
 async function main() {
@@ -211,7 +224,7 @@ async function main() {
   for (const iconName of iconDirs) {
     const variants = loadIconVariants(iconName);
     const componentName = toComponentName(iconName);
-    const { source, hasFilled, sizes } = renderComponent(iconName, variants);
+    const { source, hasFilled, sizes, defaultsFilled } = renderComponent(iconName, variants);
     const outPath = path.join(OUT_DIR, `${componentName}.tsx`);
     fs.writeFileSync(outPath, source);
     // On case-insensitive filesystems (macOS default), writing to `AI2Icon.tsx`
@@ -232,7 +245,12 @@ async function main() {
       }
       throw err;
     }
-    manifestEntries.push({ name: componentName, sizes, hasFilled });
+    manifestEntries.push({
+      name: componentName,
+      sizes,
+      hasFilled,
+      ...(defaultsFilled && { defaultsFilled }),
+    });
     written++;
   }
 

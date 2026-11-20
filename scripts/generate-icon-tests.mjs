@@ -20,11 +20,6 @@ const manifest = fs.existsSync(MANIFEST_PATH)
   : { icons: [] };
 const propBased = new Map(manifest.icons.map((i) => [i.name, i]));
 
-// Icons whose `filled` prop defaults to true, so the outlined variant has to be
-// requested explicitly with `filled={false}`. Without this the filled-vs-outlined
-// geometry test renders the same variant twice and always fails.
-const DEFAULTS_FILLED = new Set(["VerifiedIcon"]);
-
 const files = fs
   .readdirSync(ICONS_DIR)
   .filter((f) => f.endsWith(".tsx") && !f.endsWith(".test.tsx"))
@@ -43,7 +38,10 @@ const propBasedEntries = files
   .filter((n) => propBased.has(n))
   .map((n) => {
     const m = propBased.get(n);
-    const defaultsFilled = DEFAULTS_FILLED.has(n) ? ", defaultsFilled: true" : "";
+    // Icons whose `filled` prop defaults to true, so the outlined variant has to be
+    // requested explicitly with `filled={false}`. Without this the filled-vs-outlined
+    // geometry test renders the same variant twice and always fails.
+    const defaultsFilled = m.defaultsFilled ? ", defaultsFilled: true" : "";
     return `  { name: ${JSON.stringify(n)}, Component: ${n}, hasFilled: ${m.hasFilled}${defaultsFilled} },`;
   })
   .join("\n");
