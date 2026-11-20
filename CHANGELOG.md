@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.52.1](https://github.com/fanvue/fanv-ui/compare/ui-v3.52.0...ui-v3.52.1) (2026-11-20)
+
+
+### Bug Fixes
+
+* **DropdownMenu:** ignore pointer capture errors when the pointer already ended ([#827](https://github.com/fanvue/fanv-ui/issues/827)) ([56f4327](https://github.com/fanvue/fanv-ui/commit/56f43272e5420a437f4a3e20b702ed4ad607a515))
+* **Icons:** match VerifiedIcon to the Figma Verify icon ([#812](https://github.com/fanvue/fanv-ui/issues/812)) ([17fe080](https://github.com/fanvue/fanv-ui/commit/17fe080719fe15d19581399763b010f0c3de7396))
+* **Slider:** stop the keyboard tooltip update crashing on a null thumb ([#822](https://github.com/fanvue/fanv-ui/issues/822)) ([6de420e](https://github.com/fanvue/fanv-ui/commit/6de420e3571cd456fbea84939ad139d28864e4b1))
+
 ## [3.52.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.51.0...ui-v3.52.0) (2026-11-18)
 
 
