@@ -100,6 +100,9 @@
   --color-buttons-tertiary-hover: var(--color-neutral-alphas-200);
   --color-buttons-tertiary-negative-default: #ffffff00;
   --color-buttons-tertiary-negative-hover: var(--primitives-color-whitealpha-300);
+  --color-buttons-tertiary-error-default: #ffffff00;
+  --color-buttons-tertiary-error-hover: var(--color-interaction-hover-error);
+  --color-buttons-tertiary-error-content: var(--color-error-content);
   --color-buttons-outline-default: var(--primitives-color-gray-black);
   --color-buttons-outline-hover: var(--color-neutral-alphas-100);
   --color-buttons-outline-negative-default: var(--primitives-color-gray-white);
@@ -578,6 +581,9 @@
   --color-buttons-tertiary-hover: var(--color-neutral-alphas-200);
   --color-buttons-tertiary-negative-default: #ffffff00;
   --color-buttons-tertiary-negative-hover: var(--primitives-color-whitealpha-300);
+  --color-buttons-tertiary-error-default: #ffffff00;
+  --color-buttons-tertiary-error-hover: var(--color-interaction-hover-error);
+  --color-buttons-tertiary-error-content: var(--color-error-content);
   --color-buttons-outline-default: var(--primitives-color-gray-black);
   --color-buttons-outline-hover: var(--color-neutral-alphas-100);
   --color-buttons-outline-negative-default: var(--primitives-color-gray-white);
@@ -881,6 +887,9 @@
   --color-buttons-tertiary-hover: var(--color-neutral-alphas-300);
   --color-buttons-tertiary-negative-default: #ffffff00;
   --color-buttons-tertiary-negative-hover: var(--primitives-color-blackalpha-200);
+  --color-buttons-tertiary-error-default: #ffffff00;
+  --color-buttons-tertiary-error-hover: var(--color-interaction-hover-error);
+  --color-buttons-tertiary-error-content: var(--color-error-content);
   --color-buttons-outline-default: var(--primitives-color-gray-white);
   --color-buttons-outline-hover: var(--color-neutral-alphas-100);
   --color-buttons-outline-negative-default: var(--primitives-color-gray-black);

@@ -3,6 +3,7 @@ import { E2E_FIXTURE_PARAMETERS } from "../../storybook";
 import { ArrowRightIcon } from "../Icons/ArrowRightIcon";
 import { CrownIcon } from "../Icons/CrownIcon";
 import { PlusIcon } from "../Icons/PlusIcon";
+import { TrashIcon } from "../Icons/TrashIcon";
 import { Pill } from "../Pill/Pill";
 import { Button, type ButtonVariant } from "./Button";
 
@@ -139,6 +140,51 @@ export const BrandLoading: Story = {
 export const Destructive: Story = {
   parameters: E2E_FIXTURE_PARAMETERS,
   args: { variant: "destructive", size: "48", children: "Label" },
+};
+
+const TERTIARY_DESTRUCTIVE_SIZES = ["48", "40", "32", "24"] as const;
+
+/**
+ * Figma "Tertiary Error": for destructive actions that shouldn't shout (Revoke,
+ * Remove, Cancel invite, Delete the content). Use `destructive` for a big, final
+ * delete. The hover row applies the variant's hover token directly so it can be
+ * reviewed without a pointer.
+ */
+export const TertiaryDestructive: Story = {
+  args: { variant: "tertiaryDestructive", children: "Revoke" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16800-1155&m=dev",
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-3">
+      {(
+        [
+          ["default", undefined, false],
+          ["hover", "bg-buttons-tertiary-error-hover", false],
+          ["disabled", undefined, true],
+        ] as const
+      ).map(([state, className, disabled]) => (
+        <div key={state} className="flex items-center gap-3">
+          <span className="w-16 text-xs">{state}</span>
+          {TERTIARY_DESTRUCTIVE_SIZES.map((size) => (
+            <Button
+              key={size}
+              variant="tertiaryDestructive"
+              size={size}
+              leftIcon={<TrashIcon />}
+              className={className}
+              disabled={disabled}
+            >
+              Revoke
+            </Button>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
 };
 
 export const Loading: Story = {

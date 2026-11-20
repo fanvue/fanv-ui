@@ -181,8 +181,9 @@ const VARIANT_CLASSES: Record<ButtonVariant, VariantClasses> = {
     disabled: "bg-transparent text-content-primary underline decoration-solid opacity-50",
   },
   tertiaryDestructive: {
-    default: "bg-transparent text-error-content hover:bg-error-surface active:bg-error-surface",
-    disabled: "bg-transparent text-error-content opacity-50",
+    default:
+      "bg-buttons-tertiary-error-default text-buttons-tertiary-error-content hover:bg-buttons-tertiary-error-hover active:bg-buttons-tertiary-error-hover",
+    disabled: DISABLED_TRANSPARENT,
   },
   text: {
     default: "bg-transparent text-content-primary hover:underline active:underline",
@@ -331,6 +332,10 @@ function renderContent({
  * still when the user prefers reduced motion. Keep it for upgrade and purchase
  * prompts. The fill is a gradient, so a `bg-*` class sits under it: recolour it
  * through `--fv-upsell-end`, or pair the class with `bg-none`.
+ *
+ * The `tertiaryDestructive` variant is the Figma "Tertiary Error" button: use it for
+ * destructive actions that shouldn't shout (Revoke, Remove, Cancel invite, Delete the
+ * content). Use `destructive` for a big, final delete.
  *
  * The `ai` variant ships with the AI sparkle icon baked in (locked at 16px
  * regardless of button size); pass `leftIcon` to override the default sparkle.

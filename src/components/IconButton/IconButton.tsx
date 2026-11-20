@@ -6,11 +6,12 @@ import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
 /**
  * Visual style variant of the icon button.
  *
- * `primary`, `secondary`, `tertiary`, `outline`, `error`, `white` and `black`
- * use the shared button colour tokens and a size-driven shape (squared at the
- * `24` size, circular otherwise). Of these, `primary`, `secondary`, `tertiary`
- * and `outline` also honour the {@link IconButtonProps.negative} prop, as does
- * `upsell`, which takes the other theme's glow.
+ * `primary`, `secondary`, `tertiary`, `tertiaryDestructive`, `outline`, `error`,
+ * `white` and `black` use the shared button colour tokens and a size-driven shape
+ * (squared at the `24` size, circular otherwise). Of these, `primary`,
+ * `secondary`, `tertiary` and `outline` also honour the
+ * {@link IconButtonProps.negative} prop, as does `upsell`, which takes the other
+ * theme's glow.
  *
  * `upsell` is the Figma "Upsell" icon button and matches `Button`'s `brand`
  * variant: a green radial fill, a green glow and a highlight that circles the
@@ -22,8 +23,12 @@ import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
  * the keyboard focus ring still follows the theme. It takes the same size-driven
  * shape as the standard variants.
  *
- * `brand`, `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop` and
- * `microphone` are bespoke variants that stay circular at every size.
+ * `tertiaryDestructive` is the Figma "Tertiary Error" icon button: use it for
+ * destructive actions that shouldn't shout (Revoke, Remove, Cancel invite, Delete
+ * the content). Use `error` for a big, final delete.
+ *
+ * `brand`, `contrast`, `messaging`, `navTray`, `stop` and `microphone` are
+ * bespoke variants that stay circular at every size.
  */
 export type IconButtonVariant =
   | "primary"
@@ -83,6 +88,7 @@ const SIZE_DRIVEN_SHAPE_VARIANTS = new Set<IconButtonVariant>([
   "primary",
   "secondary",
   "tertiary",
+  "tertiaryDestructive",
   "outline",
   "error",
   "white",
@@ -197,8 +203,8 @@ const VARIANT_CLASSES: Record<IconButtonVariant, VariantClasses> = {
   },
   tertiaryDestructive: {
     default:
-      "bg-transparent text-error-content hover:bg-brand-primary-muted not-disabled:active:bg-brand-primary-muted",
-    disabled: DISABLED_OPACITY,
+      "bg-buttons-tertiary-error-default text-buttons-tertiary-error-content not-disabled:hover:bg-buttons-tertiary-error-hover not-disabled:active:bg-buttons-tertiary-error-hover",
+    disabled: DISABLED_TRANSPARENT,
   },
   stop: {
     default:
@@ -257,11 +263,11 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  *
  * Shape is size-driven for the standard variants, `upsell` and `overlay`: the `24` size is
  * squared (`rounded-xs`), every larger size is circular. Bespoke variants (`brand`,
- * `contrast`, `messaging`, `navTray`, `tertiaryDestructive`, `stop`,
- * `microphone`) stay circular at all sizes. `field` is the exception that is
- * never circular — it takes the inputs' `rounded-sm` so it matches the fields it
- * sits beside. Use it at `32`, `40` or `48`: those are the sizes `Select` offers,
- * and the variant only earns its surface when it lines up with one.
+ * `contrast`, `messaging`, `navTray`, `stop`, `microphone`) stay circular at all
+ * sizes. `field` is the exception that is never circular — it takes the inputs'
+ * `rounded-sm` so it matches the fields it sits beside. Use it at `32`, `40` or
+ * `48`: those are the sizes `Select` offers, and the variant only earns its
+ * surface when it lines up with one.
  *
  * @example
  * ```tsx

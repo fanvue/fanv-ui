@@ -2224,6 +2224,23 @@
               }
             }
           },
+          "tertiaryError": {
+            "default": {
+              "description": "",
+              "type": "color",
+              "value": "#ffffff00"
+            },
+            "hover": {
+              "description": "",
+              "type": "color",
+              "value": "{semantic.light.color.interaction.hoverError}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{semantic.light.color.error.content}"
+            }
+          },
           "outline": {
             "default": {
               "description": "",
@@ -7052,6 +7069,23 @@
                   }
                 }
               }
+            }
+          },
+          "tertiaryError": {
+            "default": {
+              "description": "",
+              "type": "color",
+              "value": "#ffffff00"
+            },
+            "hover": {
+              "description": "",
+              "type": "color",
+              "value": "{semantic.dark.color.interaction.hoverError}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{semantic.dark.color.error.content}"
             }
           },
           "outline": {

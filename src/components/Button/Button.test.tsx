@@ -236,6 +236,33 @@ describe("Button", () => {
     });
   });
 
+  describe("tertiaryDestructive variant", () => {
+    it("uses the tertiary error tokens", () => {
+      render(<Button variant="tertiaryDestructive">Revoke</Button>);
+      expect(screen.getByRole("button", { name: "Revoke" })).toHaveClass(
+        "bg-buttons-tertiary-error-default",
+        "text-buttons-tertiary-error-content",
+        "hover:bg-buttons-tertiary-error-hover",
+      );
+    });
+
+    it("matches tertiary when disabled", () => {
+      render(
+        <>
+          <Button variant="tertiary" disabled>
+            Tertiary
+          </Button>
+          <Button variant="tertiaryDestructive" disabled>
+            Revoke
+          </Button>
+        </>,
+      );
+      expect(screen.getByRole("button", { name: "Revoke" }).className).toBe(
+        screen.getByRole("button", { name: "Tertiary" }).className,
+      );
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(<Button>Accessible Button</Button>);

@@ -109,6 +109,7 @@ import { TickCircleIcon } from "../Icons/TickCircleIcon";
 import { TickCircleOffIcon } from "../Icons/TickCircleOffIcon";
 import { TickIcon } from "../Icons/TickIcon";
 import { TrashBinIcon } from "../Icons/TrashBinIcon";
+import { TrashIcon } from "../Icons/TrashIcon";
 import { TrophyIcon } from "../Icons/TrophyIcon";
 import { UploadCloudIcon } from "../Icons/UploadCloudIcon";
 import { UploadIcon } from "../Icons/UploadIcon";
@@ -344,30 +345,46 @@ export const Contrast24: Story = {
   },
 };
 
-// Tertiary Destructive variants
-export const TertiaryDestructive24: Story = {
-  args: {
-    variant: "tertiaryDestructive",
-    size: "24",
-    icon: <HomeIcon />,
+/**
+ * Figma "Tertiary Error": for destructive actions that shouldn't shout (Revoke,
+ * Remove, Cancel invite, Delete the content). Use `error` for a big, final delete.
+ * The hover row applies the variant's hover token directly so it can be reviewed
+ * without a pointer.
+ */
+export const TertiaryDestructive: Story = {
+  args: { icon: <TrashIcon />, "aria-label": "Delete" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=16800-8275&m=dev",
+    },
   },
-};
-
-export const TertiaryDestructive32: Story = {
-  args: {
-    variant: "tertiaryDestructive",
-    size: "32",
-    icon: <HomeIcon />,
-  },
-};
-
-export const TertiaryDestructiveDisabled: Story = {
-  args: {
-    variant: "tertiaryDestructive",
-    size: "32",
-    icon: <HomeIcon />,
-    disabled: true,
-  },
+  render: () => (
+    <div className="flex flex-col gap-3">
+      {(
+        [
+          ["default", undefined, false],
+          ["hover", "bg-buttons-tertiary-error-hover", false],
+          ["disabled", undefined, true],
+        ] as const
+      ).map(([state, className, disabled]) => (
+        <div key={state} className="flex items-center gap-4">
+          <span className="w-16 font-mono text-content-secondary text-xs">{state}</span>
+          {v2Sizes.map((size) => (
+            <IconButton
+              key={size}
+              variant="tertiaryDestructive"
+              size={size}
+              icon={<TrashIcon />}
+              aria-label={`Delete ${size} ${state}`}
+              className={className}
+              disabled={disabled}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
 };
 
 // Nav tray variants
