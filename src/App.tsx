@@ -14,7 +14,7 @@ import {
 import { simpleLineConfig, simpleLineData } from "./components/Chart/chartStoryFixtures";
 import { DatePicker } from "./date-picker";
 import { CountryFlag } from "./flags";
-import type { AudioRecordButtonStatus } from "./index";
+import type { AudioRecordButtonStatus, TableSortDirection } from "./index";
 import {
   Accordion,
   AccordionContent,
@@ -4161,6 +4161,11 @@ function TableDemo() {
   const [tableQuery, setTableQuery] = useState("");
   const [tablePageSize, setTablePageSize] = useState(10);
   const [pageLg, setPageLg] = useState(1);
+  const [sortDirection, setSortDirection] = useState<TableSortDirection>("asc");
+  const cycleSort = () =>
+    setSortDirection((d) => (d === "asc" ? "desc" : d === "desc" ? null : "asc"));
+  const sortAria =
+    sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none";
 
   return (
     <div id="table" className="flex scroll-mt-20 flex-col gap-4">
@@ -4401,6 +4406,42 @@ function TableDemo() {
               pageSizeOptions={[10, 25, 50]}
               onPageSizeChange={setTablePageSize}
             />
+          </TableCard>
+        </div>
+
+        <div>
+          <h3 className="typography-body-default-16px-semibold mb-3 text-content-primary">
+            Sortable header (clickable)
+          </h3>
+          <TableCard>
+            <TableScrollArea>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead aria-sort={sortAria}>
+                      <TableSortLabel direction={sortDirection} onClick={cycleSort}>
+                        Title
+                      </TableSortLabel>
+                    </TableHead>
+                    <TableHead>Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Sample row A</TableCell>
+                    <TableCell>
+                      <Badge variant="info">Badge</Badge>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Sample row B</TableCell>
+                    <TableCell>
+                      <Badge variant="info">Badge</Badge>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableScrollArea>
           </TableCard>
         </div>
 
