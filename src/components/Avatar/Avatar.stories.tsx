@@ -18,10 +18,10 @@ const meta = {
   argTypes: {
     size: {
       control: "select",
-      options: [16, 24, 32, 40, 48, 64, 88, 148],
+      options: [16, 24, 32, 40, 48, 64, 80, 88, 148],
       description: "Avatar size in pixels (matches Figma size property)",
       table: {
-        type: { summary: "16 | 24 | 32 | 40 | 48 | 64 | 88 | 148" },
+        type: { summary: "16 | 24 | 32 | 40 | 48 | 64 | 80 | 88 | 148" },
         defaultValue: { summary: "40" },
       },
     },
@@ -34,7 +34,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const SIZES: AvatarSize[] = [16, 24, 32, 40, 48, 64, 88, 148];
+const SIZES: AvatarSize[] = [16, 24, 32, 40, 48, 64, 80, 88, 148];
 
 const Row = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <div className="flex flex-col gap-2">

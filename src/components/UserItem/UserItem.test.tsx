@@ -126,6 +126,7 @@ describe("UserItem", () => {
       [21, "size-6"], // 21 -> nearest 24
       [30, "size-8"], // 30 -> nearest 32
       [70, "size-16"], // 70 -> nearest 64
+      [80, "size-20"], // 80 is a supported token, not snapped to 88
       [120, "size-37"], // 120 -> nearest 148
     ])("snaps %ipx to the nearest supported size", (size, expectedClass) => {
       render(<UserItem user={baseUser} avatarSize={size} />);
