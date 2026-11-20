@@ -27,7 +27,7 @@ const MANIFEST_PATH = path.join(__dirname, "icons.manifest.json");
 const NAME_OVERRIDES = {
   Ai: "AI",
   "Ai 2": "AI2",
-  // Figma names the badge "Verify"; the component has always been VerifiedIcon.
+  // Figma names this icon "Verify"; the exported component is VerifiedIcon.
   Verify: "Verified",
 };
 
