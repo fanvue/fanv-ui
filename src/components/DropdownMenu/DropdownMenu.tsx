@@ -5,6 +5,8 @@
  * module is the single import surface for the package root and consumers.
  */
 export type { DropdownMenuVariant } from "./context";
+export type { DropdownMenuAvatarItemProps } from "./DropdownMenuAvatarItem";
+export { DropdownMenuAvatarItem } from "./DropdownMenuAvatarItem";
 export type {
   DropdownMenuHeaderProps,
   DropdownMenuHeaderSearchProps,
