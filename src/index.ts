@@ -782,6 +782,8 @@ export {
   SelectLabel,
   SelectSeparator,
 } from "./components/Select/Select";
+export type { SettingsCardProps } from "./components/SettingsCard/SettingsCard";
+export { SettingsCard } from "./components/SettingsCard/SettingsCard";
 export type {
   SkeletonAnimation,
   SkeletonProps,
