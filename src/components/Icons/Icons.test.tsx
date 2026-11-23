@@ -442,6 +442,18 @@ describe("Icons", () => {
           });
           expect(diffs.some(Boolean)).toBe(true);
         });
+
+        if (defaultsFilled) {
+          it("renders the filled variant when filled is not passed", () => {
+            for (const size of [16, 24, 32] as const) {
+              const { container: bare } = render(<Component size={size} />);
+              const { container: filled } = render(<Component size={size} filled />);
+              const b = bare.querySelector("svg")?.innerHTML ?? "";
+              expect(b).not.toBe("");
+              expect(b).toBe(filled.querySelector("svg")?.innerHTML);
+            }
+          });
+        }
       } else {
         it("accepts the filled prop without error (variant unavailable)", () => {
           const { container } = render(<Component filled />);
