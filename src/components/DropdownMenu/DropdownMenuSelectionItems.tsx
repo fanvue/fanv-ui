@@ -55,13 +55,12 @@ export const DropdownMenuRadioItem = React.forwardRef<
         // A helper line makes it a two-line row aligned to its title; a single
         // line centres in the 40px row like the checkbox and DropdownMenuItem.
         helper ? "items-start" : "items-center",
-        "data-[highlighted]:bg-neutral-alphas-50",
+        // Checked and highlighted follow DropdownMenuItem's selected and hover fills.
+        "data-[state=checked]:bg-buttons-navigation-hover",
+        "data-[highlighted]:bg-interaction-hover",
+        // Same specificity as the checked fill, so spell out that hover wins.
+        "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
-        // See DropdownMenuItem above: bg-interaction-hover aliases to the same
-        // token as the plain hover background, so it can't distinguish the
-        // checked state from an unchecked-but-hovered row.
-        "data-[state=checked]:bg-neutral-alphas-100",
-        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-200",
         className,
       )}
       {...props}
@@ -136,7 +135,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
         // Checked state is carried by the tick alone. A background here would
         // leave every selected row shaded, which reads as "all highlighted" on
         // a menu that starts fully selected.
-        "data-[highlighted]:bg-neutral-alphas-50",
+        "data-[highlighted]:bg-interaction-hover",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
         className,
       )}

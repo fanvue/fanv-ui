@@ -262,7 +262,7 @@ export const SelectContent = React.forwardRef<
         )}
         {...props}
       >
-        <SelectPrimitive.Viewport className="max-h-[var(--radix-select-content-available-height)] overflow-y-auto p-2">
+        <SelectPrimitive.Viewport className="flex max-h-[var(--radix-select-content-available-height)] flex-col gap-[3px] overflow-y-auto p-2">
           {/* A select opened from inside a menu row must not inherit that row's icon defaults. */}
           <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
             {children}
@@ -348,7 +348,11 @@ export const SelectItem = React.forwardRef<
         hasDescription ? "items-start" : "items-center",
         ITEM_SIZE_CLASSES[itemSize],
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",
+        // Selected and hover follow DropdownMenuItem: the checked row rests on
+        // `Buttons/Navigation/Hover` with a semibold title, and the hover fill wins.
+        "data-[state=checked]:bg-buttons-navigation-hover",
         "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
+        "data-[state=checked]:focus:bg-interaction-hover data-[state=checked]:data-highlighted:bg-interaction-hover",
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}
@@ -379,7 +383,7 @@ export const SelectItem = React.forwardRef<
           </span>
         </span>
       ) : (
-        <span className="min-w-0 flex-1 truncate">
+        <span className="min-w-0 flex-1 truncate group-data-[state=checked]:font-semibold">
           <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
         </span>
       )}

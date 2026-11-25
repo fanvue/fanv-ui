@@ -197,13 +197,15 @@ export const DropdownMenuItem = React.forwardRef<
       // data-disabled — neither selector above matches them.
       "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
       destructive && "text-error-content",
-      // Selected: the same `Interaction/Hover` fill as a highlighted row (library
-      // node `23452:13432`), so the current value reads as the resting highlight.
-      selected && "bg-interaction-hover",
+      // Selected: `Buttons/Navigation/Hover` with a semibold title (`V2 Menu Item`,
+      // State=Selected), a step apart from the `Interaction/Hover` fill of a
+      // highlighted row. `data-[highlighted]` outranks the plain class, so hovering
+      // the selected row still shows the hover fill.
+      selected && "bg-buttons-navigation-hover",
       className,
     );
-    // The selected row shares the hover fill, so it also carries the state in the
-    // markup: `aria-current` for assistive tech and `data-selected` for styling.
+    // The selected row also carries the state in the markup: `aria-current` for
+    // assistive tech and `data-selected` for styling.
     // A consumer that already exposes the state (e.g. `menuitemradio` with
     // `aria-checked`) keeps it, without a second `aria-current` on top.
     const selectedProps = selected
@@ -282,7 +284,9 @@ export const DropdownMenuItem = React.forwardRef<
             </span>
           </span>
         ) : (
-          <span className="min-w-0 flex-1 truncate">{children}</span>
+          <span className={cn("min-w-0 flex-1 truncate", selected && "font-semibold")}>
+            {children}
+          </span>
         )}
         {countNode}
         {trailingNode}

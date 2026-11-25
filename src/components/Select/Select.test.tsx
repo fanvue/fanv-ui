@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import * as React from "react";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
@@ -311,6 +311,30 @@ describe("Select", () => {
       );
       expect(screen.getByText("Secondary line")).toHaveClass(
         "group-data-[disabled]:text-content-disabled",
+      );
+    });
+
+    it("marks the selected row with its own fill and a semibold title, apart from hover", () => {
+      render(
+        <Select aria-label="Test" defaultOpen defaultValue="a">
+          <SelectContent>
+            <SelectItem value="a">Option A</SelectItem>
+            <SelectItem value="b">Option B</SelectItem>
+          </SelectContent>
+        </Select>,
+      );
+      const selected = screen.getByRole("option", { name: "Option A" });
+      expect(selected).toHaveAttribute("data-state", "checked");
+      expect(selected).toHaveClass(
+        "data-[state=checked]:bg-buttons-navigation-hover",
+        "data-[state=checked]:data-highlighted:bg-interaction-hover",
+      );
+      expect(within(selected).getByText("Option A").parentElement).toHaveClass(
+        "group-data-[state=checked]:font-semibold",
+      );
+      expect(screen.getByRole("option", { name: "Option B" })).toHaveAttribute(
+        "data-state",
+        "unchecked",
       );
     });
 

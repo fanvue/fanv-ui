@@ -666,15 +666,22 @@ describe("DropdownMenuItem", () => {
       expect(screen.getByTestId("item")).toHaveClass("min-h-10");
     });
 
-    it("renders the selected state with the regular-weight hover highlight", () => {
+    it("renders the selected state on its own fill with a semibold title, apart from hover", () => {
       renderMenu(
-        <DropdownMenuItem selected data-testid="item">
-          Item
-        </DropdownMenuItem>,
+        <>
+          <DropdownMenuItem selected data-testid="item">
+            Item
+          </DropdownMenuItem>
+          <DropdownMenuItem data-testid="other">Other</DropdownMenuItem>
+        </>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass("bg-interaction-hover", "typography-body-small-14px-regular");
-      expect(item).not.toHaveClass("typography-body-small-14px-semibold");
+      expect(item).toHaveClass("bg-buttons-navigation-hover");
+      expect(item).not.toHaveClass("bg-interaction-hover");
+      expect(screen.getByText("Item")).toHaveClass("font-semibold");
+      // Positive control: an unselected row has neither.
+      expect(screen.getByTestId("other")).not.toHaveClass("bg-buttons-navigation-hover");
+      expect(screen.getByText("Other")).not.toHaveClass("font-semibold");
     });
 
     it("renders leading and trailing icons at 16px in the secondary icon colour", () => {
@@ -1355,11 +1362,7 @@ describe("DropdownMenuRadioItem", () => {
       expect(items[1]).toHaveAttribute("data-state", "checked");
     });
 
-    it("keeps a distinct checked highlight when the item is also keyboard/mouse-highlighted", () => {
-      // Regression guard: bg-interaction-hover aliases to the same token as the
-      // plain hover background, so checked must use a darker neutral-alphas step
-      // (via a higher-specificity compound selector) or it becomes visually
-      // indistinguishable from unchecked on hover.
+    it("gives the checked row the selected fill and lets the hover fill win over it", () => {
       renderMenu(
         <DropdownMenuRadioGroup value="two">
           <DropdownMenuRadioItem value="one">One</DropdownMenuRadioItem>
@@ -1367,8 +1370,10 @@ describe("DropdownMenuRadioItem", () => {
         </DropdownMenuRadioGroup>,
       );
       const checkedItem = screen.getByRole("menuitemradio", { name: /Two/ });
-      expect(checkedItem.className).toContain(
-        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-200",
+      expect(checkedItem).toHaveAttribute("data-state", "checked");
+      expect(checkedItem).toHaveClass(
+        "data-[state=checked]:bg-buttons-navigation-hover",
+        "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
       );
     });
 
