@@ -26,4 +26,15 @@ test.describe("DatePicker", () => {
     expect(compact.day?.height).toBe(32);
     expect(compact.calendar?.width).toBeLessThan(standard.calendar?.width ?? 0);
   });
+
+  test("sizes the footer buttons to match", async ({ page }) => {
+    await page.goto(getStoryUrl("DatePicker", "RangeSelection"));
+    const standardApply = await page.getByRole("button", { name: "Apply" }).boundingBox();
+
+    await page.goto(getStoryUrl("DatePicker", "CompactRange"));
+    const compactApply = await page.getByRole("button", { name: "Apply" }).boundingBox();
+
+    expect(standardApply?.height).toBe(40);
+    expect(compactApply?.height).toBe(32);
+  });
 });

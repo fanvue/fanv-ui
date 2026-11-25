@@ -24,14 +24,18 @@ export type { DateRange }; // Needed by consumers when passing props
 /** Layout variant — single or side-by-side month display. */
 export type DatePickerVariant = "single" | "double";
 
-/** Size preset — day cell height in pixels. */
+/** Day button size in pixels. It also scales the navigation, caption, padding and footer buttons. */
 export type DatePickerSize = "40" | "32";
 
 /** Props specific to the DatePicker wrapper (not inherited from react-day-picker). */
 export interface DatePickerOwnProps {
   /** Display one month or two side-by-side. @default "single" */
   variant?: DatePickerVariant;
-  /** Size of the calendar in pixels. Use `"32"` for compact surfaces such as toolbar popovers. @default "40" */
+  /**
+   * Day button size in pixels. It also scales the navigation, caption, padding and footer buttons.
+   * Use `"32"` for compact surfaces such as toolbar popovers.
+   * @default "40"
+   */
   size?: DatePickerSize;
   /** Callback fired when the Apply button is clicked. */
   onApply?: () => void;
@@ -244,7 +248,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                 "flex flex-1 items-center justify-center text-content-secondary",
                 isCompact
                   ? "typography-description-12px-regular h-6 w-8"
-                  : "typography-body-small-14px-regular h-[30px] w-10",
+                  : "typography-body-small-14px-regular h-7.5 w-10",
               ),
               week: "flex",
               day: "relative flex flex-1 items-center justify-center p-0.5",

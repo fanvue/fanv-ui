@@ -314,6 +314,10 @@ function DatePickerShowcase() {
     from: new Date(2026, 1, 9),
     to: new Date(2026, 1, 19),
   });
+  const [compactRange, setCompactRange] = useState<DateRange | undefined>({
+    from: new Date(2026, 1, 9),
+    to: new Date(2026, 1, 19),
+  });
   const [doubleDate, setDoubleDate] = useState<Date | undefined>(new Date(2026, 1, 15));
   const [doubleRange, setDoubleRange] = useState<DateRange | undefined>({
     from: new Date(2026, 1, 9),
@@ -352,8 +356,8 @@ function DatePickerShowcase() {
         mode="range"
         size="32"
         defaultMonth={new Date(2026, 1)}
-        selected={singleRange}
-        onSelect={setSingleRange}
+        selected={compactRange}
+        onSelect={setCompactRange}
       />
     </div>
   );
