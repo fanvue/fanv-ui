@@ -27,7 +27,7 @@ export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "c
   /**
    * `"always"` keeps the × visible (lists, filter tags). `"hover"` reveals it on hover or
    * keyboard focus, and keeps it visible on touch devices, which have no hover.
-   * Space for the × is reserved either way, so revealing it never shifts the row.
+   * In `"hover"` mode the tag is narrower at rest and widens when the × appears; its height never changes.
    * @default "always"
    */
   removeVisibility?: TagRemoveVisibility;
@@ -102,7 +102,7 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
             className={cn(
               "relative flex size-3 shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute after:-inset-1.5 focus-visible:opacity-100 focus-visible:shadow-focus-ring focus-visible:outline-none",
               removeVisibility === "hover" &&
-                "opacity-0 pointer-coarse:opacity-100 group-focus-within:opacity-100 group-hover:opacity-100",
+                "pointer-events-none pointer-coarse:pointer-events-auto -ml-0.5 pointer-coarse:ml-0 pointer-coarse:w-3 w-0 opacity-0 pointer-coarse:opacity-100 group-focus-within:pointer-events-auto group-focus-within:ml-0 group-focus-within:w-3 group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:ml-0 group-hover:w-3 group-hover:opacity-100",
             )}
           >
             <CrossIcon className="size-3" />

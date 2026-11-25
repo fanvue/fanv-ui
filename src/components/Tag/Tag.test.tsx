@@ -61,6 +61,20 @@ describe("Tag", () => {
       expect(onRemove).toHaveBeenCalledTimes(1);
     });
 
+    it("is reachable by keyboard when revealed on hover", async () => {
+      const user = userEvent.setup();
+      const onRemove = vi.fn();
+      render(
+        <Tag onRemove={onRemove} removeVisibility="hover">
+          Whale
+        </Tag>,
+      );
+      await user.tab();
+      expect(screen.getByRole("button", { name: "Remove Whale" })).toHaveFocus();
+      await user.keyboard("{Enter}");
+      expect(onRemove).toHaveBeenCalledTimes(1);
+    });
+
     it("stays in the accessibility tree when revealed on hover", () => {
       render(
         <Tag onRemove={() => {}} removeVisibility="hover">
