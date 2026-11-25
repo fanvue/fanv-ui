@@ -9,10 +9,12 @@ import {
   LEGACY_COLOR_ALIASES,
   refToVar,
   resolveValue,
+  THEME_V2_FALLBACKS,
 } from "./buildStyles.js";
 
 const stylesDir = join(process.cwd(), "src/styles");
 const rawTokens = JSON.parse(readFileSync(join(stylesDir, "styleTokens.json"), "utf-8"));
+const v2Tokens = JSON.parse(readFileSync(join(stylesDir, "styleTokensV2.json"), "utf-8"));
 
 describe("refToVar", () => {
   it("namespaces by the referenced collection, not the referring token's type", () => {
@@ -80,6 +82,10 @@ describe("assertPrimitiveParity", () => {
     expect(() => assertPrimitiveParity(rawTokens)).not.toThrow();
   });
 
+  it("passes for the v2 token set", () => {
+    expect(() => assertPrimitiveParity(v2Tokens)).not.toThrow();
+  });
+
   it("throws when a dark token references a primitive that diverges from light", () => {
     const broken = structuredClone(rawTokens);
     broken.primitives.dark.color.green["500"].value = "#000000ff";
@@ -92,7 +98,7 @@ describe("assertPrimitiveParity", () => {
 });
 
 describe("buildThemeCss", () => {
-  const css = buildThemeCss(rawTokens);
+  const css = buildThemeCss(rawTokens, v2Tokens);
 
   it("produces CSS with no dangling variable references", () => {
     expect(() => assertNoDanglingVars(css)).not.toThrow();
@@ -182,6 +188,60 @@ describe("buildThemeCss", () => {
       ),
     );
     expect(Object.fromEntries(documented)).toEqual(LEGACY_COLOR_ALIASES);
+  });
+
+  describe("theme-v2", () => {
+    const block = (selector: string) => {
+      const start = css.indexOf(`\n${selector} {`);
+      return css.slice(start, css.indexOf("\n}", start));
+    };
+    const declared = (text: string) =>
+      new Map<string, string>(
+        [...text.matchAll(/^\s*(--[\w-]+)\s*:\s*([^;]+);/gm)].map((m) => [m[1] ?? "", m[2] ?? ""]),
+      );
+    const root = declared(block(":root"));
+    const v2Light = declared(block(".theme-v2"));
+    const v2Dark = declared(block(".theme-v2 .dark"));
+    // Modal padding and radius sit under --color-* but hold spacing and radius values.
+    const colourVars = (vars: Map<string, string>) =>
+      [...vars.entries()]
+        .filter(
+          ([name, value]) => name.startsWith("--color-") && !/--(spacing|radius)-/.test(value),
+        )
+        .map(([name]) => name);
+
+    it("uses the v2 values for the retuned surfaces in each mode", () => {
+      expect(v2Light.get("--color-background-primary")).toBe("var(--primitives-color-gray-75)");
+      expect(v2Light.get("--color-surface-primary")).toBe("var(--primitives-color-gray-white)");
+      expect(v2Dark.get("--color-background-primary")).toBe("var(--primitives-color-gray-black)");
+      expect(v2Dark.get("--color-surface-primary")).toBe("var(--primitives-color-gray-900)");
+      expect(v2Light.get("--primitives-color-gray-75")).toBe("#f4f4f4ff");
+    });
+
+    it("redefines every colour var the default theme declares, in both modes", () => {
+      const missingLight = colourVars(root).filter(
+        (name) => !v2Light.has(name) && !(name in LEGACY_COLOR_ALIASES),
+      );
+      const missingDark = colourVars(root).filter(
+        (name) => !v2Dark.has(name) && !(name in LEGACY_COLOR_ALIASES),
+      );
+      expect(missingLight).toEqual([]);
+      expect(missingDark).toEqual([]);
+    });
+
+    it("adds no colour var that the default theme does not declare", () => {
+      expect(colourVars(v2Light).filter((name) => !root.has(name))).toEqual([]);
+    });
+
+    it("gives each v2-only var today's look outside theme-v2, in @theme too", () => {
+      const themeBlocks = (css.match(/@theme \{[^}]*\}/g) ?? []).join("\n");
+      for (const [token, fallback] of Object.entries(THEME_V2_FALLBACKS)) {
+        expect(root.get(token)).toBe(`var(${fallback})`);
+        expect(declared(block(".dark")).get(token)).toBe(`var(${fallback})`);
+        expect(themeBlocks).toContain(`${token}: var(${fallback});`);
+        expect(v2Light.get(token)).toMatch(/^var\(--primitives-color-/);
+      }
+    });
   });
 
   it("stays in sync with the committed theme.css (run buildStyles.js to regenerate)", () => {
