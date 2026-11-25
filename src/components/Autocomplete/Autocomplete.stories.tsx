@@ -459,20 +459,16 @@ export const CustomGroupHeading: Story = {
 };
 
 /**
- * The input border token and the 1px focus stroke under the v2 palette. Snapshotted
- * with the v2 palette only; switch the Palette toolbar to compare with Current.
+ * The input border token, error and disabled states under the v2 palette. The
+ * focused field is in {@link PaletteV2Open}, since focusing an Autocomplete opens
+ * its panel over the fields below. Snapshotted with the v2 palette only; switch
+ * the Palette toolbar to compare with Current.
  */
 export const PaletteV2: Story = {
   name: "Palette v2",
   parameters: V2_PALETTE_STORY_PARAMETERS,
   render: () => (
     <div className="flex flex-col gap-6">
-      <Autocomplete
-        label="Focused"
-        placeholder="Search..."
-        options={COUNTRIES}
-        emptyText="No results"
-      />
       <Autocomplete
         label="Default"
         placeholder="Search..."
@@ -497,14 +493,12 @@ export const PaletteV2: Story = {
       />
     </div>
   ),
-  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
-    within(canvasElement).getByLabelText("Focused").focus();
-  },
 };
 
 /**
- * The open panel under the v2 palette: the menu surface and stroke, with the
- * selected row on the inverted surface. Snapshotted with the v2 palette only.
+ * The focused, open field under the v2 palette: the 1px focus stroke, the menu
+ * surface and stroke, and the selected row on the inverted surface. Snapshotted
+ * with the v2 palette only.
  */
 export const PaletteV2Open: Story = {
   name: "Palette v2 (open)",
@@ -516,5 +510,8 @@ export const PaletteV2Open: Story = {
     defaultValue: "ca",
     defaultOpen: true,
     emptyText: "No results",
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    within(canvasElement).getByRole("combobox").focus();
   },
 };
