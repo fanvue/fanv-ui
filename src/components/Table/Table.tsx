@@ -335,28 +335,70 @@ export interface TableScrollAreaProps extends React.HTMLAttributes<HTMLDivElemen
   roundTop?: boolean;
   /**
    * Shows a slim horizontal scrollbar beneath the table when the content
-   * overflows (Figma `V2 Scroll Bar`). @default false
+   * overflows (Figma `V2 Scroll Bar`), with room reserved for it only while
+   * the table is wider than its card. @default false
    */
   showScrollbar?: boolean;
 }
 
 /**
- * Horizontal scroll container for wide tables. The inner scrollport keeps
- * `border-collapse` styles intact when the table wraps.
+ * Scroll container for the table. Wide tables scroll sideways. When its
+ * {@link TableCard} has a bounded height (a flex child of a full-height page,
+ * or a set height), the rows scroll inside the card under a pinned header
+ * and the card's footer stays in view. The area fills the card's height, so
+ * in a card taller than its rows the footer sits at the bottom of the card.
  */
 export const TableScrollArea = React.forwardRef<HTMLDivElement, TableScrollAreaProps>(
   ({ className, children, roundTop: _roundTop, showScrollbar = false, ...props }, ref) => {
+    const scrollportRef = React.useRef<HTMLDivElement>(null);
+    const [overflowsX, setOverflowsX] = React.useState(false);
+
+    React.useLayoutEffect(() => {
+      const scrollport = scrollportRef.current;
+      if (!showScrollbar || !scrollport || typeof ResizeObserver === "undefined") {
+        return;
+      }
+      const measure = () => setOverflowsX(scrollport.scrollWidth > scrollport.clientWidth);
+      const resizeObserver = new ResizeObserver(measure);
+      // Content can be swapped after mount (a skeleton replaced by the table),
+      // so the observed elements are refreshed whenever the content changes.
+      const observeContent = () => {
+        resizeObserver.disconnect();
+        resizeObserver.observe(scrollport);
+        for (const element of [
+          ...Array.from(scrollport.children),
+          ...Array.from(scrollport.querySelectorAll("table")),
+        ]) {
+          resizeObserver.observe(element);
+        }
+        measure();
+      };
+      observeContent();
+      const mutationObserver = new MutationObserver(observeContent);
+      mutationObserver.observe(scrollport, { childList: true, subtree: true });
+      return () => {
+        mutationObserver.disconnect();
+        resizeObserver.disconnect();
+      };
+    }, [showScrollbar]);
+
     return (
       <div
         ref={ref}
-        className={cn("relative w-full min-w-0 overflow-hidden", className)}
+        className={cn(
+          "relative flex min-h-0 w-full min-w-0 flex-auto flex-col overflow-hidden",
+          className,
+        )}
         {...props}
       >
         <div
+          ref={scrollportRef}
+          data-table-scrollport=""
           className={cn(
-            "overflow-x-auto",
+            "min-h-0 flex-auto overflow-auto",
             showScrollbar &&
-              "pb-3 [scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]",
+              "[scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]",
+            showScrollbar && overflowsX && "pb-3",
           )}
         >
           {children}
@@ -390,9 +432,20 @@ Table.displayName = "Table";
 
 export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionElement> {}
 
+/**
+ * `<thead>` wrapper. Its header cells stay pinned to the top while rows
+ * scroll beneath them. Row header cells in {@link TableBody} scroll with
+ * their rows.
+ */
 export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   ({ className, ...props }, ref) => {
-    return <thead ref={ref} className={cn(className)} {...props} />;
+    return (
+      <thead
+        ref={ref}
+        className={cn("[&_th]:sticky [&_th]:top-0 [&_th]:z-10", className)}
+        {...props}
+      />
+    );
   },
 );
 TableHeader.displayName = "TableHeader";

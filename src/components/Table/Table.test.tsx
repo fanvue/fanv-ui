@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
@@ -166,9 +166,193 @@ describe("Table", () => {
           </Table>
         </TableScrollArea>,
       );
-      const scrollport = container.querySelector(".overflow-x-auto");
+      const scrollport = container.querySelector("[data-table-scrollport]");
       expect(scrollport).toHaveClass("[scrollbar-width:thin]");
+      expect(scrollport).toHaveClass("overflow-auto");
+    });
+
+    it("reserves scrollbar room only while the table is wider than its card", () => {
+      const area = (
+        <TableScrollArea showScrollbar>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>Value</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableScrollArea>
+      );
+      const narrow = render(area);
+      const narrowScrollport = narrow.container.querySelector("[data-table-scrollport]");
+      expect(narrowScrollport).toHaveClass("[scrollbar-width:thin]");
+      expect(narrowScrollport).not.toHaveClass("pb-3");
+      narrow.unmount();
+
+      const scrollWidth = vi
+        .spyOn(HTMLElement.prototype, "scrollWidth", "get")
+        .mockReturnValue(900);
+      const clientWidth = vi
+        .spyOn(HTMLElement.prototype, "clientWidth", "get")
+        .mockReturnValue(400);
+      const wide = render(area);
+      expect(wide.container.querySelector("[data-table-scrollport]")).toHaveClass("pb-3");
+      scrollWidth.mockRestore();
+      clientWidth.mockRestore();
+    });
+
+    it("adds and removes scrollbar room when the table is resized", () => {
+      const callbacks: ResizeObserverCallback[] = [];
+      vi.stubGlobal(
+        "ResizeObserver",
+        class {
+          constructor(callback: ResizeObserverCallback) {
+            callbacks.push(callback);
+          }
+          observe() {}
+          unobserve() {}
+          disconnect() {}
+        },
+      );
+      const scrollWidth = vi
+        .spyOn(HTMLElement.prototype, "scrollWidth", "get")
+        .mockReturnValue(400);
+      const clientWidth = vi
+        .spyOn(HTMLElement.prototype, "clientWidth", "get")
+        .mockReturnValue(400);
+      const resize = (width: number) => {
+        scrollWidth.mockReturnValue(width);
+        act(() => {
+          for (const callback of callbacks) {
+            callback([], {} as ResizeObserver);
+          }
+        });
+      };
+
+      const { container } = render(
+        <TableScrollArea showScrollbar>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>Value</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableScrollArea>,
+      );
+      const scrollport = container.querySelector("[data-table-scrollport]");
+      expect(scrollport).toHaveClass("[scrollbar-width:thin]");
+      expect(scrollport).not.toHaveClass("pb-3");
+
+      resize(900);
       expect(scrollport).toHaveClass("pb-3");
+
+      resize(400);
+      expect(scrollport).not.toHaveClass("pb-3");
+
+      scrollWidth.mockRestore();
+      clientWidth.mockRestore();
+      vi.unstubAllGlobals();
+    });
+
+    it("pins the header row's cells, not row headers in the body", () => {
+      render(
+        <TableCard>
+          <TableScrollArea>
+            <Table>
+              <TableHeader data-testid="header">
+                <TableRow>
+                  <TableHead>Column</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableHead scope="row">Row header</TableHead>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      expect(screen.getByTestId("header")).toHaveClass(
+        "[&_th]:sticky",
+        "[&_th]:top-0",
+        "[&_th]:z-10",
+      );
+      expect(screen.getByRole("columnheader", { name: "Column" })).toBeInTheDocument();
+      expect(screen.getByRole("rowheader", { name: "Row header" })).not.toHaveClass("sticky");
+    });
+
+    it("measures a table that replaces a placeholder after mount", async () => {
+      const observed = new Set<Element>();
+      vi.stubGlobal(
+        "ResizeObserver",
+        class {
+          observe(element: Element) {
+            observed.add(element);
+          }
+          unobserve() {}
+          disconnect() {
+            observed.clear();
+          }
+        },
+      );
+      const scrollWidth = vi
+        .spyOn(HTMLElement.prototype, "scrollWidth", "get")
+        .mockReturnValue(400);
+      const clientWidth = vi
+        .spyOn(HTMLElement.prototype, "clientWidth", "get")
+        .mockReturnValue(400);
+
+      const { container, rerender } = render(
+        <TableScrollArea showScrollbar>
+          <div>Loading</div>
+        </TableScrollArea>,
+      );
+      const scrollport = container.querySelector("[data-table-scrollport]");
+      expect(scrollport).not.toHaveClass("pb-3");
+
+      scrollWidth.mockReturnValue(900);
+      rerender(
+        <TableScrollArea showScrollbar>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>Value</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableScrollArea>,
+      );
+
+      await waitFor(() => expect(scrollport).toHaveClass("pb-3"));
+      expect(observed.has(container.querySelector("table") as Element)).toBe(true);
+
+      scrollWidth.mockRestore();
+      clientWidth.mockRestore();
+      vi.unstubAllGlobals();
+    });
+
+    it("lets the scroll area take the card's height and scroll vertically", () => {
+      const { container } = render(
+        <TableCard>
+          <TableScrollArea data-testid="area">
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Value</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableScrollArea>
+        </TableCard>,
+      );
+      expect(screen.getByTestId("area")).toHaveClass("min-h-0", "flex-auto");
+      expect(container.querySelector("[data-table-scrollport]")).toHaveClass(
+        "min-h-0",
+        "flex-auto",
+        "overflow-auto",
+      );
     });
 
     it("fills the 32px header with the table row surface and secondary text", () => {

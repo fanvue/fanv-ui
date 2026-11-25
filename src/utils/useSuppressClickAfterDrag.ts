@@ -1,4 +1,5 @@
 import * as React from "react";
+import { capturePointer } from "./pointerCapture";
 
 const TAP_MOVEMENT_THRESHOLD_PX = 10;
 
@@ -47,7 +48,7 @@ export function useSuppressClickAfterDrag<P extends GatedHandlers = GatedHandler
       }
       // Keep pointermove on this element if the finger drifts off.
       // Optional because jsdom (used in tests) doesn't implement it.
-      event.currentTarget.setPointerCapture?.(event.pointerId);
+      capturePointer(event.currentTarget, event.pointerId);
       tapRef.current = {
         pointerId: event.pointerId,
         x: event.clientX,

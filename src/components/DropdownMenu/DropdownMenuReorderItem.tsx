@@ -1,6 +1,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../utils/cn";
+import { capturePointer } from "../../utils/pointerCapture";
 import { MenuRowIcon } from "../Icons/MenuRowIcon";
 import { DropdownMenuVariantContext } from "./context";
 import {
@@ -199,7 +200,7 @@ export const DropdownMenuReorderItem = React.forwardRef<
           if (!canStartReorderDrag(event, handleRef.current)) return;
           if (!actions.startDrag(value, event, element)) return;
           event.preventDefault();
-          element.setPointerCapture?.(event.pointerId);
+          capturePointer(element, event.pointerId);
         }}
         onPointerMove={(event) => {
           onPointerMove?.(event);
