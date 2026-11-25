@@ -365,7 +365,7 @@ export const SelectItem = React.forwardRef<
           ? "theme-v2:data-[state=checked]:bg-transparent"
           : [
               "theme-v2:data-[state=checked]:text-content-primary-inverted",
-              "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected theme-v2:data-[state=checked]:focus:bg-menu-item-selected",
+              "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected-hover theme-v2:data-[state=checked]:focus:bg-menu-item-selected-hover",
             ],
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,

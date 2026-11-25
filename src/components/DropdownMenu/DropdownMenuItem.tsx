@@ -215,7 +215,7 @@ export const DropdownMenuItem = React.forwardRef<
         // row takes the library's Disabled state instead, which has no fill.
         disabled
           ? "theme-v2:bg-transparent"
-          : "theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-menu-item-selected",
+          : "theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-menu-item-selected-hover",
       ],
       className,
     );

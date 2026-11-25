@@ -124,6 +124,12 @@ const ROLE_COLOR_TOKENS = {
     current: "--color-buttons-navigation-hover",
     v2: "--color-surface-primary-inverted",
   },
+  // A selected row that is highlighted or focused. Under v2 it is one step off the
+  // inverted fill, so keyboard focus on a selected row stays visible.
+  "--color-menu-item-selected-hover": {
+    current: "--color-interaction-hover",
+    v2: "--color-buttons-primary-hover",
+  },
 };
 
 const getColorSections = (rawTokens) => {

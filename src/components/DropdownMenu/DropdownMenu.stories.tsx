@@ -861,7 +861,10 @@ export const SelectedRowsV2Palette: Story = {
     await openMenu(context);
     const menu = within(document.body);
     const fill = resolveColor("--color-menu-item-selected");
+    const hoverFill = resolveColor("--color-menu-item-selected-hover");
     const text = resolveColor("--color-content-primary-inverted");
+    // A highlighted selected row has to look different, or keyboard focus on it is invisible.
+    await expect(hoverFill).not.toBe(fill);
     const rows = [
       menu.getByRole("menuitem", { name: /Favourites/ }),
       menu.getByRole("menuitem", { name: /Jane Doe/ }),
@@ -872,7 +875,7 @@ export const SelectedRowsV2Palette: Story = {
       await expect(getComputedStyle(row).backgroundColor).toBe(fill);
       await userEvent.hover(row);
       await waitFor(() => expect(row).toHaveAttribute("data-highlighted"));
-      await expect(getComputedStyle(row).backgroundColor).toBe(fill);
+      await expect(getComputedStyle(row).backgroundColor).toBe(hoverFill);
       await expect(getComputedStyle(row).color).toBe(text);
     }
   },

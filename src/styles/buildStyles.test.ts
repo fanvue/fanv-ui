@@ -292,7 +292,16 @@ describe("buildThemeCss", () => {
       expect(v2Dark.get("--color-menu-item-selected")).toBe(
         "var(--color-surface-primary-inverted)",
       );
-      expect(Object.keys(ROLE_COLOR_TOKENS)).toEqual(["--color-menu-item-selected"]);
+      expect(v2Light.get("--color-menu-item-selected-hover")).toBe(
+        "var(--color-buttons-primary-hover)",
+      );
+      expect(v2Dark.get("--color-menu-item-selected-hover")).toBe(
+        "var(--color-buttons-primary-hover)",
+      );
+      expect(Object.keys(ROLE_COLOR_TOKENS)).toEqual([
+        "--color-menu-item-selected",
+        "--color-menu-item-selected-hover",
+      ]);
     });
 
     it("applies the v2 dark palette to dark mode and to theme-v2-dark scopes only", () => {

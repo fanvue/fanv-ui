@@ -333,6 +333,7 @@
   --color-navigation-item-selected: var(--color-buttons-navigation-selected);
   --color-content-always-secondary: var(--primitives-color-gray-300);
   --color-menu-item-selected: var(--color-buttons-navigation-hover);
+  --color-menu-item-selected-hover: var(--color-interaction-hover);
 }
 
 :root {
@@ -819,6 +820,7 @@
   --color-navigation-item-selected: var(--color-buttons-navigation-selected);
   --color-content-always-secondary: var(--primitives-color-gray-300);
   --color-menu-item-selected: var(--color-buttons-navigation-hover);
+  --color-menu-item-selected-hover: var(--color-interaction-hover);
 
   /* Focus-ring colour, consumed by --shadow-focus-ring. Violet on light
      backgrounds; overridden to white in .dark so the ring stays visible. */
@@ -1130,6 +1132,7 @@
   --color-navigation-item-selected: var(--color-buttons-navigation-selected);
   --color-content-always-secondary: var(--primitives-color-gray-300);
   --color-menu-item-selected: var(--color-buttons-navigation-hover);
+  --color-menu-item-selected-hover: var(--color-interaction-hover);
   --fv-focus-ring-color: var(--color-content-always-white);
 
   --typography-body-default-16px-regular-font-weight: 450;
@@ -1569,6 +1572,7 @@
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
   --color-menu-item-selected: var(--color-surface-primary-inverted);
+  --color-menu-item-selected-hover: var(--color-buttons-primary-hover);
 }
 
 .theme-v2.dark,
@@ -1866,6 +1870,7 @@
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
   --color-menu-item-selected: var(--color-surface-primary-inverted);
+  --color-menu-item-selected-hover: var(--color-buttons-primary-hover);
   --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);

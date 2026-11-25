@@ -373,8 +373,8 @@ describe("Select", () => {
       expect(selected).toHaveClass(
         "data-[state=checked]:bg-menu-item-selected",
         "theme-v2:data-[state=checked]:text-content-primary-inverted",
-        "theme-v2:data-[state=checked]:focus:bg-menu-item-selected",
-        "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected",
+        "theme-v2:data-[state=checked]:focus:bg-menu-item-selected-hover",
+        "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected-hover",
       );
       expect(selected.className).not.toContain("surface-primary-inverted");
       const svgs = selected.querySelectorAll("svg");
@@ -417,7 +417,7 @@ describe("Select", () => {
       );
       expect(selected.className).not.toContain("inverted");
       expect(selected).not.toHaveClass(
-        "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected",
+        "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected-hover",
       );
       const check = selected.querySelector("svg");
       expect(check).toHaveClass("group-data-[disabled]:text-content-disabled");

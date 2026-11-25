@@ -740,7 +740,7 @@ describe("DropdownMenuItem", () => {
       expect(item).toHaveClass(
         "bg-menu-item-selected",
         "theme-v2:text-content-primary-inverted",
-        "theme-v2:data-[highlighted]:bg-menu-item-selected",
+        "theme-v2:data-[highlighted]:bg-menu-item-selected-hover",
       );
       expect(item.className).not.toContain("surface-primary-inverted");
       expect(item.querySelector('[data-icon="leading"]')?.parentElement).toHaveClass(
@@ -754,7 +754,7 @@ describe("DropdownMenuItem", () => {
       );
       expect(screen.getByTestId("other")).toHaveClass("data-[highlighted]:bg-interaction-hover");
       expect(screen.getByTestId("other")).not.toHaveClass(
-        "theme-v2:data-[highlighted]:bg-menu-item-selected",
+        "theme-v2:data-[highlighted]:bg-menu-item-selected-hover",
       );
     });
 
@@ -784,7 +784,9 @@ describe("DropdownMenuItem", () => {
         "theme-v2:bg-transparent",
       );
       expect(item.className).not.toContain("inverted");
-      expect(item.className).not.toContain("theme-v2:data-[highlighted]:bg-menu-item-selected");
+      expect(item.className).not.toContain(
+        "theme-v2:data-[highlighted]:bg-menu-item-selected-hover",
+      );
       const icon = item.querySelector('[data-icon="leading"]')?.parentElement;
       expect(icon).toHaveClass("group-data-[disabled]:text-icons-disabled");
       expect(icon?.className).not.toContain("inverted");
@@ -1391,7 +1393,7 @@ describe("DropdownMenuCheckboxItem", () => {
     expect(row).toHaveClass(
       "theme-v2:data-[state=checked]:bg-menu-item-selected",
       "theme-v2:data-[state=checked]:text-content-primary-inverted",
-      "theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected",
+      "theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected-hover",
     );
     expect(row.className).not.toContain("surface-primary-inverted");
     const tick = row.querySelector("svg");
@@ -1559,7 +1561,7 @@ describe("DropdownMenuRadioItem", () => {
       expect(checkedItem).toHaveClass(
         "data-[state=checked]:bg-menu-item-selected",
         "theme-v2:data-[state=checked]:text-content-primary-inverted",
-        "theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected",
+        "theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected-hover",
       );
       expect(checkedItem.className).not.toContain("surface-primary-inverted");
       const dot = checkedItem.querySelector("span.rounded-full > span");

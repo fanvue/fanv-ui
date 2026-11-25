@@ -422,7 +422,7 @@ export const V2Palette: Story = {
   },
   play: async () => {
     const probe = document.createElement("span");
-    probe.style.backgroundColor = "var(--color-menu-item-selected)";
+    probe.style.backgroundColor = "var(--color-menu-item-selected-hover)";
     probe.style.color = "var(--color-content-primary-inverted)";
     document.body.appendChild(probe);
     const { backgroundColor: fill, color: text } = getComputedStyle(probe);
@@ -430,6 +430,7 @@ export const V2Palette: Story = {
     const selected = within(document.body).getByRole("option", { name: /Jane Doe/ });
     await waitFor(() => expect(selected).toHaveAttribute("data-highlighted"));
     await expect(selected).toHaveFocus();
+    // The checked row opens focused, so it shows the selected hover fill: focus stays visible.
     await expect(getComputedStyle(selected).backgroundColor).toBe(fill);
     await expect(getComputedStyle(selected).color).toBe(text);
   },

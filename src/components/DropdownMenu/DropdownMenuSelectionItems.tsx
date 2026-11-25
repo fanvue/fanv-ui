@@ -42,7 +42,7 @@ DropdownMenuRadioGroup.displayName = "DropdownMenuRadioGroup";
 const checkedV2Row = (disabled: boolean | undefined) =>
   disabled
     ? "theme-v2:data-[state=checked]:bg-transparent"
-    : "theme-v2:data-[state=checked]:bg-menu-item-selected theme-v2:data-[state=checked]:text-content-primary-inverted theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected";
+    : "theme-v2:data-[state=checked]:bg-menu-item-selected theme-v2:data-[state=checked]:text-content-primary-inverted theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected-hover";
 
 /** A helper line, inverted on a checked row under the v2 palette unless the row is disabled. */
 const helperClassName = (disabled: boolean | undefined) =>
