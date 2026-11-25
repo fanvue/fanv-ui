@@ -55,7 +55,6 @@ export const DropdownMenuRadioItem = React.forwardRef<
         // A helper line makes it a two-line row aligned to its title; a single
         // line centres in the 40px row like the checkbox and DropdownMenuItem.
         helper ? "items-start" : "items-center",
-        // Checked and highlighted follow DropdownMenuItem's selected and hover fills.
         "data-[state=checked]:bg-buttons-navigation-hover",
         "data-[highlighted]:bg-interaction-hover",
         // Same specificity as the checked fill, so spell out that hover wins.

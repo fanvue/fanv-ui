@@ -197,10 +197,7 @@ export const DropdownMenuItem = React.forwardRef<
       // data-disabled — neither selector above matches them.
       "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
       destructive && "text-error-content",
-      // Selected: `Buttons/Navigation/Hover` with a semibold title (`V2 Menu Item`,
-      // State=Selected), a step apart from the `Interaction/Hover` fill of a
-      // highlighted row. `data-[highlighted]` outranks the plain class, so hovering
-      // the selected row still shows the hover fill.
+      // `data-[highlighted]` outranks this class, so hover wins on the selected row.
       selected && "bg-buttons-navigation-hover",
       className,
     );

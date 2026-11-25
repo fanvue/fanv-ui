@@ -348,10 +348,9 @@ export const SelectItem = React.forwardRef<
         hasDescription ? "items-start" : "items-center",
         ITEM_SIZE_CLASSES[itemSize],
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",
-        // Selected and hover follow DropdownMenuItem: the checked row rests on
-        // `Buttons/Navigation/Hover` with a semibold title, and the hover fill wins.
         "data-[state=checked]:bg-buttons-navigation-hover",
         "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
+        // Same specificity as the checked fill, so spell out that hover wins.
         "data-[state=checked]:focus:bg-interaction-hover data-[state=checked]:data-highlighted:bg-interaction-hover",
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,

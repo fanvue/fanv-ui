@@ -679,7 +679,6 @@ describe("DropdownMenuItem", () => {
       expect(item).toHaveClass("bg-buttons-navigation-hover");
       expect(item).not.toHaveClass("bg-interaction-hover");
       expect(screen.getByText("Item")).toHaveClass("font-semibold");
-      // Positive control: an unselected row has neither.
       expect(screen.getByTestId("other")).not.toHaveClass("bg-buttons-navigation-hover");
       expect(screen.getByText("Other")).not.toHaveClass("font-semibold");
     });
