@@ -122,7 +122,14 @@ export interface DropdownMenuItemProps
    * icons align to the title line (top) rather than the row's vertical centre.
    */
   description?: React.ReactNode;
-  /** Marks the item as the current selection in a single-select menu. @default false */
+  /**
+   * Marks the item as the current selection in a single-select menu. The row
+   * rests on `Buttons/Navigation/Hover` with a semibold label; hover still shows
+   * `Interaction/Hover`, because `data-[highlighted]` outranks the selected class.
+   * The row also gets `data-selected`, and `aria-current` unless the consumer
+   * already sets `aria-checked`.
+   * @default false
+   */
   selected?: boolean;
 }
 
@@ -197,14 +204,9 @@ export const DropdownMenuItem = React.forwardRef<
       // data-disabled — neither selector above matches them.
       "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
       destructive && "text-error-content",
-      // `data-[highlighted]` outranks this class, so hover wins on the selected row.
       selected && "bg-buttons-navigation-hover",
       className,
     );
-    // The selected row also carries the state in the markup: `aria-current` for
-    // assistive tech and `data-selected` for styling.
-    // A consumer that already exposes the state (e.g. `menuitemradio` with
-    // `aria-checked`) keeps it, without a second `aria-current` on top.
     const selectedProps = selected
       ? {
           ...(props["aria-checked"] === undefined && { "aria-current": "true" as const }),
@@ -401,7 +403,7 @@ export const DropdownMenuSeparator = React.forwardRef<
   const variant = React.useContext(DropdownMenuVariantContext);
   // border-0 resets the currentColor border-top that preflight gives <hr>,
   // which would otherwise draw a second line on the sheet variant.
-  const separatorClassName = cn("my-1 h-px border-0 bg-neutral-alphas-200", className);
+  const separatorClassName = cn("my-[5px] h-px border-0 bg-neutral-alphas-200", className);
 
   // DropdownMenuPrimitive.Separator requires Radix menu context, unavailable
   // when the sheet variant renders inside a Drawer (Dialog) instead. <hr> is a

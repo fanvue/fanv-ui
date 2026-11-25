@@ -21,7 +21,17 @@ export interface DropdownMenuRadioGroupProps
  *
  * Requires Radix menu context — not supported inside a `variant="sheet"` menu.
  */
-export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
+export const DropdownMenuRadioGroup = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.RadioGroup>,
+  DropdownMenuRadioGroupProps
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.RadioGroup
+    ref={ref}
+    className={cn("flex flex-col gap-[3px]", className)}
+    {...props}
+  />
+));
+DropdownMenuRadioGroup.displayName = "DropdownMenuRadioGroup";
 
 /** Height preset for a {@link DropdownMenuRadioItem}. */
 export type DropdownMenuRadioItemSize = "40";
@@ -37,7 +47,8 @@ export interface DropdownMenuRadioItemProps
 /**
  * A single radio-style choice within a {@link DropdownMenuRadioGroup}. Shows
  * a circular indicator that fills when selected, plus an optional helper line
- * underneath the title.
+ * underneath the title. The checked row rests on `Buttons/Navigation/Hover`, and
+ * hovering it shows `Interaction/Hover` like any other row.
  */
 export const DropdownMenuRadioItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.RadioItem>,
@@ -57,7 +68,6 @@ export const DropdownMenuRadioItem = React.forwardRef<
         helper ? "items-start" : "items-center",
         "data-[state=checked]:bg-buttons-navigation-hover",
         "data-[highlighted]:bg-interaction-hover",
-        // Same specificity as the checked fill, so spell out that hover wins.
         "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
         className,

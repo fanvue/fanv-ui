@@ -3,7 +3,7 @@ import * as React from "react";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { HomeIcon } from "../Icons/HomeIcon";
-import { Select, SelectContent, SelectItem } from "./Select";
+import { Select, SelectContent, SelectGroup, SelectItem } from "./Select";
 
 function renderSelect(props: Partial<React.ComponentProps<typeof Select>> = {}) {
   return render(
@@ -336,6 +336,21 @@ describe("Select", () => {
         "data-state",
         "unchecked",
       );
+    });
+
+    it("spaces rows 3px apart inside a group", () => {
+      render(
+        <Select aria-label="Test" defaultOpen defaultValue="a">
+          <SelectContent>
+            <SelectGroup data-testid="group">
+              <SelectItem value="a">Option A</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>,
+      );
+      const group = screen.getByTestId("group");
+      expect(group).toContainElement(screen.getByRole("option", { name: "Option A" }));
+      expect(group).toHaveClass("flex", "flex-col", "gap-[3px]");
     });
 
     it("derives a 32px row from the size-32 trigger", () => {

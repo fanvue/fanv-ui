@@ -345,5 +345,14 @@ export type DropdownMenuGroupProps = React.ComponentPropsWithoutRef<
  *
  * Requires Radix menu context — not supported inside a `variant="sheet"` menu.
  */
-export const DropdownMenuGroup = DropdownMenuPrimitive.Group;
+export const DropdownMenuGroup = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.Group>,
+  DropdownMenuGroupProps
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Group
+    ref={ref}
+    className={cn("flex flex-col gap-[3px]", className)}
+    {...props}
+  />
+));
 DropdownMenuGroup.displayName = "DropdownMenuGroup";

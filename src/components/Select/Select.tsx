@@ -320,8 +320,9 @@ function isRenderableNode(node: React.ReactNode): boolean {
  * An individual option inside {@link SelectContent}, following the V2 Menu Item spec.
  *
  * Supports a leading icon or avatar, an optional two-line layout via `description`,
- * and the standard hover / selected / disabled states. The selected row is marked
- * with a trailing check indicator.
+ * and the standard hover / selected / disabled states. The selected row rests on
+ * `Buttons/Navigation/Hover` with a semibold label and a trailing check; hovering
+ * it shows `Interaction/Hover` like any other row.
  *
  * @example
  * ```tsx
@@ -350,7 +351,6 @@ export const SelectItem = React.forwardRef<
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",
         "data-[state=checked]:bg-buttons-navigation-hover",
         "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
-        // Same specificity as the checked fill, so spell out that hover wins.
         "data-[state=checked]:focus:bg-interaction-hover data-[state=checked]:data-highlighted:bg-interaction-hover",
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
@@ -407,7 +407,16 @@ export type SelectGroupProps = React.ComponentPropsWithoutRef<typeof SelectPrimi
 /**
  * Groups related {@link SelectItem} elements under a {@link SelectLabel}.
  */
-export const SelectGroup = SelectPrimitive.Group;
+export const SelectGroup = React.forwardRef<
+  React.ComponentRef<typeof SelectPrimitive.Group>,
+  SelectGroupProps
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Group
+    ref={ref}
+    className={cn("flex flex-col gap-[3px]", className)}
+    {...props}
+  />
+));
 SelectGroup.displayName = "SelectGroup";
 
 export interface SelectLabelProps
