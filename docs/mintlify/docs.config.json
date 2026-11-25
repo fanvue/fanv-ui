@@ -204,6 +204,7 @@
     "EmptyState": "A placeholder for a view with nothing in it yet: media or icon, title, description and up to two actions, in five title and five media sizes.",
     "InfoBox": "An explanatory popover anchored to a trigger, built from InfoBoxTrigger and InfoBoxContent.",
     "PasswordField": "A password input with a show/hide toggle, in three sizes, taking the rest of its API from TextField.",
+    "Popover": "A floating panel anchored to a trigger for free-form content, built from Popover, PopoverTrigger, PopoverContent, PopoverAnchor and PopoverClose.",
     "RadioGroup": "A set of Radio items where exactly one can be selected, controlled or uncontrolled.",
     "Table": "A data table built from TableCard, TableScrollArea, TableToolbar, TableHeader, TableRow, TableCell and TablePagination, plus a dozen cell-level parts.",
     "Tabs": "A tabbed interface built from Tabs, TabsList, TabsTrigger and TabsContent.",

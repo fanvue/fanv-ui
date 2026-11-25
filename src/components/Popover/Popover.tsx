@@ -1,6 +1,7 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 
 /** Props for {@link Popover}. */
@@ -19,11 +20,14 @@ export type PopoverCloseProps = React.ComponentPropsWithoutRef<typeof PopoverPri
 export interface PopoverContentProps
   extends React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> {
   /** Alignment of the content against the trigger. @default "start" */
-  align?: "start" | "center" | "end";
+  align?: PopoverPrimitive.PopoverContentProps["align"];
   /** Distance in pixels between the trigger and the content. @default 8 */
-  sideOffset?: number;
-  /** Distance in pixels kept between the content and the viewport edge. @default 16 */
-  collisionPadding?: number;
+  sideOffset?: PopoverPrimitive.PopoverContentProps["sideOffset"];
+  /**
+   * Distance in pixels kept between the content and the viewport edge, as a number or a per-side
+   * object. @default 16
+   */
+  collisionPadding?: PopoverPrimitive.PopoverContentProps["collisionPadding"];
   /** Additional CSS classes merged onto the content surface. */
   className?: string;
 }
@@ -35,7 +39,7 @@ export interface PopoverContentProps
  * ```tsx
  * <Popover>
  *   <PopoverTrigger asChild><Button>Open</Button></PopoverTrigger>
- *   <PopoverContent>Content</PopoverContent>
+ *   <PopoverContent aria-label="Details">Content</PopoverContent>
  * </Popover>
  * ```
  */
@@ -62,11 +66,12 @@ export const PopoverClose = PopoverPrimitive.Close;
 
 /**
  * Floating panel rendered in a portal, styled like the {@link DropdownMenuContent} surface.
- * Focus moves into it on open and returns to the trigger on close.
+ * Focus moves into it on open and returns to the trigger on close. It renders a `role="dialog"`,
+ * so pass `aria-label` or `aria-labelledby` to name it.
  *
  * @example
  * ```tsx
- * <PopoverContent align="end">Filters</PopoverContent>
+ * <PopoverContent align="end" aria-label="Filters">Filters</PopoverContent>
  * ```
  */
 export const PopoverContent = React.forwardRef<
@@ -77,7 +82,7 @@ export const PopoverContent = React.forwardRef<
     {
       align = "start",
       sideOffset = 8,
-      collisionPadding = 16,
+      collisionPadding = FLOATING_CONTENT_COLLISION_PADDING,
       className,
       style,
       forceMount,
