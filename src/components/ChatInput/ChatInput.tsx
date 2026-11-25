@@ -147,7 +147,7 @@ function ChatInputDefaultAttachmentThumbnails({
   return attachments.map((item) => (
     <div
       key={item.id}
-      className="relative size-16 shrink-0 overflow-hidden rounded-sm border border-neutral-200 bg-background-secondary"
+      className="relative size-16 shrink-0 overflow-hidden rounded-sm border border-border-primary bg-background-secondary"
     >
       <img src={item.src} alt="" className="size-full object-cover" />
       <IconButton

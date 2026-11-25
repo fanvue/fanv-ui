@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { expect, within } from "storybook/test";
+import { expect, waitFor, within } from "storybook/test";
 import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { AIIcon } from "../Icons/AIIcon";
 import { BulbIcon } from "../Icons/BulbIcon";
@@ -191,9 +191,15 @@ export const WithAttachments: Story = {
       />
     );
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, globals }) => {
     const canvas = within(canvasElement);
     const remove = canvas.getByRole("button", { name: "Remove Attachment preview one" });
+    const thumbnail = remove.parentElement as HTMLElement;
+    await waitFor(() =>
+      expect(getComputedStyle(thumbnail).borderTopColor).toBe(
+        globals.theme === "dark" ? "rgb(51, 51, 51)" : "rgb(229, 229, 229)",
+      ),
+    );
     const [, lightness, alpha] =
       getComputedStyle(remove).backgroundColor.match(/^oklab\(([\d.]+) .* \/ ([\d.]+)\)$/) ?? [];
     await expect(Number(lightness)).toBeCloseTo(0.196, 2);
