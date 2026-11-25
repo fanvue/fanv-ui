@@ -339,7 +339,7 @@ function isRenderableNode(node: React.ReactNode): boolean {
 export const SelectItem = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Item>,
   SelectItemProps
->(({ className, children, size, leadingIcon, avatar, description, ...props }, ref) => {
+>(({ className, children, size, leadingIcon, avatar, description, disabled, ...props }, ref) => {
   const { size: triggerSize } = React.useContext(SelectContext);
   const itemSize: SelectItemSize = size ?? (triggerSize === "32" ? "32" : "40");
   const hasDescription = isRenderableNode(description);
@@ -358,20 +358,28 @@ export const SelectItem = React.forwardRef<
         "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
         "data-[state=checked]:focus:bg-interaction-hover data-[state=checked]:data-highlighted:bg-interaction-hover",
         // Under the v2 palette `Menu Item Selected` is the inverted fill. The row keeps
-        // it on hover and focus so the inverted content on it stays readable.
-        "theme-v2:data-[state=checked]:text-content-primary-inverted",
-        "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected theme-v2:data-[state=checked]:focus:bg-menu-item-selected",
+        // it on hover and focus so the inverted content on it stays readable. A disabled
+        // row takes the library's Disabled state instead, which has no fill.
+        disabled
+          ? "theme-v2:data-[state=checked]:bg-transparent"
+          : [
+              "theme-v2:data-[state=checked]:text-content-primary-inverted",
+              "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected theme-v2:data-[state=checked]:focus:bg-menu-item-selected",
+            ],
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}
+      disabled={disabled}
       {...props}
     >
       {hasAvatar ? (
-        <span className="shrink-0">{avatar}</span>
+        <span className={cn("shrink-0", disabled && "theme-v2:opacity-60")}>{avatar}</span>
       ) : (
         hasLeadingIcon && (
           // In the two-line row the icon centres on the 18px title line, as in DropdownMenuItem.
-          <MenuRowIcon alignToTitle={hasDescription}>{leadingIcon}</MenuRowIcon>
+          <MenuRowIcon alignToTitle={hasDescription} invertWhenSelected={!disabled}>
+            {leadingIcon}
+          </MenuRowIcon>
         )
       )}
 
@@ -384,7 +392,7 @@ export const SelectItem = React.forwardRef<
           <span
             className={cn(
               "truncate text-content-secondary group-data-[disabled]:text-content-disabled",
-              "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
+              !disabled && "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
               ITEM_DESCRIPTION_TYPOGRAPHY[itemSize],
             )}
           >
@@ -403,7 +411,12 @@ export const SelectItem = React.forwardRef<
           hasDescription ? "h-4.5 self-start" : "h-4",
         )}
       >
-        <CheckIcon className="size-4 text-content-primary theme-v2:text-icons-primary-inverted group-data-[disabled]:text-content-disabled" />
+        <CheckIcon
+          className={cn(
+            "size-4 text-content-primary group-data-[disabled]:text-content-disabled",
+            !disabled && "theme-v2:text-icons-primary-inverted",
+          )}
+        />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   );

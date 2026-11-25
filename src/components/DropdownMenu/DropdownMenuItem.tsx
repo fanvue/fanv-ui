@@ -209,8 +209,11 @@ export const DropdownMenuItem = React.forwardRef<
       selected && [
         "bg-menu-item-selected",
         // Under the v2 palette `Menu Item Selected` is the inverted fill. The row
-        // keeps it on hover so the inverted content on it stays readable.
-        "theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-menu-item-selected",
+        // keeps it on hover so the inverted content on it stays readable. A disabled
+        // row takes the library's Disabled state instead, which has no fill.
+        disabled
+          ? "theme-v2:bg-transparent"
+          : "theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-menu-item-selected",
       ],
       className,
     );
@@ -238,7 +241,7 @@ export const DropdownMenuItem = React.forwardRef<
           ITEM_COUNT_TYPOGRAPHY[normalizedSize],
           destructive ? "text-error-content" : "text-content-tertiary",
           "group-data-[disabled]:text-content-disabled",
-          "theme-v2:group-data-[selected]:text-content-secondary-inverted",
+          !disabled && "theme-v2:group-data-[selected]:text-content-secondary-inverted",
         )}
       >
         {count}
@@ -247,7 +250,12 @@ export const DropdownMenuItem = React.forwardRef<
 
     // Destructive rows keep the row's error colour on their icons.
     const renderIcon = (icon: React.ReactNode, className?: string) => (
-      <MenuRowIcon inheritColor={destructive} alignToTitle={hasDescription} className={className}>
+      <MenuRowIcon
+        inheritColor={destructive}
+        alignToTitle={hasDescription}
+        invertWhenSelected={!disabled}
+        className={className}
+      >
         {icon}
       </MenuRowIcon>
     );
@@ -272,7 +280,9 @@ export const DropdownMenuItem = React.forwardRef<
     const itemChildren = (
       <>
         {avatar != null ? (
-          <span className={cn("shrink-0", iconAlignClassName)}>{avatar}</span>
+          <span className={cn("shrink-0", iconAlignClassName, disabled && "theme-v2:opacity-60")}>
+            {avatar}
+          </span>
         ) : (
           leadingNode
         )}
@@ -286,7 +296,14 @@ export const DropdownMenuItem = React.forwardRef<
              * 18 of text inside `py-2` is the design's 54px.
              */}
             <span className="typography-body-small-14px-semibold truncate">{children}</span>
-            <span className="typography-body-small-14px-regular truncate text-content-secondary theme-v2:group-data-[selected]:text-content-secondary-inverted">
+            <span
+              className={cn(
+                "typography-body-small-14px-regular truncate text-content-secondary",
+                disabled
+                  ? "theme-v2:text-content-disabled"
+                  : "theme-v2:group-data-[selected]:text-content-secondary-inverted",
+              )}
+            >
               {description}
             </span>
           </span>

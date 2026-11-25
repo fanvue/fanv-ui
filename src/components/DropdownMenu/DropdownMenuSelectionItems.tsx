@@ -36,10 +36,21 @@ DropdownMenuRadioGroup.displayName = "DropdownMenuRadioGroup";
 /**
  * Under the v2 palette a checked radio or checkbox row fills `Menu Item Selected`,
  * which is inverted there, with inverted content, and keeps that fill on hover so
- * the content stays readable.
+ * the content stays readable. A disabled row takes the library's Disabled state
+ * instead, which has no fill.
  */
-const CHECKED_V2_ROW =
-  "theme-v2:data-[state=checked]:bg-menu-item-selected theme-v2:data-[state=checked]:text-content-primary-inverted theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected";
+const checkedV2Row = (disabled: boolean | undefined) =>
+  disabled
+    ? "theme-v2:data-[state=checked]:bg-transparent"
+    : "theme-v2:data-[state=checked]:bg-menu-item-selected theme-v2:data-[state=checked]:text-content-primary-inverted theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected";
+
+/** A helper line, inverted on a checked row under the v2 palette unless the row is disabled. */
+const helperClassName = (disabled: boolean | undefined) =>
+  cn(
+    "typography-description-12px-regular text-content-secondary",
+    "group-data-[disabled]:text-content-disabled",
+    !disabled && "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
+  );
 
 /** Height preset for a {@link DropdownMenuRadioItem}. */
 export type DropdownMenuRadioItemSize = "40";
@@ -62,7 +73,7 @@ export interface DropdownMenuRadioItemProps
 export const DropdownMenuRadioItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.RadioItem>,
   DropdownMenuRadioItemProps
->(({ className, children, helper, size: _size = "40", ...props }, ref) => {
+>(({ className, children, helper, size: _size = "40", disabled, ...props }, ref) => {
   return (
     <DropdownMenuPrimitive.RadioItem
       ref={ref}
@@ -78,10 +89,11 @@ export const DropdownMenuRadioItem = React.forwardRef<
         "data-[state=checked]:bg-menu-item-selected",
         "data-[highlighted]:bg-interaction-hover",
         "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
-        CHECKED_V2_ROW,
+        checkedV2Row(disabled),
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
         className,
       )}
+      disabled={disabled}
       {...props}
     >
       <span
@@ -89,28 +101,23 @@ export const DropdownMenuRadioItem = React.forwardRef<
           // In a two-line row `mt-px` centres the 16px circle on the 18px title line.
           helper && "mt-px",
           "flex size-4 shrink-0 items-center justify-center rounded-full border border-icons-primary",
-          "group-data-[disabled]:border-content-disabled",
-          "theme-v2:group-data-[state=checked]:border-icons-primary-inverted",
+          "group-data-[disabled]:border-content-disabled theme-v2:group-data-[disabled]:border-icons-disabled",
+          !disabled && "theme-v2:group-data-[state=checked]:border-icons-primary-inverted",
         )}
         aria-hidden="true"
       >
         <DropdownMenuPrimitive.ItemIndicator asChild>
-          <span className="size-2 rounded-full bg-content-primary theme-v2:bg-icons-primary-inverted" />
+          <span
+            className={cn(
+              "size-2 rounded-full bg-content-primary",
+              disabled ? "theme-v2:bg-icons-disabled" : "theme-v2:bg-icons-primary-inverted",
+            )}
+          />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span className="typography-body-small-14px-semibold truncate">{children}</span>
-        {helper && (
-          <span
-            className={cn(
-              "typography-description-12px-regular text-content-secondary",
-              "group-data-[disabled]:text-content-disabled",
-              "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
-            )}
-          >
-            {helper}
-          </span>
-        )}
+        {helper && <span className={helperClassName(disabled)}>{helper}</span>}
       </span>
     </DropdownMenuPrimitive.RadioItem>
   );
@@ -147,7 +154,7 @@ export interface DropdownMenuCheckboxItemProps
 export const DropdownMenuCheckboxItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.CheckboxItem>,
   DropdownMenuCheckboxItemProps
->(({ className, children, helper, avatar, ...props }, ref) => {
+>(({ className, children, helper, avatar, disabled, ...props }, ref) => {
   return (
     <DropdownMenuPrimitive.CheckboxItem
       ref={ref}
@@ -158,39 +165,39 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
         // "all highlighted" on a menu that starts fully selected. The v2 palette
         // inverts checked rows like every other selected menu row.
         "data-[highlighted]:bg-interaction-hover",
-        CHECKED_V2_ROW,
+        checkedV2Row(disabled),
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
         className,
       )}
+      disabled={disabled}
       {...props}
     >
       <span
         className={cn(
           "flex size-4 shrink-0 items-center justify-center rounded-2xs border border-icons-primary",
           "group-data-[state=checked]:bg-icons-primary",
-          "group-data-[disabled]:border-content-disabled",
-          "theme-v2:group-data-[state=checked]:border-icons-primary-inverted theme-v2:group-data-[state=checked]:bg-icons-primary-inverted",
+          "group-data-[disabled]:border-content-disabled theme-v2:group-data-[disabled]:border-icons-disabled",
+          disabled
+            ? "theme-v2:group-data-[state=checked]:bg-icons-disabled"
+            : "theme-v2:group-data-[state=checked]:border-icons-primary-inverted theme-v2:group-data-[state=checked]:bg-icons-primary-inverted",
         )}
         aria-hidden="true"
       >
         <DropdownMenuPrimitive.ItemIndicator asChild>
-          <TickIcon className="size-4 text-content-primary-inverted theme-v2:text-content-primary" />
+          <TickIcon
+            className={cn(
+              "size-4 text-content-primary-inverted",
+              !disabled && "theme-v2:text-content-primary",
+            )}
+          />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
-      {avatar && <span className="shrink-0">{avatar}</span>}
+      {avatar && (
+        <span className={cn("shrink-0", disabled && "theme-v2:opacity-60")}>{avatar}</span>
+      )}
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span className="typography-body-small-14px-semibold truncate">{children}</span>
-        {helper && (
-          <span
-            className={cn(
-              "typography-description-12px-regular text-content-secondary",
-              "group-data-[disabled]:text-content-disabled",
-              "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
-            )}
-          >
-            {helper}
-          </span>
-        )}
+        {helper && <span className={helperClassName(disabled)}>{helper}</span>}
       </span>
     </DropdownMenuPrimitive.CheckboxItem>
   );

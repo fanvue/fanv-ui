@@ -390,6 +390,44 @@ describe("Select", () => {
       );
     });
 
+    it("follows the library's Disabled state under the v2 palette when selected", () => {
+      render(
+        <Select aria-label="Test" defaultOpen defaultValue="a">
+          <SelectContent>
+            <SelectItem
+              value="a"
+              disabled
+              description="Secondary line"
+              avatar={<span data-testid="avatar" />}
+            >
+              Option A
+            </SelectItem>
+            <SelectItem value="b" disabled leadingIcon={<HomeIcon />}>
+              Option B
+            </SelectItem>
+          </SelectContent>
+        </Select>,
+      );
+      const selected = screen.getByRole("option", { name: /Option A/ });
+      expect(selected).toHaveAttribute("data-state", "checked");
+      expect(selected).toHaveAttribute("data-disabled");
+      expect(selected).toHaveClass(
+        "data-[state=checked]:bg-menu-item-selected",
+        "theme-v2:data-[state=checked]:bg-transparent",
+      );
+      expect(selected.className).not.toContain("inverted");
+      expect(selected).not.toHaveClass(
+        "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected",
+      );
+      const check = selected.querySelector("svg");
+      expect(check).toHaveClass("group-data-[disabled]:text-content-disabled");
+      expect(check?.getAttribute("class")).not.toContain("inverted");
+      expect(screen.getByText("Secondary line").className).not.toContain("inverted");
+      expect(screen.getByTestId("avatar").parentElement).toHaveClass("theme-v2:opacity-60");
+      const other = screen.getByRole("option", { name: /Option B/ });
+      expect(other.querySelector("svg")?.parentElement?.className).not.toContain("inverted");
+    });
+
     it("draws the panel on Modal/Background with Modal/Stroke under the v2 palette only", () => {
       renderSelect({ defaultOpen: true });
       const panel = screen.getByRole("listbox");

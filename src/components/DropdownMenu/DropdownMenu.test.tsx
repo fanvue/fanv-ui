@@ -758,6 +758,43 @@ describe("DropdownMenuItem", () => {
       );
     });
 
+    it("follows the library's Disabled state under the v2 palette when selected", () => {
+      renderMenu(
+        <>
+          <DropdownMenuItem
+            selected
+            disabled
+            data-testid="item"
+            leadingIcon={<svg data-icon="leading" />}
+            description="Secondary line"
+            count="3"
+          >
+            Item
+          </DropdownMenuItem>
+          <DropdownMenuItem selected disabled avatar={<span data-testid="avatar" />}>
+            Person
+          </DropdownMenuItem>
+        </>,
+      );
+      const item = screen.getByTestId("item");
+      expect(item).toHaveAttribute("data-disabled");
+      expect(item).toHaveClass(
+        "bg-menu-item-selected",
+        "data-[disabled]:text-content-disabled",
+        "theme-v2:bg-transparent",
+      );
+      expect(item.className).not.toContain("inverted");
+      expect(item.className).not.toContain("theme-v2:data-[highlighted]:bg-menu-item-selected");
+      const icon = item.querySelector('[data-icon="leading"]')?.parentElement;
+      expect(icon).toHaveClass("group-data-[disabled]:text-icons-disabled");
+      expect(icon?.className).not.toContain("inverted");
+      expect(screen.getByText("Secondary line")).toHaveClass("theme-v2:text-content-disabled");
+      expect(screen.getByText("Secondary line").className).not.toContain("inverted");
+      expect(screen.getByText("3")).toHaveClass("group-data-[disabled]:text-content-disabled");
+      expect(screen.getByText("3").className).not.toContain("inverted");
+      expect(screen.getByTestId("avatar").parentElement).toHaveClass("theme-v2:opacity-60");
+    });
+
     it("renders leading and trailing icons at 16px in the secondary icon colour", () => {
       renderMenu(
         <DropdownMenuItem
@@ -1369,6 +1406,35 @@ describe("DropdownMenuCheckboxItem", () => {
     );
   });
 
+  it("follows the library's Disabled state under the v2 palette when checked", () => {
+    renderMenu(
+      <DropdownMenuCheckboxItem
+        checked
+        disabled
+        helper="Secondary line"
+        avatar={<span data-testid="avatar" />}
+      >
+        @sofiabloom
+      </DropdownMenuCheckboxItem>,
+    );
+    const row = screen.getByRole("menuitemcheckbox", { name: /@sofiabloom/ });
+    expect(row).toHaveAttribute("data-state", "checked");
+    expect(row).toHaveAttribute("data-disabled");
+    expect(row).toHaveClass("theme-v2:data-[state=checked]:bg-transparent");
+    expect(row.className).not.toContain("bg-menu-item-selected");
+    expect(row.className).not.toContain("primary-inverted");
+    const tick = row.querySelector("svg");
+    expect(tick).toHaveClass("text-content-primary-inverted");
+    expect(tick).not.toHaveClass("theme-v2:text-content-primary");
+    expect(tick?.parentElement).toHaveClass(
+      "theme-v2:group-data-[disabled]:border-icons-disabled",
+      "theme-v2:group-data-[state=checked]:bg-icons-disabled",
+    );
+    expect(tick?.parentElement?.className).not.toContain("inverted");
+    expect(screen.getByTestId("avatar").parentElement).toHaveClass("theme-v2:opacity-60");
+    expect(screen.getByText("Secondary line").className).not.toContain("inverted");
+  });
+
   describe("accessibility", () => {
     it("has no a11y violations", async () => {
       const { container } = renderMenu(
@@ -1504,6 +1570,35 @@ describe("DropdownMenuRadioItem", () => {
       expect(screen.getByText("Secondary line")).toHaveClass(
         "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
       );
+    });
+
+    it("follows the library's Disabled state under the v2 palette when checked", () => {
+      renderMenu(
+        <DropdownMenuRadioGroup value="two">
+          <DropdownMenuRadioItem value="two" disabled helper="Secondary line">
+            Two
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      const row = screen.getByRole("menuitemradio", { name: /Two/ });
+      expect(row).toHaveAttribute("data-state", "checked");
+      expect(row).toHaveAttribute("data-disabled");
+      expect(row).toHaveClass(
+        "data-[state=checked]:bg-menu-item-selected",
+        "theme-v2:data-[state=checked]:bg-transparent",
+      );
+      expect(row.className).not.toContain("theme-v2:data-[state=checked]:bg-menu-item-selected");
+      expect(row.className).not.toContain("primary-inverted");
+      const dot = row.querySelector("span.rounded-full > span");
+      expect(dot).toHaveClass("theme-v2:bg-icons-disabled");
+      expect(dot?.parentElement).toHaveClass(
+        "theme-v2:group-data-[disabled]:border-icons-disabled",
+      );
+      expect(dot?.parentElement?.className).not.toContain("inverted");
+      expect(screen.getByText("Secondary line")).toHaveClass(
+        "group-data-[disabled]:text-content-disabled",
+      );
+      expect(screen.getByText("Secondary line").className).not.toContain("inverted");
     });
 
     it("calls onValueChange when an item is selected", async () => {
