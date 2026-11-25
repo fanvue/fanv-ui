@@ -99,7 +99,9 @@ This auto-generates `src/styles/theme.css` (do not edit manually):
 
 The v2 palette is opt-in. Add the `theme-v2` class to the root element, the same element that gets `dark`, and every colour token takes its v2 value. Without the class, nothing changes. In Storybook, use the **Palette** toolbar switch.
 
-A few tokens exist only in the v2 palette: `border-input`, `border-input-hover`, `interaction-pressed` and `navigation-*`. Without `theme-v2`, each one points at the token that gives today's look, so a component can use it before the palette ships.
+A few tokens exist only in the v2 palette: `border-input`, `border-input-hover`, `interaction-pressed`, `content-always-secondary` and `navigation-*`. Without `theme-v2`, each one points at the token that gives today's look, so a component can use it before the palette ships.
+
+To force a surface dark under the v2 palette in either mode, such as the navigation, add the `theme-v2-dark` class to it and to any content it portals. Without `theme-v2` on the root, the class does nothing. Do not use a bare `dark` class for this, because it applies with or without the v2 palette.
 
 For a change that is not a colour, such as a stroke width or a shadow, use the `theme-v2:` variant. It works like `dark:` and applies only under the v2 palette: `focus:ring-2 theme-v2:focus:ring-1`.
 

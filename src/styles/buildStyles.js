@@ -104,6 +104,8 @@ const THEME_V2_FALLBACKS = {
   "--color-navigation-background": "--color-buttons-navigation-base",
   "--color-navigation-item-hover": "--color-buttons-navigation-hover",
   "--color-navigation-item-selected": "--color-buttons-navigation-selected",
+  // Nothing uses this outside theme-v2 yet, so it points at its v2 primitive.
+  "--color-content-always-secondary": "--primitives-color-gray-300",
 };
 
 const primitiveVarLines = (colorTokens) =>
@@ -388,6 +390,10 @@ const assertNoDanglingVars = (css) => {
 const buildThemeCss = (rawTokens, v2Tokens) => {
   const { themeVars, lightVars, darkVars, primitivesVars } = getColorSections(rawTokens);
   const v2 = getThemeV2Sections(rawTokens, v2Tokens);
+  // A forced-dark scope sits below the root, so aliases must resolve again inside it.
+  const legacyAliasLines = Object.entries(LEGACY_COLOR_ALIASES)
+    .map(([legacy, current]) => `  ${legacy}: var(${current});\n`)
+    .join("");
   const effectVars = getEffectTokens(rawTokens.effect);
   const radiusVars = getRadiusVars(rawTokens.primitives.light.radius);
   const primitiveSpacingVars = getPrimitiveSpacingVars(rawTokens.primitives.light.spacing);
@@ -401,7 +407,7 @@ const buildThemeCss = (rawTokens, v2Tokens) => {
     ``,
     `@import "./base.css";`,
     ``,
-    `@variant dark (&:where(.dark, .dark *));`,
+    `@variant dark (&:where(.dark, .dark *, .theme-v2 .theme-v2-dark, .theme-v2 .theme-v2-dark *));`,
     `@custom-variant infloww (&:is([data-infloww] *));`,
     `@custom-variant theme-v2 (&:where(.theme-v2, .theme-v2 *));`,
     ``,
@@ -453,7 +459,8 @@ const buildThemeCss = (rawTokens, v2Tokens) => {
     typographyWeightVars.darkVars.trimEnd(),
     `}`,
     ``,
-    `/* v2 palette: opt in with the theme-v2 class on the root element. */`,
+    `/* v2 palette: opt in with the theme-v2 class on the root element. theme-v2-dark forces`,
+    `   a surface (such as the navigation) dark under theme-v2 only, in either mode. */`,
     `.theme-v2 {`,
     v2.primitivesVars.trimEnd(),
     ``,
@@ -461,8 +468,14 @@ const buildThemeCss = (rawTokens, v2Tokens) => {
     `}`,
     ``,
     `.theme-v2.dark,`,
-    `.theme-v2 .dark {`,
+    `.theme-v2 .dark,`,
+    `.theme-v2 .theme-v2-dark {`,
+    `  color-scheme: dark;`,
     v2.darkVars.trimEnd(),
+    legacyAliasLines.trimEnd(),
+    `  --fv-focus-ring-color: var(--color-content-always-white);`,
+    ``,
+    typographyWeightVars.darkVars.trimEnd(),
     `}`,
     typographyClasses,
   ].join("\n");

@@ -2,7 +2,7 @@
 
 @import "./base.css";
 
-@variant dark (&:where(.dark, .dark *));
+@variant dark (&:where(.dark, .dark *, .theme-v2 .theme-v2-dark, .theme-v2 .theme-v2-dark *));
 @custom-variant infloww (&:is([data-infloww] *));
 @custom-variant theme-v2 (&:where(.theme-v2, .theme-v2 *));
 
@@ -331,6 +331,7 @@
   --color-navigation-background: var(--color-buttons-navigation-base);
   --color-navigation-item-hover: var(--color-buttons-navigation-hover);
   --color-navigation-item-selected: var(--color-buttons-navigation-selected);
+  --color-content-always-secondary: var(--primitives-color-gray-300);
 }
 
 :root {
@@ -815,6 +816,7 @@
   --color-navigation-background: var(--color-buttons-navigation-base);
   --color-navigation-item-hover: var(--color-buttons-navigation-hover);
   --color-navigation-item-selected: var(--color-buttons-navigation-selected);
+  --color-content-always-secondary: var(--primitives-color-gray-300);
 
   /* Focus-ring colour, consumed by --shadow-focus-ring. Violet on light
      backgrounds; overridden to white in .dark so the ring stays visible. */
@@ -1124,6 +1126,7 @@
   --color-navigation-background: var(--color-buttons-navigation-base);
   --color-navigation-item-hover: var(--color-buttons-navigation-hover);
   --color-navigation-item-selected: var(--color-buttons-navigation-selected);
+  --color-content-always-secondary: var(--primitives-color-gray-300);
   --fv-focus-ring-color: var(--color-content-always-white);
 
   --typography-body-default-16px-regular-font-weight: 450;
@@ -1131,7 +1134,8 @@
   --typography-description-12px-regular-font-weight: 500;
 }
 
-/* v2 palette: opt in with the theme-v2 class on the root element. */
+/* v2 palette: opt in with the theme-v2 class on the root element. theme-v2-dark forces
+   a surface (such as the navigation) dark under theme-v2 only, in either mode. */
 .theme-v2 {
   --primitives-color-gray-50: #fcfcfcff;
   --primitives-color-gray-75: #f4f4f4ff;
@@ -1292,6 +1296,7 @@
   --color-content-always-black: var(--primitives-color-gray-black);
   --color-content-disabled: var(--primitives-color-gray-400);
   --color-content-secondary-inverted: var(--primitives-color-gray-300);
+  --color-content-always-secondary: var(--primitives-color-gray-300);
   --color-success-surface: var(--primitives-color-green-50);
   --color-success-content: var(--primitives-color-green-800);
   --color-success-secondary: var(--primitives-color-green-300);
@@ -1562,7 +1567,9 @@
 }
 
 .theme-v2.dark,
-.theme-v2 .dark {
+.theme-v2 .dark,
+.theme-v2 .theme-v2-dark {
+  color-scheme: dark;
   --color-neutral-alphas-50: var(--primitives-color-whitealpha-100);
   --color-neutral-alphas-75: var(--primitives-color-whitealpha-75);
   --color-neutral-alphas-100: var(--primitives-color-whitealpha-100);
@@ -1584,6 +1591,7 @@
   --color-content-always-black: var(--primitives-color-gray-black);
   --color-content-disabled: var(--primitives-color-gray-600);
   --color-content-secondary-inverted: var(--primitives-color-gray-600);
+  --color-content-always-secondary: var(--primitives-color-gray-300);
   --color-success-surface: var(--primitives-color-green-900);
   --color-success-content: var(--primitives-color-green-500);
   --color-success-secondary: var(--primitives-color-green-700);
@@ -1851,6 +1859,18 @@
   --color-navigation-background: var(--primitives-color-gray-black);
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
+  --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
+  --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
+  --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);
+  --color-buttons-ai-background-gradient-hover-end: var(--color-buttons-ai-hover);
+  --color-buttons-navigation-highlight: var(--color-buttons-navigation-selected);
+  --color-inputs-inputs-off: var(--color-inputs-inputs-disabled);
+  --color-messages-background-receiver-2: var(--color-messages-background-receiver-stroke);
+  --fv-focus-ring-color: var(--color-content-always-white);
+
+  --typography-body-default-16px-regular-font-weight: 450;
+  --typography-body-small-14px-regular-font-weight: 450;
+  --typography-description-12px-regular-font-weight: 500;
 }
 
 @utility typography-header-heading-xl {

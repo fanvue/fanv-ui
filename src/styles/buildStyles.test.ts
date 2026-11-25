@@ -201,7 +201,7 @@ describe("buildThemeCss", () => {
       );
     const root = declared(block(":root"));
     const v2Light = declared(block(".theme-v2"));
-    const v2Dark = declared(block(".theme-v2 .dark"));
+    const v2Dark = declared(block(".theme-v2 .theme-v2-dark"));
     // Modal padding and radius sit under --color-* but hold spacing and radius values.
     const colourVars = (vars: Map<string, string>) =>
       [...vars.entries()]
@@ -209,6 +209,19 @@ describe("buildThemeCss", () => {
           ([name, value]) => name.startsWith("--color-") && !/--(spacing|radius)-/.test(value),
         )
         .map(([name]) => name);
+
+    it("forces a surface dark under theme-v2 only, for tokens and dark: utilities", () => {
+      expect(css).toContain(
+        "@variant dark (&:where(.dark, .dark *, .theme-v2 .theme-v2-dark, .theme-v2 .theme-v2-dark *));",
+      );
+      const forced = declared(block(".theme-v2 .theme-v2-dark"));
+      expect(forced.get("--color-surface-primary")).toBe("var(--primitives-color-gray-900)");
+      expect(forced.get("--fv-focus-ring-color")).toBe("var(--color-content-always-white)");
+      for (const [legacy, current] of Object.entries(LEGACY_COLOR_ALIASES)) {
+        expect(forced.get(legacy)).toBe(`var(${current})`);
+      }
+      expect(css).not.toMatch(/^\.theme-v2-dark/m);
+    });
 
     it("adds a theme-v2 variant for styles that only apply under the v2 palette", () => {
       expect(css).toContain("@custom-variant theme-v2 (&:where(.theme-v2, .theme-v2 *));");
