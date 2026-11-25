@@ -330,15 +330,15 @@ describe("TextField", () => {
       const inputContainer = container.querySelector('[class*="border"]');
       expect(inputContainer).toBeInTheDocument();
       expect(inputContainer).toHaveClass("border");
-      expect(inputContainer).toHaveClass("border-border-primary");
+      expect(inputContainer).toHaveClass("border-border-input");
     });
 
-    it("renders border-error-content instead of border-border-primary when error", () => {
+    it("renders border-error-content instead of border-border-input when error", () => {
       const { container } = render(<TextField aria-label="Test" error />);
       const inputContainer = container.querySelector('[class*="border-error-content"]');
       expect(inputContainer).toBeInTheDocument();
       expect(inputContainer).toHaveClass("border");
-      expect(inputContainer).not.toHaveClass("border-border-primary");
+      expect(inputContainer).not.toHaveClass("border-border-input");
     });
 
     it("renders focus ring class on input container", () => {
@@ -360,6 +360,28 @@ describe("TextField", () => {
         "has-focus-visible:after:shadow-focus-ring",
       );
       expect(inputContainer).not.toHaveClass("has-focus-visible:shadow-focus-ring");
+    });
+
+    it("swaps the focus ring for a 1px selected stroke under theme-v2", () => {
+      const { container } = render(<TextField aria-label="Test" />);
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "border-border-input",
+        "hover:border-border-input-hover",
+        "has-focus-visible:after:shadow-focus-ring",
+        "theme-v2:has-focus-visible:border-border-selected",
+        "theme-v2:has-focus-visible:after:shadow-none",
+      );
+    });
+
+    it("keeps the current focus ring on an errored field under theme-v2", () => {
+      const { container } = render(<TextField aria-label="Test" error />);
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "border-error-content",
+        "has-focus-visible:after:shadow-focus-ring",
+      );
+      expect(fieldContainer).not.toHaveClass("theme-v2:has-focus-visible:border-border-selected");
     });
   });
 

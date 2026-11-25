@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
-import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
+import { within } from "storybook/test";
+import { NON_VISUAL_STORY_PARAMETERS, V2_PALETTE_STORY_PARAMETERS } from "../../storybook";
 import { HomeIcon } from "../Icons/HomeIcon";
 import {
   Autocomplete,
@@ -455,4 +456,47 @@ export const CustomGroupHeading: Story = {
       )}
     />
   ),
+};
+
+/**
+ * The input border token and the 1px focus stroke under the v2 palette. Snapshotted
+ * with the v2 palette only; switch the Palette toolbar to compare with Current.
+ */
+export const PaletteV2: Story = {
+  name: "Palette v2",
+  parameters: V2_PALETTE_STORY_PARAMETERS,
+  render: () => (
+    <div className="flex flex-col gap-6">
+      <Autocomplete
+        label="Focused"
+        placeholder="Search..."
+        options={COUNTRIES}
+        emptyText="No results"
+      />
+      <Autocomplete
+        label="Default"
+        placeholder="Search..."
+        options={COUNTRIES}
+        emptyText="No results"
+      />
+      <Autocomplete
+        label="Error"
+        placeholder="Search..."
+        options={COUNTRIES}
+        error
+        errorMessage="This field is required"
+        emptyText="No results"
+      />
+      <Autocomplete
+        label="Disabled"
+        placeholder="Search..."
+        options={COUNTRIES}
+        disabled
+        emptyText="No results"
+      />
+    </div>
+  ),
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    within(canvasElement).getByLabelText("Focused").focus();
+  },
 };

@@ -64,8 +64,27 @@ describe("IconButton", () => {
       expect(screen.getByTestId("icon-button")).toHaveClass(
         "bg-inputs-inputs-primary",
         "border",
-        "border-border-primary",
+        "border-border-input",
+        "not-disabled:hover:border-border-input-hover",
       );
+    });
+
+    it("swaps the field variant's focus ring for a 1px selected stroke under theme-v2", () => {
+      render(<IconButton icon={<HomeIcon />} variant="field" size="40" aria-label="Download" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass(
+        "focus-visible:shadow-focus-ring",
+        "theme-v2:focus-visible:border-border-selected",
+        "theme-v2:focus-visible:shadow-none",
+      );
+    });
+
+    it("keeps the focus ring on other variants under theme-v2", () => {
+      render(
+        <IconButton icon={<HomeIcon />} variant="secondary" size="40" aria-label="Download" />,
+      );
+      const button = screen.getByTestId("icon-button");
+      expect(button).toHaveClass("focus-visible:shadow-focus-ring");
+      expect(button).not.toHaveClass("theme-v2:focus-visible:shadow-none");
     });
 
     it("keeps bespoke variants circular at every size", () => {

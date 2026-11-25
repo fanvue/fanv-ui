@@ -68,8 +68,13 @@ const CLEAR_BUTTON_RIGHT: Record<TextAreaSize, string> = {
 function getContainerClassName(size: TextAreaSize, error: boolean, disabled?: boolean) {
   return cn(
     "relative rounded-sm border bg-inputs-inputs-primary after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
-    error ? "border-error-content" : "border-border-primary",
-    !disabled && !error && "hover:border-neutral-alphas-400",
+    error
+      ? "border-error-content"
+      : cn(
+          "border-border-input",
+          "theme-v2:has-focus-visible:border-border-selected theme-v2:has-focus-visible:after:shadow-none",
+        ),
+    !disabled && !error && "hover:border-border-input-hover",
     CONTAINER_MIN_HEIGHT[size],
     disabled && "opacity-50",
   );

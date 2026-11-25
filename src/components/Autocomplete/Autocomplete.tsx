@@ -235,9 +235,14 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
           <div
             className={cn(
               "relative flex flex-wrap items-center overflow-hidden rounded-sm border bg-neutral-alphas-100 after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
-              error ? "border-error-content" : "border-transparent",
-              !disabled && !error && "hover:border-neutral-alphas-400",
-              ac.isOpen && !error && !disabled && "border-neutral-alphas-400",
+              error
+                ? "border-error-content"
+                : cn(
+                    "border-transparent theme-v2:border-border-input",
+                    "theme-v2:has-focus-visible:border-border-selected theme-v2:has-focus-visible:after:shadow-none",
+                  ),
+              !disabled && !error && "hover:border-border-input-hover",
+              ac.isOpen && !error && !disabled && "border-border-input-hover",
               CONTAINER_HEIGHT[size],
               PADDING_CLASSES[size],
               disabled && "opacity-50",

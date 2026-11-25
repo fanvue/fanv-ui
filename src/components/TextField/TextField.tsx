@@ -85,8 +85,13 @@ function getContainerClassName(
     "relative flex items-center overflow-hidden rounded-sm border bg-inputs-inputs-primary after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
     hasAction ? CONTAINER_PADDING_X_WITH_ACTION[size] : CONTAINER_PADDING_X[size],
     CONTAINER_GAP[size],
-    error ? "border-error-content" : "border-border-primary",
-    !disabled && !error && "hover:border-neutral-alphas-400",
+    error
+      ? "border-error-content"
+      : cn(
+          "border-border-input",
+          "theme-v2:has-focus-visible:border-border-selected theme-v2:has-focus-visible:after:shadow-none",
+        ),
+    !disabled && !error && "hover:border-border-input-hover",
     CONTAINER_HEIGHT[size],
     disabled && "opacity-50",
   );
