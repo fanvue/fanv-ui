@@ -158,6 +158,7 @@
     "PasswordField": "Forms & Inputs",
     "PhoneField": "Forms & Inputs",
     "Pill": "Data Display",
+    "Popover": "Overlays & Dialogs",
     "ProfileOnlineStatus": "Creator & Social",
     "ProfileStatus": "Creator & Social",
     "ProgressBar": "Feedback & Status",
