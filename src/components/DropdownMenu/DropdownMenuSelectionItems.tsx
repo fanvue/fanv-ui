@@ -105,7 +105,7 @@ export const DropdownMenuRadioItem = React.forwardRef<
             className={cn(
               "typography-description-12px-regular text-content-secondary",
               "group-data-[disabled]:text-content-disabled",
-              "theme-v2:group-data-[state=checked]:text-content-primary-inverted",
+              "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
             )}
           >
             {helper}
@@ -185,7 +185,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
             className={cn(
               "typography-description-12px-regular text-content-secondary",
               "group-data-[disabled]:text-content-disabled",
-              "theme-v2:group-data-[state=checked]:text-content-primary-inverted",
+              "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
             )}
           >
             {helper}

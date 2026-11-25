@@ -747,7 +747,7 @@ describe("DropdownMenuItem", () => {
         "theme-v2:group-data-[selected]:text-icons-primary-inverted",
       );
       expect(screen.getByText("Secondary line")).toHaveClass(
-        "theme-v2:group-data-[selected]:text-content-primary-inverted",
+        "theme-v2:group-data-[selected]:text-content-secondary-inverted",
       );
       expect(screen.getByText("3")).toHaveClass(
         "theme-v2:group-data-[selected]:text-content-primary-inverted",
@@ -1362,7 +1362,7 @@ describe("DropdownMenuCheckboxItem", () => {
       "theme-v2:group-data-[state=checked]:border-icons-primary-inverted",
     );
     expect(screen.getByText("Secondary line")).toHaveClass(
-      "theme-v2:group-data-[state=checked]:text-content-primary-inverted",
+      "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
     );
   });
 
@@ -1498,7 +1498,7 @@ describe("DropdownMenuRadioItem", () => {
         "theme-v2:group-data-[state=checked]:border-icons-primary-inverted",
       );
       expect(screen.getByText("Secondary line")).toHaveClass(
-        "theme-v2:group-data-[state=checked]:text-content-primary-inverted",
+        "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
       );
     });
 

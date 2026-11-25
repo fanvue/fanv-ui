@@ -385,7 +385,7 @@ describe("Select", () => {
         "theme-v2:text-icons-primary-inverted",
       );
       expect(screen.getByText("Secondary line")).toHaveClass(
-        "theme-v2:group-data-[state=checked]:text-content-primary-inverted",
+        "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
       );
     });
 

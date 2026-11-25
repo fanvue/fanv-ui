@@ -384,7 +384,7 @@ export const SelectItem = React.forwardRef<
           <span
             className={cn(
               "truncate text-content-secondary group-data-[disabled]:text-content-disabled",
-              "theme-v2:group-data-[state=checked]:text-content-primary-inverted",
+              "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
               ITEM_DESCRIPTION_TYPOGRAPHY[itemSize],
             )}
           >

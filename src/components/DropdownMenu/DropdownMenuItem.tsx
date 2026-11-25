@@ -286,7 +286,7 @@ export const DropdownMenuItem = React.forwardRef<
              * 18 of text inside `py-2` is the design's 54px.
              */}
             <span className="typography-body-small-14px-semibold truncate">{children}</span>
-            <span className="typography-body-small-14px-regular truncate text-content-secondary theme-v2:group-data-[selected]:text-content-primary-inverted">
+            <span className="typography-body-small-14px-regular truncate text-content-secondary theme-v2:group-data-[selected]:text-content-secondary-inverted">
               {description}
             </span>
           </span>
