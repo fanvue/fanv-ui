@@ -21,10 +21,6 @@ const meta = {
       control: "select",
       options: ["single", "double"],
     },
-    size: {
-      control: "select",
-      options: ["40", "32"],
-    },
     showFooter: { control: "boolean" },
     cancelLabel: { control: "text" },
     applyLabel: { control: "text" },
