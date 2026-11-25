@@ -349,7 +349,7 @@ export const SelectItem = React.forwardRef<
         hasDescription ? "items-start" : "items-center",
         ITEM_SIZE_CLASSES[itemSize],
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",
-        "data-[state=checked]:bg-buttons-navigation-hover",
+        "data-[state=checked]:bg-menu-item-selected",
         "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
         "data-[state=checked]:focus:bg-interaction-hover data-[state=checked]:data-highlighted:bg-interaction-hover",
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",

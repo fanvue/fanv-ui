@@ -7,6 +7,7 @@ import {
   buildThemeCss,
   getEffectTokens,
   LEGACY_COLOR_ALIASES,
+  ROLE_COLOR_TOKENS,
   refToVar,
   resolveValue,
   THEME_V2_FALLBACKS,
@@ -259,6 +260,17 @@ describe("buildThemeCss", () => {
         expect(v2Light.get(token)).toMatch(/^var\(--primitives-color-/);
         expect(v2Dark.get(token)).toMatch(/^var\(--primitives-color-/);
       }
+    });
+
+    it("gives selected menu rows a readable fill in each palette", () => {
+      const themeBlocks = (css.match(/@theme \{[^}]*\}/g) ?? []).join("\n");
+      expect(root.get("--color-menu-item-selected")).toBe("var(--color-buttons-navigation-hover)");
+      expect(themeBlocks).toContain(
+        "--color-menu-item-selected: var(--color-buttons-navigation-hover);",
+      );
+      expect(v2Light.get("--color-menu-item-selected")).toBe("var(--color-interaction-pressed)");
+      expect(v2Dark.get("--color-menu-item-selected")).toBe("var(--color-interaction-pressed)");
+      expect(Object.keys(ROLE_COLOR_TOKENS)).toEqual(["--color-menu-item-selected"]);
     });
 
     it("applies the v2 dark palette to dark mode and to theme-v2-dark scopes only", () => {

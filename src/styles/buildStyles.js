@@ -113,6 +113,19 @@ const primitiveVarLines = (colorTokens) =>
     .map(({ path, value }) => `  --primitives-color-${path.map(toKebab).join("-")}: ${value};\n`)
     .join("");
 
+/**
+ * Colour vars that name a role the Figma export does not have, so a component does not
+ * borrow a token that means something else. Each has a current-palette value and a v2 value.
+ */
+const ROLE_COLOR_TOKENS = {
+  // Selected menu and Select rows. Under v2 the navigation tokens turn black, so the rows
+  // take the pressed fill, which keeps the row text readable in both modes.
+  "--color-menu-item-selected": {
+    current: "--color-buttons-navigation-hover",
+    v2: "--color-interaction-pressed",
+  },
+};
+
 const getColorSections = (rawTokens) => {
   const semanticLightTokens = flattenTokens(rawTokens.semantic.light.color);
   const semanticDarkTokens = flattenTokens(rawTokens.semantic.dark.color);
@@ -146,6 +159,13 @@ const getColorSections = (rawTokens) => {
   // The fallback target is mode-aware, so one identical line serves all three sections.
   for (const [token, fallback] of Object.entries(THEME_V2_FALLBACKS)) {
     const declaration = `  ${token}: var(${fallback});\n`;
+    themeVars += declaration;
+    lightVars += declaration;
+    darkVars += declaration;
+  }
+
+  for (const [token, { current }] of Object.entries(ROLE_COLOR_TOKENS)) {
+    const declaration = `  ${token}: var(${current});\n`;
     themeVars += declaration;
     lightVars += declaration;
     darkVars += declaration;
@@ -209,6 +229,11 @@ const getThemeV2Sections = (rawTokens, v2Tokens) => {
     }
     lightVars += `  ${cssVar}: ${resolveValue(value)};\n`;
     darkVars += `  ${cssVar}: ${resolveValue(darkRaw)};\n`;
+  }
+
+  for (const [token, { v2 }] of Object.entries(ROLE_COLOR_TOKENS)) {
+    lightVars += `  ${token}: var(${v2});\n`;
+    darkVars += `  ${token}: var(${v2});\n`;
   }
 
   return {
@@ -501,6 +526,7 @@ export {
   assertNoDanglingVars,
   buildThemeCss,
   LEGACY_COLOR_ALIASES,
+  ROLE_COLOR_TOKENS,
   THEME_V2_FALLBACKS,
 };
 

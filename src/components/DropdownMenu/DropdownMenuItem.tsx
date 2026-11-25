@@ -204,7 +204,7 @@ export const DropdownMenuItem = React.forwardRef<
       // data-disabled — neither selector above matches them.
       "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
       destructive && "text-error-content",
-      selected && "bg-buttons-navigation-hover",
+      selected && "bg-menu-item-selected",
       className,
     );
     const selectedProps = selected

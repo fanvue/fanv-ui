@@ -66,7 +66,7 @@ export const DropdownMenuRadioItem = React.forwardRef<
         // A helper line makes it a two-line row aligned to its title; a single
         // line centres in the 40px row like the checkbox and DropdownMenuItem.
         helper ? "items-start" : "items-center",
-        "data-[state=checked]:bg-buttons-navigation-hover",
+        "data-[state=checked]:bg-menu-item-selected",
         "data-[highlighted]:bg-interaction-hover",
         "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",

@@ -326,7 +326,7 @@ describe("Select", () => {
       const selected = screen.getByRole("option", { name: "Option A" });
       expect(selected).toHaveAttribute("data-state", "checked");
       expect(selected).toHaveClass(
-        "data-[state=checked]:bg-buttons-navigation-hover",
+        "data-[state=checked]:bg-menu-item-selected",
         "data-[state=checked]:data-highlighted:bg-interaction-hover",
       );
       expect(within(selected).getByText("Option A").parentElement).toHaveClass(

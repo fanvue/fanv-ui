@@ -707,10 +707,10 @@ describe("DropdownMenuItem", () => {
         </>,
       );
       const item = screen.getByTestId("item");
-      expect(item).toHaveClass("bg-buttons-navigation-hover");
+      expect(item).toHaveClass("bg-menu-item-selected");
       expect(item).not.toHaveClass("bg-interaction-hover");
       expect(screen.getByText("Item")).toHaveClass("font-semibold");
-      expect(screen.getByTestId("other")).not.toHaveClass("bg-buttons-navigation-hover");
+      expect(screen.getByTestId("other")).not.toHaveClass("bg-menu-item-selected");
       expect(screen.getByText("Other")).not.toHaveClass("font-semibold");
     });
 
@@ -1402,7 +1402,7 @@ describe("DropdownMenuRadioItem", () => {
       const checkedItem = screen.getByRole("menuitemradio", { name: /Two/ });
       expect(checkedItem).toHaveAttribute("data-state", "checked");
       expect(checkedItem).toHaveClass(
-        "data-[state=checked]:bg-buttons-navigation-hover",
+        "data-[state=checked]:bg-menu-item-selected",
         "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
       );
     });
