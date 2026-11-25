@@ -1176,7 +1176,7 @@
             "surface": {
               "description": "",
               "type": "color",
-              "value": "{primitives.light.color.blackalpha.100}"
+              "value": "{semantic.light.color.buttons.secondary.default}"
             },
             "content": {
               "description": "",
@@ -1271,7 +1271,7 @@
           "hoverOverlay": {
             "description": "",
             "type": "color",
-            "value": "{primitives.light.color.blackalpha.100}"
+            "value": "{semantic.light.color.neutralAlphas.100}"
           }
         },
         "neutralAlphas": {
@@ -6109,7 +6109,7 @@
             "surface": {
               "description": "",
               "type": "color",
-              "value": "{primitives.dark.color.whitealpha.100}"
+              "value": "{semantic.dark.color.buttons.secondary.default}"
             },
             "content": {
               "description": "",
@@ -6174,14 +6174,14 @@
             "content": {
               "description": "",
               "type": "color",
-              "value": "{primitives.dark.color.red.300}"
+              "value": "{primitives.dark.color.red.200}"
             }
           },
           "pink": {
             "surface": {
               "description": "",
               "type": "color",
-              "value": "{primitives.dark.color.pink.800}"
+              "value": "{primitives.dark.color.pink.950}"
             },
             "content": {
               "description": "",
@@ -6193,7 +6193,7 @@
             "surface": {
               "description": "",
               "type": "color",
-              "value": "{primitives.dark.color.purple.800}"
+              "value": "{primitives.dark.color.purple.950}"
             },
             "content": {
               "description": "",
@@ -6204,7 +6204,7 @@
           "hoverOverlay": {
             "description": "",
             "type": "color",
-            "value": "{primitives.dark.color.whitealpha.100}"
+            "value": "{semantic.dark.color.neutralAlphas.100}"
           }
         },
         "neutralAlphas": {

@@ -33,7 +33,7 @@
   --radius-2xl: 40px;
   --radius-full: 9999px;
 
-  --color-tag-gray-surface: var(--primitives-color-blackalpha-100);
+  --color-tag-gray-surface: var(--color-buttons-secondary-default);
   --color-tag-gray-content: var(--color-content-primary);
   --color-tag-blue-surface: var(--primitives-color-blue-100);
   --color-tag-blue-content: var(--primitives-color-blue-700);
@@ -49,7 +49,7 @@
   --color-tag-pink-content: var(--primitives-color-pink-800);
   --color-tag-purple-surface: var(--primitives-color-purple-100);
   --color-tag-purple-content: var(--primitives-color-purple-800);
-  --color-tag-hover-overlay: var(--primitives-color-blackalpha-100);
+  --color-tag-hover-overlay: var(--color-neutral-alphas-100);
   --color-neutral-alphas-50: var(--primitives-color-blackalpha-50);
   --color-neutral-alphas-75: var(--primitives-color-blackalpha-75);
   --color-neutral-alphas-100: var(--primitives-color-blackalpha-100);
@@ -536,7 +536,7 @@
 
   /* Light-mode semantic tokens must also live in :root because @theme
      cannot resolve var() references to :root primitives at build time. */
-  --color-tag-gray-surface: var(--primitives-color-blackalpha-100);
+  --color-tag-gray-surface: var(--color-buttons-secondary-default);
   --color-tag-gray-content: var(--color-content-primary);
   --color-tag-blue-surface: var(--primitives-color-blue-100);
   --color-tag-blue-content: var(--primitives-color-blue-700);
@@ -552,7 +552,7 @@
   --color-tag-pink-content: var(--primitives-color-pink-800);
   --color-tag-purple-surface: var(--primitives-color-purple-100);
   --color-tag-purple-content: var(--primitives-color-purple-800);
-  --color-tag-hover-overlay: var(--primitives-color-blackalpha-100);
+  --color-tag-hover-overlay: var(--color-neutral-alphas-100);
   --color-neutral-alphas-50: var(--primitives-color-blackalpha-50);
   --color-neutral-alphas-75: var(--primitives-color-blackalpha-75);
   --color-neutral-alphas-100: var(--primitives-color-blackalpha-100);
@@ -864,7 +864,7 @@
 }
 
 .dark {
-  --color-tag-gray-surface: var(--primitives-color-whitealpha-100);
+  --color-tag-gray-surface: var(--color-buttons-secondary-default);
   --color-tag-gray-content: var(--color-content-primary);
   --color-tag-blue-surface: var(--primitives-color-blue-800);
   --color-tag-blue-content: var(--primitives-color-blue-300);
@@ -875,12 +875,12 @@
   --color-tag-amber-surface: var(--primitives-color-amber-800);
   --color-tag-amber-content: var(--primitives-color-amber-300);
   --color-tag-red-surface: var(--primitives-color-red-800);
-  --color-tag-red-content: var(--primitives-color-red-300);
-  --color-tag-pink-surface: var(--primitives-color-pink-800);
+  --color-tag-red-content: var(--primitives-color-red-200);
+  --color-tag-pink-surface: var(--primitives-color-pink-950);
   --color-tag-pink-content: var(--primitives-color-pink-300);
-  --color-tag-purple-surface: var(--primitives-color-purple-800);
+  --color-tag-purple-surface: var(--primitives-color-purple-950);
   --color-tag-purple-content: var(--primitives-color-purple-300);
-  --color-tag-hover-overlay: var(--primitives-color-whitealpha-100);
+  --color-tag-hover-overlay: var(--color-neutral-alphas-100);
   --color-neutral-alphas-50: var(--primitives-color-whitealpha-100);
   --color-neutral-alphas-75: var(--primitives-color-whitealpha-75);
   --color-neutral-alphas-100: var(--primitives-color-whitealpha-100);
@@ -1615,6 +1615,23 @@
   --color-live-glow-red: #f019323d;
   --color-live-ended-background: var(--primitives-color-gray-150);
   --color-live-ended-content: var(--primitives-color-gray-600);
+  --color-tag-gray-surface: var(--color-buttons-secondary-default);
+  --color-tag-gray-content: var(--color-content-primary);
+  --color-tag-blue-surface: var(--primitives-color-blue-100);
+  --color-tag-blue-content: var(--primitives-color-blue-700);
+  --color-tag-teal-surface: var(--primitives-color-emerald-green-100);
+  --color-tag-teal-content: var(--primitives-color-emerald-green-800);
+  --color-tag-green-surface: var(--primitives-color-green-100);
+  --color-tag-green-content: var(--primitives-color-green-800);
+  --color-tag-amber-surface: var(--primitives-color-amber-100);
+  --color-tag-amber-content: var(--primitives-color-amber-800);
+  --color-tag-red-surface: var(--primitives-color-red-100);
+  --color-tag-red-content: var(--primitives-color-red-700);
+  --color-tag-pink-surface: var(--primitives-color-pink-100);
+  --color-tag-pink-content: var(--primitives-color-pink-800);
+  --color-tag-purple-surface: var(--primitives-color-purple-100);
+  --color-tag-purple-content: var(--primitives-color-purple-800);
+  --color-tag-hover-overlay: var(--color-neutral-alphas-100);
   --color-navigation-background: var(--primitives-color-gray-black);
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
@@ -1912,6 +1929,23 @@
   --color-live-glow-red: #f019323d;
   --color-live-ended-background: var(--primitives-color-gray-850);
   --color-live-ended-content: var(--primitives-color-gray-450);
+  --color-tag-gray-surface: var(--color-buttons-secondary-default);
+  --color-tag-gray-content: var(--color-content-primary);
+  --color-tag-blue-surface: var(--primitives-color-blue-800);
+  --color-tag-blue-content: var(--primitives-color-blue-300);
+  --color-tag-teal-surface: var(--primitives-color-emerald-green-800);
+  --color-tag-teal-content: var(--primitives-color-emerald-green-300);
+  --color-tag-green-surface: var(--primitives-color-green-800);
+  --color-tag-green-content: var(--primitives-color-green-300);
+  --color-tag-amber-surface: var(--primitives-color-amber-800);
+  --color-tag-amber-content: var(--primitives-color-amber-300);
+  --color-tag-red-surface: var(--primitives-color-red-800);
+  --color-tag-red-content: var(--primitives-color-red-200);
+  --color-tag-pink-surface: var(--primitives-color-pink-950);
+  --color-tag-pink-content: var(--primitives-color-pink-300);
+  --color-tag-purple-surface: var(--primitives-color-purple-950);
+  --color-tag-purple-content: var(--primitives-color-purple-300);
+  --color-tag-hover-overlay: var(--color-neutral-alphas-100);
   --color-navigation-background: var(--primitives-color-gray-black);
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
