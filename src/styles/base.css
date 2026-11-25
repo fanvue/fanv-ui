@@ -528,7 +528,8 @@
   --fv-raised-control-thumb-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 4px -1px rgb(0 0 0 / 0.07);
 }
 
-.dark {
+.dark,
+.theme-v2 .theme-v2-dark {
   --color-special-bottom-nav-highlight: var(--primitives-color-gray-white);
   --color-content-disabled: var(--primitives-color-gray-450);
   --fv-raised-control-fill: linear-gradient(
@@ -565,7 +566,8 @@
   --fv-upsell-shine-easing: linear;
 }
 
-.dark {
+.dark,
+.theme-v2 .theme-v2-dark {
   --fv-upsell-glow: var(--fv-upsell-glow-on-dark);
   --fv-upsell-glow-negative: var(--fv-upsell-glow-on-light);
 }
