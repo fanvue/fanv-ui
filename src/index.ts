@@ -719,6 +719,20 @@ export type {
 export { PhoneField } from "./components/PhoneField/PhoneField";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
+export type {
+  PopoverAnchorProps,
+  PopoverCloseProps,
+  PopoverContentProps,
+  PopoverProps,
+  PopoverTriggerProps,
+} from "./components/Popover/Popover";
+export {
+  Popover,
+  PopoverAnchor,
+  PopoverClose,
+  PopoverContent,
+  PopoverTrigger,
+} from "./components/Popover/Popover";
 export type { ProfileOnlineStatusProps } from "./components/ProfileOnlineStatus/ProfileOnlineStatus";
 export { ProfileOnlineStatus } from "./components/ProfileOnlineStatus/ProfileOnlineStatus";
 export type {

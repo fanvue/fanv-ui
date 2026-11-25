@@ -193,6 +193,10 @@ import {
   PinIcon,
   PlayIcon,
   PlusIcon,
+  Popover,
+  PopoverClose,
+  PopoverContent,
+  PopoverTrigger,
   PrivacyIcon,
   ProfileStatus,
   ProgrammingArrowIcon,
@@ -4794,6 +4798,31 @@ function ProfileStatusDemo() {
   );
 }
 
+function PopoverDemo() {
+  return (
+    <div id="popover" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Popover</h2>
+      <div className="flex gap-4">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="secondary">Open popover</Button>
+          </PopoverTrigger>
+          <PopoverContent aria-label="Example">
+            <div className="typography-body-small-14px-regular flex w-64 flex-col gap-2 p-2">
+              <p>Any content can sit inside a popover.</p>
+              <PopoverClose asChild>
+                <Button variant="secondary" size="32">
+                  Close
+                </Button>
+              </PopoverClose>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+    </div>
+  );
+}
+
 function ProgressBarDemo() {
   return (
     <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
@@ -6175,6 +6204,7 @@ function App() {
     { id: "pagination", label: "Pagination" },
     { id: "passwordfield", label: "Password Field" },
     { id: "pill", label: "Pill" },
+    { id: "popover", label: "Popover" },
     { id: "profile-status", label: "Profile Status" },
     { id: "progressbar", label: "Progress Bar" },
     { id: "radio", label: "Radio" },
@@ -6448,6 +6478,9 @@ function App() {
             {/* Pagination */}
             <PaginationDemo />
             <PageSelectorDemo />
+
+            {/* Popover */}
+            <PopoverDemo />
 
             {/* Profile Status */}
             <ProfileStatusDemo />
