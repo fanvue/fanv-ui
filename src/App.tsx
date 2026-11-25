@@ -2794,6 +2794,7 @@ function TagDemo() {
                 size={size}
                 leadingIcon="🐳"
                 onRemove={() => {}}
+                removeLabel="Remove Whale"
                 removeVisibility="hover"
               >
                 Whale

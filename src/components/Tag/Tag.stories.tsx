@@ -44,7 +44,13 @@ export const Default: Story = {
 };
 
 export const Removable: Story = {
-  args: { leadingIcon: "🐳", variant: "blue", onRemove: () => {}, removeVisibility: "hover" },
+  args: {
+    leadingIcon: "🐳",
+    variant: "blue",
+    onRemove: () => {},
+    removeLabel: "Remove Whale",
+    removeVisibility: "hover",
+  },
   parameters: NON_VISUAL_STORY_PARAMETERS,
 };
 
@@ -66,7 +72,13 @@ export const AllColours: Story = {
               <Tag variant={variant} size={size} leadingIcon="🐳">
                 Whale
               </Tag>
-              <Tag variant={variant} size={size} leadingIcon="🐳" onRemove={() => {}}>
+              <Tag
+                variant={variant}
+                size={size}
+                leadingIcon="🐳"
+                onRemove={() => {}}
+                removeLabel="Remove Whale"
+              >
                 Whale
               </Tag>
             </Fragment>
@@ -101,17 +113,19 @@ export const Types: Story = {
             size={size}
             leadingIcon="🐳"
             onRemove={() => {}}
+            removeLabel="Remove Whale"
             removeVisibility="hover"
           >
             Whale
           </Tag>
-          <Tag size={size} onRemove={() => {}}>
+          <Tag size={size} onRemove={() => {}} removeLabel="Remove VIPs">
             VIPs
           </Tag>
           <Tag
             size={size}
             leadingIcon={<FlashIcon className="text-success-content" />}
             onRemove={() => {}}
+            removeLabel="Remove VIPs"
             removeVisibility="hover"
           >
             VIPs
@@ -128,5 +142,6 @@ export const Truncated: Story = {
     children: "A very long tag label that does not fit",
     className: "max-w-40",
     onRemove: () => {},
+    removeLabel: "Remove tag",
   },
 };

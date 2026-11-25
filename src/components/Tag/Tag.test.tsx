@@ -29,12 +29,7 @@ describe("Tag", () => {
   });
 
   describe("remove button", () => {
-    it("is named after the label by default", () => {
-      render(<Tag onRemove={() => {}}>Whale</Tag>);
-      expect(screen.getByRole("button", { name: "Remove Whale" })).toBeInTheDocument();
-    });
-
-    it("uses removeLabel when given", () => {
+    it("is named by removeLabel", () => {
       render(
         <Tag onRemove={() => {}} removeLabel="Quitar Ballena">
           Ballena
@@ -46,7 +41,11 @@ describe("Tag", () => {
     it("calls onRemove on click", async () => {
       const user = userEvent.setup();
       const onRemove = vi.fn();
-      render(<Tag onRemove={onRemove}>Whale</Tag>);
+      render(
+        <Tag onRemove={onRemove} removeLabel="Remove Whale">
+          Whale
+        </Tag>,
+      );
       await user.click(screen.getByRole("button", { name: "Remove Whale" }));
       expect(onRemove).toHaveBeenCalledTimes(1);
     });
@@ -54,7 +53,11 @@ describe("Tag", () => {
     it.each(["{Enter}", " "])("calls onRemove from the keyboard with %j", async (key) => {
       const user = userEvent.setup();
       const onRemove = vi.fn();
-      render(<Tag onRemove={onRemove}>Whale</Tag>);
+      render(
+        <Tag onRemove={onRemove} removeLabel="Remove Whale">
+          Whale
+        </Tag>,
+      );
       await user.tab();
       expect(screen.getByRole("button", { name: "Remove Whale" })).toHaveFocus();
       await user.keyboard(key);
@@ -65,7 +68,7 @@ describe("Tag", () => {
       const user = userEvent.setup();
       const onRemove = vi.fn();
       render(
-        <Tag onRemove={onRemove} removeVisibility="hover">
+        <Tag onRemove={onRemove} removeLabel="Remove Whale" removeVisibility="hover">
           Whale
         </Tag>,
       );
@@ -77,7 +80,7 @@ describe("Tag", () => {
 
     it("stays in the accessibility tree when revealed on hover", () => {
       render(
-        <Tag onRemove={() => {}} removeVisibility="hover">
+        <Tag onRemove={() => {}} removeLabel="Remove Whale" removeVisibility="hover">
           Whale
         </Tag>,
       );
@@ -93,7 +96,7 @@ describe("Tag", () => {
 
     it("has no accessibility violations with a remove button", async () => {
       const { container } = render(
-        <Tag variant="blue" leadingIcon="🐳" onRemove={() => {}}>
+        <Tag variant="blue" leadingIcon="🐳" onRemove={() => {}} removeLabel="Remove Whale">
           Whale
         </Tag>,
       );

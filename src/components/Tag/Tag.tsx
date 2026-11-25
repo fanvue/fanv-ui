@@ -11,27 +11,38 @@ export type TagSize = "16" | "20";
 /** When the remove button is shown. */
 export type TagRemoveVisibility = "always" | "hover";
 
-export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
+interface TagBaseProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
   /** Colour from the V2 Tags palette. @default "gray" */
   variant?: TagVariant;
   /** Height in pixels: 16 for dense rows, 20 for panels, pickers and filter tags. @default "20" */
   size?: TagSize;
   /** Emoji or icon displayed before the label. Decorative, so it is hidden from assistive technology. */
   leadingIcon?: React.ReactNode;
-  /** The visible label. A string so the remove button can name it. */
+  /** The visible label. */
   children: string;
+}
+
+interface TagRemovableProps {
   /** Renders a remove (×) button when set. */
-  onRemove?: () => void;
-  /** Accessible name of the remove button. Pass a translated string. @default "Remove {label}" */
-  removeLabel?: string;
+  onRemove: () => void;
+  /** Accessible name of the remove button, as one translated string such as "Remove Whale". */
+  removeLabel: string;
   /**
    * `"always"` keeps the × visible (lists, filter tags). `"hover"` reveals it on hover or
-   * keyboard focus, and keeps it visible on touch devices, which have no hover.
+   * keyboard focus, and keeps it visible on devices that cannot hover.
    * In `"hover"` mode the tag is narrower at rest and widens when the × appears; its height never changes.
    * @default "always"
    */
   removeVisibility?: TagRemoveVisibility;
 }
+
+interface TagStaticProps {
+  onRemove?: undefined;
+  removeLabel?: undefined;
+  removeVisibility?: undefined;
+}
+
+export type TagProps = TagBaseProps & (TagRemovableProps | TagStaticProps);
 
 const variantClass: Record<TagVariant, string> = {
   gray: "bg-tag-gray-surface text-tag-gray-content",
@@ -53,7 +64,12 @@ const variantClass: Record<TagVariant, string> = {
  *
  * @example
  * ```tsx
- * <Tag variant="blue" leadingIcon="🐳" onRemove={() => removeTag("whale")}>
+ * <Tag
+ *   variant="blue"
+ *   leadingIcon="🐳"
+ *   onRemove={() => removeTag("whale")}
+ *   removeLabel={t("tags.remove", { name: "Whale" })}
+ * >
  *   Whale
  * </Tag>
  * ```
@@ -78,7 +94,7 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
         ref={ref}
         data-testid="tag"
         className={cn(
-          "group relative inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs px-1 font-medium",
+          "group/tag relative inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs px-1 font-medium",
           size === "16" && "h-4 text-[10px] leading-[18px]",
           size === "20" && "h-5 text-xs leading-[18px]",
           variantClass[variant],
@@ -97,12 +113,12 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
         {onRemove && (
           <button
             type="button"
-            aria-label={removeLabel ?? `Remove ${children}`}
+            aria-label={removeLabel}
             onClick={onRemove}
             className={cn(
               "relative flex size-3 shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute after:-inset-1.5 focus-visible:opacity-100 focus-visible:shadow-focus-ring focus-visible:outline-none",
               removeVisibility === "hover" &&
-                "pointer-events-none pointer-coarse:pointer-events-auto -ml-0.5 pointer-coarse:ml-0 pointer-coarse:w-3 w-0 opacity-0 pointer-coarse:opacity-100 group-focus-within:pointer-events-auto group-focus-within:ml-0 group-focus-within:w-3 group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:ml-0 group-hover:w-3 group-hover:opacity-100",
+                "group-focus-within/tag:pointer-events-auto group-focus-within/tag:ml-0 group-focus-within/tag:w-3 group-focus-within/tag:opacity-100 group-hover/tag:pointer-events-auto group-hover/tag:ml-0 group-hover/tag:w-3 group-hover/tag:opacity-100 [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:-ml-0.5 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0",
             )}
           >
             <CrossIcon className="size-3" />
