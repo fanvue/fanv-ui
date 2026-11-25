@@ -84,17 +84,14 @@ describe("Popover", () => {
     });
   });
 
-  describe("forceMount", () => {
-    it("keeps the content in the document while closed", () => {
-      render(
-        <Popover>
-          <PopoverTrigger>Open</PopoverTrigger>
-          <PopoverContent forceMount aria-label="Filters">
-            Panel
-          </PopoverContent>
-        </Popover>,
-      );
-      expect(screen.getByText("Panel")).toBeInTheDocument();
+  describe("closed", () => {
+    it("keeps the content out of the document and focus on the page", async () => {
+      const user = userEvent.setup();
+      renderPopover();
+      await user.tab();
+      expect(screen.getByRole("button", { name: "Open" })).toHaveFocus();
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Done" })).not.toBeInTheDocument();
     });
   });
 

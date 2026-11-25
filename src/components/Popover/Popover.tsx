@@ -18,7 +18,7 @@ export type PopoverCloseProps = React.ComponentPropsWithoutRef<typeof PopoverPri
 
 /** Props for {@link PopoverContent}. */
 export interface PopoverContentProps
-  extends React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> {
+  extends Omit<React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>, "forceMount"> {
   /** Alignment of the content against the trigger. @default "start" */
   align?: PopoverPrimitive.PopoverContentProps["align"];
   /** Distance in pixels between the trigger and the content. @default 8 */
@@ -67,7 +67,8 @@ export const PopoverClose = PopoverPrimitive.Close;
 /**
  * Floating panel rendered in a portal, styled like the {@link DropdownMenuContent} surface.
  * Focus moves into it on open and returns to the trigger on close. It renders a `role="dialog"`,
- * so pass `aria-label` or `aria-labelledby` to name it.
+ * so pass `aria-label` or `aria-labelledby` to name it. The content unmounts when closed;
+ * `forceMount` is not supported.
  *
  * @example
  * ```tsx
@@ -85,18 +86,16 @@ export const PopoverContent = React.forwardRef<
       collisionPadding = FLOATING_CONTENT_COLLISION_PADDING,
       className,
       style,
-      forceMount,
       ...props
     },
     ref,
   ) => (
-    <PopoverPrimitive.Portal forceMount={forceMount}>
+    <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
         ref={ref}
         align={align}
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
-        forceMount={forceMount}
         className={cn(
           "w-max max-w-(--radix-popover-content-available-width) overflow-y-auto rounded-md border border-border-strong bg-background-secondary p-2 text-content-primary shadow-blur-menu outline-none backdrop-blur-xs",
           "data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:animate-in",
