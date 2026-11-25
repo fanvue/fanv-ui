@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import * as React from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./Card";
 
@@ -20,6 +20,24 @@ describe("Card", () => {
         </Card>,
       );
       expect(screen.getByTestId("card")).toHaveClass("custom");
+    });
+
+    it("renders its child with the card surface when asChild", async () => {
+      const onClick = vi.fn();
+      render(
+        <Card asChild interactive hierarchy="secondary">
+          <button type="button" onClick={onClick}>
+            Settings
+          </button>
+        </Card>,
+      );
+      const button = screen.getByRole("button", { name: "Settings" });
+      expect(button.tagName).toBe("BUTTON");
+      expect(button).toHaveClass("bg-surface-secondary", "rounded-md", "cursor-pointer", "p-4");
+      expect(button).toHaveClass("focus-visible:shadow-focus-ring");
+      expect(button.parentElement?.tagName).not.toBe("BUTTON");
+      button.click();
+      expect(onClick).toHaveBeenCalledTimes(1);
     });
 
     it("forwards ref correctly", () => {
