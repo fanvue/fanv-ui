@@ -16,15 +16,21 @@ interface TagBaseProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "chil
   variant?: TagVariant;
   /** Height in pixels: 16 for dense rows, 20 for panels, pickers and filter tags. @default "20" */
   size?: TagSize;
-  /** Emoji or icon displayed before the label. Decorative, so it is hidden from assistive technology. */
+  /**
+   * Emoji or icon displayed before the label. Decorative, so it is hidden from assistive technology.
+   * Size an icon at 12px yourself, for example `className="size-3"`.
+   */
   leadingIcon?: React.ReactNode;
   /** The visible label. */
-  children: string;
+  children: React.ReactNode;
 }
 
 interface TagRemovableProps {
-  /** Renders a remove (×) button when set. Receives the click, so a caller can stop it bubbling. */
-  onRemove: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  /**
+   * Renders a remove (×) button when set. Receives the click, so a caller can stop it bubbling.
+   * Pass `undefined` to hide the button conditionally while keeping `removeLabel`.
+   */
+  onRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   /** Accessible name of the remove button, as one translated string such as "Remove Whale". */
   removeLabel: string;
   /**
@@ -37,8 +43,11 @@ interface TagRemovableProps {
 }
 
 interface TagStaticProps {
+  /** Leave unset for a tag with no remove button. */
   onRemove?: undefined;
+  /** Only used with `onRemove`. */
   removeLabel?: undefined;
+  /** Only used with `onRemove`. */
   removeVisibility?: undefined;
 }
 
@@ -94,18 +103,18 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
         ref={ref}
         data-testid="tag"
         className={cn(
-          "group/tag relative inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs px-1 font-medium",
-          size === "16" && "h-4 text-[10px] leading-[18px]",
-          size === "20" && "h-5 text-xs leading-[18px]",
+          "group/tag relative isolate inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs px-1 font-medium",
+          size === "16" && "h-4 text-[10px] leading-4.5",
+          size === "20" && "h-5 text-xs leading-4.5",
           variantClass[variant],
           onRemove &&
-            "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-tag-hover-overlay before:opacity-0 hover:before:opacity-100",
+            "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-tag-hover-overlay before:opacity-0 hover:before:opacity-100",
           className,
         )}
         {...props}
       >
         {leadingIcon && (
-          <span className="flex shrink-0 items-center [&>svg]:size-3" aria-hidden="true">
+          <span className="flex shrink-0 items-center" aria-hidden="true">
             {leadingIcon}
           </span>
         )}

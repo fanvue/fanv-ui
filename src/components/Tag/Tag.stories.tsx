@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Fragment } from "react";
-import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
+import { E2E_FIXTURE_PARAMETERS } from "../../storybook";
 import { FlashIcon } from "../Icons/FlashIcon";
 import { Tag, type TagSize, type TagVariant } from "./Tag";
 
@@ -51,7 +51,7 @@ export const Removable: Story = {
     removeLabel: "Remove Whale",
     removeVisibility: "hover",
   },
-  parameters: NON_VISUAL_STORY_PARAMETERS,
+  parameters: E2E_FIXTURE_PARAMETERS,
 };
 
 /**
@@ -123,7 +123,7 @@ export const Types: Story = {
           </Tag>
           <Tag
             size={size}
-            leadingIcon={<FlashIcon className="text-success-content" />}
+            leadingIcon={<FlashIcon className="size-3 text-success-content" />}
             onRemove={() => {}}
             removeLabel="Remove VIPs"
             removeVisibility="hover"

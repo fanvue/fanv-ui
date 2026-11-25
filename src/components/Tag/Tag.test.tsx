@@ -22,6 +22,22 @@ describe("Tag", () => {
       expect(screen.queryByRole("button")).not.toBeInTheDocument();
     });
 
+    it("renders a label built from text and a number", () => {
+      const hiddenCount = 2;
+      render(<Tag>+{hiddenCount}</Tag>);
+      expect(screen.getByTestId("tag")).toHaveTextContent("+2");
+    });
+
+    it("renders no button when onRemove is conditionally undefined", () => {
+      const canRemove = false;
+      render(
+        <Tag onRemove={canRemove ? () => {} : undefined} removeLabel="Remove Whale">
+          Whale
+        </Tag>,
+      );
+      expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    });
+
     it("hides the leading icon from assistive technology", () => {
       render(<Tag leadingIcon="🐳">Whale</Tag>);
       expect(screen.getByText("🐳")).toHaveAttribute("aria-hidden", "true");

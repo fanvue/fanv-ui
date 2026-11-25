@@ -35,9 +35,13 @@ test.describe("Tag", () => {
       await expect(remove).toBeFocused();
       await expect.poll(() => remove.evaluate(opacity)).toBe("1");
     });
+  });
 
-    test("is always shown on a touch device", async ({ page, isMobile }) => {
-      test.skip(!isMobile, "Touch devices have no hover to reveal it");
+  test.describe("remove button on a device that cannot hover", () => {
+    test.skip(({ browserName }) => browserName === "firefox", "Firefox has no mobile emulation");
+    test.use({ hasTouch: true, isMobile: true });
+
+    test("is always shown", async ({ page }) => {
       await page.goto(getStoryUrl("Tag", "Removable"));
 
       const remove = page.getByRole("button", { name: "Remove Whale" });
