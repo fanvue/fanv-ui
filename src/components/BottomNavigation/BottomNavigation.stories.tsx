@@ -398,9 +398,7 @@ export const V2Palette: Story = {
     );
     const home = canvas.getByRole("button", { name: "Home" });
     await waitFor(() => expect(getComputedStyle(home).color).toBe("rgb(255, 255, 255)"));
-    await waitFor(() =>
-      expect(getComputedStyle(home).backgroundColor).toBe("rgba(255, 255, 255, 0.1)"),
-    );
+    await waitFor(() => expect(getComputedStyle(home).backgroundColor).toBe("rgba(0, 0, 0, 0)"));
   },
 };
 

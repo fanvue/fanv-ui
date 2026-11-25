@@ -48,7 +48,6 @@ export const BottomNavigationAction = React.forwardRef<
         className={cn(
           "relative flex min-w-0 flex-1 cursor-pointer flex-col items-center justify-center gap-1",
           isActive ? "text-icons-primary" : "text-icons-tertiary",
-          "theme-v2:hover:bg-navigation-item-hover theme-v2:data-[state=active]:bg-navigation-item-selected",
           "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
           "focus-visible:shadow-focus-ring focus-visible:outline-none",
           className,
@@ -85,7 +84,6 @@ export const BottomNavigationAction = React.forwardRef<
       className={cn(
         "relative flex min-w-0 flex-1 cursor-pointer flex-col items-center justify-center gap-0.5 overflow-hidden px-2 py-2",
         "text-content-primary",
-        "theme-v2:hover:bg-navigation-item-hover theme-v2:data-[state=active]:bg-navigation-item-selected",
         "motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-in-out",
         "focus-visible:shadow-focus-ring focus-visible:outline-none",
         className,
