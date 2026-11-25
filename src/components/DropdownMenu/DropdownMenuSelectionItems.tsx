@@ -21,7 +21,17 @@ export interface DropdownMenuRadioGroupProps
  *
  * Requires Radix menu context — not supported inside a `variant="sheet"` menu.
  */
-export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
+export const DropdownMenuRadioGroup = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.RadioGroup>,
+  DropdownMenuRadioGroupProps
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.RadioGroup
+    ref={ref}
+    className={cn("flex flex-col gap-[3px]", className)}
+    {...props}
+  />
+));
+DropdownMenuRadioGroup.displayName = "DropdownMenuRadioGroup";
 
 /** Height preset for a {@link DropdownMenuRadioItem}. */
 export type DropdownMenuRadioItemSize = "40";
@@ -37,7 +47,8 @@ export interface DropdownMenuRadioItemProps
 /**
  * A single radio-style choice within a {@link DropdownMenuRadioGroup}. Shows
  * a circular indicator that fills when selected, plus an optional helper line
- * underneath the title.
+ * underneath the title. The checked row rests on `Buttons/Navigation/Hover`, and
+ * hovering it shows `Interaction/Hover` like any other row.
  */
 export const DropdownMenuRadioItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.RadioItem>,
@@ -55,13 +66,10 @@ export const DropdownMenuRadioItem = React.forwardRef<
         // A helper line makes it a two-line row aligned to its title; a single
         // line centres in the 40px row like the checkbox and DropdownMenuItem.
         helper ? "items-start" : "items-center",
-        "data-[highlighted]:bg-neutral-alphas-50",
+        "data-[state=checked]:bg-buttons-navigation-hover",
+        "data-[highlighted]:bg-interaction-hover",
+        "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
-        // See DropdownMenuItem above: bg-interaction-hover aliases to the same
-        // token as the plain hover background, so it can't distinguish the
-        // checked state from an unchecked-but-hovered row.
-        "data-[state=checked]:bg-neutral-alphas-100",
-        "data-[state=checked]:data-[highlighted]:bg-neutral-alphas-200",
         className,
       )}
       {...props}
@@ -136,7 +144,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
         // Checked state is carried by the tick alone. A background here would
         // leave every selected row shaded, which reads as "all highlighted" on
         // a menu that starts fully selected.
-        "data-[highlighted]:bg-neutral-alphas-50",
+        "data-[highlighted]:bg-interaction-hover",
         "data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
         className,
       )}
