@@ -438,6 +438,19 @@ describe("Select", () => {
       );
     });
 
+    it("keeps two-line rows at their full height when the list scrolls", () => {
+      render(
+        <Select aria-label="Test" defaultOpen defaultValue="a">
+          <SelectContent>
+            <SelectItem value="a" description="Secondary line">
+              Option A
+            </SelectItem>
+          </SelectContent>
+        </Select>,
+      );
+      expect(screen.getByRole("option", { name: /Option A/ })).toHaveClass("shrink-0", "min-h-10");
+    });
+
     it("spaces rows 3px apart inside a group", () => {
       render(
         <Select aria-label="Test" defaultOpen defaultValue="a">

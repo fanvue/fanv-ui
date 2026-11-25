@@ -82,7 +82,8 @@ export const DropdownMenuRadioItem = React.forwardRef<
         // (node `7393:62008`), and at 16px a radio row indented 4px further than a
         // `DropdownMenuCheckboxItem` in the same menu. 12px radius and a 40px
         // minimum height, like `DropdownMenuItem`.
-        "group flex min-h-10 w-full cursor-pointer gap-3 rounded-sm px-3 py-2 outline-none",
+        // `shrink-0` keeps a two-line row whole when the panel scrolls, as in DropdownMenuItem.
+        "group flex min-h-10 w-full shrink-0 cursor-pointer gap-3 rounded-sm px-3 py-2 outline-none",
         // A helper line makes it a two-line row aligned to its title; a single
         // line centres in the 40px row like the checkbox and DropdownMenuItem.
         helper ? "items-start" : "items-center",
@@ -159,7 +160,8 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
     <DropdownMenuPrimitive.CheckboxItem
       ref={ref}
       className={cn(
-        "group flex min-h-10 w-full cursor-pointer items-center gap-3 rounded-sm px-3 py-2 outline-none",
+        // `shrink-0` keeps a two-line row whole when the panel scrolls, as in DropdownMenuItem.
+        "group flex min-h-10 w-full shrink-0 cursor-pointer items-center gap-3 rounded-sm px-3 py-2 outline-none",
         // In the current palette the checked state is carried by the tick alone.
         // A background here would leave every selected row shaded, which reads as
         // "all highlighted" on a menu that starts fully selected. The v2 palette

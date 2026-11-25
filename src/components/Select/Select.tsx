@@ -350,7 +350,8 @@ export const SelectItem = React.forwardRef<
     <SelectPrimitive.Item
       ref={ref}
       className={cn(
-        "group relative flex w-full cursor-pointer select-none gap-2 rounded-sm px-3 text-content-primary outline-none",
+        // `shrink-0` keeps a two-line row whole when the list scrolls, as in DropdownMenuItem.
+        "group relative flex w-full shrink-0 cursor-pointer select-none gap-2 rounded-sm px-3 text-content-primary outline-none",
         hasDescription ? "items-start" : "items-center",
         ITEM_SIZE_CLASSES[itemSize],
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",

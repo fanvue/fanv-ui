@@ -992,3 +992,55 @@ export const DisabledRowsV2Palette: Story = {
     </DropdownMenu>
   ),
 };
+
+export const TwoLineRowsInShortMenu: Story = {
+  name: "Two-line rows in a short menu",
+  play: async (context) => {
+    await openMenu(context);
+    const menu = within(document.body);
+    const rows: [HTMLElement, string][] = [
+      [menu.getByRole("menuitem", { name: /Jane Doe/ }), "Product designer"],
+      [menu.getByRole("menuitem", { name: /Edit profile/ }), "Update your details"],
+      [menu.getByRole("menuitemradio", { name: /Newest/ }), "Most recent first"],
+      [menu.getByRole("menuitemcheckbox", { name: /Photos/ }), "Images and albums"],
+    ];
+    for (const [row, secondLine] of rows) {
+      const rowBox = row.getBoundingClientRect();
+      const lineBox = within(row).getByText(secondLine).getBoundingClientRect();
+      const titleBox = (
+        row.querySelector(".typography-body-small-14px-semibold") as HTMLElement
+      ).getBoundingClientRect();
+      await expect(lineBox.bottom).toBeLessThanOrEqual(rowBox.bottom - 4);
+      await expect(titleBox.top).toBeGreaterThanOrEqual(rowBox.top + 4);
+    }
+  },
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>Open Menu</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-80" style={{ maxHeight: 200 }}>
+        <DropdownMenuItem
+          avatar={<Avatar size={24} fallback="JD" />}
+          description="Product designer"
+          selected
+        >
+          Jane Doe
+        </DropdownMenuItem>
+        <DropdownMenuItem leadingIcon={<EditIcon />} description="Update your details">
+          Edit profile
+        </DropdownMenuItem>
+        <DropdownMenuRadioGroup value="newest">
+          <DropdownMenuRadioItem value="newest" helper="Most recent first">
+            Newest
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+        <DropdownMenuCheckboxItem checked helper="Images and albums">
+          Photos
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuItem>Favourites</DropdownMenuItem>
+        <DropdownMenuItem>Settings</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
+};

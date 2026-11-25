@@ -187,7 +187,9 @@ export const DropdownMenuItem = React.forwardRef<
     const itemClassName = cn(
       // `text-start` because the sheet variant renders the row as a <button>,
       // whose UA-centred text misaligned it from the popper variant's rows.
-      "group flex w-full cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
+      // `shrink-0`: the panel is a scrolling flex column capped at the space available,
+      // and a row allowed to shrink drops to its `min-h-*` and spills a second line.
+      "group flex w-full shrink-0 cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
       hasDescription ? "items-start" : "items-center",
       // The sheet's header runs the full width of the panel, so its rows have to
       // come in off the edge themselves — 4px here on the panel's own 4px gives the
