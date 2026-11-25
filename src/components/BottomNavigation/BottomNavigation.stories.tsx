@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
+import { expect, waitFor, within } from "storybook/test";
 import { Avatar } from "../Avatar/Avatar";
 import { Count } from "../Count/Count";
 import { AddIcon } from "../Icons/AddIcon";
@@ -80,6 +81,18 @@ export const Default: Story = {
           label="Profile"
         />
       </BottomNavigation>
+    );
+  },
+  play: async ({ canvasElement, globals }) => {
+    const canvas = within(canvasElement);
+    const isDark = globals.theme === "dark";
+    await waitFor(() =>
+      expect(getComputedStyle(canvas.getByRole("navigation")).backgroundColor).toBe(
+        isDark ? "rgb(21, 21, 21)" : "rgb(255, 255, 255)",
+      ),
+    );
+    await expect(getComputedStyle(canvas.getByRole("button", { name: "Home" })).color).toBe(
+      isDark ? "rgb(255, 255, 255)" : "rgb(21, 21, 21)",
     );
   },
 };
@@ -368,4 +381,36 @@ export const InformationArchitectureNavSelected: Story = {
       <BottomNavigationAction value="profile" icon={<UserIcon />} label="Profile" />
     </BottomNavigation>
   ),
+};
+
+export const V2Palette: Story = {
+  name: "v2 Palette",
+  globals: { palette: "v2" },
+  render: Default.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await waitFor(() =>
+      expect(getComputedStyle(canvas.getByRole("navigation")).backgroundColor).toBe(
+        "rgb(10, 10, 10)",
+      ),
+    );
+    const home = canvas.getByRole("button", { name: "Home" });
+    await expect(getComputedStyle(home).color).toBe("rgb(255, 255, 255)");
+    await expect(getComputedStyle(home).backgroundColor).toBe("rgba(255, 255, 255, 0.1)");
+  },
+};
+
+export const V2PaletteInformationArchitectureNav: Story = {
+  name: "v2 Palette – Information Architecture Nav",
+  globals: { palette: "v2" },
+  render: InformationArchitectureNav.render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await waitFor(() =>
+      expect(getComputedStyle(canvas.getByRole("navigation")).backgroundColor).toBe(
+        "rgb(10, 10, 10)",
+      ),
+    );
+    await expect(getComputedStyle(canvas.getByText("Home")).color).toBe("rgb(255, 255, 255)");
+  },
 };
