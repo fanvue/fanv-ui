@@ -157,7 +157,7 @@ function ChatInputDefaultAttachmentThumbnails({
         icon={<CloseIcon className="!size-3" />}
         disabled={disabled || !onAttachmentRemove}
         onClick={() => onAttachmentRemove?.(item.id)}
-        className="absolute top-0.5 right-0.5 size-5 bg-neutral-900/40 p-1 text-white hover:bg-neutral-900/55"
+        className="absolute top-0.5 right-0.5 size-5 bg-buttons-always-black-default/40 p-1 text-icons-always-white hover:bg-buttons-always-black-default/55"
       />
     </div>
   ));
