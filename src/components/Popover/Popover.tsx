@@ -97,7 +97,7 @@ export const PopoverContent = React.forwardRef<
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
         className={cn(
-          "w-max max-w-(--radix-popover-content-available-width) overflow-y-auto rounded-md border border-border-strong bg-modal-background p-2 text-content-primary shadow-blur-menu outline-none backdrop-blur-xs",
+          "w-max max-w-(--radix-popover-content-available-width) overflow-y-auto rounded-md border border-border-strong bg-modal-background p-2 text-content-primary shadow-blur-menu outline-hidden backdrop-blur-xs focus-visible:shadow-focus-ring",
           "theme-v2:border-modal-stroke",
           className,
         )}
