@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "./Popover";
@@ -98,11 +99,47 @@ describe("Popover", () => {
   describe("accessibility", () => {
     it("has no accessibility violations when open", async () => {
       const user = userEvent.setup();
-      const { container } = renderPopover();
+      renderPopover();
       await user.click(screen.getByRole("button", { name: "Open" }));
       await screen.findByRole("dialog");
       expect(await axe(document.body)).toHaveNoViolations();
-      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  describe("defaults and overrides", () => {
+    async function openWith(contentProps: Partial<React.ComponentProps<typeof PopoverContent>>) {
+      const user = userEvent.setup();
+      render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent aria-label="Filters" {...contentProps}>
+            Panel
+          </PopoverContent>
+        </Popover>,
+      );
+      await user.click(screen.getByRole("button", { name: "Open" }));
+      return screen.findByRole("dialog");
+    }
+
+    it("aligns to the start by default", async () => {
+      const dialog = await openWith({});
+      expect(dialog).toHaveAttribute("data-align", "start");
+    });
+
+    it("merges a caller className", async () => {
+      const dialog = await openWith({ className: "custom-panel" });
+      expect(dialog).toHaveClass("custom-panel");
+    });
+
+    it("forwards the ref to the content element", async () => {
+      const ref = React.createRef<HTMLDivElement>();
+      const dialog = await openWith({ ref });
+      expect(ref.current).toBe(dialog);
+    });
+
+    it("lets a caller style override the portal z-index", async () => {
+      const dialog = await openWith({ style: { zIndex: 5 } });
+      expect(dialog.style.zIndex).toBe("5");
     });
   });
 });
