@@ -101,6 +101,8 @@ The v2 palette is opt-in. Add the `theme-v2` class to the root element, the same
 
 A few tokens exist only in the v2 palette: `border-input`, `border-input-hover`, `interaction-pressed` and `navigation-*`. Without `theme-v2`, each one points at the token that gives today's look, so a component can use it before the palette ships.
 
+For a change that is not a colour, such as a stroke width or a shadow, use the `theme-v2:` variant. It works like `dark:` and applies only under the v2 palette: `focus:ring-2 theme-v2:focus:ring-1`.
+
 To update the v2 palette, export the Primitives and Semantic colour variables from the library into `src/styles/styleTokensV2.json`, keeping the key names that `styleTokens.json` uses, then run `pnpm build:dictionary`.
 
 ## Resources

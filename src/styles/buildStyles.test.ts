@@ -210,6 +210,10 @@ describe("buildThemeCss", () => {
         )
         .map(([name]) => name);
 
+    it("adds a theme-v2 variant for styles that only apply under the v2 palette", () => {
+      expect(css).toContain("@custom-variant theme-v2 (&:where(.theme-v2, .theme-v2 *));");
+    });
+
     it("uses the v2 values for the retuned surfaces in each mode", () => {
       expect(v2Light.get("--color-background-primary")).toBe("var(--primitives-color-gray-75)");
       expect(v2Light.get("--color-surface-primary")).toBe("var(--primitives-color-gray-white)");

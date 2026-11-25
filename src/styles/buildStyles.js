@@ -403,6 +403,7 @@ const buildThemeCss = (rawTokens, v2Tokens) => {
     ``,
     `@variant dark (&:where(.dark, .dark *));`,
     `@custom-variant infloww (&:is([data-infloww] *));`,
+    `@custom-variant theme-v2 (&:where(.theme-v2, .theme-v2 *));`,
     ``,
     `@theme {`,
     `  --breakpoint-*: initial;`,
