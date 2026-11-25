@@ -46,6 +46,20 @@ describe("Popover", () => {
     });
   });
 
+  describe("forceMount", () => {
+    it("keeps the content in the document while closed", () => {
+      render(
+        <Popover>
+          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverContent forceMount aria-label="Filters">
+            Panel
+          </PopoverContent>
+        </Popover>,
+      );
+      expect(screen.getByText("Panel")).toBeInTheDocument();
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations when open", async () => {
       const user = userEvent.setup();
