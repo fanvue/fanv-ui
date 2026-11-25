@@ -34,13 +34,18 @@ export interface DateRangePanelProps {
   value: DateRangeValue;
   /** Called with a preset on click, and with a custom range on Apply (or on the second pick when `confirmCustomRange` is false). */
   onValueChange: (value: DateRangeValue) => void;
-  /** Label of the Apply button. @default "Apply" */
+  /** Label of the Apply button, which is disabled until the draft range has both ends. @default "Apply" */
   applyLabel?: string;
   /** Label of the Cancel button. @default "Cancel" */
   cancelLabel?: string;
   /** Called after Cancel drops the draft and the panel returns to the preset list. */
   onCancel?: () => void;
-  /** When `true`, a custom range needs Apply. When `false`, it applies as soon as both ends are picked. @default true */
+  /**
+   * When `true`, the calendar shows Cancel and Apply. Apply is disabled only while no day is picked,
+   * and a single click is a one-day range. When `false`, there is no footer and every selection with
+   * both ends emits at once, so the first click emits a one-day range and a second click emits the longer one.
+   * @default true
+   */
   confirmCustomRange?: boolean;
   /** Bounds, locale and first weekday for the calendar. */
   calendarProps?: DateRangeCalendarProps;
@@ -142,7 +147,6 @@ export const DateRangePanel = forwardRef<HTMLDivElement, DateRangePanelProps>(
               mode="range"
               variant="single"
               size="32"
-              min={1}
               showFooter={false}
               defaultMonth={appliedRange?.from}
               selected={draft}

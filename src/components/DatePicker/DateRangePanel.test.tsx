@@ -66,11 +66,28 @@ describe("DateRangePanel", () => {
       expect(screen.getByRole("button", { name: "Last 7 days" })).toBeInTheDocument();
     });
 
-    it("keeps Apply disabled until both ends are picked, then emits the range", async () => {
+    it("keeps Apply disabled before any day is picked", async () => {
+      renderPanel();
+      await userEvent.click(screen.getByRole("button", { name: "Custom range" }));
+      expect(screen.getByRole("button", { name: "Apply" })).toBeDisabled();
+    });
+
+    it("emits a one-day range when Apply follows a single click", async () => {
       const { onValueChange } = renderPanel();
       await userEvent.click(screen.getByRole("button", { name: "Custom range" }));
       await userEvent.click(day(/February 10th/));
-      expect(screen.getByRole("button", { name: "Apply" })).toBeDisabled();
+      await userEvent.click(screen.getByRole("button", { name: "Apply" }));
+      expect(onValueChange).toHaveBeenCalledOnce();
+      const [emitted] = onValueChange.mock.calls[0] ?? [];
+      expect(emitted.type).toBe("custom");
+      expect(emitted.range.from.getDate()).toBe(10);
+      expect(emitted.range.to.getDate()).toBe(10);
+    });
+
+    it("extends the range with a second click before Apply", async () => {
+      const { onValueChange } = renderPanel();
+      await userEvent.click(screen.getByRole("button", { name: "Custom range" }));
+      await userEvent.click(day(/February 10th/));
       await userEvent.click(day(/February 12th/));
       await userEvent.click(screen.getByRole("button", { name: "Apply" }));
       expect(onValueChange).toHaveBeenCalledOnce();
@@ -93,16 +110,21 @@ describe("DateRangePanel", () => {
   });
 
   describe("custom range without confirmation", () => {
-    it("emits on the second pick and renders no footer", async () => {
+    it("emits a one-day range on the first click and the longer range on the second", async () => {
       const { onValueChange } = renderPanel({ confirmCustomRange: false });
       await userEvent.click(screen.getByRole("button", { name: "Custom range" }));
       expect(screen.queryByRole("button", { name: "Apply" })).not.toBeInTheDocument();
       expect(screen.queryByRole("button", { name: "Cancel" })).not.toBeInTheDocument();
       await userEvent.click(day(/February 10th/));
-      expect(onValueChange).not.toHaveBeenCalled();
+      expect(onValueChange).toHaveBeenCalledTimes(1);
+      const first = onValueChange.mock.calls[0]?.[0];
+      expect(first.range.from.getDate()).toBe(10);
+      expect(first.range.to.getDate()).toBe(10);
       await userEvent.click(day(/February 12th/));
-      expect(onValueChange).toHaveBeenCalledOnce();
-      expect(onValueChange.mock.calls[0]?.[0].type).toBe("custom");
+      expect(onValueChange).toHaveBeenCalledTimes(2);
+      const second = onValueChange.mock.calls[1]?.[0];
+      expect(second.range.from.getDate()).toBe(10);
+      expect(second.range.to.getDate()).toBe(12);
     });
   });
 
