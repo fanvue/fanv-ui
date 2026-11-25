@@ -35,6 +35,11 @@ export const Default: Story = {
   ),
 };
 
+export const Open: Story = {
+  args: { defaultOpen: true },
+  render: Default.render,
+};
+
 export const WithToolbarAction: Story = {
   render: (args) => (
     <Popover {...args}>
