@@ -250,14 +250,34 @@ describe("buildThemeCss", () => {
       expect(colourVars(v2Light).filter((name) => !root.has(name))).toEqual([]);
     });
 
-    it("gives each v2-only var today's look outside theme-v2, in @theme too", () => {
+    it("gives each v2-only var the current palette's value outside theme-v2, in @theme too", () => {
       const themeBlocks = (css.match(/@theme \{[^}]*\}/g) ?? []).join("\n");
       for (const [token, fallback] of Object.entries(THEME_V2_FALLBACKS)) {
         expect(root.get(token)).toBe(`var(${fallback})`);
         expect(declared(block(".dark")).get(token)).toBe(`var(${fallback})`);
         expect(themeBlocks).toContain(`${token}: var(${fallback});`);
         expect(v2Light.get(token)).toMatch(/^var\(--primitives-color-/);
+        expect(v2Dark.get(token)).toMatch(/^var\(--primitives-color-/);
       }
+    });
+
+    it("applies the v2 dark palette to dark mode and to theme-v2-dark scopes only", () => {
+      expect(css).toContain(
+        ".theme-v2.dark,\n.theme-v2 .dark,\n.dark .theme-v2,\n.theme-v2 .theme-v2-dark {",
+      );
+    });
+
+    it("fails the build when a v2 token has no dark value", () => {
+      const broken = structuredClone(v2Tokens);
+      delete broken.semantic.dark.color.content.primary;
+      expect(() => buildThemeCss(rawTokens, broken)).toThrow(/no dark value for content\.primary/);
+    });
+
+    it("gives theme-v2-dark scopes the hand-written dark overrides in base.css", () => {
+      const base = readFileSync(join(stylesDir, "base.css"), "utf-8");
+      const darkBlocks = base.match(/^\.dark,\n\.theme-v2 \.theme-v2-dark \{/gm) ?? [];
+      expect(darkBlocks).toHaveLength(2);
+      expect(base).not.toMatch(/^\.dark \{/m);
     });
   });
 

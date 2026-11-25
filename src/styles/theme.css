@@ -1568,6 +1568,7 @@
 
 .theme-v2.dark,
 .theme-v2 .dark,
+.dark .theme-v2,
 .theme-v2 .theme-v2-dark {
   color-scheme: dark;
   --color-neutral-alphas-50: var(--primitives-color-whitealpha-100);

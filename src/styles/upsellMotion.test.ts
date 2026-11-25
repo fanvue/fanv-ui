@@ -59,7 +59,7 @@ describe("upsell motion", () => {
       /--fv-upsell-glow: var\(--fv-upsell-glow-negative\);/,
     );
     const light = block(":root {\n  --fv-upsell-pool");
-    const dark = block(".dark {\n  --fv-upsell-glow");
+    const dark = block(".dark,\n.theme-v2 .theme-v2-dark {\n  --fv-upsell-glow");
     expect(light).toMatch(/--fv-upsell-glow: var\(--fv-upsell-glow-on-light\);/);
     expect(light).toMatch(/--fv-upsell-glow-negative: var\(--fv-upsell-glow-on-dark\);/);
     expect(dark).toMatch(/--fv-upsell-glow: var\(--fv-upsell-glow-on-dark\);/);

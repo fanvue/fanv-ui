@@ -95,7 +95,7 @@ const LEGACY_COLOR_ALIASES = {
 
 /**
  * Colour vars that only the v2 palette defines. Outside `.theme-v2` each one points at the
- * var that gives today's look, so a component can adopt it before the v2 palette ships.
+ * current palette's value, so a component can adopt it before the v2 palette ships.
  */
 const THEME_V2_FALLBACKS = {
   "--color-border-input": "--color-border-primary",
@@ -186,7 +186,7 @@ const getTypographyWeightVars = (typographyTokens) => {
 /**
  * The v2 palette (styleTokensV2.json), opt-in under the `.theme-v2` class. It redefines the
  * primitives and every colour var the default theme already declares, so nothing changes
- * until an app adds the class. Put `.theme-v2` on the same element as `.dark` (the root).
+ * until an app adds the class. Put `.theme-v2` on the root element (`<html>`), the element that gets `.dark`.
  * Colour vars that exist only in the v2 export are left out until a component needs them.
  */
 const getThemeV2Sections = (rawTokens, v2Tokens) => {
@@ -203,7 +203,10 @@ const getThemeV2Sections = (rawTokens, v2Tokens) => {
   for (const { path, value } of flattenTokens(v2Tokens.semantic.light.color)) {
     const cssVar = semanticVarName(path);
     if (!known.has(cssVar)) continue;
-    const darkRaw = darkMap.get(path.join(".")) ?? value;
+    const darkRaw = darkMap.get(path.join("."));
+    if (darkRaw === undefined) {
+      throw new Error(`styleTokensV2.json has no dark value for ${path.join(".")}`);
+    }
     lightVars += `  ${cssVar}: ${resolveValue(value)};\n`;
     darkVars += `  ${cssVar}: ${resolveValue(darkRaw)};\n`;
   }
@@ -469,6 +472,7 @@ const buildThemeCss = (rawTokens, v2Tokens) => {
     ``,
     `.theme-v2.dark,`,
     `.theme-v2 .dark,`,
+    `.dark .theme-v2,`,
     `.theme-v2 .theme-v2-dark {`,
     `  color-scheme: dark;`,
     v2.darkVars.trimEnd(),
