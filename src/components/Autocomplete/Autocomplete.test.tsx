@@ -233,6 +233,37 @@ describe("Autocomplete", () => {
     });
   });
 
+  describe("v2 menu surface", () => {
+    it("puts the panel and the selected row on the menu surface under theme-v2", () => {
+      renderAutocomplete({ defaultOpen: true, defaultValue: "banana" });
+      const listbox = screen.getByRole("listbox");
+      const panel = listbox.closest('[class*="bg-background-primary"]') as HTMLElement;
+      expect(panel).toHaveClass(
+        "border-neutral-alphas-200",
+        "theme-v2:border-modal-stroke",
+        "theme-v2:bg-modal-background",
+      );
+      const selected = within(listbox).getByRole("option", { name: "Banana" });
+      expect(selected).toHaveAttribute("aria-selected", "true");
+      expect(selected).toHaveClass(
+        "theme-v2:bg-surface-primary-inverted",
+        "theme-v2:text-content-primary-inverted",
+      );
+      expect(selected.querySelector("svg")).toHaveClass("theme-v2:text-icons-primary-inverted");
+    });
+
+    it("leaves unselected rows off the inverted surface", () => {
+      renderAutocomplete({ defaultOpen: true, defaultValue: "banana" });
+      const listbox = screen.getByRole("listbox");
+      expect(within(listbox).getByRole("option", { name: "Banana" })).toHaveClass(
+        "theme-v2:bg-surface-primary-inverted",
+      );
+      expect(within(listbox).getByRole("option", { name: "Apple" })).not.toHaveClass(
+        "theme-v2:bg-surface-primary-inverted",
+      );
+    });
+  });
+
   describe("single select", () => {
     it("selects an option on click", async () => {
       const user = userEvent.setup();

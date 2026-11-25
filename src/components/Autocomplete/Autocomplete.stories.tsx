@@ -500,3 +500,20 @@ export const PaletteV2: Story = {
     within(canvasElement).getByLabelText("Focused").focus();
   },
 };
+
+/**
+ * The open panel under the v2 palette: the menu surface and stroke, with the
+ * selected row on the inverted surface. Snapshotted with the v2 palette only.
+ */
+export const PaletteV2Open: Story = {
+  name: "Palette v2 (open)",
+  parameters: V2_PALETTE_STORY_PARAMETERS,
+  args: {
+    label: "Country",
+    placeholder: "Search countries...",
+    options: COUNTRIES,
+    defaultValue: "ca",
+    defaultOpen: true,
+    emptyText: "No results",
+  },
+};

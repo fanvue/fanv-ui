@@ -39,6 +39,7 @@ export function AutocompleteOptionItem({
       className={cn(
         "typography-body-default-16px-regular relative flex w-full cursor-pointer select-none items-center gap-2 rounded-xs py-2 pr-2 pl-3 text-content-primary outline-none",
         isActive && "bg-neutral-alphas-100",
+        isSelected && "theme-v2:bg-surface-primary-inverted theme-v2:text-content-primary-inverted",
         option.disabled && "pointer-events-none opacity-50",
         isCreate && "italic",
       )}
@@ -61,7 +62,7 @@ export function AutocompleteOptionItem({
           <span className="min-w-0 flex-1 truncate">{getLabel(option)}</span>
           {isSelected && (
             <span className="ml-auto flex size-4 shrink-0 items-center justify-center">
-              <CheckIcon className="size-4 text-content-primary" />
+              <CheckIcon className="size-4 text-content-primary theme-v2:text-icons-primary-inverted" />
             </span>
           )}
         </>
