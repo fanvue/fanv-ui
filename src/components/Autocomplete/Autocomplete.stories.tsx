@@ -520,8 +520,12 @@ export const PaletteV2CustomOption: Story = {
   parameters: V2_PALETTE_STORY_PARAMETERS,
   globals: { palette: "v2" },
   args: {
-    ...CustomRenderOption.args,
+    label: "Country",
+    placeholder: "Search countries...",
+    options: COUNTRIES,
     defaultValue: "ca",
+    emptyText: "No results",
+    renderOption: CustomRenderOption.args?.renderOption,
   },
   play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     await userEvent.click(within(canvasElement).getByRole("combobox"));
