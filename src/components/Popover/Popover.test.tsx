@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "./Popover";
 
@@ -43,6 +43,44 @@ describe("Popover", () => {
       await user.click(screen.getByRole("button", { name: "Open" }));
       await user.click(await screen.findByRole("button", { name: "Done" }));
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("touch drag", () => {
+    function touch(
+      type: "pointerDown" | "pointerMove" | "pointerUp",
+      target: HTMLElement,
+      y: number,
+    ) {
+      fireEvent[type](target, { pointerType: "touch", pointerId: 1, clientX: 0, clientY: y });
+    }
+
+    it("does not open on the click that follows a drag starting on the trigger", () => {
+      renderPopover();
+      const trigger = screen.getByRole("button", { name: "Open" });
+      touch("pointerDown", trigger, 0);
+      touch("pointerMove", trigger, 100);
+      touch("pointerUp", trigger, 100);
+      fireEvent.click(trigger);
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+
+    it("opens on a stationary touch tap and still calls the caller's handlers", async () => {
+      const onPointerDown = vi.fn();
+      render(
+        <Popover>
+          <PopoverTrigger asChild onPointerDown={onPointerDown}>
+            <button type="button">Open</button>
+          </PopoverTrigger>
+          <PopoverContent aria-label="Filters">Panel</PopoverContent>
+        </Popover>,
+      );
+      const trigger = screen.getByRole("button", { name: "Open" });
+      touch("pointerDown", trigger, 5);
+      touch("pointerUp", trigger, 5);
+      fireEvent.click(trigger);
+      expect(await screen.findByRole("dialog")).toBeInTheDocument();
+      expect(onPointerDown).toHaveBeenCalledOnce();
     });
   });
 

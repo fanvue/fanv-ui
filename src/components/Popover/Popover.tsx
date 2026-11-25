@@ -1,6 +1,7 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 
 /** Props for {@link Popover}. */
 export type PopoverProps = React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>;
@@ -40,8 +41,18 @@ export interface PopoverContentProps
  */
 export const Popover = PopoverPrimitive.Root;
 
-/** Element that toggles the popover. Use `asChild` to render your own button. */
-export const PopoverTrigger = PopoverPrimitive.Trigger;
+/**
+ * Element that toggles the popover. Use `asChild` to render your own button.
+ *
+ * On touch and pen, a press-and-release that moves past a small threshold counts as a drag, and
+ * the synthetic click that follows it is ignored, so scrolling past the trigger does not open it.
+ */
+export const PopoverTrigger = React.forwardRef<
+  React.ComponentRef<typeof PopoverPrimitive.Trigger>,
+  PopoverTriggerProps
+>((props, ref) => <PopoverPrimitive.Trigger ref={ref} {...useSuppressClickAfterDrag(props)} />);
+
+PopoverTrigger.displayName = "PopoverTrigger";
 
 /** Optional element the content positions against instead of the trigger. */
 export const PopoverAnchor = PopoverPrimitive.Anchor;
