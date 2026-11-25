@@ -722,6 +722,8 @@ export { Pill } from "./components/Pill/Pill";
 export type {
   PopoverAnchorProps,
   PopoverCloseProps,
+  PopoverContentBaseProps,
+  PopoverContentName,
   PopoverContentProps,
   PopoverProps,
   PopoverTriggerProps,

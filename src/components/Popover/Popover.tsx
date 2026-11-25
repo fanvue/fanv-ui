@@ -16,8 +16,23 @@ export type PopoverAnchorProps = React.ComponentPropsWithoutRef<typeof PopoverPr
 /** Props for {@link PopoverClose}. */
 export type PopoverCloseProps = React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Close>;
 
-/** Props for {@link PopoverContent}. */
-export interface PopoverContentProps
+/** Accessible name for the dialog: at least one of `aria-label` or `aria-labelledby` is required. */
+export type PopoverContentName =
+  | {
+      /** Text label naming the dialog. */
+      "aria-label": string;
+      /** Id of an element that names the dialog. */
+      "aria-labelledby"?: string;
+    }
+  | {
+      /** Text label naming the dialog. */
+      "aria-label"?: string;
+      /** Id of an element that names the dialog. */
+      "aria-labelledby": string;
+    };
+
+/** Own props of {@link PopoverContent}, before the accessible name requirement is applied. */
+export interface PopoverContentBaseProps
   extends Omit<React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>, "forceMount"> {
   /** Alignment of the content against the trigger. @default "start" */
   align?: PopoverPrimitive.PopoverContentProps["align"];
@@ -31,6 +46,9 @@ export interface PopoverContentProps
   /** Additional CSS classes merged onto the content surface. */
   className?: string;
 }
+
+/** Props for {@link PopoverContent}. */
+export type PopoverContentProps = PopoverContentBaseProps & PopoverContentName;
 
 /**
  * Root of a popover. Holds the open state shared by its trigger and content.
