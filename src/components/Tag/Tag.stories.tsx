@@ -55,7 +55,7 @@ export const Removable: Story = {
 export const AllColours: Story = {
   parameters: { layout: "padded" },
   render: () => (
-    <div className="grid grid-cols-[auto_repeat(2,max-content)] items-center gap-x-8 gap-y-3">
+    <div className="grid grid-cols-[auto_repeat(2,max-content)] items-center justify-items-start gap-x-8 gap-y-3">
       {SIZES.map((size) => (
         <Fragment key={size}>
           {VARIANTS.map((variant) => (
@@ -84,7 +84,7 @@ export const AllColours: Story = {
 export const Types: Story = {
   parameters: { layout: "padded" },
   render: () => (
-    <div className="grid grid-cols-[auto_repeat(4,max-content)] items-center gap-x-8 gap-y-3">
+    <div className="grid grid-cols-[auto_repeat(4,max-content)] items-center justify-items-start gap-x-8 gap-y-3">
       <span />
       {["Tag", "List", "Dynamic list", "Overflow"].map((type) => (
         <span key={type} className="typography-description-12px-semibold text-content-tertiary">
