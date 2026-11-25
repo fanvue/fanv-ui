@@ -165,12 +165,15 @@ export const Select = React.forwardRef<
                   ? "border-error-content"
                   : isFilled
                     ? "border-transparent"
-                    : "border-border-primary",
+                    : "border-border-input",
                 !disabled &&
                   !error &&
                   (isFilled
                     ? "hover:bg-neutral-alphas-100 data-[state=open]:bg-neutral-alphas-100"
-                    : "hover:border-neutral-alphas-400 data-[state=open]:border-neutral-alphas-400"),
+                    : [
+                        "hover:border-border-input-hover data-[state=open]:border-border-input-hover",
+                        "theme-v2:focus-visible:border-border-selected theme-v2:focus-visible:shadow-none theme-v2:data-[state=open]:border-border-selected",
+                      ]),
                 disabled && "cursor-not-allowed opacity-50",
               )}
             >
@@ -253,7 +256,8 @@ export const SelectContent = React.forwardRef<
         collisionPadding={collisionPadding}
         style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
         className={cn(
-          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-md border border-border-strong bg-background-secondary text-content-primary shadow-blur-menu backdrop-blur-xs",
+          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-md border border-border-strong bg-modal-background text-content-primary shadow-blur-menu backdrop-blur-xs",
+          "theme-v2:border-modal-stroke",
           "data-[state=closed]:animate-out data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -322,7 +326,8 @@ function isRenderableNode(node: React.ReactNode): boolean {
  * Supports a leading icon or avatar, an optional two-line layout via `description`,
  * and the standard hover / selected / disabled states. The selected row rests on
  * `Buttons/Navigation/Hover` with a semibold label and a trailing check; hovering
- * it shows `Interaction/Hover` like any other row.
+ * it shows `Interaction/Hover` like any other row. Under the v2 palette it fills
+ * `Surface/Primary Inverted` instead, with inverted content, and keeps that fill on hover.
  *
  * @example
  * ```tsx
@@ -352,6 +357,10 @@ export const SelectItem = React.forwardRef<
         "data-[state=checked]:bg-menu-item-selected",
         "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
         "data-[state=checked]:focus:bg-interaction-hover data-[state=checked]:data-highlighted:bg-interaction-hover",
+        // Under the v2 palette the selected row inverts, and keeps its fill on hover
+        // so the inverted content on it stays readable.
+        "theme-v2:data-[state=checked]:bg-surface-primary-inverted theme-v2:data-[state=checked]:text-content-primary-inverted",
+        "theme-v2:data-[state=checked]:data-highlighted:bg-surface-primary-inverted theme-v2:data-[state=checked]:focus:bg-surface-primary-inverted",
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}
@@ -375,6 +384,7 @@ export const SelectItem = React.forwardRef<
           <span
             className={cn(
               "truncate text-content-secondary group-data-[disabled]:text-content-disabled",
+              "theme-v2:group-data-[state=checked]:text-content-primary-inverted",
               ITEM_DESCRIPTION_TYPOGRAPHY[itemSize],
             )}
           >
@@ -393,7 +403,7 @@ export const SelectItem = React.forwardRef<
           hasDescription ? "h-4.5 self-start" : "h-4",
         )}
       >
-        <CheckIcon className="size-4 text-content-primary group-data-[disabled]:text-content-disabled" />
+        <CheckIcon className="size-4 text-content-primary theme-v2:text-icons-primary-inverted group-data-[disabled]:text-content-disabled" />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   );

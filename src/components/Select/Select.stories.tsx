@@ -402,3 +402,55 @@ export const Filled: Story = {
     </div>
   ),
 };
+
+export const V2Palette: Story = {
+  name: "Open with a selected row (v2 palette)",
+  globals: { palette: "v2" },
+  decorators: [
+    (Story) => (
+      <div style={{ width: "375px", height: "320px" }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    label: "Assignee",
+    placeholder: "Select a person",
+    defaultValue: "jane",
+    defaultOpen: true,
+  },
+  render: (args) => (
+    <Select {...args}>
+      <SelectContent>
+        <SelectItem
+          value="jane"
+          avatar={<Avatar size={24} fallback="JD" />}
+          description="Product designer"
+        >
+          Jane Doe
+        </SelectItem>
+        <SelectItem value="alex" leadingIcon={<StarIcon />}>
+          Alex Smith
+        </SelectItem>
+        <SelectItem value="sam" avatar={<Avatar size={24} fallback="SB" />} description="Marketing">
+          Sam Brown
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  ),
+};
+
+export const TriggerV2Palette: Story = {
+  name: "Trigger (v2 palette)",
+  globals: { palette: "v2" },
+  args: {
+    label: "Country",
+    placeholder: "Select a country",
+    helperText: "Helper Text",
+  },
+  render: (args) => (
+    <Select {...args}>
+      <DefaultContent />
+    </Select>
+  ),
+};

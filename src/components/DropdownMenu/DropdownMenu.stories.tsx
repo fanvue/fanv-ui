@@ -844,3 +844,65 @@ export const AllStatesV2: Story = {
     return <Demo />;
   },
 };
+
+export const SelectedRowsV2Palette: Story = {
+  name: "Selected rows (v2 palette)",
+  globals: { palette: "v2" },
+  play: openMenu,
+  render: () => {
+    const Demo = () => {
+      const [sort, setSort] = React.useState("newest");
+      const [checked, setChecked] = React.useState(new Set(["photos"]));
+      const toggle = (value: string) =>
+        setChecked((prev) => {
+          const next = new Set(prev);
+          if (next.has(value)) next.delete(value);
+          else next.add(value);
+          return next;
+        });
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button>Open Menu</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-80">
+            <DropdownMenuItem leadingIcon={<EditIcon />}>Edit profile</DropdownMenuItem>
+            <DropdownMenuItem leadingIcon={<StarIcon />} count="3" selected>
+              Favourites
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              avatar={<Avatar size={24} fallback="JD" />}
+              description="Product designer"
+              count="12"
+              selected
+            >
+              Jane Doe
+            </DropdownMenuItem>
+            <DropdownMenuLabel>Sort by</DropdownMenuLabel>
+            <DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
+              <DropdownMenuRadioItem value="newest" helper="Most recent first">
+                Newest
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="oldest">Oldest</DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+            <DropdownMenuLabel>Show</DropdownMenuLabel>
+            <DropdownMenuCheckboxItem
+              checked={checked.has("photos")}
+              onCheckedChange={() => toggle("photos")}
+              helper="Images and albums"
+            >
+              Photos
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              checked={checked.has("videos")}
+              onCheckedChange={() => toggle("videos")}
+            >
+              Videos
+            </DropdownMenuCheckboxItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    };
+    return <Demo />;
+  },
+};

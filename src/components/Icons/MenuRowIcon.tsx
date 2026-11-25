@@ -17,8 +17,9 @@ interface MenuRowIconProps {
  * The icon slot of a menu or select row: a 16px box in `Icons/Secondary`, with
  * prop-based icons drawn filled at 16px unless they set their own `filled` or
  * `size`. The disabled variants cover every way a row is disabled: Radix's
- * `data-disabled`, a native `disabled` button and `aria-disabled`. Internal to
- * the package.
+ * `data-disabled`, a native `disabled` button and `aria-disabled`. Under the v2
+ * palette a selected row (`data-selected` or `data-state="checked"`) inverts, and
+ * the icon turns `Icons/Primary Inverted` with it. Internal to the package.
  */
 export function MenuRowIcon({ children, inheritColor, alignToTitle, className }: MenuRowIconProps) {
   return (
@@ -29,6 +30,7 @@ export function MenuRowIcon({ children, inheritColor, alignToTitle, className }:
         !inheritColor && [
           "text-icons-secondary",
           "group-data-[disabled]:text-icons-disabled group-disabled:text-icons-disabled group-aria-disabled:text-icons-disabled",
+          "theme-v2:group-data-[selected]:text-icons-primary-inverted theme-v2:group-data-[state=checked]:text-icons-primary-inverted",
         ],
         className,
       )}

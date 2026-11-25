@@ -126,6 +126,8 @@ export interface DropdownMenuItemProps
    * Marks the item as the current selection in a single-select menu. The row
    * rests on `Buttons/Navigation/Hover` with a semibold label; hover still shows
    * `Interaction/Hover`, because `data-[highlighted]` outranks the selected class.
+   * Under the v2 palette the row fills `Surface/Primary Inverted` instead, with
+   * inverted content, and keeps that fill on hover.
    * The row also gets `data-selected`, and `aria-current` unless the consumer
    * already sets `aria-checked`.
    * @default false
@@ -204,7 +206,12 @@ export const DropdownMenuItem = React.forwardRef<
       // data-disabled — neither selector above matches them.
       "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
       destructive && "text-error-content",
-      selected && "bg-menu-item-selected",
+      selected && [
+        "bg-menu-item-selected",
+        // Under the v2 palette the selected row inverts, and keeps its fill on
+        // hover so the inverted content on it stays readable.
+        "theme-v2:bg-surface-primary-inverted theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-surface-primary-inverted",
+      ],
       className,
     );
     const selectedProps = selected
@@ -231,6 +238,7 @@ export const DropdownMenuItem = React.forwardRef<
           ITEM_COUNT_TYPOGRAPHY[normalizedSize],
           destructive ? "text-error-content" : "text-content-tertiary",
           "group-data-[disabled]:text-content-disabled",
+          "theme-v2:group-data-[selected]:text-content-primary-inverted",
         )}
       >
         {count}
@@ -278,7 +286,7 @@ export const DropdownMenuItem = React.forwardRef<
              * 18 of text inside `py-2` is the design's 54px.
              */}
             <span className="typography-body-small-14px-semibold truncate">{children}</span>
-            <span className="typography-body-small-14px-regular truncate text-content-secondary">
+            <span className="typography-body-small-14px-regular truncate text-content-secondary theme-v2:group-data-[selected]:text-content-primary-inverted">
               {description}
             </span>
           </span>

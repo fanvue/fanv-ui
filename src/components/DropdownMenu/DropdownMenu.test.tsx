@@ -98,10 +98,17 @@ describe("DropdownMenu", () => {
     it("gives the panel the V2 Menu Dropdown surface, padding, stroke and shadow", () => {
       renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
       const panel = screen.getByRole("menu");
-      expect(panel).toHaveClass("bg-background-secondary");
+      expect(panel).toHaveClass("bg-modal-background");
       expect(panel).toHaveClass("border-border-strong");
       expect(panel).toHaveClass("p-2");
       expect(panel).toHaveClass("shadow-blur-menu");
+    });
+
+    it("strokes the panel with Modal/Stroke under the v2 palette only", () => {
+      renderMenu(<DropdownMenuItem>Item</DropdownMenuItem>);
+      const panel = screen.getByRole("menu");
+      expect(panel).toHaveClass("border-border-strong", "theme-v2:border-modal-stroke");
+      expect(panel).not.toHaveClass("border-modal-stroke");
     });
 
     // Each of these three drifted from the design unnoticed, so they are asserted
@@ -714,6 +721,41 @@ describe("DropdownMenuItem", () => {
       expect(screen.getByText("Other")).not.toHaveClass("font-semibold");
     });
 
+    it("inverts the selected row and everything on it under the v2 palette, hover included", () => {
+      renderMenu(
+        <>
+          <DropdownMenuItem
+            selected
+            data-testid="item"
+            leadingIcon={<svg data-icon="leading" />}
+            description="Secondary line"
+            count="3"
+          >
+            Item
+          </DropdownMenuItem>
+          <DropdownMenuItem data-testid="other">Other</DropdownMenuItem>
+        </>,
+      );
+      const item = screen.getByTestId("item");
+      expect(item).toHaveClass(
+        "bg-menu-item-selected",
+        "theme-v2:bg-surface-primary-inverted",
+        "theme-v2:text-content-primary-inverted",
+        "theme-v2:data-[highlighted]:bg-surface-primary-inverted",
+      );
+      expect(item.querySelector('[data-icon="leading"]')?.parentElement).toHaveClass(
+        "theme-v2:group-data-[selected]:text-icons-primary-inverted",
+      );
+      expect(screen.getByText("Secondary line")).toHaveClass(
+        "theme-v2:group-data-[selected]:text-content-primary-inverted",
+      );
+      expect(screen.getByText("3")).toHaveClass(
+        "theme-v2:group-data-[selected]:text-content-primary-inverted",
+      );
+      expect(screen.getByTestId("other")).toHaveClass("data-[highlighted]:bg-interaction-hover");
+      expect(screen.getByTestId("other")).not.toHaveClass("theme-v2:bg-surface-primary-inverted");
+    });
+
     it("renders leading and trailing icons at 16px in the secondary icon colour", () => {
       renderMenu(
         <DropdownMenuItem
@@ -1289,10 +1331,39 @@ describe("DropdownMenuCheckboxItem", () => {
     );
 
     // A menu that opens fully selected would otherwise render every row shaded.
+    // The v2 palette inverts checked rows on purpose, so only its classes may set one.
     for (const name of ["@sofiabloom", "@aria.lane"]) {
       const row = screen.getByRole("menuitemcheckbox", { name });
-      expect(row.className).not.toContain("data-[state=checked]:bg-");
+      const unscopedFills = row.className
+        .split(" ")
+        .filter((cls) => cls.startsWith("data-[state=checked]:bg-"));
+      expect(unscopedFills).toEqual([]);
     }
+  });
+
+  it("inverts a checked row, its box, tick and helper under the v2 palette, hover included", () => {
+    renderMenu(
+      <DropdownMenuCheckboxItem checked helper="Secondary line">
+        @sofiabloom
+      </DropdownMenuCheckboxItem>,
+    );
+    const row = screen.getByRole("menuitemcheckbox", { name: /@sofiabloom/ });
+    expect(row).toHaveAttribute("data-state", "checked");
+    expect(row).toHaveClass(
+      "theme-v2:data-[state=checked]:bg-surface-primary-inverted",
+      "theme-v2:data-[state=checked]:text-content-primary-inverted",
+      "theme-v2:data-[state=checked]:data-[highlighted]:bg-surface-primary-inverted",
+    );
+    const tick = row.querySelector("svg");
+    expect(tick).toHaveClass("text-content-primary-inverted", "theme-v2:text-content-primary");
+    expect(tick?.parentElement).toHaveClass(
+      "group-data-[state=checked]:bg-icons-primary",
+      "theme-v2:group-data-[state=checked]:bg-icons-primary-inverted",
+      "theme-v2:group-data-[state=checked]:border-icons-primary-inverted",
+    );
+    expect(screen.getByText("Secondary line")).toHaveClass(
+      "theme-v2:group-data-[state=checked]:text-content-primary-inverted",
+    );
   });
 
   describe("accessibility", () => {
@@ -1404,6 +1475,30 @@ describe("DropdownMenuRadioItem", () => {
       expect(checkedItem).toHaveClass(
         "data-[state=checked]:bg-menu-item-selected",
         "data-[state=checked]:data-[highlighted]:bg-interaction-hover",
+      );
+    });
+
+    it("inverts the checked row, its indicator and helper under the v2 palette, hover included", () => {
+      renderMenu(
+        <DropdownMenuRadioGroup value="two">
+          <DropdownMenuRadioItem value="two" helper="Secondary line">
+            Two
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>,
+      );
+      const checkedItem = screen.getByRole("menuitemradio", { name: /Two/ });
+      expect(checkedItem).toHaveClass(
+        "theme-v2:data-[state=checked]:bg-surface-primary-inverted",
+        "theme-v2:data-[state=checked]:text-content-primary-inverted",
+        "theme-v2:data-[state=checked]:data-[highlighted]:bg-surface-primary-inverted",
+      );
+      const dot = checkedItem.querySelector("span.rounded-full > span");
+      expect(dot).toHaveClass("bg-content-primary", "theme-v2:bg-icons-primary-inverted");
+      expect(dot?.parentElement).toHaveClass(
+        "theme-v2:group-data-[state=checked]:border-icons-primary-inverted",
+      );
+      expect(screen.getByText("Secondary line")).toHaveClass(
+        "theme-v2:group-data-[state=checked]:text-content-primary-inverted",
       );
     });
 

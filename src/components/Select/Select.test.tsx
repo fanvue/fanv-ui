@@ -151,9 +151,30 @@ describe("Select", () => {
       const trigger = screen.getByRole("combobox");
       expect(trigger).toHaveClass(
         "bg-inputs-inputs-primary",
-        "border-border-primary",
+        "border-border-input",
+        "hover:border-border-input-hover",
+        "data-[state=open]:border-border-input-hover",
+        "focus-visible:shadow-focus-ring",
         "justify-between",
       );
+    });
+
+    it("strokes the focused or open trigger with Border/Selected and drops the ring under the v2 palette only", () => {
+      renderSelect();
+      const trigger = screen.getByRole("combobox");
+      expect(trigger).toHaveClass(
+        "theme-v2:focus-visible:border-border-selected",
+        "theme-v2:focus-visible:shadow-none",
+        "theme-v2:data-[state=open]:border-border-selected",
+      );
+      expect(trigger).not.toHaveClass("focus-visible:border-border-selected");
+    });
+
+    it("keeps the error border and focus ring on an errored trigger under the v2 palette", () => {
+      renderSelect({ error: true });
+      const trigger = screen.getByRole("combobox");
+      expect(trigger).toHaveClass("border-error-content", "focus-visible:shadow-focus-ring");
+      expect(trigger).not.toHaveClass("theme-v2:focus-visible:shadow-none");
     });
 
     it("draws the filled pill without a border and with a centred label", () => {
@@ -335,6 +356,46 @@ describe("Select", () => {
       expect(screen.getByRole("option", { name: "Option B" })).toHaveAttribute(
         "data-state",
         "unchecked",
+      );
+    });
+
+    it("inverts the selected row, its check and description under the v2 palette, hover included", () => {
+      render(
+        <Select aria-label="Test" defaultOpen defaultValue="a">
+          <SelectContent>
+            <SelectItem value="a" description="Secondary line" leadingIcon={<HomeIcon />}>
+              Option A
+            </SelectItem>
+          </SelectContent>
+        </Select>,
+      );
+      const selected = screen.getByRole("option", { name: /Option A/ });
+      expect(selected).toHaveClass(
+        "theme-v2:data-[state=checked]:bg-surface-primary-inverted",
+        "theme-v2:data-[state=checked]:text-content-primary-inverted",
+        "theme-v2:data-[state=checked]:focus:bg-surface-primary-inverted",
+        "theme-v2:data-[state=checked]:data-highlighted:bg-surface-primary-inverted",
+      );
+      const svgs = selected.querySelectorAll("svg");
+      expect(svgs[0]?.parentElement).toHaveClass(
+        "theme-v2:group-data-[state=checked]:text-icons-primary-inverted",
+      );
+      expect(svgs[svgs.length - 1]).toHaveClass(
+        "text-content-primary",
+        "theme-v2:text-icons-primary-inverted",
+      );
+      expect(screen.getByText("Secondary line")).toHaveClass(
+        "theme-v2:group-data-[state=checked]:text-content-primary-inverted",
+      );
+    });
+
+    it("draws the panel on Modal/Background with Modal/Stroke under the v2 palette only", () => {
+      renderSelect({ defaultOpen: true });
+      const panel = screen.getByRole("listbox");
+      expect(panel).toHaveClass(
+        "bg-modal-background",
+        "border-border-strong",
+        "theme-v2:border-modal-stroke",
       );
     });
 
