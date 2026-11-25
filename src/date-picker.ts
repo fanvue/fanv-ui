@@ -1,6 +1,7 @@
 export type {
   DatePickerOwnProps,
   DatePickerProps,
+  DatePickerSize,
   DatePickerVariant,
   DateRange,
 } from "./components/DatePicker/DatePicker";

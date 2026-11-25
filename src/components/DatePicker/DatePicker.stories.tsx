@@ -21,6 +21,10 @@ const meta = {
       control: "select",
       options: ["single", "double"],
     },
+    size: {
+      control: "select",
+      options: ["40", "32"],
+    },
     showFooter: { control: "boolean" },
     cancelLabel: { control: "text" },
     applyLabel: { control: "text" },
@@ -189,6 +193,42 @@ export const WithInputTrigger: Story = {
           </div>
         )}
       </div>
+    );
+  },
+};
+
+export const CompactSingle: Story = {
+  render: () => {
+    const [selected, setSelected] = useState<Date | undefined>(new Date(2026, 1, 15));
+    return (
+      <DatePicker
+        mode="single"
+        size="32"
+        defaultMonth={DEFAULT_MONTH}
+        selected={selected}
+        onSelect={setSelected}
+        showFooter={false}
+      />
+    );
+  },
+};
+
+export const CompactRange: Story = {
+  render: () => {
+    const [range, setRange] = useState<DateRange | undefined>({
+      from: new Date(2026, 1, 9),
+      to: new Date(2026, 1, 19),
+    });
+    return (
+      <DatePicker
+        mode="range"
+        size="32"
+        defaultMonth={DEFAULT_MONTH}
+        selected={range}
+        onSelect={setRange}
+        onApply={() => console.log("Applied:", range)}
+        onCancel={() => setRange(undefined)}
+      />
     );
   },
 };
