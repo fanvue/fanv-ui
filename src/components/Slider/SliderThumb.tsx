@@ -44,7 +44,7 @@ export function SliderThumb({
         }
       }}
       className={cn(
-        "flex size-6 items-center justify-center rounded-full border border-border-primary bg-background-primary shadow-sm",
+        "flex size-6 items-center justify-center rounded-full border border-border-primary bg-background-primary shadow-sm theme-v2:bg-surface-primary",
         "transition-shadow duration-150",
         "hover:ring-2 hover:ring-brand-primary-default",
         "not-data-disabled:active:ring-2 not-data-disabled:active:ring-brand-primary-default",
