@@ -348,6 +348,13 @@ function DatePickerShowcase() {
         selected={doubleRange}
         onSelect={setDoubleRange}
       />
+      <DatePicker
+        mode="range"
+        size="32"
+        defaultMonth={new Date(2026, 1)}
+        selected={singleRange}
+        onSelect={setSingleRange}
+      />
     </div>
   );
 }

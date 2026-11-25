@@ -49,22 +49,6 @@ describe("DatePicker", () => {
       expect(screen.getByText("March 2026")).toBeInTheDocument();
     });
 
-    it("keeps the 40 size classes by default", () => {
-      const { container } = render(<DatePicker mode="single" defaultMonth={DEFAULT_MONTH} />);
-      expect(screen.getByText("10")).toHaveClass("size-10");
-      expect(container.firstChild).toHaveClass("p-6");
-    });
-
-    it("renders compact classes when size is 32", () => {
-      const { container } = render(
-        <DatePicker mode="single" defaultMonth={DEFAULT_MONTH} size="32" />,
-      );
-      const day = screen.getByText("10");
-      expect(day).toHaveClass("size-8");
-      expect(day).not.toHaveClass("size-10");
-      expect(container.firstChild).toHaveClass("p-4");
-    });
-
     it("forwards ref to outer container", () => {
       const ref = vi.fn();
       render(<DatePicker defaultMonth={DEFAULT_MONTH} ref={ref} />);

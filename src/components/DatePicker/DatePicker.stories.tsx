@@ -213,6 +213,26 @@ export const CompactSingle: Story = {
   },
 };
 
+export const CompactDoubleMonth: Story = {
+  render: () => {
+    const [range, setRange] = useState<DateRange | undefined>({
+      from: new Date(2026, 1, 9),
+      to: new Date(2026, 2, 4),
+    });
+    return (
+      <DatePicker
+        mode="range"
+        variant="double"
+        size="32"
+        defaultMonth={DEFAULT_MONTH}
+        selected={range}
+        onSelect={setRange}
+        onCancel={() => setRange(undefined)}
+      />
+    );
+  },
+};
+
 export const CompactRange: Story = {
   render: () => {
     const [range, setRange] = useState<DateRange | undefined>({
