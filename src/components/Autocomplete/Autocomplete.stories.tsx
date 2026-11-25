@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
-import { within } from "storybook/test";
+import { userEvent, within } from "storybook/test";
 import { NON_VISUAL_STORY_PARAMETERS, V2_PALETTE_STORY_PARAMETERS } from "../../storybook";
 import { HomeIcon } from "../Icons/HomeIcon";
 import {
@@ -508,10 +508,9 @@ export const PaletteV2Open: Story = {
     placeholder: "Search countries...",
     options: COUNTRIES,
     defaultValue: "ca",
-    defaultOpen: true,
     emptyText: "No results",
   },
   play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
-    within(canvasElement).getByRole("combobox").focus();
+    await userEvent.click(within(canvasElement).getByRole("combobox"));
   },
 };
