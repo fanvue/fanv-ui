@@ -91,8 +91,10 @@ export const Default: Story = {
         isDark ? "rgb(21, 21, 21)" : "rgb(255, 255, 255)",
       ),
     );
-    await expect(getComputedStyle(canvas.getByRole("button", { name: "Home" })).color).toBe(
-      isDark ? "rgb(255, 255, 255)" : "rgb(21, 21, 21)",
+    await waitFor(() =>
+      expect(getComputedStyle(canvas.getByRole("button", { name: "Home" })).color).toBe(
+        isDark ? "rgb(255, 255, 255)" : "rgb(21, 21, 21)",
+      ),
     );
   },
 };
@@ -395,8 +397,10 @@ export const V2Palette: Story = {
       ),
     );
     const home = canvas.getByRole("button", { name: "Home" });
-    await expect(getComputedStyle(home).color).toBe("rgb(255, 255, 255)");
-    await expect(getComputedStyle(home).backgroundColor).toBe("rgba(255, 255, 255, 0.1)");
+    await waitFor(() => expect(getComputedStyle(home).color).toBe("rgb(255, 255, 255)"));
+    await waitFor(() =>
+      expect(getComputedStyle(home).backgroundColor).toBe("rgba(255, 255, 255, 0.1)"),
+    );
   },
 };
 
@@ -411,6 +415,8 @@ export const V2PaletteInformationArchitectureNav: Story = {
         "rgb(10, 10, 10)",
       ),
     );
-    await expect(getComputedStyle(canvas.getByText("Home")).color).toBe("rgb(255, 255, 255)");
+    await waitFor(() =>
+      expect(getComputedStyle(canvas.getByText("Home")).color).toBe("rgb(255, 255, 255)"),
+    );
   },
 };
