@@ -5,5 +5,10 @@ export function resolveValue(value: unknown): string;
 export function getEffectTokens(effectTokens: Record<string, unknown>): string;
 export function assertPrimitiveParity(rawTokens: Record<string, unknown>): void;
 export function assertNoDanglingVars(css: string): void;
-export function buildThemeCss(rawTokens: Record<string, unknown>): string;
+export function buildThemeCss(
+  rawTokens: Record<string, unknown>,
+  v2Tokens: Record<string, unknown>,
+): string;
 export const LEGACY_COLOR_ALIASES: Record<string, string>;
+export const THEME_V2_FALLBACKS: Record<string, string>;
+export const ROLE_COLOR_TOKENS: Record<string, { current: string; v2: string }>;

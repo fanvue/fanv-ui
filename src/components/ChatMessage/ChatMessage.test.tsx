@@ -62,6 +62,14 @@ describe("ChatMessage", () => {
       expect(screen.getByRole("img", { name: "Delivered" })).toBeInTheDocument();
     });
 
+    it("gives the delivered tick a readable colour under the v2 palette", () => {
+      render(<ChatMessage user="sender" message="Hi" time="16:00" />);
+      expect(screen.getByRole("img", { name: "Delivered" })).toHaveClass(
+        "text-icons-disabled",
+        "theme-v2:text-icons-secondary",
+      );
+    });
+
     it("shows a read tick when status is read", () => {
       render(<ChatMessage user="sender" message="Hi" time="16:00" status="read" />);
       expect(screen.getByRole("img", { name: "Read" })).toBeInTheDocument();

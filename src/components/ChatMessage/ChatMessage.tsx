@@ -99,7 +99,9 @@ function ChatMessageMeta({
           aria-label={status === "read" ? "Read" : "Delivered"}
           className={cn(
             "size-4 shrink-0",
-            status === "read" ? "text-messages-read" : "text-icons-disabled",
+            status === "read"
+              ? "text-messages-read"
+              : "text-icons-disabled theme-v2:text-icons-secondary",
           )}
         />
       ) : null}

@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const tokensPath = path.join(__dirname, "styleTokens.json");
+const tokensV2Path = path.join(__dirname, "styleTokensV2.json");
 const outputPath = path.join(__dirname, "theme.css");
 
 const SKIP_KEYS = new Set([
@@ -92,6 +93,39 @@ const LEGACY_COLOR_ALIASES = {
   "--color-messages-background-receiver-2": "--color-messages-background-receiver-stroke",
 };
 
+/**
+ * Colour vars that only the v2 palette defines. Outside `.theme-v2` each one points at the
+ * current palette's value, so a component can adopt it before the v2 palette ships.
+ */
+const THEME_V2_FALLBACKS = {
+  "--color-border-input": "--color-border-primary",
+  "--color-border-input-hover": "--color-neutral-alphas-400",
+  "--color-interaction-pressed": "--color-interaction-hover",
+  "--color-navigation-background": "--color-buttons-navigation-base",
+  "--color-navigation-item-hover": "--color-buttons-navigation-hover",
+  "--color-navigation-item-selected": "--color-buttons-navigation-selected",
+  // Nothing uses this outside theme-v2 yet, so it points at its v2 primitive.
+  "--color-content-always-secondary": "--primitives-color-gray-300",
+};
+
+const primitiveVarLines = (colorTokens) =>
+  flattenTokens(colorTokens)
+    .map(({ path, value }) => `  --primitives-color-${path.map(toKebab).join("-")}: ${value};\n`)
+    .join("");
+
+/**
+ * Colour vars that name a role the Figma export does not have, so a component does not
+ * borrow a token that means something else. Each has a current-palette value and a v2 value.
+ */
+const ROLE_COLOR_TOKENS = {
+  // Selected menu and Select rows. Under v2 the navigation tokens turn black, so the rows
+  // take the pressed fill, which keeps the row text readable in both modes.
+  "--color-menu-item-selected": {
+    current: "--color-buttons-navigation-hover",
+    v2: "--color-interaction-pressed",
+  },
+};
+
 const getColorSections = (rawTokens) => {
   const semanticLightTokens = flattenTokens(rawTokens.semantic.light.color);
   const semanticDarkTokens = flattenTokens(rawTokens.semantic.dark.color);
@@ -122,12 +156,22 @@ const getColorSections = (rawTokens) => {
     darkVars += declaration;
   }
 
-  let primitivesVars = "";
-  const primTokens = flattenTokens(rawTokens.primitives.light.color);
-  for (const { path, value } of primTokens) {
-    const varName = `--primitives-color-${path.map(toKebab).join("-")}`;
-    primitivesVars += `  ${varName}: ${value};\n`;
+  // The fallback target is mode-aware, so one identical line serves all three sections.
+  for (const [token, fallback] of Object.entries(THEME_V2_FALLBACKS)) {
+    const declaration = `  ${token}: var(${fallback});\n`;
+    themeVars += declaration;
+    lightVars += declaration;
+    darkVars += declaration;
   }
+
+  for (const [token, { current }] of Object.entries(ROLE_COLOR_TOKENS)) {
+    const declaration = `  ${token}: var(${current});\n`;
+    themeVars += declaration;
+    lightVars += declaration;
+    darkVars += declaration;
+  }
+
+  const primitivesVars = primitiveVarLines(rawTokens.primitives.light.color);
 
   return { themeVars, lightVars, darkVars, primitivesVars };
 };
@@ -157,6 +201,46 @@ const getTypographyWeightVars = (typographyTokens) => {
   }
 
   return { lightVars, darkVars };
+};
+
+/**
+ * The v2 palette (styleTokensV2.json), opt-in under the `.theme-v2` class. It redefines the
+ * primitives and every colour var the default theme already declares, so nothing changes
+ * until an app adds the class. Put `.theme-v2` on the root element (`<html>`), the element that gets `.dark`.
+ * Colour vars that exist only in the v2 export are left out until a component needs them.
+ */
+const getThemeV2Sections = (rawTokens, v2Tokens) => {
+  const known = new Set([
+    ...flattenTokens(rawTokens.semantic.light.color).map(({ path }) => semanticVarName(path)),
+    ...Object.keys(THEME_V2_FALLBACKS),
+  ]);
+  const darkMap = new Map(
+    flattenTokens(v2Tokens.semantic.dark.color).map(({ path, value }) => [path.join("."), value]),
+  );
+
+  let lightVars = "";
+  let darkVars = "";
+  for (const { path, value } of flattenTokens(v2Tokens.semantic.light.color)) {
+    const cssVar = semanticVarName(path);
+    if (!known.has(cssVar)) continue;
+    const darkRaw = darkMap.get(path.join("."));
+    if (darkRaw === undefined) {
+      throw new Error(`styleTokensV2.json has no dark value for ${path.join(".")}`);
+    }
+    lightVars += `  ${cssVar}: ${resolveValue(value)};\n`;
+    darkVars += `  ${cssVar}: ${resolveValue(darkRaw)};\n`;
+  }
+
+  for (const [token, { v2 }] of Object.entries(ROLE_COLOR_TOKENS)) {
+    lightVars += `  ${token}: var(${v2});\n`;
+    darkVars += `  ${token}: var(${v2});\n`;
+  }
+
+  return {
+    primitivesVars: primitiveVarLines(v2Tokens.primitives.light.color),
+    lightVars,
+    darkVars,
+  };
 };
 
 const getTypographyClasses = (typographyTokens) => {
@@ -331,8 +415,13 @@ const assertNoDanglingVars = (css) => {
 /* Hand-written styles (base layer, utilities, keyframes, autofill overrides)
  * live in base.css and are imported into the generated theme.css. */
 
-const buildThemeCss = (rawTokens) => {
+const buildThemeCss = (rawTokens, v2Tokens) => {
   const { themeVars, lightVars, darkVars, primitivesVars } = getColorSections(rawTokens);
+  const v2 = getThemeV2Sections(rawTokens, v2Tokens);
+  // A forced-dark scope sits below the root, so aliases must resolve again inside it.
+  const legacyAliasLines = Object.entries(LEGACY_COLOR_ALIASES)
+    .map(([legacy, current]) => `  ${legacy}: var(${current});\n`)
+    .join("");
   const effectVars = getEffectTokens(rawTokens.effect);
   const radiusVars = getRadiusVars(rawTokens.primitives.light.radius);
   const primitiveSpacingVars = getPrimitiveSpacingVars(rawTokens.primitives.light.spacing);
@@ -346,8 +435,9 @@ const buildThemeCss = (rawTokens) => {
     ``,
     `@import "./base.css";`,
     ``,
-    `@variant dark (&:where(.dark, .dark *));`,
+    `@variant dark (&:where(.dark, .dark *, .theme-v2 .theme-v2-dark, .theme-v2 .theme-v2-dark *));`,
     `@custom-variant infloww (&:is([data-infloww] *));`,
+    `@custom-variant theme-v2 (&:where(.theme-v2, .theme-v2 *));`,
     ``,
     `@theme {`,
     `  --breakpoint-*: initial;`,
@@ -396,10 +486,31 @@ const buildThemeCss = (rawTokens) => {
     ``,
     typographyWeightVars.darkVars.trimEnd(),
     `}`,
+    ``,
+    `/* v2 palette: opt in with the theme-v2 class on the root element. theme-v2-dark forces`,
+    `   a surface (such as the navigation) dark under theme-v2 only, in either mode. */`,
+    `.theme-v2 {`,
+    v2.primitivesVars.trimEnd(),
+    ``,
+    v2.lightVars.trimEnd(),
+    `}`,
+    ``,
+    `.theme-v2.dark,`,
+    `.theme-v2 .dark,`,
+    `.dark .theme-v2,`,
+    `.theme-v2 .theme-v2-dark {`,
+    `  color-scheme: dark;`,
+    v2.darkVars.trimEnd(),
+    legacyAliasLines.trimEnd(),
+    `  --fv-focus-ring-color: var(--color-content-always-white);`,
+    ``,
+    typographyWeightVars.darkVars.trimEnd(),
+    `}`,
     typographyClasses,
   ].join("\n");
 
   assertPrimitiveParity(rawTokens);
+  assertPrimitiveParity(v2Tokens);
   assertNoDanglingVars(output);
 
   return output;
@@ -415,10 +526,13 @@ export {
   assertNoDanglingVars,
   buildThemeCss,
   LEGACY_COLOR_ALIASES,
+  ROLE_COLOR_TOKENS,
+  THEME_V2_FALLBACKS,
 };
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const rawTokens = JSON.parse(fs.readFileSync(tokensPath, "utf-8"));
-  fs.writeFileSync(outputPath, buildThemeCss(rawTokens), "utf-8");
+  const v2Tokens = JSON.parse(fs.readFileSync(tokensV2Path, "utf-8"));
+  fs.writeFileSync(outputPath, buildThemeCss(rawTokens, v2Tokens), "utf-8");
   console.log(`✓ theme.css written to ${outputPath}`);
 }

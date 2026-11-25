@@ -2,10 +2,17 @@ import type { Preview } from "@storybook/react";
 import { useEffect } from "react";
 import "./preview.css";
 import tokens from "../src/styles/styleTokens.json";
+import tokensV2 from "../src/styles/styleTokensV2.json";
 
 const BACKGROUNDS = {
-  light: tokens.primitives.light.color.gray.white.value,
-  dark: tokens.primitives.dark.color.gray.black.value,
+  current: {
+    light: tokens.primitives.light.color.gray.white.value,
+    dark: tokens.primitives.dark.color.gray.black.value,
+  },
+  v2: {
+    light: tokensV2.primitives.light.color.gray["75"].value,
+    dark: tokensV2.primitives.dark.color.gray.black.value,
+  },
 } as const;
 
 const preview: Preview = {
@@ -54,15 +61,30 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    palette: {
+      description: "Colour palette: the current tokens, or the opt-in v2 palette (theme-v2)",
+      toolbar: {
+        title: "Palette",
+        icon: "contrast",
+        items: [
+          { value: "current", title: "Current palette" },
+          { value: "v2", title: "v2 palette" },
+        ],
+        dynamicTitle: true,
+      },
+    },
   },
   initialGlobals: {
     theme: "light",
+    palette: "current",
   },
   decorators: [
     (Story, context) => {
       const theme = context.globals.theme || "light";
       const isDark = theme === "dark";
-      const backgroundColor = isDark ? BACKGROUNDS.dark : BACKGROUNDS.light;
+      const isV2 = context.globals.palette === "v2";
+      const backgrounds = isV2 ? BACKGROUNDS.v2 : BACKGROUNDS.current;
+      const backgroundColor = isDark ? backgrounds.dark : backgrounds.light;
 
       // Sync background with theme for body and docs-story elements
       useEffect(() => {
@@ -80,6 +102,7 @@ const preview: Preview = {
         } else {
           root.classList.remove("dark");
         }
+        root.classList.toggle("theme-v2", isV2);
 
         // Update all .docs-story elements (autodocs canvas containers)
         const docsStories = document.querySelectorAll(".docs-story");
@@ -92,11 +115,12 @@ const preview: Preview = {
           root.style.colorScheme = "";
           root.removeAttribute("data-color-scheme");
           root.classList.remove("dark");
+          root.classList.remove("theme-v2");
           docsStories.forEach((element) => {
             (element as HTMLElement).style.backgroundColor = "";
           });
         };
-      }, [backgroundColor, theme, isDark]);
+      }, [backgroundColor, theme, isDark, isV2]);
 
       return (
         <div className={theme} style={{ colorScheme: theme }}>
