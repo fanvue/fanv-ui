@@ -6,6 +6,12 @@ import { SearchIcon } from "../Icons/SearchIcon";
 import { TranscationArrowIcon } from "../Icons/TranscationArrowIcon";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../Tooltip/Tooltip";
 import { openTableRowLink } from "./TableRowLink";
+import {
+  ClearSearchFilters,
+  SearchFilters,
+  type TableToolbarSearchClearFiltersProps,
+  type TableToolbarSearchFiltersProps,
+} from "./TableToolbarSearchFilters";
 
 /**
  * Row density for body cells.
@@ -125,7 +131,7 @@ export const TableToolbar = React.forwardRef<HTMLDivElement, TableToolbarProps>(
 );
 TableToolbar.displayName = "TableToolbar";
 
-export interface TableToolbarSearchProps
+interface TableToolbarSearchBaseProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "type"> {
   /** Current query. */
   value: string;
@@ -136,24 +142,56 @@ export interface TableToolbarSearchProps
 }
 
 /**
+ * Props of {@link TableToolbarSearch}. `formatHiddenFilters` is required with `filters`, and
+ * `clearFiltersLabel` and `onClearFilters` come as a pair.
+ */
+export type TableToolbarSearchProps = TableToolbarSearchBaseProps &
+  TableToolbarSearchFiltersProps &
+  TableToolbarSearchClearFiltersProps;
+
+/**
  * Borderless search field for the left slot of {@link TableToolbar}:
  * 16px search icon, 12px text and a clear button once there is a query.
+ *
+ * Pass `filters` to show the applied filters before the input from the `md`
+ * breakpoint up, each with a × button. The ones that do not fit collapse into
+ * a "+N" tag, so the toolbar never grows. Keep `filters` defined (an empty
+ * array when none apply) so the input is not remounted as filters come and go.
  */
 export const TableToolbarSearch = React.forwardRef<HTMLInputElement, TableToolbarSearchProps>(
-  ({ className, value, onValueChange, clearLabel, placeholder, ...props }, ref) => {
+  (
+    {
+      className,
+      value,
+      onValueChange,
+      clearLabel,
+      placeholder,
+      filters,
+      formatHiddenFilters,
+      clearFiltersLabel,
+      onClearFilters,
+      ...props
+    },
+    ref,
+  ) => {
+    const filterProps: TableToolbarSearchFiltersProps = filters
+      ? { filters, formatHiddenFilters }
+      : {};
     return (
       <label className={cn("flex h-6 w-full min-w-0 cursor-text items-center gap-2", className)}>
         <SearchIcon size={16} className="shrink-0 text-icons-secondary" aria-hidden />
-        <input
-          ref={ref}
-          type="search"
-          value={value}
-          onChange={(event) => onValueChange(event.target.value)}
-          placeholder={placeholder}
-          aria-label={props["aria-label"] ?? placeholder}
-          className="typography-description-12px-regular min-w-0 flex-1 border-none bg-transparent p-0 text-content-primary outline-none placeholder:text-content-secondary [&::-webkit-search-cancel-button]:hidden"
-          {...props}
-        />
+        <SearchFilters {...filterProps}>
+          <input
+            ref={ref}
+            type="search"
+            value={value}
+            onChange={(event) => onValueChange(event.target.value)}
+            placeholder={placeholder}
+            aria-label={props["aria-label"] ?? placeholder}
+            className="typography-description-12px-regular min-w-0 flex-1 border-none bg-transparent p-0 text-content-primary outline-none placeholder:text-content-secondary [&::-webkit-search-cancel-button]:hidden"
+            {...props}
+          />
+        </SearchFilters>
         {value !== "" && (
           <button
             type="button"
@@ -163,6 +201,9 @@ export const TableToolbarSearch = React.forwardRef<HTMLInputElement, TableToolba
           >
             <CloseIcon size={16} />
           </button>
+        )}
+        {onClearFilters && filters && filters.length > 0 && (
+          <ClearSearchFilters label={clearFiltersLabel} onClick={onClearFilters} />
         )}
       </label>
     );

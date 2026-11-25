@@ -134,6 +134,7 @@ import {
   EyeSlashIcon,
   FacebookIcon,
   FanFollowerCount,
+  FilterMenu,
   FlagIcon,
   FlameIcon,
   FolderIcon,
@@ -2777,6 +2778,31 @@ function DemographicsDemo() {
         <Demographics label="Direct" value={64} formattedValue="64%" />
       </div>
     </section>
+  );
+}
+
+const FILTER_MENU_PLATFORMS = [
+  { value: "instagram", label: "Instagram" },
+  { value: "youtube", label: "YouTube" },
+  { value: "tagged", label: "Tagged links", icon: <TagIcon /> },
+] as const;
+
+function FilterMenuDemo() {
+  const [platforms, setPlatforms] = useState<(typeof FILTER_MENU_PLATFORMS)[number]["value"][]>([]);
+  return (
+    <div id="filtermenu" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Filter menu</h2>
+      <FilterMenu
+        options={FILTER_MENU_PLATFORMS}
+        value={platforms}
+        onValueChange={setPlatforms}
+        contentProps={{ "aria-label": "Platform" }}
+      >
+        <TableToolbarAction icon={<ChevronDownIcon size={16} />} active={platforms.length > 0}>
+          Platform
+        </TableToolbarAction>
+      </FilterMenu>
+    </div>
   );
 }
 
@@ -6187,6 +6213,7 @@ function App() {
     { id: "divider", label: "Divider" },
     { id: "empty-state", label: "Empty State" },
     { id: "dropdownmenu", label: "Dropdown menu" },
+    { id: "filtermenu", label: "Filter menu" },
     { id: "drawer", label: "Drawer" },
     { id: "iconbutton", label: "Icon Button" },
     { id: "audiorecordbutton", label: "Audio Record Button" },
@@ -6463,6 +6490,8 @@ function App() {
 
             {/* Dropdown menu */}
             <DropdownMenuDemo />
+
+            <FilterMenuDemo />
 
             {/* Drawer */}
             <DrawerDemo />

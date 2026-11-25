@@ -307,6 +307,8 @@ export type {
 export { EmptyState } from "./components/EmptyState/EmptyState";
 export type { FanFollowerCountProps } from "./components/FanFollowerCount/FanFollowerCount";
 export { FanFollowerCount } from "./components/FanFollowerCount/FanFollowerCount";
+export type { FilterMenuOption, FilterMenuProps } from "./components/FilterMenu/FilterMenu";
+export { FilterMenu } from "./components/FilterMenu/FilterMenu";
 export type { FloatingActionButtonProps } from "./components/FloatingActionButton/FloatingActionButton";
 export { FloatingActionButton } from "./components/FloatingActionButton/FloatingActionButton";
 export type {
@@ -901,6 +903,7 @@ export type { TableCardPaginationProps } from "./components/Table/TablePaginatio
 export { TableCardPagination } from "./components/Table/TablePagination";
 export type { TableRowLinkProps } from "./components/Table/TableRowLink";
 export { TableRowLink } from "./components/Table/TableRowLink";
+export type { TableToolbarSearchFilter } from "./components/Table/TableToolbarSearchFilters";
 export type { TabsProps } from "./components/Tabs/Tabs";
 export { Tabs } from "./components/Tabs/Tabs";
 export type { TabsContentProps } from "./components/Tabs/TabsContent";

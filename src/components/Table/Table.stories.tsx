@@ -309,6 +309,44 @@ export const WithToolbar: Story = {
   },
 };
 
+const APPLIED_FILTERS = [
+  { id: "platform", label: "Platform", value: "Instagram, YouTube" },
+  { id: "tag", label: "Tag", value: "Launch" },
+  { id: "date", label: "Date", value: "Yesterday" },
+];
+
+export const WithSearchFilters: Story = {
+  name: "With search filters",
+  render: function WithSearchFiltersStory() {
+    const [query, setQuery] = React.useState("");
+    const [applied, setApplied] = React.useState(APPLIED_FILTERS);
+    return (
+      <div data-testid="toolbar-frame" className="max-w-4xl">
+        <TableToolbar
+          search={
+            <TableToolbarSearch
+              value={query}
+              onValueChange={setQuery}
+              placeholder="Search"
+              clearLabel="Clear search"
+              filters={applied.map(({ id, label, value }) => ({
+                id,
+                name: `${label} is`,
+                value,
+                removeLabel: `Remove ${label} filter`,
+                onRemove: () => setApplied((current) => current.filter((item) => item.id !== id)),
+              }))}
+              formatHiddenFilters={(count) => `${count} more filters`}
+              clearFiltersLabel="Clear all"
+              onClearFilters={() => setApplied([])}
+            />
+          }
+        />
+      </div>
+    );
+  },
+};
+
 export const WithMedia: Story = {
   name: "With media",
   render: () => (
