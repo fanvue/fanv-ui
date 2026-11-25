@@ -1171,6 +1171,109 @@
   "semantic": {
     "light": {
       "color": {
+        "tag": {
+          "gray": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.blackalpha.100}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{semantic.light.color.content.primary}"
+            }
+          },
+          "blue": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.blue.100}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.blue.700}"
+            }
+          },
+          "teal": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.emeraldGreen.100}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.emeraldGreen.800}"
+            }
+          },
+          "green": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.green.100}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.green.800}"
+            }
+          },
+          "amber": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.amber.100}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.amber.800}"
+            }
+          },
+          "red": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.red.100}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.red.700}"
+            }
+          },
+          "pink": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.pink.100}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.pink.800}"
+            }
+          },
+          "purple": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.purple.100}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.light.color.purple.800}"
+            }
+          },
+          "hoverOverlay": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.light.color.blackalpha.100}"
+          }
+        },
         "neutralAlphas": {
           "50": {
             "description": "",
@@ -6001,6 +6104,109 @@
     },
     "dark": {
       "color": {
+        "tag": {
+          "gray": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.whitealpha.100}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{semantic.dark.color.content.primary}"
+            }
+          },
+          "blue": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.blue.800}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.blue.300}"
+            }
+          },
+          "teal": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.emeraldGreen.800}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.emeraldGreen.300}"
+            }
+          },
+          "green": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.green.800}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.green.300}"
+            }
+          },
+          "amber": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.amber.800}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.amber.300}"
+            }
+          },
+          "red": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.red.800}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.red.300}"
+            }
+          },
+          "pink": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.pink.800}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.pink.300}"
+            }
+          },
+          "purple": {
+            "surface": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.purple.800}"
+            },
+            "content": {
+              "description": "",
+              "type": "color",
+              "value": "{primitives.dark.color.purple.300}"
+            }
+          },
+          "hoverOverlay": {
+            "description": "",
+            "type": "color",
+            "value": "{primitives.dark.color.whitealpha.100}"
+          }
+        },
         "neutralAlphas": {
           "50": {
             "description": "",
