@@ -371,11 +371,12 @@ describe("Select", () => {
       );
       const selected = screen.getByRole("option", { name: /Option A/ });
       expect(selected).toHaveClass(
-        "theme-v2:data-[state=checked]:bg-surface-primary-inverted",
+        "data-[state=checked]:bg-menu-item-selected",
         "theme-v2:data-[state=checked]:text-content-primary-inverted",
-        "theme-v2:data-[state=checked]:focus:bg-surface-primary-inverted",
-        "theme-v2:data-[state=checked]:data-highlighted:bg-surface-primary-inverted",
+        "theme-v2:data-[state=checked]:focus:bg-menu-item-selected",
+        "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected",
       );
+      expect(selected.className).not.toContain("surface-primary-inverted");
       const svgs = selected.querySelectorAll("svg");
       expect(svgs[0]?.parentElement).toHaveClass(
         "theme-v2:group-data-[state=checked]:text-icons-primary-inverted",

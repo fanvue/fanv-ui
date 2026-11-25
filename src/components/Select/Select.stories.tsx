@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect, waitFor, within } from "storybook/test";
 import { Avatar } from "../Avatar/Avatar";
 import { HomeIcon } from "../Icons/HomeIcon";
 import { StarIcon } from "../Icons/StarIcon";
@@ -418,6 +419,19 @@ export const V2Palette: Story = {
     placeholder: "Select a person",
     defaultValue: "jane",
     defaultOpen: true,
+  },
+  play: async () => {
+    const probe = document.createElement("span");
+    probe.style.backgroundColor = "var(--color-menu-item-selected)";
+    probe.style.color = "var(--color-content-primary-inverted)";
+    document.body.appendChild(probe);
+    const { backgroundColor: fill, color: text } = getComputedStyle(probe);
+    probe.remove();
+    const selected = within(document.body).getByRole("option", { name: /Jane Doe/ });
+    await waitFor(() => expect(selected).toHaveAttribute("data-highlighted"));
+    await expect(selected).toHaveFocus();
+    await expect(getComputedStyle(selected).backgroundColor).toBe(fill);
+    await expect(getComputedStyle(selected).color).toBe(text);
   },
   render: (args) => (
     <Select {...args}>

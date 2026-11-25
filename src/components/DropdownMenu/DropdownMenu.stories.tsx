@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
-import { userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
@@ -845,10 +845,37 @@ export const AllStatesV2: Story = {
   },
 };
 
+const resolveColor = (cssVar: string) => {
+  const probe = document.createElement("span");
+  probe.style.color = `var(${cssVar})`;
+  document.body.appendChild(probe);
+  const color = getComputedStyle(probe).color;
+  probe.remove();
+  return color;
+};
+
 export const SelectedRowsV2Palette: Story = {
   name: "Selected rows (v2 palette)",
   globals: { palette: "v2" },
-  play: openMenu,
+  play: async (context) => {
+    await openMenu(context);
+    const menu = within(document.body);
+    const fill = resolveColor("--color-menu-item-selected");
+    const text = resolveColor("--color-content-primary-inverted");
+    const rows = [
+      menu.getByRole("menuitem", { name: /Favourites/ }),
+      menu.getByRole("menuitem", { name: /Jane Doe/ }),
+      menu.getByRole("menuitemradio", { name: /Newest/ }),
+      menu.getByRole("menuitemcheckbox", { name: /Photos/ }),
+    ];
+    for (const row of rows) {
+      await expect(getComputedStyle(row).backgroundColor).toBe(fill);
+      await userEvent.hover(row);
+      await waitFor(() => expect(row).toHaveAttribute("data-highlighted"));
+      await expect(getComputedStyle(row).backgroundColor).toBe(fill);
+      await expect(getComputedStyle(row).color).toBe(text);
+    }
+  },
   render: () => {
     const Demo = () => {
       const [sort, setSort] = React.useState("newest");

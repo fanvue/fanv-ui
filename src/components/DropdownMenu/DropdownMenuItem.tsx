@@ -126,8 +126,8 @@ export interface DropdownMenuItemProps
    * Marks the item as the current selection in a single-select menu. The row
    * rests on `Buttons/Navigation/Hover` with a semibold label; hover still shows
    * `Interaction/Hover`, because `data-[highlighted]` outranks the selected class.
-   * Under the v2 palette the row fills `Surface/Primary Inverted` instead, with
-   * inverted content, and keeps that fill on hover.
+   * Under the v2 palette that fill is inverted, with inverted content, and the
+   * row keeps it on hover.
    * The row also gets `data-selected`, and `aria-current` unless the consumer
    * already sets `aria-checked`.
    * @default false
@@ -208,9 +208,9 @@ export const DropdownMenuItem = React.forwardRef<
       destructive && "text-error-content",
       selected && [
         "bg-menu-item-selected",
-        // Under the v2 palette the selected row inverts, and keeps its fill on
-        // hover so the inverted content on it stays readable.
-        "theme-v2:bg-surface-primary-inverted theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-surface-primary-inverted",
+        // Under the v2 palette `Menu Item Selected` is the inverted fill. The row
+        // keeps it on hover so the inverted content on it stays readable.
+        "theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-menu-item-selected",
       ],
       className,
     );

@@ -34,12 +34,12 @@ export const DropdownMenuRadioGroup = React.forwardRef<
 DropdownMenuRadioGroup.displayName = "DropdownMenuRadioGroup";
 
 /**
- * Under the v2 palette a checked radio or checkbox row fills `Surface/Primary
- * Inverted` with inverted content, and keeps that fill on hover so the content
- * stays readable.
+ * Under the v2 palette a checked radio or checkbox row fills `Menu Item Selected`,
+ * which is inverted there, with inverted content, and keeps that fill on hover so
+ * the content stays readable.
  */
 const CHECKED_V2_ROW =
-  "theme-v2:data-[state=checked]:bg-surface-primary-inverted theme-v2:data-[state=checked]:text-content-primary-inverted theme-v2:data-[state=checked]:data-[highlighted]:bg-surface-primary-inverted";
+  "theme-v2:data-[state=checked]:bg-menu-item-selected theme-v2:data-[state=checked]:text-content-primary-inverted theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected";
 
 /** Height preset for a {@link DropdownMenuRadioItem}. */
 export type DropdownMenuRadioItemSize = "40";
@@ -57,7 +57,7 @@ export interface DropdownMenuRadioItemProps
  * a circular indicator that fills when selected, plus an optional helper line
  * underneath the title. The checked row rests on `Buttons/Navigation/Hover`, and
  * hovering it shows `Interaction/Hover` like any other row. Under the v2 palette
- * it fills `Surface/Primary Inverted` instead, with inverted content.
+ * the fill is inverted, with inverted content, and stays on hover.
  */
 export const DropdownMenuRadioItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.RadioItem>,

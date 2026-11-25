@@ -286,8 +286,12 @@ describe("buildThemeCss", () => {
       expect(themeBlocks).toContain(
         "--color-menu-item-selected: var(--color-buttons-navigation-hover);",
       );
-      expect(v2Light.get("--color-menu-item-selected")).toBe("var(--color-interaction-pressed)");
-      expect(v2Dark.get("--color-menu-item-selected")).toBe("var(--color-interaction-pressed)");
+      expect(v2Light.get("--color-menu-item-selected")).toBe(
+        "var(--color-surface-primary-inverted)",
+      );
+      expect(v2Dark.get("--color-menu-item-selected")).toBe(
+        "var(--color-surface-primary-inverted)",
+      );
       expect(Object.keys(ROLE_COLOR_TOKENS)).toEqual(["--color-menu-item-selected"]);
     });
 

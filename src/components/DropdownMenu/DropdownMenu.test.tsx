@@ -739,10 +739,10 @@ describe("DropdownMenuItem", () => {
       const item = screen.getByTestId("item");
       expect(item).toHaveClass(
         "bg-menu-item-selected",
-        "theme-v2:bg-surface-primary-inverted",
         "theme-v2:text-content-primary-inverted",
-        "theme-v2:data-[highlighted]:bg-surface-primary-inverted",
+        "theme-v2:data-[highlighted]:bg-menu-item-selected",
       );
+      expect(item.className).not.toContain("surface-primary-inverted");
       expect(item.querySelector('[data-icon="leading"]')?.parentElement).toHaveClass(
         "theme-v2:group-data-[selected]:text-icons-primary-inverted",
       );
@@ -753,7 +753,9 @@ describe("DropdownMenuItem", () => {
         "theme-v2:group-data-[selected]:text-content-secondary-inverted",
       );
       expect(screen.getByTestId("other")).toHaveClass("data-[highlighted]:bg-interaction-hover");
-      expect(screen.getByTestId("other")).not.toHaveClass("theme-v2:bg-surface-primary-inverted");
+      expect(screen.getByTestId("other")).not.toHaveClass(
+        "theme-v2:data-[highlighted]:bg-menu-item-selected",
+      );
     });
 
     it("renders leading and trailing icons at 16px in the secondary icon colour", () => {
@@ -1350,10 +1352,11 @@ describe("DropdownMenuCheckboxItem", () => {
     const row = screen.getByRole("menuitemcheckbox", { name: /@sofiabloom/ });
     expect(row).toHaveAttribute("data-state", "checked");
     expect(row).toHaveClass(
-      "theme-v2:data-[state=checked]:bg-surface-primary-inverted",
+      "theme-v2:data-[state=checked]:bg-menu-item-selected",
       "theme-v2:data-[state=checked]:text-content-primary-inverted",
-      "theme-v2:data-[state=checked]:data-[highlighted]:bg-surface-primary-inverted",
+      "theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected",
     );
+    expect(row.className).not.toContain("surface-primary-inverted");
     const tick = row.querySelector("svg");
     expect(tick).toHaveClass("text-content-primary-inverted", "theme-v2:text-content-primary");
     expect(tick?.parentElement).toHaveClass(
@@ -1488,10 +1491,11 @@ describe("DropdownMenuRadioItem", () => {
       );
       const checkedItem = screen.getByRole("menuitemradio", { name: /Two/ });
       expect(checkedItem).toHaveClass(
-        "theme-v2:data-[state=checked]:bg-surface-primary-inverted",
+        "data-[state=checked]:bg-menu-item-selected",
         "theme-v2:data-[state=checked]:text-content-primary-inverted",
-        "theme-v2:data-[state=checked]:data-[highlighted]:bg-surface-primary-inverted",
+        "theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected",
       );
+      expect(checkedItem.className).not.toContain("surface-primary-inverted");
       const dot = checkedItem.querySelector("span.rounded-full > span");
       expect(dot).toHaveClass("bg-content-primary", "theme-v2:bg-icons-primary-inverted");
       expect(dot?.parentElement).toHaveClass(

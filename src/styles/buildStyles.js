@@ -118,11 +118,11 @@ const primitiveVarLines = (colorTokens) =>
  * borrow a token that means something else. Each has a current-palette value and a v2 value.
  */
 const ROLE_COLOR_TOKENS = {
-  // Selected menu and Select rows. Under v2 the navigation tokens turn black, so the rows
-  // take the pressed fill, which keeps the row text readable in both modes.
+  // Selected menu and Select rows. Under v2 the selected row inverts, as in the library's
+  // V2 Menu items, and the components put inverted content on it.
   "--color-menu-item-selected": {
     current: "--color-buttons-navigation-hover",
-    v2: "--color-interaction-pressed",
+    v2: "--color-surface-primary-inverted",
   },
 };
 

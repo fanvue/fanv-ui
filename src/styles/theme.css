@@ -1568,7 +1568,7 @@
   --color-navigation-background: var(--primitives-color-gray-black);
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
-  --color-menu-item-selected: var(--color-interaction-pressed);
+  --color-menu-item-selected: var(--color-surface-primary-inverted);
 }
 
 .theme-v2.dark,
@@ -1865,7 +1865,7 @@
   --color-navigation-background: var(--primitives-color-gray-black);
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
-  --color-menu-item-selected: var(--color-interaction-pressed);
+  --color-menu-item-selected: var(--color-surface-primary-inverted);
   --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);

@@ -326,8 +326,8 @@ function isRenderableNode(node: React.ReactNode): boolean {
  * Supports a leading icon or avatar, an optional two-line layout via `description`,
  * and the standard hover / selected / disabled states. The selected row rests on
  * `Buttons/Navigation/Hover` with a semibold label and a trailing check; hovering
- * it shows `Interaction/Hover` like any other row. Under the v2 palette it fills
- * `Surface/Primary Inverted` instead, with inverted content, and keeps that fill on hover.
+ * it shows `Interaction/Hover` like any other row. Under the v2 palette the fill is
+ * inverted, with inverted content, and stays on hover.
  *
  * @example
  * ```tsx
@@ -357,10 +357,10 @@ export const SelectItem = React.forwardRef<
         "data-[state=checked]:bg-menu-item-selected",
         "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
         "data-[state=checked]:focus:bg-interaction-hover data-[state=checked]:data-highlighted:bg-interaction-hover",
-        // Under the v2 palette the selected row inverts, and keeps its fill on hover
-        // so the inverted content on it stays readable.
-        "theme-v2:data-[state=checked]:bg-surface-primary-inverted theme-v2:data-[state=checked]:text-content-primary-inverted",
-        "theme-v2:data-[state=checked]:data-highlighted:bg-surface-primary-inverted theme-v2:data-[state=checked]:focus:bg-surface-primary-inverted",
+        // Under the v2 palette `Menu Item Selected` is the inverted fill. The row keeps
+        // it on hover and focus so the inverted content on it stays readable.
+        "theme-v2:data-[state=checked]:text-content-primary-inverted",
+        "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected theme-v2:data-[state=checked]:focus:bg-menu-item-selected",
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}
