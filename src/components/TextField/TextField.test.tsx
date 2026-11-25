@@ -374,6 +374,34 @@ describe("TextField", () => {
       );
     });
 
+    it("uses the disabled tokens in place of the fade under theme-v2", () => {
+      const { container } = render(
+        <TextField
+          aria-label="Test"
+          leftIcon={<span data-testid="left" />}
+          rightIcon={<span data-testid="right" />}
+          leftLabel="$"
+          disabled
+        />,
+      );
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "opacity-50",
+        "theme-v2:opacity-100",
+        "theme-v2:bg-inputs-inputs-disabled",
+        "theme-v2:border-transparent",
+      );
+      expect(screen.getByRole("textbox")).toHaveClass(
+        "theme-v2:disabled:text-content-disabled",
+        "theme-v2:disabled:placeholder:text-content-disabled",
+      );
+      expect(screen.getByTestId("left").parentElement).toHaveClass("theme-v2:text-icons-disabled");
+      expect(screen.getByTestId("right").parentElement?.parentElement).toHaveClass(
+        "theme-v2:text-icons-disabled",
+      );
+      expect(screen.getByText("$")).toHaveClass("theme-v2:text-content-disabled");
+    });
+
     it("keeps the current focus ring on an errored field under theme-v2", () => {
       const { container } = render(<TextField aria-label="Test" error />);
       const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;

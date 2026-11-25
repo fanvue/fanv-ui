@@ -93,15 +93,18 @@ function getContainerClassName(
         ),
     !disabled && !error && "hover:border-border-input-hover",
     CONTAINER_HEIGHT[size],
-    disabled && "opacity-50",
+    disabled &&
+      "theme-v2:border-transparent theme-v2:bg-inputs-inputs-disabled opacity-50 theme-v2:opacity-100",
   );
 }
 
 function LeadingIcon({
   size = "16",
+  disabled,
   children,
 }: {
   size?: "16" | "24";
+  disabled?: boolean;
   children?: React.ReactNode;
 }) {
   if (!children) return null;
@@ -110,6 +113,7 @@ function LeadingIcon({
       className={cn(
         "pointer-events-none flex shrink-0 items-center justify-center text-content-secondary",
         size === "24" ? "size-6" : "size-4",
+        disabled && "theme-v2:text-icons-disabled",
       )}
     >
       {children}
@@ -121,11 +125,13 @@ function SideLabel({
   id,
   size,
   align,
+  disabled,
   children,
 }: {
   id?: string;
   size: TextFieldSize;
   align: "left" | "right";
+  disabled?: boolean;
   children?: React.ReactNode;
 }) {
   if (!children) return null;
@@ -136,6 +142,7 @@ function SideLabel({
         "shrink-0 select-none whitespace-nowrap text-content-tertiary",
         align === "right" && "text-right",
         SIDE_LABEL_TYPOGRAPHY[size],
+        disabled && "theme-v2:text-content-disabled",
       )}
     >
       {children}
@@ -146,13 +153,20 @@ function SideLabel({
 function TrailingAdornment({
   rightIcon,
   validated,
+  disabled,
 }: {
   rightIcon?: React.ReactNode;
   validated: boolean;
+  disabled?: boolean;
 }) {
   if (!rightIcon && !validated) return null;
   return (
-    <span className="flex shrink-0 items-center gap-2 text-content-secondary">
+    <span
+      className={cn(
+        "flex shrink-0 items-center gap-2 text-content-secondary",
+        disabled && "theme-v2:text-icons-disabled",
+      )}
+    >
       {rightIcon && (
         <span data-tf-interactive="" className="flex size-4 shrink-0 items-center justify-center">
           {rightIcon}
@@ -312,8 +326,10 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           className={getContainerClassName(size, error, disabled, action != null)}
           onMouseDown={handleContainerMouseDown}
         >
-          <LeadingIcon size={leftIconSize}>{leftIcon}</LeadingIcon>
-          <SideLabel id={leftLabelId} size={size} align="left">
+          <LeadingIcon size={leftIconSize} disabled={disabled}>
+            {leftIcon}
+          </LeadingIcon>
+          <SideLabel id={leftLabelId} size={size} align="left" disabled={disabled}>
             {leftLabel}
           </SideLabel>
 
@@ -324,17 +340,17 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             aria-describedby={describedBy}
             aria-invalid={error || undefined}
             className={cn(
-              "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
+              "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed theme-v2:disabled:text-content-disabled theme-v2:disabled:placeholder:text-content-disabled",
               INPUT_TYPOGRAPHY[size],
               "[&[type='search']::-webkit-search-cancel-button]:hidden [&[type='search']::-webkit-search-cancel-button]:appearance-none",
             )}
             {...props}
           />
 
-          <SideLabel id={rightLabelId} size={size} align="right">
+          <SideLabel id={rightLabelId} size={size} align="right" disabled={disabled}>
             {rightLabel}
           </SideLabel>
-          <TrailingAdornment rightIcon={rightIcon} validated={validated} />
+          <TrailingAdornment rightIcon={rightIcon} validated={validated} disabled={disabled} />
           {action != null && (
             <span data-tf-interactive="" className="flex shrink-0 items-center">
               {action}

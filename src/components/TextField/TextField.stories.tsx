@@ -292,6 +292,13 @@ export const PaletteV2: Story = {
       <TextField label="With value" defaultValue="Typed text" />
       <TextField label="Error" error errorMessage="Error message" defaultValue="invalid" />
       <TextField label="Disabled" placeholder="Placeholder" disabled />
+      <TextField
+        label="Disabled with value"
+        defaultValue="Typed text"
+        leftIcon={<HomeIcon />}
+        rightIcon={<InfoCircleIcon />}
+        disabled
+      />
     </div>
   ),
   play: async ({ canvas }) => {

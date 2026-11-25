@@ -115,6 +115,27 @@ describe("Autocomplete", () => {
       );
     });
 
+    it("uses the disabled tokens in place of the fade under theme-v2", () => {
+      const { container } = renderAutocomplete({
+        disabled: true,
+        leftIcon: <span data-testid="left" />,
+      });
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "opacity-50",
+        "theme-v2:opacity-100",
+        "theme-v2:bg-inputs-inputs-disabled",
+        "border-transparent",
+      );
+      expect(fieldContainer).not.toHaveClass("theme-v2:border-border-input");
+      expect(screen.getByRole("combobox")).toHaveClass(
+        "theme-v2:disabled:text-content-disabled",
+        "theme-v2:disabled:placeholder:text-content-disabled",
+        "theme-v2:disabled:placeholder:opacity-100",
+      );
+      expect(screen.getByTestId("left").parentElement).toHaveClass("theme-v2:text-icons-disabled");
+    });
+
     it("keeps the current focus ring on an errored field under theme-v2", () => {
       const { container } = renderAutocomplete({ error: true });
       const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;

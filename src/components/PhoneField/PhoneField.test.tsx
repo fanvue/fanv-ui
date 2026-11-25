@@ -133,6 +133,25 @@ describe("PhoneField", () => {
       );
     });
 
+    it("uses the disabled tokens in place of the fade under theme-v2", () => {
+      const { container } = render(<PhoneField aria-label="Phone" dialCode="+39" disabled />);
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "opacity-50",
+        "theme-v2:opacity-100",
+        "theme-v2:bg-inputs-inputs-disabled",
+        "theme-v2:border-transparent",
+      );
+      expect(screen.getByRole("textbox")).toHaveClass(
+        "theme-v2:disabled:text-content-disabled",
+        "theme-v2:disabled:placeholder:text-content-disabled",
+      );
+      expect(screen.getByText("+39")).toHaveClass("theme-v2:text-content-disabled");
+      expect(fieldContainer.querySelector("button svg")).toHaveClass(
+        "theme-v2:group-disabled:text-icons-disabled",
+      );
+    });
+
     it("keeps the current focus ring on an errored field under theme-v2", () => {
       const { container } = render(<PhoneField aria-label="Phone" error />);
       const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;

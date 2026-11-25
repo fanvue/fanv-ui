@@ -76,7 +76,8 @@ function getContainerClassName(size: TextAreaSize, error: boolean, disabled?: bo
         ),
     !disabled && !error && "hover:border-border-input-hover",
     CONTAINER_MIN_HEIGHT[size],
-    disabled && "opacity-50",
+    disabled &&
+      "theme-v2:border-transparent theme-v2:bg-inputs-inputs-disabled opacity-50 theme-v2:opacity-100",
   );
 }
 
@@ -87,7 +88,7 @@ function getTextareaClassName(
   resizable: boolean,
 ) {
   return cn(
-    "h-full w-full bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
+    "h-full w-full bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed theme-v2:disabled:text-content-disabled theme-v2:disabled:placeholder:text-content-disabled",
     resizable ? "resize-y" : "resize-none",
     !hasMinRows && "min-h-[80px]",
     TEXTAREA_SIZE_CLASSES[size],

@@ -65,7 +65,16 @@ function getContainerClassName(size: PhoneFieldSize, error: boolean, disabled?: 
           "theme-v2:has-focus-visible:border-border-selected theme-v2:has-focus-visible:after:shadow-none",
         ),
     !disabled && !error && "hover:border-border-input-hover",
-    disabled && "opacity-50",
+    disabled &&
+      "theme-v2:border-transparent theme-v2:bg-inputs-inputs-disabled opacity-50 theme-v2:opacity-100",
+  );
+}
+
+function getDialCodeClassName(size: PhoneFieldSize, disabled?: boolean) {
+  return cn(
+    "shrink-0 select-none whitespace-nowrap text-content-primary",
+    PREFIX_TYPOGRAPHY[size],
+    disabled && "theme-v2:text-content-disabled",
   );
 }
 
@@ -201,24 +210,21 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
             onClick={onCountrySelect}
             disabled={disabled}
             aria-label={countryButtonLabel}
-            className="flex shrink-0 items-center gap-1 rounded-2xs focus-visible:shadow-focus-ring focus-visible:outline-none disabled:cursor-not-allowed"
+            className="group flex shrink-0 items-center gap-1 rounded-2xs focus-visible:shadow-focus-ring focus-visible:outline-none disabled:cursor-not-allowed"
           >
             {flag != null && (
               <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full">
                 {flag}
               </span>
             )}
-            <ChevronDownIcon size={16} className="shrink-0 text-content-secondary" />
+            <ChevronDownIcon
+              size={16}
+              className="shrink-0 text-content-secondary theme-v2:group-disabled:text-icons-disabled"
+            />
           </button>
 
           {dialCode != null && (
-            <span
-              id={dialCodeId}
-              className={cn(
-                "shrink-0 select-none whitespace-nowrap text-content-primary",
-                PREFIX_TYPOGRAPHY[size],
-              )}
-            >
+            <span id={dialCodeId} className={getDialCodeClassName(size, disabled)}>
               {dialCode}
             </span>
           )}
@@ -232,7 +238,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
             aria-describedby={describedBy}
             aria-invalid={error || undefined}
             className={cn(
-              "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
+              "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed theme-v2:disabled:text-content-disabled theme-v2:disabled:placeholder:text-content-disabled",
               INPUT_TYPOGRAPHY[size],
             )}
             {...props}

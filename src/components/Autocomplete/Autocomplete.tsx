@@ -238,19 +238,25 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
               error
                 ? "border-error-content"
                 : cn(
-                    "border-transparent theme-v2:border-border-input",
+                    "border-transparent",
+                    !disabled && "theme-v2:border-border-input",
                     "theme-v2:has-focus-visible:border-border-selected theme-v2:has-focus-visible:after:shadow-none",
                   ),
               !disabled && !error && "hover:border-border-input-hover",
               ac.isOpen && !error && !disabled && "border-border-input-hover",
               CONTAINER_HEIGHT[size],
               PADDING_CLASSES[size],
-              disabled && "opacity-50",
+              disabled && "theme-v2:bg-inputs-inputs-disabled opacity-50 theme-v2:opacity-100",
             )}
             onClick={ac.handleContainerClick}
           >
             {leftIcon && (
-              <div className="flex size-5 shrink-0 items-center justify-center text-content-secondary">
+              <div
+                className={cn(
+                  "flex size-5 shrink-0 items-center justify-center text-content-secondary",
+                  disabled && "theme-v2:text-icons-disabled",
+                )}
+              >
                 {leftIcon}
               </div>
             )}
@@ -291,7 +297,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
                 onFocus={ac.handleFocus}
                 onBlur={ac.handleBlur}
                 className={cn(
-                  "min-w-[40px] flex-1 truncate bg-transparent text-content-primary no-underline placeholder:text-content-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+                  "min-w-[40px] flex-1 truncate bg-transparent text-content-primary no-underline placeholder:text-content-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed theme-v2:disabled:text-content-disabled theme-v2:disabled:placeholder:text-content-disabled theme-v2:disabled:placeholder:opacity-100",
                   INPUT_SIZE_CLASSES[size],
                 )}
               />
@@ -310,7 +316,12 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
                   <CloseIcon className="size-4" />
                 </button>
               )}
-              <div className="flex size-5 shrink-0 items-center justify-center text-content-secondary">
+              <div
+                className={cn(
+                  "flex size-5 shrink-0 items-center justify-center text-content-secondary",
+                  disabled && "theme-v2:text-icons-disabled",
+                )}
+              >
                 <ChevronDownIcon
                   className={cn("size-5 transition-transform", ac.isOpen && "rotate-180")}
                 />

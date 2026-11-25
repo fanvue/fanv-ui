@@ -491,6 +491,7 @@ export const PaletteV2: Story = {
         label="Disabled"
         placeholder="Search..."
         options={COUNTRIES}
+        leftIcon={<HomeIcon />}
         disabled
         emptyText="No results"
       />

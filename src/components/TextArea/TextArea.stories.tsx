@@ -272,6 +272,7 @@ export const PaletteV2: Story = {
       <TextArea label="With value" defaultValue="Typed text" />
       <TextArea label="Error" error errorMessage="Error message" defaultValue="invalid" />
       <TextArea label="Disabled" placeholder="Placeholder" disabled />
+      <TextArea label="Disabled with value" defaultValue="Typed text" disabled />
     </div>
   ),
   play: async ({ canvas }) => {

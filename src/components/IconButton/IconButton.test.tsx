@@ -78,6 +78,18 @@ describe("IconButton", () => {
       );
     });
 
+    it("gives the disabled field variant the disabled tokens under theme-v2", () => {
+      render(
+        <IconButton icon={<HomeIcon />} variant="field" size="40" aria-label="Download" disabled />,
+      );
+      expect(screen.getByTestId("icon-button")).toHaveClass(
+        "disabled:text-content-disabled",
+        "theme-v2:disabled:bg-inputs-inputs-disabled",
+        "theme-v2:disabled:border-transparent",
+        "theme-v2:disabled:text-icons-disabled",
+      );
+    });
+
     it("keeps the focus ring on other variants under theme-v2", () => {
       render(
         <IconButton icon={<HomeIcon />} variant="secondary" size="40" aria-label="Download" />,
