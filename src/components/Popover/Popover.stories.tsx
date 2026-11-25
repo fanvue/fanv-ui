@@ -8,6 +8,10 @@ const meta = {
   component: Popover,
   parameters: {
     layout: "centered",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/S8zFdcOjt4qN4PrwntuCdt/Fanvue-Library?node-id=17245-2317",
+    },
   },
   tags: ["autodocs"],
 } satisfies Meta<typeof Popover>;
@@ -37,7 +41,18 @@ export const Default: Story = {
 
 export const Open: Story = {
   args: { defaultOpen: true },
-  render: Default.render,
+  render: (args) => (
+    <Popover {...args}>
+      <PopoverTrigger asChild>
+        <Button variant="secondary">Open popover</Button>
+      </PopoverTrigger>
+      <PopoverContent aria-label="Example">
+        <p className="typography-body-small-14px-regular w-64 p-2">
+          The panel is open on first render.
+        </p>
+      </PopoverContent>
+    </Popover>
+  ),
 };
 
 export const WithToolbarAction: Story = {
