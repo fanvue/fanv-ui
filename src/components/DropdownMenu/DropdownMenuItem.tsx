@@ -238,7 +238,7 @@ export const DropdownMenuItem = React.forwardRef<
           ITEM_COUNT_TYPOGRAPHY[normalizedSize],
           destructive ? "text-error-content" : "text-content-tertiary",
           "group-data-[disabled]:text-content-disabled",
-          "theme-v2:group-data-[selected]:text-content-primary-inverted",
+          "theme-v2:group-data-[selected]:text-content-secondary-inverted",
         )}
       >
         {count}

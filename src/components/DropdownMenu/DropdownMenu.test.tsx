@@ -750,7 +750,7 @@ describe("DropdownMenuItem", () => {
         "theme-v2:group-data-[selected]:text-content-secondary-inverted",
       );
       expect(screen.getByText("3")).toHaveClass(
-        "theme-v2:group-data-[selected]:text-content-primary-inverted",
+        "theme-v2:group-data-[selected]:text-content-secondary-inverted",
       );
       expect(screen.getByTestId("other")).toHaveClass("data-[highlighted]:bg-interaction-hover");
       expect(screen.getByTestId("other")).not.toHaveClass("theme-v2:bg-surface-primary-inverted");
