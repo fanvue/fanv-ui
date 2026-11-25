@@ -50,6 +50,20 @@ describe("Tag", () => {
       expect(onRemove).toHaveBeenCalledTimes(1);
     });
 
+    it("passes the click to onRemove so a caller can stop it bubbling", async () => {
+      const user = userEvent.setup();
+      const onOutsideClick = vi.fn();
+      document.body.addEventListener("click", onOutsideClick);
+      render(
+        <Tag onRemove={(event) => event.stopPropagation()} removeLabel="Remove Whale">
+          Whale
+        </Tag>,
+      );
+      await user.click(screen.getByRole("button", { name: "Remove Whale" }));
+      document.body.removeEventListener("click", onOutsideClick);
+      expect(onOutsideClick).not.toHaveBeenCalled();
+    });
+
     it.each(["{Enter}", " "])("calls onRemove from the keyboard with %j", async (key) => {
       const user = userEvent.setup();
       const onRemove = vi.fn();

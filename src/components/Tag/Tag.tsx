@@ -23,8 +23,8 @@ interface TagBaseProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "chil
 }
 
 interface TagRemovableProps {
-  /** Renders a remove (×) button when set. */
-  onRemove: () => void;
+  /** Renders a remove (×) button when set. Receives the click, so a caller can stop it bubbling. */
+  onRemove: (event: React.MouseEvent<HTMLButtonElement>) => void;
   /** Accessible name of the remove button, as one translated string such as "Remove Whale". */
   removeLabel: string;
   /**
@@ -116,7 +116,7 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
             aria-label={removeLabel}
             onClick={onRemove}
             className={cn(
-              "relative flex size-3 shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute after:-inset-1.5 focus-visible:opacity-100 focus-visible:shadow-focus-ring focus-visible:outline-none",
+              "relative flex size-3 shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute after:-inset-1.5 focus-visible:opacity-100 focus-visible:shadow-focus-ring focus-visible:outline-hidden",
               removeVisibility === "hover" &&
                 "group-focus-within/tag:pointer-events-auto group-focus-within/tag:ml-0 group-focus-within/tag:w-3 group-focus-within/tag:opacity-100 group-hover/tag:pointer-events-auto group-hover/tag:ml-0 group-hover/tag:w-3 group-hover/tag:opacity-100 [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:-ml-0.5 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0",
             )}
