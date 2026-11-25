@@ -918,6 +918,13 @@ export { TabsOverflow, TabsOverflowItem } from "./components/Tabs/TabsOverflow";
 export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
 export type {
+  TagProps,
+  TagRemoveVisibility,
+  TagSize,
+  TagVariant,
+} from "./components/Tag/Tag";
+export { Tag } from "./components/Tag/Tag";
+export type {
   TextAreaProps,
   TextAreaSize,
 } from "./components/TextArea/TextArea";
