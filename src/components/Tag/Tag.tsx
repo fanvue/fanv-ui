@@ -30,7 +30,7 @@ interface TagRemovableProps {
    * Renders a remove (×) button when set. Receives the click, so a caller can stop it bubbling.
    * Pass `undefined` to hide the button conditionally while keeping `removeLabel`.
    */
-  onRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onRemove?: ((event: React.MouseEvent<HTMLButtonElement>) => void) | undefined;
   /** Accessible name of the remove button, as one translated string such as "Remove Whale". */
   removeLabel: string;
   /**
