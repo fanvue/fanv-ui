@@ -12,7 +12,7 @@ import {
   ChartTooltipContent,
 } from "./charts";
 import { simpleLineConfig, simpleLineData } from "./components/Chart/chartStoryFixtures";
-import { DatePicker } from "./date-picker";
+import { DatePicker, DateRangePicker, type DateRangeValue } from "./date-picker";
 import { CountryFlag } from "./flags";
 import type { AudioRecordButtonStatus } from "./index";
 import {
@@ -4131,11 +4131,33 @@ function SwitchToggleDemo() {
   );
 }
 
+const DATE_RANGE_PRESETS = [
+  { id: "all", label: "All time" },
+  { id: "today", label: "Today" },
+  { id: "7d", label: "Last 7 days" },
+];
+
+function DateRangePickerShowcase() {
+  const [value, setValue] = useState<DateRangeValue>({ type: "preset", presetId: "all" });
+
+  return (
+    <DateRangePicker
+      presets={DATE_RANGE_PRESETS}
+      customRangeLabel="Custom range"
+      value={value}
+      onValueChange={setValue}
+    >
+      <TableToolbarAction icon={<ChevronDownIcon size={16} />}>Date</TableToolbarAction>
+    </DateRangePicker>
+  );
+}
+
 function DatePickerDemo() {
   return (
     <div id="datepicker" className="flex scroll-mt-20 flex-col gap-4">
       <h2 className="typography-header-heading-sm mb-4">Date Picker</h2>
       <DatePickerShowcase />
+      <DateRangePickerShowcase />
     </div>
   );
 }
