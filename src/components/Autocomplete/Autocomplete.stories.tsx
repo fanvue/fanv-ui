@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
-import { userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { NON_VISUAL_STORY_PARAMETERS, V2_PALETTE_STORY_PARAMETERS } from "../../storybook";
 import { HomeIcon } from "../Icons/HomeIcon";
 import {
@@ -512,5 +512,26 @@ export const PaletteV2Open: Story = {
   },
   play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     await userEvent.click(within(canvasElement).getByRole("combobox"));
+  },
+};
+
+export const PaletteV2CustomOption: Story = {
+  name: "Palette v2 (custom option)",
+  parameters: V2_PALETTE_STORY_PARAMETERS,
+  globals: { palette: "v2" },
+  args: {
+    ...CustomRenderOption.args,
+    defaultValue: "ca",
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    await userEvent.click(within(canvasElement).getByRole("combobox"));
+    const hint = await within(document.body).findByText("Selected");
+    const probe = document.createElement("span");
+    probe.style.color = "var(--color-content-secondary-inverted)";
+    document.body.appendChild(probe);
+    const inverted = getComputedStyle(probe).color;
+    probe.remove();
+    // Custom content on the inverted selected row takes the inverted text colour.
+    await waitFor(() => expect(getComputedStyle(hint).color).toBe(inverted));
   },
 };

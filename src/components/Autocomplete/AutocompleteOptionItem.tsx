@@ -4,6 +4,21 @@ import { CheckIcon } from "../Icons/CheckIcon";
 import type { AutocompleteOption } from "./Autocomplete";
 import { CREATE_PREFIX, getLabel } from "./constants";
 
+/**
+ * The selected row inverts under the v2 palette. Content passed through `renderOption`
+ * keeps its own text and icon tokens, so the row re-points those tokens to their
+ * inverted values and any custom content inverts with it.
+ */
+const SELECTED_V2_CLASSES = [
+  "theme-v2:bg-surface-primary-inverted theme-v2:text-content-primary-inverted",
+  "theme-v2:[--color-content-primary:var(--color-content-primary-inverted)]",
+  "theme-v2:[--color-content-secondary:var(--color-content-secondary-inverted)]",
+  "theme-v2:[--color-content-tertiary:var(--color-content-secondary-inverted)]",
+  "theme-v2:[--color-icons-primary:var(--color-icons-primary-inverted)]",
+  "theme-v2:[--color-icons-secondary:var(--color-icons-secondary-inverted)]",
+  "theme-v2:[--color-icons-tertiary:var(--color-icons-secondary-inverted)]",
+];
+
 export function AutocompleteOptionItem({
   option,
   optionId,
@@ -39,7 +54,7 @@ export function AutocompleteOptionItem({
       className={cn(
         "typography-body-default-16px-regular relative flex w-full cursor-pointer select-none items-center gap-2 rounded-xs py-2 pr-2 pl-3 text-content-primary outline-none",
         isActive && "bg-neutral-alphas-100",
-        isSelected && "theme-v2:bg-surface-primary-inverted theme-v2:text-content-primary-inverted",
+        isSelected && SELECTED_V2_CLASSES,
         option.disabled && "pointer-events-none opacity-50",
         isCreate && "italic",
       )}
