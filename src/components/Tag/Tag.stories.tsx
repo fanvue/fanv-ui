@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Fragment } from "react";
 import { E2E_FIXTURE_PARAMETERS } from "../../storybook";
 import { cn } from "../../utils/cn";
-import { FlashIcon } from "../Icons/FlashIcon";
+import { BoltIcon } from "../Icons/BoltIcon";
 import { Tag, type TagSize, type TagVariant } from "./Tag";
 
 const VARIANTS: readonly TagVariant[] = [
@@ -62,7 +62,7 @@ export const Removable: Story = {
 export const AllColours: Story = {
   parameters: { layout: "padded" },
   render: () => (
-    <div className="grid grid-cols-[auto_repeat(2,max-content)] items-center justify-items-start gap-x-8 gap-y-3">
+    <div className="grid w-max grid-cols-[repeat(3,max-content)] items-center justify-items-start gap-x-8 gap-y-3">
       {SIZES.map((size) => (
         <Fragment key={size}>
           {VARIANTS.map((variant) => (
@@ -92,12 +92,12 @@ export const AllColours: Story = {
 
 /**
  * The V2 Tags types: Tag (creator-picked colour, × on hover), List (× always), Dynamic list
- * (flash icon, × on hover) and the +N overflow. Hover a tag to see the overlay and the ×.
+ * (filled bolt icon, × on hover) and the +N overflow. Hover a tag to see the overlay and the ×.
  */
 export const Types: Story = {
   parameters: { layout: "padded" },
   render: () => (
-    <div className="grid grid-cols-[auto_repeat(4,max-content)] items-center justify-items-start gap-x-8 gap-y-3">
+    <div className="grid w-max grid-cols-[repeat(5,max-content)] items-center justify-items-start gap-x-8 gap-y-3">
       <span />
       {["Tag", "List", "Dynamic list", "Overflow"].map((type) => (
         <span key={type} className="typography-description-12px-semibold text-content-tertiary">
@@ -125,7 +125,8 @@ export const Types: Story = {
           <Tag
             size={size}
             leadingIcon={
-              <FlashIcon
+              <BoltIcon
+                filled
                 className={cn("text-success-content", size === "16" ? "size-3" : "size-3.5")}
               />
             }
