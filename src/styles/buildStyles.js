@@ -141,7 +141,32 @@ const ROLE_COLOR_TOKENS = {
   },
 };
 
-const getColorSections = (rawTokens) => {
+/**
+ * Colour groups the Figma export only carries in styleTokensV2.json. Every theme reads them
+ * from that file, so a new export cannot drop them from the default theme.
+ */
+const V2_SOURCED_COLOR_GROUPS = ["tag"];
+
+const getV2SourcedColors = (v2Tokens) => {
+  const darkMap = new Map(
+    flattenTokens(v2Tokens.semantic.dark.color).map(({ path, value }) => [path.join("."), value]),
+  );
+  return V2_SOURCED_COLOR_GROUPS.flatMap((group) =>
+    flattenTokens(v2Tokens.semantic.light.color[group], [group]).map(({ path, value }) => {
+      const darkRaw = darkMap.get(path.join("."));
+      if (darkRaw === undefined) {
+        throw new Error(`styleTokensV2.json has no dark value for ${path.join(".")}`);
+      }
+      return {
+        cssVar: semanticVarName(path),
+        light: resolveValue(value),
+        dark: resolveValue(darkRaw),
+      };
+    }),
+  );
+};
+
+const getColorSections = (rawTokens, v2Tokens) => {
   const semanticLightTokens = flattenTokens(rawTokens.semantic.light.color);
   const semanticDarkTokens = flattenTokens(rawTokens.semantic.dark.color);
 
@@ -160,6 +185,12 @@ const getColorSections = (rawTokens) => {
     const darkRaw = darkMap.get(path.join("."));
     const darkResolved = darkRaw !== undefined ? resolveValue(darkRaw) : resolved;
     darkVars += `  ${cssVar}: ${darkResolved};\n`;
+  }
+
+  for (const { cssVar, light, dark } of getV2SourcedColors(v2Tokens)) {
+    themeVars += `  ${cssVar}: ${light};\n`;
+    lightVars += `  ${cssVar}: ${light};\n`;
+    darkVars += `  ${cssVar}: ${dark};\n`;
   }
 
   // The alias target is already mode-aware, so one identical line serves all three
@@ -227,6 +258,7 @@ const getTypographyWeightVars = (typographyTokens) => {
 const getThemeV2Sections = (rawTokens, v2Tokens) => {
   const known = new Set([
     ...flattenTokens(rawTokens.semantic.light.color).map(({ path }) => semanticVarName(path)),
+    ...getV2SourcedColors(v2Tokens).map(({ cssVar }) => cssVar),
     ...Object.keys(THEME_V2_FALLBACKS),
   ]);
   const darkMap = new Map(
@@ -431,7 +463,7 @@ const assertNoDanglingVars = (css) => {
  * live in base.css and are imported into the generated theme.css. */
 
 const buildThemeCss = (rawTokens, v2Tokens) => {
-  const { themeVars, lightVars, darkVars, primitivesVars } = getColorSections(rawTokens);
+  const { themeVars, lightVars, darkVars, primitivesVars } = getColorSections(rawTokens, v2Tokens);
   const v2 = getThemeV2Sections(rawTokens, v2Tokens);
   // A forced-dark or forced-light scope sits below the root, so aliases must resolve again inside it.
   const legacyAliasLines = Object.entries(LEGACY_COLOR_ALIASES)

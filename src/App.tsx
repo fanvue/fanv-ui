@@ -266,6 +266,7 @@ import {
   TabsList,
   TabsListSkeleton,
   TabsTrigger,
+  Tag,
   TagIcon,
   TaskIcon,
   TextArea,
@@ -2787,6 +2788,34 @@ function DemographicsDemo() {
         <Demographics label="Direct" value={64} formattedValue="64%" />
       </div>
     </section>
+  );
+}
+
+function TagDemo() {
+  return (
+    <div id="tag" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Tag</h2>
+      {(["20", "16"] as const).map((size) => (
+        <div key={size} className="flex flex-wrap items-center gap-4">
+          {(["gray", "blue", "teal", "green", "amber", "red", "pink", "purple"] as const).map(
+            (variant) => (
+              <Tag
+                key={variant}
+                variant={variant}
+                size={size}
+                leadingIcon="🐳"
+                onRemove={() => {}}
+                removeLabel="Remove Whale"
+                removeVisibility="hover"
+              >
+                Whale
+              </Tag>
+            ),
+          )}
+          <Tag size={size}>+2</Tag>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -6201,6 +6230,7 @@ function App() {
     { id: "switchtoggle", label: "Switch Toggle" },
     { id: "tabs", label: "Tabs" },
     { id: "table", label: "Table" },
+    { id: "tag", label: "Tag" },
     { id: "textarea", label: "Text Area" },
     { id: "textfield", label: "Text Field" },
     { id: "toast", label: "Toast" },
@@ -6378,6 +6408,7 @@ function App() {
 
             {/* Pill */}
             <PillDemo />
+            <TagDemo />
             <UserItemTrailingDemo />
             <TrendPillDemo />
             <AnimatedNumberDemo />
