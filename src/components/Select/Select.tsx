@@ -270,7 +270,7 @@ export const SelectContent = React.forwardRef<
         )}
         {...props}
       >
-        <SelectPrimitive.Viewport className="flex max-h-[var(--radix-select-content-available-height)] flex-col gap-[3px] overflow-y-auto p-2">
+        <SelectPrimitive.Viewport className="flex max-h-[var(--radix-select-content-available-height)] flex-col gap-0.5 overflow-y-auto p-2">
           {/* A select opened from inside a menu row must not inherit that row's icon defaults. */}
           <IconDefaultsContext.Provider value={NO_ICON_DEFAULTS}>
             {children}
@@ -449,11 +449,7 @@ export const SelectGroup = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Group>,
   SelectGroupProps
 >(({ className, ...props }, ref) => (
-  <SelectPrimitive.Group
-    ref={ref}
-    className={cn("flex flex-col gap-[3px]", className)}
-    {...props}
-  />
+  <SelectPrimitive.Group ref={ref} className={cn("flex flex-col gap-0.5", className)} {...props} />
 ));
 SelectGroup.displayName = "SelectGroup";
 
