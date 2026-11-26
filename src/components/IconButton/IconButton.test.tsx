@@ -73,7 +73,7 @@ describe("IconButton", () => {
       render(<IconButton icon={<HomeIcon />} variant="field" size="40" aria-label="Download" />);
       expect(screen.getByTestId("icon-button")).toHaveClass(
         "focus-visible:shadow-focus-ring",
-        "theme-v2:focus-visible:border-border-selected",
+        "theme-v2:focus-visible:not-disabled:border-border-selected",
         "theme-v2:focus-visible:shadow-none",
       );
     });

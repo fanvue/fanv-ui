@@ -2,6 +2,10 @@ import * as Popover from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "@/utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
+import {
+  INPUT_FIELD_DISABLED_CLASSES,
+  INPUT_FIELD_V2_FOCUS_CLASSES,
+} from "@/utils/inputFieldClasses";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
@@ -85,6 +89,12 @@ interface AutocompleteBaseProps {
   loading?: boolean;
   loadingText?: string;
   emptyText?: string;
+  /**
+   * Custom content for each option row. Under the v2 palette a selected row is
+   * inverted: the content and icon tokens inside it switch to their inverted values,
+   * so text and icons follow. Anything that brings its own surface, such as a `Chip`
+   * or `Badge`, keeps its fill and should not rely on the row's text colour.
+   */
   renderOption?: (
     option: AutocompleteOption,
     state: { selected: boolean; active: boolean },
@@ -240,13 +250,13 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
                 : cn(
                     "border-transparent",
                     !disabled && "theme-v2:border-border-input",
-                    "theme-v2:has-focus-visible:border-border-selected theme-v2:has-focus-visible:after:shadow-none",
+                    INPUT_FIELD_V2_FOCUS_CLASSES,
                   ),
               !disabled && !error && "hover:border-border-input-hover",
               ac.isOpen && !error && !disabled && "border-border-input-hover",
               CONTAINER_HEIGHT[size],
               PADDING_CLASSES[size],
-              disabled && "theme-v2:bg-inputs-inputs-disabled opacity-50 theme-v2:opacity-100",
+              disabled && INPUT_FIELD_DISABLED_CLASSES,
             )}
             onClick={ac.handleContainerClick}
           >

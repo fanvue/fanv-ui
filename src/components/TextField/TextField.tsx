@@ -1,6 +1,10 @@
 import * as React from "react";
 import { CheckOutlineIcon } from "@/index";
 import { cn } from "../../utils/cn";
+import {
+  INPUT_FIELD_DISABLED_CLASSES,
+  INPUT_FIELD_V2_FOCUS_CLASSES,
+} from "../../utils/inputFieldClasses";
 
 /** Text field height in pixels. */
 export type TextFieldSize = "48" | "40" | "32";
@@ -85,16 +89,10 @@ function getContainerClassName(
     "relative flex items-center overflow-hidden rounded-sm border bg-inputs-inputs-primary after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
     hasAction ? CONTAINER_PADDING_X_WITH_ACTION[size] : CONTAINER_PADDING_X[size],
     CONTAINER_GAP[size],
-    error
-      ? "border-error-content"
-      : cn(
-          "border-border-input",
-          "theme-v2:has-focus-visible:border-border-selected theme-v2:has-focus-visible:after:shadow-none",
-        ),
+    error ? "border-error-content" : cn("border-border-input", INPUT_FIELD_V2_FOCUS_CLASSES),
     !disabled && !error && "hover:border-border-input-hover",
     CONTAINER_HEIGHT[size],
-    disabled &&
-      "theme-v2:border-transparent theme-v2:bg-inputs-inputs-disabled opacity-50 theme-v2:opacity-100",
+    disabled && INPUT_FIELD_DISABLED_CLASSES,
   );
 }
 
