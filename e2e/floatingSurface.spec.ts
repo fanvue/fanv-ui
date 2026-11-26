@@ -37,4 +37,17 @@ test.describe("floating panels", () => {
     expect(menuSurface).toEqual(popoverSurface);
     expect(listSurface).toEqual(popoverSurface);
   });
+
+  test("a toolbar trigger keeps its hover colour while its popover is open", async ({ page }) => {
+    await page.goto(getStoryUrl("Popover", "WithToolbarAction"));
+    const trigger = page.getByRole("button", { name: "Filters" });
+    const colour = () => trigger.evaluate((element) => getComputedStyle(element).color);
+    const closed = await colour();
+
+    await trigger.focus();
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("dialog")).toBeVisible();
+
+    expect(await colour()).not.toBe(closed);
+  });
 });
