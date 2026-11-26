@@ -69,6 +69,7 @@ export type {
   AvatarImageProps,
   AvatarProps,
   AvatarRootProps,
+  AvatarShape,
   AvatarSize,
 } from "./components/Avatar/Avatar";
 export {

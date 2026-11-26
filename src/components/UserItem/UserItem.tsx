@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { getInitials } from "../../utils/getInitials";
-import { Avatar } from "../Avatar/Avatar";
+import { Avatar, type AvatarShape } from "../Avatar/Avatar";
 import { BellOffIcon } from "../Icons/BellOffIcon";
 import { UserDisplayName } from "../UserDisplayName/UserDisplayName";
 import { UserHandle } from "../UserHandle/UserHandle";
@@ -36,6 +36,12 @@ export interface UserItemProps extends React.HTMLAttributes<HTMLDivElement> {
   padding?: UserItemPadding;
   /** Desired avatar size in px; snapped to the nearest supported token. @default 48 */
   avatarSize?: number;
+  /**
+   * Outline of the avatar, passed to {@link Avatar}'s `shape`. Use `square` when the
+   * row sits in a list beside square app or media tiles. The platinum ring follows
+   * the shape and the online dot moves to the top-right corner. @default "circle"
+   */
+  avatarShape?: AvatarShape;
   /** Show the muted indicator in the bottom-left corner. @default false */
   isMuted?: boolean;
   /** Whether the user is online (only shown when `showOnlineStatus` is also set). @default false */
@@ -106,6 +112,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
       user,
       padding = "md",
       avatarSize,
+      avatarShape = "circle",
       isOnline = false,
       isMuted = false,
       showOnlineStatus,
@@ -141,6 +148,7 @@ export const UserItem = React.forwardRef<HTMLDivElement, UserItemProps>(
         {showAvatar && (
           <Avatar
             size={getNearestAvatarSize(avatarSize || 48)}
+            shape={avatarShape}
             src={user.avatarUri?.url}
             alt={user.displayName}
             fallback={getInitials(user.displayName)}
