@@ -142,6 +142,14 @@ export interface DropdownMenuItemProps
 const SELECTED_V2_CLASSES =
   "theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-menu-item-selected-hover";
 
+/**
+ * Secondary lines (description, count) on a selected row under the v2 palette: inverted,
+ * and `Menu Item Selected Hover Secondary` while the row is highlighted, so they keep
+ * contrast on the hover fill.
+ */
+const SELECTED_SECONDARY_V2_CLASSES =
+  "theme-v2:group-data-[selected]:text-content-secondary-inverted theme-v2:group-data-[selected]:group-data-[highlighted]:text-menu-item-selected-hover-secondary";
+
 /** A disabled selected row takes the library's Disabled state under the v2 palette, which has no fill. */
 const SELECTED_DISABLED_V2_CLASSES = "theme-v2:bg-transparent";
 
@@ -250,7 +258,7 @@ export const DropdownMenuItem = React.forwardRef<
           ITEM_COUNT_TYPOGRAPHY[normalizedSize],
           destructive ? "text-error-content" : "text-content-tertiary",
           "group-data-[disabled]:text-content-disabled",
-          !disabled && "theme-v2:group-data-[selected]:text-content-secondary-inverted",
+          !disabled && SELECTED_SECONDARY_V2_CLASSES,
         )}
       >
         {count}
@@ -308,9 +316,7 @@ export const DropdownMenuItem = React.forwardRef<
             <span
               className={cn(
                 "typography-body-small-14px-regular truncate text-content-secondary",
-                disabled
-                  ? "theme-v2:text-content-disabled"
-                  : "theme-v2:group-data-[selected]:text-content-secondary-inverted",
+                disabled ? "theme-v2:text-content-disabled" : SELECTED_SECONDARY_V2_CLASSES,
               )}
             >
               {description}

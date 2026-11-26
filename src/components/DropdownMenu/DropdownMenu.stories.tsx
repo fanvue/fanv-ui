@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
@@ -933,6 +934,36 @@ export const SelectedRowsV2Palette: Story = {
       );
     };
     return <Demo />;
+  },
+};
+
+/**
+ * In v2 dark, a highlighted selected row's secondary lines (helper, description) move to
+ * `Menu Item Selected Hover Secondary`, so they keep contrast on the lighter hover fill.
+ */
+export const SelectedRowsSecondaryV2Dark: Story = {
+  name: "Selected rows secondary text (v2 dark)",
+  globals: { palette: "v2", theme: "dark" },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
+  render: SelectedRowsV2Palette.render,
+  play: async (context) => {
+    await openMenu(context);
+    const menu = within(document.body);
+    const resting = resolveColor("--color-content-secondary-inverted");
+    const highlighted = resolveColor("--color-menu-item-selected-hover-secondary");
+    await expect(highlighted).not.toBe(resting);
+    const rows = [
+      { row: menu.getByRole("menuitem", { name: /Jane Doe/ }), text: "Product designer" },
+      { row: menu.getByRole("menuitemradio", { name: /Newest/ }), text: "Most recent first" },
+      { row: menu.getByRole("menuitemcheckbox", { name: /Photos/ }), text: "Images and albums" },
+    ];
+    for (const { row, text } of rows) {
+      const line = within(row).getByText(text);
+      await expect(getComputedStyle(line).color).toBe(resting);
+      await userEvent.hover(row);
+      await waitFor(() => expect(row).toHaveAttribute("data-highlighted"));
+      await expect(getComputedStyle(line).color).toBe(highlighted);
+    }
   },
 };
 

@@ -44,12 +44,16 @@ const checkedV2Row = (disabled: boolean | undefined) =>
     ? "theme-v2:data-[state=checked]:bg-transparent"
     : "theme-v2:data-[state=checked]:bg-menu-item-selected theme-v2:data-[state=checked]:text-content-primary-inverted theme-v2:data-[state=checked]:data-[highlighted]:bg-menu-item-selected-hover";
 
-/** A helper line, inverted on a checked row under the v2 palette unless the row is disabled. */
+/**
+ * A helper line, inverted on a checked row under the v2 palette unless the row is disabled,
+ * and `Menu Item Selected Hover Secondary` while that row is highlighted.
+ */
 const helperClassName = (disabled: boolean | undefined) =>
   cn(
     "typography-description-12px-regular text-content-secondary",
     "group-data-[disabled]:text-content-disabled",
-    !disabled && "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
+    !disabled &&
+      "theme-v2:group-data-[state=checked]:text-content-secondary-inverted theme-v2:group-data-[state=checked]:group-data-[highlighted]:text-menu-item-selected-hover-secondary",
   );
 
 /** Height preset for a {@link DropdownMenuRadioItem}. */

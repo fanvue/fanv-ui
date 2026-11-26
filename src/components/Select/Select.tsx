@@ -327,6 +327,13 @@ function isRenderableNode(node: React.ReactNode): boolean {
 const CHECKED_V2_CLASSES =
   "theme-v2:data-[state=checked]:text-content-primary-inverted theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected-hover theme-v2:data-[state=checked]:focus:bg-menu-item-selected-hover";
 
+/**
+ * A selected option's description under the v2 palette: inverted, and
+ * `Menu Item Selected Hover Secondary` while the option is highlighted or focused.
+ */
+const CHECKED_DESCRIPTION_V2_CLASSES =
+  "theme-v2:group-data-[state=checked]:text-content-secondary-inverted theme-v2:group-data-[state=checked]:group-data-highlighted:text-menu-item-selected-hover-secondary theme-v2:group-data-[state=checked]:group-focus:text-menu-item-selected-hover-secondary";
+
 /** A disabled selected option takes the library's Disabled state under the v2 palette, which has no fill. */
 const CHECKED_DISABLED_V2_CLASSES = "theme-v2:data-[state=checked]:bg-transparent";
 
@@ -396,7 +403,7 @@ export const SelectItem = React.forwardRef<
           <span
             className={cn(
               "truncate text-content-secondary group-data-[disabled]:text-content-disabled",
-              !disabled && "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
+              !disabled && CHECKED_DESCRIPTION_V2_CLASSES,
               ITEM_DESCRIPTION_TYPOGRAPHY[itemSize],
             )}
           >

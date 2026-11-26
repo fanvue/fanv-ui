@@ -132,6 +132,13 @@ const ROLE_COLOR_TOKENS = {
     v2: "--color-buttons-primary-hover",
     v2Dark: "--primitives-color-gray-400",
   },
+  // Helper, description and count lines on a highlighted selected row. Dark takes gray-700:
+  // the inverted secondary there (#646464) is only 3.08:1 on the gray-400 hover fill.
+  "--color-menu-item-selected-hover-secondary": {
+    current: "--color-content-secondary",
+    v2: "--color-content-secondary-inverted",
+    v2Dark: "--primitives-color-gray-700",
+  },
 };
 
 const getColorSections = (rawTokens) => {
