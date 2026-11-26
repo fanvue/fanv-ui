@@ -67,6 +67,26 @@ test.describe("Link", () => {
       expect(await arrow.evaluate(translate)).toBe("none");
     });
 
+    test("underlines and nudges its arrow on hover when composed with asChild", async ({
+      page,
+      isMobile,
+    }) => {
+      test.skip(isMobile, "Hover styles only apply on devices with a hovering pointer");
+      await page.goto(getStoryUrl("Link", "SubtleAsChild"));
+
+      const link = page.getByRole("link", { name: "Open all campaigns" });
+      const label = link.getByText("Open all campaigns");
+      const arrow = link.locator("span[aria-hidden='true']");
+      expect((await link.boundingBox())?.height).toBe(32);
+      expect(await label.evaluate(textDecoration)).not.toContain("underline");
+      expect(await arrow.evaluate(translate)).toBe("none");
+
+      await hoverAndPaint(page, link);
+
+      await expect.poll(() => label.evaluate(textDecoration)).toContain("underline");
+      await expect.poll(() => arrow.evaluate(translate)).toBe("2px");
+    });
+
     test("underlines on hover at an inherited size, with no icon", async ({ page, isMobile }) => {
       test.skip(isMobile, "Hover styles only apply on devices with a hovering pointer");
       await page.goto(getStoryUrl("Link", "SubtleInheritSize"));

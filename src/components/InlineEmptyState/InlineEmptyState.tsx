@@ -3,7 +3,10 @@ import { cn } from "../../utils/cn";
 
 export interface InlineEmptyStateProps
   extends Omit<React.HTMLAttributes<HTMLParagraphElement>, "dangerouslySetInnerHTML"> {
-  /** The message. Keep it to one short sentence. */
+  /**
+   * The message: text or inline elements such as a link, since it renders inside a `<p>`. Keep it
+   * to one short sentence.
+   */
   children?: React.ReactNode;
 }
 
