@@ -89,7 +89,7 @@ function getContainerClassName(
     "relative flex items-center overflow-hidden rounded-sm border bg-inputs-inputs-primary after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
     hasAction ? CONTAINER_PADDING_X_WITH_ACTION[size] : CONTAINER_PADDING_X[size],
     CONTAINER_GAP[size],
-    error ? "border-error-content" : cn("border-border-input", INPUT_FIELD_V2_FOCUS_CLASSES),
+    error ? "border-error-content" : ["border-border-input", INPUT_FIELD_V2_FOCUS_CLASSES],
     !disabled && !error && "hover:border-border-input-hover",
     CONTAINER_HEIGHT[size],
     disabled && INPUT_FIELD_DISABLED_CLASSES,
