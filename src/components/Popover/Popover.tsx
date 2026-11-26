@@ -2,6 +2,10 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
+import {
+  FLOATING_CONTENT_SURFACE_CLASS,
+  FLOATING_CONTENT_Z_INDEX,
+} from "../../utils/floatingContentSurface";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 
 /** Props for {@link Popover}. */
@@ -115,12 +119,12 @@ export const PopoverContent = React.forwardRef<
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
         className={cn(
-          "w-max max-w-(--radix-popover-content-available-width) overflow-y-auto rounded-md border border-border-strong bg-modal-background p-2 text-content-primary shadow-blur-menu outline-hidden backdrop-blur-xs focus-visible:shadow-focus-ring",
-          "theme-v2:border-modal-stroke",
+          FLOATING_CONTENT_SURFACE_CLASS,
+          "w-max max-w-(--radix-popover-content-available-width) overflow-y-auto p-2 outline-hidden focus-visible:shadow-focus-ring",
           className,
         )}
         style={{
-          zIndex: "var(--fanvue-ui-portal-z-index, 50)",
+          zIndex: FLOATING_CONTENT_Z_INDEX,
           maxHeight: "var(--radix-popover-content-available-height)",
           ...style,
         }}
