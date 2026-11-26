@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Fragment } from "react";
 import { E2E_FIXTURE_PARAMETERS } from "../../storybook";
+import { cn } from "../../utils/cn";
 import { FlashIcon } from "../Icons/FlashIcon";
 import { Tag, type TagSize, type TagVariant } from "./Tag";
 
@@ -123,7 +124,11 @@ export const Types: Story = {
           </Tag>
           <Tag
             size={size}
-            leadingIcon={<FlashIcon className="size-3 text-success-content" />}
+            leadingIcon={
+              <FlashIcon
+                className={cn("text-success-content", size === "16" ? "size-3" : "size-3.5")}
+              />
+            }
             onRemove={() => {}}
             removeLabel="Remove VIPs"
             removeVisibility="hover"

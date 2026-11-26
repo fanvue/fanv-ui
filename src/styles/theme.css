@@ -2140,3 +2140,25 @@
   letter-spacing: 0.12px;
   line-height: 16px;
 }
+
+@utility typography-tag-16px {
+  font-size: 10px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 18px;
+}
+
+@utility typography-tag-20px {
+  font-size: 12px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 18px;
+}

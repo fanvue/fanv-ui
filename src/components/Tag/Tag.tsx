@@ -17,8 +17,9 @@ interface TagBaseProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "chil
   /** Height in pixels: 16 for dense rows, 20 for panels, pickers and filter tags. @default "20" */
   size?: TagSize;
   /**
-   * Emoji or icon displayed before the label. Decorative, so it is hidden from assistive technology.
-   * Size an icon at 12px yourself, for example `className="size-3"`.
+   * Emoji (a string) or icon (an element) displayed before the label. Decorative, so it is hidden
+   * from assistive technology. Size an icon yourself: 14px on a 20px tag (`className="size-3.5"`)
+   * and 12px on a 16px tag (`className="size-3"`).
    */
   leadingIcon?: React.ReactNode;
   /** The visible label. */
@@ -98,14 +99,15 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
     },
     ref,
   ) => {
+    const isEmoji = typeof leadingIcon === "string";
     return (
       <span
         ref={ref}
         data-testid="tag"
         className={cn(
-          "group/tag relative isolate inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs px-1 font-medium",
-          size === "16" && "h-4 text-[10px] leading-4.5",
-          size === "20" && "h-5 text-xs leading-4.5",
+          "group/tag relative isolate inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs",
+          size === "16" && "typography-tag-16px h-4 px-1",
+          size === "20" && "typography-tag-20px h-5 px-1.5",
           variantClass[variant],
           onRemove &&
             "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-tag-hover-overlay before:opacity-0 hover:before:opacity-100",
@@ -113,24 +115,42 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
         )}
         {...props}
       >
-        {leadingIcon && (
+        {leadingIcon && !isEmoji && (
           <span className="flex shrink-0 items-center" aria-hidden="true">
             {leadingIcon}
           </span>
         )}
-        <span className="min-w-0 truncate">{children}</span>
+        <span className="flex min-w-0 items-center gap-1 px-0.5">
+          {isEmoji && (
+            <span
+              className="typography-description-12px-regular flex w-3 shrink-0 justify-center"
+              aria-hidden="true"
+            >
+              {leadingIcon}
+            </span>
+          )}
+          <span className="min-w-0 truncate">{children}</span>
+        </span>
         {onRemove && (
           <button
             type="button"
             aria-label={removeLabel}
             onClick={onRemove}
             className={cn(
-              "relative flex size-3 shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute after:-inset-1.5 focus-visible:opacity-100 focus-visible:shadow-focus-ring focus-visible:outline-hidden",
+              "relative flex shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute focus-visible:opacity-100 focus-visible:shadow-focus-ring focus-visible:outline-hidden",
+              size === "16" && "size-3 after:-inset-1.5",
+              size === "20" && "size-3.5 after:-inset-1.25",
               removeVisibility === "hover" &&
-                "group-focus-within/tag:pointer-events-auto group-focus-within/tag:ml-0 group-focus-within/tag:w-3 group-focus-within/tag:opacity-100 group-hover/tag:pointer-events-auto group-hover/tag:ml-0 group-hover/tag:w-3 group-hover/tag:opacity-100 [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:-ml-0.5 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0",
+                "group-focus-within/tag:pointer-events-auto group-focus-within/tag:ml-0 group-focus-within/tag:opacity-100 group-hover/tag:pointer-events-auto group-hover/tag:ml-0 group-hover/tag:opacity-100 [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:-ml-0.5 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0",
+              removeVisibility === "hover" &&
+                size === "16" &&
+                "group-focus-within/tag:w-3 group-hover/tag:w-3",
+              removeVisibility === "hover" &&
+                size === "20" &&
+                "group-focus-within/tag:w-3.5 group-hover/tag:w-3.5",
             )}
           >
-            <CrossIcon className="size-3" />
+            <CrossIcon className={size === "16" ? "size-3" : "size-3.5"} />
           </button>
         )}
       </span>
