@@ -2,6 +2,10 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import * as React from "react";
 import { cn } from "@/utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
+import {
+  FLOATING_CONTENT_SURFACE_CLASS,
+  FLOATING_CONTENT_Z_INDEX,
+} from "@/utils/floatingContentSurface";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
@@ -254,10 +258,10 @@ export const SelectContent = React.forwardRef<
         position={position}
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
-        style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
+        style={{ zIndex: FLOATING_CONTENT_Z_INDEX, ...style }}
         className={cn(
-          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-md border border-border-strong bg-modal-background text-content-primary shadow-blur-menu backdrop-blur-xs",
-          "theme-v2:border-modal-stroke",
+          FLOATING_CONTENT_SURFACE_CLASS,
+          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden",
           "data-[state=closed]:animate-out data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
