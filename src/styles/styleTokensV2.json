@@ -4219,7 +4219,7 @@
           },
           "hoverOverlay": {
             "type": "color",
-            "value": "{semantic.dark.color.neutralAlphas.100}"
+            "value": "{primitives.dark.color.blackalpha.200}"
           },
           "selectedOverlay": {
             "type": "color",

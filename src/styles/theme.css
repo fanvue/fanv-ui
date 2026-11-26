@@ -880,7 +880,7 @@
   --color-tag-pink-content: var(--primitives-color-pink-300);
   --color-tag-purple-surface: var(--primitives-color-purple-950);
   --color-tag-purple-content: var(--primitives-color-purple-300);
-  --color-tag-hover-overlay: var(--color-neutral-alphas-100);
+  --color-tag-hover-overlay: var(--primitives-color-blackalpha-200);
   --color-neutral-alphas-50: var(--primitives-color-whitealpha-100);
   --color-neutral-alphas-75: var(--primitives-color-whitealpha-75);
   --color-neutral-alphas-100: var(--primitives-color-whitealpha-100);
@@ -1945,7 +1945,7 @@
   --color-tag-pink-content: var(--primitives-color-pink-300);
   --color-tag-purple-surface: var(--primitives-color-purple-950);
   --color-tag-purple-content: var(--primitives-color-purple-300);
-  --color-tag-hover-overlay: var(--color-neutral-alphas-100);
+  --color-tag-hover-overlay: var(--primitives-color-blackalpha-200);
   --color-navigation-background: var(--primitives-color-gray-black);
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
