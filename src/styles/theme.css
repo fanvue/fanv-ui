@@ -333,6 +333,8 @@
   --color-navigation-item-selected: var(--color-buttons-navigation-selected);
   --color-content-always-secondary: var(--primitives-color-gray-300);
   --color-menu-item-selected: var(--color-buttons-navigation-hover);
+  --color-menu-item-selected-hover: var(--color-interaction-hover);
+  --color-menu-item-selected-hover-secondary: var(--color-content-secondary);
 }
 
 :root {
@@ -819,6 +821,8 @@
   --color-navigation-item-selected: var(--color-buttons-navigation-selected);
   --color-content-always-secondary: var(--primitives-color-gray-300);
   --color-menu-item-selected: var(--color-buttons-navigation-hover);
+  --color-menu-item-selected-hover: var(--color-interaction-hover);
+  --color-menu-item-selected-hover-secondary: var(--color-content-secondary);
 
   /* Focus-ring colour, consumed by --shadow-focus-ring. Violet on light
      backgrounds; overridden to white in .dark so the ring stays visible. */
@@ -1130,6 +1134,8 @@
   --color-navigation-item-selected: var(--color-buttons-navigation-selected);
   --color-content-always-secondary: var(--primitives-color-gray-300);
   --color-menu-item-selected: var(--color-buttons-navigation-hover);
+  --color-menu-item-selected-hover: var(--color-interaction-hover);
+  --color-menu-item-selected-hover-secondary: var(--color-content-secondary);
   --fv-focus-ring-color: var(--color-content-always-white);
 
   --typography-body-default-16px-regular-font-weight: 450;
@@ -1568,7 +1574,9 @@
   --color-navigation-background: var(--primitives-color-gray-black);
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
-  --color-menu-item-selected: var(--color-interaction-pressed);
+  --color-menu-item-selected: var(--color-surface-primary-inverted);
+  --color-menu-item-selected-hover: var(--color-buttons-primary-hover);
+  --color-menu-item-selected-hover-secondary: var(--color-content-secondary-inverted);
 }
 
 .theme-v2.dark,
@@ -1865,7 +1873,9 @@
   --color-navigation-background: var(--primitives-color-gray-black);
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
-  --color-menu-item-selected: var(--color-interaction-pressed);
+  --color-menu-item-selected: var(--color-surface-primary-inverted);
+  --color-menu-item-selected-hover: var(--primitives-color-gray-400);
+  --color-menu-item-selected-hover-secondary: var(--primitives-color-gray-700);
   --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);
@@ -2171,7 +2181,9 @@
   --color-navigation-background: var(--primitives-color-gray-black);
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
-  --color-menu-item-selected: var(--color-interaction-pressed);
+  --color-menu-item-selected: var(--color-surface-primary-inverted);
+  --color-menu-item-selected-hover: var(--color-buttons-primary-hover);
+  --color-menu-item-selected-hover-secondary: var(--color-content-secondary-inverted);
   --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);

@@ -286,9 +286,29 @@ describe("buildThemeCss", () => {
       expect(themeBlocks).toContain(
         "--color-menu-item-selected: var(--color-buttons-navigation-hover);",
       );
-      expect(v2Light.get("--color-menu-item-selected")).toBe("var(--color-interaction-pressed)");
-      expect(v2Dark.get("--color-menu-item-selected")).toBe("var(--color-interaction-pressed)");
-      expect(Object.keys(ROLE_COLOR_TOKENS)).toEqual(["--color-menu-item-selected"]);
+      expect(v2Light.get("--color-menu-item-selected")).toBe(
+        "var(--color-surface-primary-inverted)",
+      );
+      expect(v2Dark.get("--color-menu-item-selected")).toBe(
+        "var(--color-surface-primary-inverted)",
+      );
+      expect(v2Light.get("--color-menu-item-selected-hover")).toBe(
+        "var(--color-buttons-primary-hover)",
+      );
+      expect(v2Dark.get("--color-menu-item-selected-hover")).toBe(
+        "var(--primitives-color-gray-400)",
+      );
+      expect(v2Light.get("--color-menu-item-selected-hover-secondary")).toBe(
+        "var(--color-content-secondary-inverted)",
+      );
+      expect(v2Dark.get("--color-menu-item-selected-hover-secondary")).toBe(
+        "var(--primitives-color-gray-700)",
+      );
+      expect(Object.keys(ROLE_COLOR_TOKENS)).toEqual([
+        "--color-menu-item-selected",
+        "--color-menu-item-selected-hover",
+        "--color-menu-item-selected-hover-secondary",
+      ]);
     });
 
     it("applies the v2 dark palette to dark mode and to theme-v2-dark scopes only", () => {

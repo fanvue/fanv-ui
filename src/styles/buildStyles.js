@@ -118,11 +118,26 @@ const primitiveVarLines = (colorTokens) =>
  * borrow a token that means something else. Each has a current-palette value and a v2 value.
  */
 const ROLE_COLOR_TOKENS = {
-  // Selected menu and Select rows. Under v2 the navigation tokens turn black, so the rows
-  // take the pressed fill, which keeps the row text readable in both modes.
+  // Selected menu and Select rows. Under v2 the selected row inverts, as in the library's
+  // V2 Menu items, and the components put inverted content on it.
   "--color-menu-item-selected": {
     current: "--color-buttons-navigation-hover",
-    v2: "--color-interaction-pressed",
+    v2: "--color-surface-primary-inverted",
+  },
+  // A selected row that is highlighted or focused. Under v2 it is a visible step off the
+  // inverted fill, so keyboard focus on a selected row stays visible. Dark mode takes
+  // gray-400: Buttons/Primary/Hover there (#e3e3e3) is only 1.28:1 from the white fill.
+  "--color-menu-item-selected-hover": {
+    current: "--color-interaction-hover",
+    v2: "--color-buttons-primary-hover",
+    v2Dark: "--primitives-color-gray-400",
+  },
+  // Helper, description and count lines on a highlighted selected row. Dark takes gray-700:
+  // the inverted secondary there (#646464) is only 3.08:1 on the gray-400 hover fill.
+  "--color-menu-item-selected-hover-secondary": {
+    current: "--color-content-secondary",
+    v2: "--color-content-secondary-inverted",
+    v2Dark: "--primitives-color-gray-700",
   },
 };
 
@@ -231,9 +246,9 @@ const getThemeV2Sections = (rawTokens, v2Tokens) => {
     darkVars += `  ${cssVar}: ${resolveValue(darkRaw)};\n`;
   }
 
-  for (const [token, { v2 }] of Object.entries(ROLE_COLOR_TOKENS)) {
+  for (const [token, { v2, v2Dark }] of Object.entries(ROLE_COLOR_TOKENS)) {
     lightVars += `  ${token}: var(${v2});\n`;
-    darkVars += `  ${token}: var(${v2});\n`;
+    darkVars += `  ${token}: var(${v2Dark ?? v2});\n`;
   }
 
   return {

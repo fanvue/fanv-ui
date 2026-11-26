@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect, waitFor, within } from "storybook/test";
 import { Avatar } from "../Avatar/Avatar";
 import { HomeIcon } from "../Icons/HomeIcon";
 import { StarIcon } from "../Icons/StarIcon";
@@ -400,5 +401,70 @@ export const Filled: Story = {
         </SelectContent>
       </Select>
     </div>
+  ),
+};
+
+export const V2Palette: Story = {
+  name: "Open with a selected row (v2 palette)",
+  globals: { palette: "v2" },
+  decorators: [
+    (Story) => (
+      <div style={{ width: "375px", height: "320px" }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    label: "Assignee",
+    placeholder: "Select a person",
+    defaultValue: "jane",
+    defaultOpen: true,
+  },
+  play: async () => {
+    const probe = document.createElement("span");
+    probe.style.backgroundColor = "var(--color-menu-item-selected-hover)";
+    probe.style.color = "var(--color-content-primary-inverted)";
+    document.body.appendChild(probe);
+    const { backgroundColor: fill, color: text } = getComputedStyle(probe);
+    probe.remove();
+    const selected = within(document.body).getByRole("option", { name: /Jane Doe/ });
+    await waitFor(() => expect(selected).toHaveAttribute("data-highlighted"));
+    await expect(selected).toHaveFocus();
+    await expect(getComputedStyle(selected).backgroundColor).toBe(fill);
+    await expect(getComputedStyle(selected).color).toBe(text);
+  },
+  render: (args) => (
+    <Select {...args}>
+      <SelectContent>
+        <SelectItem
+          value="jane"
+          avatar={<Avatar size={24} fallback="JD" />}
+          description="Product designer"
+        >
+          Jane Doe
+        </SelectItem>
+        <SelectItem value="alex" leadingIcon={<StarIcon />}>
+          Alex Smith
+        </SelectItem>
+        <SelectItem value="sam" avatar={<Avatar size={24} fallback="SB" />} description="Marketing">
+          Sam Brown
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  ),
+};
+
+export const TriggerV2Palette: Story = {
+  name: "Trigger (v2 palette)",
+  globals: { palette: "v2" },
+  args: {
+    label: "Country",
+    placeholder: "Select a country",
+    helperText: "Helper Text",
+  },
+  render: (args) => (
+    <Select {...args}>
+      <DefaultContent />
+    </Select>
   ),
 };
