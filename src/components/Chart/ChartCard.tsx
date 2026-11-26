@@ -54,7 +54,8 @@ const TREND_CLASSES: Record<"positive" | "negative", string> = {
 };
 
 const SURFACE_CLASSES: Partial<Record<CardHierarchy, string>> = {
-  primary: "rounded-sm border-border-strong bg-background-primary",
+  // Under theme-v2 the page colour is a step darker than cards, so the card takes the card surface.
+  primary: "rounded-sm border-border-strong bg-background-primary theme-v2:bg-surface-primary",
 };
 
 /**

@@ -418,7 +418,7 @@ const assertNoDanglingVars = (css) => {
 const buildThemeCss = (rawTokens, v2Tokens) => {
   const { themeVars, lightVars, darkVars, primitivesVars } = getColorSections(rawTokens);
   const v2 = getThemeV2Sections(rawTokens, v2Tokens);
-  // A forced-dark scope sits below the root, so aliases must resolve again inside it.
+  // A forced-dark or forced-light scope sits below the root, so aliases must resolve again inside it.
   const legacyAliasLines = Object.entries(LEGACY_COLOR_ALIASES)
     .map(([legacy, current]) => `  ${legacy}: var(${current});\n`)
     .join("");
@@ -488,7 +488,8 @@ const buildThemeCss = (rawTokens, v2Tokens) => {
     `}`,
     ``,
     `/* v2 palette: opt in with the theme-v2 class on the root element. theme-v2-dark forces`,
-    `   a surface (such as the navigation) dark under theme-v2 only, in either mode. */`,
+    `   a surface (such as the navigation) dark under theme-v2 only, in either mode, and`,
+    `   theme-v2-light forces a surface (such as a payment panel) light. */`,
     `.theme-v2 {`,
     v2.primitivesVars.trimEnd(),
     ``,
@@ -505,6 +506,15 @@ const buildThemeCss = (rawTokens, v2Tokens) => {
     `  --fv-focus-ring-color: var(--color-content-always-white);`,
     ``,
     typographyWeightVars.darkVars.trimEnd(),
+    `}`,
+    ``,
+    `.theme-v2 .theme-v2-light {`,
+    `  color-scheme: light;`,
+    v2.lightVars.trimEnd(),
+    legacyAliasLines.trimEnd(),
+    `  --fv-focus-ring-color: var(--color-interaction-focus);`,
+    ``,
+    typographyWeightVars.lightVars.trimEnd(),
     `}`,
     typographyClasses,
   ].join("\n");
