@@ -265,7 +265,7 @@ export const DropdownMenuContent = React.forwardRef<
           // `pb-2` gives 8px below the last row, matching the popper panel. The rows
           // inset themselves horizontally (see the item's `mx-1`) rather than the
           // panel padding doing it, so the header and its rule can still run full width.
-          className={cn("flex flex-col gap-[3px] p-1 pb-2", className)}
+          className={cn("flex flex-col gap-0.5 p-1 pb-2", className)}
           style={style}
           // Both are destructured above for the popper branch's focus-ring
           // handling, which takes them out of `props` — so the sheet branch has
@@ -311,7 +311,7 @@ export const DropdownMenuContent = React.forwardRef<
             // (library node `17245:2317`) adds 8px of padding here. Rows inside it
             // are 12px `rounded-sm`, the library's `V2 Menu Item` radius.
             FLOATING_CONTENT_SURFACE_CLASS,
-            "flex w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) flex-col gap-[3px] overflow-y-auto p-2",
+            "flex w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) flex-col gap-0.5 overflow-y-auto p-2",
             "data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:animate-out",
             "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
@@ -351,7 +351,7 @@ export const DropdownMenuGroup = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Group
     ref={ref}
-    className={cn("flex flex-col gap-[3px]", className)}
+    className={cn("flex flex-col gap-0.5", className)}
     {...props}
   />
 ));

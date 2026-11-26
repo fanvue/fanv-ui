@@ -175,7 +175,7 @@ describe("DropdownMenu", () => {
       expect(item).not.toHaveClass("px-4");
     });
 
-    it("spaces rows 3px apart inside a group and a radio group", () => {
+    it("spaces rows 2px apart inside a group and a radio group", () => {
       renderMenu(
         <>
           <DropdownMenuGroup data-testid="group">
@@ -190,11 +190,11 @@ describe("DropdownMenu", () => {
       const radioGroup = screen.getByTestId("radio-group");
       expect(group).toContainElement(screen.getByRole("menuitem", { name: "A" }));
       expect(radioGroup).toContainElement(screen.getByRole("menuitemradio", { name: "B" }));
-      expect(group).toHaveClass("flex", "flex-col", "gap-[3px]");
-      expect(radioGroup).toHaveClass("flex", "flex-col", "gap-[3px]");
+      expect(group).toHaveClass("flex", "flex-col", "gap-0.5");
+      expect(radioGroup).toHaveClass("flex", "flex-col", "gap-0.5");
     });
 
-    it("keeps a separator 8px from the rows on either side of the 3px gap", () => {
+    it("keeps a separator 8px from the rows on either side of the 2px gap", () => {
       renderMenu(
         <>
           <DropdownMenuItem>A</DropdownMenuItem>
@@ -202,8 +202,8 @@ describe("DropdownMenu", () => {
           <DropdownMenuItem>B</DropdownMenuItem>
         </>,
       );
-      expect(screen.getByRole("menu")).toHaveClass("gap-[3px]");
-      expect(screen.getByRole("separator")).toHaveClass("my-[5px]");
+      expect(screen.getByRole("menu")).toHaveClass("gap-0.5");
+      expect(screen.getByRole("separator")).toHaveClass("my-1.5");
     });
 
     it("draws the count at 14px at both row heights", () => {
