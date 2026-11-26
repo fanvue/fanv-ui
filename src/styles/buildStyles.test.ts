@@ -280,6 +280,19 @@ describe("buildThemeCss", () => {
       }
     });
 
+    it("takes the tag colours from the v2 export in every theme, as the current export has none", () => {
+      const themeBlocks = (css.match(/@theme \{[^}]*\}/g) ?? []).join("\n");
+      const dark = declared(block(".dark"));
+      expect(rawTokens.semantic.light.color.tag).toBeUndefined();
+      expect(rawTokens.semantic.dark.color.tag).toBeUndefined();
+      expect(themeBlocks).toContain("--color-tag-blue-surface: var(--primitives-color-blue-100);");
+      expect(root.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-100)");
+      expect(dark.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-800)");
+      expect(dark.get("--color-tag-hover-overlay")).toBe("var(--color-neutral-alphas-100)");
+      expect(v2Light.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-100)");
+      expect(v2Dark.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-800)");
+    });
+
     it("gives selected menu rows a readable fill in each palette", () => {
       const themeBlocks = (css.match(/@theme \{[^}]*\}/g) ?? []).join("\n");
       expect(root.get("--color-menu-item-selected")).toBe("var(--color-buttons-navigation-hover)");
