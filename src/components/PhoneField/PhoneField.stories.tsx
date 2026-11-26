@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
+import { NON_VISUAL_STORY_PARAMETERS, V2_PALETTE_STORY_PARAMETERS } from "../../storybook";
 import { PhoneField } from "./PhoneField";
 
 const ItalyFlag = () => (
@@ -179,5 +179,32 @@ export const Controlled: Story = {
         </div>
       </div>
     );
+  },
+};
+
+/**
+ * The input border token and the 1px focus stroke under the v2 palette. Snapshotted
+ * with the v2 palette only; switch the Palette toolbar to compare with Current.
+ */
+export const PaletteV2: Story = {
+  name: "Palette v2",
+  parameters: V2_PALETTE_STORY_PARAMETERS,
+  render: (args) => (
+    <div className="flex flex-col gap-6">
+      <PhoneField {...args} label="Focused" />
+      <PhoneField {...args} label="Default" />
+      <PhoneField {...args} label="With value" defaultValue="3381020300" />
+      <PhoneField
+        {...args}
+        label="Error"
+        error
+        errorMessage="Enter a valid phone number"
+        defaultValue="33810"
+      />
+      <PhoneField {...args} label="Disabled" disabled defaultValue="3381020300" />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    canvas.getByLabelText("Focused").focus();
   },
 };

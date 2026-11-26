@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
+import { NON_VISUAL_STORY_PARAMETERS, V2_PALETTE_STORY_PARAMETERS } from "../../storybook";
 import { TextArea } from "./TextArea";
 
 const meta: Meta<typeof TextArea> = {
@@ -256,4 +256,26 @@ export const AllSizeVariants: Story = {
       <TextArea size="32" label="Size 32" placeholder="Compact size" />
     </div>
   ),
+};
+
+/**
+ * The input border token and the 1px focus stroke under the v2 palette. Snapshotted
+ * with the v2 palette only; switch the Palette toolbar to compare with Current.
+ */
+export const PaletteV2: Story = {
+  name: "Palette v2",
+  parameters: V2_PALETTE_STORY_PARAMETERS,
+  render: () => (
+    <div className="flex w-[375px] flex-col gap-6">
+      <TextArea label="Focused" placeholder="Placeholder" />
+      <TextArea label="Default" placeholder="Placeholder" />
+      <TextArea label="With value" defaultValue="Typed text" />
+      <TextArea label="Error" error errorMessage="Error message" defaultValue="invalid" />
+      <TextArea label="Disabled" placeholder="Placeholder" disabled />
+      <TextArea label="Disabled with value" defaultValue="Typed text" disabled />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    canvas.getByLabelText("Focused").focus();
+  },
 };

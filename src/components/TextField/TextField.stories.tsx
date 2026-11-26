@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
+import { NON_VISUAL_STORY_PARAMETERS, V2_PALETTE_STORY_PARAMETERS } from "../../storybook";
 import { Chip } from "../Chip/Chip";
 import { ErrorCircleIcon } from "../Icons/ErrorCircleIcon";
 import { HomeIcon } from "../Icons/HomeIcon";
@@ -276,4 +276,32 @@ export const AllSizeVariants: Story = {
       <TextField size="32" label="Size 32" placeholder="Compact size" />
     </div>
   ),
+};
+
+/**
+ * The input border token and the 1px focus stroke under the v2 palette. Snapshotted
+ * with the v2 palette only; switch the Palette toolbar to compare with Current.
+ */
+export const PaletteV2: Story = {
+  name: "Palette v2",
+  parameters: V2_PALETTE_STORY_PARAMETERS,
+  render: () => (
+    <div className="flex w-[375px] flex-col gap-6">
+      <TextField label="Focused" placeholder="Placeholder" />
+      <TextField label="Default" placeholder="Placeholder" />
+      <TextField label="With value" defaultValue="Typed text" />
+      <TextField label="Error" error errorMessage="Error message" defaultValue="invalid" />
+      <TextField label="Disabled" placeholder="Placeholder" disabled />
+      <TextField
+        label="Disabled with value"
+        defaultValue="Typed text"
+        leftIcon={<HomeIcon />}
+        rightIcon={<InfoCircleIcon />}
+        disabled
+      />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    canvas.getByLabelText("Focused").focus();
+  },
 };

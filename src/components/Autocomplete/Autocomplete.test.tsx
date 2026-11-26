@@ -101,6 +101,50 @@ describe("Autocomplete", () => {
       );
       expect(fieldContainer).not.toHaveClass("has-focus-visible:shadow-focus-ring");
     });
+
+    it("swaps the focus ring for a 1px selected stroke under theme-v2", () => {
+      const { container } = renderAutocomplete();
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "border-transparent",
+        "theme-v2:border-border-input",
+        "hover:border-border-input-hover",
+        "has-focus-visible:after:shadow-focus-ring",
+        "theme-v2:has-focus-visible:border-border-selected",
+        "theme-v2:has-focus-visible:after:shadow-none",
+      );
+    });
+
+    it("uses the disabled tokens in place of the fade under theme-v2", () => {
+      const { container } = renderAutocomplete({
+        disabled: true,
+        leftIcon: <span data-testid="left" />,
+      });
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "opacity-50",
+        "theme-v2:opacity-100",
+        "theme-v2:bg-inputs-inputs-disabled",
+        "border-transparent",
+      );
+      expect(fieldContainer).not.toHaveClass("theme-v2:border-border-input");
+      expect(screen.getByRole("combobox")).toHaveClass(
+        "theme-v2:disabled:text-content-disabled",
+        "theme-v2:disabled:placeholder:text-content-disabled",
+        "theme-v2:disabled:placeholder:opacity-100",
+      );
+      expect(screen.getByTestId("left").parentElement).toHaveClass("theme-v2:text-icons-disabled");
+    });
+
+    it("keeps the current focus ring on an errored field under theme-v2", () => {
+      const { container } = renderAutocomplete({ error: true });
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "border-error-content",
+        "has-focus-visible:after:shadow-focus-ring",
+      );
+      expect(fieldContainer).not.toHaveClass("theme-v2:has-focus-visible:border-border-selected");
+    });
   });
 
   describe("error state", () => {
@@ -207,6 +251,51 @@ describe("Autocomplete", () => {
       const items = within(listbox).getAllByRole("option");
       expect(items).toHaveLength(1);
       expect(items[0]).toHaveTextContent("Banana");
+    });
+  });
+
+  describe("v2 menu surface", () => {
+    it("puts the panel and the selected row on the menu surface under theme-v2", () => {
+      renderAutocomplete({ defaultOpen: true, defaultValue: "banana" });
+      const listbox = screen.getByRole("listbox");
+      const panel = listbox.closest('[class*="bg-background-primary"]') as HTMLElement;
+      expect(panel).toHaveClass(
+        "border-neutral-alphas-200",
+        "theme-v2:border-modal-stroke",
+        "theme-v2:bg-modal-background",
+      );
+      const selected = within(listbox).getByRole("option", { name: "Banana" });
+      expect(selected).toHaveAttribute("aria-selected", "true");
+      expect(selected).toHaveClass(
+        "theme-v2:bg-menu-item-selected",
+        "theme-v2:text-content-primary-inverted",
+      );
+      expect(selected.querySelector("svg")).toHaveClass("theme-v2:text-icons-primary-inverted");
+    });
+
+    it("moves the selected row to the selected hover fill when it is the active row", async () => {
+      const user = userEvent.setup();
+      renderAutocomplete({ defaultValue: "banana" });
+      const input = screen.getByRole("combobox");
+      await user.click(input);
+      const selected = within(screen.getByRole("listbox")).getByRole("option", { name: "Banana" });
+      expect(selected).not.toHaveClass("theme-v2:bg-menu-item-selected-hover");
+      for (let i = 0; i < 10 && input.getAttribute("aria-activedescendant") !== selected.id; i++) {
+        await user.keyboard("{ArrowDown}");
+      }
+      expect(input).toHaveAttribute("aria-activedescendant", selected.id);
+      expect(selected).toHaveClass("theme-v2:bg-menu-item-selected-hover");
+    });
+
+    it("leaves unselected rows off the inverted surface", () => {
+      renderAutocomplete({ defaultOpen: true, defaultValue: "banana" });
+      const listbox = screen.getByRole("listbox");
+      expect(within(listbox).getByRole("option", { name: "Banana" })).toHaveClass(
+        "theme-v2:bg-menu-item-selected",
+      );
+      expect(within(listbox).getByRole("option", { name: "Apple" })).not.toHaveClass(
+        "theme-v2:bg-menu-item-selected",
+      );
     });
   });
 

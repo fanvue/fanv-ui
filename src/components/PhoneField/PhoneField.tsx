@@ -1,5 +1,9 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import {
+  INPUT_FIELD_DISABLED_CLASSES,
+  INPUT_FIELD_V2_FOCUS_CLASSES,
+} from "../../utils/inputFieldClasses";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 
 /** Phone field height in pixels. */
@@ -58,9 +62,17 @@ function getContainerClassName(size: PhoneFieldSize, error: boolean, disabled?: 
     "relative flex items-center gap-2 overflow-hidden rounded-sm border bg-inputs-inputs-primary after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
     CONTAINER_PADDING_X[size],
     CONTAINER_HEIGHT[size],
-    error ? "border-error-content" : "border-border-primary",
-    !disabled && !error && "hover:border-neutral-alphas-400",
-    disabled && "opacity-50",
+    error ? "border-error-content" : ["border-border-input", INPUT_FIELD_V2_FOCUS_CLASSES],
+    !disabled && !error && "hover:border-border-input-hover",
+    disabled && INPUT_FIELD_DISABLED_CLASSES,
+  );
+}
+
+function getDialCodeClassName(size: PhoneFieldSize, disabled?: boolean) {
+  return cn(
+    "shrink-0 select-none whitespace-nowrap text-content-primary",
+    PREFIX_TYPOGRAPHY[size],
+    disabled && "theme-v2:text-content-disabled",
   );
 }
 
@@ -196,24 +208,21 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
             onClick={onCountrySelect}
             disabled={disabled}
             aria-label={countryButtonLabel}
-            className="flex shrink-0 items-center gap-1 rounded-2xs focus-visible:shadow-focus-ring focus-visible:outline-none disabled:cursor-not-allowed"
+            className="group flex shrink-0 items-center gap-1 rounded-2xs focus-visible:shadow-focus-ring focus-visible:outline-none disabled:cursor-not-allowed"
           >
             {flag != null && (
               <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full">
                 {flag}
               </span>
             )}
-            <ChevronDownIcon size={16} className="shrink-0 text-content-secondary" />
+            <ChevronDownIcon
+              size={16}
+              className="shrink-0 text-content-secondary theme-v2:group-disabled:text-icons-disabled"
+            />
           </button>
 
           {dialCode != null && (
-            <span
-              id={dialCodeId}
-              className={cn(
-                "shrink-0 select-none whitespace-nowrap text-content-primary",
-                PREFIX_TYPOGRAPHY[size],
-              )}
-            >
+            <span id={dialCodeId} className={getDialCodeClassName(size, disabled)}>
               {dialCode}
             </span>
           )}
@@ -227,7 +236,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(
             aria-describedby={describedBy}
             aria-invalid={error || undefined}
             className={cn(
-              "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
+              "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed theme-v2:disabled:text-content-disabled theme-v2:disabled:placeholder:text-content-disabled",
               INPUT_TYPOGRAPHY[size],
             )}
             {...props}
