@@ -443,7 +443,7 @@ export const DropdownMenuSeparator = React.forwardRef<
   const variant = React.useContext(DropdownMenuVariantContext);
   // border-0 resets the currentColor border-top that preflight gives <hr>,
   // which would otherwise draw a second line on the sheet variant.
-  const separatorClassName = cn("my-[5px] h-px border-0 bg-neutral-alphas-200", className);
+  const separatorClassName = cn("my-1.5 h-px border-0 bg-neutral-alphas-200", className);
 
   // DropdownMenuPrimitive.Separator requires Radix menu context, unavailable
   // when the sheet variant renders inside a Drawer (Dialog) instead. <hr> is a
