@@ -122,6 +122,39 @@ describe("IconButton", () => {
       );
     });
 
+    it("gives the tertiaryDestructive variant the tertiary error tokens and tertiary's disabled treatment", () => {
+      render(<IconButton icon={<HomeIcon />} variant="tertiaryDestructive" aria-label="Delete" />);
+      expect(screen.getByTestId("icon-button")).toHaveClass(
+        "bg-buttons-tertiary-error-default",
+        "text-buttons-tertiary-error-content",
+        "not-disabled:hover:bg-buttons-tertiary-error-hover",
+        "disabled:text-content-disabled",
+      );
+      expect(screen.getByTestId("icon-button")).not.toHaveClass("disabled:opacity-50");
+    });
+
+    it("gives the tertiaryDestructive variant the same size-driven radius as tertiary", () => {
+      const { rerender } = render(
+        <IconButton
+          icon={<HomeIcon />}
+          variant="tertiaryDestructive"
+          size="24"
+          aria-label="Delete"
+        />,
+      );
+      expect(screen.getByTestId("icon-button")).toHaveClass("rounded-xs");
+
+      rerender(
+        <IconButton
+          icon={<HomeIcon />}
+          variant="tertiaryDestructive"
+          size="40"
+          aria-label="Delete"
+        />,
+      );
+      expect(screen.getByTestId("icon-button")).toHaveClass("rounded-full");
+    });
+
     it("applies the negative treatment on negative-aware variants", () => {
       render(<IconButton icon={<HomeIcon />} variant="primary" negative aria-label="Home" />);
       expect(screen.getByTestId("icon-button")).toHaveClass("bg-buttons-primary-negative-default");
