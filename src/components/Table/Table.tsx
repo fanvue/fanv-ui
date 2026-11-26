@@ -854,7 +854,10 @@ TablePillProgressLayout.displayName = "TablePillProgressLayout";
 /** Current sort direction of a {@link TableSortLabel}. `null` means unsorted. */
 export type TableSortDirection = "asc" | "desc" | null;
 
-export interface TableSortLabelProps extends React.HTMLAttributes<HTMLSpanElement> {
+/** Props for the static (non-interactive) {@link TableSortLabel}, rendered as a `<span>`. */
+export interface TableSortLabelProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "onClick"> {
+  /** The column header label. */
   children: React.ReactNode;
   /**
    * Visual indicator of the column's sort state. When set to `"asc"` or
@@ -862,6 +865,35 @@ export interface TableSortLabelProps extends React.HTMLAttributes<HTMLSpanElemen
    * appear next to it, the active direction highlighted. @default null
    */
   direction?: TableSortDirection;
+  /** Pass a handler to render a `<button>` instead ({@link TableSortLabelButtonProps}). @default undefined */
+  onClick?: undefined;
+}
+
+/** Props for the interactive {@link TableSortLabel}, rendered as a native `<button type="button">`. */
+export interface TableSortLabelButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "type"> {
+  /** The column header label. */
+  children: React.ReactNode;
+  /**
+   * Visual indicator of the column's sort state. When set to `"asc"` or
+   * `"desc"`, the label turns primary and the Arrow Sort Up / Down chevrons
+   * appear next to it, the active direction highlighted. @default null
+   */
+  direction?: TableSortDirection;
+  /** Called when the label is activated by click, Enter, or Space. Makes the label a button. */
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+type TableSortLabelComponent = {
+  (props: TableSortLabelButtonProps & React.RefAttributes<HTMLButtonElement>): React.ReactElement;
+  (props: TableSortLabelProps & React.RefAttributes<HTMLSpanElement>): React.ReactElement;
+  displayName?: string;
+};
+
+function isTableSortLabelButtonProps(
+  props: TableSortLabelProps | TableSortLabelButtonProps,
+): props is TableSortLabelButtonProps {
+  return props.onClick != null;
 }
 
 function SortArrows({ direction }: { direction: "asc" | "desc" }) {
@@ -892,28 +924,64 @@ function SortArrows({ direction }: { direction: "asc" | "desc" }) {
   );
 }
 
+function sortLabelClasses(direction: TableSortDirection) {
+  return cn("inline-flex items-center gap-1", direction != null && "text-content-primary");
+}
+
 /**
  * Sortable column label. A sorted column reads primary with the Arrow Sort
  * Up / Down chevrons; an unsorted one keeps the header colour.
+ *
+ * Without `onClick` it renders a static `<span>`. With `onClick` it renders a
+ * native `<button type="button">` with identical visuals, so the header is
+ * keyboard operable (Enter / Space) without a wrapper. Set `aria-sort`
+ * (`"ascending"`, `"descending"` or `"none"`) on the parent {@link TableHead}
+ * so assistive tech announces the column's sort state.
+ *
+ * @example
+ * ```tsx
+ * <TableHead aria-sort={direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none"}>
+ *   <TableSortLabel direction={direction} onClick={toggleSort}>
+ *     Title
+ *   </TableSortLabel>
+ * </TableHead>
+ * ```
  */
-export const TableSortLabel = React.forwardRef<HTMLSpanElement, TableSortLabelProps>(
-  ({ className, children, direction = null, ...props }, ref) => {
+export const TableSortLabel = React.forwardRef<
+  HTMLElement,
+  TableSortLabelProps | TableSortLabelButtonProps
+>((props, ref) => {
+  if (isTableSortLabelButtonProps(props)) {
+    const { className, children, direction = null, ...buttonProps } = props;
     return (
-      <span
-        ref={ref}
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
+        type="button"
         className={cn(
-          "inline-flex items-center gap-1",
-          direction != null && "text-content-primary",
+          sortLabelClasses(direction),
+          "cursor-pointer appearance-none rounded-2xs border-0 bg-transparent p-0 text-left [font:inherit]",
+          "focus-visible:shadow-focus-ring focus-visible:outline-none",
           className,
         )}
-        {...props}
+        {...buttonProps}
       >
         {children}
         {direction != null && <SortArrows direction={direction} />}
-      </span>
+      </button>
     );
-  },
-);
+  }
+  const { className, children, direction = null, ...spanProps } = props;
+  return (
+    <span
+      ref={ref as React.Ref<HTMLSpanElement>}
+      className={cn(sortLabelClasses(direction), className)}
+      {...spanProps}
+    >
+      {children}
+      {direction != null && <SortArrows direction={direction} />}
+    </span>
+  );
+}) as TableSortLabelComponent;
 TableSortLabel.displayName = "TableSortLabel";
 
 export interface TableStackedTextProps {
