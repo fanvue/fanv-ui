@@ -22,7 +22,6 @@ test.describe("floating panels", () => {
     const popoverSurface = await surface(popover);
 
     await page.goto(getStoryUrl("DropdownMenu", "Default"));
-    await page.getByRole("button").first().click();
     const menu = page.getByRole("menu");
     await expect(menu).toBeVisible();
     const menuSurface = await surface(menu);
