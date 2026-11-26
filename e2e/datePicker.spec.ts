@@ -28,11 +28,15 @@ test.describe("DatePicker", () => {
   });
 
   test("sizes the footer buttons to match", async ({ page }) => {
+    const apply = page.getByRole("button", { name: "Apply" });
+
     await page.goto(getStoryUrl("DatePicker", "RangeSelection"));
-    const standardApply = await page.getByRole("button", { name: "Apply" }).boundingBox();
+    await expect(apply).toBeVisible();
+    const standardApply = await apply.boundingBox();
 
     await page.goto(getStoryUrl("DatePicker", "CompactRange"));
-    const compactApply = await page.getByRole("button", { name: "Apply" }).boundingBox();
+    await expect(apply).toBeVisible();
+    const compactApply = await apply.boundingBox();
 
     expect(standardApply?.height).toBe(40);
     expect(compactApply?.height).toBe(32);
