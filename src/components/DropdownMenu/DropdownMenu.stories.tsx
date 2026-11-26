@@ -863,7 +863,6 @@ export const SelectedRowsV2Palette: Story = {
     const fill = resolveColor("--color-menu-item-selected");
     const hoverFill = resolveColor("--color-menu-item-selected-hover");
     const text = resolveColor("--color-content-primary-inverted");
-    // A highlighted selected row has to look different, or keyboard focus on it is invisible.
     await expect(hoverFill).not.toBe(fill);
     const rows = [
       menu.getByRole("menuitem", { name: /Favourites/ }),

@@ -1372,7 +1372,6 @@ describe("DropdownMenuCheckboxItem", () => {
     );
 
     // A menu that opens fully selected would otherwise render every row shaded.
-    // The v2 palette inverts checked rows on purpose, so only its classes may set one.
     for (const name of ["@sofiabloom", "@aria.lane"]) {
       const row = screen.getByRole("menuitemcheckbox", { name });
       const unscopedFills = row.className

@@ -430,7 +430,6 @@ export const V2Palette: Story = {
     const selected = within(document.body).getByRole("option", { name: /Jane Doe/ });
     await waitFor(() => expect(selected).toHaveAttribute("data-highlighted"));
     await expect(selected).toHaveFocus();
-    // The checked row opens focused, so it shows the selected hover fill: focus stays visible.
     await expect(getComputedStyle(selected).backgroundColor).toBe(fill);
     await expect(getComputedStyle(selected).color).toBe(text);
   },

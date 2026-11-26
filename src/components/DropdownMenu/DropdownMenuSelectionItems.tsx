@@ -35,9 +35,9 @@ DropdownMenuRadioGroup.displayName = "DropdownMenuRadioGroup";
 
 /**
  * Under the v2 palette a checked radio or checkbox row fills `Menu Item Selected`,
- * which is inverted there, with inverted content, and keeps that fill on hover so
- * the content stays readable. A disabled row takes the library's Disabled state
- * instead, which has no fill.
+ * which is inverted there, with inverted content. A highlighted checked row moves to
+ * `Menu Item Selected Hover` so keyboard focus stays visible. A disabled row takes the
+ * library's Disabled state instead, which has no fill.
  */
 const checkedV2Row = (disabled: boolean | undefined) =>
   disabled
@@ -68,7 +68,9 @@ export interface DropdownMenuRadioItemProps
  * a circular indicator that fills when selected, plus an optional helper line
  * underneath the title. The checked row rests on `Buttons/Navigation/Hover`, and
  * hovering it shows `Interaction/Hover` like any other row. Under the v2 palette
- * the fill is inverted, with inverted content, and stays on hover.
+ * the fill is inverted, with inverted content, and a highlighted checked row moves to
+ * `Menu Item Selected Hover`. Rows do not shrink, so a two-line row stays whole when
+ * the panel scrolls.
  */
 export const DropdownMenuRadioItem = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.RadioItem>,
@@ -82,7 +84,6 @@ export const DropdownMenuRadioItem = React.forwardRef<
         // (node `7393:62008`), and at 16px a radio row indented 4px further than a
         // `DropdownMenuCheckboxItem` in the same menu. 12px radius and a 40px
         // minimum height, like `DropdownMenuItem`.
-        // `shrink-0` keeps a two-line row whole when the panel scrolls, as in DropdownMenuItem.
         "group flex min-h-10 w-full shrink-0 cursor-pointer gap-3 rounded-sm px-3 py-2 outline-none",
         // A helper line makes it a two-line row aligned to its title; a single
         // line centres in the 40px row like the checkbox and DropdownMenuItem.
@@ -136,7 +137,8 @@ export interface DropdownMenuCheckboxItemProps
 /**
  * A single multi-select choice within a dropdown menu. Shows a square indicator
  * that fills when checked, an optional leading avatar, and an optional helper
- * line underneath the title.
+ * line underneath the title. Rows do not shrink, so a two-line row stays whole
+ * when the panel scrolls.
  *
  * Pair with {@link DropdownMenuHeader} at `type="search"` for filterable menus.
  * Use {@link DropdownMenuRadioItem} instead when only one option may be active.
@@ -160,7 +162,6 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
     <DropdownMenuPrimitive.CheckboxItem
       ref={ref}
       className={cn(
-        // `shrink-0` keeps a two-line row whole when the panel scrolls, as in DropdownMenuItem.
         "group flex min-h-10 w-full shrink-0 cursor-pointer items-center gap-3 rounded-sm px-3 py-2 outline-none",
         // In the current palette the checked state is carried by the tick alone.
         // A background here would leave every selected row shaded, which reads as

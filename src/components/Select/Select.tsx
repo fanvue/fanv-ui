@@ -321,13 +321,25 @@ function isRenderableNode(node: React.ReactNode): boolean {
 }
 
 /**
+ * Under the v2 palette a selected option's `Menu Item Selected` fill is inverted, so its
+ * content inverts too, and a highlighted or focused one moves to `Menu Item Selected Hover`.
+ */
+const CHECKED_V2_CLASSES =
+  "theme-v2:data-[state=checked]:text-content-primary-inverted theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected-hover theme-v2:data-[state=checked]:focus:bg-menu-item-selected-hover";
+
+/** A disabled selected option takes the library's Disabled state under the v2 palette, which has no fill. */
+const CHECKED_DISABLED_V2_CLASSES = "theme-v2:data-[state=checked]:bg-transparent";
+
+/**
  * An individual option inside {@link SelectContent}, following the V2 Menu Item spec.
  *
  * Supports a leading icon or avatar, an optional two-line layout via `description`,
  * and the standard hover / selected / disabled states. The selected row rests on
  * `Buttons/Navigation/Hover` with a semibold label and a trailing check; hovering
  * it shows `Interaction/Hover` like any other row. Under the v2 palette the fill is
- * inverted, with inverted content, and stays on hover.
+ * inverted, with inverted content, and a highlighted or focused selected row moves to
+ * `Menu Item Selected Hover` so keyboard focus stays visible. Rows do not shrink, so a
+ * two-line row stays whole when the list scrolls.
  *
  * @example
  * ```tsx
@@ -350,7 +362,6 @@ export const SelectItem = React.forwardRef<
     <SelectPrimitive.Item
       ref={ref}
       className={cn(
-        // `shrink-0` keeps a two-line row whole when the list scrolls, as in DropdownMenuItem.
         "group relative flex w-full shrink-0 cursor-pointer select-none gap-2 rounded-sm px-3 text-content-primary outline-none",
         hasDescription ? "items-start" : "items-center",
         ITEM_SIZE_CLASSES[itemSize],
@@ -358,15 +369,7 @@ export const SelectItem = React.forwardRef<
         "data-[state=checked]:bg-menu-item-selected",
         "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
         "data-[state=checked]:focus:bg-interaction-hover data-[state=checked]:data-highlighted:bg-interaction-hover",
-        // Under the v2 palette `Menu Item Selected` is the inverted fill. The row keeps
-        // it on hover and focus so the inverted content on it stays readable. A disabled
-        // row takes the library's Disabled state instead, which has no fill.
-        disabled
-          ? "theme-v2:data-[state=checked]:bg-transparent"
-          : [
-              "theme-v2:data-[state=checked]:text-content-primary-inverted",
-              "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected-hover theme-v2:data-[state=checked]:focus:bg-menu-item-selected-hover",
-            ],
+        disabled ? CHECKED_DISABLED_V2_CLASSES : CHECKED_V2_CLASSES,
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}

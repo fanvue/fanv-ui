@@ -126,8 +126,8 @@ export interface DropdownMenuItemProps
    * Marks the item as the current selection in a single-select menu. The row
    * rests on `Buttons/Navigation/Hover` with a semibold label; hover still shows
    * `Interaction/Hover`, because `data-[highlighted]` outranks the selected class.
-   * Under the v2 palette that fill is inverted, with inverted content, and the
-   * row keeps it on hover.
+   * Under the v2 palette that fill is inverted, with inverted content, and a
+   * highlighted row moves to `Menu Item Selected Hover` so keyboard focus stays visible.
    * The row also gets `data-selected`, and `aria-current` unless the consumer
    * already sets `aria-checked`.
    * @default false
@@ -136,7 +136,21 @@ export interface DropdownMenuItemProps
 }
 
 /**
+ * Under the v2 palette a selected row's `Menu Item Selected` fill is inverted, so its
+ * content inverts too, and a highlighted row moves to `Menu Item Selected Hover`.
+ */
+const SELECTED_V2_CLASSES =
+  "theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-menu-item-selected-hover";
+
+/** A disabled selected row takes the library's Disabled state under the v2 palette, which has no fill. */
+const SELECTED_DISABLED_V2_CLASSES = "theme-v2:bg-transparent";
+
+/**
  * An individual item within a {@link DropdownMenuContent}.
+ *
+ * Rows do not shrink (`shrink-0`): the panel is a scrolling flex column capped at the
+ * space available, and a row allowed to shrink would drop to its minimum height and
+ * spill a second line.
  *
  * @example
  * ```tsx
@@ -187,8 +201,6 @@ export const DropdownMenuItem = React.forwardRef<
     const itemClassName = cn(
       // `text-start` because the sheet variant renders the row as a <button>,
       // whose UA-centred text misaligned it from the popper variant's rows.
-      // `shrink-0`: the panel is a scrolling flex column capped at the space available,
-      // and a row allowed to shrink drops to its `min-h-*` and spills a second line.
       "group flex w-full shrink-0 cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
       hasDescription ? "items-start" : "items-center",
       // The sheet's header runs the full width of the panel, so its rows have to
@@ -210,12 +222,7 @@ export const DropdownMenuItem = React.forwardRef<
       destructive && "text-error-content",
       selected && [
         "bg-menu-item-selected",
-        // Under the v2 palette `Menu Item Selected` is the inverted fill. The row
-        // keeps it on hover so the inverted content on it stays readable. A disabled
-        // row takes the library's Disabled state instead, which has no fill.
-        disabled
-          ? "theme-v2:bg-transparent"
-          : "theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-menu-item-selected-hover",
+        disabled ? SELECTED_DISABLED_V2_CLASSES : SELECTED_V2_CLASSES,
       ],
       className,
     );
