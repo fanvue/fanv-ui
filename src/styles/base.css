@@ -515,7 +515,8 @@
  * fill and a heavier drop instead of an edge highlight, which reads as a hard
  * line. Consumers recolouring the track need `bg-none` to drop the fill.
  */
-:root {
+:root,
+.theme-v2 .theme-v2-light {
   --color-special-bottom-nav-highlight: var(--primitives-color-green-500);
   --color-content-disabled: var(--primitives-color-gray-450);
   --fv-raised-control-fill: linear-gradient(
@@ -553,7 +554,8 @@
  * `--fv-upsell-glow-negative` is the other theme's glow, for a button on an
  * inverted surface (`fv-upsell-negative`).
  */
-:root {
+:root,
+.theme-v2 .theme-v2-light {
   --fv-upsell-pool: var(--primitives-color-green-300);
   --fv-upsell-glow-on-light:
     0 0 4px color-mix(in srgb, var(--primitives-color-green-600) 60%, transparent),

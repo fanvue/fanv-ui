@@ -224,6 +224,24 @@ describe("buildThemeCss", () => {
       expect(css).not.toMatch(/^\.theme-v2-dark/m);
     });
 
+    it("forces a surface light under theme-v2 with the v2 light values, after the dark block", () => {
+      const forced = declared(block(".theme-v2 .theme-v2-light"));
+      expect(css.indexOf("\n.theme-v2 .theme-v2-light {")).toBeGreaterThan(
+        css.indexOf("\n.theme-v2 .theme-v2-dark {"),
+      );
+      expect(block(".theme-v2 .theme-v2-light")).toContain("color-scheme: light;");
+      expect(forced.get("--color-surface-primary")).toBe("var(--primitives-color-gray-white)");
+      expect(forced.get("--fv-focus-ring-color")).toBe("var(--color-interaction-focus)");
+      for (const name of colourVars(v2Light)) {
+        expect(forced.get(name), name).toBe(v2Light.get(name));
+      }
+      for (const [legacy, current] of Object.entries(LEGACY_COLOR_ALIASES)) {
+        expect(forced.get(legacy)).toBe(`var(${current})`);
+      }
+      const base = readFileSync(join(stylesDir, "base.css"), "utf-8");
+      expect(base.match(/^:root,\n\.theme-v2 \.theme-v2-light \{/gm) ?? []).toHaveLength(2);
+    });
+
     it("adds a theme-v2 variant for styles that only apply under the v2 palette", () => {
       expect(css).toContain("@custom-variant theme-v2 (&:where(.theme-v2, .theme-v2 *));");
     });
