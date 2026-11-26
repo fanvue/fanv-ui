@@ -56,6 +56,12 @@ export const WithoutAction: Story = {
   },
 };
 
+export const WithoutAvatar: Story = {
+  args: {
+    avatar: undefined,
+  },
+};
+
 export const WithoutPill: Story = {
   args: {
     pill: undefined,
