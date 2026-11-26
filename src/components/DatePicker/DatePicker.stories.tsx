@@ -1,9 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Decorator, Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { DatePicker } from "./DatePicker";
 
 const DEFAULT_MONTH = new Date(2026, 1);
+
+const withShadowRoom: Decorator = (Story) => (
+  <div className="p-8">
+    <Story />
+  </div>
+);
 
 const meta = {
   title: "Components/DatePicker",
@@ -16,13 +22,7 @@ const meta = {
     },
   },
   tags: ["autodocs"],
-  decorators: [
-    (Story) => (
-      <div className="p-8">
-        <Story />
-      </div>
-    ),
-  ],
+  decorators: [withShadowRoom],
   argTypes: {
     variant: {
       control: "select",
