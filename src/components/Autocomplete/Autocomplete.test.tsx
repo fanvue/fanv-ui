@@ -267,20 +267,34 @@ describe("Autocomplete", () => {
       const selected = within(listbox).getByRole("option", { name: "Banana" });
       expect(selected).toHaveAttribute("aria-selected", "true");
       expect(selected).toHaveClass(
-        "theme-v2:bg-surface-primary-inverted",
+        "theme-v2:bg-menu-item-selected",
         "theme-v2:text-content-primary-inverted",
       );
       expect(selected.querySelector("svg")).toHaveClass("theme-v2:text-icons-primary-inverted");
+    });
+
+    it("moves the selected row to the selected hover fill when it is the active row", async () => {
+      const user = userEvent.setup();
+      renderAutocomplete({ defaultValue: "banana" });
+      const input = screen.getByRole("combobox");
+      await user.click(input);
+      const selected = within(screen.getByRole("listbox")).getByRole("option", { name: "Banana" });
+      expect(selected).not.toHaveClass("theme-v2:bg-menu-item-selected-hover");
+      for (let i = 0; i < 10 && input.getAttribute("aria-activedescendant") !== selected.id; i++) {
+        await user.keyboard("{ArrowDown}");
+      }
+      expect(input).toHaveAttribute("aria-activedescendant", selected.id);
+      expect(selected).toHaveClass("theme-v2:bg-menu-item-selected-hover");
     });
 
     it("leaves unselected rows off the inverted surface", () => {
       renderAutocomplete({ defaultOpen: true, defaultValue: "banana" });
       const listbox = screen.getByRole("listbox");
       expect(within(listbox).getByRole("option", { name: "Banana" })).toHaveClass(
-        "theme-v2:bg-surface-primary-inverted",
+        "theme-v2:bg-menu-item-selected",
       );
       expect(within(listbox).getByRole("option", { name: "Apple" })).not.toHaveClass(
-        "theme-v2:bg-surface-primary-inverted",
+        "theme-v2:bg-menu-item-selected",
       );
     });
   });
