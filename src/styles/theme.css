@@ -1870,7 +1870,7 @@
   --color-navigation-item-hover: var(--primitives-color-gray-900);
   --color-navigation-item-selected: var(--primitives-color-whitealpha-100);
   --color-menu-item-selected: var(--color-surface-primary-inverted);
-  --color-menu-item-selected-hover: var(--color-buttons-primary-hover);
+  --color-menu-item-selected-hover: var(--primitives-color-gray-400);
   --color-buttons-ai-background-gradient-default-start: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-default-end: var(--color-buttons-ai-default);
   --color-buttons-ai-background-gradient-hover-start: var(--color-buttons-ai-hover);

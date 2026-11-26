@@ -296,7 +296,7 @@ describe("buildThemeCss", () => {
         "var(--color-buttons-primary-hover)",
       );
       expect(v2Dark.get("--color-menu-item-selected-hover")).toBe(
-        "var(--color-buttons-primary-hover)",
+        "var(--primitives-color-gray-400)",
       );
       expect(Object.keys(ROLE_COLOR_TOKENS)).toEqual([
         "--color-menu-item-selected",

@@ -124,11 +124,13 @@ const ROLE_COLOR_TOKENS = {
     current: "--color-buttons-navigation-hover",
     v2: "--color-surface-primary-inverted",
   },
-  // A selected row that is highlighted or focused. Under v2 it is one step off the
-  // inverted fill, so keyboard focus on a selected row stays visible.
+  // A selected row that is highlighted or focused. Under v2 it is a visible step off the
+  // inverted fill, so keyboard focus on a selected row stays visible. Dark mode takes
+  // gray-400: Buttons/Primary/Hover there (#e3e3e3) is only 1.28:1 from the white fill.
   "--color-menu-item-selected-hover": {
     current: "--color-interaction-hover",
     v2: "--color-buttons-primary-hover",
+    v2Dark: "--primitives-color-gray-400",
   },
 };
 
@@ -237,9 +239,9 @@ const getThemeV2Sections = (rawTokens, v2Tokens) => {
     darkVars += `  ${cssVar}: ${resolveValue(darkRaw)};\n`;
   }
 
-  for (const [token, { v2 }] of Object.entries(ROLE_COLOR_TOKENS)) {
+  for (const [token, { v2, v2Dark }] of Object.entries(ROLE_COLOR_TOKENS)) {
     lightVars += `  ${token}: var(${v2});\n`;
-    darkVars += `  ${token}: var(${v2});\n`;
+    darkVars += `  ${token}: var(${v2Dark ?? v2});\n`;
   }
 
   return {
