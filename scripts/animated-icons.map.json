@@ -53,9 +53,7 @@
     "LinkIcon": "link",
     "LocationIcon": "map-pin",
     "LockerIcon": "lock-keyhole",
-    "MenuCloseIcon": "panel-left-close",
     "MenuIcon": "menu",
-    "MenuOpenIcon": "panel-left-open",
     "MicrophoneIcon": "mic",
     "NewMessageIcon": "message-square-plus",
     "OpenIcon": "external-link",
@@ -81,6 +79,11 @@
     "WalletIcon": "wallet",
     "WifiIcon": "wifi",
     "WrenchIcon": "wrench"
+  },
+  "local": {
+    "$comment": "Not upstream. Fanvue artwork with no lucide-animated equivalent, sourced from scripts/animated-local/<slug>.tsx and run through the same rewrite.",
+    "MenuCloseIcon": "menu-close",
+    "MenuOpenIcon": "menu-open"
   },
   "review": {
     "$comment": "Not generated. Each line records why the pair is not a straight swap.",

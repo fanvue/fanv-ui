@@ -8,7 +8,7 @@ require.
 
 ## Animated icons — `@fanvue/ui/animated-icons`
 
-Every component under `dist/components/AnimatedIcons` derives from the
+Every component under `dist/components/AnimatedIcons` imported from the registry derives from the
 [lucide-animated](https://lucide-animated.com) registry
 ([pqoqubbw/icons](https://github.com/pqoqubbw/icons)): the Motion variants and
 the SVG path data are upstream's work, and only the module shell around them is
@@ -16,6 +16,10 @@ ours. The artwork in turn comes from [Lucide](https://lucide.dev), some of whose
 icons derive from [Feather](https://github.com/feathericons/feather).
 
 All three licences therefore apply to those files.
+
+Icons drawn by Fanvue (for example the Menu icons) are the exception: their
+artwork is covered by the package licence (Apache-2.0), and only their Motion
+variants are adapted from lucide-animated, under the MIT licence below.
 
 ### lucide-animated (pqoqubbw/icons)
 
