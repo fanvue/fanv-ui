@@ -5915,6 +5915,7 @@ function CreatorCardDemo() {
           }
         />
         <CreatorCard {...shared} className="w-40 rounded-md" pill={undefined} />
+        <CreatorCard {...shared} className="w-40 rounded-md" avatar={undefined} />
       </div>
     </div>
   );

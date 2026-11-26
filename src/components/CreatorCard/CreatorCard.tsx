@@ -12,9 +12,12 @@ export interface CreatorCardProps extends Omit<React.HTMLAttributes<HTMLDivEleme
    * Pass the label as `children`. Omit to hide the pill.
    */
   pill?: PillProps;
-  /** Avatar props forwarded to the inner {@link Avatar}. */
+  /**
+   * Props forwarded to the inner {@link Avatar}. Omit to hide the avatar, so the
+   * name and tagline align with the card's left edge.
+   */
   avatar?: React.ComponentPropsWithoutRef<typeof Avatar>;
-  /** Creator display name shown next to the avatar. */
+  /** Creator display name, shown next to the avatar when there is one. */
   name: React.ReactNode;
   /** When `true`, renders a verified badge after the name. @default false */
   verified?: boolean;
@@ -98,13 +101,13 @@ export const CreatorCard = React.forwardRef<HTMLDivElement, CreatorCardProps>(
         </div>
         <div className="flex min-w-0 flex-col gap-2.5 p-3">
           <div className="flex min-w-0 items-center gap-2">
-            <Avatar
-              size={32}
-              src={avatar?.src}
-              alt={avatar?.alt ?? (typeof name === "string" ? name : undefined)}
-              fallback={avatar?.fallback}
-              {...avatar}
-            />
+            {avatar ? (
+              <Avatar
+                size={32}
+                alt={avatar.alt ?? (typeof name === "string" ? name : undefined)}
+                {...avatar}
+              />
+            ) : null}
             <div className="flex min-w-0 flex-1 flex-col">
               <div className="flex min-w-0 items-center gap-1">
                 <p className="typography-body-small-14px-semibold m-0 truncate text-content-primary">
