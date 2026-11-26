@@ -62,9 +62,10 @@ function Day({ day, modifiers, className, ...divProps }: DayProps) {
     <div
       className={cn(
         className,
-        inRange && "bg-inputs-calendar-range",
-        inRange && range_start && "rounded-l-sm",
-        inRange && range_end && "rounded-r-sm",
+        inRange &&
+          "before:absolute before:inset-x-0 before:inset-y-0.5 before:bg-inputs-calendar-range first:before:left-0.5 first:before:rounded-l-sm last:before:right-0.5 last:before:rounded-r-sm",
+        inRange && range_start && "before:left-0.5 before:rounded-l-sm",
+        inRange && range_end && "before:right-0.5 before:rounded-r-sm",
       )}
       {...divProps}
     />

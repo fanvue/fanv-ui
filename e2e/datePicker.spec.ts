@@ -27,6 +27,32 @@ test.describe("DatePicker", () => {
     expect(compact.calendar?.width).toBeLessThan(standard.calendar?.width ?? 0);
   });
 
+  test("draws the range band flush with the day buttons and rounds it at week ends", async ({
+    page,
+  }) => {
+    await page.goto(getStoryUrl("DatePicker", "RangeSelection"));
+    const band = (day: RegExp) =>
+      page.getByRole("button", { name: day }).evaluate((button) => {
+        const style = getComputedStyle(button.parentElement as Element, "::before");
+        return {
+          height: Number.parseFloat(style.height),
+          buttonHeight: button.getBoundingClientRect().height,
+          left: style.borderTopLeftRadius,
+          right: style.borderTopRightRadius,
+        };
+      });
+
+    const weekEnd = await band(/February 14/);
+    const weekStart = await band(/February 15/);
+    const middle = await band(/February 11/);
+
+    expect(weekEnd.height).toBe(weekEnd.buttonHeight);
+    expect(weekEnd.right).not.toBe("0px");
+    expect(weekStart.left).not.toBe("0px");
+    expect(middle.left).toBe("0px");
+    expect(middle.right).toBe("0px");
+  });
+
   test("sizes the footer buttons to match", async ({ page }) => {
     const apply = page.getByRole("button", { name: "Apply" });
 
