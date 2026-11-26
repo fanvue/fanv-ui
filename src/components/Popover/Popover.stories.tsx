@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "../Button/Button";
-import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { TableToolbarAction } from "../Table/Table";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "./Popover";
 
@@ -70,7 +69,7 @@ export const WithToolbarAction: Story = {
   render: (args) => (
     <Popover {...args}>
       <PopoverTrigger asChild>
-        <TableToolbarAction icon={<ChevronDownIcon size={16} />}>Filters</TableToolbarAction>
+        <TableToolbarAction>Filters</TableToolbarAction>
       </PopoverTrigger>
       <PopoverContent aria-label="Filters">
         <p className="typography-body-small-14px-regular w-64 p-2">Filter options go here.</p>
