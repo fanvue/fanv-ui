@@ -1,9 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Decorator, Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { DatePicker } from "./DatePicker";
 
 const DEFAULT_MONTH = new Date(2026, 1);
+
+const withShadowRoom: Decorator = (Story) => (
+  <div className="p-8">
+    <Story />
+  </div>
+);
 
 const meta = {
   title: "Components/DatePicker",
@@ -16,6 +22,7 @@ const meta = {
     },
   },
   tags: ["autodocs"],
+  decorators: [withShadowRoom],
   argTypes: {
     variant: {
       control: "select",
@@ -189,6 +196,62 @@ export const WithInputTrigger: Story = {
           </div>
         )}
       </div>
+    );
+  },
+};
+
+export const CompactSingle: Story = {
+  render: () => {
+    const [selected, setSelected] = useState<Date | undefined>(new Date(2026, 1, 15));
+    return (
+      <DatePicker
+        mode="single"
+        size="32"
+        defaultMonth={DEFAULT_MONTH}
+        selected={selected}
+        onSelect={setSelected}
+        showFooter={false}
+      />
+    );
+  },
+};
+
+export const CompactDoubleMonth: Story = {
+  render: () => {
+    const [range, setRange] = useState<DateRange | undefined>({
+      from: new Date(2026, 1, 9),
+      to: new Date(2026, 2, 4),
+    });
+    return (
+      <DatePicker
+        mode="range"
+        variant="double"
+        size="32"
+        defaultMonth={DEFAULT_MONTH}
+        selected={range}
+        onSelect={setRange}
+        onCancel={() => setRange(undefined)}
+      />
+    );
+  },
+};
+
+export const CompactRange: Story = {
+  render: () => {
+    const [range, setRange] = useState<DateRange | undefined>({
+      from: new Date(2026, 1, 9),
+      to: new Date(2026, 1, 19),
+    });
+    return (
+      <DatePicker
+        mode="range"
+        size="32"
+        defaultMonth={DEFAULT_MONTH}
+        selected={range}
+        onSelect={setRange}
+        onApply={() => console.log("Applied:", range)}
+        onCancel={() => setRange(undefined)}
+      />
     );
   },
 };

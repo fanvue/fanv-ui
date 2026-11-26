@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
-import { userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
+import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
@@ -843,4 +844,236 @@ export const AllStatesV2: Story = {
     };
     return <Demo />;
   },
+};
+
+const resolveColor = (cssVar: string) => {
+  const probe = document.createElement("span");
+  probe.style.color = `var(${cssVar})`;
+  document.body.appendChild(probe);
+  const color = getComputedStyle(probe).color;
+  probe.remove();
+  return color;
+};
+
+export const SelectedRowsV2Palette: Story = {
+  name: "Selected rows (v2 palette)",
+  globals: { palette: "v2" },
+  play: async (context) => {
+    await openMenu(context);
+    const menu = within(document.body);
+    const fill = resolveColor("--color-menu-item-selected");
+    const hoverFill = resolveColor("--color-menu-item-selected-hover");
+    const text = resolveColor("--color-content-primary-inverted");
+    await expect(hoverFill).not.toBe(fill);
+    const rows = [
+      menu.getByRole("menuitem", { name: /Favourites/ }),
+      menu.getByRole("menuitem", { name: /Jane Doe/ }),
+      menu.getByRole("menuitemradio", { name: /Newest/ }),
+      menu.getByRole("menuitemcheckbox", { name: /Photos/ }),
+    ];
+    for (const row of rows) {
+      await expect(getComputedStyle(row).backgroundColor).toBe(fill);
+      await userEvent.hover(row);
+      await waitFor(() => expect(row).toHaveAttribute("data-highlighted"));
+      await expect(getComputedStyle(row).backgroundColor).toBe(hoverFill);
+      await expect(getComputedStyle(row).color).toBe(text);
+    }
+  },
+  render: () => {
+    const Demo = () => {
+      const [sort, setSort] = React.useState("newest");
+      const [checked, setChecked] = React.useState(new Set(["photos"]));
+      const toggle = (value: string) =>
+        setChecked((prev) => {
+          const next = new Set(prev);
+          if (next.has(value)) next.delete(value);
+          else next.add(value);
+          return next;
+        });
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button>Open Menu</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-80">
+            <DropdownMenuItem leadingIcon={<EditIcon />}>Edit profile</DropdownMenuItem>
+            <DropdownMenuItem leadingIcon={<StarIcon />} count="3" selected>
+              Favourites
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              avatar={<Avatar size={24} fallback="JD" />}
+              description="Product designer"
+              count="12"
+              selected
+            >
+              Jane Doe
+            </DropdownMenuItem>
+            <DropdownMenuLabel>Sort by</DropdownMenuLabel>
+            <DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
+              <DropdownMenuRadioItem value="newest" helper="Most recent first">
+                Newest
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="oldest">Oldest</DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+            <DropdownMenuLabel>Show</DropdownMenuLabel>
+            <DropdownMenuCheckboxItem
+              checked={checked.has("photos")}
+              onCheckedChange={() => toggle("photos")}
+              helper="Images and albums"
+            >
+              Photos
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              checked={checked.has("videos")}
+              onCheckedChange={() => toggle("videos")}
+            >
+              Videos
+            </DropdownMenuCheckboxItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    };
+    return <Demo />;
+  },
+};
+
+/**
+ * In v2 dark, a highlighted selected row's secondary lines (helper, description) move to
+ * `Menu Item Selected Hover Secondary`, so they keep contrast on the lighter hover fill.
+ */
+export const SelectedRowsSecondaryV2Dark: Story = {
+  name: "Selected rows secondary text (v2 dark)",
+  globals: { palette: "v2", theme: "dark" },
+  parameters: NON_VISUAL_STORY_PARAMETERS,
+  render: SelectedRowsV2Palette.render,
+  play: async (context) => {
+    await openMenu(context);
+    const menu = within(document.body);
+    const resting = resolveColor("--color-content-secondary-inverted");
+    const highlighted = resolveColor("--color-menu-item-selected-hover-secondary");
+    await expect(highlighted).not.toBe(resting);
+    const rows = [
+      { row: menu.getByRole("menuitem", { name: /Jane Doe/ }), text: "Product designer" },
+      { row: menu.getByRole("menuitemradio", { name: /Newest/ }), text: "Most recent first" },
+      { row: menu.getByRole("menuitemcheckbox", { name: /Photos/ }), text: "Images and albums" },
+    ];
+    for (const { row, text } of rows) {
+      const line = within(row).getByText(text);
+      await expect(getComputedStyle(line).color).toBe(resting);
+      await userEvent.hover(row);
+      await waitFor(() => expect(row).toHaveAttribute("data-highlighted"));
+      await expect(getComputedStyle(line).color).toBe(highlighted);
+    }
+  },
+};
+
+export const DisabledRowsV2Palette: Story = {
+  name: "Disabled rows (v2 palette)",
+  globals: { palette: "v2" },
+  play: async (context) => {
+    await openMenu(context);
+    const menu = within(document.body);
+    const disabledText = resolveColor("--color-content-disabled");
+    const rows = [
+      menu.getByRole("menuitem", { name: /Pending review/ }),
+      menu.getByRole("menuitem", { name: /Archived/ }),
+      menu.getByRole("menuitem", { name: /Jane Doe/ }),
+      menu.getByRole("menuitemradio", { name: /Locked/ }),
+      menu.getByRole("menuitemcheckbox", { name: /Photos/ }),
+      menu.getByRole("menuitemcheckbox", { name: /Videos/ }),
+    ];
+    for (const row of rows) {
+      await expect(row).toHaveAttribute("data-disabled");
+      await expect(getComputedStyle(row).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+      await expect(getComputedStyle(row).color).toBe(disabledText);
+    }
+  },
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>Open Menu</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-80">
+        <DropdownMenuItem leadingIcon={<EditIcon />} disabled>
+          Pending review
+        </DropdownMenuItem>
+        <DropdownMenuItem leadingIcon={<StarIcon />} count="3" selected disabled>
+          Archived
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          avatar={<Avatar size={24} fallback="JD" />}
+          description="Product designer"
+          selected
+          disabled
+        >
+          Jane Doe
+        </DropdownMenuItem>
+        <DropdownMenuLabel>Sort by</DropdownMenuLabel>
+        <DropdownMenuRadioGroup value="locked">
+          <DropdownMenuRadioItem value="locked" helper="Set by your agency" disabled>
+            Locked
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+        <DropdownMenuLabel>Show</DropdownMenuLabel>
+        <DropdownMenuCheckboxItem checked disabled helper="Images and albums">
+          Photos
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem checked={false} disabled>
+          Videos
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
+};
+
+export const TwoLineRowsInShortMenu: Story = {
+  name: "Two-line rows in a short menu",
+  play: async (context) => {
+    await openMenu(context);
+    const menu = within(document.body);
+    const rows: [HTMLElement, string][] = [
+      [menu.getByRole("menuitem", { name: /Jane Doe/ }), "Product designer"],
+      [menu.getByRole("menuitem", { name: /Edit profile/ }), "Update your details"],
+      [menu.getByRole("menuitemradio", { name: /Newest/ }), "Most recent first"],
+      [menu.getByRole("menuitemcheckbox", { name: /Photos/ }), "Images and albums"],
+    ];
+    for (const [row, secondLine] of rows) {
+      const rowBox = row.getBoundingClientRect();
+      const lineBox = within(row).getByText(secondLine).getBoundingClientRect();
+      const titleBox = (
+        row.querySelector(".typography-body-small-14px-semibold") as HTMLElement
+      ).getBoundingClientRect();
+      await expect(lineBox.bottom).toBeLessThanOrEqual(rowBox.bottom - 4);
+      await expect(titleBox.top).toBeGreaterThanOrEqual(rowBox.top + 4);
+    }
+  },
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>Open Menu</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-80" style={{ maxHeight: 200 }}>
+        <DropdownMenuItem
+          avatar={<Avatar size={24} fallback="JD" />}
+          description="Product designer"
+          selected
+        >
+          Jane Doe
+        </DropdownMenuItem>
+        <DropdownMenuItem leadingIcon={<EditIcon />} description="Update your details">
+          Edit profile
+        </DropdownMenuItem>
+        <DropdownMenuRadioGroup value="newest">
+          <DropdownMenuRadioItem value="newest" helper="Most recent first">
+            Newest
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+        <DropdownMenuCheckboxItem checked helper="Images and albums">
+          Photos
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuItem>Favourites</DropdownMenuItem>
+        <DropdownMenuItem>Settings</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
 };

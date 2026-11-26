@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect, waitFor, within } from "storybook/test";
 import { Button } from "../Button/Button";
 import { CreatorCover } from "./CreatorCover";
 
@@ -43,6 +44,16 @@ const defaultArgs = {
 export const Default: Story = {
   args: defaultArgs,
   decorators: [wrapperDecorator],
+  play: async ({ canvasElement, globals }) => {
+    const canvas = within(canvasElement);
+    const isDark = globals.theme === "dark";
+    await waitFor(() =>
+      expect(getComputedStyle(canvas.getByRole("region")).backgroundColor).toBe(
+        isDark ? "rgb(21, 21, 21)" : "rgb(255, 255, 255)",
+      ),
+    );
+    await expect(getComputedStyle(canvas.getByRole("heading")).color).toBe("rgb(255, 255, 255)");
+  },
 };
 
 export const WithoutTag: Story = {
@@ -88,5 +99,12 @@ export const CustomActionNode: Story = {
       </Button>
     ),
   },
+  decorators: [wrapperDecorator],
+};
+
+export const V2Palette: Story = {
+  name: "v2 Palette",
+  globals: { palette: "v2" },
+  args: defaultArgs,
   decorators: [wrapperDecorator],
 };

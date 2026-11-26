@@ -60,7 +60,9 @@ export const ChartLoadingOverlay = React.forwardRef<HTMLDivElement, ChartLoading
           <div
             className={cn(
               "absolute inset-0 z-10 flex items-center justify-center",
-              variant ? "bg-background-primary" : "bg-surface-primary/60",
+              variant
+                ? "bg-background-primary theme-v2:bg-surface-primary"
+                : "bg-surface-primary/60",
             )}
             // Every `Skeleton` is `aria-hidden`, so without this the skeleton path
             // announces nothing where the spinner announced through its `<output>`.

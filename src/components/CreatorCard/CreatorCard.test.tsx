@@ -81,6 +81,11 @@ describe("CreatorCard", () => {
       expect(await screen.findByText("JD")).toBeInTheDocument();
     });
 
+    it("omits the avatar when not provided", () => {
+      render(<CreatorCard {...baseProps} />);
+      expect(screen.queryByTestId("avatar")).not.toBeInTheDocument();
+    });
+
     it("renders the action element", () => {
       render(
         <CreatorCard

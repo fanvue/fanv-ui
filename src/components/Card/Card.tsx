@@ -1,3 +1,4 @@
+import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
@@ -41,6 +42,11 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   fullWidth?: boolean;
   /** When `true`, removes all internal padding. @default false */
   noPadding?: boolean;
+  /**
+   * When `true`, renders the single child element with the card's surface instead of a `div`,
+   * so a button or a link can be the card, for example a menu trigger. @default false
+   */
+  asChild?: boolean;
 }
 
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -69,7 +75,7 @@ const HIERARCHY_CLASSES: Record<CardHierarchy, string> = {
 };
 
 const INTERACTIVE_CLASSES =
-  "isolate cursor-pointer after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:bg-content-primary after:opacity-0 after:transition-opacity after:content-[''] hover:after:opacity-5";
+  "isolate cursor-pointer text-start focus-visible:shadow-focus-ring focus-visible:outline-none after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:bg-content-primary after:opacity-0 after:transition-opacity after:content-[''] hover:after:opacity-5";
 
 /**
  * A composable card component built on the V2 design system. Compose it with
@@ -104,6 +110,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       variant,
       fullWidth = true,
       noPadding = false,
+      asChild = false,
       children,
       ...props
     },
@@ -123,9 +130,11 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       [hierarchy, type],
     );
 
+    const Comp = asChild ? Slot : "div";
+
     return (
       <CardContext.Provider value={contextValue}>
-        <div
+        <Comp
           ref={ref}
           className={cn(
             "relative flex flex-col overflow-hidden",
@@ -140,7 +149,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
           {...props}
         >
           {children}
-        </div>
+        </Comp>
       </CardContext.Provider>
     );
   },
