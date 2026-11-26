@@ -1,16 +1,15 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { getInitials } from "../../utils/getInitials";
-import { Avatar } from "../Avatar/Avatar";
+import { Avatar, type AvatarSize } from "../Avatar/Avatar";
 import { BellOffIcon } from "../Icons/BellOffIcon";
 import { UserDisplayName } from "../UserDisplayName/UserDisplayName";
 import { UserHandle } from "../UserHandle/UserHandle";
 
-const AVATAR_SIZES = [16, 24, 32, 40, 48, 64, 88, 148] as const;
-type AvatarSizeToken = (typeof AVATAR_SIZES)[number];
+const AVATAR_SIZES: readonly AvatarSize[] = [16, 24, 32, 40, 48, 64, 80, 88, 148];
 
 /** Snap an arbitrary pixel size to the nearest supported {@link Avatar} size token. */
-const getNearestAvatarSize = (size: number): AvatarSizeToken =>
+const getNearestAvatarSize = (size: number): AvatarSize =>
   AVATAR_SIZES.reduce((prev, curr) =>
     Math.abs(curr - size) < Math.abs(prev - size) ? curr : prev,
   );
