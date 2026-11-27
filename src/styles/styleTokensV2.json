@@ -1434,11 +1434,11 @@
           "secondary": {
             "default": {
               "type": "color",
-              "value": "{semantic.light.color.neutralAlphas.100}"
+              "value": "{semantic.light.color.neutralAlphas.50}"
             },
             "hover": {
               "type": "color",
-              "value": "{semantic.light.color.neutralAlphas.200}"
+              "value": "{semantic.light.color.neutralAlphas.100}"
             },
             "negative": {
               "default": {
@@ -1458,7 +1458,7 @@
             },
             "hover": {
               "type": "color",
-              "value": "{semantic.light.color.neutralAlphas.200}"
+              "value": "{semantic.light.color.neutralAlphas.50}"
             },
             "negative": {
               "default": {
@@ -1478,7 +1478,7 @@
             },
             "hover": {
               "type": "color",
-              "value": "{semantic.light.color.neutralAlphas.100}"
+              "value": "{semantic.light.color.neutralAlphas.50}"
             },
             "negative": {
               "default": {
@@ -1534,11 +1534,11 @@
           "chip": {
             "default": {
               "type": "color",
-              "value": "{semantic.light.color.neutralAlphas.100}"
+              "value": "{semantic.light.color.neutralAlphas.50}"
             },
             "hover": {
               "type": "color",
-              "value": "{semantic.light.color.neutralAlphas.200}"
+              "value": "{semantic.light.color.neutralAlphas.100}"
             },
             "active": {
               "type": "color",
@@ -2621,7 +2621,7 @@
           },
           "hoverOverlay": {
             "type": "color",
-            "value": "{semantic.light.color.neutralAlphas.100}"
+            "value": "{semantic.light.color.neutralAlphas.50}"
           },
           "selectedOverlay": {
             "type": "color",
@@ -3032,11 +3032,11 @@
           "secondary": {
             "default": {
               "type": "color",
-              "value": "{semantic.dark.color.neutralAlphas.50}"
+              "value": "{primitives.dark.color.whitealpha.50}"
             },
             "hover": {
               "type": "color",
-              "value": "{semantic.dark.color.neutralAlphas.200}"
+              "value": "{semantic.dark.color.neutralAlphas.100}"
             },
             "negative": {
               "default": {
@@ -3056,7 +3056,7 @@
             },
             "hover": {
               "type": "color",
-              "value": "{semantic.dark.color.neutralAlphas.300}"
+              "value": "{semantic.dark.color.neutralAlphas.75}"
             },
             "negative": {
               "default": {
@@ -3076,7 +3076,7 @@
             },
             "hover": {
               "type": "color",
-              "value": "{semantic.dark.color.neutralAlphas.100}"
+              "value": "{primitives.dark.color.whitealpha.50}"
             },
             "negative": {
               "default": {
@@ -3132,11 +3132,11 @@
           "chip": {
             "default": {
               "type": "color",
-              "value": "{semantic.dark.color.neutralAlphas.100}"
+              "value": "{primitives.dark.color.whitealpha.50}"
             },
             "hover": {
               "type": "color",
-              "value": "{semantic.dark.color.neutralAlphas.200}"
+              "value": "{semantic.dark.color.neutralAlphas.100}"
             },
             "active": {
               "type": "color",
@@ -4219,7 +4219,7 @@
           },
           "hoverOverlay": {
             "type": "color",
-            "value": "{semantic.dark.color.neutralAlphas.100}"
+            "value": "{primitives.dark.color.whitealpha.50}"
           },
           "selectedOverlay": {
             "type": "color",
