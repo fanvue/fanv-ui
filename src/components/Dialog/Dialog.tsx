@@ -97,8 +97,9 @@ export interface DialogContentProps
   /**
    * How the dialog presents below the `sm` breakpoint.
    * - `"sheet"` — bottom sheet pinned to the viewport bottom edge (default)
-   * - `"card"` — centered floating card per the v2-modal confirmation spec:
-   *   16px side margins, 24px padding, 32px radius on all corners, no pull handle
+   * - `"card"` — floating card per the v2-modal confirmation spec, anchored 16px from
+   *   the sides and the bottom (clear of the safe area): 24px padding, 32px radius on
+   *   all corners, no pull handle
    *
    * @default "sheet"
    */
@@ -124,7 +125,7 @@ const FULL_CLASSES =
  *
  * On mobile viewports (<640px), the dialog slides up from the bottom as a sheet
  * with top-only border radius by default; pass `mobilePresentation="card"` to
- * render a centered floating card instead (used for small confirmation dialogs).
+ * render a floating card anchored near the bottom instead (used for small confirmation dialogs).
  * On larger viewports it renders centered with full border radius.
  * `size="full"` skips both and fills the viewport with no chrome.
  * The panel carries its size as `data-size`, for styling its children.
@@ -207,9 +208,9 @@ export const DialogContent = React.forwardRef<
             : cn(
                 "border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-[4px]",
                 mobilePresentation === "card"
-                  ? // Floating confirmation card (v2-modal): 16px side margins, vertically centered, 32px radius
+                  ? // Floating confirmation card (v2-modal): 16px from the sides and the bottom, 32px radius
                     cn(
-                      "dialog-max-h-dynamic inset-x-4 top-1/2 -translate-y-1/2 rounded-xl p-6",
+                      "dialog-max-h-dynamic inset-x-4 bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] rounded-xl p-6",
                       "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
                       "sm:inset-x-auto",
                     )

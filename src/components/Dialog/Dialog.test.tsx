@@ -191,7 +191,7 @@ describe("Dialog", () => {
       expect(document.querySelector('[data-slot="dialog-handle"]')).not.toBeInTheDocument();
     });
 
-    it("renders as a floating card on mobile when mobilePresentation is card", () => {
+    it("renders as a floating card anchored 16px from the bottom on mobile when mobilePresentation is card", () => {
       renderDialog({ mobilePresentation: "card" });
       const dialog = screen.getByRole("dialog");
       expect(dialog).toHaveClass("inset-x-4");
@@ -199,6 +199,8 @@ describe("Dialog", () => {
       expect(dialog).toHaveClass("p-6");
       expect(dialog).not.toHaveClass("bottom-0");
       expect(dialog).not.toHaveClass("rounded-t-xl");
+      expect(dialog).toHaveClass("bottom-[calc(1rem+env(safe-area-inset-bottom,0px))]");
+      expect(dialog).not.toHaveClass("top-1/2");
       expect(document.querySelector('[data-slot="dialog-handle"]')).not.toBeInTheDocument();
     });
 

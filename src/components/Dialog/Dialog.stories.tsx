@@ -980,3 +980,39 @@ export const FullScreenMedia: Story = {
   ),
   play: openDialog,
 };
+
+/** On mobile, `mobilePresentation="card"` floats 16px from the sides and is anchored 16px above the bottom edge. */
+export const MobileCard: Story = {
+  name: "Mobile Card (375px)",
+  tags: ["!autodocs"],
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+    chromatic: {
+      modes: {
+        "light-mobile": { theme: "light", viewport: 375 },
+      },
+    },
+  },
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent size="sm" mobilePresentation="card">
+        <DialogHeader>
+          <DialogTitle>Delete this tag?</DialogTitle>
+          <DialogDescription>
+            It comes off every fan it's on. You can't undo this.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="pt-6">
+          <DialogClose asChild>
+            <Button variant="secondary">Cancel</Button>
+          </DialogClose>
+          <Button variant="destructive">Delete</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: openDialog,
+};
