@@ -2821,6 +2821,18 @@ function TagPickerDemo() {
             setOptions((current) => [...current, option]);
             setValue((current) => [...current, option.value]);
           }}
+          onColourChange={(tagValue, colour) =>
+            setOptions((current) =>
+              current.map((option) => (option.value === tagValue ? { ...option, colour } : option)),
+            )
+          }
+          onReorder={(order) =>
+            setOptions((current) =>
+              order
+                .map((v) => current.find((option) => option.value === v))
+                .filter((option): option is TagPickerOption => option !== undefined),
+            )
+          }
         />
       </div>
     </div>

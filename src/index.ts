@@ -947,7 +947,11 @@ export type { ParsedTagName } from "./components/TagPicker/parseTagName";
 export { parseTagName } from "./components/TagPicker/parseTagName";
 export type { TagFieldProps, TagPickerOption } from "./components/TagPicker/TagField";
 export { TagField } from "./components/TagPicker/TagField";
-export type { TagPickerProps, TagPickerVariant } from "./components/TagPicker/TagPicker";
+export type {
+  TagPickerMoveDetail,
+  TagPickerProps,
+  TagPickerVariant,
+} from "./components/TagPicker/TagPicker";
 export { TagPicker } from "./components/TagPicker/TagPicker";
 export type {
   TextAreaProps,
