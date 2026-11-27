@@ -14,7 +14,7 @@ export function moveItem<T>(items: readonly T[], from: number, to: number): T[] 
  * Moves `value` within the full `order` so it lands before `before`, or straight after `after`
  * when it is dropped below the last visible row.
  */
-function placeValue(
+export function placeValue(
   order: readonly string[],
   value: string,
   before: string | undefined,

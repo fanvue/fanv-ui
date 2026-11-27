@@ -88,7 +88,9 @@ export function TagMenu({
   const [name, setName] = React.useState(() => fullName(option));
   const committed = React.useRef(false);
   const latest = React.useRef({ name, option, onRename });
-  latest.current = { name, option, onRename };
+  React.useLayoutEffect(() => {
+    latest.current = { name, option, onRename };
+  });
 
   const commit = React.useCallback(() => {
     const { name: next, option: current, onRename: rename } = latest.current;
@@ -167,6 +169,7 @@ export function TagMenu({
           <button
             type="button"
             onClick={() => {
+              committed.current = true;
               onDelete();
               onClose();
             }}

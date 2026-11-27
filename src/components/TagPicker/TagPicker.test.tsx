@@ -454,6 +454,13 @@ describe("TagPicker reordering", () => {
     expect(reorderRows()).toHaveLength(4);
   });
 
+  it("moves focus to the first handle when reorder mode starts", async () => {
+    await startReorder();
+    await vi.waitFor(() =>
+      expect(screen.getByRole("button", { name: "Move Whale" })).toHaveFocus(),
+    );
+  });
+
   it("switches to reorder mode with a handle per tag", async () => {
     await startReorder();
     expect(screen.getByText("Drag tags to reorder")).toBeInTheDocument();

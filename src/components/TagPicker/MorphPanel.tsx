@@ -65,8 +65,9 @@ export function MorphPanel({ step, children }: MorphPanelProps) {
       <div
         key={step}
         data-direction={direction}
+        style={{ animationDuration: `${DURATION_MS}ms`, animationTimingFunction: EASE }}
         className={cn(
-          "fade-in-0 flex min-h-0 animate-in flex-col duration-300 motion-reduce:animate-none",
+          "fade-in-0 flex min-h-0 animate-in flex-col motion-reduce:animate-none",
           direction === "forward" ? "slide-in-from-right-8" : "slide-in-from-left-8",
         )}
       >
