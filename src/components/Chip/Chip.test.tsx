@@ -131,7 +131,7 @@ describe("Chip", () => {
     it("strokes the unselected chip instead of filling it", () => {
       render(<Chip outlined>Subs</Chip>);
       const chip = screen.getByTestId("chip");
-      expect(chip).toHaveClass("border-buttons-chip-default", "bg-transparent");
+      expect(chip).toHaveClass("border-neutral-alphas-100", "bg-transparent");
       expect(chip).not.toHaveClass("bg-buttons-chip-default");
     });
 
@@ -143,7 +143,7 @@ describe("Chip", () => {
       );
       const chip = screen.getByTestId("chip");
       expect(chip).toHaveClass("bg-buttons-chip-active");
-      expect(chip).not.toHaveClass("border-buttons-chip-default");
+      expect(chip).not.toHaveClass("border-neutral-alphas-100");
     });
 
     it("keeps a border in both states", () => {
@@ -184,7 +184,7 @@ describe("Chip", () => {
         </Chip>,
       );
       const chip = screen.getByTestId("chip");
-      expect(chip).toHaveClass("hover:border-buttons-chip-hover", "hover:bg-interaction-hover");
+      expect(chip).toHaveClass("hover:border-neutral-alphas-200", "hover:bg-interaction-hover");
       expect(chip).not.toHaveClass("hover:bg-buttons-chip-hover");
     });
 
@@ -192,7 +192,7 @@ describe("Chip", () => {
       render(<Chip onClick={() => {}}>Subs</Chip>);
       const chip = screen.getByTestId("chip");
       expect(chip).toHaveClass("hover:bg-buttons-chip-hover");
-      expect(chip).not.toHaveClass("hover:border-buttons-chip-hover");
+      expect(chip).not.toHaveClass("hover:border-neutral-alphas-200");
     });
 
     it("takes the muted fill when disabled and selected", () => {
