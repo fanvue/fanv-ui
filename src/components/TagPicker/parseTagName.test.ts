@@ -19,7 +19,10 @@ describe("parseTagName", () => {
   });
 
   it("keeps joined, skin-tone and flag emoji whole", () => {
-    expect(parseTagName("👩‍💻 Builder")).toEqual({ emoji: "👩‍💻", label: "Builder" });
+    expect(parseTagName("👩\u{200D}💻 Builder")).toEqual({
+      emoji: "👩\u{200D}💻",
+      label: "Builder",
+    });
     expect(parseTagName("👍🏽 Fan")).toEqual({ emoji: "👍🏽", label: "Fan" });
     expect(parseTagName("🇬🇧 UK")).toEqual({ emoji: "🇬🇧", label: "UK" });
   });
@@ -39,7 +42,7 @@ describe("parseTagName", () => {
   });
 
   it("accepts a text symbol shown as emoji with a variation selector", () => {
-    expect(parseTagName("❤️ Love")).toEqual({ emoji: "❤️", label: "Love" });
+    expect(parseTagName("❤\u{FE0F} Love")).toEqual({ emoji: "❤\u{FE0F}", label: "Love" });
   });
 
   it("keeps a subdivision flag whole", () => {
@@ -48,6 +51,10 @@ describe("parseTagName", () => {
   });
 
   it("ignores leading zero-width characters", () => {
-    expect(parseTagName("​🐳 Whale")).toEqual({ emoji: "🐳", label: "Whale" });
+    expect(parseTagName("\u{200B}🐳 Whale")).toEqual({ emoji: "🐳", label: "Whale" });
+  });
+
+  it("does not take a lone flag letter as an emoji", () => {
+    expect(parseTagName("\u{1F1EC} G")).toEqual({ label: "\u{1F1EC} G" });
   });
 });

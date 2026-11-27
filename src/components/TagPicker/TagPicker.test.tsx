@@ -252,7 +252,9 @@ describe("TagPicker", () => {
       const onCreate = vi.fn();
       await openPicker({ onCreate });
       fireEvent.change(input(), { target: { value: "にほ" } });
-      fireEvent.keyDown(input(), { key: "Enter", isComposing: true, keyCode: 229 });
+      fireEvent.keyDown(input(), { key: "Enter", isComposing: true });
+      expect(onCreate).not.toHaveBeenCalled();
+      fireEvent.keyDown(input(), { key: "Enter", keyCode: 229 });
       expect(onCreate).not.toHaveBeenCalled();
       fireEvent.keyDown(input(), { key: "Enter" });
       expect(onCreate).toHaveBeenCalledWith({ label: "にほ" });

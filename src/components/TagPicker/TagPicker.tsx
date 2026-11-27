@@ -223,7 +223,7 @@ function TagPickerPanel({
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.nativeEvent.isComposing) return;
+    if (event.nativeEvent.isComposing || event.keyCode === 229) return;
     if (event.key === "Backspace" && query === "" && picked.length > 0) {
       if (event.repeat) return;
       event.preventDefault();

@@ -6,7 +6,7 @@ export interface ParsedTagName {
   label: string;
 }
 
-const EMOJI = String.raw`(?:\p{Emoji_Presentation}|\p{Extended_Pictographic}\u{FE0F})\p{Emoji_Modifier}?`;
+const EMOJI = String.raw`(?:(?!\p{Regional_Indicator})\p{Emoji_Presentation}|\p{Extended_Pictographic}\u{FE0F})\p{Emoji_Modifier}?`;
 const TAG_SEQUENCE = String.raw`[\u{E0020}-\u{E007E}]+\u{E007F}`;
 const LEADING_EMOJI = new RegExp(
   String.raw`^(\p{Regional_Indicator}{2}|${EMOJI}(?:\u{200D}${EMOJI})*(?:${TAG_SEQUENCE})?)\s*`,
