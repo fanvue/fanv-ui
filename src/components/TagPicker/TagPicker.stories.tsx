@@ -48,6 +48,28 @@ function StatefulPicker({
           setOptions((current) => [...current, option]);
           setValue((current) => [...current, option.value]);
         }}
+        onRename={(tagValue, { label, emoji }) =>
+          setOptions((current) =>
+            current.map((option) =>
+              option.value === tagValue ? { ...option, label, emoji } : option,
+            ),
+          )
+        }
+        onColourChange={(tagValue, colour) =>
+          setOptions((current) =>
+            current.map((option) => (option.value === tagValue ? { ...option, colour } : option)),
+          )
+        }
+        onDelete={(tagValue) =>
+          setOptions((current) => current.filter((option) => option.value !== tagValue))
+        }
+        onReorder={(order) =>
+          setOptions((current) =>
+            order
+              .map((v) => current.find((option) => option.value === v))
+              .filter((option): option is TagPickerOption => option !== undefined),
+          )
+        }
       />
     </div>
   );
@@ -94,4 +116,13 @@ export const Sheet: Story = {
   render: (args) => (
     <StatefulPicker {...args} initial={["whale", "top"]} variant="sheet" defaultOpen />
   ),
+};
+
+/**
+ * Editing and reordering. Hover a row for the drag handle and the ⋯ menu (rename, delete,
+ * colour). The ⋯ at the top right offers "Reorder tags", which shows every handle; focus one and
+ * use ↑ ↓ to move it.
+ */
+export const EditAndReorder: Story = {
+  render: (args) => <StatefulPicker {...args} initial={["whale"]} defaultOpen />,
 };

@@ -1,13 +1,34 @@
 import * as React from "react";
-import { cn } from "../../utils/cn";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "../Drawer/Drawer";
+import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer/Drawer";
 import { Popover, PopoverContent, PopoverTrigger } from "../Popover/Popover";
-import { Tag } from "../Tag/Tag";
+import type { TagVariant } from "../Tag/Tag";
 import { type ParsedTagName, parseTagName } from "./parseTagName";
 import { TagField, type TagPickerOption } from "./TagField";
+import type { TagMenuLabels } from "./TagMenu";
+import { TagPickerPanel } from "./TagPickerPanel";
 
-/** How the picker opens: a popover under the field, or a floating sheet for mobile. */
 export type TagPickerVariant = "popover" | "sheet";
+
+/** Where a moved tag landed, passed to `getMoveAnnouncement`. */
+export interface TagPickerMoveDetail {
+  /** The moved tag. */
+  option: TagPickerOption;
+  /** Its new position, counting from 1. */
+  position: number;
+  /** How many tags there are. */
+  total: number;
+}
+
+const DEFAULT_COLOUR_NAMES: Record<TagVariant, string> = {
+  gray: "Gray",
+  blue: "Blue",
+  teal: "Teal",
+  green: "Green",
+  amber: "Amber",
+  red: "Red",
+  pink: "Pink",
+  purple: "Purple",
+};
 
 /** Props for {@link TagPicker}. */
 export interface TagPickerProps {
@@ -23,6 +44,18 @@ export interface TagPickerProps {
    * to `value` in response. Leave unset to hide the Create row.
    */
   onCreate?: (name: ParsedTagName) => void;
+  /** Called when a tag is renamed in its ⋯ menu, with the new name split like `onCreate`. */
+  onRename?: (value: string, name: ParsedTagName) => void;
+  /** Called when a tag's colour is changed in its ⋯ menu. */
+  onColourChange?: (value: string, colour: TagVariant) => void;
+  /** Called when a tag is deleted in its ⋯ menu. Remove it from `options`. */
+  onDelete?: (value: string) => void;
+  /**
+   * Called with every option value in its new order after a tag is dragged or moved. Setting it
+   * shows the drag handle on hover (desktop) and the ⋯ action with "Reorder tags", which turns on
+   * reorder mode for touch and keyboard users.
+   */
+  onReorder?: (order: string[]) => void;
   /** `"popover"` opens under the field; `"sheet"` opens a sheet floated 16px from the sides and bottom, for mobile. @default "popover" */
   variant?: TagPickerVariant;
   /** Controlled open state. */
@@ -45,278 +78,62 @@ export interface TagPickerProps {
   emptyLabel?: string;
   /** Accessible name of a picked tag's × button. @default `Remove ${option.label}` */
   getRemoveLabel?: (option: TagPickerOption) => string;
+  /** Accessible name of a row's ⋯ button. @default `Edit ${option.label}` */
+  getEditLabel?: (option: TagPickerOption) => string;
+  /** Accessible name of the rename input in the ⋯ menu. @default "Tag name" */
+  renameLabel?: string;
+  /** Title of the ⋯ menu when it opens as a sheet. @default "Edit tag" */
+  editTitle?: string;
+  /** Label of the delete row in the ⋯ menu. @default "Delete" */
+  deleteLabel?: string;
+  /** Heading above the colours in the ⋯ menu. @default "Colours" */
+  coloursLabel?: string;
+  /** Name of each colour in the ⋯ menu. @default English names */
+  colourNames?: Record<TagVariant, string>;
+  /** Accessible name of the picker's ⋯ action button. @default "Tag options" */
+  actionsLabel?: string;
+  /** The action that turns on reorder mode. @default "Reorder tags" */
+  reorderLabel?: string;
+  /** Accessible name of the back button in the sheet's options view. @default "Back" */
+  backLabel?: string;
+  /** Hint shown in reorder mode. @default "Drag tags to reorder" */
+  reorderHint?: string;
+  /** Button that leaves reorder mode. @default "Done" */
+  doneLabel?: string;
+  /** Accessible name of a drag handle in reorder mode. @default `Move ${option.label}` */
+  getMoveLabel?: (option: TagPickerOption) => string;
+  /** Instructions read with a focused drag handle. @default "Press the up and down arrow keys to move this tag." */
+  moveInstructions?: string;
+  /** Announced after a tag moves. @default `${option.label}, position ${position} of ${total}` */
+  getMoveAnnouncement?: (detail: TagPickerMoveDetail) => string;
   /** Accessible name of the sheet's close button. @default "Close" */
   closeLabel?: string;
   /** Additional CSS classes for the field. */
   className?: string;
 }
 
-type Row = { kind: "option"; option: TagPickerOption } | { kind: "create"; name: ParsedTagName };
-
-const sameLabel = (a: string, b: string) =>
-  a.localeCompare(b, undefined, { sensitivity: "accent" }) === 0;
-
-function buildRows(
-  options: TagPickerOption[],
-  picked: readonly string[],
-  query: string,
-  canCreate: boolean,
-): Row[] {
-  const name = parseTagName(query);
-  const needle = name.label.toLocaleLowerCase();
-  const matches = options.filter(
-    (option) =>
-      !picked.includes(option.value) &&
-      (!needle || option.label.toLocaleLowerCase().includes(needle)),
-  );
-  const rows: Row[] = matches.map((option) => ({ kind: "option", option }));
-  const exists = options.some((option) => sameLabel(option.label, name.label));
-  if (canCreate && name.label && !exists) rows.push({ kind: "create", name });
-  return rows;
-}
-
-function scrollIntoView(element: HTMLElement | null) {
-  element?.scrollIntoView?.({ block: "nearest" });
-}
-
-interface TagPickerRowProps {
-  id: string;
-  row: Row;
-  isActive: boolean;
-  isSheet: boolean;
-  createLabel: string;
-  onHover: () => void;
-  onChoose: () => void;
-}
-
-function TagPickerRow({
-  id,
-  row,
-  isActive,
-  isSheet,
-  createLabel,
-  onHover,
-  onChoose,
-}: TagPickerRowProps) {
-  return (
-    <div
-      id={id}
-      role="option"
-      tabIndex={-1}
-      aria-selected="false"
-      data-active={isActive || undefined}
-      onPointerMove={() => {
-        if (!isActive) onHover();
-      }}
-      onPointerDown={(event) => event.preventDefault()}
-      onClick={onChoose}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          onChoose();
-        }
-      }}
-      className={cn(
-        "flex cursor-pointer items-center gap-2 rounded-sm px-3 outline-hidden",
-        isSheet ? "h-10" : "h-8",
-        isActive && "bg-interaction-hover",
-      )}
-    >
-      {row.kind === "option" ? (
-        <Tag variant={row.option.colour ?? "gray"} leadingIcon={row.option.emoji}>
-          {row.option.label}
-        </Tag>
-      ) : (
-        <>
-          <span className="typography-body-small-14px-regular text-content-secondary">
-            {createLabel}
-          </span>
-          <Tag leadingIcon={row.name.emoji}>{row.name.label}</Tag>
-        </>
-      )}
-    </div>
-  );
-}
-
-interface TagPickerPanelProps
-  extends Required<
-    Pick<
-      TagPickerProps,
-      "searchPlaceholder" | "listLabel" | "createLabel" | "emptyLabel" | "getRemoveLabel"
-    >
-  > {
-  options: TagPickerOption[];
-  picked: TagPickerOption[];
-  value: string[];
-  onValueChange: (value: string[]) => void;
-  onCreate?: (name: ParsedTagName) => void;
-  variant: TagPickerVariant;
-  label: string;
-  inputRef: React.RefObject<HTMLInputElement | null>;
-}
-
-function TagPickerPanel({
-  options,
-  picked,
-  value,
-  onValueChange,
-  onCreate,
-  variant,
-  label,
-  inputRef,
-  searchPlaceholder,
-  listLabel,
-  createLabel,
-  emptyLabel,
-  getRemoveLabel,
-}: TagPickerPanelProps) {
-  const id = React.useId();
-  const listId = `${id}-list`;
-  const [query, setQuery] = React.useState("");
-  const [activeIndex, setActiveIndex] = React.useState(0);
-  const [selectedTag, setSelectedTag] = React.useState<string | null>(null);
-  const rows = React.useMemo(
-    () => buildRows(options, value, query, onCreate !== undefined),
-    [options, value, query, onCreate],
-  );
-  const active = rows.length > 0 ? Math.min(activeIndex, rows.length - 1) : -1;
-  const rowId = (index: number) => `${id}-row-${index}`;
-  const isSheet = variant === "sheet";
-
-  React.useEffect(() => {
-    if (active >= 0) scrollIntoView(document.getElementById(`${id}-row-${active}`));
-  }, [active, id]);
-
-  const remove = (tagValue: string) => {
-    onValueChange(value.filter((v) => v !== tagValue));
-    setSelectedTag(null);
-    inputRef.current?.focus();
-  };
-
-  const choose = (row: Row) => {
-    if (row.kind === "option") onValueChange([...value, row.option.value]);
-    else onCreate?.(row.name);
-    setQuery("");
-    setActiveIndex(0);
-    setSelectedTag(null);
-    inputRef.current?.focus();
-  };
-
-  const selectOrRemoveLast = () => {
-    const last = picked.at(-1);
-    if (!last) return;
-    if (selectedTag === last.value) remove(last.value);
-    else setSelectedTag(last.value);
-  };
-
-  const moveActive = (step: number) => {
-    if (rows.length > 0) setActiveIndex((active + step + rows.length) % rows.length);
-  };
-
-  const keyActions: Record<string, () => void> = {
-    ArrowDown: () => moveActive(1),
-    ArrowUp: () => moveActive(-1),
-    Enter: () => {
-      const row = rows[active];
-      if (row) choose(row);
-    },
-  };
-
-  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.nativeEvent.isComposing || event.keyCode === 229) return;
-    if (event.key === "Backspace" && query === "" && picked.length > 0) {
-      if (event.repeat) return;
-      event.preventDefault();
-      selectOrRemoveLast();
-      return;
-    }
-    if (selectedTag !== null) setSelectedTag(null);
-    const action = keyActions[event.key];
-    if (action) {
-      event.preventDefault();
-      action();
-    }
-  };
-
-  return (
-    <div className="flex min-h-0 flex-col">
-      <div className={cn("flex flex-wrap items-center gap-1 py-2", isSheet ? "px-7" : "px-5")}>
-        {picked.map((option) => (
-          <Tag
-            key={option.value}
-            variant={option.colour ?? "gray"}
-            leadingIcon={option.emoji}
-            selected={selectedTag === option.value}
-            onRemove={() => remove(option.value)}
-            removeLabel={getRemoveLabel(option)}
-            removeTarget="tag"
-          >
-            {option.label}
-          </Tag>
-        ))}
-        <input
-          ref={inputRef}
-          type="text"
-          role="combobox"
-          aria-label={label}
-          aria-expanded="true"
-          aria-controls={listId}
-          aria-autocomplete="list"
-          aria-activedescendant={active >= 0 ? rowId(active) : undefined}
-          autoComplete="off"
-          value={query}
-          placeholder={picked.length === 0 ? searchPlaceholder : undefined}
-          onChange={(event) => {
-            setQuery(event.target.value);
-            setActiveIndex(0);
-            setSelectedTag(null);
-          }}
-          onKeyDown={onKeyDown}
-          className="typography-body-small-14px-regular h-6 min-w-16 flex-1 bg-transparent text-content-primary outline-hidden placeholder:text-content-tertiary"
-        />
-      </div>
-      <hr className="h-px shrink-0 border-0 bg-neutral-alphas-200" />
-      <div
-        id={listId}
-        role="listbox"
-        aria-label={listLabel}
-        aria-multiselectable="true"
-        className={cn("min-h-0 overflow-y-auto", isSheet ? "p-4" : "p-2")}
-      >
-        {rows.some((row) => row.kind === "option") && (
-          <div
-            role="presentation"
-            className="typography-description-12px-regular px-3 pt-2 pb-2 text-content-secondary"
-          >
-            {listLabel}
-          </div>
-        )}
-        {rows.map((row, index) => (
-          <TagPickerRow
-            key={row.kind === "option" ? `option-${row.option.value}` : "create"}
-            id={rowId(index)}
-            row={row}
-            isActive={index === active}
-            isSheet={isSheet}
-            createLabel={createLabel}
-            onHover={() => setActiveIndex(index)}
-            onChoose={() => choose(row)}
-          />
-        ))}
-      </div>
-      {rows.length === 0 && (
-        <output
-          className={cn(
-            "typography-body-small-14px-regular px-5 pb-3 text-content-tertiary",
-            isSheet && "px-7 pb-5",
-          )}
-        >
-          {emptyLabel}
-        </output>
-      )}
-    </div>
-  );
-}
+export type Labels = Required<
+  Pick<
+    TagPickerProps,
+    | "searchPlaceholder"
+    | "listLabel"
+    | "createLabel"
+    | "emptyLabel"
+    | "getRemoveLabel"
+    | "getEditLabel"
+    | "editTitle"
+    | "closeLabel"
+    | "actionsLabel"
+    | "reorderLabel"
+    | "backLabel"
+    | "reorderHint"
+    | "doneLabel"
+    | "getMoveLabel"
+    | "moveInstructions"
+    | "getMoveAnnouncement"
+  >
+> &
+  TagMenuLabels;
 
 /**
  * A Notion-style tag picker. The {@link TagField} shows the picked tags; clicking anywhere on it
@@ -329,6 +146,12 @@ function TagPickerPanel({
  *   so each tag appears once.
  * - When no tag has the typed name, a Create row adds it through `onCreate`. A leading emoji in
  *   the name becomes the tag's emoji (see {@link parseTagName}).
+ * - With `onRename`, `onColourChange` or `onDelete`, each row has a ⋯ button (on hover on desktop,
+ *   always in the sheet) that opens the tag menu. → on the active row opens it from the keyboard.
+ * - With `onReorder`, a drag handle shows on hover on desktop. Dragging lifts a floating copy and
+ *   a line marks where the tag will land; the list only changes on release. The ⋯ action at the
+ *   top right offers "Reorder tags": reorder mode lists every tag, picked or not, with its handle,
+ *   and ↑ ↓ on a focused handle move it.
  *
  * The caller owns the data: `options`, `value` and the callbacks. Every visible string is a prop,
  * so pass translated text.
@@ -341,6 +164,7 @@ function TagPickerPanel({
  *   value={picked}
  *   onValueChange={setPicked}
  *   onCreate={({ label, emoji }) => createTag({ label, emoji })}
+ *   onReorder={setOrder}
  * />
  * ```
  */
@@ -349,6 +173,10 @@ export function TagPicker({
   value,
   onValueChange,
   onCreate,
+  onRename,
+  onColourChange,
+  onDelete,
+  onReorder,
   variant = "popover",
   open: openProp,
   defaultOpen = false,
@@ -360,19 +188,58 @@ export function TagPicker({
   createLabel = "Create",
   emptyLabel = "No tags found",
   getRemoveLabel = (option) => `Remove ${option.label}`,
+  getEditLabel = (option) => `Edit ${option.label}`,
+  editTitle = "Edit tag",
+  renameLabel = "Tag name",
+  deleteLabel = "Delete",
+  coloursLabel = "Colours",
+  colourNames = DEFAULT_COLOUR_NAMES,
+  actionsLabel = "Tag options",
+  reorderLabel = "Reorder tags",
+  backLabel = "Back",
+  reorderHint = "Drag tags to reorder",
+  doneLabel = "Done",
+  getMoveLabel = (option) => `Move ${option.label}`,
+  moveInstructions = "Press the up and down arrow keys to move this tag.",
+  getMoveAnnouncement = ({ option, position, total }) =>
+    `${option.label}, position ${position} of ${total}`,
   closeLabel = "Close",
   className,
 }: TagPickerProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
+  const [reordering, setReordering] = React.useState(false);
   const open = openProp ?? uncontrolledOpen;
   const setOpen = (next: boolean) => {
     if (openProp === undefined) setUncontrolledOpen(next);
+    if (!next) setReordering(false);
     onOpenChange?.(next);
   };
   const inputRef = React.useRef<HTMLInputElement>(null);
   const picked = value
     .map((v) => options.find((option) => option.value === v))
     .filter((option): option is TagPickerOption => option !== undefined);
+  const labels: Labels = {
+    searchPlaceholder,
+    listLabel,
+    createLabel,
+    emptyLabel,
+    getRemoveLabel,
+    getEditLabel,
+    editTitle,
+    closeLabel,
+    renameLabel,
+    deleteLabel,
+    coloursLabel,
+    colourNames,
+    actionsLabel,
+    reorderLabel,
+    backLabel,
+    reorderHint,
+    doneLabel,
+    getMoveLabel,
+    moveInstructions,
+    getMoveAnnouncement,
+  };
 
   const field = (
     <TagField
@@ -391,17 +258,19 @@ export function TagPicker({
       value={value}
       onValueChange={onValueChange}
       onCreate={onCreate}
+      onRename={onRename}
+      onColourChange={onColourChange}
+      onDelete={onDelete}
+      onReorder={onReorder}
       variant={variant}
       label={label}
       inputRef={inputRef}
-      searchPlaceholder={searchPlaceholder}
-      listLabel={listLabel}
-      createLabel={createLabel}
-      emptyLabel={emptyLabel}
-      getRemoveLabel={getRemoveLabel}
+      labels={labels}
+      reordering={reordering}
+      setReordering={setReordering}
     />
   );
-  const focusInput = (event: Event) => {
+  const focusInputOnOpen = (event: Event) => {
     event.preventDefault();
     inputRef.current?.focus();
   };
@@ -414,12 +283,9 @@ export function TagPicker({
           position="bottom"
           variant="menu"
           aria-describedby={undefined}
-          onOpenAutoFocus={focusInput}
+          onOpenAutoFocus={focusInputOnOpen}
           className="flex max-h-[80dvh] flex-col"
         >
-          <DrawerHeader closeLabel={closeLabel} className="pb-0">
-            <DrawerTitle className="typography-body-default-16px-regular px-3">{label}</DrawerTitle>
-          </DrawerHeader>
           {panel}
         </DrawerContent>
       </Drawer>
@@ -431,7 +297,7 @@ export function TagPicker({
       <PopoverTrigger asChild>{field}</PopoverTrigger>
       <PopoverContent
         aria-label={label}
-        onOpenAutoFocus={focusInput}
+        onOpenAutoFocus={focusInputOnOpen}
         className="flex w-80 flex-col p-0"
       >
         {panel}
