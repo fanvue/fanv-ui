@@ -33,6 +33,7 @@ const meta = {
     variant: { control: "select", options: VARIANTS },
     size: { control: "select", options: SIZES },
     removeVisibility: { control: "select", options: ["always", "hover"] },
+    removeTarget: { control: "select", options: ["button", "tag"] },
   },
   args: { children: "Whale" },
 } satisfies Meta<typeof Tag>;

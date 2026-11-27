@@ -118,6 +118,44 @@ describe("Tag", () => {
     });
   });
 
+  describe("remove target", () => {
+    it("stretches the × hit area over the whole tag", () => {
+      render(
+        <Tag onRemove={() => {}} removeLabel="Remove Whale" removeTarget="tag">
+          Whale
+        </Tag>,
+      );
+      const remove = screen.getByRole("button", { name: "Remove Whale" });
+      expect(remove).toHaveClass("after:inset-0");
+      expect(remove).not.toHaveClass("relative");
+      expect(screen.getByTestId("tag")).toHaveClass("relative", "cursor-pointer");
+    });
+
+    it("keeps the hit area on the × by default", () => {
+      render(
+        <Tag onRemove={() => {}} removeLabel="Remove Whale">
+          Whale
+        </Tag>,
+      );
+      const remove = screen.getByRole("button", { name: "Remove Whale" });
+      expect(remove).toHaveClass("relative", "after:-inset-1.25");
+      expect(remove).not.toHaveClass("after:inset-0");
+    });
+
+    it("stays one button named by removeLabel", async () => {
+      const user = userEvent.setup();
+      const onRemove = vi.fn();
+      render(
+        <Tag onRemove={onRemove} removeLabel="Remove Whale" removeTarget="tag">
+          Whale
+        </Tag>,
+      );
+      expect(screen.getAllByRole("button")).toHaveLength(1);
+      await user.click(screen.getByRole("button", { name: "Remove Whale" }));
+      expect(onRemove).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe("selected", () => {
     it("darkens the fill when selected", () => {
       render(<Tag selected>Whale</Tag>);
