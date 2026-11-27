@@ -87,6 +87,28 @@ const variantClass: Record<TagVariant, string> = {
   purple: "bg-tag-purple-surface text-tag-purple-content",
 };
 
+const strongClass: Record<TagVariant, string> = {
+  gray: "bg-tag-gray-surface-strong text-tag-gray-content-strong",
+  blue: "bg-tag-blue-surface-strong text-tag-blue-content-strong",
+  teal: "bg-tag-teal-surface-strong text-tag-teal-content-strong",
+  green: "bg-tag-green-surface-strong text-tag-green-content-strong",
+  amber: "bg-tag-amber-surface-strong text-tag-amber-content-strong",
+  red: "bg-tag-red-surface-strong text-tag-red-content-strong",
+  pink: "bg-tag-pink-surface-strong text-tag-pink-content-strong",
+  purple: "bg-tag-purple-surface-strong text-tag-purple-content-strong",
+};
+
+const hoverStrongClass: Record<TagVariant, string> = {
+  gray: "hover:bg-tag-gray-surface-strong hover:text-tag-gray-content-strong",
+  blue: "hover:bg-tag-blue-surface-strong hover:text-tag-blue-content-strong",
+  teal: "hover:bg-tag-teal-surface-strong hover:text-tag-teal-content-strong",
+  green: "hover:bg-tag-green-surface-strong hover:text-tag-green-content-strong",
+  amber: "hover:bg-tag-amber-surface-strong hover:text-tag-amber-content-strong",
+  red: "hover:bg-tag-red-surface-strong hover:text-tag-red-content-strong",
+  pink: "hover:bg-tag-pink-surface-strong hover:text-tag-pink-content-strong",
+  purple: "hover:bg-tag-purple-surface-strong hover:text-tag-purple-content-strong",
+};
+
 function removeButtonClass(size: TagSize, revealOnHover: boolean, wholeTag: boolean) {
   return cn(
     "flex shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute focus-visible:opacity-100 focus-visible:outline-hidden",
@@ -148,14 +170,12 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
         data-testid="tag"
         data-selected={selected || undefined}
         className={cn(
-          "group/tag relative isolate inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs",
+          "group/tag relative inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs",
           size === "16" && "typography-tag-16px h-4 px-1",
           size === "20" && "typography-tag-20px h-5 px-1.5",
-          variantClass[variant],
+          selected ? strongClass[variant] : variantClass[variant],
+          onRemove && !selected && hoverStrongClass[variant],
           onRemove && removeTarget === "tag" && "cursor-pointer",
-          (onRemove || selected) &&
-            "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-tag-hover-overlay before:opacity-0 hover:before:opacity-100",
-          selected && "before:bg-tag-selected-overlay before:opacity-100",
           className,
         )}
         {...props}

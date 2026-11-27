@@ -157,11 +157,29 @@ describe("Tag", () => {
   });
 
   describe("selected", () => {
-    it("darkens the fill when selected", () => {
-      render(<Tag selected>Whale</Tag>);
+    it("uses the deeper step of its colour when selected", () => {
+      render(
+        <Tag selected variant="red">
+          Whale
+        </Tag>,
+      );
       const tag = screen.getByTestId("tag");
       expect(tag).toHaveAttribute("data-selected", "true");
-      expect(tag).toHaveClass("before:bg-tag-selected-overlay", "before:opacity-100");
+      expect(tag).toHaveClass("bg-tag-red-surface-strong", "text-tag-red-content-strong");
+      expect(tag).not.toHaveClass("bg-tag-red-surface");
+    });
+
+    it("deepens to the same step on hover when removable", () => {
+      render(
+        <Tag variant="blue" onRemove={() => {}} removeLabel="Remove Whale">
+          Whale
+        </Tag>,
+      );
+      expect(screen.getByTestId("tag")).toHaveClass(
+        "bg-tag-blue-surface",
+        "hover:bg-tag-blue-surface-strong",
+        "hover:text-tag-blue-content-strong",
+      );
     });
 
     it("keeps the resting fill when not selected", () => {
@@ -169,7 +187,8 @@ describe("Tag", () => {
       const tag = screen.getByTestId("tag");
       expect(tag).toHaveTextContent("Whale");
       expect(tag).not.toHaveAttribute("data-selected");
-      expect(tag).not.toHaveClass("before:bg-tag-selected-overlay");
+      expect(tag).toHaveClass("bg-tag-gray-surface");
+      expect(tag).not.toHaveClass("bg-tag-gray-surface-strong");
     });
 
     it("keeps a hover-revealed × visible while selected", () => {
