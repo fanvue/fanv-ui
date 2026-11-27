@@ -74,7 +74,7 @@ describe("TagField", () => {
 describe("TagPicker", () => {
   describe("opening", () => {
     it("opens from anywhere on the field and focuses the search input", async () => {
-      await openPicker({ initial: ["whale"] });
+      await openPicker();
       expect(input()).toHaveFocus();
       expect(options()).toHaveLength(4);
     });
@@ -160,20 +160,25 @@ describe("TagPicker", () => {
   });
 
   describe("picking", () => {
-    it("adds a tag on click and keeps it in the list as selected", async () => {
+    it("adds a tag on click and takes it out of the list", async () => {
       const onValueChange = vi.fn();
       const user = await openPicker({ onValueChange });
       await user.click(options()[1] as HTMLElement);
       expect(onValueChange).toHaveBeenCalledWith(["top"]);
-      expect(options()[1]).toHaveAttribute("aria-selected", "true");
-      expect(options()[0]).toHaveAttribute("aria-selected", "false");
+      expect(options().map((o) => o.textContent)).toEqual(["🐳Whale", "Night owl", "💰Big tipper"]);
     });
 
-    it("removes an already picked tag when its row is clicked", async () => {
-      const onValueChange = vi.fn();
-      const user = await openPicker({ initial: ["whale", "top"], onValueChange });
-      await user.click(options()[0] as HTMLElement);
-      expect(onValueChange).toHaveBeenCalledWith(["top"]);
+    it("lists only the tags that are not picked", async () => {
+      await openPicker({ initial: ["whale", "top"] });
+      expect(options().map((o) => o.textContent)).toEqual(["Night owl", "💰Big tipper"]);
+      expect(pickedTags().map((t) => t.textContent)).toEqual(["🐳Whale", "💎Top spender"]);
+    });
+
+    it("puts a tag back in the list when its chip is removed", async () => {
+      const user = await openPicker({ initial: ["whale"] });
+      expect(options()).toHaveLength(3);
+      await user.click(screen.getByRole("button", { name: "Remove Whale" }));
+      expect(options()).toHaveLength(4);
     });
 
     it("removes a picked tag with its ×", async () => {
@@ -203,6 +208,13 @@ describe("TagPicker", () => {
       const user = await openPicker({ onCreate: vi.fn() });
       await user.keyboard("whale");
       expect(options().map((o) => o.textContent)).toEqual(["🐳Whale"]);
+    });
+
+    it("hides Create when a picked tag already has the name", async () => {
+      const user = await openPicker({ initial: ["whale"], onCreate: vi.fn() });
+      await user.keyboard("Whale");
+      expect(screen.queryAllByRole("option")).toHaveLength(0);
+      expect(listbox()).toHaveTextContent("No tags found");
     });
 
     it("hides Create without onCreate", async () => {

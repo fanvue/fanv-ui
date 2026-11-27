@@ -56,12 +56,19 @@ type Row = { kind: "option"; option: TagPickerOption } | { kind: "create"; name:
 const sameLabel = (a: string, b: string) =>
   a.localeCompare(b, undefined, { sensitivity: "base" }) === 0;
 
-function buildRows(options: TagPickerOption[], query: string, canCreate: boolean): Row[] {
+function buildRows(
+  options: TagPickerOption[],
+  picked: readonly string[],
+  query: string,
+  canCreate: boolean,
+): Row[] {
   const name = parseTagName(query);
   const needle = name.label.toLocaleLowerCase();
-  const matches = needle
-    ? options.filter((option) => option.label.toLocaleLowerCase().includes(needle))
-    : options;
+  const matches = options.filter(
+    (option) =>
+      !picked.includes(option.value) &&
+      (!needle || option.label.toLocaleLowerCase().includes(needle)),
+  );
   const rows: Row[] = matches.map((option) => ({ kind: "option", option }));
   const exists = options.some((option) => sameLabel(option.label, name.label));
   if (canCreate && name.label && !exists) rows.push({ kind: "create", name });
@@ -76,7 +83,6 @@ interface TagPickerRowProps {
   id: string;
   row: Row;
   isActive: boolean;
-  isPicked: boolean;
   isSheet: boolean;
   createLabel: string;
   onHover: () => void;
@@ -87,7 +93,6 @@ function TagPickerRow({
   id,
   row,
   isActive,
-  isPicked,
   isSheet,
   createLabel,
   onHover,
@@ -98,7 +103,7 @@ function TagPickerRow({
       id={id}
       role="option"
       tabIndex={-1}
-      aria-selected={isPicked}
+      aria-selected="false"
       data-active={isActive || undefined}
       onPointerMove={() => {
         if (!isActive) onHover();
@@ -171,8 +176,8 @@ function TagPickerPanel({
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [selectedTag, setSelectedTag] = React.useState<string | null>(null);
   const rows = React.useMemo(
-    () => buildRows(options, query, onCreate !== undefined),
-    [options, query, onCreate],
+    () => buildRows(options, value, query, onCreate !== undefined),
+    [options, value, query, onCreate],
   );
   const active = rows.length > 0 ? Math.min(activeIndex, rows.length - 1) : -1;
   const rowId = (index: number) => `${id}-row-${index}`;
@@ -188,16 +193,8 @@ function TagPickerPanel({
     inputRef.current?.focus();
   };
 
-  const toggle = (option: TagPickerOption) => {
-    onValueChange(
-      value.includes(option.value)
-        ? value.filter((v) => v !== option.value)
-        : [...value, option.value],
-    );
-  };
-
   const choose = (row: Row) => {
-    if (row.kind === "option") toggle(row.option);
+    if (row.kind === "option") onValueChange([...value, row.option.value]);
     else onCreate?.(row.name);
     setQuery("");
     setActiveIndex(0);
@@ -297,7 +294,6 @@ function TagPickerPanel({
             id={rowId(index)}
             row={row}
             isActive={index === active}
-            isPicked={row.kind === "option" && value.includes(row.option.value)}
             isSheet={isSheet}
             createLabel={createLabel}
             onHover={() => setActiveIndex(index)}
@@ -321,8 +317,8 @@ function TagPickerPanel({
  * - Type to filter. ↑ and ↓ move the active row (wrapping), Enter picks it, Escape closes.
  * - Picked tags show at the top with a ×. On an empty input, Backspace selects the last tag and a
  *   second Backspace removes it.
- * - Clicking a row picks the tag, or removes it when it is already picked. Picked tags stay in the
- *   list, marked with `aria-selected`.
+ * - Clicking a row picks the tag. Picked tags leave the list and show only as chips at the top,
+ *   so each tag appears once.
  * - When no tag has the typed name, a Create row adds it through `onCreate`. A leading emoji in
  *   the name becomes the tag's emoji (see {@link parseTagName}).
  *
