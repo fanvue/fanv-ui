@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { userEvent, within } from "storybook/test";
+import { expect, screen, userEvent, waitFor, within } from "storybook/test";
 import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Button } from "../Button/Button";
 import { TextField } from "../TextField/TextField";
@@ -505,4 +505,48 @@ export const WithCustomWidth: Story = {
       </Drawer>
     </div>
   ),
+};
+
+/**
+ * A drawer opened from inside another lands on top of it, overlay and all: every drawer's overlay
+ * and panel share one stacking level, so the one opened last wins.
+ */
+export const NestedSheets: Story = {
+  tags: ["!autodocs"],
+  render: () => (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button>Open sheet</Button>
+      </DrawerTrigger>
+      <DrawerContent position="bottom" variant="sheet" size="lg" aria-describedby={undefined}>
+        <DrawerHeader>
+          <DrawerTitle>First sheet</DrawerTitle>
+        </DrawerHeader>
+        <div className="flex h-64 flex-col gap-4 p-4 pt-0">
+          <p>The second sheet's overlay covers this one.</p>
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Button>Open second sheet</Button>
+            </DrawerTrigger>
+            <DrawerContent position="bottom" variant="sheet" aria-describedby={undefined}>
+              <DrawerHeader>
+                <DrawerTitle>Second sheet</DrawerTitle>
+              </DrawerHeader>
+              <div className="p-4 pt-0">
+                <p>On top.</p>
+              </div>
+            </DrawerContent>
+          </Drawer>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  ),
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole("button", { name: "Open sheet" }));
+    const first = await screen.findByRole("dialog", { name: "First sheet" });
+    await userEvent.click(within(first).getByRole("button", { name: "Open second sheet" }));
+    const second = await screen.findByRole("dialog", { name: "Second sheet" });
+    await waitFor(() => expect(second.getAnimations().length).toBe(0));
+    await expect(second).toBeVisible();
+  },
 };

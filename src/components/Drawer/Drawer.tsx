@@ -354,7 +354,7 @@ export const DrawerContent = React.forwardRef<
         <DialogPrimitive.Content
           ref={ref}
           style={{
-            zIndex: "calc(var(--fanvue-ui-portal-z-index, 50) + 1)",
+            zIndex: "var(--fanvue-ui-portal-z-index, 50)",
             ...style,
           }}
           className={cn(
