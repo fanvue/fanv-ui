@@ -937,6 +937,7 @@ export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
 export type {
   TagProps,
+  TagRemoveTarget,
   TagRemoveVisibility,
   TagSize,
   TagVariant,

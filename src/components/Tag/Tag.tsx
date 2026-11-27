@@ -29,7 +29,9 @@ interface TagBaseProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "chil
   children: React.ReactNode;
   /**
    * Marks the tag as picked out with the keyboard, such as the last tag in a picker after one
-   * Backspace, before a second Backspace removes it. Darkens the fill and keeps the × visible.
+   * Backspace, before a second Backspace removes it. Darkens the fill and reveals the ×, so with
+   * `removeVisibility="hover"` the tag widens when selected. Tag only shows the selection: the
+   * surrounding listbox or combobox has to expose it to assistive technology.
    * @default false
    */
   selected?: boolean;
@@ -53,7 +55,9 @@ interface TagRemovableProps {
   /**
    * `"button"` makes only the × remove the tag. `"tag"` stretches the ×'s hit area over the whole
    * tag, for touch and for chips whose only action is removing them, such as picked tags in a
-   * picker. It is still one button named by `removeLabel`.
+   * picker. It is still one button named by `removeLabel`. Because the button covers the tag, an
+   * `onClick` on the tag also fires on every remove press; stop propagation in `onRemove` to keep
+   * them apart. With `removeVisibility="hover"` the target is only live once the × is revealed.
    * @default "button"
    */
   removeTarget?: TagRemoveTarget;
@@ -87,7 +91,7 @@ function removeButtonClass(size: TagSize, revealOnHover: boolean, wholeTag: bool
   return cn(
     "flex shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute focus-visible:opacity-100 focus-visible:outline-hidden",
     wholeTag
-      ? "after:inset-0 after:rounded-[inherit] focus-visible:after:shadow-focus-ring"
+      ? "after:inset-0 after:rounded-2xs focus-visible:after:shadow-focus-ring"
       : "relative focus-visible:shadow-focus-ring",
     size === "16" && "size-3",
     size === "20" && "size-3.5",

@@ -201,6 +201,15 @@ describe("Tag", () => {
       expect(await axe(container)).toHaveNoViolations();
     });
 
+    it("has no accessibility violations when selected and removable by the whole tag", async () => {
+      const { container } = render(
+        <Tag selected onRemove={() => {}} removeLabel="Remove Whale" removeTarget="tag">
+          Whale
+        </Tag>,
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
     it("has no accessibility violations with a remove button", async () => {
       const { container } = render(
         <Tag variant="blue" leadingIcon="🐳" onRemove={() => {}} removeLabel="Remove Whale">
