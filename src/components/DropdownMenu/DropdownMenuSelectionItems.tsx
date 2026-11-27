@@ -27,7 +27,7 @@ export const DropdownMenuRadioGroup = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.RadioGroup
     ref={ref}
-    className={cn("flex flex-col gap-[3px]", className)}
+    className={cn("flex flex-col gap-0.5", className)}
     {...props}
   />
 ));

@@ -451,7 +451,7 @@ describe("Select", () => {
       expect(screen.getByRole("option", { name: /Option A/ })).toHaveClass("shrink-0", "min-h-10");
     });
 
-    it("spaces rows 3px apart inside a group", () => {
+    it("spaces rows 2px apart inside a group", () => {
       render(
         <Select aria-label="Test" defaultOpen defaultValue="a">
           <SelectContent>
@@ -463,7 +463,7 @@ describe("Select", () => {
       );
       const group = screen.getByTestId("group");
       expect(group).toContainElement(screen.getByRole("option", { name: "Option A" }));
-      expect(group).toHaveClass("flex", "flex-col", "gap-[3px]");
+      expect(group).toHaveClass("flex", "flex-col", "gap-0.5");
     });
 
     it("derives a 32px row from the size-32 trigger", () => {
