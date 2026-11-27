@@ -1747,6 +1747,38 @@ function AccordionDemo() {
   );
 }
 
+function DrawerViewsDemo() {
+  const [step, setStep] = useState(0);
+  return (
+    <Drawer onOpenChange={() => setStep(0)}>
+      <DrawerTrigger asChild>
+        <Button>Sheet with views</Button>
+      </DrawerTrigger>
+      <DrawerContent position="bottom" variant="sheet" step={step}>
+        <DrawerHeader onBack={step > 0 ? () => setStep(0) : undefined}>
+          <DrawerTitle>{step === 0 ? "Tags" : "Tag options"}</DrawerTitle>
+          <DrawerDescription>
+            {step === 0
+              ? "The sheet turns into a deeper view in place."
+              : "Back slides the previous view in from the left."}
+          </DrawerDescription>
+        </DrawerHeader>
+        <DrawerFooter>
+          {step === 0 ? (
+            <Button className="w-full" onClick={() => setStep(1)}>
+              Tag options
+            </Button>
+          ) : (
+            <DrawerClose asChild>
+              <Button className="w-full">Done</Button>
+            </DrawerClose>
+          )}
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
 function DrawerDemo() {
   return (
     <div id="drawer" className="flex scroll-mt-20 flex-col gap-4">
@@ -1849,6 +1881,8 @@ function DrawerDemo() {
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
+
+        <DrawerViewsDemo />
 
         <Drawer>
           <DrawerTrigger asChild>

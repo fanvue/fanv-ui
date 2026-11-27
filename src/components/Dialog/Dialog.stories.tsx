@@ -980,3 +980,79 @@ export const FullScreenMedia: Story = {
   ),
   play: openDialog,
 };
+
+function MultiStepDialog() {
+  const [step, setStep] = useState(0);
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent step={step} aria-describedby={undefined}>
+        <DialogHeader onBack={step > 0 ? () => setStep(0) : undefined}>
+          <DialogTitle>{step === 0 ? "Payout settings" : "Edit bank account"}</DialogTitle>
+        </DialogHeader>
+        {step === 0 ? (
+          <>
+            <DialogBody>
+              <p className="typography-body-default-16px-regular text-content-secondary">
+                Payouts go to your bank account every Monday.
+              </p>
+            </DialogBody>
+            <DialogFooter>
+              <Button variant="secondary" onClick={() => setStep(1)}>
+                Edit bank account
+              </Button>
+            </DialogFooter>
+          </>
+        ) : (
+          <>
+            <DialogBody className="flex flex-col gap-4">
+              <TextField label="Account holder" defaultValue="Alex Moans" fullWidth />
+              <TextField label="Sort code" defaultValue="12-34-56" fullWidth />
+              <TextField label="Account number" defaultValue="12345678" fullWidth />
+            </DialogBody>
+            <DialogFooter>
+              <Button onClick={() => setStep(0)}>Save</Button>
+            </DialogFooter>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+const walkSteps: Story["play"] = async (context) => {
+  await openDialog?.(context);
+  await userEvent.click(await screen.findByRole("button", { name: "Edit bank account" }));
+  await expect(await screen.findByRole("dialog", { name: "Edit bank account" })).toBeVisible();
+  await userEvent.click(screen.getByRole("button", { name: "Go back" }));
+  await expect(await screen.findByRole("dialog", { name: "Payout settings" })).toBeVisible();
+};
+
+/**
+ * Give `DialogContent` a `step` and it animates between views: the dialog morphs to the new
+ * view's height and the view slides in from the right going deeper, or from the left going back.
+ * A lone footer action fills the width.
+ */
+export const MultiStep: Story = {
+  name: "Multi-step",
+  render: () => <MultiStepDialog />,
+  play: walkSteps,
+};
+
+/** On mobile the sheet turns into the deeper view in place, with the action at the very bottom. */
+export const MultiStepMobile: Story = {
+  name: "Multi-step Mobile Sheet (375px)",
+  tags: ["!autodocs"],
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+    chromatic: {
+      modes: {
+        "light-mobile": { theme: "light", viewport: 375 },
+      },
+    },
+  },
+  render: () => <MultiStepDialog />,
+  play: walkSteps,
+};

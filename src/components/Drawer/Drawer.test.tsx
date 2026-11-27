@@ -673,4 +673,78 @@ describe("Drawer", () => {
       expect(onOpenChange).not.toHaveBeenCalled();
     });
   });
+
+  describe("views", () => {
+    function TwoStepSheet() {
+      const [step, setStep] = React.useState(0);
+      return (
+        <Drawer defaultOpen>
+          <DrawerContent position="bottom" variant="sheet" step={step} aria-describedby={undefined}>
+            <DrawerHeader onBack={step > 0 ? () => setStep(0) : undefined}>
+              <DrawerTitle>{step === 0 ? "Tags" : "Tag options"}</DrawerTitle>
+            </DrawerHeader>
+            {step === 0 && (
+              <button type="button" onClick={() => setStep(1)}>
+                Tag options
+              </button>
+            )}
+          </DrawerContent>
+        </Drawer>
+      );
+    }
+
+    const view = () => document.querySelector("[data-morph-panel] > [data-direction]");
+
+    it("turns the sheet into a deeper view in place and back", async () => {
+      const user = userEvent.setup();
+      render(<TwoStepSheet />);
+      await user.click(screen.getByRole("button", { name: "Tag options" }));
+      expect(screen.getAllByRole("dialog")).toHaveLength(1);
+      expect(screen.getByRole("dialog", { name: "Tag options" })).toBeInTheDocument();
+      expect(view()).toHaveAttribute("data-direction", "forward");
+      await user.click(screen.getByRole("button", { name: "Go back" }));
+      expect(screen.getByRole("dialog", { name: "Tags" })).toBeInTheDocument();
+      expect(view()).toHaveAttribute("data-direction", "back");
+    });
+
+    it("keeps a drawer without a step as it is", async () => {
+      const user = userEvent.setup();
+      renderDrawer();
+      await user.click(screen.getByText("Open drawer"));
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+      expect(document.querySelector("[data-morph-panel]")).toBeNull();
+    });
+  });
+
+  describe("header back button", () => {
+    it("shows a back button that calls onBack, labelled by backLabel", async () => {
+      const user = userEvent.setup();
+      const onBack = vi.fn();
+      render(
+        <Drawer defaultOpen>
+          <DrawerContent aria-describedby={undefined}>
+            <DrawerHeader onBack={onBack} backLabel="Back to tags">
+              <DrawerTitle>Edit tag</DrawerTitle>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      );
+      await user.click(screen.getByRole("button", { name: "Back to tags" }));
+      expect(onBack).toHaveBeenCalledTimes(1);
+    });
+
+    it("has no back button without onBack", () => {
+      render(
+        <Drawer defaultOpen>
+          <DrawerContent aria-describedby={undefined}>
+            <DrawerHeader>
+              <DrawerTitle>Tags</DrawerTitle>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>,
+      );
+      expect(screen.getByRole("button", { name: "Close drawer" })).toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Go back" })).toBeNull();
+    });
+  });
 });

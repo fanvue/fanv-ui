@@ -6,6 +6,7 @@ import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag
 import { IconButton } from "../IconButton/IconButton";
 import { ArrowLeftIcon } from "../Icons/ArrowLeftIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
+import { withMorphPanel } from "../MorphPanel/MorphPanel";
 
 /** Props for the {@link Dialog} root component. */
 export interface DialogProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root> {
@@ -105,6 +106,13 @@ export interface DialogContentProps
   mobilePresentation?: "sheet" | "card";
   /** Props forwarded to the default {@link DialogOverlay} when `overlay` is `true`. */
   overlayProps?: DialogOverlayProps;
+  /**
+   * Which view of a multi-step dialog is showing, in navigation order: a higher step is deeper.
+   * When set, the children sit in a {@link MorphPanel}, so changing it morphs the dialog to the new
+   * view's height and slides the view in from the right going deeper or from the left going back.
+   * Leave it unset for a dialog with one view.
+   */
+  step?: number;
 }
 
 const SIZE_CLASSES: Record<Exclude<DialogContentSize, "full">, string> = {
@@ -127,6 +135,7 @@ const FULL_CLASSES =
  * render a centered floating card instead (used for small confirmation dialogs).
  * On larger viewports it renders centered with full border radius.
  * `size="full"` skips both and fills the viewport with no chrome.
+ * Give a multi-step dialog a `step` to animate between its views (see {@link MorphPanel}).
  * The panel carries its size as `data-size`, for styling its children.
  *
  * It animates in and out. While the closing animation plays the panel stays
@@ -167,6 +176,7 @@ export const DialogContent = React.forwardRef<
       showMobileHandle = true,
       mobilePresentation = "sheet",
       overlayProps,
+      step,
       style,
       onOpenAutoFocus,
       ...props
@@ -237,7 +247,7 @@ export const DialogContent = React.forwardRef<
             className="mb-3 h-1 w-8 shrink-0 self-center rounded-full bg-icons-tertiary sm:hidden"
           />
         )}
-        {children}
+        {withMorphPanel(step, children)}
       </DialogPrimitive.Content>
     );
     const overlayElement = overlay ? <DialogOverlay {...overlayProps} /> : null;

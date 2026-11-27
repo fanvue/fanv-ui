@@ -1,8 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
-import { userEvent, within } from "storybook/test";
+import { type ReactNode, useState } from "react";
+import { expect, screen, userEvent, within } from "storybook/test";
 import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
 import { Button } from "../Button/Button";
+import { IconButton } from "../IconButton/IconButton";
+import { EditIcon } from "../Icons/EditIcon";
+import { MoreIcon } from "../Icons/MoreIcon";
+import { TagIcon } from "../Icons/TagIcon";
 import { TextField } from "../TextField/TextField";
 import {
   Drawer,
@@ -505,4 +509,133 @@ export const WithCustomWidth: Story = {
       </Drawer>
     </div>
   ),
+};
+
+const TAGS = ["VIP", "Big spender", "New", "Needs reply"];
+
+function SheetRow({
+  icon,
+  label,
+  onClick,
+}: {
+  icon: ReactNode;
+  label: string;
+  onClick?: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="typography-body-small-14px-regular flex h-10 w-full cursor-pointer items-center gap-2 rounded-sm px-3 text-start text-content-primary outline-hidden hover:bg-interaction-hover focus-visible:bg-interaction-hover"
+    >
+      {icon}
+      {label}
+    </button>
+  );
+}
+
+function SheetWithViewsDemo() {
+  const [view, setView] = useState<"tags" | "options" | "edit">("tags");
+  const back = () => setView("tags");
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button>Open sheet</Button>
+      </DrawerTrigger>
+      <DrawerContent
+        position="bottom"
+        variant="sheet"
+        step={view === "tags" ? 0 : 1}
+        aria-describedby={undefined}
+      >
+        {view === "tags" && (
+          <>
+            <DrawerHeader>
+              <div className="flex items-center gap-2">
+                <DrawerTitle className="min-w-0 flex-1">Tags</DrawerTitle>
+                <IconButton
+                  variant="tertiary"
+                  size="32"
+                  icon={<MoreIcon size={16} />}
+                  aria-label="Tag options"
+                  onClick={() => setView("options")}
+                />
+              </div>
+            </DrawerHeader>
+            <div className="px-4">
+              {TAGS.map((tag) => (
+                <SheetRow
+                  key={tag}
+                  icon={<TagIcon size={16} />}
+                  label={tag}
+                  onClick={() => setView("edit")}
+                />
+              ))}
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button className="w-full">Done</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </>
+        )}
+        {view === "options" && (
+          <>
+            <DrawerHeader onBack={back}>
+              <DrawerTitle>Tag options</DrawerTitle>
+            </DrawerHeader>
+            <div className="px-4 pb-4">
+              <SheetRow
+                icon={<EditIcon size={16} />}
+                label="Edit tags"
+                onClick={() => setView("edit")}
+              />
+            </div>
+          </>
+        )}
+        {view === "edit" && (
+          <>
+            <DrawerHeader onBack={back}>
+              <DrawerTitle>Edit tag</DrawerTitle>
+            </DrawerHeader>
+            <div className="flex flex-col gap-4 px-4">
+              <TextField label="Name" defaultValue="VIP" fullWidth />
+              <TextField label="Description" defaultValue="Fans who tip every week" fullWidth />
+            </div>
+            <DrawerFooter>
+              <Button className="w-full" onClick={back}>
+                Save
+              </Button>
+            </DrawerFooter>
+          </>
+        )}
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+/**
+ * Give `DrawerContent` a `step` and a sheet turns into a deeper view in place instead of stacking
+ * a second sheet: it morphs to the new view's height and slides the view in from the right, and
+ * `DrawerHeader`'s `onBack` adds the back arrow that slides it back from the left. The header's
+ * actions are 32px, and the sheet's action sits full width at the very bottom.
+ */
+export const SheetWithViews: Story = {
+  tags: ["!autodocs"],
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+    chromatic: {
+      modes: {
+        "light-mobile": { theme: "light", viewport: 375 },
+      },
+    },
+  },
+  render: () => <SheetWithViewsDemo />,
+  play: async (context) => {
+    await openDrawer?.(context);
+    await userEvent.click(await screen.findByRole("button", { name: "Tag options" }));
+    await expect(await screen.findByRole("dialog", { name: "Tag options" })).toBeVisible();
+    await userEvent.click(screen.getByRole("button", { name: "Go back" }));
+    await expect(await screen.findByRole("dialog", { name: "Tags" })).toBeVisible();
+  },
 };
