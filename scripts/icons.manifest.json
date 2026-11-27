@@ -541,6 +541,11 @@
       "hasFilled": false
     },
     {
+      "name": "ReorganiseIcon",
+      "sizes": [16, 24, 32],
+      "hasFilled": true
+    },
+    {
       "name": "RepeatIcon",
       "sizes": [16, 24, 32],
       "hasFilled": false

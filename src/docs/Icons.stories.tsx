@@ -197,6 +197,7 @@ import { ProgrammingArrowIcon } from "../components/Icons/ProgrammingArrowIcon";
 import { QueueIcon } from "../components/Icons/QueueIcon";
 import { ReceiveMoneyIcon } from "../components/Icons/ReceiveMoneyIcon";
 import { RefreshArrowIcon } from "../components/Icons/RefreshArrowIcon";
+import { ReorganiseIcon } from "../components/Icons/ReorganiseIcon";
 import { RepeatIcon } from "../components/Icons/RepeatIcon";
 import { Reply2Icon } from "../components/Icons/Reply2Icon";
 import { ReplyIcon } from "../components/Icons/ReplyIcon";
@@ -1141,6 +1142,13 @@ const icons: IconEntry[] = [
     component: RefreshArrowIcon,
     animated: null,
     tags: ["refresh", "reload", "sync", "automations", "rotate"],
+    propBased: true,
+  },
+  {
+    name: "ReorganiseIcon",
+    component: ReorganiseIcon,
+    animated: null,
+    tags: ["reorganise", "reorganize", "reorder", "drag", "handle", "grip", "dots", "sort", "move"],
     propBased: true,
   },
   {

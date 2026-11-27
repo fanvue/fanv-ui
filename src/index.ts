@@ -550,6 +550,8 @@ export type { ReceiveMoneyIconProps } from "./components/Icons/ReceiveMoneyIcon"
 export { ReceiveMoneyIcon } from "./components/Icons/ReceiveMoneyIcon";
 export type { RefreshArrowIconProps } from "./components/Icons/RefreshArrowIcon";
 export { RefreshArrowIcon } from "./components/Icons/RefreshArrowIcon";
+export type { ReorganiseIconProps } from "./components/Icons/ReorganiseIcon";
+export { ReorganiseIcon } from "./components/Icons/ReorganiseIcon";
 export type { RepeatIconProps } from "./components/Icons/RepeatIcon";
 export { RepeatIcon } from "./components/Icons/RepeatIcon";
 export type { Reply2IconProps } from "./components/Icons/Reply2Icon";
