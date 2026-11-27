@@ -673,4 +673,33 @@ describe("Drawer", () => {
       expect(onOpenChange).not.toHaveBeenCalled();
     });
   });
+
+  describe("stacking", () => {
+    it("puts a drawer's overlay and panel on one stacking level, so a drawer opened later lands on top", async () => {
+      const user = userEvent.setup();
+      render(
+        <Drawer defaultOpen>
+          <DrawerContent aria-describedby={undefined}>
+            <DrawerTitle>First</DrawerTitle>
+            <Drawer>
+              <DrawerTrigger>Open second</DrawerTrigger>
+              <DrawerContent aria-describedby={undefined}>
+                <DrawerTitle>Second</DrawerTitle>
+              </DrawerContent>
+            </Drawer>
+          </DrawerContent>
+        </Drawer>,
+      );
+      const first = screen.getByRole("dialog", { name: "First" });
+      await user.click(screen.getByRole("button", { name: "Open second" }));
+      const second = screen.getByRole("dialog", { name: "Second" });
+      const secondOverlay = second.previousElementSibling as HTMLElement;
+      expect(secondOverlay).toHaveAttribute("data-state", "open");
+      expect(secondOverlay.style.zIndex).toBe(first.style.zIndex);
+      expect(second.style.zIndex).toBe(first.style.zIndex);
+      expect(
+        first.compareDocumentPosition(secondOverlay) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+    });
+  });
 });
