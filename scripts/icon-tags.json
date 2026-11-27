@@ -121,6 +121,7 @@
   "PlusIcon": ["plus", "add", "create", "new", "increase"],
   "PrivacyIcon": ["privacy", "shield", "secure"],
   "ReceiveMoneyIcon": ["receive", "money", "hand", "dollar", "earnings"],
+  "ReorganiseIcon": ["reorganise", "reorder", "drag", "handle", "grip", "sort", "move"],
   "RepeatIcon": ["repeat", "loop", "refresh"],
   "Reply2Icon": ["reply", "respond", "arrow"],
   "ReplyIcon": ["reply", "respond", "arrow"],

@@ -131,6 +131,7 @@ import { ProgrammingArrowIcon } from "./ProgrammingArrowIcon";
 import { QueueIcon } from "./QueueIcon";
 import { ReceiveMoneyIcon } from "./ReceiveMoneyIcon";
 import { RefreshArrowIcon } from "./RefreshArrowIcon";
+import { ReorganiseIcon } from "./ReorganiseIcon";
 import { RepeatIcon } from "./RepeatIcon";
 import { Reply2Icon } from "./Reply2Icon";
 import { ReplyIcon } from "./ReplyIcon";
@@ -327,6 +328,7 @@ const propBasedIcons = [
   { name: "QueueIcon", Component: QueueIcon, hasFilled: false },
   { name: "ReceiveMoneyIcon", Component: ReceiveMoneyIcon, hasFilled: false },
   { name: "RefreshArrowIcon", Component: RefreshArrowIcon, hasFilled: false },
+  { name: "ReorganiseIcon", Component: ReorganiseIcon, hasFilled: true },
   { name: "RepeatIcon", Component: RepeatIcon, hasFilled: false },
   { name: "Reply2Icon", Component: Reply2Icon, hasFilled: true },
   { name: "ReplyIcon", Component: ReplyIcon, hasFilled: true },
