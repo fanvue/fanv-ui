@@ -1148,7 +1148,7 @@ const icons: IconEntry[] = [
     name: "ReorganiseIcon",
     component: ReorganiseIcon,
     animated: null,
-    tags: ["reorganise", "reorder", "drag", "handle", "grip", "sort", "move"],
+    tags: ["reorganise", "reorganize", "reorder", "drag", "handle", "grip", "dots", "sort", "move"],
     propBased: true,
   },
   {
