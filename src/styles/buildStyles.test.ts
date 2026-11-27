@@ -288,7 +288,8 @@ describe("buildThemeCss", () => {
       expect(themeBlocks).toContain("--color-tag-blue-surface: var(--primitives-color-blue-100);");
       expect(root.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-100)");
       expect(dark.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-800)");
-      expect(dark.get("--color-tag-hover-overlay")).toBe("var(--color-neutral-alphas-100)");
+      expect(dark.get("--color-tag-blue-surface-strong")).toBe("var(--primitives-color-blue-900)");
+      expect(root.get("--color-tag-red-content-strong")).toBe("var(--primitives-color-red-800)");
       expect(v2Light.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-100)");
       expect(v2Dark.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-800)");
     });

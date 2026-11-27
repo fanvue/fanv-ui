@@ -11,6 +11,9 @@ export type TagSize = "16" | "20";
 /** When the remove button is shown. */
 export type TagRemoveVisibility = "always" | "hover";
 
+/** What a press removes the tag from: just the ×, or anywhere on the tag. */
+export type TagRemoveTarget = "button" | "tag";
+
 interface TagBaseProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
   /** Colour from the V2 Tags palette. @default "gray" */
   variant?: TagVariant;
@@ -24,6 +27,14 @@ interface TagBaseProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "chil
   leadingIcon?: React.ReactNode;
   /** The visible label. */
   children: React.ReactNode;
+  /**
+   * Marks the tag as picked out with the keyboard, such as the last tag in a picker after one
+   * Backspace, before a second Backspace removes it. Darkens the fill and reveals the ×, so with
+   * `removeVisibility="hover"` the tag widens when selected. Tag only shows the selection: the
+   * surrounding listbox or combobox has to expose it to assistive technology.
+   * @default false
+   */
+  selected?: boolean;
 }
 
 interface TagRemovableProps {
@@ -41,6 +52,15 @@ interface TagRemovableProps {
    * @default "always"
    */
   removeVisibility?: TagRemoveVisibility;
+  /**
+   * `"button"` makes only the × remove the tag. `"tag"` stretches the ×'s hit area over the whole
+   * tag, for touch and for chips whose only action is removing them, such as picked tags in a
+   * picker. It is still one button named by `removeLabel`. Because the button covers the tag, an
+   * `onClick` on the tag also fires on every remove press; stop propagation in `onRemove` to keep
+   * them apart. With `removeVisibility="hover"` the target is only live once the × is revealed.
+   * @default "button"
+   */
+  removeTarget?: TagRemoveTarget;
 }
 
 interface TagStaticProps {
@@ -50,6 +70,8 @@ interface TagStaticProps {
   removeLabel?: undefined;
   /** Only used with `onRemove`. */
   removeVisibility?: undefined;
+  /** Only used with `onRemove`. */
+  removeTarget?: undefined;
 }
 
 export type TagProps = TagBaseProps & (TagRemovableProps | TagStaticProps);
@@ -64,6 +86,45 @@ const variantClass: Record<TagVariant, string> = {
   pink: "bg-tag-pink-surface text-tag-pink-content",
   purple: "bg-tag-purple-surface text-tag-purple-content",
 };
+
+const strongClass: Record<TagVariant, string> = {
+  gray: "bg-tag-gray-surface-strong text-tag-gray-content-strong",
+  blue: "bg-tag-blue-surface-strong text-tag-blue-content-strong",
+  teal: "bg-tag-teal-surface-strong text-tag-teal-content-strong",
+  green: "bg-tag-green-surface-strong text-tag-green-content-strong",
+  amber: "bg-tag-amber-surface-strong text-tag-amber-content-strong",
+  red: "bg-tag-red-surface-strong text-tag-red-content-strong",
+  pink: "bg-tag-pink-surface-strong text-tag-pink-content-strong",
+  purple: "bg-tag-purple-surface-strong text-tag-purple-content-strong",
+};
+
+const hoverStrongClass: Record<TagVariant, string> = {
+  gray: "hover:bg-tag-gray-surface-strong hover:text-tag-gray-content-strong",
+  blue: "hover:bg-tag-blue-surface-strong hover:text-tag-blue-content-strong",
+  teal: "hover:bg-tag-teal-surface-strong hover:text-tag-teal-content-strong",
+  green: "hover:bg-tag-green-surface-strong hover:text-tag-green-content-strong",
+  amber: "hover:bg-tag-amber-surface-strong hover:text-tag-amber-content-strong",
+  red: "hover:bg-tag-red-surface-strong hover:text-tag-red-content-strong",
+  pink: "hover:bg-tag-pink-surface-strong hover:text-tag-pink-content-strong",
+  purple: "hover:bg-tag-purple-surface-strong hover:text-tag-purple-content-strong",
+};
+
+function removeButtonClass(size: TagSize, revealOnHover: boolean, wholeTag: boolean) {
+  return cn(
+    "flex shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute focus-visible:opacity-100 focus-visible:outline-hidden",
+    wholeTag
+      ? "after:inset-0 after:rounded-2xs focus-visible:after:shadow-focus-ring"
+      : "relative focus-visible:shadow-focus-ring",
+    size === "16" && "size-3",
+    size === "20" && "size-3.5",
+    !wholeTag && size === "16" && "after:-inset-1.5",
+    !wholeTag && size === "20" && "after:-inset-1.25",
+    revealOnHover &&
+      "group-focus-within/tag:pointer-events-auto group-focus-within/tag:ml-0 group-focus-within/tag:opacity-100 group-hover/tag:pointer-events-auto group-hover/tag:ml-0 group-hover/tag:opacity-100 [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:-ml-0.5 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0",
+    revealOnHover && size === "16" && "group-focus-within/tag:w-3 group-hover/tag:w-3",
+    revealOnHover && size === "20" && "group-focus-within/tag:w-3.5 group-hover/tag:w-3.5",
+  );
+}
 
 /**
  * A small label for something the user applied, such as a fan tag, a list or an active filter.
@@ -95,22 +156,26 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
       onRemove,
       removeLabel,
       removeVisibility = "always",
+      removeTarget = "button",
+      selected = false,
       ...props
     },
     ref,
   ) => {
     const isEmoji = typeof leadingIcon === "string";
+    const revealRemoveOnHover = removeVisibility === "hover" && !selected;
     return (
       <span
         ref={ref}
         data-testid="tag"
+        data-selected={selected || undefined}
         className={cn(
-          "group/tag relative isolate inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs",
+          "group/tag relative inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs",
           size === "16" && "typography-tag-16px h-4 px-1",
           size === "20" && "typography-tag-20px h-5 px-1.5",
-          variantClass[variant],
-          onRemove &&
-            "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-tag-hover-overlay before:opacity-0 hover:before:opacity-100",
+          selected ? strongClass[variant] : variantClass[variant],
+          onRemove && !selected && hoverStrongClass[variant],
+          onRemove && removeTarget === "tag" && "cursor-pointer",
           className,
         )}
         {...props}
@@ -136,19 +201,7 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
             type="button"
             aria-label={removeLabel}
             onClick={onRemove}
-            className={cn(
-              "relative flex shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute focus-visible:opacity-100 focus-visible:shadow-focus-ring focus-visible:outline-hidden",
-              size === "16" && "size-3 after:-inset-1.5",
-              size === "20" && "size-3.5 after:-inset-1.25",
-              removeVisibility === "hover" &&
-                "group-focus-within/tag:pointer-events-auto group-focus-within/tag:ml-0 group-focus-within/tag:opacity-100 group-hover/tag:pointer-events-auto group-hover/tag:ml-0 group-hover/tag:opacity-100 [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:-ml-0.5 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0",
-              removeVisibility === "hover" &&
-                size === "16" &&
-                "group-focus-within/tag:w-3 group-hover/tag:w-3",
-              removeVisibility === "hover" &&
-                size === "20" &&
-                "group-focus-within/tag:w-3.5 group-hover/tag:w-3.5",
-            )}
+            className={removeButtonClass(size, revealRemoveOnHover, removeTarget === "tag")}
           >
             <CrossIcon className={size === "16" ? "size-3" : "size-3.5"} />
           </button>

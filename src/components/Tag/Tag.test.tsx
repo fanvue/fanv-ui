@@ -118,9 +118,114 @@ describe("Tag", () => {
     });
   });
 
+  describe("remove target", () => {
+    it("stretches the × hit area over the whole tag", () => {
+      render(
+        <Tag onRemove={() => {}} removeLabel="Remove Whale" removeTarget="tag">
+          Whale
+        </Tag>,
+      );
+      const remove = screen.getByRole("button", { name: "Remove Whale" });
+      expect(remove).toHaveClass("after:inset-0");
+      expect(remove).not.toHaveClass("relative");
+      expect(screen.getByTestId("tag")).toHaveClass("relative", "cursor-pointer");
+    });
+
+    it("keeps the hit area on the × by default", () => {
+      render(
+        <Tag onRemove={() => {}} removeLabel="Remove Whale">
+          Whale
+        </Tag>,
+      );
+      const remove = screen.getByRole("button", { name: "Remove Whale" });
+      expect(remove).toHaveClass("relative", "after:-inset-1.25");
+      expect(remove).not.toHaveClass("after:inset-0");
+    });
+
+    it("stays one button named by removeLabel", async () => {
+      const user = userEvent.setup();
+      const onRemove = vi.fn();
+      render(
+        <Tag onRemove={onRemove} removeLabel="Remove Whale" removeTarget="tag">
+          Whale
+        </Tag>,
+      );
+      expect(screen.getAllByRole("button")).toHaveLength(1);
+      await user.click(screen.getByRole("button", { name: "Remove Whale" }));
+      expect(onRemove).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("selected", () => {
+    it("uses the deeper step of its colour when selected", () => {
+      render(
+        <Tag selected variant="red">
+          Whale
+        </Tag>,
+      );
+      const tag = screen.getByTestId("tag");
+      expect(tag).toHaveAttribute("data-selected", "true");
+      expect(tag).toHaveClass("bg-tag-red-surface-strong", "text-tag-red-content-strong");
+      expect(tag).not.toHaveClass("bg-tag-red-surface");
+    });
+
+    it("deepens to the same step on hover when removable", () => {
+      render(
+        <Tag variant="blue" onRemove={() => {}} removeLabel="Remove Whale">
+          Whale
+        </Tag>,
+      );
+      expect(screen.getByTestId("tag")).toHaveClass(
+        "bg-tag-blue-surface",
+        "hover:bg-tag-blue-surface-strong",
+        "hover:text-tag-blue-content-strong",
+      );
+    });
+
+    it("keeps the resting fill when not selected", () => {
+      render(<Tag>Whale</Tag>);
+      const tag = screen.getByTestId("tag");
+      expect(tag).toHaveTextContent("Whale");
+      expect(tag).not.toHaveAttribute("data-selected");
+      expect(tag).toHaveClass("bg-tag-gray-surface");
+      expect(tag).not.toHaveClass("bg-tag-gray-surface-strong");
+    });
+
+    it("keeps a hover-revealed × visible while selected", () => {
+      render(
+        <Tag selected onRemove={() => {}} removeLabel="Remove Whale" removeVisibility="hover">
+          Whale
+        </Tag>,
+      );
+      const remove = screen.getByRole("button", { name: "Remove Whale" });
+      expect(remove).toHaveClass("size-3.5");
+      expect(remove).not.toHaveClass("[@media(hover:hover)]:opacity-0");
+    });
+
+    it("hides a hover-revealed × at rest when not selected", () => {
+      render(
+        <Tag onRemove={() => {}} removeLabel="Remove Whale" removeVisibility="hover">
+          Whale
+        </Tag>,
+      );
+      expect(screen.getByRole("button", { name: "Remove Whale" })).toHaveClass(
+        "[@media(hover:hover)]:opacity-0",
+      );
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(<Tag>Whale</Tag>);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("has no accessibility violations when selected and removable by the whole tag", async () => {
+      const { container } = render(
+        <Tag selected onRemove={() => {}} removeLabel="Remove Whale" removeTarget="tag">
+          Whale
+        </Tag>,
+      );
       expect(await axe(container)).toHaveNoViolations();
     });
 

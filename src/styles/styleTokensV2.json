@@ -2547,6 +2547,14 @@
             "content": {
               "type": "color",
               "value": "{semantic.light.color.content.primary}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.gray.300}"
+            },
+            "contentStrong": {
+              "type": "color",
+              "value": "{semantic.light.color.content.primary}"
             }
           },
           "blue": {
@@ -2555,6 +2563,14 @@
               "value": "{primitives.light.color.blue.100}"
             },
             "content": {
+              "type": "color",
+              "value": "{primitives.light.color.blue.700}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.blue.200}"
+            },
+            "contentStrong": {
               "type": "color",
               "value": "{primitives.light.color.blue.700}"
             }
@@ -2567,6 +2583,14 @@
             "content": {
               "type": "color",
               "value": "{primitives.light.color.emeraldGreen.800}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.emeraldGreen.200}"
+            },
+            "contentStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.emeraldGreen.800}"
             }
           },
           "green": {
@@ -2575,6 +2599,14 @@
               "value": "{primitives.light.color.green.100}"
             },
             "content": {
+              "type": "color",
+              "value": "{primitives.light.color.green.800}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.green.200}"
+            },
+            "contentStrong": {
               "type": "color",
               "value": "{primitives.light.color.green.800}"
             }
@@ -2587,6 +2619,14 @@
             "content": {
               "type": "color",
               "value": "{primitives.light.color.amber.800}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.amber.200}"
+            },
+            "contentStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.amber.800}"
             }
           },
           "red": {
@@ -2597,6 +2637,14 @@
             "content": {
               "type": "color",
               "value": "{primitives.light.color.red.700}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.red.200}"
+            },
+            "contentStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.red.800}"
             }
           },
           "pink": {
@@ -2605,6 +2653,14 @@
               "value": "{primitives.light.color.pink.100}"
             },
             "content": {
+              "type": "color",
+              "value": "{primitives.light.color.pink.800}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.pink.200}"
+            },
+            "contentStrong": {
               "type": "color",
               "value": "{primitives.light.color.pink.800}"
             }
@@ -2617,15 +2673,15 @@
             "content": {
               "type": "color",
               "value": "{primitives.light.color.purple.800}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.purple.200}"
+            },
+            "contentStrong": {
+              "type": "color",
+              "value": "{primitives.light.color.purple.800}"
             }
-          },
-          "hoverOverlay": {
-            "type": "color",
-            "value": "{semantic.light.color.neutralAlphas.100}"
-          },
-          "selectedOverlay": {
-            "type": "color",
-            "value": "{semantic.light.color.neutralAlphas.200}"
           }
         },
         "ring": {
@@ -4145,6 +4201,14 @@
             "content": {
               "type": "color",
               "value": "{semantic.dark.color.content.primary}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.gray.600}"
+            },
+            "contentStrong": {
+              "type": "color",
+              "value": "{semantic.dark.color.content.primary}"
             }
           },
           "blue": {
@@ -4153,6 +4217,14 @@
               "value": "{primitives.dark.color.blue.800}"
             },
             "content": {
+              "type": "color",
+              "value": "{primitives.dark.color.blue.300}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.blue.900}"
+            },
+            "contentStrong": {
               "type": "color",
               "value": "{primitives.dark.color.blue.300}"
             }
@@ -4165,6 +4237,14 @@
             "content": {
               "type": "color",
               "value": "{primitives.dark.color.emeraldGreen.300}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.emeraldGreen.900}"
+            },
+            "contentStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.emeraldGreen.300}"
             }
           },
           "green": {
@@ -4173,6 +4253,14 @@
               "value": "{primitives.dark.color.green.800}"
             },
             "content": {
+              "type": "color",
+              "value": "{primitives.dark.color.green.300}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.green.900}"
+            },
+            "contentStrong": {
               "type": "color",
               "value": "{primitives.dark.color.green.300}"
             }
@@ -4185,6 +4273,14 @@
             "content": {
               "type": "color",
               "value": "{primitives.dark.color.amber.300}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.amber.900}"
+            },
+            "contentStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.amber.300}"
             }
           },
           "red": {
@@ -4193,6 +4289,14 @@
               "value": "{primitives.dark.color.red.800}"
             },
             "content": {
+              "type": "color",
+              "value": "{primitives.dark.color.red.200}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.red.900}"
+            },
+            "contentStrong": {
               "type": "color",
               "value": "{primitives.dark.color.red.200}"
             }
@@ -4205,6 +4309,14 @@
             "content": {
               "type": "color",
               "value": "{primitives.dark.color.pink.300}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.pink.900}"
+            },
+            "contentStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.pink.300}"
             }
           },
           "purple": {
@@ -4215,15 +4327,15 @@
             "content": {
               "type": "color",
               "value": "{primitives.dark.color.purple.300}"
+            },
+            "surfaceStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.purple.900}"
+            },
+            "contentStrong": {
+              "type": "color",
+              "value": "{primitives.dark.color.purple.300}"
             }
-          },
-          "hoverOverlay": {
-            "type": "color",
-            "value": "{semantic.dark.color.neutralAlphas.100}"
-          },
-          "selectedOverlay": {
-            "type": "color",
-            "value": "{semantic.dark.color.neutralAlphas.200}"
           }
         },
         "ring": {

@@ -33,6 +33,7 @@ const meta = {
     variant: { control: "select", options: VARIANTS },
     size: { control: "select", options: SIZES },
     removeVisibility: { control: "select", options: ["always", "hover"] },
+    removeTarget: { control: "select", options: ["button", "tag"] },
   },
   args: { children: "Whale" },
 } satisfies Meta<typeof Tag>;
@@ -53,6 +54,21 @@ export const Removable: Story = {
     removeVisibility: "hover",
   },
   parameters: E2E_FIXTURE_PARAMETERS,
+};
+
+/**
+ * The fill a tag takes when it is picked out with the keyboard, for example the last tag in a
+ * picker after one Backspace. A hover-revealed × stays visible while selected.
+ */
+export const Selected: Story = {
+  args: {
+    leadingIcon: "🐳",
+    variant: "blue",
+    selected: true,
+    onRemove: () => {},
+    removeLabel: "Remove Whale",
+    removeVisibility: "hover",
+  },
 };
 
 /**
