@@ -247,6 +247,7 @@ function TagPickerPanel({
             selected={selectedTag === option.value}
             onRemove={() => remove(option.value)}
             removeLabel={getRemoveLabel(option)}
+            removeTarget="tag"
           >
             {option.label}
           </Tag>

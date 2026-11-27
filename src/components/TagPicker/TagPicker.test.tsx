@@ -189,6 +189,11 @@ describe("TagPicker", () => {
       expect(input()).toHaveFocus();
     });
 
+    it("makes the whole picked chip its remove target", async () => {
+      await openPicker({ initial: ["whale"] });
+      expect(screen.getByRole("button", { name: "Remove Whale" })).toHaveClass("after:inset-0");
+    });
+
     it("shows picked tags in the field after closing", async () => {
       const user = await openPicker();
       await user.keyboard("{Enter}{Escape}");
