@@ -41,9 +41,9 @@ export interface TagPickerProps {
   listLabel?: string;
   /** Word before the new tag on the Create row. @default "Create" */
   createLabel?: string;
-  /** Shown when no option matches and creating is off. @default "No tags found" */
+  /** Shown when the list is empty: no option matches and there is nothing to create. @default "No tags found" */
   emptyLabel?: string;
-  /** Accessible name of a picked tag's × button. @default `Remove ${label}` */
+  /** Accessible name of a picked tag's × button. @default `Remove ${option.label}` */
   getRemoveLabel?: (option: TagPickerOption) => string;
   /** Accessible name of the sheet's close button. @default "Close" */
   closeLabel?: string;
@@ -54,7 +54,7 @@ export interface TagPickerProps {
 type Row = { kind: "option"; option: TagPickerOption } | { kind: "create"; name: ParsedTagName };
 
 const sameLabel = (a: string, b: string) =>
-  a.localeCompare(b, undefined, { sensitivity: "base" }) === 0;
+  a.localeCompare(b, undefined, { sensitivity: "accent" }) === 0;
 
 function buildRows(
   options: TagPickerOption[],
@@ -223,7 +223,9 @@ function TagPickerPanel({
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.nativeEvent.isComposing) return;
     if (event.key === "Backspace" && query === "" && picked.length > 0) {
+      if (event.repeat) return;
       event.preventDefault();
       selectOrRemoveLast();
       return;
@@ -291,7 +293,7 @@ function TagPickerPanel({
         )}
         {rows.map((row, index) => (
           <TagPickerRow
-            key={row.kind === "option" ? row.option.value : "create"}
+            key={row.kind === "option" ? `option-${row.option.value}` : "create"}
             id={rowId(index)}
             row={row}
             isActive={index === active}
@@ -301,12 +303,17 @@ function TagPickerPanel({
             onChoose={() => choose(row)}
           />
         ))}
-        {rows.length === 0 && (
-          <div className="typography-body-small-14px-regular px-3 py-2 text-content-tertiary">
-            {emptyLabel}
-          </div>
-        )}
       </div>
+      {rows.length === 0 && (
+        <output
+          className={cn(
+            "typography-body-small-14px-regular px-5 pb-3 text-content-tertiary",
+            isSheet && "px-7 pb-5",
+          )}
+        >
+          {emptyLabel}
+        </output>
+      )}
     </div>
   );
 }
@@ -371,7 +378,9 @@ export function TagPicker({
     <TagField
       tags={picked}
       placeholder={fieldPlaceholder}
-      aria-label={label}
+      aria-label={
+        picked.length > 0 ? `${label}: ${picked.map((tag) => tag.label).join(", ")}` : label
+      }
       className={className}
     />
   );

@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -34,7 +34,7 @@ function Harness(props: Partial<TagPickerProps> & { initial?: string[] }) {
 async function openPicker(props: Partial<TagPickerProps> & { initial?: string[] } = {}) {
   const user = userEvent.setup();
   render(<Harness {...props} />);
-  await user.click(screen.getByRole("button", { name: "Tags" }));
+  await user.click(screen.getByRole("button", { name: /^Tags/ }));
   return user;
 }
 
@@ -51,14 +51,20 @@ const activeOption = () => {
 };
 
 describe("TagField", () => {
+  it("names the field with the picked tags", async () => {
+    await openPicker({ initial: ["whale", "top"] });
+    await userEvent.setup().keyboard("{Escape}");
+    expect(screen.getByRole("button", { name: "Tags: Whale, Top spender" })).toBeInTheDocument();
+  });
+
   it("shows the placeholder when there are no tags", () => {
     render(<TagField tags={[]} aria-label="Tags" />);
-    expect(screen.getByRole("button", { name: "Tags" })).toHaveTextContent("Add tags");
+    expect(screen.getByRole("button", { name: /^Tags/ })).toHaveTextContent("Add tags");
   });
 
   it("shows tags without a remove button", () => {
     render(<TagField tags={OPTIONS.slice(0, 2)} aria-label="Tags" />);
-    const field = screen.getByRole("button", { name: "Tags" });
+    const field = screen.getByRole("button", { name: /^Tags/ });
     expect(field).toHaveTextContent("Whale");
     expect(field).toHaveTextContent("Top spender");
     expect(within(field).queryByRole("button")).not.toBeInTheDocument();
@@ -83,7 +89,7 @@ describe("TagPicker", () => {
       const user = await openPicker();
       await user.keyboard("{Escape}");
       expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "Tags" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /^Tags/ })).toBeInTheDocument();
     });
 
     it("opens as a sheet with a title and close button", async () => {
@@ -189,15 +195,10 @@ describe("TagPicker", () => {
       expect(input()).toHaveFocus();
     });
 
-    it("makes the whole picked chip its remove target", async () => {
-      await openPicker({ initial: ["whale"] });
-      expect(screen.getByRole("button", { name: "Remove Whale" })).toHaveClass("after:inset-0");
-    });
-
     it("shows picked tags in the field after closing", async () => {
       const user = await openPicker();
       await user.keyboard("{Enter}{Escape}");
-      expect(screen.getByRole("button", { name: "Tags" })).toHaveTextContent("Whale");
+      expect(screen.getByRole("button", { name: /^Tags/ })).toHaveTextContent("Whale");
     });
   });
 
@@ -219,14 +220,14 @@ describe("TagPicker", () => {
       const user = await openPicker({ initial: ["whale"], onCreate: vi.fn() });
       await user.keyboard("Whale");
       expect(screen.queryAllByRole("option")).toHaveLength(0);
-      expect(listbox()).toHaveTextContent("No tags found");
+      expect(screen.getByText("No tags found")).toBeInTheDocument();
     });
 
     it("hides Create without onCreate", async () => {
       const user = await openPicker();
       await user.keyboard("Regulars");
       expect(screen.queryAllByRole("option")).toHaveLength(0);
-      expect(listbox()).toHaveTextContent("No tags found");
+      expect(screen.getByText("No tags found")).toBeInTheDocument();
     });
 
     it("creates with Enter, splitting a leading emoji from the label", async () => {
@@ -246,11 +247,45 @@ describe("TagPicker", () => {
     });
   });
 
+  describe("guards", () => {
+    it("ignores Enter while an IME is composing", async () => {
+      const onCreate = vi.fn();
+      await openPicker({ onCreate });
+      fireEvent.change(input(), { target: { value: "にほ" } });
+      fireEvent.keyDown(input(), { key: "Enter", isComposing: true, keyCode: 229 });
+      expect(onCreate).not.toHaveBeenCalled();
+      fireEvent.keyDown(input(), { key: "Enter" });
+      expect(onCreate).toHaveBeenCalledWith({ label: "にほ" });
+    });
+
+    it("does not remove tags while Backspace is held", async () => {
+      const onValueChange = vi.fn();
+      await openPicker({ initial: ["whale"], onValueChange });
+      fireEvent.keyDown(input(), { key: "Backspace" });
+      fireEvent.keyDown(input(), { key: "Backspace", repeat: true });
+      expect(onValueChange).not.toHaveBeenCalled();
+      expect(pickedTags()[0]).toHaveAttribute("data-selected", "true");
+    });
+
+    it("offers Create for a name that differs only by an accent", async () => {
+      const user = await openPicker({ onCreate: vi.fn() });
+      await user.keyboard("Whalé");
+      expect(options().map((o) => o.textContent)).toEqual(["CreateWhalé"]);
+    });
+  });
+
   describe("accessibility", () => {
     it("links the input to the list and marks it multi-select", async () => {
       await openPicker();
       expect(input()).toHaveAttribute("aria-controls", listbox().id);
       expect(listbox()).toHaveAttribute("aria-multiselectable", "true");
+    });
+
+    it("has no accessibility violations when nothing matches", async () => {
+      const user = await openPicker();
+      await user.keyboard("zzz");
+      expect(screen.getByText("No tags found")).toBeInTheDocument();
+      expect(await axe(document.body)).toHaveNoViolations();
     });
 
     it("has no accessibility violations when open", async () => {

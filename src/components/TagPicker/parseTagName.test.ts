@@ -31,4 +31,23 @@ describe("parseTagName", () => {
   it("trims surrounding space", () => {
     expect(parseTagName("  🐳   Whale  ")).toEqual({ emoji: "🐳", label: "Whale" });
   });
+
+  it("does not treat text symbols as emoji", () => {
+    expect(parseTagName("© Studio")).toEqual({ label: "© Studio" });
+    expect(parseTagName("™ Brand")).toEqual({ label: "™ Brand" });
+    expect(parseTagName("✔ Done")).toEqual({ label: "✔ Done" });
+  });
+
+  it("accepts a text symbol shown as emoji with a variation selector", () => {
+    expect(parseTagName("❤️ Love")).toEqual({ emoji: "❤️", label: "Love" });
+  });
+
+  it("keeps a subdivision flag whole", () => {
+    const england = "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}";
+    expect(parseTagName(`${england} England`)).toEqual({ emoji: england, label: "England" });
+  });
+
+  it("ignores leading zero-width characters", () => {
+    expect(parseTagName("​🐳 Whale")).toEqual({ emoji: "🐳", label: "Whale" });
+  });
 });

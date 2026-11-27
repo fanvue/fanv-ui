@@ -6,8 +6,13 @@ export interface ParsedTagName {
   label: string;
 }
 
-const LEADING_EMOJI =
-  /^((?:\p{Regional_Indicator}{2})|(?:\p{Extended_Pictographic}(?:️|\p{Emoji_Modifier})?(?:‍\p{Extended_Pictographic}(?:️|\p{Emoji_Modifier})?)*))\s*/u;
+const EMOJI = String.raw`(?:\p{Emoji_Presentation}|\p{Extended_Pictographic}\u{FE0F})\p{Emoji_Modifier}?`;
+const TAG_SEQUENCE = String.raw`[\u{E0020}-\u{E007E}]+\u{E007F}`;
+const LEADING_EMOJI = new RegExp(
+  String.raw`^(\p{Regional_Indicator}{2}|${EMOJI}(?:\u{200D}${EMOJI})*(?:${TAG_SEQUENCE})?)\s*`,
+  "u",
+);
+const LEADING_INVISIBLES = /^[\u{200B}-\u{200D}\u{FEFF}]+/u;
 
 /**
  * Splits a typed tag name into a leading emoji and a label. A tag only carries an emoji when the
@@ -20,7 +25,7 @@ const LEADING_EMOJI =
  * ```
  */
 export function parseTagName(name: string): ParsedTagName {
-  const trimmed = name.trim();
+  const trimmed = name.trim().replace(LEADING_INVISIBLES, "");
   const match = LEADING_EMOJI.exec(trimmed);
   if (!match?.[1]) return { label: trimmed };
   const label = trimmed.slice(match[0].length).trim();
