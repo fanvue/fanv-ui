@@ -695,6 +695,8 @@ export type {
   MobileStepperVariant,
 } from "./components/MobileStepper/MobileStepper";
 export { MobileStepper } from "./components/MobileStepper/MobileStepper";
+export type { MorphPanelProps } from "./components/MorphPanel/MorphPanel";
+export { MorphPanel } from "./components/MorphPanel/MorphPanel";
 export type {
   OnlineBlinkingIconProps,
   OnlineBlinkingIconSize,

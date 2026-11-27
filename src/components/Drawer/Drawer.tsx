@@ -4,7 +4,9 @@ import { cn } from "../../utils/cn";
 import { useDragToDismiss } from "../../utils/useDragToDismiss";
 import { useSuppressClickAfterDrag } from "../../utils/useSuppressClickAfterDrag";
 import { IconButton } from "../IconButton/IconButton";
+import { ArrowLeftIcon } from "../Icons/ArrowLeftIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
+import { withMorphPanel } from "../MorphPanel/MorphPanel";
 
 /** The side from which the drawer slides in. */
 export type DrawerPosition = "left" | "right" | "top" | "bottom";
@@ -283,6 +285,14 @@ export interface DrawerContentProps
   overlay?: boolean;
   /** Props forwarded to the default {@link DrawerOverlay} when `overlay` is `true`. */
   overlayProps?: DrawerOverlayProps;
+  /**
+   * Which view of a multi-step drawer is showing, in navigation order: a higher step is deeper.
+   * When set, the children sit in a {@link MorphPanel}, so changing it morphs the panel to the new
+   * view's height and slides the view in from the right going deeper or from the left going back.
+   * Use it to turn a sheet into a deeper view in place rather than stacking a second sheet. Leave it
+   * unset for a drawer with one view.
+   */
+  step?: number;
 }
 
 /**
@@ -303,6 +313,7 @@ export const DrawerContent = React.forwardRef<
       variant = "panel",
       overlay: overlayProp,
       overlayProps,
+      step,
       style,
       children,
       ...props
@@ -384,7 +395,9 @@ export const DrawerContent = React.forwardRef<
           {...contentProps}
         >
           <DialogPrimitive.Close ref={closeRef} hidden tabIndex={-1} aria-hidden="true" />
-          <DrawerVariantContext.Provider value={variant}>{children}</DrawerVariantContext.Provider>
+          <DrawerVariantContext.Provider value={variant}>
+            {withMorphPanel(step, children)}
+          </DrawerVariantContext.Provider>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     );
@@ -398,22 +411,53 @@ export interface DrawerHeaderProps extends React.HTMLAttributes<HTMLDivElement> 
   showClose?: boolean;
   /** Accessible label for the close button. @default "Close drawer" */
   closeLabel?: string;
+  /** Show a back arrow button before the title. Defaults to `true` when `onBack` is provided. */
+  showBack?: boolean;
+  /** Called when the back button is clicked. */
+  onBack?: () => void;
+  /** Accessible label for the back button. @default "Go back" */
+  backLabel?: string;
 }
 
 /**
  * A semantic header area for the drawer, typically containing a title and description.
- * Renders a built-in close button by default. Inside a `"modal"` drawer it carries
- * no padding of its own, since the panel pads its content.
+ * Renders a built-in close button by default, and a back arrow before the title when
+ * given `onBack`, for a deeper view of a multi-step drawer. Inside a `"modal"` drawer it
+ * carries no padding of its own, since the panel pads its content.
  */
 export const DrawerHeader = React.forwardRef<HTMLDivElement, DrawerHeaderProps>(
-  ({ className, showClose = true, closeLabel = "Close drawer", children, ...props }, ref) => {
+  (
+    {
+      className,
+      showClose = true,
+      closeLabel = "Close drawer",
+      showBack,
+      onBack,
+      backLabel = "Go back",
+      children,
+      ...props
+    },
+    ref,
+  ) => {
     const variant = React.useContext(DrawerVariantContext);
+    const shouldShowBack = showBack ?? !!onBack;
     return (
       <div
         ref={ref}
         className={cn("flex items-center gap-2", variant !== "modal" && "p-4", className)}
         {...props}
       >
+        {shouldShowBack && (
+          <IconButton
+            icon={<ArrowLeftIcon />}
+            aria-label={backLabel}
+            variant="secondary"
+            size="32"
+            onClick={onBack}
+            disabled={!onBack}
+            className="shrink-0"
+          />
+        )}
         <div className="flex min-w-0 flex-1 flex-col gap-1.5">{children}</div>
         {showClose && (
           <DialogPrimitive.Close asChild>

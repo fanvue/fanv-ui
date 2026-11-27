@@ -483,4 +483,41 @@ describe("Dialog", () => {
       expect(screen.getByRole("dialog")).toHaveAttribute("data-size", "full");
     });
   });
+
+  describe("views", () => {
+    function TwoStepDialog() {
+      const [step, setStep] = React.useState(0);
+      return (
+        <Dialog defaultOpen>
+          <DialogContent step={step} aria-describedby={undefined}>
+            <DialogHeader onBack={step > 0 ? () => setStep(0) : undefined}>
+              <DialogTitle>{step === 0 ? "Settings" : "Edit tag"}</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              {step === 0 && <Button onClick={() => setStep(1)}>Edit tag</Button>}
+            </DialogBody>
+          </DialogContent>
+        </Dialog>
+      );
+    }
+
+    const view = () => document.querySelector("[data-morph-panel] > [data-direction]");
+
+    it("slides the deeper view in from the right and the previous one back in from the left", async () => {
+      const user = userEvent.setup();
+      render(<TwoStepDialog />);
+      await user.click(screen.getByRole("button", { name: "Edit tag" }));
+      expect(screen.getByRole("dialog", { name: "Edit tag" })).toBeInTheDocument();
+      expect(view()).toHaveAttribute("data-direction", "forward");
+      await user.click(screen.getByRole("button", { name: "Go back" }));
+      expect(screen.getByRole("dialog", { name: "Settings" })).toBeInTheDocument();
+      expect(view()).toHaveAttribute("data-direction", "back");
+    });
+
+    it("keeps a dialog without a step as it is", () => {
+      renderDialog();
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+      expect(document.querySelector("[data-morph-panel]")).toBeNull();
+    });
+  });
 });
