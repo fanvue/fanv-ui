@@ -56,6 +56,21 @@ export const Removable: Story = {
 };
 
 /**
+ * The fill a tag takes when it is picked out with the keyboard, for example the last tag in a
+ * picker after one Backspace. A hover-revealed × stays visible while selected.
+ */
+export const Selected: Story = {
+  args: {
+    leadingIcon: "🐳",
+    variant: "blue",
+    selected: true,
+    onRemove: () => {},
+    removeLabel: "Remove Whale",
+    removeVisibility: "hover",
+  },
+};
+
+/**
  * Every V2 Tags colour at both sizes. Each row shows the tag with no remove button, then with
  * an always-visible ×. Switch the theme in the toolbar to check the dark palette.
  */

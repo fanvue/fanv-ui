@@ -2817,6 +2817,16 @@ function TagDemo() {
             ),
           )}
           <Tag size={size}>+2</Tag>
+          <Tag
+            size={size}
+            variant="purple"
+            leadingIcon="💎"
+            selected
+            onRemove={() => {}}
+            removeLabel="Remove Top spender"
+          >
+            Top spender
+          </Tag>
         </div>
       ))}
     </div>

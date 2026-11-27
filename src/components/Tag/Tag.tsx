@@ -24,6 +24,12 @@ interface TagBaseProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "chil
   leadingIcon?: React.ReactNode;
   /** The visible label. */
   children: React.ReactNode;
+  /**
+   * Marks the tag as picked out with the keyboard, such as the last tag in a picker after one
+   * Backspace, before a second Backspace removes it. Darkens the fill and keeps the × visible.
+   * @default false
+   */
+  selected?: boolean;
 }
 
 interface TagRemovableProps {
@@ -65,6 +71,18 @@ const variantClass: Record<TagVariant, string> = {
   purple: "bg-tag-purple-surface text-tag-purple-content",
 };
 
+function removeButtonClass(size: TagSize, revealOnHover: boolean) {
+  return cn(
+    "relative flex shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute focus-visible:opacity-100 focus-visible:shadow-focus-ring focus-visible:outline-hidden",
+    size === "16" && "size-3 after:-inset-1.5",
+    size === "20" && "size-3.5 after:-inset-1.25",
+    revealOnHover &&
+      "group-focus-within/tag:pointer-events-auto group-focus-within/tag:ml-0 group-focus-within/tag:opacity-100 group-hover/tag:pointer-events-auto group-hover/tag:ml-0 group-hover/tag:opacity-100 [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:-ml-0.5 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0",
+    revealOnHover && size === "16" && "group-focus-within/tag:w-3 group-hover/tag:w-3",
+    revealOnHover && size === "20" && "group-focus-within/tag:w-3.5 group-hover/tag:w-3.5",
+  );
+}
+
 /**
  * A small label for something the user applied, such as a fan tag, a list or an active filter.
  * Status labels belong in {@link Pill} or {@link Badge}.
@@ -95,22 +113,26 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
       onRemove,
       removeLabel,
       removeVisibility = "always",
+      selected = false,
       ...props
     },
     ref,
   ) => {
     const isEmoji = typeof leadingIcon === "string";
+    const revealRemoveOnHover = removeVisibility === "hover" && !selected;
     return (
       <span
         ref={ref}
         data-testid="tag"
+        data-selected={selected || undefined}
         className={cn(
           "group/tag relative isolate inline-flex min-w-0 max-w-full items-center gap-0.5 whitespace-nowrap rounded-2xs",
           size === "16" && "typography-tag-16px h-4 px-1",
           size === "20" && "typography-tag-20px h-5 px-1.5",
           variantClass[variant],
-          onRemove &&
+          (onRemove || selected) &&
             "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-tag-hover-overlay before:opacity-0 hover:before:opacity-100",
+          selected && "before:bg-tag-selected-overlay before:opacity-100",
           className,
         )}
         {...props}
@@ -136,19 +158,7 @@ export const Tag = React.forwardRef<HTMLSpanElement, TagProps>(
             type="button"
             aria-label={removeLabel}
             onClick={onRemove}
-            className={cn(
-              "relative flex shrink-0 cursor-pointer items-center justify-center rounded-3xs after:absolute focus-visible:opacity-100 focus-visible:shadow-focus-ring focus-visible:outline-hidden",
-              size === "16" && "size-3 after:-inset-1.5",
-              size === "20" && "size-3.5 after:-inset-1.25",
-              removeVisibility === "hover" &&
-                "group-focus-within/tag:pointer-events-auto group-focus-within/tag:ml-0 group-focus-within/tag:opacity-100 group-hover/tag:pointer-events-auto group-hover/tag:ml-0 group-hover/tag:opacity-100 [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:-ml-0.5 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0",
-              removeVisibility === "hover" &&
-                size === "16" &&
-                "group-focus-within/tag:w-3 group-hover/tag:w-3",
-              removeVisibility === "hover" &&
-                size === "20" &&
-                "group-focus-within/tag:w-3.5 group-hover/tag:w-3.5",
-            )}
+            className={removeButtonClass(size, revealRemoveOnHover)}
           >
             <CrossIcon className={size === "16" ? "size-3" : "size-3.5"} />
           </button>

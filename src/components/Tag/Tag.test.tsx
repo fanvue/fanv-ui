@@ -118,6 +118,45 @@ describe("Tag", () => {
     });
   });
 
+  describe("selected", () => {
+    it("darkens the fill when selected", () => {
+      render(<Tag selected>Whale</Tag>);
+      const tag = screen.getByTestId("tag");
+      expect(tag).toHaveAttribute("data-selected", "true");
+      expect(tag).toHaveClass("before:bg-tag-selected-overlay", "before:opacity-100");
+    });
+
+    it("keeps the resting fill when not selected", () => {
+      render(<Tag>Whale</Tag>);
+      const tag = screen.getByTestId("tag");
+      expect(tag).toHaveTextContent("Whale");
+      expect(tag).not.toHaveAttribute("data-selected");
+      expect(tag).not.toHaveClass("before:bg-tag-selected-overlay");
+    });
+
+    it("keeps a hover-revealed × visible while selected", () => {
+      render(
+        <Tag selected onRemove={() => {}} removeLabel="Remove Whale" removeVisibility="hover">
+          Whale
+        </Tag>,
+      );
+      const remove = screen.getByRole("button", { name: "Remove Whale" });
+      expect(remove).toHaveClass("size-3.5");
+      expect(remove).not.toHaveClass("[@media(hover:hover)]:opacity-0");
+    });
+
+    it("hides a hover-revealed × at rest when not selected", () => {
+      render(
+        <Tag onRemove={() => {}} removeLabel="Remove Whale" removeVisibility="hover">
+          Whale
+        </Tag>,
+      );
+      expect(screen.getByRole("button", { name: "Remove Whale" })).toHaveClass(
+        "[@media(hover:hover)]:opacity-0",
+      );
+    });
+  });
+
   describe("accessibility", () => {
     it("has no accessibility violations", async () => {
       const { container } = render(<Tag>Whale</Tag>);
