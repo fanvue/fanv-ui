@@ -1,0 +1,60 @@
+import { describe, expect, it } from "vitest";
+import { parseTagName } from "./parseTagName";
+
+describe("parseTagName", () => {
+  it("takes a leading emoji as the tag's emoji", () => {
+    expect(parseTagName("🐳 Whale")).toEqual({ emoji: "🐳", label: "Whale" });
+  });
+
+  it("accepts an emoji with no space before the label", () => {
+    expect(parseTagName("💎Top spender")).toEqual({ emoji: "💎", label: "Top spender" });
+  });
+
+  it("keeps a name with no leading emoji as label only", () => {
+    expect(parseTagName("Night owl")).toEqual({ label: "Night owl" });
+  });
+
+  it("leaves an emoji later in the name in the label", () => {
+    expect(parseTagName("Night 🦉")).toEqual({ label: "Night 🦉" });
+  });
+
+  it("keeps joined, skin-tone and flag emoji whole", () => {
+    expect(parseTagName("👩\u{200D}💻 Builder")).toEqual({
+      emoji: "👩\u{200D}💻",
+      label: "Builder",
+    });
+    expect(parseTagName("👍🏽 Fan")).toEqual({ emoji: "👍🏽", label: "Fan" });
+    expect(parseTagName("🇬🇧 UK")).toEqual({ emoji: "🇬🇧", label: "UK" });
+  });
+
+  it("keeps a name that is only an emoji as its label", () => {
+    expect(parseTagName("🐳")).toEqual({ label: "🐳" });
+  });
+
+  it("trims surrounding space", () => {
+    expect(parseTagName("  🐳   Whale  ")).toEqual({ emoji: "🐳", label: "Whale" });
+  });
+
+  it("does not treat text symbols as emoji", () => {
+    expect(parseTagName("© Studio")).toEqual({ label: "© Studio" });
+    expect(parseTagName("™ Brand")).toEqual({ label: "™ Brand" });
+    expect(parseTagName("✔ Done")).toEqual({ label: "✔ Done" });
+  });
+
+  it("accepts a text symbol shown as emoji with a variation selector", () => {
+    expect(parseTagName("❤\u{FE0F} Love")).toEqual({ emoji: "❤\u{FE0F}", label: "Love" });
+  });
+
+  it("keeps a subdivision flag whole", () => {
+    const england = "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}";
+    expect(parseTagName(`${england} England`)).toEqual({ emoji: england, label: "England" });
+  });
+
+  it("ignores leading zero-width characters", () => {
+    expect(parseTagName("\u{200B}🐳 Whale")).toEqual({ emoji: "🐳", label: "Whale" });
+  });
+
+  it("does not take a lone flag letter as an emoji", () => {
+    expect(parseTagName("\u{1F1EC} G")).toEqual({ label: "\u{1F1EC} G" });
+  });
+});

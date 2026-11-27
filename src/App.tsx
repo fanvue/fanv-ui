@@ -272,6 +272,8 @@ import {
   TabsTrigger,
   Tag,
   TagIcon,
+  TagPicker,
+  type TagPickerOption,
   TaskIcon,
   TextArea,
   TextField,
@@ -2792,6 +2794,36 @@ function DemographicsDemo() {
         <Demographics label="Direct" value={64} formattedValue="64%" />
       </div>
     </section>
+  );
+}
+
+const TAG_PICKER_OPTIONS: TagPickerOption[] = [
+  { value: "whale", label: "Whale", emoji: "🐳", colour: "blue" },
+  { value: "top", label: "Top spender", emoji: "💎", colour: "purple" },
+  { value: "owl", label: "Night owl" },
+  { value: "tipper", label: "Big tipper", emoji: "💰", colour: "amber" },
+];
+
+function TagPickerDemo() {
+  const [options, setOptions] = React.useState(TAG_PICKER_OPTIONS);
+  const [value, setValue] = React.useState(["whale"]);
+  return (
+    <div id="tag-picker" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">TagPicker</h2>
+      <div className="w-80">
+        <TagPicker
+          label="Tags"
+          options={options}
+          value={value}
+          onValueChange={setValue}
+          onCreate={({ label, emoji }) => {
+            const option = { value: `${label}-${options.length}`, label, emoji };
+            setOptions((current) => [...current, option]);
+            setValue((current) => [...current, option.value]);
+          }}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -6271,6 +6303,7 @@ function App() {
     { id: "tabs", label: "Tabs" },
     { id: "table", label: "Table" },
     { id: "tag", label: "Tag" },
+    { id: "tag-picker", label: "TagPicker" },
     { id: "textarea", label: "Text Area" },
     { id: "textfield", label: "Text Field" },
     { id: "toast", label: "Toast" },
@@ -6449,6 +6482,7 @@ function App() {
             {/* Pill */}
             <PillDemo />
             <TagDemo />
+            <TagPickerDemo />
             <UserItemTrailingDemo />
             <TrendPillDemo />
             <AnimatedNumberDemo />
