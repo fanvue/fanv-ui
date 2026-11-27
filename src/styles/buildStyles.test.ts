@@ -288,9 +288,31 @@ describe("buildThemeCss", () => {
       expect(themeBlocks).toContain("--color-tag-blue-surface: var(--primitives-color-blue-100);");
       expect(root.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-100)");
       expect(dark.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-800)");
-      expect(dark.get("--color-tag-hover-overlay")).toBe("var(--color-neutral-alphas-100)");
+      expect(dark.get("--color-tag-hover-overlay")).toBe("var(--primitives-color-whitealpha-50)");
       expect(v2Light.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-100)");
       expect(v2Dark.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-800)");
+    });
+
+    it("keeps secondary, ghost and chip fills light in the v2 palette: 5% at rest, 10% on hover", () => {
+      expect(v2Light.get("--color-buttons-secondary-default")).toBe(
+        "var(--color-neutral-alphas-50)",
+      );
+      expect(v2Light.get("--color-buttons-secondary-hover")).toBe(
+        "var(--color-neutral-alphas-100)",
+      );
+      expect(v2Light.get("--color-buttons-tertiary-hover")).toBe("var(--color-neutral-alphas-50)");
+      expect(v2Light.get("--color-buttons-chip-default")).toBe("var(--color-neutral-alphas-50)");
+      expect(v2Light.get("--color-buttons-chip-hover")).toBe("var(--color-neutral-alphas-100)");
+      // Dark neutral-alphas-50 resolves to 10% white, so the 5% fills use the primitive.
+      expect(v2Dark.get("--color-buttons-secondary-default")).toBe(
+        "var(--primitives-color-whitealpha-50)",
+      );
+      expect(v2Dark.get("--color-buttons-secondary-hover")).toBe("var(--color-neutral-alphas-100)");
+      expect(v2Dark.get("--color-buttons-tertiary-hover")).toBe("var(--color-neutral-alphas-75)");
+      expect(v2Dark.get("--color-buttons-chip-default")).toBe(
+        "var(--primitives-color-whitealpha-50)",
+      );
+      expect(v2Dark.get("--color-buttons-chip-hover")).toBe("var(--color-neutral-alphas-100)");
     });
 
     it("gives selected menu rows a readable fill in each palette", () => {
