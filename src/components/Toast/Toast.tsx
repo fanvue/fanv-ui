@@ -1,6 +1,7 @@
 import * as ToastPrimitive from "@radix-ui/react-toast";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText, renderTextChildren } from "../../utils/renderTextChildren";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { CloseIcon } from "../Icons/CloseIcon";
@@ -129,15 +130,15 @@ export const Toast = React.forwardRef<React.ComponentRef<typeof ToastPrimitive.R
             <div className="flex w-full flex-col items-start gap-1">
               {title && (
                 <ToastPrimitive.Title className="typography-body-small-14px-semibold">
-                  {title}
+                  {renderContainedText(title)}
                 </ToastPrimitive.Title>
               )}
               {description && (
                 <ToastPrimitive.Description className="typography-body-small-14px-regular">
-                  {description}
+                  {renderContainedText(description)}
                 </ToastPrimitive.Description>
               )}
-              {children}
+              {renderTextChildren(children)}
             </div>
             {onActionClick && (
               <Button variant="outline" negative size="32" onClick={onActionClick}>

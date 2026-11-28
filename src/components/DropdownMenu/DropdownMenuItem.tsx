@@ -2,6 +2,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderContainedText, renderSlottedText } from "../../utils/renderTextChildren";
 import { MenuRowIcon } from "../Icons/MenuRowIcon";
 import { DropdownMenuVariantContext, ToggleOpenContext } from "./context";
 
@@ -312,19 +313,21 @@ export const DropdownMenuItem = React.forwardRef<
              * size's own 14px regular. It also settles the row's height — 18 + 2 +
              * 18 of text inside `py-2` is the design's 54px.
              */}
-            <span className="typography-body-small-14px-semibold truncate">{children}</span>
+            <span className="typography-body-small-14px-semibold truncate">
+              {renderContainedText(children)}
+            </span>
             <span
               className={cn(
                 "typography-body-small-14px-regular truncate text-content-secondary",
                 disabled ? "theme-v2:text-content-disabled" : SELECTED_SECONDARY_V2_CLASSES,
               )}
             >
-              {description}
+              {renderContainedText(description)}
             </span>
           </span>
         ) : (
           <span className={cn("min-w-0 flex-1 truncate", selected && "font-semibold")}>
-            {children}
+            {renderContainedText(children)}
           </span>
         )}
         {countNode}
@@ -384,7 +387,7 @@ export const DropdownMenuItem = React.forwardRef<
           {asChild
             ? [
                 leadingNode,
-                <Slottable key="children">{children}</Slottable>,
+                <Slottable key="children">{renderSlottedText(children)}</Slottable>,
                 trailingNode,
                 trailingActionNode,
               ]
@@ -407,7 +410,7 @@ export const DropdownMenuItem = React.forwardRef<
           {/* The icons slot into the consumer's element (e.g. a link) around its own children. */}
           <Slot>
             {leadingNode}
-            <Slottable>{children}</Slottable>
+            <Slottable>{renderSlottedText(children)}</Slottable>
             {trailingNode}
             {trailingActionNode}
           </Slot>

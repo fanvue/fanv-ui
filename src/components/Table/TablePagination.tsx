@@ -118,7 +118,7 @@ export const TableCardPagination = React.forwardRef<HTMLDivElement, TableCardPag
               aria-label={`${pageSizeLabel}, ${formatPageSize(pageSize)}`}
               className="typography-description-12px-regular inline-flex cursor-pointer items-center gap-2 whitespace-nowrap border-none bg-transparent p-0 text-content-primary"
             >
-              {formatPageSize(pageSize)}
+              <span>{formatPageSize(pageSize)}</span>
               <ChevronDownIcon size={16} className="text-icons-primary" aria-hidden />
             </button>
           </DropdownMenuTrigger>

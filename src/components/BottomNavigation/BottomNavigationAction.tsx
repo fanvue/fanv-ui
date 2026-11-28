@@ -1,6 +1,7 @@
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { renderSlottedText } from "../../utils/renderTextChildren";
 import { useBottomNavigationContext } from "./BottomNavigation";
 
 export interface BottomNavigationActionProps
@@ -53,7 +54,7 @@ export const BottomNavigationAction = React.forwardRef<
           className,
         )}
       >
-        {asChild && <Slottable>{children}</Slottable>}
+        {asChild && <Slottable>{renderSlottedText(children)}</Slottable>}
         <span className="relative inline-flex">
           <span className="flex items-center justify-center [&>svg]:size-6" aria-hidden="true">
             {icon}
@@ -91,7 +92,7 @@ export const BottomNavigationAction = React.forwardRef<
       onClick={handleClick}
       {...props}
     >
-      {asChild && <Slottable>{children}</Slottable>}
+      {asChild && <Slottable>{renderSlottedText(children)}</Slottable>}
       <span className="relative inline-flex">
         <span className="flex items-center justify-center [&>svg]:size-7" aria-hidden="true">
           {icon}

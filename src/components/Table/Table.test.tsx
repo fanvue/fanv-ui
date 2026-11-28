@@ -463,11 +463,11 @@ describe("Table", () => {
 
     it("shows the sort arrows, active direction highlighted, only when sorted", () => {
       const { container, rerender } = render(<TableSortLabel>Title</TableSortLabel>);
-      expect(screen.getByText("Title")).not.toHaveClass("text-content-primary");
+      expect(container.firstElementChild).not.toHaveClass("text-content-primary");
       expect(container.querySelector("svg")).toBeNull();
 
       rerender(<TableSortLabel direction="desc">Title</TableSortLabel>);
-      expect(screen.getByText("Title")).toHaveClass("text-content-primary");
+      expect(container.firstElementChild).toHaveClass("text-content-primary");
       const [up, down] = Array.from(container.querySelectorAll("path"));
       expect(up).toHaveClass("stroke-icons-tertiary");
       expect(down).toHaveClass("stroke-current");

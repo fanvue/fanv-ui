@@ -6,6 +6,7 @@ import {
   FLOATING_CONTENT_SURFACE_CLASS,
   FLOATING_CONTENT_Z_INDEX,
 } from "@/utils/floatingContentSurface";
+import { renderContainedText } from "@/utils/renderTextChildren";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
@@ -198,7 +199,7 @@ export const Select = React.forwardRef<
                       : "text-left text-content-primary",
                   )}
                 >
-                  <SelectPrimitive.Value placeholder={placeholder} />
+                  <SelectPrimitive.Value placeholder={placeholder && <span>{placeholder}</span>} />
                 </span>
               </div>
 
@@ -402,7 +403,9 @@ export const SelectItem = React.forwardRef<
         <span className="flex min-w-0 flex-1 flex-col gap-0.5">
           {/* A 14px semibold title over the regular description, matching DropdownMenuItem's two-line row. */}
           <span className="typography-body-small-14px-semibold truncate">
-            <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+            <SelectPrimitive.ItemText>
+              <span>{renderContainedText(children)}</span>
+            </SelectPrimitive.ItemText>
           </span>
           <span
             className={cn(
@@ -411,12 +414,14 @@ export const SelectItem = React.forwardRef<
               ITEM_DESCRIPTION_TYPOGRAPHY[itemSize],
             )}
           >
-            {description}
+            {renderContainedText(description)}
           </span>
         </span>
       ) : (
         <span className="min-w-0 flex-1 truncate group-data-[state=checked]:font-semibold">
-          <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+          <SelectPrimitive.ItemText>
+            <span>{renderContainedText(children)}</span>
+          </SelectPrimitive.ItemText>
         </span>
       )}
 
