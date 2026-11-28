@@ -2,6 +2,10 @@ import * as Popover from "@radix-ui/react-popover";
 import * as React from "react";
 import { cn } from "@/utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
+import {
+  INPUT_FIELD_DISABLED_CLASSES,
+  INPUT_FIELD_V2_FOCUS_CLASSES,
+} from "@/utils/inputFieldClasses";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
 import { SpinnerIcon } from "../Icons/SpinnerIcon";
@@ -85,6 +89,12 @@ interface AutocompleteBaseProps {
   loading?: boolean;
   loadingText?: string;
   emptyText?: string;
+  /**
+   * Custom content for each option row. Under the v2 palette a selected row is
+   * inverted: the content and icon tokens inside it switch to their inverted values,
+   * so text and icons follow. Anything that brings its own surface, such as a `Chip`
+   * or `Badge`, keeps its fill and should not rely on the row's text colour.
+   */
   renderOption?: (
     option: AutocompleteOption,
     state: { selected: boolean; active: boolean },
@@ -235,17 +245,28 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
           <div
             className={cn(
               "relative flex flex-wrap items-center overflow-hidden rounded-sm border bg-neutral-alphas-100 after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
-              error ? "border-error-content" : "border-transparent",
-              !disabled && !error && "hover:border-neutral-alphas-400",
-              ac.isOpen && !error && !disabled && "border-neutral-alphas-400",
+              error
+                ? "border-error-content"
+                : cn(
+                    "border-transparent",
+                    !disabled && "theme-v2:border-border-input",
+                    INPUT_FIELD_V2_FOCUS_CLASSES,
+                  ),
+              !disabled && !error && "hover:border-border-input-hover",
+              ac.isOpen && !error && !disabled && "border-border-input-hover",
               CONTAINER_HEIGHT[size],
               PADDING_CLASSES[size],
-              disabled && "opacity-50",
+              disabled && INPUT_FIELD_DISABLED_CLASSES,
             )}
             onClick={ac.handleContainerClick}
           >
             {leftIcon && (
-              <div className="flex size-5 shrink-0 items-center justify-center text-content-secondary">
+              <div
+                className={cn(
+                  "flex size-5 shrink-0 items-center justify-center text-content-secondary",
+                  disabled && "theme-v2:text-icons-disabled",
+                )}
+              >
                 {leftIcon}
               </div>
             )}
@@ -286,7 +307,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
                 onFocus={ac.handleFocus}
                 onBlur={ac.handleBlur}
                 className={cn(
-                  "min-w-[40px] flex-1 truncate bg-transparent text-content-primary no-underline placeholder:text-content-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed",
+                  "min-w-[40px] flex-1 truncate bg-transparent text-content-primary no-underline placeholder:text-content-secondary placeholder:opacity-40 focus:outline-none disabled:cursor-not-allowed theme-v2:disabled:text-content-disabled theme-v2:disabled:placeholder:text-content-disabled theme-v2:disabled:placeholder:opacity-100",
                   INPUT_SIZE_CLASSES[size],
                 )}
               />
@@ -305,7 +326,12 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
                   <CloseIcon className="size-4" />
                 </button>
               )}
-              <div className="flex size-5 shrink-0 items-center justify-center text-content-secondary">
+              <div
+                className={cn(
+                  "flex size-5 shrink-0 items-center justify-center text-content-secondary",
+                  disabled && "theme-v2:text-icons-disabled",
+                )}
+              >
                 <ChevronDownIcon
                   className={cn("size-5 transition-transform", ac.isOpen && "rotate-180")}
                 />
@@ -323,6 +349,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
             style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)" }}
             className={cn(
               "w-max min-w-(--radix-popper-anchor-width) max-w-(--radix-popover-content-available-width) overflow-hidden rounded-sm border border-neutral-alphas-200 bg-background-primary text-content-primary shadow-[0_4px_16px_rgba(0,0,0,0.10)]",
+              "theme-v2:border-modal-stroke theme-v2:bg-modal-background",
               "data-[state=closed]:animate-out data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
               "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",

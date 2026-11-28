@@ -2,6 +2,10 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import * as React from "react";
 import { cn } from "@/utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "@/utils/floatingContentCollisionPadding";
+import {
+  FLOATING_CONTENT_SURFACE_CLASS,
+  FLOATING_CONTENT_Z_INDEX,
+} from "@/utils/floatingContentSurface";
 import { renderContainedText } from "@/utils/renderTextChildren";
 import { CheckIcon } from "../Icons/CheckIcon";
 import { ChevronDownIcon } from "../Icons/ChevronDownIcon";
@@ -166,12 +170,15 @@ export const Select = React.forwardRef<
                   ? "border-error-content"
                   : isFilled
                     ? "border-transparent"
-                    : "border-border-primary",
+                    : "border-border-input",
                 !disabled &&
                   !error &&
                   (isFilled
                     ? "hover:bg-neutral-alphas-100 data-[state=open]:bg-neutral-alphas-100"
-                    : "hover:border-neutral-alphas-400 data-[state=open]:border-neutral-alphas-400"),
+                    : [
+                        "hover:border-border-input-hover data-[state=open]:border-border-input-hover",
+                        "theme-v2:focus-visible:border-border-selected theme-v2:focus-visible:shadow-none theme-v2:data-[state=open]:border-border-selected",
+                      ]),
                 disabled && "cursor-not-allowed opacity-50",
               )}
             >
@@ -252,9 +259,10 @@ export const SelectContent = React.forwardRef<
         position={position}
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
-        style={{ zIndex: "var(--fanvue-ui-portal-z-index, 50)", ...style }}
+        style={{ zIndex: FLOATING_CONTENT_Z_INDEX, ...style }}
         className={cn(
-          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden rounded-md border border-border-strong bg-background-secondary text-content-primary shadow-blur-menu backdrop-blur-xs",
+          FLOATING_CONTENT_SURFACE_CLASS,
+          "relative w-max min-w-(--radix-select-trigger-width) max-w-(--radix-select-content-available-width) overflow-hidden",
           "data-[state=closed]:animate-out data-[state=open]:animate-in",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -318,12 +326,32 @@ function isRenderableNode(node: React.ReactNode): boolean {
 }
 
 /**
+ * Under the v2 palette a selected option's `Menu Item Selected` fill is inverted, so its
+ * content inverts too, and a highlighted or focused one moves to `Menu Item Selected Hover`.
+ */
+const CHECKED_V2_CLASSES =
+  "theme-v2:data-[state=checked]:text-content-primary-inverted theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected-hover theme-v2:data-[state=checked]:focus:bg-menu-item-selected-hover";
+
+/**
+ * A selected option's description under the v2 palette: inverted, and
+ * `Menu Item Selected Hover Secondary` while the option is highlighted or focused.
+ */
+const CHECKED_DESCRIPTION_V2_CLASSES =
+  "theme-v2:group-data-[state=checked]:text-content-secondary-inverted theme-v2:group-data-[state=checked]:group-data-highlighted:text-menu-item-selected-hover-secondary theme-v2:group-data-[state=checked]:group-focus:text-menu-item-selected-hover-secondary";
+
+/** A disabled selected option takes the library's Disabled state under the v2 palette, which has no fill. */
+const CHECKED_DISABLED_V2_CLASSES = "theme-v2:data-[state=checked]:bg-transparent";
+
+/**
  * An individual option inside {@link SelectContent}, following the V2 Menu Item spec.
  *
  * Supports a leading icon or avatar, an optional two-line layout via `description`,
  * and the standard hover / selected / disabled states. The selected row rests on
  * `Buttons/Navigation/Hover` with a semibold label and a trailing check; hovering
- * it shows `Interaction/Hover` like any other row.
+ * it shows `Interaction/Hover` like any other row. Under the v2 palette the fill is
+ * inverted, with inverted content, and a highlighted or focused selected row moves to
+ * `Menu Item Selected Hover` so keyboard focus stays visible. Rows do not shrink, so a
+ * two-line row stays whole when the list scrolls.
  *
  * @example
  * ```tsx
@@ -335,7 +363,7 @@ function isRenderableNode(node: React.ReactNode): boolean {
 export const SelectItem = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Item>,
   SelectItemProps
->(({ className, children, size, leadingIcon, avatar, description, ...props }, ref) => {
+>(({ className, children, size, leadingIcon, avatar, description, disabled, ...props }, ref) => {
   const { size: triggerSize } = React.useContext(SelectContext);
   const itemSize: SelectItemSize = size ?? (triggerSize === "32" ? "32" : "40");
   const hasDescription = isRenderableNode(description);
@@ -346,24 +374,28 @@ export const SelectItem = React.forwardRef<
     <SelectPrimitive.Item
       ref={ref}
       className={cn(
-        "group relative flex w-full cursor-pointer select-none gap-2 rounded-sm px-3 text-content-primary outline-none",
+        "group relative flex w-full shrink-0 cursor-pointer select-none gap-2 rounded-sm px-3 text-content-primary outline-none",
         hasDescription ? "items-start" : "items-center",
         ITEM_SIZE_CLASSES[itemSize],
         hasAvatar && !hasDescription && itemSize === "32" && "py-1",
-        "data-[state=checked]:bg-buttons-navigation-hover",
+        "data-[state=checked]:bg-menu-item-selected",
         "focus:bg-interaction-hover data-highlighted:bg-interaction-hover",
         "data-[state=checked]:focus:bg-interaction-hover data-[state=checked]:data-highlighted:bg-interaction-hover",
+        disabled ? CHECKED_DISABLED_V2_CLASSES : CHECKED_V2_CLASSES,
         "data-disabled:pointer-events-none data-disabled:text-content-disabled",
         className,
       )}
+      disabled={disabled}
       {...props}
     >
       {hasAvatar ? (
-        <span className="shrink-0">{avatar}</span>
+        <span className={cn("shrink-0", disabled && "theme-v2:opacity-60")}>{avatar}</span>
       ) : (
         hasLeadingIcon && (
           // In the two-line row the icon centres on the 18px title line, as in DropdownMenuItem.
-          <MenuRowIcon alignToTitle={hasDescription}>{leadingIcon}</MenuRowIcon>
+          <MenuRowIcon alignToTitle={hasDescription} invertWhenSelected={!disabled}>
+            {leadingIcon}
+          </MenuRowIcon>
         )
       )}
 
@@ -378,6 +410,7 @@ export const SelectItem = React.forwardRef<
           <span
             className={cn(
               "truncate text-content-secondary group-data-[disabled]:text-content-disabled",
+              !disabled && CHECKED_DESCRIPTION_V2_CLASSES,
               ITEM_DESCRIPTION_TYPOGRAPHY[itemSize],
             )}
           >
@@ -398,7 +431,12 @@ export const SelectItem = React.forwardRef<
           hasDescription ? "h-4.5 self-start" : "h-4",
         )}
       >
-        <CheckIcon className="size-4 text-content-primary group-data-[disabled]:text-content-disabled" />
+        <CheckIcon
+          className={cn(
+            "size-4 text-content-primary group-data-[disabled]:text-content-disabled",
+            !disabled && "theme-v2:text-icons-primary-inverted",
+          )}
+        />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   );

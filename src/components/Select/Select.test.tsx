@@ -153,9 +153,30 @@ describe("Select", () => {
       const trigger = screen.getByRole("combobox");
       expect(trigger).toHaveClass(
         "bg-inputs-inputs-primary",
-        "border-border-primary",
+        "border-border-input",
+        "hover:border-border-input-hover",
+        "data-[state=open]:border-border-input-hover",
+        "focus-visible:shadow-focus-ring",
         "justify-between",
       );
+    });
+
+    it("strokes the focused or open trigger with Border/Selected and drops the ring under the v2 palette only", () => {
+      renderSelect();
+      const trigger = screen.getByRole("combobox");
+      expect(trigger).toHaveClass(
+        "theme-v2:focus-visible:border-border-selected",
+        "theme-v2:focus-visible:shadow-none",
+        "theme-v2:data-[state=open]:border-border-selected",
+      );
+      expect(trigger).not.toHaveClass("focus-visible:border-border-selected");
+    });
+
+    it("keeps the error border and focus ring on an errored trigger under the v2 palette", () => {
+      renderSelect({ error: true });
+      const trigger = screen.getByRole("combobox");
+      expect(trigger).toHaveClass("border-error-content", "focus-visible:shadow-focus-ring");
+      expect(trigger).not.toHaveClass("theme-v2:focus-visible:shadow-none");
     });
 
     it("draws the filled pill without a border and with a centred label", () => {
@@ -328,7 +349,7 @@ describe("Select", () => {
       const selected = screen.getByRole("option", { name: "Option A" });
       expect(selected).toHaveAttribute("data-state", "checked");
       expect(selected).toHaveClass(
-        "data-[state=checked]:bg-buttons-navigation-hover",
+        "data-[state=checked]:bg-menu-item-selected",
         "data-[state=checked]:data-highlighted:bg-interaction-hover",
       );
       expect(within(selected).getByText("Option A").closest(".truncate")).toHaveClass(
@@ -338,6 +359,98 @@ describe("Select", () => {
         "data-state",
         "unchecked",
       );
+    });
+
+    it("inverts the selected row, its check and description under the v2 palette, hover included", () => {
+      render(
+        <Select aria-label="Test" defaultOpen defaultValue="a">
+          <SelectContent>
+            <SelectItem value="a" description="Secondary line" leadingIcon={<HomeIcon />}>
+              Option A
+            </SelectItem>
+          </SelectContent>
+        </Select>,
+      );
+      const selected = screen.getByRole("option", { name: /Option A/ });
+      expect(selected).toHaveClass(
+        "data-[state=checked]:bg-menu-item-selected",
+        "theme-v2:data-[state=checked]:text-content-primary-inverted",
+        "theme-v2:data-[state=checked]:focus:bg-menu-item-selected-hover",
+        "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected-hover",
+      );
+      expect(selected.className).not.toContain("surface-primary-inverted");
+      const svgs = selected.querySelectorAll("svg");
+      expect(svgs[0]?.parentElement).toHaveClass(
+        "theme-v2:group-data-[state=checked]:text-icons-primary-inverted",
+      );
+      expect(svgs[svgs.length - 1]).toHaveClass(
+        "text-content-primary",
+        "theme-v2:text-icons-primary-inverted",
+      );
+      expect(screen.getByText("Secondary line")).toHaveClass(
+        "theme-v2:group-data-[state=checked]:text-content-secondary-inverted",
+      );
+    });
+
+    it("follows the library's Disabled state under the v2 palette when selected", () => {
+      render(
+        <Select aria-label="Test" defaultOpen defaultValue="a">
+          <SelectContent>
+            <SelectItem
+              value="a"
+              disabled
+              description="Secondary line"
+              avatar={<span data-testid="avatar" />}
+            >
+              Option A
+            </SelectItem>
+            <SelectItem value="b" disabled leadingIcon={<HomeIcon />}>
+              Option B
+            </SelectItem>
+          </SelectContent>
+        </Select>,
+      );
+      const selected = screen.getByRole("option", { name: /Option A/ });
+      expect(selected).toHaveAttribute("data-state", "checked");
+      expect(selected).toHaveAttribute("data-disabled");
+      expect(selected).toHaveClass(
+        "data-[state=checked]:bg-menu-item-selected",
+        "theme-v2:data-[state=checked]:bg-transparent",
+      );
+      expect(selected.className).not.toContain("inverted");
+      expect(selected).not.toHaveClass(
+        "theme-v2:data-[state=checked]:data-highlighted:bg-menu-item-selected-hover",
+      );
+      const check = selected.querySelector("svg");
+      expect(check).toHaveClass("group-data-[disabled]:text-content-disabled");
+      expect(check?.getAttribute("class")).not.toContain("inverted");
+      expect(screen.getByText("Secondary line").className).not.toContain("inverted");
+      expect(screen.getByTestId("avatar").parentElement).toHaveClass("theme-v2:opacity-60");
+      const other = screen.getByRole("option", { name: /Option B/ });
+      expect(other.querySelector("svg")?.parentElement?.className).not.toContain("inverted");
+    });
+
+    it("draws the panel on Modal/Background with Modal/Stroke under the v2 palette only", () => {
+      renderSelect({ defaultOpen: true });
+      const panel = screen.getByRole("listbox");
+      expect(panel).toHaveClass(
+        "bg-modal-background",
+        "border-border-strong",
+        "theme-v2:border-modal-stroke",
+      );
+    });
+
+    it("keeps two-line rows at their full height when the list scrolls", () => {
+      render(
+        <Select aria-label="Test" defaultOpen defaultValue="a">
+          <SelectContent>
+            <SelectItem value="a" description="Secondary line">
+              Option A
+            </SelectItem>
+          </SelectContent>
+        </Select>,
+      );
+      expect(screen.getByRole("option", { name: /Option A/ })).toHaveClass("shrink-0", "min-h-10");
     });
 
     it("spaces rows 3px apart inside a group", () => {

@@ -719,6 +719,22 @@ export type {
 export { PhoneField } from "./components/PhoneField/PhoneField";
 export type { PillProps, PillVariant } from "./components/Pill/Pill";
 export { Pill } from "./components/Pill/Pill";
+export type {
+  PopoverAnchorProps,
+  PopoverCloseProps,
+  PopoverContentBaseProps,
+  PopoverContentName,
+  PopoverContentProps,
+  PopoverProps,
+  PopoverTriggerProps,
+} from "./components/Popover/Popover";
+export {
+  Popover,
+  PopoverAnchor,
+  PopoverClose,
+  PopoverContent,
+  PopoverTrigger,
+} from "./components/Popover/Popover";
 export type { ProfileOnlineStatusProps } from "./components/ProfileOnlineStatus/ProfileOnlineStatus";
 export { ProfileOnlineStatus } from "./components/ProfileOnlineStatus/ProfileOnlineStatus";
 export type {
@@ -917,6 +933,13 @@ export type { TabsOverflowItemProps, TabsOverflowProps } from "./components/Tabs
 export { TabsOverflow, TabsOverflowItem } from "./components/Tabs/TabsOverflow";
 export type { TabsTriggerProps } from "./components/Tabs/TabsTrigger";
 export { TabsTrigger } from "./components/Tabs/TabsTrigger";
+export type {
+  TagProps,
+  TagRemoveVisibility,
+  TagSize,
+  TagVariant,
+} from "./components/Tag/Tag";
+export { Tag } from "./components/Tag/Tag";
 export type {
   TextAreaProps,
   TextAreaSize,

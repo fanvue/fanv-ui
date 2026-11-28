@@ -7,12 +7,15 @@ import {
   buildThemeCss,
   getEffectTokens,
   LEGACY_COLOR_ALIASES,
+  ROLE_COLOR_TOKENS,
   refToVar,
   resolveValue,
+  THEME_V2_FALLBACKS,
 } from "./buildStyles.js";
 
 const stylesDir = join(process.cwd(), "src/styles");
 const rawTokens = JSON.parse(readFileSync(join(stylesDir, "styleTokens.json"), "utf-8"));
+const v2Tokens = JSON.parse(readFileSync(join(stylesDir, "styleTokensV2.json"), "utf-8"));
 
 describe("refToVar", () => {
   it("namespaces by the referenced collection, not the referring token's type", () => {
@@ -80,6 +83,10 @@ describe("assertPrimitiveParity", () => {
     expect(() => assertPrimitiveParity(rawTokens)).not.toThrow();
   });
 
+  it("passes for the v2 token set", () => {
+    expect(() => assertPrimitiveParity(v2Tokens)).not.toThrow();
+  });
+
   it("throws when a dark token references a primitive that diverges from light", () => {
     const broken = structuredClone(rawTokens);
     broken.primitives.dark.color.green["500"].value = "#000000ff";
@@ -92,7 +99,7 @@ describe("assertPrimitiveParity", () => {
 });
 
 describe("buildThemeCss", () => {
-  const css = buildThemeCss(rawTokens);
+  const css = buildThemeCss(rawTokens, v2Tokens);
 
   it("produces CSS with no dangling variable references", () => {
     expect(() => assertNoDanglingVars(css)).not.toThrow();
@@ -182,6 +189,159 @@ describe("buildThemeCss", () => {
       ),
     );
     expect(Object.fromEntries(documented)).toEqual(LEGACY_COLOR_ALIASES);
+  });
+
+  describe("theme-v2", () => {
+    const block = (selector: string) => {
+      const start = css.indexOf(`\n${selector} {`);
+      return css.slice(start, css.indexOf("\n}", start));
+    };
+    const declared = (text: string) =>
+      new Map<string, string>(
+        [...text.matchAll(/^\s*(--[\w-]+)\s*:\s*([^;]+);/gm)].map((m) => [m[1] ?? "", m[2] ?? ""]),
+      );
+    const root = declared(block(":root"));
+    const v2Light = declared(block(".theme-v2"));
+    const v2Dark = declared(block(".theme-v2 .theme-v2-dark"));
+    // Modal padding and radius sit under --color-* but hold spacing and radius values.
+    const colourVars = (vars: Map<string, string>) =>
+      [...vars.entries()]
+        .filter(
+          ([name, value]) => name.startsWith("--color-") && !/--(spacing|radius)-/.test(value),
+        )
+        .map(([name]) => name);
+
+    it("forces a surface dark under theme-v2 only, for tokens and dark: utilities", () => {
+      expect(css).toContain(
+        "@variant dark (&:where(.dark, .dark *, .theme-v2 .theme-v2-dark, .theme-v2 .theme-v2-dark *));",
+      );
+      const forced = declared(block(".theme-v2 .theme-v2-dark"));
+      expect(forced.get("--color-surface-primary")).toBe("var(--primitives-color-gray-900)");
+      expect(forced.get("--fv-focus-ring-color")).toBe("var(--color-content-always-white)");
+      for (const [legacy, current] of Object.entries(LEGACY_COLOR_ALIASES)) {
+        expect(forced.get(legacy)).toBe(`var(${current})`);
+      }
+      expect(css).not.toMatch(/^\.theme-v2-dark/m);
+    });
+
+    it("forces a surface light under theme-v2 with the v2 light values, after the dark block", () => {
+      const forced = declared(block(".theme-v2 .theme-v2-light"));
+      expect(css.indexOf("\n.theme-v2 .theme-v2-light {")).toBeGreaterThan(
+        css.indexOf("\n.theme-v2 .theme-v2-dark {"),
+      );
+      expect(block(".theme-v2 .theme-v2-light")).toContain("color-scheme: light;");
+      expect(forced.get("--color-surface-primary")).toBe("var(--primitives-color-gray-white)");
+      expect(forced.get("--fv-focus-ring-color")).toBe("var(--color-interaction-focus)");
+      for (const name of colourVars(v2Light)) {
+        expect(forced.get(name), name).toBe(v2Light.get(name));
+      }
+      for (const [legacy, current] of Object.entries(LEGACY_COLOR_ALIASES)) {
+        expect(forced.get(legacy)).toBe(`var(${current})`);
+      }
+      const base = readFileSync(join(stylesDir, "base.css"), "utf-8");
+      expect(base.match(/^:root,\n\.theme-v2 \.theme-v2-light \{/gm) ?? []).toHaveLength(2);
+    });
+
+    it("adds a theme-v2 variant for styles that only apply under the v2 palette", () => {
+      expect(css).toContain("@custom-variant theme-v2 (&:where(.theme-v2, .theme-v2 *));");
+    });
+
+    it("uses the v2 values for the retuned surfaces in each mode", () => {
+      expect(v2Light.get("--color-background-primary")).toBe("var(--primitives-color-gray-75)");
+      expect(v2Light.get("--color-surface-primary")).toBe("var(--primitives-color-gray-white)");
+      expect(v2Dark.get("--color-background-primary")).toBe("var(--primitives-color-gray-black)");
+      expect(v2Dark.get("--color-surface-primary")).toBe("var(--primitives-color-gray-900)");
+      expect(v2Light.get("--primitives-color-gray-75")).toBe("#f4f4f4ff");
+    });
+
+    it("redefines every colour var the default theme declares, in both modes", () => {
+      const missingLight = colourVars(root).filter(
+        (name) => !v2Light.has(name) && !(name in LEGACY_COLOR_ALIASES),
+      );
+      const missingDark = colourVars(root).filter(
+        (name) => !v2Dark.has(name) && !(name in LEGACY_COLOR_ALIASES),
+      );
+      expect(missingLight).toEqual([]);
+      expect(missingDark).toEqual([]);
+    });
+
+    it("adds no colour var that the default theme does not declare", () => {
+      expect(colourVars(v2Light).filter((name) => !root.has(name))).toEqual([]);
+    });
+
+    it("gives each v2-only var the current palette's value outside theme-v2, in @theme too", () => {
+      const themeBlocks = (css.match(/@theme \{[^}]*\}/g) ?? []).join("\n");
+      for (const [token, fallback] of Object.entries(THEME_V2_FALLBACKS)) {
+        expect(root.get(token)).toBe(`var(${fallback})`);
+        expect(declared(block(".dark")).get(token)).toBe(`var(${fallback})`);
+        expect(themeBlocks).toContain(`${token}: var(${fallback});`);
+        expect(v2Light.get(token)).toMatch(/^var\(--primitives-color-/);
+        expect(v2Dark.get(token)).toMatch(/^var\(--primitives-color-/);
+      }
+    });
+
+    it("takes the tag colours from the v2 export in every theme, as the current export has none", () => {
+      const themeBlocks = (css.match(/@theme \{[^}]*\}/g) ?? []).join("\n");
+      const dark = declared(block(".dark"));
+      expect(rawTokens.semantic.light.color.tag).toBeUndefined();
+      expect(rawTokens.semantic.dark.color.tag).toBeUndefined();
+      expect(themeBlocks).toContain("--color-tag-blue-surface: var(--primitives-color-blue-100);");
+      expect(root.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-100)");
+      expect(dark.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-800)");
+      expect(dark.get("--color-tag-hover-overlay")).toBe("var(--color-neutral-alphas-100)");
+      expect(v2Light.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-100)");
+      expect(v2Dark.get("--color-tag-blue-surface")).toBe("var(--primitives-color-blue-800)");
+    });
+
+    it("gives selected menu rows a readable fill in each palette", () => {
+      const themeBlocks = (css.match(/@theme \{[^}]*\}/g) ?? []).join("\n");
+      expect(root.get("--color-menu-item-selected")).toBe("var(--color-buttons-navigation-hover)");
+      expect(themeBlocks).toContain(
+        "--color-menu-item-selected: var(--color-buttons-navigation-hover);",
+      );
+      expect(v2Light.get("--color-menu-item-selected")).toBe(
+        "var(--color-surface-primary-inverted)",
+      );
+      expect(v2Dark.get("--color-menu-item-selected")).toBe(
+        "var(--color-surface-primary-inverted)",
+      );
+      expect(v2Light.get("--color-menu-item-selected-hover")).toBe(
+        "var(--color-buttons-primary-hover)",
+      );
+      expect(v2Dark.get("--color-menu-item-selected-hover")).toBe(
+        "var(--primitives-color-gray-400)",
+      );
+      expect(v2Light.get("--color-menu-item-selected-hover-secondary")).toBe(
+        "var(--color-content-secondary-inverted)",
+      );
+      expect(v2Dark.get("--color-menu-item-selected-hover-secondary")).toBe(
+        "var(--primitives-color-gray-700)",
+      );
+      expect(Object.keys(ROLE_COLOR_TOKENS)).toEqual([
+        "--color-menu-item-selected",
+        "--color-menu-item-selected-hover",
+        "--color-menu-item-selected-hover-secondary",
+      ]);
+    });
+
+    it("applies the v2 dark palette to dark mode and to theme-v2-dark scopes only", () => {
+      expect(css).toContain(
+        ".theme-v2.dark,\n.theme-v2 .dark,\n.dark .theme-v2,\n.theme-v2 .theme-v2-dark {",
+      );
+    });
+
+    it("fails the build when a v2 token has no dark value", () => {
+      const broken = structuredClone(v2Tokens);
+      delete broken.semantic.dark.color.content.primary;
+      expect(() => buildThemeCss(rawTokens, broken)).toThrow(/no dark value for content\.primary/);
+    });
+
+    it("gives theme-v2-dark scopes the hand-written dark overrides in base.css", () => {
+      const base = readFileSync(join(stylesDir, "base.css"), "utf-8");
+      const darkBlocks = base.match(/^\.dark,\n\.theme-v2 \.theme-v2-dark \{/gm) ?? [];
+      expect(darkBlocks).toHaveLength(2);
+      expect(base).not.toMatch(/^\.dark \{/m);
+    });
   });
 
   it("stays in sync with the committed theme.css (run buildStyles.js to regenerate)", () => {

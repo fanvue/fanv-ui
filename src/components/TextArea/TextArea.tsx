@@ -1,5 +1,9 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import {
+  INPUT_FIELD_DISABLED_CLASSES,
+  INPUT_FIELD_V2_FOCUS_CLASSES,
+} from "../../utils/inputFieldClasses";
 import { IconButton } from "../IconButton/IconButton";
 import { CheckOutlineIcon } from "../Icons/CheckOutlineIcon";
 import { CloseIcon } from "../Icons/CloseIcon";
@@ -68,10 +72,10 @@ const CLEAR_BUTTON_RIGHT: Record<TextAreaSize, string> = {
 function getContainerClassName(size: TextAreaSize, error: boolean, disabled?: boolean) {
   return cn(
     "relative rounded-sm border bg-inputs-inputs-primary after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
-    error ? "border-error-content" : "border-border-primary",
-    !disabled && !error && "hover:border-neutral-alphas-400",
+    error ? "border-error-content" : ["border-border-input", INPUT_FIELD_V2_FOCUS_CLASSES],
+    !disabled && !error && "hover:border-border-input-hover",
     CONTAINER_MIN_HEIGHT[size],
-    disabled && "opacity-50",
+    disabled && INPUT_FIELD_DISABLED_CLASSES,
   );
 }
 
@@ -82,7 +86,7 @@ function getTextareaClassName(
   resizable: boolean,
 ) {
   return cn(
-    "h-full w-full bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
+    "h-full w-full bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed theme-v2:disabled:text-content-disabled theme-v2:disabled:placeholder:text-content-disabled",
     resizable ? "resize-y" : "resize-none",
     !hasMinRows && "min-h-[80px]",
     TEXTAREA_SIZE_CLASSES[size],

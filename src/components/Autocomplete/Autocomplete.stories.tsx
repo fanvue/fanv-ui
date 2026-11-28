@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
-import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
+import { expect, userEvent, waitFor, within } from "storybook/test";
+import { NON_VISUAL_STORY_PARAMETERS, V2_PALETTE_STORY_PARAMETERS } from "../../storybook";
 import { HomeIcon } from "../Icons/HomeIcon";
 import {
   Autocomplete,
@@ -455,4 +456,86 @@ export const CustomGroupHeading: Story = {
       )}
     />
   ),
+};
+
+/**
+ * The input border token, error and disabled states under the v2 palette. The
+ * focused field is in {@link PaletteV2Open}, since focusing an Autocomplete opens
+ * its panel over the fields below. Snapshotted with the v2 palette only; switch
+ * the Palette toolbar to compare with Current.
+ */
+export const PaletteV2: Story = {
+  name: "Palette v2",
+  parameters: V2_PALETTE_STORY_PARAMETERS,
+  render: () => (
+    <div className="flex flex-col gap-6">
+      <Autocomplete
+        label="Default"
+        placeholder="Search..."
+        options={COUNTRIES}
+        emptyText="No results"
+      />
+      <Autocomplete
+        label="Error"
+        placeholder="Search..."
+        options={COUNTRIES}
+        error
+        errorMessage="This field is required"
+        emptyText="No results"
+      />
+      <Autocomplete
+        label="Disabled"
+        placeholder="Search..."
+        options={COUNTRIES}
+        leftIcon={<HomeIcon />}
+        disabled
+        emptyText="No results"
+      />
+    </div>
+  ),
+};
+
+/**
+ * The focused, open field under the v2 palette: the 1px focus stroke, the menu
+ * surface and stroke, and the selected row on the inverted surface. Snapshotted
+ * with the v2 palette only.
+ */
+export const PaletteV2Open: Story = {
+  name: "Palette v2 (open)",
+  parameters: V2_PALETTE_STORY_PARAMETERS,
+  args: {
+    label: "Country",
+    placeholder: "Search countries...",
+    options: COUNTRIES,
+    defaultValue: "ca",
+    emptyText: "No results",
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    await userEvent.click(within(canvasElement).getByRole("combobox"));
+  },
+};
+
+export const PaletteV2CustomOption: Story = {
+  name: "Palette v2 (custom option)",
+  parameters: V2_PALETTE_STORY_PARAMETERS,
+  globals: { palette: "v2" },
+  args: {
+    label: "Country",
+    placeholder: "Search countries...",
+    options: COUNTRIES,
+    defaultValue: "ca",
+    emptyText: "No results",
+    renderOption: CustomRenderOption.args?.renderOption,
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    await userEvent.click(within(canvasElement).getByRole("combobox"));
+    const hint = await within(document.body).findByText("Selected");
+    const probe = document.createElement("span");
+    probe.style.color = "var(--color-content-secondary-inverted)";
+    document.body.appendChild(probe);
+    const inverted = getComputedStyle(probe).color;
+    probe.remove();
+    // Custom content on the inverted selected row takes the inverted text colour.
+    await waitFor(() => expect(getComputedStyle(hint).color).toBe(inverted));
+  },
 };

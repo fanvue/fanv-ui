@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from "react";
+import { createContext, forwardRef, useContext, useEffect, useRef } from "react";
 import {
   type ChevronProps,
   type DateRange,
@@ -24,10 +24,19 @@ export type { DateRange }; // Needed by consumers when passing props
 /** Layout variant — single or side-by-side month display. */
 export type DatePickerVariant = "single" | "double";
 
+/** Day button size in pixels. It also scales the navigation, caption, padding and footer buttons. */
+export type DatePickerSize = "40" | "32";
+
 /** Props specific to the DatePicker wrapper (not inherited from react-day-picker). */
 export interface DatePickerOwnProps {
   /** Display one month or two side-by-side. @default "single" */
   variant?: DatePickerVariant;
+  /**
+   * Day button size in pixels. It also scales the navigation, caption, padding and footer buttons.
+   * Use `"32"` for compact surfaces such as toolbar popovers.
+   * @default "40"
+   */
+  size?: DatePickerSize;
   /** Callback fired when the Apply button is clicked. */
   onApply?: () => void;
   /** Callback fired when the Cancel button is clicked. */
@@ -42,6 +51,8 @@ export interface DatePickerOwnProps {
   className?: string;
 }
 
+const DatePickerSizeContext = createContext<DatePickerSize>("40");
+
 function Day({ day, modifiers, className, ...divProps }: DayProps) {
   const { range_start, range_end, range_middle } = modifiers;
   const isSingleDayRange = range_start && range_end;
@@ -51,9 +62,10 @@ function Day({ day, modifiers, className, ...divProps }: DayProps) {
     <div
       className={cn(
         className,
-        inRange && "bg-inputs-calendar-range",
-        inRange && range_start && "rounded-l-sm",
-        inRange && range_end && "rounded-r-sm",
+        inRange &&
+          "before:absolute before:inset-x-0 before:inset-y-0.5 before:bg-inputs-calendar-range first:before:left-0.5 first:before:rounded-l-sm last:before:right-0.5 last:before:rounded-r-sm",
+        inRange && range_start && "before:left-0.5 before:rounded-l-sm",
+        inRange && range_end && "before:right-0.5 before:rounded-r-sm",
       )}
       {...divProps}
     />
@@ -62,6 +74,7 @@ function Day({ day, modifiers, className, ...divProps }: DayProps) {
 
 function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps) {
   const ref = useRef<HTMLButtonElement>(null);
+  const size = useContext(DatePickerSizeContext);
 
   useEffect(() => {
     if (modifiers.focused) ref.current?.focus();
@@ -74,11 +87,20 @@ function DayButton({ day, modifiers, className, ...buttonProps }: DayButtonProps
       ref={ref}
       type="button"
       className={cn(
-        "relative z-10 inline-flex size-10 cursor-pointer items-center justify-center rounded-sm text-content-primary",
+        "relative z-10 inline-flex cursor-pointer items-center justify-center rounded-sm text-content-primary",
         "transition-colors hover:bg-inputs-calendar-range not-disabled:active:bg-inputs-calendar-range",
         "focus-visible:shadow-focus-ring focus-visible:outline-none",
         "disabled:cursor-not-allowed",
-        isSelected ? "typography-body-small-14px-semibold" : "typography-body-small-14px-regular",
+        size === "40" && "size-10",
+        size === "32" && "size-8",
+        size === "40" &&
+          (isSelected
+            ? "typography-body-small-14px-semibold"
+            : "typography-body-small-14px-regular"),
+        size === "32" &&
+          (isSelected
+            ? "typography-description-12px-semibold"
+            : "typography-description-12px-regular"),
         modifiers.today &&
           !isSelected &&
           "bg-inputs-calendar-today ring-1 ring-inputs-calendar-today-stroke hover:bg-inputs-calendar-today",
@@ -121,6 +143,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
       variant = "single",
+      size = "40",
       onApply,
       onCancel,
       cancelLabel = "Cancel",
@@ -134,6 +157,11 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   ) => {
     const numberOfMonths = variant === "double" ? 2 : 1;
     const isMulti = numberOfMonths > 1;
+    const isCompact = size === "32";
+    const navButtonClassName = cn(
+      "pointer-events-auto inline-flex cursor-pointer items-center justify-center rounded-full bg-buttons-secondary-default text-content-primary transition-colors hover:bg-buttons-secondary-hover focus-visible:shadow-focus-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-buttons-disabled-default disabled:text-content-disabled [&>svg]:size-4",
+      isCompact ? "size-6" : "size-8",
+    );
 
     // Wrap onSelect for range mode: when clicking inside a complete range,
     // move the nearest boundary instead of always resetting the end date.
@@ -181,68 +209,81 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     })();
 
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "inline-flex flex-col rounded-xl border border-modal-stroke bg-modal-background p-6 shadow-blur-menu backdrop-blur-sm",
-          className,
-        )}
-      >
-        <DayPicker
-          showOutsideDays
-          numberOfMonths={numberOfMonths}
-          formatters={{
-            formatCaption: (date: Date) =>
-              date.toLocaleDateString("en-US", { month: "long", year: "numeric" }),
-            ...formatters,
-          }}
-          classNames={{
-            root: "w-full",
-            months: cn("relative flex", isMulti && "gap-6"),
-            month: "flex flex-1 flex-col",
-            month_caption: "mb-4 flex h-8 items-center justify-center",
-            caption_label: "typography-body-default-16px-regular text-content-primary",
-            nav: "absolute inset-x-0 top-0 z-20 flex justify-between",
-            button_previous:
-              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full bg-buttons-secondary-default text-content-primary transition-colors hover:bg-buttons-secondary-hover focus-visible:shadow-focus-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-buttons-disabled-default disabled:text-content-disabled [&>svg]:size-4",
-            button_next:
-              "pointer-events-auto inline-flex size-8 cursor-pointer items-center justify-center rounded-full bg-buttons-secondary-default text-content-primary transition-colors hover:bg-buttons-secondary-hover focus-visible:shadow-focus-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-buttons-disabled-default disabled:text-content-disabled [&>svg]:size-4",
-            month_grid: "w-full",
-            weekdays: "flex",
-            weekday:
-              "flex h-[30px] w-10 flex-1 items-center justify-center typography-body-small-14px-regular text-content-secondary",
-            week: "flex",
-            day: "relative flex flex-1 items-center justify-center p-0.5",
-            hidden: "hidden",
-          }}
-          components={{
-            /**
-             * !NOTE: We're unable to use semantic elements for the grid due to rdp, as such we've disabled the a11y lint rules for these elements in biome.json.
-             */
-            Chevron: ({ orientation }: ChevronProps) =>
-              orientation === "left" ? <ChevronLeftIcon /> : <ChevronRightIcon />,
-            MonthGrid: (props: MonthGridProps) => <div role="grid" {...props} />,
-            Weekdays: (props: WeekdaysProps) => <div role="row" {...props} />,
-            Weekday: (props: WeekdayProps) => <div role="columnheader" {...props} />,
-            Weeks: (props: WeeksProps) => <div role="rowgroup" {...props} />,
-            Week: ({ week, ...props }: WeekProps) => <div role="row" {...props} />,
-            Day,
-            DayButton,
-          }}
-          {...resolvedDayPickerProps}
-        />
+      <DatePickerSizeContext.Provider value={size}>
+        <div
+          ref={ref}
+          className={cn(
+            "inline-flex flex-col rounded-xl border border-modal-stroke bg-modal-background shadow-blur-menu backdrop-blur-sm",
+            isCompact ? "p-4" : "p-6",
+            className,
+          )}
+        >
+          <DayPicker
+            showOutsideDays
+            numberOfMonths={numberOfMonths}
+            formatters={{
+              formatCaption: (date: Date) =>
+                date.toLocaleDateString("en-US", { month: "long", year: "numeric" }),
+              ...formatters,
+            }}
+            classNames={{
+              root: "w-full",
+              months: cn("relative flex", isMulti && "gap-6"),
+              month: "flex flex-1 flex-col",
+              month_caption: cn(
+                "flex items-center justify-center",
+                isCompact ? "mb-2 h-6" : "mb-4 h-8",
+              ),
+              caption_label: cn(
+                "text-content-primary",
+                isCompact
+                  ? "typography-body-small-14px-regular"
+                  : "typography-body-default-16px-regular",
+              ),
+              nav: "absolute inset-x-0 top-0 z-20 flex justify-between",
+              button_previous: navButtonClassName,
+              button_next: navButtonClassName,
+              month_grid: "w-full",
+              weekdays: "flex",
+              weekday: cn(
+                "flex flex-1 items-center justify-center text-content-secondary",
+                isCompact
+                  ? "typography-description-12px-regular h-6 w-8"
+                  : "typography-body-small-14px-regular h-7.5 w-10",
+              ),
+              week: "flex",
+              day: "relative flex flex-1 items-center justify-center p-0.5",
+              hidden: "hidden",
+            }}
+            components={{
+              /**
+               * !NOTE: We're unable to use semantic elements for the grid due to rdp, as such we've disabled the a11y lint rules for these elements in biome.json.
+               */
+              Chevron: ({ orientation }: ChevronProps) =>
+                orientation === "left" ? <ChevronLeftIcon /> : <ChevronRightIcon />,
+              MonthGrid: (props: MonthGridProps) => <div role="grid" {...props} />,
+              Weekdays: (props: WeekdaysProps) => <div role="row" {...props} />,
+              Weekday: (props: WeekdayProps) => <div role="columnheader" {...props} />,
+              Weeks: (props: WeeksProps) => <div role="rowgroup" {...props} />,
+              Week: ({ week, ...props }: WeekProps) => <div role="row" {...props} />,
+              Day,
+              DayButton,
+            }}
+            {...resolvedDayPickerProps}
+          />
 
-        {showFooter && (
-          <div className="flex gap-2 pt-6">
-            <Button variant="outline" size="40" className="flex-1" onClick={onCancel}>
-              {cancelLabel}
-            </Button>
-            <Button variant="primary" size="40" className="flex-1" onClick={onApply}>
-              {applyLabel}
-            </Button>
-          </div>
-        )}
-      </div>
+          {showFooter && (
+            <div className={cn("flex gap-2", isCompact ? "pt-4" : "pt-6")}>
+              <Button variant="outline" size={size} className="flex-1" onClick={onCancel}>
+                {cancelLabel}
+              </Button>
+              <Button variant="primary" size={size} className="flex-1" onClick={onApply}>
+                {applyLabel}
+              </Button>
+            </div>
+          )}
+        </div>
+      </DatePickerSizeContext.Provider>
     );
   },
 );

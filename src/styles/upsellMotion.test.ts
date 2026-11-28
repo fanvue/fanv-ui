@@ -58,8 +58,8 @@ describe("upsell motion", () => {
     expect(utilityBlock("fv-upsell-negative")).toMatch(
       /--fv-upsell-glow: var\(--fv-upsell-glow-negative\);/,
     );
-    const light = block(":root {\n  --fv-upsell-pool");
-    const dark = block(".dark {\n  --fv-upsell-glow");
+    const light = block(":root,\n.theme-v2 .theme-v2-light {\n  --fv-upsell-pool");
+    const dark = block(".dark,\n.theme-v2 .theme-v2-dark {\n  --fv-upsell-glow");
     expect(light).toMatch(/--fv-upsell-glow: var\(--fv-upsell-glow-on-light\);/);
     expect(light).toMatch(/--fv-upsell-glow-negative: var\(--fv-upsell-glow-on-dark\);/);
     expect(dark).toMatch(/--fv-upsell-glow: var\(--fv-upsell-glow-on-dark\);/);
@@ -73,7 +73,7 @@ describe("upsell motion", () => {
   });
 
   it("glows in lit green on light pages and deep green on dark", () => {
-    const light = block(":root {\n  --fv-upsell-pool");
+    const light = block(":root,\n.theme-v2 .theme-v2-light {\n  --fv-upsell-pool");
     expect(light).toMatch(/--fv-upsell-glow-on-light:[^;]*green-600[^;]*green-600/);
     expect(light).toMatch(/--fv-upsell-glow-on-dark:[^;]*green-800[^;]*green-900/);
   });
@@ -87,7 +87,7 @@ describe("upsell motion", () => {
   });
 
   it("defines every upsell token the utilities read", () => {
-    const tokens = block(":root {\n  --fv-upsell-pool");
+    const tokens = block(":root,\n.theme-v2 .theme-v2-light {\n  --fv-upsell-pool");
     for (const token of [
       "--fv-upsell-pool",
       "--fv-upsell-glow",

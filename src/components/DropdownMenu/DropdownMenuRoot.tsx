@@ -3,6 +3,10 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { FLOATING_CONTENT_COLLISION_PADDING } from "../../utils/floatingContentCollisionPadding";
+import {
+  FLOATING_CONTENT_SURFACE_CLASS,
+  FLOATING_CONTENT_Z_INDEX,
+} from "../../utils/floatingContentSurface";
 import { capturePointer } from "../../utils/pointerCapture";
 import { Drawer, DrawerContent, DrawerTrigger } from "../Drawer/Drawer";
 import { IconDefaultsContext, NO_ICON_DEFAULTS } from "../Icons/IconDefaults";
@@ -303,15 +307,11 @@ export const DropdownMenuContent = React.forwardRef<
           sideOffset={sideOffset}
           collisionPadding={collisionPadding}
           className={cn(
-            // Panel tokens come from `V2 Menu Dropdown` (library node `17245:2317`):
-            // `rounded-md` (16px) over `Background/Secondary`, a `Border/Strong`
-            // stroke, 8px of padding, and the `blur + shadow/menu` effect. Rows
-            // inside it are 12px `rounded-sm`, the library's `V2 Menu Item` radius.
-            //
-            // `backdrop-blur-xs` (4px) is the CSS equivalent of that effect's
-            // BACKGROUND_BLUR radius 8, which Figma halves on export. It is not a
-            // 4-against-8 mismatch.
-            "flex w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) flex-col gap-[3px] overflow-y-auto rounded-md border border-border-strong bg-background-secondary p-2 text-content-primary shadow-blur-menu backdrop-blur-xs",
+            // The surface is shared with Select and Popover. `V2 Menu Dropdown`
+            // (library node `17245:2317`) adds 8px of padding here. Rows inside it
+            // are 12px `rounded-sm`, the library's `V2 Menu Item` radius.
+            FLOATING_CONTENT_SURFACE_CLASS,
+            "flex w-max min-w-(--radix-dropdown-menu-trigger-width) max-w-(--radix-dropdown-menu-content-available-width) flex-col gap-[3px] overflow-y-auto p-2",
             "data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:animate-in",
             "data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:animate-out",
             "data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-in-from-top-2",
@@ -319,7 +319,7 @@ export const DropdownMenuContent = React.forwardRef<
             className,
           )}
           style={{
-            zIndex: "var(--fanvue-ui-portal-z-index, 50)",
+            zIndex: FLOATING_CONTENT_Z_INDEX,
             maxHeight: "var(--radix-dropdown-menu-content-available-height)",
             ...style,
           }}

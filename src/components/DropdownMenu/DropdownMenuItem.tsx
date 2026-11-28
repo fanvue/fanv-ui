@@ -127,6 +127,8 @@ export interface DropdownMenuItemProps
    * Marks the item as the current selection in a single-select menu. The row
    * rests on `Buttons/Navigation/Hover` with a semibold label; hover still shows
    * `Interaction/Hover`, because `data-[highlighted]` outranks the selected class.
+   * Under the v2 palette that fill is inverted, with inverted content, and a
+   * highlighted row moves to `Menu Item Selected Hover` so keyboard focus stays visible.
    * The row also gets `data-selected`, and `aria-current` unless the consumer
    * already sets `aria-checked`.
    * @default false
@@ -135,7 +137,29 @@ export interface DropdownMenuItemProps
 }
 
 /**
+ * Under the v2 palette a selected row's `Menu Item Selected` fill is inverted, so its
+ * content inverts too, and a highlighted row moves to `Menu Item Selected Hover`.
+ */
+const SELECTED_V2_CLASSES =
+  "theme-v2:text-content-primary-inverted theme-v2:data-[highlighted]:bg-menu-item-selected-hover";
+
+/**
+ * Secondary lines (description, count) on a selected row under the v2 palette: inverted,
+ * and `Menu Item Selected Hover Secondary` while the row is highlighted, so they keep
+ * contrast on the hover fill.
+ */
+const SELECTED_SECONDARY_V2_CLASSES =
+  "theme-v2:group-data-[selected]:text-content-secondary-inverted theme-v2:group-data-[selected]:group-data-[highlighted]:text-menu-item-selected-hover-secondary";
+
+/** A disabled selected row takes the library's Disabled state under the v2 palette, which has no fill. */
+const SELECTED_DISABLED_V2_CLASSES = "theme-v2:bg-transparent";
+
+/**
  * An individual item within a {@link DropdownMenuContent}.
+ *
+ * Rows do not shrink (`shrink-0`): the panel is a scrolling flex column capped at the
+ * space available, and a row allowed to shrink would drop to its minimum height and
+ * spill a second line.
  *
  * @example
  * ```tsx
@@ -186,7 +210,7 @@ export const DropdownMenuItem = React.forwardRef<
     const itemClassName = cn(
       // `text-start` because the sheet variant renders the row as a <button>,
       // whose UA-centred text misaligned it from the popper variant's rows.
-      "group flex w-full cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
+      "group flex w-full shrink-0 cursor-pointer gap-2 rounded-sm px-3 text-start outline-none",
       hasDescription ? "items-start" : "items-center",
       // The sheet's header runs the full width of the panel, so its rows have to
       // come in off the edge themselves — 4px here on the panel's own 4px gives the
@@ -205,7 +229,10 @@ export const DropdownMenuItem = React.forwardRef<
       // data-disabled — neither selector above matches them.
       "aria-disabled:cursor-not-allowed aria-disabled:text-content-disabled",
       destructive && "text-error-content",
-      selected && "bg-buttons-navigation-hover",
+      selected && [
+        "bg-menu-item-selected",
+        disabled ? SELECTED_DISABLED_V2_CLASSES : SELECTED_V2_CLASSES,
+      ],
       className,
     );
     const selectedProps = selected
@@ -232,6 +259,7 @@ export const DropdownMenuItem = React.forwardRef<
           ITEM_COUNT_TYPOGRAPHY[normalizedSize],
           destructive ? "text-error-content" : "text-content-tertiary",
           "group-data-[disabled]:text-content-disabled",
+          !disabled && SELECTED_SECONDARY_V2_CLASSES,
         )}
       >
         {count}
@@ -240,7 +268,12 @@ export const DropdownMenuItem = React.forwardRef<
 
     // Destructive rows keep the row's error colour on their icons.
     const renderIcon = (icon: React.ReactNode, className?: string) => (
-      <MenuRowIcon inheritColor={destructive} alignToTitle={hasDescription} className={className}>
+      <MenuRowIcon
+        inheritColor={destructive}
+        alignToTitle={hasDescription}
+        invertWhenSelected={!disabled}
+        className={className}
+      >
         {icon}
       </MenuRowIcon>
     );
@@ -265,7 +298,9 @@ export const DropdownMenuItem = React.forwardRef<
     const itemChildren = (
       <>
         {avatar != null ? (
-          <span className={cn("shrink-0", iconAlignClassName)}>{avatar}</span>
+          <span className={cn("shrink-0", iconAlignClassName, disabled && "theme-v2:opacity-60")}>
+            {avatar}
+          </span>
         ) : (
           leadingNode
         )}
@@ -281,7 +316,12 @@ export const DropdownMenuItem = React.forwardRef<
             <span className="typography-body-small-14px-semibold truncate">
               {renderContainedText(children)}
             </span>
-            <span className="typography-body-small-14px-regular truncate text-content-secondary">
+            <span
+              className={cn(
+                "typography-body-small-14px-regular truncate text-content-secondary",
+                disabled ? "theme-v2:text-content-disabled" : SELECTED_SECONDARY_V2_CLASSES,
+              )}
+            >
               {renderContainedText(description)}
             </span>
           </span>

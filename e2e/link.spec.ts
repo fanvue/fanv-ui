@@ -1,21 +1,11 @@
-import { expect, type Locator, type Page, test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { hoverAndPaint } from "./utils/hover";
 import { getStoryUrl } from "./utils/storybook";
 
 const textDecoration = (element: Element) =>
   getComputedStyle(element).getPropertyValue("text-decoration");
 const color = (element: Element) => getComputedStyle(element).color;
 const translate = (element: Element) => getComputedStyle(element).translate;
-
-/**
- * Hovers a target from a pointer parked away from it, then takes a throwaway screenshot. Headless
- * WebKit applies hover styles to a hovered element's descendants only once it paints, and nothing
- * in a test forces a paint until a screenshot does.
- */
-async function hoverAndPaint(page: Page, target: Locator) {
-  await page.mouse.move(0, 0);
-  await target.hover();
-  await page.screenshot();
-}
 
 test.describe("Link", () => {
   test.describe("subtle variant", () => {

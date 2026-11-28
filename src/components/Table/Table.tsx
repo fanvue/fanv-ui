@@ -182,7 +182,8 @@ export interface TableToolbarActionProps extends React.ButtonHTMLAttributes<HTML
  * Labelled control for {@link TableToolbar}: 12px label followed by a 16px
  * icon. Below the `md` breakpoint only the icon shows, and the label stays as
  * the accessible name, so a full bar still fits a phone. Works as a plain
- * button or as a `DropdownMenuTrigger` child.
+ * button or as a `DropdownMenuTrigger` or `PopoverTrigger` child, and keeps its
+ * hover colour while that menu or popover is open.
  */
 export const TableToolbarAction = React.forwardRef<HTMLButtonElement, TableToolbarActionProps>(
   ({ className, children, icon, active = false, type = "button", ...props }, ref) => {
@@ -192,7 +193,7 @@ export const TableToolbarAction = React.forwardRef<HTMLButtonElement, TableToolb
         type={type}
         className={cn(
           "typography-description-12px-regular inline-flex h-6 shrink-0 cursor-pointer items-center gap-2 whitespace-nowrap rounded-xs border-none bg-transparent p-0 text-content-secondary outline-none",
-          "hover:text-content-primary focus-visible:shadow-focus-ring disabled:cursor-default disabled:opacity-40",
+          "hover:text-content-primary focus-visible:shadow-focus-ring disabled:cursor-default disabled:opacity-40 data-[state=open]:text-content-primary",
           className,
         )}
         {...props}

@@ -66,6 +66,7 @@ Design tokens from Figma are automatically transformed into CSS variables for us
 ### File Structure
 
 - `src/styles/styleTokens.json` - Exported from Figma (source of truth)
+- `src/styles/styleTokensV2.json` - Colour primitives and semantics of the v2 palette, from the same Figma library
 - `src/styles/theme.css` - Auto-generated CSS variables (do not edit manually)
 - `src/styles/buildStyles.js` - Transformation script using Style Dictionary
 
@@ -92,6 +93,21 @@ This auto-generates `src/styles/theme.css` (do not edit manually):
 - `:root` - Light mode
 - `.dark` - Dark mode
 - `@theme` - Tailwind mappings
+- `.theme-v2` and `.theme-v2.dark` - The v2 palette, light and dark
+
+### v2 palette
+
+The v2 palette is opt-in. Add the `theme-v2` class to `<html>`, the element that gets `dark`, and every colour token takes its v2 value. On any other element, dark mode keeps the v2 light values. Without the class, nothing changes. In Storybook, use the **Palette** toolbar switch.
+
+A few tokens exist only in the v2 palette: `border-input`, `border-input-hover`, `interaction-pressed`, `content-always-secondary` and `navigation-*`. Without `theme-v2`, each one has the current palette's value, so a component can use it before the palette ships.
+
+To force a surface dark under the v2 palette in either mode, such as the navigation, add the `theme-v2-dark` class to it and to any content it portals. Without `theme-v2` on the root, the class does nothing. Do not use a bare `dark` class for this, because it applies with or without the v2 palette.
+
+To force a surface light under the v2 palette, such as a payment panel that stays light in dark mode, add the `theme-v2-light` class. It restores the v2 light tokens inside the surface. Tailwind `dark:` utilities still match there, because the root keeps its `dark` class, so style forced-light surfaces with tokens only.
+
+For a change that is not a colour, such as a stroke width or a shadow, use the `theme-v2:` variant. It works like `dark:` and applies only under the v2 palette: `focus:ring-2 theme-v2:focus:ring-1`.
+
+To update the v2 palette, export the Primitives and Semantic colour variables from the library into `src/styles/styleTokensV2.json`, keeping the key names that `styleTokens.json` uses, then run `pnpm build:dictionary`.
 
 ## Resources
 

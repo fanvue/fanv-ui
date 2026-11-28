@@ -1,6 +1,10 @@
 import * as React from "react";
 import { CheckOutlineIcon } from "@/index";
 import { cn } from "../../utils/cn";
+import {
+  INPUT_FIELD_DISABLED_CLASSES,
+  INPUT_FIELD_V2_FOCUS_CLASSES,
+} from "../../utils/inputFieldClasses";
 
 /** Text field height in pixels. */
 export type TextFieldSize = "48" | "40" | "32";
@@ -85,18 +89,20 @@ function getContainerClassName(
     "relative flex items-center overflow-hidden rounded-sm border bg-inputs-inputs-primary after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] has-focus-visible:outline-none has-focus-visible:after:shadow-focus-ring motion-safe:transition-colors",
     hasAction ? CONTAINER_PADDING_X_WITH_ACTION[size] : CONTAINER_PADDING_X[size],
     CONTAINER_GAP[size],
-    error ? "border-error-content" : "border-border-primary",
-    !disabled && !error && "hover:border-neutral-alphas-400",
+    error ? "border-error-content" : ["border-border-input", INPUT_FIELD_V2_FOCUS_CLASSES],
+    !disabled && !error && "hover:border-border-input-hover",
     CONTAINER_HEIGHT[size],
-    disabled && "opacity-50",
+    disabled && INPUT_FIELD_DISABLED_CLASSES,
   );
 }
 
 function LeadingIcon({
   size = "16",
+  disabled,
   children,
 }: {
   size?: "16" | "24";
+  disabled?: boolean;
   children?: React.ReactNode;
 }) {
   if (!children) return null;
@@ -105,6 +111,7 @@ function LeadingIcon({
       className={cn(
         "pointer-events-none flex shrink-0 items-center justify-center text-content-secondary",
         size === "24" ? "size-6" : "size-4",
+        disabled && "theme-v2:text-icons-disabled",
       )}
     >
       {children}
@@ -116,11 +123,13 @@ function SideLabel({
   id,
   size,
   align,
+  disabled,
   children,
 }: {
   id?: string;
   size: TextFieldSize;
   align: "left" | "right";
+  disabled?: boolean;
   children?: React.ReactNode;
 }) {
   if (!children) return null;
@@ -131,6 +140,7 @@ function SideLabel({
         "shrink-0 select-none whitespace-nowrap text-content-tertiary",
         align === "right" && "text-right",
         SIDE_LABEL_TYPOGRAPHY[size],
+        disabled && "theme-v2:text-content-disabled",
       )}
     >
       {children}
@@ -141,13 +151,20 @@ function SideLabel({
 function TrailingAdornment({
   rightIcon,
   validated,
+  disabled,
 }: {
   rightIcon?: React.ReactNode;
   validated: boolean;
+  disabled?: boolean;
 }) {
   if (!rightIcon && !validated) return null;
   return (
-    <span className="flex shrink-0 items-center gap-2 text-content-secondary">
+    <span
+      className={cn(
+        "flex shrink-0 items-center gap-2 text-content-secondary",
+        disabled && "theme-v2:text-icons-disabled",
+      )}
+    >
       {rightIcon && (
         <span data-tf-interactive="" className="flex size-4 shrink-0 items-center justify-center">
           {rightIcon}
@@ -307,8 +324,10 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           className={getContainerClassName(size, error, disabled, action != null)}
           onMouseDown={handleContainerMouseDown}
         >
-          <LeadingIcon size={leftIconSize}>{leftIcon}</LeadingIcon>
-          <SideLabel id={leftLabelId} size={size} align="left">
+          <LeadingIcon size={leftIconSize} disabled={disabled}>
+            {leftIcon}
+          </LeadingIcon>
+          <SideLabel id={leftLabelId} size={size} align="left" disabled={disabled}>
             {leftLabel}
           </SideLabel>
 
@@ -319,17 +338,17 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             aria-describedby={describedBy}
             aria-invalid={error || undefined}
             className={cn(
-              "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed",
+              "h-full min-w-0 flex-1 bg-transparent text-content-primary no-underline placeholder:text-content-tertiary focus:outline-none disabled:cursor-not-allowed theme-v2:disabled:text-content-disabled theme-v2:disabled:placeholder:text-content-disabled",
               INPUT_TYPOGRAPHY[size],
               "[&[type='search']::-webkit-search-cancel-button]:hidden [&[type='search']::-webkit-search-cancel-button]:appearance-none",
             )}
             {...props}
           />
 
-          <SideLabel id={rightLabelId} size={size} align="right">
+          <SideLabel id={rightLabelId} size={size} align="right" disabled={disabled}>
             {rightLabel}
           </SideLabel>
-          <TrailingAdornment rightIcon={rightIcon} validated={validated} />
+          <TrailingAdornment rightIcon={rightIcon} validated={validated} disabled={disabled} />
           {action != null && (
             <span data-tf-interactive="" className="flex shrink-0 items-center">
               {action}

@@ -63,10 +63,7 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
         ref={ref}
         aria-labelledby={headingId}
         data-testid="creator-cover"
-        className={cn(
-          "relative isolate w-full overflow-hidden bg-white dark:bg-background-primary",
-          className,
-        )}
+        className={cn("relative isolate w-full overflow-hidden bg-background-primary", className)}
         {...props}
       >
         <div className="absolute inset-0 -z-10">
@@ -76,8 +73,8 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
             loading="lazy"
             className="size-full scale-110 object-cover blur-3xl"
           />
-          <div className="absolute inset-0 bg-linear-to-b from-white/30 to-white/15 dark:from-background-primary/30 dark:to-background-primary/15" />
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-b from-transparent to-white dark:to-background-primary" />
+          <div className="absolute inset-0 bg-linear-to-b from-background-primary/30 to-background-primary/15" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-b from-transparent to-background-primary" />
         </div>
         <div className={cn("mx-auto flex max-w-90 flex-col items-center gap-4 px-4 pt-17 pb-16")}>
           <div className="relative">
@@ -94,7 +91,10 @@ export const CreatorCover = React.forwardRef<HTMLElement, CreatorCoverProps>(
             ) : null}
           </div>
           <div className="flex flex-col items-center gap-1 pt-4 text-center">
-            <h2 id={headingId} className="typography-header-heading-md m-0 text-white">
+            <h2
+              id={headingId}
+              className="typography-header-heading-md m-0 text-content-always-white"
+            >
               {name}
             </h2>
             {tagline ? (

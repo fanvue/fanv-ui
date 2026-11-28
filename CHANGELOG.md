@@ -1,5 +1,31 @@
 # Changelog
 
+## [3.53.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.52.0...ui-v3.53.0) (2026-11-26)
+
+
+### Features
+
+* **BottomNavigation:** keep the mobile nav dark under the v2 palette ([#833](https://github.com/fanvue/fanv-ui/issues/833)) ([9757bec](https://github.com/fanvue/fanv-ui/commit/9757bec061bd14c0c1d7b42f3cba123e1aae217b))
+* **Card:** add asChild so a button or link can be the card ([#829](https://github.com/fanvue/fanv-ui/issues/829)) ([a5aa244](https://github.com/fanvue/fanv-ui/commit/a5aa24410070ab5a9b737ce040e7175e47e9c5b5))
+* **CreatorCard:** hide the avatar when the avatar prop is omitted ([#838](https://github.com/fanvue/fanv-ui/issues/838)) ([dc57498](https://github.com/fanvue/fanv-ui/commit/dc57498103a6b72a2d3468c35bfabc184e43b55f))
+* **DatePicker:** add a compact 32 size ([#837](https://github.com/fanvue/fanv-ui/issues/837)) ([6a38c6f](https://github.com/fanvue/fanv-ui/commit/6a38c6f9ada4b61001ad0a962087b98ca189ac78))
+* **DropdownMenu:** give selected rows their own fill and space rows 3px apart ([#828](https://github.com/fanvue/fanv-ui/issues/828)) ([0917512](https://github.com/fanvue/fanv-ui/commit/0917512227cdf5ba52da7475211cdcad7001e4ec))
+* **DropdownMenu:** invert selected rows and use modal tokens under theme-v2 ([#832](https://github.com/fanvue/fanv-ui/issues/832)) ([082c729](https://github.com/fanvue/fanv-ui/commit/082c729c9c9e5df703b92874bb53f01c91c664e2))
+* **Popover:** add Popover ([#836](https://github.com/fanvue/fanv-ui/issues/836)) ([1ff9c9d](https://github.com/fanvue/fanv-ui/commit/1ff9c9de63792aca471d6f13c7b17ca60c30e1b0))
+* **Tag:** add Tag (V2 Tags) ([#835](https://github.com/fanvue/fanv-ui/issues/835)) ([147988f](https://github.com/fanvue/fanv-ui/commit/147988fe22c94d7533a5310f0c841a679e73230b))
+* **TextField:** use the input border tokens and a 1px focus stroke under theme-v2 ([#831](https://github.com/fanvue/fanv-ui/issues/831)) ([a521e05](https://github.com/fanvue/fanv-ui/commit/a521e05cfefad6667d7b07574fe34a6b0310afe4))
+* **theme:** add theme-v2-light and put cards on the card surface ([#834](https://github.com/fanvue/fanv-ui/issues/834)) ([7587898](https://github.com/fanvue/fanv-ui/commit/7587898fc4635deb8207e3255794506cd58944e3))
+* **tokens:** add the v2 colour palette behind an opt-in theme-v2 class ([#830](https://github.com/fanvue/fanv-ui/issues/830)) ([7dc8721](https://github.com/fanvue/fanv-ui/commit/7dc872132b5bf73d4eef82d4515985bbd86923a3))
+
+
+### Bug Fixes
+
+* **DropdownMenu:** ignore pointer capture errors when the pointer already ended ([#827](https://github.com/fanvue/fanv-ui/issues/827)) ([56f4327](https://github.com/fanvue/fanv-ui/commit/56f43272e5420a437f4a3e20b702ed4ad607a515))
+* **icons:** keep VerifiedIcon when icons are re-imported from Figma ([#826](https://github.com/fanvue/fanv-ui/issues/826)) ([45e2eb1](https://github.com/fanvue/fanv-ui/commit/45e2eb1a2c444b3056890cb102d01234a3389a70))
+* **Icons:** match VerifiedIcon to the Figma Verify icon ([#812](https://github.com/fanvue/fanv-ui/issues/812)) ([17fe080](https://github.com/fanvue/fanv-ui/commit/17fe080719fe15d19581399763b010f0c3de7396))
+* **Slider:** stop the keyboard tooltip update crashing on a null thumb ([#822](https://github.com/fanvue/fanv-ui/issues/822)) ([6de420e](https://github.com/fanvue/fanv-ui/commit/6de420e3571cd456fbea84939ad139d28864e4b1))
+* **Table:** scroll rows inside a height-bound TableCard under a pinned header ([#811](https://github.com/fanvue/fanv-ui/issues/811)) ([89279c8](https://github.com/fanvue/fanv-ui/commit/89279c8433a5a7a48adf34ff2f673e75c4e9a522))
+
 ## [3.52.0](https://github.com/fanvue/fanv-ui/compare/ui-v3.51.0...ui-v3.52.0) (2026-11-18)
 
 

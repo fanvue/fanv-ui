@@ -267,6 +267,43 @@ describe("TextArea", () => {
       );
       expect(fieldContainer).not.toHaveClass("has-focus-visible:shadow-focus-ring");
     });
+
+    it("swaps the focus ring for a 1px selected stroke under theme-v2", () => {
+      const { container } = render(<TextArea label="Test" />);
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "border-border-input",
+        "hover:border-border-input-hover",
+        "has-focus-visible:after:shadow-focus-ring",
+        "theme-v2:has-focus-visible:border-border-selected",
+        "theme-v2:has-focus-visible:after:shadow-none",
+      );
+    });
+
+    it("uses the disabled tokens in place of the fade under theme-v2", () => {
+      const { container } = render(<TextArea label="Test" disabled />);
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "opacity-50",
+        "theme-v2:opacity-100",
+        "theme-v2:bg-inputs-inputs-disabled",
+        "theme-v2:border-transparent",
+      );
+      expect(screen.getByRole("textbox")).toHaveClass(
+        "theme-v2:disabled:text-content-disabled",
+        "theme-v2:disabled:placeholder:text-content-disabled",
+      );
+    });
+
+    it("keeps the current focus ring on an errored field under theme-v2", () => {
+      const { container } = render(<TextArea label="Test" error />);
+      const fieldContainer = container.querySelector('[class*="has-focus-visible"]') as HTMLElement;
+      expect(fieldContainer).toHaveClass(
+        "border-error-content",
+        "has-focus-visible:after:shadow-focus-ring",
+      );
+      expect(fieldContainer).not.toHaveClass("theme-v2:has-focus-visible:border-border-selected");
+    });
   });
 
   describe("accessibility", () => {

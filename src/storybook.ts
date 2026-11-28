@@ -24,3 +24,21 @@ export const NON_VISUAL_STORY_PARAMETERS = {
  * Renaming or removing a story marked with this will fail the E2E job.
  */
 export const E2E_FIXTURE_PARAMETERS = NON_VISUAL_STORY_PARAMETERS;
+
+/**
+ * Storybook parameters for a story that shows a component under the opt-in v2
+ * palette (`theme-v2`). Chromatic snapshots it in light and dark with the v2
+ * palette only, so the baselines of the current palette stay untouched. Story
+ * parameters merge with the global ones, so the global `light` and `dark` modes are
+ * switched off here rather than left out.
+ */
+export const V2_PALETTE_STORY_PARAMETERS = {
+  chromatic: {
+    modes: {
+      light: { disable: true },
+      dark: { disable: true },
+      "v2-light": { theme: "light", palette: "v2" },
+      "v2-dark": { theme: "dark", palette: "v2" },
+    },
+  },
+} as const;

@@ -221,8 +221,11 @@ const VARIANT_CLASSES: Record<IconButtonVariant, VariantClasses> = {
   // with, so the row reads as one control group.
   field: {
     default:
-      "border border-border-primary bg-inputs-inputs-primary text-content-primary not-disabled:hover:border-neutral-alphas-400",
-    disabled: DISABLED_TRANSPARENT,
+      "border border-border-input bg-inputs-inputs-primary text-content-primary not-disabled:hover:border-border-input-hover theme-v2:focus-visible:not-disabled:border-border-selected theme-v2:focus-visible:shadow-none",
+    disabled: cn(
+      DISABLED_TRANSPARENT,
+      "theme-v2:disabled:border-transparent theme-v2:disabled:bg-inputs-inputs-disabled theme-v2:disabled:text-icons-disabled",
+    ),
   },
 };
 

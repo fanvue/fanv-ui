@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
+import { CogIcon } from "../Icons/CogIcon";
 import { ExpandIcon } from "../Icons/ExpandIcon";
 import { LoveIcon } from "../Icons/LoveIcon";
 import { MessageIcon } from "../Icons/MessageIcon";
@@ -152,6 +153,25 @@ export const Interactive: Story = {
   args: {
     hierarchy: "primary",
     type: "header-only",
+    interactive: true,
+  },
+};
+
+/** With `asChild`, a button (or a link) is the card itself, so it can be a menu trigger or a navigation row. */
+export const AsButton: Story = {
+  render: (args) => (
+    <Card {...args} asChild className="max-w-sm flex-row items-center gap-2">
+      <button type="button">
+        <CogIcon filled size={16} className="shrink-0 text-icons-secondary" />
+        <span className="typography-body-default-16px-regular flex-1 text-content-primary">
+          Settings
+        </span>
+      </button>
+    </Card>
+  ),
+  args: {
+    hierarchy: "primary",
+    type: "container",
     interactive: true,
   },
 };

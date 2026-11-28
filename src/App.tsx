@@ -193,6 +193,10 @@ import {
   PinIcon,
   PlayIcon,
   PlusIcon,
+  Popover,
+  PopoverClose,
+  PopoverContent,
+  PopoverTrigger,
   PrivacyIcon,
   ProfileStatus,
   ProgrammingArrowIcon,
@@ -266,6 +270,7 @@ import {
   TabsList,
   TabsListSkeleton,
   TabsTrigger,
+  Tag,
   TagIcon,
   TaskIcon,
   TextArea,
@@ -314,6 +319,10 @@ function DatePickerShowcase() {
     from: new Date(2026, 1, 9),
     to: new Date(2026, 1, 19),
   });
+  const [compactRange, setCompactRange] = useState<DateRange | undefined>({
+    from: new Date(2026, 1, 9),
+    to: new Date(2026, 1, 19),
+  });
   const [doubleDate, setDoubleDate] = useState<Date | undefined>(new Date(2026, 1, 15));
   const [doubleRange, setDoubleRange] = useState<DateRange | undefined>({
     from: new Date(2026, 1, 9),
@@ -347,6 +356,13 @@ function DatePickerShowcase() {
         defaultMonth={new Date(2026, 1)}
         selected={doubleRange}
         onSelect={setDoubleRange}
+      />
+      <DatePicker
+        mode="range"
+        size="32"
+        defaultMonth={new Date(2026, 1)}
+        selected={compactRange}
+        onSelect={setCompactRange}
       />
     </div>
   );
@@ -2779,6 +2795,34 @@ function DemographicsDemo() {
   );
 }
 
+function TagDemo() {
+  return (
+    <div id="tag" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Tag</h2>
+      {(["20", "16"] as const).map((size) => (
+        <div key={size} className="flex flex-wrap items-center gap-4">
+          {(["gray", "blue", "teal", "green", "amber", "red", "pink", "purple"] as const).map(
+            (variant) => (
+              <Tag
+                key={variant}
+                variant={variant}
+                size={size}
+                leadingIcon="🐳"
+                onRemove={() => {}}
+                removeLabel="Remove Whale"
+                removeVisibility="hover"
+              >
+                Whale
+              </Tag>
+            ),
+          )}
+          <Tag size={size}>+2</Tag>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function PillDemo() {
   return (
     <div id="pill" className="flex scroll-mt-20 flex-col gap-4">
@@ -4794,6 +4838,31 @@ function ProfileStatusDemo() {
   );
 }
 
+function PopoverDemo() {
+  return (
+    <div id="popover" className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="typography-header-heading-sm mb-4">Popover</h2>
+      <div className="flex gap-4">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="secondary">Open popover</Button>
+          </PopoverTrigger>
+          <PopoverContent aria-label="Example">
+            <div className="typography-body-small-14px-regular flex w-64 flex-col gap-2 p-2">
+              <p>Any content can sit inside a popover.</p>
+              <PopoverClose asChild>
+                <Button variant="secondary" size="32">
+                  Close
+                </Button>
+              </PopoverClose>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+    </div>
+  );
+}
+
 function ProgressBarDemo() {
   return (
     <div id="progressbar" className="flex scroll-mt-20 flex-col gap-4">
@@ -5915,6 +5984,7 @@ function CreatorCardDemo() {
           }
         />
         <CreatorCard {...shared} className="w-40 rounded-md" pill={undefined} />
+        <CreatorCard {...shared} className="w-40 rounded-md" avatar={undefined} />
       </div>
     </div>
   );
@@ -6175,6 +6245,7 @@ function App() {
     { id: "pagination", label: "Pagination" },
     { id: "passwordfield", label: "Password Field" },
     { id: "pill", label: "Pill" },
+    { id: "popover", label: "Popover" },
     { id: "profile-status", label: "Profile Status" },
     { id: "progressbar", label: "Progress Bar" },
     { id: "radio", label: "Radio" },
@@ -6189,6 +6260,7 @@ function App() {
     { id: "switchtoggle", label: "Switch Toggle" },
     { id: "tabs", label: "Tabs" },
     { id: "table", label: "Table" },
+    { id: "tag", label: "Tag" },
     { id: "textarea", label: "Text Area" },
     { id: "textfield", label: "Text Field" },
     { id: "toast", label: "Toast" },
@@ -6366,6 +6438,7 @@ function App() {
 
             {/* Pill */}
             <PillDemo />
+            <TagDemo />
             <UserItemTrailingDemo />
             <TrendPillDemo />
             <AnimatedNumberDemo />
@@ -6448,6 +6521,9 @@ function App() {
             {/* Pagination */}
             <PaginationDemo />
             <PageSelectorDemo />
+
+            {/* Popover */}
+            <PopoverDemo />
 
             {/* Profile Status */}
             <ProfileStatusDemo />

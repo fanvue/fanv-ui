@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { NON_VISUAL_STORY_PARAMETERS } from "../../storybook";
+import { NON_VISUAL_STORY_PARAMETERS, V2_PALETTE_STORY_PARAMETERS } from "../../storybook";
 import { AddIcon } from "../Icons/AddIcon";
 import { AIIcon } from "../Icons/AIIcon";
 import { AlertIcon } from "../Icons/AlertIcon";
@@ -657,5 +657,25 @@ export const Field: Story = {
     variant: "field",
     size: "40",
     icon: <HomeIcon />,
+  },
+};
+
+/**
+ * The `field` variant under the v2 palette: the input border token, and the 1px
+ * focus stroke on the focused button. Snapshotted with the v2 palette only.
+ */
+export const FieldPaletteV2: Story = {
+  name: "Field (Palette v2)",
+  args: { variant: "field", icon: <HomeIcon />, "aria-label": "Home" },
+  parameters: V2_PALETTE_STORY_PARAMETERS,
+  render: () => (
+    <div className="flex gap-4">
+      <IconButton variant="field" size="40" icon={<HomeIcon />} aria-label="Focused" />
+      <IconButton variant="field" size="40" icon={<HomeIcon />} aria-label="Default" />
+      <IconButton variant="field" size="40" icon={<HomeIcon />} aria-label="Disabled" disabled />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    canvas.getByLabelText("Focused").focus();
   },
 };
